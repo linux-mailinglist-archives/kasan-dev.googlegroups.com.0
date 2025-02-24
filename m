@@ -1,182 +1,147 @@
-Return-Path: <kasan-dev+bncBDK7LR5URMGRBNNX6G6QMGQEYK36UBQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDC7NWVR6EDRBIH46G6QMGQEJGP34CI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B36AA41D4E
-	for <lists+kasan-dev@lfdr.de>; Mon, 24 Feb 2025 12:44:55 +0100 (CET)
-Received: by mail-wm1-x33d.google.com with SMTP id 5b1f17b1804b1-4399c5baac3sf30483675e9.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 24 Feb 2025 03:44:55 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1740397495; cv=pass;
+Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB605A42287
+	for <lists+kasan-dev@lfdr.de>; Mon, 24 Feb 2025 15:11:46 +0100 (CET)
+Received: by mail-lj1-x23c.google.com with SMTP id 38308e7fff4ca-3093984061esf25024571fa.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 24 Feb 2025 06:11:46 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1740406306; cv=pass;
         d=google.com; s=arc-20240605;
-        b=P1nR0JHt+UgADHVwqMpR/fxRYN5oU0sBRFp/0NBKdhGn6rOVwmvFr84SUYgqxhkvBe
-         hmGT6UqXPzRhXhSVrzsnEtdq8FFoY7tPs5FgRz/8FaFSW1DFAZMi4/AmZdW/pfSoPXNA
-         Hyy5PsqxobDBfiqYWsaKwkeQGoC0tE/tstazcBZX7ZoeUeKGjCkh3cEE1xTF4GD5CHEy
-         vIRgQd8zMT9cXOwPiZGvLrP4Hy697xrvMI080+W0hKiiLuFPZJmyETbfQurXuVdy9Bc6
-         ZkW05AaSWOxmQhRvt3So6DcziHIz+giP0AsRAMFJbsVHGKOVJj3X/1LuF+HyJXpSaRMK
-         SJFQ==
+        b=hMm9BLtCmyejOSIUkOPvjLVnqTjGzNGcK+KijnHbUSAHTVyOo3Q+rDNQkQoJPZkGhw
+         LC8VNLWzUxpfqxuN6a2RGfCRsNuFI/roOU2Vk9N6XU2U0tTAeLnRQ1CYUtjs2c9Psq5Q
+         KlVs9bqKDdfxf3ld08xIFielKyOjBuWs6hUNZwmkaLIbx56/UMYYMWG3Zxyveemi2NK3
+         nZbH2Wo46hjeKd1OfV+XO+9V5g2tLEyDK5KXGHAFpj2qkyvZg+oCmlvQfrCM+6aDOxfK
+         A66PHXcukIoUWiIuiefM3pcG7wHBwy5X7sUkIGjJIE7X/IGfvbwOMrKdY7lDuNhrsMcg
+         tArQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:sender
-         :dkim-signature:dkim-signature;
-        bh=pacNZ66BxKG6stEMiimbC2UQI6VE7LCmrs5fq7+s6DM=;
-        fh=/CqveLY+W8JJW8d0vmnsVTx3fqJrWkFCRWUyEm72MiM=;
-        b=bglGlWcp5qK9DgAAL460LH4YIxfycoLMLJwY+CDHPpmAQlG1Z3mKuwpekSOS3kzqAG
-         WYzt46J4pJNhr2WRaboxES7LzRpjF+SixVNNEX8u5RXWG3LpRAKXJLelNANgmL/HYhnE
-         t3kc/ZPHfgBDbOtXLPA0xkMJI1MmFFai30eB+q3oIXs8o0hwbDn45ivWIhLPhR5FOEsi
-         XcthCKr6II7CtQpBcSQwHoJMvTjeyU/jIkTnyn8C2ZgSvcGrW7AOv3pucH+N6xxRDIEy
-         EZTLGETeSXA3U8GFs//5vNDgM67E9TrB6MC9lMV+5dlDTQZBOXVgLBbtaUxcnt9GWCcv
-         0wRA==;
+        h=list-subscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:mime-version:feedback-id
+         :list-unsubscribe-post:list-unsubscribe:message-id:subject:reply-to
+         :from:to:date:sender:dkim-signature;
+        bh=NF6rrDZPhWQ0v4+iRPnzkBYg33Qdl9rYLR72CshDQ5M=;
+        fh=DjUU70Pv0X4TrN5px9M0wT9q/qWav86k505y5nLZkZM=;
+        b=WpGRGzRl4cEIr8ybe5bnUqGGCtr/5M9Q4rOmLgDIw4634PEv/+CQROsEb+bKXcxmg0
+         xdLwcb1cO3Aht+Nl7Qxyf3hzthBXhgl5U3VNryOzhy3YOwOeZ0yJ4CfmdssEyy/kE40N
+         ljnRWbPV7CnKfRbS9OZNR/9wiurjSvO7inShySwgmS6Ajv2tZzcUgsllL3p2dve97sVW
+         uO97/LH83tgt3Y2AreTbDFSM7WAQfXBDLsfdRgEnvVL9E+J+OLd1ZjXNqOQeJW2QD1pM
+         VPXLmJyrui/Db6FfDBFyUWxii2JDkCNEIZAIx1n2MIz40vQ8+N4OeqxhiNh1Z+dloyH4
+         MRoA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=a2kB41zI;
-       spf=pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::12e as permitted sender) smtp.mailfrom=urezki@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@mailchef.4dem.it header.s=mailchef header.b=oBddkIGX;
+       dkim=pass header.i=@fiscozen.it header.s=nwslauth header.b=Mk2cVOA0;
+       spf=pass (google.com: domain of bounce-95815784-7662692-22280720-4982744@mailchef.4dem.it designates 176.221.48.107 as permitted sender) smtp.mailfrom=bounce-95815784-7662692-22280720-4982744@mailchef.4dem.it;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=fiscozen.it
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1740397495; x=1741002295; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:date:from:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pacNZ66BxKG6stEMiimbC2UQI6VE7LCmrs5fq7+s6DM=;
-        b=S0lMbd2sUczLkVm7AAjxThE8dn+0SHrodP04ah6P2pVifAnF51X6H0voNGbt+RTuBp
-         LkdVdDmvbVYVGDgPWSSQSF3MJ2MLgeiCFgiySbyiB4MKh6fqB+YMBjiX1T27EbaZbx3v
-         6HXX+oBbIHV8A2whHdFLyJXvlQsuMS/2bcEOoV7BqiHUTpRx/Q78g2VCrFT7osxlUR/c
-         XtpCSM/Mgpomm2IFCUIL0cC77m96mL4p94RQevaXUinCLW8xWtFhupdxKl2f9CiPP86K
-         hIef2hOFhJzEaFSktAl0ndnED17Sgeg99ZgHqJW0rx382Vfw2Wia8ddDU8sanE2i7Hjj
-         QLFw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740397495; x=1741002295; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:date:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=pacNZ66BxKG6stEMiimbC2UQI6VE7LCmrs5fq7+s6DM=;
-        b=QWLAXynPaYHAhPLInJGcQHVuxwa/s2MXsIQJIB4FKeC1HmQYy7aWc+5amwt57+TSFw
-         7+A1TFQbJa+AUhAahJW+uT9JGd68a8zKiEHXMg7+PEVBJD7K4PIK/LK/T/Autr3LSxXy
-         frgewzf++MF9MLlXf+DkbunME76r4sufAw1KQYpnpHoaQSX0LJ9sfUUWEUABicfc5xWH
-         JnwEoQ7kJhLuENAP8ENc53z5oO1aiMHG6i+3ANOPTNi7KAocJkCZZGeqP4sLGcMwv2uB
-         QE7rrJwLYI1UwJBLDG/4hxKlI3s3jsPvWnoVyjf7FjgTAgeSND0orU3o2HFrG0C1nq2t
-         3b9A==
+        d=googlegroups.com; s=20230601; t=1740406306; x=1741011106; darn=lfdr.de;
+        h=list-subscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:feedback-id:list-unsubscribe-post
+         :list-unsubscribe:message-id:subject:reply-to:from:to:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NF6rrDZPhWQ0v4+iRPnzkBYg33Qdl9rYLR72CshDQ5M=;
+        b=tPrm0WR8lTGynkRR7odMXomJ3NdR+lrGO1qD9RPBqSno1AgQ/4xmwmZcCXxm46DNe8
+         q9FMQa+b3LpZ81bdJzIhADSeBqhr3Pm0F00n+hVcbk8fny3MEB2Onl/hzaeRyPCUxlwT
+         5VVRYs7YgJHSzY2Knrb7+HnIKaTRJRctuUJ2q6G9DwHB9DwQsz0xzCssm27+A4eAW+Nb
+         tsWHS18dGisF2g3IdKz9lUhTUltwy/zzLqkfpaj+Zl2oPpw59n5ecRamPEsbexLfxU5g
+         8szqZnBH0zG3vpS7eTgb84CKBmitwtLrq4TbfX5uRHtnHWJnuTebgkZoaHdAeAsBcMfJ
+         jtJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740397495; x=1741002295;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+        d=1e100.net; s=20230601; t=1740406306; x=1741011106;
+        h=list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:date:from:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pacNZ66BxKG6stEMiimbC2UQI6VE7LCmrs5fq7+s6DM=;
-        b=jT8PhhCLKAuM+H7Ozaufl90IJvHxzIgBvGTtnWXnX2Eq1KCKfiyeOJ/U0wamLn5kg+
-         HRKzsWaMVyF0pfHrfR3NHy/tKH5OQPBI1sOyDqcVh6U0zrcROb+E1R9jEYmWfdRTV5vW
-         IirTjkqRTJy/6wXg9YZ364o1tdAP3xbauCD4IJsWyYRuwutsg7BrG7oRnQpq8zuVQf80
-         Dh8QtUtDESH5SD1dhT2KONZWIWimxIltpa8gpZ+GBZTcrL/9fTuNF4ZgXUIgShI8T+gG
-         inabgCk/yx0LYgcMD3n8iCm87P7TgOckLeW8nnASvzQnx+Vr/52RlPXPuK44O+9bHBP8
-         yA/A==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :feedback-id:list-unsubscribe-post:list-unsubscribe:message-id
+         :subject:reply-to:from:to:date:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NF6rrDZPhWQ0v4+iRPnzkBYg33Qdl9rYLR72CshDQ5M=;
+        b=O8OzIrMKd9FzSWOL/1T4s/Euy69RVCUkt+lTMc+1keZBhx1oxGRZ38srMmif5j25A1
+         cK0KsrCAY2igHgiZqVsyLDGdeUpZVxInLRjJ/Rn06zOG37d5XeFyOiMt0X1XBqUK2Y8t
+         N4RrtBmP1rpJoIGVqIjbKX3+lCgU6M0w9X59mI07HUIxGvmDDUiuJrrQWuhRVI7fKPwK
+         owPjrqiXjnaLXg1TJaDQnVXDqoxuCYd/WYyCoit42gLLxDbq/nO8uyyBikY0szA2B0cG
+         YvUusqaOn7jHzQcG3VmpOJkjyqguJ/U2CvbOWqYePiTFLdoUr2wGEWylqqnvlXzvL8rv
+         6Pug==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWJRzubMnqrVNruEON9/Xy8PQqJBfyj50lY+wOg076BEotwW7/pS6xhwhjHMYsef1WSD5CQFA==@lfdr.de
-X-Gm-Message-State: AOJu0YynJqDU2qzTKn+qVmPdApUQxGNfyoVVgjuB+iTWjAXbtfedghXm
-	VejGUSkIOF4T+nRHX+8ty2rBUpDOzlkIZLDRsZz3Oe8Pt4L8eAFQ
-X-Google-Smtp-Source: AGHT+IERlD8Bavz/F5KLvmnDxwh/ZKncmWcub9H5xGlK73X32l3U0KpWjCWw0NOTRzM8mUiVJ9KXQA==
-X-Received: by 2002:a05:600c:1390:b0:439:9274:81dd with SMTP id 5b1f17b1804b1-439ae1d7b20mr86046325e9.1.1740397494134;
-        Mon, 24 Feb 2025 03:44:54 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVH7wdJ3gTXBBb49r6jpOMVVreHKLvn2ARcuTTjGaw/vcg==
-Received: by 2002:a5d:5f88:0:b0:38f:2234:229b with SMTP id ffacd0b85a97d-38f61492ab6ls3168033f8f.2.-pod-prod-09-eu;
- Mon, 24 Feb 2025 03:44:52 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXHzZ7K14thpNU7AM/E0CO9wgZNNF/kbaTppZgVGLISGAvNyn1MMixHfeqFI/j1ZRC3IaAbX2UtvPQ=@googlegroups.com
-X-Received: by 2002:a05:6000:1a8a:b0:38d:d5af:29af with SMTP id ffacd0b85a97d-38f6f0d1ddfmr8733936f8f.49.1740397491843;
-        Mon, 24 Feb 2025 03:44:51 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1740397491; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCWa5RUdIBTmzJslSwZGfSsfO0yRgAO3VQjQOQiVlZR8ze8Q4aBbK3EQYlU4UEiObs37AyOjmQ==@lfdr.de
+X-Gm-Message-State: AOJu0YznC7vMxPDvlF9dpITruFhxUUwiotQscwrVQIaSYzHkMMvGJE2v
+	xXumfgc9fGiA1mZcaEL06UQt7NbAzPFCNhN/8bVgIBfpHkQK42cG
+X-Google-Smtp-Source: AGHT+IHJAWmaSAj/E6859STgA/j94vUqPufp6tRb+rqF6ePeqpGc390lE9HEO+UNanlaQ5yR+hxKiw==
+X-Received: by 2002:a2e:920a:0:b0:309:2746:f74 with SMTP id 38308e7fff4ca-30a59858ddemr36927121fa.7.1740406305295;
+        Mon, 24 Feb 2025 06:11:45 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVHrJEQmc+nJYQTFUqiXN3/4UaTvWtRKq/POtIVt824s6g==
+Received: by 2002:a05:651c:b12:b0:309:1c03:d2d7 with SMTP id
+ 38308e7fff4ca-30a5001468fls1093071fa.2.-pod-prod-08-eu; Mon, 24 Feb 2025
+ 06:11:42 -0800 (PST)
+X-Received: by 2002:a05:6512:110d:b0:53e:383a:639a with SMTP id 2adb3069b0e04-54838f4e402mr5859505e87.37.1740406302463;
+        Mon, 24 Feb 2025 06:11:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1740406302; cv=none;
         d=google.com; s=arc-20240605;
-        b=VKR0eXEKNSTgQzF8wM1jMVEJTtuHKS4AIjWbrw+/VQotqTq6GIKoONaRJq+u32mObY
-         t3Tup4SuJlFlT6NhUH8xmGBE4TmjXgq/BMpnOTj2g7PsW1y7vNXU9pUVDRrp/Ff8W+n7
-         W9Znca2Y/X8sxi7v2H2yrLF2JJRTYSvTGlZIZ2+gpY3XQhFWAIRpIQlnFCM2YnnEHCd1
-         wvgfv+5TI2+ukcHeDa5SD0qO8dXua9isvQlD+rHYY52vFUq5UrAqZx/uFFBLFYxa67gH
-         G7xncDq1vextCyqXiCzcZRcx1vkMB0SpYakRirrUGWzOfHlmrvS99qBYKQ+C8Yc29dTe
-         IDJg==
+        b=MO+6SG2d2bH+GMXH9bVgpLX6E0sldrt1YKmlepAdsvOoOErqBZwGYEq9NGPM+I1lAj
+         OS7uB/9RZXAY9JYYVyWBzEIBmiaeP+N5GsFU7bb00n/b0sUpzmcg9cWPMF1lMmY1uLP7
+         HwWBofyLmJ/LYRfsUo9lR0jqjWJiMc/nBxLQFcYmygtzOa3oRMLxRrfs2VOAwcAJOgSN
+         M650UrerBAUr/zbn84hdhmcIiE05In3wPvZb18n5w0R1bU0dh8P+Id1YZ4IRRFldPVNF
+         TMhTHBi3fFjxzjv6wJtGmoMk6Sasc0htd2lA4parzeqJDpwBmJT0z1hulGAg/uYCVUF+
+         G+5w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:dkim-signature;
-        bh=GKmie4ql2EMQXkPV0dHeKHuPylk+abYCTsODvoG58iw=;
-        fh=A8h5HIPU1DSb3axv6G2nPbCCQsOBm232PLU188DgumI=;
-        b=bCpJFqoH49eM2cX5eXvQ1UuNdaesTLmbrx1LSUSuewG+s7TC5ZdsMgH/A5WjYF6QGz
-         XIQh8euafkqAwFX5CvZPNDsSZEV0Mcwg0M3/+3N7pgnKVe8q/h6IVp96XnWtDIrONKX/
-         PLT5ZQAkbpfOV5qjwufwtRuMR4XTgR9UiWvxwwna7acaJGO0An4gBBGlHFEiA2cMJ+OF
-         kvx2Y+inanDng1lzsnHALwF3lQQJmKeBq/Kl10lbdjJu+oUkTn62yeE9VqO8/q8SIp7J
-         lrjQSJgKTAKmlvRb0DBKpblgGoaMcU4KFqwiXUJvObdRw22aa/ku5KriUi/q5PyLyqPL
-         QVww==;
+        h=mime-version:feedback-id:list-unsubscribe-post:list-unsubscribe
+         :message-id:subject:reply-to:from:to:date:dkim-signature
+         :dkim-signature;
+        bh=pvDUSHQJaopRYJR49yAYcSg0NIfWdG+RDS5MBjdQz6U=;
+        fh=RYEHzHU/HAyeZBCO4E+IbnoHdOzcm1YWiVKtSJ7fCDU=;
+        b=JNhXZFPsvXBTJtA6SafsiVffmQ/Igjgd/0mX961BpTcnOPjq9HmPVANMs7u1dCLhpn
+         8fVrLJj0TiMoAZwItHCvgO6So2uB2y1IpLMRkzeD8RMuHvl8I+nRTV9mYj5TEde08rDn
+         OMiPCMKfUkU/vWfLdVHj4avFYCF2MJ3Cn2po43G5EMlzXU5XPyu1jpCivwbGNqLvG+b8
+         ILu39Ufq8tqC3Og3k9FWtux03Eo7+jxwVdZVir4fCoZ0TWkpg9VzTOFz0ln2J/xxcquq
+         7ne9nuUxVx8NreqU6Cwdz0l2N3QtEufWI0n9ouELeHi1nEJnQmjvVZhGzrKBXWBnokKD
+         1ecg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=a2kB41zI;
-       spf=pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::12e as permitted sender) smtp.mailfrom=urezki@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com. [2a00:1450:4864:20::12e])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-38f2590ea71si811724f8f.4.2025.02.24.03.44.51
+       dkim=pass header.i=@mailchef.4dem.it header.s=mailchef header.b=oBddkIGX;
+       dkim=pass header.i=@fiscozen.it header.s=nwslauth header.b=Mk2cVOA0;
+       spf=pass (google.com: domain of bounce-95815784-7662692-22280720-4982744@mailchef.4dem.it designates 176.221.48.107 as permitted sender) smtp.mailfrom=bounce-95815784-7662692-22280720-4982744@mailchef.4dem.it;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=fiscozen.it
+Received: from mx10.h.4dem.it (mx10.h.4dem.it. [176.221.48.107])
+        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-5461bb2a2bfsi225929e87.3.2025.02.24.06.11.42
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Feb 2025 03:44:51 -0800 (PST)
-Received-SPF: pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::12e as permitted sender) client-ip=2a00:1450:4864:20::12e;
-Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-545284eac3bso4262766e87.0
-        for <kasan-dev@googlegroups.com>; Mon, 24 Feb 2025 03:44:51 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVWAsum7UtR5WkB7P+Pqtedu0yLzYoVkron+qMadlOP2VwcS3ZDmbCLJMHIRPRawobFlBsEHrtM6zU=@googlegroups.com
-X-Gm-Gg: ASbGnctmbv0dHQOBHbO6753ByzThIi/dhigsFKZabaFaRpMygACu/0h4+670y/p0rlu
-	UI0hCyp/lclsJpzM6UXIO/FryQgjm7xZwN2Z1iXsYfXtsJEKTIySmbzBVuilg+6N8mnbiZPG0pd
-	cQqvk0G7u7mk+5w1bLFkN5sqG2k6THA4+kCZ7lmVv7L0oKdxlzvhRUDVUhXtY5wl3W8sMyqlLLS
-	SWjU2lqUA9RLyiBN7+IkgvFHRy/219HM7Ts+p7zmh2fgnDkPvtm4mteNX6+u8/vA6YckzsAAZbf
-	o21JSzUPXWtswL+LeZnwvjSRLR6L390jUEgfao1xVScWvz6A
-X-Received: by 2002:a05:6512:1244:b0:545:1104:617d with SMTP id 2adb3069b0e04-54838eddea5mr5695115e87.11.1740397490753;
-        Mon, 24 Feb 2025 03:44:50 -0800 (PST)
-Received: from pc636 (host-95-203-6-24.mobileonline.telia.com. [95.203.6.24])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5461f541653sm2376875e87.156.2025.02.24.03.44.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2025 03:44:50 -0800 (PST)
-From: Uladzislau Rezki <urezki@gmail.com>
-Date: Mon, 24 Feb 2025 12:44:46 +0100
-To: Vlastimil Babka <vbabka@suse.cz>, Keith Busch <kbusch@kernel.org>
-Cc: Keith Busch <kbusch@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun.feng@gmail.com>, Christoph Lameter <cl@linux.com>,
-	David Rientjes <rientjes@google.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang1211@gmail.com>,
-	Julia Lawall <Julia.Lawall@inria.fr>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	"Uladzislau Rezki (Sony)" <urezki@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	kasan-dev@googlegroups.com, Jann Horn <jannh@google.com>,
-	Mateusz Guzik <mjguzik@gmail.com>, linux-nvme@lists.infradead.org,
-	leitao@debian.org
-Subject: Re: [PATCH v2 6/7] mm, slab: call kvfree_rcu_barrier() from
- kmem_cache_destroy()
-Message-ID: <Z7xbrnP8kTQKYO6T@pc636>
-References: <20240807-b4-slab-kfree_rcu-destroy-v2-0-ea79102f428c@suse.cz>
- <20240807-b4-slab-kfree_rcu-destroy-v2-6-ea79102f428c@suse.cz>
- <Z7iqJtCjHKfo8Kho@kbusch-mbp>
- <2811463a-751f-4443-9125-02628dc315d9@suse.cz>
+        Mon, 24 Feb 2025 06:11:42 -0800 (PST)
+Received-SPF: pass (google.com: domain of bounce-95815784-7662692-22280720-4982744@mailchef.4dem.it designates 176.221.48.107 as permitted sender) client-ip=176.221.48.107;
+Received: from mailrelayer.production.4dem.it (unknown [10.44.15.44])
+	(Authenticated sender: mxsender)
+	by mx10.h.4dem.it (Postfix) with ESMTPA id B785327B7D
+	for <kasan-dev@googlegroups.com>; Mon, 24 Feb 2025 14:11:41 +0000 (UTC)
+Received: from mailchef.4dem.it (unknown [10.44.32.48])
+	by mailrelayer.production.4dem.it (Postfix) with ESMTP id 87DD2A0008
+	for <kasan-dev@googlegroups.com>; Mon, 24 Feb 2025 14:11:41 +0000 (UTC)
+Date: Mon, 24 Feb 2025 15:10:44 +0100
+To: "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>
+From: Francesca Ciani <francesca.ciani@fiscozen.it>
+Reply-To: Francesca Ciani <francesca.ciani@fiscozen.it>
+Subject: Possiamo pubblicare un guest post sul vostro sito?
+Message-ID: <37fa97697f5127cc8d81defa296fad34@mailchef.4dem.it>
+X-Mailer: postfix
+X-Complaints-To: abuse@mailchef.4dem.it
+List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/group/kasan-dev/subscribe>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+X-MessageID: a36l-tr6-a2FzYW4tZGV2QGdvb2dsZWdyb3Vwcy5jb20%3D-2d1n-jm9-rs-rs-RpsXFDFvAu
+X-Report-Abuse: <https://mailchef.4dem.it/report_abuse.php?mid=a36l-tr6-a2FzYW4tZGV2QGdvb2dsZWdyb3Vwcy5jb20%3D-2d1n-jm9-rs-rs-RpsXFDFvAu>
+Feedback-ID: 24425:469685:109219:RpsXFDFvAu
+X-CmpID: 469685
+X-UiD: %User:UserID%
+X-Sender-Filter: 24425-francesca.ciani@fiscozen.it
+X-SMTPAPI: {"unique_args":{"abuse-id":"a36l-tr6-a2FzYW4tZGV2QGdvb2dsZWdyb3Vwcy5jb20%3D-2d1n-jm9-rs-rs-RpsXFDFvAu"}, "category":"campaign"}
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <2811463a-751f-4443-9125-02628dc315d9@suse.cz>
-X-Original-Sender: Urezki@gmail.com
+Content-Type: multipart/alternative;
+	boundary="b1_37fa97697f5127cc8d81defa296fad34"
+X-Original-Sender: francesca.ciani@fiscozen.it
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=a2kB41zI;       spf=pass
- (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::12e as
- permitted sender) smtp.mailfrom=urezki@gmail.com;       dmarc=pass (p=NONE
- sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+ header.i=@mailchef.4dem.it header.s=mailchef header.b=oBddkIGX;
+       dkim=pass header.i=@fiscozen.it header.s=nwslauth header.b=Mk2cVOA0;
+       spf=pass (google.com: domain of bounce-95815784-7662692-22280720-4982744@mailchef.4dem.it
+ designates 176.221.48.107 as permitted sender) smtp.mailfrom=bounce-95815784-7662692-22280720-4982744@mailchef.4dem.it;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=fiscozen.it
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -186,93 +151,398 @@ List-Post: <https://groups.google.com/group/kasan-dev/post>, <mailto:kasan-dev@g
 List-Help: <https://groups.google.com/support/>, <mailto:kasan-dev+help@googlegroups.com>
 List-Archive: <https://groups.google.com/group/kasan-dev
 List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:kasan-dev+subscribe@googlegroups.com>
-List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
- <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Feb 21, 2025 at 06:28:49PM +0100, Vlastimil Babka wrote:
-> On 2/21/25 17:30, Keith Busch wrote:
-> > On Wed, Aug 07, 2024 at 12:31:19PM +0200, Vlastimil Babka wrote:
-> >> We would like to replace call_rcu() users with kfree_rcu() where the
-> >> existing callback is just a kmem_cache_free(). However this causes
-> >> issues when the cache can be destroyed (such as due to module unload).
-> >> 
-> >> Currently such modules should be issuing rcu_barrier() before
-> >> kmem_cache_destroy() to have their call_rcu() callbacks processed first.
-> >> This barrier is however not sufficient for kfree_rcu() in flight due
-> >> to the batching introduced by a35d16905efc ("rcu: Add basic support for
-> >> kfree_rcu() batching").
-> >> 
-> >> This is not a problem for kmalloc caches which are never destroyed, but
-> >> since removing SLOB, kfree_rcu() is allowed also for any other cache,
-> >> that might be destroyed.
-> >> 
-> >> In order not to complicate the API, put the responsibility for handling
-> >> outstanding kfree_rcu() in kmem_cache_destroy() itself. Use the newly
-> >> introduced kvfree_rcu_barrier() to wait before destroying the cache.
-> >> This is similar to how we issue rcu_barrier() for SLAB_TYPESAFE_BY_RCU
-> >> caches, but has to be done earlier, as the latter only needs to wait for
-> >> the empty slab pages to finish freeing, and not objects from the slab.
-> >> 
-> >> Users of call_rcu() with arbitrary callbacks should still issue
-> >> rcu_barrier() before destroying the cache and unloading the module, as
-> >> kvfree_rcu_barrier() is not a superset of rcu_barrier() and the
-> >> callbacks may be invoking module code or performing other actions that
-> >> are necessary for a successful unload.
-> >> 
-> >> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> >> ---
-> >>  mm/slab_common.c | 3 +++
-> >>  1 file changed, 3 insertions(+)
-> >> 
-> >> diff --git a/mm/slab_common.c b/mm/slab_common.c
-> >> index c40227d5fa07..1a2873293f5d 100644
-> >> --- a/mm/slab_common.c
-> >> +++ b/mm/slab_common.c
-> >> @@ -508,6 +508,9 @@ void kmem_cache_destroy(struct kmem_cache *s)
-> >>  	if (unlikely(!s) || !kasan_check_byte(s))
-> >>  		return;
-> >>  
-> >> +	/* in-flight kfree_rcu()'s may include objects from our cache */
-> >> +	kvfree_rcu_barrier();
-> >> +
-> >>  	cpus_read_lock();
-> >>  	mutex_lock(&slab_mutex);
-> > 
-> > This patch appears to be triggering a new warning in certain conditions
-> > when tearing down an nvme namespace's block device. Stack trace is at
-> > the end.
-> > 
-> > The warning indicates that this shouldn't be called from a
-> > WQ_MEM_RECLAIM workqueue. This workqueue is responsible for bringing up
-> > and tearing down block devices, so this is a memory reclaim use AIUI.
-> > I'm a bit confused why we can't tear down a disk from within a memory
-> > reclaim workqueue. Is the recommended solution to simply remove the WQ
-> > flag when creating the workqueue?
-> 
-> I think it's reasonable to expect a memory reclaim related action would
-> destroy a kmem cache. Mateusz's suggestion would work around the issue, but
-> then we could get another surprising warning elsewhere. Also making the
-> kmem_cache destroys async can be tricky when a recreation happens
-> immediately under the same name (implications with sysfs/debugfs etc). We
-> managed to make the destroying synchronous as part of this series and it
-> would be great to keep it that way.
-> 
-> >   ------------[ cut here ]------------
-> >   workqueue: WQ_MEM_RECLAIM nvme-wq:nvme_scan_work is flushing !WQ_MEM_RECLAIM events_unbound:kfree_rcu_work
-> 
-> Maybe instead kfree_rcu_work should be using a WQ_MEM_RECLAIM workqueue? It
-> is after all freeing memory. Ulad, what do you think?
-> 
-We reclaim memory, therefore WQ_MEM_RECLAIM seems what we need.
-AFAIR, there is an extra rescue worker, which can really help
-under a low memory condition in a way that we do a progress.
+This is a multi-part message in MIME format.
 
-Do we have a reproducer of mentioned splat?
+--b1_37fa97697f5127cc8d81defa296fad34
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---
-Uladzislau Rezki
+=20
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/Z7xbrnP8kTQKYO6T%40pc636.
+[Fiscozen]=20
+
+=C2=A0
+Ciao,
+=C2=A0
+Sono Francesca, digital marketing specialist in Fiscozen.
+=C2=A0
+Vi contatto per sapere se siete disponibili a pubblicare un guest post
+su=C2=A0googleprojectzero.blogspot.com
+=C2=A0
+Se siete interessati, vi chiedo di rispondere ad un paio di domande
+presenti al link qui sotto. Ci servono per capire se effettivamente
+possiamo collaborare.
+
+=C2=A0
+
+Link da compilare:=C2=A0Inizia cliccando qui [1]
+
+=C2=A0
+
+Grazie in anticipo,
+
+=C2=A0
+
+ 		[Francesca C.]
+
+FRANCESCA C.=20
+Digital marketing specialist
+
+=20
+
+Links:
+------
+[1] https://survey.typeform.com/to/cLq2dtHy?utm_source=3Dbrevo&amp;utm_camp=
+aign=3Dguestpost_qualification&amp;utm_medium=3Demail#site=3Dgoogleprojectz=
+ero.blogspot.com
+ 		=C2=A0
+
+_Questa email =C3=A8 stata inviata a kasan-dev@googlegroups.com_
+
+=C2=A0
+
+_Fiscozen s.p.a. - 10062090963_
+
+_Via XX Settembre 27, Milano, 20123, Milano, Italia_
+
+_francesca.ciani@fiscozen.it - +393230748523_
+
+Non vuoi pi=C3=B9 ricevere queste email? Clicca qui [/https://675846e82c2ba=
+b00139b6289.trk.mailchef.4dem.it/app/public/unsubscribe/jm9/a36l/tr6/2d1n/9=
+egs/rs/rt/c]
+per disiscriverti
+
+Area abuse [/https://675846e82c2bab00139b6289.trk.mailchef.4dem.it/report_a=
+buse.php?mid=3Da36l-tr6-a2FzYW4tZGV2QGdvb2dsZWdyb3Vwcy5jb20%3D-2d1n-jm9-rs]
+
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/3=
+7fa97697f5127cc8d81defa296fad34%40mailchef.4dem.it.
+
+--b1_37fa97697f5127cc8d81defa296fad34
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>2025-02-24_lista2_richiesta contatti guest post</title>
+</head>
+<body aria-disabled=3D"false" style=3D"cursor: auto;">
+<table fr-original-style=3D"width:640px;max-width:100%;text-align:left; fon=
+t-family: 'Work Sans', sans-serif;" style=3D"width: 640px; max-width: 100%;=
+ font-family: &quot;Work Sans&quot;, sans-serif; border-width: 0px; border-=
+style: none; border-color: currentcolor; border-collapse: collapse; empty-c=
+ells: show;">
+	<thead>
+		<tr>
+			<th colspan=3D"2" fr-original-style=3D"" style=3D"background: unset; bor=
+der-style: solid; border-color: transparent; -webkit-user-select: text;">
+			<div style=3D"background-image:url(https://www.fiscozen.it/site/uploads/=
+2022/04/bkg-nero-fiscozen.png);background-position:center center;background=
+-size:cover;background-repeat:repeat;padding: 8px 32px;border-radius:2px;">=
+<img alt=3D"Fiscozen" fr-original-class=3D"logo fr-draggable" fr-original-s=
+tyle=3D"" height=3D"10" src=3D"https://www.fiscozen.it/site/uploads/2022/04=
+/logo-email-dem-light.png" style=3D"cursor: pointer; padding: 0px 1px; posi=
+tion: relative; max-width: 100%;" width=3D"70" /></div>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td colspan=3D"2" fr-original-style=3D"padding:19px 32px;" style=3D"padd=
+ing: 19px 32px; min-width: 5px; border-style: solid; border-color: transpar=
+ent; -webkit-user-select: text; background: unset;">
+			<div>&nbsp;</div>
+
+			<p dir=3D"ltr" id=3D"isPasted" style=3D"line-height:1.2;margin-top:0pt;m=
+argin-bottom:0pt;"><span style=3D"font-size: 11pt; font-family: Arial, Helv=
+etica, sans-serif; background-color: rgb(255, 255, 255); font-variant-ligat=
+ures: normal; font-variant-alternates: normal; font-variant-numeric: normal=
+; font-variant-east-asian: normal; font-variant-position: normal; vertical-=
+align: baseline; white-space: pre-wrap;">Ciao,</span></p>
+			&nbsp;
+
+			<p dir=3D"ltr" style=3D"line-height:1.2;margin-top:0pt;margin-bottom:0pt=
+;"><span style=3D"font-size: 11pt; font-family: Arial, Helvetica, sans-seri=
+f; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; fo=
+nt-variant-alternates: normal; font-variant-numeric: normal; font-variant-e=
+ast-asian: normal; font-variant-position: normal; vertical-align: baseline;=
+ white-space: pre-wrap;">Sono Francesca, digital marketing specialist in Fi=
+scozen.</span></p>
+			&nbsp;
+
+			<p dir=3D"ltr" style=3D"line-height:1.2;margin-top:0pt;margin-bottom:0pt=
+;"><span style=3D"font-size: 11pt; font-family: Arial, Helvetica, sans-seri=
+f; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; fo=
+nt-variant-alternates: normal; font-variant-numeric: normal; font-variant-e=
+ast-asian: normal; font-variant-position: normal; vertical-align: baseline;=
+ white-space: pre-wrap;">Vi contatto per sapere se siete disponibili a pubb=
+licare un guest post su&nbsp;googleprojectzero.blogspot.com</span></p>
+			&nbsp;
+
+			<p dir=3D"ltr" style=3D"line-height:1.2;margin-top:0pt;margin-bottom:0pt=
+;"><span style=3D"font-size: 11pt; font-family: Arial, Helvetica, sans-seri=
+f; background-color: rgb(255, 255, 255); font-variant-ligatures: normal; fo=
+nt-variant-alternates: normal; font-variant-numeric: normal; font-variant-e=
+ast-asian: normal; font-variant-position: normal; vertical-align: baseline;=
+ white-space: pre-wrap;">Se siete interessati, vi chiedo di rispondere ad u=
+n paio di domande presenti al link qui sotto. Ci servono per capire se effe=
+ttivamente possiamo collaborare.</span></p>
+
+			<p dir=3D"ltr" style=3D"line-height:1.2;margin-top:0pt;margin-bottom:0pt=
+;">&nbsp;</p>
+
+			<p dir=3D"ltr" style=3D"line-height:1.2;margin-top:0pt;margin-bottom:0pt=
+;"><span id=3D"isPasted" style=3D"font-size: 11pt; font-family: Arial, Helv=
+etica, sans-serif; background-color: rgb(255, 255, 255); font-variant-ligat=
+ures: normal; font-variant-alternates: normal; font-variant-numeric: normal=
+; font-variant-east-asian: normal; font-variant-position: normal; vertical-=
+align: baseline; white-space: pre-wrap;">Link da compilare:&nbsp;</span><sp=
+an style=3D"color: rgb(39, 27, 220);"><a fr-original-style=3D"text-decorati=
+on:none;" href=3D"https://675846e82c2bab00139b6289.trk.mailchef.4dem.it/tra=
+ck/click?q=3DeyJkYXRhIjoiMlJ6YVpqN3ZJZ29EbHJ4T3pSaStOOUVuNExZbWxoS0UyU1Q2ZU=
+tXZGlVNldyUUg5b0x2UVwvOHBlV2JidG1hdkxCTE0rVGloS09FUmZWZ1RaRHNYbHRha0VzRURJd=
+lJaalFPdVFxRVwvWXZtQjdwMmlTcEh3T2NMQzBvUFprMStzaWJsbjFXa1wvbFpzRW52MzN4UGZv=
+XC9yQlhxeXM3ZUJ1ejFITStMeEJLRGo0a1NtNUpvQUt6bGRVaEdlUTBsOVlObCtcL2RsejRYZ1c=
+xd1ozUU9GU3I5dmYrbkxFcFRJWlVzXC9PVnN5REw0MXljNCs2UTVqd25nZWthWFZDaEI2dlZtSi=
+tFb1J2M3JuRjRXXC94SkxFTmtWNEpcLzVCdytXY1RYRVh5QlwvSG92eWhPRGZGaG5mN2c2Yjk3W=
+EZhZ2RDSWl1R1d2ZTV5U3FRWTBtQzhNcTZvWVNORENqclBKZ2FrY1hpZ3BBVUs5dzJcL0pqb092=
+WXRVMkxnUUlDOXNtd0xLZlhQV1JPQlwvXC9sTlFhVGtjY2drbys3VFE0Q280SGhcL1JnK0FWVUd=
+5bHBSY1AxbDJ0cWs0eUhHVnFLdEVCbjdxZSt0a21kV1NwV3Fxbm15N1ZNanp4bWJBaW9mSElLdF=
+FabTVtZ2N3eVB0TmlDelZpZlZlbFwvcTloeEhidVVqbmJoVW5MSXYzMGxLMjFmbGFmN05EZDcyR=
+nFTeXlPOExSekZTREFIT0R2WjNhY3Y2UkJjakhUQ2VuTm9uVWJ5ZzRLTTJFZkpxb3QwMDhXelwv=
+b1luMDJWbGw4NlhJZz09IiwiaXYiOiJ1TDJvb3ZLQlA4cTI3VmxFYktjMUZRPT0ifQ=3D=3D" s=
+tyle=3D"text-decoration: none; -webkit-user-select: auto;"><span style=3D"b=
+ackground-color: rgb(255, 255, 255); font-size: 11pt; font-family: Arial, H=
+elvetica, sans-serif; font-variant-ligatures: normal; font-variant-alternat=
+es: normal; font-variant-numeric: normal; font-variant-east-asian: normal; =
+font-variant-position: normal; vertical-align: baseline; white-space: pre-w=
+rap; text-decoration-skip-ink: none;"><u>Inizia cliccando qui</u></span></a=
+></span></p>
+
+			<p dir=3D"ltr" style=3D"line-height:1.2;margin-top:0pt;margin-bottom:0pt=
+;">&nbsp;</p>
+
+			<p dir=3D"ltr" style=3D"line-height:1.2;margin-top:0pt;margin-bottom:0pt=
+;"><span style=3D"background-color: rgb(255, 255, 255); font-size: 11pt; fo=
+nt-family: Arial, Helvetica, sans-serif; font-variant-ligatures: normal; fo=
+nt-variant-alternates: normal; font-variant-numeric: normal; font-variant-e=
+ast-asian: normal; font-variant-position: normal; vertical-align: baseline;=
+ white-space: pre-wrap; text-decoration-skip-ink: none;">Grazie in anticipo=
+,</span></p>
+
+			<p dir=3D"ltr" style=3D"line-height:1.2;margin-top:0pt;margin-bottom:0pt=
+;">&nbsp;</p>
+			</td>
+		</tr>
+		<tr>
+			<td fr-original-style=3D"padding: 0 32px 32px 32px;" style=3D"padding: 0=
+px 32px 32px; min-width: 5px; border-style: solid; border-color: transparen=
+t; -webkit-user-select: text; background: unset;" width=3D"70px"><span styl=
+e=3D"font-size: 14px;"><img alt=3D"Francesca C." fr-original-class=3D"fr-dr=
+aggable" fr-original-style=3D"width: 70px; height: 70px;" src=3D"https://ww=
+w.fiscozen.it/site/uploads/2023/09/francesca.png" style=3D"width: 70px; hei=
+ght: 70px; cursor: pointer; padding: 0px 1px; position: relative; max-width=
+: 100%;" /></span></td>
+			<td fr-original-style=3D"padding: 0 32px 32px 0;" style=3D"padding: 0px =
+32px 32px 0px; min-width: 5px; border-style: solid; border-color: transpare=
+nt; -webkit-user-select: text; background: unset;">
+			<p style=3D"margin:0;"><span style=3D"font-size: 14px;"><strong fr-origi=
+nal-style=3D"">Francesca C.</strong> </span><br />
+			<span style=3D"opacity: 0.6; font-size: 14px;">Digital marketing special=
+ist</span></p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p><br />
+<style type=3D"text/css">@import url('https://fonts.googleapis.com/css2?fam=
+ily=3DWork+Sans:ital,wght@0,400;0,600;1,400;1,600&display=3Dswap'); table,
+			th,
+			td {
+				border: 0;
+			}
+</style>
+</p>
+<div style=3D"font-size:14px;"><table align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" height=3D"100%" style=3D"margin:0; padding:0; =
+width:100% !important;" width=3D"100%">
+	<tbody>
+		<tr>
+			<td align=3D"center" class=3D"wrap" valign=3D"top" width=3D"100%">
+			<center><!-- content -->
+			<div style=3D"padding:0px">
+			<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+				<tbody>
+					<tr>
+						<td style=3D"padding:0px" valign=3D"top">
+						<table align=3D"center" cellpadding=3D"0" cellspacing=3D"0" class=3D"=
+email-root-wrapper" style=3D"max-width:600px;min-width:240px;margin:0 auto"=
+ width=3D"600">
+							<tbody>
+								<tr>
+									<td style=3D"padding:0px" valign=3D"top">
+									<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"1=
+00%">
+										<tbody>
+											<tr>
+												<td style=3D"padding:5px" valign=3D"top">
+												<table cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+													<tbody>
+														<tr>
+															<td style=3D"padding:0px">
+															<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" widt=
+h=3D"100%">
+																<tbody>
+																	<tr>
+																		<td style=3D"padding-top:10px;padding-right:10px;padding-=
+bottom:5px;padding-left:10px" valign=3D"top">
+																		<table cellpadding=3D"0" cellspacing=3D"0" width=3D"100%"=
+>
+																			<tbody>
+																				<tr>
+																					<td style=3D"padding:0px">
+																					<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0=
+" style=3D"border-top:1px solid #808080" width=3D"100%">
+																						<tbody>
+																							<tr>
+																								<td valign=3D"top">
+																								<table cellpadding=3D"0" cellspacing=3D"0" width=3D=
+"100%">
+																									<tbody>
+																										<tr>
+																											<td style=3D"padding:0px">&nbsp;</td>
+																										</tr>
+																									</tbody>
+																								</table>
+																								</td>
+																							</tr>
+																						</tbody>
+																					</table>
+																					</td>
+																				</tr>
+																			</tbody>
+																		</table>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+
+															<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" widt=
+h=3D"100%">
+																<tbody>
+																	<tr>
+																		<td style=3D"padding:5px" valign=3D"top">
+																		<div style=3D"text-align:left;font-family:arial;font-size=
+:12px;color:#808080;line-height:18px;mso-line-height:exactly;mso-text-raise=
+:3px">
+																		<p style=3D"padding: 0; margin: 0;text-align: center;"><e=
+m>Questa email &egrave; stata inviata a kasan-dev@googlegroups.com</em></p>
+
+																		<p style=3D"padding: 0; margin: 0;text-align: center;">&n=
+bsp;</p>
+
+																		<p style=3D"padding: 0; margin: 0;text-align: center;"><e=
+m>Fiscozen s.p.a. - 10062090963</em></p>
+
+																		<p style=3D"padding: 0; margin: 0;text-align: center;"><e=
+m>Via XX Settembre 27, Milano, 20123, Milano, Italia</em></p>
+
+																		<p style=3D"padding: 0; margin: 0;text-align: center;"><e=
+m>francesca.ciani@fiscozen.it - +393230748523</em></p>
+																		</div>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+
+															<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" widt=
+h=3D"100%">
+																<tbody>
+																	<tr>
+																		<td style=3D"padding-top:5px;padding-right:5px;padding-le=
+ft:5px" valign=3D"top">
+																		<div style=3D"text-align:left;font-family:arial;font-size=
+:12px;color:#808080;line-height:18px;mso-line-height:exactly;mso-text-raise=
+:3px">
+																		<p style=3D"padding: 0; margin: 0;text-align: center;">No=
+n vuoi pi&ugrave; ricevere queste email? <a href=3D"https://675846e82c2bab0=
+0139b6289.trk.mailchef.4dem.it/app/public/unsubscribe/jm9/a36l/tr6/2d1n/9eg=
+s/rs/rt/c" style=3D"color: #404040 !important; text-decoration: underline !=
+important;" target=3D"_blank"><font style=3D" color:#404040;">Clicca qui</f=
+ont></a> per disiscriverti</p>
+
+																		<p style=3D"padding: 0; margin: 0;text-align: center;"><s=
+pan style=3D"font-size:10px;"><a href=3D"https://675846e82c2bab00139b6289.t=
+rk.mailchef.4dem.it/report_abuse.php?mid=3Da36l-tr6-a2FzYW4tZGV2QGdvb2dsZWd=
+yb3Vwcy5jb20%3D-2d1n-jm9-rs" style=3D"color: #404040 !important; text-decor=
+ation: underline !important;" target=3D"_blank"><font style=3D" color:#4040=
+40;">Area abuse</font></a></span></p>
+																		</div>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+			<!-- content end --></center>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+
+<img src=3D"https://675846e82c2bab00139b6289.trk.mailchef.4dem.it/track/ope=
+n?q=3DeyJkYXRhIjoibzFjbWF1SFpxa2QxdmhZTTlSNExDN1ZLOVE2UWdTeWZ3Wk8rN04zY0lmQ=
+WpSM0ZzbjBRSGpRdUJHaUpNZ2V3TGd2TnRKamFaQnV4Ym1IR3BrRzgyUFRGWWEzUVRQRkQwdjg1=
+QmJWSWREbDd1T3dTcUQ0dGVJb0t5N3hxMlwvOUpvT3R3MHNwaTZkVjR1dTRoa0FvTER0OXpYTDJ=
+ycjlZUmlPdXBLeU83eTE0TXVaTWNSMkJJSnBLeVBsRFd6Vk1SNkVIKzdCenVDcXlFTVFqV2xJYX=
+hIamp2S3J1dVdveUtmK3JvWjdyRHBuc1hcL1lOVjVGM0hKeE9hVzhsK1RaVFJtS0trYXlTY0pvW=
+nJyTXV1RFdwSFJaQ2VjSitCYXNvc0RJdHJsMDhVYWNHbUlHRmRsWm1pZHVLVjduWnYzTTdTejcw=
+end0VVJwN25rVFdhbWdMeWhsOHIxNE8wQ1RlZVZvbTlNVHBNTmJFWEhCd1M2R1pucEVOM1VJd0M=
+3OFBFOFAiLCJpdiI6IndqZGtNMEF2ZllJTHdUcnZBMkFUdWc9PSJ9" width=3D"5" height=
+=3D"2" alt=3D"." style=3D"width:5px !important; height:2px !important;">
+
+</body>
+</html>
+
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion visit <a href=3D"https://groups.google.com/d/msgid/=
+kasan-dev/37fa97697f5127cc8d81defa296fad34%40mailchef.4dem.it?utm_medium=3D=
+email&utm_source=3Dfooter">https://groups.google.com/d/msgid/kasan-dev/37fa=
+97697f5127cc8d81defa296fad34%40mailchef.4dem.it</a>.<br />
+
+--b1_37fa97697f5127cc8d81defa296fad34--
+
