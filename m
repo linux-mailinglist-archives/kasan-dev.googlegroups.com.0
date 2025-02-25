@@ -1,246 +1,188 @@
-Return-Path: <kasan-dev+bncBCMMDDFSWYCBB7XX666QMGQEN7TNDRQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDK7LR5URMGRBRUB7C6QMGQECIED34A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ej1-x638.google.com (mail-ej1-x638.google.com [IPv6:2a00:1450:4864:20::638])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA0DCA447CF
-	for <lists+kasan-dev@lfdr.de>; Tue, 25 Feb 2025 18:21:04 +0100 (CET)
-Received: by mail-ej1-x638.google.com with SMTP id a640c23a62f3a-aa6b904a886sf545514566b.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 25 Feb 2025 09:21:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1740504064; x=1741108864; darn=lfdr.de;
+Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EDCDA44890
+	for <lists+kasan-dev@lfdr.de>; Tue, 25 Feb 2025 18:41:29 +0100 (CET)
+Received: by mail-lj1-x23e.google.com with SMTP id 38308e7fff4ca-309219e7913sf23579871fa.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 25 Feb 2025 09:41:29 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1740505288; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=ebOooyKRg0H6DJXQwf54ofnheaSp5YATKKyI3osiWafOFIIORTvmuBEAeVCxQ+XIBH
+         MAuApISfYv4hPO0eGi3FR0YF0W00uZDh4bu+XwfCtQhddWRiCeGggGW3ZZnQsoHBeG8e
+         4dzgp1QUR8eia1tn1r9UlBoaM09smpPmNSy2I9kBT4Y03Y2m2IZjBVRm/7bt+jM+kQkA
+         nDajenb0jsMIp37ZEOyaUWOqgxNYUKiliGRKk8r1QFegCMwrMQtL32hXI/cBRD/Pspel
+         bjkfS3AhHENbIlXfzVl6GIwL+Ro+yJxJOCWo3GKnbFVvrbfPlYzTadnBekj+tpzHeTg6
+         e6ug==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:in-reply-to
-         :content-transfer-encoding:content-disposition:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hLaDhZKCiNJEiif8sEAxUbxduC6OORLKdHYYvxB6hLk=;
-        b=ddxEVUA1x96QwCO9VP+t8omrAQdlLcqibgNkL3Zo+2qGsIW+T+PBdsRhB9Ocs5VJfE
-         jvX11Uvhk4Go+pwFDYOuSXBNDpqHquwQpstyiLvyfy7DBEr/lVuli+k+Wz1+7fPUkkig
-         7EcE025VV+3CY3Kssc4eyBCIY/1t8g79xS7ndQNLTo4/L2MQR+MkHl6zRUtDJvkpBwWA
-         bEJldpPHWDSmG0ArVJT5rAdYvmRvzwNbLEwakaVanZhEQ03cqQ/1GpudbohEw8JkzQHV
-         IpDdUx/WigEswWjNUXR6yE6kz7SUcW5kSOUx7t/xAUnUBVSvosnOcVqFlosH5CwN+AB3
-         6dnQ==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:sender:dkim-signature:dkim-signature;
+        bh=HdEKrCg3SO57IBPoNOYj42R6sZef0dgUEwRG/OCtFxM=;
+        fh=sswb8SdJFK4Vfdu8I28x8spNShxhI8ATURo2A4IiSkg=;
+        b=AhjT7EM5BmtZZD2e9MSfzEB8BY26N1vHDb8uZbLuWospP5VW99iY+ffLBU9Jdev5Dp
+         nqNju0ZUqtzytBeYS0tMik9ifNTmCEbpDkn3h8TPemCZAZ0JUj5lKa4y8MiVIbGt/ps+
+         SmL8mJH3dkKkv57flbtWZmwSqJV6mjnasOWuWPcBnt1lo9pfjV1T0g4okE0X7W6Duf2E
+         j5JJKg3DnM9cAkR0MpZXBytfwAoEdmmnKgyZ7vxXNeCpcLI9Ht0G97OxNvpwYnwysXwh
+         7RZ7JSflXWiFtGZTfG22jPM3IpUGW6q9TyRSX9aB/06s95wyQ6RAapZFnHYsIZMLmjVO
+         TKIQ==;
+        darn=lfdr.de
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=kGxevjJq;
+       spf=pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::231 as permitted sender) smtp.mailfrom=urezki@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlegroups.com; s=20230601; t=1740505288; x=1741110088; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:date:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=HdEKrCg3SO57IBPoNOYj42R6sZef0dgUEwRG/OCtFxM=;
+        b=VtJk5IZ4aiI4luOwXM98IiUcjIsvI4puhIEj1/iMYklzGLZqF/taVgiV6SqRBH+miy
+         VgSZwFivLYMoQuChV86yiHfpCxk+xNlWWXI3LqhS+rWZY8OW5XPBau/V2gpTOAZRuzVf
+         fpqgao0fasqfFIkC5yxy0QOq1mEPfN27Z/csyqimh5pgoQRTp0eQF4QoLbHpiRRETPjA
+         n3jqQSqtiBWnqwT+nmHO8QGXjJGivf4mCxkrj0uRJ9I1WRgIJKc7T6+RsBU500ASYZHb
+         kQX8E+/+AqjPU513iFP0P8aaewQ6fSTKzx1O3wFxSI8QPfVdjxX4N302ucCdb4Bnbcsm
+         Cu6Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740505288; x=1741110088; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HdEKrCg3SO57IBPoNOYj42R6sZef0dgUEwRG/OCtFxM=;
+        b=WCuGbALUAaVRXK8eaWTYVmPelyFfshUpKsTX9UJlZ6WCqZu6aUy1XP/6BT9W8JN6Yp
+         g0xX1l5P0gvZmnYLv5quiMriTWrIW+0H/m5Ly4RZ9semC3ua4zkUnYYsUpWw8zX3FOwW
+         DQvuJ6rzzyGzYhoUFZs8ZZDeKaE8uUcyc3bTe6WyfbPZJ2jRaGPMC8BiKWQzN/UeeBK7
+         DKUdK425t8EhAp9dmwg8YCVNDBkn4x72/TVG/rr7Nb2ustI/xlm+aEndF21AU63eay6Z
+         cz47NiLBNKeeDPbOMERmtNAqS3RqfqMfA+Gp+XAJKpDi5V86rYaB3K3qaJubPWPioxbi
+         w+/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740504064; x=1741108864;
+        d=1e100.net; s=20230601; t=1740505288; x=1741110088;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :in-reply-to:content-transfer-encoding:content-disposition
-         :references:message-id:subject:cc:to:from:date:x-beenthere
+         :content-transfer-encoding:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:date:from:x-beenthere
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hLaDhZKCiNJEiif8sEAxUbxduC6OORLKdHYYvxB6hLk=;
-        b=Rmv00IMfTP1GTpzPl6KicD/rjwK3F1AtY8lIJ+YkIF6dxTXc7Lj7VXpHEhyGY42i8V
-         v4Mvg20HJi0BKoTnuc0uQ5R3ThspSSBsAm0unZPHdgpQh7nUYw55LM+b3AZnYX/rtUz7
-         hPSL9rH+INJbxNN6Z31MqPd4A8vO0HJpkJv2f5eW02bk247hV2H7Qcx17wibhN40uZpo
-         IANEAtt88nLX77GQR6DnMXRoe7YmqoquMqmPLl/QMN6onRPc3ppx8StEkROCcvOKk2Uu
-         7gDanEOBsdbFPw/s7aI4qM8WZmYJOIHsbKL9+epQoZJkaakucCIRBNyLK6rRAUV9uKuf
-         Hmrw==
+        bh=HdEKrCg3SO57IBPoNOYj42R6sZef0dgUEwRG/OCtFxM=;
+        b=h7nFQN4YNjCxdPRFdPYc2U+IbnpLZ5S6V/y1YOkSFUqYxdqkw9u3XgiIvz4lyXullD
+         cnXIyiruVtEykXVFv4VUM1nAW7qXez9paLMtIOOFhLGIAZo9YuMCDivVTMfNsmZAIuHW
+         zyPh26GHGIe9F/iSdmn5GcOK/WW7us2AUiOz1tqKzmW66+nBbmehpvM7F3u1NeAS0TNP
+         ShffzbBEN4rRj74WXnDEtOdq3PHHaYzFjPklH4LZWT4cdAVoC62tfMJi2r+Mhb8PZj3Y
+         qCnm8Nb8FvAQfk4fy4BvyInaFCCmVJj0oEnh6VT/ifjN+IGqHjcRGW1ExUuLEsQa19jd
+         Oqnw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXbYmqE+TYsfsNS2hfQ5NGcB9PQuqdHZqorirqba4iEEpYw3p2BAnsIpS6iBTDagchl+siHOQ==@lfdr.de
-X-Gm-Message-State: AOJu0YxgDWh0LvJfnM9sXV5t1Bf9W0IkBFI1sHSYg0YJW8PwQAb7SLaq
-	vb0XGKb6PsxJmHqdmIQGlqaKfdp+96HE0NoxcIUJgXwQAAHuh36F
-X-Google-Smtp-Source: AGHT+IERXLotRne0usvbKS1n7AHGDGuk/MR8sB6Vpu555/+fPCn50j+/mrzOWwjpGU8KvLUN7cU82w==
-X-Received: by 2002:a05:6402:4409:b0:5e0:8c55:504 with SMTP id 4fb4d7f45d1cf-5e0b70bf3a7mr17287481a12.7.1740504063020;
-        Tue, 25 Feb 2025 09:21:03 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVFAFnP9ncttvv9tOaqbTx9vjknSgd9Y+sUVPKxZZ14Wcg==
-Received: by 2002:a05:6402:1caf:b0:5da:aad:6265 with SMTP id
- 4fb4d7f45d1cf-5e491dcacbfls230527a12.2.-pod-prod-02-eu; Tue, 25 Feb 2025
- 09:21:00 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXK+rZERYxUSkZWLkf4Pnwi1XJtsdfPXfjzGdfio5YP/J9yo6AgDehBIbAj2he6LRt9YJDd3kTtKTg=@googlegroups.com
-X-Received: by 2002:a17:906:e95:b0:abe:cac5:bd4e with SMTP id a640c23a62f3a-abecac5d64emr486028066b.43.1740504060379;
-        Tue, 25 Feb 2025 09:21:00 -0800 (PST)
-Received: from mgamail.intel.com (mgamail.intel.com. [198.175.65.10])
-        by gmr-mx.google.com with ESMTPS id 4fb4d7f45d1cf-5e459c40412si97685a12.1.2025.02.25.09.20.59
+X-Forwarded-Encrypted: i=2; AJvYcCV65wUaVsPWkKcpXWf2kxvtVMiyoaRj179E4cM0sByTMKFbBySSFNg6+hoPCVBnOW4NYDzRZA==@lfdr.de
+X-Gm-Message-State: AOJu0YzZTHQ/JQZQwUDdBuJ9B+Lm21Jt+QAmuCfS8hgfgpsRsEMsXiva
+	qvBZQTBOIr6Uy0LNN0cA5e6c6h3osUWGv7ianyRPTEivmeNBe4m1
+X-Google-Smtp-Source: AGHT+IErkGIMMAfOSLLVWFPhuYVTVJmxpBsUxpa1wlJmu0cusW7VgyjbX0LVRkS4KMRj8roSGmyuAw==
+X-Received: by 2002:a2e:300e:0:b0:302:5391:3faf with SMTP id 38308e7fff4ca-30a598f454amr68268101fa.17.1740505286875;
+        Tue, 25 Feb 2025 09:41:26 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVF6gs7uIOuuWez6Zox6iA+b8Q3b254ez/jgsZbIaZy+5Q==
+Received: by 2002:a05:651c:2117:b0:309:298b:9dc7 with SMTP id
+ 38308e7fff4ca-30a521fc04als1706901fa.2.-pod-prod-01-eu; Tue, 25 Feb 2025
+ 09:41:25 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXpSFCuaOy3jTFDx7idMEwJvbJ9+kp/hwdGD0hde3iX6GkW8koxcgBfAWGmPZzpliag+UTsiIJMd8c=@googlegroups.com
+X-Received: by 2002:a2e:83d0:0:b0:309:2627:8adc with SMTP id 38308e7fff4ca-30a5985d8ebmr55390551fa.8.1740505284567;
+        Tue, 25 Feb 2025 09:41:24 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1740505284; cv=none;
+        d=google.com; s=arc-20240605;
+        b=K3bUcs3cpJzhcXLKl+FLpjRdeJltnFGt7f4w/ZdOsk9fMgFqD7q4xlkfO+nXXI+cSV
+         g8R1Ili58/kXrBpKsFJwMpy6D7ncwOtvqw/sR/btNosNg/aJpuQqhzHsXqYQk+0bB/Rm
+         1eCd38EHeKIpcHReNY10lAHATXfwL02wWFXl4k+Woz7wUZVtXcPHxIqndxXKezA/8Bkz
+         m1rLBGLvYlhLexBxi26bDLNWQ+4wtlOqMBZvIALIZShvi7oe9vxBzJUyxRTGTZ+5YeQR
+         3pvEjELw892Vised8wReDGTo+AtiR7RmqGDDqMLTeaOOwbS6dyLru4ykdENu4o0YYGn2
+         KOlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:dkim-signature;
+        bh=o5I0Gh7oHoYbf3JrUTgHAlRAt4Em/lhq6oj6z2kkeWE=;
+        fh=7yJKRyMnxegy39rMAVfs/omJhPN4Ll5hAeQC9JXVNS8=;
+        b=RXKDDDea7htSC8YsCQSRRlXs0Cf+2ahNvGYlS79NXTwiUS3tsezonTbPvl5CB/rUYm
+         OA1gO0vBuWFSkeecK+OO7i4YgisEEInB7O+6a9YAx7hB3omwQBQCn3fWRyqr4oLsXyjn
+         J0I9OryQdm/OV3OWdTVQKb7AvlxNdCHNtZ7JyhCG+h744JVeNBJ4l22cq+ptKJvcAN55
+         e1KU0PvNJBxcfCXgtsaGLkv0Pt0XpEggg49eAuLQq/HUReHM1I30s4fktvyVfJTUnxpO
+         NuyeKpq1K2mLZc8qPcnU1w3p3keirMHsSv0CI4lk7f+qz/tTxJxEPc39OM2SbENnrkJc
+         a3DA==;
+        dara=google.com
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=kGxevjJq;
+       spf=pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::231 as permitted sender) smtp.mailfrom=urezki@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com. [2a00:1450:4864:20::231])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-30a81a2dd0asi1661131fa.3.2025.02.25.09.41.24
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 25 Feb 2025 09:21:00 -0800 (PST)
-Received-SPF: pass (google.com: domain of maciej.wieczor-retman@intel.com designates 198.175.65.10 as permitted sender) client-ip=198.175.65.10;
-X-CSE-ConnectionGUID: sBiehEU1R46xnyrrTzTXKA==
-X-CSE-MsgGUID: DG7F8tqjQku1cwc9dbNBFg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="58743441"
-X-IronPort-AV: E=Sophos;i="6.13,314,1732608000"; 
-   d="scan'208";a="58743441"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 09:20:44 -0800
-X-CSE-ConnectionGUID: CiLY/ECrSCWQcxz1khAMoQ==
-X-CSE-MsgGUID: XeqWG7b2TMOsghRHpWtf4Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="120561981"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 25 Feb 2025 09:20:38 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Tue, 25 Feb 2025 09:20:32 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Tue, 25 Feb 2025 09:20:32 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.171)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Tue, 25 Feb 2025 09:20:29 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=i87VsXYvDW5jbNbxOIC8xS4SlE0mdXcXaFBiYQcPMMgb4rlGxHxegnVlwhfDTBkrNF86mipOuds3el78k1sXfOXhjbF5RF1uFu9kpMYZKnTYlr7krbjf7Q1z1O6jlOvhmiK9scZ10HdkmalITd83ge0K7WWfzCkZBa0+UjizyFFhiQWcv5M0D7Kkj8iO1lGn6+G1lg9ReIFkUrkHlGbOVe0uOAa0awrGumsKAXfRb6Y0YwjaGad1xnBZSUP7I2oX3YQb1toajrqvILQnAYaWnPb1/8+un7f0Ul0IuKXtvTsB7f2Z/6oID7AaEBEqmm092Cf5cPKgxI0PDXURRrqaiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1/cpoIsYVvxpIH7OKvm3BOMOiT0hT9QBOTbltxVXxI4=;
- b=DEgxyAl4+qTdfOJanLuQOkYrobCEILRvDz76Vs/9J/1HxVgMRloTCQj3DF4q/lX4y3Q48Q3+aO3yseQfLxc68FZ9Y2IxFtKqrKrIkHKU7ruBqnqMeDG0lEV8M36nUf333mEKpIQGkwKZzM0YjIzk2X1O7Q2qkoOECE8B0uZahsQIP+vGFDYuMgeKi5LVJggCJZpMhIn5s+JfTW4F1q/GhJH7ZItfIs7vdFbHFHelVy12VbobPh9kdHGSpFzQKcdYzbONG8gDPnM0qij2noTzDJhcmuViXa2YGnaRLVP3IDfIoMBnn8p7qi3vvjHcKBJs5uh2+PrDYpQVCOicqNW65w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MN0PR11MB6231.namprd11.prod.outlook.com (2603:10b6:208:3c4::15)
- by IA1PR11MB8864.namprd11.prod.outlook.com (2603:10b6:208:597::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.20; Tue, 25 Feb
- 2025 17:20:21 +0000
-Received: from MN0PR11MB6231.namprd11.prod.outlook.com
- ([fe80::a137:ffd0:97a3:1db4]) by MN0PR11MB6231.namprd11.prod.outlook.com
- ([fe80::a137:ffd0:97a3:1db4%4]) with mapi id 15.20.8466.016; Tue, 25 Feb 2025
- 17:20:21 +0000
-Date: Tue, 25 Feb 2025 18:20:08 +0100
-From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-CC: <kees@kernel.org>, <julian.stecklina@cyberus-technology.de>,
-	<kevinloughlin@google.com>, <peterz@infradead.org>, <tglx@linutronix.de>,
-	<justinstitt@google.com>, <catalin.marinas@arm.com>,
-	<wangkefeng.wang@huawei.com>, <bhe@redhat.com>, <ryabinin.a.a@gmail.com>,
-	<kirill.shutemov@linux.intel.com>, <will@kernel.org>, <ardb@kernel.org>,
-	<jason.andryuk@amd.com>, <dave.hansen@linux.intel.com>,
-	<pasha.tatashin@soleen.com>, <guoweikang.kernel@gmail.com>,
-	<dwmw@amazon.co.uk>, <mark.rutland@arm.com>, <broonie@kernel.org>,
-	<apopple@nvidia.com>, <bp@alien8.de>, <rppt@kernel.org>,
-	<kaleshsingh@google.com>, <richard.weiyang@gmail.com>, <luto@kernel.org>,
-	<glider@google.com>, <pankaj.gupta@amd.com>,
-	<pawan.kumar.gupta@linux.intel.com>, <kuan-ying.lee@canonical.com>,
-	<tony.luck@intel.com>, <tj@kernel.org>, <jgross@suse.com>,
-	<dvyukov@google.com>, <baohua@kernel.org>, <samuel.holland@sifive.com>,
-	<dennis@kernel.org>, <akpm@linux-foundation.org>,
-	<thomas.weissschuh@linutronix.de>, <surenb@google.com>,
-	<kbingham@kernel.org>, <ankita@nvidia.com>, <nathan@kernel.org>,
-	<ziy@nvidia.com>, <xin@zytor.com>, <rafael.j.wysocki@intel.com>,
-	<andriy.shevchenko@linux.intel.com>, <cl@linux.com>, <jhubbard@nvidia.com>,
-	<hpa@zytor.com>, <scott@os.amperecomputing.com>, <david@redhat.com>,
-	<jan.kiszka@siemens.com>, <vincenzo.frascino@arm.com>, <corbet@lwn.net>,
-	<maz@kernel.org>, <mingo@redhat.com>, <arnd@arndb.de>, <ytcoode@gmail.com>,
-	<xur@google.com>, <morbo@google.com>, <thiago.bauermann@linaro.org>,
-	<linux-doc@vger.kernel.org>, <kasan-dev@googlegroups.com>,
-	<linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>, <linux-mm@kvack.org>,
-	<linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>
-Subject: Re: [PATCH v2 01/14] kasan: sw_tags: Use arithmetic shift for shadow
- computation
-Message-ID: <uup72ceniis544hgfaojy5omctzf7gs4qlydyv2szkr5hqia32@t6fgaxcaw2oi>
-References: <cover.1739866028.git.maciej.wieczor-retman@intel.com>
- <168f775c4587f3a1338271390204a9fe16b150dd.1739866028.git.maciej.wieczor-retman@intel.com>
- <CA+fCnZcVSwUAC9_xtVAHvO6+RWDzt6wOzWN623m=dT-3G=NnTQ@mail.gmail.com>
- <cik7z3nwspdabtw5n2sfoyrq5nqfhuqcsnm42iet5azibsf4rs@jx3qkqwhf6z2>
- <CA+fCnZd6O0_fc1U-D_i2shcF4Td-6389F3Q=fDkdYYXQupX1NA@mail.gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Feb 2025 09:41:24 -0800 (PST)
+Received-SPF: pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::231 as permitted sender) client-ip=2a00:1450:4864:20::231;
+Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-30a36eecb9dso60766971fa.2
+        for <kasan-dev@googlegroups.com>; Tue, 25 Feb 2025 09:41:24 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXxO9R1pcHcHs+WQ3N5JKGJ88jRFsKND771orNrVekKilYD0YL1xLD6q3zwct7n0EvdoFyhbQPmQnU=@googlegroups.com
+X-Gm-Gg: ASbGncuFqZW3z7PclctHtEQ6CDoUiB+3UBcqfwJBgpQ8Vrtab7br1hdF+s4EUw33sVT
+	cWO9xkzlI6bH7TuxM69k3Jk6oy+CRwFlpBpwA8XXNO3xzGeJQVJbGLn0gmqroAwGuq4/WPQnaBO
+	Xx26ZBgLp3fSpQFSJkPCtCmhaE2ZBdHqfgD9Uvc9AqW2MYAdidKksnJjrzn/J3aOILzQIPecdQK
+	BjVlXMMnbngmG02QNAyNCJom38IoPX3XZ69ohbgt7vFzS9agFMcm/Zp37w5CLdEBGqJOcVSqM/a
+	9VrFwLcK4sNxmuQsmeTIlF0jLv7EyM9sBOvo6jj0cPZ8qpMY
+X-Received: by 2002:a2e:8642:0:b0:307:e302:a34 with SMTP id 38308e7fff4ca-30a598f6edemr66652541fa.20.1740505283628;
+        Tue, 25 Feb 2025 09:41:23 -0800 (PST)
+Received: from pc636 (host-95-203-6-24.mobileonline.telia.com. [95.203.6.24])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30a819f5e4asm2812131fa.63.2025.02.25.09.41.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Feb 2025 09:41:22 -0800 (PST)
+From: Uladzislau Rezki <urezki@gmail.com>
+Date: Tue, 25 Feb 2025 18:41:19 +0100
+To: Keith Busch <keith.busch@gmail.com>, Vlastimil Babka <vbabka@suse.cz>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Uladzislau Rezki <urezki@gmail.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Christoph Lameter <cl@linux.com>,
+	David Rientjes <rientjes@google.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang1211@gmail.com>,
+	Julia Lawall <Julia.Lawall@inria.fr>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	kasan-dev@googlegroups.com, Jann Horn <jannh@google.com>,
+	Mateusz Guzik <mjguzik@gmail.com>, linux-nvme@lists.infradead.org,
+	leitao@debian.org
+Subject: Re: [PATCH v2 6/7] mm, slab: call kvfree_rcu_barrier() from
+ kmem_cache_destroy()
+Message-ID: <Z74Av6tlSOqcfb-q@pc636>
+References: <20240807-b4-slab-kfree_rcu-destroy-v2-0-ea79102f428c@suse.cz>
+ <20240807-b4-slab-kfree_rcu-destroy-v2-6-ea79102f428c@suse.cz>
+ <Z7iqJtCjHKfo8Kho@kbusch-mbp>
+ <2811463a-751f-4443-9125-02628dc315d9@suse.cz>
+ <Z7xbrnP8kTQKYO6T@pc636>
+ <ef97428b-f6e7-481e-b47e-375cc76653ad@suse.cz>
+ <Z73p2lRwKagaoUnP@kbusch-mbp>
+ <CAOSXXT6-oWjKPV1hzXa5Ra4SPQg0L_FvxCPM0Sh0Yk6X90h0Sw@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CA+fCnZd6O0_fc1U-D_i2shcF4Td-6389F3Q=fDkdYYXQupX1NA@mail.gmail.com>
-X-ClientProxiedBy: DUZPR01CA0027.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:46b::14) To MN0PR11MB6231.namprd11.prod.outlook.com
- (2603:10b6:208:3c4::15)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6231:EE_|IA1PR11MB8864:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5c6b65d1-d4f3-40dd-c950-08dd55c0ae8c
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Y016VWZOclU1MkNxcG9waGVRM1Z5VVY5eFZRc2lCZjFwZDEzbXRTdFF1U0NG?=
- =?utf-8?B?YlpieklHVk1RKzY2ZlNvK2JmMkNGTDhraGZSZitZdEhQQVRRNDExdEN4Wnho?=
- =?utf-8?B?ZGNHTmRzc01CaEo2ZHd5Q2RhVmFmWUhZYlVsME1MbnhvOVlrYVk5YkcrK0VO?=
- =?utf-8?B?OG9FZkM4M01KNDZiekY1UkNjVDVUZ0h3aDJzSnpVT0pJUnRNNkRJYjZGNXZi?=
- =?utf-8?B?eTJjZ0VyUklxcHRvb3hvS1dFdXBpdkRvWlcrRGFLMU1zQ1NoYkJGUWUwclQ5?=
- =?utf-8?B?OG5FVUZwaXpYMDErKzlMVEhubXBTRHQ3TFFETlhrRmRHL0ZGU1VxemY0c2pl?=
- =?utf-8?B?S3BuaTRVSmllMEtnMFhNODh6WFRVcG9WMFk5Nlcrc1M4a2hQQ1p6VlRqcmNN?=
- =?utf-8?B?Yzk3d0ZYY3AwaEFaNDBvUzNHMWFPc3RUS3A4SVBuUTNtNkR5K2VHUWw3UFA2?=
- =?utf-8?B?eUtOMlVBZTNiRWw2YkNlcEQ5Yy9XcVNGNWZHaHdueWw0QkxubE9odm1Ybm1L?=
- =?utf-8?B?MXZmd1ZqTmkwMkExeWhnWmJWNVR6NzhkMUlGU0NENHFOQ3g4dGhtd1I1eHJN?=
- =?utf-8?B?QjFha0JZR3lqSVdVSThZY0IzM0N6amVhcTg3TlBYSDdtWUdsazFpM1ZJSXA2?=
- =?utf-8?B?K0M3d2VKYVk4YTlLS2pqakhyMWE3OWFqR29tV240c2NKd2ZiYXFCT3FwTTlZ?=
- =?utf-8?B?Qk1GeUJxeDZjTTRXVWozR2hobGloS1pnVUdFMlRnbVh0WTd1Sm9BL0wxbHB5?=
- =?utf-8?B?eWtxZnprZHpDRkhRTi9naG9mZjRTaXg4NnZtY0lqSmZ4b203RlExYmpRWXJh?=
- =?utf-8?B?azIzOWRlSFliSE9UUUJIOFAzS2xQanFwL2c4N3V5QjY4YkhiZGNSS1B5QmY0?=
- =?utf-8?B?bmFZWjdLeEpFa2dMV2R2QmJjNzdjUWZEa1M1N0Vaa2tGYnpBRnZSZnRzeHQw?=
- =?utf-8?B?cmFZY1d2cWx0S2dYcmcvdWZrOHJHUTZKWGp6RmQ1SmNuOFk3UEkvRHJyWmwr?=
- =?utf-8?B?RkpGT2pNd28wZ0pCZmkyQkRYNy8xRDdJZG9HL1RQZnRucjBGNEVpUWxVckNY?=
- =?utf-8?B?UWlmcWh5Z0tDMmkyVTNEbWF4cVA3R1dGNGIyaWZxQlVxdGVkS1lFMC9tRVla?=
- =?utf-8?B?L0s3Vy9CdzBZR21wZHlUYkp0V3liYUdDdGdDOHRCMjR6bjMyWFBHVWh4VG9B?=
- =?utf-8?B?UXRVRGhlY240UmsvMzFrVFZNRG1aZzkvRnZZUDIvMlhLNVlhcUFhMnp5YVZJ?=
- =?utf-8?B?empMcTdpN1d3cHJGeGxKcWJCVFp3L2F3b2NETFdJc0E5WHppSE5pR3d4MzYv?=
- =?utf-8?B?QmdaZ1VhMzV6TWlCdTRsUWMzemp5MUV4cDVxT0tBbHpHWnBQdWFZU09JWTFZ?=
- =?utf-8?B?SXRWVVA2blJxTERrdlhHWmxqdTVhazdndStrZGtXWU5FanNFVVh2YkJqMDBs?=
- =?utf-8?B?bkZFVFl3Rk5KU0w0LzZ6VzhNZ1MzTmY1TUVuQ202cXQ3S25wTEVwbkw2TWtV?=
- =?utf-8?B?UnpjZGdzV1BTR2dDVHB1RXdqdDlnaTk4NmpXbEprc0dEV0tYbGExV0Q5WWxC?=
- =?utf-8?B?aDJTT1hQV29sdjlaZUF3ZGFseFh4NUZhSWZ0aGtGOXNUTmloeFVMakNTT3JW?=
- =?utf-8?B?alkxYkdVU3ZNQXFvUzFoRWhnWUNTVlZkaTN1ZTQzSWxCa1hXdGdTWjU0QXd0?=
- =?utf-8?B?Q1psbG5YRXlGUGRiS1NVVSs0N1RYdmZPbFRYeVZISFpCUEVQUHJnei9kZjVl?=
- =?utf-8?B?UFQzeUlkNUQ0Q3lGS2wyNEFyN1M3dVlKeVM0NDV5MUlFbVVqU21ldFBvWnhN?=
- =?utf-8?B?b21CVWNUNzdXcWZGZ1hxQT09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6231.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TTNENHROVlArSmh5WVR6Sm9pa2hWRmRpVjhHN1UvcVNaRG5LRWEvdnNKdlRu?=
- =?utf-8?B?WFlsZEJCdEJTNzBpNnRJWDNhQStvZDVaNnFJVE0zbnBMWnBmb1h1ZzFYanlE?=
- =?utf-8?B?TjE4YlEzM1RCcG9SY0s1OGdKSGxKZmJ6YWpvb01aSzVZa0xmcG1MTnFVTisx?=
- =?utf-8?B?ekV0LzBKc2RZd2gvLzZ0UjU4enNOM1FQaS9sZW5nZDIvUm9ITTczWXAyelp0?=
- =?utf-8?B?OFMzL2NLOHBIejJ1VHo4cFJPazM1bE55MTAwMmtQVkFYNHNIbVFmRWluQVZv?=
- =?utf-8?B?VTVETnlWQVlDRndjZnZKZHJwb2J2dFB2VmlRMXZRY21mQWdMcklkNGpBMFJB?=
- =?utf-8?B?N2w1ZE5reVZvZ2MvMG1iWVNrMzV0WjVoNlB4WWZrTzZsZlpVdXNGMVZLdDFX?=
- =?utf-8?B?QktvZEdEQXhwUWVpM1k2d01hL2hyL21ZVFhmZU9mWHZpU3N3UlVjdzBoRkE2?=
- =?utf-8?B?UU1EVUVseFJOOURtWENtclN4dEhzTk1wdHVIOXJlSTFQc3dVSFVhY3RHc1Bm?=
- =?utf-8?B?OVFodjRhcjNrZ3UwYSt6aE05YXZ3MXNqaWd1Y29tbENIQlpMQ0lxZ1dHemxp?=
- =?utf-8?B?Q0c3RFByTXVmUmdRSzhPdmxzbXhaaHJtcXVrUzZid0xrd1ZPcy9nRkozSFFP?=
- =?utf-8?B?K1Z4Q21ETnZJOThvT0w2SUZpS3Q1QUhiQk95U2E5S2tqa3FXbUhJbXBQSWlO?=
- =?utf-8?B?amlDUDJocW4ydUhmWWwwMGlITHI2M3BRS3FEczBKZituSFRRcTZkYmFYN1VF?=
- =?utf-8?B?cm9EV29Va1FzUWpSVitHa0pZTlRjeDFvNGZXTWYyWEcxRzZvZ3JMOXhweDdm?=
- =?utf-8?B?Rm5QMFNlbU5SMjNaYk56OUZiYnFHaHJldjF0OGRaZUxFVDY5VjZWRThkakd1?=
- =?utf-8?B?N0FTMFJXUllZRlltVUVXNUFiYTJLYTVQaXhYLy9OUVFXekppL3hvRGxYV0Rx?=
- =?utf-8?B?ZXF5OHBBRC9wNjhrSjRLWUM2bnpxUW4yeFJ3dEZ1Q3E0RHZabS9xUmh2QnJV?=
- =?utf-8?B?OUhVS3JObU9sMjVsSHBybElXMng3ajUwZm9tZ3gxZlJLNHNyU05WRFVXenE5?=
- =?utf-8?B?RWwrbUVscDZyY2VraXYrZmtRajJIZlIrVGE3OUZST3krb1FhbVVDczgwblhn?=
- =?utf-8?B?U2pHT2s5RGw5M1c1ZUwwMWY5THUzZHBJUWwvL0pVcWtCVmhwdDdDVHJ4RG9p?=
- =?utf-8?B?WHdMSFYvc2tpeW1BQXNBS1JKTXo0WFlrSEgxbFhDTUdnNUtxek5jNUpRZnVK?=
- =?utf-8?B?eklYdGdPSFNaK2U5RlNRVHpuZzFpNTRBZHp0SVZHblFpbzhyNXhpd2FtWFlW?=
- =?utf-8?B?c1VKRnlhNnhQWHU5dUdpN0hjUnRXU0Uvb2ZZd2dOMkRxS2lOZ2szekJseEFp?=
- =?utf-8?B?TU9EMnQvSklGbForVElQTUVHMXhMZGZWc3dLdDNOdFF3WldMczBaOEVBMkRo?=
- =?utf-8?B?UXhYN253eXBSV0RyRXNmWDFhcVYvS0NXYUhzb24ranRHOGt1dTRuUlNXMTNj?=
- =?utf-8?B?ZGhaSzhuc3paeTdQYWtzcnMxNU1uZFlQS1pXUjB6ZW1LZk43bGdLKzdyNWh3?=
- =?utf-8?B?MVVhbVIyRmllL1IxSVFsOE9iN2lWOXZ3cUhWK2NzYy83NjltNGUzaVM4enN5?=
- =?utf-8?B?NGNkUWNsOHBRaEcwTDE1YnZhdEcvZGx0ZVhqZi9pN1diaGRYVTUyZ1BmS21F?=
- =?utf-8?B?SE90NGxhUmVLV0FOKzJtTDJ3a3ZkLytjcDRDMnUzR3pJeWR0cDJsUEw5bmZT?=
- =?utf-8?B?MW1LWS9Wem1OMStUQ1k4Z1hNM0hrUnI1QjE2TGZXMWlMU2NRV0NhcnhiU2l2?=
- =?utf-8?B?Q1h2Nk5JZUxGaE0wbnh5N2plYTg2U1FONWJFY0t5dXM4Q29DT2ZpSDhBa2pq?=
- =?utf-8?B?YVFXZ0NOenpBMzZaYTJPN1VnVE1UTUJheDViV0hKT3VDRENGdWpRd3c4cmgr?=
- =?utf-8?B?VysxOGNBQk5FRmF2QTRDTTg3cFRQVHd2ZlZKSm9LbW55OGo1WlBMR2NEVXB2?=
- =?utf-8?B?bzBQS2p2aXdUQXRIM0xDRVoydDU0VlpXbFBBWFpMbXRFZEhLNHUxbzhrQ1g4?=
- =?utf-8?B?SXUrODBhUlhWSkxocjFXRjB6VkhlUklSZ2JEMXgzVEpzVnhaMXl1dHhJc29s?=
- =?utf-8?B?VnFjTXM2Mlg0OEtVaTRlTHhNdHFnU2tic1luTEloOGg0SC9oTFRZaU9VcEtK?=
- =?utf-8?Q?RM4ZnlJ/A33qrKZUiFveDoY=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c6b65d1-d4f3-40dd-c950-08dd55c0ae8c
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6231.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2025 17:20:20.9133
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8ToOK6jPuWPolHuBPb4Np2/2g6XGwJFJuKdCT+kd8argyyRW7ES65O9vuke2cD0eAWzhzTf0YAvKTYL4rQC/nXQGUEVaV8QV2+pqnVWl5m0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB8864
-X-OriginatorOrg: intel.com
-X-Original-Sender: maciej.wieczor-retman@intel.com
+In-Reply-To: <CAOSXXT6-oWjKPV1hzXa5Ra4SPQg0L_FvxCPM0Sh0Yk6X90h0Sw@mail.gmail.com>
+X-Original-Sender: Urezki@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=cpiHZ8WN;       arc=fail
- (signature failed);       spf=pass (google.com: domain of maciej.wieczor-retman@intel.com
- designates 198.175.65.10 as permitted sender) smtp.mailfrom=maciej.wieczor-retman@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+ header.i=@gmail.com header.s=20230601 header.b=kGxevjJq;       spf=pass
+ (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::231 as
+ permitted sender) smtp.mailfrom=urezki@gmail.com;       dmarc=pass (p=NONE
+ sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+Content-Transfer-Encoding: quoted-printable
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -253,70 +195,297 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 2025-02-22 at 16:06:02 +0100, Andrey Konovalov wrote:
->On Fri, Feb 21, 2025 at 2:12=E2=80=AFPM Maciej Wieczor-Retman
-><maciej.wieczor-retman@intel.com> wrote:
->>
->> >Is there any reason we need this change for x86 SW_TAGS besides the
->> >optimization benefits?
->>
->> I wanted to have the shadow memory boundries aligned properly, to not wa=
-ste page
->> table entries, so the memory map is more straight forward. This patch he=
-lps with
->> that, I don't think it would have worked without it.
->
->Ok, I see - let's add this info into the commit message then.
+On Tue, Feb 25, 2025 at 10:05:37AM -0700, Keith Busch wrote:
+> On Tue, Feb 25, 2025 at 09:03:38AM -0700, Keith Busch wrote:
+> > On Tue, Feb 25, 2025 at 10:57:38AM +0100, Vlastimil Babka wrote:
+> > > I tried to create a kunit test for it, but it doesn't trigger anythin=
+g. Maybe
+> > > it's too simple, or racy, and thus we are not flushing any of the que=
+ues from
+> > > kvfree_rcu_barrier()?
+> >
+> > Thanks, your test readily triggers it for me, but only if I load
+> > rcutorture at the same time.
+>=20
+> Oops, I sent the wrong kernel messages. This is the relevant part:
+>=20
+> [  142.371052] workqueue: WQ_MEM_RECLAIM
+> test_kfree_rcu_destroy_wq:cache_destroy_workfn [slub_kunit] is
+> flushing !WQ_MEM_RECLAIM events_unbound:kfree_rcu_work
+> [  142.371072] WARNING: CPU: 11 PID: 186 at kernel/workqueue.c:3715
+> check_flush_dependency.part.0+0xad/0x100
+> [  142.375748] Modules linked in: slub_kunit(E) rcutorture(E)
+> torture(E) kunit(E) iTCO_wdt(E) iTCO_vendor_support(E)
+> intel_uncore_frequency_common(E) skx_edac_common(E) nfit(E)
+> libnvdimm(E) kvm_intel(E) kvm(E) evdev(E) bochs(E) serio_raw(E)
+> drm_kms_helper(E) i2c_i801(E) e1000e(E) i2c_smbus(E) intel_agp(E)
+> intel_gtt(E) lpc_ich(E) agpgart(E) mfd_core(E) drm_shm]
+> [  142.384553] CPU: 11 UID: 0 PID: 186 Comm: kworker/u64:11 Tainted: G
+>            E    N 6.13.0-04839-g5e7b40f0ddce-dirty #831
+> [  142.386755] Tainted: [E]=3DUNSIGNED_MODULE, [N]=3DTEST
+> [  142.387849] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009),
+> BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
+> [  142.390236] Workqueue: test_kfree_rcu_destroy_wq
+> cache_destroy_workfn [slub_kunit]
+> [  142.391863] RIP: 0010:check_flush_dependency.part.0+0xad/0x100
+> [  142.393183] Code: 75 dc 48 8b 55 18 49 8d 8d 78 01 00 00 4d 89 f0
+> 48 81 c6 78 01 00 00 48 c7 c7 00 e1 9a 82 c6 05 4f 39 c5 02 01 e8 53
+> bd fd ff <0f> 0b 5b 5d 41 5c 41 5d 41 5e c3 80 3d 39 39 c5 02 00 75 83
+> 41 8b
+> [  142.396981] RSP: 0018:ffffc900007cfc90 EFLAGS: 00010092
+> [  142.398124] RAX: 000000000000008f RBX: ffff88803e9b10a0 RCX: 000000000=
+0000027
+> [  142.399605] RDX: ffff88803eba0d08 RSI: 0000000000000001 RDI: ffff88803=
+eba0d00
+> [  142.401092] RBP: ffff888007d9a480 R08: ffffffff83b8c808 R09: 000000000=
+0000003
+> [  142.402548] R10: ffffffff8348c820 R11: ffffffff83a11d58 R12: ffff88800=
+7150000
+> [  142.404098] R13: ffff888005961400 R14: ffffffff813221a0 R15: ffff88800=
+5961400
+> [  142.405561] FS:  0000000000000000(0000) GS:ffff88803eb80000(0000)
+> knlGS:0000000000000000
+> [  142.407297] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [  142.408658] CR2: 00007f826bd1a000 CR3: 00000000069db002 CR4: 000000000=
+0772ef0
+> [  142.410259] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 000000000=
+0000000
+> [  142.411871] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 000000000=
+0000400
+> [  142.413341] PKRU: 55555554
+> [  142.414038] Call Trace:
+> [  142.414658]  <TASK>
+> [  142.415249]  ? __warn+0x8d/0x180
+> [  142.416035]  ? check_flush_dependency.part.0+0xad/0x100
+> [  142.417182]  ? report_bug+0x160/0x170
+> [  142.418041]  ? handle_bug+0x4f/0x90
+> [  142.418861]  ? exc_invalid_op+0x14/0x70
+> [  142.419853]  ? asm_exc_invalid_op+0x16/0x20
+> [  142.420877]  ? kfree_rcu_shrink_scan+0x120/0x120
+> [  142.422029]  ? check_flush_dependency.part.0+0xad/0x100
+> [  142.423244]  __flush_work+0x38a/0x4a0
+> [  142.424157]  ? find_held_lock+0x2b/0x80
+> [  142.425070]  ? flush_rcu_work+0x26/0x40
+> [  142.425953]  ? lock_release+0xb3/0x250
+> [  142.426785]  ? __mutex_unlock_slowpath+0x2c/0x270
+> [  142.427906]  flush_rcu_work+0x30/0x40
+> [  142.428756]  kvfree_rcu_barrier+0xe9/0x130
+> [  142.429649]  kmem_cache_destroy+0x2b/0x1f0
+> [  142.430578]  cache_destroy_workfn+0x20/0x40 [slub_kunit]
+> [  142.431729]  process_one_work+0x1cd/0x560
+> [  142.432620]  worker_thread+0x183/0x310
+> [  142.433487]  ? rescuer_thread+0x330/0x330
+> [  142.434428]  kthread+0xd8/0x1d0
+> [  142.435248]  ? ret_from_fork+0x17/0x50
+> [  142.436165]  ? lock_release+0xb3/0x250
+> [  142.437106]  ? kthreads_online_cpu+0xf0/0xf0
+> [  142.438133]  ret_from_fork+0x2d/0x50
+> [  142.439045]  ? kthreads_online_cpu+0xf0/0xf0
+> [  142.440428]  ret_from_fork_asm+0x11/0x20
+> [  142.441476]  </TASK>
+> [  142.442152] irq event stamp: 22858
+> [  142.443002] hardirqs last  enabled at (22857): [<ffffffff82044ef4>]
+> _raw_spin_unlock_irq+0x24/0x30
+> [  142.445032] hardirqs last disabled at (22858): [<ffffffff82044ce3>]
+> _raw_spin_lock_irq+0x43/0x50
+> [  142.451450] softirqs last  enabled at (22714): [<ffffffff810bfdbc>]
+> __irq_exit_rcu+0xac/0xd0
+> [  142.453345] softirqs last disabled at (22709): [<ffffffff810bfdbc>]
+> __irq_exit_rcu+0xac/0xd0
+> [  142.455305] ---[ end trace 0000000000000000 ]---
+Thanks!
 
-Sure, but if you like the 0xffeffc0000000000 offset I'll just drop this par=
-t.
+I can trigger this also:
 
->
->> >However, I just realized that this check is not entirely precise. When
->> >doing the memory-to-shadow mapping, the memory address always has its
->> >top byte set to 0xff: both the inlined compiler code and the outline
->> >KASAN code do this
->>
->> Do you mean that non-canonical addresses passed to kasan_mem_to_shadow()=
- will
->> map to the same space that the canonical version would map to?
->
->No, but non-canonical address are never passed to
->kasan_mem_to_shadow(): KASAN always resets the tag before calling this
->function.
->
->> What does that? Does the compiler do something more than is in
->> kasan_mem_to_shadow() when instrumenting functions?
->
->Same for the compiler, it always untags the pointer first [1].
->
->[1] https://github.com/llvm/llvm-project/blob/llvmorg-20-init/llvm/lib/Tra=
-nsforms/Instrumentation/HWAddressSanitizer.cpp#L922
->
->> >                   Thus, the possible values a shadow address can
->> >take are the result of the memory-to-shadow mapping applied to
->> >[0xff00000000000000, 0xffffffffffffffff], not to the whole address
->> >space. So we can make this check more precise.
->>
->> In case my question above didn't lead to this: what happens to the rest =
-of the
->> values if they get plugged into kasan_mem_to_shadow()?
->
->We will get some invalid addresses. But this should never happen in
->the first place.
+<snip>
+[   21.712856] KTAP version 1
+[   21.712862] 1..1
+[   21.714486]     KTAP version 1
+[   21.714490]     # Subtest: slub_test
+[   21.714492]     # module: slub_kunit
+[   21.714495]     1..10
+[   21.750359]     ok 1 test_clobber_zone
+[   21.750955]     ok 2 test_next_pointer
+[   21.751532]     ok 3 test_first_word
+[   21.751991]     ok 4 test_clobber_50th_byte
+[   21.752493]     ok 5 test_clobber_redzone_free
+[   21.753004] stackdepot: allocating hash table of 1048576 entries via kvc=
+alloc
+[   21.756176]     ok 6 test_kmalloc_redzone_access
+[   21.806549]     ok 7 test_kfree_rcu
+[   22.058010] ------------[ cut here ]------------
+[   22.058015] workqueue: WQ_MEM_RECLAIM test_kfree_rcu_destroy_wq:cache_de=
+stroy_workfn [slub_kunit] is flushing !WQ_MEM_RECLAIM events_unbound:kfree_=
+rcu_work
+[   22.058039] WARNING: CPU: 19 PID: 474 at kernel/workqueue.c:3715 check_f=
+lush_dependency.part.0+0xbe/0x130
+[   22.058047] Modules linked in: slub_kunit(E) kunit(E) binfmt_misc(E) boc=
+hs(E) drm_client_lib(E) drm_shmem_helper(E) ppdev(E) drm_kms_helper(E) snd_=
+pcm(E) sg(E) snd_timer(E) evdev(E) snd(E) joydev(E) parport_pc(E) parport(E=
+) soundcore(E) serio_raw(E) button(E) pcspkr(E) drm(E) fuse(E) dm_mod(E) ef=
+i_pstore(E) configfs(E) loop(E) qemu_fw_cfg(E) ip_tables(E) x_tables(E) aut=
+ofs4(E) ext4(E) crc16(E) mbcache(E) jbd2(E) sr_mod(E) sd_mod(E) cdrom(E) at=
+a_generic(E) ata_piix(E) libata(E) scsi_mod(E) i2c_piix4(E) psmouse(E) e100=
+0(E) i2c_smbus(E) scsi_common(E) floppy(E)
+[   22.058091] CPU: 19 UID: 0 PID: 474 Comm: kworker/u257:0 Kdump: loaded T=
+ainted: G            E    N 6.14.0-rc1+ #286
+[   22.058096] Tainted: [E]=3DUNSIGNED_MODULE, [N]=3DTEST
+[   22.058097] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS =
+1.16.2-debian-1.16.2-1 04/01/2014
+[   22.058099] Workqueue: test_kfree_rcu_destroy_wq cache_destroy_workfn [s=
+lub_kunit]
+[   22.058103] RIP: 0010:check_flush_dependency.part.0+0xbe/0x130
+[   22.058106] Code: 75 d0 48 8b 55 18 49 8d 8d c0 00 00 00 4d 89 f0 48 81 =
+c6 c0 00 00 00 48 c7 c7 b0 7d c8 bd c6 05 6c 78 53 01 01 e8 a2 ae fd ff <0f=
+> 0b 5b 5d 41 5c 41 5d 41 5e c3 cc cc cc cc f6 c4 08 74 94 31 ed
+[   22.058108] RSP: 0018:ffff95e5c123fd50 EFLAGS: 00010086
+[   22.058111] RAX: 0000000000000000 RBX: ffff89a4ff22d5a0 RCX: 00000000000=
+00000
+[   22.058113] RDX: 0000000000000003 RSI: ffffffffbdce1697 RDI: 00000000fff=
+fffff
+[   22.058114] RBP: ffff89961043a780 R08: 0000000000000000 R09: 00000000000=
+00003
+[   22.058116] R10: ffff95e5c123fbe8 R11: ffff89a53fefefa8 R12: ffff89960cb=
+6b080
+[   22.058117] R13: ffff899600051400 R14: ffffffffbcf2ba80 R15: ffff8996000=
+5a800
+[   22.058120] FS:  0000000000000000(0000) GS:ffff89a4ff2c0000(0000) knlGS:=
+0000000000000000
+[   22.058122] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   22.058124] CR2: 000055bf2cbc6038 CR3: 000000010dc1e000 CR4: 00000000000=
+006f0
+[   22.058128] Call Trace:
+[   22.058130]  <TASK>
+[   22.058133]  ? __warn+0x85/0x130
+[   22.058137]  ? check_flush_dependency.part.0+0xbe/0x130
+[   22.058139]  ? report_bug+0x18d/0x1c0
+[   22.058142]  ? prb_read_valid+0x17/0x20
+[   22.058147]  ? handle_bug+0x58/0x90
+[   22.058151]  ? exc_invalid_op+0x13/0x60
+[   22.058154]  ? asm_exc_invalid_op+0x16/0x20
+[   22.058158]  ? __pfx_kfree_rcu_work+0x10/0x10
+[   22.058162]  ? check_flush_dependency.part.0+0xbe/0x130
+[   22.058165]  __flush_work+0xd6/0x320
+[   22.058168]  flush_rcu_work+0x39/0x50
+[   22.058171]  kvfree_rcu_barrier+0xe9/0x130
+[   22.058174]  kmem_cache_destroy+0x18/0x140
+[   22.058177]  process_one_work+0x184/0x3a0
+[   22.058180]  worker_thread+0x24d/0x360
+[   22.058183]  ? __pfx_worker_thread+0x10/0x10
+[   22.058185]  kthread+0xfc/0x230
+[   22.058189]  ? finish_task_switch.isra.0+0x85/0x2a0
+[   22.058192]  ? __pfx_kthread+0x10/0x10
+[   22.058195]  ret_from_fork+0x30/0x50
+[   22.058199]  ? __pfx_kthread+0x10/0x10
+[   22.058202]  ret_from_fork_asm+0x1a/0x30
+[   22.058206]  </TASK>
+[   22.058207] ---[ end trace 0000000000000000 ]---
+[   23.123507]     ok 8 test_kfree_rcu_wq_destroy
+[   23.151033]     ok 9 test_leak_destroy
+[   23.151612]     ok 10 test_krealloc_redzone_zeroing
+[   23.151617] # slub_test: pass:10 fail:0 skip:0 total:10
+[   23.151619] # Totals: pass:10 fail:0 skip:0 total:10
+[   23.151620] ok 1 slub_test
+urezki@pc638:~$
+<snip>
 
-Thanks for letting me know about the tag resets, that should make changing =
-the
-check in kasan_non_canonical_hook() easier.
+but i had to adapt slightly the Vlastimil's test:
 
---=20
-Kind regards
-Maciej Wiecz=C3=B3r-Retman
+diff --git a/lib/slub_kunit.c b/lib/slub_kunit.c
+index f11691315c2f..222f6d204b0d 100644
+--- a/lib/slub_kunit.c
++++ b/lib/slub_kunit.c
+@@ -6,6 +6,7 @@
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/rcupdate.h>
++#include <linux/delay.h>
+ #include "../mm/slab.h"
+
+ static struct kunit_resource resource;
+@@ -181,6 +182,63 @@ static void test_kfree_rcu(struct kunit *test)
+        KUNIT_EXPECT_EQ(test, 0, slab_errors);
+ }
+
++struct cache_destroy_work {
++        struct work_struct work;
++        struct kmem_cache *s;
++};
++
++static void cache_destroy_workfn(struct work_struct *w)
++{
++       struct cache_destroy_work *cdw;
++
++       cdw =3D container_of(w, struct cache_destroy_work, work);
++       kmem_cache_destroy(cdw->s);
++}
++
++#define KMEM_CACHE_DESTROY_NR 10
++
++static void test_kfree_rcu_wq_destroy(struct kunit *test)
++{
++       struct test_kfree_rcu_struct *p;
++       struct cache_destroy_work cdw;
++       struct workqueue_struct *wq;
++       struct kmem_cache *s;
++       unsigned int rnd;
++       int i;
++
++       if (IS_BUILTIN(CONFIG_SLUB_KUNIT_TEST))
++               kunit_skip(test, "can't do kfree_rcu() when test is built-i=
+n");
++
++       INIT_WORK_ONSTACK(&cdw.work, cache_destroy_workfn);
++       wq =3D alloc_workqueue("test_kfree_rcu_destroy_wq",
++                       WQ_HIGHPRI | WQ_UNBOUND | WQ_MEM_RECLAIM, 0);
++
++       if (!wq)
++               kunit_skip(test, "failed to alloc wq");
++
++       for (i =3D 0; i < KMEM_CACHE_DESTROY_NR; i++) {
++               s =3D test_kmem_cache_create("TestSlub_kfree_rcu_wq_destroy=
+",
++                               sizeof(struct test_kfree_rcu_struct),
++                               SLAB_NO_MERGE);
++
++               if (!s)
++                       kunit_skip(test, "failed to create cache");
++
++               rnd =3D get_random_u8() % 255;
++               p =3D kmem_cache_alloc(s, GFP_KERNEL);
++               kfree_rcu(p, rcu);
++
++               cdw.s =3D s;
++
++               msleep(rnd);
++               queue_work(wq, &cdw.work);
++               flush_work(&cdw.work);
++       }
++
++       destroy_workqueue(wq);
++       KUNIT_EXPECT_EQ(test, 0, slab_errors);
++}
++
+ static void test_leak_destroy(struct kunit *test)
+ {
+        struct kmem_cache *s =3D test_kmem_cache_create("TestSlub_leak_dest=
+roy",
+@@ -254,6 +312,7 @@ static struct kunit_case test_cases[] =3D {
+        KUNIT_CASE(test_clobber_redzone_free),
+        KUNIT_CASE(test_kmalloc_redzone_access),
+        KUNIT_CASE(test_kfree_rcu),
++       KUNIT_CASE(test_kfree_rcu_wq_destroy),
+        KUNIT_CASE(test_leak_destroy),
+        KUNIT_CASE(test_krealloc_redzone_zeroing),
+        {}
+
+--
+Uladzislau Rezki
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/u=
-up72ceniis544hgfaojy5omctzf7gs4qlydyv2szkr5hqia32%40t6fgaxcaw2oi.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/Z=
+74Av6tlSOqcfb-q%40pc636.
