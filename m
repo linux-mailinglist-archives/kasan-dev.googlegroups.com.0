@@ -1,123 +1,124 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBS4OTO7AMGQEX2Y56RY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBT4OTO7AMGQE2HU33II@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43e.google.com (mail-wr1-x43e.google.com [IPv6:2a00:1450:4864:20::43e])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCAF1A4D827
-	for <lists+kasan-dev@lfdr.de>; Tue,  4 Mar 2025 10:26:36 +0100 (CET)
-Received: by mail-wr1-x43e.google.com with SMTP id ffacd0b85a97d-390eefb2913sf2573770f8f.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 04 Mar 2025 01:26:36 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1741080396; cv=pass;
+Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 698C6A4D82A
+	for <lists+kasan-dev@lfdr.de>; Tue,  4 Mar 2025 10:26:41 +0100 (CET)
+Received: by mail-lf1-x137.google.com with SMTP id 2adb3069b0e04-5494c69e9c5sf2821240e87.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 04 Mar 2025 01:26:41 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1741080401; cv=pass;
         d=google.com; s=arc-20240605;
-        b=KM5wn0oE5h6krXEN2YBVd3l1lcTPcVLemZyPpOC7RSxYh/kCluPKekuWyyAKDfmvSF
-         eMFtopRd/V/KjIlANrOXYK0wZU1taprAyjiu3E5ck2OMVh+ipHw6eZNsKTruhn8CroZu
-         A07ZP9xJPcnTCZzCMoCpSCKNWThCWFNGgasmp47G3uWpwazO7L0G+/2E94t/2ZX5Rsuq
-         qtnn2MLxgXpcRRnXx4zL/zF8KBwzdjctG0MYw6IBh6ZLbVszt6tYefmPyUl7ABogKjVx
-         2X2dAc1RfU7cFl5pZL0dRlttg2AtonFqqdm14t2DGPscT2DvYRhYSuawT1MeeW1/f5BW
-         HB1Q==
+        b=jPJZilsWKh0UXW3nyGZX4EFIOhn0Cyj3BQRNfvAvra3xJJ84qZ824UJSkmzUTMSxay
+         H3ax0Bpad95gTRMKeSEVqauHMTVIkQEllXc2U/Ar5I5UK7i0s6ZGToTMXUS6t0CIQ7zR
+         gO46ZDrpxPNXtuDCwg5hyH6TlNjvyRV/ZLl5ih0pUyoSLPJO6tl3JER/wGdU8Hmt4w78
+         ktpIbpxKonEG4uSPB+snqkdtVN3AMYB2CfQecrlrXgNRO1WUg3dJWeXx0fu6r7A5gbar
+         o4yMlxGM1aVs7dH7MAI/BgaLSbG0UCSHMgfGD+ZNGdw5fzJKJuUU5E/8D1+OWb0pgyNd
+         rFSg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=dfB5r40ZEzq3D4hBInj5z3dyiE5TZf4kc6si+dkZzV0=;
-        fh=MUZrcTYGnpc85hPn8lq+vMoHPrBTpbkAAPRkS5gDSl4=;
-        b=ayesdxkiXDQob8DSrq+YBfS8tceFO9a01wzz8eMjKb4FkFjaSkpVG4wV2N3lAX0G0J
-         QchvqzQYae06W41oIZX1stOtlhaDeeoSdaPiGPK82NDdUQn09UCDbm1Wk54u+cgXl1Cq
-         /UiqVNMvCTyToYZC+g0GKK1JyA8zFR26VMvHKLeUAkRkF0JDw6loBk/5ERPrGEZ73whx
-         RBrdQLACRwKs122Ip5JV14zdUPxyNgz4T0vXAjBnd5dWsh9GWNdcEItQBDFndeW55mLv
-         zNzXcM5EWPf+CmD2cuwo881ASglv6ORk7qR5sP/YRr3J4G/wLIO5OconJ9V5om+5qQxl
-         bk2A==;
+        bh=lYiCcj6ZRERbP2SfvA+KfOep5+a/TSViBOMjnMINVTg=;
+        fh=YOmgXqv/Ns9aW4qftWgJqkvx1EMbnfdyv45WgZnO/aI=;
+        b=hVtpvqysl+NYp260yXIT8Z71+C9rq5pIAPys+EY7sQOE3n65sTEolkZVlpUsgLl2oP
+         Fqja1j/N7kTR5oqMlXgcZW5E53z8lJYblT+L18fGGwS7LPSHkSiSvQgWo7iA7638wIma
+         MrbA3vWqO8TpAAwvjKr6StuOr7ZKLZbDt/Dyd7fmmmTn7NFFYhtyBvhEaArhMTT6reom
+         MffA2+WdRv9DfPl328/zCCVg/Y6FMV1IFzjt584qPlLoiQeIPRebEJ639Lex+TWRlta+
+         6lKsFXPQzCBM0E0AI8zKzo+VB9oNNuySAnl+KMIJeoXZLjAl2Hw4r/gYopw0L3w/O3al
+         bmGA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b="GX3ku/uO";
-       spf=pass (google.com: domain of 3scfgzwukctgyfpylaiiafy.wigeumuh-xypaiiafyaliojm.wig@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3ScfGZwUKCTgYfpYlaiiafY.WigeUmUh-XYpaiiafYaliojm.Wig@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b="zIJ/YXTz";
+       spf=pass (google.com: domain of 3s8fgzwukctoahranckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3S8fGZwUKCToahranckkcha.YkigWoWj-Zarckkchacnkqlo.Yki@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1741080396; x=1741685196; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1741080401; x=1741685201; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=dfB5r40ZEzq3D4hBInj5z3dyiE5TZf4kc6si+dkZzV0=;
-        b=umeWbmPCEFCj8kBWVjYpIXys0ftSunZZFfezv9Cfja/qai+EhiGjL52rqmW//J7W6e
-         dWMM/+J4Hj572pwf56RDIRKNAcpckLaYxm+2wNTmCpGYM/6d354mLfQEKPACMOIFJ7LI
-         vwaJC30+sStFI63lJXOASehzJIKqtEqjVxpfs8wpYe4/qao0XHWtdhUXclB+6h4dFKc2
-         Hq8ikHcUQDLg2fgSGH7pOKxnR5iS0o7aaGmUcg7hc7UkIWmHWn0IZosOoTW/cyeG0L+j
-         tHqb1qkGifcM2+kiwqHOfW5f5WmPNKtl8fMHDh06u1R+Y/x7Zqnv7JG56wHW8A4SdoEq
-         QW4w==
+        bh=lYiCcj6ZRERbP2SfvA+KfOep5+a/TSViBOMjnMINVTg=;
+        b=P7cirllNslexMSABOVp1GaSm0A7sYbJ+zNJ6DKNtfGQXf3RACNhapWTMkdPxsm2FtG
+         B7xgeCKGu4HyMkLZTcMJcI97akTyMF9mI1711DyR9gdcB/6v1VUlh3rWfMZXmjyAMXMm
+         2S2hsZAD/hV9ipPZq4HjgQNwQxUKYDI/BIZZLa81XlVdZN0CSivKK2PRgGONI7fdvOXc
+         SHK+270KfOBJmJpVRLMcroVtOJtbb6CVeRKNrzPR17LApR/ourACVlLf7rDlQNTzTCK2
+         LMMB+ZrUB2nlgPKKBjjRameouqdlxzOgW4XPuSATF0nWEueZtxi69RCIxedt0u9bpnxT
+         mgnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741080396; x=1741685196;
+        d=1e100.net; s=20230601; t=1741080401; x=1741685201;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dfB5r40ZEzq3D4hBInj5z3dyiE5TZf4kc6si+dkZzV0=;
-        b=t7kuCIMJbbbPu1fdl9dBrNlPxNZi4hbI4/huz3RZ0dj2Y1/W8OpWMSi2lBTokcC9CZ
-         G460iLR44I0hxzGeetRuEpVgQ4G6KsFy0UjVscKtJpTcKVkDcLWFF8qT8VfkaqaHeHaU
-         4OfaBYIUhUNG0tzhZgeUf3LS0bEpwD4Rm9lUv3YLJwNTyepxBbWOcM7rFDVWO7DB5wOa
-         egxY29M/0QYAlWJTU2M9eD5gVEDG/xTceICu9cdAIvcXdgif6L72z6A4n5q/hBS/6JOp
-         aIpHPLwBBgBz5NMaOTrpeXA8LC3eliw3E5iPtJRqD41CSSkxwQfQK6O5gvKuH3yeiGiK
-         d11Q==
-X-Forwarded-Encrypted: i=2; AJvYcCXkxOK/LFYRw0DWRmqvpsE0w42+XyHRDnqfa4BfdVF4FVBaTCm+fLes4vYqy5qkn7JclGgv9A==@lfdr.de
-X-Gm-Message-State: AOJu0YwoLEa9iiVEoYV9yUmKMcnJ9Gy3sOXlaiy2Phu6LSEf1B0TdXmu
-	Y66Ce5Ppi8o7M0kUqmQRLroYVLdxL/36M8RUrBt/G8RSGZXw7kdh
-X-Google-Smtp-Source: AGHT+IHnjCI1MDL8oVOUl8BygJqEl/pwaQQXMdWM3NmeJZG6gL3wmqW4aIi2sAem6A3f9+7SYFW2HA==
-X-Received: by 2002:a05:6000:184c:b0:390:f358:85db with SMTP id ffacd0b85a97d-390f358866fmr12755967f8f.30.1741080396028;
+        bh=lYiCcj6ZRERbP2SfvA+KfOep5+a/TSViBOMjnMINVTg=;
+        b=ZP/+yv6UJOFSro/stbmMVaEiLMcv4x8bpUXZI3uqKxFSfq0Yrm4rHiIPrUV0A2MhlG
+         rcW22qY1yZe+tW5nqSWQU7okzdX2GijDIP2THAiAdaLwJ0RtC9LkkCuUpVOPrAkAJVDT
+         lZEqXwL1aq6WpOfI3Puz5GbjceJ6oye+Brai5uQ8lH1OvIlmlOsjUTol5ICOIlbYFJ4F
+         xQqb6bYiyhh5lTXTTvZ8/N6PzYwLbHsC+yrWI86wYeoTyxce8KZS4XbJE/4Tl210d//f
+         eJ0Txj2ZSGfr2O9YLwnZq6zJ8UTEaOR3rxs+25P2wZHY2RJNUGzx9bCB6qgF+R/79Ody
+         hT1A==
+X-Forwarded-Encrypted: i=2; AJvYcCWLQcrm7Uf6Xs/sCg8LnP/mkigbXDCrTY0EpoToFVPyknKayrG6d9PIfrtIKyyzWBO6w9CwYA==@lfdr.de
+X-Gm-Message-State: AOJu0Yx+r2DnMn29BRAk2vdafqHdiXUFKW52MZXnhrhhWIupFULtcUa3
+	q89CYKJCNfkAXCJOL9FZUOaN9ZjyJSp8MJUIiU18yD8EX7m4fCkW
+X-Google-Smtp-Source: AGHT+IGNT7p/jRraDmzrYBRiRysWomLoIvVAF42ZDud281MfH6Qq39yjFz0evaC4vDh6ikb/t9fZFQ==
+X-Received: by 2002:a05:6512:3e0c:b0:545:2ab1:3de with SMTP id 2adb3069b0e04-5494c31c5e0mr5903950e87.13.1741080400291;
+        Tue, 04 Mar 2025 01:26:40 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVFlhz4i30sguEjsOXq2l1xRei3H54gsGWK0fe5/n5uGDA==
+Received: by 2002:a05:6512:3e13:b0:546:2202:f742 with SMTP id
+ 2adb3069b0e04-54942e023e0ls389650e87.0.-pod-prod-02-eu; Tue, 04 Mar 2025
+ 01:26:36 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUcuADFyXIm9NwQm48dTwP8X+HxwRGxD9QrDD79oAKi9KbNpYvYJmuzAkN+f247XnBJScxG5ISI7lU=@googlegroups.com
+X-Received: by 2002:a05:6512:3f10:b0:545:8a1:5386 with SMTP id 2adb3069b0e04-5494c32b003mr5903916e87.25.1741080396246;
         Tue, 04 Mar 2025 01:26:36 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVGVakC84tky34Hfx3HBNP+t/o7pPMSAC14WnHXGGKRUIg==
-Received: by 2002:a5d:6d8e:0:b0:38f:2234:229b with SMTP id ffacd0b85a97d-390e12f73f8ls3113693f8f.2.-pod-prod-09-eu;
- Tue, 04 Mar 2025 01:26:33 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCVFrXRkTj2dNBp8c1MFx3ykbetEXRFI8sS/E/pSmunquIm0i43x4D/T2g8CSNR+z7XrIzQ5toOFaHA=@googlegroups.com
-X-Received: by 2002:a05:6000:18a6:b0:391:c61:1de8 with SMTP id ffacd0b85a97d-3910c612000mr5672403f8f.16.1741080393547;
-        Tue, 04 Mar 2025 01:26:33 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1741080393; cv=none;
+ARC-Seal: i=1; a=rsa-sha256; t=1741080396; cv=none;
         d=google.com; s=arc-20240605;
-        b=kyrP5LsxfBm+3hReCAYurtIOVw819VeFL1g0hsGQQHHTWemx/GJO4joWrLe5P7D1Gj
-         wQHvukmoZZZbvlyhPonRcmswrsERZDdZ2AmZszwim1qoFK47Q0/UmssIU/vUPE0ruGdX
-         NvDgN4kzL4BHqVp0CBTEVybei6tdQUACI91tUvflqWe44pWEEcb98PTXx8j8SegEDdwx
-         6+bjZAFzdRwmHxl+0HRQpZYJqFHF2R+BQCHjED7KKfLTVrrhR8EqhahVhSvIMF7aH2b2
-         CQQOyMsw1KFHB/7Yj2iUeMWUfLQu3Hhq35tsSnLWrUzCJFcUD2AkSjsM3VTLlOXNhXkv
-         Wiqw==
+        b=flOBn0SIODk4WY5znHA7FzvAL3mp2y5iLfNr+oD9OiG+bh5+AD4J51vbwaJ3jrmPZB
+         hEGMdRJM9gzgJ9sZHxRzZVTTlgCxhGF8134PxsnJsrenZ++Qphyk0qmkr2t2InF7QpN7
+         2yMKQag5v8/LOTSy+y3Lwu+iQnFPB4RLMGFuMXbT7kCFFML48/q1RbgETihxLYINAqOv
+         bDT7LpJR+1tmEz7fpal3U2kab8NLotFPvDt4WSIwCjndzVdlFwkRV3QoV245yTUH4ggM
+         5oW0yr4RXfSrUGtwbNZSP0qz/9DgLK5Zm7tHW3Yf6/SbsnaC8NvVFNuuWYBMtUEt54yz
+         FL8Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=iDk2VwqwOTTMZfSkXTf6seWDq1RAdZgqLjXPZ94M0QA=;
-        fh=dcYpYOdXXSymFPBNhJY0YeTyEQVDCWGnvlGGwN+O+as=;
-        b=DwcDC5UeRDOxsYT1HfnZ9jV57UyBtlhcOVA5OFAjfWFy1BFDByFyf/JVzpyRYoL4y3
-         8gz/UC0rtfcRPL44IoKx2wWSxUReTPW1zWLqIO4FEchQkPq4ukvYMXqQBsN3VmfRTJ5z
-         wLVv8cNnL1mUsXtRzNAoRcVvLv4thHYGjq0TmfwqlZc8AmmwkWhUNjGu+8tuDPjboYXy
-         VNR00jQmW6u5pTBazHDShSO+6/Bq3mUg6hnlXXTLBtF7DfrzQhV6ttauPbBN1ysCzbxT
-         5X/qNrWB12cG/I7mv0yzEznxfPnoaOTV6LB/DOVFYtYDikYGM1mCiEXpRPaAvMo0u9qZ
-         nA7Q==;
+        bh=0TZMHeiGcug1Z1nRKjwzk3pJ4ZD+AmZ+4WkrJaQv32Y=;
+        fh=/dqOfT4/Q+ALCFBj3htHmD/zWO9FTqJVy9pZDVVAago=;
+        b=YfnyEoMmglXTWMEksQw4IXwHjtozBo5Hhfic18jvWaZSRnFtzV9w4U+VV7ERZpuNMc
+         cUUBMuFFPgK6+yfUPYmR+88bKREF6nDMlutTFhfqQMUQFqx57LCrOR6JfpIPxmKNy0I4
+         7xIdAwqzfYhG0aeiZ2fH53GjqmIbHM1Zb6GCTYsY+Hpvc3/jprwFYMKTZTTNQlFXJZA6
+         V6BvfPLY2qjRwW5JRW0bq1zzBYPpUWbIw0QFy9ttNYSPmOAqK7A3GTyVzTLgI5PVGA4E
+         yHe1A0W5rLMzd7XOlzCWdVZADx9Bb+se9yAjHjPaR2K7kCLb+PiSRVux60Oam06c026l
+         38VQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b="GX3ku/uO";
-       spf=pass (google.com: domain of 3scfgzwukctgyfpylaiiafy.wigeumuh-xypaiiafyaliojm.wig@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3ScfGZwUKCTgYfpYlaiiafY.WigeUmUh-XYpaiiafYaliojm.Wig@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b="zIJ/YXTz";
+       spf=pass (google.com: domain of 3s8fgzwukctoahranckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3S8fGZwUKCToahranckkcha.YkigWoWj-Zarckkchacnkqlo.Yki@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-ej1-x649.google.com (mail-ej1-x649.google.com. [2a00:1450:4864:20::649])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-390e482c506si366543f8f.7.2025.03.04.01.26.33
+Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com. [2a00:1450:4864:20::449])
+        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-54954f95ee1si328576e87.4.2025.03.04.01.26.36
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Mar 2025 01:26:33 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3scfgzwukctgyfpylaiiafy.wigeumuh-xypaiiafyaliojm.wig@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) client-ip=2a00:1450:4864:20::649;
-Received: by mail-ej1-x649.google.com with SMTP id a640c23a62f3a-ab7f6f6cd96so638328166b.2
-        for <kasan-dev@googlegroups.com>; Tue, 04 Mar 2025 01:26:33 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX4nhAvmMEDnWNYU24Y3L1KvrxCOCdua36hqwM14L/nr/AMgvTQwD0FqIco0EgWTkRU7j74NhnnNkU=@googlegroups.com
-X-Received: from ejcsn10.prod.google.com ([2002:a17:906:628a:b0:ac1:fb2a:4a65])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:3e0f:b0:abf:718f:ef27
- with SMTP id a640c23a62f3a-abf718ff14amr868693766b.1.1741080393090; Tue, 04
- Mar 2025 01:26:33 -0800 (PST)
-Date: Tue,  4 Mar 2025 10:21:30 +0100
+        Tue, 04 Mar 2025 01:26:36 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3s8fgzwukctoahranckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) client-ip=2a00:1450:4864:20::449;
+Received: by mail-wr1-x449.google.com with SMTP id ffacd0b85a97d-390f7db84faso2427677f8f.2
+        for <kasan-dev@googlegroups.com>; Tue, 04 Mar 2025 01:26:36 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVBinoGDO9jKziV/a9YEK+79AQBzOS2p+q1qudhgqDe/c6GUVf09awOD4mloDhKftXvzXkDxYojUuc=@googlegroups.com
+X-Received: from wmpz17.prod.google.com ([2002:a05:600c:a11:b0:43b:cc0a:a2c6])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:186b:b0:391:13d6:c9e5
+ with SMTP id ffacd0b85a97d-39113d6cc59mr3890950f8f.19.1741080395602; Tue, 04
+ Mar 2025 01:26:35 -0800 (PST)
+Date: Tue,  4 Mar 2025 10:21:31 +0100
 In-Reply-To: <20250304092417.2873893-1-elver@google.com>
 Mime-Version: 1.0
 References: <20250304092417.2873893-1-elver@google.com>
 X-Mailer: git-send-email 2.48.1.711.g2feabab25a-goog
-Message-ID: <20250304092417.2873893-32-elver@google.com>
-Subject: [PATCH v2 31/34] drivers/tty: Enable capability analysis for core files
+Message-ID: <20250304092417.2873893-33-elver@google.com>
+Subject: [PATCH v2 32/34] security/tomoyo: Enable capability analysis
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com
 Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
@@ -141,9 +142,9 @@ Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenry
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b="GX3ku/uO";       spf=pass
- (google.com: domain of 3scfgzwukctgyfpylaiiafy.wigeumuh-xypaiiafyaliojm.wig@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3ScfGZwUKCTgYfpYlaiiafY.WigeUmUh-XYpaiiafYaliojm.Wig@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b="zIJ/YXTz";       spf=pass
+ (google.com: domain of 3s8fgzwukctoahranckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3S8fGZwUKCToahranckkcha.YkigWoWj-Zarckkchacnkqlo.Yki@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -160,591 +161,681 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Enable capability analysis for drivers/tty/*.
+Enable capability analysis for security/tomoyo.
 
 This demonstrates a larger conversion to use Clang's capability
 analysis. The benefit is additional static checking of locking rules,
 along with better documentation.
 
+Tomoyo makes use of several synchronization primitives, yet its clear
+design made it relatively straightforward to enable capability analysis.
+
+One notable finding was:
+
+  security/tomoyo/gc.c:664:20: error: reading variable 'write_buf' requires holding mutex '&tomoyo_io_buffer::io_sem'
+    664 |                 is_write = head->write_buf != NULL;
+
+For which Tetsuo writes:
+
+  "Good catch. This should be data_race(), for tomoyo_write_control()
+   might concurrently update head->write_buf from non-NULL to non-NULL
+   with head->io_sem held."
+
 Signed-off-by: Marco Elver <elver@google.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jiri Slaby <jirislaby@kernel.org>
+Cc: Kentaro Takeda <takedakn@nttdata.co.jp>
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 ---
 v2:
 * New patch.
 ---
- drivers/tty/Makefile      |  3 +++
- drivers/tty/n_tty.c       | 16 ++++++++++++++++
- drivers/tty/pty.c         |  1 +
- drivers/tty/sysrq.c       |  1 +
- drivers/tty/tty.h         |  8 ++++----
- drivers/tty/tty_buffer.c  |  8 +++-----
- drivers/tty/tty_io.c      | 12 +++++++++---
- drivers/tty/tty_ioctl.c   |  2 +-
- drivers/tty/tty_ldisc.c   | 35 ++++++++++++++++++++++++++++++++---
- drivers/tty/tty_ldsem.c   |  2 ++
- drivers/tty/tty_mutex.c   |  4 ++++
- drivers/tty/tty_port.c    |  2 ++
- include/linux/tty.h       | 14 +++++++-------
- include/linux/tty_flip.h  |  4 ++--
- include/linux/tty_ldisc.h | 19 ++++++++++---------
- 15 files changed, 97 insertions(+), 34 deletions(-)
+ security/tomoyo/Makefile  |  2 +
+ security/tomoyo/common.c  | 52 ++++++++++++++++++++++++--
+ security/tomoyo/common.h  | 77 ++++++++++++++++++++-------------------
+ security/tomoyo/domain.c  |  1 +
+ security/tomoyo/environ.c |  1 +
+ security/tomoyo/file.c    |  5 +++
+ security/tomoyo/gc.c      | 28 ++++++++++----
+ security/tomoyo/mount.c   |  2 +
+ security/tomoyo/network.c |  3 ++
+ 9 files changed, 122 insertions(+), 49 deletions(-)
 
-diff --git a/drivers/tty/Makefile b/drivers/tty/Makefile
-index 07aca5184a55..35e1a62cbe16 100644
---- a/drivers/tty/Makefile
-+++ b/drivers/tty/Makefile
-@@ -1,4 +1,7 @@
+diff --git a/security/tomoyo/Makefile b/security/tomoyo/Makefile
+index 55c67b9846a9..6b395ca4e3d2 100644
+--- a/security/tomoyo/Makefile
++++ b/security/tomoyo/Makefile
+@@ -1,4 +1,6 @@
  # SPDX-License-Identifier: GPL-2.0
-+
 +CAPABILITY_ANALYSIS := y
 +
- obj-$(CONFIG_TTY)		+= tty_io.o n_tty.o tty_ioctl.o tty_ldisc.o \
- 				   tty_buffer.o tty_port.o tty_mutex.o \
- 				   tty_ldsem.o tty_baudrate.o tty_jobctrl.o \
-diff --git a/drivers/tty/n_tty.c b/drivers/tty/n_tty.c
-index 5e9ca4376d68..45925fc5a8fd 100644
---- a/drivers/tty/n_tty.c
-+++ b/drivers/tty/n_tty.c
-@@ -1088,6 +1088,7 @@ static void __isig(int sig, struct tty_struct *tty)
-  * Locking: %ctrl.lock
+ obj-y = audit.o common.o condition.o domain.o environ.o file.o gc.o group.o load_policy.o memory.o mount.o network.o realpath.o securityfs_if.o tomoyo.o util.o
+ 
+ targets += builtin-policy.h
+diff --git a/security/tomoyo/common.c b/security/tomoyo/common.c
+index 0f78898bce09..fa9fd134c9cc 100644
+--- a/security/tomoyo/common.c
++++ b/security/tomoyo/common.c
+@@ -268,6 +268,7 @@ static void tomoyo_io_printf(struct tomoyo_io_buffer *head, const char *fmt,
   */
- static void isig(int sig, struct tty_struct *tty)
-+	__must_hold_shared(&tty->termios_rwsem)
+ static void tomoyo_io_printf(struct tomoyo_io_buffer *head, const char *fmt,
+ 			     ...)
++	__must_hold(&head->io_sem)
  {
- 	struct n_tty_data *ldata = tty->disc_data;
- 
-@@ -1135,6 +1136,7 @@ static void isig(int sig, struct tty_struct *tty)
-  * Note: may get exclusive %termios_rwsem if flushing input buffer
+ 	va_list args;
+ 	size_t len;
+@@ -416,8 +417,9 @@ static void tomoyo_print_name_union_quoted(struct tomoyo_io_buffer *head,
+  *
+  * Returns nothing.
   */
- static void n_tty_receive_break(struct tty_struct *tty)
-+	__must_hold_shared(&tty->termios_rwsem)
+-static void tomoyo_print_number_union_nospace
+-(struct tomoyo_io_buffer *head, const struct tomoyo_number_union *ptr)
++static void
++tomoyo_print_number_union_nospace(struct tomoyo_io_buffer *head, const struct tomoyo_number_union *ptr)
++	__must_hold(&head->io_sem)
  {
- 	struct n_tty_data *ldata = tty->disc_data;
- 
-@@ -1204,6 +1206,7 @@ static void n_tty_receive_parity_error(const struct tty_struct *tty,
- 
- static void
- n_tty_receive_signal_char(struct tty_struct *tty, int signal, u8 c)
-+	__must_hold_shared(&tty->termios_rwsem)
+ 	if (ptr->group) {
+ 		tomoyo_set_string(head, "@");
+@@ -466,6 +468,7 @@ static void tomoyo_print_number_union_nospace
+  */
+ static void tomoyo_print_number_union(struct tomoyo_io_buffer *head,
+ 				      const struct tomoyo_number_union *ptr)
++	__must_hold(&head->io_sem)
  {
- 	isig(signal, tty);
- 	if (I_IXON(tty))
-@@ -1353,6 +1356,7 @@ static bool n_tty_receive_char_canon(struct tty_struct *tty, u8 c)
- 
- static void n_tty_receive_char_special(struct tty_struct *tty, u8 c,
- 				       bool lookahead_done)
-+	__must_hold_shared(&tty->termios_rwsem)
+ 	tomoyo_set_space(head);
+ 	tomoyo_print_number_union_nospace(head, ptr);
+@@ -664,6 +667,7 @@ static int tomoyo_set_mode(char *name, const char *value,
+  * Returns 0 on success, negative value otherwise.
+  */
+ static int tomoyo_write_profile(struct tomoyo_io_buffer *head)
++	__must_hold(&head->io_sem)
  {
- 	struct n_tty_data *ldata = tty->disc_data;
- 
-@@ -1463,6 +1467,7 @@ static void n_tty_receive_char_closing(struct tty_struct *tty, u8 c,
- 
- static void
- n_tty_receive_char_flagged(struct tty_struct *tty, u8 c, u8 flag)
-+	__must_hold_shared(&tty->termios_rwsem)
+ 	char *data = head->write_buf;
+ 	unsigned int i;
+@@ -719,6 +723,7 @@ static int tomoyo_write_profile(struct tomoyo_io_buffer *head)
+  * Caller prints functionality's name.
+  */
+ static void tomoyo_print_config(struct tomoyo_io_buffer *head, const u8 config)
++	__must_hold(&head->io_sem)
  {
- 	switch (flag) {
- 	case TTY_BREAK:
-@@ -1483,6 +1488,7 @@ n_tty_receive_char_flagged(struct tty_struct *tty, u8 c, u8 flag)
+ 	tomoyo_io_printf(head, "={ mode=%s grant_log=%s reject_log=%s }\n",
+ 			 tomoyo_mode[config & 3],
+@@ -734,6 +739,7 @@ static void tomoyo_print_config(struct tomoyo_io_buffer *head, const u8 config)
+  * Returns nothing.
+  */
+ static void tomoyo_read_profile(struct tomoyo_io_buffer *head)
++	__must_hold(&head->io_sem)
+ {
+ 	u8 index;
+ 	struct tomoyo_policy_namespace *ns =
+@@ -852,6 +858,7 @@ static bool tomoyo_same_manager(const struct tomoyo_acl_head *a,
+  */
+ static int tomoyo_update_manager_entry(const char *manager,
+ 				       const bool is_delete)
++	__must_hold_shared(&tomoyo_ss)
+ {
+ 	struct tomoyo_manager e = { };
+ 	struct tomoyo_acl_param param = {
+@@ -883,6 +890,8 @@ static int tomoyo_update_manager_entry(const char *manager,
+  * Caller holds tomoyo_read_lock().
+  */
+ static int tomoyo_write_manager(struct tomoyo_io_buffer *head)
++	__must_hold_shared(&tomoyo_ss)
++	__must_hold(&head->io_sem)
+ {
+ 	char *data = head->write_buf;
  
- static void
- n_tty_receive_char_lnext(struct tty_struct *tty, u8 c, u8 flag)
-+	__must_hold_shared(&tty->termios_rwsem)
+@@ -901,6 +910,7 @@ static int tomoyo_write_manager(struct tomoyo_io_buffer *head)
+  * Caller holds tomoyo_read_lock().
+  */
+ static void tomoyo_read_manager(struct tomoyo_io_buffer *head)
++	__must_hold_shared(&tomoyo_ss)
  {
- 	struct n_tty_data *ldata = tty->disc_data;
+ 	if (head->r.eof)
+ 		return;
+@@ -927,6 +937,7 @@ static void tomoyo_read_manager(struct tomoyo_io_buffer *head)
+  * Caller holds tomoyo_read_lock().
+  */
+ static bool tomoyo_manager(void)
++	__must_hold_shared(&tomoyo_ss)
+ {
+ 	struct tomoyo_manager *ptr;
+ 	const char *exe;
+@@ -981,6 +992,8 @@ static struct tomoyo_domain_info *tomoyo_find_domain_by_qid
+  */
+ static bool tomoyo_select_domain(struct tomoyo_io_buffer *head,
+ 				 const char *data)
++	__must_hold_shared(&tomoyo_ss)
++	__must_hold(&head->io_sem)
+ {
+ 	unsigned int pid;
+ 	struct tomoyo_domain_info *domain = NULL;
+@@ -1051,6 +1064,7 @@ static bool tomoyo_same_task_acl(const struct tomoyo_acl_info *a,
+  * Caller holds tomoyo_read_lock().
+  */
+ static int tomoyo_write_task(struct tomoyo_acl_param *param)
++	__must_hold_shared(&tomoyo_ss)
+ {
+ 	int error = -EINVAL;
  
-@@ -1540,6 +1546,7 @@ n_tty_receive_buf_real_raw(const struct tty_struct *tty, const u8 *cp,
- static void
- n_tty_receive_buf_raw(struct tty_struct *tty, const u8 *cp, const u8 *fp,
- 		      size_t count)
-+	__must_hold_shared(&tty->termios_rwsem)
+@@ -1079,6 +1093,7 @@ static int tomoyo_write_task(struct tomoyo_acl_param *param)
+  * Caller holds tomoyo_read_lock().
+  */
+ static int tomoyo_delete_domain(char *domainname)
++	__must_hold_shared(&tomoyo_ss)
  {
- 	struct n_tty_data *ldata = tty->disc_data;
- 	u8 flag = TTY_NORMAL;
-@@ -1571,6 +1578,7 @@ n_tty_receive_buf_closing(struct tty_struct *tty, const u8 *cp, const u8 *fp,
- static void n_tty_receive_buf_standard(struct tty_struct *tty, const u8 *cp,
- 				       const u8 *fp, size_t count,
- 				       bool lookahead_done)
-+	__must_hold_shared(&tty->termios_rwsem)
+ 	struct tomoyo_domain_info *domain;
+ 	struct tomoyo_path_info name;
+@@ -1118,6 +1133,7 @@ static int tomoyo_delete_domain(char *domainname)
+ static int tomoyo_write_domain2(struct tomoyo_policy_namespace *ns,
+ 				struct list_head *list, char *data,
+ 				const bool is_delete)
++	__must_hold_shared(&tomoyo_ss)
  {
- 	struct n_tty_data *ldata = tty->disc_data;
- 	u8 flag = TTY_NORMAL;
-@@ -1609,6 +1617,7 @@ static void n_tty_receive_buf_standard(struct tty_struct *tty, const u8 *cp,
- 
- static void __receive_buf(struct tty_struct *tty, const u8 *cp, const u8 *fp,
- 			  size_t count)
-+	__must_hold_shared(&tty->termios_rwsem)
+ 	struct tomoyo_acl_param param = {
+ 		.ns = ns,
+@@ -1162,6 +1178,8 @@ const char * const tomoyo_dif[TOMOYO_MAX_DOMAIN_INFO_FLAGS] = {
+  * Caller holds tomoyo_read_lock().
+  */
+ static int tomoyo_write_domain(struct tomoyo_io_buffer *head)
++	__must_hold_shared(&tomoyo_ss)
++	__must_hold(&head->io_sem)
  {
- 	struct n_tty_data *ldata = tty->disc_data;
- 	bool preops = I_ISTRIP(tty) || (I_IUCLC(tty) && L_IEXTEN(tty));
-@@ -2188,6 +2197,10 @@ static ssize_t n_tty_read(struct tty_struct *tty, struct file *file, u8 *kbuf,
- 				return kb - kbuf;
+ 	char *data = head->write_buf;
+ 	struct tomoyo_policy_namespace *ns;
+@@ -1223,6 +1241,7 @@ static int tomoyo_write_domain(struct tomoyo_io_buffer *head)
+  */
+ static bool tomoyo_print_condition(struct tomoyo_io_buffer *head,
+ 				   const struct tomoyo_condition *cond)
++	__must_hold(&head->io_sem)
+ {
+ 	switch (head->r.cond_step) {
+ 	case 0:
+@@ -1364,6 +1383,7 @@ static bool tomoyo_print_condition(struct tomoyo_io_buffer *head,
+  */
+ static void tomoyo_set_group(struct tomoyo_io_buffer *head,
+ 			     const char *category)
++	__must_hold(&head->io_sem)
+ {
+ 	if (head->type == TOMOYO_EXCEPTIONPOLICY) {
+ 		tomoyo_print_namespace(head);
+@@ -1383,6 +1403,7 @@ static void tomoyo_set_group(struct tomoyo_io_buffer *head,
+  */
+ static bool tomoyo_print_entry(struct tomoyo_io_buffer *head,
+ 			       struct tomoyo_acl_info *acl)
++	__must_hold(&head->io_sem)
+ {
+ 	const u8 acl_type = acl->type;
+ 	bool first = true;
+@@ -1588,6 +1609,8 @@ static bool tomoyo_print_entry(struct tomoyo_io_buffer *head,
+  */
+ static bool tomoyo_read_domain2(struct tomoyo_io_buffer *head,
+ 				struct list_head *list)
++	__must_hold_shared(&tomoyo_ss)
++	__must_hold(&head->io_sem)
+ {
+ 	list_for_each_cookie(head->r.acl, list) {
+ 		struct tomoyo_acl_info *ptr =
+@@ -1608,6 +1631,8 @@ static bool tomoyo_read_domain2(struct tomoyo_io_buffer *head,
+  * Caller holds tomoyo_read_lock().
+  */
+ static void tomoyo_read_domain(struct tomoyo_io_buffer *head)
++	__must_hold_shared(&tomoyo_ss)
++	__must_hold(&head->io_sem)
+ {
+ 	if (head->r.eof)
+ 		return;
+@@ -1686,6 +1711,7 @@ static int tomoyo_write_pid(struct tomoyo_io_buffer *head)
+  * using read()/write() interface rather than sysctl() interface.
+  */
+ static void tomoyo_read_pid(struct tomoyo_io_buffer *head)
++	__must_hold(&head->io_sem)
+ {
+ 	char *buf = head->write_buf;
+ 	bool global_pid = false;
+@@ -1746,6 +1772,8 @@ static const char *tomoyo_group_name[TOMOYO_MAX_GROUP] = {
+  * Caller holds tomoyo_read_lock().
+  */
+ static int tomoyo_write_exception(struct tomoyo_io_buffer *head)
++	__must_hold_shared(&tomoyo_ss)
++	__must_hold(&head->io_sem)
+ {
+ 	const bool is_delete = head->w.is_delete;
+ 	struct tomoyo_acl_param param = {
+@@ -1787,6 +1815,8 @@ static int tomoyo_write_exception(struct tomoyo_io_buffer *head)
+  * Caller holds tomoyo_read_lock().
+  */
+ static bool tomoyo_read_group(struct tomoyo_io_buffer *head, const int idx)
++	__must_hold_shared(&tomoyo_ss)
++	__must_hold(&head->io_sem)
+ {
+ 	struct tomoyo_policy_namespace *ns =
+ 		container_of(head->r.ns, typeof(*ns), namespace_list);
+@@ -1846,6 +1876,7 @@ static bool tomoyo_read_group(struct tomoyo_io_buffer *head, const int idx)
+  * Caller holds tomoyo_read_lock().
+  */
+ static bool tomoyo_read_policy(struct tomoyo_io_buffer *head, const int idx)
++	__must_hold_shared(&tomoyo_ss)
+ {
+ 	struct tomoyo_policy_namespace *ns =
+ 		container_of(head->r.ns, typeof(*ns), namespace_list);
+@@ -1906,6 +1937,8 @@ static bool tomoyo_read_policy(struct tomoyo_io_buffer *head, const int idx)
+  * Caller holds tomoyo_read_lock().
+  */
+ static void tomoyo_read_exception(struct tomoyo_io_buffer *head)
++	__must_hold_shared(&tomoyo_ss)
++	__must_hold(&head->io_sem)
+ {
+ 	struct tomoyo_policy_namespace *ns =
+ 		container_of(head->r.ns, typeof(*ns), namespace_list);
+@@ -2097,6 +2130,7 @@ static void tomoyo_patternize_path(char *buffer, const int len, char *entry)
+  * Returns nothing.
+  */
+ static void tomoyo_add_entry(struct tomoyo_domain_info *domain, char *header)
++	__must_hold_shared(&tomoyo_ss)
+ {
+ 	char *buffer;
+ 	char *realpath = NULL;
+@@ -2301,6 +2335,7 @@ static __poll_t tomoyo_poll_query(struct file *file, poll_table *wait)
+  * @head: Pointer to "struct tomoyo_io_buffer".
+  */
+ static void tomoyo_read_query(struct tomoyo_io_buffer *head)
++	__must_hold(&head->io_sem)
+ {
+ 	struct list_head *tmp;
+ 	unsigned int pos = 0;
+@@ -2362,6 +2397,7 @@ static void tomoyo_read_query(struct tomoyo_io_buffer *head)
+  * Returns 0 on success, -EINVAL otherwise.
+  */
+ static int tomoyo_write_answer(struct tomoyo_io_buffer *head)
++	__must_hold(&head->io_sem)
+ {
+ 	char *data = head->write_buf;
+ 	struct list_head *tmp;
+@@ -2401,6 +2437,7 @@ static int tomoyo_write_answer(struct tomoyo_io_buffer *head)
+  * Returns version information.
+  */
+ static void tomoyo_read_version(struct tomoyo_io_buffer *head)
++	__must_hold(&head->io_sem)
+ {
+ 	if (!head->r.eof) {
+ 		tomoyo_io_printf(head, "2.6.0");
+@@ -2449,6 +2486,7 @@ void tomoyo_update_stat(const u8 index)
+  * Returns nothing.
+  */
+ static void tomoyo_read_stat(struct tomoyo_io_buffer *head)
++	__must_hold(&head->io_sem)
+ {
+ 	u8 i;
+ 	unsigned int total = 0;
+@@ -2493,6 +2531,7 @@ static void tomoyo_read_stat(struct tomoyo_io_buffer *head)
+  * Returns 0.
+  */
+ static int tomoyo_write_stat(struct tomoyo_io_buffer *head)
++	__must_hold(&head->io_sem)
+ {
+ 	char *data = head->write_buf;
+ 	u8 i;
+@@ -2717,6 +2756,8 @@ ssize_t tomoyo_read_control(struct tomoyo_io_buffer *head, char __user *buffer,
+  * Caller holds tomoyo_read_lock().
+  */
+ static int tomoyo_parse_policy(struct tomoyo_io_buffer *head, char *line)
++	__must_hold_shared(&tomoyo_ss)
++	__must_hold(&head->io_sem)
+ {
+ 	/* Delete request? */
+ 	head->w.is_delete = !strncmp(line, "delete ", 7);
+@@ -2969,8 +3010,11 @@ void __init tomoyo_load_builtin_policy(void)
+ 				break;
+ 			*end = '\0';
+ 			tomoyo_normalize_line(start);
+-			head.write_buf = start;
+-			tomoyo_parse_policy(&head, start);
++			/* head is stack-local and not shared. */
++			capability_unsafe(
++				head.write_buf = start;
++				tomoyo_parse_policy(&head, start);
++			);
+ 			start = end + 1;
  		}
+ 	}
+diff --git a/security/tomoyo/common.h b/security/tomoyo/common.h
+index 0e8e2e959aef..2ff05653743c 100644
+--- a/security/tomoyo/common.h
++++ b/security/tomoyo/common.h
+@@ -827,13 +827,13 @@ struct tomoyo_io_buffer {
+ 		bool is_delete;
+ 	} w;
+ 	/* Buffer for reading.                  */
+-	char *read_buf;
++	char *read_buf		__guarded_by(&io_sem);
+ 	/* Size of read buffer.                 */
+-	size_t readbuf_size;
++	size_t readbuf_size	__guarded_by(&io_sem);
+ 	/* Buffer for writing.                  */
+-	char *write_buf;
++	char *write_buf		__guarded_by(&io_sem);
+ 	/* Size of write buffer.                */
+-	size_t writebuf_size;
++	size_t writebuf_size	__guarded_by(&io_sem);
+ 	/* Type of this interface.              */
+ 	enum tomoyo_securityfs_interface_index type;
+ 	/* Users counter protected by tomoyo_io_buffer_list_lock. */
+@@ -922,6 +922,35 @@ struct tomoyo_task {
+ 	struct tomoyo_domain_info *old_domain_info;
+ };
  
-+		/* Adopted locks from prior call. */
-+		__acquire(&ldata->atomic_read_lock);
-+		__acquire_shared(&tty->termios_rwsem);
++/********** External variable definitions. **********/
 +
- 		/* No more data - release locks and stop retries */
- 		n_tty_kick_worker(tty);
- 		n_tty_check_unthrottle(tty);
-@@ -2305,6 +2318,9 @@ static ssize_t n_tty_read(struct tty_struct *tty, struct file *file, u8 *kbuf,
- more_to_be_read:
- 				remove_wait_queue(&tty->read_wait, &wait);
- 				*cookie = cookie;
-+				/* Hand-off locks to retry with cookie set. */
-+				__release_shared(&tty->termios_rwsem);
-+				__release(&ldata->atomic_read_lock);
- 				return kb - kbuf;
- 			}
- 		}
-diff --git a/drivers/tty/pty.c b/drivers/tty/pty.c
-index 8bb1a01fef2a..8d4eb0f4c84c 100644
---- a/drivers/tty/pty.c
-+++ b/drivers/tty/pty.c
-@@ -824,6 +824,7 @@ static int ptmx_open(struct inode *inode, struct file *filp)
- 	tty = tty_init_dev(ptm_driver, index);
- 	/* The tty returned here is locked so we can safely
- 	   drop the mutex */
-+	lockdep_assert_held(&tty->legacy_mutex);
- 	mutex_unlock(&tty_mutex);
++extern bool tomoyo_policy_loaded;
++extern int tomoyo_enabled;
++extern const char * const tomoyo_condition_keyword
++[TOMOYO_MAX_CONDITION_KEYWORD];
++extern const char * const tomoyo_dif[TOMOYO_MAX_DOMAIN_INFO_FLAGS];
++extern const char * const tomoyo_mac_keywords[TOMOYO_MAX_MAC_INDEX
++					      + TOMOYO_MAX_MAC_CATEGORY_INDEX];
++extern const char * const tomoyo_mode[TOMOYO_CONFIG_MAX_MODE];
++extern const char * const tomoyo_path_keyword[TOMOYO_MAX_PATH_OPERATION];
++extern const char * const tomoyo_proto_keyword[TOMOYO_SOCK_MAX];
++extern const char * const tomoyo_socket_keyword[TOMOYO_MAX_NETWORK_OPERATION];
++extern const u8 tomoyo_index2category[TOMOYO_MAX_MAC_INDEX];
++extern const u8 tomoyo_pn2mac[TOMOYO_MAX_PATH_NUMBER_OPERATION];
++extern const u8 tomoyo_pnnn2mac[TOMOYO_MAX_MKDEV_OPERATION];
++extern const u8 tomoyo_pp2mac[TOMOYO_MAX_PATH2_OPERATION];
++extern struct list_head tomoyo_condition_list;
++extern struct list_head tomoyo_domain_list;
++extern struct list_head tomoyo_name_list[TOMOYO_MAX_HASH];
++extern struct list_head tomoyo_namespace_list;
++extern struct mutex tomoyo_policy_lock;
++extern struct srcu_struct tomoyo_ss;
++extern struct tomoyo_domain_info tomoyo_kernel_domain;
++extern struct tomoyo_policy_namespace tomoyo_kernel_namespace;
++extern unsigned int tomoyo_memory_quota[TOMOYO_MAX_MEMORY_STAT];
++extern unsigned int tomoyo_memory_used[TOMOYO_MAX_MEMORY_STAT];
++extern struct lsm_blob_sizes tomoyo_blob_sizes;
++
+ /********** Function prototypes. **********/
  
- 	retval = PTR_ERR(tty);
-diff --git a/drivers/tty/sysrq.c b/drivers/tty/sysrq.c
-index f85ce02e4725..82dfa964c965 100644
---- a/drivers/tty/sysrq.c
-+++ b/drivers/tty/sysrq.c
-@@ -149,6 +149,7 @@ static const struct sysrq_key_op sysrq_unraw_op = {
- static void sysrq_handle_crash(u8 key)
- {
- 	/* release the RCU read lock before crashing */
-+	lockdep_assert_in_rcu_read_lock();
- 	rcu_read_unlock();
+ bool tomoyo_address_matches_group(const bool is_ipv6, const __be32 *address,
+@@ -969,10 +998,10 @@ const struct tomoyo_path_info *tomoyo_path_matches_group
+ int tomoyo_check_open_permission(struct tomoyo_domain_info *domain,
+ 				 const struct path *path, const int flag);
+ void tomoyo_close_control(struct tomoyo_io_buffer *head);
+-int tomoyo_env_perm(struct tomoyo_request_info *r, const char *env);
++int tomoyo_env_perm(struct tomoyo_request_info *r, const char *env) __must_hold_shared(&tomoyo_ss);
+ int tomoyo_execute_permission(struct tomoyo_request_info *r,
+-			      const struct tomoyo_path_info *filename);
+-int tomoyo_find_next_domain(struct linux_binprm *bprm);
++			      const struct tomoyo_path_info *filename) __must_hold_shared(&tomoyo_ss);
++int tomoyo_find_next_domain(struct linux_binprm *bprm) __must_hold_shared(&tomoyo_ss);
+ int tomoyo_get_mode(const struct tomoyo_policy_namespace *ns, const u8 profile,
+ 		    const u8 index);
+ int tomoyo_init_request_info(struct tomoyo_request_info *r,
+@@ -1000,6 +1029,7 @@ int tomoyo_socket_listen_permission(struct socket *sock);
+ int tomoyo_socket_sendmsg_permission(struct socket *sock, struct msghdr *msg,
+ 				     int size);
+ int tomoyo_supervisor(struct tomoyo_request_info *r, const char *fmt, ...)
++	__must_hold_shared(&tomoyo_ss)
+ 	__printf(2, 3);
+ int tomoyo_update_domain(struct tomoyo_acl_info *new_entry, const int size,
+ 			 struct tomoyo_acl_param *param,
+@@ -1059,7 +1089,7 @@ void tomoyo_print_ulong(char *buffer, const int buffer_len,
+ 			const unsigned long value, const u8 type);
+ void tomoyo_put_name_union(struct tomoyo_name_union *ptr);
+ void tomoyo_put_number_union(struct tomoyo_number_union *ptr);
+-void tomoyo_read_log(struct tomoyo_io_buffer *head);
++void tomoyo_read_log(struct tomoyo_io_buffer *head) __must_hold(&head->io_sem);
+ void tomoyo_update_stat(const u8 index);
+ void tomoyo_warn_oom(const char *function);
+ void tomoyo_write_log(struct tomoyo_request_info *r, const char *fmt, ...)
+@@ -1067,35 +1097,6 @@ void tomoyo_write_log(struct tomoyo_request_info *r, const char *fmt, ...)
+ void tomoyo_write_log2(struct tomoyo_request_info *r, int len, const char *fmt,
+ 		       va_list args) __printf(3, 0);
  
- 	panic("sysrq triggered crash\n");
-diff --git a/drivers/tty/tty.h b/drivers/tty/tty.h
-index 93cf5ef1e857..1a3c2f663b28 100644
---- a/drivers/tty/tty.h
-+++ b/drivers/tty/tty.h
-@@ -60,15 +60,15 @@ static inline void tty_set_flow_change(struct tty_struct *tty,
- 	smp_mb();
- }
- 
--int tty_ldisc_lock(struct tty_struct *tty, unsigned long timeout);
--void tty_ldisc_unlock(struct tty_struct *tty);
-+int tty_ldisc_lock(struct tty_struct *tty, unsigned long timeout) __cond_acquires(0, &tty->ldisc_sem);
-+void tty_ldisc_unlock(struct tty_struct *tty) __releases(&tty->ldisc_sem);
- 
- int __tty_check_change(struct tty_struct *tty, int sig);
- int tty_check_change(struct tty_struct *tty);
- void __stop_tty(struct tty_struct *tty);
- void __start_tty(struct tty_struct *tty);
--void tty_write_unlock(struct tty_struct *tty);
--int tty_write_lock(struct tty_struct *tty, bool ndelay);
-+void tty_write_unlock(struct tty_struct *tty) __releases(&tty->atomic_write_lock);
-+int tty_write_lock(struct tty_struct *tty, bool ndelay) __cond_acquires(0, &tty->atomic_write_lock);
- void tty_vhangup_session(struct tty_struct *tty);
- void tty_open_proc_set_tty(struct file *filp, struct tty_struct *tty);
- int tty_signal_session_leader(struct tty_struct *tty, int exit_session);
-diff --git a/drivers/tty/tty_buffer.c b/drivers/tty/tty_buffer.c
-index 79f0ff94ce00..dcc56537290f 100644
---- a/drivers/tty/tty_buffer.c
-+++ b/drivers/tty/tty_buffer.c
-@@ -52,10 +52,8 @@
-  */
- void tty_buffer_lock_exclusive(struct tty_port *port)
- {
--	struct tty_bufhead *buf = &port->buf;
+-/********** External variable definitions. **********/
 -
--	atomic_inc(&buf->priority);
--	mutex_lock(&buf->lock);
-+	atomic_inc(&port->buf.priority);
-+	mutex_lock(&port->buf.lock);
- }
- EXPORT_SYMBOL_GPL(tty_buffer_lock_exclusive);
- 
-@@ -73,7 +71,7 @@ void tty_buffer_unlock_exclusive(struct tty_port *port)
- 	bool restart = buf->head->commit != buf->head->read;
- 
- 	atomic_dec(&buf->priority);
--	mutex_unlock(&buf->lock);
-+	mutex_unlock(&port->buf.lock);
- 
- 	if (restart)
- 		queue_work(system_unbound_wq, &buf->work);
-diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
-index 449dbd216460..1eb3794fde4b 100644
---- a/drivers/tty/tty_io.c
-+++ b/drivers/tty/tty_io.c
-@@ -167,6 +167,7 @@ static void release_tty(struct tty_struct *tty, int idx);
-  * Locking: none. Must be called after tty is definitely unused
-  */
- static void free_tty_struct(struct tty_struct *tty)
-+	__capability_unsafe(/* destructor */)
- {
- 	tty_ldisc_deinit(tty);
- 	put_device(tty->dev);
-@@ -965,7 +966,7 @@ static ssize_t iterate_tty_write(struct tty_ldisc *ld, struct tty_struct *tty,
- 	ssize_t ret, written = 0;
- 
- 	ret = tty_write_lock(tty, file->f_flags & O_NDELAY);
--	if (ret < 0)
-+	if (ret)
- 		return ret;
- 
- 	/*
-@@ -1154,7 +1155,7 @@ int tty_send_xchar(struct tty_struct *tty, u8 ch)
- 		return 0;
- 	}
- 
--	if (tty_write_lock(tty, false) < 0)
-+	if (tty_write_lock(tty, false))
- 		return -ERESTARTSYS;
- 
- 	down_read(&tty->termios_rwsem);
-@@ -1391,6 +1392,7 @@ static int tty_reopen(struct tty_struct *tty)
-  * Return: new tty structure
-  */
- struct tty_struct *tty_init_dev(struct tty_driver *driver, int idx)
-+	__capability_unsafe(/* returns with locked tty */)
- {
- 	struct tty_struct *tty;
- 	int retval;
-@@ -1874,6 +1876,7 @@ int tty_release(struct inode *inode, struct file *filp)
-  * will not work then. It expects inodes to be from devpts FS.
-  */
- static struct tty_struct *tty_open_current_tty(dev_t device, struct file *filp)
-+	__capability_unsafe(/* returns with locked tty */)
- {
- 	struct tty_struct *tty;
- 	int retval;
-@@ -2037,6 +2040,7 @@ EXPORT_SYMBOL_GPL(tty_kopen_shared);
-  */
- static struct tty_struct *tty_open_by_driver(dev_t device,
- 					     struct file *filp)
-+	__capability_unsafe(/* returns with locked tty */)
- {
- 	struct tty_struct *tty;
- 	struct tty_driver *driver = NULL;
-@@ -2137,6 +2141,8 @@ static int tty_open(struct inode *inode, struct file *filp)
- 		goto retry_open;
- 	}
- 
-+	lockdep_assert_held(&tty->legacy_mutex);
-+
- 	tty_add_file(tty, filp);
- 
- 	check_tty_count(tty, __func__);
-@@ -2486,7 +2492,7 @@ static int send_break(struct tty_struct *tty, unsigned int duration)
- 		return tty->ops->break_ctl(tty, duration);
- 
- 	/* Do the work ourselves */
--	if (tty_write_lock(tty, false) < 0)
-+	if (tty_write_lock(tty, false))
- 		return -EINTR;
- 
- 	retval = tty->ops->break_ctl(tty, -1);
-diff --git a/drivers/tty/tty_ioctl.c b/drivers/tty/tty_ioctl.c
-index 85de90eebc7b..a7ae6cbf3450 100644
---- a/drivers/tty/tty_ioctl.c
-+++ b/drivers/tty/tty_ioctl.c
-@@ -489,7 +489,7 @@ static int set_termios(struct tty_struct *tty, void __user *arg, int opt)
- 		if (retval < 0)
- 			return retval;
- 
--		if (tty_write_lock(tty, false) < 0)
-+		if (tty_write_lock(tty, false))
- 			goto retry_write_wait;
- 
- 		/* Racing writer? */
-diff --git a/drivers/tty/tty_ldisc.c b/drivers/tty/tty_ldisc.c
-index d80e9d4c974b..e07a5980604e 100644
---- a/drivers/tty/tty_ldisc.c
-+++ b/drivers/tty/tty_ldisc.c
-@@ -237,6 +237,7 @@ const struct seq_operations tty_ldiscs_seq_ops = {
-  * to wait for any ldisc lifetime events to finish.
-  */
- struct tty_ldisc *tty_ldisc_ref_wait(struct tty_struct *tty)
-+	__cond_acquires_shared(nonnull, &tty->ldisc_sem)
- {
- 	struct tty_ldisc *ld;
- 
-@@ -257,6 +258,7 @@ EXPORT_SYMBOL_GPL(tty_ldisc_ref_wait);
-  * and timer functions.
-  */
- struct tty_ldisc *tty_ldisc_ref(struct tty_struct *tty)
-+	__cond_acquires_shared(nonnull, &tty->ldisc_sem)
- {
- 	struct tty_ldisc *ld = NULL;
- 
-@@ -277,26 +279,43 @@ EXPORT_SYMBOL_GPL(tty_ldisc_ref);
-  * in IRQ context.
-  */
- void tty_ldisc_deref(struct tty_ldisc *ld)
-+	__releases_shared(&ld->tty->ldisc_sem)
- {
- 	ldsem_up_read(&ld->tty->ldisc_sem);
- }
- EXPORT_SYMBOL_GPL(tty_ldisc_deref);
- 
-+/*
-+ * Note: Capability analysis does not like asymmetric interfaces (above types
-+ * for ref and deref are tty_struct and tty_ldisc respectively -- which are
-+ * dependent, but the compiler cannot figure that out); in this case, work
-+ * around that with this helper which takes an unused @tty argument but tells
-+ * the analysis which lock is released.
-+ */
-+static inline void __tty_ldisc_deref(struct tty_struct *tty, struct tty_ldisc *ld)
-+	__releases_shared(&tty->ldisc_sem)
-+	__capability_unsafe(/* matches released with tty_ldisc_ref() */)
-+{
-+	tty_ldisc_deref(ld);
-+}
- 
- static inline int
- __tty_ldisc_lock(struct tty_struct *tty, unsigned long timeout)
-+	__cond_acquires(true, &tty->ldisc_sem)
- {
- 	return ldsem_down_write(&tty->ldisc_sem, timeout);
- }
- 
- static inline int
- __tty_ldisc_lock_nested(struct tty_struct *tty, unsigned long timeout)
-+	__cond_acquires(true, &tty->ldisc_sem)
- {
- 	return ldsem_down_write_nested(&tty->ldisc_sem,
- 				       LDISC_SEM_OTHER, timeout);
- }
- 
- static inline void __tty_ldisc_unlock(struct tty_struct *tty)
-+	__releases(&tty->ldisc_sem)
- {
- 	ldsem_up_write(&tty->ldisc_sem);
- }
-@@ -328,6 +347,8 @@ void tty_ldisc_unlock(struct tty_struct *tty)
- static int
- tty_ldisc_lock_pair_timeout(struct tty_struct *tty, struct tty_struct *tty2,
- 			    unsigned long timeout)
-+	__cond_acquires(0, &tty->ldisc_sem)
-+	__cond_acquires(0, &tty2->ldisc_sem)
- {
- 	int ret;
- 
-@@ -362,16 +383,23 @@ tty_ldisc_lock_pair_timeout(struct tty_struct *tty, struct tty_struct *tty2,
- }
- 
- static void tty_ldisc_lock_pair(struct tty_struct *tty, struct tty_struct *tty2)
-+	__acquires(&tty->ldisc_sem)
-+	__acquires(&tty2->ldisc_sem)
-+	__capability_unsafe(/* MAX_SCHEDULE_TIMEOUT ensures acquisition */)
- {
- 	tty_ldisc_lock_pair_timeout(tty, tty2, MAX_SCHEDULE_TIMEOUT);
- }
- 
- static void tty_ldisc_unlock_pair(struct tty_struct *tty,
- 				  struct tty_struct *tty2)
-+	__releases(&tty->ldisc_sem)
-+	__releases(&tty2->ldisc_sem)
- {
- 	__tty_ldisc_unlock(tty);
- 	if (tty2)
- 		__tty_ldisc_unlock(tty2);
-+	else
-+		__release(&tty2->ldisc_sem);
- }
+-extern bool tomoyo_policy_loaded;
+-extern int tomoyo_enabled;
+-extern const char * const tomoyo_condition_keyword
+-[TOMOYO_MAX_CONDITION_KEYWORD];
+-extern const char * const tomoyo_dif[TOMOYO_MAX_DOMAIN_INFO_FLAGS];
+-extern const char * const tomoyo_mac_keywords[TOMOYO_MAX_MAC_INDEX
+-					      + TOMOYO_MAX_MAC_CATEGORY_INDEX];
+-extern const char * const tomoyo_mode[TOMOYO_CONFIG_MAX_MODE];
+-extern const char * const tomoyo_path_keyword[TOMOYO_MAX_PATH_OPERATION];
+-extern const char * const tomoyo_proto_keyword[TOMOYO_SOCK_MAX];
+-extern const char * const tomoyo_socket_keyword[TOMOYO_MAX_NETWORK_OPERATION];
+-extern const u8 tomoyo_index2category[TOMOYO_MAX_MAC_INDEX];
+-extern const u8 tomoyo_pn2mac[TOMOYO_MAX_PATH_NUMBER_OPERATION];
+-extern const u8 tomoyo_pnnn2mac[TOMOYO_MAX_MKDEV_OPERATION];
+-extern const u8 tomoyo_pp2mac[TOMOYO_MAX_PATH2_OPERATION];
+-extern struct list_head tomoyo_condition_list;
+-extern struct list_head tomoyo_domain_list;
+-extern struct list_head tomoyo_name_list[TOMOYO_MAX_HASH];
+-extern struct list_head tomoyo_namespace_list;
+-extern struct mutex tomoyo_policy_lock;
+-extern struct srcu_struct tomoyo_ss;
+-extern struct tomoyo_domain_info tomoyo_kernel_domain;
+-extern struct tomoyo_policy_namespace tomoyo_kernel_namespace;
+-extern unsigned int tomoyo_memory_quota[TOMOYO_MAX_MEMORY_STAT];
+-extern unsigned int tomoyo_memory_used[TOMOYO_MAX_MEMORY_STAT];
+-extern struct lsm_blob_sizes tomoyo_blob_sizes;
+-
+ /********** Inlined functions. **********/
  
  /**
-@@ -387,7 +415,7 @@ void tty_ldisc_flush(struct tty_struct *tty)
- 
- 	tty_buffer_flush(tty, ld);
- 	if (ld)
--		tty_ldisc_deref(ld);
-+		__tty_ldisc_deref(tty, ld);
+@@ -1104,6 +1105,7 @@ extern struct lsm_blob_sizes tomoyo_blob_sizes;
+  * Returns index number for tomoyo_read_unlock().
+  */
+ static inline int tomoyo_read_lock(void)
++	__acquires_shared(&tomoyo_ss)
+ {
+ 	return srcu_read_lock(&tomoyo_ss);
  }
- EXPORT_SYMBOL_GPL(tty_ldisc_flush);
+@@ -1116,6 +1118,7 @@ static inline int tomoyo_read_lock(void)
+  * Returns nothing.
+  */
+ static inline void tomoyo_read_unlock(int idx)
++	__releases_shared(&tomoyo_ss)
+ {
+ 	srcu_read_unlock(&tomoyo_ss, idx);
+ }
+diff --git a/security/tomoyo/domain.c b/security/tomoyo/domain.c
+index 5f9ccab26e9a..5b7989ad85bf 100644
+--- a/security/tomoyo/domain.c
++++ b/security/tomoyo/domain.c
+@@ -611,6 +611,7 @@ struct tomoyo_domain_info *tomoyo_assign_domain(const char *domainname,
+  * Returns 0 on success, negative value otherwise.
+  */
+ static int tomoyo_environ(struct tomoyo_execve *ee)
++	__must_hold_shared(&tomoyo_ss)
+ {
+ 	struct tomoyo_request_info *r = &ee->r;
+ 	struct linux_binprm *bprm = ee->bprm;
+diff --git a/security/tomoyo/environ.c b/security/tomoyo/environ.c
+index 7f0a471f19b2..bcb05910facc 100644
+--- a/security/tomoyo/environ.c
++++ b/security/tomoyo/environ.c
+@@ -32,6 +32,7 @@ static bool tomoyo_check_env_acl(struct tomoyo_request_info *r,
+  * Returns 0 on success, negative value otherwise.
+  */
+ static int tomoyo_audit_env_log(struct tomoyo_request_info *r)
++	__must_hold_shared(&tomoyo_ss)
+ {
+ 	return tomoyo_supervisor(r, "misc env %s\n",
+ 				 r->param.environ.name->name);
+diff --git a/security/tomoyo/file.c b/security/tomoyo/file.c
+index 8f3b90b6e03d..e9b67dbb38e7 100644
+--- a/security/tomoyo/file.c
++++ b/security/tomoyo/file.c
+@@ -164,6 +164,7 @@ static bool tomoyo_get_realpath(struct tomoyo_path_info *buf, const struct path
+  * Returns 0 on success, negative value otherwise.
+  */
+ static int tomoyo_audit_path_log(struct tomoyo_request_info *r)
++	__must_hold_shared(&tomoyo_ss)
+ {
+ 	return tomoyo_supervisor(r, "file %s %s\n", tomoyo_path_keyword
+ 				 [r->param.path.operation],
+@@ -178,6 +179,7 @@ static int tomoyo_audit_path_log(struct tomoyo_request_info *r)
+  * Returns 0 on success, negative value otherwise.
+  */
+ static int tomoyo_audit_path2_log(struct tomoyo_request_info *r)
++	__must_hold_shared(&tomoyo_ss)
+ {
+ 	return tomoyo_supervisor(r, "file %s %s %s\n", tomoyo_mac_keywords
+ 				 [tomoyo_pp2mac[r->param.path2.operation]],
+@@ -193,6 +195,7 @@ static int tomoyo_audit_path2_log(struct tomoyo_request_info *r)
+  * Returns 0 on success, negative value otherwise.
+  */
+ static int tomoyo_audit_mkdev_log(struct tomoyo_request_info *r)
++	__must_hold_shared(&tomoyo_ss)
+ {
+ 	return tomoyo_supervisor(r, "file %s %s 0%o %u %u\n",
+ 				 tomoyo_mac_keywords
+@@ -210,6 +213,7 @@ static int tomoyo_audit_mkdev_log(struct tomoyo_request_info *r)
+  * Returns 0 on success, negative value otherwise.
+  */
+ static int tomoyo_audit_path_number_log(struct tomoyo_request_info *r)
++	__must_hold_shared(&tomoyo_ss)
+ {
+ 	const u8 type = r->param.path_number.operation;
+ 	u8 radix;
+@@ -572,6 +576,7 @@ static int tomoyo_update_path2_acl(const u8 perm,
+  */
+ static int tomoyo_path_permission(struct tomoyo_request_info *r, u8 operation,
+ 				  const struct tomoyo_path_info *filename)
++	__must_hold_shared(&tomoyo_ss)
+ {
+ 	int error;
  
-@@ -694,7 +722,7 @@ void tty_ldisc_hangup(struct tty_struct *tty, bool reinit)
- 	tty_ldisc_debug(tty, "%p: hangup\n", tty->ldisc);
+diff --git a/security/tomoyo/gc.c b/security/tomoyo/gc.c
+index 026e29ea3796..34912f120854 100644
+--- a/security/tomoyo/gc.c
++++ b/security/tomoyo/gc.c
+@@ -23,11 +23,10 @@ static inline void tomoyo_memory_free(void *ptr)
+ 	tomoyo_memory_used[TOMOYO_MEMORY_POLICY] -= ksize(ptr);
+ 	kfree(ptr);
+ }
+-
+-/* The list for "struct tomoyo_io_buffer". */
+-static LIST_HEAD(tomoyo_io_buffer_list);
+ /* Lock for protecting tomoyo_io_buffer_list. */
+ static DEFINE_SPINLOCK(tomoyo_io_buffer_list_lock);
++/* The list for "struct tomoyo_io_buffer". */
++static __guarded_by(&tomoyo_io_buffer_list_lock) LIST_HEAD(tomoyo_io_buffer_list);
  
- 	ld = tty_ldisc_ref(tty);
--	if (ld != NULL) {
-+	if (ld) {
- 		if (ld->ops->flush_buffer)
- 			ld->ops->flush_buffer(tty);
- 		tty_driver_flush_buffer(tty);
-@@ -703,7 +731,7 @@ void tty_ldisc_hangup(struct tty_struct *tty, bool reinit)
- 			ld->ops->write_wakeup(tty);
- 		if (ld->ops->hangup)
- 			ld->ops->hangup(tty);
--		tty_ldisc_deref(ld);
-+		__tty_ldisc_deref(tty, ld);
+ /**
+  * tomoyo_struct_used_by_io_buffer - Check whether the list element is used by /sys/kernel/security/tomoyo/ users or not.
+@@ -385,6 +384,7 @@ static inline void tomoyo_del_number_group(struct list_head *element)
+  */
+ static void tomoyo_try_to_gc(const enum tomoyo_policy_id type,
+ 			     struct list_head *element)
++	__must_hold(&tomoyo_policy_lock)
+ {
+ 	/*
+ 	 * __list_del_entry() guarantees that the list element became no longer
+@@ -484,6 +484,7 @@ static void tomoyo_try_to_gc(const enum tomoyo_policy_id type,
+  */
+ static void tomoyo_collect_member(const enum tomoyo_policy_id id,
+ 				  struct list_head *member_list)
++	__must_hold(&tomoyo_policy_lock)
+ {
+ 	struct tomoyo_acl_head *member;
+ 	struct tomoyo_acl_head *tmp;
+@@ -504,6 +505,7 @@ static void tomoyo_collect_member(const enum tomoyo_policy_id id,
+  * Returns nothing.
+  */
+ static void tomoyo_collect_acl(struct list_head *list)
++	__must_hold(&tomoyo_policy_lock)
+ {
+ 	struct tomoyo_acl_info *acl;
+ 	struct tomoyo_acl_info *tmp;
+@@ -627,8 +629,11 @@ static int tomoyo_gc_thread(void *unused)
+ 			if (head->users)
+ 				continue;
+ 			list_del(&head->list);
+-			kfree(head->read_buf);
+-			kfree(head->write_buf);
++			/* Safe destruction because no users are left. */
++			capability_unsafe(
++				kfree(head->read_buf);
++				kfree(head->write_buf);
++			);
+ 			kfree(head);
+ 		}
+ 		spin_unlock(&tomoyo_io_buffer_list_lock);
+@@ -656,11 +661,18 @@ void tomoyo_notify_gc(struct tomoyo_io_buffer *head, const bool is_register)
+ 		head->users = 1;
+ 		list_add(&head->list, &tomoyo_io_buffer_list);
+ 	} else {
+-		is_write = head->write_buf != NULL;
++		/*
++		 * tomoyo_write_control() can concurrently update write_buf from
++		 * a non-NULL to new non-NULL pointer with io_sem held.
++		 */
++		is_write = data_race(head->write_buf != NULL);
+ 		if (!--head->users) {
+ 			list_del(&head->list);
+-			kfree(head->read_buf);
+-			kfree(head->write_buf);
++			/* Safe destruction because no users are left. */
++			capability_unsafe(
++				kfree(head->read_buf);
++				kfree(head->write_buf);
++			);
+ 			kfree(head);
+ 		}
  	}
- 
- 	wake_up_interruptible_poll(&tty->write_wait, EPOLLOUT);
-@@ -716,6 +744,7 @@ void tty_ldisc_hangup(struct tty_struct *tty, bool reinit)
- 	 * Avoid racing set_ldisc or tty_ldisc_release
- 	 */
- 	tty_ldisc_lock(tty, MAX_SCHEDULE_TIMEOUT);
-+	lockdep_assert_held_write(&tty->ldisc_sem);
- 
- 	if (tty->driver->flags & TTY_DRIVER_RESET_TERMIOS)
- 		tty_reset_termios(tty);
-diff --git a/drivers/tty/tty_ldsem.c b/drivers/tty/tty_ldsem.c
-index 3be428c16260..26d924bb5a46 100644
---- a/drivers/tty/tty_ldsem.c
-+++ b/drivers/tty/tty_ldsem.c
-@@ -390,6 +390,7 @@ void ldsem_up_read(struct ld_semaphore *sem)
- {
- 	long count;
- 
-+	__release_shared(sem);
- 	rwsem_release(&sem->dep_map, _RET_IP_);
- 
- 	count = atomic_long_add_return(-LDSEM_READ_BIAS, &sem->count);
-@@ -404,6 +405,7 @@ void ldsem_up_write(struct ld_semaphore *sem)
- {
- 	long count;
- 
-+	__release(sem);
- 	rwsem_release(&sem->dep_map, _RET_IP_);
- 
- 	count = atomic_long_add_return(-LDSEM_WRITE_BIAS, &sem->count);
-diff --git a/drivers/tty/tty_mutex.c b/drivers/tty/tty_mutex.c
-index 784e46a0a3b1..e5576fd6f5a4 100644
---- a/drivers/tty/tty_mutex.c
-+++ b/drivers/tty/tty_mutex.c
-@@ -41,12 +41,16 @@ void tty_lock_slave(struct tty_struct *tty)
- {
- 	if (tty && tty != tty->link)
- 		tty_lock(tty);
-+	else
-+		__acquire(&tty->legacy_mutex);
- }
- 
- void tty_unlock_slave(struct tty_struct *tty)
- {
- 	if (tty && tty != tty->link)
- 		tty_unlock(tty);
-+	else
-+		__release(&tty->legacy_mutex);
- }
- 
- void tty_set_lock_subclass(struct tty_struct *tty)
-diff --git a/drivers/tty/tty_port.c b/drivers/tty/tty_port.c
-index 14cca33d2269..bcb65a26a6bf 100644
---- a/drivers/tty/tty_port.c
-+++ b/drivers/tty/tty_port.c
-@@ -509,6 +509,7 @@ EXPORT_SYMBOL(tty_port_lower_dtr_rts);
+diff --git a/security/tomoyo/mount.c b/security/tomoyo/mount.c
+index 2755971f50df..322dfd188ada 100644
+--- a/security/tomoyo/mount.c
++++ b/security/tomoyo/mount.c
+@@ -28,6 +28,7 @@ static const char * const tomoyo_mounts[TOMOYO_MAX_SPECIAL_MOUNT] = {
+  * Returns 0 on success, negative value otherwise.
   */
- int tty_port_block_til_ready(struct tty_port *port,
- 				struct tty_struct *tty, struct file *filp)
-+	__must_hold(&tty->legacy_mutex)
+ static int tomoyo_audit_mount_log(struct tomoyo_request_info *r)
++	__must_hold_shared(&tomoyo_ss)
  {
- 	int do_clocal = 0, retval;
- 	unsigned long flags;
-@@ -764,6 +765,7 @@ EXPORT_SYMBOL_GPL(tty_port_install);
-  */
- int tty_port_open(struct tty_port *port, struct tty_struct *tty,
- 							struct file *filp)
-+	__must_hold(&tty->legacy_mutex)
+ 	return tomoyo_supervisor(r, "file mount %s %s %s 0x%lX\n",
+ 				 r->param.mount.dev->name,
+@@ -78,6 +79,7 @@ static int tomoyo_mount_acl(struct tomoyo_request_info *r,
+ 			    const char *dev_name,
+ 			    const struct path *dir, const char *type,
+ 			    unsigned long flags)
++	__must_hold_shared(&tomoyo_ss)
  {
- 	spin_lock_irq(&port->lock);
- 	++port->count;
-diff --git a/include/linux/tty.h b/include/linux/tty.h
-index 2372f9357240..ee1ba62fc398 100644
---- a/include/linux/tty.h
-+++ b/include/linux/tty.h
-@@ -234,8 +234,8 @@ struct tty_struct {
- 	void *disc_data;
- 	void *driver_data;
- 	spinlock_t files_lock;
--	int write_cnt;
--	u8 *write_buf;
-+	int write_cnt __guarded_by(&atomic_write_lock);
-+	u8 *write_buf __guarded_by(&atomic_write_lock);
- 
- 	struct list_head tty_files;
- 
-@@ -500,11 +500,11 @@ long vt_compat_ioctl(struct tty_struct *tty, unsigned int cmd,
- 
- /* tty_mutex.c */
- /* functions for preparation of BKL removal */
--void tty_lock(struct tty_struct *tty);
--int  tty_lock_interruptible(struct tty_struct *tty);
--void tty_unlock(struct tty_struct *tty);
--void tty_lock_slave(struct tty_struct *tty);
--void tty_unlock_slave(struct tty_struct *tty);
-+void tty_lock(struct tty_struct *tty) __acquires(&tty->legacy_mutex);
-+int  tty_lock_interruptible(struct tty_struct *tty) __cond_acquires(0, &tty->legacy_mutex);
-+void tty_unlock(struct tty_struct *tty) __releases(&tty->legacy_mutex);
-+void tty_lock_slave(struct tty_struct *tty) __acquires(&tty->legacy_mutex);
-+void tty_unlock_slave(struct tty_struct *tty) __releases(&tty->legacy_mutex);
- void tty_set_lock_subclass(struct tty_struct *tty);
- 
- #endif
-diff --git a/include/linux/tty_flip.h b/include/linux/tty_flip.h
-index af4fce98f64e..2214714059f8 100644
---- a/include/linux/tty_flip.h
-+++ b/include/linux/tty_flip.h
-@@ -86,7 +86,7 @@ static inline size_t tty_insert_flip_string(struct tty_port *port,
- size_t tty_ldisc_receive_buf(struct tty_ldisc *ld, const u8 *p, const u8 *f,
- 			     size_t count);
- 
--void tty_buffer_lock_exclusive(struct tty_port *port);
--void tty_buffer_unlock_exclusive(struct tty_port *port);
-+void tty_buffer_lock_exclusive(struct tty_port *port) __acquires(&port->buf.lock);
-+void tty_buffer_unlock_exclusive(struct tty_port *port) __releases(&port->buf.lock);
- 
- #endif /* _LINUX_TTY_FLIP_H */
-diff --git a/include/linux/tty_ldisc.h b/include/linux/tty_ldisc.h
-index af01e89074b2..d834cf115d52 100644
---- a/include/linux/tty_ldisc.h
-+++ b/include/linux/tty_ldisc.h
-@@ -14,7 +14,7 @@ struct tty_struct;
- /*
-  * the semaphore definition
+ 	struct tomoyo_obj_info obj = { };
+ 	struct path path;
+diff --git a/security/tomoyo/network.c b/security/tomoyo/network.c
+index 8dc61335f65e..cfc2a019de1e 100644
+--- a/security/tomoyo/network.c
++++ b/security/tomoyo/network.c
+@@ -363,6 +363,7 @@ int tomoyo_write_unix_network(struct tomoyo_acl_param *param)
+ static int tomoyo_audit_net_log(struct tomoyo_request_info *r,
+ 				const char *family, const u8 protocol,
+ 				const u8 operation, const char *address)
++	__must_hold_shared(&tomoyo_ss)
+ {
+ 	return tomoyo_supervisor(r, "network %s %s %s %s\n", family,
+ 				 tomoyo_proto_keyword[protocol],
+@@ -377,6 +378,7 @@ static int tomoyo_audit_net_log(struct tomoyo_request_info *r,
+  * Returns 0 on success, negative value otherwise.
   */
--struct ld_semaphore {
-+struct_with_capability(ld_semaphore) {
- 	atomic_long_t		count;
- 	raw_spinlock_t		wait_lock;
- 	unsigned int		wait_readers;
-@@ -33,21 +33,22 @@ do {								\
- 	static struct lock_class_key __key;			\
- 								\
- 	__init_ldsem((sem), #sem, &__key);			\
-+	__assert_cap(sem);					\
- } while (0)
- 
- 
--int ldsem_down_read(struct ld_semaphore *sem, long timeout);
--int ldsem_down_read_trylock(struct ld_semaphore *sem);
--int ldsem_down_write(struct ld_semaphore *sem, long timeout);
--int ldsem_down_write_trylock(struct ld_semaphore *sem);
--void ldsem_up_read(struct ld_semaphore *sem);
--void ldsem_up_write(struct ld_semaphore *sem);
-+int ldsem_down_read(struct ld_semaphore *sem, long timeout) __cond_acquires_shared(true, sem);
-+int ldsem_down_read_trylock(struct ld_semaphore *sem) __cond_acquires_shared(true, sem);
-+int ldsem_down_write(struct ld_semaphore *sem, long timeout) __cond_acquires(true, sem);
-+int ldsem_down_write_trylock(struct ld_semaphore *sem) __cond_acquires(true, sem);
-+void ldsem_up_read(struct ld_semaphore *sem) __releases_shared(sem);
-+void ldsem_up_write(struct ld_semaphore *sem) __releases(sem);
- 
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
- int ldsem_down_read_nested(struct ld_semaphore *sem, int subclass,
--		long timeout);
-+		long timeout) __cond_acquires_shared(true, sem);
- int ldsem_down_write_nested(struct ld_semaphore *sem, int subclass,
--		long timeout);
-+		long timeout) __cond_acquires(true, sem);
- #else
- # define ldsem_down_read_nested(sem, subclass, timeout)		\
- 		ldsem_down_read(sem, timeout)
+ static int tomoyo_audit_inet_log(struct tomoyo_request_info *r)
++	__must_hold_shared(&tomoyo_ss)
+ {
+ 	char buf[128];
+ 	int len;
+@@ -402,6 +404,7 @@ static int tomoyo_audit_inet_log(struct tomoyo_request_info *r)
+  * Returns 0 on success, negative value otherwise.
+  */
+ static int tomoyo_audit_unix_log(struct tomoyo_request_info *r)
++	__must_hold_shared(&tomoyo_ss)
+ {
+ 	return tomoyo_audit_net_log(r, "unix", r->param.unix_network.protocol,
+ 				    r->param.unix_network.operation,
 -- 
 2.48.1.711.g2feabab25a-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250304092417.2873893-32-elver%40google.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250304092417.2873893-33-elver%40google.com.
