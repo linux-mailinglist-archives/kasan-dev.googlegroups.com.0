@@ -1,162 +1,162 @@
-Return-Path: <kasan-dev+bncBAABB4MTTS7AMGQE7XH557Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRBF45TS7AMGQE3BDJXWQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3d.google.com (mail-oa1-x3d.google.com [IPv6:2001:4860:4864:20::3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72B5AA4E04C
-	for <lists+kasan-dev@lfdr.de>; Tue,  4 Mar 2025 15:10:58 +0100 (CET)
-Received: by mail-oa1-x3d.google.com with SMTP id 586e51a60fabf-2c15042a9c2sf8167140fac.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 04 Mar 2025 06:10:58 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1741097457; cv=pass;
+Received: from mail-wr1-x440.google.com (mail-wr1-x440.google.com [IPv6:2a00:1450:4864:20::440])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82D3BA4E0EA
+	for <lists+kasan-dev@lfdr.de>; Tue,  4 Mar 2025 15:30:48 +0100 (CET)
+Received: by mail-wr1-x440.google.com with SMTP id ffacd0b85a97d-3910034500esf1328652f8f.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 04 Mar 2025 06:30:48 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1741098648; cv=pass;
         d=google.com; s=arc-20240605;
-        b=fZVkGsQd6GP8R7khGdCy72SqD13+CUTrDfs2kZ7ACx/9uTs/GnKZteBWlg+n0hJGIP
-         JCa+T/Q8rwKA3021ecMUsxj0LMUYeLXJYbqKSTYmQgKmD04m5DMXOWNiEIqJLbujFCaj
-         N2Eiz0tht8xFksIwOweygRw2UamhYP5SACPcnh/hzK2TqnmHn4DPjumQZTeG35O1MjMQ
-         Ywy8KSQQ8AFEkrcD1/r1U/XWKW/JySZtV4nPGjMofqHO8AWrFOtXs2KpQRgsy/jtJ7o5
-         K7WfXP15T5+4v12X4BJT6QRthIJvDvAw1TUnSbNkX0ZNMrFvoscZKrpO2+BXf5i/cEFE
-         OyDg==
+        b=J3UHgl/0SvsQnbuffsWb1r8rdsSCmCLoKjqvOL8IJO2CtHNFe1CVQCzeyHREMv6tua
+         XriT8iIQ4ga49bwmN6KTgtOI7WHnzA3ygxiqTZcJ2Z+T+W6fMuP/zNW3E5qPHVkd0v8M
+         lr2VrM75DpWjuCLRFkJztAKrl2pd0mhRPuJqS9z62/ijeq504nw5/FjDw4Aff9GScCQU
+         PBmsM7IU4GmlwnOGClPMNvgbZJa1/muYm/iSbzYXueBsIao8aVfqaYWUX7X5RwfPPEGC
+         T606gIKw9Qhz4t9K3PNaZfUZzQgINaNiBPXsp2ay75QeZZipvggQFuZ1vUDwFIRAY3Qo
+         oIJQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :in-reply-to:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:dkim-signature;
-        bh=9RNT60lOEVn23sm7eLCCz0ubKQVQG6l14nBb8sMgcTw=;
-        fh=L9Ojcv4fFNZ0jJ1Ie2DwuXIkluPkdhnKqg0tk7IHJ9Q=;
-        b=Y3sOQWrxxDIMVP5D9weOPhRq8drIS1Tkkr/jOjhBjT2cBqdJPYC/npCsrtStX3eteG
-         t6Az5Kh/JKYe81HU4iFCshx6dY6/HM8Uh3DahHnbKBuyIK8G/VFkIG+G5Fz8aG47x3WX
-         RQBN+togo/lQc8aZsgurhlIRve55RneyVOVHJvG5OmpiZC3bcRPcL/THTbbsQZCZmP/I
-         utiHiboKrztcWlrshAlFShAKtkwm+CEgDITebGnZnnkm/Cl2yBWRiiSFmnjjcZB3fvMP
-         rqwcApCbqjK+J/Yoo8+gc81eXneQ3JuVIg/2B3416quSBfki9wGvVVOZT6nB13dmNaly
-         QkLg==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=zLkcJDWdOzm+lHOJ3zlX3BAK9yfe/UoMC3Ueo/uQv7Y=;
+        fh=GfjLf9yskV94T3o9Lrlb9K58jDEdTF2Ylw4KIpNmPsk=;
+        b=PWLsr+VpHafrLOz8Ozd+XKtPICi7OTKPDkZjE4eSSafABE+r7qZWkzWpX8yhRxv0v1
+         loq0AvfjeelSGK04h8dGORU8Cz2qDFdWxHn3X58UbUBy5UsXkdVur72Etm+a6J1b6frZ
+         AJZuRzPe4/cfaPIEOe59BZVmKvxMbvN1SM5s9r9CgQnC408Kp5zbZ8AjFfmKhW7b+ZMs
+         VgZoJgPKj6161IZvJFsjV/BHfS5r+VoxaijHTV9pDmKy3Gaw52nlfPA5eg3PdvWYGn9b
+         N6LPYanK43/em9hmJ2bUsaMFRw9TV4gnGWn2qUVPcxi1rX8ig0OUByFLVYNkT/jE2vxL
+         zfzA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.191 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=O6A3Q3iA;
+       spf=none (google.com: peterz@infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1741097457; x=1741702257; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1741098648; x=1741703448; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9RNT60lOEVn23sm7eLCCz0ubKQVQG6l14nBb8sMgcTw=;
-        b=vRbhRNq6kgEn/qxxTtqoaNOlrVfoTOP7KngeR2qhwZejUtqeKI7bzGXuJxo47aoOvh
-         EtwsUkgDMfeIlDk4ngkmBt0fc1K2Vngf51555+sN1yP23byQHTTazXYqGjAWs+JlNHoT
-         8ppSDFGG/2JKKdamQV6R1qbVxLEYYQ1CqciqGkIJUl5JaO2NX+ZRi9++XCi61HDl/zDR
-         bHWzxUcIFbBWUGulURxqrf378R0AD2XcK8aC3EmsoQS3xCX6rwG6qHq7wqC0JCZafe9K
-         9SyEtn9QkrqEUVf0CB56S92BuZt/DCgMJzG5ICHcoG50gsnuzehOOeAF9skLJ5GGU4vS
-         64TQ==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zLkcJDWdOzm+lHOJ3zlX3BAK9yfe/UoMC3Ueo/uQv7Y=;
+        b=mvPAQ/O/TYeez1+n4WmT48TjQxZJG3RWlbl2cr0ICu4TrFYZfc10HY4k63UZn8lqVu
+         C+u9mr0KegtXW7gaGEGicY2BR1xr5dgy8tTZgQEdHzPf6hjSsz1AQuIl23vPeYiIiIaK
+         wbcxHhX2gX5yNvS/iIuvlERa2j7PdiOC3My6pn8KrlnP4cyo/wsl3ztqnrO2rOhGhMBI
+         CqCkgtwjVWE0Pz8Ku5tkp9Temmnx3X8qh8EdA664rKQF5wSSxy4DuMdUnUIbXx1PgLkM
+         7oWryhQ2F005knMNxN0XB9pS4xKav4TiDlMLvux2vMOlNItHF6AQRCFGvenCTapvECi4
+         AGMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741097457; x=1741702257;
+        d=1e100.net; s=20230601; t=1741098648; x=1741703448;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-beenthere
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9RNT60lOEVn23sm7eLCCz0ubKQVQG6l14nBb8sMgcTw=;
-        b=ShaRy2cIF3W9iRu70tn7o2GTNcCo8XkjM9jRSmUICTQvAg0+8bJ48fksFFM79ZKK20
-         3/qjEhhfwiY6sODXQ9u+4FILiqXk3tH/3Bj3b5hf6pilnOYv6RdqznBPnSRhSPqGRvmO
-         01r5JlOcpiVPURloaKzcIljATLaiczTmswKaExYT6eVFF2889kjfc2GHCqjXvZaNNkoY
-         e29jwdDT9tk57ZaXDvgi6D+Bn3VhIiOgDWSXig7VXLfEoOPhAcfj0LxcNOItmorBXLU7
-         uSEh95KKCzt7bopfBBcKlFUAwt2F9nBciPnMG6K/FiU/IgJa7LlQZnrV9cWnLX6fKL2G
-         fxjw==
-X-Forwarded-Encrypted: i=2; AJvYcCXBi1T6Rrmg1DWHZwsu2wB76hhRxxCeRuYCLIL+BURrcRe2FGxAWv1MnmwfiY9ShWbH2RBG7A==@lfdr.de
-X-Gm-Message-State: AOJu0YxvPzeanrddSqxHLv/RbUU6kSw+WHRTqP8Le/vv50Db/tA4nfM/
-	aLPrKTGf6O8E+G2ByMgRS6JjDRkJj3kDT72r1MPfXSaH+nLR4IQ4
-X-Google-Smtp-Source: AGHT+IGCIHjAkcv7uphFQt3zBJ97XTzrmlWhWZ32u/frnuHGXjlwT1p6udb7ObscvN28+amBhPqsIA==
-X-Received: by 2002:a05:6871:a68e:b0:2bc:70af:1d62 with SMTP id 586e51a60fabf-2c178786c20mr11246152fac.26.1741097457143;
-        Tue, 04 Mar 2025 06:10:57 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVFwlQPREzuOclz2+NBImBANeiXngOrrll5AJMPVk50f5A==
-Received: by 2002:a05:6870:ab0a:b0:2c1:3777:bee8 with SMTP id
- 586e51a60fabf-2c15410ace4ls214932fac.0.-pod-prod-03-us; Tue, 04 Mar 2025
- 06:10:56 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCU2/yQkiDEU3OcYyxdmWW2PY5vYAInUJFqM8+c7NfNoNy78H41lRvPPKLmaMAVMkOoiamMJAdYwKt8=@googlegroups.com
-X-Received: by 2002:a05:6830:2b11:b0:727:2f0c:916f with SMTP id 46e09a7af769-728b8286b08mr12289111a34.12.1741097455929;
-        Tue, 04 Mar 2025 06:10:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1741097455; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zLkcJDWdOzm+lHOJ3zlX3BAK9yfe/UoMC3Ueo/uQv7Y=;
+        b=dZxbgQSc9bvQRzM32zi7AvHVlQHtG/VTWfFs4nFw6FAQ6PpJinkEEiXUKsKakGYjW7
+         m1aiPRiCI99/YcEVfqj5KjU9uImAqFX4RZGfcKBL2l3dK9zpj+Hk/Knh3RU8ep39nhWe
+         X5gte3PmWgKQNsW1C+R7QC8XQ9173EuEcHXZzPOEZTnTdSMAdgMabDcMD+LA0A2D4hBe
+         qdufY/vKXq9rm++wHRc7K/PbGpel8SiTByGqDxUgpoWyzryZFEdHoorgk5aNsLSBLIjx
+         8YCuDC5PzuGrCIl5zc2c3xpVrvDhNgc95aX2Td4oNVhweKCkpCucWmZt+b5+Byv87MZK
+         wzrw==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCUwHV6NHBVb/HRR+xEIjjsguOTTM58CQxG93sdOGh8QvAFRGrSCXmqB6dSnIO7ItU+8BJxPfQ==@lfdr.de
+X-Gm-Message-State: AOJu0YwZ30TMSlLxuywSYvivacGjGu/VdMs3I3viWQ9l6nuNyHxVMtF+
+	OlRCTAlNpLDgkVc8kKdzaqM7tfBpkd4wVyjmeBEoD3hfmwtVXUBE
+X-Google-Smtp-Source: AGHT+IGW5yISOmpuP6K9CgZzIV2RpiMNOCzwok1GS1kkhMZ/Ma+Etdrc7ITakkhFe3zNLTH1jhr97w==
+X-Received: by 2002:a5d:47c3:0:b0:38f:48ee:ddc2 with SMTP id ffacd0b85a97d-390eca47db0mr14804589f8f.37.1741098647431;
+        Tue, 04 Mar 2025 06:30:47 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVEskVNt7/Ye4WAQWVke3cf3afJWfOPQf4COSBzJsQSTXA==
+Received: by 2002:a05:600c:2e08:b0:43b:cad1:8b54 with SMTP id
+ 5b1f17b1804b1-43bcad18c33ls4012135e9.0.-pod-prod-08-eu; Tue, 04 Mar 2025
+ 06:30:45 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCW5kGuHeFZjoogFc+R6LrJtEiI855R5xkHgd4Y1H+Km5gf1LRbg44xSWHgtRlZYWvJANnfo44+WsIU=@googlegroups.com
+X-Received: by 2002:a05:600c:358a:b0:43b:c0fa:f9e4 with SMTP id 5b1f17b1804b1-43bc0faff90mr68285925e9.13.1741098644992;
+        Tue, 04 Mar 2025 06:30:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1741098644; cv=none;
         d=google.com; s=arc-20240605;
-        b=el4UiiIKozS+j7qoGcZK2+uFxNAZLNCh0cRFG1s2w3nFfxTkN0TZhf02Xwsb6K67zZ
-         SS+A8PvzwEHsUU/IlHv52TROryRy5PhkUMVtNPdgfuL3akwWkejLIukCyi2nCyxnyTV9
-         YihsPK5GbcW5kjpg3e5u1IDJ66+xECVBVxb0kjojAaZnPqANGqGTdzjXYCcuxzOHGn2i
-         JJnISqpXEyJqZbj9B0HefWLRlqEIfvA9DJGiI6KqBoSK70JWz29mJI35Mj09VH+fJnge
-         2Xex/bBtdVuDzV2KP/K2QQDtXjs1e/SxpLba9NCEEra2fBEGB0Fc5sqsM+BJCTTV20xp
-         Z4og==
+        b=dibqAZjdcJnevZtiKvMluJMxKtR0I8GAAj1IH6qK951+F8BTAoaYbwsAhT2/7+dCsh
+         k2W8WgvCsTGuZZQINSvWm+CoSaie5OPLlCrV8cgvZDOj8ufRUrk3tD3aYR+JWVmIDUM5
+         NUJ89zuv311ewjEzx75gRZrOYyCofbDvxYZRDkGy4IOBH2uNRcnhkdLxzZxGddVTT3+R
+         AN9RMDxCjuAWyplH/nWkNu4D0htWipAq/l5Nv+at+zOVRlbrz30PNvXPjdRdjJAxslcO
+         70T5ODY0oOUEO7iuWdOkc8H4yv+G4WP9OyzjZSwXvkkaC3A4650EFQa91p4jhNhoULXQ
+         3QoA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id;
-        bh=Cz7IA69OFA9tHcBAPSVOCjGmnTTL7mvde1OZORF4svs=;
-        fh=RzQbsIRJIGcsOahvYzttPrzbIb6n8kVsMKDOWJddbjk=;
-        b=Mgoo/rDFk3rz06wyQphyQ1JW0nzIlZQfkSVgt3xnBhphJqVQgANrloe+Q9lRNof3Qa
-         FkIPxPQE5YKaie+6g8zsG2BO8KTHGV76WF9do0vieCHjE7K/t+SbJrmKEnU1zJsS/Lbu
-         d3ab7ibrPFyHfrr3eiQjv1JIReK61UvPF9ncPdJ16i3CGYx4G4n/KQJsplOC6itJzlAq
-         ys1E5hw+iZFll2HanNXoEnEtvO2wynCq1Z5NXP+fpEG0i8kytPMj5V5LibdIiYNEsEX2
-         zIZfzXrSQvEJAYn8+lAR3mOnYeJBM1EIU29jzoS8k6d7W51wv1EetAApw2qCf0h1bj8Z
-         LQFA==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=9VvfiKn9vnthqkbug7Ck5fZJaYFPZHMHw0rvMhQVYiM=;
+        fh=7TaygT2PzvUByhK1cv83Q8e6MDKw7N3itZdt4LeniwY=;
+        b=Mb74GKSGJw5EELOcwgpzy54HBJ7KVUC6vJSzTYmqKQKDtY69M5ZmV/dvFHMOBuau1n
+         pm4u2DDRHNSUBQyBeP8m4P0ha+07S+sF4rarRKYxLXPowkLfgDWN5IrlIHC/B9RUwvzJ
+         wjx/M0J/tcJ4R0FxtxVfLbp6cKpN2ikerKBHz196+kP2gkxPwPIT2RquoAwpMRpPxsqr
+         rhk2aFhRp7K+DvJ5qBE07mFydi7doyHFYZSjnO5KFYx9PC5ChfxsT3ndiF87J/XP5lnN
+         WGL9SRlknWQuRnHRYbwKNntv4oDFvW173Mofj3RJHi/EbLV9PX5WzkDZD1RKTfntRw+t
+         WqJQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.191 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com. [45.249.212.191])
-        by gmr-mx.google.com with ESMTPS id 46e09a7af769-728afcffbb3si564734a34.2.2025.03.04.06.10.55
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=O6A3Q3iA;
+       spf=none (google.com: peterz@infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
+Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-43bcce9536bsi410545e9.2.2025.03.04.06.30.44
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 04 Mar 2025 06:10:55 -0800 (PST)
-Received-SPF: pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.191 as permitted sender) client-ip=45.249.212.191;
-Received: from mail.maildlp.com (unknown [172.19.163.17])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Z6ctR2c3Gz1ltZw;
-	Tue,  4 Mar 2025 22:06:39 +0800 (CST)
-Received: from kwepemk500005.china.huawei.com (unknown [7.202.194.90])
-	by mail.maildlp.com (Postfix) with ESMTPS id B226C1A0188;
-	Tue,  4 Mar 2025 22:10:50 +0800 (CST)
-Received: from [10.174.179.234] (10.174.179.234) by
- kwepemk500005.china.huawei.com (7.202.194.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 4 Mar 2025 22:10:48 +0800
-Message-ID: <2c1fa758-c292-aefb-f6e2-cab41f592568@huawei.com>
-Date: Tue, 4 Mar 2025 22:10:47 +0800
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Mar 2025 06:30:44 -0800 (PST)
+Received-SPF: none (google.com: peterz@infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tpTHx-0000000037U-3a7E;
+	Tue, 04 Mar 2025 14:30:30 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 5D27A30049D; Tue,  4 Mar 2025 15:30:29 +0100 (CET)
+Date: Tue, 4 Mar 2025 15:30:29 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Marco Elver <elver@google.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
+	Bill Wendling <morbo@google.com>, Boqun Feng <boqun.feng@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ingo Molnar <mingo@kernel.org>, Jann Horn <jannh@google.com>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>,
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, rcu@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-serial@vger.kernel.org
+Subject: Re: [PATCH v2 08/34] locking/rwlock, spinlock: Support Clang's
+ capability analysis
+Message-ID: <20250304143029.GG11590@noisy.programming.kicks-ass.net>
+References: <20250304092417.2873893-1-elver@google.com>
+ <20250304092417.2873893-9-elver@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v13 4/5] arm64: support copy_mc_[user]_highpage()
-To: Catalin Marinas <catalin.marinas@arm.com>
-CC: Mark Rutland <mark.rutland@arm.com>, Jonathan Cameron
-	<Jonathan.Cameron@huawei.com>, Mauro Carvalho Chehab
-	<mchehab+huawei@kernel.org>, Will Deacon <will@kernel.org>, Andrew Morton
-	<akpm@linux-foundation.org>, James Morse <james.morse@arm.com>, Robin Murphy
-	<robin.murphy@arm.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry
- Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko
-	<glider@google.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, Aneesh
- Kumar K.V <aneesh.kumar@kernel.org>, "Naveen N. Rao"
-	<naveen.n.rao@linux.ibm.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo
- Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
-	<hpa@zytor.com>, Madhavan Srinivasan <maddy@linux.ibm.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>,
-	<linuxppc-dev@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
-	<kasan-dev@googlegroups.com>, <wangkefeng.wang@huawei.com>, Guohanjun
-	<guohanjun@huawei.com>
-References: <20241209024257.3618492-1-tongtiangen@huawei.com>
- <20241209024257.3618492-5-tongtiangen@huawei.com> <Z6zWSXzKctkpyH7-@arm.com>
- <69955002-c3b1-459d-9b42-8d07475c3fd3@huawei.com> <Z698SFVqHjpGeGC0@arm.com>
- <e1d2affb-5c6b-00b5-8209-34bbca36f96b@huawei.com> <Z7NN5Pa-c5PtIbcF@arm.com>
- <3b181285-2ff3-b77a-867b-725f38ea86d3@huawei.com> <Z7TisqB5qCIF5nYI@arm.com>
-From: "'Tong Tiangen' via kasan-dev" <kasan-dev@googlegroups.com>
-In-Reply-To: <Z7TisqB5qCIF5nYI@arm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.174.179.234]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemk500005.china.huawei.com (7.202.194.90)
-X-Original-Sender: tongtiangen@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of tongtiangen@huawei.com designates 45.249.212.191 as
- permitted sender) smtp.mailfrom=tongtiangen@huawei.com;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-X-Original-From: Tong Tiangen <tongtiangen@huawei.com>
-Reply-To: Tong Tiangen <tongtiangen@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20250304092417.2873893-9-elver@google.com>
+X-Original-Sender: peterz@infradead.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@infradead.org header.s=desiato.20200630 header.b=O6A3Q3iA;
+       spf=none (google.com: peterz@infradead.org does not designate permitted
+ sender hosts) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -169,73 +169,14 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi,Catalin:
+On Tue, Mar 04, 2025 at 10:21:07AM +0100, Marco Elver wrote:
 
-Kindly ping ...
+> To avoid warnings in constructors, the initialization functions mark a
+> capability as acquired when initialized before guarded variables.
 
-Thanks.:)
+Right, took me a bit, but OMG that's a horrific hack :-)
 
-=E5=9C=A8 2025/2/19 3:42, Catalin Marinas =E5=86=99=E9=81=93:
-> On Tue, Feb 18, 2025 at 07:51:10PM +0800, Tong Tiangen wrote:
->>>>>> =E5=9C=A8 2025/2/13 1:11, Catalin Marinas =E5=86=99=E9=81=93:
->>>>>>> On Mon, Dec 09, 2024 at 10:42:56AM +0800, Tong Tiangen wrote:
->>>>>>>> Currently, many scenarios that can tolerate memory errors when cop=
-ying page
->>>>>>>> have been supported in the kernel[1~5], all of which are implement=
-ed by
->>>>>>>> copy_mc_[user]_highpage(). arm64 should also support this mechanis=
-m.
->>>>>>>>
->>>>>>>> Due to mte, arm64 needs to have its own copy_mc_[user]_highpage()
->>>>>>>> architecture implementation, macros __HAVE_ARCH_COPY_MC_HIGHPAGE a=
-nd
->>>>>>>> __HAVE_ARCH_COPY_MC_USER_HIGHPAGE have been added to control it.
->>>>>>>>
->>>>>>>> Add new helper copy_mc_page() which provide a page copy implementa=
-tion with
->>>>>>>> hardware memory error safe. The code logic of copy_mc_page() is th=
-e same as
->>>>>>>> copy_page(), the main difference is that the ldp insn of copy_mc_p=
-age()
->>>>>>>> contains the fixup type EX_TYPE_KACCESS_ERR_ZERO_MEM_ERR, therefor=
-e, the
->>>>>>>> main logic is extracted to copy_page_template.S. In addition, the =
-fixup of
->>>>>>>> MOPS insn is not considered at present.
->>>>>>>
->>>>>>> Could we not add the exception table entry permanently but ignore t=
-he
->>>>>>> exception table entry if it's not on the do_sea() path? That would =
-save
->>>>>>> some code duplication.
-> [...]
->> So we need another way to distinguish the different processing of the
->> same exception type on SEA and non-SEA path.
->=20
-> Distinguishing whether the fault is SEA or non-SEA is already done by
-> the exception handling you are adding. What we don't have though is
-> information about whether the caller invoked copy_highpage() or
-> copy_mc_highpage(). That's where the code duplication comes in handy.
->=20
-> It's a shame we need to duplicate identical functions just to have
-> different addresses to look up in the exception table. We are also short
-> of caller saved registers to track this information (e.g. an extra
-> argument to those functions that the exception handler interprets).
->=20
-> I need to think a bit more, we could in theory get the arm64 memcpy_mc()
-> to return an error code depending on what type of fault it got (e.g.
-> -EHWPOISON for SEA, -EFAULT for non-SEA). copy_mc_highpage() would
-> interpret this one and panic if -EFAULT. But we lose some fault details
-> we normally get on a faulty access like some of the registers.
->=20
-> Well, maybe the simples is still to keep the function duplication. I'll
-> have another look at the series tomorrow.
->=20
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
-c1fa758-c292-aefb-f6e2-cab41f592568%40huawei.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250304143029.GG11590%40noisy.programming.kicks-ass.net.
