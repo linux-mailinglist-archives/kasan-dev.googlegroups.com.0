@@ -1,126 +1,124 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBKMOTO7AMGQESI26QZA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBK4OTO7AMGQEZ3APGLA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1B07A4D80F
-	for <lists+kasan-dev@lfdr.de>; Tue,  4 Mar 2025 10:26:02 +0100 (CET)
-Received: by mail-lf1-x140.google.com with SMTP id 2adb3069b0e04-5495a1c0be4sf1742453e87.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 04 Mar 2025 01:26:02 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1741080362; cv=pass;
+Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FAF7A4D810
+	for <lists+kasan-dev@lfdr.de>; Tue,  4 Mar 2025 10:26:04 +0100 (CET)
+Received: by mail-wm1-x339.google.com with SMTP id 5b1f17b1804b1-43bcddbe609sf3223085e9.3
+        for <lists+kasan-dev@lfdr.de>; Tue, 04 Mar 2025 01:26:04 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1741080364; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Eh3GFwkLik2kj+GIz19fEc216cL03bhLBwVXkH83Zi4Dw/kaHcciSYavr0BG4EdsRk
-         eauFAgyjNCnj+RJX11SU05hsMjCYQDC2pVqeeawLBDzePrSFL5IVsfGeEaswn9IZHrk0
-         iwQ3tf5doyRjdCg0mCb4PW/rqeVPK4/b1VEk9HXh3QNDVyeDA3++QOSK8HfW3MBMdL1/
-         WQkT8AH6/Pg2tYpISXV5a3JBxlluTlvq0DulV0319a3Cf1W+Welw2btvrzRWvY5POSdv
-         keJOcaDgHTpfkF3NlI7+ZQUd+83FY4NAKCYKAL21yRpONEUKBpS+7FCqtcOGI44SUOYq
-         i1Zg==
+        b=gBby1IwwJ6R/cXRlsfDbru0D6BpiMfxrKW4q7NYqVbWDyRjg0luAxDi33SKJH7EKaN
+         egsKIihEFTVCOjkgjJAUEhIa/4QV4vo0azJFe3O6uQ0lCMTt+MClVpgpBP5DLuv03Di5
+         0pwYh7BGZoxRgOnlPGKqBdR6mKZhanYsSyvOvuggo+7s9VeLcxrJxgznLl8jD1AhgFbJ
+         9QczSILgWcHrKsdjg8pcgQz35whjKHeb3O7OBjorIeWBJdfRebjFqLw5FyJ2SBWCRiYm
+         sFTtPHEkM1m0aenWRkJkhqTw10+Dr7BlUNg1dQwk5fABnGJOUyMbhWVyItM4+YKIr+TR
+         tasw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:dkim-signature;
-        bh=B/0O/9BK60uQ6MGR02QGTUYbFqUF4BC6+kw+d614PJk=;
-        fh=g9oB5MVAL/1KsS+B84unBfKPB2o/N6E4lD+CrXeJS0E=;
-        b=CdefOAiUVOBoYZ12lC2vmC23Knn0h76L34iuNlpZB5Ouzcn9MOU4tI+Udthu2xJGbG
-         h70A3YDjRYIB0T04D3YCSl3BmmI75W/t9BOmMrJe3zunDpFnZzMvoO+1E0N5WGrinHHS
-         WoljBTkZn0BxOV07QS568uImNOvig92krmGaQhHL6Mx8coO4fOGLu8KicsEobtl+0xiz
-         A+KxYYidHIdufI8RfOdRw0WDGP9aenT16UfYOxYYGCGppdGnmHC3hU+8MzeHkd/RNWXb
-         DSLkmaMb6zrqh3A5Kc1846wZFaSwYOrLIFfshRkZUPnMHUAqK9XMClPYYMaFOxeFZeAw
-         IqDw==;
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date:dkim-signature;
+        bh=PNoJjfZkpJPi2b17m0m+7ozIW/I6rWgsOvUx7UaqROE=;
+        fh=fjELq9h7fImAOA1+NeHvKI3syJDDxYVtNqPh+CfXiFk=;
+        b=Vq2FvnjsB4A0Ex28bJ5XReo9zUjfpfCjYOjm3NV78j54BElFpcCNpUEIjnLhu/omFZ
+         luzgvOkdXcSP6e7FZ9uPMPt66xnOrRpUYSFmGLjPjPJ+zbkarvLR2kZEOXtl9lmjhabO
+         tnBM7UAFDeIcSOXlI+AprKJaH6WOef0Wq7Qc9pbS/OTIzQuxlUrVt9ErF++FX0iKqE2n
+         VKhiith9AwFZNOS2tdrV5/0afMtWJfaVF2bF/2RS8yJqBitweU5wUmW+/AFXLT+0HUpG
+         36j7MmvyeYG5fJdugzVxdfi4Ht0zKv5E0m1DKxk7msDjbZ3OfUE7345ybnJIN5d7evQh
+         i7LA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=eNo3X7BZ;
-       spf=pass (google.com: domain of 3jsfgzwukcruz6gzc19916z.x975vdv8-yzg19916z1c9fad.x97@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3JsfGZwUKCRUz6GzC19916z.x975vDv8-yzG19916z1C9FAD.x97@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=LFrwBVTg;
+       spf=pass (google.com: domain of 3kmfgzwukcrc18i1e3bb381.zb97xfxa-01i3bb3813ebhcf.zb9@flex--elver.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3KMfGZwUKCRc18I1E3BB381.zB97xFxA-01I3BB3813EBHCF.zB9@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1741080362; x=1741685162; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1741080364; x=1741685164; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=B/0O/9BK60uQ6MGR02QGTUYbFqUF4BC6+kw+d614PJk=;
-        b=WDrW1eGAfdH84yGtlqFFSob+XG20/IQMt9GtbI/nfhQiCR2WNj1TPfb8MoyAaUjOLh
-         2dnOLXsvBC6YvxjThnnOxz2o0i1Vgu8y88hYVq/herysvvuNzEOs+Sg8vZVLnh1JusCX
-         tnq/TA9Q3aqxhUGv1bwVV1aNqcyZ/BHbyV4tHQE//yZ0v53CTqPHtx3H2EDDifTFFZRe
-         Ykou9Q8NFuOGz2KrxApGREYO57+I6LmwQtMipDHl4nhuyOlWZVeOIxFmbXsDkqlIB0A+
-         Y+vHoD5+mb1vAor5IMYts6TIY5hhWVud/uLqh0J7o/xSCtPUY5J7INqXkNvC9gXkz8hs
-         79Ew==
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:references:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=PNoJjfZkpJPi2b17m0m+7ozIW/I6rWgsOvUx7UaqROE=;
+        b=KlX7Id02EEZnCcZah4B+QXgUlP15U7wSblnG7NIgTzKCXhDGfEGtjGjSyNJxJkoP82
+         X6yZ6AS4AHeLIPiGb1qza3ALImDgwKCwi6guNIQlU8PpqEtabpFyjJlFTAOJrQ8nERL1
+         AN754itsVKg++tL3DUmDB9GY4CXo0MW4S4a/wfRcs3+2yq56dK3xEMDD1svv2ZhTxWIG
+         JII8kAFPmuMAx+QyNAYFx3rgibGcXAlDeqWErgvaoc8ty75i4s4qUL8uA/Iq9xCtGM8D
+         9SfZGSTHos25C0Y+0VcpBWemLqDgd9auvKZoQ2GNd45g20JlfUhYY4swsfxFvSiZ8sHG
+         DRDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741080362; x=1741685162;
+        d=1e100.net; s=20230601; t=1741080364; x=1741685164;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-beenthere:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=B/0O/9BK60uQ6MGR02QGTUYbFqUF4BC6+kw+d614PJk=;
-        b=hvdc1XrgOYage2ATvZn9Zee7utpCGmjYTgHbJiFTex6ad5sneZ9X0hPgaQipGCkq8z
-         ei2ns3ffNsDwIfC0RTiDmioZ2XBAnwSfYy6te57RH30mtmpBVveZjK48IZulXGGviJ7d
-         P4OE8mBWkk1sFhJ5NO/Rm7jjrvEGJ3RI3Jaf7ppEHPnIVRRDexdxIP95KgjYPU63INBd
-         n8cCc69Gxl4YjwRm4qsxBqyiIuR094blsv0G/TCVcBqsh5jsCJ3My8GvXNgW0GMjbwbk
-         6VykCbbHF9Jxj+k/uO2yKhy566yILRsMsvrEhULIhjGr06pJSQyqGqmWsGb/pR2bwjtR
-         AwZw==
-X-Forwarded-Encrypted: i=2; AJvYcCX6Sk9lGhUtSuUtDEp35HbkQvwOWBwy9ZEUe8bugO8d5IUiCgbFcCUHWdHlDlfcvSgBSMq7mg==@lfdr.de
-X-Gm-Message-State: AOJu0Yz9v7PJwGXXspEc3w2D9Spbe7qdjepYHUiF1XPsUutzfAw3HNxj
-	JRIKJGHU3r5pWPymXj93TnStRah9/3LPeI8W1YFOUJVparChw8N6
-X-Google-Smtp-Source: AGHT+IFvCYXIez2ZHWqP3RjD2RtxDCwMddhyZzTccJOatK7RqTs7oZWTBrjqVxFcqHnSGQnfn29mvw==
-X-Received: by 2002:a05:6512:3f29:b0:549:39b1:65c6 with SMTP id 2adb3069b0e04-5494c37f6admr7112405e87.34.1741080361522;
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:references:mime-version:in-reply-to:date
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PNoJjfZkpJPi2b17m0m+7ozIW/I6rWgsOvUx7UaqROE=;
+        b=RaJoNQsQ8tfJBm94zU5zampZysOl94BsUarPbokudSmBkI17f/T7Qfhd7nV1zZjB+I
+         8ezpHNRS2xocZUJnF0xROSLuYzwwV327tMRN2nYEAwS51Bd85lf38DBkq3MdhAj0W9b8
+         +uqHN9Ahze05uQSi+MmcI3kdaKu/N/cxmsBTJuGLTcnrYnc7EWO90wYpyzl4Eta6XPc4
+         +ixWrpKT3zWEAPxSGHDcLse2VzktHjieMTz7qepFzAYpNBVBgsar/eU9WRSSt8tTu1ur
+         lqYK3VAqOAICM4OAhMbpUEaeiaomj2ceBET9d2iLdR+lmmAsbcmbJ9wkazw+/Ufl7U+p
+         1nCw==
+X-Forwarded-Encrypted: i=2; AJvYcCWDS/qbHaHkbraLEoA5LfaxrSuCPw56Oy87Armrd1Efu0pL6bsLHYIf73Ms+jdgikWzrgN5mQ==@lfdr.de
+X-Gm-Message-State: AOJu0YyiD34vAWfUsLUE79IPuz/jgBbnO8jO0Uk8a41qrmOdQnS8A9tR
+	3Jye159ggwqV+pYx1gYzu/GeMpHlc60WVGiuCTsX2lWxTMnyTjtO
+X-Google-Smtp-Source: AGHT+IFpbxmTZb5aWAyQNji0cf6nBLvuf0Z6P3u2lYfCGCbxrWBmWul7hOgQjwl8xfDNlyUX2OjpWg==
+X-Received: by 2002:a05:6000:2c4:b0:390:f964:94cb with SMTP id ffacd0b85a97d-390f964965amr13326834f8f.44.1741080363588;
+        Tue, 04 Mar 2025 01:26:03 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVE0MXgMGEEakoN6d0fCVKA1SdjJkhyLcdvOei10msbKwQ==
+Received: by 2002:a05:6000:1787:b0:38f:22fc:ecb6 with SMTP id
+ ffacd0b85a97d-390e13164a2ls3299464f8f.2.-pod-prod-05-eu; Tue, 04 Mar 2025
+ 01:26:01 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCU1bl3HrRNwI0ZbbrA4PrV8eVqnkDwM1TLLftUoIksU31a5zJTwuBA5UcGVRokbND9Z4tXN/ek2BOI=@googlegroups.com
+X-Received: by 2002:a5d:5f84:0:b0:390:e7c1:59c4 with SMTP id ffacd0b85a97d-390ec7cd0b1mr17432701f8f.13.1741080361001;
         Tue, 04 Mar 2025 01:26:01 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVEBfBXOOpVIrl32pNSkWtmPVyuJvTAWXcSPTK3iVutP+w==
-Received: by 2002:a05:6512:3f0b:b0:545:256f:9b6d with SMTP id
- 2adb3069b0e04-54942e6e667ls247361e87.2.-pod-prod-06-eu; Tue, 04 Mar 2025
- 01:25:59 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXb8fnkGBhCo5q/ikYyIVHG8unTHuHMoP2FXsCKez4ZfP/n6qLl6GXkR3voxA7zdWtgGFYLs7Zrq1M=@googlegroups.com
-X-Received: by 2002:a05:6512:3f02:b0:549:38d5:8853 with SMTP id 2adb3069b0e04-5494c3287d3mr6545246e87.17.1741080358775;
-        Tue, 04 Mar 2025 01:25:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1741080358; cv=none;
+ARC-Seal: i=1; a=rsa-sha256; t=1741080360; cv=none;
         d=google.com; s=arc-20240605;
-        b=iyMrT3l2lUNe0bse6nmw4+hecDezzLSUb6kGKSCu54Ib4egj4zjOhBBbHo2qirw8N4
-         4RYyL6r8h7Mbtc7b1hkXz2UrYT9rT75/nKEbJucBBT7M6ECK2zzuk75EJH4Zl/BVl7il
-         ohV9c7b1emkd80iiUcgXYD0Ig6BwUDS7m9SFzJOOSUIGlvjAgbXyYQ9Qy+GJt32pGN/U
-         xNgyzWviO3FPkTvzFXGlwwDFllqaLPuv9vZYJ7C75JkIBn3S6DSoZwNWjeAjbVpvFc09
-         1SZTDkFKYfsyRLtpg3mw8LUCcuLWaUeI08Sw2qA/p3+efln4wL9udW9xPdaV7O8vbONt
-         U77Q==
+        b=PuNMsg3SUbPPtueS/dlkm+XP99DWS4s06hnQ+SOpT89iVODfRD0golR/IzJ9m4DJ7g
+         aOq5yeTekiGSEggWveZvTfGyrSKZ2Cp5EltINh3sniBWRgnY7l/0LokpCr4hPdxySUV2
+         hDZ/OkR7O3NYItnUYXmq6HYbfdGOal8lb6XF/TYCJIXzZHWfpjA29sx12z4geWG7Ahjo
+         PFkIlrLJ7NbfZ31qP5JP3VPAIIWW9Y5d6Q0tbH2nlzejV9X094a+vuDbfuRB3EbeFRta
+         BHK1Q+0FSdC9/dZg1k8Wu1UfGKZpyLRkrrRzZj9b9HeaNqhLL4UwAhRpPzboE4qZe/eO
+         QVmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:dkim-signature;
-        bh=PNf/nM4zXVueSeYIgASkm7nQo4wF4e7ceuZttNxifgI=;
-        fh=Zo53tiBHmmzGI+diXdJmE01t5vCasUnzBV4q7xnTffk=;
-        b=I3ZXdg8uZQIiUdBWJNfszhHH7PyOLWL01zXmpSL9eszbFT1bwe3qhm8Pkpq3zvF897
-         3ank6fM0RxWvPuG+IEtP7XVGrg+wENMCI0u8+gqN/PKGmYe8QH813i09eInc5hOqqUEd
-         XxokpwZmIuFo7Uc29rOeRX4/RlrPvLEiTVwM/9fo4bVtYch2eRC7gp1nH7ftuWpESJqQ
-         meENdNKupQ45cb35Ur2TSM6nXUfLV4gm1NG1dYDCbFRY/RHO1XSUDHAd1sH3/cjRQVcI
-         +bs2m4PZzVRyJQricrHUgfQXqaSKeLkJc1iIIfvcnOjOQTPuaEccmErwcIjYQnFRoPBY
-         w6gw==;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:dkim-signature;
+        bh=fevqVsEsX3/oCaV46XhekBmDNUcdyGVL5LKZ5XmlZNY=;
+        fh=l4FRPEn6+6cOdsXZ8n0cLDoqyl7AytIS7fof80cxOuw=;
+        b=V9qBYBuj8ST6spfgH/cn0jTNJVOp0sVpgwlyOc+yFVPI2KG19SbGYBtK8psOfPNhw/
+         wCHeR+OLjtmlCQNzydLn3qqaxWXE9qab4GwF0Q504AaNhti06HnUthWBgUOIdKs+562P
+         IEQihVgfGLZdg/YvcpyecyJp+zXmMmM7p2k7PM6+An7bD3JHna3DXGcHEUJG9Q5p3Q4X
+         jNTyWZJqHgabc/UV2erR02Sj3B+Mw8dD1wHl8Lgu5DZBr2smeC89b6fECBUbGc3VRv48
+         PBQeKhunnOaEzCbRc0lAaRnUBANPc4E+DL+MVD8wYgf/zRMXVjOVkH4ZXKnh+ZFlPplb
+         cmig==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=eNo3X7BZ;
-       spf=pass (google.com: domain of 3jsfgzwukcruz6gzc19916z.x975vdv8-yzg19916z1c9fad.x97@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3JsfGZwUKCRUz6GzC19916z.x975vDv8-yzG19916z1C9FAD.x97@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=LFrwBVTg;
+       spf=pass (google.com: domain of 3kmfgzwukcrc18i1e3bb381.zb97xfxa-01i3bb3813ebhcf.zb9@flex--elver.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3KMfGZwUKCRc18I1E3BB381.zB97xFxA-01I3BB3813EBHCF.zB9@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com. [2a00:1450:4864:20::449])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-54954f95ee1si328545e87.4.2025.03.04.01.25.58
+Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com. [2a00:1450:4864:20::54a])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-390e47e8ff1si469124f8f.4.2025.03.04.01.26.00
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Mar 2025 01:25:58 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3jsfgzwukcruz6gzc19916z.x975vdv8-yzg19916z1c9fad.x97@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) client-ip=2a00:1450:4864:20::449;
-Received: by mail-wr1-x449.google.com with SMTP id ffacd0b85a97d-390f729efacso1223711f8f.0
-        for <kasan-dev@googlegroups.com>; Tue, 04 Mar 2025 01:25:58 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUU0xxplNEY6RJLynIGv+mLQT8FYdyCxRTXYz4ikpKwx874/U5ytDhYRcBCtATI5JvCIRH3eEMGNgA=@googlegroups.com
-X-Received: from wmbbi24.prod.google.com ([2002:a05:600c:3d98:b0:439:8c33:5ed6])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:4022:b0:390:ffd0:4138
- with SMTP id ffacd0b85a97d-390ffd04350mr7740206f8f.24.1741080358018; Tue, 04
- Mar 2025 01:25:58 -0800 (PST)
-Date: Tue,  4 Mar 2025 10:21:17 +0100
+        Tue, 04 Mar 2025 01:26:00 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3kmfgzwukcrc18i1e3bb381.zb97xfxa-01i3bb3813ebhcf.zb9@flex--elver.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) client-ip=2a00:1450:4864:20::54a;
+Received: by mail-ed1-x54a.google.com with SMTP id 4fb4d7f45d1cf-5e583e090deso1143411a12.1
+        for <kasan-dev@googlegroups.com>; Tue, 04 Mar 2025 01:26:00 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVXQJ5hJUgcl0Czpi0nAMH+PEUWm077r2BPLx8oKPlLtpkNIMnOFnIEQ1In11NEL2BW/cQ67xfsVuQ=@googlegroups.com
+X-Received: from edbfe12.prod.google.com ([2002:a05:6402:390c:b0:5e0:963d:6041])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6402:3904:b0:5e5:335:dad2
+ with SMTP id 4fb4d7f45d1cf-5e50335de72mr16333101a12.26.1741080360656; Tue, 04
+ Mar 2025 01:26:00 -0800 (PST)
+Date: Tue,  4 Mar 2025 10:21:18 +0100
 In-Reply-To: <20250304092417.2873893-1-elver@google.com>
 Mime-Version: 1.0
 References: <20250304092417.2873893-1-elver@google.com>
 X-Mailer: git-send-email 2.48.1.711.g2feabab25a-goog
-Message-ID: <20250304092417.2873893-19-elver@google.com>
-Subject: [PATCH v2 18/34] locking/local_lock: Include missing headers
+Message-ID: <20250304092417.2873893-20-elver@google.com>
+Subject: [PATCH v2 19/34] locking/local_lock: Support Clang's capability analysis
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com
 Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
@@ -142,12 +140,11 @@ Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenry
 	llvm@lists.linux.dev, rcu@vger.kernel.org, linux-crypto@vger.kernel.org, 
 	linux-serial@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=eNo3X7BZ;       spf=pass
- (google.com: domain of 3jsfgzwukcruz6gzc19916z.x975vdv8-yzg19916z1c9fad.x97@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3JsfGZwUKCRUz6GzC19916z.x975vDv8-yzG19916z1C9FAD.x97@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b=LFrwBVTg;       spf=pass
+ (google.com: domain of 3kmfgzwukcrc18i1e3bb381.zb97xfxa-01i3bb3813ebhcf.zb9@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3KMfGZwUKCRc18I1E3BB381.zB97xFxA-01I3BB3813EBHCF.zB9@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -164,54 +161,278 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Including <linux/local_lock.h> into an empty TU will result in the
-compiler complaining:
-
-./include/linux/local_lock.h: In function =E2=80=98class_local_lock_irqsave=
-_constructor=E2=80=99:
-./include/linux/local_lock_internal.h:95:17: error: implicit declaration of=
- function =E2=80=98local_irq_save=E2=80=99; <...>
-   95 |                 local_irq_save(flags);                          \
-      |                 ^~~~~~~~~~~~~~
-
-As well as (some architectures only, such as 'sh'):
-
-./include/linux/local_lock_internal.h: In function =E2=80=98local_lock_acqu=
-ire=E2=80=99:
-./include/linux/local_lock_internal.h:33:20: error: =E2=80=98current=E2=80=
-=99 undeclared (first use in this function)
-   33 |         l->owner =3D current;
-
-Include missing headers to allow including local_lock.h where the
-required headers are not otherwise included.
+Add support for Clang's capability analysis for local_lock_t.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
- include/linux/local_lock_internal.h | 2 ++
- 1 file changed, 2 insertions(+)
+ .../dev-tools/capability-analysis.rst         |  2 +-
+ include/linux/local_lock.h                    | 18 ++++----
+ include/linux/local_lock_internal.h           | 41 ++++++++++++++---
+ lib/test_capability-analysis.c                | 46 +++++++++++++++++++
+ 4 files changed, 90 insertions(+), 17 deletions(-)
 
-diff --git a/include/linux/local_lock_internal.h b/include/linux/local_lock=
-_internal.h
-index 8dd71fbbb6d2..420866c1c70b 100644
+diff --git a/Documentation/dev-tools/capability-analysis.rst b/Documentation/dev-tools/capability-analysis.rst
+index 7e4d94d65043..e892a5292841 100644
+--- a/Documentation/dev-tools/capability-analysis.rst
++++ b/Documentation/dev-tools/capability-analysis.rst
+@@ -80,7 +80,7 @@ Supported Kernel Primitives
+ 
+ Currently the following synchronization primitives are supported:
+ `raw_spinlock_t`, `spinlock_t`, `rwlock_t`, `mutex`, `seqlock_t`,
+-`bit_spinlock`, RCU, SRCU (`srcu_struct`), `rw_semaphore`.
++`bit_spinlock`, RCU, SRCU (`srcu_struct`), `rw_semaphore`, `local_lock_t`.
+ 
+ For capabilities with an initialization function (e.g., `spin_lock_init()`),
+ calling this function on the capability instance before initializing any
+diff --git a/include/linux/local_lock.h b/include/linux/local_lock.h
+index 091dc0b6bdfb..63fadcf66216 100644
+--- a/include/linux/local_lock.h
++++ b/include/linux/local_lock.h
+@@ -51,12 +51,12 @@
+ #define local_unlock_irqrestore(lock, flags)			\
+ 	__local_unlock_irqrestore(lock, flags)
+ 
+-DEFINE_GUARD(local_lock, local_lock_t __percpu*,
+-	     local_lock(_T),
+-	     local_unlock(_T))
+-DEFINE_GUARD(local_lock_irq, local_lock_t __percpu*,
+-	     local_lock_irq(_T),
+-	     local_unlock_irq(_T))
++DEFINE_LOCK_GUARD_1(local_lock, local_lock_t __percpu,
++		    local_lock(_T->lock),
++		    local_unlock(_T->lock))
++DEFINE_LOCK_GUARD_1(local_lock_irq, local_lock_t __percpu,
++		    local_lock_irq(_T->lock),
++		    local_unlock_irq(_T->lock))
+ DEFINE_LOCK_GUARD_1(local_lock_irqsave, local_lock_t __percpu,
+ 		    local_lock_irqsave(_T->lock, _T->flags),
+ 		    local_unlock_irqrestore(_T->lock, _T->flags),
+@@ -68,8 +68,8 @@ DEFINE_LOCK_GUARD_1(local_lock_irqsave, local_lock_t __percpu,
+ #define local_unlock_nested_bh(_lock)				\
+ 	__local_unlock_nested_bh(_lock)
+ 
+-DEFINE_GUARD(local_lock_nested_bh, local_lock_t __percpu*,
+-	     local_lock_nested_bh(_T),
+-	     local_unlock_nested_bh(_T))
++DEFINE_LOCK_GUARD_1(local_lock_nested_bh, local_lock_t __percpu,
++		    local_lock_nested_bh(_T->lock),
++		    local_unlock_nested_bh(_T->lock))
+ 
+ #endif
+diff --git a/include/linux/local_lock_internal.h b/include/linux/local_lock_internal.h
+index 420866c1c70b..01830f75d9a3 100644
 --- a/include/linux/local_lock_internal.h
 +++ b/include/linux/local_lock_internal.h
-@@ -4,7 +4,9 @@
- #endif
-=20
- #include <linux/percpu-defs.h>
-+#include <linux/irqflags.h>
- #include <linux/lockdep.h>
-+#include <asm/current.h>
-=20
+@@ -10,12 +10,13 @@
+ 
  #ifndef CONFIG_PREEMPT_RT
-=20
---=20
+ 
+-typedef struct {
++struct_with_capability(local_lock) {
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ 	struct lockdep_map	dep_map;
+ 	struct task_struct	*owner;
+ #endif
+-} local_lock_t;
++};
++typedef struct local_lock local_lock_t;
+ 
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ # define LOCAL_LOCK_DEBUG_INIT(lockname)		\
+@@ -62,6 +63,7 @@ do {								\
+ 			      0, LD_WAIT_CONFIG, LD_WAIT_INV,	\
+ 			      LD_LOCK_PERCPU);			\
+ 	local_lock_debug_init(lock);				\
++	__assert_cap(lock);					\
+ } while (0)
+ 
+ #define __spinlock_nested_bh_init(lock)				\
+@@ -73,40 +75,47 @@ do {								\
+ 			      0, LD_WAIT_CONFIG, LD_WAIT_INV,	\
+ 			      LD_LOCK_NORMAL);			\
+ 	local_lock_debug_init(lock);				\
++	__assert_cap(lock);					\
+ } while (0)
+ 
+ #define __local_lock(lock)					\
+ 	do {							\
+ 		preempt_disable();				\
+ 		local_lock_acquire(this_cpu_ptr(lock));		\
++		__acquire(lock);				\
+ 	} while (0)
+ 
+ #define __local_lock_irq(lock)					\
+ 	do {							\
+ 		local_irq_disable();				\
+ 		local_lock_acquire(this_cpu_ptr(lock));		\
++		__acquire(lock);				\
+ 	} while (0)
+ 
+ #define __local_lock_irqsave(lock, flags)			\
+ 	do {							\
+ 		local_irq_save(flags);				\
+ 		local_lock_acquire(this_cpu_ptr(lock));		\
++		__acquire(lock);				\
+ 	} while (0)
+ 
+ #define __local_unlock(lock)					\
+ 	do {							\
++		__release(lock);				\
+ 		local_lock_release(this_cpu_ptr(lock));		\
+ 		preempt_enable();				\
+ 	} while (0)
+ 
+ #define __local_unlock_irq(lock)				\
+ 	do {							\
++		__release(lock);				\
+ 		local_lock_release(this_cpu_ptr(lock));		\
+ 		local_irq_enable();				\
+ 	} while (0)
+ 
+ #define __local_unlock_irqrestore(lock, flags)			\
+ 	do {							\
++		__release(lock);				\
+ 		local_lock_release(this_cpu_ptr(lock));		\
+ 		local_irq_restore(flags);			\
+ 	} while (0)
+@@ -115,19 +124,37 @@ do {								\
+ 	do {							\
+ 		lockdep_assert_in_softirq();			\
+ 		local_lock_acquire(this_cpu_ptr(lock));	\
++		__acquire(lock);				\
+ 	} while (0)
+ 
+ #define __local_unlock_nested_bh(lock)				\
+-	local_lock_release(this_cpu_ptr(lock))
++	do {							\
++		__release(lock);				\
++		local_lock_release(this_cpu_ptr(lock));		\
++	} while (0)
+ 
+ #else /* !CONFIG_PREEMPT_RT */
+ 
++#include <linux/spinlock.h>
++
+ /*
+  * On PREEMPT_RT local_lock maps to a per CPU spinlock, which protects the
+  * critical section while staying preemptible.
+  */
+ typedef spinlock_t local_lock_t;
+ 
++/*
++ * Because the compiler only knows about the base per-CPU variable, use this
++ * helper function to make the compiler think we lock/unlock the @base variable,
++ * and hide the fact we actually pass the per-CPU instance @pcpu to lock/unlock
++ * functions.
++ */
++static inline local_lock_t *__local_lock_alias(local_lock_t __percpu *base, local_lock_t *pcpu)
++	__returns_cap(base)
++{
++	return pcpu;
++}
++
+ #define INIT_LOCAL_LOCK(lockname) __LOCAL_SPIN_LOCK_UNLOCKED((lockname))
+ 
+ #define __local_lock_init(l)					\
+@@ -138,7 +165,7 @@ typedef spinlock_t local_lock_t;
+ #define __local_lock(__lock)					\
+ 	do {							\
+ 		migrate_disable();				\
+-		spin_lock(this_cpu_ptr((__lock)));		\
++		spin_lock(__local_lock_alias(__lock, this_cpu_ptr((__lock)))); \
+ 	} while (0)
+ 
+ #define __local_lock_irq(lock)			__local_lock(lock)
+@@ -152,7 +179,7 @@ typedef spinlock_t local_lock_t;
+ 
+ #define __local_unlock(__lock)					\
+ 	do {							\
+-		spin_unlock(this_cpu_ptr((__lock)));		\
++		spin_unlock(__local_lock_alias(__lock, this_cpu_ptr((__lock)))); \
+ 		migrate_enable();				\
+ 	} while (0)
+ 
+@@ -163,12 +190,12 @@ typedef spinlock_t local_lock_t;
+ #define __local_lock_nested_bh(lock)				\
+ do {								\
+ 	lockdep_assert_in_softirq_func();			\
+-	spin_lock(this_cpu_ptr(lock));				\
++	spin_lock(__local_lock_alias(lock, this_cpu_ptr(lock))); \
+ } while (0)
+ 
+ #define __local_unlock_nested_bh(lock)				\
+ do {								\
+-	spin_unlock(this_cpu_ptr((lock)));			\
++	spin_unlock(__local_lock_alias(lock, this_cpu_ptr((lock)))); \
+ } while (0)
+ 
+ #endif /* CONFIG_PREEMPT_RT */
+diff --git a/lib/test_capability-analysis.c b/lib/test_capability-analysis.c
+index 7ccb163ab5b1..81c8e74548a9 100644
+--- a/lib/test_capability-analysis.c
++++ b/lib/test_capability-analysis.c
+@@ -6,7 +6,9 @@
+ 
+ #include <linux/bit_spinlock.h>
+ #include <linux/build_bug.h>
++#include <linux/local_lock.h>
+ #include <linux/mutex.h>
++#include <linux/percpu.h>
+ #include <linux/rcupdate.h>
+ #include <linux/rwsem.h>
+ #include <linux/seqlock.h>
+@@ -433,3 +435,47 @@ static void __used test_srcu_guard(struct test_srcu_data *d)
+ 	guard(srcu)(&d->srcu);
+ 	(void)srcu_dereference(d->data, &d->srcu);
+ }
++
++struct test_local_lock_data {
++	local_lock_t lock;
++	int counter __guarded_by(&lock);
++};
++
++static DEFINE_PER_CPU(struct test_local_lock_data, test_local_lock_data) = {
++	.lock = INIT_LOCAL_LOCK(lock),
++};
++
++static void __used test_local_lock_init(struct test_local_lock_data *d)
++{
++	local_lock_init(&d->lock);
++	d->counter = 0;
++}
++
++static void __used test_local_lock(void)
++{
++	unsigned long flags;
++
++	local_lock(&test_local_lock_data.lock);
++	this_cpu_add(test_local_lock_data.counter, 1);
++	local_unlock(&test_local_lock_data.lock);
++
++	local_lock_irq(&test_local_lock_data.lock);
++	this_cpu_add(test_local_lock_data.counter, 1);
++	local_unlock_irq(&test_local_lock_data.lock);
++
++	local_lock_irqsave(&test_local_lock_data.lock, flags);
++	this_cpu_add(test_local_lock_data.counter, 1);
++	local_unlock_irqrestore(&test_local_lock_data.lock, flags);
++
++	local_lock_nested_bh(&test_local_lock_data.lock);
++	this_cpu_add(test_local_lock_data.counter, 1);
++	local_unlock_nested_bh(&test_local_lock_data.lock);
++}
++
++static void __used test_local_lock_guard(void)
++{
++	{ guard(local_lock)(&test_local_lock_data.lock); this_cpu_add(test_local_lock_data.counter, 1); }
++	{ guard(local_lock_irq)(&test_local_lock_data.lock); this_cpu_add(test_local_lock_data.counter, 1); }
++	{ guard(local_lock_irqsave)(&test_local_lock_data.lock); this_cpu_add(test_local_lock_data.counter, 1); }
++	{ guard(local_lock_nested_bh)(&test_local_lock_data.lock); this_cpu_add(test_local_lock_data.counter, 1); }
++}
+-- 
 2.48.1.711.g2feabab25a-goog
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
-0250304092417.2873893-19-elver%40google.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250304092417.2873893-20-elver%40google.com.
