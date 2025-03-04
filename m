@@ -1,124 +1,124 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBUEOTO7AMGQEAM7IZHQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBU4OTO7AMGQEQ2YSCDY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF748A4D82B
-	for <lists+kasan-dev@lfdr.de>; Tue,  4 Mar 2025 10:26:41 +0100 (CET)
-Received: by mail-wm1-x33c.google.com with SMTP id 5b1f17b1804b1-4399c32efb4sf27505905e9.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 04 Mar 2025 01:26:41 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1741080401; cv=pass;
+Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E92DA4D82C
+	for <lists+kasan-dev@lfdr.de>; Tue,  4 Mar 2025 10:26:44 +0100 (CET)
+Received: by mail-wm1-x340.google.com with SMTP id 5b1f17b1804b1-439a0e28cfasf29750695e9.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 04 Mar 2025 01:26:44 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1741080404; cv=pass;
         d=google.com; s=arc-20240605;
-        b=lzBFnRAvgHqTB5vfawkT9yc0dURgJzgzggiLFdDXn+dmEH6fzxRNfBT43JLIgjrYlM
-         hXIqyKnjbAM0xpVrscWrK6rEyKnhST6F2rNWtSy0k4FktXnFxv+V51rI58bJaTE5lWp7
-         jX70/Cjgi1xA69iHQ2nI/mnbubuMLvskt/zpfrRMDFSNnqZH49HFdZZDp1bkMkgUiEZn
-         vwGaOpoIGaVrF5D91PCn6agKcaUtj8Nh9zFgzOlJ8VUIjOO7QYNVuWE/t911Bv/Lo7VU
-         or7g5kVzEjd0mY+EW+bg4gKmRChcCjCvYHIVjYxDPeJsMUwB4dXI4uGHGI5aBZdzUE9P
-         LjxQ==
+        b=klU8UB+VoMoz0NUsG7J3C+DY4gvtHbVlZo9OHjE0voHJLezjNjqO2carsxKp3p9XQ7
+         H1Z2tWXKSmKHtAeX9mxhFFWGeW8Za/8UskvcN+h8GmCXmnrgJB3i2srSjY5M8bqfEaeE
+         yrQfAydxSMzORSG1/1GWhGLkuhiL30+XtAcEFW0sgIZjnXcz/CrK+/CUhUA8eQQ3tJfn
+         XHsKUYAihOmDDcRy8LiCgugR0lIi33Pf2CYQSeC5N16K9I0WvswZv74ZPDDMNWqldQV2
+         OKwi/3kpe+ZVpwf5cFXB83GpzNQ6wi4WfZnNyc1cFrOvkqgolrqGVnefpvYPb4SVU00C
+         7Wvg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=K1TElLareohEdcJJZZF+QEuVpIUAuOI95+GupjCZPmY=;
-        fh=oClUwHzZkKHO53f6b5VeMmxJI7hTRbCwyPZhIKBTdZ8=;
-        b=ahWMzzi9rjInXgSMMcO8SjNWpeHvUsChcP7Pi6iOVYVA6tT/20IWuyiC0fYma3yBVl
-         NhjodpiUk5hTUrAiUmbTuXBthLFCtj5cOKAbVeAf+nTfHeQaQ6ZKHPJARUb1kaZezDPL
-         iLzeQwqArvNCkVqxEX7NhtCAxBZumHZ355VByjx5PA0TxbFmbIn2X/P+upZgWIRX/x+x
-         ax53yNno9qRFrjfo85e3nTWONUqEp5ijphRbFzVeBbpFsAvTTkYPiGDf5Sc1KAHzjM6S
-         G3A3Apfv/GaUmcQ5gE6prF8f667FYjWhc0kOxnB2tawCsRs3EAQ6hah10cUlZwRY8ryI
-         xaPQ==;
+        bh=JMcXN/xXI1oHPOZpM3u6QLPEw1sENM9ULuNpG8J3je4=;
+        fh=x9/ueVHrBYPy86ACVv50JAUjjoattKMfNnq22i0qTj4=;
+        b=JGBsOtH45tAsDz8/VQSAPw8KxGuliO7z4lX6M2ZeLTNJTzB7uNWFdRduN4xLT3nr2a
+         Hr1nlM4aMk6oSteAba6TeClSuhr/0ux7zGrIGgMXlE3T/6HYdVdHLtpGDtWP7wmElgPb
+         R/GWv110q59QY1cHI3B87gFIzVAAxXYwL9F+XTrOGw4XHWfE4eXRe5g2gKF6iHMVMzci
+         nkNHmbLeLi53V8SLk8NpGJG/HoWkjp4IRF3vKPvd4TP1G97zVUskRtW74Sz/1XaHpbb2
+         f36rSjISirbQ9l/TbXmCGYoEik3J4uLMeoqZPr6oGqKB1PHu9K0SrSj+yAFnV55VBtrE
+         capg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=NY53dv3h;
-       spf=pass (google.com: domain of 3tsfgzwukct0dkudqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=3TsfGZwUKCT0dkudqfnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=1fPrsvyJ;
+       spf=pass (google.com: domain of 3umfgzwukct8fmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3UMfGZwUKCT8fmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1741080401; x=1741685201; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1741080404; x=1741685204; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=K1TElLareohEdcJJZZF+QEuVpIUAuOI95+GupjCZPmY=;
-        b=Rpn8k2CzOMV9vuDMXTIgFPJf0IyFD48GvkglNr8ibGTklolORMll/hCOUoS1hCCEO0
-         5g/z6KA+B2M66wUzECHDTZmruvIgiRLxQYd8+cXyKW2gRlfHZLgmfWq0nO8XpQBd1UpU
-         enWABHRYvpaov9yldE6UZRdcCI3pAbBZyuoxrmb5i2DvBZUP0u3SSmhihQIOUHv6VyEQ
-         A2ikkggpE/FznEk1a9VECeq2hPAxTwJON6X+1enjK/QOjoNhydkfS6QbycvuYgUjOOlp
-         iWtfskryMr56nBesI0ubCR1NA0gfF3we3dh06n68EvZ86dHwJBqDBJETWYCzh72jA6t/
-         0Zmg==
+        bh=JMcXN/xXI1oHPOZpM3u6QLPEw1sENM9ULuNpG8J3je4=;
+        b=TvlGPLLbfN2fJEjCiIbewt47hMGLjJ40WAfFsE9WNVT6iW3xjc8mJjswGMhd/0EZFk
+         43wbnsVjXJbBqqMvHqgxsPbOMS+MrhBm581hN8Co8r+QY6VO6cx+LkyQErYdwXxDPjA1
+         b5I/oNSW1ZlJecz1Oaix+8Hs6VaqMxDICA2SJcDNQ5tMwvApNSkwRgtp3xscW+ah3OyK
+         wYC849Q7yTVj/HuHK7vFwJAgSqk9NHAnomgqWVsOHlTZ9ASaAMkYTZTmg4VjVrjxv0LO
+         ZHwxP9ylZ8ui4QpGMpq7UjOI4vV6wvSS3ghafKTNUjZAA77KPaQqyPaxH9UHNh9wdR2E
+         YpLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741080401; x=1741685201;
+        d=1e100.net; s=20230601; t=1741080404; x=1741685204;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=K1TElLareohEdcJJZZF+QEuVpIUAuOI95+GupjCZPmY=;
-        b=Lm4mItebHF/25/HFD+9nPPsCZvBZFAD4BhAiRbHNJ4tpznuCxJxyxPqyITyLGuwDeu
-         H/E5MRIP0DjLdfxz59R/qtu8C8Z9kjJJsayAVmAgg32Mom4Z0NpTGn3JA6RGnFsYdAav
-         cpmpxZqaYRAxwwYgRD9PmnfVE0aphk/Yn39WqHtqdqnyleH2S6PIjKWdgWeE1E907rRf
-         w58yaUDjYz0VVi9Rq5WEC3TID/A+8yqU8BPPNBfkZ9oy/MLE4mF1/qPunr/VycDbte1V
-         vHRzYoEf9RnrzHUrQci/cjc8HZnOm7WZQXDPIA7IsGEgmsYc1LzfRn3jgn31dBfJX9gh
-         uiCQ==
-X-Forwarded-Encrypted: i=2; AJvYcCUOkdxM49kdStKJcA39NhEbY6g4LwGRz8C1P5OLH+JUbzcmHkpTuJqkeDYA2kHjaDeMR3FUNg==@lfdr.de
-X-Gm-Message-State: AOJu0YxFd55fJeF77gW7zL4iTAZucQwoJ/CgXkUESr8h25bzfNbgGsMr
-	4A7IoiqPno+EQC72JMUoL2YM931Q5zrTt4h+66+TWJ1DXeuiMElZ
-X-Google-Smtp-Source: AGHT+IEFq4vtLCVkjLAP40u49CaZJaKWZiaKw0dHq2HHD2/neR+Zi7MzOKrhZr8hdoSOLPjAIYdwSg==
-X-Received: by 2002:a05:600c:358b:b0:43b:c6a7:ac60 with SMTP id 5b1f17b1804b1-43bcb032125mr18458605e9.10.1741080401118;
+        bh=JMcXN/xXI1oHPOZpM3u6QLPEw1sENM9ULuNpG8J3je4=;
+        b=RhaN6lrNae94Z4q7IIimmH07BGlJkhVsleib3c0n+uT0xoxjQDeiwikE+3+qNlpZCv
+         umK7JYMu9rrrOBCqZ9BZFCukOAwpwktL+29DYM26c0Pbq7M8qSzUzp3IaWWzLc9eGQaD
+         bsMnBQbY8twiWvF+w6PFiHgAH2IgByzSvc07xNgCkX/4B6eYH+wjF9Df9m+YKnb56Hn8
+         Aw38L/6b+ZjApzPzjfiljJn3S9fTEpheqHmwZ4/Wctqcd4sWTXRZW8W4dbsKBe2s1QQ9
+         ul7sSwx/OJqQlhKcZmpZWj+Yt4zTQNgAkV9aYDqCl38QrSBLjwf+2o4NJn789YKo/F+P
+         fqpw==
+X-Forwarded-Encrypted: i=2; AJvYcCU9xBmtbywaIlZJSNPFc+ygxlS1glrk0eAruSoL3jLlopaswRIW4g86XBY0bifMiNry1aFJcA==@lfdr.de
+X-Gm-Message-State: AOJu0Yw5JUBQFEDUHxHWRtD09iWbLWYjQy1+xjPnvRc/jCL+j/gJ6qAx
+	FFx+TWmwCafsntaMIWFNI77zCz2HiaE/JfI44A/rxvXIyMqwmhf6
+X-Google-Smtp-Source: AGHT+IFEsQyNMu+l+2047a/Si+aXYb2npwvl65wn7sh/JunNp7eNLpki6YSCqqD1gTMYWb9SmmMJ5A==
+X-Received: by 2002:a05:600c:1d22:b0:43b:c390:b78d with SMTP id 5b1f17b1804b1-43bc390ba52mr40991085e9.24.1741080403729;
+        Tue, 04 Mar 2025 01:26:43 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVGojyH21Fq+GuMsK+L8ZNiIuaG2GtlUKe6K1E9sntKi+w==
+Received: by 2002:a05:600c:28e:b0:439:9891:79df with SMTP id
+ 5b1f17b1804b1-43aed4c8fe6ls23592545e9.0.-pod-prod-06-eu; Tue, 04 Mar 2025
+ 01:26:41 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUqXickQrfCWu5jAOa1SOTrQB7qkPhiX9fPeJ+bhSZz+SytqqCaLmSUV+WLl3n7tOjnRIRKFWA0QNE=@googlegroups.com
+X-Received: by 2002:a05:600c:35c6:b0:439:a88f:852a with SMTP id 5b1f17b1804b1-43ba6766afamr127632375e9.23.1741080401368;
         Tue, 04 Mar 2025 01:26:41 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVEzv9OTuzE8ZQup1qrtwmjbgVlkJaKvW2UfeIYS0guqcw==
-Received: by 2002:a05:600c:354d:b0:439:806f:c2dc with SMTP id
- 5b1f17b1804b1-43ab97d4b3bls20058635e9.1.-pod-prod-00-eu-canary; Tue, 04 Mar
- 2025 01:26:39 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCWtOZ9V5g6X+8rCJ5wIQsXE3ZEBAQgOF1FRPxSRiHfUuQ4eRieFNxaajdxNjk5BRqHCEM5Q2D0ciNk=@googlegroups.com
-X-Received: by 2002:a05:6000:186b:b0:390:f5c8:1079 with SMTP id ffacd0b85a97d-39115627ea8mr1905112f8f.24.1741080398654;
-        Tue, 04 Mar 2025 01:26:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1741080398; cv=none;
+ARC-Seal: i=1; a=rsa-sha256; t=1741080401; cv=none;
         d=google.com; s=arc-20240605;
-        b=kHZDMgfoKSXXJ6LJTqG2cSfScra64/BVGHI1b3pRryq/HI3pZuvTUyRRJodkXeV94x
-         IUo/E1nuFNhwr/Dzt3PvsR+0CRi2LMuuM5Y9lFX5MzBdVTGdP/Emk6iZP1fKIHTLA2Gt
-         15E2pCyBlYZd820+rqd7PANjqw86E3WI/jZonfHXYjoH6psm8FjDCtdNxo+3iuA6KFZG
-         LdW1q8KnW2JVFmup/aPetoJRnXndgfWA514XmLb3utLRkDKoTTtON10cgrQ/9fwo5CTK
-         l1elgM3GHH6P+VMRMB2urmbcuaIMp5eI3ya0n8skKoT77bWxEt69Scls/+y/oyuaIyQ6
-         TUYA==
+        b=Hlig0mOb52C2A6xiSmqLly5AAeCeV8WrTL9TmxfKu9TIlCn4igxwSuXbynxi791yoF
+         gmBaYSmRgWS3nnhzMAiISjOA0FVvzA2+2F8+oQCKrLj/pDZt4GPYnhuLf1TVY2zZ+V6X
+         iM7k8kFquvBgtSwU4C5vY3eRhY+B5NUW4/9b6+k4DdvotD81Y4dQBm7/OQnpillGUUfy
+         CIWUVqHAc638UpcUZvMu2M7+Kfe+RkAcSwqOMuD5qaAfdhKYI/sLAlK5WE2+Pn3BW+vv
+         OXn3jimn0VWmip7tDYDblm7REhigHKnQ7aVlEvTC9c+9eFXWBRI0ZmExoIFr1CADReBY
+         phlA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=N6cosU/aHEF331Tgbf58Vi03lqVulZKFB2l/GT8tm7Y=;
-        fh=8LP999ijagPDXfcgAhpMsgD1+hngeGaHlBqK+qUkhiE=;
-        b=axfJXJ9hBCeelIq8ZAogpX5V7GOP7HHHQvGv93Zxq+BHQs9423ZS4VMNZvnl6kYrGG
-         SHbMojKTLa9+++ylX9MRa+dd2dKr/oOlXYbSR1ErFs71uThhToldCzWRPnXBB4ObeYUy
-         6wYdL69eSOlCulDg0pFtYEfjeRou0H8NQ0cyFIjkZCQXlubi1yfu+r2Ug+07h+VXBbO2
-         03vJNTsEeLUsZwkNcIB+XT0lWvTtYgK3Ne1c9MlyL0hIagPP5akUnIQIU9RzTx0iW9/a
-         QM95wQcAmym3/keJQWtP4PTJ61LveCnxDMGfwFRVHNR47ZUeFc0yVtGIZUvkwN8Gj+xx
-         uWWA==;
+        bh=Vumk0HTnchdldWRc8wT0cAdQjFLn1MfJ3/QC5i3Nw5Q=;
+        fh=Oa/TVBqS2Mj8OP0JyqtKBYfMD8qHUzQdVu4ASsm11L4=;
+        b=AorfH6Q9sNURkvzZ10I8vFJtcpU2vyGIQuna5Z8JnuUWTDkHcSrwzdJxEHqhoFr+AO
+         2SPqIid2k2oPkBQcsBUbVwdVPMYOdWyJzvGlubZ4jTgCk+5rrE3TrMuJkgnJ2ygraIoN
+         nTmzdNJnxCyiL48ebCJY4DDcVYvsfW8UocT79Y2cOzQQrZO1BaKgnL4+IINMjBvvcW1g
+         h/YsrkYTjLr+I5Xu/NOa5wcEBPOJTY2gJhuW6Wyc/KvJ+c1A97efdpDjU0Th2ypfNumQ
+         fFjbnsEjqrLpmk9mjqJzwJxZe0W3sWG3wkkKukejp3movYhJzZM0gTV4SKmtjOBHICZH
+         Mh4w==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=NY53dv3h;
-       spf=pass (google.com: domain of 3tsfgzwukct0dkudqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=3TsfGZwUKCT0dkudqfnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=1fPrsvyJ;
+       spf=pass (google.com: domain of 3umfgzwukct8fmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3UMfGZwUKCT8fmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-ej1-x64a.google.com (mail-ej1-x64a.google.com. [2a00:1450:4864:20::64a])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-390e47ff679si387058f8f.5.2025.03.04.01.26.38
+Received: from mail-ej1-x649.google.com (mail-ej1-x649.google.com. [2a00:1450:4864:20::649])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-43bcc13b8a9si395495e9.1.2025.03.04.01.26.41
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Mar 2025 01:26:38 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3tsfgzwukct0dkudqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) client-ip=2a00:1450:4864:20::64a;
-Received: by mail-ej1-x64a.google.com with SMTP id a640c23a62f3a-ab397fff5a3so699458566b.1
-        for <kasan-dev@googlegroups.com>; Tue, 04 Mar 2025 01:26:38 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWpH5MixfzuHkgeM0ujPzJviXwJUaxiNjCmBAm02H/di1lbwvl7L6C25OXWsjMqRfcaDw96ByVVO44=@googlegroups.com
-X-Received: from ejcvx9.prod.google.com ([2002:a17:907:a789:b0:ac1:fb2a:4a70])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:3da3:b0:ac1:edc5:d73b
- with SMTP id a640c23a62f3a-ac1f0edc8c7mr225816966b.8.1741080398288; Tue, 04
- Mar 2025 01:26:38 -0800 (PST)
-Date: Tue,  4 Mar 2025 10:21:32 +0100
+        Tue, 04 Mar 2025 01:26:41 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3umfgzwukct8fmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) client-ip=2a00:1450:4864:20::649;
+Received: by mail-ej1-x649.google.com with SMTP id a640c23a62f3a-abec83a498cso522432066b.1
+        for <kasan-dev@googlegroups.com>; Tue, 04 Mar 2025 01:26:41 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWMK6NDoFaMgKFPtAB8kMtbBkSPXhSHHFhemmxk45zyqUA17aXx0dstrzcktMD5sWN2Jt1Z3mnwKpw=@googlegroups.com
+X-Received: from ejckt25.prod.google.com ([2002:a17:907:9d19:b0:ac1:ed2c:ab54])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a17:906:7fd6:b0:abf:46cd:5e3f
+ with SMTP id a640c23a62f3a-abf46cd7414mr1245962366b.16.1741080400857; Tue, 04
+ Mar 2025 01:26:40 -0800 (PST)
+Date: Tue,  4 Mar 2025 10:21:33 +0100
 In-Reply-To: <20250304092417.2873893-1-elver@google.com>
 Mime-Version: 1.0
 References: <20250304092417.2873893-1-elver@google.com>
 X-Mailer: git-send-email 2.48.1.711.g2feabab25a-goog
-Message-ID: <20250304092417.2873893-34-elver@google.com>
-Subject: [PATCH v2 33/34] crypto: Enable capability analysis
+Message-ID: <20250304092417.2873893-35-elver@google.com>
+Subject: [PATCH v2 34/34] MAINTAINERS: Add entry for Capability Analysis
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com
 Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
@@ -142,9 +142,9 @@ Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenry
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=NY53dv3h;       spf=pass
- (google.com: domain of 3tsfgzwukct0dkudqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=3TsfGZwUKCT0dkudqfnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b=1fPrsvyJ;       spf=pass
+ (google.com: domain of 3umfgzwukct8fmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3UMfGZwUKCT8fmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -161,231 +161,40 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Enable capability analysis for crypto subsystem.
-
-This demonstrates a larger conversion to use Clang's capability
-analysis. The benefit is additional static checking of locking rules,
-along with better documentation.
+Add entry for all new files added for Clang's capability analysis.
 
 Signed-off-by: Marco Elver <elver@google.com>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: linux-crypto@vger.kernel.org
+Cc: Bart Van Assche <bvanassche@acm.org>
 ---
-v2:
-* New patch.
----
- crypto/Makefile                  | 2 ++
- crypto/algapi.c                  | 2 ++
- crypto/api.c                     | 1 +
- crypto/crypto_engine.c           | 2 +-
- crypto/drbg.c                    | 5 +++++
- crypto/internal.h                | 2 +-
- crypto/proc.c                    | 3 +++
- crypto/scompress.c               | 8 +++++---
- include/crypto/internal/engine.h | 2 +-
- 9 files changed, 21 insertions(+), 6 deletions(-)
+ MAINTAINERS | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/crypto/Makefile b/crypto/Makefile
-index f67e853c4690..b7fa58ab8783 100644
---- a/crypto/Makefile
-+++ b/crypto/Makefile
-@@ -3,6 +3,8 @@
- # Cryptographic API
- #
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8e0736dc2ee0..cf9bf14f99b9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5638,6 +5638,17 @@ M:	Nelson Escobar <neescoba@cisco.com>
+ S:	Supported
+ F:	drivers/infiniband/hw/usnic/
  
-+CAPABILITY_ANALYSIS := y
++CLANG CAPABILITY ANALYSIS
++M:	Marco Elver <elver@google.com>
++R:	Bart Van Assche <bvanassche@acm.org>
++L:	llvm@lists.linux.dev
++S:	Maintained
++F:	Documentation/dev-tools/capability-analysis.rst
++F:	include/linux/compiler-capability-analysis.h
++F:	lib/test_capability-analysis.c
++F:	scripts/Makefile.capability-analysis
++F:	scripts/capability-analysis-suppression.txt
 +
- obj-$(CONFIG_CRYPTO) += crypto.o
- crypto-y := api.o cipher.o compress.o
- 
-diff --git a/crypto/algapi.c b/crypto/algapi.c
-index 5318c214debb..c2bafcde6f64 100644
---- a/crypto/algapi.c
-+++ b/crypto/algapi.c
-@@ -230,6 +230,7 @@ EXPORT_SYMBOL_GPL(crypto_remove_spawns);
- 
- static void crypto_alg_finish_registration(struct crypto_alg *alg,
- 					   struct list_head *algs_to_put)
-+	__must_hold(&crypto_alg_sem)
- {
- 	struct crypto_alg *q;
- 
-@@ -286,6 +287,7 @@ static struct crypto_larval *crypto_alloc_test_larval(struct crypto_alg *alg)
- 
- static struct crypto_larval *
- __crypto_register_alg(struct crypto_alg *alg, struct list_head *algs_to_put)
-+	__must_hold(&crypto_alg_sem)
- {
- 	struct crypto_alg *q;
- 	struct crypto_larval *larval;
-diff --git a/crypto/api.c b/crypto/api.c
-index bfd177a4313a..def3430ab332 100644
---- a/crypto/api.c
-+++ b/crypto/api.c
-@@ -57,6 +57,7 @@ EXPORT_SYMBOL_GPL(crypto_mod_put);
- 
- static struct crypto_alg *__crypto_alg_lookup(const char *name, u32 type,
- 					      u32 mask)
-+	__must_hold_shared(&crypto_alg_sem)
- {
- 	struct crypto_alg *q, *alg = NULL;
- 	int best = -2;
-diff --git a/crypto/crypto_engine.c b/crypto/crypto_engine.c
-index c7c16da5e649..4ab0bbc4c7ce 100644
---- a/crypto/crypto_engine.c
-+++ b/crypto/crypto_engine.c
-@@ -514,8 +514,8 @@ struct crypto_engine *crypto_engine_alloc_init_and_set(struct device *dev,
- 	snprintf(engine->name, sizeof(engine->name),
- 		 "%s-engine", dev_name(dev));
- 
--	crypto_init_queue(&engine->queue, qlen);
- 	spin_lock_init(&engine->queue_lock);
-+	crypto_init_queue(&engine->queue, qlen);
- 
- 	engine->kworker = kthread_run_worker(0, "%s", engine->name);
- 	if (IS_ERR(engine->kworker)) {
-diff --git a/crypto/drbg.c b/crypto/drbg.c
-index f28dfc2511a2..881579afa160 100644
---- a/crypto/drbg.c
-+++ b/crypto/drbg.c
-@@ -231,6 +231,7 @@ static inline unsigned short drbg_sec_strength(drbg_flag_t flags)
-  */
- static int drbg_fips_continuous_test(struct drbg_state *drbg,
- 				     const unsigned char *entropy)
-+	__must_hold(&drbg->drbg_mutex)
- {
- 	unsigned short entropylen = drbg_sec_strength(drbg->core->flags);
- 	int ret = 0;
-@@ -1061,6 +1062,7 @@ static inline int __drbg_seed(struct drbg_state *drbg, struct list_head *seed,
- static inline int drbg_get_random_bytes(struct drbg_state *drbg,
- 					unsigned char *entropy,
- 					unsigned int entropylen)
-+	__must_hold(&drbg->drbg_mutex)
- {
- 	int ret;
- 
-@@ -1075,6 +1077,7 @@ static inline int drbg_get_random_bytes(struct drbg_state *drbg,
- }
- 
- static int drbg_seed_from_random(struct drbg_state *drbg)
-+	__must_hold(&drbg->drbg_mutex)
- {
- 	struct drbg_string data;
- 	LIST_HEAD(seedlist);
-@@ -1132,6 +1135,7 @@ static bool drbg_nopr_reseed_interval_elapsed(struct drbg_state *drbg)
-  */
- static int drbg_seed(struct drbg_state *drbg, struct drbg_string *pers,
- 		     bool reseed)
-+	__must_hold(&drbg->drbg_mutex)
- {
- 	int ret;
- 	unsigned char entropy[((32 + 16) * 2)];
-@@ -1368,6 +1372,7 @@ static inline int drbg_alloc_state(struct drbg_state *drbg)
- static int drbg_generate(struct drbg_state *drbg,
- 			 unsigned char *buf, unsigned int buflen,
- 			 struct drbg_string *addtl)
-+	__must_hold(&drbg->drbg_mutex)
- {
- 	int len = 0;
- 	LIST_HEAD(addtllist);
-diff --git a/crypto/internal.h b/crypto/internal.h
-index 46b661be0f90..3ac76faf228b 100644
---- a/crypto/internal.h
-+++ b/crypto/internal.h
-@@ -45,8 +45,8 @@ enum {
- /* Maximum number of (rtattr) parameters for each template. */
- #define CRYPTO_MAX_ATTRS 32
- 
--extern struct list_head crypto_alg_list;
- extern struct rw_semaphore crypto_alg_sem;
-+extern struct list_head crypto_alg_list __guarded_by(&crypto_alg_sem);
- extern struct blocking_notifier_head crypto_chain;
- 
- int alg_test(const char *driver, const char *alg, u32 type, u32 mask);
-diff --git a/crypto/proc.c b/crypto/proc.c
-index 522b27d90d29..4679eb6b81c9 100644
---- a/crypto/proc.c
-+++ b/crypto/proc.c
-@@ -19,17 +19,20 @@
- #include "internal.h"
- 
- static void *c_start(struct seq_file *m, loff_t *pos)
-+	__acquires_shared(&crypto_alg_sem)
- {
- 	down_read(&crypto_alg_sem);
- 	return seq_list_start(&crypto_alg_list, *pos);
- }
- 
- static void *c_next(struct seq_file *m, void *p, loff_t *pos)
-+	__must_hold_shared(&crypto_alg_sem)
- {
- 	return seq_list_next(p, &crypto_alg_list, pos);
- }
- 
- static void c_stop(struct seq_file *m, void *p)
-+	__releases_shared(&crypto_alg_sem)
- {
- 	up_read(&crypto_alg_sem);
- }
-diff --git a/crypto/scompress.c b/crypto/scompress.c
-index 1cef6bb06a81..0f24c84cc550 100644
---- a/crypto/scompress.c
-+++ b/crypto/scompress.c
-@@ -25,8 +25,8 @@
- 
- struct scomp_scratch {
- 	spinlock_t	lock;
--	void		*src;
--	void		*dst;
-+	void		*src __guarded_by(&lock);
-+	void		*dst __guarded_by(&lock);
- };
- 
- static DEFINE_PER_CPU(struct scomp_scratch, scomp_scratch) = {
-@@ -34,8 +34,8 @@ static DEFINE_PER_CPU(struct scomp_scratch, scomp_scratch) = {
- };
- 
- static const struct crypto_type crypto_scomp_type;
--static int scomp_scratch_users;
- static DEFINE_MUTEX(scomp_lock);
-+static int scomp_scratch_users __guarded_by(&scomp_lock);
- 
- static int __maybe_unused crypto_scomp_report(
- 	struct sk_buff *skb, struct crypto_alg *alg)
-@@ -59,6 +59,7 @@ static void crypto_scomp_show(struct seq_file *m, struct crypto_alg *alg)
- }
- 
- static void crypto_scomp_free_scratches(void)
-+	__capability_unsafe(/* frees @scratch */)
- {
- 	struct scomp_scratch *scratch;
- 	int i;
-@@ -74,6 +75,7 @@ static void crypto_scomp_free_scratches(void)
- }
- 
- static int crypto_scomp_alloc_scratches(void)
-+	__capability_unsafe(/* allocates @scratch */)
- {
- 	struct scomp_scratch *scratch;
- 	int i;
-diff --git a/include/crypto/internal/engine.h b/include/crypto/internal/engine.h
-index fbf4be56cf12..10edbb451f1c 100644
---- a/include/crypto/internal/engine.h
-+++ b/include/crypto/internal/engine.h
-@@ -54,7 +54,7 @@ struct crypto_engine {
- 
- 	struct list_head	list;
- 	spinlock_t		queue_lock;
--	struct crypto_queue	queue;
-+	struct crypto_queue	queue __guarded_by(&queue_lock);
- 	struct device		*dev;
- 
- 	bool			rt;
+ CLANG CONTROL FLOW INTEGRITY SUPPORT
+ M:	Sami Tolvanen <samitolvanen@google.com>
+ M:	Kees Cook <kees@kernel.org>
 -- 
 2.48.1.711.g2feabab25a-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250304092417.2873893-34-elver%40google.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250304092417.2873893-35-elver%40google.com.
