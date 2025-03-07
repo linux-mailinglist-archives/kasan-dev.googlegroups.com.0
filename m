@@ -1,144 +1,140 @@
-Return-Path: <kasan-dev+bncBCU4TIPXUUFRBINLVO7AMGQE5QDJXFY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV37XP3XYDRBO5UVS7AMGQEMXKRKAQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9CE2A56667
-	for <lists+kasan-dev@lfdr.de>; Fri,  7 Mar 2025 12:16:51 +0100 (CET)
-Received: by mail-pl1-x637.google.com with SMTP id d9443c01a7336-22406ee0243sf24028395ad.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 07 Mar 2025 03:16:51 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1741346210; cv=pass;
+Received: from mail-qv1-xf39.google.com (mail-qv1-xf39.google.com [IPv6:2607:f8b0:4864:20::f39])
+	by mail.lfdr.de (Postfix) with ESMTPS id 322F2A56D30
+	for <lists+kasan-dev@lfdr.de>; Fri,  7 Mar 2025 17:09:33 +0100 (CET)
+Received: by mail-qv1-xf39.google.com with SMTP id 6a1803df08f44-6e8c4f5f477sf35515346d6.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 07 Mar 2025 08:09:33 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1741363772; cv=pass;
         d=google.com; s=arc-20240605;
-        b=I+H6vhYsyOaZShe7slJDwPRs2A+xT0TdqQQIfMwp8+HsZGTHLP7COx0aepmcqP406C
-         SUJKwOHJoHbgCx1cCOl1f0F50be54IHTRO4wtcqgwq8xMAtGeAUSH2aotcKrfzwf7Z9R
-         I9tv9j98nhIRDLsFOy0TX6chyjRBrjxNdmWP9EUCqGqsiR+vCXemrHAVXq90RgrxPRuF
-         +4DB0/zhC9GGHLWTVjrbXclfL3s9lP6yTv2a0Rouc2dBy0v5R00T5dEEjQIz5AoQ3Jzp
-         60DzT4WZcFZyRGJRNzDVdP1b2YQbuGfYaiV4IQzBKE7WOT3kxMJ8NW5Zg1dz038l9/xA
-         rqBA==
+        b=lHnN/FVxIpymCQiPBTmLvMPNcS3LwCV7pW8oVfIySHB7PD4EdPVt6QRGYkSuxJ2hND
+         2r9CNsK3WX3nZDA+UWWdUjvnaLuzHxhl3hYGuxgRE4Yl2FNwosmRqqsoSXNs8Vkd5gU9
+         RSCbpaMNXmP18rq/d1Z96QnkINZ1ajohrDU//6QEHTOp52PFC/0UPghF4hwHzdTb3oRr
+         5DwMvoY+Vvt0TKl2x7oxeCkTM6unJ0i2sjgG0MofiXPdjcpIWeCBD4dU49J56M1E47K2
+         H8icjS28GO5eaNr3DWBjQ5rWPGc8thLmlOsY72cIqMROts13boIX5zjGIIadpvUypYQR
+         70EQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=ODsHn4dUOldUchCy+RgAZYJExuiP67bcUP0Eucmm0IY=;
-        fh=P6Bb8BCmFVKBcUEXQvCLE+VBksD/kNqkB2h8J/j/9vw=;
-        b=U5kfcog0GvH42J5S5h13V7wNcbrVHwY1VuzIzviqGCDsvnt30zk0VwpbM3mGUOt0zs
-         h6xJIQvQUq06M7//Ogvl7mYJN9uawVvKGWcWMdTchqWOIi30M4SHw1enV4SoeGI+bqNd
-         6d/lVwvZmYdSiadeWq7+V0Y9naz6AwjrhafiB7ZL6NiucgmcA3O1VmTjB8DONt8MN/2d
-         TGEXB7spC21jqIblZ08/CGdxaiYDYB+s0zxus+EiqVByYRDltziXOjlDoXIilGsb6NCY
-         HtnTQkaM7QixBPb3WOYe9gS55k15iz0HuhH8FxOCgFvhbKv0wYYnvYsROiLpaRqBhA+R
-         VEtQ==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=IwtQ0nWeHHoOFogd2fGxCv/7FCBNBDfOxXJC1IhCOpY=;
+        fh=vCzoVOVcIt28snn2P0R1Vy4L5SUCbcfPkFtAj2XlUjA=;
+        b=NDOGdwouXzjg9m8Q4q8RYSuWTeHXn/UYKrK8CqOdowKweurDKbc0R0n8kTnpHxUAyO
+         grG2PLp1s1aYiFZD/8E/MnGXOp+v2OvJ2cCfwz2s6qf6xLjwwUgBGQPj6dfF3mwPKnS3
+         gcGxWZxDl+/F6SzFcns9gDdOZiBIBKgQ3ZGny2Ef49zSa18PHrRu0xQ2KrfmoAF+df/P
+         JUhvAxJzaAsxbXQ/TlZpYYWW7JJ+C4KAsadv8cHSdmqH1PhqkDyRD/0QC6N8JTf3LIZh
+         J97YEZFAzw5VpOT6kjxhvA75V0NtK3RMjAO41+u/gRJZMNsp3fpNrIX8f1C9trCTys6T
+         ZzBg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=YEcRD0nP;
-       spf=pass (google.com: domain of ardb@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=ardb@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1741346210; x=1741951010; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1741363772; x=1741968572; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ODsHn4dUOldUchCy+RgAZYJExuiP67bcUP0Eucmm0IY=;
-        b=Tw0VRsPintvaFdlseixbARUsOtORr1Gr9Fjcri3+iGRfjSp8VhxMlx/EnWGXZ3a0IM
-         wnZTPjalUCtQQ3YGiRXq5mX6a0Q0lZhNblvi4FI+gmXbcrhxG5sP+xw1rMDYUDBnnzQT
-         D4jAOKkErFA5cyLnGY0ND9Zv2ptKqZG5ig9H7e1nbGWuAKMVkGwICjMZiDi6K02vCBsS
-         3Nj8zBP+b9S6zjEgI1wVZy3iNbAKnKBHJq7zzAuy/mrSaMd5kVYon1TlH1a7IPoSa3qy
-         IFMPgXk3Q9lRe2jY6WpeDMpZ/vGQp7fD4tQilR5aneiQwNHVG1VjxZReC9FihT/QGioC
-         hZaQ==
+        bh=IwtQ0nWeHHoOFogd2fGxCv/7FCBNBDfOxXJC1IhCOpY=;
+        b=YJhdaK3YDOQLF2X94eC/FDxqrwZy/sHj1VjMaZRV/yE3Q5IMDH0Y4Nu1ZwOsmCZVVE
+         flH3Jm3hAKzkwWGzfBx4nolBIeGhjNDmI30WRFOAvxRmvXBXyfhfkXXZG64KwoNFVr+P
+         BOLaAL5c3vWx5B0QinbooO5lE5tvgYJjIMbW1UwQsaoZ2+TBqt4NFik67j2qMSVAs7P1
+         GmS+y9mlY5MZZROJVAXWj4hP67wTNUSPC05u1+GzKckXWHFDLcNRWh1G0OA935bO4lVq
+         x2YFsnpGTNIRQua60wGyDdJR7S3HLh06CIjbVe0A8tng75Jf59JFxxv3ryLfOkJRM/g1
+         omPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741346210; x=1741951010;
+        d=1e100.net; s=20230601; t=1741363772; x=1741968572;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ODsHn4dUOldUchCy+RgAZYJExuiP67bcUP0Eucmm0IY=;
-        b=OcOiG68LSW0H17PjS3aY7tD26Arrh61Qtju4vtKfZWG/5N3vps3sqtf+856ceZ/Vv+
-         84DrTh0Sb2xKOue14qfRMF5vEd9nelWyYV9RghUHL81MseioQ3ad8vJCKQWQ2vC/q+Pm
-         GysgZvpvZ9h1oeogWiNVnme3l89fb0IN0NJjX+iBTJXaBqo7/AbdDVI5/LLGXUfal4PD
-         YBSPkWVOaMKdzAvFkAAh84v+Kp+UR5sTl1AvkbMFuVewzd2lqEgUYF4ebhEfGi6LYlys
-         yuXrLZvtjP5QScI3GbDkdjBqCBc0ioKchYt8eI9fst0rU5Llboz5x0+UJUlmVOJVFLHI
-         nCSA==
-X-Forwarded-Encrypted: i=2; AJvYcCWWP3eFIqs6yFHXF0IssmP3EorGlihuTb+7thcM2j6G2Dk9NrhgIZiuXQFxseRN35XZ/DDdRQ==@lfdr.de
-X-Gm-Message-State: AOJu0YyS7ZF2KDtnPYP3ybJZMhaW66j8g3TTWheUILuRatcPWmV1iITL
-	Sw44VW0G9xz2gXsGDY4KnNWoGC809HAK7FHnqt7FmX29EKs6cwgc
-X-Google-Smtp-Source: AGHT+IE7ALFVAM8UeE9cPO2rV6riRlwdKGY5T5+vXhjoKPCoFxhwA0PH38UwKPe3Sx6cSgBXJ2Rdkg==
-X-Received: by 2002:a05:6a00:174b:b0:736:6ac4:d204 with SMTP id d2e1a72fcca58-736aaa0f48amr4062057b3a.11.1741346209722;
-        Fri, 07 Mar 2025 03:16:49 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVHbFIRUHWEDOFGzVdpcq0fIaym4bJd7IZh/ZSHgkYaJKw==
-Received: by 2002:aa7:90c2:0:b0:730:940f:4fa5 with SMTP id d2e1a72fcca58-73694ac37a2ls1774336b3a.1.-pod-prod-04-us;
- Fri, 07 Mar 2025 03:16:48 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUEdCdS6/lZ8WmG4iiU562C7Aigrhc6axpD1QSEXaclK1HHq+HK4pYhwX83C++w40EnQ7rqX5xudDY=@googlegroups.com
-X-Received: by 2002:a05:6a20:3d85:b0:1f3:372d:3c60 with SMTP id adf61e73a8af0-1f544c80157mr6289899637.39.1741346208285;
-        Fri, 07 Mar 2025 03:16:48 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1741346208; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IwtQ0nWeHHoOFogd2fGxCv/7FCBNBDfOxXJC1IhCOpY=;
+        b=FVIRcXwn9CP0CISfjvrHsMz1zNaTDy4ZTn6WYrTYSpg8SX70zVngxJnEP6qhP4LYHT
+         oPpbMXn7y4lRhBF2NXkZNn5SienlaHHa0155ebpN0oHpw9d0nf98yMqmbZ2IN5BDDLIj
+         ku0f1oxDrKYuT3H8ne2UP16DwiOKIoTGFqIyR/SCMGz3FV2Bt6epZIW7Rv+FMYe/j9Yw
+         Xmpck9ozhb5SCKpW2AtEonEWaeZDmfZoXO5miuJBZPk5iBqscDMpMY3CudqcCki8lWrV
+         ICJviZBOFhqXgVlXvtamZvxZUj5kopVVB9zzYCxx3UTJYGu1bV87h8pMDYGR9HoC4JnD
+         nfMA==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCV9TnBUa4T1X+ja61mSevxiy2gipglsszXm8cvNLuepVi4DNIqPil7N5D8qvXPb9hd1nHESYA==@lfdr.de
+X-Gm-Message-State: AOJu0Ywkjo0uOQay1FKlSUackfPEo7A9/ZK52jELd4oDCeWfW2SDgXL4
+	QK3hts2hLxqRKVA7Q8C7A0VSgMJsdIZqQy5bcH9iI6HsVZQ6rq1v
+X-Google-Smtp-Source: AGHT+IHhvo3RoavIVblinZXUQLDKNM6O+mwLRfP43VSjj5eMo1EnMpjn1S5wyniqyfWAsxbQSQUkww==
+X-Received: by 2002:a05:6214:230e:b0:6d8:9c92:6555 with SMTP id 6a1803df08f44-6e900671219mr39084346d6.29.1741363771901;
+        Fri, 07 Mar 2025 08:09:31 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVFRDTRYNmqUXX7xY96UsxrrmJyrF/fM/5yycCAwOWN+Dw==
+Received: by 2002:a05:6214:5ec7:b0:6d8:f5b9:2be3 with SMTP id
+ 6a1803df08f44-6e8f4d85f57ls35948656d6.0.-pod-prod-07-us; Fri, 07 Mar 2025
+ 08:09:31 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCV18QLTD+H6BpY4SVExgUKv7czQwmdO85iRnni/eH3SnYPdlgnKMFTTK4vDgwrlM+HkO6IfjwrHDx0=@googlegroups.com
+X-Received: by 2002:a05:6214:528a:b0:6e8:feb2:bad9 with SMTP id 6a1803df08f44-6e900670d1cmr38699216d6.30.1741363770848;
+        Fri, 07 Mar 2025 08:09:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1741363770; cv=none;
         d=google.com; s=arc-20240605;
-        b=gWHa2oXKBMNTug2YjLCCrvlxiHFag2tOaOfIpDIuj92CHuPt8WwdumAxygj3TDkzKh
-         N+UXPYwXbiYfG83CKtHrmALVsxkoLOmjrCBmnAvPBwCTI9TbRHc3xPXm8deDOR7RrHqq
-         mCMqVpAMvCtMvbQ0yHAJ+3F86oaBvZmIV+XS+yGalJDDm2Whi0edFcnbtiGH0UAuFkZD
-         fjor6mcsdbvSOkuXGco9APMWPcNnHCXW6LZLBVcg59KzsM/CJFQHYF6Bw9SE09SGoW+x
-         rtTfwEoxJsOy2hr7/CQeANFfswQmLLaxXFh9voHuimFVOOK4AMnIbmVtq60st2CfWAxm
-         ABEw==
+        b=GpvbhRawYqPAZkRdR6pXF/aKo5h4vPR+Awf4TFJGcUUAXYuVYq1hMf0LUXWoZpCw/G
+         rksdJHH+wLARxxXrlPawXK+RyMZQw+q4rg8gZyiNyEZkBfnkD0rH3r/qvQ3v2e3nKNFe
+         z+31FHn/qb8J/6OOkJGJSLtM9YOIwTtPAagl+oOb/Y/GTivWu6wvRcpVWT9XpsDs6Kjk
+         cDplvT1gYrnYe86LL1airuY6KxeBcxKHVjHr9yvNQT3lBqtVoNhSaTfh4C3Qw+RgMwLE
+         AtR0e9gGIoSDjLesVQD9RBqrzw1MdqE8FZGISEf4SdnDCEYravmwv2fRL6lx4W+2BJ8e
+         YIIg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=mRU/TFaL4e6XK0tcZjzvJPjDs61j/v0SE/FCbM4Kz8A=;
-        fh=JlRmT0W1HRbabi4YizOIMHabDXRPPp/GI/HyQ+H+nj0=;
-        b=M8R+QcIcBVFq88qsOs8KWfaxVou2wOfQrRzD7//MWzo8FRt2I9zQ8rH+l42XVKrPYc
-         pgF3+U28ddz9KZv1hfyF3msepMNYLUy1YFiWsloFupFRJHlalg3eMgyLNlgBaadIUVd+
-         mKiSHORi/M3Tx11MkHKk5ry0rOfG3zBNcKLfY3PI49xZdtJ4AmxMwoyjVfPE28IdNFJo
-         cPNiDPH2mRL3woy/gmp34DMLa73Tzotvf6KDrM0HGNrfr5w7VAguprnSf9xXX82Tci+B
-         65XclDcTUr27Qa7n8kNFIKVWmpesBOZJ6qFLv3brOwh9ajevqhvS1iMmRpnvGxPL9bEC
-         /mBQ==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date;
+        bh=QQCeoUjMBLTYpmAs11rMjACGL42XfpmjLxOtQHXk+DA=;
+        fh=Gubn4XR2857kDQZxT8DtgDuod10sjGoOIFNGcyC1UbE=;
+        b=hQKz0h+iFhdgfMU56bqaeiot6qNJSJ/xzyKVDMVJjfq5d5UOP7rnuKm6K5cHxt1rLV
+         5E+i1b2jLlZjXt/3DhZQCkUjCiFkrQT6czwZ0wrPp/3caPpP4uEpjgMflzBLsUNc/Nzg
+         IBHz4PtdIRpJVVOT/rOyT6Scg3OnpC6M3LR5MHjYjlMxq3rbWlT6QacdYOw5GGpcTQNZ
+         2Wu+lOKzsgJHUaMKn51H8H8w3l/AXX5fH8pns6Z89xcrm4k4UzjqG/AMx2GM6eIaOMnC
+         95C+h03RFmAPisEnowIr/FHnQXxekxDSDpfX0X/HVdxzbQMAMTZSjzDpm6FIq79jLUz4
+         prXg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=YEcRD0nP;
-       spf=pass (google.com: domain of ardb@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=ardb@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-73698204fe4si151938b3a.2.2025.03.07.03.16.48
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Mar 2025 03:16:48 -0800 (PST)
-Received-SPF: pass (google.com: domain of ardb@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id CB7555C55A6
-	for <kasan-dev@googlegroups.com>; Fri,  7 Mar 2025 11:14:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45979C4CEE9
-	for <kasan-dev@googlegroups.com>; Fri,  7 Mar 2025 11:16:47 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5495888f12eso2125785e87.0
-        for <kasan-dev@googlegroups.com>; Fri, 07 Mar 2025 03:16:47 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWppNzSrSy+AJEK6QjTla+0epkTPhTAd7BZWHwJKYhUDNvs08EG1oQR/iEGOgQ79OMs7cV91NP3DeU=@googlegroups.com
-X-Received: by 2002:a05:6512:1242:b0:549:66d8:a1f1 with SMTP id
- 2adb3069b0e04-54990ec56b5mr1217665e87.45.1741346205601; Fri, 07 Mar 2025
- 03:16:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20250307050851.4034393-1-anshuman.khandual@arm.com>
- <17931f83-7142-4ca6-8bfe-466ec53b6e2c@arm.com> <c3dddb6f-dce1-45a6-b5f1-1fd247c510ab@arm.com>
-In-Reply-To: <c3dddb6f-dce1-45a6-b5f1-1fd247c510ab@arm.com>
-From: "'Ard Biesheuvel' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 7 Mar 2025 12:16:34 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXE0mCPSKLyNUkLZXLntX-=aCGKdn5b3Zgme3PbyYFgFdg@mail.gmail.com>
-X-Gm-Features: AQ5f1JoPPqfSFsuuGLR7flaiIcakquC0OyiZXiqRSi8scsvaTC-cqIRH-u_m12o
-Message-ID: <CAMj1kXE0mCPSKLyNUkLZXLntX-=aCGKdn5b3Zgme3PbyYFgFdg@mail.gmail.com>
-Subject: Re: [PATCH] arm64/mm: Define PTE_SHIFT
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id 6a1803df08f44-6e8f70819d0si1663386d6.1.2025.03.07.08.09.30
+        for <kasan-dev@googlegroups.com>;
+        Fri, 07 Mar 2025 08:09:30 -0800 (PST)
+Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0495C1477;
+	Fri,  7 Mar 2025 08:09:43 -0800 (PST)
+Received: from J2N7QTR9R3.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 962E43F673;
+	Fri,  7 Mar 2025 08:09:28 -0800 (PST)
+Date: Fri, 7 Mar 2025 16:09:23 +0000
+From: Mark Rutland <mark.rutland@arm.com>
 To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: Ryan Roberts <ryan.roberts@arm.com>, linux-arm-kernel@lists.infradead.org, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, linux-kernel@vger.kernel.org, 
+Cc: Ryan Roberts <ryan.roberts@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Ard Biesheuvel <ardb@kernel.org>, linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com
+Subject: Re: [PATCH] arm64/mm: Define PTE_SHIFT
+Message-ID: <Z8saM94ixmDNjZzV@J2N7QTR9R3.cambridge.arm.com>
+References: <20250307050851.4034393-1-anshuman.khandual@arm.com>
+ <17931f83-7142-4ca6-8bfe-466ec53b6e2c@arm.com>
+ <c3dddb6f-dce1-45a6-b5f1-1fd247c510ab@arm.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: ardb@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=YEcRD0nP;       spf=pass
- (google.com: domain of ardb@kernel.org designates 139.178.84.217 as permitted
- sender) smtp.mailfrom=ardb@kernel.org;       dmarc=pass (p=QUARANTINE
- sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: Ard Biesheuvel <ardb@kernel.org>
-Reply-To: Ard Biesheuvel <ardb@kernel.org>
+Content-Disposition: inline
+In-Reply-To: <c3dddb6f-dce1-45a6-b5f1-1fd247c510ab@arm.com>
+X-Original-Sender: mark.rutland@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
+ permitted sender) smtp.mailfrom=mark.rutland@arm.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -151,56 +147,54 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 7 Mar 2025 at 10:21, Anshuman Khandual
-<anshuman.khandual@arm.com> wrote:
->
->
->
+On Fri, Mar 07, 2025 at 02:50:56PM +0530, Anshuman Khandual wrote:
 > On 3/7/25 14:37, Ryan Roberts wrote:
 > > On 07/03/2025 05:08, Anshuman Khandual wrote:
-> >> Address bytes shifted with a single 64 bit page table entry (any page table
-> >> level) has been always hard coded as 3 (aka 2^3 = 8). Although intuitive it
-> >> is not very readable or easy to reason about. Besides it is going to change
-> >> with D128, where each 128 bit page table entry will shift address bytes by
-> >> 4 (aka 2^4 = 16) instead.
-> >>
-> >> Let's just formalise this address bytes shift value into a new macro called
-> >> PTE_SHIFT establishing a logical abstraction, thus improving readability as
-> >> well. This does not cause any functional change.
-> >>
-> >> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> >> Cc: Will Deacon <will@kernel.org>
-> >> Cc: Mark Rutland <mark.rutland@arm.com>
-> >> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-> >> Cc: Alexander Potapenko <glider@google.com>
-> >> Cc: Andrey Konovalov <andreyknvl@gmail.com>
-> >> Cc: Dmitry Vyukov <dvyukov@google.com>
-> >> Cc: Ard Biesheuvel <ardb@kernel.org>
-> >> Cc: Ryan Roberts <ryan.roberts@arm.com>
-> >> Cc: linux-arm-kernel@lists.infradead.org
-> >> Cc: linux-kernel@vger.kernel.org
-> >> Cc: kasan-dev@googlegroups.com
-> >> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> >
-> >
-> > +1 for PTDESC_ORDER
->
-> Alright.
->
 
-Agreed.
+> >>  #define EARLY_LEVEL(lvl, lvls, vstart, vend, add)	\
+> >> -	(lvls > lvl ? EARLY_ENTRIES(vstart, vend, SWAPPER_BLOCK_SHIFT + lvl * (PAGE_SHIFT - 3), add) : 0)
+> >> +	(lvls > lvl ? EARLY_ENTRIES(vstart, vend, SWAPPER_BLOCK_SHIFT + \
+> >> +	lvl * (PAGE_SHIFT - PTE_SHIFT), add) : 0)
+> > 
+> > nit: not sure what style guide says, but I would indent this continuation an
+> > extra level.
+> 
+> IIUC - An indentation is not normally required with a line continuation although
+> the starting letter should match the starting letter in the line above but after
+> the '(' (if any).
 
-> >
-> > Implementation looks good to me so:
-> >
-> > Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
->
+Regardless of indenttation, the existing code is fairly hard to read,
+and I reckon it'd be better to split up, e.g.
 
-With PTDESC_ORDER used throughout,
+| /* Number of VA bits resolved by a single translation table level */
+| #define PTDESC_TABLE_SHIFT	(PAGE_SHIFT - PTDESC_ORDER)
+| 
+| #define __EARLY_LEVEL(lvl, vstart, vend, add) \
+| 	EARLY_ENTRIES(vstart, vend, SWAPPER_BLOCK_SHIFT + lvl * PTDESC_TABLE_SHIFT, add)
+| 
+| #define EARLY_LEVEL(lvl, lvls, vstart, vend, add) \
+| 	((lvls) > (lvl) ? __EARLY_LEVEL(lvl, vstart, vend, add) : 0)
 
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
+... and ignoring the use of _SHIFT vs _ORDER, I think that structure is
+far more legible.
+
+With that, we can fold EARLY_ENTRIES() and __EARLY_LEVEL() together and
+move the 'add' into EARLY_LEVEL(), e.g.
+
+| /* Number of VA bits resolved by a single translation table level */
+| #define PTDESC_TABLE_SHIFT	(PAGE_SHIFT - PTDESC_ORDER)
+| 
+| #define EARLY_ENTRIES(lvl, vstart, vend) \
+| 	(SPAN_NR_ENTRIES(vstart, vend, SWAPPER_BLOCK_SHIFT + lvl * PTDESC_TABLE_SHIFT))
+| 
+| #define EARLY_LEVEL(lvl, lvls, vstart, vend, add) \
+| 	((lvls) > (lvl) ? EARLY_ENTRIES(lvl, vstart, vend) + (add) : 0)
+
+... which I think makes the 'add' a bit easier to understand too.
+
+Mark.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CAMj1kXE0mCPSKLyNUkLZXLntX-%3DaCGKdn5b3Zgme3PbyYFgFdg%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/Z8saM94ixmDNjZzV%40J2N7QTR9R3.cambridge.arm.com.
