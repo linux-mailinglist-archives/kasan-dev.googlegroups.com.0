@@ -1,135 +1,144 @@
-Return-Path: <kasan-dev+bncBDGZVRMH6UCRBAHVVK7AMGQEUAM5MPQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCU4TIPXUUFRBINLVO7AMGQE5QDJXFY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3d.google.com (mail-oo1-xc3d.google.com [IPv6:2607:f8b0:4864:20::c3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16BFCA56392
-	for <lists+kasan-dev@lfdr.de>; Fri,  7 Mar 2025 10:21:06 +0100 (CET)
-Received: by mail-oo1-xc3d.google.com with SMTP id 006d021491bc7-5fea43da180sf1488904eaf.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 07 Mar 2025 01:21:06 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1741339265; cv=pass;
+Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9CE2A56667
+	for <lists+kasan-dev@lfdr.de>; Fri,  7 Mar 2025 12:16:51 +0100 (CET)
+Received: by mail-pl1-x637.google.com with SMTP id d9443c01a7336-22406ee0243sf24028395ad.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 07 Mar 2025 03:16:51 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1741346210; cv=pass;
         d=google.com; s=arc-20240605;
-        b=YvDH0peSRBQ2LcI5B3K+J8+zZ7920jXpZquxRw3wtw0P+hlQv+inEv+GSOyS6CAx5S
-         sMZbFM5axW1aU1OICEps4iMVGkppeCTC1SQiB7kFVVHFnbZCSxu8LzWqppgFN2mEU4FF
-         DUeFKNncyEQnUnkYrs01bU3t9h02O2b00rAvIZ4TXTvDDsqUstN0RUvrHbhMznjDWHso
-         LncTP7P00gzSBEZSgDgFN6FhB+09a5J+yvFPtbydna3bO+EWCxpt3/3rbD4WvVaV82vE
-         ZMtFJs+A1SBaCGZ8Lw1hKxx/niZ65aEJ6Fyo7UNV2qoEbT8KWzrAjeyqYif6k8yYicYw
-         F5OA==
+        b=I+H6vhYsyOaZShe7slJDwPRs2A+xT0TdqQQIfMwp8+HsZGTHLP7COx0aepmcqP406C
+         SUJKwOHJoHbgCx1cCOl1f0F50be54IHTRO4wtcqgwq8xMAtGeAUSH2aotcKrfzwf7Z9R
+         I9tv9j98nhIRDLsFOy0TX6chyjRBrjxNdmWP9EUCqGqsiR+vCXemrHAVXq90RgrxPRuF
+         +4DB0/zhC9GGHLWTVjrbXclfL3s9lP6yTv2a0Rouc2dBy0v5R00T5dEEjQIz5AoQ3Jzp
+         60DzT4WZcFZyRGJRNzDVdP1b2YQbuGfYaiV4IQzBKE7WOT3kxMJ8NW5Zg1dz038l9/xA
+         rqBA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=JI6NuSEmfS0eOV1ZjYXVtuttgR98JahWdUdmDt7R9bo=;
-        fh=7yf77wP6VE8YK/ux0wjdb36ZHMh0RxUFzHRmliKoLMA=;
-        b=hYIXpdPcjwvW36Zf2IoSg7rUv+9rhcclP341X3EAyIHXfuoUUIT5N6Trxow7ws8EsR
-         0hUwrZNo5+sd07LEJk2BXmRkUUJ/dSOV/eo6ACB9MaLQosXZ70K1B0qBU8lA7JXFnFGU
-         kyQI3YP/C0FXVclaDY8zdHQSErpVU21Xkqih83yCRBiOX+H+t7RzMar6p/hVHVNH65b9
-         Ij2a2C3M8cPRFn1OgiTcja5uKDOmuxsA7Tag+3+tSIJpUHJ7gYzmnU3wa+SYvjItf802
-         IXA7Zbju8mTrTTr/y6BRWh4zvq2vVudWkI/KIP5fxX41fOygyKNy2vbUdGeOt2uBmvTV
-         ESnw==;
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=ODsHn4dUOldUchCy+RgAZYJExuiP67bcUP0Eucmm0IY=;
+        fh=P6Bb8BCmFVKBcUEXQvCLE+VBksD/kNqkB2h8J/j/9vw=;
+        b=U5kfcog0GvH42J5S5h13V7wNcbrVHwY1VuzIzviqGCDsvnt30zk0VwpbM3mGUOt0zs
+         h6xJIQvQUq06M7//Ogvl7mYJN9uawVvKGWcWMdTchqWOIi30M4SHw1enV4SoeGI+bqNd
+         6d/lVwvZmYdSiadeWq7+V0Y9naz6AwjrhafiB7ZL6NiucgmcA3O1VmTjB8DONt8MN/2d
+         TGEXB7spC21jqIblZ08/CGdxaiYDYB+s0zxus+EiqVByYRDltziXOjlDoXIilGsb6NCY
+         HtnTQkaM7QixBPb3WOYe9gS55k15iz0HuhH8FxOCgFvhbKv0wYYnvYsROiLpaRqBhA+R
+         VEtQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=YEcRD0nP;
+       spf=pass (google.com: domain of ardb@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=ardb@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1741339265; x=1741944065; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1741346210; x=1741951010; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:content-language:references:cc
-         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=JI6NuSEmfS0eOV1ZjYXVtuttgR98JahWdUdmDt7R9bo=;
-        b=sd8RJ7C+dBiZIFt0NxtEddvyIAqekPOtwEDqHpWPVvelajBkhSAuUeMWnjl6sHxaI2
-         /N6353qIfUCdoQygsxkyTv2tlwMiPZ0nMLa574zkUy2I/GxD4KMEiZOAcHuDCitIkPWd
-         Vr3KV4d4nAIu+fU4KRJB/GkCKgdn9y8p0vae7iHlkmUXeJ1IXrwIxqHlix5JR6T6AcDX
-         HROC9VAlo4Ug3sEY8z51Jnt2TEVrFp1mddJvL/dZZPWK6RmZDoD0B4/t71+/A9zqn8w5
-         nk75MgpUUJGtAf1Mj9CyGNJ9oZ2HppUbcrOgzFmdWxSLMoyGNQhS4ggRxpppwNxPgiG7
-         jFOw==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ODsHn4dUOldUchCy+RgAZYJExuiP67bcUP0Eucmm0IY=;
+        b=Tw0VRsPintvaFdlseixbARUsOtORr1Gr9Fjcri3+iGRfjSp8VhxMlx/EnWGXZ3a0IM
+         wnZTPjalUCtQQ3YGiRXq5mX6a0Q0lZhNblvi4FI+gmXbcrhxG5sP+xw1rMDYUDBnnzQT
+         D4jAOKkErFA5cyLnGY0ND9Zv2ptKqZG5ig9H7e1nbGWuAKMVkGwICjMZiDi6K02vCBsS
+         3Nj8zBP+b9S6zjEgI1wVZy3iNbAKnKBHJq7zzAuy/mrSaMd5kVYon1TlH1a7IPoSa3qy
+         IFMPgXk3Q9lRe2jY6WpeDMpZ/vGQp7fD4tQilR5aneiQwNHVG1VjxZReC9FihT/QGioC
+         hZaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741339265; x=1741944065;
+        d=1e100.net; s=20230601; t=1741346210; x=1741951010;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:content-language:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JI6NuSEmfS0eOV1ZjYXVtuttgR98JahWdUdmDt7R9bo=;
-        b=A8GkAGYOaSYijS14cbl1J2RvWu86C91sxag7vQ0Id6/FM54pMPUPsO9XoOOMgnD5Pf
-         CBRddnNFnCkrbkfcddY0/UZuln3cV17ayX2Mq5PwSwDg6oexDDd5ZJtaQ8g4FSwxsrT3
-         z9u6VTmG5jeCirsO3+gIvRhDiXsWjSIVVh3Zz2zvK4dGWOjlZrEbYgu+cDjRIGWIujl9
-         Npl4pq0AacELn3EN3NG+6cONvifL8hl9JGfSVtUcFqntD+KCa9J5s7c8mVp7HRqW5/I4
-         QdDqfFnPVgJpYpYUZAgGKTBR0JdvBQsJ6bZAtvPNyZZ1sz9tzOjcEWmIR86gCklbWFAf
-         BwVA==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCV76KtQvRv4Kc7KrXTKuD76VQmE8UuOa9Jn+KlAn5V5ji72q0plarwT0SGWwwusOaMbLXmlUg==@lfdr.de
-X-Gm-Message-State: AOJu0Yzubx+2jesmxWC9yAGYgoHNxpGkBTUOD3rDLPTPBUY5fDJfb08B
-	V1QhY8/cTCpPCPnQ2bDiQQInDint3Q6o16Ugh/sB7Wzl66RqUv8D
-X-Google-Smtp-Source: AGHT+IFGZFthzDQGOxTyXCBq+2EfX+8bFiUXprXexuw8Lw2SxYm+FELkXqqCQT7EUxaS2ta/oMFSSQ==
-X-Received: by 2002:a05:6820:2711:b0:5fc:e3b3:3c10 with SMTP id 006d021491bc7-6004a770dd1mr1167678eaf.2.1741339264788;
-        Fri, 07 Mar 2025 01:21:04 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVGqZ8mt+D+EnTaUTxZkyFAj1yXuJ2ER8pgcQ2l+8OmBKA==
-Received: by 2002:a4a:e784:0:b0:600:4dc9:e08f with SMTP id 006d021491bc7-6004dc9e3b3ls162849eaf.0.-pod-prod-09-us;
- Fri, 07 Mar 2025 01:21:04 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXOkCnVn9FjRNV1dumyNx9IYcfPQsYIQ4J7t3H6T0TKOf04mFg6sbDF9EhaIMjpoPraVlXFBGSQxQM=@googlegroups.com
-X-Received: by 2002:a05:6808:144c:b0:3f6:74be:fceb with SMTP id 5614622812f47-3f697bf3034mr1491040b6e.33.1741339263918;
-        Fri, 07 Mar 2025 01:21:03 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1741339263; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ODsHn4dUOldUchCy+RgAZYJExuiP67bcUP0Eucmm0IY=;
+        b=OcOiG68LSW0H17PjS3aY7tD26Arrh61Qtju4vtKfZWG/5N3vps3sqtf+856ceZ/Vv+
+         84DrTh0Sb2xKOue14qfRMF5vEd9nelWyYV9RghUHL81MseioQ3ad8vJCKQWQ2vC/q+Pm
+         GysgZvpvZ9h1oeogWiNVnme3l89fb0IN0NJjX+iBTJXaBqo7/AbdDVI5/LLGXUfal4PD
+         YBSPkWVOaMKdzAvFkAAh84v+Kp+UR5sTl1AvkbMFuVewzd2lqEgUYF4ebhEfGi6LYlys
+         yuXrLZvtjP5QScI3GbDkdjBqCBc0ioKchYt8eI9fst0rU5Llboz5x0+UJUlmVOJVFLHI
+         nCSA==
+X-Forwarded-Encrypted: i=2; AJvYcCWWP3eFIqs6yFHXF0IssmP3EorGlihuTb+7thcM2j6G2Dk9NrhgIZiuXQFxseRN35XZ/DDdRQ==@lfdr.de
+X-Gm-Message-State: AOJu0YyS7ZF2KDtnPYP3ybJZMhaW66j8g3TTWheUILuRatcPWmV1iITL
+	Sw44VW0G9xz2gXsGDY4KnNWoGC809HAK7FHnqt7FmX29EKs6cwgc
+X-Google-Smtp-Source: AGHT+IE7ALFVAM8UeE9cPO2rV6riRlwdKGY5T5+vXhjoKPCoFxhwA0PH38UwKPe3Sx6cSgBXJ2Rdkg==
+X-Received: by 2002:a05:6a00:174b:b0:736:6ac4:d204 with SMTP id d2e1a72fcca58-736aaa0f48amr4062057b3a.11.1741346209722;
+        Fri, 07 Mar 2025 03:16:49 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVHbFIRUHWEDOFGzVdpcq0fIaym4bJd7IZh/ZSHgkYaJKw==
+Received: by 2002:aa7:90c2:0:b0:730:940f:4fa5 with SMTP id d2e1a72fcca58-73694ac37a2ls1774336b3a.1.-pod-prod-04-us;
+ Fri, 07 Mar 2025 03:16:48 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUEdCdS6/lZ8WmG4iiU562C7Aigrhc6axpD1QSEXaclK1HHq+HK4pYhwX83C++w40EnQ7rqX5xudDY=@googlegroups.com
+X-Received: by 2002:a05:6a20:3d85:b0:1f3:372d:3c60 with SMTP id adf61e73a8af0-1f544c80157mr6289899637.39.1741346208285;
+        Fri, 07 Mar 2025 03:16:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1741346208; cv=none;
         d=google.com; s=arc-20240605;
-        b=aLYdKOMT0l41BG8iKUMojbfKvgGg2bsmYCaCGIQ0JCdWWl4RbBVHxL64HiDRUZI+x3
-         h2dzobz/NqzqBYAF6McKeuU2BAYo8IWLEWHvSSyWVpMM737Wx7i8F+i7pvhWt5MpdFlI
-         //BrlSagXvZUnX6K6yxnVgzhvBZfBpTtDuoJpcxLMYFXefr9jdYc4Ib2ZNWiU/hDBK9y
-         6BVRpW9hzpuLNdfsKqCecPNJjsaJFPWC5GC5MqsVYCPPRQlDAtTngNvJbYlWDSLiyJvX
-         hD91kclD130rcIAW1uM+QY5A1V4AVHcZ14A5Q67nbM3S0zFINXFB2h2GY5u+rc9nJyJ6
-         IR/Q==
+        b=gWHa2oXKBMNTug2YjLCCrvlxiHFag2tOaOfIpDIuj92CHuPt8WwdumAxygj3TDkzKh
+         N+UXPYwXbiYfG83CKtHrmALVsxkoLOmjrCBmnAvPBwCTI9TbRHc3xPXm8deDOR7RrHqq
+         mCMqVpAMvCtMvbQ0yHAJ+3F86oaBvZmIV+XS+yGalJDDm2Whi0edFcnbtiGH0UAuFkZD
+         fjor6mcsdbvSOkuXGco9APMWPcNnHCXW6LZLBVcg59KzsM/CJFQHYF6Bw9SE09SGoW+x
+         rtTfwEoxJsOy2hr7/CQeANFfswQmLLaxXFh9voHuimFVOOK4AMnIbmVtq60st2CfWAxm
+         ABEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id;
-        bh=TUIpcEC4TM+kELVJUpyhpFBd8j2jrm6anGOOdFHUNyE=;
-        fh=votHqClNabudU9MdrGbl4j91LSOLnUVul2CYZRJQ3FU=;
-        b=P/ChPIZ8uY0Oz6i5oLIKaguqdY9DP7uuRE2iqEDIkFpbfS//G/r0fJv3ArY+nDJe+n
-         xVVMhnYpiQV1ociDKJTaQ7Q2Ww+A2+c7M4mmCp2hSYUsRCWZZKsjz6U3GTJDIaeqwtS/
-         9MSZGFAD7v3DVM7YrI1CQsNqcyWeC0ncWzgxuwb+mqh1Ha2SBBi32hj2WdU61vVx+HGu
-         A/vBirm/nsowIsNC2oYNm9x7pzSaZiUwRVWWx53DGxoTkeORSumP/gUfxpgbgnFSXM1b
-         HblTFH7e+x4CESh0xcEPurW5g80vVpECigHQ2l5ykqmehMD8Pw3/LdJjoyk5ziUIg4Z7
-         ELZg==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=mRU/TFaL4e6XK0tcZjzvJPjDs61j/v0SE/FCbM4Kz8A=;
+        fh=JlRmT0W1HRbabi4YizOIMHabDXRPPp/GI/HyQ+H+nj0=;
+        b=M8R+QcIcBVFq88qsOs8KWfaxVou2wOfQrRzD7//MWzo8FRt2I9zQ8rH+l42XVKrPYc
+         pgF3+U28ddz9KZv1hfyF3msepMNYLUy1YFiWsloFupFRJHlalg3eMgyLNlgBaadIUVd+
+         mKiSHORi/M3Tx11MkHKk5ry0rOfG3zBNcKLfY3PI49xZdtJ4AmxMwoyjVfPE28IdNFJo
+         cPNiDPH2mRL3woy/gmp34DMLa73Tzotvf6KDrM0HGNrfr5w7VAguprnSf9xXX82Tci+B
+         65XclDcTUr27Qa7n8kNFIKVWmpesBOZJ6qFLv3brOwh9ajevqhvS1iMmRpnvGxPL9bEC
+         /mBQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id 5614622812f47-3f68ee953bcsi125030b6e.1.2025.03.07.01.21.03
-        for <kasan-dev@googlegroups.com>;
-        Fri, 07 Mar 2025 01:21:03 -0800 (PST)
-Received-SPF: pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 451521477;
-	Fri,  7 Mar 2025 01:21:16 -0800 (PST)
-Received: from [10.162.42.6] (a077893.blr.arm.com [10.162.42.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 03DC93F66E;
-	Fri,  7 Mar 2025 01:20:59 -0800 (PST)
-Message-ID: <c3dddb6f-dce1-45a6-b5f1-1fd247c510ab@arm.com>
-Date: Fri, 7 Mar 2025 14:50:56 +0530
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=YEcRD0nP;
+       spf=pass (google.com: domain of ardb@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=ardb@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-73698204fe4si151938b3a.2.2025.03.07.03.16.48
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Mar 2025 03:16:48 -0800 (PST)
+Received-SPF: pass (google.com: domain of ardb@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id CB7555C55A6
+	for <kasan-dev@googlegroups.com>; Fri,  7 Mar 2025 11:14:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45979C4CEE9
+	for <kasan-dev@googlegroups.com>; Fri,  7 Mar 2025 11:16:47 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5495888f12eso2125785e87.0
+        for <kasan-dev@googlegroups.com>; Fri, 07 Mar 2025 03:16:47 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWppNzSrSy+AJEK6QjTla+0epkTPhTAd7BZWHwJKYhUDNvs08EG1oQR/iEGOgQ79OMs7cV91NP3DeU=@googlegroups.com
+X-Received: by 2002:a05:6512:1242:b0:549:66d8:a1f1 with SMTP id
+ 2adb3069b0e04-54990ec56b5mr1217665e87.45.1741346205601; Fri, 07 Mar 2025
+ 03:16:45 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] arm64/mm: Define PTE_SHIFT
-To: Ryan Roberts <ryan.roberts@arm.com>, linux-arm-kernel@lists.infradead.org
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Andrey Ryabinin
- <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Ard Biesheuvel <ardb@kernel.org>, linux-kernel@vger.kernel.org,
- kasan-dev@googlegroups.com
 References: <20250307050851.4034393-1-anshuman.khandual@arm.com>
- <17931f83-7142-4ca6-8bfe-466ec53b6e2c@arm.com>
-Content-Language: en-US
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <17931f83-7142-4ca6-8bfe-466ec53b6e2c@arm.com>
+ <17931f83-7142-4ca6-8bfe-466ec53b6e2c@arm.com> <c3dddb6f-dce1-45a6-b5f1-1fd247c510ab@arm.com>
+In-Reply-To: <c3dddb6f-dce1-45a6-b5f1-1fd247c510ab@arm.com>
+From: "'Ard Biesheuvel' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Fri, 7 Mar 2025 12:16:34 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXE0mCPSKLyNUkLZXLntX-=aCGKdn5b3Zgme3PbyYFgFdg@mail.gmail.com>
+X-Gm-Features: AQ5f1JoPPqfSFsuuGLR7flaiIcakquC0OyiZXiqRSi8scsvaTC-cqIRH-u_m12o
+Message-ID: <CAMj1kXE0mCPSKLyNUkLZXLntX-=aCGKdn5b3Zgme3PbyYFgFdg@mail.gmail.com>
+Subject: Re: [PATCH] arm64/mm: Define PTE_SHIFT
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: Ryan Roberts <ryan.roberts@arm.com>, linux-arm-kernel@lists.infradead.org, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, linux-kernel@vger.kernel.org, 
+	kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: anshuman.khandual@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172
- as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+X-Original-Sender: ardb@kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@kernel.org header.s=k20201202 header.b=YEcRD0nP;       spf=pass
+ (google.com: domain of ardb@kernel.org designates 139.178.84.217 as permitted
+ sender) smtp.mailfrom=ardb@kernel.org;       dmarc=pass (p=QUARANTINE
+ sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Ard Biesheuvel <ardb@kernel.org>
+Reply-To: Ard Biesheuvel <ardb@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,227 +151,56 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+On Fri, 7 Mar 2025 at 10:21, Anshuman Khandual
+<anshuman.khandual@arm.com> wrote:
+>
+>
+>
+> On 3/7/25 14:37, Ryan Roberts wrote:
+> > On 07/03/2025 05:08, Anshuman Khandual wrote:
+> >> Address bytes shifted with a single 64 bit page table entry (any page table
+> >> level) has been always hard coded as 3 (aka 2^3 = 8). Although intuitive it
+> >> is not very readable or easy to reason about. Besides it is going to change
+> >> with D128, where each 128 bit page table entry will shift address bytes by
+> >> 4 (aka 2^4 = 16) instead.
+> >>
+> >> Let's just formalise this address bytes shift value into a new macro called
+> >> PTE_SHIFT establishing a logical abstraction, thus improving readability as
+> >> well. This does not cause any functional change.
+> >>
+> >> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> >> Cc: Will Deacon <will@kernel.org>
+> >> Cc: Mark Rutland <mark.rutland@arm.com>
+> >> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+> >> Cc: Alexander Potapenko <glider@google.com>
+> >> Cc: Andrey Konovalov <andreyknvl@gmail.com>
+> >> Cc: Dmitry Vyukov <dvyukov@google.com>
+> >> Cc: Ard Biesheuvel <ardb@kernel.org>
+> >> Cc: Ryan Roberts <ryan.roberts@arm.com>
+> >> Cc: linux-arm-kernel@lists.infradead.org
+> >> Cc: linux-kernel@vger.kernel.org
+> >> Cc: kasan-dev@googlegroups.com
+> >> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+> >
+> >
+> > +1 for PTDESC_ORDER
+>
+> Alright.
+>
 
+Agreed.
 
-On 3/7/25 14:37, Ryan Roberts wrote:
-> On 07/03/2025 05:08, Anshuman Khandual wrote:
->> Address bytes shifted with a single 64 bit page table entry (any page table
->> level) has been always hard coded as 3 (aka 2^3 = 8). Although intuitive it
->> is not very readable or easy to reason about. Besides it is going to change
->> with D128, where each 128 bit page table entry will shift address bytes by
->> 4 (aka 2^4 = 16) instead.
->>
->> Let's just formalise this address bytes shift value into a new macro called
->> PTE_SHIFT establishing a logical abstraction, thus improving readability as
->> well. This does not cause any functional change.
->>
->> Cc: Catalin Marinas <catalin.marinas@arm.com>
->> Cc: Will Deacon <will@kernel.org>
->> Cc: Mark Rutland <mark.rutland@arm.com>
->> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
->> Cc: Alexander Potapenko <glider@google.com>
->> Cc: Andrey Konovalov <andreyknvl@gmail.com>
->> Cc: Dmitry Vyukov <dvyukov@google.com>
->> Cc: Ard Biesheuvel <ardb@kernel.org>
->> Cc: Ryan Roberts <ryan.roberts@arm.com>
->> Cc: linux-arm-kernel@lists.infradead.org
->> Cc: linux-kernel@vger.kernel.org
->> Cc: kasan-dev@googlegroups.com
->> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> 
-> 
-> +1 for PTDESC_ORDER
+> >
+> > Implementation looks good to me so:
+> >
+> > Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
+>
 
-Alright.
+With PTDESC_ORDER used throughout,
 
-> 
-> Implementation looks good to me so:
-> 
-> Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
-
-Thanks !
-
-> 
-> one nit below.
-> 
->> ---
->> This patch applies on v6.14-rc5
->>
->>  arch/arm64/Kconfig                      |  2 +-
->>  arch/arm64/include/asm/kernel-pgtable.h |  3 ++-
->>  arch/arm64/include/asm/pgtable-hwdef.h  | 26 +++++++++++++------------
->>  arch/arm64/kernel/pi/map_range.c        |  2 +-
->>  arch/arm64/mm/kasan_init.c              |  6 +++---
->>  5 files changed, 21 insertions(+), 18 deletions(-)
->>
->> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
->> index 940343beb3d4..fd3303f2ccda 100644
->> --- a/arch/arm64/Kconfig
->> +++ b/arch/arm64/Kconfig
->> @@ -323,7 +323,7 @@ config ARCH_MMAP_RND_BITS_MIN
->>  	default 18
->>  
->>  # max bits determined by the following formula:
->> -#  VA_BITS - PAGE_SHIFT - 3
->> +#  VA_BITS - PAGE_SHIFT - PTE_SHIFT
->>  config ARCH_MMAP_RND_BITS_MAX
->>  	default 19 if ARM64_VA_BITS=36
->>  	default 24 if ARM64_VA_BITS=39
->> diff --git a/arch/arm64/include/asm/kernel-pgtable.h b/arch/arm64/include/asm/kernel-pgtable.h
->> index fd5a08450b12..7150a7a10f00 100644
->> --- a/arch/arm64/include/asm/kernel-pgtable.h
->> +++ b/arch/arm64/include/asm/kernel-pgtable.h
->> @@ -49,7 +49,8 @@
->>  	(SPAN_NR_ENTRIES(vstart, vend, shift) + (add))
->>  
->>  #define EARLY_LEVEL(lvl, lvls, vstart, vend, add)	\
->> -	(lvls > lvl ? EARLY_ENTRIES(vstart, vend, SWAPPER_BLOCK_SHIFT + lvl * (PAGE_SHIFT - 3), add) : 0)
->> +	(lvls > lvl ? EARLY_ENTRIES(vstart, vend, SWAPPER_BLOCK_SHIFT + \
->> +	lvl * (PAGE_SHIFT - PTE_SHIFT), add) : 0)
-> 
-> nit: not sure what style guide says, but I would indent this continuation an
-> extra level.
-
-IIUC - An indentation is not normally required with a line continuation although
-the starting letter should match the starting letter in the line above but after
-the '(' (if any).
-
-> 
-> Thanks,
-> Ryan
-> 
->>  
->>  #define EARLY_PAGES(lvls, vstart, vend, add) (1 	/* PGDIR page */				\
->>  	+ EARLY_LEVEL(3, (lvls), (vstart), (vend), add) /* each entry needs a next level page table */	\
->> diff --git a/arch/arm64/include/asm/pgtable-hwdef.h b/arch/arm64/include/asm/pgtable-hwdef.h
->> index a9136cc551cc..43f98eac7653 100644
->> --- a/arch/arm64/include/asm/pgtable-hwdef.h
->> +++ b/arch/arm64/include/asm/pgtable-hwdef.h
->> @@ -7,40 +7,42 @@
->>  
->>  #include <asm/memory.h>
->>  
->> +#define PTE_SHIFT 3
->> +
->>  /*
->>   * Number of page-table levels required to address 'va_bits' wide
->>   * address, without section mapping. We resolve the top (va_bits - PAGE_SHIFT)
->> - * bits with (PAGE_SHIFT - 3) bits at each page table level. Hence:
->> + * bits with (PAGE_SHIFT - PTE_SHIFT) bits at each page table level. Hence:
->>   *
->> - *  levels = DIV_ROUND_UP((va_bits - PAGE_SHIFT), (PAGE_SHIFT - 3))
->> + *  levels = DIV_ROUND_UP((va_bits - PAGE_SHIFT), (PAGE_SHIFT - PTE_SHIFT))
->>   *
->>   * where DIV_ROUND_UP(n, d) => (((n) + (d) - 1) / (d))
->>   *
->>   * We cannot include linux/kernel.h which defines DIV_ROUND_UP here
->>   * due to build issues. So we open code DIV_ROUND_UP here:
->>   *
->> - *	((((va_bits) - PAGE_SHIFT) + (PAGE_SHIFT - 3) - 1) / (PAGE_SHIFT - 3))
->> + *	((((va_bits) - PAGE_SHIFT) + (PAGE_SHIFT - PTE_SHIFT) - 1) / (PAGE_SHIFT - PTE_SHIFT))
->>   *
->>   * which gets simplified as :
->>   */
->> -#define ARM64_HW_PGTABLE_LEVELS(va_bits) (((va_bits) - 4) / (PAGE_SHIFT - 3))
->> +#define ARM64_HW_PGTABLE_LEVELS(va_bits) (((va_bits) - PTE_SHIFT - 1) / (PAGE_SHIFT - PTE_SHIFT))
->>  
->>  /*
->>   * Size mapped by an entry at level n ( -1 <= n <= 3)
->> - * We map (PAGE_SHIFT - 3) at all translation levels and PAGE_SHIFT bits
->> + * We map (PAGE_SHIFT - PTE_SHIFT) at all translation levels and PAGE_SHIFT bits
->>   * in the final page. The maximum number of translation levels supported by
->>   * the architecture is 5. Hence, starting at level n, we have further
->>   * ((4 - n) - 1) levels of translation excluding the offset within the page.
->>   * So, the total number of bits mapped by an entry at level n is :
->>   *
->> - *  ((4 - n) - 1) * (PAGE_SHIFT - 3) + PAGE_SHIFT
->> + *  ((4 - n) - 1) * (PAGE_SHIFT - PTE_SHIFT) + PAGE_SHIFT
->>   *
->>   * Rearranging it a bit we get :
->> - *   (4 - n) * (PAGE_SHIFT - 3) + 3
->> + *   (4 - n) * (PAGE_SHIFT - PTE_SHIFT) + PTE_SHIFT
->>   */
->> -#define ARM64_HW_PGTABLE_LEVEL_SHIFT(n)	((PAGE_SHIFT - 3) * (4 - (n)) + 3)
->> +#define ARM64_HW_PGTABLE_LEVEL_SHIFT(n)	((PAGE_SHIFT - PTE_SHIFT) * (4 - (n)) + PTE_SHIFT)
->>  
->> -#define PTRS_PER_PTE		(1 << (PAGE_SHIFT - 3))
->> +#define PTRS_PER_PTE		(1 << (PAGE_SHIFT - PTE_SHIFT))
->>  
->>  /*
->>   * PMD_SHIFT determines the size a level 2 page table entry can map.
->> @@ -49,7 +51,7 @@
->>  #define PMD_SHIFT		ARM64_HW_PGTABLE_LEVEL_SHIFT(2)
->>  #define PMD_SIZE		(_AC(1, UL) << PMD_SHIFT)
->>  #define PMD_MASK		(~(PMD_SIZE-1))
->> -#define PTRS_PER_PMD		(1 << (PAGE_SHIFT - 3))
->> +#define PTRS_PER_PMD		(1 << (PAGE_SHIFT - PTE_SHIFT))
->>  #endif
->>  
->>  /*
->> @@ -59,14 +61,14 @@
->>  #define PUD_SHIFT		ARM64_HW_PGTABLE_LEVEL_SHIFT(1)
->>  #define PUD_SIZE		(_AC(1, UL) << PUD_SHIFT)
->>  #define PUD_MASK		(~(PUD_SIZE-1))
->> -#define PTRS_PER_PUD		(1 << (PAGE_SHIFT - 3))
->> +#define PTRS_PER_PUD		(1 << (PAGE_SHIFT - PTE_SHIFT))
->>  #endif
->>  
->>  #if CONFIG_PGTABLE_LEVELS > 4
->>  #define P4D_SHIFT		ARM64_HW_PGTABLE_LEVEL_SHIFT(0)
->>  #define P4D_SIZE		(_AC(1, UL) << P4D_SHIFT)
->>  #define P4D_MASK		(~(P4D_SIZE-1))
->> -#define PTRS_PER_P4D		(1 << (PAGE_SHIFT - 3))
->> +#define PTRS_PER_P4D		(1 << (PAGE_SHIFT - PTE_SHIFT))
->>  #endif
->>  
->>  /*
->> diff --git a/arch/arm64/kernel/pi/map_range.c b/arch/arm64/kernel/pi/map_range.c
->> index 2b69e3beeef8..3530a5427f57 100644
->> --- a/arch/arm64/kernel/pi/map_range.c
->> +++ b/arch/arm64/kernel/pi/map_range.c
->> @@ -31,7 +31,7 @@ void __init map_range(u64 *pte, u64 start, u64 end, u64 pa, pgprot_t prot,
->>  {
->>  	u64 cmask = (level == 3) ? CONT_PTE_SIZE - 1 : U64_MAX;
->>  	pteval_t protval = pgprot_val(prot) & ~PTE_TYPE_MASK;
->> -	int lshift = (3 - level) * (PAGE_SHIFT - 3);
->> +	int lshift = (3 - level) * (PAGE_SHIFT - PTE_SHIFT);
->>  	u64 lmask = (PAGE_SIZE << lshift) - 1;
->>  
->>  	start	&= PAGE_MASK;
->> diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
->> index b65a29440a0c..90548079b42e 100644
->> --- a/arch/arm64/mm/kasan_init.c
->> +++ b/arch/arm64/mm/kasan_init.c
->> @@ -190,7 +190,7 @@ static void __init kasan_pgd_populate(unsigned long addr, unsigned long end,
->>   */
->>  static bool __init root_level_aligned(u64 addr)
->>  {
->> -	int shift = (ARM64_HW_PGTABLE_LEVELS(vabits_actual) - 1) * (PAGE_SHIFT - 3);
->> +	int shift = (ARM64_HW_PGTABLE_LEVELS(vabits_actual) - 1) * (PAGE_SHIFT - PTE_SHIFT);
->>  
->>  	return (addr % (PAGE_SIZE << shift)) == 0;
->>  }
->> @@ -245,7 +245,7 @@ static int __init root_level_idx(u64 addr)
->>  	 */
->>  	u64 vabits = IS_ENABLED(CONFIG_ARM64_64K_PAGES) ? VA_BITS
->>  							: vabits_actual;
->> -	int shift = (ARM64_HW_PGTABLE_LEVELS(vabits) - 1) * (PAGE_SHIFT - 3);
->> +	int shift = (ARM64_HW_PGTABLE_LEVELS(vabits) - 1) * (PAGE_SHIFT - PTE_SHIFT);
->>  
->>  	return (addr & ~_PAGE_OFFSET(vabits)) >> (shift + PAGE_SHIFT);
->>  }
->> @@ -269,7 +269,7 @@ static void __init clone_next_level(u64 addr, pgd_t *tmp_pg_dir, pud_t *pud)
->>   */
->>  static int __init next_level_idx(u64 addr)
->>  {
->> -	int shift = (ARM64_HW_PGTABLE_LEVELS(vabits_actual) - 2) * (PAGE_SHIFT - 3);
->> +	int shift = (ARM64_HW_PGTABLE_LEVELS(vabits_actual) - 2) * (PAGE_SHIFT - PTE_SHIFT);
->>  
->>  	return (addr >> (shift + PAGE_SHIFT)) % PTRS_PER_PTE;
->>  }
-> 
+Acked-by: Ard Biesheuvel <ardb@kernel.org>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/c3dddb6f-dce1-45a6-b5f1-1fd247c510ab%40arm.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CAMj1kXE0mCPSKLyNUkLZXLntX-%3DaCGKdn5b3Zgme3PbyYFgFdg%40mail.gmail.com.
