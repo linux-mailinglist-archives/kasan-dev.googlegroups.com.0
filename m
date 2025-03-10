@@ -1,73 +1,135 @@
-Return-Path: <kasan-dev+bncBDL5RIMMV4JRBZNDXG7AMGQE6OFQGGQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDGZVRMH6UCRBFWIXG7AMGQEBRR4Z4Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x39.google.com (mail-oa1-x39.google.com [IPv6:2001:4860:4864:20::39])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA774A58A89
-	for <lists+kasan-dev@lfdr.de>; Mon, 10 Mar 2025 03:43:51 +0100 (CET)
-Received: by mail-oa1-x39.google.com with SMTP id 586e51a60fabf-2c24c595a08sf3008718fac.3
-        for <lists+kasan-dev@lfdr.de>; Sun, 09 Mar 2025 19:43:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1741574630; x=1742179430; darn=lfdr.de;
+Received: from mail-pl1-x63b.google.com (mail-pl1-x63b.google.com [IPv6:2607:f8b0:4864:20::63b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32AAFA58B04
+	for <lists+kasan-dev@lfdr.de>; Mon, 10 Mar 2025 05:01:29 +0100 (CET)
+Received: by mail-pl1-x63b.google.com with SMTP id d9443c01a7336-2254bdd4982sf39644865ad.1
+        for <lists+kasan-dev@lfdr.de>; Sun, 09 Mar 2025 21:01:29 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1741579287; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=atsp5M0/7AkKj2KcHojR3TXhZuehK7gz5qVlLFr5MXPqCEQwTBNrIzUnl9IhxslXJt
+         LZAJVJktJEXm8PzrBBLaYP/tmFLZzAuTJErLpwfBbEBqQIR+y/S7e88Xrhh4LLZmQptq
+         bLailZ3bKdvS62EhTsbYAUX1BOhe2054ayb/EBJwo67AYc+dSKj7Uy48+xcK6IHuMskX
+         +g8IzYgFpuHcoh13uhD05Bb9K+ymI61Dr9revR47sWCUnT9AugnOB2PIuBntgNx6lp3/
+         p1/V6Covh8Um3rGJnuo3ivdsH7xBqOPrsHBo3b6NegtinnnJ2dar7eGnEw+EJc/CoW4z
+         jyWg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-sender:mime-version
-         :subject:message-id:to:from:date:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b6fTnb9DDut/4c8ewKG1EJh5CpsUpU3lW/whtl/GdGY=;
-        b=nI7Xegs3ZXRAQEqkpbTtD3RphsMzMH2aMpcISf9Jcr7e/KpJ/o2xKw3mqayKrmXv2Q
-         RRbZd5lxn7PoQnix21iVmul6UnwtQF1wINuNEPiBasykMJuFQDpomo0Ny2uiET2R6AC0
-         tI8GYZSiLFreqx0iqEZGBxvR5tUb6MsY6BIwuaHqmpOJQZPBJzOFVkyRvzuWpPwPzNMD
-         2FP9ZsncDcyXw3ySSKSJtCJSRnD3tQvwkVBkXUtOUPHfTQ6jOd9wnnQWllBvh+xmiiZa
-         mWgObRcqUno0AWE43yKN68o/bFTxsXHqYjaWt0atWG6vsfH36+SCkovNst3nAWJJe2QY
-         t1Vg==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=1zDJ93ffeR1B8ZxQ21e1lVt0qU66Q3KCemkVt6xkKz4=;
+        fh=SfLTOiPJE6h+95kW5/DGRymU73XInwHckS5Exl/kdY8=;
+        b=TJgLvA+8zhSkT+OYz81zCs1o/cZyqkohvnAN342Q9Pi8p9M4R4+XUgCuqn3NRuydE2
+         5O0HedEqZ/sA36ocIGPTeuCwmn6NIoDCE+pOVQ77ETx7RfxyXvoSyBux+pfhrwAe2atW
+         htW8UXhBQcoC02un5JOTtvSxPEnkFfVz0acIJABne9IAI063qgScH4Qk8SlAwTSSzQN3
+         SpfGRd/dBHLlEJnqZQBnTXpo0tg22fFWigIxT/b4ADdSiZ398+UvTxkmGuuwucJc60Yn
+         KmvzhSsQZ37r/drKPDZRsWR40YoXQyD+9FVm78W2M1NUGr08BnfWlZTYkMd+KGAnbBUv
+         I6Bw==;
+        darn=lfdr.de
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741574630; x=1742179430; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1741579287; x=1742184087; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-sender:mime-version
-         :subject:message-id:to:from:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=b6fTnb9DDut/4c8ewKG1EJh5CpsUpU3lW/whtl/GdGY=;
-        b=m+XtPn/ZVBkxDMuRu8SnTPjLwqglyROrU5JTl3N5Z3i21SC0Foys4FvjdCKm/0cM+r
-         hH55d82IYsphxpi3VjE6P0Dnth+IkxzApw3fi0MrdUk9JSvrERYV7gVwdk0vRaguz2HD
-         KvYy5C4v8rA0kLzpEeUuNuwNe/wERHNGagYBKW7jYUvoh1GjNTgtdwxJhUidpa0Ig/dK
-         JQZZC6Wy7lr9y4IvDc/67hz1yNW1UI6n2E7akf9UXFds+Ik1I11nJS1uOaiJ2L5ljtm5
-         zvHMCdkwg5JPwuItPf4OPYXqeELaRBXGmCND8wVMAy+keQJyxIz5CO13HeNYjUsSomTu
-         LWaQ==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=1zDJ93ffeR1B8ZxQ21e1lVt0qU66Q3KCemkVt6xkKz4=;
+        b=s9jmTc99gximmR3mmXZGUvtklXf7rEU4uhPJSM1UmO1qawFcCRD3XvdhgmVUf/KI0C
+         PT025paYKJoUXMrqoyJ8Dpkjz4jptfNWCYIM71PjEtUIjvpZuQsn1uNbcKn59f4HsyQk
+         R7Eq62Nm+uM+eGmq8F5A/DAkeIm7lLf11fDuUPwm2v+4Rurme1E9xwWWYq4AV86DICo7
+         piWOoDrkbFqwXJp1Vg8NQPvy/rpi45X37aPiNJifTwWNCDRoZXVU7KOpIQOaNVZwN6cj
+         o/FfAT8aTuJh1PfE0Le88PqPYWM/8sd4DHeLiYcMae5Vi4z5Sq1QRMxfT3WLspyY/Vsq
+         I0Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741574630; x=1742179430;
+        d=1e100.net; s=20230601; t=1741579287; x=1742184087;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-sender:mime-version:subject:message-id:to:from:date
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b6fTnb9DDut/4c8ewKG1EJh5CpsUpU3lW/whtl/GdGY=;
-        b=Jurui9M0CHz2wEDuDPMM1KsIJ4e6zdC6qO+3CDZtr+S6O1xbyZVyHy+0zCbefjW8lv
-         I1xhWWg98b7owxFf6XBfvxCXfY2YDLY9rnLrbKuCdPf4nWHvyPOCkatT5u/fBCXn1daY
-         6Ie4qTfANI7gHj2lbTwp9lJfHHNgr8DDUfrt8FSSmA+UIV39/z274w6ZKJu3/vKVOBq9
-         /4BjKikPcydbDhyk6Q3nKFPH3OvzD/QQCCfRfEGUbpK8tMOowZsP3qRWLkQgmxV/i1gu
-         DcE/IEe9Ia5hc47hAh3kDOOKwaLAJ/IbIdWch+OKLw3v3BZvZkxxuFYLu7khGjUqgE5o
-         YO3A==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=1zDJ93ffeR1B8ZxQ21e1lVt0qU66Q3KCemkVt6xkKz4=;
+        b=KFwZCgdHjXFl0P1rPfCVrivF8l3Ng2ZRg+3N8/kAyjDzExmm1co/r3umwDQm2NARUM
+         yaxPGq9dUX4PwMndKvdimkYJuBI05VAr+QMzP8Wzq01r4eUoDAIyG582Qvn4gH/G/glB
+         NBWw2j/XGQBB7KiWDPt+eSb2np10LQR1HT4bB6TsuCxIRoSiLKe7y9M3osZ4uLNVVRGj
+         O4R842ij76CGWRMmFyQZSS46s9bTOrPKEiHZErLpTt/1ybs7oGAw2RON3ng+JBHzYQ2m
+         rdw5UUdgi0qbJCKxY6UfNvQo8WNI+MG3R7pe+O3eqS4tvPQrLD7Todh6483NVpAeU5Bv
+         bndg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=1; AJvYcCVxqf+f4a97hPocDJUYj4RhuN5CBGG5A4b74mq7LDBwPCFAlRbK0iIUDstcRFNd5Q2mpYIF0A==@lfdr.de
-X-Gm-Message-State: AOJu0Yw/x4yG6MEVpDZnV8rx6W/728/4Jh3zfqzIZBwfXRiDJY9vUkEY
-	WUJKJT5v8vBd/bTk3X+ufzQvqiNAu84tR6iMhuwy5ktrh3/RbIcf
-X-Google-Smtp-Source: AGHT+IGxFYfoil65Yv2nfUeH5mjAMur3oV3En3wPaFvldyaxypWef8Ix/kUMh5VgDioE0yfZbpuIMA==
-X-Received: by 2002:a05:6870:829e:b0:2c1:2b23:d71f with SMTP id 586e51a60fabf-2c26154b521mr5494283fac.39.1741574630114;
-        Sun, 09 Mar 2025 19:43:50 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVHb7g6XlV8SC0sFrZssqNwFywviCtJxw1G9AJQBGNYEWA==
-Received: by 2002:a05:6871:5315:b0:29f:f56e:68fa with SMTP id
- 586e51a60fabf-2c23ff2f1a0ls1611650fac.2.-pod-prod-09-us; Sun, 09 Mar 2025
- 19:43:48 -0700 (PDT)
-X-Received: by 2002:a05:6808:2445:b0:3f8:dc26:cb16 with SMTP id 5614622812f47-3f8dc26ce6cmr1100821b6e.2.1741574628238;
-        Sun, 09 Mar 2025 19:43:48 -0700 (PDT)
-Date: Sun, 9 Mar 2025 19:43:47 -0700 (PDT)
-From: doaa abdalaziz <doaausef3li@gmail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <1b87c04e-5265-45a3-93b3-3555eeff14a0n@googlegroups.com>
-Subject: =?UTF-8?B?2K7Yr9mF2KfYqiDYpdiv2KfYsdipINin2YTYo9mF2YTYp9mD?=
+X-Forwarded-Encrypted: i=2; AJvYcCXzLB4zbmQ6SJXUDB144Me0AQYw1KnWo+D/e6p7Gbk3KPil2P1B9QhyLr4ZCvWbnwPr+buXgA==@lfdr.de
+X-Gm-Message-State: AOJu0YwZ1Sm+sDyksDsKw4ak3IgLMB6XFyh0/9uvXCRBGwXjY8HVnkDa
+	mDlAbWRtE4We46147zvdgDJ6qBzAhpFF4SYSbgus8unkzpkdoqaq
+X-Google-Smtp-Source: AGHT+IF0po2rqBkMZtkWMe+4BzZLF4+3V3Zql30W6Naxq74X6ev619+KU57slPz0RU/qErlJRaPa0A==
+X-Received: by 2002:a17:902:e5d2:b0:21f:1549:a55a with SMTP id d9443c01a7336-2242887b30dmr204350075ad.1.1741579287194;
+        Sun, 09 Mar 2025 21:01:27 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVGLYEsArLoYrk65Ke+PERIrtdd1yeGNRSJmf2LNUrv6/Q==
+Received: by 2002:a17:902:fc8e:b0:223:f930:6e87 with SMTP id
+ d9443c01a7336-224091b301bls17675055ad.1.-pod-prod-03-us; Sun, 09 Mar 2025
+ 21:01:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXjNaRYi3ZcbMpYBJSbE4U2Vsuz22gaq3NEBQMYCOnIHvv3kzNwk0Lqz9IngOShwW4EncCGP+BLiMk=@googlegroups.com
+X-Received: by 2002:a17:903:98b:b0:223:397f:46be with SMTP id d9443c01a7336-22428ad4a09mr196096625ad.47.1741579284078;
+        Sun, 09 Mar 2025 21:01:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1741579284; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dsFkx/4+7TDCy18HGkaqY1CvFhMeVg7jkzsNBARTI3Qbd8nD6tZEv3Gx51vnr6ICGm
+         jmysoCrrUaLLSBvtIN7+3CM6BrhtWq5zrLsM6O0cNFJcI4HZ7/B2aQ74z9vy75CMJ0g7
+         +sQbco2HgIs2YvS8NUuFTdN0DSnZC4yMdEoAMGQFL6sdswR4BOgZpmO9xVfO9rZld61b
+         RweQxj1nHBz+prQCjLM4a6cQXEsT2enrKwMSF/R+k5fEd2TWEtajY1pHrjl9pz3osvbf
+         J/nbeFtn2+JY62WUaQxCeLuhjn7g6Fh86YJ+hHjjf8pY/H0a3/9xzmHmKeb7OJNUqOWC
+         TCjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from;
+        bh=y/WkbbSgGnY9T7hMavgR3DToVbrZtJqmk4830aygPEE=;
+        fh=5l/eLuwIniyMnBhDRDkXj2Fw1cfPUNtNnjRj2PJcfaw=;
+        b=QhYMr+zBsrdaYDqNsPxfISFqH1QqOxDoBaf3iY+ZJs+0OMJmIGArEQzWQEfpJwZRSU
+         L84PK7Wh4CO6zamgMs/b9TaGRFPOTYCo1vRw3cGyf4gn+rbegC3O/QJqqOvSlt64xmTC
+         hEDahqkY/cJZVE4ITi6amA5NccGuU45pC5muTV8oTXQnXzU+aNFl3OQyLZA/6VLCDe+N
+         jhhOJMXiXekPaPDwwOymBuUmsIhQhPSlgcv66reEDN+lrKovgvOdMTbXW+RHVA6FX455
+         9Mc5rXzNWPh54YAI6kiVMpoQc64DqNIh5WybxV/TI2PsBWmPnm6jsfmMBUXaNe2cNSaR
+         9gwA==;
+        dara=google.com
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id d9443c01a7336-224191d9babsi3007725ad.8.2025.03.09.21.01.23
+        for <kasan-dev@googlegroups.com>;
+        Sun, 09 Mar 2025 21:01:24 -0700 (PDT)
+Received-SPF: pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B477D15A1;
+	Sun,  9 Mar 2025 21:01:34 -0700 (PDT)
+Received: from a077893.arm.com (unknown [10.163.42.69])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 99DCC3F673;
+	Sun,  9 Mar 2025 21:01:18 -0700 (PDT)
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+To: linux-arm-kernel@lists.infradead.org
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com
+Subject: [PATCH V2] arm64/mm: Define PTDESC_ORDER
+Date: Mon, 10 Mar 2025 09:31:15 +0530
+Message-Id: <20250310040115.91298-1-anshuman.khandual@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_5694_1029753063.1741574627437"
-X-Original-Sender: doaausef3li@gmail.com
+X-Original-Sender: anshuman.khandual@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172
+ as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -80,230 +142,218 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_5694_1029753063.1741574627437
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_5695_816077483.1741574627437"
+Address bytes shifted with a single 64 bit page table entry (any page table
+level) has been always hard coded as 3 (aka 2^3 = 8). Although intuitive it
+is not very readable or easy to reason about. Besides it is going to change
+with D128, where each 128 bit page table entry will shift address bytes by
+4 (aka 2^4 = 16) instead.
 
-------=_Part_5695_816077483.1741574627437
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Let's just formalise this address bytes shift value into a new macro called
+PTDESC_ORDER establishing a logical abstraction, thus improving readability
+as well. While here re-organize EARLY_LEVEL macro along with its dependents
+for better clarity. This does not cause any functional change.
 
-ICrZg9mK2YEg2KrYs9in2LnYryDYpdiv2KfYsdipINin2YTYo9mF2YTYp9mDINmB2Yog2KrZgtmE
-2YrZhCDYp9mE2YXYrtin2LfYsSDZiNi22YXYp9mGINin2LPYqtmC2LHYp9ixINin2YTYp9iz2KrY
-q9mF2KfYsdin2KogCtin2YTYudmC2KfYsdmK2KnYnyogKtmF2YLYr9mF2KkqIAoK2YrZiNin2KzZ
-hyAq2YXZhNin2YMg2KfZhNi52YLYp9ix2KfYqiog2KfZhNi52K/ZitivINmF2YYg2KfZhNiq2K3Y
-r9mK2KfYqiDZiNin2YTZhdiu2KfYt9ixINin2YTYqtmKINmC2K8g2KrYpNir2LEg2LnZhNmJICrY
-udmI2KfYptivIArYp9mE2KfYs9iq2KvZhdin2LEq2Iwg2YXYq9mEICrYqtij2K7ZitixINin2YTY
-pdmK2KzYp9ix2KfYqtiMINin2YTYo9i22LHYp9ixINin2YTZh9mK2YPZhNmK2KnYjCDZiNin2YTZ
-hdi02KfZg9mEINin2YTZgtin2YbZiNmG2YrYqSouIArZh9mG2Kcg2YrYo9iq2Yog2K/ZiNixICAg
-INiu2K/Zhdin2Kog2KXYr9in2LHYqSDYp9mE2KPZhdmE2KfZgyAKPGh0dHBzOi8vc2hvbW9vYXRh
-YnVrLmNvbS8lZDglYjQlZDglYjElZDklODMlZDglYTktJWQ4JWE3JWQ4JWFmJWQ4JWE3JWQ4JWIx
-JWQ4JWE5LSVkOCVhMyVkOSU4NSVkOSU4NCVkOCVhNyVkOSU4My0lZDglYWElZDglYTglZDklODgl
-ZDklODMvPiAqIArYp9mE2YXYrdiq2LHZgdipKtiMINit2YrYqyDYqtiz2KfYudivINin2YTYtNix
-2YPYp9iqINin2YTZhdiq2K7Ytdi12Kkg2YXYq9mEICrYtNix2YPYqSDYtNmF2YjYuSDYqtio2YjZ
-gyog2YHZiiAq2KrZgtmE2YrZhCDZh9iw2YcgCtin2YTZhdiu2KfYt9ixINmI2LbZhdin2YYg2KfY
-s9iq2YLYsdin2LEg2KfZhNin2LPYqtir2YXYp9ix2KfYqiDYp9mE2LnZgtin2LHZitipKi4g2YHZ
-iiDZh9iw2Kcg2KfZhNmF2YLYp9mE2Iwg2LPZhtiz2KrYudix2LYg2KPZh9mFIArYp9mE2YXYrtin
-2LfYsSDYp9mE2KrZiiDYqtmI2KfYrNmHINin2YTZhdiz2KrYq9mF2LHZitmGINmB2Yog2KfZhNi5
-2YLYp9ix2KfYqtiMINmI2YPZitmB2YrYqSDZhdi52KfZhNis2KrZh9inINmF2YYg2K7ZhNin2YQg
-Ktil2K/Yp9ix2KkgCtij2YXZhNin2YMg2KfYrdiq2LHYp9mB2YrYqSouCirYo9io2LHYsiDYp9mE
-2YXYrtin2LfYsSDZgdmKINin2YTYp9iz2KrYq9mF2KfYsSDYp9mE2LnZgtin2LHZiiDZiNmD2YrZ
-gdmK2Kkg2KrYrNmG2KjZh9inKiAKICAgCiAgIDEuIAogICAKICAgKtin2YTYqtij2K7YsSDZgdmK
-INiv2YHYuSDYp9mE2KXZitis2KfYsdin2Kog2KPZiCDYudiv2YUg2LPYr9in2K/Zh9inKgogICAt
-ICrYp9mE2K7Yt9ixKjog2YrYpNir2LEg2LnYr9mFINin2YbYqti42KfZhSDYp9mE2YXYr9mB2YjY
-udin2Kog2LnZhNmJINin2YTYqtiv2YHZgtin2Kog2KfZhNmG2YLYr9mK2Kkg2YTZhNmF2YTYp9mD
-LgogICAgICAtICrYp9mE2K3ZhCo6INiq2LfYqNmK2YIgKtij2YbYuNmF2Kkg2KrYrdi12YrZhCDY
-pdmE2YPYqtix2YjZhtmK2KkqINmI2LbZhdin2YYg2YjYrNmI2K8g2LnZgtmI2K8g2YLYp9mG2YjZ
-htmK2Kkg2LXYp9ix2YXYqSAKICAgICAg2YTYrdmF2KfZitipINit2YLZiNmCINin2YTZhdin2YTZ
-gy4KICAgMi4gCiAgIAogICAq2KfZhNmF2LTYp9mD2YQg2KfZhNmC2KfZhtmI2YbZitipINmI2KfZ
-hNmG2LLYp9i52KfYqiDZhdi5INin2YTZhdiz2KrYo9is2LHZitmGKgogICAtICrYp9mE2K7Yt9ix
-Kjog2KfZhNi52YLZiNivINi62YrYsSDYp9mE2YjYp9i22K3YqSDYo9mIINi22LnZgSDYp9mE2KXY
-rNix2KfYodin2Kog2KfZhNmC2KfZhtmI2YbZitipINmC2K8g2KrYpNiv2Yog2KXZhNmJIAogICAg
-ICDZhtiy2KfYudin2Kog2LfZiNmK2YTYqS4KICAgICAgLSAq2KfZhNit2YQqOiDYp9mE2KrYo9mD
-2K8g2YXZhiDYo9mGINin2YTYudmC2YjYryDYqti02YXZhCAq2LTYsdmI2Lcg2YjYp9i22K3YqSDZ
-iNmF2YTYstmF2Kkg2YLYp9mG2YjZhtmK2YvYpyrYjCAKICAgICAg2YjYqtit2K/Zitir2YfYpyDY
-qNin2LPYqtmF2LHYp9ixLgogICAzLiAKICAgCiAgICrYqtiv2YfZiNixINit2KfZhNipINin2YTY
-udmC2KfYsSDYqNiz2KjYqCDYp9mE2KXZh9mF2KfZhCoKICAgLSAq2KfZhNiu2LfYsSo6INi52K/Z
-hSDYpdis2LHYp9ihINin2YTYtdmK2KfZhtipINmK2KTYr9mKINil2YTZiSAq2KrYotmD2YQg2KfZ
-hNi52YLYp9ix2KfYqiDZiNiu2LPYp9ix2Kkg2YLZitmF2KrZh9inKiAKICAgICAg2KjZhdix2YjY
-sSDYp9mE2YjZgtiqLgogICAgICAtICrYp9mE2K3ZhCo6INiq2YbZgdmK2LAgKtiu2LfYtyDYtdmK
-2KfZhtipINiv2YjYsdmK2Kkg2YjYp9iz2KrYqNin2YLZitipKiDZhNmE2K3Zgdin2Lgg2LnZhNmJ
-INin2YTYudmC2KfYsdin2Kog2YHZiiAKICAgICAg2KPZgdi22YQg2K3Yp9mELgogICA0LiAKICAg
-CiAgICrYp9ix2KrZgdin2Lkg2YHYqtix2KfYqiDYp9mE2LTZiNin2LrYsSDYp9mE2LnZgtin2LHZ
-itipKgogICAtICrYp9mE2K7Yt9ixKjog2LnYr9mFINin2YTZgtiv2LHYqSDYudmE2YkgKtis2LDY
-qCDZhdiz2KrYo9is2LHZitmGINio2LPYsdi52KkqINmK2KTYr9mKINil2YTZiSDYrtiz2KfYsdip
-INin2YTYpdmK2LHYp9iv2KfYqi4KICAgICAgLSAq2KfZhNit2YQqOiDYp9i52KrZhdin2K8gKtin
-2LPYqtix2KfYqtmK2KzZitin2Kog2KrYs9mI2YrZgtmK2Kkg2YHYudin2YTYqSrYjCDZiNiq2K3Y
-s9mK2YYg2KzZiNiv2Kkg2KfZhNiu2K/Zhdin2KogCiAgICAgINin2YTZhdmC2K/ZhdipINmE2YTZ
-hdiz2KrYo9is2LHZitmGLgogICA1LiAKICAgCiAgICrYp9mE2KrYutmK2LHYp9iqINin2YTYp9mC
-2KrYtdin2K/ZitipINmI2KrYo9ir2YrYsdmH2Kcg2LnZhNmJINin2YTYs9mI2YIg2KfZhNi52YLY
-p9ix2YoqCiAgIC0gKtin2YTYrti32LEqOiDYp9mE2KrZgtmE2KjYp9iqINmB2Yog2KfZhNin2YLY
-qti12KfYryDYqtik2KvYsSDYudmE2Ykg2KPYs9i52KfYsSDYp9mE2KXZitis2KfYsdin2Kog2YjZ
-gtmK2YXYqSDYp9mE2LnZgtin2LHYp9iqLgogICAgICAtICrYp9mE2K3ZhCo6INiq2K3ZhNmK2YQg
-2KfZhNiz2YjZgiDYqNin2YbYqti42KfZhdiMINmI2LbYqNi3INin2LPYqtix2KfYqtmK2KzZitin
-2Kog2KfZhNiq2LPYudmK2LEg2YjZgdmC2YvYpyDZhNmE2LnYsdi2IAogICAgICDZiNin2YTYt9mE
-2KguCiAgIAoq2YPZitmBINiq2LPYp9i52K8g2LTYsdmD2KfYqiAqINiu2K/Zhdin2Kog2KXYr9in
-2LHYqSDYp9mE2KPZhdmE2KfZgyAKPGh0dHBzOi8vc2hvbW9vYXRhYnVrLmNvbS8lZDglYjQlZDgl
-YjElZDklODMlZDglYTktJWQ4JWE3JWQ4JWFmJWQ4JWE3JWQ4JWIxJWQ4JWE5LSVkOCVhMyVkOSU4
-NSVkOSU4NCVkOCVhNyVkOSU4My0lZDglYWElZDglYTglZDklODglZDklODMvPiAqIArZgdmKINiq
-2YLZhNmK2YQg2KfZhNmF2K7Yp9i32LHYnyogCgrYqti52KrZhdivICrYtNix2YPYqSDYtNmF2YjY
-uSDYqtio2YjZgyog2LnZhNmJINmG2YfYrCDYp9iz2KrYqNin2YLZiiDZgdmKINil2K/Yp9ix2Kkg
-2KfZhNij2YXZhNin2YMg2YXZhiDYrtmE2KfZhDoKCiAgIC0gKtil2KzYsdin2KEg2YHYrdmI2LXY
-p9iqINi02KfZhdmE2Kkg2YTZhNmF2LPYqtij2KzYsdmK2YYqINmE2LbZhdin2YYg2KfZhNiq2LLY
-p9mF2YfZhSDYp9mE2YXYp9mE2YouCiAgIC0gKtiq2YLYr9mK2YUg2KfYs9iq2LTYp9ix2KfYqiDZ
-gtin2YbZiNmG2YrYqSDZhNi22YXYp9mGINin2YTYp9mF2KrYq9in2YQg2KfZhNmD2KfZhdmEKiDZ
-hNmE2YLZiNin2YbZitmGINin2YTYudmC2KfYsdmK2KkuCiAgIC0gKtil2K/Yp9ix2Kkg2YHYudin
-2YTYqSDZhNmE2LnZgtmI2K8g2YjYp9mE2KXZitis2KfYsdin2KoqINmE2KrZgtmE2YrZhCDYp9mE
-2YbYstin2LnYp9iqLgogICAtICrYqtmG2YHZitiwINio2LHYp9mF2Kwg2LXZitin2YbYqSDZiNmC
-2KfYptmK2KkqINiq2YLZhNmEINmF2YYg2KfYrdiq2YXYp9mE2YrYqSDZiNmC2YjYuSDYo9i22LHY
-p9ixINmF2YPZhNmB2KkuCgoq2K7Yp9iq2YXYqSogCgrZiti52K8g2KrZgtmE2YrZhCDYp9mE2YXY
-rtin2LfYsSDYp9mE2LnZgtin2LHZitipINmF2YYg2KfZhNij2YjZhNmI2YrYp9iqINin2YTYo9iz
-2KfYs9mK2Kkg2YTYo9mKICrZhdin2YTZgyDYudmC2KfYsSDZitiz2LnZiSDZhNiq2K3ZgtmK2YIg
-Cti52YjYp9im2K8g2KfYs9iq2KvZhdin2LHZitipINmF2LPYqtmC2LHYqSouINmF2YYg2K7ZhNin
-2YQgINiu2K/Zhdin2Kog2KXYr9in2LHYqSDYp9mE2KPZhdmE2KfZgyAKPGh0dHBzOi8vc2hvbW9v
-YXRhYnVrLmNvbS8lZDglYjQlZDglYjElZDklODMlZDglYTktJWQ4JWE3JWQ4JWFmJWQ4JWE3JWQ4
-JWIxJWQ4JWE5LSVkOCVhMyVkOSU4NSVkOSU4NCVkOCVhNyVkOSU4My0lZDglYWElZDglYTglZDkl
-ODglZDklODMvPiAqIArYp9it2KrYsdin2YHZitipKtiMINmK2YXZg9mGICrYrdmF2KfZitipINin
-2YTYp9iz2KrYq9mF2KfYsdin2Kog2YXZhiDYp9mE2YXYrtin2LfYsSDYp9mE2YXYrdiq2YXZhNip
-INmI2LbZhdin2YYg2KrYtNi62YrZhCDYp9mE2LnZgtin2LHYp9iqIArYqNmD2YHYp9ih2Kkg2LnY
-p9mE2YrYqSouINiq2YjZgdixICrYtNix2YPYqSDYtNmF2YjYuSDYqtio2YjZgyog2K3ZhNmI2YTZ
-i9inINmF2KrZg9in2YXZhNipINiq2LPYp9i52K8g2KfZhNmF2YTYp9mDINmB2Yog2KrYrdmC2YrZ
-giAK2KfYs9iq2YLYsdin2LEg2YXYp9mE2Yog2YjYstmK2KfYr9ipINmC2YrZhdipINmF2YXYqtmE
-2YPYp9iq2YfZhSDYudmE2Ykg2KfZhNmF2K/ZiSDYp9mE2LfZiNmK2YQuCgotLSAKWW91IHJlY2Vp
-dmVkIHRoaXMgbWVzc2FnZSBiZWNhdXNlIHlvdSBhcmUgc3Vic2NyaWJlZCB0byB0aGUgR29vZ2xl
-IEdyb3VwcyAia2FzYW4tZGV2IiBncm91cC4KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGdyb3Vw
-IGFuZCBzdG9wIHJlY2VpdmluZyBlbWFpbHMgZnJvbSBpdCwgc2VuZCBhbiBlbWFpbCB0byBrYXNh
-bi1kZXYrdW5zdWJzY3JpYmVAZ29vZ2xlZ3JvdXBzLmNvbS4KVG8gdmlldyB0aGlzIGRpc2N1c3Np
-b24gdmlzaXQgaHR0cHM6Ly9ncm91cHMuZ29vZ2xlLmNvbS9kL21zZ2lkL2thc2FuLWRldi8xYjg3
-YzA0ZS01MjY1LTQ1YTMtOTNiMy0zNTU1ZWVmZjE0YTBuJTQwZ29vZ2xlZ3JvdXBzLmNvbS4K
-------=_Part_5695_816077483.1741574627437
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Cc: Ryan Roberts <ryan.roberts@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: kasan-dev@googlegroups.com
+Acked-by: Ard Biesheuvel <ardb@kernel.org>
+Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+---
+This patch applies on v6.14-rc6
 
-CjxzcGFuPjxzdHJvbmc+2YPZitmBINiq2LPYp9i52K8g2KXYr9in2LHYqSDYp9mE2KPZhdmE2KfZ
-gyDZgdmKINiq2YLZhNmK2YQg2KfZhNmF2K7Yp9i32LEg2YjYttmF2KfZhiDYp9iz2KrZgtix2KfY
-sSDYp9mE2KfYs9iq2KvZhdin2LHYp9iqINin2YTYudmC2KfYsdmK2KnYnzwvc3Ryb25nPjwvc3Bh
-bj4KPHNwYW4+PHN0cm9uZz7ZhdmC2K/ZhdipPC9zdHJvbmc+PC9zcGFuPgo8cD7ZitmI2KfYrNmH
-IDxzdHJvbmc+2YXZhNin2YMg2KfZhNi52YLYp9ix2KfYqjwvc3Ryb25nPiDYp9mE2LnYr9mK2K8g
-2YXZhiDYp9mE2KrYrdiv2YrYp9iqINmI2KfZhNmF2K7Yp9i32LEg2KfZhNiq2Yog2YLYryDYqtik
-2KvYsSDYudmE2YkgPHN0cm9uZz7YudmI2KfYptivINin2YTYp9iz2KrYq9mF2KfYsTwvc3Ryb25n
-PtiMINmF2KvZhCA8c3Ryb25nPtiq2KPYrtmK2LEg2KfZhNil2YrYrNin2LHYp9iq2Iwg2KfZhNij
-2LbYsdin2LEg2KfZhNmH2YrZg9mE2YrYqdiMINmI2KfZhNmF2LTYp9mD2YQg2KfZhNmC2KfZhtmI
-2YbZitipPC9zdHJvbmc+LiDZh9mG2Kcg2YrYo9iq2Yog2K/ZiNixwqAKCgoKCgoKCgoKCgoKCjxz
-cGFuIGJvcmRlcj0iMCIgY2VsbHBhZGRpbmc9IjAiIGNlbGxzcGFjaW5nPSIwIiB3aWR0aD0iNjQi
-IHN0eWxlPSJib3JkZXItY29sbGFwc2U6IGNvbGxhcHNlOyB3aWR0aDogNDhwdDsiPgogPHNwYW4+
-PHNwYW4gd2lkdGg9IjY0IiBzdHlsZT0id2lkdGg6IDQ4cHQ7Ij48L3NwYW4+wqAgPC9zcGFuPjxz
-cGFuPjxzcGFuIGhlaWdodD0iMTkiIHN0eWxlPSJoZWlnaHQ6IDE0cHQ7Ij48c3BhbiBoZWlnaHQ9
-IjE5IiBkaXI9IlJUTCIgYWxpZ249InJpZ2h0IiB3aWR0aD0iNjQiIHN0eWxlPSJoZWlnaHQ6IDE0
-cHQ7IHdpZHRoOiA0OHB0OyI+PGEgaHJlZj0iaHR0cHM6Ly9zaG9tb29hdGFidWsuY29tLyVkOCVi
-NCVkOCViMSVkOSU4MyVkOCVhOS0lZDglYTclZDglYWYlZDglYTclZDglYjElZDglYTktJWQ4JWEz
-JWQ5JTg1JWQ5JTg0JWQ4JWE3JWQ5JTgzLSVkOCVhYSVkOCVhOCVkOSU4OCVkOSU4My8iPtiu2K/Z
-hdin2KoKICDYpdiv2KfYsdipINin2YTYo9mF2YTYp9mDPC9hPjwvc3Bhbj4KCiA8L3NwYW4+Cjwv
-c3Bhbj48L3NwYW4+CgoKCgo8c3Ryb25nPiDYp9mE2YXYrdiq2LHZgdipPC9zdHJvbmc+2Iwg2K3Z
-itirINiq2LPYp9i52K8g2KfZhNi02LHZg9in2Kog2KfZhNmF2KrYrti12LXYqSDZhdir2YQgPHN0
-cm9uZz7YtNix2YPYqSDYtNmF2YjYuSDYqtio2YjZgzwvc3Ryb25nPiDZgdmKIDxzdHJvbmc+2KrZ
-gtmE2YrZhCDZh9iw2Ycg2KfZhNmF2K7Yp9i32LEg2YjYttmF2KfZhiDYp9iz2KrZgtix2KfYsSDY
-p9mE2KfYs9iq2KvZhdin2LHYp9iqINin2YTYudmC2KfYsdmK2Kk8L3N0cm9uZz4uINmB2Yog2YfY
-sNinINin2YTZhdmC2KfZhNiMINiz2YbYs9iq2LnYsdi2INij2YfZhSDYp9mE2YXYrtin2LfYsSDY
-p9mE2KrZiiDYqtmI2KfYrNmHINin2YTZhdiz2KrYq9mF2LHZitmGINmB2Yog2KfZhNi52YLYp9ix
-2KfYqtiMINmI2YPZitmB2YrYqSDZhdi52KfZhNis2KrZh9inINmF2YYg2K7ZhNin2YQgPHN0cm9u
-Zz7Ypdiv2KfYsdipINij2YXZhNin2YMg2KfYrdiq2LHYp9mB2YrYqTwvc3Ryb25nPi48L3A+Cjxz
-cGFuPjxzdHJvbmc+2KPYqNix2LIg2KfZhNmF2K7Yp9i32LEg2YHZiiDYp9mE2KfYs9iq2KvZhdin
-2LEg2KfZhNi52YLYp9ix2Yog2YjZg9mK2YHZitipINiq2KzZhtio2YfYpzwvc3Ryb25nPjwvc3Bh
-bj4KPG9sPjxsaT4KPHA+PHN0cm9uZz7Yp9mE2KrYo9iu2LEg2YHZiiDYr9mB2Lkg2KfZhNil2YrY
-rNin2LHYp9iqINij2Ygg2LnYr9mFINiz2K/Yp9iv2YfYpzwvc3Ryb25nPjwvcD4KPHVsPjxsaT48
-c3Ryb25nPtin2YTYrti32LE8L3N0cm9uZz46INmK2KTYq9ixINi52K/ZhSDYp9mG2KrYuNin2YUg
-2KfZhNmF2K/ZgdmI2LnYp9iqINi52YTZiSDYp9mE2KrYr9mB2YLYp9iqINin2YTZhtmC2K/Zitip
-INmE2YTZhdmE2KfZgy48L2xpPjxsaT48c3Ryb25nPtin2YTYrdmEPC9zdHJvbmc+OiDYqti32KjZ
-itmCIDxzdHJvbmc+2KPZhti42YXYqSDYqtit2LXZitmEINil2YTZg9iq2LHZiNmG2YrYqTwvc3Ry
-b25nPiDZiNi22YXYp9mGINmI2KzZiNivINi52YLZiNivINmC2KfZhtmI2YbZitipINi12KfYsdmF
-2Kkg2YTYrdmF2KfZitipINit2YLZiNmCINin2YTZhdin2YTZgy48L2xpPjwvdWw+CjwvbGk+PGxp
-Pgo8cD48c3Ryb25nPtin2YTZhdi02KfZg9mEINin2YTZgtin2YbZiNmG2YrYqSDZiNin2YTZhtiy
-2KfYudin2Kog2YXYuSDYp9mE2YXYs9iq2KPYrNix2YrZhjwvc3Ryb25nPjwvcD4KPHVsPjxsaT48
-c3Ryb25nPtin2YTYrti32LE8L3N0cm9uZz46INin2YTYudmC2YjYryDYutmK2LEg2KfZhNmI2KfY
-ttit2Kkg2KPZiCDYtti52YEg2KfZhNil2KzYsdin2KHYp9iqINin2YTZgtin2YbZiNmG2YrYqSDZ
-gtivINiq2KTYr9mKINil2YTZiSDZhtiy2KfYudin2Kog2LfZiNmK2YTYqS48L2xpPjxsaT48c3Ry
-b25nPtin2YTYrdmEPC9zdHJvbmc+OiDYp9mE2KrYo9mD2K8g2YXZhiDYo9mGINin2YTYudmC2YjY
-ryDYqti02YXZhCA8c3Ryb25nPti02LHZiNi3INmI2KfYttit2Kkg2YjZhdmE2LLZhdipINmC2KfZ
-htmI2YbZitmL2Kc8L3N0cm9uZz7YjCDZiNiq2K3Yr9mK2KvZh9inINio2KfYs9iq2YXYsdin2LEu
-PC9saT48L3VsPgo8L2xpPjxsaT4KPHA+PHN0cm9uZz7Yqtiv2YfZiNixINit2KfZhNipINin2YTY
-udmC2KfYsSDYqNiz2KjYqCDYp9mE2KXZh9mF2KfZhDwvc3Ryb25nPjwvcD4KPHVsPjxsaT48c3Ry
-b25nPtin2YTYrti32LE8L3N0cm9uZz46INi52K/ZhSDYpdis2LHYp9ihINin2YTYtdmK2KfZhtip
-INmK2KTYr9mKINil2YTZiSA8c3Ryb25nPtiq2KLZg9mEINin2YTYudmC2KfYsdin2Kog2YjYrtiz
-2KfYsdipINmC2YrZhdiq2YfYpzwvc3Ryb25nPiDYqNmF2LHZiNixINin2YTZiNmC2KouPC9saT48
-bGk+PHN0cm9uZz7Yp9mE2K3ZhDwvc3Ryb25nPjog2KrZhtmB2YrYsCA8c3Ryb25nPtiu2LfYtyDY
-tdmK2KfZhtipINiv2YjYsdmK2Kkg2YjYp9iz2KrYqNin2YLZitipPC9zdHJvbmc+INmE2YTYrdmB
-2KfYuCDYudmE2Ykg2KfZhNi52YLYp9ix2KfYqiDZgdmKINij2YHYttmEINit2KfZhC48L2xpPjwv
-dWw+CjwvbGk+PGxpPgo8cD48c3Ryb25nPtin2LHYqtmB2KfYuSDZgdiq2LHYp9iqINin2YTYtNmI
-2KfYutixINin2YTYudmC2KfYsdmK2Kk8L3N0cm9uZz48L3A+Cjx1bD48bGk+PHN0cm9uZz7Yp9mE
-2K7Yt9ixPC9zdHJvbmc+OiDYudiv2YUg2KfZhNmC2K/YsdipINi52YTZiSA8c3Ryb25nPtis2LDY
-qCDZhdiz2KrYo9is2LHZitmGINio2LPYsdi52Kk8L3N0cm9uZz4g2YrYpNiv2Yog2KXZhNmJINiu
-2LPYp9ix2Kkg2KfZhNil2YrYsdin2K/Yp9iqLjwvbGk+PGxpPjxzdHJvbmc+2KfZhNit2YQ8L3N0
-cm9uZz46INin2LnYqtmF2KfYryA8c3Ryb25nPtin2LPYqtix2KfYqtmK2KzZitin2Kog2KrYs9mI
-2YrZgtmK2Kkg2YHYudin2YTYqTwvc3Ryb25nPtiMINmI2KrYrdiz2YrZhiDYrNmI2K/YqSDYp9mE
-2K7Yr9mF2KfYqiDYp9mE2YXZgtiv2YXYqSDZhNmE2YXYs9iq2KPYrNix2YrZhi48L2xpPjwvdWw+
-CjwvbGk+PGxpPgo8cD48c3Ryb25nPtin2YTYqti62YrYsdin2Kog2KfZhNin2YLYqti12KfYr9mK
-2Kkg2YjYqtij2KvZitix2YfYpyDYudmE2Ykg2KfZhNiz2YjZgiDYp9mE2LnZgtin2LHZijwvc3Ry
-b25nPjwvcD4KPHVsPjxsaT48c3Ryb25nPtin2YTYrti32LE8L3N0cm9uZz46INin2YTYqtmC2YTY
-qNin2Kog2YHZiiDYp9mE2KfZgtiq2LXYp9ivINiq2KTYq9ixINi52YTZiSDYo9iz2LnYp9ixINin
-2YTYpdmK2KzYp9ix2KfYqiDZiNmC2YrZhdipINin2YTYudmC2KfYsdin2KouPC9saT48bGk+PHN0
-cm9uZz7Yp9mE2K3ZhDwvc3Ryb25nPjog2KrYrdmE2YrZhCDYp9mE2LPZiNmCINio2KfZhtiq2LjY
-p9mF2Iwg2YjYttio2Lcg2KfYs9iq2LHYp9iq2YrYrNmK2KfYqiDYp9mE2KrYs9i52YrYsSDZiNmB
-2YLZi9inINmE2YTYudix2LYg2YjYp9mE2LfZhNioLjwvbGk+PC91bD4KPC9saT48L29sPgo8c3Bh
-bj48c3Ryb25nPtmD2YrZgSDYqtiz2KfYudivINi02LHZg9in2KrCoDwvc3Ryb25nPjwvc3Bhbj4K
-PHNwYW4gYm9yZGVyPSIwIiBjZWxscGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIHdpZHRoPSI2
-NCIgc3R5bGU9ImJvcmRlci1jb2xsYXBzZTogY29sbGFwc2U7IHdpZHRoOiA0OHB0OyI+PHNwYW4+
-PC9zcGFuPjxzcGFuPjxzcGFuIGhlaWdodD0iMTkiIHN0eWxlPSJoZWlnaHQ6IDE0cHQ7Ij48c3Bh
-biBoZWlnaHQ9IjE5IiBkaXI9IlJUTCIgYWxpZ249InJpZ2h0IiB3aWR0aD0iNjQiIHN0eWxlPSJo
-ZWlnaHQ6IDE0cHQ7IHdpZHRoOiA0OHB0OyI+PGEgaHJlZj0iaHR0cHM6Ly9zaG9tb29hdGFidWsu
-Y29tLyVkOCViNCVkOCViMSVkOSU4MyVkOCVhOS0lZDglYTclZDglYWYlZDglYTclZDglYjElZDgl
-YTktJWQ4JWEzJWQ5JTg1JWQ5JTg0JWQ4JWE3JWQ5JTgzLSVkOCVhYSVkOCVhOCVkOSU4OCVkOSU4
-My8iPtiu2K/Zhdin2KoKICDYpdiv2KfYsdipINin2YTYo9mF2YTYp9mDPC9hPjwvc3Bhbj48L3Nw
-YW4+PC9zcGFuPjwvc3Bhbj4KCjxzcGFuPjxzdHJvbmc+INmB2Yog2KrZgtmE2YrZhCDYp9mE2YXY
-rtin2LfYsdifPC9zdHJvbmc+PC9zcGFuPgo8cD7Yqti52KrZhdivIDxzdHJvbmc+2LTYsdmD2Kkg
-2LTZhdmI2Lkg2KrYqNmI2YM8L3N0cm9uZz4g2LnZhNmJINmG2YfYrCDYp9iz2KrYqNin2YLZiiDZ
-gdmKINil2K/Yp9ix2Kkg2KfZhNij2YXZhNin2YMg2YXZhiDYrtmE2KfZhDo8L3A+Cjx1bD48bGk+
-PHN0cm9uZz7Ypdis2LHYp9ihINmB2K3ZiNi12KfYqiDYtNin2YXZhNipINmE2YTZhdiz2KrYo9is
-2LHZitmGPC9zdHJvbmc+INmE2LbZhdin2YYg2KfZhNiq2LLYp9mF2YfZhSDYp9mE2YXYp9mE2You
-PC9saT48bGk+PHN0cm9uZz7YqtmC2K/ZitmFINin2LPYqti02KfYsdin2Kog2YLYp9mG2YjZhtmK
-2Kkg2YTYttmF2KfZhiDYp9mE2KfZhdiq2KvYp9mEINin2YTZg9in2YXZhDwvc3Ryb25nPiDZhNmE
-2YLZiNin2YbZitmGINin2YTYudmC2KfYsdmK2KkuPC9saT48bGk+PHN0cm9uZz7Ypdiv2KfYsdip
-INmB2LnYp9mE2Kkg2YTZhNi52YLZiNivINmI2KfZhNil2YrYrNin2LHYp9iqPC9zdHJvbmc+INmE
-2KrZgtmE2YrZhCDYp9mE2YbYstin2LnYp9iqLjwvbGk+PGxpPjxzdHJvbmc+2KrZhtmB2YrYsCDY
-qNix2KfZhdisINi12YrYp9mG2Kkg2YjZgtin2KbZitipPC9zdHJvbmc+INiq2YLZhNmEINmF2YYg
-2KfYrdiq2YXYp9mE2YrYqSDZiNmC2YjYuSDYo9i22LHYp9ixINmF2YPZhNmB2KkuPC9saT48L3Vs
-Pgo8c3Bhbj48c3Ryb25nPtiu2KfYqtmF2Kk8L3N0cm9uZz48L3NwYW4+CjxwPtmK2LnYryDYqtmC
-2YTZitmEINin2YTZhdiu2KfYt9ixINin2YTYudmC2KfYsdmK2Kkg2YXZhiDYp9mE2KPZiNmE2YjZ
-itin2Kog2KfZhNij2LPYp9iz2YrYqSDZhNij2YogPHN0cm9uZz7Zhdin2YTZgyDYudmC2KfYsSDZ
-itiz2LnZiSDZhNiq2K3ZgtmK2YIg2LnZiNin2KbYryDYp9iz2KrYq9mF2KfYsdmK2Kkg2YXYs9iq
-2YLYsdipPC9zdHJvbmc+LiDZhdmGINiu2YTYp9mEwqAKPHNwYW4gYm9yZGVyPSIwIiBjZWxscGFk
-ZGluZz0iMCIgY2VsbHNwYWNpbmc9IjAiIHdpZHRoPSI2NCIgc3R5bGU9ImJvcmRlci1jb2xsYXBz
-ZTogY29sbGFwc2U7IHdpZHRoOiA0OHB0OyI+PHNwYW4+PC9zcGFuPjxzcGFuPjxzcGFuIGhlaWdo
-dD0iMTkiIHN0eWxlPSJoZWlnaHQ6IDE0cHQ7Ij48c3BhbiBoZWlnaHQ9IjE5IiBkaXI9IlJUTCIg
-YWxpZ249InJpZ2h0IiB3aWR0aD0iNjQiIHN0eWxlPSJoZWlnaHQ6IDE0cHQ7IHdpZHRoOiA0OHB0
-OyI+PGEgaHJlZj0iaHR0cHM6Ly9zaG9tb29hdGFidWsuY29tLyVkOCViNCVkOCViMSVkOSU4MyVk
-OCVhOS0lZDglYTclZDglYWYlZDglYTclZDglYjElZDglYTktJWQ4JWEzJWQ5JTg1JWQ5JTg0JWQ4
-JWE3JWQ5JTgzLSVkOCVhYSVkOCVhOCVkOSU4OCVkOSU4My8iPtiu2K/Zhdin2KoKICDYpdiv2KfY
-sdipINin2YTYo9mF2YTYp9mDPC9hPjwvc3Bhbj48L3NwYW4+PC9zcGFuPjwvc3Bhbj4KCjxzdHJv
-bmc+INin2K3Yqtix2KfZgdmK2Kk8L3N0cm9uZz7YjCDZitmF2YPZhiA8c3Ryb25nPtit2YXYp9mK
-2Kkg2KfZhNin2LPYqtir2YXYp9ix2KfYqiDZhdmGINin2YTZhdiu2KfYt9ixINin2YTZhdit2KrZ
-hdmE2Kkg2YjYttmF2KfZhiDYqti02LrZitmEINin2YTYudmC2KfYsdin2Kog2KjZg9mB2KfYodip
-INi52KfZhNmK2Kk8L3N0cm9uZz4uINiq2YjZgdixIDxzdHJvbmc+2LTYsdmD2Kkg2LTZhdmI2Lkg
-2KrYqNmI2YM8L3N0cm9uZz4g2K3ZhNmI2YTZi9inINmF2KrZg9in2YXZhNipINiq2LPYp9i52K8g
-2KfZhNmF2YTYp9mDINmB2Yog2KrYrdmC2YrZgiDYp9iz2KrZgtix2KfYsSDZhdin2YTZiiDZiNiy
-2YrYp9iv2Kkg2YLZitmF2Kkg2YXZhdiq2YTZg9in2KrZh9mFINi52YTZiSDYp9mE2YXYr9mJINin
-2YTYt9mI2YrZhC48L3A+Cgo8YnIgLz4NCg0KPHA+PC9wPgoKLS0gPGJyIC8+CllvdSByZWNlaXZl
-ZCB0aGlzIG1lc3NhZ2UgYmVjYXVzZSB5b3UgYXJlIHN1YnNjcmliZWQgdG8gdGhlIEdvb2dsZSBH
-cm91cHMgJnF1b3Q7a2FzYW4tZGV2JnF1b3Q7IGdyb3VwLjxiciAvPgpUbyB1bnN1YnNjcmliZSBm
-cm9tIHRoaXMgZ3JvdXAgYW5kIHN0b3AgcmVjZWl2aW5nIGVtYWlscyBmcm9tIGl0LCBzZW5kIGFu
-IGVtYWlsIHRvIDxhIGhyZWY9Im1haWx0bzprYXNhbi1kZXYrdW5zdWJzY3JpYmVAZ29vZ2xlZ3Jv
-dXBzLmNvbSI+a2FzYW4tZGV2K3Vuc3Vic2NyaWJlQGdvb2dsZWdyb3Vwcy5jb208L2E+LjxiciAv
-PgpUbyB2aWV3IHRoaXMgZGlzY3Vzc2lvbiB2aXNpdCA8YSBocmVmPSJodHRwczovL2dyb3Vwcy5n
-b29nbGUuY29tL2QvbXNnaWQva2FzYW4tZGV2LzFiODdjMDRlLTUyNjUtNDVhMy05M2IzLTM1NTVl
-ZWZmMTRhMG4lNDBnb29nbGVncm91cHMuY29tP3V0bV9tZWRpdW09ZW1haWwmdXRtX3NvdXJjZT1m
-b290ZXIiPmh0dHBzOi8vZ3JvdXBzLmdvb2dsZS5jb20vZC9tc2dpZC9rYXNhbi1kZXYvMWI4N2Mw
-NGUtNTI2NS00NWEzLTkzYjMtMzU1NWVlZmYxNGEwbiU0MGdvb2dsZWdyb3Vwcy5jb208L2E+Ljxi
-ciAvPgo=
-------=_Part_5695_816077483.1741574627437--
+Changes in V2:
 
-------=_Part_5694_1029753063.1741574627437--
+- Replaced PTE_SHIFT with PTDESC_ORDER per Ard
+- Re-organized EARLY_LEVEL macro per Mark
+
+Changes in V1:
+
+https://lore.kernel.org/all/20250307050851.4034393-1-anshuman.khandual@arm.com/
+
+ arch/arm64/Kconfig                      |  2 +-
+ arch/arm64/include/asm/kernel-pgtable.h | 11 ++++++----
+ arch/arm64/include/asm/pgtable-hwdef.h  | 27 ++++++++++++++-----------
+ arch/arm64/kernel/pi/map_range.c        |  2 +-
+ arch/arm64/mm/kasan_init.c              |  6 +++---
+ 5 files changed, 27 insertions(+), 21 deletions(-)
+
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 940343beb3d4..657baf59fdbe 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -323,7 +323,7 @@ config ARCH_MMAP_RND_BITS_MIN
+ 	default 18
+ 
+ # max bits determined by the following formula:
+-#  VA_BITS - PAGE_SHIFT - 3
++#  VA_BITS - PAGE_SHIFT - PTDESC_ORDER
+ config ARCH_MMAP_RND_BITS_MAX
+ 	default 19 if ARM64_VA_BITS=36
+ 	default 24 if ARM64_VA_BITS=39
+diff --git a/arch/arm64/include/asm/kernel-pgtable.h b/arch/arm64/include/asm/kernel-pgtable.h
+index fd5a08450b12..78c7e03a0e35 100644
+--- a/arch/arm64/include/asm/kernel-pgtable.h
++++ b/arch/arm64/include/asm/kernel-pgtable.h
+@@ -45,11 +45,14 @@
+ #define SPAN_NR_ENTRIES(vstart, vend, shift) \
+ 	((((vend) - 1) >> (shift)) - ((vstart) >> (shift)) + 1)
+ 
+-#define EARLY_ENTRIES(vstart, vend, shift, add) \
+-	(SPAN_NR_ENTRIES(vstart, vend, shift) + (add))
++/* Number of VA bits resolved by a single translation table level */
++#define PTDESC_TABLE_SHIFT	(PAGE_SHIFT - PTDESC_ORDER)
+ 
+-#define EARLY_LEVEL(lvl, lvls, vstart, vend, add)	\
+-	(lvls > lvl ? EARLY_ENTRIES(vstart, vend, SWAPPER_BLOCK_SHIFT + lvl * (PAGE_SHIFT - 3), add) : 0)
++#define EARLY_ENTRIES(lvl, vstart, vend) \
++	SPAN_NR_ENTRIES(vstart, vend, SWAPPER_BLOCK_SHIFT + lvl * PTDESC_TABLE_SHIFT)
++
++#define EARLY_LEVEL(lvl, lvls, vstart, vend, add) \
++	((lvls) > (lvl) ? EARLY_ENTRIES(lvl, vstart, vend) + (add) : 0)
+ 
+ #define EARLY_PAGES(lvls, vstart, vend, add) (1 	/* PGDIR page */				\
+ 	+ EARLY_LEVEL(3, (lvls), (vstart), (vend), add) /* each entry needs a next level page table */	\
+diff --git a/arch/arm64/include/asm/pgtable-hwdef.h b/arch/arm64/include/asm/pgtable-hwdef.h
+index a9136cc551cc..3c544edc3968 100644
+--- a/arch/arm64/include/asm/pgtable-hwdef.h
++++ b/arch/arm64/include/asm/pgtable-hwdef.h
+@@ -7,40 +7,43 @@
+ 
+ #include <asm/memory.h>
+ 
++#define PTDESC_ORDER 3
++
+ /*
+  * Number of page-table levels required to address 'va_bits' wide
+  * address, without section mapping. We resolve the top (va_bits - PAGE_SHIFT)
+- * bits with (PAGE_SHIFT - 3) bits at each page table level. Hence:
++ * bits with (PAGE_SHIFT - PTDESC_ORDER) bits at each page table level. Hence:
+  *
+- *  levels = DIV_ROUND_UP((va_bits - PAGE_SHIFT), (PAGE_SHIFT - 3))
++ *  levels = DIV_ROUND_UP((va_bits - PAGE_SHIFT), (PAGE_SHIFT - PTDESC_ORDER))
+  *
+  * where DIV_ROUND_UP(n, d) => (((n) + (d) - 1) / (d))
+  *
+  * We cannot include linux/kernel.h which defines DIV_ROUND_UP here
+  * due to build issues. So we open code DIV_ROUND_UP here:
+  *
+- *	((((va_bits) - PAGE_SHIFT) + (PAGE_SHIFT - 3) - 1) / (PAGE_SHIFT - 3))
++ *	((((va_bits) - PAGE_SHIFT) + (PAGE_SHIFT - PTDESC_ORDER) - 1) / (PAGE_SHIFT - PTDESC_ORDER))
+  *
+  * which gets simplified as :
+  */
+-#define ARM64_HW_PGTABLE_LEVELS(va_bits) (((va_bits) - 4) / (PAGE_SHIFT - 3))
++#define ARM64_HW_PGTABLE_LEVELS(va_bits) \
++	(((va_bits) - PTDESC_ORDER - 1) / (PAGE_SHIFT - PTDESC_ORDER))
+ 
+ /*
+  * Size mapped by an entry at level n ( -1 <= n <= 3)
+- * We map (PAGE_SHIFT - 3) at all translation levels and PAGE_SHIFT bits
++ * We map (PAGE_SHIFT - PTDESC_ORDER) at all translation levels and PAGE_SHIFT bits
+  * in the final page. The maximum number of translation levels supported by
+  * the architecture is 5. Hence, starting at level n, we have further
+  * ((4 - n) - 1) levels of translation excluding the offset within the page.
+  * So, the total number of bits mapped by an entry at level n is :
+  *
+- *  ((4 - n) - 1) * (PAGE_SHIFT - 3) + PAGE_SHIFT
++ *  ((4 - n) - 1) * (PAGE_SHIFT - PTDESC_ORDER) + PAGE_SHIFT
+  *
+  * Rearranging it a bit we get :
+- *   (4 - n) * (PAGE_SHIFT - 3) + 3
++ *   (4 - n) * (PAGE_SHIFT - PTDESC_ORDER) + PTDESC_ORDER
+  */
+-#define ARM64_HW_PGTABLE_LEVEL_SHIFT(n)	((PAGE_SHIFT - 3) * (4 - (n)) + 3)
++#define ARM64_HW_PGTABLE_LEVEL_SHIFT(n)	((PAGE_SHIFT - PTDESC_ORDER) * (4 - (n)) + PTDESC_ORDER)
+ 
+-#define PTRS_PER_PTE		(1 << (PAGE_SHIFT - 3))
++#define PTRS_PER_PTE		(1 << (PAGE_SHIFT - PTDESC_ORDER))
+ 
+ /*
+  * PMD_SHIFT determines the size a level 2 page table entry can map.
+@@ -49,7 +52,7 @@
+ #define PMD_SHIFT		ARM64_HW_PGTABLE_LEVEL_SHIFT(2)
+ #define PMD_SIZE		(_AC(1, UL) << PMD_SHIFT)
+ #define PMD_MASK		(~(PMD_SIZE-1))
+-#define PTRS_PER_PMD		(1 << (PAGE_SHIFT - 3))
++#define PTRS_PER_PMD		(1 << (PAGE_SHIFT - PTDESC_ORDER))
+ #endif
+ 
+ /*
+@@ -59,14 +62,14 @@
+ #define PUD_SHIFT		ARM64_HW_PGTABLE_LEVEL_SHIFT(1)
+ #define PUD_SIZE		(_AC(1, UL) << PUD_SHIFT)
+ #define PUD_MASK		(~(PUD_SIZE-1))
+-#define PTRS_PER_PUD		(1 << (PAGE_SHIFT - 3))
++#define PTRS_PER_PUD		(1 << (PAGE_SHIFT - PTDESC_ORDER))
+ #endif
+ 
+ #if CONFIG_PGTABLE_LEVELS > 4
+ #define P4D_SHIFT		ARM64_HW_PGTABLE_LEVEL_SHIFT(0)
+ #define P4D_SIZE		(_AC(1, UL) << P4D_SHIFT)
+ #define P4D_MASK		(~(P4D_SIZE-1))
+-#define PTRS_PER_P4D		(1 << (PAGE_SHIFT - 3))
++#define PTRS_PER_P4D		(1 << (PAGE_SHIFT - PTDESC_ORDER))
+ #endif
+ 
+ /*
+diff --git a/arch/arm64/kernel/pi/map_range.c b/arch/arm64/kernel/pi/map_range.c
+index 2b69e3beeef8..f74335e13929 100644
+--- a/arch/arm64/kernel/pi/map_range.c
++++ b/arch/arm64/kernel/pi/map_range.c
+@@ -31,7 +31,7 @@ void __init map_range(u64 *pte, u64 start, u64 end, u64 pa, pgprot_t prot,
+ {
+ 	u64 cmask = (level == 3) ? CONT_PTE_SIZE - 1 : U64_MAX;
+ 	pteval_t protval = pgprot_val(prot) & ~PTE_TYPE_MASK;
+-	int lshift = (3 - level) * (PAGE_SHIFT - 3);
++	int lshift = (3 - level) * (PAGE_SHIFT - PTDESC_ORDER);
+ 	u64 lmask = (PAGE_SIZE << lshift) - 1;
+ 
+ 	start	&= PAGE_MASK;
+diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
+index b65a29440a0c..211821f80571 100644
+--- a/arch/arm64/mm/kasan_init.c
++++ b/arch/arm64/mm/kasan_init.c
+@@ -190,7 +190,7 @@ static void __init kasan_pgd_populate(unsigned long addr, unsigned long end,
+  */
+ static bool __init root_level_aligned(u64 addr)
+ {
+-	int shift = (ARM64_HW_PGTABLE_LEVELS(vabits_actual) - 1) * (PAGE_SHIFT - 3);
++	int shift = (ARM64_HW_PGTABLE_LEVELS(vabits_actual) - 1) * (PAGE_SHIFT - PTDESC_ORDER);
+ 
+ 	return (addr % (PAGE_SIZE << shift)) == 0;
+ }
+@@ -245,7 +245,7 @@ static int __init root_level_idx(u64 addr)
+ 	 */
+ 	u64 vabits = IS_ENABLED(CONFIG_ARM64_64K_PAGES) ? VA_BITS
+ 							: vabits_actual;
+-	int shift = (ARM64_HW_PGTABLE_LEVELS(vabits) - 1) * (PAGE_SHIFT - 3);
++	int shift = (ARM64_HW_PGTABLE_LEVELS(vabits) - 1) * (PAGE_SHIFT - PTDESC_ORDER);
+ 
+ 	return (addr & ~_PAGE_OFFSET(vabits)) >> (shift + PAGE_SHIFT);
+ }
+@@ -269,7 +269,7 @@ static void __init clone_next_level(u64 addr, pgd_t *tmp_pg_dir, pud_t *pud)
+  */
+ static int __init next_level_idx(u64 addr)
+ {
+-	int shift = (ARM64_HW_PGTABLE_LEVELS(vabits_actual) - 2) * (PAGE_SHIFT - 3);
++	int shift = (ARM64_HW_PGTABLE_LEVELS(vabits_actual) - 2) * (PAGE_SHIFT - PTDESC_ORDER);
+ 
+ 	return (addr >> (shift + PAGE_SHIFT)) % PTRS_PER_PTE;
+ }
+-- 
+2.25.1
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250310040115.91298-1-anshuman.khandual%40arm.com.
