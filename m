@@ -1,227 +1,62 @@
-Return-Path: <kasan-dev+bncBAABBKHGYC7AMGQERI3CQSQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCM4ZDFL6MFRBKEHYS7AMGQEU2FAQ5I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3d.google.com (mail-oa1-x3d.google.com [IPv6:2001:4860:4864:20::3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2CF0A5C1B0
-	for <lists+kasan-dev@lfdr.de>; Tue, 11 Mar 2025 13:57:14 +0100 (CET)
-Received: by mail-oa1-x3d.google.com with SMTP id 586e51a60fabf-2b83e537ec6sf4819855fac.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 11 Mar 2025 05:57:14 -0700 (PDT)
-ARC-Seal: i=3; a=rsa-sha256; t=1741697833; cv=pass;
-        d=google.com; s=arc-20240605;
-        b=D42ss1t6mPRBuj3BPJsqHS9+Fo1qyopmR37+QI6bePO3m9BjagwzAC+OjX1+Zc9dQz
-         OwNO+Canyp+1Rpa629O7sTAzdU291PSKXGUkniRLAbjSwzcGXqh2LhDDoeAiRmNBDGko
-         H2L74EuARiJicAJQqb51qyq6W2FwVmaafOZlEyhxwhTaWJBo2n+hIr5KfM2lLFsmP5UL
-         Mub+yORwW11iwGFboMyG89MsTSAnTJkfhtpotJN0HoJUIYevqgnF33A00O3OAku1CI8s
-         4q/ODcSs92/wFG3ySoHDkXKdnRgnKcQheoQVuWGj0uhpvxM2m508AGPKRduiBqJIUtN4
-         jOTQ==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:content-language
-         :accept-language:in-reply-to:references:message-id:date:thread-index
-         :thread-topic:subject:to:from:sender:dkim-signature;
-        bh=o69j6QL3PfmE1okY0uizLaqbUvSCeflB+H+IrvlCe1Q=;
-        fh=/N4a+NYCU9K+ZW2B1aao4gT2iheqsqM8M3a9Bu7deic=;
-        b=cDCjREkJQH77IaGN96k+SNVE9J2HqQZVyVdejDOKPd8K8TLyWFoUBhYApm18zJDD4F
-         j2kZ+DC4XZHI1094XuGsLyFotej0AfnWS2DigQGL1uWryc1m/lDYa7I9gl8U1yPJjksT
-         a0Ci4KXOiz34nUaij0jU8GmLkaa1v/CC3DjqRIct1/8lSVhKdbhS8VkQvBefnsP70QTk
-         WPkj9+qOND9deezgnQ80fb5NtgwyahunEF4sYtGSfa4aJdobcfEd90EXVCHq0OjnmxqZ
-         LizueDwCSdebe+D4un3LbQgq/nT5bxvrEvaalqC+aNHwzDMMMs6RgpD/ME5f0QxVJwrx
-         gzOg==;
-        darn=lfdr.de
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@bigfatlinks.biz header.s=selector1 header.b=FoFh9X2f;
-       arc=pass (i=1 spf=pass spfdomain=bigfatlinks.biz dkim=pass dkdomain=bigfatlinks.biz dmarc=pass fromdomain=bigfatlinks.biz);
-       spf=pass (google.com: domain of lucy@bigfatlinks.biz designates 2a01:111:f403:c205::1 as permitted sender) smtp.mailfrom=Lucy@bigfatlinks.biz
+Received: from mail-oo1-xc3f.google.com (mail-oo1-xc3f.google.com [IPv6:2607:f8b0:4864:20::c3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56CCBA5D4D8
+	for <lists+kasan-dev@lfdr.de>; Wed, 12 Mar 2025 04:46:50 +0100 (CET)
+Received: by mail-oo1-xc3f.google.com with SMTP id 006d021491bc7-5feb2ce9b27sf4642931eaf.3
+        for <lists+kasan-dev@lfdr.de>; Tue, 11 Mar 2025 20:46:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1741697833; x=1742302633; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1741751209; x=1742356009; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:content-language:accept-language
-         :in-reply-to:references:message-id:date:thread-index:thread-topic
-         :subject:to:from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=o69j6QL3PfmE1okY0uizLaqbUvSCeflB+H+IrvlCe1Q=;
-        b=GVSbU271fjVXy5oh3HzwntvEt1xq67rlyuRBEcdiTEtKnfwvU/5Q9JrdUusw1cgg9A
-         JHUekGyBpm6J6sKr2JPr6Iqta4VHolmn+a6IYUxDqOcJnvMiwKA5T7I0nULTk0WxYGVA
-         jJSJGHlnySTc09tkDdTAL/e2kGQzn0xHHZObMgPpvnapL1bFY22qqooFzGlKRFY25jQT
-         oQQeUgKFgaKbwBnt7mhFtx6EG32zMEmxel5IQK/i2WRYANQBGwXnnJ1pP/ONECxVfGZ1
-         B2QbdD2lxKmdzy1eALOgRzGyjM3nDgi6JRi/ciVW/IsFUrgcLoKbrzd2hLxGg0SPBtmR
-         ZpNg==
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:message-id:to:from:date:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h4kdvgvFonjML4bh22uDQxPo0f1bFrLHffEaxysluno=;
+        b=UhXg03oAdL095qJMpVcHxA5HYSROsS70EjqPJ5nW/0PnprRbisI3T9NqbCC9wABgKn
+         h+ILuiFMWnnYfKJfC5rZIb1m5rbg3uh76DaAE45F/KBSXbB9ETa9zla9XJvIw5Weti/V
+         AYSUCS0/CvYdYFYXJDtfpA8QvkeMOxPnw16qU2on9NgsPhYnxceH2GXZjX8rh+hss6gH
+         NsxZHa4PyCLmb3o6dQpim3Eu04KYft5mE4bxn9s0cWI/4mUaYo5LRhUY/yVo5Hj1oZkz
+         3Bv3nydlUAyjZleCzkeSvSBZwcFNPjgPeAi8GkWlvwkRjJBDzmV42yZ3E1cq4XKAhZWK
+         tGhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741697833; x=1742302633;
+        d=1e100.net; s=20230601; t=1741751209; x=1742356009;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :content-language:accept-language:in-reply-to:references:message-id
-         :date:thread-index:thread-topic:subject:to:from:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=o69j6QL3PfmE1okY0uizLaqbUvSCeflB+H+IrvlCe1Q=;
-        b=GtC0Mqg7tW9f3SgpiMucoBb3/Xuc7kgaD6Pt6dBW5UH8JKUoUhDZa/rQRBWcCCIrvT
-         TYX54Y3Z2PrUVIqQ6HJaH75u5YOtBCCIdVodPinb5rUvOW6OQ2TYv4p7fU+bilnly8BI
-         5Kx7mkGO555RYZYr7I+FWkehujqS9aepHE3gDyrTIBiLBcLXsMW2w85xe/q4dNVNx6bA
-         Mfmt2yUcqYgDN864JpRWyovZGZ2Fpf36IKeIK+7UQ0csypgQVszKlbVOkqhlk83PziOg
-         yu1skalsNVIxZm1c3yQJPjcw8W8Ecfnle2TuU81MbVokH2r4xhqGgPdLr+88he3hHQYa
-         l5Zg==
+         :x-original-sender:mime-version:subject:message-id:to:from:date
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h4kdvgvFonjML4bh22uDQxPo0f1bFrLHffEaxysluno=;
+        b=A97wV6lJLZisHy8lneSNzbgL1ZItVYQNI7nbEe0OLfsGe3bO0PQFqQ/FGv9WsntZKE
+         Nyu576aGywrOFjRrbIQUG0Fp/vBMT8VCE9w5RFDa88Cu1QaniD2i0qPtz7C9ygItcprx
+         bOxoEhgZoS/QsaFOaKUNE59cPCGDV90b774y6j7YPj3EdKXGoZ3xmxuftqjYDqm9JP0a
+         fkwSX9ZXSfzubeO3C+mhMd2OCgyyTcAYUIysAZaraEOjCgefhUDG6dVPDj70lFMfuUgZ
+         okb6h993eKedhAPD2YaJaIIfuFgot1k+nKE5O+zDUI+c2dkuWuJ96T9rU4JP2zGh7eeb
+         vP5g==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=3; AJvYcCXeUmuZZKPbNBzlcBTtdsPsc4R3KR9/cN3Hm9CsDRN6dg30kZaETgFJK1xoG+jC7R95/9Kegw==@lfdr.de
-X-Gm-Message-State: AOJu0YwCvaGVVIcJ7TBa/novAzctiQElE80pLXzXFZC2W0fJnel8ukmm
-	iUlPVCiPMXaS50CFi5eUtb9faUqtcKAZWLqtoTuzroErJv6wsBJ6
-X-Google-Smtp-Source: AGHT+IGcw1n9edKpE2apLKCn6QW8DbcPOXpG1jJCp8B/q8ZkBOJpMfmW/iWL5hs8/Ia0Of273TQC2g==
-X-Received: by 2002:a05:6871:8906:b0:2c1:a810:d697 with SMTP id 586e51a60fabf-2c26102c6f7mr8642975fac.15.1741697833249;
-        Tue, 11 Mar 2025 05:57:13 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVGCQSInP7FUms/qVtMmJiHzXs0wGqRCWJU+V/oCCEjF3g==
-Received: by 2002:a05:6870:3c0c:b0:29e:3655:1970 with SMTP id
- 586e51a60fabf-2c23f3ba85als709630fac.0.-pod-prod-08-us; Tue, 11 Mar 2025
- 05:57:12 -0700 (PDT)
-X-Received: by 2002:a05:6830:3890:b0:727:876:c849 with SMTP id 46e09a7af769-72a37c52cd3mr10148138a34.27.1741697832318;
-        Tue, 11 Mar 2025 05:57:12 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1741697832; cv=pass;
-        d=google.com; s=arc-20240605;
-        b=gvjssl77QONq8Ts+53jl+i1ao8SCwW4KdvIV7eo7REzAiF+125WJjZU+9k35/CU6Cp
-         Q5dYvfPhZEp4XWrSmJRWFAanDOW3WFlY310fRE4vw4hke5pUb9nInvc7q4djbrMxQd6p
-         YqR3fkF0IZ4KHKk0z25MgY/3lZYlPnICtXJFk17LuYY5jR+06FX66uRElmOmgDghqTIa
-         pJgwsYKHwMlZ8zbT61GzeI0pCaH4PmN9KveSbTjjLTfP2btaZGCE/vEjI9LBHuFgRWtz
-         rMnDgWY5EhA6qkE+HjGyx50c9MTXguQ9ePBWM2qEcMbqsmDrA/dO3Z9d86wSL01Sv1a2
-         dfAw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=mime-version:content-language:accept-language:in-reply-to
-         :references:message-id:date:thread-index:thread-topic:subject:to
-         :from:dkim-signature;
-        bh=f+oG2eLVI4PgKMaojnbERiDy4dH43hoWZukmMtLqGCc=;
-        fh=OrU1A52QFlqzmEXHI3jZ4sFKB3jfTCSfDFFkLeQriR8=;
-        b=iH63ZgO6FM0PJs3+FhsP/w+ZkPp/J5iydGvncrv00OVFlNkEwg7t9sbUxeAGFZX+W8
-         MjHIk8A2zpfCRGZqKNE4Ofv/vUyscSATWd+uxsaAZfu6/AmqaR+Y7XbC75XcOWtJVCe0
-         pTlKdCkfPJI2kDO21wmf+rkCTmsXlT5nvE4C3yY4A1vzSr0RxAeTCkmhsx2cC38z1yn1
-         ve+8v1pAlYKUdZDmo6YeQgziMfVOMpqK0rVlctKkWWoE6n68eKQGt6YBwxDhFYTl2psV
-         jWR00GUQ/YTxuBwDeAPNz3pr2bOgtW3ALMvhZ68tblTW2b3fvoybKVuHTcMuEIkQc8+i
-         B2Yw==;
-        dara=google.com
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@bigfatlinks.biz header.s=selector1 header.b=FoFh9X2f;
-       arc=pass (i=1 spf=pass spfdomain=bigfatlinks.biz dkim=pass dkdomain=bigfatlinks.biz dmarc=pass fromdomain=bigfatlinks.biz);
-       spf=pass (google.com: domain of lucy@bigfatlinks.biz designates 2a01:111:f403:c205::1 as permitted sender) smtp.mailfrom=Lucy@bigfatlinks.biz
-Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazlp170100001.outbound.protection.outlook.com. [2a01:111:f403:c205::1])
-        by gmr-mx.google.com with ESMTPS id 46e09a7af769-72b9f971a18si48681a34.0.2025.03.11.05.57.11
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Mar 2025 05:57:12 -0700 (PDT)
-Received-SPF: pass (google.com: domain of lucy@bigfatlinks.biz designates 2a01:111:f403:c205::1 as permitted sender) client-ip=2a01:111:f403:c205::1;
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SlgIE6G16q2IkW10WiqSuJIqn6GvwPv4GDDEh+dCgIDFM8WEo51fUjoGjlv+NUblQbJnvC0wlaTgupux0GMbo3bAgbcx4TlAnLeKr4VpD8xLGb41gXRpUgHr5eSETHwmCXBGbfPT3Nf+953LAIkgju4bDN3v3BZm7qDyu4foMHPBc6X4w5Wx8+/N0fRJdEqBIcwV2S0hd84MV3KlKJbfNq0+AqB43LGk3iIICNIlUC6Vu+29njzBs9RAzqThMgdbHRo2cCyC3/EaUOVdXAcrxVKiSpZLZO4OysU9LcrNx1bUfrUn2sG/xmQWhHuWuKLzWqD1VeSSReRprZ73iukWRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=f+oG2eLVI4PgKMaojnbERiDy4dH43hoWZukmMtLqGCc=;
- b=KKK+yv1pCIFLUhME+joUqCzyEy5Rc2rsix+g21ehZVVDEqtHOiHjCAv0XL8wadk3dG167J6vqwZwFw7hdc082BE7YUI25b7XMweXAI4Hh5iP6dzuLM6u+M0wsad05GkT2KSmUDI9563ItiFZYXBCQr3l1zWiDrOM8PL1BhMx/pE2Q7rFNHGZkQj8B9WwTVetsIcHCzGK69NWzaMM0WUKOwHj+Gbj8YGnw2AV1A8fN+yplVYE/dlVF2bgFagwBgyUuKaoLCa94yWCpLFH1WieAkQR0OC/xS28oNRlYcwRwapJ3K/n3WWGNXDgpEhGxK23iwJVwjViVE2ii73vpvUorg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bigfatlinks.biz; dmarc=pass action=none
- header.from=bigfatlinks.biz; dkim=pass header.d=bigfatlinks.biz; arc=none
-Received: from CWLP123MB4452.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:e2::10)
- by LO0P123MB7008.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:334::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Tue, 11 Mar
- 2025 12:57:09 +0000
-Received: from CWLP123MB4452.GBRP123.PROD.OUTLOOK.COM
- ([fe80::44ab:afca:17a:3bfe]) by CWLP123MB4452.GBRP123.PROD.OUTLOOK.COM
- ([fe80::44ab:afca:17a:3bfe%5]) with mapi id 15.20.8511.026; Tue, 11 Mar 2025
- 12:57:09 +0000
-From: Lewis Green <Lucy@bigfatlinks.biz>
-To: Unknown <kasan-dev@googlegroups.com>
-Subject: RE: Unlock Your Site's Potential
-Thread-Topic: Unlock Your Site's Potential
-Thread-Index: AQHbiRsJl/AXNKHKyEmVVkigubIxbLNt9/vY
-Date: Tue, 11 Mar 2025 12:57:09 +0000
-Message-ID: <CWLP123MB44525897F9EFE77900C08D86CAD12@CWLP123MB4452.GBRP123.PROD.OUTLOOK.COM>
-References: <LO4P123MB669517786E95BEA70A33EFD8CACD2@LO4P123MB6695.GBRP123.PROD.OUTLOOK.COM>
-In-Reply-To: <LO4P123MB669517786E95BEA70A33EFD8CACD2@LO4P123MB6695.GBRP123.PROD.OUTLOOK.COM>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CWLP123MB4452:EE_|LO0P123MB7008:EE_
-x-ms-office365-filtering-correlation-id: aafcc8a0-342e-4a5e-d3f2-08dd609c3bcd
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|69100299015|366016|1800799024|7053199007|8096899003|38070700018;
-x-microsoft-antispam-message-info: =?Windows-1252?Q?XHZQRbAhtxqiEn7iTIObcnxaTbD9/o72WlxKPpCr/70AEukvtmZ6tNy3?=
- =?Windows-1252?Q?oSNiEnri3QUIsw6CI9GaSlxUHajIUnJgR6dXC5Onb953Ja3X7Ixm1Pcp?=
- =?Windows-1252?Q?2+fQwsjRmoVDfPncNxLXibavXw+rSlp3KjiwbauBG8VpGNcxsFrn3kEB?=
- =?Windows-1252?Q?zZygyEHIhnCnOEnpdqn/tNZlO22rn+vwL95DX1uDIcjpoS/retxw96T6?=
- =?Windows-1252?Q?0/PeC+Dydkj04AS2mIWcPMZ4j8Cb5H7Sk5KYW/NHj4IyrX40c31cRA9H?=
- =?Windows-1252?Q?DS6LWBgz2wFz/ZkDX2K4KkMMVhlSHO5pWkyX0ePS/BQUHuMcPdx8fGyf?=
- =?Windows-1252?Q?FTU1XNevXqm0QU/sMyNct7XL6jw+tY7wL356iuhffhJw581q+z6dv88b?=
- =?Windows-1252?Q?1GD9bZLj7oLC3ENCL0drmBdjpwR/USKfvsxSrfL8rca87pz3lyMORSVc?=
- =?Windows-1252?Q?eE+AVgEXz7A4ikAAtdaD49q8/UCgqvl823c6H6MVTOv+XE0AToI+yccI?=
- =?Windows-1252?Q?AEMCGztIXuxLqEs4AUZ/j3fnuzaXo8l5YEuz3WtY7zFsz+SiZ8jmJ+oa?=
- =?Windows-1252?Q?BGiRZbAgbsKQEx2Wu6KhWFsoXuj/amZWBjhjhftJqSn/f54A12Jxpk5t?=
- =?Windows-1252?Q?1JOCX4riroaD3wEpngOjkq0nBOsNh0SFVkbZtoBaFmrKF0V5BXM4XagN?=
- =?Windows-1252?Q?fw4y696JeCTnEQmwHT1EmvvsysZZXGFsNZMWC/giALwF7NLONpaPQLti?=
- =?Windows-1252?Q?RGI7CXJKIznv7awQg8nucP02rvKA5bareBxEFa1fyC7rXInW3mQMYrwH?=
- =?Windows-1252?Q?psrx6YenaManYrR68g92oTACJLItthL0sG8AzlEn7OZhBw6ROY0kvOiY?=
- =?Windows-1252?Q?KjoRdgXB6VsQFOTppFJiDvrSiyB3eksTD3WrgXQ5Pqmc/k1WjCpYAVJd?=
- =?Windows-1252?Q?sgmYrPH+BDMX3F/4lIjauI5ExfH07VIUDgpw02bNKWIr8kuq3ZqmtFiR?=
- =?Windows-1252?Q?5IXB9BQbJP0hi5gOUYsJo4zIRcro9qipAnvP6Cge7joJiq8+9GZGZRkI?=
- =?Windows-1252?Q?U7YDfAfW9IfagysxVzF5BNgi4V3IEXVaF14zgK9eAYw4R0IwKV2kdf3q?=
- =?Windows-1252?Q?pSYDH9JKPQ1BXwj2jgHXoyP1c60NHYjvoxWI6rXi6y/TxpWJKRJtYq4I?=
- =?Windows-1252?Q?JCncJoZDhsiPJVqj4+X7qfWJOv+z1OjN16Z67SJ1lTk2qkr+skHJoatC?=
- =?Windows-1252?Q?aZ2dQfPA2xHEUqY1imuPdLpiZIvvcfLpJqfLByL+HPdDLpyWYlkaT8sW?=
- =?Windows-1252?Q?ey5ZhBUPDw8VmkvhokN1j7TgJcFwJkLJvtU4W6QpeXZNbdG2wRJ/oziQ?=
- =?Windows-1252?Q?okpDj++EOZMEdyca2CHrTWg7i7R3hQ0f4sBQJ4Nt8RZ8JiePvZCEBaqQ?=
- =?Windows-1252?Q?Ft3zKpegM74JJ7IdTmK7xwZwyaNWIEA+drOfxCrqfhcsgcBwL5Fv0V/V?=
- =?Windows-1252?Q?jvCkme8L?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB4452.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(69100299015)(366016)(1800799024)(7053199007)(8096899003)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?Windows-1252?Q?lw1v846DDQpQL7m1PB3gzow6TyTNJlMjVMctXD4qs7ul0A62HEdyEIsR?=
- =?Windows-1252?Q?r1+uJ2KRxfvjCl33JklgoK5+o9xWl4o7MCdpcH8JjQfSlHpuX8taK9gJ?=
- =?Windows-1252?Q?VdiY1xAX/mtvyDGhBhRHljm0mILv3pJGanJQJ5odtX829A7DHJAGK9BL?=
- =?Windows-1252?Q?k+4OX1hMDpM9VtuTTPLyFvoGf2jq3JpZEdqb7wLBYUQYbowkpee3HncP?=
- =?Windows-1252?Q?lPu8yZgUecl/6X9KMmq+euigHj5EcYoBtG16YsDBSTZAQy5/WWjtnk/n?=
- =?Windows-1252?Q?L2UNMBQlQG7o82AuojP0N9aL+u+ISG3DLS7lD60R7JJdMY2/Fl7oxo2e?=
- =?Windows-1252?Q?H4yGyGVru7RYZD0lG30YwT2zv3S3VdMzA9ZzvcnErKjp1ulvnkpxyyl7?=
- =?Windows-1252?Q?nAN1UzFyUthvNM7W3mmZaC9LV//t1fv4To/Jc8AETBC8gsfDyWxKbpI8?=
- =?Windows-1252?Q?YpUfVwwhzVpOaeiHCWIaGd+sH9VKMWseEupiNg79VTisQQzpbuFhVP7O?=
- =?Windows-1252?Q?Ms7eiNoOUUODrhUBNug77RXj48smX60jPHmIh/vzeU9YOj/ddBg3RIDn?=
- =?Windows-1252?Q?QkSIVX8TjKEM1UV3FgvJDUOut71WtZl1P2VlpQj2pBlLYahvbu3jEaeM?=
- =?Windows-1252?Q?1YWP/5XqueNrAETr5solCSpHbY8DVixtPqvzfwaNpWFb4vmMY352w1vw?=
- =?Windows-1252?Q?X0Rh+k+mSMStEP9/bfEfz9MwzMx9h8Mlofd+E3+0N4G+8AVRnAcJagDj?=
- =?Windows-1252?Q?/9Hs2xyJg3QNfx5gcowK+9Ls6JB3d2mfSg5ZhTn2qehFtmBt5CHI0BBR?=
- =?Windows-1252?Q?EGoOlCpA3ZylGrNRpbgVnUciUNq6k1EgclU73zN95FFhCvYvcOUN/Zoz?=
- =?Windows-1252?Q?OIS4JdiCn00L5AaN7ZoH1p0wGRYGoSW4Db0Qi3LAEm/aOITYGi4gjA2F?=
- =?Windows-1252?Q?p4Br3XZnVAZM86sHt/IRqIJ1jkt02WmhY8dgkIoCVcFdwtOviKf+J6wZ?=
- =?Windows-1252?Q?euYez681v93FnpZ+dbUdew6yYX3kleSanRuRK7D9SLhj15/gw6NKmdoq?=
- =?Windows-1252?Q?wO/bGDjm/0WlDFzfanezLjmZy6aETrlvIsQzGbJLbbteq42l+tHgOpQ4?=
- =?Windows-1252?Q?6ZP1S57YB68ch2pKodYS3bypMOvdzzXGJ6EuqN88U/p44Ig+GB2VLKKj?=
- =?Windows-1252?Q?3SzxbQzh7Kw8+oQnuDVPahslOBZT63sXn+DjhRZ8uEcKzWmQQ1BQW6MH?=
- =?Windows-1252?Q?ykDD7UuqGpHWdEjAw517k2BukggofeZFBu+MWzi7ycGyHzmPd5CVJvle?=
- =?Windows-1252?Q?bQ6w3UmfWVKOijBL8s8kgrByA652WWo22qqv25otzRGts6fkvQEJCWA1?=
- =?Windows-1252?Q?aSKxRltk2yYZkw7xLfjgnH2UdfGSt0LVedGJlApUWXjrsp4bVR9vjFO1?=
- =?Windows-1252?Q?WMzJ5ELmaYjV9nW6714MyouR8r1pJqZ7DDwQXYpFG7McE/BaSM+J65pw?=
- =?Windows-1252?Q?fQCtZf3ewXTzpcBrqVnk0hHteaUX/QJC14J0/Uzs5deg7wgojBJwYX4K?=
- =?Windows-1252?Q?UfjtJmFWSRjnvXiVH3/08zei7fjKH979C1HEepeR5ZCQ9iyLeatcLB4R?=
- =?Windows-1252?Q?DF7fK+1muMoE1vx6HTO5nBIPe3bpGBSYwUA4MYUS1dJ52i8UilF0sX4l?=
- =?Windows-1252?Q?ht9XcTNZaIkfFsujsLOP8KILktNQosDs?=
-Content-Type: multipart/alternative;
-	boundary="_000_CWLP123MB44525897F9EFE77900C08D86CAD12CWLP123MB4452GBRP_"
+X-Forwarded-Encrypted: i=1; AJvYcCXeCnwLYlb2rzjDc2lVjBejNttY8rkjpMzsIpYApMOmK4yK6UWR27hqMxgDd2PKgYYhT4HeBA==@lfdr.de
+X-Gm-Message-State: AOJu0YwSM1Otr0UGM1BPA75iC7ckS4Gol/cMdafN1Z5Nzizuk74CAmQn
+	+wvOMpf9xTvDtOk7GfRugqxf9tWhm8nwVmirxl3NAYtpabtUsoeW
+X-Google-Smtp-Source: AGHT+IFEffBfGX4xTK93XboKQbMR/I3vQITDmuFjuKRpNei9DyE7Gey7R0AnP1eBuu0PZFfci+UWIg==
+X-Received: by 2002:a05:6820:992:b0:601:af0a:20ca with SMTP id 006d021491bc7-601af0a214dmr4693849eaf.5.1741751208824;
+        Tue, 11 Mar 2025 20:46:48 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVEQcG2+/5IZZHMcr5b2ZYaWyFMCZK4Pve4Avy48AP/Cpw==
+Received: by 2002:a4a:bb12:0:b0:601:15b5:c385 with SMTP id 006d021491bc7-60115b5c4b0ls589772eaf.1.-pod-prod-08-us;
+ Tue, 11 Mar 2025 20:46:48 -0700 (PDT)
+X-Received: by 2002:a05:6808:188f:b0:3f6:692c:d159 with SMTP id 5614622812f47-3f697c18f08mr11565220b6e.39.1741751207633;
+        Tue, 11 Mar 2025 20:46:47 -0700 (PDT)
+Date: Tue, 11 Mar 2025 20:46:46 -0700 (PDT)
+From: =?UTF-8?B?2KfZh9mE2Kcg2KjZg9mF?= <zz.a1@hotmail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <da1c2d3c-63e6-49aa-b59f-d8fbe554e4a4n@googlegroups.com>
+Subject: =?UTF-8?Q?cytotec_abortion_009715620?=
+ =?UTF-8?Q?51608_=D8=AD=D8=A8=D9=88=D8=A8_=D8=A7=D9=84?=
+ =?UTF-8?Q?=D8=A7=D8=AC=D9=87=D8=A7=D8=B6_=D8=B3?=
+ =?UTF-8?Q?=D8=A7=D9=8A=D8=AA=D9=88=D8=AA=D9=8A=D9=83?=
 MIME-Version: 1.0
-X-OriginatorOrg: bigfatlinks.biz
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB4452.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: aafcc8a0-342e-4a5e-d3f2-08dd609c3bcd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Mar 2025 12:57:09.0791
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8fac7e88-f5f2-4021-ad1d-c104f3f1d3dd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PNnZ9XLD10aAr1HB+v44o9Wc2iNezDP8rqnHXe/KSpJ55B+u0rEmSzapNfYOjj4hyqZDJFBcFWYgC9mPhq0WWQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P123MB7008
-X-Original-Sender: lucy@bigfatlinks.biz
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@bigfatlinks.biz header.s=selector1 header.b=FoFh9X2f;
-       arc=pass (i=1 spf=pass spfdomain=bigfatlinks.biz dkim=pass
- dkdomain=bigfatlinks.biz dmarc=pass fromdomain=bigfatlinks.biz);
-       spf=pass (google.com: domain of lucy@bigfatlinks.biz designates
- 2a01:111:f403:c205::1 as permitted sender) smtp.mailfrom=Lucy@bigfatlinks.biz
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_91892_1665337435.1741751206748"
+X-Original-Sender: zz.a1@hotmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -234,225 +69,103 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---_000_CWLP123MB44525897F9EFE77900C08D86CAD12CWLP123MB4452GBRP_
+------=_Part_91892_1665337435.1741751206748
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_91893_1331847693.1741751206748"
+
+------=_Part_91893_1331847693.1741751206748
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 
-Hi,
-I hope this email finds you well.
-Following up on my previous email, I wanted to touch base and see if you ha=
-d any thoughts or questions about our SEO services. At Big Fat Links, we=E2=
-=80=99re committed to providing a strategic approach to SEO that goes beyon=
-d just backlinks.
-Our SEO services are designed to drive your online objectives and deliver m=
-easurable results.
-We are here to be your dedicated SEO partner, ensuring that every effort is=
- aligned with your business goals. Our track record of success and our comm=
-itment to quality, backed by our money-back guarantee, means you can trust =
-us to help you achieve sustained growth.
-If you=E2=80=99re ready to take your SEO strategy to the next level, I=E2=
-=80=99d love to schedule a call to discuss how we can work together. Please=
- feel free to respond to this email or visit Bigfatlinks.com<https://links.=
-bigfatlinks.org/b?y=3D49ii4eh26orm6c1m70pjipb675ijcp1g60o32dpgc5hj4cp25gh74=
-8hq49k78t3gect2ubr2d5jmcobkdhkmsqrj5phmur9f7tqn8ravednnasj3ckuk2s3fdhm6un3l=
-60o34djlehmlurb5chknar9t8lmm2qbcbhqj0c1i6pqn8ravcdgmqs31d5jmsfa1e1nmor3faop=
-iscj648=3D=3D=3D=3D=3D=3D> to learn more about our services.
-Looking forward to the possibility of working together.
-Best regards,
-
-Lucy
-Big Fat Links Ltd<https://links.bigfatlinks.org/b?y=3D49ii4eh26orm6c1m70pji=
-pb675ijcp1g60o32dpgc5hj4cp25gh748hq49k78t3gect2ubr2d5jmcobkdhkmsqrj5phmur9f=
-48=3D=3D=3D=3D=3D=3D>
-[https://links.bigfatlinks.org/+?y=3D49ii4eh26orm6c1m70pjipb675ijcp1g60o32d=
-pgc5hj4cp2]
-If you don't want to hear from me again, please let me know<https://links.b=
-igfatlinks.org/u?mid=3D67c06839ef9e6d000170ac23>.
-________________________________
-From: Lewis Green
-Sent: Thursday, February 27, 2025 1:25:16 PM
-To: Unknown <kasan-dev@googlegroups.com>
-Subject: Unlock Your Site's Potential
-
-Hi,
-I hope this email finds you well.
-It's been a few months since our last communication, and I wanted to follow=
- up to see how your SEO efforts have been progressing.
-At Big Fat Links, we are not just about providing high-quality backlinks; w=
-e offer a comprehensive, fully managed SEO service designed to drive your o=
-nline objectives and boost your digital presence.
-Your domain, googlegroups.com<https://links.bigfatlinks.org/b?y=3D49ii4eh26=
-orjge9g74s3gc366dh68dhg60o32p9h6cpjap925gh748hq49k78t3g78niuprfdtjmopb7e9nn=
-as3j5phmur92>, has tremendous potential, and our all-encompassing SEO servi=
-ces can help you harness it.
-From on-page optimisation to advanced link-building techniques, we cover al=
-l aspects of SEO to ensure your site performs at its best.
-Our link-building team secures backlinks from reputable sources that enhanc=
-e your domain authority and improve your search engine rankings.
-By partnering with us, you gain access to a team of SEO experts dedicated t=
-o helping you achieve and surpass your online goals. Our commitment to qual=
-ity and results is backed by our money-back guarantee.
-Let's discuss how our fully managed SEO services can take your domain to ne=
-w heights. Please respond to this email or visit Bigfatlinks.com<https://li=
-nks.bigfatlinks.org/b?y=3D49ii4eh26orjge9g74s3gc366dh68dhg60o32p9h6cpjap925=
-gh748hq49k78t3g78niugj9ctj62t3cd5n6mspecdnmq8g=3D> to learn more about how =
-we can assist you.
-Best regards,
-
-Lucy
-Big Fat Links Ltd<https://links.bigfatlinks.org/b?y=3D49ii4eh26orjge9g74s3g=
-c366dh68dhg60o32p9h6cpjap925gh748hq49k78t3gect2ubr2d5jmcobkdhkmsqrj5phmur9f=
-48=3D=3D=3D=3D=3D=3D>
-[https://links.bigfatlinks.org/+?y=3D49ii4eh26orjge9g74s3gc366dh68dhg60o32p=
-9h6cpjap92]
-If you don't want to hear from me again, please let me know<https://links.b=
-igfatlinks.org/u?mid=3D678909880f3bd60001e1335e>.
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-WLP123MB44525897F9EFE77900C08D86CAD12%40CWLP123MB4452.GBRP123.PROD.OUTLOOK.=
-COM.
-
---_000_CWLP123MB44525897F9EFE77900C08D86CAD12CWLP123MB4452GBRP_
+2KfYrdi12YQg2LnZhNmJINit2KjZiNioINiz2KfZitiq2YjYqtmK2YMg2KfZhNii2YYg2KjYo9iz
+2LnYp9ixINmF2YbYp9iz2KjYqSDZiNio2LPZh9mI2YTYqSDZgdmKINmC2LfYsdiMINin2YTYs9i5
+2YjYr9mK2KnYjCAK2KfZhNil2YXYp9ix2KfYqtiMINmI2KfZhNmD2YjZitiqISDYqtiz2KfYudiv
+2YMg2KfZhNit2KjZiNioINmB2Yog2KXYrNmH2KfYtiDYp9mE2K3ZhdmEINio2LfYsdmK2YLYqSDY
+otmF2YbYqSDZiNmB2LnYp9mE2KkuINmD2YQg2YXYpyAK2LnZhNmK2YMg2YfZiCDYp9mE2KfYqti1
+2KfZhCDYqNmG2Kcg2KfZhNii2YYg2LnZhNmJINin2YTYsdmC2YUg8J+TniAgMDA5NzE1NjIwNTE2
+MDggICDZhNiq2LfZhNioINit2KjZiNioINiz2KfZitiq2YjYqtmDLiAK2YTYpyDYr9in2LnZiiDZ
+hNmE2YLZhNmC2Iwg2K3ZhNmDINmH2Ygg2KjYqNiz2KfYt9ipINij2YXYp9mF2YMuINin2KrYtdmE
+INio2YbYpyDYp9mE2KLZhiEKCvCfjL/wn5S0INit2KjZiNioINiz2KfZitiq2YjYqtmDINmE2YTY
+qNmK2Lkg2YHZiiDZgti32LEg2YjYp9mE2KXZhdin2LHYp9iqIC0g2KfYt9mE2KjZh9inINin2YTY
+otmGISDwn4y/MDA5NzE1NjIwNTE2MDgg8J+TniAK2YjYp9iq2LPYp9ioINin2LPYqtiu2K/Yp9mF
+INit2KjZiNioINiz2KfZitiq2YjYqtmDINmE2KrZhti42YrZgSDYp9mE2LHYrdmFIwoj2K3YqNmI
+2Kgg2KfZhNin2KzZh9in2LYgIwrYrdio2YjYqCDYp9mE2KfYrNmH2KfYtiAKI9it2KjZiNioINin
+2YTYp9is2YfYp9i2ICMKI9in2KzZh9in2LYgIwoj2KfYrNmH2KfYtiDYp9mE2K3ZhdmEIwoj2K3Y
+qNmI2Kgg2KfYrNmH2KfYtiMKI9it2KjZiNioINin2YTYp9is2YfYp9i2ICMK2K3YqNmI2Kgg2KfZ
+hNin2KzZh9in2LYgCiPYrdio2YjYqCDYp9mE2KfYrNmH2KfYtiAjCiPYp9is2YfYp9i2ICMKI9in
+2KzZh9in2LYg2KfZhNit2YXZhCMKI9it2KjZiNioINin2KzZh9in2LYjCgrYt9ix2YrZgtipINin
+2LPYqtiu2K/YpyPYrdio2YjYqCDYp9mE2KfYrNmH2KfYtiAjCtit2KjZiNioINin2YTYp9is2YfY
+p9i2IAoj2K3YqNmI2Kgg2KfZhNin2KzZh9in2LYgIwoj2KfYrNmH2KfYtiAjCiPYp9is2YfYp9i2
+INin2YTYrdmF2YQjCiPYrdio2YjYqCDYp9is2YfYp9i2IwrZhSDYrdio2YjYqCDYs9in2YrYqtmI
+2KrZgyMKCtiz2KfZitiq2YjYqtmDICPZhdmK2LLZiNiq2KfZgyDYrdio2YjYqF/Ys9in2YrYqtmI
+2KrZg1/Yp9mE2KfYtdmE2YrZhyDYrdio2YjYqCAj2LPYp9mK2KrZiNiq2YMgI9in2YTYp9i12YTZ
+itmHINin2YTYp9mF2KfYsdin2KoKCtit2KjZiNioINiz2KfZitiq2YjYqtmDINin2YTYp9i12YTZ
+itmHINmI2KfZhNiq2YLZhNmK2K8jCgrYrdio2YjYqCDYs9in2YrYqtmI2KrZgyDYp9mE2KfYtdmE
+2Yog2YjYp9mE2KrZgtmE2YrYryMKI9it2KjZiNioINin2YTYp9is2YfYp9i2ICMK2K3YqNmI2Kgg
+2KfZhNin2KzZh9in2LYgCiPYrdio2YjYqCDYp9mE2KfYrNmH2KfYtiAjCiPYp9is2YfYp9i2ICMK
+I9in2KzZh9in2LYg2KfZhNit2YXZhCMKI9it2KjZiNioINin2KzZh9in2LYjCgrYt9ix2YrZgtip
+X9in2LPYqtiu2K/Yp9mFX9it2KjZiNioX9iz2KfZitiq2YjYqtmDINi32LHZitmC2Kkg2KfYs9iq
+2K7Yr9in2YUg2K3YqNmI2KggI9iz2KfZitiq2YjYqtmDX9mE2YTYp9is2YfYp9i2IwoK2LfYsdmK
+2YLZh1/Yp9iz2KrYrtiv2KfZhV/Yrdio2YjYqF/Ys9in2YrYqtmI2KrZg1/ZgdmKX9in2YTYtNmH
+2LFf2KfZhNin2YjZhNi32LHZitmC2Kkg2KfYs9iq2K7Yr9in2YUgI9it2KjZiNioINiz2KfZitiq
+2YjYqtmDIArZhNmE2KfYrNmH2KfYtiDZgdmKINin2YTYtNmH2LEg2KfZhNin2YjZhA0KDQotLSAK
+WW91IHJlY2VpdmVkIHRoaXMgbWVzc2FnZSBiZWNhdXNlIHlvdSBhcmUgc3Vic2NyaWJlZCB0byB0
+aGUgR29vZ2xlIEdyb3VwcyAia2FzYW4tZGV2IiBncm91cC4KVG8gdW5zdWJzY3JpYmUgZnJvbSB0
+aGlzIGdyb3VwIGFuZCBzdG9wIHJlY2VpdmluZyBlbWFpbHMgZnJvbSBpdCwgc2VuZCBhbiBlbWFp
+bCB0byBrYXNhbi1kZXYrdW5zdWJzY3JpYmVAZ29vZ2xlZ3JvdXBzLmNvbS4KVG8gdmlldyB0aGlz
+IGRpc2N1c3Npb24gdmlzaXQgaHR0cHM6Ly9ncm91cHMuZ29vZ2xlLmNvbS9kL21zZ2lkL2thc2Fu
+LWRldi9kYTFjMmQzYy02M2U2LTQ5YWEtYjU5Zi1kOGZiZTU1NGU0YTRuJTQwZ29vZ2xlZ3JvdXBz
+LmNvbS4K
+------=_Part_91893_1331847693.1741751206748
 Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
-252">
-</head>
-<body>
-<div dir=3D"ltr">
-<div style=3D"line-height:1.50545; margin-top:0pt; margin-bottom:8pt"><span=
- style=3D"color:rgb(0,0,0)">Hi,</span></div>
-<div style=3D"line-height:1.50545; margin-top:0pt; margin-bottom:8pt"><span=
- style=3D"color:rgb(0,0,0)">I hope this email finds you well.</span></div>
-<div style=3D"line-height:1.50545; margin-top:0pt; margin-bottom:8pt"><span=
- style=3D"color:rgb(0,0,0)">Following up on my previous email, I wanted to =
-touch base and see if you had any thoughts or questions about our SEO servi=
-ces. At Big Fat Links, we=E2=80=99re committed
- to providing a strategic approach to SEO that goes beyond just backlinks.<=
-/span></div>
-<div style=3D"line-height:1.50545; margin-top:0pt; margin-bottom:8pt"><span=
- style=3D"color:rgb(0,0,0)">Our SEO services are designed to drive your onl=
-ine objectives and deliver measurable results.</span></div>
-<div style=3D"line-height:1.50545; margin-top:0pt; margin-bottom:8pt"><span=
- style=3D"color:rgb(0,0,0)">We are here to be your dedicated SEO partner, e=
-nsuring that every effort is aligned with your business goals. Our track re=
-cord of success and our commitment to
- quality, backed by our money-back guarantee, means you can trust us to hel=
-p you achieve sustained growth.</span></div>
-<div style=3D"line-height:1.50545; margin-top:0pt; margin-bottom:8pt"><span=
- style=3D"color:rgb(0,0,0)">If you=E2=80=99re ready to take your SEO strate=
-gy to the next level, I=E2=80=99d love to schedule a call to discuss how we=
- can work together. Please feel free to respond to this
- email or visit </span><a href=3D"https://links.bigfatlinks.org/b?y=3D49ii4=
-eh26orm6c1m70pjipb675ijcp1g60o32dpgc5hj4cp25gh748hq49k78t3gect2ubr2d5jmcobk=
-dhkmsqrj5phmur9f7tqn8ravednnasj3ckuk2s3fdhm6un3l60o34djlehmlurb5chknar9t8lm=
-m2qbcbhqj0c1i6pqn8ravcdgmqs31d5jmsfa1e1nmor3faopiscj648=3D=3D=3D=3D=3D=3D" =
-rel=3D"noopener noreferrer" target=3D"_blank" style=3D"color:rgb(0,0,0)">Bi=
-gfatlinks.com</a><span style=3D"color:rgb(0,0,0)">
- to learn more about our services.</span> </div>
-<div style=3D"line-height:1.50545; margin-top:0pt; margin-bottom:8pt"><span=
- style=3D"color:rgb(0,0,0)">Looking forward to the possibility of working t=
-ogether.</span></div>
-<div style=3D"line-height:1.50545; margin-top:0pt; margin-bottom:8pt"><span=
- style=3D"color:rgb(0,0,0)">Best regards,</span></div>
-<br>
-<div>Lucy</div>
-<div><a href=3D"https://links.bigfatlinks.org/b?y=3D49ii4eh26orm6c1m70pjipb=
-675ijcp1g60o32dpgc5hj4cp25gh748hq49k78t3gect2ubr2d5jmcobkdhkmsqrj5phmur9f48=
-=3D=3D=3D=3D=3D=3D" rel=3D"noopener noreferrer" target=3D"_blank"><strong>B=
-ig Fat Links Ltd</strong></a></div>
-<img src=3D"https://links.bigfatlinks.org/+?y=3D49ii4eh26orm6c1m70pjipb675i=
-jcp1g60o32dpgc5hj4cp2" alt=3D"" style=3D"width:0px; max-height:0px; overflo=
-w:hidden; display:block"></div>
-If you don't want to hear from me again, please <a href=3D"https://links.bi=
-gfatlinks.org/u?mid=3D67c06839ef9e6d000170ac23">
-let me know</a>.
-<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" co=
-lor=3D"#000000" style=3D"font-size:11pt"><b>From:</b> Lewis Green<br>
-<b>Sent:</b> Thursday, February 27, 2025 1:25:16 PM<br>
-<b>To:</b> Unknown &lt;kasan-dev@googlegroups.com&gt;<br>
-<b>Subject:</b> Unlock Your Site's Potential</font>
-<div>&nbsp;</div>
-</div>
-<div>
-<div dir=3D"ltr">
-<div style=3D"margin-bottom:8pt; margin-top:0pt; line-height:1.50545"><span=
- style=3D"color:rgb(0,0,0)">Hi,</span></div>
-<div style=3D"margin-bottom:8pt; margin-top:0pt; line-height:1.50545"><span=
- style=3D"color:rgb(0,0,0)">I hope this email finds you well.</span></div>
-<div style=3D"margin-bottom:8pt; margin-top:0pt; line-height:1.50545"><span=
- style=3D"color:rgb(0,0,0)">It's been a few months since our last communica=
-tion, and I wanted to follow up to see how your SEO efforts have been progr=
-essing.</span></div>
-<div style=3D"margin-bottom:8pt; margin-top:0pt; line-height:1.50545"><span=
- style=3D"color:rgb(0,0,0)">At Big Fat Links, we are not just about providi=
-ng high-quality backlinks; we offer a comprehensive, fully managed SEO serv=
-ice designed to drive your online objectives
- and boost your digital presence.</span></div>
-<div style=3D"margin-bottom:8pt; margin-top:0pt; line-height:1.50545"><span=
- style=3D"color:rgb(0,0,0)">Your domain,
-<a href=3D"https://links.bigfatlinks.org/b?y=3D49ii4eh26orjge9g74s3gc366dh6=
-8dhg60o32p9h6cpjap925gh748hq49k78t3g78niuprfdtjmopb7e9nnas3j5phmur92">
-googlegroups.com</a>, has tremendous potential, and our all-encompassing SE=
-O services can help you harness it.</span></div>
-<div style=3D"margin-bottom:8pt; margin-top:0pt; line-height:1.50545"><span=
- style=3D"color:rgb(0,0,0)">From on-page optimisation to advanced link-buil=
-ding techniques, we cover all aspects of SEO to ensure your site performs a=
-t its best.</span></div>
-<div style=3D"margin-bottom:8pt; margin-top:0pt; line-height:1.50545"><span=
- style=3D"color:rgb(0,0,0)">Our link-building team secures backlinks from r=
-eputable sources that enhance your domain authority and improve your search=
- engine rankings.</span></div>
-<div style=3D"margin-bottom:8pt; margin-top:0pt; line-height:1.50545"><span=
- style=3D"color:rgb(0,0,0)">By partnering with us, you gain access to a tea=
-m of SEO experts dedicated to helping you achieve and surpass your online g=
-oals. Our commitment to quality and
- results is backed by our money-back guarantee.</span></div>
-<div style=3D"margin-bottom:8pt; margin-top:0pt; line-height:1.50545"><span=
- style=3D"color:rgb(0,0,0)">Let's discuss how our fully managed SEO service=
-s can take your domain to new heights. Please respond to this email or visi=
-t
-<a href=3D"https://links.bigfatlinks.org/b?y=3D49ii4eh26orjge9g74s3gc366dh6=
-8dhg60o32p9h6cpjap925gh748hq49k78t3g78niugj9ctj62t3cd5n6mspecdnmq8g=3D">
-Bigfatlinks.com</a> to learn more about how we can assist you.</span></div>
-<div style=3D"margin-bottom:8pt; margin-top:0pt; line-height:1.50545"><span=
- style=3D"color:rgb(0,0,0)">Best regards,</span></div>
-<br>
-<div>Lucy</div>
-<div><a href=3D"https://links.bigfatlinks.org/b?y=3D49ii4eh26orjge9g74s3gc3=
-66dh68dhg60o32p9h6cpjap925gh748hq49k78t3gect2ubr2d5jmcobkdhkmsqrj5phmur9f48=
-=3D=3D=3D=3D=3D=3D" rel=3D"noopener noreferrer" target=3D"_blank"><strong>B=
-ig Fat Links Ltd</strong></a></div>
-<img alt=3D"" src=3D"https://links.bigfatlinks.org/+?y=3D49ii4eh26orjge9g74=
-s3gc366dh68dhg60o32p9h6cpjap92" style=3D"width:0px; max-height:0px; overflo=
-w:hidden; display:block"></div>
-If you don't want to hear from me again, please <a href=3D"https://links.bi=
-gfatlinks.org/u?mid=3D678909880f3bd60001e1335e">
-let me know</a>. </div>
-</body>
-</html>
+2KfYrdi12YQg2LnZhNmJINit2KjZiNioINiz2KfZitiq2YjYqtmK2YMg2KfZhNii2YYg2KjYo9iz
+2LnYp9ixINmF2YbYp9iz2KjYqSDZiNio2LPZh9mI2YTYqSDZgdmKINmC2LfYsdiMINin2YTYs9i5
+2YjYr9mK2KnYjCDYp9mE2KXZhdin2LHYp9iq2Iwg2YjYp9mE2YPZiNmK2KohINiq2LPYp9i52K/Z
+gyDYp9mE2K3YqNmI2Kgg2YHZiiDYpdis2YfYp9i2INin2YTYrdmF2YQg2KjYt9ix2YrZgtipINii
+2YXZhtipINmI2YHYudin2YTYqS4g2YPZhCDZhdinINi52YTZitmDINmH2Ygg2KfZhNin2KrYtdin
+2YQg2KjZhtinINin2YTYotmGINi52YTZiSDYp9mE2LHZgtmFIPCfk54gwqAwMDk3MTU2MjA1MTYw
+OCDCoCDZhNiq2LfZhNioINit2KjZiNioINiz2KfZitiq2YjYqtmDLiDZhNinINiv2KfYudmKINmE
+2YTZgtmE2YLYjCDYrdmE2YMg2YfZiCDYqNio2LPYp9i32Kkg2KPZhdin2YXZgy4g2KfYqti12YQg
+2KjZhtinINin2YTYotmGITxiciAvPjxiciAvPvCfjL/wn5S0INit2KjZiNioINiz2KfZitiq2YjY
+qtmDINmE2YTYqNmK2Lkg2YHZiiDZgti32LEg2YjYp9mE2KXZhdin2LHYp9iqIC0g2KfYt9mE2KjZ
+h9inINin2YTYotmGISDwn4y/MDA5NzE1NjIwNTE2MDgg8J+TniDZiNin2KrYs9in2Kgg2KfYs9iq
+2K7Yr9in2YUg2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YMg2YTYqtmG2LjZitmBINin2YTYsdit2YUj
+PGJyIC8+I9it2KjZiNioINin2YTYp9is2YfYp9i2ICM8YnIgLz7Yrdio2YjYqCDYp9mE2KfYrNmH
+2KfYtiA8YnIgLz4j2K3YqNmI2Kgg2KfZhNin2KzZh9in2LYgIzxiciAvPiPYp9is2YfYp9i2ICM8
+YnIgLz4j2KfYrNmH2KfYtiDYp9mE2K3ZhdmEIzxiciAvPiPYrdio2YjYqCDYp9is2YfYp9i2Izxi
+ciAvPiPYrdio2YjYqCDYp9mE2KfYrNmH2KfYtiAjPGJyIC8+2K3YqNmI2Kgg2KfZhNin2KzZh9in
+2LYgPGJyIC8+I9it2KjZiNioINin2YTYp9is2YfYp9i2ICM8YnIgLz4j2KfYrNmH2KfYtiAjPGJy
+IC8+I9in2KzZh9in2LYg2KfZhNit2YXZhCM8YnIgLz4j2K3YqNmI2Kgg2KfYrNmH2KfYtiM8YnIg
+Lz48YnIgLz7Yt9ix2YrZgtipINin2LPYqtiu2K/YpyPYrdio2YjYqCDYp9mE2KfYrNmH2KfYtiAj
+PGJyIC8+2K3YqNmI2Kgg2KfZhNin2KzZh9in2LYgPGJyIC8+I9it2KjZiNioINin2YTYp9is2YfY
+p9i2ICM8YnIgLz4j2KfYrNmH2KfYtiAjPGJyIC8+I9in2KzZh9in2LYg2KfZhNit2YXZhCM8YnIg
+Lz4j2K3YqNmI2Kgg2KfYrNmH2KfYtiM8YnIgLz7ZhSDYrdio2YjYqCDYs9in2YrYqtmI2KrZgyM8
+YnIgLz48YnIgLz7Ys9in2YrYqtmI2KrZgyAj2YXZitiy2YjYqtin2YMg2K3YqNmI2Khf2LPYp9mK
+2KrZiNiq2YNf2KfZhNin2LXZhNmK2Ycg2K3YqNmI2KggI9iz2KfZitiq2YjYqtmDICPYp9mE2KfY
+tdmE2YrZhyDYp9mE2KfZhdin2LHYp9iqPGJyIC8+PGJyIC8+2K3YqNmI2Kgg2LPYp9mK2KrZiNiq
+2YMg2KfZhNin2LXZhNmK2Ycg2YjYp9mE2KrZgtmE2YrYryM8YnIgLz48YnIgLz7Yrdio2YjYqCDY
+s9in2YrYqtmI2KrZgyDYp9mE2KfYtdmE2Yog2YjYp9mE2KrZgtmE2YrYryM8YnIgLz4j2K3YqNmI
+2Kgg2KfZhNin2KzZh9in2LYgIzxiciAvPtit2KjZiNioINin2YTYp9is2YfYp9i2IDxiciAvPiPY
+rdio2YjYqCDYp9mE2KfYrNmH2KfYtiAjPGJyIC8+I9in2KzZh9in2LYgIzxiciAvPiPYp9is2YfY
+p9i2INin2YTYrdmF2YQjPGJyIC8+I9it2KjZiNioINin2KzZh9in2LYjPGJyIC8+PGJyIC8+2LfY
+sdmK2YLYqV/Yp9iz2KrYrtiv2KfZhV/Yrdio2YjYqF/Ys9in2YrYqtmI2KrZgyDYt9ix2YrZgtip
+INin2LPYqtiu2K/Yp9mFINit2KjZiNioICPYs9in2YrYqtmI2KrZg1/ZhNmE2KfYrNmH2KfYtiM8
+YnIgLz48YnIgLz7Yt9ix2YrZgtmHX9in2LPYqtiu2K/Yp9mFX9it2KjZiNioX9iz2KfZitiq2YjY
+qtmDX9mB2Ypf2KfZhNi02YfYsV/Yp9mE2KfZiNmE2LfYsdmK2YLYqSDYp9iz2KrYrtiv2KfZhSAj
+2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YMg2YTZhNin2KzZh9in2LYg2YHZiiDYp9mE2LTZh9ixINin
+2YTYp9mI2YQNCg0KPHA+PC9wPgoKLS0gPGJyIC8+CllvdSByZWNlaXZlZCB0aGlzIG1lc3NhZ2Ug
+YmVjYXVzZSB5b3UgYXJlIHN1YnNjcmliZWQgdG8gdGhlIEdvb2dsZSBHcm91cHMgJnF1b3Q7a2Fz
+YW4tZGV2JnF1b3Q7IGdyb3VwLjxiciAvPgpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgZ3JvdXAg
+YW5kIHN0b3AgcmVjZWl2aW5nIGVtYWlscyBmcm9tIGl0LCBzZW5kIGFuIGVtYWlsIHRvIDxhIGhy
+ZWY9Im1haWx0bzprYXNhbi1kZXYrdW5zdWJzY3JpYmVAZ29vZ2xlZ3JvdXBzLmNvbSI+a2FzYW4t
+ZGV2K3Vuc3Vic2NyaWJlQGdvb2dsZWdyb3Vwcy5jb208L2E+LjxiciAvPgpUbyB2aWV3IHRoaXMg
+ZGlzY3Vzc2lvbiB2aXNpdCA8YSBocmVmPSJodHRwczovL2dyb3Vwcy5nb29nbGUuY29tL2QvbXNn
+aWQva2FzYW4tZGV2L2RhMWMyZDNjLTYzZTYtNDlhYS1iNTlmLWQ4ZmJlNTU0ZTRhNG4lNDBnb29n
+bGVncm91cHMuY29tP3V0bV9tZWRpdW09ZW1haWwmdXRtX3NvdXJjZT1mb290ZXIiPmh0dHBzOi8v
+Z3JvdXBzLmdvb2dsZS5jb20vZC9tc2dpZC9rYXNhbi1kZXYvZGExYzJkM2MtNjNlNi00OWFhLWI1
+OWYtZDhmYmU1NTRlNGE0biU0MGdvb2dsZWdyb3Vwcy5jb208L2E+LjxiciAvPgo=
+------=_Part_91893_1331847693.1741751206748--
 
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion visit <a href=3D"https://groups.google.com/d/msgid/=
-kasan-dev/CWLP123MB44525897F9EFE77900C08D86CAD12%40CWLP123MB4452.GBRP123.PR=
-OD.OUTLOOK.COM?utm_medium=3Demail&utm_source=3Dfooter">https://groups.googl=
-e.com/d/msgid/kasan-dev/CWLP123MB44525897F9EFE77900C08D86CAD12%40CWLP123MB4=
-452.GBRP123.PROD.OUTLOOK.COM</a>.<br />
-
---_000_CWLP123MB44525897F9EFE77900C08D86CAD12CWLP123MB4452GBRP_--
+------=_Part_91892_1665337435.1741751206748--
