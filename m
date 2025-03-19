@@ -1,145 +1,158 @@
-Return-Path: <kasan-dev+bncBCS4VDMYRUNBBN6W5O7AMGQE2QQRIZA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV7VV5FSADRBMMQ5S7AMGQEIXHAXFA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAEFFA69449
-	for <lists+kasan-dev@lfdr.de>; Wed, 19 Mar 2025 17:05:13 +0100 (CET)
-Received: by mail-pj1-x1038.google.com with SMTP id 98e67ed59e1d1-3010db05acfsf7779390a91.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 Mar 2025 09:05:13 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1742400312; cv=pass;
+Received: from mail-qt1-x838.google.com (mail-qt1-x838.google.com [IPv6:2607:f8b0:4864:20::838])
+	by mail.lfdr.de (Postfix) with ESMTPS id 305C6A69778
+	for <lists+kasan-dev@lfdr.de>; Wed, 19 Mar 2025 19:08:51 +0100 (CET)
+Received: by mail-qt1-x838.google.com with SMTP id d75a77b69052e-47685de2945sf120097921cf.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 19 Mar 2025 11:08:51 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1742407730; cv=pass;
         d=google.com; s=arc-20240605;
-        b=SKRSk5c0zQ56MQGfVX66iVIr31YCK5c/6uCY5TJRUYwYFr+6OBComgfizwOJFcU/Io
-         +kN04SDo0tpJZ4bYq1azvY+H+7FOzW6d87NUkR1cf6vJLeb0/yUNG3ileN0tMsxCYBTA
-         rws4fCQ9ZbFgfOm/x73ukDw7HEDW/R4QZkSKMXGwaoJ8spua+UTsRDTcHGz7pZqVeFMh
-         WP4DVcu8Kn7iY3SY4PuYaGrxNoR9pjnEUU784AYMD2QUKb/E39YIBpaIRqInZCmXasyR
-         ci5albyrbi6BumFDAh2eoCeyGcgsI1gSv0Wgpn9OPnc1QSDVcqwviLR2VT/W+ZF3Ttq0
-         u1KA==
+        b=dd3XQmIar3k6K517z2RlXVweWw23/2ixZ9SuN5gIMAyWSPyXAQyu3DcyaAJOZbC0RF
+         nJZXOnTjfbdeJEqS4PjON50a6iHT0B9syZnL5FS3lpxa6ah8Z5V6p8APvKrlcPlDNiYN
+         +KtRrjq6a58vboDZAiJvCUeubGJjoX8mbYcN79CHD6yEm7tGugf1nNpxIdxeYVzA+3IP
+         asGrCuyHRytgQsgyjQo2GAmeYXxyNhLwSGGpZlW+AWxtyHRBp1EgzRH1XqLDqDEm1VrV
+         6hFh3BPJfaFQYvZdLLpM/wVKDyJQmUUGuasjL7oTly1EJXUPt+lTlTdLgjkVfBVDcGgO
+         HWFw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:reply-to:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=HMUHACGUHAzjZWq4u0sQG/r+zKH5Hk+uZ/3j0Y+W3II=;
-        fh=/+DMtj7Dzf6yfAqIVAx1/6yxY7N43LgXpNr4jkzYW5w=;
-        b=jmKSXPmCJxaT8SmSPwq/tuBBUxHxAQx+Vxpo3FKwixrwRx8rGbHAPJ9dx3xVjo5OIO
-         6/4pw42pdcxra76QMrZqQ3p3PxtLeiS9dDzI+ax2A1nzPrb99I5kQFM26yXCe/f2HKvT
-         fmWl38akbv5V4iigr8I/xz9+mXJAJAu+xvXvMfcGb7rHwt7YiWXBc0yDmmaB5pIw99Ok
-         pc504lZKmC9Ae4K1+MquKW24a1BsYUVIDu+F6BIDKmnPdYy1K4g9PO/7WAffJT+lnqSS
-         l9ODHHwjOI36kdTwvXXlBVP9LfueK7kHPjk+ijH171xHGxtw67eR0twD8kVHbIwZqFf/
-         Z14g==;
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=pm/qDl4QcNofAHu7byBmE3txxICLo7GxHS5jwk0Pdvo=;
+        fh=D0fxY4ASbmwA9FXT0iD2gknFc4sbOrl562RP2CG0hNI=;
+        b=MKQSKctYJMWrRh9I5MeYFCVxBsFQwSlc/AzuuGk0UsEWiOjnpkDDSAQBxMFHi4dFsv
+         Ar/UADkI6YygIhLbO3S2wtXvYyKu3QJAVfys9UQwyqFcYlFSPA72JVwMZy3OOkmkFxPL
+         roEzD+MxSpqiP1FDHZ1rskPHC8plZIheA1DlBUvo07qKtaGLa5uQUr0Uhe1l8FwG8T6v
+         99MNqNMmYD8PwBOYe1oBILr2sLyzdNhUNPpN+CYg9yfW6yOvSJpg0miYJv43iJCl6awe
+         wZ5RlnEyaIbA4YvPo8B+98sIN+K3gKjl18KFfCo/vNZuB0HkYklKffaT5Cq6MHbiki06
+         y2rQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=LQx3B8rQ;
-       spf=pass (google.com: domain of srs0=en1s=wg=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom="SRS0=eN1s=WG=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=lV3JRGlB;
+       spf=pass (google.com: domain of xiyou.wangcong@gmail.com designates 2607:f8b0:4864:20::92a as permitted sender) smtp.mailfrom=xiyou.wangcong@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1742400312; x=1743005112; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1742407730; x=1743012530; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HMUHACGUHAzjZWq4u0sQG/r+zKH5Hk+uZ/3j0Y+W3II=;
-        b=htvPBU/ZSndPFn77hD0Gb++WIQnpSu89zOBISgNCWf28B1ts3HN69Iez6j3+lV21aj
-         dNCPKAQmR7JJw35VmrlKreDf97oDAiPf/uNKbPCYtywOlm9SWJzdw9ULRxEyMOTQT1F9
-         I011ZHEhyxTiO+W9zxkr/pa4KknNPzgdBc3/nuFy0yDt4fmW2M5DH25SVrlJot6F7aNO
-         YlfWFgVUTFl+Ph9uTYJkDzI1EoqZtwtDV/qRZrZG5z7M92A70pn33WCuHOKE4AS12EA4
-         qQ2DSRVhCrnfuuZ6TTTB85juHphSuekYHF2oHpawPDIN6Th0EZpPL1tpVOoWgVClqa/a
-         PFXQ==
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pm/qDl4QcNofAHu7byBmE3txxICLo7GxHS5jwk0Pdvo=;
+        b=l7/r9Em3TcApbn1zqD6PVRfEpGpftnToBXVsb3m0LuibXM8u3EBMTxc5Js10PxhbcC
+         /RgQWzFKeoPRoinn3CoC6KsMi1iIbkIqn7ud1KsYc8WuTVURRfhK5sKdHcrTmm746upN
+         GI6msZmO+MusFjuLLjF38jsb+/JnO8v0CqPTnIcCIVJQYz7oTo/tpi3bcvfLRd5ZhLTj
+         hHR6i6ActK7ugB45AcMMxFgpckaeytkZo0lPvuW+/hLUBmIX8AUhtEPYdoJ+kWa/uHrS
+         ls/iyvBoHXqLi7UZLayptgPxWLG0ghk64g96XmUn5ACFzZbQyaD+rCDXY38HhalX27Rr
+         aqxQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742407730; x=1743012530; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pm/qDl4QcNofAHu7byBmE3txxICLo7GxHS5jwk0Pdvo=;
+        b=W8o/gv/irWzVXJ1OmMWYrft/5Jchadfmg7cgVnT8DZwpTDLManGb+NetCFv5hYn0b6
+         Gx2KiT2X6NXHtzzB74a6yUljSwQbRLL7rbuug4SvzX1NGvhW2TkLxBG6XCzLLh2FTyH+
+         x5NhBrJgcFiAp/2EFyEXI+BQ8PhcsvppAo+M8dWdIe05lMnXSoJm1ckKUVIUEEbNRjE/
+         tpiHehuf9vlsST/gytaPuWIazK7GX8OUcovLRnI8SygUTugeQsvIe3/+9oQRpktQgToD
+         AX7GjphkGxzbxTpE/VR56Wg+YI5/El4VPZaPIUFz8kK4G88voweNe62eZx5l3M/j5hTV
+         PeAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742400312; x=1743005112;
+        d=1e100.net; s=20230601; t=1742407730; x=1743012530;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:reply-to:message-id:subject:cc:to:from:date:x-beenthere
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HMUHACGUHAzjZWq4u0sQG/r+zKH5Hk+uZ/3j0Y+W3II=;
-        b=oO7dbhLP1EOcJ1mJ6CUUUlOTO+WvJOsDQO1O1U2+LScostPn8ke9Yruhgw9san1rHp
-         0VCD3LXEn69tEAyRX/kvd+A2hFxDNEAT1y1zMt9r1rYz0T+dh204xlsOngtizSGRn5rQ
-         5A9yM/9umNJAE9T+90fccPxmvDKz4uO9XKNinTX01mDyAA/RWhcFYYIUwVu91npwGBcI
-         JTFBL7mxROEGS1g8LKeBV1/VE1J3aFHRNEPjM4Dd7IFW7KlvK6iJjp7r11ZQIyp+Ictt
-         +zm5C0BdqMU1506XYpfg+uW42D118AN5xe/1Uv1u5DCu37Pnz4978uHl8BeKFvnq+xjg
-         sqwA==
-X-Forwarded-Encrypted: i=2; AJvYcCX19hMurMrqawnUgEwEMcQYzEnt/1es3kGKevMeToZZUY/LMF5FlWUHzFX1R8PwpfLDi3AOKw==@lfdr.de
-X-Gm-Message-State: AOJu0YyGiM1l1kamlzFN/LiMdsuJI3pxzQrtmOWsyMZAy+Bs1fvG5mAg
-	81BJ74PeXws6Q4V0cLHotcY6WEevJg0VPHhVk9cipj/5A/ldl4bP
-X-Google-Smtp-Source: AGHT+IFCsjgatSVdpgqahjvnCix75S/UNdoO/zjJ75eMIRHAuU2GNaqTmMqcyyBwjS82EENCSZQy/Q==
-X-Received: by 2002:a17:90b:3b51:b0:2fe:afbc:cd53 with SMTP id 98e67ed59e1d1-301be201f80mr4699605a91.28.1742400311874;
-        Wed, 19 Mar 2025 09:05:11 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPAKzHeY+TQNP025ebrLy03Cn4w3Vf4ICUQ6NMleC0IcWJg==
-Received: by 2002:a17:90a:6d61:b0:301:c125:45b0 with SMTP id
- 98e67ed59e1d1-301d41e8da3ls11509a91.2.-pod-prod-04-us; Wed, 19 Mar 2025
- 09:05:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXDQNkKcD3AzoniPJ1kJqvSY/03aD+Miw2pTdZrnkGNOXm24/OZHSLQLzSzA2O9P2BEyJRhJ6yajpo=@googlegroups.com
-X-Received: by 2002:a17:90b:3e50:b0:2f4:434d:c7f0 with SMTP id 98e67ed59e1d1-301bde6d7cemr6731830a91.12.1742400309481;
-        Wed, 19 Mar 2025 09:05:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1742400309; cv=none;
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=pm/qDl4QcNofAHu7byBmE3txxICLo7GxHS5jwk0Pdvo=;
+        b=Vnbs4gYE8b6l7E9Ad0YNgUtCdGk+ZJ08i3bJzvR513hPbbUQNpU78Psu8cO2YBYIlA
+         ykGqlNAh8qfwJ7CAPRh9QjXhKgya10ic0Lk7huGXufJ5LoVhJYAbPaBAl5bY30DvoDI8
+         nctesjhSSvw7d4wMgWeBFtDYooUzoFNrx423J8KHfMJXTX3ZMgG1T0Bz0rpeABMQnV6s
+         mGULChSzb/1+FzzuqqJxsGun+tQUd3Fh8Eq7JW5+Mdc0x640qjsFSOpMm/AmAkBZc54l
+         asr02C9I8qQ4dBZag7DbCpiQjFo2KNRKWFrVEr32P7bJFJii6d02sPXmT3JCBI4lCZFN
+         KGWw==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCXFdjv/KNafvxNW2jcslg1rjwyhVFyOgPqTLf9jL+DSeupcY1e/rSmkPjilTB86pbFXrubftQ==@lfdr.de
+X-Gm-Message-State: AOJu0YxvIArjL2AOONTsp+fRahKVu1hr3Rylz8v0nxoSWcUa14inssJP
+	Z9rndXZW5fg2NghKf+Dpill9NRAwlp816jy1HTemrFD/yUNTlYuS
+X-Google-Smtp-Source: AGHT+IEAVinPfiKxwcjVaUrc2eYU4RKgu+XTCf0nP8uAvZElk+Ih2rnBrU6lTyDMCGlxinbfGytkxw==
+X-Received: by 2002:a05:622a:4014:b0:476:8225:dad1 with SMTP id d75a77b69052e-47708335d52mr62065931cf.17.1742407729906;
+        Wed, 19 Mar 2025 11:08:49 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPAJlvgZ8O6U0K/1557HwfvdTBTOOhzQrAMLY2a5EiKz16g==
+Received: by 2002:ac8:7f94:0:b0:476:6bc3:c758 with SMTP id d75a77b69052e-47710f22e4bls2762941cf.0.-pod-prod-05-us;
+ Wed, 19 Mar 2025 11:08:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVOcn/PpHFDhdHJlItcDkyfTgIzC3MceqQ7jnS7KYO+ufxqjRmLmqtS+t0AUbtoHAHkKeJ72hTX0as=@googlegroups.com
+X-Received: by 2002:a05:620a:178f:b0:7c5:642f:b22c with SMTP id af79cd13be357-7c5a838ed24mr463501785a.20.1742407728805;
+        Wed, 19 Mar 2025 11:08:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1742407728; cv=none;
         d=google.com; s=arc-20240605;
-        b=azZTT2NjWxRtBeSSm+HG5U1I6NTHQ9NoqbG8CXtRdexJVfcaoHNB8wrULDJ4e9Sqj2
-         bh2hNhIwxANUvSQBaBovpYcCU7AHuFs1xczQ8CWD++gZowZlEMINobT8TtEhAVzK8Fr+
-         on0Sv58A5gLxL+C0xfj9DGZ+VHUSTKLiVppkSK0u9xTQLYBpfCubFhtzqznhMbtPocMo
-         Z9ZQuAighsUJHihnlgvl2CekKoqjW+J6n+gVSJh13PvbSljM4ivwEUVsc2VTehWBZ/QP
-         zsh0R1sA/JOIqeZlrrRf0yFyhY+WFFEd5Y0T9gomxJ1PJJ0Ct3SZkUmT683EAyvKfAOx
-         t0ZA==
+        b=ex6Y0RSEhyhE49TwP+A1b28buCdss9qZhZMJYEHPtOKQ79IBXQ6zm2dnak36pdPi6G
+         Ic+uRZOcBm7AEdkF3aNb0Ro4NO+FNGvGNmXSWo/L37Jfqd3hnr/LbrLJZJCQpiSGEnPH
+         wUArleXJ+G3gLokastv/PXJ3bmvAScHsGtIDA2v98xPtfvghzhZx2pRbb4J04LFVuNGA
+         u3aZJOcAw7eqLi7IkCYoCj40zT0K5OGHz2ZNeU2VOLQAZFAXUz99Pf/ujYwQYiHoS4Sp
+         u0fbtk3D6ZtfUqpowvgK86y6oxQ+mx59l8SrzSv1rNcrmibRVfyVj1miD7+pkfk/XfYl
+         EM4g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=TSQ08Du7xca7o820hg8r38B3FMJiA+rgTlf536nknBw=;
-        fh=85ZNJ/59MuwVj9iMP9CLYE6PD5EjCFeBfPU5klvpZOs=;
-        b=ADiLVKVfuQvqk8Ius7eWjwIOJHObEZTKl948rQCj8egJsp9K+IdoCPaTahS6A3ejDm
-         PA6Ssrd5uQNChEgI+198kKSQBQ8TUoKUScBWgxCNFBR4FNaRv7Fq3YvA8thna53tuGkh
-         eQfBC83yYJ2hdpZH8oq1Ne26243TMR2W0knZ1zKqE54G8/G7cRGGsAuQsZE8iu7erjHc
-         NraA2vTrZ9IomtqsCc4Rwcmb9uAHVn69tjBJhPBI0zsJJ3EfGzELh2I8lxycG7E0HSI1
-         GXJdCBD3RZlTMEsl5f+Up1+6Ljdo0YM3owKvSQmfsyYyPmvCOTRle7O7gBWQmYJlqFxu
-         vGQA==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Z2e+VASJvhMSdxri9GWf3DzgLKmwPUKxIoKmVo7qpYU=;
+        fh=gC/pjP/b+00cqTtWLEo2Au70Rkplt4T04Lpsgf0Tk6s=;
+        b=guk99E3dXhO59POeJMVKzPso/5lrgBvjHLSdRpOKduhtefVzSKxaeYdalsx//M9K9l
+         C+PykJTNXaBjxRY8S1Y/Q56hPKcz0CEhsSrwVXMlOwGwm4UZ2Mm8EFAtRq0+3/lIVutU
+         cbX4i9yqmDGNBg2/m5mZ0zLgTlPtVPsKeNdlVkY+c61WmimUq/Sr7rYhJkrU5b5ys65F
+         yq/dAURw7R8WZNSA8muQCblwo9luXQuvu/hXEttGO3hlUNx8YBeIU1xUMLqDnO9qtHRM
+         ynR1mvVxEfzgbVlXSAIuuCqiC5DRYEvuyhShfjh8EP8asjyu9D/SS3kAVbZ9HQXk5/68
+         2hIg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=LQx3B8rQ;
-       spf=pass (google.com: domain of srs0=en1s=wg=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom="SRS0=eN1s=WG=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org. [2604:1380:45d1:ec00::3])
-        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-301bf476c11si77923a91.1.2025.03.19.09.05.09
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=lV3JRGlB;
+       spf=pass (google.com: domain of xiyou.wangcong@gmail.com designates 2607:f8b0:4864:20::92a as permitted sender) smtp.mailfrom=xiyou.wangcong@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-ua1-x92a.google.com (mail-ua1-x92a.google.com. [2607:f8b0:4864:20::92a])
+        by gmr-mx.google.com with ESMTPS id af79cd13be357-7c573be43c9si64998485a.4.2025.03.19.11.08.48
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 09:05:09 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=en1s=wg=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) client-ip=2604:1380:45d1:ec00::3;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 156D0A491F5;
-	Wed, 19 Mar 2025 15:59:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AB1FC4CEE4;
-	Wed, 19 Mar 2025 16:05:08 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id E2C3FCE0BC5; Wed, 19 Mar 2025 09:05:07 -0700 (PDT)
-Date: Wed, 19 Mar 2025 09:05:07 -0700
-From: "'Paul E. McKenney' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Eric Dumazet <edumazet@google.com>
-Cc: Breno Leitao <leitao@debian.org>, kuba@kernel.org, jhs@mojatatu.com,
-	xiyou.wangcong@gmail.com, jiri@resnulli.us, kuniyu@amazon.com,
-	rcu@vger.kernel.org, kasan-dev@googlegroups.com,
-	netdev@vger.kernel.org
-Subject: Re: tc: network egress frozen during qdisc update with debug kernel
-Message-ID: <0e9dbde7-07eb-45f1-a39c-6cf76f9c252f@paulmck-laptop>
-Reply-To: paulmck@kernel.org
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Mar 2025 11:08:48 -0700 (PDT)
+Received-SPF: pass (google.com: domain of xiyou.wangcong@gmail.com designates 2607:f8b0:4864:20::92a as permitted sender) client-ip=2607:f8b0:4864:20::92a;
+Received: by mail-ua1-x92a.google.com with SMTP id a1e0cc1a2514c-86112ab1ad4so2917898241.1
+        for <kasan-dev@googlegroups.com>; Wed, 19 Mar 2025 11:08:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWRqONA3kJ7xbhAcJKr3X3jz+at+A8fghxK4HavC3bL3vg72wuhYMpWNP4QcgLy3c6SO/j11iYlabM=@googlegroups.com
+X-Gm-Gg: ASbGncuh+ZKLPTUQZUMX35h3uj5+0PsprEfU6nVkUt38YkUvs2mTfeY0kLPxlF4WEYD
+	zTZej4ObZWupXksbCxFBFV082VRM40sebYnitGU9GVW1PdcasweQnqhPUNV9ux+8HxcUqauT492
+	VAVwnQYGVbHwuUTqFl+0F5kxOqYNV4eVxPVDR44mI=
+X-Received: by 2002:a05:6122:6142:b0:518:865e:d177 with SMTP id
+ 71dfb90a1353d-52589291044mr3030042e0c.9.1742407728320; Wed, 19 Mar 2025
+ 11:08:48 -0700 (PDT)
+MIME-Version: 1.0
 References: <20250319-meticulous-succinct-mule-ddabc5@leitao>
  <CANn89iLRePLUiBe7LKYTUsnVAOs832Hk9oM8Fb_wnJubhAZnYA@mail.gmail.com>
- <20250319-sloppy-active-bonobo-f49d8e@leitao>
- <5e0527e8-c92e-4dfb-8dc7-afe909fb2f98@paulmck-laptop>
+ <20250319-sloppy-active-bonobo-f49d8e@leitao> <5e0527e8-c92e-4dfb-8dc7-afe909fb2f98@paulmck-laptop>
  <CANn89iKdJfkPrY1rHjzUn5nPbU5Z+VAuW5Le2PraeVuHVQ264g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 In-Reply-To: <CANn89iKdJfkPrY1rHjzUn5nPbU5Z+VAuW5Le2PraeVuHVQ264g@mail.gmail.com>
-X-Original-Sender: paulmck@kernel.org
+From: Cong Wang <xiyou.wangcong@gmail.com>
+Date: Wed, 19 Mar 2025 11:08:35 -0700
+X-Gm-Features: AQ5f1Jrq2PDQGCyCHQKcD4stIBbEhDXypryz1JKQj6Skn3GDIZXnBW7_5Um-J80
+Message-ID: <CAM_iQpVe+dscK_6hRnTMc_6QjGiBHX0gtaDiwfxggD7tgccbsg@mail.gmail.com>
+Subject: Re: tc: network egress frozen during qdisc update with debug kernel
+To: Eric Dumazet <edumazet@google.com>
+Cc: paulmck@kernel.org, Breno Leitao <leitao@debian.org>, kuba@kernel.org, 
+	jhs@mojatatu.com, jiri@resnulli.us, kuniyu@amazon.com, rcu@vger.kernel.org, 
+	kasan-dev@googlegroups.com, netdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: xiyou.wangcong@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=LQx3B8rQ;       spf=pass
- (google.com: domain of srs0=en1s=wg=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom="SRS0=eN1s=WG=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: "Paul E. McKenney" <paulmck@kernel.org>
+ header.i=@gmail.com header.s=20230601 header.b=lV3JRGlB;       spf=pass
+ (google.com: domain of xiyou.wangcong@gmail.com designates
+ 2607:f8b0:4864:20::92a as permitted sender) smtp.mailfrom=xiyou.wangcong@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -152,223 +165,188 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Mar 19, 2025 at 04:08:48PM +0100, Eric Dumazet wrote:
+On Wed, Mar 19, 2025 at 8:08=E2=80=AFAM Eric Dumazet <edumazet@google.com> =
+wrote:
+>
+>
+>
 > On Wed, Mar 19, 2025 at 4:04=E2=80=AFPM Paul E. McKenney <paulmck@kernel.=
 org> wrote:
->=20
-> > On Wed, Mar 19, 2025 at 07:56:40AM -0700, Breno Leitao wrote:
-> > > On Wed, Mar 19, 2025 at 03:41:37PM +0100, Eric Dumazet wrote:
-> > > > On Wed, Mar 19, 2025 at 2:09=E2=80=AFPM Breno Leitao <leitao@debian=
-.org>
-> > wrote:
-> > > >
-> > > > > Hello,
-> > > > >
-> > > > > I am experiencing an issue with upstream kernel when compiled wit=
-h
-> > debug
-> > > > > capabilities. They are CONFIG_DEBUG_NET, CONFIG_KASAN, and
-> > > > > CONFIG_LOCKDEP plus a few others. You can find the full
-> > configuration at
-> > > > > ....
-> > > > >
-> > > > > Basically when running a `tc replace`, it takes 13-20 seconds to
-> > finish:
-> > > > >
-> > > > >         # time /usr/sbin/tc qdisc replace dev eth0 root handle
-> > 0x1234: mq
-> > > > >         real    0m13.195s
-> > > > >         user    0m0.001s
-> > > > >         sys     0m2.746s
-> > > > >
-> > > > > While this is running, the machine loses network access completel=
-y.
-> > The
-> > > > > machine's network becomes inaccessible for 13 seconds above, whic=
-h
-> > is far
-> > > > > from
-> > > > > ideal.
-> > > > >
-> > > > > Upon investigation, I found that the host is getting stuck in the
-> > following
-> > > > > call path:
-> > > > >
-> > > > >         __qdisc_destroy
-> > > > >         mq_attach
-> > > > >         qdisc_graft
-> > > > >         tc_modify_qdisc
-> > > > >         rtnetlink_rcv_msg
-> > > > >         netlink_rcv_skb
-> > > > >         netlink_unicast
-> > > > >         netlink_sendmsg
-> > > > >
-> > > > > The big offender here is rtnetlink_rcv_msg(), which is called wit=
-h
-> > > > > rtnl_lock
-> > > > > in the follow path:
-> > > > >
-> > > > >         static int tc_modify_qdisc() {
-> > > > >                 ...
-> > > > >                 netdev_lock_ops(dev);
-> > > > >                 err =3D __tc_modify_qdisc(skb, n, extack, dev, tc=
-a,
-> > tcm,
-> > > > > &replay);
-> > > > >                 netdev_unlock_ops(dev);
-> > > > >                 ...
-> > > > >         }
-> > > > >
-> > > > > So, the rtnl_lock is held for 13 seconds in the case above. I als=
-o
-> > > > > traced that __qdisc_destroy() is called once per NIC queue, total=
-ling
-> > > > > a total of 250 calls for the cards I am using.
-> > > > >
-> > > > > Ftrace output:
-> > > > >
-> > > > >         # perf ftrace --graph-opts depth=3D100,tail,noirqs -G
-> > > > > rtnetlink_rcv_msg   /usr/sbin/tc qdisc replace dev eth0 root hand=
-le
-> > 0x1: mq
-> > > > > | grep \\$
-> > > > >         7) $ 4335849 us  |        } /* mq_init */
-> > > > >         7) $ 4339715 us  |      } /* qdisc_create */
-> > > > >         11) $ 15844438 us |        } /* mq_attach */
-> > > > >         11) $ 16129620 us |      } /* qdisc_graft */
-> > > > >         11) $ 20469368 us |    } /* tc_modify_qdisc */
-> > > > >         11) $ 20470448 us |  } /* rtnetlink_rcv_msg */
-> > > > >
-> > > > >         In this case, the rtnetlink_rcv_msg() took 20 seconds, an=
-d,
-> > while
-> > > > > it
-> > > > >         was running, the NIC was not being able to send any packe=
-t
-> > > > >
-> > > > > Going one step further, this matches what I described above:
-> > > > >
-> > > > >         # perf ftrace --graph-opts depth=3D100,tail,noirqs -G
-> > > > > rtnetlink_rcv_msg   /usr/sbin/tc qdisc replace dev eth0 root hand=
-le
-> > 0x1: mq
-> > > > > | grep "\\@\|\\$"
-> > > > >
-> > > > >         7) $ 4335849 us  |        } /* mq_init */
-> > > > >         7) $ 4339715 us  |      } /* qdisc_create */
-> > > > >         14) @ 210619.0 us |                      } /* schedule */
-> > > > >         14) @ 210621.3 us |                    } /* schedule_time=
-out
-> > */
-> > > > >         14) @ 210654.0 us |                  } /*
-> > > > > wait_for_completion_state */
-> > > > >         14) @ 210716.7 us |                } /* __wait_rcu_gp */
-> > > > >         14) @ 210719.4 us |              } /* synchronize_rcu_nor=
-mal
-> > */
-> > > > >         14) @ 210742.5 us |            } /* synchronize_rcu */
-> > > > >         14) @ 144455.7 us |            } /* __qdisc_destroy */
-> > > > >         14) @ 144458.6 us |          } /* qdisc_put */
-> > > > >         <snip>
-> > > > >         2) @ 131083.6 us |                        } /* schedule *=
-/
-> > > > >         2) @ 131086.5 us |                      } /*
-> > schedule_timeout */
-> > > > >         2) @ 131129.6 us |                    } /*
-> > > > > wait_for_completion_state */
-> > > > >         2) @ 131227.6 us |                  } /* __wait_rcu_gp */
-> > > > >         2) @ 131231.0 us |                } /*
-> > synchronize_rcu_normal */
-> > > > >         2) @ 131242.6 us |              } /* synchronize_rcu */
-> > > > >         2) @ 152162.7 us |            } /* __qdisc_destroy */
-> > > > >         2) @ 152165.7 us |          } /* qdisc_put */
-> > > > >         11) $ 15844438 us |        } /* mq_attach */
-> > > > >         11) $ 16129620 us |      } /* qdisc_graft */
-> > > > >         11) $ 20469368 us |    } /* tc_modify_qdisc */
-> > > > >         11) $ 20470448 us |  } /* rtnetlink_rcv_msg */
-> > > > >
-> > > > > From the stack trace, it appears that most of the time is spent
-> > waiting
-> > > > > for the
-> > > > > RCU grace period to free the qdisc (!?):
-> > > > >
-> > > > >         static void __qdisc_destroy(struct Qdisc *qdisc)
-> > > > >         {
-> > > > >                 if (ops->destroy)
-> > > > >                         ops->destroy(qdisc);
-> > > > >
-> > > > >                 call_rcu(&qdisc->rcu, qdisc_free_cb);
-> > > > >
-> > > >
-> > > > call_rcu() is asynchronous, this is very different from
-> > synchronize_rcu().
-> > >
-> > > That is a good point. The offender is synchronize_rcu() is here.
-> >
-> > Should that be synchronize_net()?
-> >
->=20
+>>
+>> On Wed, Mar 19, 2025 at 07:56:40AM -0700, Breno Leitao wrote:
+>> > On Wed, Mar 19, 2025 at 03:41:37PM +0100, Eric Dumazet wrote:
+>> > > On Wed, Mar 19, 2025 at 2:09=E2=80=AFPM Breno Leitao <leitao@debian.=
+org> wrote:
+>> > >
+>> > > > Hello,
+>> > > >
+>> > > > I am experiencing an issue with upstream kernel when compiled with=
+ debug
+>> > > > capabilities. They are CONFIG_DEBUG_NET, CONFIG_KASAN, and
+>> > > > CONFIG_LOCKDEP plus a few others. You can find the full configurat=
+ion at
+>> > > > ....
+>> > > >
+>> > > > Basically when running a `tc replace`, it takes 13-20 seconds to f=
+inish:
+>> > > >
+>> > > >         # time /usr/sbin/tc qdisc replace dev eth0 root handle 0x1=
+234: mq
+>> > > >         real    0m13.195s
+>> > > >         user    0m0.001s
+>> > > >         sys     0m2.746s
+>> > > >
+>> > > > While this is running, the machine loses network access completely=
+. The
+>> > > > machine's network becomes inaccessible for 13 seconds above, which=
+ is far
+>> > > > from
+>> > > > ideal.
+>> > > >
+>> > > > Upon investigation, I found that the host is getting stuck in the =
+following
+>> > > > call path:
+>> > > >
+>> > > >         __qdisc_destroy
+>> > > >         mq_attach
+>> > > >         qdisc_graft
+>> > > >         tc_modify_qdisc
+>> > > >         rtnetlink_rcv_msg
+>> > > >         netlink_rcv_skb
+>> > > >         netlink_unicast
+>> > > >         netlink_sendmsg
+>> > > >
+>> > > > The big offender here is rtnetlink_rcv_msg(), which is called with
+>> > > > rtnl_lock
+>> > > > in the follow path:
+>> > > >
+>> > > >         static int tc_modify_qdisc() {
+>> > > >                 ...
+>> > > >                 netdev_lock_ops(dev);
+>> > > >                 err =3D __tc_modify_qdisc(skb, n, extack, dev, tca=
+, tcm,
+>> > > > &replay);
+>> > > >                 netdev_unlock_ops(dev);
+>> > > >                 ...
+>> > > >         }
+>> > > >
+>> > > > So, the rtnl_lock is held for 13 seconds in the case above. I also
+>> > > > traced that __qdisc_destroy() is called once per NIC queue, totall=
+ing
+>> > > > a total of 250 calls for the cards I am using.
+>> > > >
+>> > > > Ftrace output:
+>> > > >
+>> > > >         # perf ftrace --graph-opts depth=3D100,tail,noirqs -G
+>> > > > rtnetlink_rcv_msg   /usr/sbin/tc qdisc replace dev eth0 root handl=
+e 0x1: mq
+>> > > > | grep \\$
+>> > > >         7) $ 4335849 us  |        } /* mq_init */
+>> > > >         7) $ 4339715 us  |      } /* qdisc_create */
+>> > > >         11) $ 15844438 us |        } /* mq_attach */
+>> > > >         11) $ 16129620 us |      } /* qdisc_graft */
+>> > > >         11) $ 20469368 us |    } /* tc_modify_qdisc */
+>> > > >         11) $ 20470448 us |  } /* rtnetlink_rcv_msg */
+>> > > >
+>> > > >         In this case, the rtnetlink_rcv_msg() took 20 seconds, and=
+, while
+>> > > > it
+>> > > >         was running, the NIC was not being able to send any packet
+>> > > >
+>> > > > Going one step further, this matches what I described above:
+>> > > >
+>> > > >         # perf ftrace --graph-opts depth=3D100,tail,noirqs -G
+>> > > > rtnetlink_rcv_msg   /usr/sbin/tc qdisc replace dev eth0 root handl=
+e 0x1: mq
+>> > > > | grep "\\@\|\\$"
+>> > > >
+>> > > >         7) $ 4335849 us  |        } /* mq_init */
+>> > > >         7) $ 4339715 us  |      } /* qdisc_create */
+>> > > >         14) @ 210619.0 us |                      } /* schedule */
+>> > > >         14) @ 210621.3 us |                    } /* schedule_timeo=
+ut */
+>> > > >         14) @ 210654.0 us |                  } /*
+>> > > > wait_for_completion_state */
+>> > > >         14) @ 210716.7 us |                } /* __wait_rcu_gp */
+>> > > >         14) @ 210719.4 us |              } /* synchronize_rcu_norm=
+al */
+>> > > >         14) @ 210742.5 us |            } /* synchronize_rcu */
+>> > > >         14) @ 144455.7 us |            } /* __qdisc_destroy */
+>> > > >         14) @ 144458.6 us |          } /* qdisc_put */
+>> > > >         <snip>
+>> > > >         2) @ 131083.6 us |                        } /* schedule */
+>> > > >         2) @ 131086.5 us |                      } /* schedule_time=
+out */
+>> > > >         2) @ 131129.6 us |                    } /*
+>> > > > wait_for_completion_state */
+>> > > >         2) @ 131227.6 us |                  } /* __wait_rcu_gp */
+>> > > >         2) @ 131231.0 us |                } /* synchronize_rcu_nor=
+mal */
+>> > > >         2) @ 131242.6 us |              } /* synchronize_rcu */
+>> > > >         2) @ 152162.7 us |            } /* __qdisc_destroy */
+>> > > >         2) @ 152165.7 us |          } /* qdisc_put */
+>> > > >         11) $ 15844438 us |        } /* mq_attach */
+>> > > >         11) $ 16129620 us |      } /* qdisc_graft */
+>> > > >         11) $ 20469368 us |    } /* tc_modify_qdisc */
+>> > > >         11) $ 20470448 us |  } /* rtnetlink_rcv_msg */
+>> > > >
+>> > > > From the stack trace, it appears that most of the time is spent wa=
+iting
+>> > > > for the
+>> > > > RCU grace period to free the qdisc (!?):
+>> > > >
+>> > > >         static void __qdisc_destroy(struct Qdisc *qdisc)
+>> > > >         {
+>> > > >                 if (ops->destroy)
+>> > > >                         ops->destroy(qdisc);
+>> > > >
+>> > > >                 call_rcu(&qdisc->rcu, qdisc_free_cb);
+>> > > >
+>> > >
+>> > > call_rcu() is asynchronous, this is very different from synchronize_=
+rcu().
+>> >
+>> > That is a good point. The offender is synchronize_rcu() is here.
+>>
+>> Should that be synchronize_net()?
+>
+>
 > I think we should redesign lockdep_unregister_key() to work on a separate=
-ly
-> allocated piece of memory,
+ly allocated piece of memory,
 > then use kfree_rcu() in it.
->=20
+>
 > Ie not embed a "struct lock_class_key" in the struct Qdisc, but a pointer=
  to
->=20
-> struct ... {
->      struct lock_class_key;
->      struct rcu_head  rcu;
-> }
 
-Works for me!
+Lockdep requires the key object must be static:
 
-                                                        Thanx, Paul
+ 822 /*
+ 823  * Is this the address of a static object:
+ 824  */
+ 825 #ifdef __KERNEL__
+ 826 static int static_obj(const void *obj)
+ 827 {
+ 828         unsigned long addr =3D (unsigned long) obj;
+ 829
+ 830         if (is_kernel_core_data(addr))
+ 831                 return 1;
+ 832
+ 833         /*
+ 834          * keys are allowed in the __ro_after_init section.
+ 835          */
+ 836         if (is_kernel_rodata(addr))
+ 837                 return 1;
+ 838
 
-> > > > >         }
-> > > > >
-> > > > > So, from my newbie PoV, the issue can be summarized as follows:
-> > > > >
-> > > > >         netdev_lock_ops(dev);
-> > > > >         __tc_modify_qdisc()
-> > > > >           qdisc_graft()
-> > > > >             for (i =3D 0; i <  255; i++)
-> > > > >               qdisc_put()
-> > > > >                 ____qdisc_destroy()
-> > > > >                   call_rcu()
-> > > > >               }
-> > > > >
-> > > > > Questions:
-> > > > >
-> > > > > 1) I assume the egress traffic is blocked because we are modifyin=
-g
-> > the
-> > > > >    qdisc, which makes sense. How is this achieved? Is it related =
-to
-> > > > >    rtnl_lock?
-> > > > >
-> > > > > 2) Would it be beneficial to attempt qdisc_put() outside of the
-> > critical
-> > > > >    section (rtnl_lock?) to prevent this freeze?
-> > > > >
-> > > > >
-> > > >
-> > > > It is unclear to me why you have syncrhonize_rcu() calls.
-> > >
-> > > This is coming from:
-> > >
-> > >       __qdisc_destroy() {
-> > >               lockdep_unregister_key(&qdisc->root_lock_key) {
-> > >                       ...
-> > >                       /* Wait until is_dynamic_key() has finished
-> > accessing k->hash_entry. */
-> > >                       synchronize_rcu();
-> >
+I am afraid the best suggestion here would be just disabling LOCKDEP,
+which is known for big overhead.
+
+Thanks.
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/0=
-e9dbde7-07eb-45f1-a39c-6cf76f9c252f%40paulmck-laptop.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
+AM_iQpVe%2BdscK_6hRnTMc_6QjGiBHX0gtaDiwfxggD7tgccbsg%40mail.gmail.com.
