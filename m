@@ -1,142 +1,144 @@
-Return-Path: <kasan-dev+bncBDTMJ55N44FBBDMS5S7AMGQESPLFGCA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDTMJ55N44FBBPEU5S7AMGQENE4GHAQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33b.google.com (mail-wm1-x33b.google.com [IPv6:2a00:1450:4864:20::33b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA43A6979E
-	for <lists+kasan-dev@lfdr.de>; Wed, 19 Mar 2025 19:12:31 +0100 (CET)
-Received: by mail-wm1-x33b.google.com with SMTP id 5b1f17b1804b1-43d00017e9dsf29646655e9.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 Mar 2025 11:12:31 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1742407951; cv=pass;
+Received: from mail-wr1-x43e.google.com (mail-wr1-x43e.google.com [IPv6:2a00:1450:4864:20::43e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E046A697D9
+	for <lists+kasan-dev@lfdr.de>; Wed, 19 Mar 2025 19:17:34 +0100 (CET)
+Received: by mail-wr1-x43e.google.com with SMTP id ffacd0b85a97d-39131851046sf3301887f8f.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 19 Mar 2025 11:17:34 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1742408253; cv=pass;
         d=google.com; s=arc-20240605;
-        b=e0Q5XzjGyZ9VAsYeVkV5pN1SyZSZcBpkOT8gJm2WvEhdkRjHFG47M/Zpt8K/jVeHI0
-         CkxjuzX24Diyt0deocy+rl9/Zk1aazSHSQiVypPlrtJSkqwPPZ/13dr1YDt1RfpyIkFT
-         anfmkmIYgyK7XPRIV7kameA6ViLOdsUowwq0SdHsV/dw6ndKltDG1IJINOJbAxxzZ2XM
-         NG3KuVyiW4CpXjFyJ+X/hPxv1DNJFxHyqDo5Rxc1cQTFYeGvRs7gzQSs6o7nlU8jOC2T
-         mav3cVMYejBQEZLHdbNCIRMbj2+jYz3iUynYzSX9dpe+neZIng+HfVNPA2iasemnLCAQ
-         e47A==
+        b=fW/ZNuOx/Vr2oA01d2nfr0TqUtvHxOrLseWrsxuSgNugRhxrWamxfQRF1Q7DJ8otmw
+         t0hBS1C46ddBIXngfVTdtCi9ENtuDYUS4BzmvAOU8tk4kbsKFTtHK5NPMM+qzrpIcKZl
+         +t//33zAoyNMEt2kdM1afX/zluk6KT1Gx9JgEyXFe5r4J7XQRwFGH04nVvTzvKjca99+
+         /OQhlYv2FfTQEOKB9/BaSIOxEzpkY0ucwYUR36iC9MxNyTGkkn9zqYLhJ6bl/9/3nSxS
+         //dPYvpXn1lHZ+ZxISySxyR8RbiIX7vUleQjrwEJvlg5XvXmCzfutB4GZGd0vYiTeQPm
+         xQOQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=Ak1rY+qT0qaAYdFNslnZuGQrLKo/vsg5JRyoZd4IB+U=;
-        fh=dLoDEtrpqKiCpOrOUsnQlKWHm8v+O8xiRhYTOgmGCj0=;
-        b=TyzKwB9rQBa/GKwRMmsFfe3ZFhbCdI53OMc0lSc323XYGaOQZnCdGGaLnuAgQfP9Z5
-         fqTQA865GecGUhu8J/wc8L2Amc2MGIRr5oYfrtFtKyMGH7fxYOOl6TJezf65DkEpsVDM
-         a5YJj8aIefJK9fPrZlhvb7ys2MGtFARXgFQvNopa45fofp4Vs2aSV11TKBc8jgUZupo7
-         ANiX/Q7uD1ii2mnBwjDXBefW7wmCloj5QTIwejQpDxK6mcoCEKdrXJWK7ayai1HVV5a9
-         FVj3KnyIdhS8uCvqlf/4Kj4QZoOrsv0e1w+xkrNSFCDSAvkwr3UfDyWNf9BXjPSWA0lP
-         aOEQ==;
+         :list-id:mailing-list:precedence:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=va8+VtBtyGyzdLp7R+cIOL67bluem0LBinnnjmNMYRw=;
+        fh=6M6lJOuewRlmbAOF6Wr/nUmMpeDJCdHdvJ++Q4LPegQ=;
+        b=ZThRQPlNu0oeJiyg3lv2XC+LWTx1u/VYPg9j06FW+hJXQWu7tH/djQe+a/3TbQZxXM
+         m2+3/oaAXNTHhNpFJ6kGMxb6BJP92+ZDUMJJU7ABIhwfCoIGJ9Vh+4kcnQs0S6xTfGBs
+         kBl98OPId1JfMQzVPXDU/FkJ3vM7GZ5Yf+oHVZM26Yb4/C8hUcuNXXb01IxOSf/BC9g3
+         RY3xIGk5lwTTYY1LZg1/MSYAcehjIKSbFXySCghx1MXAOWCrhpvin1Jy5oBXDbhDPapH
+         TRE66lRjEcU8Ir1Q013Q4ThoGHnFI9Lj4fGShZQGS9H+CHjcEWjeR2YbXdPbAQwJiT+J
+         HFHw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of breno.debian@gmail.com designates 209.85.208.50 as permitted sender) smtp.mailfrom=breno.debian@gmail.com
+       spf=pass (google.com: domain of breno.debian@gmail.com designates 209.85.218.41 as permitted sender) smtp.mailfrom=breno.debian@gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1742407951; x=1743012751; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1742408253; x=1743013053; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ak1rY+qT0qaAYdFNslnZuGQrLKo/vsg5JRyoZd4IB+U=;
-        b=muS8IVrqXiQ+HNcqJLyW/xY3glCLmhc1iFRPFqGjv0Kng9moK3kFRPIZkJnGkPqzQC
-         N1tXe/B6LMnV1Osa/+9r+SE8Mh3IR7zB7AGnDXafobP4cLZW11ssyalekVFaF9JVZhom
-         RKHgLy6g/7uWCnaM3p1u1qYxXkZHwjyHSslOcqlW9iy1eRDdYSjyQSk7Vc7xCgqZZbPS
-         UQt15pEwvkYcq3qqemeDrBJZq0pOk9gwQd0JV2e9iPS/vwoiBMTRvlIOAPqzxdHMEj23
-         x/CmDtxrIhpXbSqj9EtYU3MZA5maX/wFB0YqELibaw/3xqs3+k2HgjRd75yLZdOievEF
-         7vTA==
+         :x-original-sender:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=va8+VtBtyGyzdLp7R+cIOL67bluem0LBinnnjmNMYRw=;
+        b=CNYKVaYmmkfeAXIXSnBR8I0m0mimyGYf6sLVQt7mgWrqsgNIzggofbo9r6llSSrkKR
+         0cT8vu+t7bXeuUVk6MnX1R1xSHII54XqfyiW4wA02wOux+J6tc4o8Al94TnbvpNp+R/T
+         UBsAaP8G2vIRo8CjTDXAM4GyDJtTlC4M/MlTeSFQhOi1SZr5sb/ZnmfFl5LSbylDKNc4
+         HDUOo2wopSJqM1ZKIV7u3qaTjXV77JLCvJdCkTntjO3wIerb/9C4+1zFkmIlr0Wq5/gq
+         oglicfcayTam/8A9uR7qFBnH4VYYeBsTm6K6dfchxxAN19fhr1QilRcctViv/mSEqX4C
+         HOEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742407951; x=1743012751;
+        d=1e100.net; s=20230601; t=1742408253; x=1743013053;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ak1rY+qT0qaAYdFNslnZuGQrLKo/vsg5JRyoZd4IB+U=;
-        b=QlOdlAItHUmgw5xGQVXp2n7Khy+xdVgf+f+C37+L3472tiGfl8om6c6mpYAkZK4aBG
-         eIec1PC9eNf4DaOdvbtqIKuG9F5TjcroTtiSSi0SupyxI2LlFeCvJ+tLwa1Alx8nCjZW
-         zTw+SLng0FFT7tZqBmf1Qx1q0EaGJE5e7E22hFSI6691jR0zMUZeBVHP4sdy43iecnEZ
-         N5w1hND50iw7CbFt2cvHiQbpESkLwuPJeoUw54gSvUvoVBs0S8loP2w0eSfXxL9QL4HK
-         V13k1WLo8dizGglYShwy11CkRKrNCoVzg/SR7qz+X/US3DvEZp/XJsxlPxdscChHWsi8
-         z2yA==
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:x-beenthere
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=va8+VtBtyGyzdLp7R+cIOL67bluem0LBinnnjmNMYRw=;
+        b=Y7Ycp5xMUE4yv1Cz4qgMO6jom17yv5EgcVVMGp6qkNBcyk5qT5PyrdETvXmyWU/YfM
+         yKpUs+wso86s4c5rklFjOKLgSYDSQFIRQq3Jj4mKQruX1/+wA/61jbzDcGTC7H6eensj
+         cJHmXivIIuIgItntEx3HU+8bveP1Tu/I/JUKDBJAgAd7vxeaPqwopxTlGYCyVJtW1fci
+         NWX6G7S7ExQTvASRd4hPUxT5Iv1nBSRMbbYe+JXqmkD6OG81dL0EEkxolB1KT0B4DsAp
+         DHgmlZbYqjIzFnXNQ8XNft1Oml97O8qjQg4gq8lm6AoDGniBxSO+8vBhP/rlG9pDK44E
+         4WrQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXOi8Ce4F4pQ9sdqAvFhD4zDFn+xpfIx8uRM20PBJERCWotg90IBEMSwqwU6qXi5b13hquLsw==@lfdr.de
-X-Gm-Message-State: AOJu0YwSOfduHAcJlMueIe1xSlAUFfbd0fO0UI9gBYsFnTNtHnuqIYPD
-	IyVRyWcNucueiPdPP6lQk2QUuTOUZ5G3rTtrfgZt2dwZzak1InnB
-X-Google-Smtp-Source: AGHT+IE5R1scjHppQRL5AQVbM+oVJVv1SlCcyk07alFn+1hcr7IGgpMEYulCnSobavY6DUArywIseg==
-X-Received: by 2002:a05:6000:1867:b0:391:39ea:7866 with SMTP id ffacd0b85a97d-399739c814fmr3981235f8f.19.1742407950297;
-        Wed, 19 Mar 2025 11:12:30 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPAIXdbzPq1a5LWYw4aMiRC43pG4Ydst2i9vOLSeG/EdrDQ==
-Received: by 2002:adf:e701:0:b0:38d:c1e5:15ce with SMTP id ffacd0b85a97d-39979705968ls42941f8f.2.-pod-prod-03-eu;
- Wed, 19 Mar 2025 11:12:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUnmRZI1za9AbmT1BpGk7abi87jbbsKWaq86NIWJZg6fwbdyvJFTdhN+l/R5lRcsFwo6iTMT/YCrHQ=@googlegroups.com
-X-Received: by 2002:a05:600c:b9b:b0:43c:e70d:4504 with SMTP id 5b1f17b1804b1-43d43842251mr31705975e9.19.1742407947667;
-        Wed, 19 Mar 2025 11:12:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1742407947; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCW5p9cNE9ER431bs7Ae5I6F2CZdE2ro42OhBtPOxLRN55qmsdkEQN8ULKpBe8aRSpW53PxSnA==@lfdr.de
+X-Gm-Message-State: AOJu0Yzkz2gE3UrtPPh65k5DDA3d17xtC9QwDjqv/em2pVFW7kWNZqL/
+	EUnWZDfj9oL3jUnuhL8dSLWLvICHW0+S2rLqESrXEEWjWi1Y18xy
+X-Google-Smtp-Source: AGHT+IGc1HjvUmUPBMOfxvV4+dF2LGszxmew8bbY4t9Tw9vp8ydX7kgvnf0Z0Eo9zzCnt75oTgVcdw==
+X-Received: by 2002:a05:6000:1868:b0:391:3207:2e6f with SMTP id ffacd0b85a97d-399795ddfb1mr412264f8f.42.1742408252864;
+        Wed, 19 Mar 2025 11:17:32 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPALIBshOeeDWpKUP+K4X69zQSeHMbio+xjBk0knjmPRpSw==
+Received: by 2002:a05:6000:1375:b0:38e:dccf:edc2 with SMTP id
+ ffacd0b85a97d-399796f8f88ls26787f8f.1.-pod-prod-08-eu; Wed, 19 Mar 2025
+ 11:17:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVvsD6CcwbjBSxuPFMRxfA48+sT79oK5tmTRNWuqc6ONs1dipA239qsZkjy//2WKzeeAXaSvBdgwcU=@googlegroups.com
+X-Received: by 2002:a5d:648e:0:b0:391:3cb7:d441 with SMTP id ffacd0b85a97d-399795add2dmr472756f8f.25.1742408250207;
+        Wed, 19 Mar 2025 11:17:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1742408250; cv=none;
         d=google.com; s=arc-20240605;
-        b=eGV+ad5UYb/hsLn3Xhzsz49CRx3htLPr7qJRpt0gi3VuDQ2x+bWpHSL0+T9s1f9C05
-         UOaf6QWYPx/FWu3zautFhHlw7z2Td5aV3fddZZz4k9F+PvtXvI3+TpCVCXQAbcFRQDZm
-         S9hUaCbp4AiSS9wBOi1HoFAVF4alvuMDrYuWpZ4ZONDJTkrEC/umxwde3Q4y7JVtZbBb
-         t5mOQ+cNV9KuuzWcDFqBAhEpBc7eV0VY0ukFlNCh9dh4+nNk5HSfVmUsZyYvxphxOfUY
-         E8IwnSHaTqDvH44hr99HQkEw4OszoA5f0Z7yuT6L1wCzyJPCs1gVogndqHDbYqv2AAvZ
-         9S5A==
+        b=XlWzG7T7W9jn5LIMZ8iIkPq80UVh8YrgW6z4wlbt0MbjWWrwe4kyScQaN2aBkMFoTG
+         u+0vxrcLkjOS/QRotNsJlLdb6Pk5POKD1d0nG59xS9LmGcVWPbYbvaxJNxnX8AD4oxVb
+         RW3Cs0Gu690CEmnR6LZnefFg5vbSn8XM+tFdSSrVOz4+mECNDnH7oCeTh/2jO+vvTKTj
+         eTvCLSj1fWJK6DepJO9hwf2xGduXuUeA1kBYQKjMs26ax7wrop1T9HdJOwmWhih7tpTT
+         Yk2nliEAXS4v29z5h/L1X/qB7vuXega+kYlSR6BIhol8bixaY+lzvYTaPTH0vWp4Xo6u
+         OzXA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date;
-        bh=7Up1xjea84mFFtC/QFUl+9GqZdL4YQBVY41iIzJ7s9w=;
-        fh=Hq1HVmeyGgV6iJafh9PgRVYtywp/dx/AdZmqP3NiLVU=;
-        b=Sy+qaCq60wfuAFr6zItLI7ZFoUXNBpvRao1jCFMj0GiBP8F6vSfIONsmRxO69auiJl
-         l9iAaofsHmYbMfMUcwKT7nwqJ+A2qt8+QR/B0zrSpEXKzII7P0volbbwO2AUsbcNo/OY
-         4/JX3RQMibLflmWkv4xBeGkSCO44ug2/4gBNnY2PKrs7DM3xUxe7YBzSPIFcatWsdy92
-         KpxoKlNOpDP2Da6LDdMP3bEuXXoqSTpTl/eIXWDXbMLfqdsgYJjqf7eLguTmGxIXwItB
-         /hBxiBnpnxelY0TIEcxMJf0KNAli5KhnvFQyMk0m/vucwjEMdICz0xayl34E++5aXsNN
-         6NKg==;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date;
+        bh=uyJYXrZsBVxM/ij0Ri4D7QMFPZ+bXjRXOQyWF1uJXYU=;
+        fh=iHJo+n81R7rTcHFJM4CjER00K0QN6Y0ivz+76vibryM=;
+        b=JPneifLniF/RI4KsFTg1eKktljWjKk/QC0ZSXc532j8qUEvEaaqBo4H2kfHJlnOiT0
+         G2z/LQqvQl9cXDitrgT/zSEauUKGVdsWNIKO5qva+n9LP3d9b3URvdYbfbM/Q6d/qR+w
+         3Vi3fNC09KPm7hN3uWqqvOxyYvGMs/ozrRzlPEcRBBBkI3zrzysPWs4Dq+tQzshoDsrb
+         oxtzoWrUHNTqK0Z/uJm4VS3lfz6QfeM6jvzIMMiMryjeCbFEQeQpS/+O31SDrH9r1OOs
+         TEx15UF9eadbClO+stPrEIv19128e+ltFFV8NKg6yR4RWwRKHZ8uX6NyNkM3qgrve6Xm
+         SHfA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of breno.debian@gmail.com designates 209.85.208.50 as permitted sender) smtp.mailfrom=breno.debian@gmail.com
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com. [209.85.208.50])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-43d43d80b5esi397715e9.0.2025.03.19.11.12.27
+       spf=pass (google.com: domain of breno.debian@gmail.com designates 209.85.218.41 as permitted sender) smtp.mailfrom=breno.debian@gmail.com
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com. [209.85.218.41])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-43d43f440c8si543155e9.2.2025.03.19.11.17.30
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Mar 2025 11:12:27 -0700 (PDT)
-Received-SPF: pass (google.com: domain of breno.debian@gmail.com designates 209.85.208.50 as permitted sender) client-ip=209.85.208.50;
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5e5cd420781so13455761a12.2
-        for <kasan-dev@googlegroups.com>; Wed, 19 Mar 2025 11:12:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUn91HADcqZMahQiMqUCvk6UmPVTpLA7iQhWTDizOc1fA7DSO1JkUZxnjuvmHR4rAfJgyp//5QgRX4=@googlegroups.com
-X-Gm-Gg: ASbGncu+UvAcCMacUpMW5SUTbF/hh3u8XJtaKeaY5hxTaxzKahRU8BC7M3WrI5VK+tQ
-	t3S0j804CY2NRzboJcWi+WKsaqdMuhs7GHnlNqw/OcqeO+9Rw1PpUWd47Apgb8bNQ6Zs2c+raj0
-	CKLfkgplRDUxUr4SZgh+GpELR81jAXWP2g48tDbzoEva7+d18yST/dW+hLynQh6mRmx2i38A6Ot
-	jVWZ4jvGOTDDE0scvQ9FXhzft7h8bQ3wINp8cm3yrCDkzr2vXJ+SBGOjZgRzSjNnppqnGwGHY9J
-	LHlc/TAfbxJnR2jYkgRAJLySdez16Y4KzmY=
-X-Received: by 2002:a17:907:9706:b0:ac3:3fe3:bea5 with SMTP id a640c23a62f3a-ac3b7f73116mr326822966b.38.1742407946951;
-        Wed, 19 Mar 2025 11:12:26 -0700 (PDT)
-Received: from gmail.com ([2a03:2880:30ff:4::])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e816968c0csm9466508a12.22.2025.03.19.11.12.25
+        Wed, 19 Mar 2025 11:17:30 -0700 (PDT)
+Received-SPF: pass (google.com: domain of breno.debian@gmail.com designates 209.85.218.41 as permitted sender) client-ip=209.85.218.41;
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ac2ab99e16eso476954366b.0
+        for <kasan-dev@googlegroups.com>; Wed, 19 Mar 2025 11:17:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVFAPlXdo1Cz6vmKvWP11unjjykEE1pGtiYEdbL56C2zqexW2AOi4By/IvR49b1peVSJDJSMxLyJjA=@googlegroups.com
+X-Gm-Gg: ASbGncvKOh08pYjZcd2LJqJIcLWzBP5ULNq+3TQFABgNA85JRCv7M4s49tUsfZWKHz3
+	t51Lu9WbweD2/McxXwEv18cicTOkhVVc/6d8SzediWgj3y83Xcrz7WfRMXKVieN2yMiW/iGN8jR
+	/AxgP5FN6VpYiZvOJLE2ORIjRJFNNN4NZydy5DQ9/n9OdMhoGk0M/w8X0lySwfq5+9IOelENvmj
+	Czr7Se9hUfr0eW7+HcRH1NFzivm6cveWvxSk/aFTgkKT16TW8I7PIev2kOOssOj5a2o0rvEhUik
+	5gcU0shrDoFE+RENIvF6EB4IHOo1AidwfK44
+X-Received: by 2002:a17:906:6a0b:b0:ac1:da09:5d32 with SMTP id a640c23a62f3a-ac3cdf791c2mr61644466b.6.1742408249305;
+        Wed, 19 Mar 2025 11:17:29 -0700 (PDT)
+Received: from gmail.com ([2a03:2880:30ff:72::])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3146aea93sm1040362566b.30.2025.03.19.11.17.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 11:12:26 -0700 (PDT)
-Date: Wed, 19 Mar 2025 11:12:24 -0700
+        Wed, 19 Mar 2025 11:17:28 -0700 (PDT)
+Date: Wed, 19 Mar 2025 11:17:26 -0700
 From: Breno Leitao <leitao@debian.org>
-To: "Paul E. McKenney" <paulmck@kernel.org>, longman@redhat.com,
-	bvanassche@acm.org
-Cc: Eric Dumazet <edumazet@google.com>, kuba@kernel.org, jhs@mojatatu.com,
-	xiyou.wangcong@gmail.com, jiri@resnulli.us, kuniyu@amazon.com,
+To: Cong Wang <xiyou.wangcong@gmail.com>
+Cc: Eric Dumazet <edumazet@google.com>, paulmck@kernel.org, kuba@kernel.org,
+	jhs@mojatatu.com, jiri@resnulli.us, kuniyu@amazon.com,
 	rcu@vger.kernel.org, kasan-dev@googlegroups.com,
 	netdev@vger.kernel.org
 Subject: Re: tc: network egress frozen during qdisc update with debug kernel
-Message-ID: <20250319-truthful-whispering-moth-d308b4@leitao>
+Message-ID: <20250319-gifted-mantis-of-persistence-afbb2b@leitao>
 References: <20250319-meticulous-succinct-mule-ddabc5@leitao>
  <CANn89iLRePLUiBe7LKYTUsnVAOs832Hk9oM8Fb_wnJubhAZnYA@mail.gmail.com>
  <20250319-sloppy-active-bonobo-f49d8e@leitao>
  <5e0527e8-c92e-4dfb-8dc7-afe909fb2f98@paulmck-laptop>
  <CANn89iKdJfkPrY1rHjzUn5nPbU5Z+VAuW5Le2PraeVuHVQ264g@mail.gmail.com>
- <0e9dbde7-07eb-45f1-a39c-6cf76f9c252f@paulmck-laptop>
+ <CAM_iQpVe+dscK_6hRnTMc_6QjGiBHX0gtaDiwfxggD7tgccbsg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <0e9dbde7-07eb-45f1-a39c-6cf76f9c252f@paulmck-laptop>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAM_iQpVe+dscK_6hRnTMc_6QjGiBHX0gtaDiwfxggD7tgccbsg@mail.gmail.com>
 X-Original-Sender: leitao@debian.org
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of breno.debian@gmail.com designates 209.85.208.50 as
+ (google.com: domain of breno.debian@gmail.com designates 209.85.218.41 as
  permitted sender) smtp.mailfrom=breno.debian@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -150,75 +152,206 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Mar 19, 2025 at 09:05:07AM -0700, Paul E. McKenney wrote:
-
-> > I think we should redesign lockdep_unregister_key() to work on a separately
-> > allocated piece of memory,
+On Wed, Mar 19, 2025 at 11:08:35AM -0700, Cong Wang wrote:
+> On Wed, Mar 19, 2025 at 8:08=E2=80=AFAM Eric Dumazet <edumazet@google.com=
+> wrote:
+> > On Wed, Mar 19, 2025 at 4:04=E2=80=AFPM Paul E. McKenney <paulmck@kerne=
+l.org> wrote:
+> >>
+> >> On Wed, Mar 19, 2025 at 07:56:40AM -0700, Breno Leitao wrote:
+> >> > On Wed, Mar 19, 2025 at 03:41:37PM +0100, Eric Dumazet wrote:
+> >> > > On Wed, Mar 19, 2025 at 2:09=E2=80=AFPM Breno Leitao <leitao@debia=
+n.org> wrote:
+> >> > >
+> >> > > > Hello,
+> >> > > >
+> >> > > > I am experiencing an issue with upstream kernel when compiled wi=
+th debug
+> >> > > > capabilities. They are CONFIG_DEBUG_NET, CONFIG_KASAN, and
+> >> > > > CONFIG_LOCKDEP plus a few others. You can find the full configur=
+ation at
+> >> > > > ....
+> >> > > >
+> >> > > > Basically when running a `tc replace`, it takes 13-20 seconds to=
+ finish:
+> >> > > >
+> >> > > >         # time /usr/sbin/tc qdisc replace dev eth0 root handle 0=
+x1234: mq
+> >> > > >         real    0m13.195s
+> >> > > >         user    0m0.001s
+> >> > > >         sys     0m2.746s
+> >> > > >
+> >> > > > While this is running, the machine loses network access complete=
+ly. The
+> >> > > > machine's network becomes inaccessible for 13 seconds above, whi=
+ch is far
+> >> > > > from
+> >> > > > ideal.
+> >> > > >
+> >> > > > Upon investigation, I found that the host is getting stuck in th=
+e following
+> >> > > > call path:
+> >> > > >
+> >> > > >         __qdisc_destroy
+> >> > > >         mq_attach
+> >> > > >         qdisc_graft
+> >> > > >         tc_modify_qdisc
+> >> > > >         rtnetlink_rcv_msg
+> >> > > >         netlink_rcv_skb
+> >> > > >         netlink_unicast
+> >> > > >         netlink_sendmsg
+> >> > > >
+> >> > > > The big offender here is rtnetlink_rcv_msg(), which is called wi=
+th
+> >> > > > rtnl_lock
+> >> > > > in the follow path:
+> >> > > >
+> >> > > >         static int tc_modify_qdisc() {
+> >> > > >                 ...
+> >> > > >                 netdev_lock_ops(dev);
+> >> > > >                 err =3D __tc_modify_qdisc(skb, n, extack, dev, t=
+ca, tcm,
+> >> > > > &replay);
+> >> > > >                 netdev_unlock_ops(dev);
+> >> > > >                 ...
+> >> > > >         }
+> >> > > >
+> >> > > > So, the rtnl_lock is held for 13 seconds in the case above. I al=
+so
+> >> > > > traced that __qdisc_destroy() is called once per NIC queue, tota=
+lling
+> >> > > > a total of 250 calls for the cards I am using.
+> >> > > >
+> >> > > > Ftrace output:
+> >> > > >
+> >> > > >         # perf ftrace --graph-opts depth=3D100,tail,noirqs -G
+> >> > > > rtnetlink_rcv_msg   /usr/sbin/tc qdisc replace dev eth0 root han=
+dle 0x1: mq
+> >> > > > | grep \\$
+> >> > > >         7) $ 4335849 us  |        } /* mq_init */
+> >> > > >         7) $ 4339715 us  |      } /* qdisc_create */
+> >> > > >         11) $ 15844438 us |        } /* mq_attach */
+> >> > > >         11) $ 16129620 us |      } /* qdisc_graft */
+> >> > > >         11) $ 20469368 us |    } /* tc_modify_qdisc */
+> >> > > >         11) $ 20470448 us |  } /* rtnetlink_rcv_msg */
+> >> > > >
+> >> > > >         In this case, the rtnetlink_rcv_msg() took 20 seconds, a=
+nd, while
+> >> > > > it
+> >> > > >         was running, the NIC was not being able to send any pack=
+et
+> >> > > >
+> >> > > > Going one step further, this matches what I described above:
+> >> > > >
+> >> > > >         # perf ftrace --graph-opts depth=3D100,tail,noirqs -G
+> >> > > > rtnetlink_rcv_msg   /usr/sbin/tc qdisc replace dev eth0 root han=
+dle 0x1: mq
+> >> > > > | grep "\\@\|\\$"
+> >> > > >
+> >> > > >         7) $ 4335849 us  |        } /* mq_init */
+> >> > > >         7) $ 4339715 us  |      } /* qdisc_create */
+> >> > > >         14) @ 210619.0 us |                      } /* schedule *=
+/
+> >> > > >         14) @ 210621.3 us |                    } /* schedule_tim=
+eout */
+> >> > > >         14) @ 210654.0 us |                  } /*
+> >> > > > wait_for_completion_state */
+> >> > > >         14) @ 210716.7 us |                } /* __wait_rcu_gp */
+> >> > > >         14) @ 210719.4 us |              } /* synchronize_rcu_no=
+rmal */
+> >> > > >         14) @ 210742.5 us |            } /* synchronize_rcu */
+> >> > > >         14) @ 144455.7 us |            } /* __qdisc_destroy */
+> >> > > >         14) @ 144458.6 us |          } /* qdisc_put */
+> >> > > >         <snip>
+> >> > > >         2) @ 131083.6 us |                        } /* schedule =
+*/
+> >> > > >         2) @ 131086.5 us |                      } /* schedule_ti=
+meout */
+> >> > > >         2) @ 131129.6 us |                    } /*
+> >> > > > wait_for_completion_state */
+> >> > > >         2) @ 131227.6 us |                  } /* __wait_rcu_gp *=
+/
+> >> > > >         2) @ 131231.0 us |                } /* synchronize_rcu_n=
+ormal */
+> >> > > >         2) @ 131242.6 us |              } /* synchronize_rcu */
+> >> > > >         2) @ 152162.7 us |            } /* __qdisc_destroy */
+> >> > > >         2) @ 152165.7 us |          } /* qdisc_put */
+> >> > > >         11) $ 15844438 us |        } /* mq_attach */
+> >> > > >         11) $ 16129620 us |      } /* qdisc_graft */
+> >> > > >         11) $ 20469368 us |    } /* tc_modify_qdisc */
+> >> > > >         11) $ 20470448 us |  } /* rtnetlink_rcv_msg */
+> >> > > >
+> >> > > > From the stack trace, it appears that most of the time is spent =
+waiting
+> >> > > > for the
+> >> > > > RCU grace period to free the qdisc (!?):
+> >> > > >
+> >> > > >         static void __qdisc_destroy(struct Qdisc *qdisc)
+> >> > > >         {
+> >> > > >                 if (ops->destroy)
+> >> > > >                         ops->destroy(qdisc);
+> >> > > >
+> >> > > >                 call_rcu(&qdisc->rcu, qdisc_free_cb);
+> >> > > >
+> >> > >
+> >> > > call_rcu() is asynchronous, this is very different from synchroniz=
+e_rcu().
+> >> >
+> >> > That is a good point. The offender is synchronize_rcu() is here.
+> >>
+> >> Should that be synchronize_net()?
+> >
+> >
+> > I think we should redesign lockdep_unregister_key() to work on a separa=
+tely allocated piece of memory,
 > > then use kfree_rcu() in it.
-> > 
-> > Ie not embed a "struct lock_class_key" in the struct Qdisc, but a pointer to
-> > 
-> > struct ... {
-> >      struct lock_class_key;
-> >      struct rcu_head  rcu;
-> > }
-> 
-> Works for me!
+> >
+> > Ie not embed a "struct lock_class_key" in the struct Qdisc, but a point=
+er to
+>=20
+> Lockdep requires the key object must be static:
+>=20
+>  822 /*
+>  823  * Is this the address of a static object:
+>  824  */
+>  825 #ifdef __KERNEL__
+>  826 static int static_obj(const void *obj)
+>  827 {
+>  828         unsigned long addr =3D (unsigned long) obj;
+>  829
+>  830         if (is_kernel_core_data(addr))
+>  831                 return 1;
+>  832
+>  833         /*
+>  834          * keys are allowed in the __ro_after_init section.
+>  835          */
+>  836         if (is_kernel_rodata(addr))
+>  837                 return 1;
+>  838
+>=20
+> I am afraid the best suggestion here would be just disabling LOCKDEP,
+> which is known for big overhead.
 
-I've tested a different approach, using synchronize_rcu_expedited()
-instead of synchronize_rcu(), given how critical this function is
-called, and the command performance improves dramatically.
+This would make lockdep completely useless, I would say. Right now
+I have some systems running a "debug kernel", and they work slow, but
+fine most of the time. This case is the worst, since the machine loses
+network access completely, which triggers a bunch of side effects.
 
-This approach has some IPI penalties, but, it might be quicker to review
-and get merged, mitigating the network issue.
+I would suggest having lockdep usable together with network, if
+possible.
 
-Does it sound a bad approach?
+So, what about having synchronize_rcu_expedited() instead of
+synchronize_rcu()?
 
-Date:   Wed Mar 19 10:23:56 2025 -0700
+	https://lore.kernel.org/all/20250319-truthful-whispering-moth-d308b4@leita=
+o/
 
-    lockdep: Speed up lockdep_unregister_key() with expedited RCU synchronization
-    
-    lockdep_unregister_key() is called from critical code paths, including
-    sections where rtnl_lock() is held. When replacing a qdisc in a network
-    device, network egress traffic is disabled while __qdisc_destroy() is
-    called for every queue. This function calls lockdep_unregister_key(),
-    which was blocked waiting for synchronize_rcu() to complete.
-    
-    For example, a simple tc command to replace a qdisc could take 13
-    seconds:
-    
-      # time /usr/sbin/tc qdisc replace dev eth0 root handle 0x1234: mq
-        real    0m13.195s
-        user    0m0.001s
-        sys     0m2.746s
-    
-    During this time, network egress is completely frozen while waiting for
-    RCU synchronization.
-    
-    Use synchronize_rcu_expedite() instead to minimize the impact on
-    critical operations like network connectivity changes.
-    
-    Signed-off-by: Breno Leitao <leitao@debian.org>
+This make having lockdep penaltiy berable again.
 
-diff --git a/kernel/locking/lockdep.c b/kernel/locking/lockdep.c
-index 4470680f02269..96b87f1853f4f 100644
---- a/kernel/locking/lockdep.c
-+++ b/kernel/locking/lockdep.c
-@@ -6595,8 +6595,10 @@ void lockdep_unregister_key(struct lock_class_key *key)
- 	if (need_callback)
- 		call_rcu(&delayed_free.rcu_head, free_zapped_rcu);
- 
--	/* Wait until is_dynamic_key() has finished accessing k->hash_entry. */
--	synchronize_rcu();
-+	/* Wait until is_dynamic_key() has finished accessing k->hash_entry.
-+	 * This needs to be quick, since it is called in critical sections
-+	 */
-+	synchronize_rcu_expedite();
- }
- EXPORT_SYMBOL_GPL(lockdep_unregister_key);
- 
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250319-truthful-whispering-moth-d308b4%40leitao.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
+0250319-gifted-mantis-of-persistence-afbb2b%40leitao.
