@@ -1,143 +1,72 @@
-Return-Path: <kasan-dev+bncBDZLNOG6TMHBBEHD5S7AMGQEHELSWTQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCO25SXBYEMBB2XO5W7AMGQERDY3MSA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13a.google.com (mail-il1-x13a.google.com [IPv6:2607:f8b0:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79344A69A8D
-	for <lists+kasan-dev@lfdr.de>; Wed, 19 Mar 2025 22:05:22 +0100 (CET)
-Received: by mail-il1-x13a.google.com with SMTP id e9e14a558f8ab-3d43d3338d7sf2582805ab.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 Mar 2025 14:05:22 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1742418321; cv=pass;
-        d=google.com; s=arc-20240605;
-        b=BTaSVK+tZzqv8nj3rb3TkD/02PARePvv0QEMwFIKmQDLx9DWL6dYg8jaItuHcqyvFT
-         i55KyyBKL5l7JPv5TgKCul7rY8ahmnSImTTywWpD6RUg7FcUmdFV6t1jpO3z4/7YsVcU
-         n35UAmSP40QRRvM1RvAmQ9W0ex+eA7FycitjOkgziZ0AWSfiCAeJio2HK2VKp2MdJHcP
-         mkxrPb3U6nIAK1+YhJGa3FZwv+oreyPTAK78vsPcyAkzKwh+bm+EyfTCgTno/USwk6G0
-         j4m8EE9cz+4TX8rW/Uu60rRB64N6fmYwJO/xOz9AS50vMhqDZnxdjOQAldEHOjAf8eAC
-         pmWQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature;
-        bh=Zq5xTeiiuVHfiSZ2LoFE1KlbZ+QSvubpVfwOarevTgk=;
-        fh=hIVvaxAPW/d6C7aj8nTCxIU9CPpNCCCXuvy/KGF7HEo=;
-        b=hA26A+Z7X8SxTkkum1oV00o3PGyMsHqBM5YIc8RbC1+IrV6OZZQ8f3YDBBY7ZMPVTx
-         Q85ESL9h4m1qk8ir39DW1S6jK0/SClEaVLIXjpSJg5eMeDt79cJNI8ikCrMFAxAt+yJp
-         vcJOn8Yi/nRJNrbWi+N6VJHQXlVCR5WWRlbeR328Jbh4qzLzvh5AZQUnRfZofa3HP0BK
-         mTUBkDzuI6xb14tyRylTJ+GynXG5LzXTGMhk22pvnYUBdlSXAauaZO4kmZXAyrFESDg+
-         TzpNvDgwHtMMhyuVzzvFo/7r7ldj4uxxV27Z7tKQI2uZnYINqF/gcH+c/9OOeeXsIrYc
-         h4/w==;
-        darn=lfdr.de
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@mojatatu-com.20230601.gappssmtp.com header.s=20230601 header.b=bOZ3YkdS;
-       spf=none (google.com: jhs@mojatatu.com does not designate permitted sender hosts) smtp.mailfrom=jhs@mojatatu.com;
-       dara=pass header.i=@googlegroups.com
+Received: from mail-oo1-xc3c.google.com (mail-oo1-xc3c.google.com [IPv6:2607:f8b0:4864:20::c3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A467A69E06
+	for <lists+kasan-dev@lfdr.de>; Thu, 20 Mar 2025 03:03:32 +0100 (CET)
+Received: by mail-oo1-xc3c.google.com with SMTP id 006d021491bc7-5fe86d21b5csf150345eaf.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 19 Mar 2025 19:03:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1742418321; x=1743023121; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1742436203; x=1743041003; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Zq5xTeiiuVHfiSZ2LoFE1KlbZ+QSvubpVfwOarevTgk=;
-        b=FGkkBgHzC3on6MMcy678elgETRCssBX99+YPm++gJHKmgVVfepXRjLjNkZlojTllwe
-         FqaePbXhkSJU3d+OyuJ7qwIYm9rXHkyj2K4intZLzwzfrxJQhfp9WV+kEtIEPGc6kjvz
-         g8BipVeNPQ5kpZ19r12a8mdEv+52ONg6tUwt51o08HSPElxDj9q6+78jQ81ZV0xwReYk
-         tan9NuVDRC8ndRpg46VTFtcnpynnWQ+8pioqQRXuXeqTb56f0wzZgLY5mJn1AP5SRhTE
-         aS+4mOi/1tpmaSEsqIO8tHPAn9BNred/e6Wj5CietYpwIf6xOfWbsHTUu8sPEYMubICG
-         +lsg==
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:message-id:to:from:date:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N+Es02CDbyhisZjSVW8wcf0t4QrJFsXcXw4HRQ4jZgc=;
+        b=Y7iRff8WyRv98LdgC6+rMCNvSlEopJ9eB1w0X9sIPHiynnRYNUVnlzk6wFFo3kGci4
+         CKXOC54+2XAWyTjaFEHYNbXtKa3vrDxjPTJCrOZcsuQAnUtzARf6y+afZU/X4VmM/BgY
+         wUkJUIexvEhLoOtoTA2dF12CmQ5XJ0dTVy1524XBhaTl2exN1Tsb55SUrnzcUxvDUVRF
+         gCIF/JU70vRDMK7snX6KPwu5lwgz2hNmYSjlp6s2uNPGsWnkjMp3+nLDf3Sztbvt2Ezh
+         Y7DzbFC0h+ZmlkOrdfrHPzctxLwRk662NfJ+T/GqBi/kPsQOywPFvZTGEF7xlFIY6Xtk
+         4p/A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742436203; x=1743041003; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:message-id:to:from:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N+Es02CDbyhisZjSVW8wcf0t4QrJFsXcXw4HRQ4jZgc=;
+        b=e/QmXjd+X6rjlIsK1f20e7HYel7H7jZ08yXI8iURd1QXgKKsEHkJkyxOWEVJHXnoXe
+         1iIoFyJ0tB7CIqcDkutWWchEnA3V+OxivtQyXDfKtn6h9K42vtbyFqSnqht8zgh1QKOg
+         Sg5TykX+qZLiXh2sQ6d4B/R6VQ3q4WLMgDbOxsiIVn8sC8cspzcphYAAurMZNd4ZemTE
+         ZaT1JL3tCFtuoEakdr4hTKHTB6fOzloDHT+mzvbcf5tAi/DMfE6mCS2y8rJPggvLPC71
+         4gkPL2/Rb20kVVqoCIUelkXtoA9b1Zzu9Ad1uea8DqvnqDyNy30B2PU6oLPzZCV3tHgo
+         b2/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742418321; x=1743023121;
+        d=1e100.net; s=20230601; t=1742436203; x=1743041003;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zq5xTeiiuVHfiSZ2LoFE1KlbZ+QSvubpVfwOarevTgk=;
-        b=ItwV4tF0LZIHjFoQitbmjy+OQRrVhyyw771/Walov4SjpVRnjnn3KNOESBXkFupGSv
-         hvQCRW/yGFH1izMV8R3Lyc8O273H7L3vZU6vzZf/vMd31kjA8K1/x7J4mTKNuOO3bacL
-         nO2NsEYToKwboHG3Sr7Wck32fGK4Qc2zE3Ere81eNRFPqt91l89Dukly/u6nBuFgiSuO
-         6MkIyjaVyblA2DofLRfiZCxgUj15Zoo9sa0EuyOYYEQLUm4IM/fd3/f5uhQ8GoA1X2uE
-         qya0Kea0hmOtn1d+ss8HHGFTudk9bYHdd1PolcFxps1rPMmgAHPcKeT2X9wpoOdFRkUt
-         RyhA==
+         :x-original-sender:mime-version:subject:message-id:to:from:date
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N+Es02CDbyhisZjSVW8wcf0t4QrJFsXcXw4HRQ4jZgc=;
+        b=PH2ZqvsuxIuBSOeDP43p88oT0UaXTWq56dmb5NUbxfJlVnqbObcM+2FKTORlufpIP6
+         5+GVDJvm2ceDtFwy4w4JjxYCu1hFSHyrnM3CjqOXEtdSCYBhyWu+ITR7YSuzRNRkirxm
+         bSO2U5weT7pHhudosGd9DDS3y7iNjaGITzlwK0WU5/N2v0a2uLTAOB2YrGPjV+7MZZVF
+         vHVCHLsQ8Slp/22bK1qynRCP8DkqfCZTNL76wbrU3ZNz0xy1d05RL4QyovWd9jkcx4Ah
+         ahvetjce7LFEsr4cs5z9sXy1yIzjEK1Jr+pR5eXv6U40dJ5uc/7Mi5omEN+G2Vq74GCb
+         Q++g==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWDjtBQl7Vkfid6UXL6JinINe42tPKn+i6ETFNeXOwEn5VZ05OBE0VhlMsJD7K14xSP+bxe3Q==@lfdr.de
-X-Gm-Message-State: AOJu0YzLD9jELRE35eXxok9By/Q6QSfAtvQPEXrQ7yJzVzcjTJHQB5ta
-	AX8Yxfndl4JkH3v3GabBJNYZWc6qspIF00RQkNu1f8AkdeGGdgpv
-X-Google-Smtp-Source: AGHT+IHdim73j3fJuL9NwqjietBfYHVly1M/9TRR9hRNMbNBbK6eHaZrhDo+7E8eZWIXd28sF19OSQ==
-X-Received: by 2002:a05:6e02:1a4d:b0:3d3:dfc2:912f with SMTP id e9e14a558f8ab-3d586b2fd2bmr47933625ab.7.1742418320916;
-        Wed, 19 Mar 2025 14:05:20 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPAILY9fav510KIc7wUPFSJYOj08ioxPtSiMkqwxJ1wWkbQ==
-Received: by 2002:a92:2c11:0:b0:3d1:a26f:e248 with SMTP id e9e14a558f8ab-3d58ec027e6ls1874895ab.1.-pod-prod-05-us;
- Wed, 19 Mar 2025 14:05:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCX6Oo+UkhiRH/JqgZBN88LV63br7CPQFrtOm4uuVfvNy3SoO5s3lxF/4IeOAm8Gn24mJkaQQCvaXdo=@googlegroups.com
-X-Received: by 2002:a05:6e02:2589:b0:3d3:fdb8:1796 with SMTP id e9e14a558f8ab-3d586b1b1d2mr44784055ab.2.1742418320106;
-        Wed, 19 Mar 2025 14:05:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1742418320; cv=none;
-        d=google.com; s=arc-20240605;
-        b=GGBfE0OXwhppciPyxHL3gIHEPjGXe+USgxqCP6zWzbOrfywZQNzrzxsikubbInODk+
-         E1NBzBd5ScP/YbIJC2vLqWQ+D0uw9nVc/EEpJdoZP1Rlqctp15nW0eY0Wmi0hj5Y2xfJ
-         t0IRqGvOmFnScN4YrFriYTbqH6GrPB9DLi9+o3zpAXnGgT4d5tGFv61qw4wCvGJ90nYI
-         EEedDO2J6Zh9OCfkrHXH1kW7L3m4JDqemkpTIDfc89WdUk991or3FXerEHBev1TPb0e2
-         EczexFaijvoZg9pb3KNf6LDAu1RFMU2GPWioCyqmbmDzQiakS4iX7uLo/n2OhLmxq3aT
-         oYsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=oqBu+kgYhUgJYB6L1gDuORiFdkjW7KdzRSCRaQJGoA0=;
-        fh=gecPtBhyU09yPkmQELJirETmbowtpSV21VKyqFLGOP8=;
-        b=Du9TKB8Nrd1gnkDJN4sRignnG5+o9HJZFRPPwy/9kLv0f53d0T35ttFQsOXdTCDyC5
-         gj7RAGynDphYtyB4GQGo74MEOFS6r5ATBc56+mwiLvu84UCv1EQzhuWdA+eb1paA+bH1
-         0vnQy+5pXem4AiNLowx8fvP3pQmRLFyyikuh+Dam3fHDqG+2ADb1JSD/9sYQQj+ztF+5
-         D+hCllUGSPo8HVQ3va0W9Er6qCfFyGQXukri6nXu3rHEshI8Bx3KiqC+8ovDe4k7l1e4
-         r85AhzLqeQbR6KkFVRxS6S2LyVl7hzXIoiBr/4lVGvQpEdsk2K26NvoZo2Pf9Da3Qg46
-         vQlw==;
-        dara=google.com
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@mojatatu-com.20230601.gappssmtp.com header.s=20230601 header.b=bOZ3YkdS;
-       spf=none (google.com: jhs@mojatatu.com does not designate permitted sender hosts) smtp.mailfrom=jhs@mojatatu.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com. [2607:f8b0:4864:20::632])
-        by gmr-mx.google.com with ESMTPS id e9e14a558f8ab-3d47a86da18si7852415ab.3.2025.03.19.14.05.20
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Mar 2025 14:05:20 -0700 (PDT)
-Received-SPF: none (google.com: jhs@mojatatu.com does not designate permitted sender hosts) client-ip=2607:f8b0:4864:20::632;
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-22349bb8605so446695ad.0
-        for <kasan-dev@googlegroups.com>; Wed, 19 Mar 2025 14:05:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV0wNfkEpQ5ML+gI3AJZCzPhfpGKohRzIv0hK1XHKg8jvTvZTcrEHQDUoxVW5TuG/D7uclyQG+GVPA=@googlegroups.com
-X-Gm-Gg: ASbGncvjcD9tWzNoKkbNpopu3T254TMU2g/2p91JDZPsA7fdMNwQ+8ulKQs9ubJipRd
-	pYB2CSsDLUDli+zoqKOlXCSAZ/SKmJMD32Qi1zgd4TaqITet/AiIJcsyGo+DcBxmx9zedREVrNa
-	tA8Ee1l4UaN3U3l76gbiw20k1eyw==
-X-Received: by 2002:a05:6a00:4608:b0:736:34ca:deee with SMTP id
- d2e1a72fcca58-7376d60f54dmr6415226b3a.7.1742418319237; Wed, 19 Mar 2025
- 14:05:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWK6eZpq+9fLqc9Jy3M5muF8k/NvpcVQpBtd8+53henOyOrJRz/xKSpJco8Vu+uHWLcV6Ywdw==@lfdr.de
+X-Gm-Message-State: AOJu0Yyh3W/f/NYteZjuHYNudc2AHqNSzpVSvyNOtqppivG9DIC4ZfSV
+	T4DUWfSQI1iYHD9nYKKLzKlzLiz5AafXusF/m0tAagqL/LyENxXe
+X-Google-Smtp-Source: AGHT+IHsau0O2Epq91lnu6D8755/LMHbWK2fqNO5T+Mvqqm0wjDz1Ai8Iinwy/dlNnZxACzWNAqU0w==
+X-Received: by 2002:a05:6820:4a81:b0:601:b8df:a56f with SMTP id 006d021491bc7-6021e42b65cmr2763948eaf.3.1742436202882;
+        Wed, 19 Mar 2025 19:03:22 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPAKwQrv0Vj8x6q+tmfu0Kpo+QA3d4s73WkKUgIhNLntSqg==
+Received: by 2002:a4a:e605:0:b0:600:3d56:c122 with SMTP id 006d021491bc7-6022945aea5ls100281eaf.0.-pod-prod-04-us;
+ Wed, 19 Mar 2025 19:03:22 -0700 (PDT)
+X-Received: by 2002:a05:6808:1455:b0:3f8:effc:938 with SMTP id 5614622812f47-3fead5e9a87mr4811775b6e.34.1742436201894;
+        Wed, 19 Mar 2025 19:03:21 -0700 (PDT)
+Date: Wed, 19 Mar 2025 19:03:21 -0700 (PDT)
+From: ye zhenyu <zhenyuy505@gmail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <3f88fc09-ae66-4a1c-9b87-46928b67be20n@googlegroups.com>
+Subject: Enable memory tagging in pixel 8a kernel
 MIME-Version: 1.0
-References: <20250319-meticulous-succinct-mule-ddabc5@leitao>
- <CANn89iLRePLUiBe7LKYTUsnVAOs832Hk9oM8Fb_wnJubhAZnYA@mail.gmail.com>
- <20250319-sloppy-active-bonobo-f49d8e@leitao> <5e0527e8-c92e-4dfb-8dc7-afe909fb2f98@paulmck-laptop>
- <CANn89iKdJfkPrY1rHjzUn5nPbU5Z+VAuW5Le2PraeVuHVQ264g@mail.gmail.com>
- <0e9dbde7-07eb-45f1-a39c-6cf76f9c252f@paulmck-laptop> <20250319-truthful-whispering-moth-d308b4@leitao>
-In-Reply-To: <20250319-truthful-whispering-moth-d308b4@leitao>
-From: Jamal Hadi Salim <jhs@mojatatu.com>
-Date: Wed, 19 Mar 2025 17:05:08 -0400
-X-Gm-Features: AQ5f1JoRzWT7Z7j0VHgURamunfPE54qbAEp2C2JXfoZJFMWPsaolLFCk6I2GSlQ
-Message-ID: <CAM0EoM=NJEeCcDdJ5kp0e8iyRG1LmvfzvBVpb2Mq5zP+QcvmMg@mail.gmail.com>
-Subject: Re: tc: network egress frozen during qdisc update with debug kernel
-To: Breno Leitao <leitao@debian.org>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, longman@redhat.com, bvanassche@acm.org, 
-	Eric Dumazet <edumazet@google.com>, kuba@kernel.org, xiyou.wangcong@gmail.com, 
-	jiri@resnulli.us, kuniyu@amazon.com, rcu@vger.kernel.org, 
-	kasan-dev@googlegroups.com, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: jhs@mojatatu.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@mojatatu-com.20230601.gappssmtp.com header.s=20230601
- header.b=bOZ3YkdS;       spf=none (google.com: jhs@mojatatu.com does not
- designate permitted sender hosts) smtp.mailfrom=jhs@mojatatu.com;
-       dara=pass header.i=@googlegroups.com
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_170874_696940131.1742436201253"
+X-Original-Sender: zhenyuy505@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,66 +79,55 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Mar 19, 2025 at 2:12=E2=80=AFPM Breno Leitao <leitao@debian.org> wr=
-ote:
->
-> On Wed, Mar 19, 2025 at 09:05:07AM -0700, Paul E. McKenney wrote:
->
-> > > I think we should redesign lockdep_unregister_key() to work on a sepa=
-rately
-> > > allocated piece of memory,
-> > > then use kfree_rcu() in it.
-> > >
-> > > Ie not embed a "struct lock_class_key" in the struct Qdisc, but a poi=
-nter to
-> > >
-> > > struct ... {
-> > >      struct lock_class_key;
-> > >      struct rcu_head  rcu;
-> > > }
-> >
-> > Works for me!
->
-> I've tested a different approach, using synchronize_rcu_expedited()
-> instead of synchronize_rcu(), given how critical this function is
-> called, and the command performance improves dramatically.
->
-> This approach has some IPI penalties, but, it might be quicker to review
-> and get merged, mitigating the network issue.
->
-> Does it sound a bad approach?
->
-> Date:   Wed Mar 19 10:23:56 2025 -0700
->
->     lockdep: Speed up lockdep_unregister_key() with expedited RCU synchro=
-nization
->
->     lockdep_unregister_key() is called from critical code paths, includin=
-g
->     sections where rtnl_lock() is held. When replacing a qdisc in a netwo=
-rk
->     device, network egress traffic is disabled while __qdisc_destroy() is
->     called for every queue. This function calls lockdep_unregister_key(),
->     which was blocked waiting for synchronize_rcu() to complete.
->
->     For example, a simple tc command to replace a qdisc could take 13
->     seconds:
->
->       # time /usr/sbin/tc qdisc replace dev eth0 root handle 0x1234: mq
->         real    0m13.195s
->         user    0m0.001s
->         sys     0m2.746s
+------=_Part_170874_696940131.1742436201253
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_170875_462490627.1742436201253"
+
+------=_Part_170875_462490627.1742436201253
+Content-Type: text/plain; charset="UTF-8"
+
+Hello everyone, I have a Pixel 8a and would like to enable MTE in the 
+kernel. However, whenever I try to set or get tags using stg/ldg, it always 
+returns 0. Does anyone know why and could you please help me? Thank you 
+very much.
+some registers set :
+ TCR_EL1 : 0x051001f2b5593519 : SCTLR_EL1 : 0x02000d38fc74f99d : MAIR_EL1 : 
+0x0000f4040044f0ff : GCR_EL1 : 0x0000000000010000 : hcr_el2 : 
+0x0100030080080001
+(I can not get the scr_el3)
+the page table entry of associate address : 0x6800008a2b9707
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/3f88fc09-ae66-4a1c-9b87-46928b67be20n%40googlegroups.com.
+
+------=_Part_170875_462490627.1742436201253
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hello everyone, I have a Pixel 8a and would like to enable MTE in the kerne=
+l. However, whenever I try to set or get tags using stg/ldg, it always retu=
+rns 0. Does anyone know why and could you please help me? Thank you very mu=
+ch.<br />some registers set :<br />=C2=A0TCR_EL1 : 0x051001f2b5593519 : SCT=
+LR_EL1 : 0x02000d38fc74f99d : MAIR_EL1 : 0x0000f4040044f0ff : GCR_EL1 : 0x0=
+000000000010000 : hcr_el2 : 0x0100030080080001<br />(I can not get the scr_=
+el3)<br />the page table entry of associate address : 0x6800008a2b9707<br /=
 >
 
-Could you please add the "after your change"  output as well?
+<p></p>
 
-cheers,
-jamal
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
 To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-AM0EoM%3DNJEeCcDdJ5kp0e8iyRG1LmvfzvBVpb2Mq5zP%2BQcvmMg%40mail.gmail.com.
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion visit <a href=3D"https://groups.google.com/d/msgid/=
+kasan-dev/3f88fc09-ae66-4a1c-9b87-46928b67be20n%40googlegroups.com?utm_medi=
+um=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid/kasan-dev=
+/3f88fc09-ae66-4a1c-9b87-46928b67be20n%40googlegroups.com</a>.<br />
+
+------=_Part_170875_462490627.1742436201253--
+
+------=_Part_170874_696940131.1742436201253--
