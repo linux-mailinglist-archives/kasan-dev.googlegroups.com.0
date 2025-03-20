@@ -1,139 +1,76 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBVWA567AMGQEXJKNOVI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCO25SXBYEMBBJPB567AMGQEKWV66JA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13a.google.com (mail-il1-x13a.google.com [IPv6:2607:f8b0:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4050DA6A2A4
-	for <lists+kasan-dev@lfdr.de>; Thu, 20 Mar 2025 10:31:05 +0100 (CET)
-Received: by mail-il1-x13a.google.com with SMTP id e9e14a558f8ab-3d43541a706sf4991565ab.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 20 Mar 2025 02:31:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1742463063; cv=pass;
-        d=google.com; s=arc-20240605;
-        b=dtDi9b/fPg2qypzzxL83z54AzY2j/IZhbPwvvGf5nTgEhyS/3/DrSeG4IlW2eM3CEN
-         hwHC8VGf0SFuU+RqAsRHDD/tuBd1g0sEePsvZZ8mdX6rUT/FneAqGUu0h+HX40iWD7/C
-         Q+4PM8Ar+KdvtXtW3vOP4KOKGMLQom43y9G7i+p9AH6SMvx2xM72p4EGHPG/shDxovjT
-         gbpSJ0724h/UPx1TDP5/4vTGCZK0fPXazwtDim/EnR15faK4ml/k02ZGYgFh3t9jQo2S
-         aaEsKiCJnD5HmR1fAA/TG9gEZhjhaMMPNoC7QQPaeu2LQBs8J+TonxwNCK+vej12R86t
-         bDvA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=LqyuGsFygkwgpGrmWnUcfWdNuXYglzZs9PDSWUSQni4=;
-        fh=kRAlozxO/o3pxvAKhQ2+EIkOfTusB9rYHfYxN/vhrfA=;
-        b=TxU+3q9Ejxp7V7sLi1e/TrJ7hy+017OBcAovWbjUrsbZRSALcorDK9LBSYf4u0jsd2
-         BfV155srjU2dfTXFIKD9A/fHIc+tcfql0WR5QA1eU6vCjz2f04S2u97WK0V6NTECl7P/
-         brda0Q/LxVQsJ+Kh3EMVZi42I0BKY2EtEHnZVxst/LBADVQ9PWKr2pCUkO2+u5CXx0LA
-         9Xc/Hlaci599L53T1pPrcAtE9yQmoWG2KfEagWgURXXYDnudpJ5CHCG8MEUUwqAadGWK
-         D82l+jVuDHlajxg8JcQccx+Bms/XYO1+rzplBY2B3WepoTnVWvcgdUvYU7S8sywRHzBa
-         XKBA==;
-        darn=lfdr.de
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=OpCg463g;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f33 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
+Received: from mail-oa1-x39.google.com (mail-oa1-x39.google.com [IPv6:2001:4860:4864:20::39])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D5FA6A3DF
+	for <lists+kasan-dev@lfdr.de>; Thu, 20 Mar 2025 11:40:39 +0100 (CET)
+Received: by mail-oa1-x39.google.com with SMTP id 586e51a60fabf-2a75cda3961sf201707fac.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 20 Mar 2025 03:40:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1742463063; x=1743067863; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1742467237; x=1743072037; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LqyuGsFygkwgpGrmWnUcfWdNuXYglzZs9PDSWUSQni4=;
-        b=xi0C46Oa2UZ7KF4bevQH9ZitVDiroJnODWfJSlmWHLexlVA5STw17ThVsa5ZmavcXS
-         HNv/+3rt5LBbSfZgVOf3e+RUHATjRzgY7EqVcDhHj9r/KFuX95phUeu8jNZ94JgSF5Q8
-         hzQsyfumG/kEpOaCMClhf9sO9EirMAL8n2kNgrXx06ChA6Z+b+CNkjRywkgGh0I1fug0
-         7FiUm1GwV03BJdT84Zjbbz7/bn94pMMORAfP4MXsCDloGMcMb9eUwU0V/Gyl8U4meChe
-         k+W8Z0A4UhNMH0p7vGWmH8cBz0Ls80IeFmwx/oB5WRFVwBYsvak+RhjVQCxn6Fw9h7SG
-         hWOg==
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:references:in-reply-to:message-id:to:from:date:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5s8Ni3hFCO4gRaukG9HVNVGaRzCmhlt1KQt4eGCDfKQ=;
+        b=f8U7rFfAnGv+nQsG5FilHOkIfp1Df2y7Ryo3CtGin1rowlCUqCFMGyGt6ywHxLePgZ
+         fY3/NzsngRDKmtcMn/+zcKoZ/8ZxT8F2awIZzb8peqQYfhc0NXLP6kR2D6rkxWScKl/m
+         l0QZVJFryHZUuAcR2R0cgWllAcHc9+R5Ce+xE7CFZY6qx9lMC0nEvQrXwZP2U/x5br76
+         MtnDNOOG6peGDjHIuojr1zHK+n+BPQOHe46d/ccPS2Ao9c0fGa4RnntWbTutX11t3Anx
+         KbeaZ3+PGQPOtWTK0Pf71wIMZFPnftwPlLGn8LveIgu2M0JI4kVj1sG10v4Hcx5qZ1Qm
+         Pp8Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742467237; x=1743072037; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:references:in-reply-to:message-id:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5s8Ni3hFCO4gRaukG9HVNVGaRzCmhlt1KQt4eGCDfKQ=;
+        b=ToDIzr2t0uCkqNuwJ/lBG9wfgqvXhxDIMP2ew2UR2O9eH3Tni2y+WJEUC1iqbQws/Z
+         65e+gbNT2ahVuWtQ+UlNZguCr41nwHQ/wzG9kFAmurXOnaQQqJdEba1tkw9lOXzDKklt
+         jX9CyNZR4msnmYnvAuFoIwD83UA7ZvAieQz39DTRoBD2enBPxqpY+ZPgP/5Pmt2rYEr3
+         w0OgAMfT7lYnDOPi1KLIRitXBDjIYqBHUGHOfAj6L2YibQzdAvZf8o6zFE5mhKGWGII0
+         bAtas3aK4R1WnbAW/VjtuQ1yDaFoYnW3Cw8B6o74Y+BoTiL1OwW2THU3QDqt1MAKe9DX
+         cI2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742463063; x=1743067863;
+        d=1e100.net; s=20230601; t=1742467237; x=1743072037;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LqyuGsFygkwgpGrmWnUcfWdNuXYglzZs9PDSWUSQni4=;
-        b=YtFi/83PACYl6jTgyb65mrQOyQNxbVAx3Zu7coL52qyOgEV0VUcZd4feQ+g43igS4k
-         129fiaGBH1ClYPVRbHk8ovNwXwVmJDjYnSkEQG3+JZWw1T5EMqnNfnBjrPq+crdojLsO
-         ISJihEx4A3P99KdPvVYBxPRU70ll43Z78kQMMd2r0GcZPu6Ksbhza5BJZDEFhuKOTreO
-         uHt4Bh/wpdK/sRuv5bKJPLeV/hMIPqMEy+Da22klxwFuHs7SG96f0m+/Q77H/ddkFC5a
-         diWdi6QWcQYzYQXVnVDY2oXh8ULO0oEoo9n2QiPDoTdzVnK1N+eJdqjd1ElHE8uNtyfi
-         mxtQ==
-X-Forwarded-Encrypted: i=2; AJvYcCXBFtHb3DfDT3YLpZMM9SAJ/bMxbcJ9wG0titrUcJzNXPD9U4fCzOm8gle8uhICZxZuQmENSw==@lfdr.de
-X-Gm-Message-State: AOJu0YyzT4lU49KGqaFk0UQhklo6+G/rWn4p76OYmELTpCo82cZiFOvc
-	BO3+jTEttnZG45g800kVjEgVynIqk0EgTp4EPkJoIXuGcS1+yRRQ
-X-Google-Smtp-Source: AGHT+IEqCKgVkWVfQILsYhgNJ9z7JW8H2kpml6yDoa8RArh9kZ9MJ+wygnkUvwnxfTa4KxPc19OnBA==
-X-Received: by 2002:a05:6e02:6:b0:3d4:2362:98d8 with SMTP id e9e14a558f8ab-3d58ebae396mr27958805ab.2.1742463062787;
-        Thu, 20 Mar 2025 02:31:02 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPALp31PVkZB80BKbomaBP/62gQG8YY3NoOh3BtvKCMTYQw==
-Received: by 2002:a05:6e02:2603:b0:3cf:c8b9:882f with SMTP id
- e9e14a558f8ab-3d58ea82e37ls531255ab.1.-pod-prod-09-us; Thu, 20 Mar 2025
- 02:31:00 -0700 (PDT)
-X-Received: by 2002:a05:6602:370a:b0:85d:aba6:4f4b with SMTP id ca18e2360f4ac-85e1f4af4acmr311971139f.2.1742463060714;
-        Thu, 20 Mar 2025 02:31:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1742463060; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Rideh1nrzcIRs2QFbW5qZecZznTZoNeUvILy4NZMf1my9TJ8Nr5kDlvnOGC+BoEz83
-         Nl2qJ8aHGst9Ae3vZvNqmRxAFsnp5K1purYhij8GkAK7/JhAWudpQaaRDw1nwtoV3+Id
-         1Qu9de5IO7lo95sqvEzEmEbnMBnHSupngK4RKSuLS6oIRZ8o3l/JQn9fSl3bSO42cgiz
-         jqDcv4zUV6A2d8Y0Cl9lqurN9aVReiZwM+r/e7mhoyoUgwcjQtoiORqLj4bVpMWDAS3T
-         eifZmGxIhzKbUcTLmQlR3qOy3KB5vS1KvYpLN1Uj2N+GWozDsbvzIZiOohqezmcyn0rE
-         Qm6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=L5UHDlZwqtgy2Qf0PGUSBvmXQeLf9FBEdte0Ru5Njow=;
-        fh=horjWBdtrzwyyok/mxJGo2OZWv10SWIkZT/kodHu8Wk=;
-        b=XEA9ONSNAXDy3KPWH0KjvROOltSf4NSe1SsgjpmXIch/8SSk6aArFHdl5csRUtyH+H
-         nm42rM7zSuoSBI2gWW6DRIXZu2I2zOScKzXvQ/R2YHQSz/kFXhT03wxu9X6GNDy3fP2a
-         g7QwHZYzRMXivS/i5S1eIAcRb+5AWvsvh256Xh5HMiYPkz3Plylysa9rfasVdkwhH97h
-         HMAudOassaYomkgJAqZ4zNs/9fc026FGF/AeWEpzO7fJYNRZJtKx/q9aC8I2fWbZgdEy
-         h2M6RTSZ1fjgvP3oNnMB50RXb+NWxjIQkioAWiPwRK/xbmWCkuAmIUL5SOdCGJUTxgXD
-         79wQ==;
-        dara=google.com
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=OpCg463g;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f33 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com. [2607:f8b0:4864:20::f33])
-        by gmr-mx.google.com with ESMTPS id ca18e2360f4ac-85db8759e52si68020439f.1.2025.03.20.02.31.00
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Mar 2025 02:31:00 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f33 as permitted sender) client-ip=2607:f8b0:4864:20::f33;
-Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-6e89a2501a0so5263786d6.1
-        for <kasan-dev@googlegroups.com>; Thu, 20 Mar 2025 02:31:00 -0700 (PDT)
-X-Gm-Gg: ASbGncsZCVNp5nE+BZIW+O4e1GDcmvznN28HuZLDqKrs3jnZ6NDVZWCgRCLDMBbYaS5
-	GvEbGa4JS+JaeKEDbWQqn9jdtz60kFCi/aBgjls0XEpGuUQ4bqSzZyNCfRfMzSqmEd9ULFq8JQ8
-	5Ae++JAl4dOfJOGrTvApuxhbgUZen121YxV2+A2sc0f1kqgtxDUP52elDyWgVSshbeQmQ=
-X-Received: by 2002:a05:6214:1949:b0:6e6:646e:a0f8 with SMTP id
- 6a1803df08f44-6eb352a60e8mr36141796d6.16.1742463059908; Thu, 20 Mar 2025
- 02:30:59 -0700 (PDT)
-MIME-Version: 1.0
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-sender:mime-version:subject:references:in-reply-to
+         :message-id:to:from:date:x-beenthere:x-gm-message-state:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5s8Ni3hFCO4gRaukG9HVNVGaRzCmhlt1KQt4eGCDfKQ=;
+        b=GOuMA6PrdlfiBfD68i2X6zAOh5lx3QWZlOidDvMoNZ1Yit1krTQlR1T+SxmrK0uhU3
+         kR495CkA6gkbFrdK0HHQcjLYrqbf1JB01UGXQVgmKlZGq5OFQgwueGQh+LlKRmm2QhGB
+         zLyTM1St4Rxdq8ULvY7qCycQYP61Cr43oLM3zrV6rXmrUZBDL4MN5OhsFHPVp1QhVtjq
+         LWrrWsINNbjmQetJW7gP73uwc+7/s7zJvjJq1+HE3tgljZP0Ly4GZNR+grxk25gQS6RY
+         CbatXOJ4svMBqJ0R9KgY32Nvovb8koUGxs/RiiIp21c5Rf5INsMH9hTLtnZ5DW7kfNDh
+         f3NQ==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=1; AJvYcCXG0PiHh+HwN4o+6AXcQPZnnp0qKEODNqZL3C52YuXylhgtJy0jP3FB6Mls4q2BBAKSChYFhg==@lfdr.de
+X-Gm-Message-State: AOJu0YwKh/Wk/4vPro8fbYvewI2veOlzHMYhaOhTgFOlqmwF1TgSOdM/
+	+ihtba464wLxoDyguu8GMzVO9PIKpYxM+jMmTiDd+E0BrFdYTrGN
+X-Google-Smtp-Source: AGHT+IHIzp8xuhM0tNSAp/bzbJp2vWBQG/NNer9Xz7IUxcPe7jZ+89RUkA0Zx3IEYobsifkroMD6AQ==
+X-Received: by 2002:a05:6870:206:b0:29d:c624:7cad with SMTP id 586e51a60fabf-2c7454275famr4039923fac.3.1742467237600;
+        Thu, 20 Mar 2025 03:40:37 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPAIJO0l+MDfq6Y8vytKWcnRInja7p3L1Qc+lXiASFY6URg==
+Received: by 2002:a05:6870:9c8f:b0:29f:f56e:68fa with SMTP id
+ 586e51a60fabf-2c76086ffaels490371fac.2.-pod-prod-09-us; Thu, 20 Mar 2025
+ 03:40:36 -0700 (PDT)
+X-Received: by 2002:a05:6808:2104:b0:3f9:cbc0:7420 with SMTP id 5614622812f47-3feb4b80846mr1787577b6e.27.1742467236465;
+        Thu, 20 Mar 2025 03:40:36 -0700 (PDT)
+Date: Thu, 20 Mar 2025 03:40:35 -0700 (PDT)
+From: ye zhenyu <zhenyuy505@gmail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <32165ab0-8a47-41b5-8d75-5461414947f2n@googlegroups.com>
+In-Reply-To: <CAG_fn=WtE-+HuR9DSYFEYq2=BkwosWwJ0eUMAQWpGJ9JbhFy9g@mail.gmail.com>
 References: <3f88fc09-ae66-4a1c-9b87-46928b67be20n@googlegroups.com>
-In-Reply-To: <3f88fc09-ae66-4a1c-9b87-46928b67be20n@googlegroups.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 20 Mar 2025 10:30:23 +0100
-X-Gm-Features: AQ5f1Jq2O9rNNc3GUeKMKY2AWP80zv7oLIunT-_5M5kHnuv5gGudhkeFG_WogBM
-Message-ID: <CAG_fn=WtE-+HuR9DSYFEYq2=BkwosWwJ0eUMAQWpGJ9JbhFy9g@mail.gmail.com>
+ <CAG_fn=WtE-+HuR9DSYFEYq2=BkwosWwJ0eUMAQWpGJ9JbhFy9g@mail.gmail.com>
 Subject: Re: Enable memory tagging in pixel 8a kernel
-To: ye zhenyu <zhenyuy505@gmail.com>
-Cc: kasan-dev <kasan-dev@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: glider@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=OpCg463g;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f33 as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_205966_2063998640.1742467235712"
+X-Original-Sender: zhenyuy505@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,28 +83,137 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Mar 20, 2025 at 3:03=E2=80=AFAM ye zhenyu <zhenyuy505@gmail.com> wr=
-ote:
->
-> Hello everyone, I have a Pixel 8a and would like to enable MTE in the ker=
-nel. However, whenever I try to set or get tags using stg/ldg, it always re=
-turns 0. Does anyone know why and could you please help me? Thank you very =
-much.
-> some registers set :
->  TCR_EL1 : 0x051001f2b5593519 : SCTLR_EL1 : 0x02000d38fc74f99d : MAIR_EL1=
- : 0x0000f4040044f0ff : GCR_EL1 : 0x0000000000010000 : hcr_el2 : 0x01000300=
-80080001
-> (I can not get the scr_el3)
-> the page table entry of associate address : 0x6800008a2b9707
+------=_Part_205966_2063998640.1742467235712
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_205967_807648785.1742467235712"
 
-It is unclear from your report what exactly you are doing.
-Could you please provide the exact steps you perform to build the
-kernel and to get the above register values?
+------=_Part_205967_807648785.1742467235712
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+
+
+I am attempting to utilize MTE in the kernel:
+Initially, I activate MTE in the phone settings.
+Next, I configure the register bit related to MTE to ensure its=20
+functionality. I also set the prop in the shell by setprop=20
+arm64.memtag.bootctl memtag,memtag-kernel.
+Finally, I utilize a kernel module to set/get tags of kernel data; however,=
+=20
+I consistently receive a value of zero.
+
+The information in my inquiry is obtained through a kernel module. I have=
+=20
+checked that the registers related to MTE in the manual should not affect=
+=20
+my use of MTE.
+
+To set the tag, I use the following assembly code:
+asm volatile("stg %0, [%0]" : : "r" (tagged_addr) : "memory")=20
+
+To load the tag, I use the following assembly code:
+asm volatile("ldg %0, [%0]": "+r" (tagged_addr))=20
+
+another problem is, when I try to clear cache using=20
+__asm__ volatile ("tlbi alle1");
+the phone will reboot and I can not get any log of kernel.
+=E5=9C=A82025=E5=B9=B43=E6=9C=8820=E6=97=A5=E6=98=9F=E6=9C=9F=E5=9B=9B UTC+=
+8 17:31:02<Alexander Potapenko> =E5=86=99=E9=81=93=EF=BC=9A
+
+> On Thu, Mar 20, 2025 at 3:03=E2=80=AFAM ye zhenyu <zheny...@gmail.com> wr=
+ote:
+> >
+> > Hello everyone, I have a Pixel 8a and would like to enable MTE in the=
+=20
+> kernel. However, whenever I try to set or get tags using stg/ldg, it alwa=
+ys=20
+> returns 0. Does anyone know why and could you please help me? Thank you=
+=20
+> very much.
+> > some registers set :
+> > TCR_EL1 : 0x051001f2b5593519 : SCTLR_EL1 : 0x02000d38fc74f99d : MAIR_EL=
+1=20
+> : 0x0000f4040044f0ff : GCR_EL1 : 0x0000000000010000 : hcr_el2 :=20
+> 0x0100030080080001
+> > (I can not get the scr_el3)
+> > the page table entry of associate address : 0x6800008a2b9707
+>
+> It is unclear from your report what exactly you are doing.
+> Could you please provide the exact steps you perform to build the
+> kernel and to get the above register values?
+>
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-AG_fn%3DWtE-%2BHuR9DSYFEYq2%3DBkwosWwJ0eUMAQWpGJ9JbhFy9g%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/3=
+2165ab0-8a47-41b5-8d75-5461414947f2n%40googlegroups.com.
+
+------=_Part_205967_807648785.1742467235712
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><p style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);">I am atte=
+mpting to utilize MTE in the kernel:<br />Initially, I activate MTE in the =
+phone settings.<br />Next, I configure the register bit related to MTE to e=
+nsure its functionality. I also set the prop in the shell by=C2=A0<span sty=
+le=3D"font-family: monospace; font-size: 11.7px;">setprop arm64.memtag.boot=
+ctl memtag,memtag-kernel.</span><br />Finally, I utilize a kernel module to=
+ set/get tags of kernel data; however, I consistently receive a value of ze=
+ro.</p><p style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);">The inf=
+ormation in my inquiry is obtained through a kernel module. I have checked =
+that the registers related to MTE in the manual should not affect my use of=
+ MTE.</p><p style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);">To se=
+t the tag, I use the following assembly code:</p><span style=3D"caret-color=
+: rgb(0, 0, 0); color: rgb(0, 0, 0);">asm volatile("stg %0, [%0]" : : "r" (=
+tagged_addr) : "memory")
+</span><p style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);">To load=
+ the tag, I use the following assembly code:</p><span style=3D"caret-color:=
+ rgb(0, 0, 0); color: rgb(0, 0, 0);">asm volatile("ldg %0, [%0]": "+r" (tag=
+ged_addr))=C2=A0</span><br /></div><div><span style=3D"caret-color: rgb(0, =
+0, 0); color: rgb(0, 0, 0);"><br /></span></div><div><font color=3D"#000000=
+"><span style=3D"caret-color: rgb(0, 0, 0);">another problem is, when I try=
+ to clear cache using=C2=A0</span></font></div><div>__asm__ volatile ("tlbi=
+ alle1");</div><div>the phone will reboot and I can not get any log of kern=
+el.</div><div class=3D"gmail_quote"><div dir=3D"auto" class=3D"gmail_attr">=
+=E5=9C=A82025=E5=B9=B43=E6=9C=8820=E6=97=A5=E6=98=9F=E6=9C=9F=E5=9B=9B UTC+=
+8 17:31:02&lt;Alexander Potapenko> =E5=86=99=E9=81=93=EF=BC=9A<br/></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin: 0 0 0 0.8ex; border-left: =
+1px solid rgb(204, 204, 204); padding-left: 1ex;">On Thu, Mar 20, 2025 at 3=
+:03=E2=80=AFAM ye zhenyu &lt;<a href data-email-masked rel=3D"nofollow">zhe=
+ny...@gmail.com</a>&gt; wrote:
+<br>&gt;
+<br>&gt; Hello everyone, I have a Pixel 8a and would like to enable MTE in =
+the kernel. However, whenever I try to set or get tags using stg/ldg, it al=
+ways returns 0. Does anyone know why and could you please help me? Thank yo=
+u very much.
+<br>&gt; some registers set :
+<br>&gt;  TCR_EL1 : 0x051001f2b5593519 : SCTLR_EL1 : 0x02000d38fc74f99d : M=
+AIR_EL1 : 0x0000f4040044f0ff : GCR_EL1 : 0x0000000000010000 : hcr_el2 : 0x0=
+100030080080001
+<br>&gt; (I can not get the scr_el3)
+<br>&gt; the page table entry of associate address : 0x6800008a2b9707
+<br>
+<br>It is unclear from your report what exactly you are doing.
+<br>Could you please provide the exact steps you perform to build the
+<br>kernel and to get the above register values?
+<br></blockquote></div>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion visit <a href=3D"https://groups.google.com/d/msgid/=
+kasan-dev/32165ab0-8a47-41b5-8d75-5461414947f2n%40googlegroups.com?utm_medi=
+um=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid/kasan-dev=
+/32165ab0-8a47-41b5-8d75-5461414947f2n%40googlegroups.com</a>.<br />
+
+------=_Part_205967_807648785.1742467235712--
+
+------=_Part_205966_2063998640.1742467235712--
