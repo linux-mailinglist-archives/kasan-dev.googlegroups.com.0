@@ -1,125 +1,125 @@
-Return-Path: <kasan-dev+bncBAABBTHIW67QMGQEC6VTSOA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB3PNW67QMGQENSXRDYQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83f.google.com (mail-qt1-x83f.google.com [IPv6:2607:f8b0:4864:20::83f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 184ADA79A00
-	for <lists+kasan-dev@lfdr.de>; Thu,  3 Apr 2025 04:37:02 +0200 (CEST)
-Received: by mail-qt1-x83f.google.com with SMTP id d75a77b69052e-4768a1420b6sf6978731cf.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 02 Apr 2025 19:37:02 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1743647821; cv=pass;
+Received: from mail-qv1-xf3a.google.com (mail-qv1-xf3a.google.com [IPv6:2607:f8b0:4864:20::f3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id C22C9A79A1E
+	for <lists+kasan-dev@lfdr.de>; Thu,  3 Apr 2025 04:48:14 +0200 (CEST)
+Received: by mail-qv1-xf3a.google.com with SMTP id 6a1803df08f44-6eeffdba0e2sf9507986d6.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 02 Apr 2025 19:48:14 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1743648493; cv=pass;
         d=google.com; s=arc-20240605;
-        b=JvCd909RF38YYKtH+NMq5LGQj/o30p53tyN8+MjIz56GVGuvkCbqSO1EG5CEACE85F
-         lzqd305bBTMcyYCa1gvwux3fy2sR22a1xDz93sfMaES3oscCHmtphQvwYWCWFW3tjoIz
-         I0mgLCLTPD6bZ2J4+HF6clnk1UKZw5v23KbfJb0V4fHw6wLYKOr3qwFKv3RZKnA4N83C
-         rvEDJSeUlQMeKNMoAIR0zIdNCK/qHze6+wU1+QaqDJySHuoPfwuA535x3tzexetqQpEl
-         mfzk8eCMTtTtWv7GIup6FKE5er0BXimrPPgUiaDeQ+ysdeKL3LjWP2NLI+PVv694aPVe
-         Oa1g==
+        b=SS80lG8VhLLyXgcL2B+MB0turxy4uJOOLjppYOInC3Tn2SYxYf1DAudX6opy5Bws/X
+         YrBGeJQyVpj9IFwGiPy7BCFawL+/l0FF2aBEFRizdPFaam0DqiDkHDtS1xwzR+diBFJJ
+         WRxUbUQux3MNxyolGwWfvC8ejCLnxg7qKaV+T//QJsfvdYFGiRNHb4P1SKnZyP0qvs+n
+         tEp4ymV9uC4gMHZjnMlHjSnCD+QY440XD/aWvlgBK94WBWmB7O9aRgtWqugSLjws1rrz
+         vgO+zZsuUKKXyx+DK3VUt4t8FoEty4axuEiMLRzSX2PwwYj7MlxYus3u2szFxJK7wQaZ
+         Vs8A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :in-reply-to:from:references:cc:to:subject:user-agent:mime-version
          :date:message-id:dkim-signature;
-        bh=pPV7YFFUaP09Pf4nzVaK4zwpiTpWhuFvcZYk5pWo3lA=;
-        fh=nNAYocCp8hVPCEyxl/55UN/+hjboum3SO4w8CCg63E0=;
-        b=dMSirelLUyv/id3mxbyKQgbkWUi4gnaqHBzN14Hg9uzqGBSqkTNfTWXowXufVxAQVK
-         wFgcnEJPWDUCtSK9s+qGSDxvaCidz7fH+O0i9ZVpjk28jP+Y1Hnjpb2LhtzMVOUdAdmp
-         GRJqQMNia9NJHjm48qKKpVyKbpNhod3E2t6N1v96AIqO6TXlOYMfMwga0OPg5u+yG+eh
-         w/6e0rbQ35rufI0PrWKOpcTjo6xO2sozQvwJ0t6SXPkgsRIleiQXyovHWXINAszgBozW
-         bbPMsRnTdJ/Ym0x/Wbupt84B6+X/WRVXiFyuvvANR/Za+BBOWVvM/zhrTOhKJHkl+n4i
-         bbtw==;
+        bh=vuu4xlHYjBqCoOaz1S0pYlFzamonx+KMjOcj5H7zKks=;
+        fh=x9/Kx1Dw3qJc1CUON5vv/a+ErkLZ4CElE6vc77g5p5o=;
+        b=Tu0YY74tYCrQNnVRhDW5Tv3ZKicHIpAPtZyo3cqCfN5MAHxCW8oM4RvHpQsmxvpEEd
+         cq5MxgFxtXKlsIz/FqX3lyWlmwiWJb60b+DumEG0pQmH2R/R+Q25Cx7GntUKzYAawVXP
+         2Y0bYgnanYbAbKJCIENmMrmuqklc0YAOnN00h0iS6K7u2M5Tcs/kd/KwYlZMHf/EYBHu
+         2n5etd6sI3kwsdiIPX+oeT4rmp5IqkWv/WxuPVeK/6ukKmr2IDw0RJB446CajwfCl5re
+         GJZ7LNTfDMoZoW989ca5owRREdgYyiAx8S4/zivLdjCy9E//5vqYxbwtMAlyAvytQuDC
+         VsHA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.255 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
+       spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.189 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1743647821; x=1744252621; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1743648493; x=1744253293; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:in-reply-to:from:references:cc:to:subject
          :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pPV7YFFUaP09Pf4nzVaK4zwpiTpWhuFvcZYk5pWo3lA=;
-        b=C1PcXr45N8xhCP/TKi+vbfMkAkkaXATd9k8UBKHd6UYirf21XrFpNiL9YrRHnK68bT
-         zPxlo/bXLzrFStLxTEItwjy+z4qq3rOLCymc8p80FKuyYEpqb6ITlBvJra9HIu5uFdb+
-         GGe+2PB7flRj9aAd8G/rCKbDUelOoW18D/MCUfL02XiKTXxu1Np3mLnI5lHHzAiwgx3C
-         Waj0jSVyrnZZROSWZsHeqTLS8IYx5BmE6AvBWZPdl+LVjTekNQxCHMCZHXTI3yz8uyF7
-         GzzRfdGtp04qaeSd53U1+684zebg0Cmqpt0WzRMx/B0xNxQHvF+r+wBwmjSRwp692NyL
-         dbLg==
+        bh=vuu4xlHYjBqCoOaz1S0pYlFzamonx+KMjOcj5H7zKks=;
+        b=ifO3Q/wymz7FEqECeFguHMuwGf9vmH1qRiNSRRDYbflUHoSvvT0Q60f+CLT7vODcmL
+         B/Zx78JER6zEt2KGo/g4SIT3TgI011+Ca7rnYVZyTk6FseCCoPdiiqKwKKvqy8utpqxD
+         94NDCXz5dpbZhLkjdK03BwxSAlJMx+yyofsk4SvggRpdMLIAEwi77VFyUxibFwxDH+6T
+         0398LdLnMY1rYV8lHHoUFx/57b3RZD8ecjy5NRDV569OKkL5BQ6iZWvI67Xr4uSFo6w4
+         /2H3UAkaW+4L8Sv9agEoTlQ1hCC5HROOT7K6OhwIK66HCJfYYFvx7WCHsb75ZPkgXmxN
+         8g2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743647821; x=1744252621;
+        d=1e100.net; s=20230601; t=1743648493; x=1744253293;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:in-reply-to:from:references:cc:to:subject
          :user-agent:mime-version:date:message-id:x-beenthere
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pPV7YFFUaP09Pf4nzVaK4zwpiTpWhuFvcZYk5pWo3lA=;
-        b=pK/WRb48lWrTpvT6w6nZ/jGTUXb43ALCRM+8kuOuTki3E70kTFBj0tMlUKprKRONgS
-         9ToyIeDFt7Es8oysPWG5STR/Qu0nmUUKZEQdXflhzG8EIn+LXERKz3y3fR2uJ2XVmozi
-         PP75+uOZUcojHsyFEwYas22W5NlYSG2mgk40ls518MGbUZdSYLdssTb0S9mAoNFdX5dQ
-         KVkwsrKaqAOmv0cwF+KaqIBvZ+k+Rqcb2vhvBd/zcTa29Hze15/WJ/pzUxuJuU7pWRCi
-         vkLDsNz9Xrnf8G2Id0F4t4nknk6PDa44iRdNaTcJ0a6p9prvHenU3HfxOAtB78MCl8Ev
-         pEJw==
-X-Forwarded-Encrypted: i=2; AJvYcCX9feizBk2xQjGZDTNBL9bGrx2P+AMz97gEDAaFe5iby79E0bcP1HUt5ItfnHCzSx5YNIhavg==@lfdr.de
-X-Gm-Message-State: AOJu0YyI6KxFXxyN9pd/ajpLl3lm83b+jV9K0CfrSk7xrRr4CzlcRsDu
-	7lyS5G6+g0HiBu2eVft9Lza5pIZMKE7uxpXxkeON+VvsmOIYr+Th
-X-Google-Smtp-Source: AGHT+IHQHbZSTh1wbEN/jwY1aQRQP2y5kqGyXK9YaDvz0qK2iISYkJxxCGuCb+qjxpIOkKm34oGglg==
-X-Received: by 2002:a05:622a:1445:b0:476:7c7b:5dce with SMTP id d75a77b69052e-47909f58442mr66843151cf.9.1743647820619;
-        Wed, 02 Apr 2025 19:37:00 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPAKamFynEwebI3HfCxurPIptvnqPkl7/TZEBjnCaEUtkcQ==
-Received: by 2002:a05:622a:68c3:b0:476:7e35:1ce7 with SMTP id
- d75a77b69052e-4791615a0a4ls6879991cf.0.-pod-prod-03-us; Wed, 02 Apr 2025
- 19:37:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVteKVgDegaS8ZhuIqzwKwFHCKVBEk6X3Pu9FKOEhUBdvI7wwyeWTX25MMSnK/vdhQ4+EUUrRLup3E=@googlegroups.com
-X-Received: by 2002:ac8:7dcf:0:b0:476:afd2:5b6f with SMTP id d75a77b69052e-47909fb197fmr64857901cf.29.1743647819844;
-        Wed, 02 Apr 2025 19:36:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1743647819; cv=none;
+        bh=vuu4xlHYjBqCoOaz1S0pYlFzamonx+KMjOcj5H7zKks=;
+        b=tUcYhBzISsJaBvBOwo7vM0hhK4AOq5HKu64pjy9ZVEaTyHhMjDeMGnsBJgT6A0R8Ak
+         OKX5HRH3vkfjpqoTchOaP1w4LFhaPqBckIerl7D7XNw0gpIJoQWI9UyfQOOxDVDupn3Q
+         jG/KKoncvWg1B5bl7TdKc7yJpEp1omd7CgI3Kld8tdIZ/pT1ecazWI7dDGOR/MBnkz1R
+         eTwGH1CPrr1iRQ4jOAsarp9yitk9ZETkyXCGC5VbSXd/aV/hlXJxDcHajXXsKljzSQNx
+         lU8rKtAnYWnjea+gubHo5OFMtcUOAf+FKLXTVwnALNw+bLvgF904gC4kZCRg9C6a7GGw
+         rJww==
+X-Forwarded-Encrypted: i=2; AJvYcCUZe0i+XogBk0ZwKT7fjbX0k17JfQTqPauYRN2sbBiasqQM2yy13RIeBRcQ5NuI8A/sI7v1ig==@lfdr.de
+X-Gm-Message-State: AOJu0YxUpZjtAmOrPCYVfuG0c/wbow8k6DS/J42Sj4tgtpPr172PMNAe
+	dToeIhZGUHP2veh7/2M2mUtfLiPMdAooQRLwgXHXAnLD5Uk/zLpo
+X-Google-Smtp-Source: AGHT+IFjKH2qGz+C9+1ECa0nnwTPhbEc5nB9NKU5m5ajoBcPpUEtZnT3GNUAcTlM7sZo2qGE34kyqg==
+X-Received: by 2002:a05:6214:da7:b0:6cb:ee08:c1e8 with SMTP id 6a1803df08f44-6eed624eedbmr279479006d6.23.1743648493437;
+        Wed, 02 Apr 2025 19:48:13 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPAIezb1RB/rx4IqYurVeXitH4bgLV5+XPHa26i5KOdPA+A==
+Received: by 2002:a05:6214:4381:b0:6e8:f3c7:337d with SMTP id
+ 6a1803df08f44-6ef0bd6f1c0ls10405726d6.0.-pod-prod-09-us; Wed, 02 Apr 2025
+ 19:48:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXv41OYa4LYEefHtWoKiTtq2D8DnlbCd7eJEJOsKEo0YlAT1aaGApbN8likCwM0CgxqtV8D4lsyDwg=@googlegroups.com
+X-Received: by 2002:a05:620a:404d:b0:7c5:6e5d:301d with SMTP id af79cd13be357-7c6862e57c3mr2624142885a.1.1743648492683;
+        Wed, 02 Apr 2025 19:48:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1743648492; cv=none;
         d=google.com; s=arc-20240605;
-        b=RWnCudEubqsXDKP9C1JMfIkJ1D0hFbGNzlKaiMZo5NMBQobu0bGV1wj4FSm3QoJygj
-         Dphjw8O1SjEUbVPELIBm3On8RYubz2ZDqMjArrnVjAW35m5u7a6jE2N3CrRECRbF99GN
-         0c6n+gT1EF5dnVEdSIy8klSo1sJ39imzxL+I4Ur4tghBu7gSpb2qlkY5bA6uOzSHBnHY
-         BoAMCATfRACWSfubT0p7aLCl+uTOMK/ognBoIE8AxUkQv+CnrK/nOVq2aWhhqnJKp7mZ
-         3XtevbXindMAew45SAG6r71QP+nDPI+nbQv9QzoMSatjWKkFCJlQifT2PMsNYMT+QdNC
-         FDRQ==
+        b=Yp6LE0F9AHLMIdGrHXOWnhmpj4sitXZO6uiJoIpUMQXglH/zV/jOOua0Hx/zZabAdW
+         GjeJ+Gb8dXY83rwe8mDQVBjxWNesbqX+rWEgbemAko+rC7q/Ymy4g5HUSs2xFdXzSqiM
+         vmsnWTI3r0ceHVZYpGHuqKWnDTkMQHnUuYP/e+77ZF76JhZuuu7PqV2y7ury9GbcChnO
+         7oUcDl6cSHg6cz6jVC5C+XYq+5U1rMiX1TR3gqSWAgoi/VG5J1EywqX2PpKhiZ3dsJw2
+         qf45AOhja6qEisd6P8L7swDnu0R/be91MWqMg7lsJPFGvIWyTp4ru3E8UwlkTFDzT/B0
+         z1Ng==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
          :user-agent:mime-version:date:message-id;
-        bh=XZv1gSCoqPkSvuRo5CdsTOUa2UhovNSLORAb5XIYnJ4=;
-        fh=odEzHQSpxsvaEy2xGaL7yQk6k8wlREYj5HZ1d/G5syA=;
-        b=BlGMTOCtE9GzIlHQB4+Tshenf/PoSaak3W37HOMbC6HbQD7YuwrAIJuFbyI7fQUvf1
-         5PJGNTWOjsD4yla7/wlpxWi3F9JrUdagNwkmbsiMFMmGwmDPYXQFPGORwRSqxuBRAmY8
-         HL7mYuyatCTepCLN4LEjrOsmGiNQbFYaa+Xs4ltIW1ZGLrFFDbwPNpHQYcepOIOVtk28
-         akGyunqXMlAGP5ZXFTf+4PVcteNQrkeXteC2l188tlMbwwI3uoGGWKJKR/Dfsv1yf5a9
-         XRKu1/to64V50+plVFETo7w5ySN382cuGC+AxTMMcOlfGHmHw2ZfHyDNMUf6nD4647So
-         6ctA==;
+        bh=If1ZsNgrBBDERc1MRA+MXXmaA+so/oBkFX2K0q6MNvI=;
+        fh=1y/CY89gPecoyn0XwogOk3uRHcKNTP0J2T0aOfHSHCc=;
+        b=OoyA7niTdYo6GBp4fo+NRqcy/HoTujFwxW7fmGbN9uKXdAz4+uan+V0z6qUnqVtMFp
+         9o6GZZQlzu6ybKW+S4Y/2Xfp5d+JlrUrPdusYclIQwpoYDSyyBJyS4amIwvLP/48HULJ
+         63rokD2/touzH9ehZU0ptTblIEX1DcX6pklI1v59WgMtVgajhQv74mldoJAD3PVE1lUO
+         6xDRTfrkeWdc0+36YPRjCZ/rsPOzlJkgPlaD87d6yT52fZOje/pLRLFzO8FGlzJ/kbjw
+         vf5lcA9U8g/23fUhKEQuCZwmRVJX7O6mnImgjUDoOnPVJzHU4mByQytvVbMfX85AzJty
+         AWWQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.255 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
+       spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.189 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com. [45.249.212.255])
-        by gmr-mx.google.com with ESMTPS id d75a77b69052e-4791aef8058si146591cf.0.2025.04.02.19.36.58
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com. [45.249.212.189])
+        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-6ef0f122098si160676d6.8.2025.04.02.19.48.11
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 02 Apr 2025 19:36:59 -0700 (PDT)
-Received-SPF: pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.255 as permitted sender) client-ip=45.249.212.255;
-Received: from mail.maildlp.com (unknown [172.19.88.194])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4ZSm842dzTz1d0rb;
-	Thu,  3 Apr 2025 10:36:20 +0800 (CST)
+        Wed, 02 Apr 2025 19:48:12 -0700 (PDT)
+Received-SPF: pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.189 as permitted sender) client-ip=45.249.212.189;
+Received: from mail.maildlp.com (unknown [172.19.163.252])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4ZSmKq0chQzHrDQ;
+	Thu,  3 Apr 2025 10:44:47 +0800 (CST)
 Received: from kwepemk500005.china.huawei.com (unknown [7.202.194.90])
-	by mail.maildlp.com (Postfix) with ESMTPS id D73ED140383;
-	Thu,  3 Apr 2025 10:36:52 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id B33E31800EB;
+	Thu,  3 Apr 2025 10:48:07 +0800 (CST)
 Received: from [10.174.179.234] (10.174.179.234) by
  kwepemk500005.china.huawei.com (7.202.194.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 3 Apr 2025 10:36:50 +0800
-Message-ID: <78f82bf6-ec47-6b10-7c05-2189cc262f13@huawei.com>
-Date: Thu, 3 Apr 2025 10:36:49 +0800
+ 15.2.1544.11; Thu, 3 Apr 2025 10:48:05 +0800
+Message-ID: <82bf1b64-d887-c50b-17b1-2de978896d44@huawei.com>
+Date: Thu, 3 Apr 2025 10:48:04 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
 Subject: Re: [PATCH v13 2/5] arm64: add support for ARCH_HAS_COPY_MC
-To: Yeoreum Yun <yeoreum.yun@arm.com>
+To: "Luck, Tony" <tony.luck@intel.com>
 CC: Catalin Marinas <catalin.marinas@arm.com>, Mark Rutland
 	<mark.rutland@arm.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, Mauro
  Carvalho Chehab <mchehab+huawei@kernel.org>, Will Deacon <will@kernel.org>,
@@ -141,17 +141,17 @@ CC: Catalin Marinas <catalin.marinas@arm.com>, Mark Rutland
 References: <20241209024257.3618492-1-tongtiangen@huawei.com>
  <20241209024257.3618492-3-tongtiangen@huawei.com> <Z6zKfvxKnRlyNzkX@arm.com>
  <df40840d-e860-397d-60bd-02f4b2d0b433@huawei.com>
- <Z+bXE7UNWFLEfhQC@e129823.arm.com>
+ <Z-GOKgBNxKWQ21w4@agluck-desk3>
 From: "'Tong Tiangen' via kasan-dev" <kasan-dev@googlegroups.com>
-In-Reply-To: <Z+bXE7UNWFLEfhQC@e129823.arm.com>
+In-Reply-To: <Z-GOKgBNxKWQ21w4@agluck-desk3>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-Originating-IP: [10.174.179.234]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
  kwepemk500005.china.huawei.com (7.202.194.90)
 X-Original-Sender: tongtiangen@huawei.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of tongtiangen@huawei.com designates 45.249.212.255 as
+ (google.com: domain of tongtiangen@huawei.com designates 45.249.212.189 as
  permitted sender) smtp.mailfrom=tongtiangen@huawei.com;       dmarc=pass
  (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 X-Original-From: Tong Tiangen <tongtiangen@huawei.com>
@@ -170,9 +170,8 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 
 
-=E5=9C=A8 2025/3/29 1:06, Yeoreum Yun =E5=86=99=E9=81=93:
-> Hi,
->=20
+=E5=9C=A8 2025/3/25 0:54, Luck, Tony =E5=86=99=E9=81=93:
+> On Fri, Feb 14, 2025 at 09:44:02AM +0800, Tong Tiangen wrote:
 >>
 >>
 >> =E5=9C=A8 2025/2/13 0:21, Catalin Marinas =E5=86=99=E9=81=93:
@@ -220,22 +219,43 @@ gular
 >> Yes, it's transient, the kernel page in mf can't be isolated, the
 >> transient access (ld) of this kernel page is currently expected to kill
 >> the user-mode process to avoid error spread.
+>>
+>>
+>> The SEA processes synchronization errors. Only hardware errors on the
+>> source page can be detected (Through synchronous ld insn) and processed.
+>> The destination page cannot be processed.
 >=20
-> I'm not sure about how this works.
-> IIUC, the memory_failure() wouldn't kill any process if page which
-> raises sea is kernel page (because this wasn't mapped).
-
-right.
-
+> I've considered the copy_to_user() case as only partially fixable. There
+> are lots of cases to consider:
 >=20
-> But, to mark the kernel page as posision, I think it also need to call
-> apei_claim_sea() in !user_mode().
-> What about calling the apei_claim_sea() when fix_exception_me()
-> successed only in !user_mode() case?
+> 1) Many places where drivers copy to user in ioctl(2) calls.
+>     Killing the application solves the immediate problem, but if
+>     the problem with kernel memory is not transient, then you
+>     may run into it again.
+>=20
+> 2) Copy from Linux page cache to user for a read(2) system call.
+>     This one is a candidate for recovery. Might need help from the
+>     file system code. If the kernel page is a clean copy of data in
+>     the file system, then drop this page and re-read from storage
+>     into a new page. Then resume the copy_to_user().
+>     If the page is modified, then need some file system action to
+>     somehow mark this range of addresses in the file as lost forever.
+>     First step in tackling this case is identifying that the source
+>     address is a page cache page.
+>=20
+> 3) Probably many other places where the kernel copies to user for
+>     other system calls. Would need to look at these on a case by case
+>     basis. Likely most have the same issue as ioctl(2) above.
 
-This was discussed with Mark in V12:
-https://lore.kernel.org/lkml/20240528085915.1955987-3-tongtiangen@huawei.co=
-m/
+1) 3)
+Yes, in extreme cases, user-mode processes may be killed all the time.
+The hardware error that repeatedly triggered in the same page, in this
+case, firmware maybe report a fatal error, if yes, this problem can be
+solved.
+
+2)
+This is indeed a workaround, somewhat complex, but it seems worthwhile
+to avoid kernel panic.
 
 Sorry for didn't catch your reply in time:)
 
@@ -243,14 +263,8 @@ Thanks,
 Tong.
 
 >=20
-> Thanks.
->>
->> The SEA processes synchronization errors. Only hardware errors on the
->> source page can be detected (Through synchronous ld insn) and processed.
->> The destination page cannot be processed.
->>
->>>
->>
+> -Tony
+>=20
 > .
 
 --=20
@@ -258,5 +272,5 @@ You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/7=
-8f82bf6-ec47-6b10-7c05-2189cc262f13%40huawei.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/8=
+2bf1b64-d887-c50b-17b1-2de978896d44%40huawei.com.
