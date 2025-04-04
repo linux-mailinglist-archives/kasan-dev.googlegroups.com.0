@@ -1,75 +1,73 @@
-Return-Path: <kasan-dev+bncBCNKJRXDW4FRBS6FX67QMGQE5JMDDKY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCNKJRXDW4FRBBOGX67QMGQEKMXEYMQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x238.google.com (mail-oi1-x238.google.com [IPv6:2607:f8b0:4864:20::238])
-	by mail.lfdr.de (Postfix) with ESMTPS id 063C6A7BE3C
-	for <lists+kasan-dev@lfdr.de>; Fri,  4 Apr 2025 15:46:53 +0200 (CEST)
-Received: by mail-oi1-x238.google.com with SMTP id 5614622812f47-3fa1ddd6bdfsf556750b6e.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 04 Apr 2025 06:46:52 -0700 (PDT)
+Received: from mail-oo1-xc3c.google.com (mail-oo1-xc3c.google.com [IPv6:2607:f8b0:4864:20::c3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D010A7BE40
+	for <lists+kasan-dev@lfdr.de>; Fri,  4 Apr 2025 15:47:51 +0200 (CEST)
+Received: by mail-oo1-xc3c.google.com with SMTP id 006d021491bc7-6021ab9731dsf1797062eaf.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 04 Apr 2025 06:47:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1743774412; x=1744379212; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1743774470; x=1744379270; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-sender:mime-version
          :subject:message-id:to:from:date:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hPq1FEAsrGye12tFtw7NYYmjXbs9KWDhO+ua0vFM22c=;
-        b=MhM+yiiAK0xPNcuMg3IsH3BWM4VpAaCXxYvCFwPG6nfkEwvfWGQfLvyzt8sw7fi5gs
-         6J4PBnF1bbaLUmQvDvZHnjX6O15DGtO+awtjwuu+cz2ynEDZKBriGAS+JsPLOFxmDyaE
-         YVzVU1JqI5h8soKvVabXfZ0rEzdfsNQ9JiDgFB/v7ma0JD5a0tor1pHpcy4/EqUbJb7w
-         h17VJ+guCfDcue2bs6jP9kQFF+UtuchjIDDGvP33JuS248yyjCAfyE6myZz7aL0VN9FB
-         qpxQe1IlYOk7FeTvf+1w/XpyhPs2LikY4UBVV2rBE/vIHsY6yr/oNs08jtPQz40mt/Qu
-         Q0JA==
+        bh=GNtOMsp9qTwSsYTHz45mHROvfQFfx03+K+GFkRGjxnA=;
+        b=Q5LQHT3XeHMDfRo7wyns5xnhrmJV2wYs4qLyOM5OsensXB6FGZvQU380i1OZnz/909
+         jwnICmeFsREJa3mCwCFmsF1OHUFEEqRRbN3XsstuCEkbLivymKcVuWHW5ODYRjinYEKw
+         7Ulv59+TH/q8EqMGUF+C5DBwHwW7MmHuKSaS+kZCGAq6PqgcrpMHI9YDnpLBvzEKUsCW
+         H8fvGLixqKh4rFW/ACCJwCJCG+fUSnu4jxgJqrolJ0AeiJVcA6AvF3PML7cfyGxmfeyl
+         Dp7gUEGLVb1IH9e5rfK4A/a1OvZoJD7RGL0U/UzHri4C0Z2owYx9hrwKBfOJEW3Dkz97
+         UCzQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743774412; x=1744379212; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1743774470; x=1744379270; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-sender:mime-version
          :subject:message-id:to:from:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hPq1FEAsrGye12tFtw7NYYmjXbs9KWDhO+ua0vFM22c=;
-        b=RB8cD68lLwtFSbMWTEGIwhHC59qSJvW9o5fNxHc+vKK/ntzTm/Gq4r5YMh1vtNSIYU
-         PC6c2rdH66eT9w+pLofcpzdEHPW9s1jQoR3ul32kN8OyfLg4i+vV/aZU0xGL3ozz0Pp0
-         QcwUDCHt26IhpGPv2ZLKcLBXCDykvlOCnGwKvLK3kWiaHxElJ5cXca+iRimsXHD+Lfxi
-         pd5umXsxlHeQpzQmuv3q/JoZCv3yrBd68/obkCXADSitV4VeOsRDP4mAcbICpSAULF/H
-         RlLC9tOKGOd3QwptMr5iflHMcvfGxbwAM1D19+nhdanhomdPBZqSgqAYXra2Uuw4Cis6
-         CZvw==
+        bh=GNtOMsp9qTwSsYTHz45mHROvfQFfx03+K+GFkRGjxnA=;
+        b=Qhj3tu7voZFGr/J30tqnmzdRjHL34FuT8l8inTp17FQvOZ0VeFx8TUtw4SJUsnaDix
+         fMkeTvVmhUA9cJvHcra+P9AsMHOmKQUylFj6ufZnf21pYVzGvXAP4CYebQYXvQPer2BS
+         XZC6dJyMSfNH+5AjdfbVWyhYKjDLVkilpAdPAG6uCdtpYs94GP1Jl3ENRHnn17/uhvPS
+         chhMBNtwuCN9I8lb+pzLENPEv1i1fSkT8hK2Z/hjSAvc2U2XIhuzZB5vWfDI/DGEHD4d
+         SdnBKpyqdV8XzzYxKzvt/vcduxu0xyXSoe9DjxCsQqDdx86Tg80nRy5DFGJ5oyjnaQbn
+         OQDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743774412; x=1744379212;
+        d=1e100.net; s=20230601; t=1743774470; x=1744379270;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-sender:mime-version:subject:message-id:to:from:date
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hPq1FEAsrGye12tFtw7NYYmjXbs9KWDhO+ua0vFM22c=;
-        b=pfiuYgIB7kgQpYvMNjbF7Y5XOJsXPBcnOxMNesuP1bGpBdh/Iwtis0g/jVaDfyeUCO
-         Mb6ZGD0R4UGwfWh9aSWYpHpq42arxIjnsR78VICpQpXOWRzacqJlCcDPv/1nKNALm7J/
-         45BEA0nQykwQvhQiRAksIglRr+IS/cjUV0hBHfe9huH6x966o/+A8WViVg8mp+D83jBr
-         +rQaPDwWB+ayJtzTKC+4mCTff7bcxw9MAl2/ydXhMF7vhFmvBeXsgJiqLIVmg+HpF1eO
-         EZR4fvR4e5/qa7z7vi9ydbnlCOJ8fZ4dcCfZieCS9f/n35xkMox8zGbvNT38tWedDrlz
-         8d8g==
+        bh=GNtOMsp9qTwSsYTHz45mHROvfQFfx03+K+GFkRGjxnA=;
+        b=in0GQbWZeOqYzOaqqnpljDTD0XR0P3iVuWTpTIAZxsRMmhLvZJk1BxhSofYBXSTS+b
+         hkA3Zvp3nYvRpDH1zcnwZxpMMs0YkaTEuSEaxsEBiVlrZiN6GQdsAs+V0s76xM8h+h/l
+         GwXMd8XDbChnhf8ZutAla/VIKti5V3+2KqA7EBf2/xRQ/CIgGhHbEKPM0mzGnNr1HWnN
+         33DIZ9I/e8l/f/ptbCOr0EiXr3wfcfchucalgLLDED13EfN0ouh8WcLgbBl7ecXI5XHb
+         YJXt+5J/XPZ6PYx2DN3+GLf5LJBOn8v/kEgjd/sVyZ32JvhiPEDAflFYrVOPNUz2/njq
+         L4Yg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=1; AJvYcCV9dVEhj9RTz7cmoprgl9qyb1OPcoOjkstPumbIKvDlm/4rdLqfG/PXeEmWPL4masi0wAK1NA==@lfdr.de
-X-Gm-Message-State: AOJu0YwAk+53UznaPOgPekRh3xbKbrfFy8Fanr8ld6hwPFhRhhD5RHaT
-	D2sLvejirhq+MvWxvq9s0khDL9PTunrLeSqnn+jFsBETUUSBDJ4p
-X-Google-Smtp-Source: AGHT+IEpfHl0ebmzGVdIC1pLumgXgq9eegdzgPOIsmorJyr1oxj4p7R0XpnDnodCYjQ97hInsn4Sdg==
-X-Received: by 2002:a05:6808:199c:b0:3fa:51c5:d9a7 with SMTP id 5614622812f47-400455970b9mr1183248b6e.10.1743774411727;
-        Fri, 04 Apr 2025 06:46:51 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPAIQYs5InJuWzrhh7dYvhQksunu36LzRb7mMrcYXRCcPbg==
-Received: by 2002:a05:6820:1acb:b0:5fc:fc5a:c55b with SMTP id
- 006d021491bc7-60409e67e4bls681416eaf.0.-pod-prod-02-us; Fri, 04 Apr 2025
- 06:46:51 -0700 (PDT)
-X-Received: by 2002:a05:6808:228b:b0:3fe:af0a:f8da with SMTP id 5614622812f47-4004568eb32mr1662726b6e.38.1743774410591;
-        Fri, 04 Apr 2025 06:46:50 -0700 (PDT)
-Date: Fri, 4 Apr 2025 06:46:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX6Zjkkx/LnPiPOOaTlPiGjFN2OTCWwkC4SVshQOQNEPlZML7KgXIzOnt/gWNsoThsl8wq4HA==@lfdr.de
+X-Gm-Message-State: AOJu0YzuzRmPa6UcW7LXotg19EOCePBWt2Bga6X7PQlc+OzYqPAS7CGF
+	U21POBlrdLvnkSCpdpotGzAXuiGHXPFIGd0dd0LHTRkkMgeJiLut
+X-Google-Smtp-Source: AGHT+IFQP4aRmzKyba0QbEs5RTmCydLw1QKedmirxEdihGX8xBllAq3287Zs0tL0G/BCe7IL4OahUg==
+X-Received: by 2002:a05:6820:a101:b0:601:acdc:8f84 with SMTP id 006d021491bc7-60409d41f85mr4745903eaf.0.1743774469694;
+        Fri, 04 Apr 2025 06:47:49 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPALCeUPC2beo9lX4rapDlnId28hdbWd1+dfViwWyrRGu1Q==
+Received: by 2002:a4a:d10b:0:b0:600:3d56:c122 with SMTP id 006d021491bc7-60409e5f861ls471741eaf.0.-pod-prod-04-us;
+ Fri, 04 Apr 2025 06:47:48 -0700 (PDT)
+X-Received: by 2002:a05:6808:1815:b0:3f8:150b:f55e with SMTP id 5614622812f47-4004557fe4cmr1830970b6e.4.1743774468186;
+        Fri, 04 Apr 2025 06:47:48 -0700 (PDT)
+Date: Fri, 4 Apr 2025 06:47:47 -0700 (PDT)
 From: Ali Islam <aliislamm490@gmail.com>
 To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <783c9e58-ffbe-4241-b1ea-aee61908a170n@googlegroups.com>
-Subject: =?UTF-8?B?MDA5NjY1NDY1MjkwODF8IA==?=
- =?UTF-8?B?2KfYs9i52KfYsSDYrdio2YjYqCDYp9is2YfYp9i2IA==?=
- =?UTF-8?B?WyDYs9in2YrYqtmI2KrZg10g2YHZiiDYp9mE2K8=?=
- =?UTF-8?B?2YXYp9mFfNin2YTYt9in2KbZgXzYp9mE2YLYtdmK2YU=?=
+Message-Id: <e1f88f7c-192e-44f4-940e-19964b8b1411n@googlegroups.com>
+Subject: =?UTF-8?B?2LfYsdmCINmF2YjYq9mI2YLYqS8g2K3YqNmI2Kg=?=
+ =?UTF-8?B?INin2KzZh9in2LYg2YTZhNio2YrYuSDZgdmKIA==?=
+ =?UTF-8?B?2LXZitiv2YTZitipIFvYp9mE2YPZiNmK2KpdIC0gMDA5NjY1NDY1MjkwODE=?=
 MIME-Version: 1.0
 Content-Type: multipart/mixed; 
-	boundary="----=_Part_304526_666474577.1743774409784"
+	boundary="----=_Part_276846_608396772.1743774467206"
 X-Original-Sender: aliislamm490@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -83,11 +81,11 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_304526_666474577.1743774409784
+------=_Part_276846_608396772.1743774467206
 Content-Type: multipart/alternative; 
-	boundary="----=_Part_304527_1411741578.1743774409784"
+	boundary="----=_Part_276847_1448415039.1743774467206"
 
-------=_Part_304527_1411741578.1743774409784
+------=_Part_276847_1448415039.1743774467206
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: base64
 
@@ -696,9 +694,9 @@ aWJlZCB0byB0aGUgR29vZ2xlIEdyb3VwcyAia2FzYW4tZGV2IiBncm91cC4KVG8gdW5zdWJzY3Jp
 YmUgZnJvbSB0aGlzIGdyb3VwIGFuZCBzdG9wIHJlY2VpdmluZyBlbWFpbHMgZnJvbSBpdCwgc2Vu
 ZCBhbiBlbWFpbCB0byBrYXNhbi1kZXYrdW5zdWJzY3JpYmVAZ29vZ2xlZ3JvdXBzLmNvbS4KVG8g
 dmlldyB0aGlzIGRpc2N1c3Npb24gdmlzaXQgaHR0cHM6Ly9ncm91cHMuZ29vZ2xlLmNvbS9kL21z
-Z2lkL2thc2FuLWRldi83ODNjOWU1OC1mZmJlLTQyNDEtYjFlYS1hZWU2MTkwOGExNzBuJTQwZ29v
+Z2lkL2thc2FuLWRldi9lMWY4OGY3Yy0xOTJlLTQ0ZjQtOTQwZS0xOTk2NGI4YjE0MTFuJTQwZ29v
 Z2xlZ3JvdXBzLmNvbS4K
-------=_Part_304527_1411741578.1743774409784
+------=_Part_276847_1448415039.1743774467206
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: base64
 
@@ -3338,11 +3336,11 @@ c2NyaWJlIGZyb20gdGhpcyBncm91cCBhbmQgc3RvcCByZWNlaXZpbmcgZW1haWxzIGZyb20gaXQs
 IHNlbmQgYW4gZW1haWwgdG8gPGEgaHJlZj0ibWFpbHRvOmthc2FuLWRldit1bnN1YnNjcmliZUBn
 b29nbGVncm91cHMuY29tIj5rYXNhbi1kZXYrdW5zdWJzY3JpYmVAZ29vZ2xlZ3JvdXBzLmNvbTwv
 YT4uPGJyIC8+ClRvIHZpZXcgdGhpcyBkaXNjdXNzaW9uIHZpc2l0IDxhIGhyZWY9Imh0dHBzOi8v
-Z3JvdXBzLmdvb2dsZS5jb20vZC9tc2dpZC9rYXNhbi1kZXYvNzgzYzllNTgtZmZiZS00MjQxLWIx
-ZWEtYWVlNjE5MDhhMTcwbiU0MGdvb2dsZWdyb3Vwcy5jb20/dXRtX21lZGl1bT1lbWFpbCZ1dG1f
+Z3JvdXBzLmdvb2dsZS5jb20vZC9tc2dpZC9rYXNhbi1kZXYvZTFmODhmN2MtMTkyZS00NGY0LTk0
+MGUtMTk5NjRiOGIxNDExbiU0MGdvb2dsZWdyb3Vwcy5jb20/dXRtX21lZGl1bT1lbWFpbCZ1dG1f
 c291cmNlPWZvb3RlciI+aHR0cHM6Ly9ncm91cHMuZ29vZ2xlLmNvbS9kL21zZ2lkL2thc2FuLWRl
-di83ODNjOWU1OC1mZmJlLTQyNDEtYjFlYS1hZWU2MTkwOGExNzBuJTQwZ29vZ2xlZ3JvdXBzLmNv
+di9lMWY4OGY3Yy0xOTJlLTQ0ZjQtOTQwZS0xOTk2NGI4YjE0MTFuJTQwZ29vZ2xlZ3JvdXBzLmNv
 bTwvYT4uPGJyIC8+Cg==
-------=_Part_304527_1411741578.1743774409784--
+------=_Part_276847_1448415039.1743774467206--
 
-------=_Part_304526_666474577.1743774409784--
+------=_Part_276846_608396772.1743774467206--
