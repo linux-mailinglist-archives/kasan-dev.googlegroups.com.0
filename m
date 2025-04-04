@@ -1,130 +1,129 @@
-Return-Path: <kasan-dev+bncBD22BAF5REGBBG5SYC7QMGQEXZEB6GQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBD22BAF5REGBBBF2YC7QMGQETIRDRRY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1037.google.com (mail-pj1-x1037.google.com [IPv6:2607:f8b0:4864:20::1037])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA21BA7C296
-	for <lists+kasan-dev@lfdr.de>; Fri,  4 Apr 2025 19:38:37 +0200 (CEST)
-Received: by mail-pj1-x1037.google.com with SMTP id 98e67ed59e1d1-3032f4ea8cfsf2478564a91.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 04 Apr 2025 10:38:37 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1743788316; cv=pass;
+Received: from mail-il1-x139.google.com (mail-il1-x139.google.com [IPv6:2607:f8b0:4864:20::139])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9214A7C2EA
+	for <lists+kasan-dev@lfdr.de>; Fri,  4 Apr 2025 19:55:17 +0200 (CEST)
+Received: by mail-il1-x139.google.com with SMTP id e9e14a558f8ab-3d5bb1708e4sf47031725ab.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 04 Apr 2025 10:55:17 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1743789316; cv=pass;
         d=google.com; s=arc-20240605;
-        b=K5+evVIrj2mrAwBQ9FXVBHyJSr8ERIRLusBakFrQVSKb6WkNO4PLWM2iY4yfgUF+Kk
-         JYkA9yjOiY/w03ALT8A9JngLiqvbxtOoMF0ddLeXvbjAU4si1OsC2Me+WQb3GF0y3VvI
-         6OU7vYfM6aIqrmJgQsiRvdmabhmw9tO7ZtBcwfFeB9rS4Yozn1OQSjcUanZDDFCI5VlO
-         3W4ZxAAC5iqK+ijBcA1Iy6QH+InJX5LcyHO0Eh8rO71r6j9MoCSPZHWWSOgGjGzJ1lek
-         nPgwdQNN4OVgBuAlJVMHAro9Es8Qdsm5XzZKc2l+S3YvT18z0oknq9GXKIZxGN5FznkV
-         mloQ==
+        b=jo9lAwWBg2nNPmSMknoBX3UX6ebCXJOMAWsLERSPVidFVTGTYlIx6CqbQAJXD51HtG
+         ooL903hugWuGtU52jPGpCNi6zZJGJiQw2zLBY8E7tT6G/Qu4tp/p8sOZ95NChofJNvZp
+         YgDqM0xCDtbHkU+qweYW2h9ed4rZIc9O3CTTJdRY5RAibB2zsLffoQ5FfZW9ziA6XTfR
+         GKYPQuGPk0YoEgu1ZQaMUNpdydy3O05wWopBkS/xcPdPLtsCgZ/wFdm6EI6P8J+c5EOX
+         96dDP67jR9sGv3H2i3l2GiZwDX5blKsCMIzT3MFpb7Fx81Z+X+seXOCsqOHCNO18rUB2
+         GwrQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:sender:dkim-signature;
-        bh=SStEHEkfzrezSyRRqSWoJD6r2zICzgF31JRQSAOW/SQ=;
-        fh=IEypYIK3/Gmy4SZUNfMhFeAQXS92N4fj00lcI+1Ykz8=;
-        b=abQci2gJroRIMV6VVv6RxlvZ10UtHDr90r6a6dLAQOChKzTPN8NDiwrQtvAClfb3UE
-         czotwhp80dF7JY9xopCFFzqFhSMVXzDHfJKhCGGYVmuSa7x7gJ2IbJyDQ10gtljI63X2
-         s+IhzkV8ZUlR/RRVTs+zxKD00ZlDXJJWbiu1Q1em4KHzqDaVN0q2IzoIq64fVahtYB9j
-         6/5yzfQicRz6DDCiC+tmYk5l9de+yNT4v/L03sgKWOe/h6ssKLuc6Ed9t43aVPXSjfd9
-         7X+6g9rZ1gGWNCO6uREG+tZbgZsUDYHnMCyE3j1z8v/t+ZpPXmrGiWNdaoFFNhVKz+gd
-         c9EA==;
+        bh=kjdSzj3Qeivy2egkleIUp19ZNR/dcD/PvOGC+Xdr5j4=;
+        fh=pBcQzTlH14jy5IiyJEaMB2/fhfWVm6Fg4shk+D1vii4=;
+        b=DYk/Rb01KzsEdCwPU1USQDvpUikIsB/YOfln5xkMlBdYA53PxT7ki2x6UOsKz5XbJq
+         LkJ+3GndsGfDfmOvx/nlw4zj3CLLzgaG2c/CH3g5x2KCkV7XlaHtT2d1FfUj7bke2TVk
+         bC1ExE7+eVwVThsrhzZBYosXvwbTZ7INDsqfdCygO9xOQFQYfI+tQ3q2xZOgIj6EAa7k
+         FEQXq31fUf5eJiakAanI3Vvls2+pwqoTJblglGz7obMfCHp7XRn4Rz1ID5R/ydIrlIQ8
+         y8agCITwsXRToTY79b+0qTByUEQ3JrM4kVwNij1AHMx/X5ynAVjMgh2GDOwXxQai8k7h
+         ZQpw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=f05RGLP4;
-       spf=pass (google.com: domain of dave.hansen@intel.com designates 192.198.163.8 as permitted sender) smtp.mailfrom=dave.hansen@intel.com;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=cS5RBcX8;
+       spf=pass (google.com: domain of dave.hansen@intel.com designates 198.175.65.18 as permitted sender) smtp.mailfrom=dave.hansen@intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1743788316; x=1744393116; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1743789316; x=1744394116; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:autocrypt:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=SStEHEkfzrezSyRRqSWoJD6r2zICzgF31JRQSAOW/SQ=;
-        b=Z+mJPGWl51TkvI6XHsSAMdzjOpAELwzsWah7kiSBkNx3OQlAMpLJVvJN0PpRAi4lyW
-         ugNzxBJPM4pRot6voA93qghmzTg1EEAanmbslozQkQS7iT/hwqPxkkg6gwPdxXciHJZF
-         k7hwf6RdMtGacodVms7jeU5rgnnTBzpqkGEke5FvRZ1G2p0nehBi0WfjU3hw9wnhtcZz
-         sINRHtFSjcf8i+RJ18idHLV+LvoihM/1XdcHzBfGaTQ4IoEY1OvskHymTD3pv4DqVSLX
-         pLLkQ9oV6aIlZBYRXYqv3os6NJwEFeJ3/V30BTA9EXirPSqWjmojdsokUkVCClYhlhMa
-         K1TQ==
+        bh=kjdSzj3Qeivy2egkleIUp19ZNR/dcD/PvOGC+Xdr5j4=;
+        b=hIP6iH9IOyTOrPAiLC3oWyF3iwYSxkVbuivqFWv8Rj7xyNDD83hVeoltoWwJj6jedC
+         byRkGAouJEMAVL7uU3Vz37DUDJ1RLd664Hj8Q7pzM/yateLL/td5RxlxUvClAC6G2/8Q
+         z74c/qepfh0+jAUnL0GkcUWAr1W1wIwE7eLYxroqAG5ptB8KdIG6O1ZhVXCMd6jsDsyv
+         VKgmkr70+00/AWq2M5s52u6Ebfa/mHfLWQ/yz2s7XVmZdCXL1G3xx5ZvytJSy7BOPUA7
+         wtAqTBL2iNg6D26fZR1bKhbp+w31A3dZ3d4HJGpCoNluD2s4VouMmqua7WJfNFIw2ykp
+         MsFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743788316; x=1744393116;
+        d=1e100.net; s=20230601; t=1743789316; x=1744394116;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :autocrypt:content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=SStEHEkfzrezSyRRqSWoJD6r2zICzgF31JRQSAOW/SQ=;
-        b=KcZY9ekQDa+DaVFG6KrgBPnzFLXTdRAmThcPUvK9oEe+qSFH+i2axRUzdUE7ZQAO9P
-         iLwsQhwhTzV89l6D9EoHF4fQngYNT5JUdm9g3UIcxgLXuVs3qHopcbggOks2pLpSGdQn
-         kPn/VM1vbq+Xt4alnyK86jxv8d0mWpGWuaicqwA9c0WqJ6HoPyrz8SG+9+77f1ZNHWwA
-         Ty8Wwb4UHdj2ifOikwJ1Zi2HHFM5x8aDgehrpuk4CQ5u2Ae/gYfXg6ugwOiCP4NgwCf7
-         owT60tr2Xc0/fhfOtvZGWNF1H8dfE9//ejmUPXchCLHhwlNr4/eOx1XPAGWC1ZNplY5C
-         wBpQ==
+        bh=kjdSzj3Qeivy2egkleIUp19ZNR/dcD/PvOGC+Xdr5j4=;
+        b=QB13h33qYyf+d6lXZfAWECELwz9/4MtD+aebFZQaAuaWQP8SQbZ4J4qbBJGtRI+dmf
+         zvHkby9PeUB2dL4gG+Dbrlx9dxBbD3LyFW//ng0kdtvDiA7Hwh0zv43rgZ+p2pH1KdU9
+         VE25KcwBc83TrG9gwylvEcPqSQGJaA/xG2BiM6Sj1/B7nSowsUxg+KITx2tp02v1qhQJ
+         d0NUlmyCOcdtxTR64XMGeKf5ZegbBsHmh1aPeEVCJOWpi96Vg4Zmsbpy0mz53hYCXTZB
+         c0Ps2b0zsj95ARr8PFVTsfB0AfLwzrEjkpwgu/xZ3btWOVOlZn3QIFD+pMMZswM3mBup
+         ylNA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXR0m3EN5Jtshwen4Y/SkELPpxVpO0WULPqPnLwx1SOf+3cU/lw5Benb90GeuqkdKagvJV4Bg==@lfdr.de
-X-Gm-Message-State: AOJu0YxmDxd2E8hG4YmxPSH6p8NcagzcMENkDSk94ObFUyyInOer0K5V
-	M+7B6O7fX1BpvD4oKXJ/JoZE5TvyEBCahaeCJk4NwauGCCDbaoTt
-X-Google-Smtp-Source: AGHT+IGTZCE9Uhnp+q3dOsh69OCZWPtLLszMEqQo/zZRYTSbWyVFjR2gxJBt5zV3z58zwQMWiWwbFA==
-X-Received: by 2002:a17:90b:51cd:b0:2ee:f80c:6889 with SMTP id 98e67ed59e1d1-306a492209bmr7001041a91.33.1743788316152;
-        Fri, 04 Apr 2025 10:38:36 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPAKZPEUD2aVzAmXrOnBK5JalTm39XkFG1sAsSZaTibHb4g==
-Received: by 2002:a17:90a:1602:b0:2ff:530b:43d9 with SMTP id
- 98e67ed59e1d1-3057a012f30ls1650467a91.2.-pod-prod-05-us; Fri, 04 Apr 2025
- 10:38:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCX/sc2IND+e681p92P0GguLgJGx6hPoKuTmaN+qmh8lwK8AhxWuLXuGLxqTpCP2e3B7gtsW48NzB5w=@googlegroups.com
-X-Received: by 2002:a05:6a21:e8d:b0:1f5:8479:dfe2 with SMTP id adf61e73a8af0-20104591150mr6603617637.6.1743788314756;
-        Fri, 04 Apr 2025 10:38:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1743788314; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCW+vJGRYgTNMIucinfLGncawphrqApFLFSeSsfSYROhH7hj23sown8FRp7/FMyEzX7sVJ42Yg==@lfdr.de
+X-Gm-Message-State: AOJu0YweOI3sKG6Vz5DuQ5jMtTg8xVYH6ARlybmV2Xkf9SF/x6J8zeeB
+	6Yy9HeqGBTf+4pbB/SJfV6eop8HAQpniaw77ilflEUAOEhS3Trer
+X-Google-Smtp-Source: AGHT+IGSDgAhDW9j995oKleHM52ZhI20ARKChG9GfkyElbVWHNFS9xl+kebtUaNpL499h/4vyIoLKw==
+X-Received: by 2002:a05:6e02:156b:b0:3d3:dfc2:912f with SMTP id e9e14a558f8ab-3d6e3efbc2amr54308015ab.7.1743789316491;
+        Fri, 04 Apr 2025 10:55:16 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPALr4LTnVvIbN2y+yhABqVvrJ1ypEhc8OYrNZlh6nCOkfw==
+Received: by 2002:a92:d581:0:b0:3d1:a26f:e248 with SMTP id e9e14a558f8ab-3d6dc9c8ac2ls5202015ab.1.-pod-prod-05-us;
+ Fri, 04 Apr 2025 10:55:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCW3b/DEvRxndMsRT6XURC+aNyZdhIE4U1sySuJeM7ACt1v5LyoY+EOk8rLmfbDoxr8EYXyvsJWKd3c=@googlegroups.com
+X-Received: by 2002:a05:6e02:156b:b0:3d3:dfc2:912f with SMTP id e9e14a558f8ab-3d6e3efbc2amr54307565ab.7.1743789315798;
+        Fri, 04 Apr 2025 10:55:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1743789315; cv=none;
         d=google.com; s=arc-20240605;
-        b=IAI4b3i6H94GqhAfrnz/hXhJ16MoiuweaZ9gcpaoi5nw2vOxTZ8gDkebnRi2aCJauV
-         PAdcPyn6ZhDFq1Zd51My6BCR64lcUUi68Y37CH8ri3oBotFsuYpP+TDmxSqvycTOD+DO
-         e+wUbb5eT0+hwMMpiT6jAodVxmwxu2kJjm3tzhzO0ajN2/tYvDRu9VA2QZ9UFFepmwP2
-         4LD43bsMAXkVQcfTJN0dOyOB72E1bF6PCHlMT2aCmdmlfFoyK+WRirO3DUHhnYIA5REz
-         9W05gsI7mboAvBYlPj/gKxlDOaP/IPhCwe5zxpjOsAncA6PLmCmFxYNPnjK60ff4/LSu
-         jiuw==
+        b=OqtzJGs5yqNpHLrnhJgEs4pHHwhrlZHlU8rFauZeMizTHpHl3/0lVMi2yTXpDQt/pc
+         bFdK9vP3rx6O1WLG3zyFFeV1u2gp2i4ZuCEZZoh70ZtKIPvs4fh/ciXPGrTJv2O6X7oi
+         kUtRvgl7Rrw5PQzo2cDMhMPQ6/nhKNHYPlCxG24HVOFn4XfWukRtN6d/MNq/8UWVdUSQ
+         kQpd3EnSeYWauh1HlovZmxZXbLUdzB+W3/V7j5Nnn0BKnS6fcymEe1uW/epHfEAwNqiJ
+         Qjhqsdr2JH8WRgAcVyhIzrTE0Ndi480AmIQVIkmdKEXyKZ13xNuRUpkvyiGNvmUzFpnf
+         xlXg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:dkim-signature;
-        bh=MkhEDkzVvWbFSyHa0L/xQxztLFgjeaUGVrsCYpUu5fs=;
+        bh=OvgULkyAd91bfBJhci113TYF0W+Q694yEAcCw33C8+k=;
         fh=qAclqxczifa7kqZeY+RB5PN2iG3DrlxE7ZoinyFrUhQ=;
-        b=MaDIczL4yJss+Z5Fm6WHih9+6ALgVvBmazx6VRg/+7x56CxU0UzZsB5I+SrclUsXCM
-         pLYF/jilQm/7ENaYGIwNOvmLsXHFSPmefxidERq4vM7+8JMOCTxkmy4vyX19s6wdOcga
-         sksWExynNlEE5IvTtJRiH92wbMKEkDpqr1CG6X8egDszowGmp8gLgR+oSelQ0kUaNa3B
-         r5noQduMQHDh2uCZfjLVjzs+R+qkEtZKRQBV1qZUqFyzTSty1xlc0lYAFq66+9v16QG6
-         DDeTHbGrATrRp8iZKjGdf+aiTjKB3Npk+GlGXQCaw8B6HRkljhNcA4gVLWHx44MsEWE2
-         jhPQ==;
+        b=SO86d+CbIguQsv0RRzlK0FCZygIRKzqnDMLfcj0CWFYJiFOauTq9Rcekw2u1cs40Jq
+         dSC+ZChIvq/YgAksVj07mvyXEc/18cfJkD3AWX4At+z4vqlGdmyxamXOy6Ma23DEF/A8
+         YTg01EqfzU7lsfDxvr8T4iUuQPAtP/toCl2D8O1A4kxagB8aWAox61NmEFhYlqIXFJmx
+         1++vknUiDNhwZ/9muMTlxPyrhRKGLavpcYZ6ohBVN+tKwy1Va/AEjbh8+kUd94RKVBGJ
+         By4JxouUAEpwxDS9XMSqWthv2XLLL8VV53bmbHi81xWSz8riPEqqq1sjVCWm6Kt3ykLA
+         IVOQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=f05RGLP4;
-       spf=pass (google.com: domain of dave.hansen@intel.com designates 192.198.163.8 as permitted sender) smtp.mailfrom=dave.hansen@intel.com;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=cS5RBcX8;
+       spf=pass (google.com: domain of dave.hansen@intel.com designates 198.175.65.18 as permitted sender) smtp.mailfrom=dave.hansen@intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mgamail.intel.com (mgamail.intel.com. [192.198.163.8])
-        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-739d97f2fb0si187047b3a.2.2025.04.04.10.38.34
+Received: from mgamail.intel.com (mgamail.intel.com. [198.175.65.18])
+        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-4f4b5d1c29asi188705173.5.2025.04.04.10.55.15
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 04 Apr 2025 10:38:34 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dave.hansen@intel.com designates 192.198.163.8 as permitted sender) client-ip=192.198.163.8;
-X-CSE-ConnectionGUID: RY7O9Z1+SvejeZYgeqHj8w==
-X-CSE-MsgGUID: a5RF1vSQQjG0nWUQOJ99yQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="62773781"
-X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="62773781"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 10:38:32 -0700
-X-CSE-ConnectionGUID: 3jueK+bYQvGsWn/SgG7b1Q==
-X-CSE-MsgGUID: vVkKM15nSt2oK2nSl/uuYA==
+        Fri, 04 Apr 2025 10:55:15 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dave.hansen@intel.com designates 198.175.65.18 as permitted sender) client-ip=198.175.65.18;
+X-CSE-ConnectionGUID: B9XSYfVzS5Sx98F4HFBeVQ==
+X-CSE-MsgGUID: MhRNiW2uTFufsBKBHHzHyA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="45379465"
+X-IronPort-AV: E=Sophos;i="6.15,189,1739865600"; 
+   d="scan'208";a="45379465"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 10:55:14 -0700
+X-CSE-ConnectionGUID: XcFkPhxZTJWIrLqhXG8wPg==
+X-CSE-MsgGUID: DQH8Q7APT5qgIEL6nrV9GQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="128215225"
+X-IronPort-AV: E=Sophos;i="6.15,189,1739865600"; 
+   d="scan'208";a="131512363"
 Received: from daliomra-mobl3.amr.corp.intel.com (HELO [10.124.223.29]) ([10.124.223.29])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 10:37:54 -0700
-Message-ID: <8416848c-700a-4ff0-8a22-aa62579d60cd@intel.com>
-Date: Fri, 4 Apr 2025 10:37:53 -0700
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 10:55:10 -0700
+Message-ID: <c797714b-4180-4439-8a02-3cfacd42dafe@intel.com>
+Date: Fri, 4 Apr 2025 10:55:09 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 10/14] x86: Update the KASAN non-canonical hook
+Subject: Re: [PATCH v3 11/14] x86: Handle int3 for inline KASAN reports
 To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, hpa@zytor.com,
  hch@infradead.org, nick.desaulniers+lkml@gmail.com,
  kuan-ying.lee@canonical.com, masahiroy@kernel.org,
@@ -151,7 +150,7 @@ Cc: llvm@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
  linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, x86@kernel.org
 References: <cover.1743772053.git.maciej.wieczor-retman@intel.com>
- <c37c89e71ed5a8e404b24b31e23457af12f872f2.1743772053.git.maciej.wieczor-retman@intel.com>
+ <012c84049b853d6853a7d6c887ce0c2323bcd80a.1743772053.git.maciej.wieczor-retman@intel.com>
 From: Dave Hansen <dave.hansen@intel.com>
 Content-Language: en-US
 Autocrypt: addr=dave.hansen@intel.com; keydata=
@@ -197,12 +196,12 @@ Autocrypt: addr=dave.hansen@intel.com; keydata=
  MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
  hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
  vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
-In-Reply-To: <c37c89e71ed5a8e404b24b31e23457af12f872f2.1743772053.git.maciej.wieczor-retman@intel.com>
+In-Reply-To: <012c84049b853d6853a7d6c887ce0c2323bcd80a.1743772053.git.maciej.wieczor-retman@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: dave.hansen@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=f05RGLP4;       spf=pass
- (google.com: domain of dave.hansen@intel.com designates 192.198.163.8 as
+ header.i=@intel.com header.s=Intel header.b=cS5RBcX8;       spf=pass
+ (google.com: domain of dave.hansen@intel.com designates 198.175.65.18 as
  permitted sender) smtp.mailfrom=dave.hansen@intel.com;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
@@ -218,171 +217,130 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 On 4/4/25 06:14, Maciej Wieczor-Retman wrote:
-> The kasan_non_canonical_hook() is useful in pointing out that an address
-> which caused some kind of error could be the result of
-> kasan_mem_to_shadow() mapping. Currently it's called only in the general
-> protection handler code path but can give helpful information also in
-> page fault oops reports.
+> When a tag mismatch happens in inline software tag-based KASAN on x86 an
+> int3 instruction is executed and needs proper handling.
+
+Does this mean "inline software"? Or "inline" functions? I'm not quite
+parsing that. I think it needs some more background.
+
+> Call kasan_report() from the int3 handler and pass down the proper
+> information from registers - RDI should contain the problematic address
+> and RAX other metadata.
 > 
-> For example consider a page fault for address 0xffdefc0000000000 on a
-> 5-level paging system. It could have been accessed from KASAN's
-> kasan_mem_to_shadow() called on 0xfef0000000000000 address. Without the
-> kasan_non_canonical_hook() in the page fault case it might be hard to
-> figure out why an error occurred.
-> 
-> Add kasan_non_canonical_hook() to the beginning of show_fault_oops().
-> 
-> Update kasan_non_canonical_hook() to take into account the possible
-> memory to shadow mappings in the software tag-based mode of x86.
-> 
-> Patch was tested with positive results by accessing the following
-> addresses, causing #GPs and #PFs.
-> 
-> Valid mappings (showing kasan_non_canonical_hook() message):
-> 	0xFFFFFFFF8FFFFFFF
-> 	0xFEF0000000000000
-> 	0x7FFFFF4FFFFFFFFF
-> 	0x7EF0000000000000
-> Invalid mappings (not showing kasan_non_canonical_hook() message):
-> 	0xFFFFFFFFF8FFFFFF
-> 	0xFFBFFC0000000000
-> 	0x07EFFC0000000000
-> 	0x000E000000000000
-> 
-> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-> ---
-> Changelog v3:
-> - Move the report.c part from first patch in the series to this new
->   patch to have x86 changes in one place.
-> - Add the call in fault oops.
-> - Extend the comment in report.c with a graphical representation of what
->   addresses are valid and invalid in memory to shadow mapping.
-> 
->  arch/x86/mm/fault.c |  2 ++
->  mm/kasan/report.c   | 36 +++++++++++++++++++++++++++++++++++-
->  2 files changed, 37 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
-> index 697432f63c59..16366af60ae5 100644
-> --- a/arch/x86/mm/fault.c
-> +++ b/arch/x86/mm/fault.c
-> @@ -511,6 +511,8 @@ show_fault_oops(struct pt_regs *regs, unsigned long error_code, unsigned long ad
->  	if (!oops_may_print())
->  		return;
+> Also early return from the int3 selftest if inline KASAN is enabled
+> since it will cause a kernel panic otherwise.
+...
+> diff --git a/arch/x86/kernel/alternative.c b/arch/x86/kernel/alternative.c
+> index bf82c6f7d690..ba277a25b57f 100644
+> --- a/arch/x86/kernel/alternative.c
+> +++ b/arch/x86/kernel/alternative.c
+> @@ -1979,6 +1979,9 @@ static noinline void __init int3_selftest(void)
+>  	};
+>  	unsigned int val = 0;
 >  
-> +	kasan_non_canonical_hook(address);
+> +	if (IS_ENABLED(CONFIG_KASAN_INLINE))
+> +		return;
+
+Comments, please. This is a total non sequitur otherwise.
+
+>  	BUG_ON(register_die_notifier(&int3_exception_nb));
+>  
+>  	/*
+> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+> index 9f88b8a78e50..32c81fc2d439 100644
+> --- a/arch/x86/kernel/traps.c
+> +++ b/arch/x86/kernel/traps.c
+...
+> @@ -849,6 +850,51 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
+>  	cond_local_irq_disable(regs);
+>  }
+>  
+> +#ifdef CONFIG_KASAN_SW_TAGS
 > +
->  	if (error_code & X86_PF_INSTR) {
->  		unsigned int level;
->  		bool nx, rw;
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index f24f11cc644a..135307c93c2c 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -700,7 +700,7 @@ void kasan_non_canonical_hook(unsigned long addr)
->  	 * operation would overflow only for some memory addresses. However, due
->  	 * to the chosen KASAN_SHADOW_OFFSET values and the fact the
->  	 * kasan_mem_to_shadow() only operates on pointers with the tag reset,
-> -	 * the overflow always happens.
-> +	 * the overflow always happens (for both x86 and arm64).
->  	 *
->  	 * For arm64, the top byte of the pointer gets reset to 0xFF. Thus, the
->  	 * possible shadow addresses belong to a region that is the result of
-> @@ -715,6 +715,40 @@ void kasan_non_canonical_hook(unsigned long addr)
->  			return;
->  	}
->  
-> +	 /*
-> +	  * For x86-64, only the pointer bits [62:57] get reset, and bits #63
-> +	  * and #56 can be 0 or 1. Thus, kasan_mem_to_shadow() can be possibly
-> +	  * applied to two regions of memory:
-> +	  * [0x7E00000000000000, 0x7FFFFFFFFFFFFFFF] and
-> +	  * [0xFE00000000000000, 0xFFFFFFFFFFFFFFFF]. As the overflow happens
-> +	  * for both ends of both memory ranges, both possible shadow regions
-> +	  * are contiguous.
-> +	  *
-> +	  * Given the KASAN_SHADOW_OFFSET equal to 0xffeffc0000000000, the
-> +	  * following ranges are valid mem-to-shadow mappings:
-> +	  *
-> +	  * 0xFFFFFFFFFFFFFFFF
-> +	  *         INVALID
-> +	  * 0xFFEFFBFFFFFFFFFF - kasan_mem_to_shadow(~0UL)
-> +	  *         VALID   - kasan shadow mem
-> +	  *         VALID   - non-canonical kernel virtual address
-> +	  * 0xFFCFFC0000000000 - kasan_mem_to_shadow(0xFEUL << 56)
-> +	  *         INVALID
-> +	  * 0x07EFFBFFFFFFFFFF - kasan_mem_to_shadow(~0UL >> 1)
-> +	  *         VALID   - non-canonical user virtual addresses
-> +	  *         VALID   - user addresses
-> +	  * 0x07CFFC0000000000 - kasan_mem_to_shadow(0x7EUL << 56)
-> +	  *         INVALID
-> +	  * 0x0000000000000000
-> +	  */
-> +	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS) && IS_ENABLED(CONFIG_X86_64)) {
+> +#define KASAN_RAX_RECOVER	0x20
+> +#define KASAN_RAX_WRITE	0x10
+> +#define KASAN_RAX_SIZE_MASK	0x0f
+> +#define KASAN_RAX_SIZE(rax)	(1 << ((rax) & KASAN_RAX_SIZE_MASK))
 
-One overall comment on this series: there's a lot of unnecessary
-complexity. Case in point:
+This ABI _looks_ like it was conjured out out of thin air. I assume it's
+coming from the compiler. Any pointers to that ABI definition in or out
+of the kernel would be appreciated.
 
-	config ADDRESS_MASKING
-	        depends on X86_64
+> +static bool kasan_handler(struct pt_regs *regs)
+> +{
+> +	int metadata = regs->ax;
+> +	u64 addr = regs->di;
+> +	u64 pc = regs->ip;
+> +	bool recover = metadata & KASAN_RAX_RECOVER;
+> +	bool write = metadata & KASAN_RAX_WRITE;
+> +	size_t size = KASAN_RAX_SIZE(metadata);
 
-and
+"metadata" is exactly the same length as "regs->ax", so it seems a
+little silly. Also, please use vertical alignment as a tool to make code
+more readable. Isn't this much more readable?
 
-	select HAVE_ARCH_KASAN_SW_TAGS		if ADDRESS_MASKING
+	bool recover = regs->ax & KASAN_RAX_RECOVER;
+	bool write   = regs->ax & KASAN_RAX_WRITE;
+	size_t size  = KASAN_RAX_SIZE(regs->ax);
+	u64 addr     = regs->di;
+	u64 pc       = regs->ip;
 
-and
+> +	if (!IS_ENABLED(CONFIG_KASAN_INLINE))
+> +		return false;
+> +
+> +	if (user_mode(regs))
+> +		return false;
+> +
+> +	kasan_report((void *)addr, size, write, pc);
+> +
+> +	/*
+> +	 * The instrumentation allows to control whether we can proceed after
+> +	 * a crash was detected. This is done by passing the -recover flag to
+> +	 * the compiler. Disabling recovery allows to generate more compact
+> +	 * code.
+> +	 *
+> +	 * Unfortunately disabling recovery doesn't work for the kernel right
+> +	 * now. KASAN reporting is disabled in some contexts (for example when
+> +	 * the allocator accesses slab object metadata; this is controlled by
+> +	 * current->kasan_depth). All these accesses are detected by the tool,
+> +	 * even though the reports for them are not printed.
+> +	 *
+> +	 * This is something that might be fixed at some point in the future.
+> +	 */
 
-	config KASAN_SW_TAGS
-        	depends on HAVE_ARCH_KASAN_SW_TAGS ...
+Can we please find a way to do this that doesn't copy and paste a rather
+verbose comment?
 
+What if we passed 'recover' into kasan_report() and had it do the die()?
 
-So you can't have CONFIG_KASAN_SW_TAGS set without CONFIG_X86_64.
+> +	if (!recover)
+> +		die("Oops - KASAN", regs, 0);
+> +	return true;
+> +}
+> +
+> +#endif
+> +
+>  static bool do_int3(struct pt_regs *regs)
+>  {
+>  	int res;
+> @@ -863,6 +909,12 @@ static bool do_int3(struct pt_regs *regs)
+>  	if (kprobe_int3_handler(regs))
+>  		return true;
+>  #endif
+> +
+> +#ifdef CONFIG_KASAN_SW_TAGS
+> +	if (kasan_handler(regs))
+> +		return true;
+> +#endif
+I won't get _too_ grumbly about ti since there's another culprit right
+above, but the "no #fidefs in .c files" rule still applies. The right
+way to do this is with a stub kasan_handler() in a header with the
+#ifdef in the header.
 
-> +		if ((addr < (u64)kasan_mem_to_shadow((void *)(0x7E UL << 56)) ||
-> +		     addr > (u64)kasan_mem_to_shadow((void *)(~0UL >> 1))) &&
-> +		    (addr < (u64)kasan_mem_to_shadow((void *)(0xFE UL << 56)) ||
-> +		     addr > (u64)kasan_mem_to_shadow((void *)(~0UL))))
-> +			return;
-> +	}
-This isn't looking great.
-
-I'd much rather have those kasan_mem_to_shadow() arguments be built up
-programmatically.
-
-I'm also not following the description of where these ranges come from:
-
-	[0x7E00000000000000, 0x7FFFFFFFFFFFFFFF]
-	[0xFE00000000000000, 0xFFFFFFFFFFFFFFFF]
-
-I obviously recognize the top kernel and top userspace addresses, but
-there do 0x7E... and 0xFE... come from? Is that because both of them
-only have 56 actual bits of address space?
-
-Wouldn't we be better off writing that as, say:
-
-#define HIGHEST_KER_ADDR (void *)0xFFFFFFFFFFFFFFFF
-// ^ we probably have some macro for that already
-#define LOWEST_KERN_ADDR (void *)(HIGHEST_KERNEL_ADDRESS - \
-					(1<<56) + 1)
-// ^ or can this be calculated by tag manipulation?
-
-which yields:
-
-   void *_addr = (u64)addr;
-   ...
-
-   in_kern_shadow = (_addr >= kasan_mem_to_shadow(LOWEST_KERN_ADDR) ||
-		    (_addr <= kasan_mem_to_shadow(HIGHEST_KERN_ADDR);
-   in_user_shadow = (_addr >= kasan_mem_to_shadow(LOWEST_USER_ADDR) ||
-		    (_addr <= kasan_mem_to_shadow(HIGHEST_USER_ADDR);
-
-   if (!in_kern_shadow &&
-       !in_user_shadow)
-	return;
-
-I _think_ that's the same logic you have. Isn't it slightly more readable?
+Actually, ditto on the kasan_handler() #ifdef. I suspect it can go away
+too and be replaced with a IS_ENABLED(CONFIG_KASAN_SW_TAGS) check.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/8416848c-700a-4ff0-8a22-aa62579d60cd%40intel.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/c797714b-4180-4439-8a02-3cfacd42dafe%40intel.com.
