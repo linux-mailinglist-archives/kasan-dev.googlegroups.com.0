@@ -1,143 +1,168 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRB24X727QMGQEAPAE2GQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBD5N3VM65EKRBWHZ727QMGQE2CB7G2Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7560A8B72A
-	for <lists+kasan-dev@lfdr.de>; Wed, 16 Apr 2025 12:52:28 +0200 (CEST)
-Received: by mail-lf1-x13a.google.com with SMTP id 2adb3069b0e04-54991f28058sf2965821e87.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 16 Apr 2025 03:52:28 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1744800748; cv=pass;
+Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CFCBA90618
+	for <lists+kasan-dev@lfdr.de>; Wed, 16 Apr 2025 16:21:14 +0200 (CEST)
+Received: by mail-wm1-x340.google.com with SMTP id 5b1f17b1804b1-43947a0919asf45509585e9.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 16 Apr 2025 07:21:14 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1744813273; cv=pass;
         d=google.com; s=arc-20240605;
-        b=eXlrVC+BEXEMmKzJH1QtAGH/bpKxCIrNUE9xdOsioW8/mK/7P/HgbgJOFoI/nnxuOD
-         OzkgCFdK4RPbHMxgcx1aFDn7ev61lQ6GR4jrJ1EjjEoa1XjToXh6FzCq0/EaG8d/mVCo
-         4/n8rRkzLS4bpulkKC4MzJF1O13TMuZ+L7BNOtn4lMzBiDrtSj8Mt7X5a0QEDt/x2d86
-         NzIiIzS/87RlXFjbj7tHLh+VgYbUZwUzkceaOoKl7PWnZhi2M0/sqeXfCRwdunY09nlc
-         yhkyEosYNCQhsD8v+HIATkKIeikEnLh7lRPgvRdq625ouESS8hQPSgGca1phAUybt3Yo
-         B5TA==
+        b=Jw+PMtPANn9Sh0qWQ8gsa8KedCgJBAYiIm5NK6a0rJpXvA44lQsHRP9S+JEtrox7hX
+         vr3S5Hnt+SyGTaccfOfeFT0qHM6neH/uSrRgt2A/jHJepdHj2sCSx1sZbru6U/ityXjZ
+         A+r+fONf8SRRt80zpSb5QRfJ1wMpIBwIWH/kF8iB62bOsmOPP6x0jXUOhC44jux195gI
+         0UxFTsamqERXOknd8TfYnbmRePfGtawiMaczsky2gH5L/7sH2UwaFdtOzOy8H8wPaGI9
+         CKecDB1QMPwxEKie94R7cFE5zK7zzlXzkfmYrUdc0kqburDSbelwJddkfjskjSyPAuW+
+         npgA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=JKQF14jGkzj1qlCdEO8IWZ0Y0Y3utfEOJ2d216DWUZs=;
-        fh=4ObmAdemEXbjtMj8JWg5ek9Q+s2NFPn5d50EV2NyPS0=;
-        b=fu51C3ZQ1F9vVwTzBdQfkhUthByBiQyfzHZbBNzd0ABH/I5Bglo5QO+A4ZrsGa6NyL
-         zHEwYfW0ZfCaAkRsXRIEdSYvjzLo4JZ19wmOShFotvirlo+tJ7vLp1C+iSLw+FbBFj9B
-         qsr6Mp/eeZBsYUrqrHz3dKWquTSbHk69MgFoV0gVuP8cA+RgAu3AgYsJKNp5mKN0A/jX
-         jvnP2xB4AD4yP0gZMi5rEB8nsWrE5r8mnDKFT1IBUqM/DbXvlsb6DiNuRNMdxZdoEXOd
-         N//tjfvaXZUpaDH3Gsp9IlW2yzXuKmiabwLFkpg5ad3aIBLY8sB2DZz7m7Xzitr0DFGz
-         VQDA==;
+         :list-id:mailing-list:precedence:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature:dkim-signature;
+        bh=9HQcgFpO5vySweGuHfPI+9BNGMLqAL/eTlGGFCxlOeo=;
+        fh=n55A1hey8V8F62ymbUGmUCxPY5m/Qu5/FWGk357DLrk=;
+        b=ghRaUaBr8WqIK0Ybaaxybgy+sst7KEJowGcERvnF8RLCsi8V7MvUcO/cpa6ZHBU2Mp
+         KWWx0FID0LS+08b/4j9yReXv7bWs8nlDouQYpNzTOtv5euZ3i+UQOFSjzBtHvXvEr+Fg
+         wKLcETG85BQ7LFlaTAFKg+Jko4E3ZfzecoUeMbMHsqmomjVXZVFqQeQMcRhkFKcNlGnl
+         bMMccJjxA16nBqDxcpQYteOBWwuZbidrQEVw1uE3y1II8cBnI81aApjN8dxexoJwv3HY
+         MQKMn1+T/A0rYiJrsxsEO6kJkXmOPctB4fBpCAkuxY33RSYP/GbhrVYrscJDJKlEpsD7
+         RL7Q==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=J9resjlU;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::229 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=ja+0otxf;
+       spf=pass (google.com: domain of ubizjak@gmail.com designates 2a00:1450:4864:20::532 as permitted sender) smtp.mailfrom=ubizjak@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1744800748; x=1745405548; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1744813273; x=1745418073; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:from:content-language:references:cc
+         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=9HQcgFpO5vySweGuHfPI+9BNGMLqAL/eTlGGFCxlOeo=;
+        b=WZavMEQkNevw7jVzZegkndR8tpuR3E4NyGl0PGeMqW3DLq8p1zkDCuhRSr4Hmv0prK
+         hrWpG4dK3CLoEgJOcYYbvhI2XTbrUw9lTWwZg7kUUnT/FM9aes2+qGD5KW2p2MYCh/q0
+         +eVq1e3HOvDndSxIYxwmTnIIpRsq2+6N3q+4X1cBSi5ZeUPLdF2qOeiBreTAjmc/23T+
+         U4d0kWjxxHxB+slfBm++lKGOZgKB1WtzTIc2BVN9GRqZ9QcUv7RrzGAskyWBZyskNTf2
+         d2u2v+ScWhZt/PKY8G56rM9F+4AGpGCkiIj4CpddPGAYvcdkOn4UQ9kZ/ON9jEzCcFhk
+         Tc2w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744813273; x=1745418073; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:from:content-language:references:cc
+         :to:subject:user-agent:mime-version:date:message-id:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JKQF14jGkzj1qlCdEO8IWZ0Y0Y3utfEOJ2d216DWUZs=;
-        b=qg+EGbH6acqZriblNjelsEsH+7ZvmOvruT8UhQe6hESUh04DwvzfLvksbtC3IPFeUJ
-         rP4o107JPVUfL1F7DSgdEZFe7l4gfPEOTH2gIfsfzit/z9cNs5ISMFRIe60cgOhY6rhC
-         bHzGX2zVXtlOJkA1CRjurindRZxeETLEPx6bdVyhf/nuxqLafBw3IumgWfNglN3lPRd/
-         kuDGscxSl1WzDRzQIZPL3gLhVT60glz1GuCfoVqJCajIKQN9jc9aAnY2HCp0XhELB4qe
-         wrii9AfFQlNrk+PfMbL/rowB65JnmZBaoMQJhTewONT0O0zdrQIft64xaeHLgBflDdrZ
-         mP0Q==
+        bh=9HQcgFpO5vySweGuHfPI+9BNGMLqAL/eTlGGFCxlOeo=;
+        b=BOA9CBJQV5uD+XJM+u94DJfNWdFgCeMrBeQXINx+H/ia4W2gwc0zxDywCec34wx52D
+         U7azdqucMaGYqapYsXADf+GkLe09ic2WwSuDeI1L8FRN0RO49StiD32VLn/eXe0KHwT1
+         7CF9IhydxMP0TqvZWIKnR4TnVkrflPylyWNn1DN9PgPI4d9xBC3JvV5jiV8PG9FC+nYO
+         oE5OvrGB795s2Z7mqDwAJHLlce/qQm4MIHRTQkoEbMu9Ppc6Cn4K7Q311tSPtwdvJnQW
+         ZyfeV84FLe3MPku9RFMqrT/nvFaQpcMdfLPft6KsJDwuaYpeLy67P9c2HJ5M9xKo6rDy
+         K+cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744800748; x=1745405548;
+        d=1e100.net; s=20230601; t=1744813273; x=1745418073;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JKQF14jGkzj1qlCdEO8IWZ0Y0Y3utfEOJ2d216DWUZs=;
-        b=I3U2iCMLXFLS03xdRtCDKcZA+cnEYxqFKOIXuY6AyFgXP+vbHRlY5Q28trJMfl2nlu
-         NILcqcpSGzqtzdRQQdwLf+DvRLX/g/d7FJhsHkkKLFv/LbxSf69+Qqu0PiLawZrboiHW
-         9EWMfJPM88VbtwwFN3t9HtVjANqk7liiOqoKC5cfzgaFaExMgbMLMkAvoWCiZwMUe3NM
-         Qqt5Agi814EnAm64vbwyaqy8BqpAJ640WHY3qRoKoCE04ex8f0gcVawl9z0y0M0/NdWz
-         JzWjmAWGRkTMyxKOdwmKoQ5xrC7stDVyhuyNn6fvc07BUp7kPQBUu3U8XjbqQEuqjsNN
-         dZfA==
-X-Forwarded-Encrypted: i=2; AJvYcCUeyoP88AihO4yecheVYkZLcBCuNd3xZ414fvBFYCcDjpMJxKb6Qt1UxS7k7ySR8E3NywmhpQ==@lfdr.de
-X-Gm-Message-State: AOJu0Yx08xvjt0oU9k2wj6jL4P2XL6S20f+xqxPZimvXhqehQBtq/laj
-	vrHsgTYWVwhnyApuP+0trbzZm0Su0pe9dIAH3HRkn5vQwqNOuURw
-X-Google-Smtp-Source: AGHT+IGIIxfUjQZPse9kz2W97pJqb5EvTjoub2VfJEnYm9YA5EoqXzxhaZxPJrMGdJ+4hBW+iaNBUQ==
-X-Received: by 2002:a05:6512:2247:b0:549:916b:e665 with SMTP id 2adb3069b0e04-54d64a92272mr436794e87.1.1744800747723;
-        Wed, 16 Apr 2025 03:52:27 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPAI1cEH4+L2tZuvhDqitHuovRqCIg8r4WCpn6xZTz0g6kQ==
-Received: by 2002:a05:6512:3f02:b0:549:947f:24bf with SMTP id
- 2adb3069b0e04-54c56d3694cls452228e87.1.-pod-prod-03-eu; Wed, 16 Apr 2025
- 03:52:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXHQkJRsnV/WUuqAhFyvU4e5kEDketCRdGcp73NgCtXyewYurZOR8x/ygJTHZ/Ht/S2qSNA9LUgK+Q=@googlegroups.com
-X-Received: by 2002:a05:6512:b1c:b0:549:8e5e:9d8e with SMTP id 2adb3069b0e04-54d647a87a7mr442463e87.0.1744800744746;
-        Wed, 16 Apr 2025 03:52:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1744800744; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:content-language:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9HQcgFpO5vySweGuHfPI+9BNGMLqAL/eTlGGFCxlOeo=;
+        b=UhTKtlXiK7ekKmHMsum9icU+RwEN7LTBK4czeD0B7/H6nMwvqMNI22KRZxk+kiVntE
+         GwYQOUsqkwssMEHI2jGDRo6+vnnMsxkSA81RbNcTt/RMzD19iZqkBKAXGASvnRZ1kIoB
+         2wnR+SOc19CTyRymuMn1yCIs7W38KaDehr1goCpyazMLUS+KbgxC0L7ry8Vy0wxlYdF8
+         NvdYVEViffI/QOTmRzoHRABojRPD/z8MwVKek4YzH0k4maVfpGiYt6et1bXRnRsOs23w
+         ChmNSEBkrBk5VO4JvXDqGfS0G5D2gYVWQ/bn3w/Q+f3Z9ZT1ZpN2QfaqOhs+RwpYDEkk
+         r3WA==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCUHrANl64sgXIFKp3ta3/Dr+7AILenNoiQEZquchQOMTIt0D4CQZasgvLZw8SGlipPWMd9lLQ==@lfdr.de
+X-Gm-Message-State: AOJu0Yy1KyhkJPw2v50mwOi152haTD/NLhMYVAV4QXt8rJtqboW6jAtI
+	yStxXA+QdEgWYzq77xCX8kHkgOIn+bRCqehIzX+RHakJqtSpxGpS
+X-Google-Smtp-Source: AGHT+IGD+3iJxUMyw/dBXzeA/UZ1yauRqGu1H30n9zIl+zX64O5v1BrCh0ET7OqlBzeFLT/hjKy/SA==
+X-Received: by 2002:a05:600c:1c99:b0:43c:f3e4:d6f7 with SMTP id 5b1f17b1804b1-4405d6bf4camr24111665e9.31.1744813272810;
+        Wed, 16 Apr 2025 07:21:12 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPAKV3qQHtrXMAAfVW6AKz+MaNzvbUkVkHHqkBLy6Tosbjw==
+Received: by 2002:a05:600c:3d0f:b0:43c:ed2c:bcf2 with SMTP id
+ 5b1f17b1804b1-43f2c5553a3ls18509655e9.1.-pod-prod-05-eu; Wed, 16 Apr 2025
+ 07:21:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCX5ZRINtz1J41P2Zs4GhJ6eNSwvUgiW7QR5HQLT2w6RG8CA7lYXYaeJBwdyb0wtPBMJuh4IUBZLFTo=@googlegroups.com
+X-Received: by 2002:a05:600c:a46:b0:43c:fe9f:ab90 with SMTP id 5b1f17b1804b1-4405d6bf2b0mr16527515e9.28.1744813270102;
+        Wed, 16 Apr 2025 07:21:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1744813270; cv=none;
         d=google.com; s=arc-20240605;
-        b=hPp//UUGGgUtR09Weyd6E41gQdaODFRpY7xrKIyu1ZB1cdURY+N15m2wwgAVk/LuIa
-         T677Jqv9Sqxk4bWSy6qmjx2s8lX6X+9TvRJNRuTAV/o0oVMmbiLOboNuJ2Heq3db7XTm
-         gbRb4AWCWL4dCzOa9LJkxORc30EgHtzoX8pn17bEwa5oPEiC/bge9TTuMHZCYQd4T9EP
-         CD+v7kogA8fJy/frGjT0Lihu04xgMfE6+L2/AU+VfaFO/wqcoTyx23IR97PsuFExsG1m
-         /Pvb4nyH23m/AH7GM+FqwMSMP9YxNcMXnqIJD8kTZKEd36065MeBOmUCTuWPZe8o7wmU
-         Qa1A==
+        b=eXEh6TZw1THIhRh0Lvc32+GSh/9EoyZxG0qbD/Mr1DicIVgWnAHM/4czim0m1sNoEO
+         iKNQlEqh7TQmkEHxbt5+UGJ6vWOiFY0Cw8qRE2YIUQEgnKK2+Snppa9Ewyamc+ZSbYc2
+         u1wv/elc9kVPCvUJLZ3W26ptulKVLYKupcyj2ffTXlPTe+CRYun6ovQuDxdzkU8O4y5W
+         BBjoQXN5rQvdG2NcUfxN7s+0mtcBB8EDalYZT6HpVsW/AFUGRKY7zRvSgibJedUyWnqI
+         yYLW8It4KMa4mn+U5KFqeIwuoTH3gcBiDuoPDlY9/5fcOy11VU+pPLVv+ZQrOh1zlw0j
+         s5AA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ezteQ2riofZ7Hrj5BXFbLyhRNWueJY/Se/hzX4W8NVQ=;
-        fh=CQhf1C6kY3Tv4sh9lAK8uPdm3xpIcgMvDzjWm4hitk4=;
-        b=M1sBUOte4rZE/evyi/4S00/QsdMz3prn1Pm1NDYCJKdafVsRUm8eW+XyO4e52+S72i
-         7GMe9fRnjNrZVigoBQAKjMAejCQXXzMmGbIjjVKyZuxZryoMMEyBSUnkqAJoDD8itVIc
-         k7Uis89jvmdPiYcQ/KpgH69BiSgQ8cHEYJiaUYIp0hwfSR8CT9+Wl5rFpFqjEHDxDDF4
-         wgiK41wxPtG+zAJ4ouU5MTtrhMptHhsO8rFtuo4b4m5dG9/doJFz49AvGDPRQXiw36gy
-         WE8EU88PHe2OUcz3ZckPJd8chPkuwKo1OasJw8qvbJlLlbFoKLAjsP3Ptgykb5qE5M45
-         whPw==;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :dkim-signature;
+        bh=vXnvk8XQNhx0TXzhv37WADjp3Ermfxa39z+e6RYkwbc=;
+        fh=UjnpsdipCBMgrTEvvizhgK4Zy1t9Y+rdgkA9HUIL0vY=;
+        b=WPd+C1m6HUbZIKvyTon3KRMDL4CUr44eFFsZ/FyvIjb6ws/0xUJKwMrJ2WRHSwfDBI
+         hAL8Bzb4ZejUf/2zOMtGG3I3RCkA46aScDSd0TAKBIcbXZOpuxK3kQMrFj3HZXOsoWyN
+         7tl9l40GMU6jVrC2kr4ohMg/SFdEj1oLXjolDgH0N5m6pRVHFJ5wuGq/ioPA42xTSMZ0
+         nrezLcOZgXp+F/w2EW6siutuOlUKbn64OWlw9X2NYYALh+yPHRskFEmcjBw3yMx71/QI
+         xIlNKjrHpIbAd1rGU/n7I/Ycy7kx1QK516noxyEkynXeSn7C0pQBVM99+bJX25gvzCVp
+         qimA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=J9resjlU;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::229 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=ja+0otxf;
+       spf=pass (google.com: domain of ubizjak@gmail.com designates 2a00:1450:4864:20::532 as permitted sender) smtp.mailfrom=ubizjak@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com. [2a00:1450:4864:20::229])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-310815c534csi64131fa.7.2025.04.16.03.52.24
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com. [2a00:1450:4864:20::532])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-44045a6cbfbsi2966165e9.0.2025.04.16.07.21.10
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Apr 2025 03:52:24 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::229 as permitted sender) client-ip=2a00:1450:4864:20::229;
-Received: by mail-lj1-x229.google.com with SMTP id 38308e7fff4ca-30c091b54aaso59247701fa.3
-        for <kasan-dev@googlegroups.com>; Wed, 16 Apr 2025 03:52:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVn205qg5xdbwDg540xK/1+HcLXSFDehSYZks2XmbT84NMPQV1Q0hRinSXWa3rK4XdYF8N1cG2R3wE=@googlegroups.com
-X-Gm-Gg: ASbGncsCIvsYihiJ3F0hdjjQL8oDFgLQceubsgRa6t6IVqLxzHT/6sXiRUQlaUbMF6W
-	iflXfj5jXifXFUHZZfKTFhCdoV5gNbclkR4W+WiWhLsg2Z4NaZzb71NR/7blOFMdGzQNLcGtWr2
-	kX4TeBGRNyujkOHAtq81k4oDfHCwTNz4J5oB3HkBcWOPQ4y7AthpxJBKc=
-X-Received: by 2002:a05:651c:1988:b0:30c:7a7:e87c with SMTP id
- 38308e7fff4ca-3107f73cfdfmr3673361fa.35.1744800744089; Wed, 16 Apr 2025
- 03:52:24 -0700 (PDT)
+        Wed, 16 Apr 2025 07:21:10 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ubizjak@gmail.com designates 2a00:1450:4864:20::532 as permitted sender) client-ip=2a00:1450:4864:20::532;
+Received: by mail-ed1-x532.google.com with SMTP id 4fb4d7f45d1cf-5e61d91a087so10100005a12.0
+        for <kasan-dev@googlegroups.com>; Wed, 16 Apr 2025 07:21:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVPaYCcHbRkg1Y8wFJkcP4MML7zKsVRXLWkeK5nO6Zz8Zt2KGbChURcU5/RafOZJMyEOVQ9WNysr8A=@googlegroups.com
+X-Gm-Gg: ASbGnctQ1gq86qijZ9UQL6qQtmNuglXQ4cErY496qHuVEI/TSRjcj92R26ymmS+oAnr
+	3cdg+ty++B+11QnBwE7YwauNKidwSdXrUpTn/KiJMnl2m/9+721Tn8Zbr5XcN941iF9cc90z7dz
+	qw+fAYGv9bts41CNV6bJWQiLcbQSsRY9/uNAnwnoEwO/qJEUn0fWPPOxDMHj5p7bgwyklGjqLSJ
+	Axi+q8ags2iJ3SRzyGWomdUwJP3MDa7pG6ZFMOlqPji4589FNk7HTOfTjFSClhv6hjWCzgQ9L+y
+	HR4IGUwTdaDKZUtdD2mjnPXJyqt9zq09YAaopJpP4MHuAl3InlNe
+X-Received: by 2002:a05:6402:4017:b0:5e6:17d7:9a32 with SMTP id 4fb4d7f45d1cf-5f4b746d191mr1948775a12.18.1744813269430;
+        Wed, 16 Apr 2025 07:21:09 -0700 (PDT)
+Received: from [192.168.1.100] ([46.248.82.114])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5f36ef56ea4sm8877286a12.25.2025.04.16.07.21.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Apr 2025 07:21:09 -0700 (PDT)
+Message-ID: <cb6d98dc-49e9-2d3b-1acc-f208e4fd13fc@gmail.com>
+Date: Wed, 16 Apr 2025 16:21:07 +0200
 MIME-Version: 1.0
-References: <20250416085446.480069-1-glider@google.com>
-In-Reply-To: <20250416085446.480069-1-glider@google.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 16 Apr 2025 12:52:12 +0200
-X-Gm-Features: ATxdqUHO84ZMKC02-TwodTZhg_pM7vWiRGycrQw7cTn0S02O05yX6np4vLAohn8
-Message-ID: <CACT4Y+b06RBSgcxooStVLoUVZRR=_L3Pxo6Ozp45s8brw1Ybfg@mail.gmail.com>
-Subject: Re: [PATCH 0/7] RFC: coverage deduplication for KCOV
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 6/7] x86: objtool: add support for R_X86_64_REX_GOTPCRELX
 To: Alexander Potapenko <glider@google.com>
-Cc: quic_jiangenj@quicinc.com, linux-kernel@vger.kernel.org, 
-	kasan-dev@googlegroups.com, Aleksandr Nogikh <nogikh@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Ingo Molnar <mingo@redhat.com>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Marco Elver <elver@google.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+Cc: quic_jiangenj@quicinc.com, linux-kernel@vger.kernel.org,
+ kasan-dev@googlegroups.com, x86@kernel.org,
+ Aleksandr Nogikh <nogikh@google.com>, Andrey Konovalov
+ <andreyknvl@gmail.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, Dmitry Vyukov
+ <dvyukov@google.com>, Ingo Molnar <mingo@redhat.com>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, Marco Elver <elver@google.com>,
+ Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>
+References: <20250416085446.480069-1-glider@google.com>
+ <20250416085446.480069-7-glider@google.com>
+Content-Language: en-US
+From: Uros Bizjak <ubizjak@gmail.com>
+In-Reply-To: <20250416085446.480069-7-glider@google.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Original-Sender: ubizjak@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=J9resjlU;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::229
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@gmail.com header.s=20230601 header.b=ja+0otxf;       spf=pass
+ (google.com: domain of ubizjak@gmail.com designates 2a00:1450:4864:20::532 as
+ permitted sender) smtp.mailfrom=ubizjak@gmail.com;       dmarc=pass (p=NONE
+ sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,149 +175,73 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 16 Apr 2025 at 10:54, Alexander Potapenko <glider@google.com> wrote:
->
-> As mentioned by Joey Jiao in [1], the current kcov implementation may
-> suffer from certain syscalls overflowing the userspace coverage buffer.
->
-> According to our measurements, among 24 syzkaller instances running
-> upstream Linux, 5 had a coverage overflow in at least 50% of executed
-> programs. The median percentage of programs with overflows across those 24
-> instances was 8.8%.
->
-> One way to mitigate this problem is to increase the size of the kcov buffer
-> in the userspace application using kcov. But right now syzkaller already
-> uses 4Mb per each of up to 32 threads to store the coverage, and increasing
-> it further would result in reduction in the number of executors on a single
-> machine.  Replaying the same program with an increased buffer size in the
-> case of overflow would also lead to fewer executions being possible.
->
-> When executing a single system call, excessive coverage usually stems from
-> loops, which write the same PCs into the output buffer repeatedly. Although
-> collecting precise traces may give us some insights into e.g. the number of
-> loop iterations and the branches being taken, the fuzzing engine does not
-> take advantage of these signals, and recording only unique PCs should be
-> just as practical.
->
-> In [1] Joey Jiao suggested using a hash table to deduplicate the coverage
-> signal on the kernel side. While being universally applicable to all types
-> of data collected by kcov, this approach adds another layer of complexity,
-> requiring dynamically growing the map. Another problem is potential hash
-> collisions, which can as well lead to lost coverage. Hash maps are also
-> unavoidably sparse, which potentially requires more memory.
 
-The hashmap probably can compare values for equality to avoid losing
-coverage, but the real problem is that it allocates and can't work in
-interrupts, etc.
 
-> The approach proposed in this patch series is to assign a unique (and
-> almost) sequential ID to each of the coverage callbacks in the kernel. Then
-> we carve out a fixed-sized bitmap from the userspace trace buffer, and on
-> every callback invocation we:
->
-> - obtain the callback_ID;
-> - if bitmap[callback_ID] is set, append the PC to the trace buffer;
-> - set bitmap[callback_ID] to true.
->
-> LLVM's -fsanitize-coverage=trace-pc-guard replaces every coverage callback
-> in the kernel with a call to
-> __sanitizer_cov_trace_pc_guard(&guard_variable) , where guard_variable is a
-> 4-byte global that is unique for the callsite.
->
-> This allows us to lazily allocate sequential numbers just for the callbacks
-> that have actually been executed, using a lock-free algorithm.
->
-> This patch series implements a new config, CONFIG_KCOV_ENABLE_GUARDS, which
-> utilizes the mentioned LLVM flag for coverage instrumentation. In addition
-> to the existing coverage collection modes, it introduces
-> ioctl(KCOV_UNIQUE_ENABLE), which splits the existing kcov buffer into the
-> bitmap and the trace part for a particular fuzzing session, and collects
-> only unique coverage in the trace buffer.
->
-> To reset the coverage between runs, it is now necessary to set trace[0] to
-> 0 AND clear the entire bitmap. This is still considered feasible, based on
-> the experimental results below.
->
-> The current design does not address the deduplication of KCOV_TRACE_CMP
-> comparisons; however, the number of kcov overflows during the hints
-> collection process is insignificant compared to the overflows of
-> KCOV_TRACE_PC.
->
-> In addition to the mentioned changes, this patch adds support for
-> R_X86_64_REX_GOTPCRELX to objtool and arch/x86/kernel/module.c.  It turned
-> out that Clang leaves such relocations in the linked modules for the
-> __start___sancov_guards and __stop___sancov_guards symbols. Because
-> resolving them does not require a .got section, it can be done at module
-> load time.
->
-> Experimental results.
->
-> We've conducted an experiment running syz-testbed [3] on 10 syzkaller
-> instances for 24 hours.  Out of those 10 instances, 5 were enabling the
-> kcov_deduplicate flag from [4], which makes use of the KCOV_UNIQUE_ENABLE
-> ioctl, reserving 4096 words (262144 bits) for the bitmap and leaving 520192
-> words for the trace collection.
->
-> Below are the average stats from the runs.
->
-> kcov_deduplicate=false:
->   corpus: 52176
->   coverage: 302658
->   cover overflows: 225288
->   comps overflows: 491
->   exec total: 1417829
->   max signal: 318894
->
-> kcov_deduplicate=true:
->   corpus: 52581
->   coverage: 304344
->   cover overflows: 986
->   comps overflows: 626
->   exec total: 1484841
->   max signal: 322455
->
-> [1] https://lore.kernel.org/linux-arm-kernel/20250114-kcov-v1-5-004294b931a2@quicinc.com/T/
-> [2] https://clang.llvm.org/docs/SanitizerCoverage.html
-> [3] https://github.com/google/syzkaller/tree/master/tools/syz-testbed
-> [4] https://github.com/ramosian-glider/linux/pull/7
->
->
-> Alexander Potapenko (7):
->   kcov: apply clang-format to kcov code
->   kcov: factor out struct kcov_state
->   kcov: x86: introduce CONFIG_KCOV_ENABLE_GUARDS
->   kcov: add `trace` and `trace_size` to `struct kcov_state`
->   kcov: add ioctl(KCOV_UNIQUE_ENABLE)
->   x86: objtool: add support for R_X86_64_REX_GOTPCRELX
->   mm/kasan: define __asan_before_dynamic_init, __asan_after_dynamic_init
->
->  Documentation/dev-tools/kcov.rst  |  43 +++
->  MAINTAINERS                       |   1 +
->  arch/x86/include/asm/elf.h        |   1 +
->  arch/x86/kernel/module.c          |   8 +
->  arch/x86/kernel/vmlinux.lds.S     |   1 +
->  arch/x86/um/asm/elf.h             |   1 +
->  include/asm-generic/vmlinux.lds.h |  14 +-
->  include/linux/kcov-state.h        |  46 +++
->  include/linux/kcov.h              |  60 ++--
->  include/linux/sched.h             |  16 +-
->  include/uapi/linux/kcov.h         |   1 +
->  kernel/kcov.c                     | 453 +++++++++++++++++++-----------
->  lib/Kconfig.debug                 |  16 ++
->  mm/kasan/generic.c                |  18 ++
->  mm/kasan/kasan.h                  |   2 +
->  scripts/Makefile.kcov             |   4 +
->  scripts/module.lds.S              |  23 ++
->  tools/objtool/arch/x86/decode.c   |   1 +
->  tools/objtool/check.c             |   1 +
->  19 files changed, 508 insertions(+), 202 deletions(-)
->  create mode 100644 include/linux/kcov-state.h
->
-> --
-> 2.49.0.604.gff1f9ca942-goog
->
+On 16. 04. 25 10:54, Alexander Potapenko wrote:
+> When compiling modules with -fsanitize-coverage=trace-pc-guard, Clang
+> will emit R_X86_64_REX_GOTPCRELX relocations for the
+> __start___sancov_guards and __stop___sancov_guards symbols. Although
+> these relocations can be resolved within the same binary, they are left
+> over by the linker because of the --emit-relocs flag.
+> 
+> This patch makes it possible to resolve the R_X86_64_REX_GOTPCRELX
+> relocations at runtime, as doing so does not require a .got section.
+> In addition, add a missing overflow check to R_X86_64_PC32/R_X86_64_PLT32.
+> 
+> Cc: x86@kernel.org
+> Signed-off-by: Alexander Potapenko <glider@google.com>
+> ---
+>   arch/x86/include/asm/elf.h      | 1 +
+>   arch/x86/kernel/module.c        | 8 ++++++++
+>   arch/x86/um/asm/elf.h           | 1 +
+>   tools/objtool/arch/x86/decode.c | 1 +
+>   4 files changed, 11 insertions(+)
+> 
+> diff --git a/arch/x86/include/asm/elf.h b/arch/x86/include/asm/elf.h
+> index 1fb83d47711f9..15d0438467e94 100644
+> --- a/arch/x86/include/asm/elf.h
+> +++ b/arch/x86/include/asm/elf.h
+> @@ -63,6 +63,7 @@ typedef struct user_i387_struct elf_fpregset_t;
+>   #define R_X86_64_8		14	/* Direct 8 bit sign extended  */
+>   #define R_X86_64_PC8		15	/* 8 bit sign extended pc relative */
+>   #define R_X86_64_PC64		24	/* Place relative 64-bit signed */
+> +#define R_X86_64_REX_GOTPCRELX	42	/* R_X86_64_GOTPCREL with optimizations */
+>   
+>   /*
+>    * These are used to set parameters in the core dumps.
+> diff --git a/arch/x86/kernel/module.c b/arch/x86/kernel/module.c
+> index 8984abd91c001..6c8b524bfbe3b 100644
+> --- a/arch/x86/kernel/module.c
+> +++ b/arch/x86/kernel/module.c
+> @@ -133,6 +133,14 @@ static int __write_relocate_add(Elf64_Shdr *sechdrs,
+>   		case R_X86_64_PC32:
+>   		case R_X86_64_PLT32:
+>   			val -= (u64)loc;
+> +			if ((s64)val != *(s32 *)&val)
+> +				goto overflow;
+> +			size = 4;
+> +			break;
+> +		case R_X86_64_REX_GOTPCRELX:
+> +			val -= (u64)loc;
+> +			if ((s64)val != *(s32 *)&val)
+> +				goto overflow;
+>   			size = 4;
+>   			break;
+
+These two cases are the same. You probably want:
+
+		case R_X86_64_PC32:
+		case R_X86_64_PLT32:
+		case R_X86_64_REX_GOTPCRELX:
+			val -= (u64)loc;
+			if ((s64)val != *(s32 *)&val)
+				goto overflow;
+			size = 4;
+			break;
+
+Uros.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2Bb06RBSgcxooStVLoUVZRR%3D_L3Pxo6Ozp45s8brw1Ybfg%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/cb6d98dc-49e9-2d3b-1acc-f208e4fd13fc%40gmail.com.
