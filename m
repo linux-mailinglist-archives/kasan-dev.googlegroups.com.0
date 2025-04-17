@@ -1,147 +1,148 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBTGAQTAAMGQEK6B3TJQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCU4TIPXUUFRBB6GQTAAMGQEYWY3ECQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83a.google.com (mail-qt1-x83a.google.com [IPv6:2607:f8b0:4864:20::83a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97FF2A921C3
-	for <lists+kasan-dev@lfdr.de>; Thu, 17 Apr 2025 17:37:49 +0200 (CEST)
-Received: by mail-qt1-x83a.google.com with SMTP id d75a77b69052e-47699e92ab0sf17050881cf.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 17 Apr 2025 08:37:49 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1744904268; cv=pass;
+Received: from mail-qt1-x83b.google.com (mail-qt1-x83b.google.com [IPv6:2607:f8b0:4864:20::83b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5821FA921F5
+	for <lists+kasan-dev@lfdr.de>; Thu, 17 Apr 2025 17:49:29 +0200 (CEST)
+Received: by mail-qt1-x83b.google.com with SMTP id d75a77b69052e-4766e03b92bsf18057031cf.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 17 Apr 2025 08:49:29 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1744904968; cv=pass;
         d=google.com; s=arc-20240605;
-        b=JXB1fT031EsN/9L/ZitsGOW8ig4s4iO0+asffCEzZR9Gt57SoTbGVhsvQJUZst+btx
-         67dSDMZemt9Z+V1CAse4P98/3sYWGLQXC2heGzjRUMicm3FUWOnJ4MyRcVhvzVkTp9yI
-         +Q1rEF/XtYrWb4/M+I5VvSfMBYAAcM/gR04KFIOkeDrO96uDTG2IlsMYzDYxJPRd7VpF
-         iVZutIIbC04jVrDA9qY68LnRIKANYoSI6XRYbEwxx0KvOTQtpHLTCnUjmT4eyC/XpBWj
-         wRCfO2FP6K+DZix34Vlv5C8v4FpmtwI9rM3MSUyq2yKPBCYwQyiLqXmJKAE0WO8L6I2T
-         or1A==
+        b=Nq6fv+otezQ7erRdRcNTCnepmp4azIBogL7a5Z4KWq2eErHNKP7sUUPu4Q6kmbLhHN
+         1h4stejnEmg6UlvrPoI6bu24Gb4lEHipwMwqCgNsr4UtJa26rxuKjg9hdm5OILq0zwAE
+         TkY7/G7nRqhL4Nzp08Ej721T75xZk704k2hc4/6FB70JAiXFHd9gZC/XlTc214v3i+ll
+         X9z7BuUCDv0fgXpoJI874B2yq8qp2KI84nGQtyaxvk7InhGLoBycJHVAef7bWFHIfePi
+         xPSsrU2H5+plVCnXf/dHpnqZL7F5K8feUHiuFX7F0OlAGU17Cx6J8mH2ymE2Y+UGkNx6
+         BTmA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=EMu5CHNKj0FsxAIK45XWP+YQ6kQdrPkxD45pMfGa9i4=;
-        fh=2cNvRPdX1fR7jP72TrcDk0cGSCZZw8oNIadtJqW7v58=;
-        b=atPGlf+Ff0hJE7mdjs5832xE09+wqe0FKLfTN+uWVFT+DevjMQTBXcgF6M2/Bq0kOi
-         UPmaCbJTrj7MP9y1nm6ekmR7x46OXV9JSW0O7wgbbL1Rqv7v9Nd3SqZgllcElWG0oogt
-         k6CEb6+JCsItJyHYztKSO7yn4w8MztHKtWbmnokkwA+qeFo8jMCe3c1qah4gN9XkghYt
-         9Wd+XTSbgMjr0/6SuiuWAo5HLYOny9O+dNxC4ZA0Tw8QXZ0s7S9smPH8Mo2yH6XDUz4t
-         UG/lmbQFB5588OZdN0jx/CvtSVT9pxB8uXzRzrXB8+NLbukXoC1J+zVdFfMN9F8MnoQE
-         JjQw==;
+        bh=6TDBPUwR/EyKjqcmIgH0oIEVhH5oajRyH9ceUXxXW2U=;
+        fh=0YO0NDU44Hg6NhmNc7BoNrsbrxWB0qNA+Wj+kOp5LNo=;
+        b=BU3W1lXoPG00o6KFyMdSOgX1M373JgnOhio1qXMYGHO1VdWp8owtdBCdttWVmuj+k/
+         2mD5RbLh2l9ZST+B45SoiCFjX9njs2zhzfGc4DJ8LHEL9e7+qh+o/lTPqV7X4si2QYU0
+         qx7kLo34HIbb8CW715YqbjyI9t7BsU3/EDa6h5+97ltthgxeqUw4mgg3dVp3DAuJy9PM
+         bjClOMnZHJxGsiwovbgd31FTVgiftlmJpvRW+AKKU8JiTbyV/gB+RWFwPpCsTyakQOEq
+         moc5d8xA4NT/RzE0xjR31sCfkrX/+jqW/dW3zWqHbaAhuTJ6YaC76BAMgHvkNdTwzAGe
+         ZJtg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b="1B6H/ovL";
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2d as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=moucwpso;
+       spf=pass (google.com: domain of ardb@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=ardb@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1744904268; x=1745509068; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1744904968; x=1745509768; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EMu5CHNKj0FsxAIK45XWP+YQ6kQdrPkxD45pMfGa9i4=;
-        b=uLa5DY1Rni3rShwT43KTj06vqA1+wiRyygq7eusuhIL00dIdj76TquXqG9sNhknVl3
-         vxsZbneiyq9Dsq7nUD10pvTOS0zubSvYzirkdoSmGlatJ/D9FnGacRurPLtwFK2yOAlw
-         h56xZKNyw650SsUXsSJv5HOGRdAXvPp9LtduCI1ShHKFmp0JPSNY+BlifWZfZ3Mp2Ndm
-         1oGFD7tMXCBLF50Dm5GPYcYLDop4Xp0+2NonMoyhzbkMnC8JyivnnY4vDoKKDd7TIH0a
-         7z1m4bStCL3ZfCbhoYZAf6fvh4hl8TYSF4gWFL8+ajFNRklEcZZ6wyJk6a4PQ3xsoEdi
-         yhZA==
+        bh=6TDBPUwR/EyKjqcmIgH0oIEVhH5oajRyH9ceUXxXW2U=;
+        b=bfi3hEAqeoI7GIiHXyZrgEyTwc5ocb02RcqCdpO8WWYa7Gg5bjq69n1BJtLl/SOEfX
+         XPW7mwoY0bAd/FFadjn0w/CCJpixvOUmtYilQPJke2mxaOs2MjtuEyFUoaKQQtTZcfON
+         XiJzZJflGw2PzbpoeKwPkuM2OBkrp87VCKzU4kgO6gtI6bpO0l3iN9A0W35EM1UYBUro
+         rQdQ3GNNgZigLO4z49ws53KMPbTHY59QIu5JZsx7BAs1+O4FZgEeHyOX/mG6/DApF4rb
+         8rA3oHRs2PhbVcrKxt+xFe1VwdnFOGG7/vMEhL+f6/Rj1Lefcsg8pGcbU3pEypSqSDcN
+         CBlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744904268; x=1745509068;
+        d=1e100.net; s=20230601; t=1744904968; x=1745509768;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=EMu5CHNKj0FsxAIK45XWP+YQ6kQdrPkxD45pMfGa9i4=;
-        b=tZ6h8uMm1s/U1P/Able7SyJQaDpWMcULYynFg3zAkYPVTDMJckaPe/qu8M+u97Sih+
-         OdqlqvE+jpOsGg/NkPkulCc0YjwlkgbmesWMyouq1CBSNteO66LW4ZS7u+sl51wTZJco
-         h+MBF1KfKTQyEzHMIMz2jirznoActlYZR2UqsYl3c9LGOfunfXeuwPogRLQ5l0F12enK
-         9OemoacBxPGKmxiPdU+0whujBmzVjd1nnq7cJT4iMZRT6bR6zcYP3BpSzaojQFB7wzjD
-         qvi4HGgni2ZQ+eeLDdKb4j99/M+jZV3s45LF1LD1rdek2KyZNBeSvBnMmnM1mpF2MPqb
-         oShw==
-X-Forwarded-Encrypted: i=2; AJvYcCUS7kc0gGdUgec3hG8DYOg/+YEHG90ESQiirZGr2Rv57b1OWa7SmGfLa7xRpEvsSt+UCCcWrA==@lfdr.de
-X-Gm-Message-State: AOJu0YzdvVqWROfwrGP94hMNqz68RsBk6ttyFmzPDwuiQt7ttr6YWtFg
-	V2OE3oAVyxencDNzcfx92jyzwNHSXD/3J2tO5XFvbk4VZJA4PmLK
-X-Google-Smtp-Source: AGHT+IEGLYv8K+M4LXUrWaTmGpegUHMAO5S5xwjsVis3m6+yce+PryVkaNySuqs5ExtTrDNPk+Lubg==
-X-Received: by 2002:a05:622a:178b:b0:476:8e3e:2da4 with SMTP id d75a77b69052e-47ad8115fc2mr99963031cf.38.1744904268254;
-        Thu, 17 Apr 2025 08:37:48 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPALIB7kI5Qbm+TiVxDZxXyzgZKChVMXo4r+xhVARQUt73g==
-Received: by 2002:a05:622a:28d:b0:476:69c5:ff0b with SMTP id
- d75a77b69052e-47addc6d3bcls22903961cf.1.-pod-prod-09-us; Thu, 17 Apr 2025
- 08:37:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXpLoDZD4+kuO5Sv7HxqIwjBp/r2j0FXHlgKHDsg7XYe7sFVO6Y/2ElBSrCI2LAxKcZjLAOPtmP9wo=@googlegroups.com
-X-Received: by 2002:a05:622a:1354:b0:477:e78:5a14 with SMTP id d75a77b69052e-47ad8097c53mr97028351cf.3.1744904266745;
-        Thu, 17 Apr 2025 08:37:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1744904266; cv=none;
+        bh=6TDBPUwR/EyKjqcmIgH0oIEVhH5oajRyH9ceUXxXW2U=;
+        b=IfshE39NaYXHUn4k7D3/1RwV94CsoqhNehidXj3E02yDrvrnneEhn3O89TV6fbahvM
+         uyyb5d3KR8vJ13lTgvI3GseKXX/eO0yWBgKJqWH4ylXbd2B8EI66igkro12i+S9x0x97
+         5IrehApyYGc9LXfmN5hSSoPLvZa6PqimiQl+mp2QmWY6iDPbMtigh9KrV5pA0nYeA5Ii
+         Xj1KvuAK+J3cuhAwkwGp9Q+dBnbutslILHHBsk0f/1RwPPNQzdrf55PIK/MmZAukc3BJ
+         HBrxx5e+28jKl7d6oltnTaPfl7NBvqML/YbDVVOo4XsWgVri3K9s/96W1jxSth4T5W7X
+         kHLg==
+X-Forwarded-Encrypted: i=2; AJvYcCW06rVIyyE94K++XKnbqOGFlipP9aj0Y6v+MQ/q3yky85zxfAbNnlMpP3yOlIJUnZfHzvEegA==@lfdr.de
+X-Gm-Message-State: AOJu0Yx/uZTJW0BXfrvlUiGAaTvyWgT2gL5y4mq9d9US5q1S244rewrq
+	lHjmglZMjG2t0BbFgO5N0Cchko2HvBlBjGshB2eT3P10WTI8E6P8
+X-Google-Smtp-Source: AGHT+IEfd4yci3RKwEbjujkW+PJD+qTfv6wZAZmp4lLLcAy5cpVqr6T+KrQLL5Kuj6TFyd5G/qN3RQ==
+X-Received: by 2002:ac8:5a54:0:b0:477:6eca:b40c with SMTP id d75a77b69052e-47ad8098948mr107110501cf.1.1744904968024;
+        Thu, 17 Apr 2025 08:49:28 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPAJaXoJfFRzCj0SmgP320OAYAgYSF6hELcWFcf5bOEL5Nw==
+Received: by 2002:a05:622a:268d:b0:477:c8a:e60b with SMTP id
+ d75a77b69052e-47addd1f34dls15327281cf.1.-pod-prod-02-us; Thu, 17 Apr 2025
+ 08:49:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXTGzKNgJCarFimVhZADcDCMKniD51un9Ff5P1Y+OqUjYX+FiDrAEk95OKHU+YSAeMQwbLN1llL5Hs=@googlegroups.com
+X-Received: by 2002:ac8:7dcc:0:b0:477:41f1:285d with SMTP id d75a77b69052e-47ad80b478fmr88009531cf.19.1744904966866;
+        Thu, 17 Apr 2025 08:49:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1744904966; cv=none;
         d=google.com; s=arc-20240605;
-        b=lJyhKzZuPHce7wB5YRxVZz7TfnFSIo8Jsl4+O8x4mW7qLkdNMFYigLY5kOyCWmoPfa
-         +RQJzkwo2SRJEc0TsPf/SAcwmdWvJFnGmgzUs7JcuvPnn2VqdOsbHTnEC30iOuzTMF4i
-         Zh3Ram5PTAAXmfgyySLcbrZv77Bep+Z+y6OrLyV0LpqrGNrqPin/tPzLrNIbSc1CdVOa
-         KlwfjcxhyR3kmmIUIXjVKbim563pAL026gEIv/h0OMhh4nUAMjrsFEiPpiL/cgYNVaJl
-         9zsaBLWPW8/ydBlekQrWUAZGP9yjG3mVC3amQyDL3RTB3yZq8Yvs/z7AIoVg+fMTZ8GH
-         P1pg==
+        b=R2iUsNH8gQkJhhre47Morugp8UY0i3dSsC6zI32qJTUKvLYxe9yIFw8GbI86hY8l6g
+         r08tYr5C9aNHXaYwBvGBp0UuvASVEzaT/gJvXeodFogwhTslmASewRvoCpa5e1FQLJWU
+         pv+Z2peeJ6NOI5pXITdV4vneMwraFy/26zpWOD3Whwf1xy7LJbl/QWXhQZkOPHQpOW39
+         KD3Nku/jiLxg8E5I7HHGmQP5bm8iXZpW5EIejnGjR20XcfrhTfUmZLmXcdm6T9qoXssy
+         P5KxU1PHKPJvRZUPANsCDFRbGZMAd8sikw9tIqN3qAaM/uCX+v6yA+9TfksVcmrpQ++L
+         tQew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=1MyAnJTr6eQCZG3FgtbZ7+3YB/W35AyW1Th3bTHG7vk=;
-        fh=GiLZEuXiLuoZmrdEW/ynaQWnLATFrou3twlAP79xmXU=;
-        b=QWzHAQEVYHHDrLDfFHpBiN+ldykyMVLBgVUek/U5A1AaXBODckQ21nlVXwRMUlRLau
-         4XHpsdsyV+i2zPDixUgwWi8wMU244YLKH6dHK5HfY63RvA2837tGn7+Pb1TwK9UHtKG1
-         HYehBqXx79sezl7m8YcHtt0oPZsE0LZ2trJSexEPawYyW68VdagOoQ9c0f8eFQ5makds
-         vT7lOCfV2x56psH/lBEmv3laN+ZEbk3ZSAsuDfirsPDCxavtOg0bsE7O4ZiOaVb5bTSM
-         bVTryPMpZm4tMCQW6qXy6jBcK1/s3mEmeXPcB4/mlzipuxcfFFDVdqjJjnFT5MtKqstc
-         wBVw==;
+        bh=uGoFegrtK323fTXw1ni/vvAxcbbW6NLUsK1CzocSs0Q=;
+        fh=Rg9QPYAh2oD4t1ENChiWg66cRutLPJ78uS1vVE+TZ3g=;
+        b=YjJVgz0Bk713ulgUoorM4qf3OQBC0NMBz1+6rrlLRuPiq0OvXWTZMzoCI4dEJ0jXSG
+         /jzfIodGVxjrM8AEpG4leVW+n0xA0ZN7x3AtfK9ZdRxg+Ic4TUW6Q3ehA4/UuKSHVKfZ
+         Xc5bAXNXKx7r8P7Z7AT1/5J3ccSKOQL7IKgBx6Crh8wO9hRNFEt3jqvpsk1MXslYz8s0
+         5irqgq4xmTJJTB0SZcl+U4iNczGFJkd6/8eGhFSZZZu8J4Np4wrdhkOBP6EQbop/dWwT
+         HRMpHgDtShPHVdRDhvc66l2sM2Kn14BReMM6CqW8BvkjBTqm42WPBADNLGoG5AfAz097
+         45FQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b="1B6H/ovL";
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2d as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com. [2607:f8b0:4864:20::f2d])
-        by gmr-mx.google.com with ESMTPS id d75a77b69052e-47ae9d14892si28131cf.5.2025.04.17.08.37.46
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=moucwpso;
+       spf=pass (google.com: domain of ardb@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=ardb@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from nyc.source.kernel.org (nyc.source.kernel.org. [147.75.193.91])
+        by gmr-mx.google.com with ESMTPS id d75a77b69052e-47ae9c3f7d7si39831cf.1.2025.04.17.08.49.26
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Apr 2025 08:37:46 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2d as permitted sender) client-ip=2607:f8b0:4864:20::f2d;
-Received: by mail-qv1-xf2d.google.com with SMTP id 6a1803df08f44-6ecfc2cb1aaso9119256d6.3
-        for <kasan-dev@googlegroups.com>; Thu, 17 Apr 2025 08:37:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWAXdTVVTlyujE24Dp7PKuPd18N9JIHrea0uBXNlVj2cOhqB+AcDn2G8Wq09j2yiE0TDFqVhXc/9QE=@googlegroups.com
-X-Gm-Gg: ASbGnct46knq339n2EWnftmEGWpa1y9Jyi7W6LGmDTsIkgYOm9wKvyOPqENielPjQuV
-	z4jalQAFvRX6UtZRdfS+LZOrY8sUiwmbNO0fDV86ys4GP/EHSTvcq//8zuRQgzqJb1ecX07vo/c
-	R1Q3z2dY4or0DBEftFRbZ8pmUszVJ++vGNpTuXVCwHEx00lhbp8TTb
-X-Received: by 2002:a05:6214:226c:b0:6e8:ed7f:1a79 with SMTP id
- 6a1803df08f44-6f2b304be07mr111127706d6.32.1744904266134; Thu, 17 Apr 2025
- 08:37:46 -0700 (PDT)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Apr 2025 08:49:26 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ardb@kernel.org designates 147.75.193.91 as permitted sender) client-ip=147.75.193.91;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 46CFCA4B4C0
+	for <kasan-dev@googlegroups.com>; Thu, 17 Apr 2025 15:43:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EF72C4CEEA
+	for <kasan-dev@googlegroups.com>; Thu, 17 Apr 2025 15:49:26 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-54b1095625dso1170887e87.0
+        for <kasan-dev@googlegroups.com>; Thu, 17 Apr 2025 08:49:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUMvqnZSpM2pp6BWJk+puEi6TG9Y2nZvZ22gn780fnRMMXI0KPmxGoz8bTnL4OxgISINVWEUWHPam0=@googlegroups.com
+X-Received: by 2002:a05:6512:3f2a:b0:54a:f76a:6f83 with SMTP id
+ 2adb3069b0e04-54d6deaf5ffmr8263e87.13.1744904964553; Thu, 17 Apr 2025
+ 08:49:24 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250416085446.480069-1-glider@google.com> <20250416085446.480069-7-glider@google.com>
- <cb6d98dc-49e9-2d3b-1acc-f208e4fd13fc@gmail.com>
-In-Reply-To: <cb6d98dc-49e9-2d3b-1acc-f208e4fd13fc@gmail.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 17 Apr 2025 17:37:09 +0200
-X-Gm-Features: ATxdqUF6tyoL-d94GB69k__O5KRs0S2IIOkhLY92J9CAUkV5rKaE2SdyZimOJzY
-Message-ID: <CAG_fn=W8GDqYy_JV1F=YypD-6qR6vEqMuCi=DKfhdM-5=N3DdA@mail.gmail.com>
+ <cb6d98dc-49e9-2d3b-1acc-f208e4fd13fc@gmail.com> <CAG_fn=W8GDqYy_JV1F=YypD-6qR6vEqMuCi=DKfhdM-5=N3DdA@mail.gmail.com>
+In-Reply-To: <CAG_fn=W8GDqYy_JV1F=YypD-6qR6vEqMuCi=DKfhdM-5=N3DdA@mail.gmail.com>
+From: "'Ard Biesheuvel' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 17 Apr 2025 17:49:13 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXEARA1KnD95RO=huLeQ-8nLsGixg0nOx01k4jgkb-2GYQ@mail.gmail.com>
+X-Gm-Features: ATxdqUHMyy9TKm-n_7IAa_RrWRgIKhy0z62cRrwI2HOntcJj5Vopd3FWYI3r-Io
+Message-ID: <CAMj1kXEARA1KnD95RO=huLeQ-8nLsGixg0nOx01k4jgkb-2GYQ@mail.gmail.com>
 Subject: Re: [PATCH 6/7] x86: objtool: add support for R_X86_64_REX_GOTPCRELX
-To: Uros Bizjak <ubizjak@gmail.com>, Ard Biesheuvel <ardb@kernel.org>
-Cc: quic_jiangenj@quicinc.com, linux-kernel@vger.kernel.org, 
-	kasan-dev@googlegroups.com, x86@kernel.org, 
+To: Alexander Potapenko <glider@google.com>
+Cc: Uros Bizjak <ubizjak@gmail.com>, quic_jiangenj@quicinc.com, 
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, x86@kernel.org, 
 	Aleksandr Nogikh <nogikh@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Borislav Petkov <bp@alien8.de>, 
 	Dave Hansen <dave.hansen@linux.intel.com>, Dmitry Vyukov <dvyukov@google.com>, 
 	Ingo Molnar <mingo@redhat.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Marco Elver <elver@google.com>, 
 	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: glider@google.com
+X-Original-Sender: ardb@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b="1B6H/ovL";       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2d as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@kernel.org header.s=k20201202 header.b=moucwpso;       spf=pass
+ (google.com: domain of ardb@kernel.org designates 147.75.193.91 as permitted
+ sender) smtp.mailfrom=ardb@kernel.org;       dmarc=pass (p=QUARANTINE
+ sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Ard Biesheuvel <ardb@kernel.org>
+Reply-To: Ard Biesheuvel <ardb@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -154,83 +155,126 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Apr 16, 2025 at 4:21=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> wro=
-te:
->
->
->
-> On 16. 04. 25 10:54, Alexander Potapenko wrote:
-> > When compiling modules with -fsanitize-coverage=3Dtrace-pc-guard, Clang
-> > will emit R_X86_64_REX_GOTPCRELX relocations for the
-> > __start___sancov_guards and __stop___sancov_guards symbols. Although
-> > these relocations can be resolved within the same binary, they are left
-> > over by the linker because of the --emit-relocs flag.
-> >
-> > This patch makes it possible to resolve the R_X86_64_REX_GOTPCRELX
-> > relocations at runtime, as doing so does not require a .got section.
-> > In addition, add a missing overflow check to R_X86_64_PC32/R_X86_64_PLT=
-32.
-> >
-> > Cc: x86@kernel.org
-> > Signed-off-by: Alexander Potapenko <glider@google.com>
-> > ---
-> >   arch/x86/include/asm/elf.h      | 1 +
-> >   arch/x86/kernel/module.c        | 8 ++++++++
-> >   arch/x86/um/asm/elf.h           | 1 +
-> >   tools/objtool/arch/x86/decode.c | 1 +
-> >   4 files changed, 11 insertions(+)
-> >
-> > diff --git a/arch/x86/include/asm/elf.h b/arch/x86/include/asm/elf.h
-> > index 1fb83d47711f9..15d0438467e94 100644
-> > --- a/arch/x86/include/asm/elf.h
-> > +++ b/arch/x86/include/asm/elf.h
-> > @@ -63,6 +63,7 @@ typedef struct user_i387_struct elf_fpregset_t;
-> >   #define R_X86_64_8          14      /* Direct 8 bit sign extended  */
-> >   #define R_X86_64_PC8                15      /* 8 bit sign extended pc=
- relative */
-> >   #define R_X86_64_PC64               24      /* Place relative 64-bit =
-signed */
-> > +#define R_X86_64_REX_GOTPCRELX       42      /* R_X86_64_GOTPCREL with=
- optimizations */
-> >
-> >   /*
-> >    * These are used to set parameters in the core dumps.
-> > diff --git a/arch/x86/kernel/module.c b/arch/x86/kernel/module.c
-> > index 8984abd91c001..6c8b524bfbe3b 100644
-> > --- a/arch/x86/kernel/module.c
-> > +++ b/arch/x86/kernel/module.c
-> > @@ -133,6 +133,14 @@ static int __write_relocate_add(Elf64_Shdr *sechdr=
-s,
-> >               case R_X86_64_PC32:
-> >               case R_X86_64_PLT32:
-> >                       val -=3D (u64)loc;
-> > +                     if ((s64)val !=3D *(s32 *)&val)
-> > +                             goto overflow;
-> > +                     size =3D 4;
-> > +                     break;
-> > +             case R_X86_64_REX_GOTPCRELX:
-> > +                     val -=3D (u64)loc;
-> > +                     if ((s64)val !=3D *(s32 *)&val)
-> > +                             goto overflow;
-> >                       size =3D 4;
-> >                       break;
->
-> These two cases are the same. You probably want:
->
->                 case R_X86_64_PC32:
->                 case R_X86_64_PLT32:
->                 case R_X86_64_REX_GOTPCRELX:
->                         val -=3D (u64)loc;
->                         if ((s64)val !=3D *(s32 *)&val)
->                                 goto overflow;
->                         size =3D 4;
->                         break;
->
+Hi,
 
-You are right, I overlooked this, as well as the other
-R_X86_64_REX_GOTPCRELX case above.
-Ard, do you think we can relax the code handling __stack_chk_guard to
-accept every R_X86_64_REX_GOTPCRELX relocation?
+On Thu, 17 Apr 2025 at 17:37, Alexander Potapenko <glider@google.com> wrote=
+:
+>
+> On Wed, Apr 16, 2025 at 4:21=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> w=
+rote:
+> >
+> >
+> >
+> > On 16. 04. 25 10:54, Alexander Potapenko wrote:
+> > > When compiling modules with -fsanitize-coverage=3Dtrace-pc-guard, Cla=
+ng
+> > > will emit R_X86_64_REX_GOTPCRELX relocations for the
+> > > __start___sancov_guards and __stop___sancov_guards symbols. Although
+> > > these relocations can be resolved within the same binary, they are le=
+ft
+> > > over by the linker because of the --emit-relocs flag.
+> > >
+
+Not sure what you mean here - --emit-relocs is not used for modules,
+only for vmlinux.
+
+> > > This patch makes it possible to resolve the R_X86_64_REX_GOTPCRELX
+> > > relocations at runtime, as doing so does not require a .got section.
+
+Why not? R_X86_64_REX_GOTPCRELX is *not* a PC32 reference to the
+symbol, it is a PC32 reference to a 64-bit global variable that
+contains the absolute address of the symbol.
+
+> > > In addition, add a missing overflow check to R_X86_64_PC32/R_X86_64_P=
+LT32.
+> > >
+> > > Cc: x86@kernel.org
+> > > Signed-off-by: Alexander Potapenko <glider@google.com>
+> > > ---
+> > >   arch/x86/include/asm/elf.h      | 1 +
+> > >   arch/x86/kernel/module.c        | 8 ++++++++
+> > >   arch/x86/um/asm/elf.h           | 1 +
+> > >   tools/objtool/arch/x86/decode.c | 1 +
+> > >   4 files changed, 11 insertions(+)
+> > >
+> > > diff --git a/arch/x86/include/asm/elf.h b/arch/x86/include/asm/elf.h
+> > > index 1fb83d47711f9..15d0438467e94 100644
+> > > --- a/arch/x86/include/asm/elf.h
+> > > +++ b/arch/x86/include/asm/elf.h
+> > > @@ -63,6 +63,7 @@ typedef struct user_i387_struct elf_fpregset_t;
+> > >   #define R_X86_64_8          14      /* Direct 8 bit sign extended  =
+*/
+> > >   #define R_X86_64_PC8                15      /* 8 bit sign extended =
+pc relative */
+> > >   #define R_X86_64_PC64               24      /* Place relative 64-bi=
+t signed */
+> > > +#define R_X86_64_REX_GOTPCRELX       42      /* R_X86_64_GOTPCREL wi=
+th optimizations */
+> > >
+
+Why do you need this? arch/x86/kernel/module.c already has a reference
+to R_X86_64_REX_GOTPCRELX so surely it is defined already somewhere.
+
+> > >   /*
+> > >    * These are used to set parameters in the core dumps.
+> > > diff --git a/arch/x86/kernel/module.c b/arch/x86/kernel/module.c
+> > > index 8984abd91c001..6c8b524bfbe3b 100644
+> > > --- a/arch/x86/kernel/module.c
+> > > +++ b/arch/x86/kernel/module.c
+> > > @@ -133,6 +133,14 @@ static int __write_relocate_add(Elf64_Shdr *sech=
+drs,
+> > >               case R_X86_64_PC32:
+> > >               case R_X86_64_PLT32:
+> > >                       val -=3D (u64)loc;
+> > > +                     if ((s64)val !=3D *(s32 *)&val)
+> > > +                             goto overflow;
+> > > +                     size =3D 4;
+> > > +                     break;
+> > > +             case R_X86_64_REX_GOTPCRELX:
+> > > +                     val -=3D (u64)loc;
+> > > +                     if ((s64)val !=3D *(s32 *)&val)
+> > > +                             goto overflow;
+> > >                       size =3D 4;
+> > >                       break;
+> >
+> > These two cases are the same. You probably want:
+> >
+> >                 case R_X86_64_PC32:
+> >                 case R_X86_64_PLT32:
+> >                 case R_X86_64_REX_GOTPCRELX:
+> >                         val -=3D (u64)loc;
+> >                         if ((s64)val !=3D *(s32 *)&val)
+> >                                 goto overflow;
+> >                         size =3D 4;
+> >                         break;
+> >
+>
+> You are right, I overlooked this, as well as the other
+> R_X86_64_REX_GOTPCRELX case above.
+
+They are most definitely *not* the same.
+
+> Ard, do you think we can relax the code handling __stack_chk_guard to
+> accept every R_X86_64_REX_GOTPCRELX relocation?
+
+Isn't it possible to discourage Clang from using
+R_X86_64_REX_GOTPCRELX? Does -fdirect-access-external-data make any
+difference here?
+
+In any case, to resolve these relocations correctly, the reference
+need to be made to point to global variables that carry the absolute
+addresses of __start___sancov_guards and __stop___sancov_guards.
+Ideally, these variables would be allocated and populated on the fly,
+similar to how the linker allocates GOT entries at build time. But
+this adds a lot of complexity for something that we don't want to see
+in the first place.
+
+Alternatively, the references could be relaxed, i.e., MOV converted to
+LEA etc. The x86 ELF psABI describes how this is supposed to work for
+R_X86_64_REX_GOTPCRELX but it involves rewriting the instructions so
+it is a bit tedious.
+
+But it would be much better to just fix the compiler.
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -238,5 +282,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-AG_fn%3DW8GDqYy_JV1F%3DYypD-6qR6vEqMuCi%3DDKfhdM-5%3DN3DdA%40mail.gmail.com=
-.
+AMj1kXEARA1KnD95RO%3DhuLeQ-8nLsGixg0nOx01k4jgkb-2GYQ%40mail.gmail.com.
