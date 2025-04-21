@@ -1,116 +1,114 @@
-Return-Path: <kasan-dev+bncBDCPL7WX3MKBBDMNRPAAMGQE4X3B5LI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDUNBGN3R4KRBB4YTDAAMGQEN77OM2A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd37.google.com (mail-io1-xd37.google.com [IPv6:2607:f8b0:4864:20::d37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48543A93F84
-	for <lists+kasan-dev@lfdr.de>; Fri, 18 Apr 2025 23:39:28 +0200 (CEST)
-Received: by mail-io1-xd37.google.com with SMTP id ca18e2360f4ac-85e6b977ef2sf349337339f.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 18 Apr 2025 14:39:28 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1745012366; cv=pass;
+Received: from mail-ed1-x53c.google.com (mail-ed1-x53c.google.com [IPv6:2a00:1450:4864:20::53c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41320A94E72
+	for <lists+kasan-dev@lfdr.de>; Mon, 21 Apr 2025 11:12:51 +0200 (CEST)
+Received: by mail-ed1-x53c.google.com with SMTP id 4fb4d7f45d1cf-5e5c1bb6a23sf4406090a12.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 21 Apr 2025 02:12:51 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1745226761; cv=pass;
         d=google.com; s=arc-20240605;
-        b=LClLsh9FbbLC71CVcUN+34kzrWjNOE1CVWnh+ZYAb9he7KfpXZfwK3c8t9upihE1RF
-         JG8D/+pL2AgwatJ7sk8fp3fC3YeipeHSCPaHR0kdhP2zdeE5UIU+GTvq5zigajHuhchM
-         lOBUL/4qcTM2NfW+yarYxw2Di1BiU4WsuMAqutWd6gG0EdnUd6DmPv5uzR+q+h17wqVB
-         mkgGvWN5M6wl2KTDtsh+IsgaECLzOFv5osap+MPolLg6XHZGflGarlvpXBInQrJNlNEJ
-         l/PlH7DGvB4SVhpb+Z1ExpfPs8EHNRTRZn8RxgMc2YCSMfAEZinK96uQTxGmq5HKAk2Q
-         wBSg==
+        b=g+oM86IN5cGVCzZBWeMGB9hsvgfCo7IPuQZAPd8T4huGElmlNTbsz1XnI8kFkSinmC
+         Gsay6IPgsknu8bAjXpkPaHV2wpICBvp61R/JbPBk/HIsUtQkUNB/Zx2rMihm9Ok9tORn
+         g+orJs8ND0BK+vKAK/MTzm81n4V6g4rzbuWeOsZvx9h5DoSo9v+TaDVeU8Zx+AP6fPyA
+         yc3nzORtBSeh04yOS1qeP3vNeJUqITOiqh8gRGeqvifkwVngd8kmYGJcxjWcJSDNgdDF
+         QQJZfAcy+2ZGfbIw/Pq9qdEcI+IziswejySFMxwq6Qz2Sjs+Z6LrOhtsJ02LK6Zknsim
+         iPjA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
-         :date:subject:cc:to:from:dkim-signature;
-        bh=SAhSkhiu3uqUuI9QTOsPUUXb1crNNnDXHQK/G5G98So=;
-        fh=mp0RsfCxLTYJyP9YjkTSs1w4zRc6UOcfZkjPAt/kGdI=;
-        b=J/p0oFz0NLb6qVXYnH+jiKPsTx9TBumrcM6mMb69abMU2Skk2FyE5V57ZIq0zVHkl7
-         PPn+TYxZ7Yq4pguFjAMabk+hgOgHPfyMptvilpMV+OlJdr+XVdr71/988rerMUCTW3CF
-         Vo9+ANeHd1lzrEtnAKvb/nazsz9CCRoTDtOFtAXATcXyTSIURhmg0KzwVHPjhJ6LOz49
-         WexZqgfeDsJUHY+YtfDKW/iySKD98ZUsC0NVNbVtb8oCZDg/g2c9pWeDkupbnj9Bl9z2
-         ZdIQ9kp+S1DE4IefuphEK/lHwxexYclAORwLwTatdkWrgq0LSJhBlb+ciWTDx6pbnuiI
-         /48w==;
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=TaUKNtp06GH1mhLH1AL7FYbc8M7xyLGsuOcIxOTvVTg=;
+        fh=kFe4z1CTZuRr7FnZl/097CfVbKp1kpbQE2M5A9yDGL4=;
+        b=IxipFn1OIoNGIeNHHXmKPg/FgaXUGcl+djQvqFqUCHtSR7EdxGhS50GG3+cxqxsd9E
+         mc57Y3HNScadSlcqDgJ6Ms14phwZheWMfqhAvgP7Rofy7YiUoXRi6twtuwvD4bZroHfn
+         3mFhbaEawgciCL9y41Z6DmQE6HqAX+g+9PlT3skOjPhuuNDlPK9DxmqAOQC7HoUH93jb
+         ES7QIkcdHDIMnI+c6WecXgyUe9Y5OTmjNU6oYAcfhxoxt01gjoRxAYB6ZPqagUTZGu11
+         w9NFvQyEP8IFfe38YBZVg8sVX8b4yWutkndLJUYLTTmU+4MICFaCiDyXoFJATDLn6Q3N
+         Rxnw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=G2WCddnk;
-       spf=pass (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=kees@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of hch@lst.de designates 213.95.11.211 as permitted sender) smtp.mailfrom=hch@lst.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=lst.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1745012366; x=1745617166; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1745226761; x=1745831561; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SAhSkhiu3uqUuI9QTOsPUUXb1crNNnDXHQK/G5G98So=;
-        b=HkoUyrKgVpAajV47NbpI3yD48pZnOC3ByF2TsyG50fOmR594z4PlsxAdtFq+uSh4PB
-         pLcusGJl3hNo4z4Mawni4ZTs1dWtbEHIDXUnlA2P5Qh5zmxlN8mMiWlwac3WAR6uJq/u
-         +fkTKImWRdFiNO+GA2EPUNwia0vvQAkP1GnQg/MLMz4roOI/7s/NTq2QYXGhiFcZUAjY
-         IFDOV5ruRwGTxYotsYo/uNzUrDWPp+kqb13yfiKPcajbLOG05cQjJzr+JQzuBnaZrlH1
-         5M7tb0KQv3iTXHp5xT7FvdvwUObsaXxzC5KMbupA10bPOUf7+uU51LTLFvIQIFqxlQsI
-         inow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745012366; x=1745617166;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:user-agent:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=SAhSkhiu3uqUuI9QTOsPUUXb1crNNnDXHQK/G5G98So=;
-        b=ZZnv4Scw3acacIdQ9aJhWwilSu5I1SaOmTKyOMLEzvlaAALoTwMrJ5KcIrDd54GVHd
-         x1qA1O55uX5lv2+hDdDeAr0PCeJq67LGMpyBbjDRR40RqI/mvBDKcd7T8pbyJ7gCibPE
-         fIfuQE17iLGZU8qyVnfxXhdJF/gRm/tHYiB/WLO1I4AZUOuz4jIxMRWsG2HccB8MgjPi
-         7RwIzaNtH2l2Gf6tlLXkkwWjR3PNTer8Mvy4h6zgkp/wo41dh21e5Ek8ltarUem4tib3
-         thuWVDpFV4INxbLjTIFK8J2I+5fiYRZsNm4FIyrSrJ2Ar1TkOWR1CyqMF4VIzC92T47I
-         m38Q==
-X-Forwarded-Encrypted: i=2; AJvYcCWWwLLZPxM9bX52kA0r7QT17QBuaCtTPJM1S8P9FqmYUJL/X6CKKKa5Nj3StjTk9BSY4Lr7Dg==@lfdr.de
-X-Gm-Message-State: AOJu0Yw+F2xrymvdmW892KCjtcYcSUAY7jXtrbZzCAp5SMN64+xCWqP4
-	/0JkEiz9bhw58G1jj/QU0ytLLcmuqn5rFVd4ZUonBeLc6U1bUPEj
-X-Google-Smtp-Source: AGHT+IFljQ5CYY0ADZCVzqNEugJb62qXjWWloLjyNZ7Kd2dlW7Yt6ZGHpMjCYCcOTjgdNZXDc+ErNQ==
-X-Received: by 2002:a05:6e02:3083:b0:3d3:f4fc:a291 with SMTP id e9e14a558f8ab-3d89428c213mr52835265ab.19.1745012365935;
-        Fri, 18 Apr 2025 14:39:25 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPAI8EZg4MPt1vAw0fGnl1pgN5rXYMFszO3bNFka9/rPB4w==
-Received: by 2002:a05:6e02:3710:b0:3d4:3543:15b7 with SMTP id
- e9e14a558f8ab-3d81a763fe5ls20428065ab.0.-pod-prod-05-us; Fri, 18 Apr 2025
- 14:39:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVTEJe07QklnnGN6zcLSuYHeqLoB426Fi0yNRzDgrtu6QWCn/hpSljaM24Vxh8W+CfhIHScSGZknJ4=@googlegroups.com
-X-Received: by 2002:a05:6e02:16ca:b0:3d8:1ef0:4921 with SMTP id e9e14a558f8ab-3d894180afamr39594385ab.17.1745012365169;
-        Fri, 18 Apr 2025 14:39:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1745012365; cv=none;
+        bh=TaUKNtp06GH1mhLH1AL7FYbc8M7xyLGsuOcIxOTvVTg=;
+        b=mmkBShYQgNFvzdR0i1YWyArMEYbKOw9SUMKSDyQoWIyO7PqRG8DBnagqS4Iw47ZgW1
+         Eqbt+2K1XZvV+652AhPD+DD1bHGd4T+J1D4C9thT5LvV4izYK21ZHcOn3O0Ab/ZepVw4
+         /QOZJi+EMoV/iX9at5fHSPLsdLiZCMQunr4WQao0OrQR57EY6wauE9Cwf1W6YG/4FBud
+         OCy9FcwtnvLqbubt1YAYMGkR2YvqRSGkhwsBipABwhFok/mHeE8QU9t3jS/9NlB35FLJ
+         tgmZ1kbYuqOmgAs/nk2nS5HzgSEeq1D49r/sdzx/4fBkA5K7mRE25XAk2F/5JJxY805q
+         Ny8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745226761; x=1745831561;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:user-agent
+         :in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=TaUKNtp06GH1mhLH1AL7FYbc8M7xyLGsuOcIxOTvVTg=;
+        b=rZm0Xof/g3/b35ATA0+FRZIqx0q9ADG8nqK4M8RZdsIwMFTcgpswwSvS/xFLbF77G0
+         LCQulKVC/wYNu9X3qgg4c20+SAWxaKVbDWVRuj4XSpu4t20QUTbcGY6jss+kTjEgqTDc
+         87svRigxxMMTa+Vm+VB0VixWUjwg8eZ2jsoZIYy2REY/e589bPO4AgLBcjq+1t5Ueoj2
+         FOaf/QN6QzIGcYTQsSvq9W/HJypKk69c+8VlFOPBq1dCX2/kMiEZNr6feZJQk5gwGI/q
+         nuzsIqsxh7pvpQj3TnXXZksockeaiz7rkglhPwMP6Gt290fjt1Pj+tMe9PFARq4HK0n9
+         LbJw==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCWsF/YPLpI1BPUIl3sds9YzOakEojoQT0yGxXw/mBtxkgaLnkp+vGCr5CVxRZYrs9UAhyZK2Q==@lfdr.de
+X-Gm-Message-State: AOJu0YzqXtORUIL00YUxXrVFpgvA9YjFDAlISCZ1OLICEA3mvEoM0Inv
+	uZZEmmOmfgqnoIVHTh3nbJbY/CL6QEChV/GuIHmLUs/Un2e0ARLQ
+X-Google-Smtp-Source: AGHT+IF6zgyYBQBG0L4xjWYM2ktXDCsuRURwyD4jU7UkFEpchB6JMQ25+C+/r4+fqm2/j6pGiJU25g==
+X-Received: by 2002:a05:6402:210a:b0:5f4:ca30:acab with SMTP id 4fb4d7f45d1cf-5f627d4688dmr9974420a12.9.1745226760185;
+        Mon, 21 Apr 2025 02:12:40 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPAL/Y8ukRogj0CEoTBRIn6jw3faK2h7ylgqbHICe7ajNgA==
+Received: by 2002:a05:6402:35c2:b0:5e4:9718:9ea4 with SMTP id
+ 4fb4d7f45d1cf-5f6b02f121els177435a12.2.-pod-prod-00-eu; Mon, 21 Apr 2025
+ 02:12:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVy5xMnOoO6Nng+W6FbaYTVAOGJAq5ZGIhGSd5Il0xdU+XCzmAIpyL/Cmt4mjUPLIaXQCaFln31J2o=@googlegroups.com
+X-Received: by 2002:a17:907:6e8e:b0:aca:d276:fa5 with SMTP id a640c23a62f3a-acb74e53288mr924911066b.0.1745226756992;
+        Mon, 21 Apr 2025 02:12:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1745226756; cv=none;
         d=google.com; s=arc-20240605;
-        b=KMsgPA0Rpm76AQxgbiNUfAgzO0WNgdgxWTbA7Fqi1Hbskg5irKOD/z/8G4Ii/xD4pS
-         d8aVuefmG16shUAwoVSqZO/cn7VIeocLdjGgw+Y64cxzKGCmvcDZHVxI/eBMG8HLLHI4
-         P9k7wbgyjLwCIZk86DhRam561oHpf1xUJ6NoJ7vUDJVu1hPTdKShd7KDiJcAYjvwKqGr
-         TvegP0wJTEGyLiS1RtDdO315S/W54LUYZpkmXjw/1xXsv9AYTL6j8T3M4Z26lVop7+ML
-         hpcr+DiykVi08GYvGxjqivDwqioMyn1szF19EoXAbGK5l7tuyHx03070MfNlC4Vu0Joj
-         H/aw==
+        b=U1wQKhSMW4zVPNLxxI/wvIvuWI1BhXQ/ZPmlhGxeD4fwONFPAXlttqtPu33oC2KieP
+         pOAxsimkpUvUPvJwNZWl3aYkkOIDYROOusEdc7Jc+JS9VeKBY+YT55wRpuhyP/ktLvpw
+         YdjhBkUpXTV/oVat8mA57piIJALWwARpgGpmkOHSMS9lr3/NB7ddDgKDOt1Mc4l6EFQA
+         iGbpYKpS8nX1eFFPlPlI9OtkFuOajHcgWvdtUyDgOIyNoYrlkx34GH6GK1VRlVk1Ilfz
+         DiNxj33m1kAaAc36kdX0NEzvwpxSjFOTMaYVDCrlWmmzcV44hyNcBcnuy3KnKY/bv0Eb
+         5ZtQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=rk68TsA3o31hTgJLBf2Gv0fYT2I1YziG/5HO6l5R5L8=;
-        fh=e/QSydFulLmaZXr9TmdGaTU6R/Ye//vtsI6ypfd2Dp0=;
-        b=MQGpsQjPHSaIyc+Klb1Gbn6P2XszYBw837tJsf6FRAQHEkiVCnBHpjMgj7ET1+bvpv
-         MWXT3EFBz+gwnJdjddKhhnXQOlK8TzNxPlEnHX+uu3YJRXhaiG4DZAFV+8ZlchVqdi1N
-         1kNTk3roLQlSp+GGWss06PSY7D5uAegGaS7dv+BpDHxoUb13TF0a4ydcEOheXka9cbBp
-         H3N+he9mzgS49lbfEHutuzeuB/3XZeuS3E6La4utFnf/uKzC5XR2IQ3QKS6YzyIe6oQz
-         irCXV/Mnbp00p7bSkY2ZuEnaLCcYOjYtL59nPpd55G1V7meAR0Co14iK95xt8GpAT0zQ
-         Pauw==;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date;
+        bh=ZwnMT9iyHKRFWugR+0k3kpgyohlUA1bPJnpPrt50Yco=;
+        fh=GVqYepxEFTP/sP/yG3gY3pXURdbDjo5PppVB5S4sZYQ=;
+        b=E7FdJi7UzYl5YMsy8lzOf+5qVp3Bkf+adhUqJgRFm7PC1Ubaoi9A5EBXzFQZjvl3do
+         xNRhc9/43tSM2SxhOM8Gjrp7O2fwX4l55TOBsoNMQgJDMAnYbbpKdf9FwRpKF6VOtIaL
+         m5UOpJu7J/fENLsL6fXjbiKcpjjxmnLj10zxL5zC3DDcjk/frrOTZyjmEh8DoCRgSSKN
+         VvyT90ce5D9EFM6c8V4VtdPnPO7Tf/LcU1zVcRAJntM0SeC7fGh/R33TLsxEoLA70qjW
+         xeuUW6rDpJP4OV2jRL5itEnVar2ifkJ2RhTto+BZNyh0WjZBwyNecZv3T+4jccCOdooN
+         i6qw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=G2WCddnk;
-       spf=pass (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=kees@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from sea.source.kernel.org (sea.source.kernel.org. [2600:3c0a:e001:78e:0:1991:8:25])
-        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-4f6a388428bsi47531173.7.2025.04.18.14.39.25
+       spf=pass (google.com: domain of hch@lst.de designates 213.95.11.211 as permitted sender) smtp.mailfrom=hch@lst.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=lst.de
+Received: from verein.lst.de (verein.lst.de. [213.95.11.211])
+        by gmr-mx.google.com with ESMTPS id a640c23a62f3a-acb6ec59725si14988666b.2.2025.04.21.02.12.36
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Apr 2025 14:39:25 -0700 (PDT)
-Received-SPF: pass (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) client-ip=2600:3c0a:e001:78e:0:1991:8:25;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 170C54A50A;
-	Fri, 18 Apr 2025 21:39:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B194C4CEE2;
-	Fri, 18 Apr 2025 21:39:24 +0000 (UTC)
-From: "'Kees Cook' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Kees Cook <kees@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 21 Apr 2025 02:12:36 -0700 (PDT)
+Received-SPF: pass (google.com: domain of hch@lst.de designates 213.95.11.211 as permitted sender) client-ip=213.95.11.211;
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id A997967373; Mon, 21 Apr 2025 11:12:33 +0200 (CEST)
+Date: Mon, 21 Apr 2025 11:12:33 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Kees Cook <kees@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Masahiro Yamada <masahiroy@kernel.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
 	Alexander Potapenko <glider@google.com>,
@@ -121,29 +119,23 @@ Cc: Kees Cook <kees@kernel.org>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
 	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
 	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	linux-kbuild@vger.kernel.org,
-	llvm@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH] kbuild: Switch from -Wvla to -Wvla-larger-than=0
-Date: Fri, 18 Apr 2025 14:32:39 -0700
-Message-Id: <20250418213235.work.532-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
+	Justin Stitt <justinstitt@google.com>, kasan-dev@googlegroups.com,
+	linux-mm@kvack.org, linux-kbuild@vger.kernel.org,
+	llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-sparse@vger.kernel.org,
+	luc.vanoostenryck@gmail.com
+Subject: Re: [PATCH] kbuild: Switch from -Wvla to -Wvla-larger-than=0
+Message-ID: <20250421091233.GA21118@lst.de>
+References: <20250418213235.work.532-kees@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3972; i=kees@kernel.org; h=from:subject:message-id; bh=Dxddxm0RejabRVjCTL14ao3nM8RrH3k/YV8zdVVdCso=; b=owGbwMvMwCVmps19z/KJym7G02pJDBlMR75tUNcXehp4aNuTF9IufZcazwSYsVpMuhT1SYfV7 DZjXfTDjlIWBjEuBlkxRZYgO/c4F4+37eHucxVh5rAygQxh4OIUgIlU6zD8sxcrPZD7z3HyfV5/ l5P7Zidtu6JR9j1/s8OLWSp8sROaOxkZ7tvemrNQJZAjpFqnUJfJSVdjfeDhLfxyf09LOTKE/fv OCwA=
-X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-X-Original-Sender: kees@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=G2WCddnk;       spf=pass
- (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25
- as permitted sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: Kees Cook <kees@kernel.org>
-Reply-To: Kees Cook <kees@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20250418213235.work.532-kees@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Original-Sender: hch@lst.de
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of hch@lst.de designates 213.95.11.211 as permitted
+ sender) smtp.mailfrom=hch@lst.de;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=lst.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -156,99 +148,14 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Variable Length Arrays (VLAs) on the stack must not be used in the kernel.
-Function parameter VLAs[1] should be usable, but -Wvla will warn for
-those. For example, this will produce a warning but it is not using a
-stack VLA:
+Looks good:
 
-    int something(size_t n, int array[n]) { ...
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-Clang has no way yet to distinguish between the VLA types[2], so
-depend on GCC for now to keep stack VLAs out of the tree by using GCC's
--Wvla-larger-than=0 option (though GCC may split -Wvla[3] similarly to
-how Clang is planning to).
-
-Switch to -Wvla-larger-than=0 and adjust the two VLA-checking selftests
-to disable the updated option name.
-
-Link: https://en.cppreference.com/w/c/language/array [1]
-Link: https://github.com/llvm/llvm-project/issues/57098 [2]
-Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=98217 [3]
-Signed-off-by: Kees Cook <kees@kernel.org>
----
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Cc: Alexander Potapenko <glider@google.com>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Cc: Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nicolas.schier@linux.dev>
-Cc: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
-Cc: Bill Wendling <morbo@google.com>
-Cc: Justin Stitt <justinstitt@google.com>
-Cc: <kasan-dev@googlegroups.com>
-Cc: <linux-mm@kvack.org>
-Cc: <linux-kbuild@vger.kernel.org>
-Cc: <llvm@lists.linux.dev>
----
- lib/Makefile               | 2 +-
- mm/kasan/Makefile          | 2 +-
- scripts/Makefile.extrawarn | 9 +++++++--
- 3 files changed, 9 insertions(+), 4 deletions(-)
-
-diff --git a/lib/Makefile b/lib/Makefile
-index f07b24ce1b3f..37b6e5782ecb 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -71,7 +71,7 @@ CFLAGS_test_bitops.o += -Werror
- obj-$(CONFIG_TEST_SYSCTL) += test_sysctl.o
- obj-$(CONFIG_TEST_IDA) += test_ida.o
- obj-$(CONFIG_TEST_UBSAN) += test_ubsan.o
--CFLAGS_test_ubsan.o += $(call cc-disable-warning, vla)
-+CFLAGS_test_ubsan.o += $(call cc-option, -Wno-vla-larger-than)
- CFLAGS_test_ubsan.o += $(call cc-disable-warning, unused-but-set-variable)
- UBSAN_SANITIZE_test_ubsan.o := y
- obj-$(CONFIG_TEST_KSTRTOX) += test-kstrtox.o
-diff --git a/mm/kasan/Makefile b/mm/kasan/Makefile
-index 1a958e7c8a46..0e326116a70b 100644
---- a/mm/kasan/Makefile
-+++ b/mm/kasan/Makefile
-@@ -35,7 +35,7 @@ CFLAGS_shadow.o := $(CC_FLAGS_KASAN_RUNTIME)
- CFLAGS_hw_tags.o := $(CC_FLAGS_KASAN_RUNTIME)
- CFLAGS_sw_tags.o := $(CC_FLAGS_KASAN_RUNTIME)
- 
--CFLAGS_KASAN_TEST := $(CFLAGS_KASAN) $(call cc-disable-warning, vla)
-+CFLAGS_KASAN_TEST := $(CFLAGS_KASAN) $(call cc-option, -Wno-vla-larger-than)
- ifndef CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX
- # If compiler instruments memintrinsics by prefixing them with __asan/__hwasan,
- # we need to treat them normally (as builtins), otherwise the compiler won't
-diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-index d75897559d18..0229b10c5d81 100644
---- a/scripts/Makefile.extrawarn
-+++ b/scripts/Makefile.extrawarn
-@@ -45,8 +45,13 @@ endif
- # These result in bogus false positives
- KBUILD_CFLAGS += $(call cc-disable-warning, dangling-pointer)
- 
--# Variable Length Arrays (VLAs) should not be used anywhere in the kernel
--KBUILD_CFLAGS += -Wvla
-+# Stack Variable Length Arrays (VLAs) must not be used in the kernel.
-+# Function array parameters should, however, be usable, but -Wvla will
-+# warn for those. Clang has no way yet to distinguish between the VLA
-+# types, so depend on GCC for now to keep stack VLAs out of the tree.
-+# https://github.com/llvm/llvm-project/issues/57098
-+# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=98217
-+KBUILD_CFLAGS += $(call cc-option,-Wvla-larger-than=0)
- 
- # disable pointer signed / unsigned warnings in gcc 4.0
- KBUILD_CFLAGS += -Wno-pointer-sign
--- 
-2.34.1
+Note that sparse currently also can't cope with VLAs including the
+prototype syntax, which also needs addressing.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250418213235.work.532-kees%40kernel.org.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250421091233.GA21118%40lst.de.
