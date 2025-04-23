@@ -1,197 +1,147 @@
-Return-Path: <kasan-dev+bncBD2KV7O4UQOBBYFIULAAMGQEVRFZATQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRB7GMUPAAMGQESASOVYY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x540.google.com (mail-pg1-x540.google.com [IPv6:2607:f8b0:4864:20::540])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A904A98062
-	for <lists+kasan-dev@lfdr.de>; Wed, 23 Apr 2025 09:18:59 +0200 (CEST)
-Received: by mail-pg1-x540.google.com with SMTP id 41be03b00d2f7-af8d8e0689esf6382939a12.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 23 Apr 2025 00:18:59 -0700 (PDT)
+Received: from mail-pg1-x539.google.com (mail-pg1-x539.google.com [IPv6:2607:f8b0:4864:20::539])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7506DA98A8A
+	for <lists+kasan-dev@lfdr.de>; Wed, 23 Apr 2025 15:09:18 +0200 (CEST)
+Received: by mail-pg1-x539.google.com with SMTP id 41be03b00d2f7-b06b29fee16sf6532170a12.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 23 Apr 2025 06:09:18 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1745413757; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=UdjV7ciTe6zJGebwDYC0siJ+6ibdACh7iL+SE1reOqTkZH4pqB7T/UZC2AF30pSNN7
+         MWLmZOKxRWKQwMgg3BRItSJNigt1m6QJ9R/bQH/eAnGz3BXKDhSH63esQX0SFoDGnUvv
+         ZPGOg0bFBDwlOwzSTlwFP/UA70+E95Pyoj15TfqTRbEKI0AkMUpXS9LP+/VRpjt+FfSy
+         RIJ0r0UFzS0omeJzaTYvHadkKKqjffjYdsgd6tkxPePQB8notT9l6sO3Q1xtUyTPGIc6
+         aTVJDprDGLv+3Sj7gFmjSq3sJJqjrTdgzJxGn8TKPpYYOPBrQcCHYTOdO5k2s4Rt7d3f
+         Uy7g==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=aF7r78z5uTFbm+SAJKhCMdjsNBIhLzWGiy+swm8OV4Y=;
+        fh=gQ7XHhsw1v1a0oEuoZ9VGPHoEpVUt+AwG0Oe+xNyOWY=;
+        b=g5l+hXLRFaMRv8oJZYgpsM2Bd2QgBp73m/FZkTJ1TapQrcU/vjEnnujGz0IeVSZgpZ
+         eRuyWYYVlzdvz/wY0/krrUZdPY85CzbxFndUQGNjCNxv0kHjlpcwIXXsdIOkWmD2FZMS
+         1HQFnN70f/Gx2iLBsQX6JdpMrkwOEg81letCwD+dR5503EntM08Y3fHQrdpEhXDAiG5e
+         ePXQoyJyoKb2pEN49PkVDwULBpNfMW0OrOU1sknB7SQVihlwmppcnwWnFNVGbmzPKm08
+         lXGRZN2B5QAhLwjny92xPHKlSHLzzx8j2C6efmWipHyzH9yxEMn2cPmJtESxVkXucUy1
+         KFww==;
+        darn=lfdr.de
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=EEPaEDiR;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f31 as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1745392737; x=1745997537; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1745413757; x=1746018557; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:content-disposition:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZlvzhHq8Z/ljBd/24846B2giZcDYXYM7hyevVvRN5Ew=;
-        b=QHrY1kh3Za4C/L0G9AQZYO8Nw4Sj4ehmqg2M1qzINsMzYQp25cq+aA0amIWW3MK7Z1
-         s924aKXeD66xRqswps6wLbocWmIHiYTSjnHVPRPMAAqYrcppcoWmV4DX5wnQI+GdT5xC
-         xiVe+aTHKEDUhEdWQZJqWMWvWu6ieBZDxcA46ZHZK1SNFKRiomFEqI29aIUrHn/txv15
-         MGkxgbd0nYN8pXeoF0wwjyKAwAi3ahjfvhtzzMLpkbeVNDflymwHlqI1nv2vlQs6DP9f
-         V4ACFlFTV16E9zM8ocJYbqcknY1CsBx7KmRv5gYA3EyqgPWq77NV+EzlYZ2QVgw7xaxz
-         ooFQ==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aF7r78z5uTFbm+SAJKhCMdjsNBIhLzWGiy+swm8OV4Y=;
+        b=YznRGNXqtzxe2v/eMLdt3lQ085ztiV/aQjYvN4wFKaFse0Q1xwjSnQCdj6uufKd++9
+         zX1akGLrRAm37yM/Z+0uGA2RJ4yyyrzaITw1lTgO7OIeCLAUuwsRaEu5XmchQnIaAd31
+         /Q4t6RuPv2OX/GJ6TStrHlPakSrpzvT7Bf8Aq9A7FZ4KgOm5hjVXVOABa9YlEbYdyIoS
+         hSxXg/JV7JdT+IY/IC3sYKWVwWFWNDwYSU1LwU2UnYDELhHrOlQf+ax16LYf8I2PMYyh
+         Al3pR7grm6K+o5659dyZ18ZqMmnB5PrGIabhfX6C+5jKzI1PyFW7/zkOpss3ZvQFBXHl
+         j2Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745392737; x=1745997537;
+        d=1e100.net; s=20230601; t=1745413757; x=1746018557;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :content-disposition:message-id:subject:cc:to:from:date:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZlvzhHq8Z/ljBd/24846B2giZcDYXYM7hyevVvRN5Ew=;
-        b=F/AuaaE/zE7FekY7+JWCoSR7K/78VfYCg1K0PuWyX+juUsc5IkrnJvKOyYFn+MlK62
-         aBLGhFv42f8gBoyxA7k0kaHGJkOMDFYzv0FpesUm1xlQPksE2sl+GHc/wkPN/aAkmO3d
-         Tsni/JB2Rcz4KPLqX1ckDAD2yNbWyAEKHZFYF7zkR15N42rHwoXOuDiePQxkcbLZ6Cf4
-         QsDL0UHtvarB7yaBkmFiNJ/Nr9kAbN/T4XzkBOQct3LFXbsMNuHXdEcQM+WonPfzEWfC
-         H35l2EDdTOyuc0qRmTpdYVJDicb+XWix0mM1dMqFtUDtWGWMbrnZSxiOF9eN7tq1BJ1A
-         /Wqg==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCU/7Ah+65EEZFm1meAWpeQqFHxCxpXJENrptV3lPr+juMYfkRhvYU0o6dL2DqwVq5KJmPLEsg==@lfdr.de
-X-Gm-Message-State: AOJu0YzWlJ6xqxnAbcxOqbFcTPGVSxOqa9HI+1C6d/gT80pwKH4c/gkf
-	JYFNmgFjoCyL7EMvB+bxmYpakTQmk/xOa935mVyrUmdo9BxZTSZI
-X-Google-Smtp-Source: AGHT+IHo/0HAzQoxWY4Ug2osX43+UtGqgN9HFuIXWl6N5UAQig71CI046mC+X0n3WIE+Xnhi+o7D7Q==
-X-Received: by 2002:a17:90b:2d4b:b0:2ee:fa0c:cebc with SMTP id 98e67ed59e1d1-3087bb69ebamr28216348a91.20.1745392737238;
-        Wed, 23 Apr 2025 00:18:57 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPAI4IisR4GDR5v+XKe0YXynzo5FPqXrMGLQaJiCjIj3M5A==
-Received: by 2002:a17:90b:374a:b0:2ff:4f04:3973 with SMTP id
- 98e67ed59e1d1-3086db4d54bls922661a91.2.-pod-prod-08-us; Wed, 23 Apr 2025
- 00:18:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVZPIVJUP3Zz0l0xHEly05QIFwMFh1S1U0nIRP3GNkdaSqRgqkUyPYRq4Jovn3dusL2yy+6osBxDQg=@googlegroups.com
-X-Received: by 2002:a17:90b:2703:b0:2ee:aed6:9ec2 with SMTP id 98e67ed59e1d1-3087bb53257mr30788130a91.14.1745392735590;
-        Wed, 23 Apr 2025 00:18:55 -0700 (PDT)
-Received: from mgamail.intel.com (mgamail.intel.com. [198.175.65.18])
-        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-309d62be97dsi97878a91.1.2025.04.23.00.18.55
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aF7r78z5uTFbm+SAJKhCMdjsNBIhLzWGiy+swm8OV4Y=;
+        b=EEvBN/582WzyNH1Ivj8snvYKmf5svCBPMq7I5rR4/QLh55kGX7Fp1SbYx4x2aJWqnU
+         FPB6495w3X6DpMXT1MAgFYc1CXxG9KnL6Dm8nVKz96KWsHpffCjol9dkYwChoGGfz12t
+         O/ovcX9l2AAKU3zlqnFIZW4Q9hNeneQEkY4ZC4dwBoEoYiy0HcRHLGgUzSLhLudVMgyJ
+         1TTZVCEtzQeqxyr1VR3RVGsT8PC5kJ+0k7pVFsUe/BX8fvtuj1izMUZ/6yCtv/xzuQyH
+         FZi9bs4ujNlKmOQlm3SOz3p4wj8xlKVZ3XCpekBC5cR7O17SeX778HSRhVvQb+n/eAId
+         O+pg==
+X-Forwarded-Encrypted: i=2; AJvYcCWuTo1ZsCa5wmEwINhI0CLX7ORMea/2cu+OYoS+uj1rotAtqsWmn66n6kkhQTeySqWFz7Nhgg==@lfdr.de
+X-Gm-Message-State: AOJu0YxVgjEAmFxmhaVIiVZAkahPBLjGjvfn4rO8QcxwvEn2svj9QKaO
+	d9wp+/6vv+YtdcyY8TWFKtLOXYxjh84X2MyzrmiQn1MgQ30XKuMm
+X-Google-Smtp-Source: AGHT+IFlXFdZ6AJGJ2P9thJnkNt5c9QahhEHSXopuNjyV13DAtUUB5Z2WaFIiqm7Z/Yu1NLGBvpU9g==
+X-Received: by 2002:a17:90b:2f48:b0:2ee:ee77:2263 with SMTP id 98e67ed59e1d1-3087bb418dfmr30722723a91.7.1745413756462;
+        Wed, 23 Apr 2025 06:09:16 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPAKWXk07Age+d+tWk8elBvlqmwcrcEx/Oi8Ch9ogo2uCjQ==
+Received: by 2002:a17:90a:9381:b0:2e7:8a36:a9b7 with SMTP id
+ 98e67ed59e1d1-3086db2abe2ls217934a91.1.-pod-prod-03-us; Wed, 23 Apr 2025
+ 06:09:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUqezCdDGORk75ZlhYJBAJh0vv1jUMFcxEAsL/NaI6j9JBrR8nRman+sctvJEA6DOhpL7+Jka0jmgc=@googlegroups.com
+X-Received: by 2002:a17:90b:2751:b0:301:98fc:9b5a with SMTP id 98e67ed59e1d1-3087bb4150cmr25551454a91.6.1745413755078;
+        Wed, 23 Apr 2025 06:09:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1745413755; cv=none;
+        d=google.com; s=arc-20240605;
+        b=MHfKCFXdC8O2/UxgopwAW2k72IvLzUkrG8bdorJwDynS9pu32rC2uYV0eDeFJoQxeX
+         BSR97uuCeR69eRRov6kMnNwaEmoihSyW445RvF47AZ6pWzGPSdCsHRFPJOOOg11l8pDi
+         sM2mtd/QIJwrBT8DSkAP6O5vUzht37Pxm9ATLoVIJYj4m/8vWyw8eZKC5T5xbzfaLFtO
+         DaT6eDS6Xy+YRtKtRC83qQDjCZ/z0mBOZ3ud3Igovcr+wWACgshzD2w/atqTGON5mstM
+         OLOUAPrBoXODF5JwZlqzm+iRMFm1y7nlR2tGNPp4LfEVGi5meoPP9Hta32fyOSmM2zn8
+         c4iA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=LTn7cRGZVVZ7I+m7141mdiqJRDEUM3mUP+2DWyqwfew=;
+        fh=Ne9Yup5Dc+zLAPNHAde7XpXcLFNyW8mjxjKTv+1iIY4=;
+        b=IkIJkXsQEiik/u6WEqydlBwm5wqDRrCZuZXZtMUoQz2tnwLnxqIV6+5Hz9snGcaDno
+         rbGfft8ztT5pv557suC2Lyqj3PjPqsKN/uX5XxFnqNM52jkhQgSd1WI9DJM4ipDPDAlQ
+         OLQERPfpggZJYBch6TIY0lSvyae2XBwN7VJYO3HHRN7Wm5HzDQMKoTeiKmOJKqVwjuio
+         9LBaIc4Nwsr+UqUAm/I2iejn/XbD1Zsw+graPNmPl8Cb+CUkXz6BYpRFGcyNYVim5QFs
+         AKgtDQECfvmvCQRWer2W2bDRmcaRm2Ljxo+eEJopvpgLUz5ADw9AuM4NkaynML+NdT4D
+         0ziQ==;
+        dara=google.com
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=EEPaEDiR;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f31 as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com. [2607:f8b0:4864:20::f31])
+        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-309d34732f0si313152a91.0.2025.04.23.06.09.15
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 23 Apr 2025 00:18:55 -0700 (PDT)
-Received-SPF: pass (google.com: domain of oliver.sang@intel.com designates 198.175.65.18 as permitted sender) client-ip=198.175.65.18;
-X-CSE-ConnectionGUID: Hp/ePXCPRv22ChXQRq2rBA==
-X-CSE-MsgGUID: gnANjRq2TOqyRzGYsrqAMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11411"; a="47100274"
-X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="47100274"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 00:18:54 -0700
-X-CSE-ConnectionGUID: P/pJraOwRYC/fc47lTgdIw==
-X-CSE-MsgGUID: XYAwJmTTRQC/TD1pLkhjWw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="132775409"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 00:18:53 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Wed, 23 Apr 2025 00:18:52 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Wed, 23 Apr 2025 00:18:52 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.46) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Wed, 23 Apr 2025 00:18:52 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KWwvuFbuKY7qEzn1oOr5lcqwovPFYKGAQ5LDzOuShLGJAcDKeR4kOp8tRBYQQ4i+XewOs5YH8bLfJBVCTViuYCE139lsQHbP+PWpHD9IA60JFvplTwTodppHBxTTstQ1yDtT10O/rumGRglx2oxYXS8fRsYLtSxHA0BrAml690n3HkpAZ3jPpxfFcxM/C3kJXwEmAmqxVNZPLe2FIyEMPrz/a2H65y2Acy5Nn03WnyexzjIzTjIeNl4KCIkkhNM5UA1LKnebou7FXfnVCt6d0mKHaNGhmhu5CNeH8TEl26dH9ZHR2Ym6wRNLh3efjlZeFJcFnAoWtrOD79hT7Q4QMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8KIy/eXrQWyplZzP2wBJdY3jQ+AxoigEB6+JLLvI5K0=;
- b=Kypci7BdXKZEbg4zr73gXDCbOlMvbmkUgjJ+h1vpaUez1FHTmS6W72xbzNRrFpoKsiqRyHEjsjWdF2cKThJEhFStRK7DkJV3ia97L1d/d/YRRquIjT0Es60vQ46ILl4xLKmHpTHna/cPtqRucGFXtrkNQKNQKGgWjQCQYt60ZQ4SZPN/pR8cFEKKJ6syKGNwZQULn7eKzjsfdyuKuc8VF7wtv/qCElyYWzvfMMEBpXZ6LtmKCctsfJ7/Th+MJCvdQoIzXD9YerudMkMA4vVNQ7zh2l+yL53vz6RfU4x7WeXqwkAcmUq4vcElgX7eqAY34iXxnPms+BosWH0gt/7TUg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
- by SJ2PR11MB7598.namprd11.prod.outlook.com (2603:10b6:a03:4c6::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.35; Wed, 23 Apr
- 2025 07:18:50 +0000
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c%4]) with mapi id 15.20.8655.033; Wed, 23 Apr 2025
- 07:18:50 +0000
-Date: Wed, 23 Apr 2025 15:18:40 +0800
-From: kernel test robot <oliver.sang@intel.com>
-To: Kees Cook <kees@kernel.org>
-CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, <linux-kernel@vger.kernel.org>,
-	<linux-hardening@vger.kernel.org>, <kasan-dev@googlegroups.com>,
-	<linux-kbuild@vger.kernel.org>, <oliver.sang@intel.com>
-Subject: [linus:master] [ubsan/overflow]  ed2b548f10:
- INFO:task_blocked_for_more_than#seconds
-Message-ID: <202504231437.d0a0174e-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-X-ClientProxiedBy: SI2PR02CA0039.apcprd02.prod.outlook.com
- (2603:1096:4:196::9) To LV3PR11MB8603.namprd11.prod.outlook.com
- (2603:10b6:408:1b6::9)
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Apr 2025 06:09:15 -0700 (PDT)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f31 as permitted sender) client-ip=2607:f8b0:4864:20::f31;
+Received: by mail-qv1-xf31.google.com with SMTP id 6a1803df08f44-6e8fb83e137so55304126d6.0
+        for <kasan-dev@googlegroups.com>; Wed, 23 Apr 2025 06:09:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVinKrs/B/0fKrSqHEi0b/Vqru55IYwySN+1LOgGBW81yo9FPpDFCW+It/bJjwe1OI9CCknUcjOroM=@googlegroups.com
+X-Gm-Gg: ASbGncuI0oA/Qdeu/mffiTme/VpnzzDTWXvCO/Mts7hpZ32RWDQ+H06AUTVF+vKaafN
+	cfA+J2FjsBaPevONQ1oCmN25xcK5RmLIzc6Oa1oV2t6CNpco9FSyOs4VN+Xw+glhPSVwGfKNZqK
+	dXyFGgwBV2j/z5a1EZaIK8vbb8y9PQG5rn0AggvhtCa++s8qP9iED4a+B+jW5MAg==
+X-Received: by 2002:a05:6214:224d:b0:6e8:f8ef:d659 with SMTP id
+ 6a1803df08f44-6f2c4545f64mr382868476d6.10.1745413753568; Wed, 23 Apr 2025
+ 06:09:13 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|SJ2PR11MB7598:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5c744133-fc53-4138-f54e-08dd82371863
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?rE5ulW/3RUr0WNGoPP1cVtM39cuPIgXLSpHU5haR3fiYLA3CQNS+l5z1BQ+w?=
- =?us-ascii?Q?/FSS7hduhVsAnnBHHT8IfGhkb5EeK5GGPQ+W6G1VVqaztbFDWv9UWwpt6X7S?=
- =?us-ascii?Q?e3SzMPbys/8/KCGpnOM4izISQKrjv3Z8QLy4NlJG4qoNXxzxgPcSYeE1v1rz?=
- =?us-ascii?Q?Z6FLRy8AAXKJ+2WV4UPCwNedjRMjG4N9A6l4XacyR5DOHtqQazKU6j54jpoM?=
- =?us-ascii?Q?D+8z5mSulYbe7gWiPIa26ElF4Db/mtDzrSEvlH8C/appMwPnwHmfak7JfnF7?=
- =?us-ascii?Q?pv8aNfunWEJIjuZxRWBPpt2GEb4sV+7g/PaXtISRBlj/vxftOcvWpmBKtJUy?=
- =?us-ascii?Q?K2Wrpgg2R2xrMPcWm+0DqP47opWmy4NV3qi20MAHElp6gab8pc9/dUY5mABB?=
- =?us-ascii?Q?tTJJOXIxWMkz3fE8JbxaFJNHdP49ZOWih1LaZb1SH3mdsypGi8H9TM/IIj4B?=
- =?us-ascii?Q?LHLo2/FHIkjfF1aLz5C4hxTqAjOrjVzCAwUom5nrcl5NG+eym41B1ef9swcZ?=
- =?us-ascii?Q?kHgruYaRwjkB86quFHLhvXnsz+3pGnMkeNKMIfFhxBv2w0pKg1KzMk/dW8Ex?=
- =?us-ascii?Q?48/j/gySZtFHSielm/q80C7b7rJkvnAoZMiGk77atcKxDGHecwjO9FuPWpop?=
- =?us-ascii?Q?1m+R82AU7JPsD5+3CEsvvBt/mHoOlxrP3tfLq18/RnFUKsmz0fM/tReSqEge?=
- =?us-ascii?Q?SHkzhi3ju8aBHvtgMHwUZ8qaxUd+eGq+1rovPiE/n4+8T9zT6cPrfS2Zzsh0?=
- =?us-ascii?Q?0qE8fzBIwjGo9LCwVGmBZqbmv2Y0KZRxoU+je+pQsy5H8yDQXMcbaVtb8jUA?=
- =?us-ascii?Q?oKNzbT2h8QV7OdLLUrxoDKUmqz4E6lnGqLRdacM8oXYC2fjKA6y6WX0zflnJ?=
- =?us-ascii?Q?+5l7s7ZTY35xgyWb0komcknBvVB1W4Xc5CmnH4HZpgm2pGLA7tDN6yTAUlCJ?=
- =?us-ascii?Q?IrU0RjW/ukba8uSw7Il9C1MrVwQAS9ml8OUkple8opjN3UOoSbZSBCfbsrS/?=
- =?us-ascii?Q?zPORge9jquqrgdM5H7qylD4ewEdQVTXf05i7X93510MEMC4we5kHMK1Iu3um?=
- =?us-ascii?Q?3VTUUEEe5DwoLErzdooCRD5P7pFQoITVS0Lnv5f7VEuhGRbe7rQ4SO12OJUU?=
- =?us-ascii?Q?CqCw4zPT0fl+LT79sOeo7qlP/e+eFR9wQ0YZ1MOTO0Y4cuPTNWl2KEdGYpK4?=
- =?us-ascii?Q?kqHyxK1idAkymB1xUCzc3GLeAjj7wqFkwcx0zIG046SO1r1Qz7e7m58VA3Ih?=
- =?us-ascii?Q?Es0+Uk57zJTwIgOFxYQflDzCGrf+UWfLJBLvvXflI3uq5O1+Jj4VMc2f1eOn?=
- =?us-ascii?Q?UeM13Sqnmy4RdYbBjeytUqCNDF4OjIwkEj1HGGopIvKU91+OCX4dT3lZgx9+?=
- =?us-ascii?Q?t0w9DiYTwQgLr7M7junQhq6wZgcn?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1WZEH2On+D31rMORkFvsfiy/TYwOP61XisqUZfzbeT3mlapbEsssAjtEn+Tw?=
- =?us-ascii?Q?+q9ZEQaCRu8gJqb5Px7I1kb9RzN3HmInUUz6Zq1IzOb1i0lzOv0QEB9AJbSQ?=
- =?us-ascii?Q?8RfsMBBF2nl/LViUwmRKBCe1ifddRN1wTBLQoebmI8+sTbfpfXvTXv2FZSRV?=
- =?us-ascii?Q?ZimBJ1zqu6xloiMUGj6+lIOQJXd0NxZuBFz5T7hkK25oGVYECs2ZY3biom3j?=
- =?us-ascii?Q?Qok4BI0o8Xp0QLsj+oljDoEvNiFClqBaweypavfykcrzMShGqdDhwAkP8aR0?=
- =?us-ascii?Q?DxdxG/t9uTze1jdzbhXL+zqEBrVKX7lgaQNNu3WBB8p42JNgWtBEe2qBuU7f?=
- =?us-ascii?Q?5W12pi29ETZbPmQWt5WOrUl2pTDkXj7zkusOpN1ChDL7W9wH42nllWK4CW09?=
- =?us-ascii?Q?4tc00sC4yAWdMwQHynZcX+/kb3duHdyFb6FSBaMtcQt3ZvaxHzNXvHIgIAUy?=
- =?us-ascii?Q?N1fvJ3y72iOmGGmcEv848a20g84Gjx0aXC1B31SlPgwHqnqF0c/pKhNy6WVw?=
- =?us-ascii?Q?hYq9by/rg4plJ/sJx8suoMCm0yo19xjRVNGveFvPXT5YEhSewiF+/fdzl7uK?=
- =?us-ascii?Q?THiOnS5GuxEb5TFJ/j63ZFk2tishHHE/+iu4STWXK5VQjTKBTnYx5Hkd9Xh5?=
- =?us-ascii?Q?hzcarI2b9up0EXWgEVIQsxI3LGnP6O5jywxBKVxL9Mo0m603o31Zf4pxCfzS?=
- =?us-ascii?Q?QNAOdjH0HyfCbbvuuVOISWVhvFGMFIwSzQtUsLpu1GjJCbh+ICOkD/opPYMj?=
- =?us-ascii?Q?qLhObvuSQktqaoPXPF+VFH2eoHNzFZphalUz4rkwHVfBEwz6q5CrrsErcbuF?=
- =?us-ascii?Q?R/PwVOVN6d3JIvfR8+NskOCyvEzGSphtfLcL4jpZI6Qu+jeuXzNhUzxQJSs6?=
- =?us-ascii?Q?KvieAYh8zEPBzAFVcSdYHLuMR379wKeOBS/270dCkczTyDQlja7ZR8Bnzxbf?=
- =?us-ascii?Q?QR8Odn8O59ijc/uv+yPWW8Eg+Q3vPwLVN2Jd6sj3xzMnn3oronArpfiolOsp?=
- =?us-ascii?Q?EHKGzul6GU/pLLVasP95nAJwYSbT6hsEfLnu17st7z6iQoaHvMK4RWIgkXl7?=
- =?us-ascii?Q?rPg1Uw/TSHV/DY5Vzj5Lti0p3A17ovC8kX82ky0L0D0S40J0Wo9gBHho+6lH?=
- =?us-ascii?Q?r0OC5PDg+RH5BfUZh7b7N5S6YU7b+lL1GYPlw47YIZbtwHflBm5iiq0d6npF?=
- =?us-ascii?Q?AGTVw+RlWg9+uLx8qWrhSiJDOcf0pya6SiJuc/676AbPLwkBKqeYNdkojivj?=
- =?us-ascii?Q?TWFz/yqdNeZoNOd68+p8zd/PoEDdXXrhpVOmAIczGp+bJhElF+khIZGuM8Eo?=
- =?us-ascii?Q?f7QE6za7hE7xA4S2KhxZj/82C7rWfqw5aPYHkUPlHZqj8ySVoWNVd2HwKtoF?=
- =?us-ascii?Q?d+uI2SQCZ9iaD2FXnfjgdrSfVcp/Tsri/gQhAg5Khbck0tauQ8X8DhbgG0Vx?=
- =?us-ascii?Q?r0J7CpKyfi9xhM5hKrGuKAu518YUbeRlHrkuVJ0tuSKYD7JfRNh0g2fF8GJ4?=
- =?us-ascii?Q?neRRxFvH5cjPPw2iCvc+LrwbD6U4OdQkcpm8glOs6O7fIrFNtNE7ckK5YsKC?=
- =?us-ascii?Q?kVZ0FUGe81pINl2jcZtzaMdYml0htxopMbtFTIewG2IB60hLDyGGwJm4W31m?=
- =?us-ascii?Q?/g=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c744133-fc53-4138-f54e-08dd82371863
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2025 07:18:50.1630
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rYPOhY7GTlIynbV16ScKNiw/mD9jAvzOUxYrdpauXTF2zcCma6jRoFX++OL8iwSf39bRNdQoDqJ1xu0vUVQ2dA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7598
-X-OriginatorOrg: intel.com
-X-Original-Sender: oliver.sang@intel.com
+References: <20250416085446.480069-1-glider@google.com> <20250416085446.480069-6-glider@google.com>
+ <CANpmjNM=AAtiXeDHgG+ec48=xwBTzphG3rpJZ3krpG2Hd1FixQ@mail.gmail.com>
+In-Reply-To: <CANpmjNM=AAtiXeDHgG+ec48=xwBTzphG3rpJZ3krpG2Hd1FixQ@mail.gmail.com>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 23 Apr 2025 15:08:36 +0200
+X-Gm-Features: ATxdqUHkZ-mVJ4_aZiiWoW4d9GlOyr_vj4jQP1Yr2bqSKqCDppY1saT2_VuZnWQ
+Message-ID: <CAG_fn=WD3ZuJCQ4TiVKXLhn5-=tsaW0d=zrM-TuEokP5zEvOSw@mail.gmail.com>
+Subject: Re: [PATCH 5/7] kcov: add ioctl(KCOV_UNIQUE_ENABLE)
+To: Marco Elver <elver@google.com>
+Cc: quic_jiangenj@quicinc.com, linux-kernel@vger.kernel.org, 
+	kasan-dev@googlegroups.com, Aleksandr Nogikh <nogikh@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Ingo Molnar <mingo@redhat.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=QMMfygn6;       arc=fail
- (signature failed);       spf=pass (google.com: domain of oliver.sang@intel.com
- designates 198.175.65.18 as permitted sender) smtp.mailfrom=oliver.sang@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+ header.i=@google.com header.s=20230601 header.b=EEPaEDiR;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f31 as
+ permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -204,125 +154,115 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+On Tue, Apr 22, 2025 at 11:29=E2=80=AFAM Marco Elver <elver@google.com> wro=
+te:
+>
+> On Wed, 16 Apr 2025 at 10:55, Alexander Potapenko <glider@google.com> wro=
+te:
+> >
+> > ioctl(KCOV_UNIQUE_ENABLE) enables collection of deduplicated coverage
+> > in the presence of CONFIG_KCOV_ENABLE_GUARDS.
+> >
+> > The buffer shared with the userspace is divided in two parts, one holdi=
+ng
+> > a bitmap, and the other one being the trace. The single parameter of
+> > ioctl(KCOV_UNIQUE_ENABLE) determines the number of words used for the
+> > bitmap.
+> >
+> > Each __sanitizer_cov_trace_pc_guard() instrumentation hook receives a
+> > pointer to a unique guard variable. Upon the first call of each hook,
+> > the guard variable is initialized with a unique integer, which is used =
+to
+> > map those hooks to bits in the bitmap. In the new coverage collection m=
+ode,
+> > the kernel first checks whether the bit corresponding to a particular h=
+ook
+> > is set, and then, if it is not, the PC is written into the trace buffer=
+,
+> > and the bit is set.
+> >
+> > Note: when CONFIG_KCOV_ENABLE_GUARDS is disabled, ioctl(KCOV_UNIQUE_ENA=
+BLE)
+> > returns -ENOTSUPP, which is consistent with the existing kcov code.
+> >
+> > Also update the documentation.
+>
+> Do you have performance measurements (old vs. new mode) that can be
+> included in this commit description?
+
+That's hard to measure.
+According to the latest measurements (50 instances x 24h with and
+without deduplication), if we normalize by pure fuzzing time, exec
+total goes down by 2.1% with p=3D0.01.
+On the other hand, if we normalize by fuzzer uptime, the reduction is
+statistically insignificant (-1.0% with p=3D0.20)
+In both cases, we observe a statistically significant (p<0.01)
+increase in corpus size (+0.6%) and coverage (+0.6) and -99.8%
+reduction in coverage overflows.
+
+So while there might be a slight slowdown introduced by this patch
+series, it still positively impacts fuzzing.
+I can add something along these lines to the commit description.
 
 
-Hello,
+> > +.. code-block:: c
+> > +
+> > +       /* Same includes and defines as above. */
+> > +       #define KCOV_UNIQUE_ENABLE              _IOW('c', 103, unsigned=
+ long)
+>
+> Here it's _IOW.
+>
+...
+> > diff --git a/include/uapi/linux/kcov.h b/include/uapi/linux/kcov.h
+> > index ed95dba9fa37e..fe1695ddf8a06 100644
+> > --- a/include/uapi/linux/kcov.h
+> > +++ b/include/uapi/linux/kcov.h
+> > @@ -22,6 +22,7 @@ struct kcov_remote_arg {
+> >  #define KCOV_ENABLE                    _IO('c', 100)
+> >  #define KCOV_DISABLE                   _IO('c', 101)
+> >  #define KCOV_REMOTE_ENABLE             _IOW('c', 102, struct kcov_remo=
+te_arg)
+> > +#define KCOV_UNIQUE_ENABLE             _IOR('c', 103, unsigned long)
+>
+> _IOR? The unsigned long arg is copied to the kernel, so this should be
+> _IOW, right?
 
+Right, thanks for spotting!
+This also suggests our declaration of KCOV_INIT_TRACE is incorrect
+(should also be _IOW), but I don't think we can do much about that
+now.
 
-we don't have enough knowledge to dig deep the relation between the random
-issues and the change. we tried to rebuild kernel. still see the same config
-diff:
+> >  void notrace __sanitizer_cov_trace_pc_guard(u32 *guard)
+> >  {
+> > -       if (!check_kcov_mode(KCOV_MODE_TRACE_PC, current))
+> > -               return;
+> > +       u32 pc_index;
+> > +       enum kcov_mode mode =3D get_kcov_mode(current);
+> >
+> > -       sanitizer_cov_write_subsequent(current->kcov_state.s.trace,
+> > -                                      current->kcov_state.s.trace_size=
+,
+> > -                                      canonicalize_ip(_RET_IP_));
+> > +       switch (mode) {
+> > +       case KCOV_MODE_TRACE_UNIQUE_PC:
+> > +               pc_index =3D READ_ONCE(*guard);
+> > +               if (unlikely(!pc_index))
+> > +                       pc_index =3D init_pc_guard(guard);
+>
+> This is an unlikely branch, yet init_pc_guard is __always_inline. Can
+> we somehow make it noinline? I know objtool will complain, but besides
+> the cosmetic issues, doing noinline and just giving it a better name
+> ("kcov_init_pc_guard") and adding that to objtool whilelist will be
+> better for codegen.
 
---- /pkg/linux/i386-randconfig-013-20250413/gcc-12/d2cf8ccf5a1871058a083c00efe37d7eb91bf6bd/.config     2025-04-22 15:01:12.846009313 +0800
-+++ /pkg/linux/i386-randconfig-013-20250413/gcc-12/ed2b548f1017586c44f50654ef9febb42d491f31/.config     2025-04-22 15:00:23.620141366 +0800
-@@ -5558,7 +5558,6 @@ CONFIG_UBSAN_BOUNDS_STRICT=y
- CONFIG_UBSAN_SHIFT=y
- # CONFIG_UBSAN_DIV_ZERO is not set
- CONFIG_UBSAN_UNREACHABLE=y
--CONFIG_UBSAN_SIGNED_WRAP=y
- # CONFIG_UBSAN_BOOL is not set
- # CONFIG_UBSAN_ENUM is not set
- # CONFIG_UBSAN_ALIGNMENT is not set
+I don't expect it to have a big impact on the performance, but let's
+check it out.
 
-
-we tried run both parent and this commit until almost 1000 times, the parent
-still keep clean on running same test, this commit shows various issues
-
-=========================================================================================
-tbox_group/testcase/rootfs/kconfig/compiler/runtime/scale_type:
-  vm-snb-i386/rcuscale/debian-11.1-i386-20220923.cgz/i386-randconfig-013-20250413/gcc-12/300s/srcu
-
-d2cf8ccf5a187105 ed2b548f1017586c44f50654ef9
----------------- ---------------------------
-       fail:runs  %reproduction    fail:runs
-           |             |             |
-           :999         27%         269:998   last_state.booting
-           :999         27%         269:998   last_state.is_incomplete_run
-           :999         18%         177:998   dmesg.BUG:kernel_hang_in_boot_stage
-           :999          2%          16:998   dmesg.BUG:workqueue_lockup-pool
-           :999         18%         176:998   dmesg.INFO:task_blocked_for_more_than#seconds
-           :999          8%          76:998   dmesg.IP-Config:Auto-configuration_of_network_failed
-           :999         27%         269:998   dmesg.boot_failures
-
-
-so we still make out this report FYI what we observed in our tests.
-
-
-kernel test robot noticed "INFO:task_blocked_for_more_than#seconds" on:
-
-commit: ed2b548f1017586c44f50654ef9febb42d491f31 ("ubsan/overflow: Rework integer overflow sanitizer option to turn on everything")
-https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git master
-
-[test failed on linus/master      c1336865c4c90fcc649df0435a7c86c30030a723]
-[test failed on linux-next/master f660850bc246fef15ba78c81f686860324396628]
-
-in testcase: rcuscale
-version: 
-with following parameters:
-
-	runtime: 300s
-	scale_type: srcu
-
-
-
-config: i386-randconfig-013-20250413
-compiler: gcc-12
-test machine: qemu-system-i386 -enable-kvm -cpu SandyBridge -smp 2 -m 4G
-
-(please refer to attached dmesg/kmsg for entire log/backtrace)
-
-
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <oliver.sang@intel.com>
-| Closes: https://lore.kernel.org/oe-lkp/202504231437.d0a0174e-lkp@intel.com
-
-
-[  985.037272][   T22] INFO: task swapper:1 blocked for more than 491 seconds.
-[  985.037272][   T22]       Tainted: G                T  6.14.0-rc2-00021-ged2b548f1017 #1
-[  985.114644][   T22] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-[  985.131238][   T22] task:swapper         state:D stack:0     pid:1     tgid:1     ppid:0      task_flags:0x4000040 flags:0x00004000
-[  985.184178][   T22] Call Trace:
-[ 985.184178][ T22] __schedule (kernel/sched/core.c:5380 kernel/sched/core.c:6764) 
-[ 985.239369][ T22] schedule (kernel/sched/core.c:6842 kernel/sched/core.c:6856) 
-[ 985.292955][ T22] async_synchronize_cookie_domain (kernel/async.c:317 kernel/async.c:310) 
-[ 985.292955][ T22] ? swake_up_all (kernel/sched/wait.c:383) 
-[ 985.347537][ T22] wait_for_initramfs (init/initramfs.c:767) 
-[ 985.347537][ T22] populate_rootfs (init/initramfs.c:777) 
-[ 985.402751][ T22] ? do_copy (init/initramfs.c:771) 
-[ 985.402751][ T22] do_one_initcall (init/main.c:1257) 
-[ 985.483184][ T22] ? parse_args (kernel/params.c:188) 
-[ 985.536816][ T22] do_initcalls (init/main.c:1318 init/main.c:1335) 
-[ 985.599031][ T22] kernel_init_freeable (init/main.c:1570) 
-[ 985.599031][ T22] ? rest_init (init/main.c:1449) 
-[ 985.625998][ T22] kernel_init (init/main.c:1459) 
-[ 985.625998][ T22] ret_from_fork (arch/x86/kernel/process.c:154) 
-[ 985.680001][ T22] ? rest_init (init/main.c:1449) 
-[ 985.680001][ T22] ret_from_fork_asm (arch/x86/entry/entry_32.S:737) 
-[ 985.733799][ T22] entry_INT80_32 (arch/x86/entry/entry_32.S:942) 
-[  985.842056][   T22]
-[  985.842056][   T22] Showing all locks held in the system:
-[  985.842056][   T22] 4 locks held by kworker/u4:1/19:
-[  985.895824][   T22] 1 lock held by khungtaskd/22:
-[ 985.895824][ T22] #0: c88799b0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire (include/linux/rcupdate.h:336) 
-[  985.949551][   T22]
-[  985.949551][   T22] =============================================
-[  985.949551][   T22]
-BUG: kernel hang in boot stage
-
-
-
-The kernel config and materials to reproduce are available at:
-https://download.01.org/0day-ci/archive/20250423/202504231437.d0a0174e-lkp@intel.com
-
-
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/202504231437.d0a0174e-lkp%40intel.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
+AG_fn%3DWD3ZuJCQ4TiVKXLhn5-%3DtsaW0d%3DzrM-TuEokP5zEvOSw%40mail.gmail.com.
