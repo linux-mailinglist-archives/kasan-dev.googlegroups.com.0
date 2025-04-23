@@ -1,139 +1,197 @@
-Return-Path: <kasan-dev+bncBDCPL7WX3MKBBA43ULAAMGQEUL2GPPA@googlegroups.com>
+Return-Path: <kasan-dev+bncBD2KV7O4UQOBBYFIULAAMGQEVRFZATQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3f.google.com (mail-yb1-xb3f.google.com [IPv6:2607:f8b0:4864:20::b3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45CD8A97F8F
-	for <lists+kasan-dev@lfdr.de>; Wed, 23 Apr 2025 08:49:41 +0200 (CEST)
-Received: by mail-yb1-xb3f.google.com with SMTP id 3f1490d57ef6-e6b94812e6asf8140438276.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 22 Apr 2025 23:49:41 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1745390980; cv=pass;
-        d=google.com; s=arc-20240605;
-        b=Mmh/XgBUUchmD37o5NK0bycee9QSAKSqhzqKvKiHUhCUC6qe5ZzQM5X1aO+prI0hsc
-         U9stQsbuk2gVi3/kBabIVTn6rvDG8OqcqTUn2Xe9dARRTf9HNNFRjsR1Q+1H110pwGk+
-         VyPAt2Vi1cFaPRk0jgxqZQacQAmjRHkSFXjMt0XkMV7vudqM5vbutCgkkglsvCwmuEgL
-         iMFfUQ5G52GrLMsfww6rKvyMeRk5dY/us4wD3/hBhoChmXnjFeOyamEkIww7C1A9LNC0
-         GMtRdYgzSn1LSWb+uXzSh86h7HcrqovRnqzWN5VMZG9m2gKWp+spJCcnHDoU+D4EY1sJ
-         cizw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=XQVWXU9W+R0MjgHxWRZUGlCHnE9kEq1eDmtQgN+IVeo=;
-        fh=+8DSJNAZG30ge+OSQ6DaZvEvakELBNSRUlevO+AbYjQ=;
-        b=bUoOCMtLaIlNZSHmU4rsjjxcWH0r3EGQNsXqSxY/TUoXogb3D+2theceo3ZE5cl8yw
-         pVGclJXj/iRJoIiR84QnizeznIxByB2oEZa43kXHdpsif9j7Hf+ubyCSaiV51bIBTrci
-         N09d4ZJjKEBekrJwrQ5iTeCGrS7OFd6n0rK07MI1GmAdBkBxJBasi34sxtlSlK28tbEw
-         Q+c/hzgaqMmJrZxPNUuw7VinE6Z5HP9jimCnl+FfnwS1d4raCTQLieKYLMwLsRtikDwR
-         2vXJy067ZwkqaCiudjcMGSySq7eBtNoxQivk6Z0NKamRfDOu/BVBkeLwXcxh7BPohznK
-         LkSA==;
-        darn=lfdr.de
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=anv9Vn7+;
-       spf=pass (google.com: domain of kees@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom=kees@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from mail-pg1-x540.google.com (mail-pg1-x540.google.com [IPv6:2607:f8b0:4864:20::540])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A904A98062
+	for <lists+kasan-dev@lfdr.de>; Wed, 23 Apr 2025 09:18:59 +0200 (CEST)
+Received: by mail-pg1-x540.google.com with SMTP id 41be03b00d2f7-af8d8e0689esf6382939a12.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 23 Apr 2025 00:18:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1745390980; x=1745995780; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1745392737; x=1745997537; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XQVWXU9W+R0MjgHxWRZUGlCHnE9kEq1eDmtQgN+IVeo=;
-        b=vVz5a2GeEtSWz85h/PsVNsd8+pkxMBzpLnnYdrDVfliF1urP2Pxav+fR1CzKwGZp5C
-         Ff8uX5oJuyvvMyo9HToDxRLX3WdJWFFrPBPyL6XZThyVRX6a62dFwRGX/aNLKFSK4qHP
-         67U9fc+ZtXSRionoGM5QWPlpe+Qq/pqfWGFap4QLXI+ObYl5+PWGCFk8KvBBqAT5HJWT
-         miwX2Mrrtq+5p7NuX2x1yBWzDqKe+Og5ZKpdtizfGvkWGPHkG6wvveIUUOihSTSRV7n5
-         KuuEXjHUEYMhj+CUnuuJRfAgjzgAP71PHbulhQYv0sBVgjAJwQqudd9e51ZNgFB/on6q
-         +hGQ==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:content-disposition:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZlvzhHq8Z/ljBd/24846B2giZcDYXYM7hyevVvRN5Ew=;
+        b=QHrY1kh3Za4C/L0G9AQZYO8Nw4Sj4ehmqg2M1qzINsMzYQp25cq+aA0amIWW3MK7Z1
+         s924aKXeD66xRqswps6wLbocWmIHiYTSjnHVPRPMAAqYrcppcoWmV4DX5wnQI+GdT5xC
+         xiVe+aTHKEDUhEdWQZJqWMWvWu6ieBZDxcA46ZHZK1SNFKRiomFEqI29aIUrHn/txv15
+         MGkxgbd0nYN8pXeoF0wwjyKAwAi3ahjfvhtzzMLpkbeVNDflymwHlqI1nv2vlQs6DP9f
+         V4ACFlFTV16E9zM8ocJYbqcknY1CsBx7KmRv5gYA3EyqgPWq77NV+EzlYZ2QVgw7xaxz
+         ooFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745390980; x=1745995780;
+        d=1e100.net; s=20230601; t=1745392737; x=1745997537;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XQVWXU9W+R0MjgHxWRZUGlCHnE9kEq1eDmtQgN+IVeo=;
-        b=rJQs6070w1z5Y1JtHEflDTIA89TsWaayCWcsLNVe9cNWuwp99AsApIVhL8fbHH/13l
-         sbsxgwTQHYNJ+qjYOwYNByR8VOnAsrXqb7m4E/QoqJkp/t8FM511mpIIFr+AEkr2b0Ch
-         tWD5I0YScQLzJ4aaxY2dXAZBP7H+/DHQvbVvkMjA17Jl4kKNkSv5G5tifbNGLFvW79G/
-         SJ9Ut0liqgFw6tuWIUVfJ63lO5APa6sa5NeuIm3YoFvun6GhKsDM3bzfdaop1QHXoSon
-         xb3oKdHIecKGeGdCejpPD2d6hTWeCzBJTylz6Rfwxfclcme1tbwB3B/0Y8ew3HAnGxt0
-         mt9g==
-X-Forwarded-Encrypted: i=2; AJvYcCUbWKse0MvqM2xglqR8hZZvnvknnC1u7D+stxyFTOhb97SlgvSXPeW7Xtn8mC1bO4DeYlQU7g==@lfdr.de
-X-Gm-Message-State: AOJu0Yz4ANa+3eLyXs5nUDJ1u4ZSjCChs4kzsS0eUr3nBfRaLFKveFM5
-	vVQvhIjBz7EHnPkmqTvU1qByOUfeoup/TUkF1yjHYEVSc8JQK0gI
-X-Google-Smtp-Source: AGHT+IGfvgHvl5OXpRPWhYJxHqdZtZiXmtP8qkVNoOpe0oFws9yjCUE6zhHixEX1MKOOcNfpgYa9oA==
-X-Received: by 2002:a05:6902:4103:b0:e72:a02e:aebc with SMTP id 3f1490d57ef6-e72a02f0b83mr19775268276.13.1745390979856;
-        Tue, 22 Apr 2025 23:49:39 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPAKWiLZqWTc67ssc9aw+mrEt2ALIxhDExRnTiI9KCeOIyg==
-Received: by 2002:a25:aaab:0:b0:e72:eb79:6bb3 with SMTP id 3f1490d57ef6-e72eb796c61ls762965276.0.-pod-prod-07-us;
- Tue, 22 Apr 2025 23:49:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWbPH8n7B06Xlkn/nCwwrMjsdtCg4UDBcfcO+q8pRpLRdf1q+Nxr+k63MzH3+bYn3S3A4hVQ8FSld0=@googlegroups.com
-X-Received: by 2002:a05:6902:cc3:b0:e6d:ee69:dd3e with SMTP id 3f1490d57ef6-e7297ecc821mr25052266276.47.1745390978753;
-        Tue, 22 Apr 2025 23:49:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1745390978; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JUvwGyOSjjdCbUfe6ohn+6Hu8WbSr5Ma7Il6Cto6CwzdEPvqrdEgeMq+N1wAYAJ006
-         d0wu/pC0a276p0zi2z0Fiq7o17kwz21CY6AObdZb+SiC4z9u85PT4dnaOg0G+ukKuL0x
-         pEw1slqMCheRo00cLfwKmtbqKbdAuKKLBKQXpwv6gaq0dcEBvpCSPNK0ZWgxp3AuCCWg
-         bdO7HMhtx8nZKXHsOx6dfeaWkHghwcDxL+LT1XQ7a5XEewQRhy6DMIXtIEngA7TOR4nC
-         /GUEqnq78fHA4EMJdEgyXpYXc5tSxvuIzYZoCy/4zY84duubgQnqpGCuvmHrf+F5Xp6k
-         5KOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=tN29ir1S6sxDCqMPz/MY/sHGybhwMYFo1u8e0s1TAiQ=;
-        fh=VIIBVPUZ2UabN0jeXKJCz5oM11D0mB53/u8EpNj+RFA=;
-        b=MrqfGMSoK+Ss3zKKiD6ab/Opx0EoBJNZacVHT4DvDf7G+Ayqd0bn7VOZwRku3C4T6H
-         9W4ZvLpr7hiCqCBfNmIHiQAe7BP+uEHFqySIsMgpPYq/yJ/pj+sLfoJhW/E8Rs+ko/fc
-         9w21rSEKIw5guZ0qnMfVI3iIx2TtIw3C+cNM1BgjZUjgz8EhvaMlUsqVE0thp6oLpPe+
-         1jQfbcMZ4WShHoU+U8tZ917PTSoJu+79rHYHrJ7px7IIOQv4lkzk+wc3/nL1bFoPxW8X
-         iFUyl6NBnHqRUojIhhakclT6u4UHt360O6y9KRPhW2HR/TNS3xdASlGR+KEBWZXo/W8X
-         o9eA==;
-        dara=google.com
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=anv9Vn7+;
-       spf=pass (google.com: domain of kees@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom=kees@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org. [2604:1380:45d1:ec00::3])
-        by gmr-mx.google.com with ESMTPS id 3f1490d57ef6-e7295987654si644278276.4.2025.04.22.23.49.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Apr 2025 23:49:38 -0700 (PDT)
-Received-SPF: pass (google.com: domain of kees@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) client-ip=2604:1380:45d1:ec00::3;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 4AB8AA4C187;
-	Wed, 23 Apr 2025 06:44:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBFA8C4CEE2;
-	Wed, 23 Apr 2025 06:49:37 +0000 (UTC)
-Date: Tue, 22 Apr 2025 23:49:34 -0700
-From: "'Kees Cook' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Erhard Furtner <erhard_f@mailbox.org>,
-	Danilo Krummrich <dakr@kernel.org>, Michal Hocko <mhocko@suse.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org, kasan-dev@googlegroups.com,
-	kunit-dev@googlegroups.com, linux-hardening@vger.kernel.org
-Subject: Re: BUG: KASAN: vmalloc-out-of-bounds in vrealloc_noprof+0x195/0x220
- at running fortify_kunit (v6.15-rc1, x86_64)
-Message-ID: <202504222221.6EA181A7A@keescook>
-References: <20250408192503.6149a816@outsider.home>
- <20250421120408.04d7abdf@outsider.home>
- <202504220910.BAD42F0DC@keescook>
- <20250423004422.3c4ef599@yea>
-MIME-Version: 1.0
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-disposition:message-id:subject:cc:to:from:date:x-beenthere
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZlvzhHq8Z/ljBd/24846B2giZcDYXYM7hyevVvRN5Ew=;
+        b=F/AuaaE/zE7FekY7+JWCoSR7K/78VfYCg1K0PuWyX+juUsc5IkrnJvKOyYFn+MlK62
+         aBLGhFv42f8gBoyxA7k0kaHGJkOMDFYzv0FpesUm1xlQPksE2sl+GHc/wkPN/aAkmO3d
+         Tsni/JB2Rcz4KPLqX1ckDAD2yNbWyAEKHZFYF7zkR15N42rHwoXOuDiePQxkcbLZ6Cf4
+         QsDL0UHtvarB7yaBkmFiNJ/Nr9kAbN/T4XzkBOQct3LFXbsMNuHXdEcQM+WonPfzEWfC
+         H35l2EDdTOyuc0qRmTpdYVJDicb+XWix0mM1dMqFtUDtWGWMbrnZSxiOF9eN7tq1BJ1A
+         /Wqg==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCU/7Ah+65EEZFm1meAWpeQqFHxCxpXJENrptV3lPr+juMYfkRhvYU0o6dL2DqwVq5KJmPLEsg==@lfdr.de
+X-Gm-Message-State: AOJu0YzWlJ6xqxnAbcxOqbFcTPGVSxOqa9HI+1C6d/gT80pwKH4c/gkf
+	JYFNmgFjoCyL7EMvB+bxmYpakTQmk/xOa935mVyrUmdo9BxZTSZI
+X-Google-Smtp-Source: AGHT+IHo/0HAzQoxWY4Ug2osX43+UtGqgN9HFuIXWl6N5UAQig71CI046mC+X0n3WIE+Xnhi+o7D7Q==
+X-Received: by 2002:a17:90b:2d4b:b0:2ee:fa0c:cebc with SMTP id 98e67ed59e1d1-3087bb69ebamr28216348a91.20.1745392737238;
+        Wed, 23 Apr 2025 00:18:57 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARLLPAI4IisR4GDR5v+XKe0YXynzo5FPqXrMGLQaJiCjIj3M5A==
+Received: by 2002:a17:90b:374a:b0:2ff:4f04:3973 with SMTP id
+ 98e67ed59e1d1-3086db4d54bls922661a91.2.-pod-prod-08-us; Wed, 23 Apr 2025
+ 00:18:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVZPIVJUP3Zz0l0xHEly05QIFwMFh1S1U0nIRP3GNkdaSqRgqkUyPYRq4Jovn3dusL2yy+6osBxDQg=@googlegroups.com
+X-Received: by 2002:a17:90b:2703:b0:2ee:aed6:9ec2 with SMTP id 98e67ed59e1d1-3087bb53257mr30788130a91.14.1745392735590;
+        Wed, 23 Apr 2025 00:18:55 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com. [198.175.65.18])
+        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-309d62be97dsi97878a91.1.2025.04.23.00.18.55
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 23 Apr 2025 00:18:55 -0700 (PDT)
+Received-SPF: pass (google.com: domain of oliver.sang@intel.com designates 198.175.65.18 as permitted sender) client-ip=198.175.65.18;
+X-CSE-ConnectionGUID: Hp/ePXCPRv22ChXQRq2rBA==
+X-CSE-MsgGUID: gnANjRq2TOqyRzGYsrqAMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11411"; a="47100274"
+X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
+   d="scan'208";a="47100274"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 00:18:54 -0700
+X-CSE-ConnectionGUID: P/pJraOwRYC/fc47lTgdIw==
+X-CSE-MsgGUID: XYAwJmTTRQC/TD1pLkhjWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
+   d="scan'208";a="132775409"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 00:18:53 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Wed, 23 Apr 2025 00:18:52 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Wed, 23 Apr 2025 00:18:52 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.46) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Wed, 23 Apr 2025 00:18:52 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KWwvuFbuKY7qEzn1oOr5lcqwovPFYKGAQ5LDzOuShLGJAcDKeR4kOp8tRBYQQ4i+XewOs5YH8bLfJBVCTViuYCE139lsQHbP+PWpHD9IA60JFvplTwTodppHBxTTstQ1yDtT10O/rumGRglx2oxYXS8fRsYLtSxHA0BrAml690n3HkpAZ3jPpxfFcxM/C3kJXwEmAmqxVNZPLe2FIyEMPrz/a2H65y2Acy5Nn03WnyexzjIzTjIeNl4KCIkkhNM5UA1LKnebou7FXfnVCt6d0mKHaNGhmhu5CNeH8TEl26dH9ZHR2Ym6wRNLh3efjlZeFJcFnAoWtrOD79hT7Q4QMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8KIy/eXrQWyplZzP2wBJdY3jQ+AxoigEB6+JLLvI5K0=;
+ b=Kypci7BdXKZEbg4zr73gXDCbOlMvbmkUgjJ+h1vpaUez1FHTmS6W72xbzNRrFpoKsiqRyHEjsjWdF2cKThJEhFStRK7DkJV3ia97L1d/d/YRRquIjT0Es60vQ46ILl4xLKmHpTHna/cPtqRucGFXtrkNQKNQKGgWjQCQYt60ZQ4SZPN/pR8cFEKKJ6syKGNwZQULn7eKzjsfdyuKuc8VF7wtv/qCElyYWzvfMMEBpXZ6LtmKCctsfJ7/Th+MJCvdQoIzXD9YerudMkMA4vVNQ7zh2l+yL53vz6RfU4x7WeXqwkAcmUq4vcElgX7eqAY34iXxnPms+BosWH0gt/7TUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by SJ2PR11MB7598.namprd11.prod.outlook.com (2603:10b6:a03:4c6::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.35; Wed, 23 Apr
+ 2025 07:18:50 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c%4]) with mapi id 15.20.8655.033; Wed, 23 Apr 2025
+ 07:18:50 +0000
+Date: Wed, 23 Apr 2025 15:18:40 +0800
+From: kernel test robot <oliver.sang@intel.com>
+To: Kees Cook <kees@kernel.org>
+CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, <linux-kernel@vger.kernel.org>,
+	<linux-hardening@vger.kernel.org>, <kasan-dev@googlegroups.com>,
+	<linux-kbuild@vger.kernel.org>, <oliver.sang@intel.com>
+Subject: [linus:master] [ubsan/overflow]  ed2b548f10:
+ INFO:task_blocked_for_more_than#seconds
+Message-ID: <202504231437.d0a0174e-lkp@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20250423004422.3c4ef599@yea>
-X-Original-Sender: kees@kernel.org
+X-ClientProxiedBy: SI2PR02CA0039.apcprd02.prod.outlook.com
+ (2603:1096:4:196::9) To LV3PR11MB8603.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|SJ2PR11MB7598:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5c744133-fc53-4138-f54e-08dd82371863
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?rE5ulW/3RUr0WNGoPP1cVtM39cuPIgXLSpHU5haR3fiYLA3CQNS+l5z1BQ+w?=
+ =?us-ascii?Q?/FSS7hduhVsAnnBHHT8IfGhkb5EeK5GGPQ+W6G1VVqaztbFDWv9UWwpt6X7S?=
+ =?us-ascii?Q?e3SzMPbys/8/KCGpnOM4izISQKrjv3Z8QLy4NlJG4qoNXxzxgPcSYeE1v1rz?=
+ =?us-ascii?Q?Z6FLRy8AAXKJ+2WV4UPCwNedjRMjG4N9A6l4XacyR5DOHtqQazKU6j54jpoM?=
+ =?us-ascii?Q?D+8z5mSulYbe7gWiPIa26ElF4Db/mtDzrSEvlH8C/appMwPnwHmfak7JfnF7?=
+ =?us-ascii?Q?pv8aNfunWEJIjuZxRWBPpt2GEb4sV+7g/PaXtISRBlj/vxftOcvWpmBKtJUy?=
+ =?us-ascii?Q?K2Wrpgg2R2xrMPcWm+0DqP47opWmy4NV3qi20MAHElp6gab8pc9/dUY5mABB?=
+ =?us-ascii?Q?tTJJOXIxWMkz3fE8JbxaFJNHdP49ZOWih1LaZb1SH3mdsypGi8H9TM/IIj4B?=
+ =?us-ascii?Q?LHLo2/FHIkjfF1aLz5C4hxTqAjOrjVzCAwUom5nrcl5NG+eym41B1ef9swcZ?=
+ =?us-ascii?Q?kHgruYaRwjkB86quFHLhvXnsz+3pGnMkeNKMIfFhxBv2w0pKg1KzMk/dW8Ex?=
+ =?us-ascii?Q?48/j/gySZtFHSielm/q80C7b7rJkvnAoZMiGk77atcKxDGHecwjO9FuPWpop?=
+ =?us-ascii?Q?1m+R82AU7JPsD5+3CEsvvBt/mHoOlxrP3tfLq18/RnFUKsmz0fM/tReSqEge?=
+ =?us-ascii?Q?SHkzhi3ju8aBHvtgMHwUZ8qaxUd+eGq+1rovPiE/n4+8T9zT6cPrfS2Zzsh0?=
+ =?us-ascii?Q?0qE8fzBIwjGo9LCwVGmBZqbmv2Y0KZRxoU+je+pQsy5H8yDQXMcbaVtb8jUA?=
+ =?us-ascii?Q?oKNzbT2h8QV7OdLLUrxoDKUmqz4E6lnGqLRdacM8oXYC2fjKA6y6WX0zflnJ?=
+ =?us-ascii?Q?+5l7s7ZTY35xgyWb0komcknBvVB1W4Xc5CmnH4HZpgm2pGLA7tDN6yTAUlCJ?=
+ =?us-ascii?Q?IrU0RjW/ukba8uSw7Il9C1MrVwQAS9ml8OUkple8opjN3UOoSbZSBCfbsrS/?=
+ =?us-ascii?Q?zPORge9jquqrgdM5H7qylD4ewEdQVTXf05i7X93510MEMC4we5kHMK1Iu3um?=
+ =?us-ascii?Q?3VTUUEEe5DwoLErzdooCRD5P7pFQoITVS0Lnv5f7VEuhGRbe7rQ4SO12OJUU?=
+ =?us-ascii?Q?CqCw4zPT0fl+LT79sOeo7qlP/e+eFR9wQ0YZ1MOTO0Y4cuPTNWl2KEdGYpK4?=
+ =?us-ascii?Q?kqHyxK1idAkymB1xUCzc3GLeAjj7wqFkwcx0zIG046SO1r1Qz7e7m58VA3Ih?=
+ =?us-ascii?Q?Es0+Uk57zJTwIgOFxYQflDzCGrf+UWfLJBLvvXflI3uq5O1+Jj4VMc2f1eOn?=
+ =?us-ascii?Q?UeM13Sqnmy4RdYbBjeytUqCNDF4OjIwkEj1HGGopIvKU91+OCX4dT3lZgx9+?=
+ =?us-ascii?Q?t0w9DiYTwQgLr7M7junQhq6wZgcn?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1WZEH2On+D31rMORkFvsfiy/TYwOP61XisqUZfzbeT3mlapbEsssAjtEn+Tw?=
+ =?us-ascii?Q?+q9ZEQaCRu8gJqb5Px7I1kb9RzN3HmInUUz6Zq1IzOb1i0lzOv0QEB9AJbSQ?=
+ =?us-ascii?Q?8RfsMBBF2nl/LViUwmRKBCe1ifddRN1wTBLQoebmI8+sTbfpfXvTXv2FZSRV?=
+ =?us-ascii?Q?ZimBJ1zqu6xloiMUGj6+lIOQJXd0NxZuBFz5T7hkK25oGVYECs2ZY3biom3j?=
+ =?us-ascii?Q?Qok4BI0o8Xp0QLsj+oljDoEvNiFClqBaweypavfykcrzMShGqdDhwAkP8aR0?=
+ =?us-ascii?Q?DxdxG/t9uTze1jdzbhXL+zqEBrVKX7lgaQNNu3WBB8p42JNgWtBEe2qBuU7f?=
+ =?us-ascii?Q?5W12pi29ETZbPmQWt5WOrUl2pTDkXj7zkusOpN1ChDL7W9wH42nllWK4CW09?=
+ =?us-ascii?Q?4tc00sC4yAWdMwQHynZcX+/kb3duHdyFb6FSBaMtcQt3ZvaxHzNXvHIgIAUy?=
+ =?us-ascii?Q?N1fvJ3y72iOmGGmcEv848a20g84Gjx0aXC1B31SlPgwHqnqF0c/pKhNy6WVw?=
+ =?us-ascii?Q?hYq9by/rg4plJ/sJx8suoMCm0yo19xjRVNGveFvPXT5YEhSewiF+/fdzl7uK?=
+ =?us-ascii?Q?THiOnS5GuxEb5TFJ/j63ZFk2tishHHE/+iu4STWXK5VQjTKBTnYx5Hkd9Xh5?=
+ =?us-ascii?Q?hzcarI2b9up0EXWgEVIQsxI3LGnP6O5jywxBKVxL9Mo0m603o31Zf4pxCfzS?=
+ =?us-ascii?Q?QNAOdjH0HyfCbbvuuVOISWVhvFGMFIwSzQtUsLpu1GjJCbh+ICOkD/opPYMj?=
+ =?us-ascii?Q?qLhObvuSQktqaoPXPF+VFH2eoHNzFZphalUz4rkwHVfBEwz6q5CrrsErcbuF?=
+ =?us-ascii?Q?R/PwVOVN6d3JIvfR8+NskOCyvEzGSphtfLcL4jpZI6Qu+jeuXzNhUzxQJSs6?=
+ =?us-ascii?Q?KvieAYh8zEPBzAFVcSdYHLuMR379wKeOBS/270dCkczTyDQlja7ZR8Bnzxbf?=
+ =?us-ascii?Q?QR8Odn8O59ijc/uv+yPWW8Eg+Q3vPwLVN2Jd6sj3xzMnn3oronArpfiolOsp?=
+ =?us-ascii?Q?EHKGzul6GU/pLLVasP95nAJwYSbT6hsEfLnu17st7z6iQoaHvMK4RWIgkXl7?=
+ =?us-ascii?Q?rPg1Uw/TSHV/DY5Vzj5Lti0p3A17ovC8kX82ky0L0D0S40J0Wo9gBHho+6lH?=
+ =?us-ascii?Q?r0OC5PDg+RH5BfUZh7b7N5S6YU7b+lL1GYPlw47YIZbtwHflBm5iiq0d6npF?=
+ =?us-ascii?Q?AGTVw+RlWg9+uLx8qWrhSiJDOcf0pya6SiJuc/676AbPLwkBKqeYNdkojivj?=
+ =?us-ascii?Q?TWFz/yqdNeZoNOd68+p8zd/PoEDdXXrhpVOmAIczGp+bJhElF+khIZGuM8Eo?=
+ =?us-ascii?Q?f7QE6za7hE7xA4S2KhxZj/82C7rWfqw5aPYHkUPlHZqj8ySVoWNVd2HwKtoF?=
+ =?us-ascii?Q?d+uI2SQCZ9iaD2FXnfjgdrSfVcp/Tsri/gQhAg5Khbck0tauQ8X8DhbgG0Vx?=
+ =?us-ascii?Q?r0J7CpKyfi9xhM5hKrGuKAu518YUbeRlHrkuVJ0tuSKYD7JfRNh0g2fF8GJ4?=
+ =?us-ascii?Q?neRRxFvH5cjPPw2iCvc+LrwbD6U4OdQkcpm8glOs6O7fIrFNtNE7ckK5YsKC?=
+ =?us-ascii?Q?kVZ0FUGe81pINl2jcZtzaMdYml0htxopMbtFTIewG2IB60hLDyGGwJm4W31m?=
+ =?us-ascii?Q?/g=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c744133-fc53-4138-f54e-08dd82371863
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2025 07:18:50.1630
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rYPOhY7GTlIynbV16ScKNiw/mD9jAvzOUxYrdpauXTF2zcCma6jRoFX++OL8iwSf39bRNdQoDqJ1xu0vUVQ2dA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7598
+X-OriginatorOrg: intel.com
+X-Original-Sender: oliver.sang@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=anv9Vn7+;       spf=pass
- (google.com: domain of kees@kernel.org designates 2604:1380:45d1:ec00::3 as
- permitted sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: Kees Cook <kees@kernel.org>
-Reply-To: Kees Cook <kees@kernel.org>
+ header.i=@intel.com header.s=Intel header.b=QMMfygn6;       arc=fail
+ (signature failed);       spf=pass (google.com: domain of oliver.sang@intel.com
+ designates 198.175.65.18 as permitted sender) smtp.mailfrom=oliver.sang@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,147 +204,125 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Apr 23, 2025 at 12:44:22AM +0200, Erhard Furtner wrote:
-> On Tue, 22 Apr 2025 09:50:24 -0700 Kees Cook <kees@kernel.org> wrote:
-> > On Mon, Apr 21, 2025 at 12:04:08PM +0200, Erhard Furtner wrote:
-> > > fortify_test_alloc_size_kvmalloc_const test failure still in v6.15-rc3, also with a 'GCC14 -O2'-built kernel:
-> > > [...]
-> > > BUG: KASAN: vmalloc-out-of-bounds in vrealloc_noprof+0x2a2/0x370
-> > > [...]
-> > >     not ok 7 fortify_test_alloc_size_kvmalloc_const
-> > > [...]  
-> > > > I gave v6.15-rc1 a test ride on my Ryzen 5950 system with some debugging options turned on, getting a KASAN vmalloc-out-of-bounds hit at running fortify_kunit test:  
-> > 
-> > I'm not able to reproduce this yet. What does your .config look like?
-> > [...]
-> > What other debugging do you have enabled?
-> 
-> Hi!
-> 
-> Sorry, I forgot to attach my v6.15-rc3 kernel .config. It's basically the same as the -rc1 one from my first report (https://lore.kernel.org/all/20250408192503.6149a816@outsider.home/), but with GCC 14 and -O2 instead of Clang 19 and -Os.
-
-Thanks! I was able to reproduce this by not using UML and forcing on
-CONFIG_FORTIFY_SOURCE=y:
-(Bug #1: CONFIG_FORTIFY_SOURCE should be enabled by KUnit for x86_64)
-
-$ ./tools/testing/kunit/kunit.py run --arch=x86_64 \
-	--kconfig_add CONFIG_KASAN=y \
-	--kconfig_add CONFIG_KASAN_VMALLOC=y \
-	--kconfig_add CONFIG_FORTIFY_SOURCE=y \
-	fortify
-...
-[22:52:53] BUG: KASAN: vmalloc-out-of-bounds in vrealloc_noprof+0x1a4/0x200
-[22:52:53] Read of size 6291456 at addr ffffc90000200000 by task kunit_try_catch/41
 
 
-As it turns out, I had to go back to v6.11 before this passed again.
-Doing a git bisect lands me on commit 590b9d576cae ("mm: kvmalloc: align
-kvrealloc() with krealloc()"), which certainly sounds like something
-that might break the fortify_test_alloc_size_kvmalloc_const test. :)
+Hello,
 
-$ ./scripts/faddr2line .kunit/vmlinux vrealloc_noprof+0x1a4/0x200
-vrealloc_noprof+0x1a4/0x200:
-vrealloc_noprof at mm/vmalloc.c:4106
 
-4104:        if (p) {
-4105:                memcpy(n, p, old_size);
-4106:                vfree(p);
-4107:        }
+we don't have enough knowledge to dig deep the relation between the random
+issues and the change. we tried to rebuild kernel. still see the same config
+diff:
 
-This seems to think it's the vfree(), but I think this is off by a line
-and it's probably the memcpy()...
-(Bug #2: KASAN is reporting the wrong crash location)
+--- /pkg/linux/i386-randconfig-013-20250413/gcc-12/d2cf8ccf5a1871058a083c00efe37d7eb91bf6bd/.config     2025-04-22 15:01:12.846009313 +0800
++++ /pkg/linux/i386-randconfig-013-20250413/gcc-12/ed2b548f1017586c44f50654ef9febb42d491f31/.config     2025-04-22 15:00:23.620141366 +0800
+@@ -5558,7 +5558,6 @@ CONFIG_UBSAN_BOUNDS_STRICT=y
+ CONFIG_UBSAN_SHIFT=y
+ # CONFIG_UBSAN_DIV_ZERO is not set
+ CONFIG_UBSAN_UNREACHABLE=y
+-CONFIG_UBSAN_SIGNED_WRAP=y
+ # CONFIG_UBSAN_BOOL is not set
+ # CONFIG_UBSAN_ENUM is not set
+ # CONFIG_UBSAN_ALIGNMENT is not set
 
-Looking at the commit, though, I think it is just exposing the use of
-vrealloc(), which was introduced in commit 3ddc2fefe6f3 ("mm: vmalloc:
-implement vrealloc()").
 
-The KUnit test is attempting to allocate these # of pages:
+we tried run both parent and this commit until almost 1000 times, the parent
+still keep clean on running same test, this commit shows various issues
 
-        TEST_alloc(check_const, 1, 1); \
-        TEST_alloc(check_const, 128, 128); \
-        TEST_alloc(check_const, 1023, 1023); \
-        TEST_alloc(check_const, 1025, 1025); \
-        TEST_alloc(check_const, 4096, 4096); \
-        TEST_alloc(check_const, 4097, 4097); \
+=========================================================================================
+tbox_group/testcase/rootfs/kconfig/compiler/runtime/scale_type:
+  vm-snb-i386/rcuscale/debian-11.1-i386-20220923.cgz/i386-randconfig-013-20250413/gcc-12/300s/srcu
 
-The realloc test doubles it for the realloc:
+d2cf8ccf5a187105 ed2b548f1017586c44f50654ef9
+---------------- ---------------------------
+       fail:runs  %reproduction    fail:runs
+           |             |             |
+           :999         27%         269:998   last_state.booting
+           :999         27%         269:998   last_state.is_incomplete_run
+           :999         18%         177:998   dmesg.BUG:kernel_hang_in_boot_stage
+           :999          2%          16:998   dmesg.BUG:workqueue_lockup-pool
+           :999         18%         176:998   dmesg.INFO:task_blocked_for_more_than#seconds
+           :999          8%          76:998   dmesg.IP-Config:Auto-configuration_of_network_failed
+           :999         27%         269:998   dmesg.boot_failures
 
-        checker(((expected_pages) * PAGE_SIZE) * 2, \
-                kvrealloc(orig, ((alloc_pages) * PAGE_SIZE) * 2, gfp), \
-                kvfree(p)); \
 
-So I'm not sure where the 6291456 bytes from KASAN is coming from --
-that's not one of the potential sizes.
+so we still make out this report FYI what we observed in our tests.
 
-I bet this is KASAN precision vs get_vm_area_size(). i.e. KASAN marks
-the exact number of bytes requested ("size"):
 
-        area->addr = kasan_unpoison_vmalloc(area->addr, size, kasan_flags);
+kernel test robot noticed "INFO:task_blocked_for_more_than#seconds" on:
 
-but the allocation in __get_vm_area_node() is going to round up:
+commit: ed2b548f1017586c44f50654ef9febb42d491f31 ("ubsan/overflow: Rework integer overflow sanitizer option to turn on everything")
+https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git master
 
-        size = ALIGN(size, 1ul << shift);
+[test failed on linus/master      c1336865c4c90fcc649df0435a7c86c30030a723]
+[test failed on linux-next/master f660850bc246fef15ba78c81f686860324396628]
 
-Instrumenting the test for some more details, and I can confirm:
+in testcase: rcuscale
+version: 
+with following parameters:
 
-[23:27:36]     # fortify_test_alloc_size_kvmalloc_const: Allocated kmem for 0 bytes
-[23:27:36]     # fortify_test_alloc_size_kvmalloc_const: Allocated kmem for 4096 bytes
-[23:27:36]     # fortify_test_alloc_size_kvmalloc_const: Allocated kmem for 524288 bytes
-[23:27:36]     # fortify_test_alloc_size_kvmalloc_const: Allocated kmem for 4190208 bytes
-[23:27:36]     # fortify_test_alloc_size_kvmalloc_const: Allocated vma for 4198400 bytes, got 6291456 byte area (2093056 unused)
-[23:27:36]
-==================================================================
-[23:27:36] BUG: KASAN: vmalloc-out-of-bounds in vrealloc_noprof+0x1a4/0x200
-[23:27:36] Read of size 6291456 at addr ffffc90000200000 by task kunit_try_catch/41
+	runtime: 300s
+	scale_type: srcu
 
-Ta-da.
-(Bug #3: vrealloc attempts to memcpy the entire area, even though only
-the originally requested size has been unpoisoned by KASAN)
 
-I'm not sure what to do here, as KASAN is technically correct. Can we
-store the _requested_ allocation size somewhere in struct vm_struct ?
-This likely totally insufficient hack solves the crash, for example:
 
-diff --git a/include/linux/vmalloc.h b/include/linux/vmalloc.h
-index 31e9ffd936e3..f77ab424b4f5 100644
---- a/include/linux/vmalloc.h
-+++ b/include/linux/vmalloc.h
-@@ -53,6 +53,7 @@ struct vm_struct {
- 	struct vm_struct	*next;
- 	void			*addr;
- 	unsigned long		size;
-+	unsigned long		requested_size;
- 	unsigned long		flags;
- 	struct page		**pages;
- #ifdef CONFIG_HAVE_ARCH_HUGE_VMALLOC
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index 3ed720a787ec..e4ee0967e106 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -3859,6 +3859,7 @@ void *__vmalloc_node_range_noprof(unsigned long size, unsigned long align,
- 		kasan_flags |= KASAN_VMALLOC_INIT;
- 	/* KASAN_VMALLOC_PROT_NORMAL already set if required. */
- 	area->addr = kasan_unpoison_vmalloc(area->addr, size, kasan_flags);
-+	area->requested_size = size;
- 
- 	/*
- 	 * In this function, newly allocated vm_struct has VM_UNINITIALIZED
-@@ -4081,6 +4082,7 @@ void *vrealloc_noprof(const void *p, size_t size, gfp_t flags)
- 		}
- 
- 		old_size = get_vm_area_size(vm);
-+		old_size = vm->requested_size;
- 	}
- 
- 	/*
+config: i386-randconfig-013-20250413
+compiler: gcc-12
+test machine: qemu-system-i386 -enable-kvm -cpu SandyBridge -smp 2 -m 4G
 
--Kees
+(please refer to attached dmesg/kmsg for entire log/backtrace)
+
+
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <oliver.sang@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202504231437.d0a0174e-lkp@intel.com
+
+
+[  985.037272][   T22] INFO: task swapper:1 blocked for more than 491 seconds.
+[  985.037272][   T22]       Tainted: G                T  6.14.0-rc2-00021-ged2b548f1017 #1
+[  985.114644][   T22] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+[  985.131238][   T22] task:swapper         state:D stack:0     pid:1     tgid:1     ppid:0      task_flags:0x4000040 flags:0x00004000
+[  985.184178][   T22] Call Trace:
+[ 985.184178][ T22] __schedule (kernel/sched/core.c:5380 kernel/sched/core.c:6764) 
+[ 985.239369][ T22] schedule (kernel/sched/core.c:6842 kernel/sched/core.c:6856) 
+[ 985.292955][ T22] async_synchronize_cookie_domain (kernel/async.c:317 kernel/async.c:310) 
+[ 985.292955][ T22] ? swake_up_all (kernel/sched/wait.c:383) 
+[ 985.347537][ T22] wait_for_initramfs (init/initramfs.c:767) 
+[ 985.347537][ T22] populate_rootfs (init/initramfs.c:777) 
+[ 985.402751][ T22] ? do_copy (init/initramfs.c:771) 
+[ 985.402751][ T22] do_one_initcall (init/main.c:1257) 
+[ 985.483184][ T22] ? parse_args (kernel/params.c:188) 
+[ 985.536816][ T22] do_initcalls (init/main.c:1318 init/main.c:1335) 
+[ 985.599031][ T22] kernel_init_freeable (init/main.c:1570) 
+[ 985.599031][ T22] ? rest_init (init/main.c:1449) 
+[ 985.625998][ T22] kernel_init (init/main.c:1459) 
+[ 985.625998][ T22] ret_from_fork (arch/x86/kernel/process.c:154) 
+[ 985.680001][ T22] ? rest_init (init/main.c:1449) 
+[ 985.680001][ T22] ret_from_fork_asm (arch/x86/entry/entry_32.S:737) 
+[ 985.733799][ T22] entry_INT80_32 (arch/x86/entry/entry_32.S:942) 
+[  985.842056][   T22]
+[  985.842056][   T22] Showing all locks held in the system:
+[  985.842056][   T22] 4 locks held by kworker/u4:1/19:
+[  985.895824][   T22] 1 lock held by khungtaskd/22:
+[ 985.895824][ T22] #0: c88799b0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire (include/linux/rcupdate.h:336) 
+[  985.949551][   T22]
+[  985.949551][   T22] =============================================
+[  985.949551][   T22]
+BUG: kernel hang in boot stage
+
+
+
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20250423/202504231437.d0a0174e-lkp@intel.com
+
+
 
 -- 
-Kees Cook
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/202504222221.6EA181A7A%40keescook.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/202504231437.d0a0174e-lkp%40intel.com.
