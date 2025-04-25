@@ -1,128 +1,136 @@
-Return-Path: <kasan-dev+bncBCQPF57GUQHBBNHKVTAAMGQE7DVOW5I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCS4VDMYRUNBBQV3V3AAMGQE725HSUQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x537.google.com (mail-pg1-x537.google.com [IPv6:2607:f8b0:4864:20::537])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97A7BA9BF41
-	for <lists+kasan-dev@lfdr.de>; Fri, 25 Apr 2025 09:09:42 +0200 (CEST)
-Received: by mail-pg1-x537.google.com with SMTP id 41be03b00d2f7-b0b2de67d6asf2112868a12.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 25 Apr 2025 00:09:42 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1745564981; cv=pass;
+Received: from mail-qk1-x739.google.com (mail-qk1-x739.google.com [IPv6:2607:f8b0:4864:20::739])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAC8AA9CBCB
+	for <lists+kasan-dev@lfdr.de>; Fri, 25 Apr 2025 16:35:48 +0200 (CEST)
+Received: by mail-qk1-x739.google.com with SMTP id af79cd13be357-7c95556f824sf250037385a.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 25 Apr 2025 07:35:48 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1745591747; cv=pass;
         d=google.com; s=arc-20240605;
-        b=CGqwif1JLgdFwGOL0PvZw28u1FBiN8QNaGTa2+mh4LLn1DC66NXYx0RAGceK+E/OlN
-         JwCHaVP12YuFIH4l57snHxMOiOgjcu9BTNeFasPapeUXm7wwBZ5Pps+c5OYac7BgKjge
-         9vcTHGLOyuoHSiad50TBc+pNiS2mCbaLzw9+Q7uQeHLJjAGiLoVUdcWfMXB+eM0eD4EU
-         UV0zwtkLfziL8IdranspjjfZLX/uy/3DKTtoNCsxuaA8AM0z5c4GTb1Zk9oF2rXb8ZiO
-         qnesJjz8w7Qn2fsfMKht370RdP9Jrh2pTmin3SlVuGldKCEF5tePgr5xlP571kyp1/Ee
-         BPaw==
+        b=c83jf5XsDoGZKdhfN1DAjSbGmtpuXCnAZE1Jeux60QgWt2x6+hQhq5fLb1k8rnd2/Y
+         m3roz2vwPplSHFoXdlTjUy9QAajZocS/UlB+vG9EeiWWdW5uhrUbUX+Ii5exB5fsavtD
+         pZIt8vu2cZufuvKY6yn5UF5oKRpGYE+WSSUUJHVPmOHhAXxIo9UHHozCCbXKw/IdNnQ7
+         QvDsfiZ/nliZBNB2SlRe4jhKswvqxIEKv9kjJRTShOQoHzuTj5y1ozVt8TKkoFuXBOs4
+         kCcs6EtVztY3cbAK3YykquamifBeiyuQ0Rg1AC6ZpAPToMVr81NPTjV8nfHLuruKlETu
+         goSw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:to:from:subject:message-id:date
-         :mime-version:sender:dkim-signature;
-        bh=1W4VBPoEcNF1CRh18N1rKlaf4eH67MsC2UFR3OIF3UM=;
-        fh=DNiD5NBvsjDUy4J3Uxpt3QuyXNOe7PyCZInRJ4t2GQs=;
-        b=aL08CxFRazhUL6Vw/vzn90/xDuR8Xr/fynaqSjCvMuDK670Z+WMwQ55Tr9C/2Fb/JB
-         4mslITDBxeoSVJXa4fhzzy09MLmFBA4yoHU7CmrCwrD8/n4D3ISSGzNZ3U4nwUDVukSs
-         yu/Dow8FHQJdP17njs0RnhA04+WWz1EZTVhpSWxs0AJfuGoPzqh1bBe9/Qn8CVJmtXsW
-         RWl14JxirxnaATwt53Wl9xYzuzKjZQGVzHCn4jPh+LlhpUy6lgiec0Tc5DmDE9NVZ1O/
-         smyJs1+KLu8ocqDeEdnrbwHTFHnsvUSJ8hritDrLwAm16yKCUCQ9NhY4L7aHKky9UbLi
-         PVHQ==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=9jz44E/cnHxn7b2MSvv2+wt7tN8HY5m8OnKJCF4lryE=;
+        fh=oBKeZHSzPxC9fxHP/0c+bgUr2QR22SEP7BvxgX4sUfQ=;
+        b=GX0CEp+C6Jj59SzhG+0U0whHKk41S6BEFyEJy4StapV6LLj97Tpz9yd3cTo/9VJY2a
+         xvRJB7Oulnab5B3qwQCHdSAGH4BochPdZC8FQcx7/LeSODBJtiGfezrKJuvi/MryFwIC
+         rK9ovk/a4VuFlfJhZXlE3nbSZElfzxRfhvPO95c1iN5v52gsF4PF+2PPkGw8jb1HELIo
+         MX/ITA+aJHCfIAK2xkWi15x936vfmNnlA/XssnOGO2LiNuHQeSC+xLTKrm5wzfzMtWdr
+         YPlcclVi4JKqZm7I65hC1lx3WXyqBWDNkCsXSrtzQYzL4QDzCX66dJN/vAOKfqnBMsor
+         8lSg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of 3mtulaakbaba8ef0q11u7q55yt.w44w1ua8u7s439u39.s42@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com designates 209.85.166.77 as permitted sender) smtp.mailfrom=3MTULaAkbABA8EF0q11u7q55yt.w44w1uA8u7s439u39.s42@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=appspotmail.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=iXostuQV;
+       spf=pass (google.com: domain of srs0=d47o=xl=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom="SRS0=D47o=XL=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1745564981; x=1746169781; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1745591747; x=1746196547; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:to:from:subject:message-id:date:mime-version
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=1W4VBPoEcNF1CRh18N1rKlaf4eH67MsC2UFR3OIF3UM=;
-        b=bExFF8dlAxg0iTEbOgvrXXJtuPeqX41u0meP2M5DcDwDwZhWuaq075O8sSN2XMnYut
-         usuL5+ZNucbV177OsJcGK8kd/CrSaAtsr/Iv6dsrBPUGozlLJVfE1ehrgnUGrvGXMnRi
-         TDc3uZYM8T3K0ef+K0HjDKq/mtWzS09UJV81I8NzTl+6lZYoJZnyN9h/UcrMTEJNn19o
-         xqFrcfHTN70y+EgHL1OEokTTG8R+BLQzmAXUiLnn0L4czPG+xPjk262IV5hi2Ov4zwcj
-         JC7xmEzEQD0EEPXPLJa0zXdxkSRW7vaT21EyD/Clp2ADReD2lk0hi8vqC7jGhqwtK0Wh
-         hLPA==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:reply-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9jz44E/cnHxn7b2MSvv2+wt7tN8HY5m8OnKJCF4lryE=;
+        b=XXjPYHWraFP9TbaZUuRdkS9hkXXqTowRHDq6lekqntARcdiWNEotiR3AC9uUkGxbtl
+         b9ATRFbbM0bOYX6Vyap2scE9ETWaQRv5B4MK43EWEshYp3deBoXe3eFHZ/yvFyr13OBg
+         hFpWgSwG5zIpJ8q86F9322dZ8cU6fwwGpwcABPFZHndG29KqXXrrHMoIJZNZLbIuzBsS
+         9YhxwLmnUPalIECIAFtLAlpKd+QyxJ7dqLFUsY51y/V3HfHYawNLYJ7dS43tcHbXlJHj
+         9NoVcNTynvmM88M2aAliwQ2Wswwre5aKDKOe6eQDOLgC4QSR0sYdZvSlw9alimh/RXX5
+         kthQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745564981; x=1746169781;
+        d=1e100.net; s=20230601; t=1745591747; x=1746196547;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:to:from:subject
-         :message-id:date:mime-version:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1W4VBPoEcNF1CRh18N1rKlaf4eH67MsC2UFR3OIF3UM=;
-        b=piQooxx88liXp3Mg3L/2JlM5XKwlSa5REH8VeJuPoaFsINJSor2pOCi11LxCSkSjfY
-         bt1om7hbKntuB9lsyk0HFpYH9GrbuO0wkgMdm3vczRZaf8SvuyZ2y8JEtE/j59KksLVg
-         EEKNI6xRt0oKlWz+DVCzD70Bw2mU7SuuUuuCJPfdKnqwpiEGZNSmMdwC5+inM31MPWiI
-         //G6piosOC9pXoFE0VfDAUugNRecx2QCnGx5YtkbbOS4fncGdAoJLYHZ7scvzQUX335h
-         3Xz2pBYX4WnxJEVA/ABORHNFlqJlSrdX2o0UTDD5DhENtu3364kWScg5gZToQyLlpK8p
-         f3rw==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWzPwJzrW4I9ESjv4hAoIg61iUeM83Q2YlLHo1hStgTRPS37pZkgwWIWOwmBOcbAjyi7h9YXw==@lfdr.de
-X-Gm-Message-State: AOJu0YwXttsSXAyAnPT4VEUeDlmgP+EO9ZUcXniWk/CNH6VrDjs/f944
-	WZ0wU2IWH0bBXennL5f9uoNM4GDtiZ30BAB9ZUtx4Os3maQLEKLE
-X-Google-Smtp-Source: AGHT+IGancg53ouwFqIIwIPIgnkPsD9OYOsSjfASADuM7MJUS9AxLZc0zLnQlgMO0oj8/+/+0B+g0g==
-X-Received: by 2002:a17:90b:5344:b0:2ee:ee77:2263 with SMTP id 98e67ed59e1d1-309f7da6b52mr2488614a91.7.1745564980648;
-        Fri, 25 Apr 2025 00:09:40 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBF2hBhVr3oiNEAgi+HsZrf/3Dwk3zYIPIPTfv4CVv79dw==
-Received: by 2002:a17:90a:fd97:b0:301:aec9:2622 with SMTP id
- 98e67ed59e1d1-309ebd16cd6ls187502a91.0.-pod-prod-03-us; Fri, 25 Apr 2025
- 00:09:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCX4sAhjUcV9SSAqslXfkmUlNWfn/dYkBCcvefjW5zsseFVI8SVRFI4FJ64VnCb+sT4dhsmWYrDIbsA=@googlegroups.com
-X-Received: by 2002:a17:90a:d64f:b0:2fe:b907:562f with SMTP id 98e67ed59e1d1-309f7de01b7mr2547676a91.14.1745564978525;
-        Fri, 25 Apr 2025 00:09:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1745564978; cv=none;
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9jz44E/cnHxn7b2MSvv2+wt7tN8HY5m8OnKJCF4lryE=;
+        b=lY2YhUR6Ivt2Q9IGrE7vNUPDPdaI+QTvmOgB1CYtcPb0idt6ttIMw774ROdOwnVsyb
+         5Lj9eBm05QHx9uVGQ7X9nHuxP+uR9ZrJD33mTFfzNpkfAG3btU2k2CfTtKb3VcWG2SeT
+         TUdITQkaR1yQeprfmM3020UcfDC0LQ9AC6j1bwr11rHAsl+rLyEkkfP0fu8DWPpyzuGQ
+         qFyuzMdi40DJMMR6xRwH0s8Hk+DwbzEF0btCbG8Ox93Pik+gE2mSyjNNMdphaGfm6ZwW
+         ktWDtI1DBJIJ683024L41zA8Ljgh1nLC24HX0y3TWYBUdXCOk6Z41pEgqdqcr0/S2g0u
+         HiIw==
+X-Forwarded-Encrypted: i=2; AJvYcCWKIKBUULC5/gYaOLaqmEhumAMjNw5JchHVydt6ctSRx0RDX0zouOPM5TKJ11QMs/KvFpQG4w==@lfdr.de
+X-Gm-Message-State: AOJu0YwQNWBFXJvXgofu6aZ3uX/GWqIoxpQIsS4HG/lFKpHoubRxx7B4
+	oSgePnpiMXGX1nNj+MX11ESMF7YV6AWBfjFMAI2UxbuVwuC0b0CX
+X-Google-Smtp-Source: AGHT+IEJ3H/0i3ElE52hsZQx3p6SZ9j1P/vksVOoGIKlGYdEvUqxIX9qYYcc96exLmzkloPQv1J7sA==
+X-Received: by 2002:ad4:5f06:0:b0:6d8:9d81:2107 with SMTP id 6a1803df08f44-6f4cb9d6df4mr38916996d6.20.1745591746591;
+        Fri, 25 Apr 2025 07:35:46 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBE/mXFACY5U49EXEiZyNB/IcKoBQ+8jG1Tu39/5+TdXVw==
+Received: by 2002:a0c:edcd:0:b0:6ec:ed6a:47dd with SMTP id 6a1803df08f44-6f4be4b16dbls7857556d6.1.-pod-prod-08-us;
+ Fri, 25 Apr 2025 07:35:45 -0700 (PDT)
+X-Received: by 2002:a05:6214:e66:b0:6e8:fcc6:35b6 with SMTP id 6a1803df08f44-6f4cb99d412mr44566416d6.2.1745591745481;
+        Fri, 25 Apr 2025 07:35:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1745591745; cv=none;
         d=google.com; s=arc-20240605;
-        b=gL5u6SIbU7xujwUeYxpVSCVGJo6GRilI4ItuwioLpEXFbJ3DWl9AiFhmf7Z2rU/4yn
-         4krWVJ3XMaVhfku2yiXFW86cyJgEl2/mnT+/HTimm/ig+gdy9hDqW4QW2fAlYF3y+Pff
-         QdjN4vybonFSGOo3qNpu8IsRH3ga8vU4oTN7HHx+NW9tVZVX5SUd9fibe58FvjEsQhOj
-         GfETaDv8Ts+ISsJ2yxeqJpQyd6hkY3jzCPdhSqwpJaYLY3r3Wq1imsIxg0TsJoybb/mW
-         CyrmiEBrLcPbDzE4NbVcBcKsC/gVtvqmi/Dw3YQQj65Zte+uzmZ87O2UO0UnAc59iPlD
-         sLrw==
+        b=YY5h9BgXHQlYIrNQllcQaueVr7I+XVT1HX2gUdJy405D3hw4IymvkgqaKTGbKUd3iT
+         dsSlQdame34lk7BBSL2kJ4FU034JUcoUWFj/LxOu9hdCvEx6IJ6ATLqel9DcndhTeTHl
+         Pn+1bhAnZcuZFAHlaJHwPJLItM0ByjkdkDny1Z0liQysFT1W89Hs3hTT2dhhV64lhuTk
+         d0S7QA3Rp/eUII4bvNPF5suLhcs8SftD7S6Q+kBN/DwCrZrclgTYJBiElNYYt8r9r8Nd
+         rvmOne1CH+a7covymESDslcAlnWXva/kILNfwMKY6/Quvv3zO+6O1kLaqjR+zPjJcyvN
+         3n9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=to:from:subject:message-id:date:mime-version;
-        bh=JuMGdO7tj9pfcgeSkM1hIOwSR02/KINreWPYKsu6KZ4=;
-        fh=aRb6ToHJKXuoKde4wWc7PYjfX/fFOM2JBM9dXHW/JUQ=;
-        b=FY/aqT+JwVZUL8Qpk8dB2H8/3UbKPXZXr4+38mTHD8x/ArI51vwJvZLtEMNicvMwW4
-         UpsbzXNuFnDlDpHcgbzmgdR7Vqcgi9MLBMICJlH2ovYeMjPzBCx8TcpKc1ImO8xiP7g+
-         ahnhH8iw7Ylq+10s1E9aH1HTr9aSr0JKV3PvMTlOo2GjMUWskiMUTUXP06lPS1YR61TK
-         hw0tMuk7IgBsXcNjsRv24Awiir//UvmFt8ha4YSyEQ6YUpopieJ+lEHtt+W0NNsN83zO
-         T5xV6oGnY3Bl/Ra74VkgxYEWTRK2rGfgAmfjgS0CerjiomVNfBqt8VHkfSUUNqSVZEQM
-         Y8lQ==;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=qEOLc1zCu3QSACWlexKaPiLnzkOEuJR+G44IGN2p3uo=;
+        fh=ZAoJMDmkXh64HvMHNbFbHQsFvJ5SGl8IEmYh5I8c2ys=;
+        b=hHJ0llXNLHM0Iiff+en73w14lkQXdphZ0qQTy3jsNJSQX4H1fonIE0iorc6E3hlJrH
+         ivjo12avO0L1w9u42WOLaHglJ8NPnwSCiOnQk8AgGOrMILoKbuqdq6b09psO+EGVFE9a
+         X/b1lsyNeux6hXWm06EO3Say+m+XQfBn6Ertj0RP3wgiWXnjEL0Q/bqXgIZgINytN+7b
+         nAyoCnjR4FsBP6vaB/1OPxmeRU46qj/Af809BYJzm0pL1+ZfR4m7VYtPJ4wPbqQbsXR5
+         Kt8IX1GTpZUETcj4kmif3n84rm327CAo5OHIbutXst49WDcigtOk53z/xj/puVJMkob8
+         tqbQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of 3mtulaakbaba8ef0q11u7q55yt.w44w1ua8u7s439u39.s42@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com designates 209.85.166.77 as permitted sender) smtp.mailfrom=3MTULaAkbABA8EF0q11u7q55yt.w44w1uA8u7s439u39.s42@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=appspotmail.com
-Received: from mail-io1-f77.google.com (mail-io1-f77.google.com. [209.85.166.77])
-        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-309d343e360si620400a91.0.2025.04.25.00.09.38
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=iXostuQV;
+       spf=pass (google.com: domain of srs0=d47o=xl=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom="SRS0=D47o=XL=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from nyc.source.kernel.org (nyc.source.kernel.org. [147.75.193.91])
+        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-6f4c08b9b8dsi1483916d6.2.2025.04.25.07.35.45
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Apr 2025 00:09:38 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3mtulaakbaba8ef0q11u7q55yt.w44w1ua8u7s439u39.s42@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com designates 209.85.166.77 as permitted sender) client-ip=209.85.166.77;
-Received: by mail-io1-f77.google.com with SMTP id ca18e2360f4ac-85b3827969dso230832139f.1
-        for <kasan-dev@googlegroups.com>; Fri, 25 Apr 2025 00:09:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXWrXfJ6we5Omd1Qjjwh0ZJR0p5WPiktKH+9vNKR5NAsg44B6IDtHmD1vI/E5KS7H6ms4amlLGIyV4=@googlegroups.com
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Apr 2025 07:35:45 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=d47o=xl=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 147.75.193.91 as permitted sender) client-ip=147.75.193.91;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 25D2EA4D3DA;
+	Fri, 25 Apr 2025 14:30:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6F7DC4CEE4;
+	Fri, 25 Apr 2025 14:35:44 +0000 (UTC)
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 755ECCE0485; Fri, 25 Apr 2025 07:35:44 -0700 (PDT)
+Date: Fri, 25 Apr 2025 07:35:44 -0700
+From: "'Paul E. McKenney' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Marco Elver <elver@google.com>
+Cc: kasan-dev@googlegroups.com, dvyukov@google.com,
+	Taras Madan <tarasmadan@google.com>
+Subject: Re: Dazed and confused by KCSAN report (but I eventually figured it
+ out)
+Message-ID: <4f7d9d27-49e0-4c27-8f24-0428671ec6d6@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <0dbb0354-9a89-438a-b009-5ac72e55efb1@paulmck-laptop>
+ <CANpmjNOOWt4vpG6O_uB1=fzU16MwpLtQR3_S5eZ=BO6Bxw6adg@mail.gmail.com>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:221b:b0:3d8:1d2d:60ab with SMTP id
- e9e14a558f8ab-3d93b3c15c1mr12219745ab.3.1745564977827; Fri, 25 Apr 2025
- 00:09:37 -0700 (PDT)
-Date: Fri, 25 Apr 2025 00:09:37 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-Message-ID: <680b3531.050a0220.10d98e.0011.GAE@google.com>
-Subject: [syzbot] [mm?] INFO: task hung in exit_mmap (2)
-From: syzbot <syzbot+cdd6c0925e12b0af60cc@syzkaller.appspotmail.com>
-To: Liam.Howlett@oracle.com, akpm@linux-foundation.org, andrii@kernel.org, 
-	ast@kernel.org, dvyukov@google.com, eddyz87@gmail.com, elver@google.com, 
-	glider@google.com, jannh@google.com, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, lorenzo.stoakes@oracle.com, 
-	netdev@vger.kernel.org, sdf@google.com, syzkaller-bugs@googlegroups.com, 
-	vbabka@suse.cz
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: syzbot@syzkaller.appspotmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of 3mtulaakbaba8ef0q11u7q55yt.w44w1ua8u7s439u39.s42@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com
- designates 209.85.166.77 as permitted sender) smtp.mailfrom=3MTULaAkbABA8EF0q11u7q55yt.w44w1uA8u7s439u39.s42@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=appspotmail.com
+Content-Disposition: inline
+In-Reply-To: <CANpmjNOOWt4vpG6O_uB1=fzU16MwpLtQR3_S5eZ=BO6Bxw6adg@mail.gmail.com>
+X-Original-Sender: paulmck@kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@kernel.org header.s=k20201202 header.b=iXostuQV;       spf=pass
+ (google.com: domain of srs0=d47o=xl=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
+ designates 147.75.193.91 as permitted sender) smtp.mailfrom="SRS0=D47o=XL=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: "Paul E. McKenney" <paulmck@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -135,176 +143,132 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello,
+On Fri, Apr 25, 2025 at 08:52:05AM +0200, Marco Elver wrote:
+> Hi Paul,
+> 
+> On Fri, 25 Apr 2025 at 01:46, Paul E. McKenney <paulmck@kernel.org> wrote:
+> >
+> > Hello!
+> >
+> > OK, I *was* confused by the following KCSAN report.  It turned out that
+> > the problem was that I did not realize that irq_work handlers do not run
+> > with interrupts disabled.  Given that this particular irq_work handler is
+> > not (very) performance sensitive, the fix is simply to disable interrupts,
+> > as shown in the prototype patch shown at the end of this email.
+> >
+> > I am including my initial confusion for your amusement.
+> >
+> > So thank you all for KCSAN!  I am here to tell you that low-probability
+> > bugs of this sort are a *real* pain to locate the hard way!  ;-)
+> 
+> Thank you for this report, always glad to hear how our tools help. :-)
+> 
+> For my own understanding, some questions below.
+> 
+> >                                                         Thanx, Paul
+> >
+> > ------------------------------------------------------------------------
+> >
+> > I am confused by this KCSAN report:
+> >
+> > [  611.741857] BUG: KCSAN: data-race in rcu_preempt_deferred_qs_handler / rcu_read_unlock_special
+> [...]
+> > [  611.742013]  run_irq_workd+0x91/0xc0
+> > [  611.742020]  smpboot_thread_fn+0x24d/0x3b0
+> > [  611.742029]  kthread+0x3bd/0x410
+> 
+> To clarify my understanding:
+> 
+> I assume the threaded dispatch of irq_work is because of PREEMPT_RT?
+> Are irq_work also dispatched into kthreads on some non-RT kernels?
+> 
+> I recall that irq_work used either self-IPI or remote-IPI to queue the
+> work, so perhaps this is happening in a kthreaded interrupt handler
+> due to PREEMPT_RT?
 
-syzbot found the following issue on:
+Yes, this runs with CONFIG_PREEMPT_RT=y, which I only recently added to
+my RCU acceptance test (AKA "torture.sh").
 
-HEAD commit:    750d0ac001e8 MAINTAINERS: Add entry for Socfpga DWMAC ethe..
-git tree:       net
-console output: https://syzkaller.appspot.com/x/log.txt?x=15580ccc580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=2a31f7155996562
-dashboard link: https://syzkaller.appspot.com/bug?extid=cdd6c0925e12b0af60cc
-compiler:       Debian clang version 15.0.6, Debian LLD 15.0.6
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1082263f980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10809ccc580000
+So my bad assumption wasn't bad until late last year.  At least it wasn't
+bad in mainline kernels.  ;-)
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/61fe708710bd/disk-750d0ac0.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/7e7cb0c4c97b/vmlinux-750d0ac0.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/93c49eac7367/bzImage-750d0ac0.xz
+							Thanx, Paul
 
-The issue was bisected to:
-
-commit 68ca5d4eebb8c4de246ee5f634eee26bc689562d
-Author: Andrii Nakryiko <andrii@kernel.org>
-Date:   Tue Mar 19 23:38:50 2024 +0000
-
-    bpf: support BPF cookie in raw tracepoint (raw_tp, tp_btf) programs
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17849a6f980000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=14449a6f980000
-console output: https://syzkaller.appspot.com/x/log.txt?x=10449a6f980000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+cdd6c0925e12b0af60cc@syzkaller.appspotmail.com
-Fixes: 68ca5d4eebb8 ("bpf: support BPF cookie in raw tracepoint (raw_tp, tp_btf) programs")
-
-INFO: task syz-executor253:8529 blocked for more than 143 seconds.
-      Not tainted 6.15.0-rc2-syzkaller-00258-g750d0ac001e8 #0
-      Blocked by coredump.
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:syz-executor253 state:D stack:24424 pid:8529  tgid:8527  ppid:5850   task_flags:0x40054c flags:0x00004002
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5382 [inline]
- __schedule+0x1b88/0x5240 kernel/sched/core.c:6767
- __schedule_loop kernel/sched/core.c:6845 [inline]
- schedule+0x163/0x360 kernel/sched/core.c:6860
- schedule_preempt_disabled+0x13/0x30 kernel/sched/core.c:6917
- rwsem_down_write_slowpath+0xedd/0x1420 kernel/locking/rwsem.c:1176
- __down_write_common kernel/locking/rwsem.c:1304 [inline]
- __down_write kernel/locking/rwsem.c:1313 [inline]
- down_write+0x1da/0x220 kernel/locking/rwsem.c:1578
- mmap_write_lock include/linux/mmap_lock.h:128 [inline]
- exit_mmap+0x305/0xde0 mm/mmap.c:1292
- __mmput+0x115/0x420 kernel/fork.c:1379
- exit_mm+0x221/0x310 kernel/exit.c:589
- do_exit+0x994/0x27f0 kernel/exit.c:940
- do_group_exit+0x207/0x2c0 kernel/exit.c:1102
- get_signal+0x1696/0x1730 kernel/signal.c:3034
- arch_do_signal_or_restart+0x98/0x810 arch/x86/kernel/signal.c:337
- exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
- exit_to_user_mode_prepare include/linux/entry-common.h:329 [inline]
- __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
- syscall_exit_to_user_mode+0xce/0x340 kernel/entry/common.c:218
- do_syscall_64+0x100/0x210 arch/x86/entry/syscall_64.c:100
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f0e7faaa6e9
-RSP: 002b:00007f0e7fa42218 EFLAGS: 00000246 ORIG_RAX: 00000000000000ca
-RAX: fffffffffffffe00 RBX: 00007f0e7fb34338 RCX: 00007f0e7faaa6e9
-RDX: 0000000000000000 RSI: 0000000000000080 RDI: 00007f0e7fb34338
-RBP: 00007f0e7fb34330 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007f0e7fb01074
-R13: 0000200000000040 R14: 00002000000002c0 R15: 00002000000002c8
- </TASK>
-
-Showing all locks held in the system:
-1 lock held by khungtaskd/31:
- #0: ffffffff8ed3df20 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:331 [inline]
- #0: ffffffff8ed3df20 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:841 [inline]
- #0: ffffffff8ed3df20 (rcu_read_lock){....}-{1:3}, at: debug_show_all_locks+0x30/0x180 kernel/locking/lockdep.c:6764
-2 locks held by dhcpcd/5506:
- #0: ffffffff8edf61b0 (dup_mmap_sem){.+.+}-{0:0}, at: dup_mm kernel/fork.c:1733 [inline]
- #0: ffffffff8edf61b0 (dup_mmap_sem){.+.+}-{0:0}, at: copy_mm+0x1d6/0x22c0 kernel/fork.c:1786
- #1: ffff88805a8a3de0 (&mm->mmap_lock){++++}-{4:4}, at: mmap_write_lock_killable include/linux/mmap_lock.h:146 [inline]
- #1: ffff88805a8a3de0 (&mm->mmap_lock){++++}-{4:4}, at: dup_mmap kernel/fork.c:620 [inline]
- #1: ffff88805a8a3de0 (&mm->mmap_lock){++++}-{4:4}, at: dup_mm kernel/fork.c:1734 [inline]
- #1: ffff88805a8a3de0 (&mm->mmap_lock){++++}-{4:4}, at: copy_mm+0x2a8/0x22c0 kernel/fork.c:1786
-2 locks held by getty/5594:
- #0: ffff8880319c50a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x25/0x70 drivers/tty/tty_ldisc.c:243
- #1: ffffc9000332e2f0 (&ldata->atomic_read_lock){+.+.}-{4:4}, at: n_tty_read+0x5bb/0x1700 drivers/tty/n_tty.c:2222
-1 lock held by syz-executor253/8529:
- #0: ffff88807b09bde0 (&mm->mmap_lock){++++}-{4:4}, at: mmap_write_lock include/linux/mmap_lock.h:128 [inline]
- #0: ffff88807b09bde0 (&mm->mmap_lock){++++}-{4:4}, at: exit_mmap+0x305/0xde0 mm/mmap.c:1292
-1 lock held by dhcpcd/8530:
- #0: ffff8880253947e0 (&mm->mmap_lock){++++}-{4:4}, at: mmap_write_lock_killable include/linux/mmap_lock.h:146 [inline]
- #0: ffff8880253947e0 (&mm->mmap_lock){++++}-{4:4}, at: __vm_munmap+0x213/0x520 mm/vma.c:3010
-
-=============================================
-
-NMI backtrace for cpu 0
-CPU: 0 UID: 0 PID: 31 Comm: khungtaskd Not tainted 6.15.0-rc2-syzkaller-00258-g750d0ac001e8 #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2025
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
- nmi_cpu_backtrace+0x4ab/0x4e0 lib/nmi_backtrace.c:113
- nmi_trigger_cpumask_backtrace+0x198/0x320 lib/nmi_backtrace.c:62
- trigger_all_cpu_backtrace include/linux/nmi.h:158 [inline]
- check_hung_uninterruptible_tasks kernel/hung_task.c:274 [inline]
- watchdog+0x1058/0x10a0 kernel/hung_task.c:437
- kthread+0x7b7/0x940 kernel/kthread.c:464
- ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:153
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-Sending NMI from CPU 0 to CPUs 1:
-NMI backtrace for cpu 1
-CPU: 1 UID: 0 PID: 0 Comm: swapper/1 Not tainted 6.15.0-rc2-syzkaller-00258-g750d0ac001e8 #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2025
-RIP: 0010:pv_native_safe_halt+0x13/0x20 arch/x86/kernel/paravirt.c:81
-Code: cc cc cc cc cc cc cc 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 66 90 0f 00 2d 73 8f 18 00 f3 0f 1e fa fb f4 <c3> cc cc cc cc cc cc cc cc cc cc cc cc 90 90 90 90 90 90 90 90 90
-RSP: 0018:ffffc90000197dc0 EFLAGS: 000002c2
-RAX: 330d1d9510403d00 RBX: ffffffff8197272e RCX: ffffffff8c2fa93c
-RDX: 0000000000000001 RSI: ffffffff8e6499b7 RDI: ffffffff8ca1b5a0
-RBP: ffffc90000197f20 R08: ffff8880b8732b5b R09: 1ffff110170e656b
-R10: dffffc0000000000 R11: ffffed10170e656c R12: 1ffff92000032fd2
-R13: 1ffff11003ad9b40 R14: 0000000000000001 R15: dffffc0000000000
-FS:  0000000000000000(0000) GS:ffff88812509a000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f6b30e296c0 CR3: 000000000eb38000 CR4: 00000000003526f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- arch_safe_halt arch/x86/include/asm/paravirt.h:107 [inline]
- default_idle+0x13/0x20 arch/x86/kernel/process.c:748
- default_idle_call+0x74/0xb0 kernel/sched/idle.c:117
- cpuidle_idle_call kernel/sched/idle.c:185 [inline]
- do_idle+0x22e/0x5d0 kernel/sched/idle.c:325
- cpu_startup_entry+0x42/0x60 kernel/sched/idle.c:423
- start_secondary+0xfe/0x100 arch/x86/kernel/smpboot.c:315
- common_startup_64+0x13e/0x147
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+> > [  611.742039]  ret_from_fork+0x35/0x40
+> > [  611.742047]  ret_from_fork_asm+0x1a/0x30
+> > [  611.742056]
+> > [  611.742058] no locks held by irq_work/8/88.
+> > [  611.742063] irq event stamp: 200272
+> > [  611.742066] hardirqs last  enabled at (200272): [<ffffffffb0f56121>] finish_task_switch+0x131/0x320
+> > [  611.742078] hardirqs last disabled at (200271): [<ffffffffb25c7859>] __schedule+0x129/0xd70
+> > [  611.742089] softirqs last  enabled at (0): [<ffffffffb0ee093f>] copy_process+0x4df/0x1cc0
+> > [  611.742112] softirqs last disabled at (0): [<0000000000000000>] 0x0
+> > [  611.742119]
+> > [  611.742142] Reported by Kernel Concurrency Sanitizer on:
+> > [  611.742149] CPU: 8 UID: 0 PID: 88 Comm: irq_work/8 Not tainted 6.15.0-rc1-00063-g5e8a7c9a1a0a #2713 PREEMPT_{RT,(full)}
+> > [  611.742154] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
+> >
+> > The rcu_preempt_deferred_qs_handler() IRQ-work handler's only memory
+> > reference is the one-byte ->defer_qs_iw_pending field of the rcu_data
+> > per-CPU structure.  This handler is scheduled using irq_work_queue_on(),
+> > directed to the rcu_data structure's CPU.  All of the remaining references
+> > are by rcu_read_unlock_special() with interrupts disabled, and with the
+> > rcu_data structure selected for the current CPU.
+> >
+> > I did add WARN_ON_ONCE() calls to verify that the code really was always
+> > accessing a given CPU's ->defer_qs_iw_pending field from that CPU.
+> > That WARN_ON_ONCE() never triggered, and KCSAN still flagged the
+> > ->defer_qs_iw_pending field as having a data race.
+> >
+> > [ At which point I realized that I was not so sure that irq-work handlers
+> >   had interrupts disabled.  It turns out that they do not, so an RCU
+> >   read-side critical section in a real interrupt handler that interrupted
+> >   rcu_preempt_deferred_qs_handler() could legitimately cause this KCSAN
+> >   complaint.  Again, thank you all for KCSAN!!! ]
+> >
+> > For completeness, the KCSAN Kconfig options are as follows:
+> >
+> > CONFIG_HAVE_ARCH_KCSAN=y
+> > CONFIG_HAVE_KCSAN_COMPILER=y
+> > CONFIG_KCSAN=y
+> > CONFIG_CC_HAS_TSAN_COMPOUND_READ_BEFORE_WRITE=y
+> > CONFIG_KCSAN_VERBOSE=y
+> > CONFIG_KCSAN_SELFTEST=y
+> > CONFIG_KCSAN_EARLY_ENABLE=y
+> > CONFIG_KCSAN_NUM_WATCHPOINTS=64
+> > CONFIG_KCSAN_UDELAY_TASK=80
+> > CONFIG_KCSAN_UDELAY_INTERRUPT=20
+> > CONFIG_KCSAN_DELAY_RANDOMIZE=y
+> > CONFIG_KCSAN_SKIP_WATCH=4000
+> > CONFIG_KCSAN_SKIP_WATCH_RANDOMIZE=y
+> > CONFIG_KCSAN_INTERRUPT_WATCHER=y
+> > CONFIG_KCSAN_REPORT_ONCE_IN_MS=100000
+> > CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=y
+> > CONFIG_KCSAN_STRICT=y
+> > CONFIG_KCSAN_WEAK_MEMORY=y
+> >
+> > ------------------------------------------------------------------------
+> >
+> > diff --git a/kernel/rcu/tree_plugin.h b/kernel/rcu/tree_plugin.h
+> > index 3c0bbbbb686fe..003e549f65141 100644
+> > --- a/kernel/rcu/tree_plugin.h
+> > +++ b/kernel/rcu/tree_plugin.h
+> > @@ -624,10 +624,13 @@ notrace void rcu_preempt_deferred_qs(struct task_struct *t)
+> >   */
+> >  static void rcu_preempt_deferred_qs_handler(struct irq_work *iwp)
+> >  {
+> > +       unsigned long flags;
+> >         struct rcu_data *rdp;
+> >
+> >         rdp = container_of(iwp, struct rcu_data, defer_qs_iw);
+> > +       local_irq_save(flags);
+> >         rdp->defer_qs_iw_pending = false;
+> > +       local_irq_restore(flags);
+> >  }
+> >
+> >  /*
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/680b3531.050a0220.10d98e.0011.GAE%40google.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/4f7d9d27-49e0-4c27-8f24-0428671ec6d6%40paulmck-laptop.
