@@ -1,136 +1,156 @@
-Return-Path: <kasan-dev+bncBCS4VDMYRUNBBQV3V3AAMGQE725HSUQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCVLV266TMPBBXMNV7AAMGQEW2Y4ELQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x739.google.com (mail-qk1-x739.google.com [IPv6:2607:f8b0:4864:20::739])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAC8AA9CBCB
-	for <lists+kasan-dev@lfdr.de>; Fri, 25 Apr 2025 16:35:48 +0200 (CEST)
-Received: by mail-qk1-x739.google.com with SMTP id af79cd13be357-7c95556f824sf250037385a.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 25 Apr 2025 07:35:48 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1745591747; cv=pass;
+Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
+	by mail.lfdr.de (Postfix) with ESMTPS id E70B2A9CF9D
+	for <lists+kasan-dev@lfdr.de>; Fri, 25 Apr 2025 19:31:11 +0200 (CEST)
+Received: by mail-lj1-x23e.google.com with SMTP id 38308e7fff4ca-316c3874f3fsf11063381fa.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 25 Apr 2025 10:31:11 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1745602271; cv=pass;
         d=google.com; s=arc-20240605;
-        b=c83jf5XsDoGZKdhfN1DAjSbGmtpuXCnAZE1Jeux60QgWt2x6+hQhq5fLb1k8rnd2/Y
-         m3roz2vwPplSHFoXdlTjUy9QAajZocS/UlB+vG9EeiWWdW5uhrUbUX+Ii5exB5fsavtD
-         pZIt8vu2cZufuvKY6yn5UF5oKRpGYE+WSSUUJHVPmOHhAXxIo9UHHozCCbXKw/IdNnQ7
-         QvDsfiZ/nliZBNB2SlRe4jhKswvqxIEKv9kjJRTShOQoHzuTj5y1ozVt8TKkoFuXBOs4
-         kCcs6EtVztY3cbAK3YykquamifBeiyuQ0Rg1AC6ZpAPToMVr81NPTjV8nfHLuruKlETu
-         goSw==
+        b=ZoZJeXLp4g6W0VVjDoukVHAMfpiRIfKGw/lgwTpe3selCC8bdeui6pMvS0gkg0Py/Y
+         EhdkA2jyaa3esQgYdCbRFgmWSyFwTIekXP2J+TPD8JujFrY/4wT2z8ag/u6s7qqlb7Un
+         1Z6odCLMJUN1vy2Gg7eXhJne1Uieo9XCDhai7VDcwfBUWHsKow3cMqQWSjsegHfD0/08
+         BZTbFIYg8VXeKtLmprGSGWtPqZVZ7IaW3x7I0cViGkB9+B/xC/bahJ5BN48IP6Jp+c2h
+         cHzFdlua74kmeBbi17S/YvxUPrmysn88+5quAhYP+BCypVr8hGx1h/kqzSjFsboEZY0J
+         4lcw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=9jz44E/cnHxn7b2MSvv2+wt7tN8HY5m8OnKJCF4lryE=;
-        fh=oBKeZHSzPxC9fxHP/0c+bgUr2QR22SEP7BvxgX4sUfQ=;
-        b=GX0CEp+C6Jj59SzhG+0U0whHKk41S6BEFyEJy4StapV6LLj97Tpz9yd3cTo/9VJY2a
-         xvRJB7Oulnab5B3qwQCHdSAGH4BochPdZC8FQcx7/LeSODBJtiGfezrKJuvi/MryFwIC
-         rK9ovk/a4VuFlfJhZXlE3nbSZElfzxRfhvPO95c1iN5v52gsF4PF+2PPkGw8jb1HELIo
-         MX/ITA+aJHCfIAK2xkWi15x936vfmNnlA/XssnOGO2LiNuHQeSC+xLTKrm5wzfzMtWdr
-         YPlcclVi4JKqZm7I65hC1lx3WXyqBWDNkCsXSrtzQYzL4QDzCX66dJN/vAOKfqnBMsor
-         8lSg==;
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=5hk5sUA8oCijrws/EJQb/Y5lM+OQ2UQNopVN4jIIhAo=;
+        fh=zY1/nshI3wH5yt5S81igH3ORWnGN1ivsS3vsIf1w+z0=;
+        b=e7FiPzNehUsRO5FaiPPimS0GprWeLKmN6uT6QdPur6g7NCWz1IB6GweV34dew/PKUq
+         Q8NxHGdjrY6Hm9I1uqBbLoRfKULU7Qd5es5fx2ISTYpXcRWlSzzA6A/B2H1aRZYMbzb1
+         eRdYDVy0Ai5L5/mGBW18POrB1VGvgkOxsI6GY0Q5dhzRiREmHM351p51U2fGrDVWu0mb
+         NlTiKSmDs+7F1mSU22F9opaVs7q2KIbnhGkE4SPRZWrLNwKm64+kD3AmBvb/i/T1AY2f
+         7DE2q81wk8O9JMKV/3c3cSo8qFc0rpMjY4PWRC8YHJ/qJibuLxVgsZCwXhE6ur7kGOmw
+         GD5Q==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=iXostuQV;
-       spf=pass (google.com: domain of srs0=d47o=xl=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom="SRS0=D47o=XL=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20230601 header.b=wwxnHPYi;
+       spf=pass (google.com: domain of smostafa@google.com designates 2a00:1450:4864:20::32a as permitted sender) smtp.mailfrom=smostafa@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1745591747; x=1746196547; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1745602271; x=1746207071; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:reply-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9jz44E/cnHxn7b2MSvv2+wt7tN8HY5m8OnKJCF4lryE=;
-        b=XXjPYHWraFP9TbaZUuRdkS9hkXXqTowRHDq6lekqntARcdiWNEotiR3AC9uUkGxbtl
-         b9ATRFbbM0bOYX6Vyap2scE9ETWaQRv5B4MK43EWEshYp3deBoXe3eFHZ/yvFyr13OBg
-         hFpWgSwG5zIpJ8q86F9322dZ8cU6fwwGpwcABPFZHndG29KqXXrrHMoIJZNZLbIuzBsS
-         9YhxwLmnUPalIECIAFtLAlpKd+QyxJ7dqLFUsY51y/V3HfHYawNLYJ7dS43tcHbXlJHj
-         9NoVcNTynvmM88M2aAliwQ2Wswwre5aKDKOe6eQDOLgC4QSR0sYdZvSlw9alimh/RXX5
-         kthQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745591747; x=1746196547;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9jz44E/cnHxn7b2MSvv2+wt7tN8HY5m8OnKJCF4lryE=;
-        b=lY2YhUR6Ivt2Q9IGrE7vNUPDPdaI+QTvmOgB1CYtcPb0idt6ttIMw774ROdOwnVsyb
-         5Lj9eBm05QHx9uVGQ7X9nHuxP+uR9ZrJD33mTFfzNpkfAG3btU2k2CfTtKb3VcWG2SeT
-         TUdITQkaR1yQeprfmM3020UcfDC0LQ9AC6j1bwr11rHAsl+rLyEkkfP0fu8DWPpyzuGQ
-         qFyuzMdi40DJMMR6xRwH0s8Hk+DwbzEF0btCbG8Ox93Pik+gE2mSyjNNMdphaGfm6ZwW
-         ktWDtI1DBJIJ683024L41zA8Ljgh1nLC24HX0y3TWYBUdXCOk6Z41pEgqdqcr0/S2g0u
-         HiIw==
-X-Forwarded-Encrypted: i=2; AJvYcCWKIKBUULC5/gYaOLaqmEhumAMjNw5JchHVydt6ctSRx0RDX0zouOPM5TKJ11QMs/KvFpQG4w==@lfdr.de
-X-Gm-Message-State: AOJu0YwQNWBFXJvXgofu6aZ3uX/GWqIoxpQIsS4HG/lFKpHoubRxx7B4
-	oSgePnpiMXGX1nNj+MX11ESMF7YV6AWBfjFMAI2UxbuVwuC0b0CX
-X-Google-Smtp-Source: AGHT+IEJ3H/0i3ElE52hsZQx3p6SZ9j1P/vksVOoGIKlGYdEvUqxIX9qYYcc96exLmzkloPQv1J7sA==
-X-Received: by 2002:ad4:5f06:0:b0:6d8:9d81:2107 with SMTP id 6a1803df08f44-6f4cb9d6df4mr38916996d6.20.1745591746591;
-        Fri, 25 Apr 2025 07:35:46 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBE/mXFACY5U49EXEiZyNB/IcKoBQ+8jG1Tu39/5+TdXVw==
-Received: by 2002:a0c:edcd:0:b0:6ec:ed6a:47dd with SMTP id 6a1803df08f44-6f4be4b16dbls7857556d6.1.-pod-prod-08-us;
- Fri, 25 Apr 2025 07:35:45 -0700 (PDT)
-X-Received: by 2002:a05:6214:e66:b0:6e8:fcc6:35b6 with SMTP id 6a1803df08f44-6f4cb99d412mr44566416d6.2.1745591745481;
-        Fri, 25 Apr 2025 07:35:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1745591745; cv=none;
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5hk5sUA8oCijrws/EJQb/Y5lM+OQ2UQNopVN4jIIhAo=;
+        b=QTP8QW85+vRdL4d/5/lkonT3k7hRwfSMsxOB3nVDqN7towOnkM+RS+kqX+r2JlPGXT
+         aLlk3BigFhYwDqx2OdMXG97ADWG9oWmFAvrBOis/oDNu5ev4qFvMqphxJeMaOAx2ys9g
+         AIKfvAgn0ORMDj89zZQGss8DyJIRgBYrqeKdfNgLxRGQMhFxMqSB83asjUI9pIbxbw79
+         BcKzRHUmb7m2LRjKFTbbC6A4wluCeltwkN4vo0tQWs9ezDuutiSixUnsgAaS5iCmp41R
+         A3CS7NUwA+jfDfiIG4poc+5srGKGwtNCkhc2P4ydvmHGFsFZb2EwA5SZKK9yP/3pGMj1
+         xu4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745602271; x=1746207071;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5hk5sUA8oCijrws/EJQb/Y5lM+OQ2UQNopVN4jIIhAo=;
+        b=exZzDYnJf3N8TNNyUQV6hzqe3aH8hM37kw6LlLsHPEJEPZyVfx5XSGduUj8g0m64+D
+         d3NT1XG18PSpWk/GMTWshK7P7MA2Et0bSe2NIPm18w7wDI3d/vzSR+Uohl4I+Z6gle7I
+         7zbgR7aLL+Aj7ww8NxWAXDaMfUCQ3EU8rhSn8J8YU6k8/XEmRX5M5l80Y79m2FjNTe7k
+         FDo+ks3GXiTSjRqX0JOnLVoP25cVcpEZGitXPmGCyuu6sx0C/DxYCj6hBuOJbvWfzh4O
+         VtK8R2MSYCNxaKKfCxc9uHdC7QYpbcTMhqLopwOWLNn7CBk0XtP7f6QxFeLXOP7dgYmM
+         u0Ug==
+X-Forwarded-Encrypted: i=2; AJvYcCUH8hSBVcBLUmYdiZn1E1bJq3nHLmUWkVp3+lPussx0uNA4ViLB4b/T0lfkJ2Hzsk+9QtYn+Q==@lfdr.de
+X-Gm-Message-State: AOJu0YwiAKPG1zN7WUERCmw0w2V5p5f2Bkviq5gffrQpjtegCmgL4Ybq
+	O1pcYXUcmmog/XIWvcAUqkzZU35Tm6j1Mg+INqwZYe1NFVfjBhK6
+X-Google-Smtp-Source: AGHT+IGA+w5pq3Ei0HJ7hgqv1jLa9e6FbCN5XJ9jLsBTUuNTBYNwP1mJLHNZOxY5v5XVNdIcyk8bbg==
+X-Received: by 2002:a2e:b88a:0:b0:30c:dbf:519f with SMTP id 38308e7fff4ca-319ddd66a48mr426861fa.35.1745602270066;
+        Fri, 25 Apr 2025 10:31:10 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBH+EXmSq+ZfEacoJm6CItLoGluwGq3y90XOOx/Uuctc3Q==
+Received: by 2002:a2e:8e94:0:b0:30b:fc92:55c1 with SMTP id 38308e7fff4ca-3177e46cbcels3814321fa.0.-pod-prod-06-eu;
+ Fri, 25 Apr 2025 10:31:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWO78FDN9s8yh8PHGqJBpuKePc+yAyur0qoa1qVLI+xVe1xc2zxlT4eGS1movbSYfYdd9sybcxFI3Q=@googlegroups.com
+X-Received: by 2002:a2e:a808:0:b0:30b:f2d6:8aab with SMTP id 38308e7fff4ca-319dd6a15c3mr459401fa.32.1745602267085;
+        Fri, 25 Apr 2025 10:31:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1745602267; cv=none;
         d=google.com; s=arc-20240605;
-        b=YY5h9BgXHQlYIrNQllcQaueVr7I+XVT1HX2gUdJy405D3hw4IymvkgqaKTGbKUd3iT
-         dsSlQdame34lk7BBSL2kJ4FU034JUcoUWFj/LxOu9hdCvEx6IJ6ATLqel9DcndhTeTHl
-         Pn+1bhAnZcuZFAHlaJHwPJLItM0ByjkdkDny1Z0liQysFT1W89Hs3hTT2dhhV64lhuTk
-         d0S7QA3Rp/eUII4bvNPF5suLhcs8SftD7S6Q+kBN/DwCrZrclgTYJBiElNYYt8r9r8Nd
-         rvmOne1CH+a7covymESDslcAlnWXva/kILNfwMKY6/Quvv3zO+6O1kLaqjR+zPjJcyvN
-         3n9w==
+        b=TC7DdwxzQ+1+Fbr1CYRjkc61lcY4WBaGU5KVh66sI3sWTp38W7OTJUj1Ge0MnqdovW
+         K2DDVKEWJvgAkQkT5WBt2Eh1iCDKbvdeawjY3HIHmS0fc9M7zkTi0TJZRapOLeD6dqRp
+         oDn/X2mQoip7gvZBcaqg8zdawQ+3X/tqN/D6py0IQ4C1/RC14ilCleW62vma3XFiZp2O
+         pk1ZdoUW1cMzoVOk/VIQ7R9v4mc9potjsN2k47V1fhtaOlBKm6qFVovznQa+8mYqDymE
+         pTSe6ZSeINKfgp00idkfF89DoprpPKenw6IC+ePsysEfP8E0xtVmQEMEubZdWA9tpRRo
+         cmQQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=qEOLc1zCu3QSACWlexKaPiLnzkOEuJR+G44IGN2p3uo=;
-        fh=ZAoJMDmkXh64HvMHNbFbHQsFvJ5SGl8IEmYh5I8c2ys=;
-        b=hHJ0llXNLHM0Iiff+en73w14lkQXdphZ0qQTy3jsNJSQX4H1fonIE0iorc6E3hlJrH
-         ivjo12avO0L1w9u42WOLaHglJ8NPnwSCiOnQk8AgGOrMILoKbuqdq6b09psO+EGVFE9a
-         X/b1lsyNeux6hXWm06EO3Say+m+XQfBn6Ertj0RP3wgiWXnjEL0Q/bqXgIZgINytN+7b
-         nAyoCnjR4FsBP6vaB/1OPxmeRU46qj/Af809BYJzm0pL1+ZfR4m7VYtPJ4wPbqQbsXR5
-         Kt8IX1GTpZUETcj4kmif3n84rm327CAo5OHIbutXst49WDcigtOk53z/xj/puVJMkob8
-         tqbQ==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=JFiaMWMIJ6jFGDzd2ejMDb6Y0fvSj84EWSVaMESBeFo=;
+        fh=OVY6sA/99bjThPTvMqLa5M6QaU41nNxntg1NEXuLv34=;
+        b=WLkMPKGySysK1N4PHyF2omoPGB/UQYXvioOZt3uwzKM2kHe7HFsNfY74F8yAtSLqTz
+         pSJGPfVxW0CL6kNIujfc8XTHBX7edgyqj+5uKP0Tw7/YJLBsy42/hikj/wAJAYzpQsOQ
+         latjPHe8tK+I4quiSpqPVK7kkjdI2ll3kYMYkpn6UqQ+tL0ggZ6KatkC/Drzdc/Gn02t
+         /udiog1aGOCkkWiHqnEW7TYkoDyfSbQSxs6Ddjr1nx3/8amS3aDXtLUq7B7FrDcKY2mB
+         vYIDVC9DJy/H+zDkdWhO6Rx6ZnSntqjnt36lPfbwREz8Xl+309kNA0EH7pehmdrld6t4
+         2YUQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=iXostuQV;
-       spf=pass (google.com: domain of srs0=d47o=xl=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom="SRS0=D47o=XL=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org. [147.75.193.91])
-        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-6f4c08b9b8dsi1483916d6.2.2025.04.25.07.35.45
+       dkim=pass header.i=@google.com header.s=20230601 header.b=wwxnHPYi;
+       spf=pass (google.com: domain of smostafa@google.com designates 2a00:1450:4864:20::32a as permitted sender) smtp.mailfrom=smostafa@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com. [2a00:1450:4864:20::32a])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-317cf74efcdsi827181fa.1.2025.04.25.10.31.07
         for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Apr 2025 10:31:07 -0700 (PDT)
+Received-SPF: pass (google.com: domain of smostafa@google.com designates 2a00:1450:4864:20::32a as permitted sender) client-ip=2a00:1450:4864:20::32a;
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-43cfe808908so3485e9.0
+        for <kasan-dev@googlegroups.com>; Fri, 25 Apr 2025 10:31:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXL/WMSg1lWWNAYBbjKHk2skLlgKUA0I8CnAb94Mj+5PwNXmXj3qTHxr12nKbX8LTjfgaNi6HCNKt8=@googlegroups.com
+X-Gm-Gg: ASbGncv5t8C1Q7tlPJ7ndG7R+QX/rZHlAlhtcFk1/RfWmsQ8mRqcQat26qC/CV2Nva/
+	rTFZ8ZcGK5z5OP8VVHaVAsou41xtx1bO0u7MnWeQjb1RjbGROTq/LB+wSbEUUptJ9hbMsVBa108
+	DLoYc7kZD9COAWs2y7Yk6DVkwK5o1DhfRskpRbsm2waq7m8tdfmsDnUyS8tJZ4iVKcsL08ktbOV
+	dRq5BAshDiL0kyeZriaTAbL9sxt0yXHWHyEsdL5wY6OAjyGNTW6bq7prMMph78sjsOSb0Xqjfg2
+	vDWFjLWYSjlzp3LjajbiCbdmKwik9TdEhjTn6/GJ8B+oKRcUchLtT13Bsr7ny6JqBK7cW0JtJVS
+	vE3s=
+X-Received: by 2002:a05:600c:1c8b:b0:439:8f59:2c56 with SMTP id 5b1f17b1804b1-440abc6d38bmr9835e9.2.1745602266145;
+        Fri, 25 Apr 2025 10:31:06 -0700 (PDT)
+Received: from google.com (202.88.205.35.bc.googleusercontent.com. [35.205.88.202])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4409d2dfc2fsm62434785e9.33.2025.04.25.10.31.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 07:35:45 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=d47o=xl=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 147.75.193.91 as permitted sender) client-ip=147.75.193.91;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 25D2EA4D3DA;
-	Fri, 25 Apr 2025 14:30:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6F7DC4CEE4;
-	Fri, 25 Apr 2025 14:35:44 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 755ECCE0485; Fri, 25 Apr 2025 07:35:44 -0700 (PDT)
-Date: Fri, 25 Apr 2025 07:35:44 -0700
-From: "'Paul E. McKenney' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Marco Elver <elver@google.com>
-Cc: kasan-dev@googlegroups.com, dvyukov@google.com,
-	Taras Madan <tarasmadan@google.com>
-Subject: Re: Dazed and confused by KCSAN report (but I eventually figured it
- out)
-Message-ID: <4f7d9d27-49e0-4c27-8f24-0428671ec6d6@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <0dbb0354-9a89-438a-b009-5ac72e55efb1@paulmck-laptop>
- <CANpmjNOOWt4vpG6O_uB1=fzU16MwpLtQR3_S5eZ=BO6Bxw6adg@mail.gmail.com>
+        Fri, 25 Apr 2025 10:31:05 -0700 (PDT)
+Date: Fri, 25 Apr 2025 17:30:57 +0000
+From: "'Mostafa Saleh' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Kees Cook <kees@kernel.org>
+Cc: kvmarm@lists.linux.dev, kasan-dev@googlegroups.com,
+	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	will@kernel.org, maz@kernel.org, oliver.upton@linux.dev,
+	broonie@kernel.org, catalin.marinas@arm.com, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, elver@google.com,
+	andreyknvl@gmail.com, ryabinin.a.a@gmail.com,
+	akpm@linux-foundation.org, yuzenghui@huawei.com,
+	suzuki.poulose@arm.com, joey.gouly@arm.com, masahiroy@kernel.org,
+	nathan@kernel.org, nicolas.schier@linux.dev
+Subject: Re: [PATCH 3/4] KVM: arm64: Introduce CONFIG_UBSAN_KVM_EL2
+Message-ID: <aAvG0br0XT9BFZ6S@google.com>
+References: <20250416180440.231949-1-smostafa@google.com>
+ <20250416180440.231949-4-smostafa@google.com>
+ <202504161250.CC5C277A@keescook>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <CANpmjNOOWt4vpG6O_uB1=fzU16MwpLtQR3_S5eZ=BO6Bxw6adg@mail.gmail.com>
-X-Original-Sender: paulmck@kernel.org
+In-Reply-To: <202504161250.CC5C277A@keescook>
+X-Original-Sender: smostafa@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=iXostuQV;       spf=pass
- (google.com: domain of srs0=d47o=xl=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 147.75.193.91 as permitted sender) smtp.mailfrom="SRS0=D47o=XL=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: "Paul E. McKenney" <paulmck@kernel.org>
+ header.i=@google.com header.s=20230601 header.b=wwxnHPYi;       spf=pass
+ (google.com: domain of smostafa@google.com designates 2a00:1450:4864:20::32a
+ as permitted sender) smtp.mailfrom=smostafa@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
+X-Original-From: Mostafa Saleh <smostafa@google.com>
+Reply-To: Mostafa Saleh <smostafa@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,132 +163,142 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Apr 25, 2025 at 08:52:05AM +0200, Marco Elver wrote:
-> Hi Paul,
-> 
-> On Fri, 25 Apr 2025 at 01:46, Paul E. McKenney <paulmck@kernel.org> wrote:
-> >
-> > Hello!
-> >
-> > OK, I *was* confused by the following KCSAN report.  It turned out that
-> > the problem was that I did not realize that irq_work handlers do not run
-> > with interrupts disabled.  Given that this particular irq_work handler is
-> > not (very) performance sensitive, the fix is simply to disable interrupts,
-> > as shown in the prototype patch shown at the end of this email.
-> >
-> > I am including my initial confusion for your amusement.
-> >
-> > So thank you all for KCSAN!  I am here to tell you that low-probability
-> > bugs of this sort are a *real* pain to locate the hard way!  ;-)
-> 
-> Thank you for this report, always glad to hear how our tools help. :-)
-> 
-> For my own understanding, some questions below.
-> 
-> >                                                         Thanx, Paul
-> >
-> > ------------------------------------------------------------------------
-> >
-> > I am confused by this KCSAN report:
-> >
-> > [  611.741857] BUG: KCSAN: data-race in rcu_preempt_deferred_qs_handler / rcu_read_unlock_special
-> [...]
-> > [  611.742013]  run_irq_workd+0x91/0xc0
-> > [  611.742020]  smpboot_thread_fn+0x24d/0x3b0
-> > [  611.742029]  kthread+0x3bd/0x410
-> 
-> To clarify my understanding:
-> 
-> I assume the threaded dispatch of irq_work is because of PREEMPT_RT?
-> Are irq_work also dispatched into kthreads on some non-RT kernels?
-> 
-> I recall that irq_work used either self-IPI or remote-IPI to queue the
-> work, so perhaps this is happening in a kthreaded interrupt handler
-> due to PREEMPT_RT?
-
-Yes, this runs with CONFIG_PREEMPT_RT=y, which I only recently added to
-my RCU acceptance test (AKA "torture.sh").
-
-So my bad assumption wasn't bad until late last year.  At least it wasn't
-bad in mainline kernels.  ;-)
-
-							Thanx, Paul
-
-> > [  611.742039]  ret_from_fork+0x35/0x40
-> > [  611.742047]  ret_from_fork_asm+0x1a/0x30
-> > [  611.742056]
-> > [  611.742058] no locks held by irq_work/8/88.
-> > [  611.742063] irq event stamp: 200272
-> > [  611.742066] hardirqs last  enabled at (200272): [<ffffffffb0f56121>] finish_task_switch+0x131/0x320
-> > [  611.742078] hardirqs last disabled at (200271): [<ffffffffb25c7859>] __schedule+0x129/0xd70
-> > [  611.742089] softirqs last  enabled at (0): [<ffffffffb0ee093f>] copy_process+0x4df/0x1cc0
-> > [  611.742112] softirqs last disabled at (0): [<0000000000000000>] 0x0
-> > [  611.742119]
-> > [  611.742142] Reported by Kernel Concurrency Sanitizer on:
-> > [  611.742149] CPU: 8 UID: 0 PID: 88 Comm: irq_work/8 Not tainted 6.15.0-rc1-00063-g5e8a7c9a1a0a #2713 PREEMPT_{RT,(full)}
-> > [  611.742154] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
-> >
-> > The rcu_preempt_deferred_qs_handler() IRQ-work handler's only memory
-> > reference is the one-byte ->defer_qs_iw_pending field of the rcu_data
-> > per-CPU structure.  This handler is scheduled using irq_work_queue_on(),
-> > directed to the rcu_data structure's CPU.  All of the remaining references
-> > are by rcu_read_unlock_special() with interrupts disabled, and with the
-> > rcu_data structure selected for the current CPU.
-> >
-> > I did add WARN_ON_ONCE() calls to verify that the code really was always
-> > accessing a given CPU's ->defer_qs_iw_pending field from that CPU.
-> > That WARN_ON_ONCE() never triggered, and KCSAN still flagged the
-> > ->defer_qs_iw_pending field as having a data race.
-> >
-> > [ At which point I realized that I was not so sure that irq-work handlers
-> >   had interrupts disabled.  It turns out that they do not, so an RCU
-> >   read-side critical section in a real interrupt handler that interrupted
-> >   rcu_preempt_deferred_qs_handler() could legitimately cause this KCSAN
-> >   complaint.  Again, thank you all for KCSAN!!! ]
-> >
-> > For completeness, the KCSAN Kconfig options are as follows:
-> >
-> > CONFIG_HAVE_ARCH_KCSAN=y
-> > CONFIG_HAVE_KCSAN_COMPILER=y
-> > CONFIG_KCSAN=y
-> > CONFIG_CC_HAS_TSAN_COMPOUND_READ_BEFORE_WRITE=y
-> > CONFIG_KCSAN_VERBOSE=y
-> > CONFIG_KCSAN_SELFTEST=y
-> > CONFIG_KCSAN_EARLY_ENABLE=y
-> > CONFIG_KCSAN_NUM_WATCHPOINTS=64
-> > CONFIG_KCSAN_UDELAY_TASK=80
-> > CONFIG_KCSAN_UDELAY_INTERRUPT=20
-> > CONFIG_KCSAN_DELAY_RANDOMIZE=y
-> > CONFIG_KCSAN_SKIP_WATCH=4000
-> > CONFIG_KCSAN_SKIP_WATCH_RANDOMIZE=y
-> > CONFIG_KCSAN_INTERRUPT_WATCHER=y
-> > CONFIG_KCSAN_REPORT_ONCE_IN_MS=100000
-> > CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=y
-> > CONFIG_KCSAN_STRICT=y
-> > CONFIG_KCSAN_WEAK_MEMORY=y
-> >
-> > ------------------------------------------------------------------------
-> >
-> > diff --git a/kernel/rcu/tree_plugin.h b/kernel/rcu/tree_plugin.h
-> > index 3c0bbbbb686fe..003e549f65141 100644
-> > --- a/kernel/rcu/tree_plugin.h
-> > +++ b/kernel/rcu/tree_plugin.h
-> > @@ -624,10 +624,13 @@ notrace void rcu_preempt_deferred_qs(struct task_struct *t)
-> >   */
-> >  static void rcu_preempt_deferred_qs_handler(struct irq_work *iwp)
-> >  {
-> > +       unsigned long flags;
-> >         struct rcu_data *rdp;
-> >
-> >         rdp = container_of(iwp, struct rcu_data, defer_qs_iw);
-> > +       local_irq_save(flags);
-> >         rdp->defer_qs_iw_pending = false;
-> > +       local_irq_restore(flags);
-> >  }
-> >
+On Wed, Apr 16, 2025 at 12:54:21PM -0700, Kees Cook wrote:
+> On Wed, Apr 16, 2025 at 06:04:33PM +0000, Mostafa Saleh wrote:
+> > Add a new Kconfig CONFIG_UBSAN_KVM_EL2 for KVM which enables
+> > UBSAN for EL2 code (in protected/nvhe/hvhe) modes.
+> > This will re-use the same checks enabled for the kernel for
+> > the hypervisor. The only difference is that for EL2 it always
+> > emits a "brk" instead of implementing hooks as the hypervisor
+> > can't print reports.
+> > 
+> > The KVM code will re-use the same code for the kernel
+> > "report_ubsan_failure()" so #ifdefs are changed to also have this
+> > code for CONFIG_UBSAN_KVM_EL2
+> > 
+> > Signed-off-by: Mostafa Saleh <smostafa@google.com>
+> > ---
+> >  arch/arm64/kvm/hyp/nvhe/Makefile | 6 ++++++
+> >  include/linux/ubsan.h            | 2 +-
+> >  lib/Kconfig.ubsan                | 9 +++++++++
+> >  lib/ubsan.c                      | 6 ++++--
+> >  scripts/Makefile.ubsan           | 5 ++++-
+> >  5 files changed, 24 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/arch/arm64/kvm/hyp/nvhe/Makefile b/arch/arm64/kvm/hyp/nvhe/Makefile
+> > index b43426a493df..cbe7e12752bc 100644
+> > --- a/arch/arm64/kvm/hyp/nvhe/Makefile
+> > +++ b/arch/arm64/kvm/hyp/nvhe/Makefile
+> > @@ -99,3 +99,9 @@ KBUILD_CFLAGS := $(filter-out $(CC_FLAGS_FTRACE) $(CC_FLAGS_SCS), $(KBUILD_CFLAG
+> >  # causes a build failure. Remove profile optimization flags.
+> >  KBUILD_CFLAGS := $(filter-out -fprofile-sample-use=% -fprofile-use=%, $(KBUILD_CFLAGS))
+> >  KBUILD_CFLAGS += -fno-asynchronous-unwind-tables -fno-unwind-tables
+> > +
+> > +ifeq ($(CONFIG_UBSAN_KVM_EL2),y)
+> > +UBSAN_SANITIZE := y
+> > +# Always use brk and not hooks
+> > +ccflags-y += $(CFLAGS_UBSAN_FOR_TRAP)
+> > +endif
+> > diff --git a/include/linux/ubsan.h b/include/linux/ubsan.h
+> > index c843816f5f68..3ab8d38aedb8 100644
+> > --- a/include/linux/ubsan.h
+> > +++ b/include/linux/ubsan.h
+> > @@ -2,7 +2,7 @@
+> >  #ifndef _LINUX_UBSAN_H
+> >  #define _LINUX_UBSAN_H
+> >  
+> > -#ifdef CONFIG_UBSAN_TRAP
+> > +#if defined(CONFIG_UBSAN_TRAP) || defined(CONFIG_UBSAN_KVM_EL2)
+> >  const char *report_ubsan_failure(u32 check_type);
+> >  #else
+> >  static inline const char *report_ubsan_failure(u32 check_type)
+> > diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
+> > index 4216b3a4ff21..3878858eb473 100644
+> > --- a/lib/Kconfig.ubsan
+> > +++ b/lib/Kconfig.ubsan
+> > @@ -166,4 +166,13 @@ config TEST_UBSAN
+> >  	  This is a test module for UBSAN.
+> >  	  It triggers various undefined behavior, and detect it.
+> >  
+> > +config UBSAN_KVM_EL2
+> > +	bool "UBSAN for KVM code at EL2"
+> > +	depends on ARM64
+> > +	help
+> > +	  Enable UBSAN when running on ARM64 with KVM in a split mode
+> > +	  (nvhe/hvhe/protected) for the hypervisor code running in EL2.
+> > +	  In this mode, any UBSAN violation in EL2 would panic the kernel
+> > +	  and information similar to UBSAN_TRAP would be printed.
+> > +
+> >  endif	# if UBSAN
+> > diff --git a/lib/ubsan.c b/lib/ubsan.c
+> > index 17993727fc96..a6ca235dd714 100644
+> > --- a/lib/ubsan.c
+> > +++ b/lib/ubsan.c
+> > @@ -19,7 +19,7 @@
+> >  
+> >  #include "ubsan.h"
+> >  
+> > -#ifdef CONFIG_UBSAN_TRAP
+> > +#if defined(CONFIG_UBSAN_TRAP) || defined(CONFIG_UBSAN_KVM_EL2)
 > >  /*
+> >   * Only include matches for UBSAN checks that are actually compiled in.
+> >   * The mappings of struct SanitizerKind (the -fsanitize=xxx args) to
+> > @@ -97,7 +97,9 @@ const char *report_ubsan_failure(u32 check_type)
+> >  	}
+> >  }
+> >  
+> > -#else
+> > +#endif
+> > +
+> > +#ifndef CONFIG_UBSAN_TRAP
+> >  static const char * const type_check_kinds[] = {
+> >  	"load of",
+> >  	"store to",
+> > diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
+> > index 9e35198edbf0..68af6830af0f 100644
+> > --- a/scripts/Makefile.ubsan
+> > +++ b/scripts/Makefile.ubsan
+> > @@ -1,5 +1,8 @@
+> >  # SPDX-License-Identifier: GPL-2.0
+> >  
+> > +#Shared with KVM/arm64
+> 
+> Nitpick: Please add a space between "#" and "Shared", and end the line
+> with "."
+
+I will fix it in v2.
+
+> 
+> > +export CFLAGS_UBSAN_FOR_TRAP := $(call cc-option,-fsanitize-trap=undefined,-fsanitize-undefined-trap-on-error)
+> > +
+> >  # Enable available and selected UBSAN features.
+> >  ubsan-cflags-$(CONFIG_UBSAN_ALIGNMENT)		+= -fsanitize=alignment
+> >  ubsan-cflags-$(CONFIG_UBSAN_BOUNDS_STRICT)	+= -fsanitize=bounds-strict
+> > @@ -10,7 +13,7 @@ ubsan-cflags-$(CONFIG_UBSAN_DIV_ZERO)		+= -fsanitize=integer-divide-by-zero
+> >  ubsan-cflags-$(CONFIG_UBSAN_UNREACHABLE)	+= -fsanitize=unreachable
+> >  ubsan-cflags-$(CONFIG_UBSAN_BOOL)		+= -fsanitize=bool
+> >  ubsan-cflags-$(CONFIG_UBSAN_ENUM)		+= -fsanitize=enum
+> > -ubsan-cflags-$(CONFIG_UBSAN_TRAP)		+= $(call cc-option,-fsanitize-trap=undefined,-fsanitize-undefined-trap-on-error)
+> > +ubsan-cflags-$(CONFIG_UBSAN_TRAP)		+= $(CFLAGS_UBSAN_FOR_TRAP)
+> 
+> Another minor style request: please name this "CFLAGS_UBSAN_TRAP"
+> (nothing else in Kconfig uses "FOR" like this, and leaving it off sounds
+> more declarative).
+I will fix it also in v2.
+
+> 
+> >  
+> >  export CFLAGS_UBSAN := $(ubsan-cflags-y)
+> 
+> Otherwise, yes, looks good.
+> 
+> -- 
+> Kees Cook
+
+Thanks,
+Mostafa
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/4f7d9d27-49e0-4c27-8f24-0428671ec6d6%40paulmck-laptop.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aAvG0br0XT9BFZ6S%40google.com.
