@@ -1,122 +1,123 @@
 Return-Path: <kasan-dev+bncBCD353VB3ABBBO5AYHAAMGQE4BME3XI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13f.google.com (mail-il1-x13f.google.com [IPv6:2607:f8b0:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 691D9AA0114
-	for <lists+kasan-dev@lfdr.de>; Tue, 29 Apr 2025 06:06:21 +0200 (CEST)
-Received: by mail-il1-x13f.google.com with SMTP id e9e14a558f8ab-3d94fe1037csf28040995ab.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 28 Apr 2025 21:06:21 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1745899580; cv=pass;
+Received: from mail-qv1-xf40.google.com (mail-qv1-xf40.google.com [IPv6:2607:f8b0:4864:20::f40])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2122AA0113
+	for <lists+kasan-dev@lfdr.de>; Tue, 29 Apr 2025 06:06:20 +0200 (CEST)
+Received: by mail-qv1-xf40.google.com with SMTP id 6a1803df08f44-6ead629f6c6sf88086266d6.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 28 Apr 2025 21:06:20 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1745899579; cv=pass;
         d=google.com; s=arc-20240605;
-        b=L5Hv/l/wjiR2oVOep20YqA6J0t3WvqhOAEzYSfrP2AAfkuzV6DAm9ZjBpWXCS0mHoq
-         mieF31DQEG+2uXr10s82y7AUrYYHCSMptLxEQjh6Z7MuztFFq/ABR1e5L1EJSQC5R8Wd
-         FCyFn7pUYKTUd2Mjo4rjQ8xKE/teoRha/MYa3eFyF/AaywoKzm3SwrPvXMotGZyartlT
-         lzmJpxV9TMOyPUfycMlM8LqGst56k0WgytHouBoGVt3WLfd9C2AFTksYoXu8H5OhUVWE
-         S4Jo6aKeWU81XDLmpitDrRUMbadUesv67pDsp+VjFwwsgs2aBvhZ6brKPibrE7QGsWfp
-         soIA==
+        b=Mj9KEx7bDciblYKDQH+BzaHB1NFPBpzlQ7rHzCrUK6WkwBEny5TOkAsmTeEYJQ8v74
+         qSdRmUOcGZ/2vFmGlMdi3N54SOEB0CCflFTcU3KJQvMZTLE4NeG5rlLFYvRq3TEbP7+D
+         HDSfkfqy+/4EmhapiEqRt1EvwnNSm6ZrkLJ0OTKjO9NO7dd1nfAdOssCmy81K8k+IngV
+         ep2F6dl/hbZX+fR899DjnMf4gV1OOHjw1gA9ROehcYRewAl7BFlm5eIOZp7rooVr4Evn
+         IL0wrAjN1t885hFKcaOqBN7KFBIMSjIQspbOESD6HBWrA/4EHK3jKOscADo8rjX4FQ3A
+         oOiw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:in-reply-to
          :references:message-id:mime-version:subject:date:from:dkim-signature;
-        bh=zMq36nsr7SsqCsUnShXE6Ae36iK47jXUjp9CEIe9jg4=;
-        fh=KKy1EyY5VPskwsbARIlWNxtT2owUMYeH9E/h0RcK+6A=;
-        b=cw3P+6Qvs45Jhrypj4SSR11zSge/kQkDHxzHhOc8QVgOg9a1iRP2tEPZh1LuVBCehu
-         CnPYUpbEdz/rq8RfhetlB+8HbBPRQnUsC2tTVslUHWjDIwoZ9ByyEoh+lDjtuU0KnkKf
-         c77z3LNo7DSclSkFyMgQcJ57iSIMEj14pavm1ZCEFJRMVZDcfAoLo4RxktoCCvvSlj2E
-         NkC6LToQC3Bxdz0+X6ZQJY6B2RmSzQ93NE9eFYSlayZa0K0Xegen9nJ7J01DR34l15Sj
-         D0xwp0kMEo7aT5mtGH+JV34t5VmTUHzSV75P68Mx58tJqW4Bs9NpOGLunNVQr/uyTCkV
-         VLJg==;
+        bh=LtzwdhezaksYZuB3JSJNGDV3J4H5ePkTO/riXnnxgjY=;
+        fh=4wZ5nIzyJEVtzqF2LqpD1FoSjGCdI6CfE7/irkfsRkw=;
+        b=Fw7gzgT9ze6A5OC0andx5+blYq/zSrE5yMksZgFGFLEPO2r2ieya/OT01shbXXVERF
+         gfthTAWap+0AD7wP0A+ke8VTuBy8Wpk1bekvSPSq79aq+HWQnmMzjxbfxISyjNX+xaZv
+         M5kibEVUb07rmF2mePsBUENqg+zcpqiprezzIsh7St2EfOHB0W6cb/vA/y+EJuHhn4vr
+         HdEDx1AQYLhAqpnGdEA52ca9hxlmNyK6FoWCHRJJmDlj/nscOple8YRwUMI/gaHtbBkR
+         rQZzjydWZ45jhZswNwcvCBYWTUneRuvA8SsJsS4zr78A9QGWQo6AxB4J9TDbI+/adJLg
+         R4/w==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="c0NlFGD/";
-       spf=pass (google.com: domain of devnull+chenlinxuan.uniontech.com@kernel.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=devnull+chenlinxuan.uniontech.com@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=JE0vEjoK;
+       spf=pass (google.com: domain of devnull+chenlinxuan.uniontech.com@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=devnull+chenlinxuan.uniontech.com@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1745899580; x=1746504380; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1745899579; x=1746504379; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:reply-to:cc:to:in-reply-to:references:message-id
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zMq36nsr7SsqCsUnShXE6Ae36iK47jXUjp9CEIe9jg4=;
-        b=wRn2Cqw9fh6J2OfjsDEUmi7UUezr8ps14ETxL1nRXfiopiOyMXLBxeXvhMAF5rmJAC
-         memSAIBoVzbBPjLB1okH7XG6NiNrxRGuL9o/qhAULjvGWHY16p0K+vHhsNLtc8e1/mDY
-         YywRGf8y7Yf6/9psrwJG8cNZwg/Rkj2gOGwrKTksBeENhJ+IXFO1s/YgsSxKUNYdOivO
-         T2A5rRKckv+/YwiV22D8ZnhFAeHva1lm0BTaYNyivm1JXAU7Yz1eh/8CIY8ZRxlpuz5U
-         vNrJg34HDCHthYHSjF1KebqPadDd1j9VCC2IkQ9HcrA2Gy6Qg9Wan9h1M22BDx1cMZkP
-         ysVg==
+        bh=LtzwdhezaksYZuB3JSJNGDV3J4H5ePkTO/riXnnxgjY=;
+        b=elCeZ4USDqzvjrPIbqzegpSFSmgiRl0thauM2dIPxaa13428hYClVnqWi2QnzTJKR9
+         Iu4anoB+hosiZd2ibFHWwUksuPiy3oxMaLxDToSY6T51Sfr64VF3K9uYMhZG1Jnb0Xzs
+         LIor758G7sP0GBtRwS62zigYzqovXuBCUofMvTS/NvuD5pPM4ETXHCuSG6W1kIFGZeSD
+         8EDMIfzCEaViphZf+oCUQV8Y7KiKntMV03faFA3T5WHRfe3zG9ICVxeUq5cIpH8cnf/i
+         QJtoT1HqoM9TIaMNPIFaZLzcln9G0gB1pC6V0vK8VGe7EHC+aFmZGgUWtMB2NaJWqCIi
+         Xmiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745899580; x=1746504380;
+        d=1e100.net; s=20230601; t=1745899579; x=1746504379;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:reply-to:cc:to
          :in-reply-to:references:message-id:mime-version:subject:date:from
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zMq36nsr7SsqCsUnShXE6Ae36iK47jXUjp9CEIe9jg4=;
-        b=Q44hjNIuMuYaOBty79/HdveeoUpk9KBrUkrXLWDqCGmhPxMTTiyOxocp/Du+mMVD1K
-         teESBo70O1W3lKm9o6Ji9x5VD2g359s+n51y9nlWQqnIG9DLXe7koPngWtDkVj8h7T8A
-         7tiXkIPkTlcMe+K2n2GpiqulFzRfB75yX59DuVvjzv3QYtnFnkT6A/87FHUIAQZ/ksrT
-         jtNV279R8tBCEITCcboiG1JvtnwtCOrqxIkm0oRWHMYh490Shc+cPRKLwizi8JqiakvJ
-         JxozWEsyelfMWzLYTL1BICocVV7lS1n93gliVA+6sKAY5TdZ/xnlB8nYyxVEMdV8IBNK
-         BJ3g==
-X-Forwarded-Encrypted: i=2; AJvYcCWZ13fcxJAGE/B9GgKEIiumMAlgIQJTgS9I3bmxZ5HYAS4aj6/739DEte39UDGI4a+dKoHYZQ==@lfdr.de
-X-Gm-Message-State: AOJu0Yw4SsnhkDqpCHtDFYJxjt0vd/RByiR49tRMLmdqKOqVeCQjvZTL
-	Z5LZFcZfgNx0JBV5doAyPNZ0Ljbzyy0bRPQSt308hp0XIqs+mF0E
-X-Google-Smtp-Source: AGHT+IHOs2viECXD9IERR2tSTbBUU5nej+U1xiihvkmuDTcvsz7df4ufJLZkk/poPIDnpDno2qMTkQ==
-X-Received: by 2002:a05:6e02:3cc6:b0:3d6:d3f7:8826 with SMTP id e9e14a558f8ab-3d942e3c3e5mr126120735ab.20.1745899579894;
+        bh=LtzwdhezaksYZuB3JSJNGDV3J4H5ePkTO/riXnnxgjY=;
+        b=SomarOUaNJSZK4r03GucQVvG9M/21rphSbpQ5WK0Xpw5Cnpsi4wn/lPUeQlcttlhJD
+         W+7SBce7DcIjW19iBuRlPObDGfsW9b4SQo9Snc/SIjV2lBkBDFBKhZD8iAhPyrNCLKGi
+         lgxlKyhW8HXwoeTWSMsK554nj0XU8bvekk4X1CqCHGr5zto3f394agxEQ48bWp9YT3eB
+         EBR+KTfXjOHkN9DSq8Vzr6/eNBc4+MF8ex8mr1d/KXHQl6rItsC9S7wDY6oXn7WeaDAR
+         DC+nAI/ErUBAfKehwp6BATxb/a0IcJTFp7UgrBMGYsoKhxvp/1mzPs3F5NDFHZOzQW9e
+         ImNg==
+X-Forwarded-Encrypted: i=2; AJvYcCUWCOyvUIp/Pk4ZjSWRznjnUUM4vXfgft8ft5hYiYvq5O+IWqAU8ZWkVf+VxOEwdQUwiHw5JA==@lfdr.de
+X-Gm-Message-State: AOJu0YzjSGdz+VtF6umfqJ5QhGYaNThf5USevs+94JbolPCkN0C9lY/V
+	enxj/pwayoJPHMtthK8ckI+C06hHWzkkeX0OirXyi3L8V9Gy63b1
+X-Google-Smtp-Source: AGHT+IG4A02pd5Pbyx+RF9VGBOOSpXSCzR6BF6klDaggb3/xQH/5L3RG7PnKkc7HHTsg6viPRH4mUg==
+X-Received: by 2002:a05:6214:5287:b0:6e6:6505:ceb2 with SMTP id 6a1803df08f44-6f4f0613c3dmr46650596d6.36.1745899579266;
         Mon, 28 Apr 2025 21:06:19 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBFfr5ruC7sMCV4AIGmKg2ri20SwuVPgfd3g23JLQZd8+A==
-Received: by 2002:a92:d2cc:0:b0:3d5:e479:cca0 with SMTP id e9e14a558f8ab-3d92eb438bels28457935ab.2.-pod-prod-06-us;
- Mon, 28 Apr 2025 21:06:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXqrUP2KIwoDY62YvlKw3LAu/VylACpJ5dli05lkAPURhq+2YsXp7kscU4/w6Wtui62aXI1K7y3+dY=@googlegroups.com
-X-Received: by 2002:a05:6602:2b8a:b0:85b:4ad2:16ef with SMTP id ca18e2360f4ac-86467fac251mr1166070939f.9.1745899579252;
-        Mon, 28 Apr 2025 21:06:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1745899579; cv=none;
+X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBFRuwYPqoFwx3Zg0U0HLY5NGUaZpA1xCUcwy+7yE9CAnw==
+Received: by 2002:a0c:cdc5:0:b0:6e8:f47a:25ef with SMTP id 6a1803df08f44-6f4be49bd28ls67315116d6.2.-pod-prod-07-us;
+ Mon, 28 Apr 2025 21:06:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUZ9fqOxBkFMSaansk73RqrK9NoSctwf0dcs5NP+eoEfNlBpXUa/09xrx19pY9Imk5v30jSUNVh/Pw=@googlegroups.com
+X-Received: by 2002:a05:6214:1cc9:b0:6e8:9a55:8259 with SMTP id 6a1803df08f44-6f4f052eadamr32893426d6.9.1745899578381;
+        Mon, 28 Apr 2025 21:06:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1745899578; cv=none;
         d=google.com; s=arc-20240605;
-        b=CLm2/z308J5Qu85CVsBCJ7DboHjOAlnznPRpqa382w/6sYG2qY7Bxby5+lCyyk/Ycz
-         Miss6kajH13NnEfHcRCBgjUXNLEmrG7yrTkA/jqJs37zCEiZf3Bq35b63mg3Bej/F2AM
-         xA6h+2YU7gSv7d2nlYY0zjy8Ow3/tWr2znE9oqH+WPJ2vUBlhi/J7gnMNJzXRpLKwXMz
-         rF8lR7NLHKTBXnup3dr6E7WI5IE9RG9U7NXw5DuSYQCx2WsUtcdG/ugZNQfPksPpiKfg
-         QHpS6TTXXF3CJmwzcHnZ5IHk61zBzqlBJitAm9dGzg0bzyawMGXVt+o99X3HkZ5PnjnM
-         OFUw==
+        b=Xs/YBNWVHHekdVyLAtEFdag8dLunTXI035Jpk54O7R2/sLF8+M2gWqf3soYiw4S3Gw
+         GBqoNsaPysP/WlBmcFP6wxemtbBJMk5hEUQhX9CJBf0LvuevcRzP5ayTZOxHkYk1ysIk
+         Lx7SrF3bDDnE8uyxvFF3n6vGZvP9YOslL6kOCRKIDwSp1W3cuBDX5XoT24Pvy48Mor18
+         Az2x7bk8o64Abkyo51j8kNNUbp3z/1xSq2GsmLIdM1tPGYtWakIxLh9OX8s/5ExZU8NH
+         WgS0VOntJ4n1BeaEUbZtOWmD50crXEEpikD5U54GgCeiV7E8kEVYS5VS7AaaUe33LElx
+         gHQg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=reply-to:cc:to:in-reply-to:references:message-id
          :content-transfer-encoding:mime-version:subject:date:from
          :dkim-signature;
-        bh=g7sk4q6Sp0j7WMJWmbDXr1gH90ymfRktmXXkTzZ9J5o=;
+        bh=wdxfb83sz64pVXY/N1P48YSO3Ovk6I4U3rA1Q3+Ucd8=;
         fh=/bs3vO5UrVqo8T78tIeeq6rdQWrwj5Jc7+dDXJAvsfQ=;
-        b=fIZPmgiRGTFEmPqKoY1U4C0lZCih/16ECIqT8xe9/6kFVbOPfF/uDvmw3IVHiXVcvu
-         ogg1ShCZzOhzTEUfoLlgDDHPYAatUBVCB/h8sI8aP1SP2FbXQR67hz4pa059iPu0hGYC
-         oeohWSlmK/Gi08Hw0RFdoUVNBLQASjWfNxRq7agmaL0b14/5Fe7MmgasK1hORuMnvH/w
-         MEJdaBmlcZGpV/KQcC0OiNB2YY80qzEfPwsN5qZ9VS441RY3EcPb02/b06tewH5uyQ3B
-         8TbU3941MRS3E5RN4EmacSZ2smDsVhvJxQcXmw4H6RmATFiWJa5/wjYrFCdrrb2wOC1t
-         A9Tg==;
+        b=NcX/tq4UXCK4rBxF8SlO5tzCkYFKWOxCXU7b/7uvlIMFhufFTDHc3d3afyc2bstLh8
+         oXVAgO6ED0GXbEG0FHKspdd1yhOmiKD9taJsptdnvXsNJyw+8jP47uEV7oJCfoI1UR6x
+         6thTJNH2v3HH6BHWjk6x5lCmlKNjffHpus5iz5OkZu2FTfGBhZOJU80K5LcpyIcDyZbo
+         xHASQcLPtDTG2K/mmfSFYwxQaYmfT7YBpMuOssDeXe9koIzKDyqeVJGGJo2ERibVvZ0q
+         XypLo7dzCzCVrZzQjo37QBrlQz8pCJ//xRMU7+P2KxL88lZAG+NGIMrjjS+GIrm+6ztm
+         /3jA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="c0NlFGD/";
-       spf=pass (google.com: domain of devnull+chenlinxuan.uniontech.com@kernel.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=devnull+chenlinxuan.uniontech.com@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=JE0vEjoK;
+       spf=pass (google.com: domain of devnull+chenlinxuan.uniontech.com@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=devnull+chenlinxuan.uniontech.com@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from sea.source.kernel.org (sea.source.kernel.org. [172.234.252.31])
-        by gmr-mx.google.com with ESMTPS id ca18e2360f4ac-8648c087b3esi2157239f.4.2025.04.28.21.06.19
+Received: from nyc.source.kernel.org (nyc.source.kernel.org. [147.75.193.91])
+        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-6f4c07a0021si5224086d6.0.2025.04.28.21.06.18
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Apr 2025 21:06:19 -0700 (PDT)
-Received-SPF: pass (google.com: domain of devnull+chenlinxuan.uniontech.com@kernel.org designates 172.234.252.31 as permitted sender) client-ip=172.234.252.31;
+        Mon, 28 Apr 2025 21:06:18 -0700 (PDT)
+Received-SPF: pass (google.com: domain of devnull+chenlinxuan.uniontech.com@kernel.org designates 147.75.193.91 as permitted sender) client-ip=147.75.193.91;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 637724A2F1;
-	Tue, 29 Apr 2025 04:06:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 469C7C4CEF3;
+	by nyc.source.kernel.org (Postfix) with ESMTP id CDFCCA4BB08;
+	Tue, 29 Apr 2025 04:00:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 58FE1C4CEFF;
 	Tue, 29 Apr 2025 04:06:17 +0000 (UTC)
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A16FC369CB;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C8CFC3ABA8;
 	Tue, 29 Apr 2025 04:06:17 +0000 (UTC)
 From: "'Chen Linxuan via B4 Relay' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 29 Apr 2025 12:06:11 +0800
-Subject: [PATCH RFC v3 7/8] x86/xen: add __init for xen_pgd_walk
+Date: Tue, 29 Apr 2025 12:06:12 +0800
+Subject: [PATCH RFC v3 8/8] lib/Kconfig.debug: introduce
+ CONFIG_NO_AUTO_INLINE
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Message-Id: <20250429-noautoinline-v3-7-4c49f28ea5b5@uniontech.com>
+Message-Id: <20250429-noautoinline-v3-8-4c49f28ea5b5@uniontech.com>
 References: <20250429-noautoinline-v3-0-4c49f28ea5b5@uniontech.com>
 In-Reply-To: <20250429-noautoinline-v3-0-4c49f28ea5b5@uniontech.com>
 To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
@@ -152,21 +153,21 @@ Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  Chen Linxuan <chenlinxuan@uniontech.com>, 
  Changbin Du <changbin.du@intel.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1213;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4279;
  i=chenlinxuan@uniontech.com; h=from:subject:message-id;
- bh=lLv+eC36iR+BfXD2pJvuB8T7k1wRLfuYuYg6Rtr4yeI=;
- b=owEBbQKS/ZANAwAKAXYe5hQ5ma6LAcsmYgBoEFA0cu56sCmDMkf/pntxUHuMuekP/XRkxukwU
- 9g4TyNMqLaJAjMEAAEKAB0WIQTO1VElAk6xdvy0ZVp2HuYUOZmuiwUCaBBQNAAKCRB2HuYUOZmu
- i6oqEACNTdOu+wT9VWzDqaJxYPJzTDzhyaDgOrIaxGP72CExKq84a645B1Jl3TWZN1v4YEQN+Ex
- U4BBfSuuQ9Yh0TKak7F0oJPgeJp4PeTVBP15tbocmZJmYUHXdJX5kcB6+MgIe90/7/tlKRXQlN5
- uY8GMIazOdRrWgafA6k6G+0lJvn3E3R5v7129rFXvHWCYC7Nvp2Vr8gyxE2IYJVHEfZx/+ua0oe
- z4a0WQgFS0t6W9PacgGnUTntuj/TGKVYb500Jwut0dBDJITdWXpackuvyCzviwumgxcGnbW66J/
- sPOW9GIhrql6r3JIF1vU1iTJ1wxWyv8Al2Yy2Y7j9ypL0F07+xTB5euDs2A9h8HHd2x+0MwnqRD
- 4T62VOpuvuHAy1CMHBv75g1GHhwTGMN1KwfuI0Pf0TXrf9JM01deVHQ7vjI5kZhyeYMl537pJVJ
- 0itemi/gfnvcGViZ8usYXjp9yKtWO3JsSCn31sNT7BwsAtjyIUQl+DeQyQADc9wUchfIkTRw2AT
- nXmGd9l2kspY+Bd3KtnokiL1Gm1q49EmDFnwJw+FvsjxRdcZ56x9pI1MXcoOzCJNGSxYn35Witw
- vt49LNms8G/08qnrm3qBl6k+q0+gMBVS+JCmJst68knEU97MDg5chkLEEiEkEAzZLrlhGHN4eU8
- gFY2uFKRqDDEdqA==
+ bh=Bd93x7WuEFeV0iOsS3dMjqDGQS+n9awf6aimsKD9UOk=;
+ b=owEBbQKS/ZANAwAKAXYe5hQ5ma6LAcsmYgBoEFA1dN0rUHGv15CSgUAacYmKqLp9Xxxon6yon
+ c7TiGmprM+JAjMEAAEKAB0WIQTO1VElAk6xdvy0ZVp2HuYUOZmuiwUCaBBQNQAKCRB2HuYUOZmu
+ i55nD/9Z3vTJGmV0EjUhmeI4qXKmcdAMAq1X/bMvCKKqJb8nDqxr3XzOsrgtlGbWtGbSRpAcMRC
+ kIBZwz/EFrXdSky2mgTEfswE2JzuHKo+Mt434POfvbTmTZzfhinHk2rveNLn14K6QQxOZNTHzoq
+ DY3XtiBsr5/6XiSk58sFs0UB2do+v1RDxbRgPVRbwakBRf2EpGtYK+ZkSVPourJzkqG7PrIvHKY
+ FyKSLRcxh2ehQ+zdjfMyhxbXKMW3rLF6KyReLohSbuPnAZH9vBG07d85cT+hlqayZ2VFrTJWayX
+ ogvHBmQbs0jd6kEOOcqxulI9+HLWeFHpLWXkscXCbtKYFnN3of88CFc5dM1NBfTsa2bE/5c69eS
+ TXaS9CEvSaJLZP2bguKxeYXuKMcX7aCIEmkb5ywt+zXQ2sBHHXVo62B2vH+ZEPTvJ0JBvREoDHA
+ Z07bh3e0yi+U/gCk96uDLgnOmSkQUjen6r/WDp03CqP8r46lIU2aWAN8mPN0/bL6Leb+yx3Y5Gf
+ MfHerWdPEqYeBh6stf8GRI22HdoAjnaigM4iGlYaLrvgjiuVjR2tHFFGtnPEviP7O+74W7AnPTn
+ n9vHmKNe5H9AurNLXL/K7j5eRYSPpaBVROMuUUngVLHw7qljfnSQMwRNYonB6pGCO3WTd5AnIHj
+ tq2/DJ+5MgngDcg==
 X-Developer-Key: i=chenlinxuan@uniontech.com; a=openpgp;
  fpr=D818ACDD385CAE92D4BAC01A6269794D24791D21
 X-Endpoint-Received: by B4 Relay for chenlinxuan@uniontech.com/default with
@@ -175,9 +176,9 @@ X-Original-From: Chen Linxuan <chenlinxuan@uniontech.com>
 Reply-To: chenlinxuan@uniontech.com
 X-Original-Sender: devnull@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b="c0NlFGD/";       spf=pass
+ header.i=@kernel.org header.s=k20201202 header.b=JE0vEjoK;       spf=pass
  (google.com: domain of devnull+chenlinxuan.uniontech.com@kernel.org
- designates 172.234.252.31 as permitted sender) smtp.mailfrom=devnull+chenlinxuan.uniontech.com@kernel.org;
+ designates 147.75.193.91 as permitted sender) smtp.mailfrom=devnull+chenlinxuan.uniontech.com@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 X-Original-From: Chen Linxuan via B4 Relay <devnull+chenlinxuan.uniontech.com@kernel.org>
 Precedence: list
@@ -194,36 +195,108 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Chen Linxuan <chenlinxuan@uniontech.com>
 
-Presume that kernel is compiled for x86_64 with gcc version 13.3.0:
+Add a new kernel hacking option CONFIG_NO_AUTO_INLINE that prevents the
+compiler from auto-inlining functions not explicitly marked with the
+'inline' keyword.
 
-  make allmodconfig
-  make KCFLAGS="-fno-inline-small-functions -fno-inline-functions-called-once"
+This enhancement improves function tracer capabilities as it can only
+trace functions that haven't been inlined by the compiler.
 
-This results a modpost warning:
+Previous discussions:
 
-  WARNING: modpost: vmlinux: section mismatch in reference: xen_pgd_walk+0x42 (section: .text) -> xen_mark_pinned (section: .init.text)
+Link: https://lore.kernel.org/all/20181028130945.23581-3-changbin.du@gmail.com/
 
-As xen_pgd_walk is only referenced in xen_after_bootmem(void) which is
-also in .init.text, I add __init for xen_pgd_walk to fix this issue.
+This patch is modified from commit 917fad29febd ("kernel hacking: add a
+config option to disable compiler auto-inlining") which can be founded
+in linux-next-history:
 
+Link: https://web.git.kernel.org/pub/scm/linux/kernel/git/next/linux-next-history.git/commit/?id=917fad29febd
+
+Cc: Changbin Du <changbin.du@gmail.com>
+Co-developed-by: Winston Wen <wentao@uniontech.com>
+Signed-off-by: Winston Wen <wentao@uniontech.com>
 Signed-off-by: Chen Linxuan <chenlinxuan@uniontech.com>
 ---
- arch/x86/xen/mmu_pv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Makefile          | 16 ++++++++++++++++
+ lib/Kconfig.debug | 21 +++++++++++++++++++++
+ lib/Makefile      |  3 +++
+ 3 files changed, 40 insertions(+)
 
-diff --git a/arch/x86/xen/mmu_pv.c b/arch/x86/xen/mmu_pv.c
-index 38971c6dcd4b78b6b14f51bc69c4bf6b70ebd622..53650888be0a7b1dba170a5b7ba9c654244b5125 100644
---- a/arch/x86/xen/mmu_pv.c
-+++ b/arch/x86/xen/mmu_pv.c
-@@ -696,7 +696,7 @@ static void __xen_pgd_walk(struct mm_struct *mm, pgd_t *pgd,
- 	(*func)(mm, virt_to_page(pgd), PT_PGD);
- }
+diff --git a/Makefile b/Makefile
+index 5aa9ee52a765b7aed27f44028cdcc34a90979acb..60dec6c123543150a3332a9a819fa6933e94db4f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1073,6 +1073,22 @@ endif
+ # Ensure compilers do not transform certain loops into calls to wcslen()
+ KBUILD_CFLAGS += -fno-builtin-wcslen
  
--static void xen_pgd_walk(struct mm_struct *mm,
-+static void __init xen_pgd_walk(struct mm_struct *mm,
- 			 void (*func)(struct mm_struct *mm, struct page *,
- 				      enum pt_level),
- 			 unsigned long limit)
++ifdef CONFIG_NO_AUTO_INLINE
++# -fno-inline-functions behaves differently between gcc and clang.
++# With gcc, it prevents auto-inlining of functions but still considers functions
++# explicitly marked with "inline" for inlining. However, with clang, the flag
++# prevents inlining of all functions, including those explicitly marked with
++# inline. Clang provides the "-finline-hint-functions" option, which
++# specifically allows inlining of functions marked with "inline".
++#
++# In summary, to achieve equivalent behavior across compilers:
++# -fno-inline-functions (gcc) = -fno-inline-functions + -finline-hint-functions (clang)
++KBUILD_CFLAGS   += -fno-inline-functions \
++		   $(call cc-option, -finline-hint-functions) \
++		   $(call cc-option, -fno-inline-small-functions) \
++		   $(call cc-option, -fno-inline-functions-called-once)
++endif
++
+ # change __FILE__ to the relative path to the source directory
+ ifdef building_out_of_srctree
+ KBUILD_CPPFLAGS += $(call cc-option,-ffile-prefix-map=$(srcroot)/=)
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index f9051ab610d54358b21d61c141b737bb345b4cee..56530f0145c885e9846dae1d2f8c6125c610d25b 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -436,8 +436,29 @@ config GDB_SCRIPTS
+ 	  instance. See Documentation/process/debugging/gdb-kernel-debugging.rst
+ 	  for further details.
+ 
++
+ endif # DEBUG_INFO
+ 
++config NO_AUTO_INLINE
++	bool "Disable compiler auto-inline optimizations (EXPERIMENTAL)"
++	default n
++	help
++	  This will prevent the compiler from optimizing the kernel by
++	  auto-inlining functions not marked with the inline keyword.
++	  With this option, only functions explicitly marked with
++	  "inline" will be inlined. This will allow the function tracer
++	  to trace more functions because it only traces functions that
++	  the compiler has not inlined.
++
++	  Note that Clang with -O2 optimization does not fully support
++	  disabling all inline-related optimizations,
++	  as Clang does not support options like
++	  -fno-inline-small-functions and -fno-inline-functions-called-once
++	  that gcc does.
++	  Some functions without the inline keyword may still be inlined.
++
++	  If unsure, select N.
++
+ config FRAME_WARN
+ 	int "Warn for stack frames larger than"
+ 	range 0 8192
+diff --git a/lib/Makefile b/lib/Makefile
+index f07b24ce1b3f8db28796e461db1324d97133fdd5..2ac97f0856a12f66e6c3825af6aabafa61869262 100644
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -87,6 +87,9 @@ obj-$(CONFIG_TEST_BITMAP) += test_bitmap.o
+ ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_KASAN),yy)
+ # FIXME: Clang breaks test_bitmap_const_eval when KASAN and GCOV are enabled
+ GCOV_PROFILE_test_bitmap.o := n
++# FIXME:
++# Clang breaks test_bitmap_const_eval when NO_AUTO_INLINE and KASAN are enabled
++CFLAGS_test_bitmap.o += -finline-functions
+ endif
+ 
+ obj-$(CONFIG_TEST_UUID) += test_uuid.o
 
 -- 
 2.43.0
@@ -232,4 +305,4 @@ index 38971c6dcd4b78b6b14f51bc69c4bf6b70ebd622..53650888be0a7b1dba170a5b7ba9c654
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250429-noautoinline-v3-7-4c49f28ea5b5%40uniontech.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250429-noautoinline-v3-8-4c49f28ea5b5%40uniontech.com.
