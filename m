@@ -1,35 +1,35 @@
-Return-Path: <kasan-dev+bncBCD353VB3ABBBOVAYHAAMGQET2Y2CQQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCD353VB3ABBBO5AYHAAMGQE4BME3XI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23d.google.com (mail-oi1-x23d.google.com [IPv6:2607:f8b0:4864:20::23d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8668BAA0111
+Received: from mail-qv1-xf3b.google.com (mail-qv1-xf3b.google.com [IPv6:2607:f8b0:4864:20::f3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD1B7AA0112
 	for <lists+kasan-dev@lfdr.de>; Tue, 29 Apr 2025 06:06:20 +0200 (CEST)
-Received: by mail-oi1-x23d.google.com with SMTP id 5614622812f47-401c6c3a66esf1845868b6e.1
+Received: by mail-qv1-xf3b.google.com with SMTP id 6a1803df08f44-6e8f184b916sf132032106d6.3
         for <lists+kasan-dev@lfdr.de>; Mon, 28 Apr 2025 21:06:20 -0700 (PDT)
 ARC-Seal: i=2; a=rsa-sha256; t=1745899579; cv=pass;
         d=google.com; s=arc-20240605;
-        b=fFmkSPiuU4Y2vGN5WLe01HC3ZELrgH7W2ZsE2w/yyv50Cuk1GODkempjZ6WhpSHlCn
-         ZllpuZpm2cdfM7dDXxOBkhntSsR4IoCFubGOOMLdVudQdLhpddkMmn8QrS/CDlKRFMec
-         JPLyDwePAZLMtpiooy4idTCRNC3T1Djy0YzKkRDUhk1v9fcjVy+DoiyVKlz/G3jk9Df8
-         10GWrId50IXJnkKfXggqpOD/JnQAYAjABbbKf+5l8HXcDbyVbaUJgc8sthfEOMPSrdjU
-         u9UT8SROjrw1oMmrhokfWsh4+SlAOe2J+8XYN8pOqDh2iMNxi8c0KNvh7BT6AHH1/8e/
-         6QdA==
+        b=IeA8485waYnf0PoxJUCU6mGLyTqCwewXMVi+zmvvEZAafmbMWFlsBGaWQAfzO36OlY
+         Oc+O7hYW8W0d7a4Irgxkl7WwA0EnSIs8Reb0d1l3yk+kI49rF8mJudURhbYDPWuEVzl7
+         ngMo3jC14dT8+eNKwS2rEKnHsT+6C56ptUVBvkfKUAW2qdO1jaH6eDhubpLdLo/4pEIs
+         c2a4I4oVBxgbr3T5I7XBf+f4VLRzt3BV0/m0d8BJY/Mwn6CZRgRqfZRq0k/w3ltDOxeb
+         BINjbjmtJi+IuedPtPNNaELGWMy2cgC3BLeF2kQXemy4Y1pnYkXQK9c4qMdSNPE78/z4
+         jUBA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:in-reply-to
          :references:message-id:mime-version:subject:date:from:dkim-signature;
-        bh=r1Rtsce1uCAod1pkasf2YUzxlrbGy6ZGd+be8FDQvSc=;
-        fh=XKTyub4Q47J5TmVq3SOROLJEPXX4kW13lyWx0QHav+I=;
-        b=KN9gTBoLi/87xsuoQB5mMO59XPjkRY2LQ4PieV6wyEEJbx6y9rFl+/IIEt6iokf2WK
-         ENEsgZ1DXo/Dha9uSIXWoqnrhz7boUWoJyltBV3M7uhP+vElZ1rS82z9MnpRzpX9DF+v
-         5Lb6He5a7jcBwHZRkONlqBRLS8fxTmPRBaG8Zw8o4hNHvOHbqeMOjBbuSzmn55M6I3Dh
-         ZoxN8ABBaHf7zKgaKzLvVG9UT8s9YTe5xydKcL33C6wXjZxPkjHaoyyA/ynME0vYuh2J
-         CQQInCHZwgFkvHrxTfQegnmffSICNGRuLs0Kss8PwkipHBZLzNC34w3ISfhTOdA/C+D9
-         Eu1w==;
+        bh=BL7ghzOvTf6Vpp+vF9M3cdR6G3btCUohYFnib6kW5uo=;
+        fh=Jx8HgBiJvLTRE93Jph00KFjey9ahuFnQ+gIyh/pcOxE=;
+        b=eAAB77sAylemGOUU7DBZ7Ra43G8620LZP5y5HSnSZyHfCvocqhG7BoRGCi8OtSVUNB
+         1GgqcasynlT/NnS63kZc0EiIRiREU8TMxYeL5FTibQLrk7k9EeC8GG9hpmUaMyhJRDwh
+         9EJy+koORoFcF+iGMLnwliIklQX6DLWg8w6bMR8I7uyMn2fseJEO+EpS+NJ3rqcdpA5B
+         Kbt1y/iLYD10kabN9KiC8dj7kqs8bCZmOzCRMjxG48QLlb4xdQyk7XPRHs+YbszMWUOf
+         yFypaJK8viSFM6FZmRmeC3pwSGFHG1FyIoMHc2aKJnCtld1Je+w4cG+5cMQ9MOMXbNaJ
+         wSCA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=umnHgPjx;
-       spf=pass (google.com: domain of devnull+chenlinxuan.uniontech.com@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=devnull+chenlinxuan.uniontech.com@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=FyUVqYls;
+       spf=pass (google.com: domain of devnull+chenlinxuan.uniontech.com@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) smtp.mailfrom=devnull+chenlinxuan.uniontech.com@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20230601; t=1745899579; x=1746504379; darn=lfdr.de;
@@ -38,13 +38,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:reply-to:cc:to:in-reply-to:references:message-id
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=r1Rtsce1uCAod1pkasf2YUzxlrbGy6ZGd+be8FDQvSc=;
-        b=FlyYnuPVhX1JN98rmkBSnNfk6efsSulSAsxWj5YchYEZ6sbKec03WlD9iFhAKQegRw
-         JpyhzUUml4PU2xiJrt7jv2dsgcHLFTCPtWXJMgaY8LVlf0v6qrrDPYE2Z4WfJYaAlf3a
-         a78+Rtcee4ApGqj43iCkaN7o5xVkOJtmqb6pL/gDQQI7CK2vw8Fiz68J3/WWERzmQINO
-         jCsfgPbOMdr1yNERdeujfZZ4f9EnEQJ4SyXZjd5rwYlNg3hgwPlhScg3ZQHWKO33nel3
-         t+d1BOpLR7MXQ6SynKvT88tqatXCNvmx7xmAkm2DIxCs+98CIMqLVW4CjRVDW6bToZbL
-         Bqbg==
+        bh=BL7ghzOvTf6Vpp+vF9M3cdR6G3btCUohYFnib6kW5uo=;
+        b=pETunqISZgNAH4ZRpLlSwzWyaCWS7GoMncfScabEaWH+xqmMnwtuwA6CtgcTXmyTlN
+         RwxWV9xY2nc2Cl2vRAkdO5XrKMsA1iQ3a2giRbEjZgFRaa5eBaxcTO0iHxXMPd5HJQiE
+         KrAROGYdCScQOsJMISbj0KY5KnPuFdjBKrGbWctCUL45SX6VSVQKEo5wuNDv4FLNCnPK
+         6egLYJ4PgOrNtUU9zMzle0neP5muQvLsm/LNfCsBpqaJZoYap7c5TMVUKYMrPcIGEDpR
+         Wc0F5HCCD6rVQD+PaOdwJXpagESBIhf9rh8lCCdKYKA91jRGLXvQ1o5594zq/1lysevz
+         qL6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1745899579; x=1746504379;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -53,72 +53,71 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :in-reply-to:references:message-id:mime-version:subject:date:from
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=r1Rtsce1uCAod1pkasf2YUzxlrbGy6ZGd+be8FDQvSc=;
-        b=rd7WEjxbcJyoYs2mweCC7Xk1dtlUtMyOpTOgv4TrSEBb+TNljBoAaGykNWgG3mfgyS
-         aonVPxVDGMK/hRU7BsNxPmd3lT9mPW+ljFuVaQxUjd7Z6nPAfPK/iCxKtMQ0zTzQi9Ry
-         Vo+OrYQolZKl7UfNYF+utiDZayI9rUTiffznEUHbiDykm7m3Nfiw2qbVv8Nl+asJIWmQ
-         kqiQYBYvxIvPsk26yjNFZnJ3Eq6zjB0QryHuO4qU99+guBySAmLNJKqKDzopt12oRC5S
-         tXbh8BgSSOZKhV9wq9qjMfsxaSpu+T2Na6fsQzbAFhqqxXc7WzFf4pwilc1n3S5KSZRY
-         iHzw==
-X-Forwarded-Encrypted: i=2; AJvYcCUAUqjABu2q4+QJS7frBap/VRn3Fpl3K/1w1FPUmHro1AASbohSQ1Qz1OY+4mgsDBuAPT5yXw==@lfdr.de
-X-Gm-Message-State: AOJu0YyGhY6SZcRSvEpUZ2MAztOgMu2+R/x8eu/WPMnuLl/8KMIYOMds
-	ewLiwi7Y5SJPOMHKXhbr/JD6fLZTrW39nWejcgdnYKoNauubpZ6z
-X-Google-Smtp-Source: AGHT+IFg0bUV2wId5BRmHBnvH644fWSjAY8U2hk1wZtcMWQtnq6KguMaF9rJIrisew72+ffrDBfYkw==
-X-Received: by 2002:a05:6808:80a9:b0:3f6:7cbe:32a0 with SMTP id 5614622812f47-4021154cea3mr884615b6e.4.1745899579039;
+        bh=BL7ghzOvTf6Vpp+vF9M3cdR6G3btCUohYFnib6kW5uo=;
+        b=nLXlv7xldjF3TxjQB4a9PaPGKzCWwg8qkGPY5dS2a8DY+nArxY7V+3Gr8D172MiD5w
+         ln2FRMP7kNRdaRMbt7/e2ozzJLm9TAqq5X7Wtd6RjGtTxBPabM+QAWFeb1LnYglPyOyK
+         YucbahpJulX0HoNP01or6D/g9MnPPmjj+nj3cmO1oHktvDJpUnaKur5bDcJQq6+fyVwb
+         On1qOzNlNwbKg2U0MW5MInNrtfPkrZPtYOpOoL4JedJy/pFAbXbyjoxI8zstp/rAyx5O
+         N7B0xqxAoxz2g8IlyNtH4OtTL/f/9bsROP9ttVg6kiV/E+J//rNOoLMiMNMsPC51E0OS
+         DiLg==
+X-Forwarded-Encrypted: i=2; AJvYcCXZOET0CZz/a4WYcm5htSjcFZKZJ6U3UOT8kPZaQkmrRLg8zBkLt0Ke80GlpHWCbAGNF5vNqg==@lfdr.de
+X-Gm-Message-State: AOJu0Yx7JpVRrXPv3FcXEq1SYsOUC6eTOgDafHsH/nsj9DKbgcOvolWf
+	8ocFe35NovZHrwAc8LpZeY2BHUiGg3lqBo4JL9zfkndiBPjZ4V/T
+X-Google-Smtp-Source: AGHT+IHFL0WeBAp6xGK/e8AC1zy7mmBPQxxjbW15Y1yMbGR7gY24PiSp0iwbLhIRA3Uy/ZP9cQ6umA==
+X-Received: by 2002:a05:6214:1d26:b0:6f2:d25e:8cfc with SMTP id 6a1803df08f44-6f4d1eee1fdmr169951526d6.9.1745899579342;
         Mon, 28 Apr 2025 21:06:19 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBFB2xqbJb5QJ5MxfcbzqOaBGurWv6GK0oMXzctyygCb4A==
-Received: by 2002:a05:6871:8eaf:b0:2b8:f3e5:a817 with SMTP id
- 586e51a60fabf-2d965d524c3ls1764639fac.2.-pod-prod-02-us; Mon, 28 Apr 2025
- 21:06:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVygdLcGH/iRILF+Jqx0vueBkAOd2x92IGAo5wIuJTE/crwlFtIqPmX0fBv/6pO4mBxLerS4T6YjsA=@googlegroups.com
-X-Received: by 2002:a05:6870:d689:b0:2bc:75aa:aeae with SMTP id 586e51a60fabf-2da48490978mr660622fac.10.1745899577988;
-        Mon, 28 Apr 2025 21:06:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1745899577; cv=none;
+X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBGJEjOkZgNDk5CxVrcbv1G2gtVWTALI3gx5+Zktmog19w==
+Received: by 2002:a0c:fa42:0:b0:6f2:bb36:d3f3 with SMTP id 6a1803df08f44-6f4be2846f2ls55851416d6.1.-pod-prod-06-us;
+ Mon, 28 Apr 2025 21:06:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXP3k1ZYWJexMXZ9kIUrACSHp3Fm3xwUITySXMdHGJy44yzrV5H7gqR9MioxqRDBnfSsKNC6z7x/LI=@googlegroups.com
+X-Received: by 2002:a05:6214:1c48:b0:6e8:ec85:831c with SMTP id 6a1803df08f44-6f4d1f90cc6mr226673936d6.35.1745899578542;
+        Mon, 28 Apr 2025 21:06:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1745899578; cv=none;
         d=google.com; s=arc-20240605;
-        b=b/mC4ANZZL3Cmq4/wblD1EU7TE662H9BM9+8o27DogNqJLb1/9U29tWw0lMQy+F1Ba
-         Ob+N/Og9hnk4wjS/hGvrr14bAuD/Ucw1vKUPK33v3ZFbRtWWcGF6t/CnGyH9eOJ0gYaD
-         pQnDexd2PnbA7zGVGJ80NKzSdeA3dNNkf/p3Oy30ffQtlS/msOQgY2MPfaKhqO9Ut91t
-         32rCBI8ilj76ZxTmLt6xeWPFgeJL+QXdv7E5PY8Rx5upkel06H68nQF1Xk5Ee8OapN/R
-         6KYSi3tl7VwMKEx4uwe/DqqK5AXPr/yvwQTBvxrGkS7IOUWXQVvMhtmaXM1l+lqUKLQ0
-         bQTg==
+        b=A5L5UW/l089g1AoAIfKFe37Gx9mD7aF5T51n1G20CqK2YS/8D23Xb7NanII7wagLZh
+         WgyzguKX5DU8tB1zzhIagNRjOiM1GHfaj/FitLN/foEHtPpOlKFO0O5HpL6csujxD+54
+         4Fng5WdgtITE8/kbj7borcws5WKCkX6XXQr7kUOpkEjAr2dTqkXUhLWiH/AS91XJchIC
+         OE3RKq+CPtpI6fRaYxAXMOgMyoc2ISeae9WU9VFr0Z7sRQ+I4hKmhokjoQPb9IViCGcC
+         Ri9ft1SzY0sViOTkw2EgPkRpBLbTbkNyVDuhtYe5LWDdL35OtJYoay65QuDitu2ZUzGE
+         WUZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=reply-to:cc:to:in-reply-to:references:message-id
          :content-transfer-encoding:mime-version:subject:date:from
          :dkim-signature;
-        bh=xrhMzzLIHTdVCC3mv+/FwPsHGQdx15A5wVwExQY5NgA=;
+        bh=32GUHxOnJ3+ew70SHa0f65jKdkmGy6tQFDGoZR2Kj/Q=;
         fh=/bs3vO5UrVqo8T78tIeeq6rdQWrwj5Jc7+dDXJAvsfQ=;
-        b=E3lEM0rz1V0185gxWmO1OyHmaeMb//vFMybYEYBMGNp5ZjR8H2ZGg9RNSgLX/bDQsB
-         xfqjjuck5yWhpa7IxOf8Z7XnpAC8FA4sTN66ZXJMKFS8yb4AVZC0j81va4CZY1RC0bcI
-         tBAE77Tcy/XxOd2JgusK/OOIy41p4GFJedc4oKiKD6dB33akJy3bZuQ7d6CKWYJQZqfQ
-         Z37zuaC/7j/aEaopzB9Yge2g6et1GMUg133M8i96F4YU2BqqmeyRDncsWJ9JNqd5aeJ+
-         47S36gbNqZefoWRwA1Nzl1fUAifMhtbnxLUb0cf6y86Lre+GaDnW2zOLLYqBpbzSRxel
-         k6yg==;
+        b=dk8Fdnvl38uIC7D8aakNlx4T8Gr5tEPgBVsrzKa+LWdWbWnEUXXcg8YXC/T87FMdKT
+         3UaHDbmPwMcbQWa5MDcparXP5OVOLfSHBBs9LlP97tIiZaKBEpUJrde9EBvmSTGKudrr
+         D1I2DNklNB+y79tRQ+bEfzfYN9qWmIc8Rrn8WhFqJRWBeKBQNfkcMQT8l0iKyKFgwEb9
+         Kai+KqxKEbtZj7arWc6g9fvfT/DbvTn1WKXnF7tEy4Ea1dJn1ajAchlIsRHHE8ZEGEhF
+         /sqN1N7OwzVad577ZR5xufHATUayUvXWnOejx/kDKNnVMu30MHYYTrinWBhFA6mKEM4D
+         pRqw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=umnHgPjx;
-       spf=pass (google.com: domain of devnull+chenlinxuan.uniontech.com@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=devnull+chenlinxuan.uniontech.com@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=FyUVqYls;
+       spf=pass (google.com: domain of devnull+chenlinxuan.uniontech.com@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) smtp.mailfrom=devnull+chenlinxuan.uniontech.com@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org. [147.75.193.91])
-        by gmr-mx.google.com with ESMTPS id 46e09a7af769-7308b0e9f6dsi34412a34.1.2025.04.28.21.06.17
+Received: from tor.source.kernel.org (tor.source.kernel.org. [2600:3c04:e001:324:0:1991:8:25])
+        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-6f4c099da79si141486d6.4.2025.04.28.21.06.18
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Apr 2025 21:06:17 -0700 (PDT)
-Received-SPF: pass (google.com: domain of devnull+chenlinxuan.uniontech.com@kernel.org designates 147.75.193.91 as permitted sender) client-ip=147.75.193.91;
+        Mon, 28 Apr 2025 21:06:18 -0700 (PDT)
+Received-SPF: pass (google.com: domain of devnull+chenlinxuan.uniontech.com@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) client-ip=2600:3c04:e001:324:0:1991:8:25;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 77AD9A4BA30;
-	Tue, 29 Apr 2025 04:00:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BF675C4CEEE;
+	by tor.source.kernel.org (Postfix) with ESMTP id D24B068429;
+	Tue, 29 Apr 2025 04:05:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CD555C4CEF1;
 	Tue, 29 Apr 2025 04:06:16 +0000 (UTC)
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC846C369D1;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD4A1C3ABA6;
 	Tue, 29 Apr 2025 04:06:16 +0000 (UTC)
 From: "'Chen Linxuan via B4 Relay' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 29 Apr 2025 12:06:05 +0800
-Subject: [PATCH RFC v3 1/8] nvme: add __always_inline for
- nvme_pci_npages_prp
+Date: Tue, 29 Apr 2025 12:06:06 +0800
+Subject: [PATCH RFC v3 2/8] mm: add __always_inline for
+ page_contains_unaccepted
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Message-Id: <20250429-noautoinline-v3-1-4c49f28ea5b5@uniontech.com>
+Message-Id: <20250429-noautoinline-v3-2-4c49f28ea5b5@uniontech.com>
 References: <20250429-noautoinline-v3-0-4c49f28ea5b5@uniontech.com>
 In-Reply-To: <20250429-noautoinline-v3-0-4c49f28ea5b5@uniontech.com>
 To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
@@ -154,21 +153,21 @@ Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  Chen Linxuan <chenlinxuan@uniontech.com>, 
  Changbin Du <changbin.du@intel.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2975;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2614;
  i=chenlinxuan@uniontech.com; h=from:subject:message-id;
- bh=Z0QiTYLHzEeebaywUqCSW16Ny4EMqCsjjX+KS5KBMNU=;
- b=owEBbQKS/ZANAwAKAXYe5hQ5ma6LAcsmYgBoEFAukhIgTV0U3xfinuIjd2L0FB1AExqdCchlv
- A3ri9QFLWiJAjMEAAEKAB0WIQTO1VElAk6xdvy0ZVp2HuYUOZmuiwUCaBBQLgAKCRB2HuYUOZmu
- i9PbD/0bxMLZB/tZ4Ta8gMq1WIv38DYhUP3aWnHRrfHrBmcZmF3pYKgj7U3bQhz1rGgW21/5jLf
- O6iQHC8JkszMXt7z43locXuD3D2XLaMzfIjJ4SYSBJJCUhLDwTO0hXO+SgM8VdRdhmjZUc1WhnK
- MotrwNb7+YScOJV7UKO27QZ4mEX9QtP1og5KDtG4fX2A4elJ/oUz5VyPu1ZVWaZIPGpR6UfQu2W
- 3V96onZcmtcYOTu7m+Q4YYn57iocabwdiYGXp9u6+muG1V36fqjgCWLFdJ87b10fBGpqSdLd78K
- Np/ZrE3r79VyFTS10nLQwcH5emDVtRsUooPidOTFB5RbtCiWZVwNXbzPXeUAOlpo1fud6r4VWu6
- qQumY8DgxrRS5yYkJuqNuYsyMje5EqNF0cT9ACHUWaiTx2mc4D4GMZxmlK0Gb/i6H6b5Nn2r2Xj
- wAaoImxclHPRalFdhXU+KjoIiAQ+6sz9E+8WePUUrBdVGKfCKQPnIoZrmz83bxpZtjB8fQ0tEQM
- iAAaovwAWgBfxfbUHIa8VeSzTs5I5aHhO+aY/5Sd1k2ttkBswHZJumET7aNiQoPsJoewmJYilGQ
- jL21aH2TLLnbAvvZ8tf8QpXJtxzRSYrmcdb8wsQqvI0rVPoHUhioggOtX3jm+SKC+ApmPIpQr8u
- b//ZkECSNX3jkKQ==
+ bh=+y8wKlsn55GLtsirs4Essnozl8lVGDb1RUHKRb3UGRw=;
+ b=owEBbQKS/ZANAwAKAXYe5hQ5ma6LAcsmYgBoEFAvQHTkSNXJxyOgEHVD9PhzBBGToDo54ToKB
+ JTzQ3Bt13uJAjMEAAEKAB0WIQTO1VElAk6xdvy0ZVp2HuYUOZmuiwUCaBBQLwAKCRB2HuYUOZmu
+ i2wDD/94Tikof0KqTbmGNltSJN0BkZfS5swTBN23SRIvCigAsJMsSAEE8+hsOfF5ug0IHuwNOI/
+ 1Qnd48PesFnCihU7hm3JfucE304u3ikq3JpHS8byjD3Iq2171RsPQwl30uxz+vEZ8hzs0TpTQBL
+ tbOgvO5HS5tVi2N8UEoiRrD/AIGE1AKJx646BKh7BWEfqlVn8Piwh3FS7UZcthV+4LqoV/TILJ5
+ CqwIUJDj8ZerV5DorB5SDBkZEPqwYLdujwzVjj9cp8vZwKMj+w/cFPS+07AzMtQNZybB8QumHsU
+ DHQmASWQEn05ggN/6NnlkKJvxaDxaREGdoSN4rVPnwenoh7XG44AwW+NWt2oRVUae7CdZaTJ02f
+ UozQggCd6pQA5H1c2SG9aalj7diOg0zrkq7srXqL9aVnJGeGkbSHAIxpmoG3bA+uXmBJSKWtr2+
+ 7DF6eO6UhF2ql4ur4skO7HIRADaqOFdEcIXMoQ8iutz4ml3kKwVIMhsOOAXwoXgNTZw6dPFvTUK
+ oOGrXVNKLy/fJX/0x7AiWVUMQSMsG/Kuios2R+atYaJYgzNmP+h2IF2Il+UfCg1zti1vGWy17fO
+ jFSai1Av+dm6o4iuFeMJx4Tgo52MAnqfyksIfcNlB+/tDcM4IwZn3C7WTQp9uxdiHyZV0edPtRS
+ Z2AKjqx+hU/5gsw==
 X-Developer-Key: i=chenlinxuan@uniontech.com; a=openpgp;
  fpr=D818ACDD385CAE92D4BAC01A6269794D24791D21
 X-Endpoint-Received: by B4 Relay for chenlinxuan@uniontech.com/default with
@@ -177,10 +176,11 @@ X-Original-From: Chen Linxuan <chenlinxuan@uniontech.com>
 Reply-To: chenlinxuan@uniontech.com
 X-Original-Sender: devnull@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=umnHgPjx;       spf=pass
+ header.i=@kernel.org header.s=k20201202 header.b=FyUVqYls;       spf=pass
  (google.com: domain of devnull+chenlinxuan.uniontech.com@kernel.org
- designates 147.75.193.91 as permitted sender) smtp.mailfrom=devnull+chenlinxuan.uniontech.com@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+ designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender)
+ smtp.mailfrom=devnull+chenlinxuan.uniontech.com@kernel.org;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 X-Original-From: Chen Linxuan via B4 Relay <devnull+chenlinxuan.uniontech.com@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -196,25 +196,21 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Winston Wen <wentao@uniontech.com>
 
-On x86_64 with gcc version 13.3.0, I build drivers/nvme/host/pci.c
-with:
+On x86_64 with gcc version 13.3.0, I compile mm/page_alloc.c with:
 
   make defconfig
-  ./scripts/kconfig/merge_config.sh .config <(
-    echo CONFIG_BLK_DEV_NVME=m
-  )
   make KCFLAGS="-fno-inline-small-functions -fno-inline-functions-called-once" \
-    drivers/nvme/host/pci.o
+    mm/page_alloc.o
 
 Then I get a compile error:
 
     CALL    scripts/checksyscalls.sh
     DESCEND objtool
     INSTALL libsubcmd_headers
-    CC      drivers/nvme/host/pci.o
+    CC      mm/page_alloc.o
   In file included from <command-line>:
-  drivers/nvme/host/pci.c: In function 'nvme_init':
-  ././include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_878' declared with attribute error: BUILD_BUG_ON failed: nvme_pci_npages_prp() > NVME_MAX_NR_ALLOCATIONS
+  mm/page_alloc.c: In function '__free_unaccepted.isra':
+  ././include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_1013' declared with attribute error: BUILD_BUG failed
     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
         |                                             ^
   ././include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
@@ -226,36 +222,36 @@ Then I get a compile error:
   ./include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
         |                                     ^~~~~~~~~~~~~~~~~~
-  ./include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-        |         ^~~~~~~~~~~~~~~~
-  drivers/nvme/host/pci.c:3804:9: note: in expansion of macro 'BUILD_BUG_ON'
-   3804 |         BUILD_BUG_ON(nvme_pci_npages_prp() > NVME_MAX_NR_ALLOCATIONS);
-        |         ^~~~~~~~~~~~
+  ./include/linux/build_bug.h:59:21: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
+        |                     ^~~~~~~~~~~~~~~~
+  mm/page_alloc.c:7301:9: note: in expansion of macro 'BUILD_BUG'
+   7301 |         BUILD_BUG();
+        |         ^~~~~~~~~
 
-Mark nvme_pci_npages_prp() with __always_inline make it can be computed
-at compile time.
+Marking page_contains_unaccepted with __always_inline and let dead code
+elimination remove reference to __free_unaccepted() here.
 
 Co-developed-by: Chen Linxuan <chenlinxuan@uniontech.com>
 Signed-off-by: Chen Linxuan <chenlinxuan@uniontech.com>
 Signed-off-by: Winston Wen <wentao@uniontech.com>
 ---
- drivers/nvme/host/pci.c | 2 +-
+ mm/page_alloc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index b178d52eac1b7f7286e217226b9b3686d07b7b6c..9ab070a9f0372bc6595c29a884ee9f2ffe5ae8e9 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -390,7 +390,7 @@ static bool nvme_dbbuf_update_and_check_event(u16 value, __le32 *dbbuf_db,
-  * as it only leads to a small amount of wasted memory for the lifetime of
-  * the I/O.
-  */
--static int nvme_pci_npages_prp(void)
-+static __always_inline int nvme_pci_npages_prp(void)
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 5669baf2a6fea75c17b2be426443a6cf29051f52..433dc1936114469a323c8f3659730747965b2c3d 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -7346,7 +7346,7 @@ static bool __free_unaccepted(struct page *page)
+ 
+ #else
+ 
+-static bool page_contains_unaccepted(struct page *page, unsigned int order)
++static __always_inline bool page_contains_unaccepted(struct page *page, unsigned int order)
  {
- 	unsigned max_bytes = (NVME_MAX_KB_SZ * 1024) + NVME_CTRL_PAGE_SIZE;
- 	unsigned nprps = DIV_ROUND_UP(max_bytes, NVME_CTRL_PAGE_SIZE);
+ 	return false;
+ }
 
 -- 
 2.43.0
@@ -264,4 +260,4 @@ index b178d52eac1b7f7286e217226b9b3686d07b7b6c..9ab070a9f0372bc6595c29a884ee9f2f
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250429-noautoinline-v3-1-4c49f28ea5b5%40uniontech.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250429-noautoinline-v3-2-4c49f28ea5b5%40uniontech.com.
