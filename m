@@ -1,149 +1,187 @@
-Return-Path: <kasan-dev+bncBAABBTE4X7AAMGQE3LT4LUA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCD353VB3ABBBOVAYHAAMGQET2Y2CQQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53e.google.com (mail-pg1-x53e.google.com [IPv6:2607:f8b0:4864:20::53e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A728A9F8DD
-	for <lists+kasan-dev@lfdr.de>; Mon, 28 Apr 2025 20:51:59 +0200 (CEST)
-Received: by mail-pg1-x53e.google.com with SMTP id 41be03b00d2f7-b1c122308dcsf2249172a12.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 28 Apr 2025 11:51:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1745866317; cv=pass;
+Received: from mail-io1-xd39.google.com (mail-io1-xd39.google.com [IPv6:2607:f8b0:4864:20::d39])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64ECCAA0110
+	for <lists+kasan-dev@lfdr.de>; Tue, 29 Apr 2025 06:06:20 +0200 (CEST)
+Received: by mail-io1-xd39.google.com with SMTP id ca18e2360f4ac-85b41b906b3sf636449039f.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 28 Apr 2025 21:06:20 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1745899579; cv=pass;
         d=google.com; s=arc-20240605;
-        b=b4Dr/oxIhJSI4dZTM/91ywsskc5UFN3QL/19i4EL2Sr2dQVbUV1AeU08fiz3bYJLso
-         YhlDJxSH6kxoATTh9I0jW/HJZRGlI9QlOPyx3ZF52hXJtxKcDPE43KQEFpaaii0kUgFV
-         +LOJaMjQu6tx2TpBCUrc01OYNP5qgSy31fQp9PtQ0P/Yc5VDRS+XIscVpSvokciglNWw
-         ORTlefB9fm401lriFKEP68a/gGZgvSbA+yI+u4ygmUsa+0v8YRcZLnehp0LR0GUpLmnc
-         c9Bv0OKV5MyOO37lWOqIf2ZlhchKkfJqf6qugKUDvjnUIWC9wgJ4aq6B9VyxxiIwVVAd
-         2V6w==
+        b=d7YZU4ayvgQeHFVfyAw6844RBICC09HtLT0dl3AhFonysAuciF8lwbjb7+1geNffGG
+         WVmSo9pmjWwqm+SN498/0yWaxpVKq8yYHRQy0+pqRK1W0L9Xdv6AblSQU4F2jf2XUrjO
+         zaI51OTccBL4J/OFtRyiQ/LT61nLal8s466eRi3gRa04mq1U+BeZmppfqEep/gDSSl1W
+         BPiO7eQBAfdwUqIKjFd8JYKBmzeT+tAkFgjyqWv+aVHdHX9dcbude9p7OHPqWEG25ENL
+         ORq/OFIkD/QrAu5uaeao93aDE5X/g8SJcSL1EuUsEbfrmCbONI5swSqKJS8+fBq3QaO6
+         P87Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version
-         :auto-submitted:references:in-reply-to:message-id:date:subject:to
-         :from:dkim-signature;
-        bh=HBzOpMhqwhvYuiiqs5kixR4fLx7zgR3GKNfli5LgEMc=;
-        fh=Q/fPgmh5Ic7hKggWMQT2o3lYRZtYoPd/4ORuJ+tr7hI=;
-        b=gT3ml5mAB7YTMaT+oV3Vo9MbRRBoDo90qCbM2L+t96kCurltEH74su2yhv+VbuUOl0
-         N+9zxxes2C8VH05opkgaWNYnauPWK+3cPivXv/i/CT1TYzr88UGFzQp2LKifKYL90sRK
-         Z3sPYITY+gyazIh6TJdbNi8tNMmIr49HSGDBITFnnmCx3UjEERz3Tb0ldKhB2djLVOOC
-         OESF7jlTOW4Wg0BfSTY5jcTclFJNryBIW3/u+zFYewF70NDKt07TBheDIKn3vm5ph9G4
-         UQvTEHmZnQ4knzUHQPD7AITh4ZIOq1spUZX7pKLfbPCWRmz97QILu1ee/f8eEXMADX09
-         ZIvg==;
+         :list-id:mailing-list:precedence:reply-to:cc:to:mime-version
+         :message-id:date:subject:from:dkim-signature;
+        bh=em2o4ppPvtg8PHsBnT92WIwCpGpgAGm2/DYy3BT5BT4=;
+        fh=F5GrIUallDbegApYB97gWlwBLkenE5uNqocVn3zZmtw=;
+        b=cAJ0DT3YGsdTkYt+Tcah2I6m73Hh7PQ8CmetAww8qNYGfxngoQ64nKXBdhlYsXuKk6
+         qHx8PNNUI73YSVUYvOpxsFUZmWadmfAgIvfvNYLNVEXUgJJaxmvgeEudjbIU6c3dyJpr
+         qIO69zBolBkgcp75tLmHLXQnriZ50X1ZZlj/SxPRpgjPyyIJjXMbbLYwFbbAbiAcNn81
+         BY8iFnLt5WqW6qdl7qooqJdmjcx22xAo9Xto2+i55bPPkm2vCoigQ6cGmlM/x0jjmLWP
+         YJZR3a3DnPbeYqudfO6GLckPVd/83nTK9Wld5yEQElX6MPysYEdBGlmKa4ne7o8sUedw
+         b2AQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=ruGMCm7s;
-       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 172.105.4.254 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=JrpjRytR;
+       spf=pass (google.com: domain of devnull+chenlinxuan.uniontech.com@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) smtp.mailfrom=devnull+chenlinxuan.uniontech.com@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1745866317; x=1746471117; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1745899579; x=1746504379; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :auto-submitted:references:in-reply-to:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HBzOpMhqwhvYuiiqs5kixR4fLx7zgR3GKNfli5LgEMc=;
-        b=IBawuR8cVU5QNXUfR1n83XlNmQBgMEhhT7vLNPE47U6ZtO/JV9DerwzjlJ2I4FeaOa
-         S22cqTLrX5KmVxhoiGEZdNXBbUOO10vzwBL97PDrPjnu4u5dbVgNU0lQzrDypPMmo9Pn
-         6ky7PwD7eJvHBvC465MIK0Np8lPOYTxmUr6nOhVpQwT70hTGDnHQyRSs5vc8gjm2qerL
-         G8BBuMcHzmErgfJLY15BsfDK8qFlvTVQ3DHEsp+le4KT5EbW1qJIGH0PHxwO65LRdYT9
-         ESFEx1GQH1VLKJUswNO6XhLwLP9+iugmAA9ROcxUDO3NqtJAzW0y3PFs2yQd+pZYr8qQ
-         kxQA==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:reply-to:cc:to:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=em2o4ppPvtg8PHsBnT92WIwCpGpgAGm2/DYy3BT5BT4=;
+        b=EICSIZM9Qqa1SPlJs+6i6MM37EKtmB4GdWKS+3y2E4+KeEfab57MycbZnS0ZG03wsT
+         5rcmD7YF+0IYS7Z7a8z7IHvgXq4bvJbxYX5NQsKgeH65JsWmMbEsh2wpUdZgrvONzt8+
+         V5gY6k0KMxGpaI4si3/3ewpGihFgdwpESshb2rzf7D8pUiyb7kUO5dYYvROmE285tn9n
+         nceIXyPqnffi9q9JAQMYsbJhMgZEhwfjqONk16PqFsIMd9nbnIwFvt3UUMqul7npbUSD
+         CK1i66hIyHj/igd6nXRhDXBxd2V4HFsJTaI1gWVtO2DDo7DL2LS6o04CQHtLWOKuEC/F
+         JCCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745866317; x=1746471117;
+        d=1e100.net; s=20230601; t=1745899579; x=1746504379;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :auto-submitted:references:in-reply-to:message-id:date:subject:to
-         :from:x-beenthere:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HBzOpMhqwhvYuiiqs5kixR4fLx7zgR3GKNfli5LgEMc=;
-        b=NWYgwkGH7+LiwuRhLj6f/QNqU3UV4eADcom/rqekmG+bctBNXOhneKEHj8f/r4Hcma
-         27n6bMthNpp4Kf3ZPpjpOEYIqnvv+QDbXArQh5lM+bI4YwmHTG96tOwySno6DkG4CALI
-         vsaAYHeam+rTfl7CIHbyp+HFVNaksge5Zz6J8zGF2vyFrbx+Ql30GqQOdX+t8V34WWBM
-         ZYME+gFb8QymLODfqjGTB7TrcoAqY5/XG32AsQqxaLtRQgffe5GZSbzvnD8XOZ9j1bdK
-         VbbxjJ3xzEE4tDR/Bb1C+vEaq1n9pS5rI2cufRKI3zUF7jjmJm5NYgEYJ3qLr8znfH5d
-         XSRg==
-X-Forwarded-Encrypted: i=2; AJvYcCWbo+Al4D4LEim11qXumpdEqeKYdKvogupRA7SLhRzT8zpYC1pMHZJxFOgcEFko7hmzUC2epA==@lfdr.de
-X-Gm-Message-State: AOJu0Yz3vb1AkKSRhhQSa6U0eX3/kQ0Lic3pt6RWDsUSvmXoI56jhzr8
-	t0VdBhlarASvYoygpgYFQxAn9heCpbw4jaU0bBlMps7jmlpgl2ah
-X-Google-Smtp-Source: AGHT+IEQkt+6XumvoX7bZw7cUTnZUlYBxhuQko9k7hrL8TqnwYocKX29+D6X74WnwQ6lhi1MJ8UqIQ==
-X-Received: by 2002:a17:90b:5826:b0:2ff:693a:7590 with SMTP id 98e67ed59e1d1-30a21597ae5mr1466521a91.33.1745866316889;
-        Mon, 28 Apr 2025 11:51:56 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBEtmGY0oxqmkROgZ5t9Euk8BDovD0/sIEmJfQACVxYvCQ==
-Received: by 2002:a17:90b:2549:b0:2ff:4f04:3973 with SMTP id
- 98e67ed59e1d1-309ebe09e1cls803443a91.2.-pod-prod-08-us; Mon, 28 Apr 2025
- 11:51:56 -0700 (PDT)
-X-Received: by 2002:a17:90b:5185:b0:2ff:6fc3:79c3 with SMTP id 98e67ed59e1d1-30a21552a93mr1547252a91.9.1745866315967;
-        Mon, 28 Apr 2025 11:51:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1745866315; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:reply-to:cc:to
+         :mime-version:message-id:date:subject:from:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=em2o4ppPvtg8PHsBnT92WIwCpGpgAGm2/DYy3BT5BT4=;
+        b=m/fghK2F2QnMg7fl34yoRMeZBuoAKP4wNF+94TU0cl+H8vx0ykcf0y+LPGjyYbum4J
+         AJIb7Mwo1kobrtwg/v8heibU61tFSxVsK/Gr8exIfsGJSRdtAcaursv8JT3yjjRXZv7A
+         nZ2TPhBJacPUl3lLBFPEMA/XDi5ZPasrjw63iW0yYrBwHKLSVdnFLSBeYSrkkRePQ+ye
+         KFcMi7U5Cp2eBKswpxFpxSRb19ayJ37sRk9aDnw2m+IDOLYwpbS1BYBh2ICyxj4xfFTx
+         pinvNxRA/Uyc8nuPzJSu4Lw5NvwkfD52h93A+ph97fA4si0WQbqrUJyNaZcV0Gr90xJ9
+         sSxg==
+X-Forwarded-Encrypted: i=2; AJvYcCVSMJgWDHiBceDyF8X/CyM2L6fcnecSUYNqePi5YU84mU6D6ZaShIrQ15vOvnjLwekMQuigOw==@lfdr.de
+X-Gm-Message-State: AOJu0Yxt7NT/UK9HHq4jwyC3G/224VW6kNi/8Iot5O4hY0MKWQpRS6LM
+	tNaye/2+BvQwYmn+OzsZrGT6xBRn+BtYEfDgl4DXP2knABo9gpRn
+X-Google-Smtp-Source: AGHT+IEOOrZ2tdylLjz2AVIO9zyA3LIZnt3HIiuov6x4DiJrM7lqdvt3nm9jCQ2q2+GdzAxp/xyPfA==
+X-Received: by 2002:a05:6e02:2195:b0:3d9:24d8:8d41 with SMTP id e9e14a558f8ab-3d942e05c9emr115284645ab.16.1745899578524;
+        Mon, 28 Apr 2025 21:06:18 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBHU+ZrZNNNZufUkScWLayWXws4CVk0L45xEmbdSX5V4nA==
+Received: by 2002:a05:6e02:1a08:b0:3d6:d838:8f38 with SMTP id
+ e9e14a558f8ab-3d92eb322c8ls39550655ab.1.-pod-prod-06-us; Mon, 28 Apr 2025
+ 21:06:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUH7mWMR2PwLUYfdI+ZcOsMH+VSuqVFxZAzIcWOVcJen4nXSTg1BJc4px5NTevP//hY1tl8uWJYJDw=@googlegroups.com
+X-Received: by 2002:a05:6e02:214b:b0:3d8:1e50:1d55 with SMTP id e9e14a558f8ab-3d942d808b9mr105760305ab.11.1745899577723;
+        Mon, 28 Apr 2025 21:06:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1745899577; cv=none;
         d=google.com; s=arc-20240605;
-        b=R9+bNUy2P/4YqaVZqSRg9iYIZk4PQaZvAULWTYrv1fcZtb+6LcnFGifBHBRT2SZXvq
-         7AGLyW+ivj5RKBAPrO9rDgttkPxuZAzIAOS7/UaNy5+p8aFnQ/raet4BWJA2GvvS+EDS
-         3SusdXdFnRhMjV28Rd1KckwP1yU1yiNoGblwrIo4t6ganEv8Er7k3xvkSqv7aihmw5Tp
-         EmBgB89xzNne/Guhx4JuUPwkdwOt/maLwDgayf08ZmxGPCrYEle1nt51YOfQfolJ/Qng
-         DoHpMnaLjMj+VxTv7vXVNwmXgFWCq4qPurchNx7xKwMxxORHycflRDvm6KYHm7QrhoOF
-         6g6Q==
+        b=Mplmo/YmsUepsMjkCPowdVW7Z6H+OH0GI/WRMz+oePJH96HrP6qLSXOUpkYG1DuFH9
+         6Ic+qoymhR7S3NlQ1yt2ODxDQuUqPIQUur8tXKOaWUlSDyWT31EApW/jJ8K2TFJOx3G9
+         P3qMCg5Hk/nBnl5h/9wlY0zwgEsSpRPtPLJgSfivdHkvVKK7NntZewDjGkRyfLtd0qjR
+         LzJUVvyTV0n+vA68889qlE6XZhX5DrqzYo96XGyY/qiGkvWYtwzLmlXGGoVZUkiyyDfx
+         TYVTTwodgf4FCRv/qX4JWB5Hpk9bnts5rxQmlVlKwLlvsgHByPSxlzhFPX6BLuWzaoTn
+         la/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=mime-version:auto-submitted:content-transfer-encoding:references
-         :in-reply-to:message-id:date:subject:to:from:dkim-signature;
-        bh=lY2embzjVoTHn1/KNFLigFbQGhFzwK/pKZJAw1sXR1s=;
-        fh=uQCsmYQr+KJEcG63Y45gsyDulzJl/B4EdEfpx8XrGGo=;
-        b=Qc6PGnJxWXlFHU2tN2tw39O1qMBwkXxNy5xZmaN5dEiUbEprIn55yOtS1IVT5G41og
-         70+mL+paYIBafqXjHwiI6RrMpTSSCVDNYb8hjmRQZB6Ec6lAA+F3EBICriXDXSGfX13K
-         B2ywIg7vXBplb0xUovEOjUpa6yLRSCJE9gzs/he+gAN+xUHq9TDZYujARriEQTntK0Gp
-         V6+8bdVAYHFXqQt9bOU3MMFQOX48aZ29e8pT9sd/g9a5f1GE/0N7nCWE0DvhSVfzuQ1l
-         lLf2SnNkcou3ztSOpMx9PMfQy6/DBGusWTb6YgmMMkjDTMg240L/S7Bsjo0vtqwZABku
-         tf1w==;
+        h=reply-to:cc:to:content-transfer-encoding:mime-version:message-id
+         :date:subject:from:dkim-signature;
+        bh=Tq73bW0DEf6H7EJrqTGa0NkGW9/PD4sBLDN7G7TJNFE=;
+        fh=/bs3vO5UrVqo8T78tIeeq6rdQWrwj5Jc7+dDXJAvsfQ=;
+        b=JgSVGwXHKPbdS7f6CQbIscmIOWTTiT/nieDT7SDTaM+TbnJ44Cdu4Q5iVU64NrwjL8
+         QKGZT2TwCXc3VBEyeVxZPmgSJTYBO3Yn+QKA7Z6o+ThG6S2/YFIT5L4H5/1W0/HETYbg
+         B0KX5GOX9Lm+W6THSLsb8XhwRV2KgHGI6TevmzCdj4j7sX6tBvO3YHAxP9C4F37FWxdM
+         C5Rdc2Qlrbx9Z4tQFfBn/Klq0Je6pxyaYY8zkeFwpX2sB2qgq7PenhDIWKyJdIhciJyg
+         LSwhfKW+RMtE1CPyhA3MwmpqqN1sl6T52a0LvQywi9jfQDVOb3LAPD8SrbTmRc/fwsfV
+         AQkw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=ruGMCm7s;
-       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 172.105.4.254 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=JrpjRytR;
+       spf=pass (google.com: domain of devnull+chenlinxuan.uniontech.com@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) smtp.mailfrom=devnull+chenlinxuan.uniontech.com@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from tor.source.kernel.org (tor.source.kernel.org. [172.105.4.254])
-        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-309d3bd5db9si1160914a91.1.2025.04.28.11.51.55
+Received: from tor.source.kernel.org (tor.source.kernel.org. [2600:3c04:e001:324:0:1991:8:25])
+        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-4f862dcc1fdsi21361173.1.2025.04.28.21.06.17
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Apr 2025 11:51:55 -0700 (PDT)
-Received-SPF: pass (google.com: domain of bugzilla-daemon@kernel.org designates 172.105.4.254 as permitted sender) client-ip=172.105.4.254;
+        Mon, 28 Apr 2025 21:06:17 -0700 (PDT)
+Received-SPF: pass (google.com: domain of devnull+chenlinxuan.uniontech.com@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) client-ip=2600:3c04:e001:324:0:1991:8:25;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id CE081614B1
-	for <kasan-dev@googlegroups.com>; Mon, 28 Apr 2025 18:51:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A05ABC4CEF5
-	for <kasan-dev@googlegroups.com>; Mon, 28 Apr 2025 18:51:54 +0000 (UTC)
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 9694FC41614; Mon, 28 Apr 2025 18:51:54 +0000 (UTC)
-From: bugzilla-daemon via kasan-dev <kasan-dev@googlegroups.com>
-To: kasan-dev@googlegroups.com
-Subject: [Bug 199055] KASAN: poison skb linear data tail
-Date: Mon, 28 Apr 2025 18:51:54 +0000
-X-Bugzilla-Reason: CC
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Memory Management
-X-Bugzilla-Component: Sanitizers
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: kubakici@wp.pl
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: dvyukov@google.com
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-199055-199747-X1q04Hvr6z@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-199055-199747@https.bugzilla.kernel.org/>
-References: <bug-199055-199747@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	by tor.source.kernel.org (Postfix) with ESMTP id 841A6615EF;
+	Tue, 29 Apr 2025 04:05:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AF344C4CEE3;
+	Tue, 29 Apr 2025 04:06:16 +0000 (UTC)
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98151C369CB;
+	Tue, 29 Apr 2025 04:06:16 +0000 (UTC)
+From: "'Chen Linxuan via B4 Relay' via kasan-dev" <kasan-dev@googlegroups.com>
+Subject: [PATCH RFC v3 0/8] kernel-hacking: introduce CONFIG_NO_AUTO_INLINE
+Date: Tue, 29 Apr 2025 12:06:04 +0800
+Message-Id: <20250429-noautoinline-v3-0-4c49f28ea5b5@uniontech.com>
 MIME-Version: 1.0
-X-Original-Sender: bugzilla-daemon@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-B4-Tracking: v=1; b=H4sIACxQEGgC/22OzQ6CMBCEX4X0qiXdpQXqyQTCA3g1HhBXaaKt4
+ S8YwrtbG0/G48xkvpmF9dQZ6tkuWlhHk+mNs14k24g1bW1vxM3Fa4YClZCQcuvqcXDG3o0lnpM
+ +a1KJkgqZrzw7upo54I7sUBXs5M3W9IPrXmFighAlUEksc5BQlCWWYvPFAwgFEuNco0458Kalz
+ 9A81nY/Wn9toKaNG/cI4AkD7P+1CbnglOoaM8hUIq6/gHVd37l4dtL+AAAA
+X-Change-ID: 20250416-noautoinline-8e9b9e535452
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>, 
+ Kevin Tian <kevin.tian@intel.com>, 
+ Alex Williamson <alex.williamson@redhat.com>, 
+ Peter Huewe <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>, 
+ Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nicolas.schier@linux.dev>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Vlastimil Babka <vbabka@suse.cz>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Brendan Jackman <jackmanb@google.com>, 
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Peter Zijlstra <peterz@infradead.org>, 
+ "Paul E. McKenney" <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
+ Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+ Juergen Gross <jgross@suse.com>, 
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, kvm@vger.kernel.org, virtualization@lists.linux.dev, 
+ linux-integrity@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ llvm@lists.linux.dev, Winston Wen <wentao@uniontech.com>, 
+ kasan-dev@googlegroups.com, xen-devel@lists.xenproject.org, 
+ Chen Linxuan <chenlinxuan@uniontech.com>, 
+ Changbin Du <changbin.du@intel.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2639;
+ i=chenlinxuan@uniontech.com; h=from:subject:message-id;
+ bh=V+YDfvUyGy5qM6nqWNSGKKulp2fwuDLB1gLxIkj/Hno=;
+ b=owEBbQKS/ZANAwAKAXYe5hQ5ma6LAcsmYgBoEFAt1A5qQ0LESAzipTR7awHbnQPj78n5atow0
+ tiwIctZ69yJAjMEAAEKAB0WIQTO1VElAk6xdvy0ZVp2HuYUOZmuiwUCaBBQLQAKCRB2HuYUOZmu
+ ixgVD/9iV08f+Vs6eS/LbQDJ7q+zM9yfQ97NvSrbN+MQtFOdOOX/B9DDWjz07bMvwZeoSrnuWD8
+ Hp2NCMdUMvn/XAg8tY/cC0FeuznQPAg5DIqOw8e+jaILOgWNROimjgixLuhTr6WiaM0KrcZDHBL
+ OCFiXr8cJEoV5nmHDZpwmsRyfhwIkYxKUiqVZvxYPnX5Mq0jdE9cE129yrf++c0rJHV7tiA9m3m
+ 3Dgfo4EYCqhLMhujPTgQnqrtD260ZB/BDOIDT/4pmvjfuO7SVexQMqaZ6VD9Zv6g3IpgG//tHdW
+ YqgmY8n2rOMhJaDXULwLGpK32HY5uEPSykT3U8ytrJs1vPonlNQ+Yl1jBUOMiJd28s6gMWhAfNF
+ 7DhrCdUVPQITzQ3hp7+hMavCnibw1bsO70Q1Jyoe/HbpVw+jgqinhhqNY/q95Z3kUEjgZ70wbQz
+ J4+fpvQceoLTw3aPUBwT4AgmFYItGhMG/oWciNlmNPDr/PkMdez2OuxVUBnKvMvmy4yNtOyF82f
+ vhAi9OSPoii6ldf1OcZLCU7qEMXlU9dM1KhX437xOQ4ZbW31J0vPnuqxW9b5BE8+hsNfWWLyt/z
+ sTJSwkwcY3PBvFzx6dDyI4Q7JC83rCdQ6Bpw8f+o9IgK2kSIMrG0t4mrxG3OSfZB8NXalFg40yK
+ bumZ9NWzca7x0hA==
+X-Developer-Key: i=chenlinxuan@uniontech.com; a=openpgp;
+ fpr=D818ACDD385CAE92D4BAC01A6269794D24791D21
+X-Endpoint-Received: by B4 Relay for chenlinxuan@uniontech.com/default with
+ auth_id=380
+X-Original-From: Chen Linxuan <chenlinxuan@uniontech.com>
+Reply-To: chenlinxuan@uniontech.com
+X-Original-Sender: devnull@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=ruGMCm7s;       spf=pass
- (google.com: domain of bugzilla-daemon@kernel.org designates 172.105.4.254 as
- permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;       dmarc=pass
+ header.i=@kernel.org header.s=k20201202 header.b=JrpjRytR;       spf=pass
+ (google.com: domain of devnull+chenlinxuan.uniontech.com@kernel.org
+ designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender)
+ smtp.mailfrom=devnull+chenlinxuan.uniontech.com@kernel.org;       dmarc=pass
  (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: bugzilla-daemon@kernel.org
-Reply-To: bugzilla-daemon@kernel.org
+X-Original-From: Chen Linxuan via B4 Relay <devnull+chenlinxuan.uniontech.com@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -156,38 +194,80 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=199055
+This series introduces a new kernel configuration option NO_AUTO_INLINE,
+which can be used to disable the automatic inlining of functions.
 
-Jakub Kicinski (kubakici@wp.pl) changed:
+This will allow the function tracer to trace more functions
+because it only traces functions that the compiler has not inlined.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |kubakici@wp.pl
+Previous discussions can be found at
 
---- Comment #4 from Jakub Kicinski (kubakici@wp.pl) ---
-Hi! The initial target for FAIL_SKB_REALLOC was slightly different. The bug of
-interest was:
+Link: https://lore.kernel.org/all/20181028130945.23581-3-changbin.du@gmail.com/
 
-  struct hdr *hdr = skb->data;
+This patch depends on
 
-  if (pskb_may_pull(skb, sizeof(*hdr)))
-    drop;
+  [PATCH] drm/i915/pxp: fix undefined reference to
+          `intel_pxp_gsccs_is_ready_for_sessions'
 
-  use(hdr->field);
+which can be found at
 
-the use() is UAF, because pskb_may_pull() can reallocate the underlying buffer.
+  https://lore.kernel.org/all/20250415090616.2649889-1-jani.nikula@intel.com/
 
-You're saying basically make pskb_may_pull() do the opposite of what it
-normally does, and "truncate" the head strictly to only what was requested? Or
-just make it limit the skb buffer "rounding up" logic?
+as well as
 
+  [RFC PATCH 5/7] RDMA/hns: initialize db in update_srq_db()
+
+which can be found at
+
+  https://lore.kernel.org/all/FF922C77946229B6+20250411105459.90782-5-chenlinxuan@uniontech.com/
+
+Signed-off-by: Chen Linxuan <chenlinxuan@uniontech.com>
+---
+Changes in v3:
+- Fix some modpost and objtool warnings
+- Try support clang as Bart Van Assche suggested.
+- Remove architecture depends as Bart Van Assche suggested.
+- Link to v2: https://lore.kernel.org/r/20250416-noautoinline-v2-0-e69a2717530f@uniontech.com
+
+Changes in v2:
+- Resend via b4 to correct Message-ID and recipients.
+- Update commit message following suggestions from Jarkko Sakkinen 
+- Link to v1: https://lore.kernel.org/r/31F42D8141CDD2D0+20250411105142.89296-1-chenlinxuan@uniontech.com
+
+---
+Chen Linxuan (4):
+      rseq: add __always_inline for rseq_kernel_fields
+      kcov: add __always_inline for canonicalize_ip
+      x86/xen: add __init for xen_pgd_walk
+      lib/Kconfig.debug: introduce CONFIG_NO_AUTO_INLINE
+
+Winston Wen (4):
+      nvme: add __always_inline for nvme_pci_npages_prp
+      mm: add __always_inline for page_contains_unaccepted
+      vfio/virtio: add __always_inline for virtiovf_get_device_config_size
+      tpm: add __always_inline for tpm_is_hwrng_enabled
+
+ Makefile                            | 16 ++++++++++++++++
+ arch/x86/xen/mmu_pv.c               |  2 +-
+ drivers/char/tpm/tpm-chip.c         |  2 +-
+ drivers/nvme/host/pci.c             |  2 +-
+ drivers/vfio/pci/virtio/legacy_io.c |  2 +-
+ kernel/kcov.c                       |  2 +-
+ kernel/rseq.c                       |  2 +-
+ lib/Kconfig.debug                   | 21 +++++++++++++++++++++
+ lib/Makefile                        |  3 +++
+ mm/page_alloc.c                     |  2 +-
+ 10 files changed, 47 insertions(+), 7 deletions(-)
+---
+base-commit: ca91b9500108d4cf083a635c2e11c884d5dd20ea
+change-id: 20250416-noautoinline-8e9b9e535452
+
+Best regards,
 -- 
-You may reply to this email to add a comment.
+Chen Linxuan <chenlinxuan@uniontech.com>
 
-You are receiving this mail because:
-You are on the CC list for the bug.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/bug-199055-199747-X1q04Hvr6z%40https.bugzilla.kernel.org/.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250429-noautoinline-v3-0-4c49f28ea5b5%40uniontech.com.
