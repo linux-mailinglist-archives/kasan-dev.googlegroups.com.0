@@ -1,263 +1,176 @@
-Return-Path: <kasan-dev+bncBAABBFVWYXAAMGQERO2LGTA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCLMXXWM5YBBBV4SY3AAMGQEMD6JA7Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23b.google.com (mail-oi1-x23b.google.com [IPv6:2607:f8b0:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F7BCAA3BDC
-	for <lists+kasan-dev@lfdr.de>; Wed, 30 Apr 2025 01:04:56 +0200 (CEST)
-Received: by mail-oi1-x23b.google.com with SMTP id 5614622812f47-40143fb931csf5602253b6e.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 29 Apr 2025 16:04:56 -0700 (PDT)
-ARC-Seal: i=3; a=rsa-sha256; t=1745967894; cv=pass;
+Received: from mail-pf1-x43a.google.com (mail-pf1-x43a.google.com [IPv6:2607:f8b0:4864:20::43a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E7AAA40E5
+	for <lists+kasan-dev@lfdr.de>; Wed, 30 Apr 2025 04:22:17 +0200 (CEST)
+Received: by mail-pf1-x43a.google.com with SMTP id d2e1a72fcca58-736b2a25d9fsf4584249b3a.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 29 Apr 2025 19:22:17 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1745979735; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Cfn7duZHtY+PYs+gWITdFHf4kYqsHkd0KBoakLFIvbk8NK9sf6++B6h8PyUNTe8ltZ
-         x+AA64QBiLbqSgGGM1j4CnrNp8ocYNWmisEFu/D18ZWH4fqcXFi2lW1f/Jci0G9tXVn4
-         pd6xxi1Dnv1MJfN8UPKWU2EckJpdqxZmrs1zma5FrTyHXlrO1SYaQ0amIwrAjSDQlrWJ
-         T5i4lh3Y4orx9AXDaBCf1McYCYLNfAxLmVz93JcMm4QqgQnjPn3t1mA7XMnGYNaSRCTT
-         R3sEJ+zx2eBBPveH5Co+Uk/JO22j515oYkl9gUeR7MTBuOI1DhdijIxQME519rb/Rv3G
-         dJdA==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:in-reply-to
-         :content-disposition:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=XSRvs5DxrRrYG0jlHiR6hj73XgJ1yizrEAXG5e/MmxE=;
-        fh=H9KTTdOL/UaRi+kRP6gMv5bz+WhwLlfHIHlkP6m9e4g=;
-        b=k67OPAUszZAYVy+2Ne+D8l4hWFJeA2Y889p5QZ/ML7/gI4N5kVqFL/lCY8UiKSJcfl
-         41OP2ostAnt21ugF+8IoqvS8r8D+JW1NOCO1/b0iTi6x+k6G9MqNwEbBDRp3xr2U9pck
-         LR7dRUVseM2YBUJd5igp+8Ry2pZO+Lue1nIP74v0rgKdg3hsrH3W+Z0gwJ5HjPmxEml9
-         ObC4/wi+7MPkKIUOgnU0iG3iLiMiS1H4VL8/b8lhqeKPweZ74KC9fZNUv1NAPIJ6Iaco
-         uEfQpa/sYpoQ91LZHPHszWTo4cOSvB2v2wvNeVfCxYfqUfs++/DAqgi2YynYb+Dx5WNM
-         jniQ==;
-        darn=lfdr.de
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@oracle.com header.s=corp-2023-11-20 header.b=kBivXIWM;
-       dkim=pass header.i=@oracle.onmicrosoft.com header.s=selector2-oracle-onmicrosoft-com header.b=QO2VlE7B;
-       arc=pass (i=1 spf=pass spfdomain=oracle.com dkim=pass dkdomain=oracle.com dmarc=pass fromdomain=oracle.com);
-       spf=pass (google.com: domain of harry.yoo@oracle.com designates 205.220.177.32 as permitted sender) smtp.mailfrom=harry.yoo@oracle.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=oracle.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1745967894; x=1746572694; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :in-reply-to:content-disposition:references:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XSRvs5DxrRrYG0jlHiR6hj73XgJ1yizrEAXG5e/MmxE=;
-        b=T43PhE6/3bgan1jbMbunBji2IXfP0iZ+JfAY1i0w6Ge96JTbIWbqrR58cbzFl0K+o0
-         l2srLViFgsMxi1zNERLnK3xeNXLKsqy2yhPJ/VfT7xJxyR+7wCO0XEz10kBJcBcAYJDN
-         FxUVRsTtc29cV2tZOrQgAXQJzXXi14cgj6N3/oY3gYpSwmd9bYrk6r+m/BfpCYy696AX
-         T4Vyvi/+eODKq9mqIouuF1YVSFyedLNOcAc9CzOaABcqY1bbAtHG7ix0PSuNHVcr2q/6
-         ZJxJZMwJdrIVZFizbOpP2aToPMS7+7uznseYKvg9g//lwEOFc+wY+Yp2/JardKo1hIPg
-         0cqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745967894; x=1746572694;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :in-reply-to:content-disposition:references:message-id:subject:cc:to
-         :from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XSRvs5DxrRrYG0jlHiR6hj73XgJ1yizrEAXG5e/MmxE=;
-        b=Yf5HVfHC14py2DXjIh+AqzwoP6Q4XZrcfIoXT1Be9wDOnsgPbsd8eDgi9J7ktI88/m
-         pjppeofT73NPrMA2fSszUjJEIUcmEmku2wJVJtp0b3pQBwXmKkfC0avcrtH8HG3JVDs6
-         S59avaLsn3Nk5KRZHcoTnymHGQtFpHui0vJVr/TzeRoLpIVIsaBOnkUU2UPf2xrqNI0+
-         yaWiqKd7PNEqwEwi4C4BVEXJmlJ6nWkdfOsIgAfnuUA3wktcJJMwnFEIblgutvRvp0vp
-         4uQinQba4m8dOkVfJogqRNSCYeKdUnoqhqpX8eqLakhy1woISwX1rREwOfIj2QarWXa8
-         hoNw==
-X-Forwarded-Encrypted: i=3; AJvYcCWwoaUb2kL81UlhWeYugTYU839Cd6Jr+5Q91ki1dZ5R3xtiZ+qv6wuC+wo9DH0NzH39HZgTVg==@lfdr.de
-X-Gm-Message-State: AOJu0YwZ15F1DTtebpubKWlpIR81xso4GZ5uLvYN7Xhrvj+xzE5BE7/2
-	mPXilCgnUf53HXJqZ+g6fYS14A/pdr17It97vstGD/5rSFgMjEMg
-X-Google-Smtp-Source: AGHT+IHiY9KE9NRj0cQ9IzamC6JTQVifgSlMonP0Q9ZvCe5N2JQ+LTycne3hrgRs2Uy1cTYmX0HQ/A==
-X-Received: by 2002:a05:6808:2d0b:b0:3f7:e860:b5f3 with SMTP id 5614622812f47-40243932404mr770732b6e.22.1745967894608;
-        Tue, 29 Apr 2025 16:04:54 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBHXAnfcRdTblC3hIH1alxALaaZIt+QCOtaok5GioAYQ6Q==
-Received: by 2002:a4a:e509:0:b0:606:4368:f7d with SMTP id 006d021491bc7-606438431f5ls489065eaf.1.-pod-prod-03-us;
- Tue, 29 Apr 2025 16:04:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=3; AJvYcCWstTpo3rrmqlU00ZAYgmz4YEwMNhVvlMXCd4MX8lOVxntmwejZdc7AeX++pM+VpIHK55SF2n/X/RE=@googlegroups.com
-X-Received: by 2002:a05:6808:3a14:b0:401:e662:1b5f with SMTP id 5614622812f47-40239e6651dmr861550b6e.8.1745967893854;
-        Tue, 29 Apr 2025 16:04:53 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1745967893; cv=pass;
-        d=google.com; s=arc-20240605;
-        b=OLvVXyIJDtkvkLDK9FrS3XDipaSgnvIZa15E0094Qc/RYoOIFsPgEXCIhi1y9K42WC
-         Z7dDzrsmOxw2US4syeDOd8mC3zYfvnFOzNjWjEwaHeRMafpy9yeyXKld19N+d5czzNmp
-         vIPCewAQtXg0ip5QqGKw46uKJI/QFSbspaVQnveAnz3HOKG6f2SS7TsmTDYvLUHowxfA
-         3LVhvxBfqZEIMXAuN1LdV1JQ97NyOIKIK0+zNgtVyAwW5Ektm6XHSApgUmZarUK+D/nH
-         /QbDesIjfhL89Vu0Tg0N00Wu25IA9ZQRI/Iu848zR8rM3RTD7puJPmbfGB6yJdUj1/TR
-         ikfg==
+        b=cjvxM3sz4ORJ4CeYyt1MuKFtjePGTEMnuTadnakdYBFwAOVVHgvJpcxNkKoJDsl7SP
+         NmTHavmoZZc41vxcTPBCn5aNjoHHCLTMbDIwEc3f/DeqUaou4keH99Uee/WEWs5ULMsd
+         vky1UDnJpIJmH+JH9RIZvNI1DwUKU5wIseJ4bjlqOzxB2KD2ETtxfGmFE95Q0N1DEqOY
+         6z5Lhnm/q6ZMeF+bjBfUExgp41EwFSa328cd5hRe8gbZMNkExCm2xngaConf+rRE8XqM
+         WDrC+McdOFCOgQ5QP4iuCJOp43YMYhzmcllPl482QjWlifRreBZWSPGjcNpO3nD2gGyS
+         vqgw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=mime-version:in-reply-to:content-disposition:references:message-id
-         :subject:cc:to:from:date:dkim-signature:dkim-signature;
-        bh=8wg3WrlZpPA5XQaIh9aP1MZ6tpD9RkesYlNyuV898+0=;
-        fh=vZDVMGuAHVstcoxpR37bje4wUcDtpbOa5BfyS9r5Fok=;
-        b=Yh1JblAWUEexKDqYLCggzphPenzzMQZw+YF656z4pl/3sXEqmet+ZR2rZ2egqq5s+i
-         Rc6maNFERhVMHFA4yE7UhZ49pxr2jgyv6EV4WUbioLYGzBPmmQ3U7v50FWWYsW3a94QU
-         LxUP7htGKr3VUcUQZ9VViFwOwKKJqCEgeDQTD/PsN+OVfbrUFnwWVHPIojHLIUkqzniM
-         yR//zrk8gCpvjJ4KZbGtuHQrxRRrltUtzYKUl/BHGrP+CSQpqPDUatvXDkr07iZfmdkq
-         wMKaQ9P2ZsnVjt620/WUyeEFlpNAJUwI6e72kvHdabt8MfCGLijJuR9ZmutvqvADZj0m
-         tMDg==;
-        dara=google.com
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=ab/WRAHwvXAaS34o5zOw7R9SkRJv8XD/xK4NS/FjjRE=;
+        fh=PNDG4VsTpANmMBQaXJw4rST3AaIly89T818nEZn3JuA=;
+        b=hgo5HR/8bKx8bHaSbCBM8iIKWtXEy9w4By7DMSG1aXf3OXCzeDqR7z1opEGirDGYzJ
+         40qFniEPbIzFNKaedL5jvYs6sY1XREmIxvYEGqRlJFuCS7prbLzjSjymo27t2brfeQMD
+         I2olwfHO5+fBgMXfKA4sz3ARZdMkcqhNI7KuiL7lMsNeLGt0qZ5vs7y8o3s0/3mrml+l
+         8IB5nsMelfjdsr7U2UOn2k5+ZOqEPIm0IDRr6u0vzo6XpV0M9yePToR1m+7afSUvAcHa
+         0FTTxDS24+CrWYj4fmq0fjwxco0bPBPhqKqILdFFfR5nwNEMPdn/QslH7jZDFMfwmKhf
+         ekhg==;
+        darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@oracle.com header.s=corp-2023-11-20 header.b=kBivXIWM;
-       dkim=pass header.i=@oracle.onmicrosoft.com header.s=selector2-oracle-onmicrosoft-com header.b=QO2VlE7B;
-       arc=pass (i=1 spf=pass spfdomain=oracle.com dkim=pass dkdomain=oracle.com dmarc=pass fromdomain=oracle.com);
-       spf=pass (google.com: domain of harry.yoo@oracle.com designates 205.220.177.32 as permitted sender) smtp.mailfrom=harry.yoo@oracle.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=oracle.com
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com. [205.220.177.32])
-        by gmr-mx.google.com with ESMTPS id 5614622812f47-402124f8e8fsi57561b6e.0.2025.04.29.16.04.53
+       dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=FuNczuK4;
+       spf=pass (google.com: domain of quic_jiangenj@quicinc.com designates 205.220.180.131 as permitted sender) smtp.mailfrom=quic_jiangenj@quicinc.com;
+       dmarc=pass (p=NONE sp=REJECT dis=NONE) header.from=quicinc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlegroups.com; s=20230601; t=1745979735; x=1746584535; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ab/WRAHwvXAaS34o5zOw7R9SkRJv8XD/xK4NS/FjjRE=;
+        b=hxgLn+b/OLjCQnSnMImbMQ+lSmjpyxx7mfrULW4dyYerbTDXOKTOPDf9aGxujbgyhR
+         tSMNBVOV/r8pTrfXV7MHAoOVM+jj5x4vudW3J/akyFvbzOOro8uxDspC2lFCfIXfzDhQ
+         k0suOH/RQmAon8QcmWUtLrEwXXw++ZExb906rlhsQ4sw+1+pqA5JJmFYrSMD8oSauyEc
+         p+pi2o1KYVrZjEjEoieIh0PDhasrtVMbdBz6t5E0aqPa0mscmzDsOjV/qT0K5Hzf9Bh0
+         E5eg3898iQnbsDHsiL9DkQfgBDi178/FDrDyPqGR3GX/03FG7PzkdJYIBaWuLkqvW9g1
+         qb+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745979735; x=1746584535;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ab/WRAHwvXAaS34o5zOw7R9SkRJv8XD/xK4NS/FjjRE=;
+        b=knvk/VGFLxLIywoSNKD4ViWcXshObTqvENwejKA950bV5pS+PBGYL8qQokjgkiI2+F
+         4G3G+1J3IbjvAVjd++FlZ9xaKFYWp9VH/tsIjA+u7PVvrxWC/aXct4oKmsalH0av7QYB
+         p6kxBjL3uRsOaNN7aM6JJKtxZTRi4tTkURz7XnaEoaGL3uGpWjPK4RGUqDDg/lhdKJIO
+         nEQFsPzU2RTmV9gJauIC/iR845x9czCNIXNz5Fxw4fh7G1YuOiWFHdQiWaFbGNcp23lz
+         MzXyrCI/zaXrGPA70K17PguAwlmSPu421cH33Vpsz07ZOtxCHkM5nXm1WFcP5lAY5nU0
+         TQOg==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCVrYlsITBCB157N8Mg/qqZGeig2bwpUhFxOwL+8zMPS5+pdW5kASVD/gdf4TPzVxcGDfV4hOg==@lfdr.de
+X-Gm-Message-State: AOJu0YymDdpMO6tybhVKI7t+TrJCuTvNLIoqH0QQr1dPKJvVwZAW1ZrD
+	T6EdePNL01OnhXL3ErdcwGJIz4d/Ivvf44UOyCBANJ8qZYc0cRUj
+X-Google-Smtp-Source: AGHT+IF1aNJkfm2buMkON75zXpU+GGOtzFpjiCUa3JZeKh+pG08VsWXkdL+mHUCePe3S6UuLqRAI5w==
+X-Received: by 2002:a05:6a00:3d46:b0:736:4e0a:7e82 with SMTP id d2e1a72fcca58-740389aebfemr2072377b3a.10.1745979735338;
+        Tue, 29 Apr 2025 19:22:15 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBEFBqa+7nQTKTJRokIugxqwJK84yjYbdcEZUP8yrk7PkA==
+Received: by 2002:a05:6a00:4602:b0:728:f8a6:8599 with SMTP id
+ d2e1a72fcca58-73e219dd661ls5222807b3a.0.-pod-prod-09-us; Tue, 29 Apr 2025
+ 19:22:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVoQbr8UVFLUq+hOicCY5944jJfofqdv5GviKx7EzLtIgatKMAwt7y4C2P6jfbgDozhSmrJBzNK+aE=@googlegroups.com
+X-Received: by 2002:a05:6a20:9f9a:b0:1f5:7ba7:69d7 with SMTP id adf61e73a8af0-20a87251a5emr1866376637.3.1745979734028;
+        Tue, 29 Apr 2025 19:22:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1745979734; cv=none;
+        d=google.com; s=arc-20240605;
+        b=O6mmrAiQwcIp7CVXeNZM4sbGoLrc0bWT6hB6foxg/dsj6pD/HFGYVMM0KAVXO8WKXz
+         4lFZnE3Pu8plz89VXE310fSvuTSdc5QJNqGsZ8BgEhqI08SFuod4Est2CXtPe7ZlNjO6
+         3uFqpY5iKz03znfCUcoYM1f7ol+iOHcaUoomd3k5qfO0uG3Vlm8IRdcZFmxN7a+djmbH
+         igvpPr62u8u62a2NLoENKQ3czp/3L3mH6unVC+ID01aEfma50KcHmldvMiaBkfdmmlh0
+         Y3QJC7NFTV9cBjjfK+vsFZLcP3wc1izR9kJMjqMTfX16tJAc7aUs7L8wEu7+C0DanTAG
+         sUUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=+dNA4WT0YksUqtsfniJBr4Yd4CV3UaXPulrWB2ZFegk=;
+        fh=OwKhG8UGzWgJpwlfldbq75lXbIYcbWbbr20b4dKRzcs=;
+        b=YAcEj4tk0FBQowUMKhSqPv2mr4m/XcKEJC3vhmshWJ9ZY5Vi+wvTLg8XKAO7Hx5V7O
+         QAt9b1DbDonP5AZbZgnYmtKpDIlKmVWnSuZMEApzJ9Ta+Pcuc+s0z+cAtibOhm2hq4Ln
+         dJlOlSMHftcPuSwLsL+RF19lKPNr3H5orqiYnVSk3sEiuo6KaLKnI7j/GxL1LrigGxPB
+         3hiBJKKe+LAiY3f36lYQS91tyLm/kLV0DP2xh0BZXD4TfFgwDn6FUp2GZNsMw94W8CWN
+         8tDC76sVMGEy5ksGnCALAad5yfGZdEj/vnru54fTvgq3jE7lwMhpjiFz9QeOOEBwKUia
+         RQZA==;
+        dara=google.com
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=FuNczuK4;
+       spf=pass (google.com: domain of quic_jiangenj@quicinc.com designates 205.220.180.131 as permitted sender) smtp.mailfrom=quic_jiangenj@quicinc.com;
+       dmarc=pass (p=NONE sp=REJECT dis=NONE) header.from=quicinc.com
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com. [205.220.180.131])
+        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-740398fd889si30631b3a.1.2025.04.29.19.22.13
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 29 Apr 2025 16:04:53 -0700 (PDT)
-Received-SPF: pass (google.com: domain of harry.yoo@oracle.com designates 205.220.177.32 as permitted sender) client-ip=205.220.177.32;
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53TLbNcv010608;
-	Tue, 29 Apr 2025 23:04:51 GMT
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 46b6ucg2y8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 29 Apr 2025 23:04:51 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 53TLnBWS035456;
-	Tue, 29 Apr 2025 23:04:50 GMT
-Received: from cy4pr05cu001.outbound.protection.outlook.com (mail-westcentralusazlp17010004.outbound.protection.outlook.com [40.93.6.4])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 468nxaagyj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 29 Apr 2025 23:04:50 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xxie1KNuMvrX+nYsYjQ7DSqLkwRPRgX8UZUT9OG6balLg638QPOV0EWHZM4ZKWVPK7Wnoe/dcwWeel50SYN/IRx3op+xvRYW5YZUGM+i+jCcR/giGccD+f5e1QnuxRcg0hxtKlAZVimSEEyDpMfxRuNKHXbFnSRKuzFbjyNR8s2CJ1fzj9cj8P3DUc8mU/vg9GBlb1hCfy4eRN8gneS/fuUvkC5uyjaYs72JxVi38YgD9ZnbLw6KkczlcEb+Rpm6Dal3Z9fPTc5NZhStin7u6TxilkMeOGGnyaqbMhLk9s9wSxNiWUn2dz9ZLeSpp1sIT8JrYw292Y2XB+7jwDwabA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8wg3WrlZpPA5XQaIh9aP1MZ6tpD9RkesYlNyuV898+0=;
- b=Ass18t39EVoYZob78Ks9zh4rBA7TAxTyNrq2Ap1mmJF++qfyE1T0f17uZPC8NJ7zKyaeBdHzcyB0eArYtR2Kc7RhCs1cYMxIMdJJoCQdeJ0CkcyxPt7sBCQpK+MqQIEHDdM9J782Y24zYZmOKyomcq/Mq+Lm++BBGwl7/SxEfBp7XWvhKyNLvMX7BKFvsUaadrEe1/YOpqyrr1yOwp+9lvw+pN45KDfftnyipgoNCzCR68Y9ou1XCpyvhDewGNlWhF6641FYFwqyJehh6n2B1pTmR+BicS7Sb6trLXl0v1t4l8ccmuZrMonSKUKPpTn9MbzzMTEwhiL2oMO7AYdMUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-Received: from CH3PR10MB7329.namprd10.prod.outlook.com (2603:10b6:610:12c::16)
- by PH7PR10MB6530.namprd10.prod.outlook.com (2603:10b6:510:201::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.27; Tue, 29 Apr
- 2025 23:04:48 +0000
-Received: from CH3PR10MB7329.namprd10.prod.outlook.com
- ([fe80::f238:6143:104c:da23]) by CH3PR10MB7329.namprd10.prod.outlook.com
- ([fe80::f238:6143:104c:da23%7]) with mapi id 15.20.8699.012; Tue, 29 Apr 2025
- 23:04:48 +0000
-Date: Wed, 30 Apr 2025 08:04:40 +0900
-From: "'Harry Yoo' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Alexander Gordeev <agordeev@linux.ibm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Daniel Axtens <dja@axtens.net>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, kasan-dev@googlegroups.com,
-        linux-s390@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v3 1/1] kasan: Avoid sleepable page allocation from
- atomic context
-Message-ID: <aBFbCP9TqNN0bGpB@harry>
-References: <cover.1745940843.git.agordeev@linux.ibm.com>
- <573a823565734e1eac3aa128fb9d3506ec918a72.1745940843.git.agordeev@linux.ibm.com>
+        Tue, 29 Apr 2025 19:22:13 -0700 (PDT)
+Received-SPF: pass (google.com: domain of quic_jiangenj@quicinc.com designates 205.220.180.131 as permitted sender) client-ip=205.220.180.131;
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53TLaiJX001229;
+	Wed, 30 Apr 2025 02:21:59 GMT
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46b6u9rh4a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 30 Apr 2025 02:21:59 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53U2Lw5G002345
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 30 Apr 2025 02:21:58 GMT
+Received: from hu-jiangenj-sha.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 29 Apr 2025 19:21:55 -0700
+Date: Wed, 30 Apr 2025 10:21:52 +0800
+From: Joey Jiao <quic_jiangenj@quicinc.com>
+To: Alexander Potapenko <glider@google.com>
+CC: <linux-kernel@vger.kernel.org>, <kasan-dev@googlegroups.com>,
+        Aleksandr
+ Nogikh <nogikh@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Borislav
+ Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Dmitry
+ Vyukov <dvyukov@google.com>, Ingo Molnar <mingo@redhat.com>,
+        Josh Poimboeuf
+	<jpoimboe@kernel.org>, Marco Elver <elver@google.com>,
+        Peter Zijlstra
+	<peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH 5/7] kcov: add ioctl(KCOV_UNIQUE_ENABLE)
+Message-ID: <aBGJQF8aMfWmz7RI@hu-jiangenj-sha.qualcomm.com>
+References: <20250416085446.480069-1-glider@google.com>
+ <20250416085446.480069-6-glider@google.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <573a823565734e1eac3aa128fb9d3506ec918a72.1745940843.git.agordeev@linux.ibm.com>
-X-ClientProxiedBy: SEWP216CA0052.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:2bd::10) To CH3PR10MB7329.namprd10.prod.outlook.com
- (2603:10b6:610:12c::16)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR10MB7329:EE_|PH7PR10MB6530:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6abe7dc0-2399-4ffa-915d-08dd87723d0d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?4tF83vNBuhDySoPBw+AJKyydf6qYDADjTSWYVPe75nfQIspq5xnkP6NOOB17?=
- =?us-ascii?Q?INmQY/WJ7iDbhEgG9BNSM5yFb8HnOoFWUS5i9D0VwlbybUJt58qdv0jkN8Dv?=
- =?us-ascii?Q?Wz45Tp4w3G87lGSZD1pF/8aytp11GhMDR//u8t/D3GTvzczwQIU8W0hMfV3A?=
- =?us-ascii?Q?upO344cbz7QTXnfkfoA1cYVChPj+72N4EBC6WKFdnmWGtlVEPRh4xBGmRRe9?=
- =?us-ascii?Q?A+TgNISHPpvD0PdMB9lXBhl8xFtQsU4PBFvXkBQ3149Dn1bUSZRMj1JP23fW?=
- =?us-ascii?Q?U11SYhzHyry81X7whX3g696mvwpTy6+vzHeM/VuTAMi/9E0F2HXdJmAvI7Bn?=
- =?us-ascii?Q?Apy8YscfULHNgGcY1+wg3ZEVFKhbP5SK5Bv5a5dlmFrdkMRxsXL6igxpixnd?=
- =?us-ascii?Q?BZLLs8+TD2IBICo/CrDJdEkEwUwrEqxEpkvcSk+9MmFQjAaXfNxLKwzrmwHH?=
- =?us-ascii?Q?0uADBll2b9B7kMeMZE8mSiq/VQRQ3voRbfkYQmKOdKlNcWOkVD2J5bn5issb?=
- =?us-ascii?Q?ItwLtTwpZGnGxxHd4KIyTsfYtM0I1qgmOlKi8MR2zlGGSiUb9Wdg35yv042I?=
- =?us-ascii?Q?8RQjdxOh7uFreh7WMJ4S/54lwkqIUhpwFy4pVQzStyHZZTYBjJDxpSdCkDB8?=
- =?us-ascii?Q?KMYWCwGDjAsC5u6M2qBpOithKxFV8SGc5+cyr0uH4dXI94ssvLmZoTSBn0a1?=
- =?us-ascii?Q?ZSmr6t21MkmharDA9Wz9RG0jE9JFsErVi5i8m/KoFza50QyPJIzoPn7U2Pa1?=
- =?us-ascii?Q?acYpUdjK1rMia8d9yiyhiMgt/jN/+pdfLg7Svy2jkKdWf2EsbW2T2z/6g6AS?=
- =?us-ascii?Q?+k37plRTREm/DjmPxPFj/zeKA9j+qFa5fvy75WdpiVMEYNiXBZ51kByW53h4?=
- =?us-ascii?Q?BCDFZDSMTjlRTccbVG1G2ES3UbD5IjR+YTuPIQ5nbrnYEk8I6KTSLuU7mSle?=
- =?us-ascii?Q?LptlEl65H+LempOUpB+5zjimWOETZKbtxQf1k+WFYa/MBSXt5X4iUyCgsIl5?=
- =?us-ascii?Q?qfVNksjV44/2JBfzjj0sYln/jR84cywSW/5doxR/DAWXImR+Bp9JWC/IBwaa?=
- =?us-ascii?Q?wiOcO+uK5d54tzssvgrIMGEssfrFL7mV+5jhJcVXA9fMucUOJwXaBVTXSLjJ?=
- =?us-ascii?Q?O3u5iHtziSsNNFnYG11LZR5m6T6MHWn4AguTCya/ThY8BR/BfimBPw+U9s/H?=
- =?us-ascii?Q?RrQkK8OSoUUCD0Sw0Rn+Nqt4fwLsOHSk4hkuqwOY9oFvYrHtd03Vowq8TxOL?=
- =?us-ascii?Q?Ovy9asW++Axk6GGGcSkZYaYuAbu+qsnPqoOSGcXtmghyiBWChbZn/APttcAb?=
- =?us-ascii?Q?SwXBkQzLfnAgb7g+gE3a5dkM/fkH9GGLHnkPyWyqIVHRs7zsIuhI6vEcvnl3?=
- =?us-ascii?Q?zzTDKeSH5+iR1s2OlPdmqDLC3/KI9XmLox9zPdkVOPDYv++BS//8BDmPVVQD?=
- =?us-ascii?Q?IbgLGA/Rk60=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR10MB7329.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?T9GK8KV7RYwUuvqhqvP5JVZZ0+gZn2zOEr69wjpAUIUgbarrB9P2h4QW6yfL?=
- =?us-ascii?Q?XIEeA0ct0JQzMIL/6LDSW60eL69VaWnRDhkq76wHmBlUfCzn5Bb/UCsMUF4A?=
- =?us-ascii?Q?uXHz9lW2rUZrCJwG/by9nHEqlALPNDzdjccyoUWkYWJsbnElEBGD7nUcF+9v?=
- =?us-ascii?Q?jMP3hofEBMR6vc8l58NJk8+xhGwtTfjcQC5LMGxQM3AP3DhTyGljCgCyfhqG?=
- =?us-ascii?Q?Y3UmIJLlTO+r9mXdCXRgBX87EO6yvaTX46wbbywjooIFcFh+mF2IYi8BfzB6?=
- =?us-ascii?Q?nqt+4EMnoOoPZaGyWglBzgYa2crIsw8ZYvflA5P1MRp+xRO+KsTsyXKwaGPL?=
- =?us-ascii?Q?Wlfl1RknYJZ7XPmz+x8fJ5inKRMw+CjXEH4o8MeGfcYtuUw7Oi8/QsLtZJbh?=
- =?us-ascii?Q?WHn4PI4Cb1XBYtkA3mYJbVQ6wMsM56u6CvIQVSKBFjc3EjBhBZZiVSMfEw9h?=
- =?us-ascii?Q?4ESYcci47OohRDB30cttqD6zb16gOm8wlLE2EYQhoakz5LKjiH5hrzitNriL?=
- =?us-ascii?Q?eFPtWXg+8Xkc0QYidcXQ8KJanWuwiBKdFynQpdG7ZoTzWfSqupvJGv3t6ZCl?=
- =?us-ascii?Q?+nbwtJEbBtVQR5XFQqlHVlvpgJY6POC/Pbt0d1W5VzMbnb54mS0TYn8BGV2e?=
- =?us-ascii?Q?6tNE5tPqnJS2hALokA/ckibZTyXxfaikp59GnIb1tOW04xbhKrAJ6Vdt/KmP?=
- =?us-ascii?Q?zVCGblrFD/9DDHUxwnapSyoVUK8jxJB+0vNa58w2UIEUeXuaEBDgIO/mMTp1?=
- =?us-ascii?Q?YcwveKYbP5zVhA8a3v2+S1Q3JRueuWy7hq5g0QlLUCNVwBZxkuSSI2lkoWDT?=
- =?us-ascii?Q?Dc+rYhQtlmxNV3RthJKTRKh7Xa7DLm0NQThqpj/C47/DYUig9TT2lC2RKo5K?=
- =?us-ascii?Q?gAANu6com7M/FxJueiY4T27w3AbN35N6GMgq+Q9PKKKiRMFsbhG04rtLi/Jg?=
- =?us-ascii?Q?HjRHRsfOSU629Qi4HX9b042X9/tCq973+wsNrU9nLqRvfvS51mN4EsZcMUh2?=
- =?us-ascii?Q?px4+HmEgVzSIe0+XqKI9A3WS1t8ioIUVDkxXZYHFsYcfkOMdAn7pQu0uxtkt?=
- =?us-ascii?Q?y0l3JuwveQhlSJ60m88biAXjhE9ZNbDWoCHXUmTIFNxLyUcLvpQLGUEsDe2d?=
- =?us-ascii?Q?MMq9ZkzEQQIUK9lqa880fTflm4hyK0cfXQocsHL6nP50IixfpVEkZqDoDIGB?=
- =?us-ascii?Q?RLjGPFfnIjKb1Gm+BDUX59k91o4r7l6yczSfa6LQCOCzj4cAHyUwoThXltfP?=
- =?us-ascii?Q?9b0TG6VEzhQwhmhsb+8ADiH70Jeu3pJpPtfFO8X3j69TICOoKAHa1xhntwmX?=
- =?us-ascii?Q?gEf6Cwp7ayynTZWaq1cOHn9qQAmC5MZ+zbp7+7ZDF2LcsX3B07LtdDV0Sx3W?=
- =?us-ascii?Q?/YALq1n4EA4ObqLiIc5seGyKxuKnBPLo1G2KMRubVU08+NtyET617YruSUBF?=
- =?us-ascii?Q?k578WlQXyjpy17opqaiGO4q4Q2tVUY3HDKYiFWp6oSC0HTnSOxJpBOJQtPQp?=
- =?us-ascii?Q?kSwv1DFmam2BgxD0AxW0RNG4qEqKSIRqNdh82cIFcA6AhVxcXp3LahccRv9j?=
- =?us-ascii?Q?uSmb9acGsF9/xTV+1Kx+Gl4THXFhB7UOzoFiIXo4?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: PDKZht0lg1ArAVABUVFUgKUspn/iMwDO20Og+IirTQZl82Oez6QMlFSpl1HvjTp9SAYFYxWOYsB0d+S6pZ6wHcPmavKS4YWQWjObY0wHI9HNb5Hyf3d595PSV3hE5xZQYYLsTyZ5LzRBxW2CdrQVCwzp40Gfegk5zSp61P8RUKvvHhQc1VntDn2A82hd0fqNUscwRoQkZwSRXfzDulIdGv1NuCsTDDTAM6NOT3Xw5wk9AchOSNXxAMnIVig8pjJbguWKSCtea/IRu2zIU9jPw5QJhZcFq/kLWMlaf2CSGvaVTPPC3pdYfQkq9DQQSc+qN6dIwE4Lhnr5GQWe6JQC8NtVfsCq708qPNOsfrwvowStlUkGxI96Z81M66L29rW0blUYfskNQkA/Fpa9sjWJYcXjfKt/n0zeGGRVCUGelh74hVUADadm1+HrscHpxrIGomLyK+G8kDm93/IdFW3ypTz4+lSvRJ40tmLsMnEraHWa2r0KZrvrZ50ke6NUT6jk4Pe96iVrAyTJuUSnOP/XQad7HJqteNFy8oY/jzhbe5XMTZeZgXnMzUdDQzD6G+syLao677pdrCcdpbWRai6JwhsDPPK9EKEnpsqBkgWBYA4=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6abe7dc0-2399-4ffa-915d-08dd87723d0d
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR10MB7329.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2025 23:04:48.0235
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RKSsi++Rkc+H4bBUxBK+iY4Bx+BrxmkbwT8ltIqbLZZcsY/DY0KRVmEhyCv2JNmqLohKuxCak2wgmw/nvQFOCA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB6530
+In-Reply-To: <20250416085446.480069-6-glider@google.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: sRcwMwhFzls9v268hynIGxnUi3FpBTDG
+X-Proofpoint-ORIG-GUID: sRcwMwhFzls9v268hynIGxnUi3FpBTDG
+X-Authority-Analysis: v=2.4 cv=UZZRSLSN c=1 sm=1 tr=0 ts=68118947 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=1XWaLZrsAAAA:8 a=DSPBSGmzSnmKTek9qQoA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDMwMDAxNSBTYWx0ZWRfX8FsQUMQu4Cdj WZksUnmeu33OnCqdeafWI9Qonr+kiDkrgFvWTF1IliT8gMyQcAuKO+wVhj5V1OuvjQAqEqFkOpt vMS2S0cg+9f95gR5BV+YKwAKRcVZgewobzs3KIBPGsYKy9YtqqCv4J1TBPSbKNkeJ5NiX+x1bFe
+ tpedlvGE29hMTGLvPG9MKXGK7qAc2s4gdXJs9Mi2L3tgYBXKbdeGumN4FzK6z8Tq6H0vTvjHk0u BNAsCc3pTaN7wtGhgXF9lr300WAzKwbiOfMLlUX4vh88sUHLXrcsN2R8+3yTusOBdiMpT0Hhg9A zCD1GB0P6ReoEEYARLduu1CgFk5FzV8PqYIacLRXdrx7PgtlQDP91gmKqIbxaqW8kqLV8v4ARps
+ 7gdvJ/PpFWdmdCZ6QhxLczAJs1yU+D7A+fM5xbSiKh0PfZBXWlq40ZfUe8HvZCLqjnlfsagN
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-04-29_08,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=629 phishscore=0
- suspectscore=0 mlxscore=0 malwarescore=0 adultscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2504070000 definitions=main-2504290171
-X-Authority-Analysis: v=2.4 cv=ZsHtK87G c=1 sm=1 tr=0 ts=68115b13 b=1 cx=c_pps a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=GoEa3M9JfhUA:10 a=pGLkceISAAAA:8 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8 a=gKAaLPBbVuH3SKO-n2sA:9 a=CjuIK1q_8ugA:10 cc=ntf awl=host:14638
-X-Proofpoint-ORIG-GUID: zdU-DTlFAaNVkT9nv4bVUSFJamY9kSs7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI5MDE3MSBTYWx0ZWRfX2j+nFOxCknM0 HSw+4pbkVBdoLbs0QO6e2ChR8D0NVo2+r0SA4BLhkbkb1ipq8C34qm0Ia2Y6PBMwYD/f6Ev71Qb hItI7zxOw9eva85uCrLOfB5hb5v7Vcb6mcFMS0B3gfcBGtky1iwCYFmL7pjqk1tzFwJAZlpF0Wo
- amK7Fmvjxi6na9oUuoNEeyOn2qhtkQVM8juOBgQLKQxWplGBs0bruOau6V+raN2ZN+qlCETwVFR gOSH+J4RfbWComPpKGEQOJZs3vkpRSXP2xSO2e7sLrsKcST4WQ7YXh3edReYV5f8wN2IVc/rBJj 8RD0HUVryhFg+GZw3gm2RcJosAYAmq+1LP3uL/2NV1rycvhG7POky6kXHk7idWwOplGBvURjkIP
- uYgxo6FP+pH4BCc9BxiYMEBlThVaBSWaCN9aD54hrfwfq0AYvFcEPJLVq0B2XnlpPwJdUw3x
-X-Proofpoint-GUID: zdU-DTlFAaNVkT9nv4bVUSFJamY9kSs7
-X-Original-Sender: harry.yoo@oracle.com
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
+ mlxlogscore=784 spamscore=0 priorityscore=1501 impostorscore=0 mlxscore=0
+ malwarescore=0 suspectscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504300015
+X-Original-Sender: quic_jiangenj@quicinc.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@oracle.com header.s=corp-2023-11-20 header.b=kBivXIWM;
-       dkim=pass header.i=@oracle.onmicrosoft.com header.s=selector2-oracle-onmicrosoft-com
- header.b=QO2VlE7B;       arc=pass (i=1 spf=pass spfdomain=oracle.com
- dkim=pass dkdomain=oracle.com dmarc=pass fromdomain=oracle.com);
-       spf=pass (google.com: domain of harry.yoo@oracle.com designates
- 205.220.177.32 as permitted sender) smtp.mailfrom=harry.yoo@oracle.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=oracle.com
-X-Original-From: Harry Yoo <harry.yoo@oracle.com>
-Reply-To: Harry Yoo <harry.yoo@oracle.com>
+ header.i=@quicinc.com header.s=qcppdkim1 header.b=FuNczuK4;       spf=pass
+ (google.com: domain of quic_jiangenj@quicinc.com designates 205.220.180.131
+ as permitted sender) smtp.mailfrom=quic_jiangenj@quicinc.com;
+       dmarc=pass (p=NONE sp=REJECT dis=NONE) header.from=quicinc.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -270,175 +183,369 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Apr 29, 2025 at 06:08:41PM +0200, Alexander Gordeev wrote:
-> apply_to_pte_range() enters the lazy MMU mode and then invokes
-> kasan_populate_vmalloc_pte() callback on each page table walk
-> iteration. However, the callback can go into sleep when trying
-> to allocate a single page, e.g. if an architecutre disables
-> preemption on lazy MMU mode enter.
-
-Should we add a comment that pte_fn_t must not sleep in
-apply_to_pte_range()?
-
-> On s390 if make arch_enter_lazy_mmu_mode() -> preempt_enable()
-> and arch_leave_lazy_mmu_mode() -> preempt_disable(), such crash
-> occurs:
+On Wed, Apr 16, 2025 at 10:54:43AM +0200, Alexander Potapenko wrote:
+> ioctl(KCOV_UNIQUE_ENABLE) enables collection of deduplicated coverage
+> in the presence of CONFIG_KCOV_ENABLE_GUARDS.
 > 
->     [  553.332108] preempt_count: 1, expected: 0
->     [  553.332117] no locks held by multipathd/2116.
->     [  553.332128] CPU: 24 PID: 2116 Comm: multipathd Kdump: loaded Tainted:
->     [  553.332139] Hardware name: IBM 3931 A01 701 (LPAR)
->     [  553.332146] Call Trace:
->     [  553.332152]  [<00000000158de23a>] dump_stack_lvl+0xfa/0x150
->     [  553.332167]  [<0000000013e10d12>] __might_resched+0x57a/0x5e8
->     [  553.332178]  [<00000000144eb6c2>] __alloc_pages+0x2ba/0x7c0
->     [  553.332189]  [<00000000144d5cdc>] __get_free_pages+0x2c/0x88
->     [  553.332198]  [<00000000145663f6>] kasan_populate_vmalloc_pte+0x4e/0x110
->     [  553.332207]  [<000000001447625c>] apply_to_pte_range+0x164/0x3c8
->     [  553.332218]  [<000000001448125a>] apply_to_pmd_range+0xda/0x318
->     [  553.332226]  [<000000001448181c>] __apply_to_page_range+0x384/0x768
->     [  553.332233]  [<0000000014481c28>] apply_to_page_range+0x28/0x38
->     [  553.332241]  [<00000000145665da>] kasan_populate_vmalloc+0x82/0x98
->     [  553.332249]  [<00000000144c88d0>] alloc_vmap_area+0x590/0x1c90
->     [  553.332257]  [<00000000144ca108>] __get_vm_area_node.constprop.0+0x138/0x260
->     [  553.332265]  [<00000000144d17fc>] __vmalloc_node_range+0x134/0x360
->     [  553.332274]  [<0000000013d5dbf2>] alloc_thread_stack_node+0x112/0x378
->     [  553.332284]  [<0000000013d62726>] dup_task_struct+0x66/0x430
->     [  553.332293]  [<0000000013d63962>] copy_process+0x432/0x4b80
->     [  553.332302]  [<0000000013d68300>] kernel_clone+0xf0/0x7d0
->     [  553.332311]  [<0000000013d68bd6>] __do_sys_clone+0xae/0xc8
->     [  553.332400]  [<0000000013d68dee>] __s390x_sys_clone+0xd6/0x118
->     [  553.332410]  [<0000000013c9d34c>] do_syscall+0x22c/0x328
->     [  553.332419]  [<00000000158e7366>] __do_syscall+0xce/0xf0
->     [  553.332428]  [<0000000015913260>] system_call+0x70/0x98
+> The buffer shared with the userspace is divided in two parts, one holding
+> a bitmap, and the other one being the trace. The single parameter of
+> ioctl(KCOV_UNIQUE_ENABLE) determines the number of words used for the
+> bitmap.
 > 
-> Instead of allocating single pages per-PTE, bulk-allocate the
-> shadow memory prior to applying kasan_populate_vmalloc_pte()
-> callback on a page range.
->
-> Suggested-by: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-> Cc: stable@vger.kernel.org
-> Fixes: 3c5c3cfb9ef4 ("kasan: support backing vmalloc space with real shadow memory")
+> Each __sanitizer_cov_trace_pc_guard() instrumentation hook receives a
+> pointer to a unique guard variable. Upon the first call of each hook,
+> the guard variable is initialized with a unique integer, which is used to
+> map those hooks to bits in the bitmap. In the new coverage collection mode,
+> the kernel first checks whether the bit corresponding to a particular hook
+> is set, and then, if it is not, the PC is written into the trace buffer,
+> and the bit is set.
 > 
-> Signed-off-by: Alexander Gordeev <agordeev@linux.ibm.com>
+> Note: when CONFIG_KCOV_ENABLE_GUARDS is disabled, ioctl(KCOV_UNIQUE_ENABLE)
+> returns -ENOTSUPP, which is consistent with the existing kcov code.
+> 
+> Also update the documentation.
+> 
+> Signed-off-by: Alexander Potapenko <glider@google.com>
 > ---
->  mm/kasan/shadow.c | 65 +++++++++++++++++++++++++++++++++++------------
->  1 file changed, 49 insertions(+), 16 deletions(-)
+>  Documentation/dev-tools/kcov.rst |  43 +++++++++++
+>  include/linux/kcov-state.h       |   8 ++
+>  include/linux/kcov.h             |   2 +
+>  include/uapi/linux/kcov.h        |   1 +
+>  kernel/kcov.c                    | 129 +++++++++++++++++++++++++++----
+>  5 files changed, 170 insertions(+), 13 deletions(-)
 > 
-> diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
-> index 88d1c9dcb507..ea9a06715a81 100644
-> --- a/mm/kasan/shadow.c
-> +++ b/mm/kasan/shadow.c
-> @@ -292,30 +292,65 @@ void __init __weak kasan_populate_early_vm_area_shadow(void *start,
->  {
+> diff --git a/Documentation/dev-tools/kcov.rst b/Documentation/dev-tools/kcov.rst
+> index 6611434e2dd24..271260642d1a6 100644
+> --- a/Documentation/dev-tools/kcov.rst
+> +++ b/Documentation/dev-tools/kcov.rst
+> @@ -137,6 +137,49 @@ mmaps coverage buffer, and then forks child processes in a loop. The child
+>  processes only need to enable coverage (it gets disabled automatically when
+>  a thread exits).
+>  
+> +Unique coverage collection
+> +---------------------------
+> +
+> +Instead of collecting raw PCs, KCOV can deduplicate them on the fly.
+> +This mode is enabled by the ``KCOV_UNIQUE_ENABLE`` ioctl (only available if
+> +``CONFIG_KCOV_ENABLE_GUARDS`` is on).
+> +
+> +.. code-block:: c
+> +
+> +	/* Same includes and defines as above. */
+> +	#define KCOV_UNIQUE_ENABLE		_IOW('c', 103, unsigned long)
+in kcov.h it was defined was _IOR, but _IOW here,
+#define KCOV_UNIQUE_ENABLE             _IOR('c', 103, unsigned long)
+> +	#define BITMAP_SIZE			(4<<10)
+> +
+> +	/* Instead of KCOV_ENABLE, enable unique coverage collection. */
+> +	if (ioctl(fd, KCOV_UNIQUE_ENABLE, BITMAP_SIZE))
+> +		perror("ioctl"), exit(1);
+> +	/* Reset the coverage from the tail of the ioctl() call. */
+> +	__atomic_store_n(&cover[BITMAP_SIZE], 0, __ATOMIC_RELAXED);
+> +	memset(cover, 0, BITMAP_SIZE * sizeof(unsigned long));
+> +
+> +	/* Call the target syscall call. */
+> +	/* ... */
+> +
+> +	/* Read the number of collected PCs. */
+> +	n = __atomic_load_n(&cover[BITMAP_SIZE], __ATOMIC_RELAXED);
+> +	/* Disable the coverage collection. */
+> +	if (ioctl(fd, KCOV_DISABLE, 0))
+> +		perror("ioctl"), exit(1);
+> +
+> +Calling ``ioctl(fd, KCOV_UNIQUE_ENABLE, bitmap_size)`` carves out ``bitmap_size``
+> +words from those allocated by ``KCOV_INIT_TRACE`` to keep an opaque bitmap that
+> +prevents the kernel from storing the same PC twice. The remaining part of the
+> +trace is used to collect PCs, like in other modes (this part must contain at
+> +least two words, like when collecting non-unique PCs).
+> +
+> +The mapping between a PC and its position in the bitmap is persistent during the
+> +kernel lifetime, so it is possible for the callers to directly use the bitmap
+> +contents as a coverage signal (like when fuzzing userspace with AFL).
+> +
+> +In order to reset the coverage between the runs, the user needs to rewind the
+> +trace (by writing 0 into the first word past ``bitmap_size``) and wipe the whole
+> +bitmap.
+> +
+>  Comparison operands collection
+>  ------------------------------
+>  
+> diff --git a/include/linux/kcov-state.h b/include/linux/kcov-state.h
+> index 6e576173fd442..26e275fe90684 100644
+> --- a/include/linux/kcov-state.h
+> +++ b/include/linux/kcov-state.h
+> @@ -26,6 +26,14 @@ struct kcov_state {
+>  		/* Buffer for coverage collection, shared with the userspace. */
+>  		unsigned long *trace;
+>  
+> +		/* Size of the bitmap (in bits). */
+> +		unsigned int bitmap_size;
+> +		/*
+> +		 * Bitmap for coverage deduplication, shared with the
+> +		 * userspace.
+> +		 */
+> +		unsigned long *bitmap;
+> +
+>  		/*
+>  		 * KCOV sequence number: incremented each time kcov is
+>  		 * reenabled, used by kcov_remote_stop(), see the comment there.
+> diff --git a/include/linux/kcov.h b/include/linux/kcov.h
+> index 7ec2669362fd1..41eebcd3ab335 100644
+> --- a/include/linux/kcov.h
+> +++ b/include/linux/kcov.h
+> @@ -10,6 +10,7 @@ struct task_struct;
+>  #ifdef CONFIG_KCOV
+>  
+>  enum kcov_mode {
+> +	KCOV_MODE_INVALID = -1,
+>  	/* Coverage collection is not enabled yet. */
+>  	KCOV_MODE_DISABLED = 0,
+>  	/* KCOV was initialized, but tracing mode hasn't been chosen yet. */
+> @@ -23,6 +24,7 @@ enum kcov_mode {
+>  	KCOV_MODE_TRACE_CMP = 3,
+>  	/* The process owns a KCOV remote reference. */
+>  	KCOV_MODE_REMOTE = 4,
+> +	KCOV_MODE_TRACE_UNIQUE_PC = 5,
+>  };
+>  
+>  #define KCOV_IN_CTXSW (1 << 30)
+> diff --git a/include/uapi/linux/kcov.h b/include/uapi/linux/kcov.h
+> index ed95dba9fa37e..fe1695ddf8a06 100644
+> --- a/include/uapi/linux/kcov.h
+> +++ b/include/uapi/linux/kcov.h
+> @@ -22,6 +22,7 @@ struct kcov_remote_arg {
+>  #define KCOV_ENABLE			_IO('c', 100)
+>  #define KCOV_DISABLE			_IO('c', 101)
+>  #define KCOV_REMOTE_ENABLE		_IOW('c', 102, struct kcov_remote_arg)
+> +#define KCOV_UNIQUE_ENABLE		_IOR('c', 103, unsigned long)
+>  
+>  enum {
+>  	/*
+> diff --git a/kernel/kcov.c b/kernel/kcov.c
+> index 7b726fd761c1b..dea25c8a53b52 100644
+> --- a/kernel/kcov.c
+> +++ b/kernel/kcov.c
+> @@ -29,6 +29,10 @@
+>  
+>  #include <asm/setup.h>
+>  
+> +#ifdef CONFIG_KCOV_ENABLE_GUARDS
+> +atomic_t kcov_guard_max_index = ATOMIC_INIT(1);
+> +#endif
+> +
+>  #define kcov_debug(fmt, ...) pr_debug("%s: " fmt, __func__, ##__VA_ARGS__)
+>  
+>  /* Number of 64-bit words written per one comparison: */
+> @@ -161,8 +165,7 @@ static __always_inline bool in_softirq_really(void)
+>  	return in_serving_softirq() && !in_hardirq() && !in_nmi();
 >  }
 >  
-> +struct vmalloc_populate_data {
-> +	unsigned long start;
-> +	struct page **pages;
-> +};
-> +
->  static int kasan_populate_vmalloc_pte(pte_t *ptep, unsigned long addr,
-> -				      void *unused)
-> +				      void *_data)
+> -static notrace bool check_kcov_mode(enum kcov_mode needed_mode,
+> -				    struct task_struct *t)
+> +static notrace enum kcov_mode get_kcov_mode(struct task_struct *t)
 >  {
-> -	unsigned long page;
-> +	struct vmalloc_populate_data *data = _data;
-> +	struct page *page;
-> +	unsigned long pfn;
->  	pte_t pte;
+>  	unsigned int mode;
 >  
->  	if (likely(!pte_none(ptep_get(ptep))))
->  		return 0;
+> @@ -172,7 +175,7 @@ static notrace bool check_kcov_mode(enum kcov_mode needed_mode,
+>  	 * coverage collection section in a softirq.
+>  	 */
+>  	if (!in_task() && !(in_softirq_really() && t->kcov_softirq))
+> -		return false;
+> +		return KCOV_MODE_INVALID;
+>  	mode = READ_ONCE(t->kcov_state.mode);
+>  	/*
+>  	 * There is some code that runs in interrupts but for which
+> @@ -182,7 +185,7 @@ static notrace bool check_kcov_mode(enum kcov_mode needed_mode,
+>  	 * kcov_start().
+>  	 */
+>  	barrier();
+> -	return mode == needed_mode;
+> +	return mode;
+>  }
 >  
-> -	page = __get_free_page(GFP_KERNEL);
-> -	if (!page)
-> -		return -ENOMEM;
-> -
-> -	__memset((void *)page, KASAN_VMALLOC_INVALID, PAGE_SIZE);
-> -	pte = pfn_pte(PFN_DOWN(__pa(page)), PAGE_KERNEL);
-> +	page = data->pages[PFN_DOWN(addr - data->start)];
-> +	pfn = page_to_pfn(page);
-> +	__memset(pfn_to_virt(pfn), KASAN_VMALLOC_INVALID, PAGE_SIZE);
-> +	pte = pfn_pte(pfn, PAGE_KERNEL);
+>  static notrace unsigned long canonicalize_ip(unsigned long ip)
+> @@ -201,7 +204,7 @@ static void sanitizer_cov_write_subsequent(unsigned long *trace, int size,
 >  
->  	spin_lock(&init_mm.page_table_lock);
-> -	if (likely(pte_none(ptep_get(ptep)))) {
-> +	if (likely(pte_none(ptep_get(ptep))))
->  		set_pte_at(&init_mm, addr, ptep, pte);
-> -		page = 0;
-
-With this patch, now if the pte is already set, the page is leaked?
-
-Should we set data->pages[PFN_DOWN(addr - data->start)] = NULL 
-and free non-null elements later in __kasan_populate_vmalloc()?
-
-> -	}
->  	spin_unlock(&init_mm.page_table_lock);
-> -	if (page)
-> -		free_page(page);
+>  	if (likely(pos < size)) {
+>  		/*
+> -		 * Some early interrupt code could bypass check_kcov_mode() check
+> +		 * Some early interrupt code could bypass get_kcov_mode() check
+>  		 * and invoke __sanitizer_cov_trace_pc(). If such interrupt is
+>  		 * raised between writing pc and updating pos, the pc could be
+>  		 * overitten by the recursive __sanitizer_cov_trace_pc().
+> @@ -220,7 +223,7 @@ static void sanitizer_cov_write_subsequent(unsigned long *trace, int size,
+>  #ifndef CONFIG_KCOV_ENABLE_GUARDS
+>  void notrace __sanitizer_cov_trace_pc(void)
+>  {
+> -	if (!check_kcov_mode(KCOV_MODE_TRACE_PC, current))
+> +	if (get_kcov_mode(current) != KCOV_MODE_TRACE_PC)
+>  		return;
+>  
+>  	sanitizer_cov_write_subsequent(current->kcov_state.s.trace,
+> @@ -229,14 +232,73 @@ void notrace __sanitizer_cov_trace_pc(void)
+>  }
+>  EXPORT_SYMBOL(__sanitizer_cov_trace_pc);
+>  #else
+> +
+> +DEFINE_PER_CPU(u32, saved_index);
+> +/*
+> + * Assign an index to a guard variable that does not have one yet.
+> + * For an unlikely case of a race with another task executing the same basic
+> + * block, we store the unused index in a per-cpu variable.
+> + * In an even less likely case the current task may lose a race and get
+> + * rescheduled onto a CPU that already has a saved index, discarding that index.
+> + * This will result in an unused hole in the bitmap, but such events should have
+> + * minor impact on the overall memory consumption.
+> + */
+> +static __always_inline u32 init_pc_guard(u32 *guard)
+> +{
+> +	/* If the current CPU has a saved free index, use it. */
+> +	u32 index = this_cpu_xchg(saved_index, 0);
+> +	u32 old_guard;
+> +
+> +	if (likely(!index))
+> +		/*
+> +		 * Allocate a new index. No overflow is possible, because 2**32
+> +		 * unique basic blocks will take more space than the max size
+> +		 * of the kernel text segment.
+> +		 */
+> +		index = atomic_inc_return(&kcov_guard_max_index) - 1;
+> +
+> +	/*
+> +	 * Make sure another task is not initializing the same guard
+> +	 * concurrently.
+> +	 */
+> +	old_guard = cmpxchg(guard, 0, index);
+> +	if (unlikely(old_guard)) {
+> +		/* We lost the race, save the index for future use. */
+> +		this_cpu_write(saved_index, index);
+> +		return old_guard;
+> +	}
+> +	return index;
+> +}
+> +
+>  void notrace __sanitizer_cov_trace_pc_guard(u32 *guard)
+>  {
+> -	if (!check_kcov_mode(KCOV_MODE_TRACE_PC, current))
+> -		return;
+> +	u32 pc_index;
+> +	enum kcov_mode mode = get_kcov_mode(current);
+>  
+> -	sanitizer_cov_write_subsequent(current->kcov_state.s.trace,
+> -				       current->kcov_state.s.trace_size,
+> -				       canonicalize_ip(_RET_IP_));
+> +	switch (mode) {
+> +	case KCOV_MODE_TRACE_UNIQUE_PC:
+> +		pc_index = READ_ONCE(*guard);
+> +		if (unlikely(!pc_index))
+> +			pc_index = init_pc_guard(guard);
+> +
+> +		/*
+> +		 * Use the bitmap for coverage deduplication. We assume both
+> +		 * s.bitmap and s.trace are non-NULL.
+> +		 */
+> +		if (likely(pc_index < current->kcov_state.s.bitmap_size))
+> +			if (test_and_set_bit(pc_index,
+> +					     current->kcov_state.s.bitmap))
+> +				return;
+> +		/* If the PC is new, write it to the trace. */
+> +		fallthrough;
+> +	case KCOV_MODE_TRACE_PC:
+> +		sanitizer_cov_write_subsequent(current->kcov_state.s.trace,
+> +					       current->kcov_state.s.trace_size,
+> +					       canonicalize_ip(_RET_IP_));
+> +		break;
+> +	default:
+> +		return;
+> +	}
+>  }
+>  EXPORT_SYMBOL(__sanitizer_cov_trace_pc_guard);
+>  
+> @@ -255,7 +317,7 @@ static void notrace write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
+>  	u64 *trace;
+>  
+>  	t = current;
+> -	if (!check_kcov_mode(KCOV_MODE_TRACE_CMP, t))
+> +	if (get_kcov_mode(t) != KCOV_MODE_TRACE_CMP)
+>  		return;
+>  
+>  	ip = canonicalize_ip(ip);
+> @@ -374,7 +436,7 @@ static void kcov_start(struct task_struct *t, struct kcov *kcov,
+>  	/* Cache in task struct for performance. */
+>  	t->kcov_state.s = state->s;
+>  	barrier();
+> -	/* See comment in check_kcov_mode(). */
+> +	/* See comment in get_kcov_mode(). */
+>  	WRITE_ONCE(t->kcov_state.mode, state->mode);
+>  }
+>  
+> @@ -408,6 +470,10 @@ static void kcov_reset(struct kcov *kcov)
+>  	kcov->state.mode = KCOV_MODE_INIT;
+>  	kcov->remote = false;
+>  	kcov->remote_size = 0;
+> +	kcov->state.s.trace = kcov->state.s.area;
+> +	kcov->state.s.trace_size = kcov->state.s.size;
+> +	kcov->state.s.bitmap = NULL;
+> +	kcov->state.s.bitmap_size = 0;
+>  	kcov->state.s.sequence++;
+>  }
+>  
+> @@ -594,6 +660,41 @@ static inline bool kcov_check_handle(u64 handle, bool common_valid,
+>  	return false;
+>  }
+>  
+> +static long kcov_handle_unique_enable(struct kcov *kcov,
+> +				      unsigned long bitmap_words)
+> +{
+> +	struct task_struct *t = current;
+> +
+> +	if (!IS_ENABLED(CONFIG_KCOV_ENABLE_GUARDS))
+> +		return -ENOTSUPP;
+> +	if (kcov->state.mode != KCOV_MODE_INIT || !kcov->state.s.area)
+> +		return -EINVAL;
+> +	if (kcov->t != NULL || t->kcov != NULL)
+> +		return -EBUSY;
+> +
+> +	/*
+> +	 * Cannot use zero-sized bitmap, also the bitmap must leave at least two
+> +	 * words for the trace.
+> +	 */
+> +	if ((!bitmap_words) || (bitmap_words >= (kcov->state.s.size - 1)))
+> +		return -EINVAL;
+> +
+> +	kcov->state.s.bitmap_size = bitmap_words * sizeof(unsigned long) * 8;
+> +	kcov->state.s.bitmap = kcov->state.s.area;
+> +	kcov->state.s.trace_size = kcov->state.s.size - bitmap_words;
+> +	kcov->state.s.trace =
+> +		((unsigned long *)kcov->state.s.area + bitmap_words);
+> +
+> +	kcov_fault_in_area(kcov);
+> +	kcov->state.mode = KCOV_MODE_TRACE_UNIQUE_PC;
+> +	kcov_start(t, kcov, &kcov->state);
+> +	kcov->t = t;
+> +	/* Put either in kcov_task_exit() or in KCOV_DISABLE. */
+> +	kcov_get(kcov);
 > +
 > +	return 0;
 > +}
 > +
-> +static int __kasan_populate_vmalloc(unsigned long start, unsigned long end)
-> +{
-> +	unsigned long nr_pages, nr_total = PFN_UP(end - start);
-> +	struct vmalloc_populate_data data;
-> +	int ret;
-> +
-> +	data.pages = (struct page **)__get_free_page(GFP_KERNEL);
-> +	if (!data.pages)
-> +		return -ENOMEM;
-> +
-> +	while (nr_total) {
-> +		nr_pages = min(nr_total, PAGE_SIZE / sizeof(data.pages[0]));
-> +		__memset(data.pages, 0, nr_pages * sizeof(data.pages[0]));
-> +		if (nr_pages != alloc_pages_bulk(GFP_KERNEL, nr_pages, data.pages)) {
-
-When the return value of alloc_pages_bulk() is less than nr_pages,
-you still need to free pages in the array unless nr_pages is zero.
-
-> +			free_page((unsigned long)data.pages);
-> +			return -ENOMEM;
-> +		}
-> +
-> +		data.start = start;
-> +		ret = apply_to_page_range(&init_mm, start, nr_pages * PAGE_SIZE,
-> +					  kasan_populate_vmalloc_pte, &data);
-> +		if (ret)
-> +			return ret;
-> +
-> +		start += nr_pages * PAGE_SIZE;
-> +		nr_total -= nr_pages;
-> +	}
-> +
-> +	free_page((unsigned long)data.pages);
-> +
->  	return 0;
->  }
->  
-> @@ -348,9 +383,7 @@ int kasan_populate_vmalloc(unsigned long addr, unsigned long size)
->  	shadow_start = PAGE_ALIGN_DOWN(shadow_start);
->  	shadow_end = PAGE_ALIGN(shadow_end);
->  
-> -	ret = apply_to_page_range(&init_mm, shadow_start,
-> -				  shadow_end - shadow_start,
-> -				  kasan_populate_vmalloc_pte, NULL);
-> +	ret = __kasan_populate_vmalloc(shadow_start, shadow_end);
->  	if (ret)
->  		return ret;
->  
+>  static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+>  			     unsigned long arg)
+>  {
+> @@ -627,6 +728,8 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+>  		/* Put either in kcov_task_exit() or in KCOV_DISABLE. */
+>  		kcov_get(kcov);
+>  		return 0;
+> +	case KCOV_UNIQUE_ENABLE:
+> +		return kcov_handle_unique_enable(kcov, arg);
+>  	case KCOV_DISABLE:
+>  		/* Disable coverage for the current task. */
+>  		unused = arg;
 > -- 
-> 2.45.2
+> 2.49.0.604.gff1f9ca942-goog
 > 
-> 
-
--- 
-Cheers,
-Harry / Hyeonggon
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aBFbCP9TqNN0bGpB%40harry.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aBGJQF8aMfWmz7RI%40hu-jiangenj-sha.qualcomm.com.
