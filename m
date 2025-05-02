@@ -1,116 +1,119 @@
 Return-Path: <kasan-dev+bncBDCPL7WX3MKBBHM22XAAMGQEIRHW4IA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3e.google.com (mail-qv1-xf3e.google.com [IPv6:2607:f8b0:4864:20::f3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A12AA7C77
-	for <lists+kasan-dev@lfdr.de>; Sat,  3 May 2025 00:54:23 +0200 (CEST)
-Received: by mail-qv1-xf3e.google.com with SMTP id 6a1803df08f44-6f2c9e1f207sf47015426d6.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 02 May 2025 15:54:23 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1746226462; cv=pass;
+Received: from mail-il1-x13c.google.com (mail-il1-x13c.google.com [IPv6:2607:f8b0:4864:20::13c])
+	by mail.lfdr.de (Postfix) with ESMTPS id C493CAA7C75
+	for <lists+kasan-dev@lfdr.de>; Sat,  3 May 2025 00:54:22 +0200 (CEST)
+Received: by mail-il1-x13c.google.com with SMTP id e9e14a558f8ab-3d90a7e86f7sf62122925ab.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 02 May 2025 15:54:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1746226461; cv=pass;
         d=google.com; s=arc-20240605;
-        b=bmYDU6EV6cFNkK9E5ZpDGpNiWlbv1qtXQyAC4ToPkmE3adraLjWnDfSkBOK4I2cJ9P
-         6fEQFg9IaZMeCjny77IpNKIfALK2XCLWSSusoPF9k6HFVwmGdnIJmd+DmZmQ8VrTddzW
-         fuc7oddu0ZckgD3whu8/4s+i78ezLZD5OQAsKGfJ1Sn3pwZ9SO7efHwNV2JMK7got/CC
-         WokLKyFV0/1ryC1pek5R+TWPXrmicDaKf+BUs2rqnhXGGPlYDbxjBUHS5K4uOgEO9Ine
-         63RyZMK8+eg5MIyZEulu+k3LNbC7CNsMuMOxWgIPz6p+hEBP1+W7Ek5XzKKrP5Hc6qrK
-         ntfQ==
+        b=gSLfMkIf+2S/yg6LT2XtPFGqVmYkTqRUvqoZsME2itbTxGejq5AUIytnW3X9DiHMYS
+         BPeRvr+2On7w2ZLYKvSsZJlbGPhz07BZolTOJEXqjkGV0yWTSliXrgZVVB0TFWFoiCVE
+         89wziwG/1Wde25jmcH6STzTalWs394pE5GapbC5Uf6gKmjl9nrkoPEv0qChjEBo1phQo
+         nNPI0i7ChYTJ1qqyUc1y48va774tI/2dv7f90hOJqHqIQe2eYND/QbNZJE8sehzCMA40
+         JiiyHGeTKb9O9lJXq5dzC9UDlBIxfMyG55uqpPSKcYDN9UChGnLxTLQ+5vAiB2YIQqvr
+         5yrw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
-         :date:subject:cc:to:from:dkim-signature;
-        bh=GD3avakxT87khlNGtZIsJ0mAfCHMW30+Hl9cy81rx7I=;
-        fh=qOZaaVxBclJpME8Gst9r7TKBHsmr+q4WehiCz/Kdlt0=;
-        b=azAmLmwvj+YBm7A4MToFfTBMp/uKKNQ28BkTiQloRn0v3yWvqn2WfjAqd0I4dqF7T9
-         u3pZArqbofWyUfNM30l07c2Jkn805J626n+NpMlDEx1qNmTnPXccATAi0Cr5ZcnMazB6
-         A5rFiUjLdVP9/fv+EoODYHERCm0atIr9gvzx/m9vPC7QaJJWQpSYKSMYD/AwCRKwPlZV
-         ZpU/j3/hjus39GsRM/ANlEz91PcvFfXZAsPy41sEtABCd8mmGF0iEoe+QpiX9KlJ0KRZ
-         UMs/wXgYtM77OEZ1A7cPKmkbXzjIVuhnGUkQoSK51Nfib2YUC4FKOKudp50J0Ddko5xu
-         MjfA==;
+         :list-id:mailing-list:precedence:reply-to:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=UKYFu/gRlf0sCPSPisDjvukXWNobeV7bgvyyw6JrRlk=;
+        fh=PyZY/QdwFvmHhm5CFYCthQNk3iM6nh5BIiBk3wrC25U=;
+        b=kqyXS3lhSdRs/Vm3x3SUNHCHyjNTXhwOMBdyfjSezEBha6Sy/LpSoeggxhHnDuudQz
+         8qHgsWBOWYTzvb7283TfJw84XUy7SE/xGXKsnEj2rEELYm408RBcuz1GVGnVYLaeHmyv
+         azzKDMoSx1qpE5/WRpPLQOm1S7PSLPH+7ARcyuqQssou8XOg4vmWFf/q9vFr1TN6mA0g
+         twFlS8Og++rWQbjW/gfEBXxXIMXF8f/NZ4gC+kzo06Ob32fadKacDZDZJndZH0h0wt2B
+         J8IjXB7rmlh0RlXGDVTQbEnDQllPBbUr7mQaA17W8pzCVuUfOSKWZ4VqRo8N04tv0e/0
+         fjRw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=mosauOqk;
-       spf=pass (google.com: domain of kees@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="ssm7w/5O";
+       spf=pass (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=kees@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1746226462; x=1746831262; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1746226461; x=1746831261; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GD3avakxT87khlNGtZIsJ0mAfCHMW30+Hl9cy81rx7I=;
-        b=fl//I4EXhBxgWKEyqoOqkZ7zmGIGFeVAUE4shRCtmIlO/F3FGB5WZUaOHw67GUuVPN
-         vLhH+/PE18Yamd0Ebogj5sUOMWd4dMOTYcAfNd4V+5/6Tpa/IhHo2OHo4ftIx3TsVTuh
-         MwSfoJZ7GiinSjnHMhzc2PD/I1Cj2coSHev9TwXE5tBU2Mqwv853DGVj10cR7Ll3Z/LR
-         my2Y0e6WpfovEbR0eCH7T8FnW1/LHW0cJc+dkb8fp+St4D+oUPzIeI8yJv7cp1XngQTm
-         MceuwvQ/wNRGp7+G5e6navczTj6vK7Z2DVtl8vLDa+h07RNyT9S6VMsqXomlDNYKg0hp
-         tHjg==
+         :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=UKYFu/gRlf0sCPSPisDjvukXWNobeV7bgvyyw6JrRlk=;
+        b=FclFb5erhHE5nnmoAeSKqMHg5xExXxgn0TFXhannItirlo9KgE1nnb/9Ud9oFSmvkG
+         XnR/L0lCuPnKudvqJ4S/JX9BM7kIz6fwFCYGw1JvyeJAMokcj3E6kwvUu4gzN4zYM8ss
+         P4xCnx8hQed+iqaKBYUIUQKukS9rCKSs1FtiY21K4lL3vSHdhXJLNam9rPMjYyK2JF/Z
+         mUCjh/XxdZ+HSMKOXPG2q646APNrT1UNVlspH3ISXRwXsnRDvmCRCgyst0Dk/DENrlZr
+         jAbY6Ix+EceLAW4S/v+lwIIbJUkK2uEyTftwnJvJtOHN+OlIfPG0YJGjFhkmtHysPM9T
+         AShQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746226462; x=1746831262;
+        d=1e100.net; s=20230601; t=1746226461; x=1746831261;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GD3avakxT87khlNGtZIsJ0mAfCHMW30+Hl9cy81rx7I=;
-        b=VLzRpB2Ac9BQhzvGVouCChSIL+5MlkE1nm4V+uqhNOJjZdw1/yDM6A3Ppph8hKrhi1
-         vVNRIlCxbZ559Rrg/GTKUkaHTqhcvmcWqS+5PXJZy27cJkuyPo3SS/ReJqbmEmntJAZL
-         lUSRLBBOFv5KD0DImATm1p4V+4db0fi6oBYSwzjBDr/2mRza9SuGTIeInKM/11VuVJt9
-         t0s/hvhTEKDMRg/pyPgpyHqOcpvvCV9j71DU3RHj6EqqD0PkTwXR5skUKkn5Kli75G7J
-         h/uInI4MUd8DX57+VpJMWXFgdA2mf6y2VEgGsSIGZuqsP6q9/52TYjC1OdtM9YccvDlq
-         zc9A==
-X-Forwarded-Encrypted: i=2; AJvYcCWaN8KXUpdLUz8JVlLcO19e2j8OrZznb7krI9JCa67GLZfODv/yOPhQgxcGtUc7AqYqTmaA3g==@lfdr.de
-X-Gm-Message-State: AOJu0YzCr80s6JXUlIYrpEEI3zqzEWktwphTk7wLM4w0pMwCNgOD/A1E
-	sFoF757P905BEzuSFT9GvpzQ7Bvie++kAA8pjqTKUQK74aSDt7BU
-X-Google-Smtp-Source: AGHT+IEQo4Y1lwQXc++PZ1bgf85OwCXcr+IISjOFU/n6QVkoOewHLa8tdifNaJAGLWsgrWYaCJzRug==
-X-Received: by 2002:a05:6214:5296:b0:6e8:9e8f:cfb with SMTP id 6a1803df08f44-6f51548cb12mr71751836d6.24.1746226461791;
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UKYFu/gRlf0sCPSPisDjvukXWNobeV7bgvyyw6JrRlk=;
+        b=CWwFYN9TaYhwlPbmkSxf8iiyXP8cZalFnDypCOD+aWF+fM0J63adpo0dOtqiNNty9S
+         AfUoPLil4WnWsTO2KWbkCQuU3+8ld6iFVFPaeTQfmC2jOkvCkLF2v0vPR236F+UWcvCf
+         iZwAic6lxXdkNUqPvAcOlladuQ4MezqcuRTFe6FhaGXpLSeKSznm95V8y7JO0Z8Kssty
+         ElKCuQMiFdQjNbUFfeRQ6tUdcaoGK7p3pA+2yKUrPiY6d8VRO2o6rpeF168D7m09xQpK
+         a5c8KMgl/LK4TB+qqF7C1/83vKUgl7ZKjt3Wp7e4pQjDo7VbBivt67HYrphCm5Vx0Nts
+         sCSw==
+X-Forwarded-Encrypted: i=2; AJvYcCUsQWYyZoMAbKokd8ZkvLYIpr6vB9QPiEyesjG5OMFx4frpL4oqlHWwDZI8chMVGzIFUm4VIA==@lfdr.de
+X-Gm-Message-State: AOJu0YyiFq8dowKcq18yoDkLGQNq9LzXa8A5bWE51OgEEY3LPwFOqFtT
+	WKZoemp6/jdnhKH3pa9CYyxYgc0xojx6adS6Vey42ow/8xO3mypG
+X-Google-Smtp-Source: AGHT+IGI1Qs+irt/Es3UbZdm+QWknIGXuwTIwNkahYyjLIpvw7h5FjafXmpJXpRT34L3Cbte0Xne4Q==
+X-Received: by 2002:a05:6e02:1f06:b0:3d0:4e0c:2c96 with SMTP id e9e14a558f8ab-3d97c1541d2mr59258835ab.2.1746226461407;
         Fri, 02 May 2025 15:54:21 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBHdPD0OH+tabSlEx70NbS/1rjjuJ805KGOtidqzLAywKg==
-Received: by 2002:ad4:4b25:0:b0:6f2:bd76:f673 with SMTP id 6a1803df08f44-6f508531eabls11366646d6.2.-pod-prod-05-us;
- Fri, 02 May 2025 15:54:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVo1Jm2lrPZN5aqpW8YJiYJv2g3vNDit3t1JdYqtLgPsAqY/OgYXROrKzMM+rSuv7bfNd8A5NOZEyE=@googlegroups.com
-X-Received: by 2002:a05:6102:9d9:b0:4da:d874:d30a with SMTP id ada2fe7eead31-4dafb4be92dmr3538679137.1.1746226460890;
+X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBEynF7Qb036OUwY53oFX9RbVVHwr6F+vYgVwcho/plECw==
+Received: by 2002:a92:ca45:0:b0:3d4:564c:718a with SMTP id e9e14a558f8ab-3d96e7f3b6dls22988965ab.1.-pod-prod-08-us;
+ Fri, 02 May 2025 15:54:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXvOYFUptzoPb9N0OS2MXmy59IHgjw0zGC68n62m/vDbJzeOuDwZyaxaYrKf4zBwpsms7lTn7suOYc=@googlegroups.com
+X-Received: by 2002:a05:6602:3e90:b0:864:6799:6059 with SMTP id ca18e2360f4ac-8669f990d22mr672341639f.3.1746226460720;
         Fri, 02 May 2025 15:54:20 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1746226460; cv=none;
         d=google.com; s=arc-20240605;
-        b=AGySiFUhpEu8q41UAw2X8jeOFc1zW2vAbJojqosEp3QaaYZwptjF72eEIwdHqWQtxI
-         HK7e5tghVWOwDaxwbTu6qYFskjccqruxza+sN2lUhrhnLF+t9LoiIdPAabVHRLuC5jlk
-         mSYwxcFYAzCuCLhjwwHfnWqQ/FU0neocMnR/VHDY8Yt5gQhmgOUUMX5pShKCg6bsPrHi
-         35WR/MJKd27Zy0FGOTKx5FC0UrXn7XjBZlWGofiv1kjpT8B8klDYf69ETRZoNkZJRN3L
-         Eyss5a8U9KWWKGsXD35cuatlCCDmk9o7aw0hV4NwuZc381Yija0FRHDnwPbXfvEZvNl2
-         Kx5g==
+        b=UPGSmpmn2Pttw5pb/tNwE0PkDCOaY2PJZXt/w4HbKXs/FMVThJULh09NJVj7BhDU8O
+         RgfRGDJeaIDhd/2JxEE937oj3F+lDb0Au1Q1t52YVmYvgyIAkw1qcQL0XCqhOjYtnekw
+         aIAsw7JrJG6U/ipTjML+ANdixS2z1kTK/A4dzLV36IRDI1JiH6LOnEx7asWjEYzaKRIA
+         sCBunG0uS060iKXIqmlFqqEK0OvFnZt6yno897vFlxtts1zbfFYUpyhQ6pqR8CEHa+W4
+         dHgbzB96D5ne3IPs4vG0A6j/dSzuiSsrUkQTXuE1zH+Yp+joeEeL7GuZ5hJYRi0eZaRd
+         U2xQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=ONTWqXPK16P/0zEJ7tS2nkTgsRlCDOKxvUHOtWHZvaE=;
-        fh=eubRhKonGYIeWiOKI6Z2JQsuHw2wUWowqb7UcyoQPKo=;
-        b=PmkkQB5bf6boxbYrtU/oGBaCnS4pdQF5qFS3WELHI50MfanGcPoWCP0bI+KEqWNkfi
-         5GLDDyr7N91bjfAYxGEcBRtyiaXGeu6SQCDU3qrvagJvAuV0jZziQF7Tm8RJ1jQs0PXV
-         QgWU4oqtwXR9NnexJ0uOGdlDowLpHxllgoW77h7NVvq/PwFQOllWKeCrltLHTNebGAxG
-         PwLZD6AeP+fRfiy8ubBDksFkAtS/qiSs1rJ2mO8RJwug1oI9JPp2PTcQ6zow99yMyTi0
-         vietFDlGLkeSYPUTirpexsIWTxBzhb/iuX1ySZ6ogrjOKfGPwEQBZAMewl3K2H//6DTK
-         ZujQ==;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=jIBtEyAokjAEkZnBAUAX5LDb5f/8nH7cHbyE0gJC8u8=;
+        fh=9HuoAGOkpK9C71m1ef+oZS1WAi4U+QnJVmqamFtP4H0=;
+        b=g5238kzCj6RoP+x3nZFsSb1R4cF1xskhD0IQzWQdLlr12JaBjZevNpyVc5voLS5IM2
+         2K2n/EunoMNJ1+xDCyJE5dBH3TMkpzoA0OkchXB9mNBzcTlez4fG5m2EN2Ojv2XdSSKH
+         seSZw/XnCTELiI15GWRNjmzttCpGzREjB9hiQHbpR3iB6X1F3qLek2CCrJD6n5fVdt5G
+         XYFqVsYlk+2d5wq0MeXzcD2NhGmV1o1AXXc49/DvlmwQodFJoxpxqRi6ji5Y65cOFzn5
+         o8v/IKpYKefYM3QebfRY379h1jFGNWuJLKrajM9/fEaJTUuPvqe8b2lTPCdhCXeokTTi
+         gZLw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=mosauOqk;
-       spf=pass (google.com: domain of kees@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="ssm7w/5O";
+       spf=pass (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=kees@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id 71dfb90a1353d-52ae4159e08si4037e0c.4.2025.05.02.15.54.20
+Received: from sea.source.kernel.org (sea.source.kernel.org. [2600:3c0a:e001:78e:0:1991:8:25])
+        by gmr-mx.google.com with ESMTPS id ca18e2360f4ac-864aa407dc3si16047239f.4.2025.05.02.15.54.20
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 02 May 2025 15:54:20 -0700 (PDT)
-Received-SPF: pass (google.com: domain of kees@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received-SPF: pass (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) client-ip=2600:3c0a:e001:78e:0:1991:8:25;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 0C1495C5C85;
-	Fri,  2 May 2025 22:52:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C407DC4AF0B;
+	by sea.source.kernel.org (Postfix) with ESMTP id 97E534A88A;
+	Fri,  2 May 2025 22:54:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6EC5C4AF0C;
 	Fri,  2 May 2025 22:54:19 +0000 (UTC)
 From: "'Kees Cook' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: Kees Cook <kees@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
+	linux-hardening@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
 	Petr Pavlu <petr.pavlu@suse.com>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Justin Stitt <justinstitt@google.com>,
@@ -121,23 +124,23 @@ Cc: Kees Cook <kees@kernel.org>,
 	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
 	Johannes Berg <johannes@sipsolutions.net>,
 	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
 	kasan-dev@googlegroups.com,
 	linux-um@lists.infradead.org
-Subject: [PATCH v2 0/3] Detect changed compiler dependencies for full rebuild
-Date: Fri,  2 May 2025 15:54:12 -0700
-Message-Id: <20250502224512.it.706-kees@kernel.org>
+Subject: [PATCH v2 1/3] gcc-plugins: Force full rebuild when plugins change
+Date: Fri,  2 May 2025 15:54:13 -0700
+Message-Id: <20250502225416.708936-1-kees@kernel.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250502224512.it.706-kees@kernel.org>
+References: <20250502224512.it.706-kees@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2704; i=kees@kernel.org; h=from:subject:message-id; bh=WdmZa5l99Vhwe/hFJDeUIG6hQ5O76/7JBHbFIhtajXs=; b=owGbwMvMwCVmps19z/KJym7G02pJDBmivmLBof3JZfffi9rwZtw7k6/bbaezi+3JSpdr0XPDs s7wqC3uKGVhEONikBVTZAmyc49z8XjbHu4+VxFmDisTyBAGLk4BmEi1HiND56y7zgsOn5/caBvL LfxQ6GifRFBVWdwigd+l/Ac1fQtuMvx34tjpIpfatU6iObfAvlz2Uh5X7+Vuc869+hoTXMp+JLI DAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3599; i=kees@kernel.org; h=from:subject; bh=p3LCBG41fA+N9OOg7h+A3NTLbRHrJjxplvYJ9i2fjRY=; b=owGbwMvMwCVmps19z/KJym7G02pJDBmivmJ2fLZvdZtuL3ln0FN9zyeba4Wj2k17D3nRxQXrd vdMr2PqKGVhEONikBVTZAmyc49z8XjbHu4+VxFmDisTyBAGLk4BmEjGNEaG31vtb+Y+u61978cH qSv9Qt/MA2r2XlX+dImj81RrVk9POMP/KOPbz/fsmLXErj3kugvzgqC892Eblgc1Mnx9/1GLbac cJwA=
 X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 X-Original-Sender: kees@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=mosauOqk;       spf=pass
- (google.com: domain of kees@kernel.org designates 139.178.84.217 as permitted
- sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass (p=QUARANTINE
- sp=QUARANTINE dis=NONE) header.from=kernel.org
+ header.i=@kernel.org header.s=k20201202 header.b="ssm7w/5O";       spf=pass
+ (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25
+ as permitted sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 X-Original-From: Kees Cook <kees@kernel.org>
 Reply-To: Kees Cook <kees@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -153,76 +156,91 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
- v2:
-  - switch from -include to -I with a -D gated include compiler-version.h
- v1: https://lore.kernel.org/lkml/20250501193839.work.525-kees@kernel.org/
+There was no dependency between the plugins changing and the rest of the
+kernel being built. Enforce this by including a synthetic header file
+when using plugins, that is regenerated any time the plugins are built.
 
-Hi,
+This cannot be included via '-include ...' because Makefiles use the
+"filter-out" string function, which removes individual words. Removing
+all instances of "-include" from the CFLAGS will cause a lot of
+problems. :)
 
-This is my attempt to introduce dependencies that track the various
-compiler behaviors that may globally change the build that aren't
-represented by either compiler flags nor the compiler version
-(CC_VERSION_TEXT). Namely, this is to detect when the contents of a
-file the compiler uses changes. We have 3 such situations currently in
-the tree:
+Instead, use -I to include the gcc-plugins directory, and depend on the
+new -DGCC_PLUGINS_ENABLED flag to include the generated header file via
+include/linux/compiler-version.h, which is already being used to control
+full rebuilds. The UM build requires that the -I be explicitly added.
 
-- If any of the GCC plugins change, we need to rebuild everything that
-  was built with them, as they may have changed their behavior and those
-  behaviors may need to be synchronized across all translation units.
-  (The most obvious of these is the randstruct GCC plugin, but is true
-  for most of them.)
+Signed-off-by: Kees Cook <kees@kernel.org>
+---
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas.schier@linux.dev>
+Cc: <linux-hardening@vger.kernel.org>
+Cc: <linux-kbuild@vger.kernel.org>
+---
+ arch/um/Makefile                 | 1 +
+ include/linux/compiler-version.h | 4 ++++
+ scripts/Makefile.gcc-plugins     | 2 +-
+ scripts/gcc-plugins/Makefile     | 8 ++++++++
+ 4 files changed, 14 insertions(+), 1 deletion(-)
 
-- If the randstruct seed itself changes (whether for GCC plugins or
-  Clang), the entire tree needs to be rebuilt since the randomization of
-  structures may change between compilation units if not.
-
-- If the integer-wrap-ignore.scl file for Clang's integer wrapping
-  sanitizer changes, a full rebuild is needed as the coverage for wrapping
-  types may have changed, once again cause behavior differences between
-  compilation units.
-
-The best way I found to deal with this is to:
-- Generate a .h file that is updated when the specific dependencies change.
-  e.g.: randstruct_hash.h depends on randstruct.seed
-
-- Add a -I argument globally to be able to locate the .h file.
-  e.g.: -I$(objtree)/scripts/basic
-
-- Add a conditional -D argument for each separate case
-  e.g.: RANDSTRUCT_CFLAGS += -DRANDSTRUCT
-
-- Include the .h file from compiler-version.h through an #ifdef for the define
-  e.g.:
-  #ifdef RANDSTUCT
-  #include "randstruct_hash.h"
-  #endif
-
-This means that all targets gain the dependency (via fixdep), but only
-when the defines are active, which means they are trivially controlled
-by the existing CFLAGS removal mechanisms that are already being used
-to turn off each of the above features.
-
--Kees
-
-Kees Cook (3):
-  gcc-plugins: Force full rebuild when plugins change
-  randstruct: Force full rebuild when seed changes
-  integer-wrap: Force full rebuild when .scl file changes
-
- Makefile                         |  1 +
- arch/um/Makefile                 |  2 ++
- include/linux/compiler-version.h | 10 ++++++++++
- include/linux/vermagic.h         |  1 -
- scripts/Makefile.gcc-plugins     |  2 +-
- scripts/Makefile.ubsan           |  1 +
- scripts/basic/Makefile           | 20 +++++++++++++++-----
- scripts/gcc-plugins/Makefile     |  8 ++++++++
- 8 files changed, 38 insertions(+), 7 deletions(-)
-
+diff --git a/arch/um/Makefile b/arch/um/Makefile
+index 1d36a613aad8..8cc0f22ebefa 100644
+--- a/arch/um/Makefile
++++ b/arch/um/Makefile
+@@ -72,6 +72,7 @@ USER_CFLAGS = $(patsubst $(KERNEL_DEFINES),,$(patsubst -I%,,$(KBUILD_CFLAGS))) \
+ 		$(ARCH_INCLUDE) $(MODE_INCLUDE) $(filter -I%,$(CFLAGS)) \
+ 		-D_FILE_OFFSET_BITS=64 -idirafter $(srctree)/include \
+ 		-idirafter $(objtree)/include -D__KERNEL__ -D__UM_HOST__ \
++		-I$(objtree)/scripts/gcc-plugins \
+ 		-include $(srctree)/include/linux/compiler-version.h \
+ 		-include $(srctree)/include/linux/kconfig.h
+ 
+diff --git a/include/linux/compiler-version.h b/include/linux/compiler-version.h
+index 573fa85b6c0c..08943df04ebb 100644
+--- a/include/linux/compiler-version.h
++++ b/include/linux/compiler-version.h
+@@ -12,3 +12,7 @@
+  * and add dependency on include/config/CC_VERSION_TEXT, which is touched
+  * by Kconfig when the version string from the compiler changes.
+  */
++
++#ifdef GCC_PLUGINS_ENABLED
++#include "gcc-plugins-deps.h"
++#endif
+diff --git a/scripts/Makefile.gcc-plugins b/scripts/Makefile.gcc-plugins
+index 5b8a8378ca8a..468bb8faa9d1 100644
+--- a/scripts/Makefile.gcc-plugins
++++ b/scripts/Makefile.gcc-plugins
+@@ -38,7 +38,7 @@ export DISABLE_STACKLEAK_PLUGIN
+ 
+ # All the plugin CFLAGS are collected here in case a build target needs to
+ # filter them out of the KBUILD_CFLAGS.
+-GCC_PLUGINS_CFLAGS := $(strip $(addprefix -fplugin=$(objtree)/scripts/gcc-plugins/, $(gcc-plugin-y)) $(gcc-plugin-cflags-y))
++GCC_PLUGINS_CFLAGS := $(strip $(addprefix -fplugin=$(objtree)/scripts/gcc-plugins/, $(gcc-plugin-y)) $(gcc-plugin-cflags-y)) -I$(objtree)/scripts/gcc-plugins -DGCC_PLUGINS_ENABLED
+ export GCC_PLUGINS_CFLAGS
+ 
+ # Add the flags to the build!
+diff --git a/scripts/gcc-plugins/Makefile b/scripts/gcc-plugins/Makefile
+index 320afd3cf8e8..24671d39ec90 100644
+--- a/scripts/gcc-plugins/Makefile
++++ b/scripts/gcc-plugins/Makefile
+@@ -66,3 +66,11 @@ quiet_cmd_plugin_cxx_o_c = HOSTCXX $@
+ 
+ $(plugin-objs): $(obj)/%.o: $(src)/%.c FORCE
+ 	$(call if_changed_dep,plugin_cxx_o_c)
++
++quiet_cmd_gcc_plugins_updated = UPDATE  $@
++      cmd_gcc_plugins_updated = echo '/* $^ */' > $(obj)/gcc-plugins-deps.h
++
++$(obj)/gcc-plugins-deps.h: $(plugin-single) $(plugin-multi) FORCE
++	$(call if_changed,gcc_plugins_updated)
++
++always-y += gcc-plugins-deps.h
 -- 
 2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250502224512.it.706-kees%40kernel.org.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250502225416.708936-1-kees%40kernel.org.
