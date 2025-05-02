@@ -1,145 +1,167 @@
-Return-Path: <kasan-dev+bncBDCPL7WX3MKBBDVN2TAAMGQEQO3UKSI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDCPL7WX3MKBBEFN2TAAMGQEXRF7OLA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83f.google.com (mail-qt1-x83f.google.com [IPv6:2607:f8b0:4864:20::83f])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE398AA79C2
-	for <lists+kasan-dev@lfdr.de>; Fri,  2 May 2025 21:01:35 +0200 (CEST)
-Received: by mail-qt1-x83f.google.com with SMTP id d75a77b69052e-476664bffbesf44862461cf.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 02 May 2025 12:01:35 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1746212494; cv=pass;
+Received: from mail-qv1-xf40.google.com (mail-qv1-xf40.google.com [IPv6:2607:f8b0:4864:20::f40])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A321AA79C5
+	for <lists+kasan-dev@lfdr.de>; Fri,  2 May 2025 21:01:37 +0200 (CEST)
+Received: by mail-qv1-xf40.google.com with SMTP id 6a1803df08f44-6e8f9057432sf47712846d6.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 02 May 2025 12:01:37 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1746212496; cv=pass;
         d=google.com; s=arc-20240605;
-        b=h4GiKgQvUsoFnOLaiUVJ3aTiEmX0zmUTcOD5JUkjDwAXTK7axtBfJQ0l3vobEgbGm+
-         KPkteoAokcxyZSLhESQHWSGmGe6DKK56XfWz8otfuk3Q0/bJm2xwAvcZi6KXeM0Aa5aS
-         lDynz5wS9f1NUCltpaAPexhVXR21Mjl44LkS27TknF9akbFtwMub3zoUHUwiSA+bCmPr
-         6t0PXk4G0fpuC/qhTD8dyLZsaSW33hEudmkXrvG5HTcaMOt7xAJ14pam6qKE0vZyQVN8
-         qqF1T9XF6PgSELo7Diz7eP29PcS3ZvKk/k4Txf2zNDKWaVuHBdAzMNGeojpFWZivYOfy
-         Tllw==
+        b=EAk3QwpCLFAMxYjpEQSRUXw+d0uDo8RbRUNTATg0UMNwxYg/0t23nGn4LJji1O8HBF
+         wAEydcJDq81DnRGg1Fk7k4v751wvYGaK6W8jLoIVw7LA8H9lggKwRh8Qye8iCMFdrFvK
+         FR/dRPoAD0ZdIGzeID7NQMEu05eyMhNYo01roW/suSv2jn16RbHtk5jGpMtr+i2pbPjt
+         YXPdS8X4Ei4+FDwi16Ro+K06SfdmX/qvOfCZRr79ODcendIGbkKRZf4ahrN1euJ4lKfa
+         4X7a5rmfnE7fYMxHnn84GrIj57c9I+XOtTa5U+Fy81L500E31br0lgVQuYpCaj6OuGh0
+         t3bA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=1pBHoHLHEZVGwWeKFjLsUW+bN+bGsgAq0kQ5S8EvOFw=;
-        fh=P5aX66yHhOXUPyeUL2zAhd1RoxNMju+c0X4xS/7j8pU=;
-        b=CP2REzfpMvP5kRdeauxLgLctHtYSC1s4ygD5jZcYhO7Pes2fq5vcOXM/4o3MiCWHf9
-         1UUEutzfxURv3KqrdE7zCbe5EtpBg1Y7eMmkNhcipVkVHgE0oXmcze4zo0KOsMiIGI58
-         UJACXlPHMe+eugQlaZ+swfPZiGu81TDi64ESLU8EmA6AbYlR6qrh4kXGUNP4ARFG+AAG
-         bKJx1UOO+HwGF0/Co2U21nt9LI04HwPc94N/nSXcAeu/FM15kilzuYSBtW0TMS24vOIH
-         Zcxrv1xyGRPi+yRtRjE17DvsuJDn+souAzQGySBDw1Cu365GqQosh+8eOM4Qgf4MK+OV
-         gK7w==;
+        bh=dRkB3UX9T1xKEUwVRIaiFiMrprqid7st38SLCorHGow=;
+        fh=JVDs6P2hjHvIeFtDufGZ5VuYCnb8uvJVvePn39LzbgM=;
+        b=lxkwUWm10TYlX/UYWQ1bJZXmRRtGPwmlnn0IXeykBPF4ujHuX2Y8DhHf67MrNIHNNr
+         Jf5fu/OxFj7235xW1H3Qg8EqGo3OALCLxyURhvcJ4cKDadmgoF1uLLVROFBstENduqtv
+         TYX9hP3iujRRYAHlWhdmPRub6O6R8AtCbAzRv4t7vYSrF8sjiUPd2hZ1kR7rZKRCWPqr
+         HHMiZQcxiuxX7VIrcMPcVoxTECKkVLiYCFbfqlXBNrx16hn/vzimv5n1FjbtlcPg/R6r
+         Ib09ylkJ0Rhhs+ya5BJ0uGtZqVXDcrX7ZU12VOvp7dI/PUuo9G5mwprGQOWwQy46PMVh
+         qaxg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=XskH4lLH;
-       spf=pass (google.com: domain of kees@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="jB1YOX/W";
+       spf=pass (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=kees@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1746212494; x=1746817294; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1746212496; x=1746817296; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=1pBHoHLHEZVGwWeKFjLsUW+bN+bGsgAq0kQ5S8EvOFw=;
-        b=EAvXk4slHBI6XITxeWuFH58TkisYvHZr0vGDzm8nlWeWWp+zCxpQaNyY5FggOHGRhy
-         Vv/+V4HHzFCvBD8mEmUxwxjOakggDEBJcKlKI3PSx9NKpFixynUo2Yj+6AZv9aa48J7/
-         v77PZYTp+A0yon78Rqm2vZRzPZeOD4SHyljJkLFuw9QHGg3pJNYIzLYrZDMcvur5shJh
-         Xh5FtTOBzbkzEsJw0JMuvEWiNPEDjHdPzkwyYaqrUHLpT93qm1Mh60bSiPwjvObaqR8O
-         wgD/r7gn4MdIrR43gZVacsywKJHSDHrA5gz3ntTJs86OHO2fkm3+yYjs3fHBIuverbhG
-         2YKQ==
+        bh=dRkB3UX9T1xKEUwVRIaiFiMrprqid7st38SLCorHGow=;
+        b=Y3EjgKmsBYYeFFJbyQ1gEykH4hQdSk2zy7nWfkUu8T8NFSRFqJUUGtJmA2+VWYJSfl
+         ph6MWfAFVuxSNSE93CcS8hxvle6ZivLOXq1n9u89L8JWk0brHcQmeOqzW/mIakAx5wq3
+         hcsJM/Ebr13LoabwieOOwrlZbFDXN4DtNGWTHogaE8DsMTiU3x7M4ihV7ZS7Vg4i7AnX
+         V6Ad/E3/2Tzs2sQsOC6rO053x6ku1ORpyUjkPxURtyPt3rxOjMSUMd/QNpgSATLKJBJD
+         /JvX2QlrfMeYlK6nMmH9DvvqSUb05cSUe0adnBVIz+gWfqsENPgk0lclf+EMMnjh26qE
+         V+Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746212494; x=1746817294;
+        d=1e100.net; s=20230601; t=1746212496; x=1746817296;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1pBHoHLHEZVGwWeKFjLsUW+bN+bGsgAq0kQ5S8EvOFw=;
-        b=ZVjusLvX5+KUPL38R+qo/rvXsSl9G1hkvCQ9Y2PQo+14kR/K+k3LOvAwCMbWIunkyg
-         YFD0PpEZrhuktIODmWsx8acjK1A3a1r10OxtkE4VS5IFUknUlhhXJWanxu6EYID7i/2b
-         WPjH1YGHO7VhVlZBsaEydoATAUIoL7hHTTv2/SONJxkRvN9kAngb8gAlcvy2A9DXuEaC
-         EMwMQDKjs9+ETRKzwTXFrFH+MscIjl5Ejmw25v2SwTtEat7lKMNlA6KD8TNMGm8YIZ4/
-         NLEGY6oyGSWj6BaDjroj1LMsXMPuCmCTuJXk2nSOYpBXrfOHtLaxdzWZXuUbz3o3k3aW
-         HlnA==
-X-Forwarded-Encrypted: i=2; AJvYcCWBoJJRKN7UyPcY38Q+JTvttzkCBl0ntmc/y2t6uFrPISrlv8ZxQfmm+JBej13GjnDpkV/AsQ==@lfdr.de
-X-Gm-Message-State: AOJu0YzZOlauHZYBc6UW8W/YDcdzncqT7TjSwJaFGCpDnfCq1vw2iS27
-	RD5tenAKE6WLWiqoQGClSPXZElHXDbYtL8bS6rdrbeJ4rzEfjAd2
-X-Google-Smtp-Source: AGHT+IElI1CWC9HVLu8bCinc7EcOK8UJ0H1nuL/OldKKuf8dGxSOeYAlhN0a1/hjA0ws8IDtDuSt4g==
-X-Received: by 2002:a05:622a:4c07:b0:476:8296:17e5 with SMTP id d75a77b69052e-48c31353ea1mr58292001cf.17.1746212494508;
+        bh=dRkB3UX9T1xKEUwVRIaiFiMrprqid7st38SLCorHGow=;
+        b=kVDhWjgNIdHuqvz3zyXY8G8uEc1O8g/mOakc7LWIJSOid8GcboXTLEhDQzpW7k/M32
+         zvYZg80ukY6usprHI2hKLNopi/jvlsfoAet2ZbW9qrS9/2bdSkXSpgX9vEtCgYx49Pvj
+         NN/QKmlKOH3jdgR4QbNNPLLW83E4XYedyuOCmzso07UeALgqOEwc/U+5s0Z0uo3QiYMt
+         3qeoOOZmn7rh0lR7PfOO0w9clKEmZjUql73ZvG9eMZSoGs3h9oHnSzP0eUS3d/ymXadj
+         XBKxF6MF+EEfa3VlDtJUbmUgvw6ctHxUXq6jA+sRJyXwpFZjkkzrsfAh9iyCHACtKL0b
+         qUDg==
+X-Forwarded-Encrypted: i=2; AJvYcCWh63+FbUx9KwRVmr/gVVFzfQZXKqJe0akGMNRIWIoXqtd8epFJ0dufl8LGFumcr4IbcaTPPw==@lfdr.de
+X-Gm-Message-State: AOJu0YydE5Xi18dXdsNo89uC3/fAWVZiZdK04TubZQ5cmXTHmYtv9+bA
+	8algqCVkrtGgtXERADI66hSyUUlPacoEgVq1EUi8h9BtH6HS7bVt
+X-Google-Smtp-Source: AGHT+IEiYu/V2jizKBWzzgwCrgMlbt3Lj6pTUlXv+0G3sviQr8vi2uc6xrLhDSZH4hp1dfHEqlDeUg==
+X-Received: by 2002:a05:6214:f21:b0:6e8:ec85:831c with SMTP id 6a1803df08f44-6f5155e92bdmr72853236d6.35.1746212496171;
+        Fri, 02 May 2025 12:01:36 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBEjBVERhVFPK0xlub5Gnj25vclN2JSAU2hENni7cdaMVw==
+Received: by 2002:a0c:f98a:0:b0:6f5:457:9fd6 with SMTP id 6a1803df08f44-6f5083f34a9ls18391486d6.0.-pod-prod-06-us;
+ Fri, 02 May 2025 12:01:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCU7uD8IUgn0LTWgW7ETDeQWETMCS9MeIS/yIu5xsc0A0vX78buY0dgPTqNT76bnIMcN4j5m2axw9ok=@googlegroups.com
+X-Received: by 2002:a05:620a:2682:b0:7c5:a423:f5b0 with SMTP id af79cd13be357-7cad5b22d6emr649555085a.7.1746212494409;
         Fri, 02 May 2025 12:01:34 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBHBFWSYM13yxWbPDXu37qs0kD6myFAmTyWAj0bCoAAfgg==
-Received: by 2002:a05:622a:a019:b0:481:d765:2e0e with SMTP id
- d75a77b69052e-48ad89b7041ls35597741cf.1.-pod-prod-07-us; Fri, 02 May 2025
- 12:01:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVLTbACASaCel19+d1NUBJmcM19VYma3Xm5MrWuwBVhKp9mkruOb011pi2eDKKqSDSwGsx+ThyKL/4=@googlegroups.com
-X-Received: by 2002:a05:622a:4119:b0:477:e7c:a4c with SMTP id d75a77b69052e-48c32ac7c94mr68388171cf.39.1746212493568;
-        Fri, 02 May 2025 12:01:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1746212493; cv=none;
+ARC-Seal: i=1; a=rsa-sha256; t=1746212494; cv=none;
         d=google.com; s=arc-20240605;
-        b=T+tHI/dvrw/+jIeSeSiPeWsH4hYOqtLp1C0L614Ny8Pbt2gt0rWRAX2fbDhZ2vVr1I
-         jgizA6KEytXGRTPKFrVi3Vzft7IYNNSNUvzaXxMuaDbk+sllraei8BNbVPO7WVYpc2Zh
-         I0rzT3Yqkfau6uizbQkBf9FKTU4SdM/GYU2N/2go7cruhrGAkBhvZ9a0YRwVdVp2rf1h
-         7Lk9Wqvu7QRUNgxsiBffhwmZztKvhZuEH+ckae2jeBcN3gVWVYT+fNQFCIKBAGmv6QGL
-         B5wJKVzENlsLeUBc60amh/lgDIPBFW4Ws4npag+oW1T8gdbIKrfs5yM0MJEjKNhP0hvC
-         XrhQ==
+        b=WqnRfIyLptBT9Ah/G7hJNiyH1WTxqJINT2WqLkpgKM8dafRoBEGSz/Bvc3oxmuX3rw
+         +2jaHsTCnqws9d/KuppZQefpcyrYpHF+ySiWqOYLROU5J7DuPcCWTC6ktpHcd/uo+v3S
+         CijFkLdv0kaBL9RJta4xQp545nyFwW7gQsW1Znj14nzwqnmcBSw6RW3yIMfQRJQwxWFL
+         xZ73xwZrTPr5XbZze0OPYKYK0EJffD2TqOIvm6NJpduN03gEVW3SwHd9TYhTf6kD6W/a
+         ELLEtMrjY9A+6K7SI3DjB/whRTYzFAjyMdEKAKE/UtxfV+3Zir3pR5NbewcWs100TGyy
+         jD/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=hX5wR39LjacC93Bmc78Vfzcvbkj+SUvbwoit1IycWNU=;
-        fh=lh92C742Jj3nygrwO5Lq7z6EyFIw/1YWN8DCYAj+uaI=;
-        b=g6ZI7y9W0BuKZQOrdDsaOTQDaqaTSjgLv1xGlAgvkoE9C2IfiyslzoxcmY/N95yNKa
-         ZGjCf7TWgfSkojXzwRbQBeXnUO/wXekaYQu1pBHzugAJmVNf9W/L/mgf/LLB0umsKQkr
-         1YFAw7DWWrYddrZ7kY4bY17KYlQUA2/LoyO+qMC+mBs3johVRyS5IeIbuAqTJKlQeOHA
-         UYCMXKgDGg6/hHHjrMAujnsyJDmin2AkbmH2ut6ljyLhtOdDbvOAYmyW5uycJF0fMlNr
-         HGnQ8uXgQJjY+WIpMytxn4UAY/nuk8rR5DRHgq77+T2ip/voS5LYB3Gbx8ySUayYbAxM
-         AyAA==;
+        bh=ze0pvXhySGK0L8vipVJusHHsV9ao9JZ+P8Ehobf9I4o=;
+        fh=85vFmEItGaDhgLs/vjlw29hZUjCUU8/e9UyaoG9281s=;
+        b=iN4p0tEA42hYScOc+byF5+L4l7LJBfmgE//+AIIP6E/dJFCr5MsUx0wUjiq4yhW58M
+         NWt3axFOY6mLw6WdYziRjHxqSVoNWpGOug+DIYdXgOvdbEJx1lJ2VG9a7yR4Bsj7jMZG
+         ZmfEEixyIWK1wcCAqPG4Fnk68w+OcSjb3tMHsSq0cm/x+ZX0zcjMYQXENuO8tarOlirx
+         bJ33Gj7yFD70oa2K5kswz/iKpajJVp86IKRBxWYtnJv9kR24WgUxujL3uyXuMzvN8dV6
+         kmCTU1exECLZ+ukFw3NIduVEsNnWd0HhVpEUUX6wc9a2h9THXXAWw2qUWQiwtx3sNHID
+         N0Ww==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=XskH4lLH;
-       spf=pass (google.com: domain of kees@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="jB1YOX/W";
+       spf=pass (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=kees@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id d75a77b69052e-48b9843811fsi1307951cf.4.2025.05.02.12.01.33
+Received: from sea.source.kernel.org (sea.source.kernel.org. [2600:3c0a:e001:78e:0:1991:8:25])
+        by gmr-mx.google.com with ESMTPS id af79cd13be357-7cad23b7d03si17742685a.1.2025.05.02.12.01.34
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 May 2025 12:01:33 -0700 (PDT)
-Received-SPF: pass (google.com: domain of kees@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+        Fri, 02 May 2025 12:01:34 -0700 (PDT)
+Received-SPF: pass (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) client-ip=2600:3c0a:e001:78e:0:1991:8:25;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id CBBD55C5CAB;
-	Fri,  2 May 2025 18:59:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96854C4CEE4;
+	by sea.source.kernel.org (Postfix) with ESMTP id D2296443EE;
+	Fri,  2 May 2025 19:01:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FA19C4CEED;
 	Fri,  2 May 2025 19:01:32 +0000 (UTC)
 From: "'Kees Cook' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Arnd Bergmann <arnd@arndb.de>
 Cc: Kees Cook <kees@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
 	x86@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	sparclinux@vger.kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Marco Elver <elver@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Kai Huang <kai.huang@intel.com>,
+	Hou Wenlong <houwenlong.hwl@antgroup.com>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
 	linux-kbuild@vger.kernel.org,
+	kasan-dev@googlegroups.com,
 	linux-hardening@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	kvmarm@lists.linux.dev,
 	linux-riscv@lists.infradead.org,
 	linux-s390@vger.kernel.org,
 	linux-efi@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
-	kasan-dev@googlegroups.com,
+	sparclinux@vger.kernel.org,
 	llvm@lists.linux.dev
-Subject: [PATCH RFC 3/4] stackleak: Split STACKLEAK_CFLAGS from GCC_PLUGINS_CFLAGS
-Date: Fri,  2 May 2025 12:01:26 -0700
-Message-Id: <20250502190129.246328-3-kees@kernel.org>
+Subject: [PATCH RFC 4/4] stackleak: Support Clang stack depth tracking
+Date: Fri,  2 May 2025 12:01:27 -0700
+Message-Id: <20250502190129.246328-4-kees@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250502185834.work.560-kees@kernel.org>
 References: <20250502185834.work.560-kees@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5846; i=kees@kernel.org; h=from:subject; bh=T23nG4j/t8R/0j3qoaqTnBegm1hE55sMCs8bEgkfkMg=; b=owGbwMvMwCVmps19z/KJym7G02pJDBmiYm0985ZPL8tL9j7QeF5dfLXQKaEXKszinZxbNO7FG HvMXX2go5SFQYyLQVZMkSXIzj3OxeNte7j7XEWYOaxMIEMYuDgFYCJlfxkZ7p7ujPW8PMHYrmTJ QnPBjkyu7pIXX6edPv1JZqlzjQPTHYY/HIvF3iRMfnLp6ZKpIo5GKTorNCf0GBx9eGzjYm2T6Ua OnAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4716; i=kees@kernel.org; h=from:subject; bh=OArrhviC9XaQ7OlcTfKqQMGsnz4armduOY/WBMGcbsA=; b=owGbwMvMwCVmps19z/KJym7G02pJDBmiYm0eHYd/KD+/YrfhHLPdHAslHi9Fd//IiqqD/4I25 j38J1nZUcrCIMbFICumyBJk5x7n4vG2Pdx9riLMHFYmkCEMXJwCMBGBJYwMGxO93eMPrlt+5Jzt Oot7p+4nLPDlKnhnYFtxdhXvk+VS/Ax/Bd/vvaSguOh3WEFqRfyd1+x1/pxfFHj2REh++SY+fVI 9DwA=
 X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 X-Original-Sender: kees@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=XskH4lLH;       spf=pass
- (google.com: domain of kees@kernel.org designates 2604:1380:4641:c500::1 as
- permitted sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass
+ header.i=@kernel.org header.s=k20201202 header.b="jB1YOX/W";       spf=pass
+ (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25
+ as permitted sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass
  (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 X-Original-From: Kees Cook <kees@kernel.org>
 Reply-To: Kees Cook <kees@kernel.org>
@@ -156,126 +178,121 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-In preparation for Clang stack depth tracking for stackleak, split the
-stackleak-specific cflags out of GCC_PLUGINS_CFLAGS into
-STACKLEAK_CFLAGS.
+Wire up stackleak to Clang's proposed[1] stack depth tracking callback
+option. While __noinstr already contained __no_sanitize_coverage, it was
+still needed for __init and __head section markings. This is needed to
+make sure the callback is not executed in unsupported contexts.
 
+Link: https://github.com/llvm/llvm-project/pull/138323 [1]
 Signed-off-by: Kees Cook <kees@kernel.org>
 ---
 Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
 Cc: <x86@kernel.org>
-Cc: <linux-arm-kernel@lists.infradead.org>
-Cc: <sparclinux@vger.kernel.org>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas.schier@linux.dev>
+Cc: Marco Elver <elver@google.com>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Paul Moore <paul@paul-moore.com>
+Cc: James Morris <jmorris@namei.org>
+Cc: "Serge E. Hallyn" <serge@hallyn.com>
+Cc: Kai Huang <kai.huang@intel.com>
+Cc: Hou Wenlong <houwenlong.hwl@antgroup.com>
+Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+Cc: Sami Tolvanen <samitolvanen@google.com>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
 Cc: <linux-kbuild@vger.kernel.org>
+Cc: <kasan-dev@googlegroups.com>
 Cc: <linux-hardening@vger.kernel.org>
+Cc: <linux-security-module@vger.kernel.org>
 ---
- arch/arm/vdso/Makefile          |  2 +-
- arch/arm64/kernel/vdso/Makefile |  1 +
- arch/sparc/vdso/Makefile        |  3 ++-
- arch/x86/entry/vdso/Makefile    |  3 ++-
- scripts/Makefile.gcc-plugins    | 11 ++++++-----
- 5 files changed, 12 insertions(+), 8 deletions(-)
+ arch/x86/include/asm/init.h |  2 +-
+ include/linux/init.h        |  4 +++-
+ scripts/Makefile.ubsan      | 12 ++++++++++++
+ security/Kconfig.hardening  |  5 ++++-
+ 4 files changed, 20 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm/vdso/Makefile b/arch/arm/vdso/Makefile
-index cb044bfd145d..92748e341b7d 100644
---- a/arch/arm/vdso/Makefile
-+++ b/arch/arm/vdso/Makefile
-@@ -26,7 +26,7 @@ CPPFLAGS_vdso.lds += -P -C -U$(ARCH)
- CFLAGS_REMOVE_vdso.o = -pg
+diff --git a/arch/x86/include/asm/init.h b/arch/x86/include/asm/init.h
+index 8b1b1abcef15..6bfdaeddbae8 100644
+--- a/arch/x86/include/asm/init.h
++++ b/arch/x86/include/asm/init.h
+@@ -5,7 +5,7 @@
+ #if defined(CONFIG_CC_IS_CLANG) && CONFIG_CLANG_VERSION < 170000
+ #define __head	__section(".head.text") __no_sanitize_undefined __no_stack_protector
+ #else
+-#define __head	__section(".head.text") __no_sanitize_undefined
++#define __head	__section(".head.text") __no_sanitize_undefined __no_sanitize_coverage
+ #endif
  
- # Force -O2 to avoid libgcc dependencies
--CFLAGS_REMOVE_vgettimeofday.o = -pg -Os $(RANDSTRUCT_CFLAGS) $(GCC_PLUGINS_CFLAGS)
-+CFLAGS_REMOVE_vgettimeofday.o = -pg -Os $(RANDSTRUCT_CFLAGS) $(GCC_PLUGINS_CFLAGS) $(STACKLEAK_CFLAGS)
- ifeq ($(c-gettimeofday-y),)
- CFLAGS_vgettimeofday.o = -O2
- else
-diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Makefile
-index 5e27e46aa496..fb17749b93cf 100644
---- a/arch/arm64/kernel/vdso/Makefile
-+++ b/arch/arm64/kernel/vdso/Makefile
-@@ -37,6 +37,7 @@ ccflags-y += -DDISABLE_BRANCH_PROFILING -DBUILD_VDSO
- # the CFLAGS to make possible to build the kernel with CONFIG_WERROR enabled.
- CC_FLAGS_REMOVE_VDSO := $(CC_FLAGS_FTRACE) -Os $(CC_FLAGS_SCS) \
- 			$(RANDSTRUCT_CFLAGS) $(GCC_PLUGINS_CFLAGS) \
-+			$(STACKLEAK_CFLAGS) \
- 			$(CC_FLAGS_LTO) $(CC_FLAGS_CFI) \
- 			-Wmissing-prototypes -Wmissing-declarations
+ struct x86_mapping_info {
+diff --git a/include/linux/init.h b/include/linux/init.h
+index ee1309473bc6..c65a050d52a7 100644
+--- a/include/linux/init.h
++++ b/include/linux/init.h
+@@ -49,7 +49,9 @@
  
-diff --git a/arch/sparc/vdso/Makefile b/arch/sparc/vdso/Makefile
-index fdc4a8f5a49c..162a0235f41f 100644
---- a/arch/sparc/vdso/Makefile
-+++ b/arch/sparc/vdso/Makefile
-@@ -48,7 +48,7 @@ CFL := $(PROFILING) -mcmodel=medlow -fPIC -O2 -fasynchronous-unwind-tables -m64
+ /* These are for everybody (although not all archs will actually
+    discard it in modules) */
+-#define __init		__section(".init.text") __cold  __latent_entropy __noinitretpoline
++#define __init		__section(".init.text") __cold __latent_entropy	\
++						__noinitretpoline	\
++						__no_sanitize_coverage
+ #define __initdata	__section(".init.data")
+ #define __initconst	__section(".init.rodata")
+ #define __exitdata	__section(".exit.data")
+diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
+index 9e35198edbf0..cfb3ecde07dd 100644
+--- a/scripts/Makefile.ubsan
++++ b/scripts/Makefile.ubsan
+@@ -22,3 +22,15 @@ ubsan-integer-wrap-cflags-$(CONFIG_UBSAN_INTEGER_WRAP)     +=	\
+ 	-fsanitize=implicit-unsigned-integer-truncation		\
+ 	-fsanitize-ignorelist=$(srctree)/scripts/integer-wrap-ignore.scl
+ export CFLAGS_UBSAN_INTEGER_WRAP := $(ubsan-integer-wrap-cflags-y)
++
++ifdef CONFIG_CC_IS_CLANG
++stackleak-cflags-$(CONFIG_STACKLEAK)	+=	\
++	-fsanitize-coverage=stack-depth		\
++	-fsanitize-coverage-stack-depth-callback-min=$(CONFIG_STACKLEAK_TRACK_MIN_SIZE)
++export STACKLEAK_CFLAGS := $(stackleak-cflags-y)
++ifdef CONFIG_STACKLEAK
++    DISABLE_STACKLEAK		:= -fno-sanitize-coverage=stack-depth
++endif
++export DISABLE_STACKLEAK
++KBUILD_CFLAGS += $(STACKLEAK_CFLAGS)
++endif
+diff --git a/security/Kconfig.hardening b/security/Kconfig.hardening
+index edcc489a6805..e86b61e44b33 100644
+--- a/security/Kconfig.hardening
++++ b/security/Kconfig.hardening
+@@ -158,10 +158,13 @@ config GCC_PLUGIN_STRUCTLEAK_VERBOSE
+ 	  initialized. Since not all existing initializers are detected
+ 	  by the plugin, this can produce false positive warnings.
  
- SPARC_REG_CFLAGS = -ffixed-g4 -ffixed-g5 $(call cc-option,-fcall-used-g5) $(call cc-option,-fcall-used-g7)
- 
--$(vobjs): KBUILD_CFLAGS := $(filter-out $(RANDSTRUCT_CFLAGS) $(GCC_PLUGINS_CFLAGS) $(SPARC_REG_CFLAGS),$(KBUILD_CFLAGS)) $(CFL)
-+$(vobjs): KBUILD_CFLAGS := $(filter-out $(RANDSTRUCT_CFLAGS) $(GCC_PLUGINS_CFLAGS) $(STACKLEAK_CFLAGS) $(SPARC_REG_CFLAGS),$(KBUILD_CFLAGS)) $(CFL)
- 
- #
- # vDSO code runs in userspace and -pg doesn't help with profiling anyway.
-@@ -80,6 +80,7 @@ KBUILD_CFLAGS_32 := $(filter-out -mcmodel=medlow,$(KBUILD_CFLAGS_32))
- KBUILD_CFLAGS_32 := $(filter-out -fno-pic,$(KBUILD_CFLAGS_32))
- KBUILD_CFLAGS_32 := $(filter-out $(RANDSTRUCT_CFLAGS),$(KBUILD_CFLAGS_32))
- KBUILD_CFLAGS_32 := $(filter-out $(GCC_PLUGINS_CFLAGS),$(KBUILD_CFLAGS_32))
-+KBUILD_CFLAGS_32 := $(filter-out $(STACKLEAK_CFLAGS),$(KBUILD_CFLAGS_32))
- KBUILD_CFLAGS_32 := $(filter-out $(SPARC_REG_CFLAGS),$(KBUILD_CFLAGS_32))
- KBUILD_CFLAGS_32 += -m32 -msoft-float -fpic
- KBUILD_CFLAGS_32 += -fno-stack-protector
-diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
-index 54d3e9774d62..cd5249b6ef84 100644
---- a/arch/x86/entry/vdso/Makefile
-+++ b/arch/x86/entry/vdso/Makefile
-@@ -62,7 +62,7 @@ ifneq ($(RETPOLINE_VDSO_CFLAGS),)
- endif
- endif
- 
--$(vobjs): KBUILD_CFLAGS := $(filter-out $(PADDING_CFLAGS) $(CC_FLAGS_LTO) $(CC_FLAGS_CFI) $(RANDSTRUCT_CFLAGS) $(GCC_PLUGINS_CFLAGS) $(RETPOLINE_CFLAGS),$(KBUILD_CFLAGS)) $(CFL)
-+$(vobjs): KBUILD_CFLAGS := $(filter-out $(PADDING_CFLAGS) $(CC_FLAGS_LTO) $(CC_FLAGS_CFI) $(RANDSTRUCT_CFLAGS) $(GCC_PLUGINS_CFLAGS) $(STACKLEAK_CFLAGS) $(RETPOLINE_CFLAGS),$(KBUILD_CFLAGS)) $(CFL)
- $(vobjs): KBUILD_AFLAGS += -DBUILD_VDSO
- 
- #
-@@ -124,6 +124,7 @@ KBUILD_CFLAGS_32 := $(filter-out -fno-pic,$(KBUILD_CFLAGS_32))
- KBUILD_CFLAGS_32 := $(filter-out -mfentry,$(KBUILD_CFLAGS_32))
- KBUILD_CFLAGS_32 := $(filter-out $(RANDSTRUCT_CFLAGS),$(KBUILD_CFLAGS_32))
- KBUILD_CFLAGS_32 := $(filter-out $(GCC_PLUGINS_CFLAGS),$(KBUILD_CFLAGS_32))
-+KBUILD_CFLAGS_32 := $(filter-out $(STACKLEAK_CFLAGS),$(KBUILD_CFLAGS_32))
- KBUILD_CFLAGS_32 := $(filter-out $(RETPOLINE_CFLAGS),$(KBUILD_CFLAGS_32))
- KBUILD_CFLAGS_32 := $(filter-out $(CC_FLAGS_LTO),$(KBUILD_CFLAGS_32))
- KBUILD_CFLAGS_32 := $(filter-out $(CC_FLAGS_CFI),$(KBUILD_CFLAGS_32))
-diff --git a/scripts/Makefile.gcc-plugins b/scripts/Makefile.gcc-plugins
-index e3ed92e20d16..398b70e2d270 100644
---- a/scripts/Makefile.gcc-plugins
-+++ b/scripts/Makefile.gcc-plugins
-@@ -23,18 +23,19 @@ gcc-plugin-cflags-$(CONFIG_GCC_PLUGIN_STRUCTLEAK)		\
- 		+= -DSTRUCTLEAK_PLUGIN
- 
- gcc-plugin-$(CONFIG_GCC_PLUGIN_STACKLEAK)	+= stackleak_plugin.so
--gcc-plugin-cflags-$(CONFIG_GCC_PLUGIN_STACKLEAK)		\
-+gcc-plugin-stackleak-cflags-$(CONFIG_GCC_PLUGIN_STACKLEAK)		\
- 		+= -DSTACKLEAK_PLUGIN
--gcc-plugin-cflags-$(CONFIG_GCC_PLUGIN_STACKLEAK)		\
-+gcc-plugin-stackleak-cflags-$(CONFIG_GCC_PLUGIN_STACKLEAK)		\
- 		+= -fplugin-arg-stackleak_plugin-track-min-size=$(CONFIG_STACKLEAK_TRACK_MIN_SIZE)
--gcc-plugin-cflags-$(CONFIG_GCC_PLUGIN_STACKLEAK)		\
-+gcc-plugin-stackleak-cflags-$(CONFIG_GCC_PLUGIN_STACKLEAK)		\
- 		+= -fplugin-arg-stackleak_plugin-arch=$(SRCARCH)
--gcc-plugin-cflags-$(CONFIG_GCC_PLUGIN_STACKLEAK_VERBOSE)	\
-+gcc-plugin-stackleak-cflags-$(CONFIG_GCC_PLUGIN_STACKLEAK_VERBOSE)	\
- 		+= -fplugin-arg-stackleak_plugin-verbose
- ifdef CONFIG_GCC_PLUGIN_STACKLEAK
-+    STACKLEAK_CFLAGS = $(gcc-plugin-stackleak-cflags-y)
-     DISABLE_STACKLEAK += -fplugin-arg-stackleak_plugin-disable
- endif
--export DISABLE_STACKLEAK
-+export STACKLEAK_CFLAGS DISABLE_STACKLEAK
- 
- gcc-plugin-$(CONFIG_GCC_PLUGIN_ARM_SSP_PER_TASK) += arm_ssp_per_task_plugin.so
- ifdef CONFIG_GCC_PLUGIN_ARM_SSP_PER_TASK
++config CC_HAS_SANCOV_STACK_DEPTH_CALLBACK
++	def_bool $(cc-option,-fsanitize-coverage-stack-depth-callback-min=1)
++
+ config STACKLEAK
+ 	bool "Poison kernel stack before returning from syscalls"
+ 	depends on HAVE_ARCH_STACKLEAK
+-	depends on GCC_PLUGINS
++	depends on GCC_PLUGINS || CC_HAS_SANCOV_STACK_DEPTH_CALLBACK
+ 	help
+ 	  This option makes the kernel erase the kernel stack before
+ 	  returning from system calls. This has the effect of leaving
 -- 
 2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250502190129.246328-3-kees%40kernel.org.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250502190129.246328-4-kees%40kernel.org.
