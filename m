@@ -1,143 +1,144 @@
 Return-Path: <kasan-dev+bncBDCPL7WX3MKBBBGJ3HAAMGQE6PSAGBY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3f.google.com (mail-yb1-xb3f.google.com [IPv6:2607:f8b0:4864:20::b3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3755DAA81F6
-	for <lists+kasan-dev@lfdr.de>; Sat,  3 May 2025 20:46:30 +0200 (CEST)
-Received: by mail-yb1-xb3f.google.com with SMTP id 3f1490d57ef6-e73194d7744sf4576859276.0
-        for <lists+kasan-dev@lfdr.de>; Sat, 03 May 2025 11:46:30 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1746297989; cv=pass;
+Received: from mail-il1-x138.google.com (mail-il1-x138.google.com [IPv6:2607:f8b0:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ACBEAA81F4
+	for <lists+kasan-dev@lfdr.de>; Sat,  3 May 2025 20:46:29 +0200 (CEST)
+Received: by mail-il1-x138.google.com with SMTP id e9e14a558f8ab-3d8a9b1c84esf40989775ab.2
+        for <lists+kasan-dev@lfdr.de>; Sat, 03 May 2025 11:46:29 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1746297988; cv=pass;
         d=google.com; s=arc-20240605;
-        b=BJrZdBRWDTB70wDELR5kDVfpgkSgv3OCj1nQXQ+WL/6hmRHImvVd/4FEZuJ1k2xqXf
-         wdtZqzG5gkdiZO16FXkDSfvCj1kFlIHr18wryDbMfxOikQW9/laSkuAMTzzgZlM/m50g
-         OaLBTKSYr64qOxohxx1mwwxpZGgllNdPj78QkUrTyXZy3SutQIZrC2Qkmro7dJqFuklv
-         R6a3+zGJluaCG9f9v+mJK/p7Rxw9CT6WF6+B4cJKMugnSNhc0zcHg7ykIqhkdpp7L7OL
-         rGPY4bKHGXqJsNXwq3DzpLeukVtzHf8SjAmfttl1JcclV8bidOQsOGw8RZrKb1U0ZDP8
-         gABw==
+        b=Y+fvZsJOb3tE6udzZ9O80u1fA3I/a9PD0rKFb8kzVd9Hnh4vJbSTpqoz4z+w8hHe2Q
+         iy3UrtPkmlhSsBGs0QMmMz5/xuIipIn/HeggJab2rvcY1LBXTobDPNGZqrc17tMITIuL
+         K4KFxz290ZLlsZ+z9xLPLf7k7g4TIpIUTiVU89/+HPGdOUq5Mrhf2+qk5t80zlo8tPnQ
+         8fkw9DnccKuAf3zRpTpIwweR2dprg50dNoGCPdTtI34atG3Mbm6RfEA230UXdL5GU8av
+         R2hIIQTVlSl8jiTfMJzaUaeaLV5fAMf8lqDlqSAa7r0SyfSpiYzfku23C+nmRQtW2vf/
+         5Ifw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=BjR649zgkLBRHxOEeBk78DCiDXB3/YKAbh0re6Q1fdU=;
-        fh=vtSRC/F/rAClQ61WB1UUy/h2YSR34aFSRMrebO63948=;
-        b=YmcyS4+pmzjbC4jBKd4yzUt3KUACmCHJfB5Z+TVofjAmANiry4QYr29wGVAqaY5kbm
-         e1OUmMQK2PXYh0V9d4jxoSdZ0CUNzxIXB9WnO/6TFiBYsQPqaEJd4yF9mDUKhcQtYT+F
-         A5LIr+7BoSnJuGSwBNEQWY6Fqqgtv11uOgXVFTaNCvJZJZUK1qvV/+hB1OS7qQJ09QF+
-         /YhR05kfMYBppMaeFw73Vr6svVOI/cnLZN53M6esDY0WUESWXwyv/TOHraI8hV06MPRl
-         cqS6M4c9eijd38bMfvicK/zOhHbcdzQxTBIKgbWoQ1J6jOrfoesRyJuQHhHcqFIsT8Kc
-         3rEA==;
+        bh=yejSshA0Jzk7xkR+qAkQ6ULETvU5zDiK4yWtwc54160=;
+        fh=k8cMai9ywzenICw0xpNA6ETnFI3ZrZ3EGlqSaPuhJgA=;
+        b=WB06nL1ouRTLPABVf8LzQ+ym2TdTWvCgoo424PcMFeVHYWTBobyS2axbSZ6aIBKE9F
+         Bdn2Hb7HdFblUf70X8D3Rj6m7NsZ5Tekft9Ggw4NoXRN8tWB4A/kQEwaWRIFKEG4mOG8
+         V0HxYOaD60zEOL1dPHjGiJ9oqPodiKwzggxiqrFaFJzNwsJ8Y3AuvvWLDCACVY/oKNNZ
+         Z5Eq0a2aJLxNdYCLyNBZtGhlfTRdObgg147G152w6DjIhLQJRkn/g90j5/oHt/VbJhJV
+         JcOhfwJEBqH21HSFcyrFZGVw68FZZS06P5MCSGw8aDNZRxHbBHdhUoIkQ0G1TwhBpMQG
+         yOrQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=gOIPfsz9;
-       spf=pass (google.com: domain of kees@kernel.org designates 172.105.4.254 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=nMyiXwu5;
+       spf=pass (google.com: domain of kees@kernel.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=kees@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1746297989; x=1746902789; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1746297988; x=1746902788; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=BjR649zgkLBRHxOEeBk78DCiDXB3/YKAbh0re6Q1fdU=;
-        b=aNDF5KYJp6O0VxvNNEXbc6gFsRUJdxKbjlOIrDj0GOyH/N2YNWMYfTDiIDhdD0kEbe
-         FeXopC4U5scBQtkN16sozMAU5y9AnA1cheIWDzX+MBnhPp/4aPyYmr1PZ5UfEc7mJZTj
-         294zUj4aqMWXRPHFS9mVLleUEy6XcuNlePREKJ+dQ/Vli4lPINcH7R2/VrUP+ATboHPe
-         b90rgZ1PBqqflEFFBtDaFVCy1K/luIzResjg+urae8aWwT9AYecvONdgHTRWWiF1Kk8B
-         0LZyVRFI4togm+trmW37VBUHUhNnAlJN61I6NbGqeG0guHPK/gg55pvVP7LueFxE2lFb
-         ZwKA==
+        bh=yejSshA0Jzk7xkR+qAkQ6ULETvU5zDiK4yWtwc54160=;
+        b=tSpz3yAaSiNTDSDHn8bTRSjfPDmQ7QjxlD8NL3A0N3qGK2sIQE80Mlpa3tNLsuAAGy
+         yAax3sR1Uyj14bkaRJ5mVOu0HC18DMETXA+x3KIrUjR20WDpCrxStHtRIPbsSZe7HgKf
+         DUabsSAWOEvR6IaKLm0GBVd/g11xQmuKWe3Sbm82Bhv20bUc5M2Vsoz+hP5rI71eGx6h
+         CPlBXFG3po9Ucq73PiOPKjHh6+4Q1u8k8deoTU2TE8m80qd9rQJnUJTyRDZOySQSJ5JH
+         kCRCUxrCIYGrrXplyJ2l07wAx06DZ7N4PwK24Cg+b2nOkwHXZ3G/d75VQn/hG0PvH0sC
+         MzIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746297989; x=1746902789;
+        d=1e100.net; s=20230601; t=1746297988; x=1746902788;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BjR649zgkLBRHxOEeBk78DCiDXB3/YKAbh0re6Q1fdU=;
-        b=fe8I62c5Hi2eRuGPLwmHQxkYOgoQXzYKAfMCJq+PGcYh3RGRcp0BZ8oegdmA9O6d2x
-         xy6PjI4D5KJ5CqAx903L2/idMKYNqjkL3vUo15VHwzAwKuBpUwhlSxdqR15dVQioHYdD
-         voxKl2aYqDZGYDQGU+O100iQ0+mXoKzE6fC7yo5t5SiLq0imQDB8AvMEJ36LhBP5Zu6w
-         za7/AXKX5Fz/RydfgqzeDH2Z2kPxh/7QFT4hpKkFb9s4IKZF2gCDU5RJZHE7MKOe8ItZ
-         zj6+zuWUtinShv0vfI4kSZDiViG+u8+tPc/Zt9GPBw5Swt3U4anx+OUHkbffS4VtsB4e
-         AkZw==
-X-Forwarded-Encrypted: i=2; AJvYcCXaC861q+Xfphp+OYO6JgWtmStno88mMTfuNxcOXXt2VV1YJHV8K/qxnNwtYcspWm+J/k1ilg==@lfdr.de
-X-Gm-Message-State: AOJu0YzsJ+SR3pR+dLI5EopNyyURmb/aYyIHZffCzv4aTIqYO/yHUchX
-	x4QZv9LQPHriDGVtjE/hS30R6JVoeMlhBdWqZBI4qHjb3a/CrO7D
-X-Google-Smtp-Source: AGHT+IHnuMSE6fQ3llV8C8m4F+3hTUbPr5+i4WnFN5r4YEfzsNhj/CbYTRUJDJWtoBQ6nbj/X7nK1w==
-X-Received: by 2002:a05:6902:70f:b0:e5b:4651:b5c6 with SMTP id 3f1490d57ef6-e7564d4e234mr9435657276.23.1746297988801;
+        bh=yejSshA0Jzk7xkR+qAkQ6ULETvU5zDiK4yWtwc54160=;
+        b=makl9EfS/G2Bf5tKGyigmI3b0MdgOL1ANLONWSkGYcqBi0J+KBkROrRSlUH9LiwraB
+         AataqtDTfcu0frKAjNZN8RKlRhYX3y/P1eU3EJ4sHdDHjHe8TK/LiSWKn1RcXO7p5pDk
+         4tUGGPBINWG9UhRqAdfiEhixpPNaoQZ6LYldxQgYxTix73VtAI6fLUm/ytufbr2LBQbn
+         XkY7qHIr3zr0ARUHM2v7sW0gnKDHQbr7njhVz4Y6pzfZ5+ramqbIQkixtPq9X4qFrCpe
+         himL0uipbuAiGs6e9L1pJNk44Z2zZRJQmCQaIqt72tZua/BDTQz/++XC7dkBYwtP6AOr
+         9z6Q==
+X-Forwarded-Encrypted: i=2; AJvYcCUePh04h5nld4G6AgjqjAR3/nPisnqybIqE7gMhwPblPDcif+4nI12AHu3LOKQusi+Y6721jg==@lfdr.de
+X-Gm-Message-State: AOJu0YyeJE8qAZg9FqatS+2ZyKZ4P2q0BqgkYz5kGzhTOz/6MxC0UEXk
+	bpwpgeFQ1mHinjVe1VJv/cxIRLEzDdu83IsdsLnFajQSQyq3j2B6
+X-Google-Smtp-Source: AGHT+IHD723FumZ/o7/61baOEdhVEISVlN27ivroSdu2ViqQ7WWAwupTDpfdowDLLvUpwyYUq33SNA==
+X-Received: by 2002:a05:6e02:3982:b0:3d8:2032:ca67 with SMTP id e9e14a558f8ab-3da5b2733cemr17950355ab.9.1746297988256;
         Sat, 03 May 2025 11:46:28 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBFW45XUkEMOZFLotGrSIc2IMkLpHFK1XCdGAf2klYX4lQ==
-Received: by 2002:a25:7bc1:0:b0:e75:60d4:3256 with SMTP id 3f1490d57ef6-e7560d43324ls982194276.0.-pod-prod-00-us;
- Sat, 03 May 2025 11:46:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWCayUX4h2U++HG8UnlnsQ7OUDtdTuMveuiwDVs8qO4Ic/yOdXaBlckbczjYfUMJahsG1TM9rzBtQg=@googlegroups.com
-X-Received: by 2002:a05:6902:1448:b0:e72:fcf3:9c92 with SMTP id 3f1490d57ef6-e7524a81105mr15059433276.6.1746297987672;
+X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBGo38i+P09Vs5b7n+NYFTFCjVd32lnDmaXvWtWSOitX0A==
+Received: by 2002:a05:6e02:16c5:b0:3d8:b690:4e94 with SMTP id
+ e9e14a558f8ab-3d96e714728ls24365285ab.0.-pod-prod-09-us; Sat, 03 May 2025
+ 11:46:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXHI68tObsm9nJ4ozQn1fLWjKNtevVxWRtDePmPhaiyYYSot0O04Yts/TMPmOjqG3Y9UC1BM9iNVSM=@googlegroups.com
+X-Received: by 2002:a05:6e02:3703:b0:3d5:8937:f419 with SMTP id e9e14a558f8ab-3da5b2a5dc5mr16130365ab.13.1746297987582;
         Sat, 03 May 2025 11:46:27 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1746297987; cv=none;
         d=google.com; s=arc-20240605;
-        b=eSdpmBSkJD8xeDPqyVwcVk76BvX3n8pAXA38fdh4mG3YpmsTArGZ/aJgU5EA8y37LI
-         b1eR6EPKSCZ6Lm1r0LHbrOIyIp+LOXHUZiPXoQHP7TY45idctlA2PWeRbZeP2uHRMLx2
-         al6Duyz2PFvJBM6xgEbPIaudRz6f50MrfiRDNSTqHJ1atndeCNaWZOLGRch275aFoqHa
-         bS1N9PrzpEtRTORqsZMrebZivH3ncOdypQ1WIDZgd8IcujWJ9gWW5so45i3RVjI3KTq/
-         6k1YC+oOl7hpAKSgdubxqmM6wxSysmJJcKKFP/kZDBZ94ZNwomdnzOXJGYdVgtMr8UPY
-         d9ww==
+        b=MEjt0mQ3YdoFj+d+tbCJwyUQWyrAZOn23pStxfIuHh54Y28s5BZvxvokh7U3qY0Ryk
+         7GUOUTSYCEge0JI+mABQEVofe1zGg0ZXjri8kVHdg8OI8qFgezLunpLAQu9fgszvu3o6
+         mgq97XFh0vjmpvLnuzRCPoBaHj4XcxV3jF8U+5nMYFZ+4wVF15Xq6RljFZa1+nOTdAM1
+         aHN9cCPsS825oiY/PWZf5ubTL2Uc6jnkvRqjgyWZIQGBP5NbNrpEwlR0oVLohiROzKAH
+         dEDYwg8QE09XXAeK5ksabBRixH+Fo9oklKn+h9TRDQnVSUGxcTmsXd45PSyLi1tKwsnc
+         F/jg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=HqXcPWWf3zrFZlHbIEVc5mF4xzEfjxF90arpkzq7by8=;
-        fh=YfDTcZX5B1ZSPOfmplXpzy0XedFwGhJ33VxL3k8t0Go=;
-        b=jEItZgZ27I2mbC2HRvc+Ku5GV1vDAosA2brsogt2LdIGXIG0eVvGrWg8EV/ve0HQTD
-         AG10EginocfJ3henD7Rua+Wo0i1AONcotGRXrFEXDxfJrTkn69YcoXsRZT27AA15O0oV
-         fs/gv8GIBeauWWu0tj1ehLDuTSin5L2GzBke514uk4BDYEEdw+QFtwF6hmhe5f2nyOtq
-         snhP6yujan+OhGhzupxKC6nvHsjtAm0DH13xzZlKmDoJYjFnX6UeCNYiOfx4I7PRqsFG
-         xRs9eclq53orDzkH3XmgQezOBYKuP98zDvaZdGL3CkPoEn/oQHt9FHh24VbbNIpxw2+x
-         BxAA==;
+        bh=68wvXYknLDViUTCnVi1/VjHGQAuvRJqyvvCNBsmkQpA=;
+        fh=k4LLFD8wdh8xUrcsCJ3LuYsQ9lMJ4UqR7GkSjBA4/k8=;
+        b=ENiDrPY2yFvb4ljuatGsw4PkGCCcjxVLhc3nvza8WTTyRYQCHdDUNCjr+EgoG8sFdK
+         Yw6gpeqepGesXiHlUOIktHv4jRBokj/quzfs9hsol7AFcAmeQcsXBy2kWBBD31+5QrDH
+         hiB56bInEb/vcsIg/O9CwLVp7EYwEURejPcpax0mRq4tutsx4dwryDlc1OP7W+Fm1cSz
+         8XB+kEJfVY8I3t29pOmqkEsTef4VJBD7j4xal8GTojsdhGoa9+MgjsxuDtyeIMgdyEmG
+         FbAZZ5eJ+9RyyeTJUUhne1DsPhvaqTCHU6l4va7XjGjHPtUF3jtRAlU3taqmBffBq5+Q
+         Dm7Q==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=gOIPfsz9;
-       spf=pass (google.com: domain of kees@kernel.org designates 172.105.4.254 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=nMyiXwu5;
+       spf=pass (google.com: domain of kees@kernel.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=kees@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from tor.source.kernel.org (tor.source.kernel.org. [172.105.4.254])
-        by gmr-mx.google.com with ESMTPS id 3f1490d57ef6-e755e790366si254418276.3.2025.05.03.11.46.27
+Received: from sea.source.kernel.org (sea.source.kernel.org. [172.234.252.31])
+        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-4f88aa16802si115893173.5.2025.05.03.11.46.27
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sat, 03 May 2025 11:46:27 -0700 (PDT)
-Received-SPF: pass (google.com: domain of kees@kernel.org designates 172.105.4.254 as permitted sender) client-ip=172.105.4.254;
+Received-SPF: pass (google.com: domain of kees@kernel.org designates 172.234.252.31 as permitted sender) client-ip=172.234.252.31;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 3E5366111F;
-	Sat,  3 May 2025 18:45:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E60BC4CEEF;
+	by sea.source.kernel.org (Postfix) with ESMTP id 327D749E12;
+	Sat,  3 May 2025 18:46:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C232C4CEEE;
 	Sat,  3 May 2025 18:46:26 +0000 (UTC)
 From: "'Kees Cook' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: Kees Cook <kees@kernel.org>,
+	Justin Stitt <justinstitt@google.com>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-kbuild@vger.kernel.org,
-	Justin Stitt <justinstitt@google.com>,
 	Marco Elver <elver@google.com>,
 	Andrey Konovalov <andreyknvl@gmail.com>,
 	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	linux-kbuild@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	linux-hardening@vger.kernel.org,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
 	Bill Wendling <morbo@google.com>,
 	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	kasan-dev@googlegroups.com,
 	llvm@lists.linux.dev
-Subject: [PATCH v3 2/3] randstruct: Force full rebuild when seed changes
-Date: Sat,  3 May 2025 11:46:19 -0700
-Message-Id: <20250503184623.2572355-2-kees@kernel.org>
+Subject: [PATCH v3 3/3] integer-wrap: Force full rebuild when .scl file changes
+Date: Sat,  3 May 2025 11:46:20 -0700
+Message-Id: <20250503184623.2572355-3-kees@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250503184001.make.594-kees@kernel.org>
 References: <20250503184001.make.594-kees@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1638; i=kees@kernel.org; h=from:subject; bh=/4TdTrc4aB0kiFO9JBIxqORcQZGXnaXh7CndlvLLjw4=; b=owGbwMvMwCVmps19z/KJym7G02pJDBliyfv3J+WtzL589uiKhFWFjQuOu8ux+8/5JB98+dIOh kKRL4WfO0pYGMS4GGTFFFmC7NzjXDzetoe7z1WEmcPKBDKEgYtTACbi/pmR4Yj4wy3Pn+jVqpiI 8u5tnxmo0l9VHWgYwnHUS/Pi10eiJQw/Lvo8PqCVcGZOuLiG2bfzc6eLdL+15NuTJH6iceJDtVo GAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2674; i=kees@kernel.org; h=from:subject; bh=+tpyu2HU8spYPzq1uf4EZ3SloA5fFEfjRjUkQSozF1w=; b=owGbwMvMwCVmps19z/KJym7G02pJDBliyft7n2QtDHVZzPzT7voxVRX9o38qkjOX/vRYvIpJI GFTQFxERykLgxgXg6yYIkuQnXuci8fb9nD3uYowc1iZQIYwcHEKwETSDRj+Z68L0rBx8nkQ1vFK /Z3w59knAyKm/q25XLPDJ3Wd/pPO+4wMr37EPn6zUEbQ81Oxn66L3YPZSxqD1p88miN63FK3vj+ FDQA=
 X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 X-Original-Sender: kees@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=gOIPfsz9;       spf=pass
- (google.com: domain of kees@kernel.org designates 172.105.4.254 as permitted
+ header.i=@kernel.org header.s=k20201202 header.b=nMyiXwu5;       spf=pass
+ (google.com: domain of kees@kernel.org designates 172.234.252.31 as permitted
  sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass (p=QUARANTINE
  sp=QUARANTINE dis=NONE) header.from=kernel.org
 X-Original-From: Kees Cook <kees@kernel.org>
@@ -155,54 +156,73 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-While the randstruct GCC plugin was being rebuilt if the randstruct seed
-changed, Clang builds did not notice the change. This could result in
-differing struct layouts in a target depending on when it was built.
+Since the integer wrapping sanitizer's behavior depends on its associated
+.scl file, we must force a full rebuild if the file changes. If not,
+instrumentation may differ between targets based on when they were built.
 
-Include the existing generated header file in compiler-version.h when
-its associated feature name, RANDSTRUCT, is defined. This will be picked
+Generate a new header file, integer-wrap.h, any time the Clang .scl
+file changes. Include the header file in compiler-version.h when its
+associated feature name, INTEGER_WRAP, is defined. This will be picked
 up by fixdep and force rebuilds where needed.
 
 Signed-off-by: Kees Cook <kees@kernel.org>
 ---
 Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Justin Stitt <justinstitt@google.com>
 Cc: Nathan Chancellor <nathan@kernel.org>
 Cc: Nicolas Schier <nicolas.schier@linux.dev>
-Cc: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Marco Elver <elver@google.com>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
 Cc: <linux-kbuild@vger.kernel.org>
+Cc: <kasan-dev@googlegroups.com>
+Cc: <linux-hardening@vger.kernel.org>
 ---
  include/linux/compiler-version.h | 3 +++
- include/linux/vermagic.h         | 1 -
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ scripts/Makefile.ubsan           | 1 +
+ scripts/basic/Makefile           | 5 +++++
+ 3 files changed, 9 insertions(+)
 
 diff --git a/include/linux/compiler-version.h b/include/linux/compiler-version.h
-index 74ea11563ce3..69b29b400ce2 100644
+index 69b29b400ce2..187e749f9e79 100644
 --- a/include/linux/compiler-version.h
 +++ b/include/linux/compiler-version.h
-@@ -16,3 +16,6 @@
- #ifdef GCC_PLUGINS
- #include <generated/gcc-plugins.h>
- #endif
-+#ifdef RANDSTRUCT
-+#include <generated/randstruct_hash.h>
-+#endif
-diff --git a/include/linux/vermagic.h b/include/linux/vermagic.h
-index 939ceabcaf06..335c360d4f9b 100644
---- a/include/linux/vermagic.h
-+++ b/include/linux/vermagic.h
-@@ -33,7 +33,6 @@
- #define MODULE_VERMAGIC_MODVERSIONS ""
- #endif
+@@ -19,3 +19,6 @@
  #ifdef RANDSTRUCT
--#include <generated/randstruct_hash.h>
- #define MODULE_RANDSTRUCT "RANDSTRUCT_" RANDSTRUCT_HASHED_SEED
- #else
- #define MODULE_RANDSTRUCT
+ #include <generated/randstruct_hash.h>
+ #endif
++#ifdef INTEGER_WRAP
++#include <generated/integer-wrap.h>
++#endif
+diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
+index 9e35198edbf0..653f7117819c 100644
+--- a/scripts/Makefile.ubsan
++++ b/scripts/Makefile.ubsan
+@@ -15,6 +15,7 @@ ubsan-cflags-$(CONFIG_UBSAN_TRAP)		+= $(call cc-option,-fsanitize-trap=undefined
+ export CFLAGS_UBSAN := $(ubsan-cflags-y)
+ 
+ ubsan-integer-wrap-cflags-$(CONFIG_UBSAN_INTEGER_WRAP)     +=	\
++	-DINTEGER_WRAP						\
+ 	-fsanitize-undefined-ignore-overflow-pattern=all	\
+ 	-fsanitize=signed-integer-overflow			\
+ 	-fsanitize=unsigned-integer-overflow			\
+diff --git a/scripts/basic/Makefile b/scripts/basic/Makefile
+index dd289a6725ac..fb8e2c38fbc7 100644
+--- a/scripts/basic/Makefile
++++ b/scripts/basic/Makefile
+@@ -14,3 +14,8 @@ cmd_create_randstruct_seed = \
+ $(obj)/randstruct.seed: $(gen-randstruct-seed) FORCE
+ 	$(call if_changed,create_randstruct_seed)
+ always-$(CONFIG_RANDSTRUCT) += randstruct.seed
++
++# integer-wrap: if the .scl file changes, we need to do a full rebuild.
++$(obj)/../../include/generated/integer-wrap.h: $(srctree)/scripts/integer-wrap-ignore.scl FORCE
++	$(call if_changed,touch)
++always-$(CONFIG_UBSAN_INTEGER_WRAP) += ../../include/generated/integer-wrap.h
 -- 
 2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250503184623.2572355-2-kees%40kernel.org.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250503184623.2572355-3-kees%40kernel.org.
