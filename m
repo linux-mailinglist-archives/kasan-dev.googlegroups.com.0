@@ -1,128 +1,128 @@
-Return-Path: <kasan-dev+bncBCLM76FUZ4IBBKEB4TAAMGQEOPPH4PA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCLM76FUZ4IBBCMC4TAAMGQE5NIOY6I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd40.google.com (mail-io1-xd40.google.com [IPv6:2607:f8b0:4864:20::d40])
-	by mail.lfdr.de (Postfix) with ESMTPS id A806BAA9B4D
-	for <lists+kasan-dev@lfdr.de>; Mon,  5 May 2025 20:17:15 +0200 (CEST)
-Received: by mail-io1-xd40.google.com with SMTP id ca18e2360f4ac-85e4f920dacsf388655239f.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 05 May 2025 11:17:15 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1746469034; cv=pass;
+Received: from mail-yb1-xb40.google.com (mail-yb1-xb40.google.com [IPv6:2607:f8b0:4864:20::b40])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E42DAA9B53
+	for <lists+kasan-dev@lfdr.de>; Mon,  5 May 2025 20:18:51 +0200 (CEST)
+Received: by mail-yb1-xb40.google.com with SMTP id 3f1490d57ef6-e639763e43dsf2083619276.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 05 May 2025 11:18:51 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1746469130; cv=pass;
         d=google.com; s=arc-20240605;
-        b=E36vlAe6JjYe02vlcB9TlzK9CneX7hXgect6Wjo2KcCooBwnYIz3HS6ry0DpdHAX9q
-         yKY/o3FNjzIX6GdgybVIGLy6WstNC1G3z22sJ3XQOuG/V1vg0WXaL9tyge+5XPK0unnU
-         B0MB/BC0KtcQPDpfdD6YnJCHFNcP8LkquaURlShUC5n+OlvDzGITLbT/U/hNWIwPo963
-         z5l/OuUVMV5GrE1j9eK6skWPoZaPZfwhspdEuAChDT3V/7K5lkoGw/jNgshXUtb38+P4
-         Ht1YF8ZSF55vFObnGbhqGJcNqfUjlMpFZxJ2WgMYCmcQqYI8S0/a0NGUN+sF9Fur+xDx
-         Cj7g==
+        b=Fl86qpI28odcs1y0IjTZuLmMriR6/d94i5Uq0H9kKAt1ehA598TzTSFCRLG3LFOhch
+         cfEwZ+QOvvTF+R2iNAq6tjatocwHQDUeClLtm8rDwcD/6ME+jJcG5yzhE7yycdO8qYKc
+         YwOytZUGbWuoIqr49k3rPhqxzSkdwBKkl8mvu2PyiYdiBmID+3ND7qLAMJHBRmdtakv7
+         89rrwsUHhgv3roomQWtQVYKK0HepeDU1IwmRibhTs3e9jLlPEBuWOzjfEyZfv6nP6/3x
+         3f3U7iBKopKWZIO08qU9vHL+WGjlG7XLq+g0kAvQHpH7Cit77G8efIj2WdBCSIGQ3a3j
+         ALJw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=vfuGyHVJmEGVeyyKWVd01vGfpbFQsTDrJlIP1bIBfDA=;
-        fh=HudAb7JZmiFfAxQKgghwGEkO092ABF10+135CfNPoyo=;
-        b=eT6aSn8J3n9fMb0FNAhm/fX/ONRy+Vl689g+XzbCRopT776yhRkoO0fYbWYnEBKBOh
-         CNwjw7eNKmtOscIi4l17IrqFI2C7S2cH/p9Pe8xMydyrpbwnfYqtbrk7wiKwPbqgJSIW
-         5KgEWNtA6kzyQ6vir4yVykZnAzR6zQi0jkZWe+l9dKEtIZyLlLvNX4n0FR0nKMXdSo7o
-         Z/K4zX5M3HxNSTPA1U43i4mWYyI7Ca9h5zbToRcCXYanc/1+i1CIxbBit/KLGc2XWkbS
-         +Nd6+jyPjLkc0D36jORDgWaFJ/Ng5OKhsks1wuAm+9KPQgLFeyrFG0AvlZRdU1WAN/y/
-         3+Lg==;
+        bh=2mMIvVsx0Lb5hdZvhMv09kaHudEq1fHOcvUR7mq0HrU=;
+        fh=TlAt4i7W6O3A6onP6j42qgoRywTnCPr4hl6OBInziKQ=;
+        b=SlmOuAW7LafG5GmFfNZhQTbkc/ak8Pd4gEcMtTBKvUjyWkRXBqbZ5HzAmvBCVgy1c2
+         NUJTdhOkmQMvCBu0d3RAzAvRXaQmdWSCDedxlAbzC1uSjvrm7wK8G5YR0VIrv+dPHsIk
+         n7QI4Dj/mbYjLR2bwgj+IbZrmpICuPH8YgmJae2Xa5FiPbYP4NnDF2Fiv/fhfsBHTFSd
+         Mi98CMDHb72bX5yoJCrGVtwqEL+r3WYRZgDRpL8/xdZ4ckjiMHoqsLNwbRksjmM+WCPU
+         HXLYUJvNumET4deqWoUIz4MoBIQOg+WyR+q1q+dtPya4cNuzo8YNuqZ4tkMB0Qumi6Rw
+         9YLQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=mnPCIWLY;
-       spf=pass (google.com: domain of justinstitt@google.com designates 2607:f8b0:4864:20::e2d as permitted sender) smtp.mailfrom=justinstitt@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=saoxBVtc;
+       spf=pass (google.com: domain of justinstitt@google.com designates 2607:f8b0:4864:20::92d as permitted sender) smtp.mailfrom=justinstitt@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1746469034; x=1747073834; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1746469130; x=1747073930; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vfuGyHVJmEGVeyyKWVd01vGfpbFQsTDrJlIP1bIBfDA=;
-        b=imv45snvTOEu39b9uUFsqsxfV7QbkIubc6rjRP0JOAlRZb3lVkRanixMzDoxd5HiKx
-         rJxqA0dq3omkuLP9dg3FfcXFQBOhjjqpRvVJ2+2oD9muwoycrE73hLijgYlO4ZKoYrPY
-         IyNrM9uFZ56wOmefwU5f3zKLchwDOkolShptFJMIrB5Ov914sDgBm+dhfc8youLGt9GH
-         38B6Pe6Xke/zEl7WgUMR1z3qeRDI7PsI3L8PGEQAspiRSW4w/najSILn3uSIIFql+Zy3
-         w/mI57dbyRL/hjNVq+jfJk31jDiDG5zY64Rdc+DAAb7v7B3jmV8Roxs69NO3xJCjTciI
-         IqXw==
+        bh=2mMIvVsx0Lb5hdZvhMv09kaHudEq1fHOcvUR7mq0HrU=;
+        b=ILsjcy/Ts9Dp/Hqz0m1J0HGCSjctnTO3BraiTzyiMUFQPNF3xGhYG0efHSek/k1aYE
+         Sh4bSZDFS4n4Q9gzcMAcl9k5MJVZFCVLX15kxvW0cz1WleRRUWxjgzawA0IAsg5YW6M8
+         ShtOd52dlld2jNtJ8XlyHCigkBLQwqdx6teG/dRoyF1bBRaKjsDMPmCELRQBztrxkxHm
+         tjP38BQqzPaYS6T+TKpmrvY3s+7Zz0v3JTdcuBsI2+1galQif1FDuiz2XIZepjzTLBnZ
+         WoOUAjyqa+AbvTRpAWRVs0Xq0CIGHBaICB9lmkFOnV2Ksjgz3HdSksAMyCwUQRktyHN0
+         UnVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746469034; x=1747073834;
+        d=1e100.net; s=20230601; t=1746469130; x=1747073930;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=vfuGyHVJmEGVeyyKWVd01vGfpbFQsTDrJlIP1bIBfDA=;
-        b=Gxvg96VcHV75LA5cosRW8EW10wtmYTODP0UTNw5HhbSm4wN3gX06/jSRrVpof1zB1O
-         sAY4PGNwyXhIad/O/SrwBI7t2q6FRTqrThBd6jMMp6jzImX1EPa0mA/ddkJxB0r5dyZA
-         IsFsCAKm4F1XA2WzD9nKpkoxzttOkgeTaoajCsnhPqNffeiuRYBisFnuKziqUfG3XqMW
-         9uT1V9roqqcAgIXhheDq98CAOeIzKHkLmK0H5NeWLOCJOTiTuf4soIXRe4xkQVYM+jJO
-         Y2P86Tl7X6R+wxMSHeOYN32Puh5KTy7TkTR29sdyPjxiuDZaP4QtEmCXmFhj2BENhwgY
-         5aXg==
-X-Forwarded-Encrypted: i=2; AJvYcCWX6qB/cywfLqHfRxbE7763EtiwPyUVzzsiyr3XfbtwTNvzSQI+S1jsUSWfhu07DR2XCaXhzA==@lfdr.de
-X-Gm-Message-State: AOJu0YwvQiGjWvJaovntFMZssjZ3Bz436LhlWzmuvzuBB/NXYynIIYLM
-	5GwgcgeXpgXGtD2FvHZEOpQW4EdeI3PIXpJGKfTQGtBtWsowLPdN
-X-Google-Smtp-Source: AGHT+IHkEBYrCAZgerOr2t/HA6XAWgrffXrtnj2Q26cdJGCahBvYGzYvOUbDFzz0lWaGmaq0/iNsdQ==
-X-Received: by 2002:a05:6e02:198e:b0:3d2:6768:c4fa with SMTP id e9e14a558f8ab-3da5b3493f0mr82795445ab.21.1746469033174;
-        Mon, 05 May 2025 11:17:13 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBGMuesm582ZLR0xjJ9qlqHll65RaNy1OR4M7smJRs0LdA==
-Received: by 2002:a05:6e02:16c5:b0:3d8:b690:4e94 with SMTP id
- e9e14a558f8ab-3d96e714729ls8808535ab.0.-pod-prod-09-us; Mon, 05 May 2025
- 11:17:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUXq5yOswWHnldzyE8yjzkiMVCyvETkw+vFhn1X6utOS7c9hCIWqnlgbaBQrBZkMbqNZFJVc/Y5QcQ=@googlegroups.com
-X-Received: by 2002:a05:6e02:1f81:b0:3d8:2197:1aa0 with SMTP id e9e14a558f8ab-3da5b2a2e28mr74131155ab.11.1746469032182;
-        Mon, 05 May 2025 11:17:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1746469032; cv=none;
+        bh=2mMIvVsx0Lb5hdZvhMv09kaHudEq1fHOcvUR7mq0HrU=;
+        b=V/MT7onKSBPF5wX+EsYpMEYvgF02ryJjmaoFIERpsMKFqleSg8hD0TkOasoTBEV9/7
+         qoLa3XCNMdlqePqIT/n7exKGMTQFge7DQBkxmb+u27ld9XjxuvB6NFIEvFbczBHbY2np
+         4wdzagsb5LvGgQi6J8op2OolvMkcEycd8v1miMus8XqDYRAXuXeBMBldIUG5Zcv5gDTf
+         a8FTNjGvz+jiRqHBJCWunYl4UNUGHTuB76ZRRiiU3BIRyQmFXri8ALzmoOwx8Shnp5iX
+         dtqGTh2WQfs/F7/rndiZk7bzjFMI8YTDMsqYCVXM8xuxoBUq1WiL8OWSK9bs1DS+GMJI
+         cbTQ==
+X-Forwarded-Encrypted: i=2; AJvYcCX0lHKbtZpLkavlKC3A6cBB9rACW6K9ltbJ064P/6n1cn9yurL/P7WBdP3yiAEz4SQhdN7EwQ==@lfdr.de
+X-Gm-Message-State: AOJu0YxtX/6UKMiCNaVL3yvQOZ1esxV7BzRnBcaLPyolHpolkWiJlsUl
+	aJINgGHbhq4vUe4tPDOAuMMDR1Xc12lySZrWM3AnRBCmQCZ5TEuv
+X-Google-Smtp-Source: AGHT+IFNgobnwSwVhOLVcdGPqHcbSviruwkUF8d8m+mcN8qgt8sT6pPG3K8H4zDkZwML/FwJ6Q/E2g==
+X-Received: by 2002:a05:6902:1087:b0:e73:2b56:c41 with SMTP id 3f1490d57ef6-e7571a47ee9mr12663713276.12.1746469129806;
+        Mon, 05 May 2025 11:18:49 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBHQu2ICKqg0lq6ZbGu91+bPoGrNZSJ2ZsBn04eQ7fwyDg==
+Received: by 2002:a25:2d20:0:b0:e74:32a2:edc6 with SMTP id 3f1490d57ef6-e74dc9b9c90ls775245276.2.-pod-prod-02-us;
+ Mon, 05 May 2025 11:18:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUP8J10bsQ7PJTeNzLsxAiPfTaYM1JWHQYw3TZzzKnpnrVyMxIOJhH8//T/0MWI+d7t3TiHwzUb678=@googlegroups.com
+X-Received: by 2002:a05:6902:e0c:b0:e75:6019:3648 with SMTP id 3f1490d57ef6-e7571b0d5ebmr13241082276.38.1746469128783;
+        Mon, 05 May 2025 11:18:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1746469128; cv=none;
         d=google.com; s=arc-20240605;
-        b=DQcvyxY45pSPJnpTbY1JWpu7pELy2RnZsQJh1wg8N6SU3WfA+TLcrgQvddO7cF78Zm
-         Ff+XlfgB7dQByclGVZlv3GoJCPglcA0S+YNGdlKTVPwuNZSH6h/V494Sxqm9wZXEKTXY
-         LoHfZ+Sk+Kh1YZucjR1EGbQlgbXfMXPc1NcNSHMtUQj9ESdxXeNVMFwI0oQC4lZANluY
-         0fSKRw1NvZayUOPCRFQRP2LjniedQa86zfCTHH+0pf1653jHzhMGM5XBfQvGC5YE9orY
-         fUlrU6x40igo+vhbxPm+ZVmmP05bzUXpiKlPJCsJRII5URaf1qGeBQNZlu84nuMwIKsl
-         Ox3w==
+        b=gvkjJ/lXnYlEGD0isiQ7I67+S7n7gx+ktrBeWNhN4KTQC6NtNaS/Wn9NxvJYlLCn0E
+         v7r08o8QgkXOf8GSF09TurIKkCKzHd7Z/9gnaljgi4hO9yozX5u1y2iX8E3amoLNfqxp
+         0TaZYDecQTYyE4cSgUb/rHcYu/NGeNmnbhDMMs7QjpiuKZIRcp8GKPoJEx/AWCtNB9b1
+         J6SFwAv/CQVAYpvVXJYryCfHpCljYrASP5CJkZJIGWflrYxs4Gx9aEKhgWlICEPGQpu4
+         V3Vi9nt4ZnrPn3S1Irp+OVlval/w3HoJmpyXMSwXTGumqmmIc19QEwbgBRAovTCCb87Y
+         wwPw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=6RdDSV3C1kkoxQpJwSli9pdvJprdzRDcGLg/gY+ewYo=;
-        fh=2Ph0Ozmf8VeIogJZR0zunyO94QCofYHmhNmQ/c3CkWc=;
-        b=VE6ehOJTYKDo7mruvisEvuaEcJzmAe6ysS6FBIl56HnuZu2fc3ei/fYsmbjaHENPOh
-         bsGvLREm8X9GHCT/Xwv7v26r3ptxwT6N5l3j3Ih4Q4ZOmmQkPme/1gllXiruuj0hIvME
-         mgQRNhyXLepLJbG5ShJrSczKuvF++isIwGyi0lKt/GRggCqXbuICHIERkLFngvW38uDs
-         rHrx8/iPaussiUFTojQzMNBy0w0e7xHULf38pAr6FC5rVTz6RhvQYZVaUhFYC43VSvQB
-         EegKxolLagKLqXBDbeZRjEs2EqVLIiL1dQHchxC8+FcjHYtDT9hY/MALyLPkzFtx9tso
-         +M2A==;
+        bh=v+HucxVqpGIDINeSE6fmLZw1CWi4pwr8swaylTY9CLM=;
+        fh=YDwLr4/LER+lZTkfj2qTSGgkViIbxnbXgHcniRSXT8s=;
+        b=eyyWZmntD30k5/1lnyFkvEqIcdBBA0H+HmmLkguImsiGxpMAXdGU+A94k4UgrTdwPG
+         3d5HUYvcUhLV2X9N9Q66O0k6vbsaa7K9bff1cJusw8rmUUe7sLQo46vGJJJeH4pOqlwR
+         E9QOiiEjpRRLWTWkELTMTnYiyaPlpRSbqg4YrSj4Dx+WzT+jwIHOdcBZ2MXGCtJbY3DB
+         aXcjsFPG32hjSQGweliYNY9AnTz/Lwee9fpR6dEQnXAdHs4wg4hX4t5qYyFRQ1NaZkfh
+         T6NtmxYmfv8uLD7puT/vahPiuwa0rxjTQAYv4Bhu1Yha8UFxaz+onx0fXvBQrYI6ER49
+         VpfQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=mnPCIWLY;
-       spf=pass (google.com: domain of justinstitt@google.com designates 2607:f8b0:4864:20::e2d as permitted sender) smtp.mailfrom=justinstitt@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=saoxBVtc;
+       spf=pass (google.com: domain of justinstitt@google.com designates 2607:f8b0:4864:20::92d as permitted sender) smtp.mailfrom=justinstitt@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com. [2607:f8b0:4864:20::e2d])
-        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-4f88a9e6c80si258452173.4.2025.05.05.11.17.12
+Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com. [2607:f8b0:4864:20::92d])
+        by gmr-mx.google.com with ESMTPS id 3f1490d57ef6-e75bcea1256si18673276.4.2025.05.05.11.18.48
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 May 2025 11:17:12 -0700 (PDT)
-Received-SPF: pass (google.com: domain of justinstitt@google.com designates 2607:f8b0:4864:20::e2d as permitted sender) client-ip=2607:f8b0:4864:20::e2d;
-Received: by mail-vs1-xe2d.google.com with SMTP id ada2fe7eead31-4c32f1f7801so1329736137.2
-        for <kasan-dev@googlegroups.com>; Mon, 05 May 2025 11:17:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVIvxZzZZ5aLnikSmA9oc98BHGuhQhZYGpv4lKUL02L5GrUQzLzISKJQ0oRRidVT/iPZxvgtMH4KuU=@googlegroups.com
-X-Gm-Gg: ASbGncuzF3V1vAgkj30dQwCGJr+L/JKedYxPg2+6CVYe2PAZ2lbTxx6bQwK004KPG2z
-	4hN6aNTBQnphMmHiDh73s8fGUUrnkILySpK0ppiBTfacCIffWN5UcA3PtUmzOyOwfozl17BxEdc
-	30G51IxucTUCZ1kCWltEZX
-X-Received: by 2002:a05:6102:158d:b0:4c4:dead:59ab with SMTP id
- ada2fe7eead31-4db14781447mr4073359137.5.1746469031346; Mon, 05 May 2025
- 11:17:11 -0700 (PDT)
+        Mon, 05 May 2025 11:18:48 -0700 (PDT)
+Received-SPF: pass (google.com: domain of justinstitt@google.com designates 2607:f8b0:4864:20::92d as permitted sender) client-ip=2607:f8b0:4864:20::92d;
+Received: by mail-ua1-x92d.google.com with SMTP id a1e0cc1a2514c-86d2fba8647so2964729241.0
+        for <kasan-dev@googlegroups.com>; Mon, 05 May 2025 11:18:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX9sn/aXg6wxj7PuKvSUNwul7Nj9nG1zbs81R9Je/PtKWDuqZVtsbay+TSRu/wJYpv0eZ8/g1Frzck=@googlegroups.com
+X-Gm-Gg: ASbGncv2R2QbU+rldw5CDo53vLbqHd7DTYAf/OsCtu8CDuz10XKC554qDTImUcjhDwA
+	dYWDks+ofMLN6XYYZVhCfUuTJxjA166XMcqPxZDYkk4tEFWYbGRYAFDcsKv2ZiIqVIYNiUbGdQ6
+	jdWykS1PRzG8TYjCSM20J6SOLIl/xRiYc=
+X-Received: by 2002:a05:6102:3c8e:b0:4da:e6e1:c343 with SMTP id
+ ada2fe7eead31-4db0c401beamr5914771137.23.1746469128196; Mon, 05 May 2025
+ 11:18:48 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250503184001.make.594-kees@kernel.org> <20250503184623.2572355-3-kees@kernel.org>
-In-Reply-To: <20250503184623.2572355-3-kees@kernel.org>
+ <CAFhGd8rGJcveDn4g1nS=tURe-uT1+PFm2EQeWpUrH_oy763yFg@mail.gmail.com>
+In-Reply-To: <CAFhGd8rGJcveDn4g1nS=tURe-uT1+PFm2EQeWpUrH_oy763yFg@mail.gmail.com>
 From: "'Justin Stitt' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 5 May 2025 11:16:58 -0700
-X-Gm-Features: ATxdqUG-8XZR84SCa_hy8LufhE4gnWyYrv86WHg4i3ik94ojF9GAbNyF1NZH5uE
-Message-ID: <CAFhGd8rGJcveDn4g1nS=tURe-uT1+PFm2EQeWpUrH_oy763yFg@mail.gmail.com>
+Date: Mon, 5 May 2025 11:18:34 -0700
+X-Gm-Features: ATxdqUErCVMDsByK3bWIsvMoTcLY1TL44fldHiGpe0ueZmfJS819NKbT_lTgAuc
+Message-ID: <CAFhGd8qL8ttBaPGH5Cx39MN46OgxsLSgqhWN4rwCwf9bn33NHg@mail.gmail.com>
 Subject: Re: [PATCH v3 3/3] integer-wrap: Force full rebuild when .scl file changes
 To: Kees Cook <kees@kernel.org>
 Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
@@ -136,8 +136,8 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: justinstitt@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=mnPCIWLY;       spf=pass
- (google.com: domain of justinstitt@google.com designates 2607:f8b0:4864:20::e2d
+ header.i=@google.com header.s=20230601 header.b=saoxBVtc;       spf=pass
+ (google.com: domain of justinstitt@google.com designates 2607:f8b0:4864:20::92d
  as permitted sender) smtp.mailfrom=justinstitt@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
 X-Original-From: Justin Stitt <justinstitt@google.com>
@@ -154,85 +154,96 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sat, May 3, 2025 at 11:46=E2=80=AFAM Kees Cook <kees@kernel.org> wrote:
+On Mon, May 5, 2025 at 11:16=E2=80=AFAM Justin Stitt <justinstitt@google.co=
+m> wrote:
 >
-> Since the integer wrapping sanitizer's behavior depends on its associated
-> .scl file, we must force a full rebuild if the file changes. If not,
-> instrumentation may differ between targets based on when they were built.
+> On Sat, May 3, 2025 at 11:46=E2=80=AFAM Kees Cook <kees@kernel.org> wrote=
+:
+> >
+> > Since the integer wrapping sanitizer's behavior depends on its associat=
+ed
+> > .scl file, we must force a full rebuild if the file changes. If not,
+> > instrumentation may differ between targets based on when they were buil=
+t.
+> >
+> > Generate a new header file, integer-wrap.h, any time the Clang .scl
+> > file changes. Include the header file in compiler-version.h when its
+> > associated feature name, INTEGER_WRAP, is defined. This will be picked
+> > up by fixdep and force rebuilds where needed.
+> >
+> > Signed-off-by: Kees Cook <kees@kernel.org>
+> > ---
+> > Cc: Masahiro Yamada <masahiroy@kernel.org>
+> > Cc: Justin Stitt <justinstitt@google.com>
+> > Cc: Nathan Chancellor <nathan@kernel.org>
+> > Cc: Nicolas Schier <nicolas.schier@linux.dev>
+> > Cc: Marco Elver <elver@google.com>
+> > Cc: Andrey Konovalov <andreyknvl@gmail.com>
+> > Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+> > Cc: <linux-kbuild@vger.kernel.org>
+> > Cc: <kasan-dev@googlegroups.com>
+> > Cc: <linux-hardening@vger.kernel.org>
+> > ---
+> >  include/linux/compiler-version.h | 3 +++
+> >  scripts/Makefile.ubsan           | 1 +
+> >  scripts/basic/Makefile           | 5 +++++
+> >  3 files changed, 9 insertions(+)
+> >
+> > diff --git a/include/linux/compiler-version.h b/include/linux/compiler-=
+version.h
+> > index 69b29b400ce2..187e749f9e79 100644
+> > --- a/include/linux/compiler-version.h
+> > +++ b/include/linux/compiler-version.h
+> > @@ -19,3 +19,6 @@
+> >  #ifdef RANDSTRUCT
+> >  #include <generated/randstruct_hash.h>
+> >  #endif
+> > +#ifdef INTEGER_WRAP
+> > +#include <generated/integer-wrap.h>
+> > +#endif
+> > diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
+> > index 9e35198edbf0..653f7117819c 100644
+> > --- a/scripts/Makefile.ubsan
+> > +++ b/scripts/Makefile.ubsan
+> > @@ -15,6 +15,7 @@ ubsan-cflags-$(CONFIG_UBSAN_TRAP)             +=3D $(=
+call cc-option,-fsanitize-trap=3Dundefined
+> >  export CFLAGS_UBSAN :=3D $(ubsan-cflags-y)
+> >
+> >  ubsan-integer-wrap-cflags-$(CONFIG_UBSAN_INTEGER_WRAP)     +=3D  \
+> > +       -DINTEGER_WRAP                                          \
+> >         -fsanitize-undefined-ignore-overflow-pattern=3Dall        \
+> >         -fsanitize=3Dsigned-integer-overflow                      \
+> >         -fsanitize=3Dunsigned-integer-overflow                    \
+> > diff --git a/scripts/basic/Makefile b/scripts/basic/Makefile
+> > index dd289a6725ac..fb8e2c38fbc7 100644
+> > --- a/scripts/basic/Makefile
+> > +++ b/scripts/basic/Makefile
+> > @@ -14,3 +14,8 @@ cmd_create_randstruct_seed =3D \
+> >  $(obj)/randstruct.seed: $(gen-randstruct-seed) FORCE
+> >         $(call if_changed,create_randstruct_seed)
+> >  always-$(CONFIG_RANDSTRUCT) +=3D randstruct.seed
+> > +
+> > +# integer-wrap: if the .scl file changes, we need to do a full rebuild=
+.
+> > +$(obj)/../../include/generated/integer-wrap.h: $(srctree)/scripts/inte=
+ger-wrap-ignore.scl FORCE
+> > +       $(call if_changed,touch)
+> > +always-$(CONFIG_UBSAN_INTEGER_WRAP) +=3D ../../include/generated/integ=
+er-wrap.h
 >
-> Generate a new header file, integer-wrap.h, any time the Clang .scl
-> file changes. Include the header file in compiler-version.h when its
-> associated feature name, INTEGER_WRAP, is defined. This will be picked
-> up by fixdep and force rebuilds where needed.
->
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Justin Stitt <justinstitt@google.com>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Nicolas Schier <nicolas.schier@linux.dev>
-> Cc: Marco Elver <elver@google.com>
-> Cc: Andrey Konovalov <andreyknvl@gmail.com>
-> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-> Cc: <linux-kbuild@vger.kernel.org>
-> Cc: <kasan-dev@googlegroups.com>
-> Cc: <linux-hardening@vger.kernel.org>
-> ---
->  include/linux/compiler-version.h | 3 +++
->  scripts/Makefile.ubsan           | 1 +
->  scripts/basic/Makefile           | 5 +++++
->  3 files changed, 9 insertions(+)
->
-> diff --git a/include/linux/compiler-version.h b/include/linux/compiler-ve=
-rsion.h
-> index 69b29b400ce2..187e749f9e79 100644
-> --- a/include/linux/compiler-version.h
-> +++ b/include/linux/compiler-version.h
-> @@ -19,3 +19,6 @@
->  #ifdef RANDSTRUCT
->  #include <generated/randstruct_hash.h>
->  #endif
-> +#ifdef INTEGER_WRAP
-> +#include <generated/integer-wrap.h>
-> +#endif
-> diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
-> index 9e35198edbf0..653f7117819c 100644
-> --- a/scripts/Makefile.ubsan
-> +++ b/scripts/Makefile.ubsan
-> @@ -15,6 +15,7 @@ ubsan-cflags-$(CONFIG_UBSAN_TRAP)             +=3D $(ca=
-ll cc-option,-fsanitize-trap=3Dundefined
->  export CFLAGS_UBSAN :=3D $(ubsan-cflags-y)
->
->  ubsan-integer-wrap-cflags-$(CONFIG_UBSAN_INTEGER_WRAP)     +=3D  \
-> +       -DINTEGER_WRAP                                          \
->         -fsanitize-undefined-ignore-overflow-pattern=3Dall        \
->         -fsanitize=3Dsigned-integer-overflow                      \
->         -fsanitize=3Dunsigned-integer-overflow                    \
-> diff --git a/scripts/basic/Makefile b/scripts/basic/Makefile
-> index dd289a6725ac..fb8e2c38fbc7 100644
-> --- a/scripts/basic/Makefile
-> +++ b/scripts/basic/Makefile
-> @@ -14,3 +14,8 @@ cmd_create_randstruct_seed =3D \
->  $(obj)/randstruct.seed: $(gen-randstruct-seed) FORCE
->         $(call if_changed,create_randstruct_seed)
->  always-$(CONFIG_RANDSTRUCT) +=3D randstruct.seed
-> +
-> +# integer-wrap: if the .scl file changes, we need to do a full rebuild.
-> +$(obj)/../../include/generated/integer-wrap.h: $(srctree)/scripts/intege=
-r-wrap-ignore.scl FORCE
-> +       $(call if_changed,touch)
-> +always-$(CONFIG_UBSAN_INTEGER_WRAP) +=3D ../../include/generated/integer=
--wrap.h
+> I'm not sure how this fake header stuff works to ensure builds deps
+> are tracked properly but we do need scl files to be considered as part
+> of complete builds, so:
 
-I'm not sure how this fake header stuff works to ensure builds deps
-are tracked properly but we do need scl files to be considered as part
-of complete builds, so:
+As in, I'm sure it works but have personally never written or reviewed
+a Makefile+generated header snippet like that before :)
 
-Acked-by: Justin Stitt <justinstitt@google.com>
-
-> --
-> 2.34.1
 >
+> Acked-by: Justin Stitt <justinstitt@google.com>
+>
+> > --
+> > 2.34.1
+> >
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -240,4 +251,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-AFhGd8rGJcveDn4g1nS%3DtURe-uT1%2BPFm2EQeWpUrH_oy763yFg%40mail.gmail.com.
+AFhGd8qL8ttBaPGH5Cx39MN46OgxsLSgqhWN4rwCwf9bn33NHg%40mail.gmail.com.
