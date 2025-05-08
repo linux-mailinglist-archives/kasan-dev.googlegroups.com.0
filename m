@@ -1,141 +1,153 @@
-Return-Path: <kasan-dev+bncBD4NDKWHQYDRB3566PAAMGQEQLVCY2Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBDCPL7WX3MKBBQGE6PAAMGQEWBTF4KY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3d.google.com (mail-qv1-xf3d.google.com [IPv6:2607:f8b0:4864:20::f3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C02EAB009F
-	for <lists+kasan-dev@lfdr.de>; Thu,  8 May 2025 18:44:32 +0200 (CEST)
-Received: by mail-qv1-xf3d.google.com with SMTP id 6a1803df08f44-6f53c479adesf39308996d6.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 08 May 2025 09:44:32 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1746722671; cv=pass;
+Received: from mail-qv1-xf37.google.com (mail-qv1-xf37.google.com [IPv6:2607:f8b0:4864:20::f37])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B9B3AB00C5
+	for <lists+kasan-dev@lfdr.de>; Thu,  8 May 2025 18:56:34 +0200 (CEST)
+Received: by mail-qv1-xf37.google.com with SMTP id 6a1803df08f44-6f53d97079asf38765876d6.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 08 May 2025 09:56:34 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1746723393; cv=pass;
         d=google.com; s=arc-20240605;
-        b=fCvu+uuVADh0x71DxZZztfjW+8dyAAa+GFFHd/ACsXe46feW88M1VBciRQuXbM7Y3Z
-         r0ICucwiHQIRZpbUf4S9Pr4vju8GgJuU5CX4bOb0ihNWPEJBxTU/9VHZG3u7x9CeKuo2
-         5waPTHYco9+Z4pKP0cQ+N4mdF5EIEsqzai1DhzOntjEtlOZ8jLa7otDCJVkYDRHxqJmi
-         30FwGU0rprJsZMsirbtYG6rnBRqYTznDpJT/WaQeJP1Ii7iDPalMaRBLutWyEXeoMI0Q
-         x1K+SpopLh4ux1KCR3ubmMA3kidMZMKGwC3MfmBXQ65KToPnVK7qtKfLKg+GktrIFtJQ
-         Q2oQ==
+        b=Mr4cfuhlwd40Z9uQEC38Kf/nOBXe0oG7rOUCYWiO6MYufgermJt4+evOkAXW3t2STd
+         Xmp1kY34tdFgHXJYkC0Sbudm2n1Kar/m9H0CCeDgfbPVYDA34Emi3wFNdlMWwTgeYjN5
+         4W1bdy0D1peLFI4WMqLhil4qXScAnFom6z/+7BdlvhwJjQlCkO0OHX27gSuOFTfCnL2m
+         nPD0bx2QnnBoxuiWEe65lTgcLLyCkTIPQIDjVEbKPr6V7Nv4qBBu/Mu0G2ItSTA+xZPL
+         zmU4YfpiaJSdjQ/nB1BWBCzzVhOHeQUC7nGKUc6aeSeWzDZtRLkdkk1G4rcLJukGlYau
+         bqqA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=26ssRU260sn6EJW0WJNHo3Djjfn5PLObEgdY17nip48=;
-        fh=6SYGdgtcgXFj3vkxBIGwCYByZJe9wcdqcH8JMItuKMM=;
-        b=K2AtYnigw/s63g1gEYJGTSzZpA3OzwstkDTOzRQpfanUCKH8IlzyMr+CUk0Evc9OAA
-         4CRzpyCKw4ItOI3fYyGxociNtLDF+E92kJ6bwYk5zNUvKDA/dcRBq7JghKWlw9+sTsXO
-         M70NutNCgLGoVGvGJvNyFQZzjcV+S2zglMh7IpjN5G/o4NkeIVOHKLwIO2IROfJ9GT+V
-         OBuXR6cuRSeUB8z7muvmPlrPiE3zvE30APh2S0Gv7Nmq9UZejFdBnOLIiBRwTIGB67YE
-         jrDhdqhhQwa9cvbqElSzwPOsNyRIw/ySHGaytGgyysZt28wkFBMcFyGGWUoAjBrI4cQF
-         Edaw==;
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=TgSuoespREYVemriK+Ucnzwc0I2hvPpUrj26ZnUSeUI=;
+        fh=WaQctjTx7IiUz14IUkjVly+dIzQ4J8+1CEHENufxon8=;
+        b=OfXVMOaomrbNrlNcqEtU0dRLLV4A1TVinVV8nQH0hMFL/ou72+oWn/4zRoMZXrXgLj
+         I4ajjRwo0ECjrjO2/K2mj+4ZHUv/kwg/nicRYS6G9KInzK04/pLW7YEPJIqr9KzPoQvQ
+         uG5yPlwqSQWr7+jOtlXR6ztIUx7C8KATjWodM8OSMiLqjE/AGaqNJK3NXIXE6XqZZTWk
+         d2v5N16P2RBDNn4ax/xobPjp4KaaeKyXAXK3RD2/gdvq1kWHJGB9XkbVT5JrlwHVQZ0M
+         mS4NQ9ieARJyDzVOT8vzCwvc1bBl4irrWLhtY8zvAnxJbsZ4ajW/CM1+m/AF9dCiWgCn
+         C/DA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="CAYzuZT/";
-       spf=pass (google.com: domain of nathan@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=nathan@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=ChcionI4;
+       spf=pass (google.com: domain of kees@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=kees@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1746722671; x=1747327471; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1746723393; x=1747328193; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=26ssRU260sn6EJW0WJNHo3Djjfn5PLObEgdY17nip48=;
-        b=FYKhu3ovRiMwBhgXj/maDmIc34pzDTgX181BrN74QsskgklGBqiPeWrsoLj9QqIver
-         pSle0MD56VSBLCrWHt9WntRN5SNxUmG6B8K2dXXgHZiEUhzzosv2rKAGUpAUyl+cR4Xv
-         oQ5fxSZR/6oavQy7qZm9POkgcLwKbFibp0jMXvL177hoMH9P7jymQU5UHDLC+t/XuSDQ
-         tVgr6islX56jyRpQsKLBVhz0QHGv+uOGmxLJ9I6rf8QFeuu4sVN8QAJ9M9/nLpfgLREB
-         U9hPQcK3aPTfav0ZB3FEK76/+EzjCXUTRWPbrDyJnO4Z0VfLOmKmnzOcaccq0WQ9vNQ8
-         mI4Q==
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=TgSuoespREYVemriK+Ucnzwc0I2hvPpUrj26ZnUSeUI=;
+        b=IfTf0YANGEakWzwwmvNd/Nb7uoqO/6HDYZ6shdfIz0jI4/GFjLfmaH57c6gDfyj4sh
+         ZAXJY3YuqKbEV/89CkEcyBjjB79rbWOjZxRoYv6S2Y97pur+iaC/qKg/Fq44W/77ArCD
+         p5T2DmHEBisZBymStTF3HT4+oVIzk+s+PuGEcoFOjonsLpbVulzaCSSjVfEm84GZ1Vmq
+         KA2n523ER5VurGH4leiHeiJRj63QVOqyB7hDVV4FDGnOLpMClXBpLmP3sY9d6NirNljF
+         D8G7ZqI8LzFmLbO5c8kGL8/hJsUBsslp4cJJH+ZyReo1gz66o/5HCHw4JPoETEebxzBl
+         l68Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746722671; x=1747327471;
+        d=1e100.net; s=20230601; t=1746723393; x=1747328193;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=26ssRU260sn6EJW0WJNHo3Djjfn5PLObEgdY17nip48=;
-        b=rP47hejA3ezVIZ/ep9fCgd/uxtdgrzsd5vE702FIHqMdoWHPPes7Ojw/P3SDGMfSUt
-         MVav1gQHeSbYnmdE4RLgSe+61f/PaxqnZKnYUtvEBhuq05kfOtfJpDhqz4wwy/dzB8P6
-         9AyhxHXnwVcTOVAG2Qqvm4zI9ZwrRUkH4lGMDaFxSjwxq0yJMwMZ7bBQ1vjQxgQukVAs
-         HBevxgAZK0fSuXSCnBXC6Lh2475jSDrDAIHSg4m+OTITWh7qpx3JTeBQ7ikj8SqWwagr
-         pZg/CC8u+6EWAy/iHi84ecWTBazLt9kEsz6ZylOn0KD6plTVPRWo0gsKR0N3IWx5qiir
-         f3zQ==
-X-Forwarded-Encrypted: i=2; AJvYcCUi8eysT/4+MRg2rUfaUsuARB5vk1WNwcDEf9Be/NrcV0+2Vpft/u5ovgh8s07T+eGKn2IXKQ==@lfdr.de
-X-Gm-Message-State: AOJu0YwAWhoGnTqM4n9wi58pSxtXlE+ga6PoYRYuelwQpma+ia/T79QP
-	kBv7Ck2WY5XF4tU43sbc8PoP5ib22fgoi2ACPUTicf3KQ1TLQQPh
-X-Google-Smtp-Source: AGHT+IFSReubbF7raoitzPdEMwStGUkN2lStilubTtkZEsES8KZZtuXhFpMy67hM4fDAR5dJZWPoSw==
-X-Received: by 2002:a05:6214:f2f:b0:6e8:f296:5f57 with SMTP id 6a1803df08f44-6f54bb27257mr65248806d6.20.1746722671356;
-        Thu, 08 May 2025 09:44:31 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBGgnUb/2P3MzIXXcgogdTliyoYL8744LB4+EB5o+vuN2A==
-Received: by 2002:a0c:f096:0:10b0:6f5:47a1:f42e with SMTP id
- 6a1803df08f44-6f54b51288dls6014506d6.1.-pod-prod-00-us; Thu, 08 May 2025
- 09:44:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCU6SFmtbdH3B250Dw7GnhleZzgNCyoIlGeS/hXG2omQz56l45JAvN0Md0PiqPFfp0BaCx7+ESj9bn4=@googlegroups.com
-X-Received: by 2002:a05:6102:1177:b0:4bd:379c:4037 with SMTP id ada2fe7eead31-4ddac9287damr2928967137.9.1746722670685;
-        Thu, 08 May 2025 09:44:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1746722670; cv=none;
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TgSuoespREYVemriK+Ucnzwc0I2hvPpUrj26ZnUSeUI=;
+        b=QpHOxhQfCK7doDlv4+UE/F12scyH2VzR3qieFmolDHFWb/Friuz+Jrs3ps9UI1v8ss
+         nm7hSrDkGWAIHu9edPiF43N9I1M+cwgaDy93YC1jQAyOh+xvUaZ8lLJ4XooZYco/RQ+I
+         Ajru9H4tim9nBOlcWHhx0KPXR5938CI3233tisrZRTC8nOPphH+SXuVGYwe3vkSbK8yi
+         RYOAPiTPDZQ1lyqXylLeAuUrx8djkLVnmu7pB+TsljI9rTErXjI+qzsiQaHEy8VwUtTI
+         Ao7/TrAxEH1ka1pvlewXEPv5U0VEVZJ4u/jvTsiRsO72VIle1/qCar16+AO6AVwNga/E
+         42VA==
+X-Forwarded-Encrypted: i=2; AJvYcCUITq004CzwxSH77ysy9r0IbUw7Tz8KAE3kliY+/W+nMwv2UShX7lPjmQ0icL1V9QuwmPwdCw==@lfdr.de
+X-Gm-Message-State: AOJu0Yz2R4hocp/DkFXyLq1RzXJUafdwNcTNciG7HzB9c9fc4iwS1ziS
+	kdot8MSzFc3vyOBMHuEnQaXnrl8KFxGHtcAZXkh2nt1p2+ljc4fP
+X-Google-Smtp-Source: AGHT+IHbmK8qQRC+cdRrE/GNg6xlPwXWuZdo5lXHs6djxg+HcCmiXyQ09nMadr4l/oXgIHS811KZJg==
+X-Received: by 2002:a05:6214:5c9:b0:6f5:4508:fd84 with SMTP id 6a1803df08f44-6f54509024dmr99867776d6.35.1746723393136;
+        Thu, 08 May 2025 09:56:33 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBFph44OkHapqW8lX3GZOcX1y0SJPyW2iFw+SwviRgTXKA==
+Received: by 2002:a05:6214:190e:b0:6f5:4843:dd89 with SMTP id
+ 6a1803df08f44-6f54b669558ls3647386d6.2.-pod-prod-04-us; Thu, 08 May 2025
+ 09:56:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWtVu3Z3oWB3CsK2iTjAO17CZ8rnM3LG+78yrNhuiSoC40a1ndnfOuwjOSOrEalN59QRtD1Cw+Xzbs=@googlegroups.com
+X-Received: by 2002:a05:6214:c46:b0:6e8:fbe2:2db0 with SMTP id 6a1803df08f44-6f542a9f77cmr111239756d6.30.1746723392165;
+        Thu, 08 May 2025 09:56:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1746723392; cv=none;
         d=google.com; s=arc-20240605;
-        b=R9Igk4ipMCpRh523x+eaPg6kbAujp4DC8CHSFwTKzEHH3JHpCpomM1ZSx60719q99A
-         4EffTUNu0lcYUz2QoislbIjpcKwziheIiwX6k2n4lzI28J4d2PZ/CclqxXlh9dy5heB1
-         iFAo2MFEuw4X912JlgqiuTM/BqOXb4S9FqKBmvPID8B3jTlDVOk6rghydmIqr2MHZSqk
-         ftOxfBKpLhTb3usH9SrXgYTV1gX3Fggb31QS3NGZ/rE/AKyWluKsg/zZjXjx/sTuvdL7
-         CbvBqEtm1YVdaDi+NqdOzGBDf8LXPcxxL65inYrmjurRV2cLCdxpdnp6azI3dS2/Z89f
-         sFvg==
+        b=eY7YgJeoTYoSlijD6gZZtrA10R9PWq2ch+i/1kfOdhYc1XJQkAZz4iRMZwWoFdRPah
+         lPo9yqeLlH8DYPSdw16g+x/VVuOQNJwd076w3yy1Uv6HvVLpzbiv7UBD06NBSC4CKOVo
+         bMxKRatn5RMqhQvcLiddOTkSVMOm+3XB4s5Uk3asSD3SvIvDlt9FwE1p1BQB7yXqqbVr
+         lDuV3BsN3CGNMTporoCUV0kP58DtkUHq4Tg7MVT9cyeeQFjVDrcjhYDaZ1mPgznDTmWT
+         jDuAgYWPH3c5QwAfyEE0YfplSO3AxhPrT0MZNai5hP4FphlcSTuPSrsOjTh2NUlCztZN
+         +QmQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=xZ4FxmMTsd1iwasfziArFSX9cS+YdWzGtvLgLgrVRyo=;
-        fh=0LHNwTyU+Lw7xc5R2NYFn6GBkXNFCC1MJwBWwQ6ce2c=;
-        b=ffDSHYdp7ZaoJQ8WglETV+o2jj9BIljX2jRWaz/ooHPjOe117WYl0S6xNTzi3g3+y6
-         MOc11cRrJ+UoqozYPajjahUnEkMKQNIwWd71PKrW3AdYCVN6myhGORUReEdP1N8ivFmu
-         O1Aaq6syTksbNsAdYBPV4jFgrH4KksCOigwmYHckT3IFPHC/QkNcJelQK8LBPYmRAR9G
-         37IWjgDHLnT6Db9bEoJfT4jGH6QhG0bXV4JI3xAn8g6i90IHT71BRCADWVPbb5IX9wMw
-         D3G0tzV2RW3OCgWhh7cq/bhp8ZM4JrQCgS35o1N3Yxotm4zgSsPYyos+fhzoJF64Lnom
-         EP6A==;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=vMN+iMGvFhpjV0lE7tYmN8eikr2AxmfQ/1RJzjUb7HA=;
+        fh=BxgzT0MZsSp477MtR51PGrPYIDC1oavm6ZTCuFIEh1E=;
+        b=f9Bd0ikeVTtNqeIIup0N6uaiv7pk57ivO8I8uIjHQKJOh7sAuswvSUcsjKwwtQxu05
+         tRbOcF7Cp8DDAN18MtB8S3+mWGF0sPNc07oaTGDKo/Jr6UZhSIyq9wj4yWhLxyPOv0em
+         OX1XO/Ux1ytlhiSfb4PC0w5Z12Dq+fBrx3aEbR01VpsCk+AZigAiQLpv6rilxPE37DnC
+         LEB9gZAv5207cs3dAX6Fnro2j6CK8MkGD5uZkxoaNiztSbrRE1mmWVrcGdy05zTLByxY
+         eRwuAxIQotm5fOgKhW/dX9kqDvjFo65iEHFDpnIpJDcoVZziMnBf+ZBfz+rTpr+tOrKp
+         KGzg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="CAYzuZT/";
-       spf=pass (google.com: domain of nathan@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=nathan@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=ChcionI4;
+       spf=pass (google.com: domain of kees@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=kees@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id a1e0cc1a2514c-879f62426d6si11276241.2.2025.05.08.09.44.30
+Received: from nyc.source.kernel.org (nyc.source.kernel.org. [147.75.193.91])
+        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-6f6e399a382si173366d6.7.2025.05.08.09.56.32
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 May 2025 09:44:30 -0700 (PDT)
-Received-SPF: pass (google.com: domain of nathan@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+        Thu, 08 May 2025 09:56:32 -0700 (PDT)
+Received-SPF: pass (google.com: domain of kees@kernel.org designates 147.75.193.91 as permitted sender) client-ip=147.75.193.91;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id DC55D5C6355;
-	Thu,  8 May 2025 16:42:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3728C4CEE7;
-	Thu,  8 May 2025 16:44:27 +0000 (UTC)
-Date: Thu, 8 May 2025 17:44:25 +0100
-From: "'Nathan Chancellor' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Lukas Bulwahn <lbulwahn@redhat.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	by nyc.source.kernel.org (Postfix) with ESMTP id CEE79A4DF8D;
+	Thu,  8 May 2025 16:56:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46EFAC4CEE7;
+	Thu,  8 May 2025 16:56:31 +0000 (UTC)
+Date: Thu, 8 May 2025 09:56:28 -0700
+From: "'Kees Cook' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
-	Dmitry Vyukov <dvyukov@google.com>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Justin Stitt <justinstitt@google.com>,
+	Marco Elver <elver@google.com>,
 	Andrey Konovalov <andreyknvl@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, linux-kbuild@vger.kernel.org,
-	kasan-dev@googlegroups.com, kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lukas Bulwahn <lukas.bulwahn@redhat.com>
-Subject: Re: [PATCH] Makefile.kcov: apply needed compiler option
- unconditionally in CFLAGS_KCOV
-Message-ID: <20250508164425.GD834338@ax162>
-References: <20250507133043.61905-1-lukas.bulwahn@redhat.com>
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, kasan-dev@googlegroups.com,
+	linux-um@lists.infradead.org
+Subject: Re: [PATCH v2 0/3] Detect changed compiler dependencies for full
+ rebuild
+Message-ID: <202505080953.789B3381@keescook>
+References: <20250502224512.it.706-kees@kernel.org>
+ <CAK7LNAQCZMmAGfPTr1kgp5cNSdnLWMU5kC_duU0WzWnwZrqt2A@mail.gmail.com>
+ <202505031028.7022F10061@keescook>
+ <CAK7LNAQehmFgB3kJtrkVhUKM1NEXGQrfJ3v3piToh7YV7-3ccw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20250507133043.61905-1-lukas.bulwahn@redhat.com>
-X-Original-Sender: nathan@kernel.org
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAK7LNAQehmFgB3kJtrkVhUKM1NEXGQrfJ3v3piToh7YV7-3ccw@mail.gmail.com>
+X-Original-Sender: kees@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b="CAYzuZT/";       spf=pass
- (google.com: domain of nathan@kernel.org designates 2604:1380:4641:c500::1 as
- permitted sender) smtp.mailfrom=nathan@kernel.org;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: Nathan Chancellor <nathan@kernel.org>
-Reply-To: Nathan Chancellor <nathan@kernel.org>
+ header.i=@kernel.org header.s=k20201202 header.b=ChcionI4;       spf=pass
+ (google.com: domain of kees@kernel.org designates 147.75.193.91 as permitted
+ sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass (p=QUARANTINE
+ sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Kees Cook <kees@kernel.org>
+Reply-To: Kees Cook <kees@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -148,45 +160,121 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, May 07, 2025 at 03:30:43PM +0200, Lukas Bulwahn wrote:
-> From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
-> 
-> Commit 852faf805539 ("gcc-plugins: remove SANCOV gcc plugin") removes the
-> config CC_HAS_SANCOV_TRACE_PC, as all supported compilers include the
-> compiler option '-fsanitize-coverage=trace-pc' by now.
-> 
-> The commit however misses the important use of this config option in
-> Makefile.kcov to add '-fsanitize-coverage=trace-pc' to CFLAGS_KCOV.
-> Include the compiler option '-fsanitize-coverage=trace-pc' unconditionally
-> to CFLAGS_KCOV, as all compilers provide that option now.
-> 
-> Fixes: 852faf805539 ("gcc-plugins: remove SANCOV gcc plugin")
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+On Fri, May 09, 2025 at 01:44:09AM +0900, Masahiro Yamada wrote:
+> On Sun, May 4, 2025 at 2:37=E2=80=AFAM Kees Cook <kees@kernel.org> wrote:
+> >
+> > On Sat, May 03, 2025 at 06:39:28PM +0900, Masahiro Yamada wrote:
+> > > On Sat, May 3, 2025 at 7:54=E2=80=AFAM Kees Cook <kees@kernel.org> wr=
+ote:
+> > > >
+> > > >  v2:
+> > > >   - switch from -include to -I with a -D gated include compiler-ver=
+sion.h
+> > > >  v1: https://lore.kernel.org/lkml/20250501193839.work.525-kees@kern=
+el.org/
+> > >
+> > >
+> > > What do you think of my patch as a prerequisite?
+> > > https://lore.kernel.org/linux-kbuild/20250503084145.1994176-1-masahir=
+oy@kernel.org/T/#u
+> > > Perhaps, can you implement this series more simply?
+> > >
+> > > My idea is to touch a single include/generated/global-rebuild.h
+> > > rather than multiple files such as gcc-plugins-deps.h, integer-wrap.h=
+, etc.
+> > >
+> > > When the file is touched, the entire kernel source tree will be rebui=
+lt.
+> > > This may rebuild more than needed (e.g. vdso) but I do not think
+> > > it is a big deal.
+> >
+> > This is roughly where I started when trying to implement this, but I
+> > didn't like the ergonomics of needing to scatter "touch" calls all over=
+,
+> > which was especially difficult for targets that shared a build rule but
+> > may not all need to trigger a global rebuild. But what ultimately pushe=
+d
+> > me away from it was when I needed to notice if a non-built source file
+> > changed (the Clang .scl file), and I saw that I need to be dependency
+> > driven rather than target driven. (Though perhaps there is a way to
+> > address this with your global-rebuild.h?)
+> >
+> > As far as doing a full rebuild, if it had been available last week, I
+> > probably would have used it, but now given the work that Nicolas, you,
+> > and I have put into this, we have a viable way (I think) to make this
+> > more specific. It does end up being a waste of time/resources to rebuil=
+d
+> > stuff that doesn't need to be (efi-stub, vdso, boot code, etc), and tha=
+t
+> > does add up when I'm iterating on something that keeps triggering a ful=
+l
+> > rebuild. We already have to do the argument filtering for targets that
+> > don't want randstruct, etc, so why not capitalize on that and make the
+> > rebuild avoid those files too?
+>=20
+>=20
+> efi-stub, vdso are very small.
+>=20
+> Unless this turns out to be painful, I prefer
+> a simpler implementation.
+>=20
+> You will see how .scl file is handled.
+>=20
+> See the below code:
+>=20
+>=20
+> diff --git a/Kbuild b/Kbuild
+> index f327ca86990c..85747239314c 100644
+> --- a/Kbuild
+> +++ b/Kbuild
+> @@ -67,10 +67,20 @@ targets +=3D $(atomic-checks)
+>  $(atomic-checks): $(obj)/.checked-%: include/linux/atomic/%  FORCE
+>         $(call if_changed,check_sha1)
+>=20
+> +rebuild-$(CONFIG_GCC_PLUGINS)          +=3D $(addprefix
+> scripts/gcc-plugins/, $(GCC_PLUGIN))
+> +rebuild-$(CONFIG_RANDSTRUCT)           +=3D include/generated/randstruct=
+_hash.h
 
-Good catch.
+These are in $(objtree)
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> +rebuild-$(CONFIG_UBSAN_INTEGER_WRAP)   +=3D scripts/integer-wrap-ignore.=
+scl
 
-> ---
->  scripts/Makefile.kcov | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/Makefile.kcov b/scripts/Makefile.kcov
-> index 67de7942b3e7..01616472f43e 100644
-> --- a/scripts/Makefile.kcov
-> +++ b/scripts/Makefile.kcov
-> @@ -1,5 +1,5 @@
->  # SPDX-License-Identifier: GPL-2.0-only
-> -kcov-flags-$(CONFIG_CC_HAS_SANCOV_TRACE_PC)	+= -fsanitize-coverage=trace-pc
-> +kcov-flags-y					+= -fsanitize-coverage=trace-pc
->  kcov-flags-$(CONFIG_KCOV_ENABLE_COMPARISONS)	+= -fsanitize-coverage=trace-cmp
->  
->  export CFLAGS_KCOV := $(kcov-flags-y)
-> -- 
-> 2.49.0
-> 
+This is in $(srctree)
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250508164425.GD834338%40ax162.
+> +
+> +quiet_cmd_touch =3D TOUCH   $@
+> +      cmd_touch =3D touch $@
+> +
+> +include/generated/global-rebuild.h: $(rebuild-y)
+> +       $(call cmd,touch)
+
+Is this rule going to find the right versions of the dependencies?
+
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -558,7 +558,8 @@ USERINCLUDE    :=3D \
+>                 -I$(srctree)/include/uapi \
+>                 -I$(objtree)/include/generated/uapi \
+>                  -include $(srctree)/include/linux/compiler-version.h \
+> -                -include $(srctree)/include/linux/kconfig.h
+> +                -include $(srctree)/include/linux/kconfig.h \
+> +                -include $(objtree)/include/generated/global-rebuild.h
+
+Instead of adding a new file, why not just touch compiler-version.h?
+
+But whatever the case, sure, I can live with this. :)
+
+-Kees
+
+--=20
+Kees Cook
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
+02505080953.789B3381%40keescook.
