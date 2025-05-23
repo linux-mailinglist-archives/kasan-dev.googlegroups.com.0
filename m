@@ -1,155 +1,155 @@
-Return-Path: <kasan-dev+bncBDCPL7WX3MKBBGPYX7AQMGQEGZTGBOY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDCPL7WX3MKBBDXYX7AQMGQE6XJHJAQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3f.google.com (mail-oa1-x3f.google.com [IPv6:2001:4860:4864:20::3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD0AAC1B17
-	for <lists+kasan-dev@lfdr.de>; Fri, 23 May 2025 06:39:54 +0200 (CEST)
-Received: by mail-oa1-x3f.google.com with SMTP id 586e51a60fabf-2d4e42a2b2bsf5772787fac.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 22 May 2025 21:39:54 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1747975193; cv=pass;
+Received: from mail-yb1-xb3c.google.com (mail-yb1-xb3c.google.com [IPv6:2607:f8b0:4864:20::b3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35404AC1B05
+	for <lists+kasan-dev@lfdr.de>; Fri, 23 May 2025 06:39:44 +0200 (CEST)
+Received: by mail-yb1-xb3c.google.com with SMTP id 3f1490d57ef6-e7d6927009asf2157592276.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 22 May 2025 21:39:44 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1747975183; cv=pass;
         d=google.com; s=arc-20240605;
-        b=OJrcGGxDGm4u6c7/y+pULdEfJJoUng0fzNbS4ZjV4NrXqxuNEBw81XKlyTqyeXt7i4
-         1O/VEMNUTrS2iZedsS1KlPvI2mDECknhWp2R7bA4prvTjW/mVJIP3PWfBqLzM2PG6qiR
-         JJbvgY4gkh9TvQwvLFhAbFI02oCIvPPtdcEY/EjqZlA2/CedfCY2bpDoqTK2WRg3Yfmd
-         doLcjUfq8r3yJA0mlPNAxUapiYcc13XI2TKe/BuQNg3CipgWOAJkPRLwC2Si1dHFp4W7
-         VyBXjDtGRUjXZ0YhpR7QcJ/oxEOsu1CiQP+DFYlLtwkO9TM71nqAuYpoDiM+QPGmXsfC
-         CecQ==
+        b=VJzZg7GN7O5fehmWaGJsx6lNkBTEckXOv6uW/dibKOJ3WeJo63lb3cpq8OglXVcEnY
+         GsBiOX+r6eLLWFPzaUW0Ndw1RORL68TjtbYYHlhUTESCaCe9ev9QrDaG29a31k6/bZhI
+         kDopzoWxJBbfXDAwWkP/JyjjcGI5vz7KLX3Gk3QlhNJYVrb/uZw1kKpUHm3OYomVWFKu
+         wfv3hoEN0w5VaB2i28kZ9H7s5hvzkNzm1M3SFvhhwaY5gFTi7A6nUp6oRIGjHyUqT0O2
+         7g2K7VOHrLWku7DPNJoL9Hcu8/ooG9quHX9AEyYygx3wlkwGjLrulYBvwI4XxSKCnqf4
+         g82w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=+quuXrSXTqducEZaDQF2JNoWdVfOtQqn0eXOy5Rjrh8=;
-        fh=iPF+nQI64R8aJHaZKgWw+GdnHbwSmGPhqI/3s4y8+4k=;
-        b=UEDebs/0usSNE5cUYNuI25eKpviWmGre9nKQqdXFlhkno86AwWfFY1ZZSkTPkCtLPF
-         cD8LpwXdboSax54a51VOAyurKISr4ZR4y1vydtflyTu/qWoDdcv15IHGJgmLCRbF+pyX
-         QRaLVxrw62l8cIHLGET3+8/WYXonKPoog7kFZ9WxHioPgJxBfDxha0Fq19e/o9d0HDdg
-         GF/mLTQCylkMcuKISleRgVHfYtXPuqIiHVckTgwAKKEPxyttArAR+Yt0ysvctMGcCAKO
-         1bafAztCX/Qs5GXVQR0vpIXJPKprwlVF3sBSj5//uAqJhgQBX9wMuuMl6CtDuEx/y5LV
-         jDgQ==;
+        bh=7k/t5kU5yiQ73km8Fv39Or8U82tPmkc9SLM0IcYoGSU=;
+        fh=yZoTb+DUqV7xGU1G9330sLibhvbO9+5FRwkX+qnyGU4=;
+        b=b/s6Ys/jRwSh8ri1hVG+M6utu2OtCNPvbPaoUcpZahQR6fsyX1QWWn8ACBjDQq5qgj
+         SVUwG4nd3cUMYm3Rz78y7xlZLqVmfVMWgYSWZwcG7hreGtMlpe99wmZsgfM6vEqgAaqY
+         DcjFyVGSQy8JJflsUijia+QsbP8X6dyriTfMQN+fbQWtasNqP7iBCXKPmzNuKc3LAp3x
+         TvyWA+0XKilKXuVezUUQnZu2onK/DurVAoBoU58YMdoSKhOoGawZAMs5QN4Sbx6Tb73M
+         7b4xD7N1F2KEVDoEbwSbQhd6U4FYQeju9iSh3aasvJGVF47LGZH6JU1ULMKTuCjm0Zmq
+         5VSQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=cuoIUYt5;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Mlt9V43N;
        spf=pass (google.com: domain of kees@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) smtp.mailfrom=kees@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1747975193; x=1748579993; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1747975183; x=1748579983; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=+quuXrSXTqducEZaDQF2JNoWdVfOtQqn0eXOy5Rjrh8=;
-        b=fv3RSA98mo84qY9yJdlLBKSB/8PIt3R6Te6j8+UoVf4y4X55j3Lw2sxnluLnmmbpss
-         jFptU2KEoFccWMDLqs3+H0weH84II8v7whHPZQz67hWkxKNpbcN1H2+YCSGWOjbbX76o
-         R9eIsINYLM7pciSmEBtah4HlQy2gyPdHCtpTQ+kKp8xYExY19Sq/UOIf8zyWoms68S5z
-         NHtr8JUgzED/3PIKzHLNzqiWak46Ecgw3alDc5Wg/BNgRbTASf07B3oA5gbgPVFzyzEM
-         c+j8IPc8Id/mh2lawbDox7z0d+cKHW5oSC1fBDgavi7pfsnO+tXyoT83/KtvvB+JCjXS
-         CJgg==
+        bh=7k/t5kU5yiQ73km8Fv39Or8U82tPmkc9SLM0IcYoGSU=;
+        b=Ti+TRmHaW991K8OAGUB47YEYcl2Cirk9+X1ISukLhR/SuSHUbU7u7ljke9IZGVPkHK
+         xu7EKvXVN3LWGM62mjfK2plRA0uqkFrYYdfqC4tbCsgiyUOI32Os/irz9k4pS9QbULX4
+         Yc/vENbk83WwO3up2PYlFlrqvkiDnjz8Hshn0H6U0x6SQFw+bMlxIbkRyUTthIWZF0AG
+         YS7GAgz4AwoOVJTLbErvZiqi31Wt5RXShUACSCRJLxvq0aoPK8fhKXbV5I9Qn6NhQih1
+         YVvudlJn0ohuRbGRq3db++QGWZmjlBxB6JpcdkEhvljMJRdDRmkVKnRsXFaPJ5oYBEzz
+         Hqtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747975193; x=1748579993;
+        d=1e100.net; s=20230601; t=1747975183; x=1748579983;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+quuXrSXTqducEZaDQF2JNoWdVfOtQqn0eXOy5Rjrh8=;
-        b=upShGklnbR6gGZIkq01JKxnfbVn4AbdqrabHa+yP+LiakaY/wbyEO78yK5J+uSZWCe
-         o62dS0XMpFvL/RYU8Z/oX6aflxQ1SesmK0X3r+WdiV5om7w4i4uB0L/6LgZh67syQroj
-         rU9i/bOtCCbx8PObYgQI9rNdqSqjuaMbbhBi5ofI8Rc/5hoQML8xO+IPw5lo7IWBSSsG
-         ykjQFxnQqCO7InPCm99pqvVxVrZS+dm6Uf1A6KQbytpyfKYLMKjJ2XxIx+MSHhNn0Yxv
-         nyFyhg2V8E00I7bcEwMg65ln3z1XUj9HD6nmRR4AMBTNhzrMCczsfeObeT6ryCWBSiz+
-         6B/Q==
-X-Forwarded-Encrypted: i=2; AJvYcCW+x0tnlMEaGJitLioyxLSIeTFbU0Ael9NzoMKXDR+d/2yPPj2jLHhdPall+hQWIXjUTgX3wg==@lfdr.de
-X-Gm-Message-State: AOJu0YyEz+sMbkxc7W69a+oguotXra0uIQTyvwKfJJkvE1JnvQtfMrTz
-	UzgmT0o9kDGL3ntuXOTi6ntK/QG6zzXwpCKQfWqGZuyVjEarkjygoEyt
-X-Google-Smtp-Source: AGHT+IHWqvtBnbW2tsKIUmF6fXct+p0dE7V5lHtcJutyQ0Pte24Mep629Tg2jkhZrywoHNMCpFs7dg==
-X-Received: by 2002:a05:6871:d107:b0:2d5:ba2d:80df with SMTP id 586e51a60fabf-2e3c81725a8mr16598802fac.8.1747975193218;
-        Thu, 22 May 2025 21:39:53 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBHLE5O5T1z7AGXUccZbVgPgbx4Y9Iwu1fcyBV+ia+lg/w==
-Received: by 2002:a05:6871:53c4:b0:2c2:d749:9156 with SMTP id
- 586e51a60fabf-2e39c951368ls964458fac.0.-pod-prod-05-us; Thu, 22 May 2025
- 21:39:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUXleAvdb7y6OdnhVy2LWzMSbKslid7U7SzDkV7oDjwB1bS9q7BupQhXwH+H1QskBzxRxunyLzv87w=@googlegroups.com
-X-Received: by 2002:a05:6e02:3184:b0:3dc:7b3d:6a37 with SMTP id e9e14a558f8ab-3dc7b3d7069mr159579995ab.8.1747975182002;
+        bh=7k/t5kU5yiQ73km8Fv39Or8U82tPmkc9SLM0IcYoGSU=;
+        b=Cf1PUU4LTsBVczphKboQZWdh3MGlpKxOLhp4nCj3jPm3c0EeRBXI0sTpsZzBJlt/oC
+         tSUo3CkPhvOiAaarB6pxLHwdE6AO8hER50fb7jiPRMYyuKgLrIGAyZoX/cCCc1w3aVkd
+         7VUCmKu2Q1lxrZF2/7fnTRBly6aPyLb5kAYgt8IbszS9NjNid8ALkHx9j1PmzH8LzKos
+         A3ZomaXhUXn4KWgP0LdAKJW/iKwgwfu2y34FEdu30mEu06ZXWFHejfpnttlQtxtOcekJ
+         DwA+d2XTei7jq02zxVIW52wa17o0SbcisgitHkG0RTfbHbpwMMLiZZxUKPK9aYN/VTi/
+         c0Ug==
+X-Forwarded-Encrypted: i=2; AJvYcCUphaPY2r6S3R9Bbj7xaIx3RwVwk2zrbcOGUIPohdH+1XfCSdPNb8cbna3Bi24gHgZjlmeAJA==@lfdr.de
+X-Gm-Message-State: AOJu0Yzopns45d/IS8gFPFH5oAlekkk/ovxHZG6tQyT9uJT/Ksc6vh9m
+	M5XWikfJxOZdGUtjjm4rwr+l9SrlVm2f+H8gJLd5nWNxYfjXzBf+91dh
+X-Google-Smtp-Source: AGHT+IFE3jCAMnZbQurcQmL2LFfiNAi2rCHgX3uTPG31PopzRkSYQIGnBxVZw0DQDVIDk27eSlmvTg==
+X-Received: by 2002:a05:6902:18c1:b0:e7b:9684:8b71 with SMTP id 3f1490d57ef6-e7b96849201mr26149352276.30.1747975182967;
         Thu, 22 May 2025 21:39:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1747975181; cv=none;
+X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBHfQDfsH+TqyNRg/Y3sQjGHQGrTHbCEHRyKT2Q/B+MQXg==
+Received: by 2002:a05:6902:2806:b0:e7d:801a:4dd6 with SMTP id
+ 3f1490d57ef6-e7d801a4ed1ls282844276.0.-pod-prod-05-us; Thu, 22 May 2025
+ 21:39:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCU3cuKvk9GToAJ5HR0KmE6WAO4bPNwFPgZtQ804ZCmLpFz/QmxhuFq6ZvPD7ydzW3mXJ1VcMYkx7C4=@googlegroups.com
+X-Received: by 2002:a05:6902:1102:b0:e7d:6dd9:61b1 with SMTP id 3f1490d57ef6-e7d6dd96370mr6046278276.45.1747975182225;
+        Thu, 22 May 2025 21:39:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1747975182; cv=none;
         d=google.com; s=arc-20240605;
-        b=bcKiNiNp5/PNQrBr6IihYAZn7Q23GwyS85V2xedOjzjHcOxUkdq+hO2F1AXP1mXms7
-         DqYeuwAgVIooD6BgxqOdO+pSck1pe+KJs0VcsDqYismpiCNHPM9Ng/iCx+vYOevgqJWT
-         hwxNvzsnhWy7EOSIUZpYRmJe23lsx30iNjn4pxNHtH7+M/zSX17Mp0aEluELgoINEnAe
-         aSBfLpiIMq8gGr4nAI8SnZFlMvkWOFhqsw4l6+mm5bpS7gVN2zWGpX5h4dyOMXM6xYvg
-         hSY4RrboquKWWMo6+CJeM9r11r82X1z1PQnnhA8BlTn+a91boIlYcDXU/dagDZdr+Kkg
-         w3cg==
+        b=L7B2jPFCA1qdq9iAmCs6tHNMTGptfjpH21bfJ0UQE2cBLa3B/INls+w6NDumiertss
+         R9STxxpAndfvlZbQRK8XQ+9V3PA91ggyNU6KiRvb3PFOIOV7BHpr1PQ+kLaVwha7k+mH
+         PzKvMUsS+MYvcqfaa86ukkTwOfQCROfOOnG2TkOR2CQ3uW0rojyI6LaL3OOR166SI1Xq
+         P0mW6326pIK87Ynfdub3kja5uz/zkWvm4qbSe1c0lbC4poBAeEnAIJYffQ+u+mAqMrDv
+         lG2JhU+82kJg0of/Jo/azsxgI6poSOHDjkSK/LKKlA9nt4fcVCw+cmm2hnZapD26af5U
+         8ffg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=4j17pn+//SHkaX8ONm+HlhNEvqzcDQ+QNAUfr7A3lEQ=;
-        fh=cygJepZfPPJV/Ca4ACYTWMy/d1rKkp/i+dzWIHuBXG0=;
-        b=dW/jFTPZgmKN11GX9IgaBvSwlR1u6KGiy8lmd+9KO+AHAXj56kX6fXPlqRvrOYefsE
-         m2A4HotNa5OlEE6ZxiRUCORv37CCnmD0Rdbx+5IxUg7YIHAaFK9x3pvd72S4bWotpboX
-         dZbyjTPS7yUwsgTtEM/MGSALlkng5G97IPZkNnegXgaJBKopCZ5nnpDO7lJlmRhncrvX
-         WxDDTvPBMAOtW8FAKo6qqOfqmoK6OMboTXDoXyfvijMzNURgwV+/ftS4LzWJ0ulaeMS/
-         9JjB2OLUDvIhx+/E/AsMwyYMvhoIRFwlZRauumbFL94DrKhgXYOnKmXSmgu6mTmU/Kdx
-         B4lQ==;
+        bh=1XSpvLlvtj4VtScpjrFy6wBiDmzEp6kgT61xywF6hNg=;
+        fh=E0y4v5tyVvTKcj6/CrXHB5Z6/5j5ivJUS9F4aWSLazw=;
+        b=KtnXmWbVBGmDYHyyU4MYTEcnlf319LxCVcLtUYzBxWBDXnuUgxMb/lkjYHzc49tYt0
+         3mvwgZsfSlX/BXztsieGQfNsg9/X29WPu3gJKOeNsKi+TbsTmMWuK3zeSA6gXMC5eMWe
+         ZdTogBx/ofGfvK54Zh3bhS+pKiVbNF3LFfyR6WvYkB7TGHBNi7Vpsg7FMwMCapp7J/Sd
+         6RScuC7K1/AFATwDJLjzg5IITJxWn2AnuBIEJZgvey3mGOWhsd0r7+ZUoD5TrDLB5y+5
+         SjlVQyGb18Z90sHzoQa93qJw3Vbv53La8COhIRlMncpXj7QX0HIi0ENIVHec9SnpkZv9
+         ctYA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=cuoIUYt5;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Mlt9V43N;
        spf=pass (google.com: domain of kees@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) smtp.mailfrom=kees@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 Received: from tor.source.kernel.org (tor.source.kernel.org. [2600:3c04:e001:324:0:1991:8:25])
-        by gmr-mx.google.com with ESMTPS id e9e14a558f8ab-3dc8c775233si1361695ab.1.2025.05.22.21.39.41
+        by gmr-mx.google.com with ESMTPS id 3f1490d57ef6-e7d81ebf1e7si23596276.3.2025.05.22.21.39.42
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 May 2025 21:39:41 -0700 (PDT)
+        Thu, 22 May 2025 21:39:42 -0700 (PDT)
 Received-SPF: pass (google.com: domain of kees@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) client-ip=2600:3c04:e001:324:0:1991:8:25;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 704BD62A6A;
+	by tor.source.kernel.org (Postfix) with ESMTP id 73D2E62A6C;
 	Fri, 23 May 2025 04:39:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37879C4AF09;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 375BCC4CEF0;
 	Fri, 23 May 2025 04:39:41 +0000 (UTC)
 From: "'Kees Cook' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Arnd Bergmann <arnd@arndb.de>
 Cc: Kees Cook <kees@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>,
 	Marco Elver <elver@google.com>,
 	Andrey Konovalov <andreyknvl@gmail.com>,
 	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
 	Ard Biesheuvel <ardb@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-kbuild@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	linux-hardening@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
 	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
 	Bill Wendling <morbo@google.com>,
 	Justin Stitt <justinstitt@google.com>,
 	linux-kernel@vger.kernel.org,
 	x86@kernel.org,
+	kasan-dev@googlegroups.com,
 	linux-doc@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	kvmarm@lists.linux.dev,
 	linux-riscv@lists.infradead.org,
 	linux-s390@vger.kernel.org,
 	linux-efi@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
 	linux-security-module@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	sparclinux@vger.kernel.org,
 	llvm@lists.linux.dev
-Subject: [PATCH v2 12/14] kstack_erase: Support Clang stack depth tracking
-Date: Thu, 22 May 2025 21:39:22 -0700
-Message-Id: <20250523043935.2009972-12-kees@kernel.org>
+Subject: [PATCH v2 13/14] configs/hardening: Enable CONFIG_KSTACK_ERASE
+Date: Thu, 22 May 2025 21:39:23 -0700
+Message-Id: <20250523043935.2009972-13-kees@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250523043251.it.550-kees@kernel.org>
 References: <20250523043251.it.550-kees@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2299; i=kees@kernel.org; h=from:subject; bh=p+7YUBTmffdnZ8pKAPuZ2rzC3Zvp9P0MFRgY7Xz1ydU=; b=owGbwMvMwCVmps19z/KJym7G02pJDBn6v3/vPnPUwKQyTLv6YDRX59942Z9pVg4x/Z3tr6sPL i8Lmbqoo5SFQYyLQVZMkSXIzj3OxeNte7j7XEWYOaxMIEMYuDgFYCIh3gy/2RSNKlmvL8m9MY2r Wbrn3fITnxd82hB9cYHtv/Cm+4suZTMyPNm8de0lHpnV+k8jWq5Yr/ylxKmUuEhjp6St9pbzk2V 2cwEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1038; i=kees@kernel.org; h=from:subject; bh=hftQ+JwDBzI0zRNacsurrBG64kHnxlfHAL+GJc3UtlU=; b=owGbwMvMwCVmps19z/KJym7G02pJDBn6v38HyWWXKGX9Fha1ip2xar75gzP/j6q95Jmz43H6d fc3TrsmdZSyMIhxMciKKbIE2bnHuXi8bQ93n6sIM4eVCWQIAxenAEyE/SHDX6HNeeWcaw/7rJ2y 6+fW8y+a07ddtX01ccPv5zYrb7rddeNj+MNv+XBylp3fp4kvJqYU+moZvBBbtaU3/mb8VCcD2V+ hfJwA
 X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 X-Original-Sender: kees@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=cuoIUYt5;       spf=pass
+ header.i=@kernel.org header.s=k20201202 header.b=Mlt9V43N;       spf=pass
  (google.com: domain of kees@kernel.org designates 2600:3c04:e001:324:0:1991:8:25
  as permitted sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass
  (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
@@ -168,69 +168,35 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Wire up CONFIG_KSTACK_ERASE to Clang 21's new stack depth tracking
-callback[1] option.
+Since we can wipe the stack with both Clang and GCC plugins, enable this
+for the "hardening.config" for wider testing.
 
-Link: https://clang.llvm.org/docs/SanitizerCoverage.html#tracing-stack-depth [1]
 Signed-off-by: Kees Cook <kees@kernel.org>
 ---
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nicolas.schier@linux.dev>
-Cc: Marco Elver <elver@google.com>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Cc: Ard Biesheuvel <ardb@kernel.org>
 Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: <linux-kbuild@vger.kernel.org>
-Cc: <kasan-dev@googlegroups.com>
 Cc: <linux-hardening@vger.kernel.org>
 ---
- security/Kconfig.hardening    | 5 ++++-
- scripts/Makefile.kstack_erase | 6 ++++++
- 2 files changed, 10 insertions(+), 1 deletion(-)
+ kernel/configs/hardening.config | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/security/Kconfig.hardening b/security/Kconfig.hardening
-index f7aa2024ab25..b9a5bc3430aa 100644
---- a/security/Kconfig.hardening
-+++ b/security/Kconfig.hardening
-@@ -82,10 +82,13 @@ choice
+diff --git a/kernel/configs/hardening.config b/kernel/configs/hardening.config
+index dd7c32fb5ac1..d24c2772d04d 100644
+--- a/kernel/configs/hardening.config
++++ b/kernel/configs/hardening.config
+@@ -63,6 +63,9 @@ CONFIG_INIT_ON_ALLOC_DEFAULT_ON=y
+ # Initialize all stack variables to zero on function entry.
+ CONFIG_INIT_STACK_ALL_ZERO=y
  
- endchoice
- 
-+config CC_HAS_SANCOV_STACK_DEPTH_CALLBACK
-+	def_bool $(cc-option,-fsanitize-coverage-stack-depth-callback-min=1)
++# Wipe kernel stack after syscall completion to reduce stale data lifetime.
++CONFIG_KSTACK_ERASE=y
 +
- config KSTACK_ERASE
- 	bool "Poison kernel stack before returning from syscalls"
- 	depends on HAVE_ARCH_KSTACK_ERASE
--	depends on GCC_PLUGINS
-+	depends on GCC_PLUGINS || CC_HAS_SANCOV_STACK_DEPTH_CALLBACK
- 	help
- 	  This option makes the kernel erase the kernel stack before
- 	  returning from system calls. This has the effect of leaving
-diff --git a/scripts/Makefile.kstack_erase b/scripts/Makefile.kstack_erase
-index 5223d3a35817..c7bc2379e113 100644
---- a/scripts/Makefile.kstack_erase
-+++ b/scripts/Makefile.kstack_erase
-@@ -8,6 +8,12 @@ kstack-erase-cflags-$(CONFIG_GCC_PLUGIN_STACKLEAK_VERBOSE) += -fplugin-arg-stack
- DISABLE_KSTACK_ERASE := -fplugin-arg-stackleak_plugin-disable
- endif
- 
-+ifdef CONFIG_CC_IS_CLANG
-+kstack-erase-cflags-y += -fsanitize-coverage=stack-depth
-+kstack-erase-cflags-y += -fsanitize-coverage-stack-depth-callback-min=$(CONFIG_KSTACK_ERASE_TRACK_MIN_SIZE)
-+DISABLE_KSTACK_ERASE  := -fno-sanitize-coverage=stack-depth
-+endif
-+
- KSTACK_ERASE_CFLAGS   := $(kstack-erase-cflags-y)
- 
- export STACKLEAK_CFLAGS DISABLE_KSTACK_ERASE
+ # Wipe RAM at reboot via EFI. For more details, see:
+ # https://trustedcomputinggroup.org/resource/pc-client-work-group-platform-reset-attack-mitigation-specification/
+ # https://bugzilla.redhat.com/show_bug.cgi?id=1532058
 -- 
 2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250523043935.2009972-12-kees%40kernel.org.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250523043935.2009972-13-kees%40kernel.org.
