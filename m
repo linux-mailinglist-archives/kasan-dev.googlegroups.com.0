@@ -1,150 +1,158 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRB6N3XPAQMGQE6BJUVRQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDCPL7WX3MKBBDHYX7AQMGQEGK2GJXI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13e.google.com (mail-il1-x13e.google.com [IPv6:2607:f8b0:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id B762AAC06D8
-	for <lists+kasan-dev@lfdr.de>; Thu, 22 May 2025 10:19:07 +0200 (CEST)
-Received: by mail-il1-x13e.google.com with SMTP id e9e14a558f8ab-3dc8689c611sf13910075ab.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 22 May 2025 01:19:07 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1747901946; cv=pass;
+Received: from mail-yw1-x113a.google.com (mail-yw1-x113a.google.com [IPv6:2607:f8b0:4864:20::113a])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB352AC1B01
+	for <lists+kasan-dev@lfdr.de>; Fri, 23 May 2025 06:39:41 +0200 (CEST)
+Received: by mail-yw1-x113a.google.com with SMTP id 00721157ae682-70e1d134c0dsf3350457b3.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 22 May 2025 21:39:41 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1747975180; cv=pass;
         d=google.com; s=arc-20240605;
-        b=LyvCEbwLjASDjMY7J+ClJjS420u82pPS8U12yx1LrfGnUVgGMpdDYthWU9qAWXUyQq
-         QPvYIocRJptBbSPuuzTcdlM0/XuV+rOqD+u1QBTQ+CKNLCDAw+7UupmjP0o7HyCdngfb
-         sKGlYeYYrrauCROOV/VNbkqzg5IEkcFsB1WECNCEzHSlt2LP3JG9qrROcmUf8gazq/WZ
-         P/TidE+zTkWsW+wQMKTn9mq1/4ykHFER2h8YIFrGkQCt06+dlnUSQ46GFPE2dvPNrVoQ
-         8F2Reaw6GGvUhQ/OsH1BpwwDPNvsre8e+seffhaB2w5Xn+0TPj42L6RdD7wa9K2iLlvg
-         Zf+w==
+        b=JPbDa6HHz6XpTnqLNI5PRSh6e/rph6zvhh66BSiHv5c88duSdwCDvLPokNrOZQZmjW
+         ynsQCwiJAYMMyZhkT71s2032ndbWTwz09wvg6nU9866AEqkZDXHgJNM0exg7/7We3aaX
+         5MndHCZNdSaX0bhaFWAi4aNv8+1uO918rruNTGh028edHDFEuKcKVjHp+L59evC2aJOj
+         +DCMDyvEAv161pi+m/kZXQgso2/cCCh0GdbUuSN5Fw8BT46bbbiY0uUZRGbpfeJ1xKhZ
+         KJgtCZalKDjhr7Yda9OieaaZhQvqECpd6js4jPV8G22mPlB2WRz/b29OmXIIXA2J3P2y
+         GbGA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=1doyCScSBkaTloopkFE3YtyWfPcJaXRlGovHgMDBePM=;
-        fh=SPg7E2l7Msk4CpzyM3injyP4pTXX/qdFymGIMx5EK8s=;
-        b=TJLLPaK0QY1gKyrBLcP/J0uja31ZlkEK+SNU+v1cao6mAC/3Z0ShYwhXah6NkVSwCS
-         HeEeqwSQzmxtZIyWHdKVzfPjRFJzjyTUUGC5xgT2+iqe13FHGod6cIcmZ0mRE6TOCufV
-         4beSkS3Yb4RVi4LSaAVbedNhhXYrqLWqjU6GPJdxnerDTkLKf6iBnjmN45Gm9gPrNnGC
-         5Vua2cbWaJPymNMXwqyApJfexJncSWzcSTrEwOGu31dhtQCwz2JwhNUeZytHH/x7kQ6N
-         h+uZnFcE9kbicl7EUZD1nhdxvTTHNiseAsysdSuklK2+Wqs6l6Sd/7VtDLEj16EWzlf+
-         2g9Q==;
+         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
+         :date:subject:cc:to:from:dkim-signature;
+        bh=d8NVK7wCb+XMZ54pONYR6DtkH+RMPx/dokp+XZkd4+M=;
+        fh=MxEiGhpqIhYsbapxJ9j+7EYmq/PNgkdcq8sZFh90ryo=;
+        b=kquPY02v0qzH4Xi6NJ4Sp6+1LgelV7oaDMb1Z3LqewZ3YThUgsj0xuGKLwBWJryrB3
+         Tg+YArqftVBbB68u55b/adnQAOPQKZgFZt/OYswKr5rw0RWxbzojJqT9MQDQ+LUTqZ4L
+         ZrsIQT2svIZxtwfY2WTxl0nzFvUPVbC4oszJZJvHQIXBk9sBkA6/b7cPRgTlOZZJvEKq
+         LlS0kP20JDhJCE1kH4jey9dUMFcgoa1viy+P5Glu+vYrZJT2shrOagv7aBRGxNlq6n3v
+         AlH+jza+K/RCx1c5ROvkpiHRtpikkBVHV6nxu3ywGoG4LhYjpQbSx8fWlTF6A0ZOaKcJ
+         VggA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=4cPL6kGA;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f34 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=KqTkaNur;
+       spf=pass (google.com: domain of kees@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1747901946; x=1748506746; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1747975180; x=1748579980; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1doyCScSBkaTloopkFE3YtyWfPcJaXRlGovHgMDBePM=;
-        b=A/3CFRvRFuEZUfo6D0ST6Gz0i8X2AJXXHCuIaeYk2QLuGLhXg/CAOnLr3S4mtKu4e/
-         JmxMBBtVI6Gq36A4yC1GPPWJPA6cQCNwh4aI0G/FRBqXBw25rOMbAWJNYEW+n7Zaq1PO
-         WphJjORyGFqJaVun1U2XfQRRxInMc+uRnlfmJ40FHQ4QHTnWu0a2j7DkImC8IDu1QKES
-         N5nwNCDOdWKRv+FKAKJOy+oU8+oaa1StOZY7fOutQTR+9pkoDBLbJVr5HJJq738AYkRT
-         46d218ycsLvjQPaW5spbwORT260Ru2is5K7+6LT2gP4amugWEbBSzzVQWt605yoQ7+sE
-         4Lfw==
+        bh=d8NVK7wCb+XMZ54pONYR6DtkH+RMPx/dokp+XZkd4+M=;
+        b=JA6IxL0knuDQo60ff3Fz9BE20VX6xMrAYYhJPPBIIajuJWlVQZyAXgbCgPT9IRoLI1
+         WgejxL+50Kn+A9UEYs5i1GCRTiyX0PZRzy+z3ImvDcnmFUZyHfzPw/JEnfTL7U8NNDAY
+         7R//ZuQLFSL1Ft33F2Gdn4y0PIKuKRcQRwne5pcN0XCqDJgHRdHLFq2/xW+bhX7WEh+7
+         /58g5z9BbaxNaZGwZ6dykJRP/2FkjYRZ1AHIuHJlaBjrJ3tj1JDpzEuhTP4MW0KDW6Rr
+         G3hU3DyN1peMRizD3MfuFwnf1ZI8usTgwtLE20ia2EljhymlinrRDOWVWC8OK8g7ikJF
+         gZ9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747901946; x=1748506746;
+        d=1e100.net; s=20230601; t=1747975180; x=1748579980;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=1doyCScSBkaTloopkFE3YtyWfPcJaXRlGovHgMDBePM=;
-        b=etbZwwdavWaU4JuqaCG1BFtjhsFaU0NqDBrV2yDiEWqTiTXuhLDIRuCoOWqMRd+OaY
-         9Pa1JYO336XcJUo2/TRYyJ1DhnaWCxaCtps9cw6XhqkYsfSbLL1lnzI95I96yT9BRA/N
-         Sl8yE9ZNTEVzxnPIubXIvd0uof6cgRuFw87dc+QtMlpioE1sri9mvkt6iWeda6TGQJ5h
-         FH4w+pl+AQhqnAhzlwUkbVrOljhXEtI3Llc5cvkeuDCEuwtXeokOo8yzPd+qbSZVIppM
-         8nODo1fasGONAwTtYtd9Wocg8e+txgabJKN5k07bA+VLNBZsy4sh/tRu0T3sEkBu3USv
-         2Q1w==
-X-Forwarded-Encrypted: i=2; AJvYcCXcYah+DQIgD/VJJGlu7vlQzIs0Mcvz4i8HgWtujYqgqgzIU6BajlWj8AcXqQlELQ0gDIbIjg==@lfdr.de
-X-Gm-Message-State: AOJu0YyMyGCRnnmzQuCAKnZJ8Harv7hwDiDU+35pCjKrfI7SikQ3Y7fy
-	eMbEJ+xFRdVZY6jRRZ3wk2UAx3s9x7eY4GgmqXMBvV0Pq1HOL1AAOJqQ
-X-Google-Smtp-Source: AGHT+IHBfRDpIg9YS0uIugXefntZrHb4v3YRQs1rrfyhEuSCKvWLDQLswlEV1xjXtjH9tyS9Mzp+gg==
-X-Received: by 2002:a05:6e02:2193:b0:3dc:7a56:18f6 with SMTP id e9e14a558f8ab-3dc7a561c1emr113346095ab.22.1747901946129;
-        Thu, 22 May 2025 01:19:06 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBGzUi/azNrwqFBa25Led5P4DseaSEe02nsnu8KrCCi8pQ==
-Received: by 2002:a92:c5c5:0:b0:3db:8425:8106 with SMTP id e9e14a558f8ab-3db84258317ls33634335ab.0.-pod-prod-09-us;
- Thu, 22 May 2025 01:19:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUFE9LTtWfO4oPr6JYWJzcTUIl0WCgiqeeR3axmh31uW3XyJvKKUMj++r4dz05kg9EHwhGlxKeR01A=@googlegroups.com
-X-Received: by 2002:a05:6602:371b:b0:85b:3f1a:30aa with SMTP id ca18e2360f4ac-86a23229aabmr3047642239f.9.1747901945075;
-        Thu, 22 May 2025 01:19:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1747901945; cv=none;
+        bh=d8NVK7wCb+XMZ54pONYR6DtkH+RMPx/dokp+XZkd4+M=;
+        b=sAW38q+Qwn4FsVuAXQFXjDATOnP+IjXK3TkayYwk6X1urCWUYRf8JaJp3kxQkYflyp
+         sqgldhQTkFp/Wrc5osivOSy2uyYo75a+gA5eVowmJksM7Vlr6R5CC2TxHP2Wc1MZ8D26
+         8ZO92COieNajWQs/kgg6UnxJYD19FMca1umzg5deiX/025zKQkPLvErRoO1bJI8+tW4D
+         TiitWb3cZAc5Gs+0A3yn13JXE2uJmARMwyqxVUZclMkGdlKvG7pjl/NaejQSIA2gGIfo
+         wpqD05AoR0xBoKqS5hoCGT23Wbwhzh8AORPMUTqk0qI5ZrG5MvRQGxQ++F8sELENuAvL
+         VjgA==
+X-Forwarded-Encrypted: i=2; AJvYcCWHrkUbE6N8zccZ2JWInNHx0Av8j+ui7ZKvv0EYUXKRqVGQFHNZWNIhWPyJU5l2dvaPs2byhA==@lfdr.de
+X-Gm-Message-State: AOJu0YyFohqdCrvvYiEXB4fzC65AtOawH2RjXLIB7jPZEZUlAswt2B02
+	KSHOWG/IU+28A4qTwqHqgDnMLqQs6ZUHFrLFRMw5iLB1inG4iDWFRjgd
+X-Google-Smtp-Source: AGHT+IG8/STsHV6A8QNk6PB9ODTbbq6QG9hOvTtwitvXU141IIBY4bH9GsEWsS5vqnTdFYp4MhbwOg==
+X-Received: by 2002:a05:6902:70d:b0:e7d:5a3e:8a9c with SMTP id 3f1490d57ef6-e7d5a3e8dd8mr11930912276.24.1747975180232;
+        Thu, 22 May 2025 21:39:40 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBFIETOakH7qyUad47xsV2YcH38BmGQXp4CsJaKd0phwfQ==
+Received: by 2002:a05:6902:2685:b0:e7d:82d4:2546 with SMTP id
+ 3f1490d57ef6-e7d82d426f1ls64077276.1.-pod-prod-06-us; Thu, 22 May 2025
+ 21:39:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCU1+vbogOqyuW+BF+vpiyxEppszI5UBca6cW6jL7MEf47Eotzxp9fZP+HOFoHx1G4aKwc3R9CCoEMY=@googlegroups.com
+X-Received: by 2002:a05:6902:727:b0:e7d:3f32:6fe1 with SMTP id 3f1490d57ef6-e7d3f3270bfmr20274249276.9.1747975179310;
+        Thu, 22 May 2025 21:39:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1747975179; cv=none;
         d=google.com; s=arc-20240605;
-        b=BKgdaEviEisCrJ6wVoVa2tBmm+eTNPUWWmWteJLCC+FP20G4B3bx/ALHRtQF/DEpsT
-         GIpZZk+JDuE4kTgK7tOqyJkCe3HQ6JcZNQUzF2Vepj1cL1YnVpNlcTK/wFcUpWls74yc
-         7rALqr/diMTXJO7o+Pyt6DhmjGUeMotvPrs+GkGPHJ+He29+Qsswo1l/fn5g3jL9+ZpZ
-         mABWtYq2MZD+ZWB5r8Rq/EVX/S8148gyXPBWEox5gM6y24EVA3FH7UWzeuWHBoHUmCeI
-         Mk/C0n8puw3Clvu7cBpKJkdfDOFfdpnAVrPJ93btN7BtV1BPBUET/iugp0i011TfMs7S
-         +4dw==
+        b=Lt4jUBLYT+DpFgHjikIpxvPJ4wpD8oaBVUXSi7QiF6Rrj7/uwgkxn2ofW28AyO2MZT
+         DMI3HgXNio+xMy7U93yFPGbANlfN6Df2mTrgblakBQngtcsQkTAWEi74Q8Tsl4Qi6qj9
+         CUdTgN+rB2HMBoWMA84pMtZi7s1QTGMaPCoG+bF2tZOA+5NVpYDJkCsskDbhRMdtXnot
+         Xix1vSAu9rVRFp3/3ndxak8zAaKfr9nTYphCUqwl75qX4Rxn0gJClcDQmw9xeQXh+79U
+         bHk+ijIktiEYn7MkkT6xjZX1S/0uEfgehm6tRMwul0injjk7nLf0qbO6FFn6ipoqpx1s
+         Y8sg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=oJTN6hV71jQUNgSy1LNPLAIveMnFUYRGpDK+06PX/VA=;
-        fh=sBQ/dglpj0C3T3Mkm3+tZk4ogh2tDMk0yGoNqgULMwE=;
-        b=lOVhUgZ1ozzr1EZM8iHEuBTEWe7kb8akILsF/RM0qyCinrix7yQ0UStGpSrILB++o9
-         WBUM5VVGURVi20n2Zcpts/BodJdyb5q1h4jPW13MJmjcilu+3TcLrGEkQSVmCTdqh3zX
-         C5114PJVXJHHceJYEg6OnTNR1xXD5PZOdcZM+VYUnxq3QbmVbIUtBwB3fJDS1wz2X0mx
-         OXZWqLyX3JGLiAjfEN+f/aXZkGkBmDcQg3ncG9lutBq6PP0xzpRsnpYkoXQBfkRIDnio
-         OikPE6IWaM7OYf2ega7ndS61SsQ5KljPCVlNRTZBXD0H03GIbd3umHbTY0WDS9NUksqI
-         Ohnw==;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=NFkMhwNuEQwB51aj6fmgJxI31pAOIBg0Fai80ZSggSI=;
+        fh=zycgEl+1nSr/uEFwJ9RlK4/BTsqgjrj7fd+U8rQE3i0=;
+        b=dx4jZwOYwzRxQJGo93mNhNV7rF2YxqxL4gnjQFp6xvAKj0wOtBCCbPE/M3dCxf0PvN
+         z+Fxv2hqw39Q2UYN7ErTAKgFWrAD4sSZOppyF8kvWaMzqnilA6ZNpftQKrhuvTSf/Jef
+         xbu8wNEzerZEqCFnDoQ/DHGBiRI822JFmQkbAXP0DLxuvhN6/C9o6mw8iFkXwpBuOcVo
+         j3TAMDdD5/xdrpVVvbDdztx3eSDIOhzpwuCTprb6R4HOYEFWzoXMZ5M1virmEKphikg6
+         FKYh649J1m43eYdR73YcT+U+YJFuPqugx6ufjy+nRVpU5kmIi32/jSxGKT1g2Ju4ROgx
+         IVqg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=4cPL6kGA;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f34 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com. [2607:f8b0:4864:20::f34])
-        by gmr-mx.google.com with ESMTPS id ca18e2360f4ac-86a236f3c72si62033239f.4.2025.05.22.01.19.05
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=KqTkaNur;
+       spf=pass (google.com: domain of kees@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id 3f1490d57ef6-e7d5aee425bsi286202276.0.2025.05.22.21.39.39
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 May 2025 01:19:05 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f34 as permitted sender) client-ip=2607:f8b0:4864:20::f34;
-Received: by mail-qv1-xf34.google.com with SMTP id 6a1803df08f44-6f8b9c72045so80931076d6.1
-        for <kasan-dev@googlegroups.com>; Thu, 22 May 2025 01:19:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW92ltuS/T+/2uaq4wVsWURLhA6mVdvzcV3ktPSPZ3TBUmKsgwihg+Hh9Ghphk7GWfaBoPmah/rzGM=@googlegroups.com
-X-Gm-Gg: ASbGncuTHLrC4SVzK6Q4WmMeCtAbNw00LumWe07AklgeD9r27k567WPIc4HFzAgSWWb
-	3iW/64Y7uNBxgxxsmtJTTOi2inzoGH06bpzzpY3/+46WXsrlB/AtVodpb1dIXMPre/Z/M8deLFP
-	vdLZdpxa7ZP4aDeMPAOalUIDS4uAfkl6kSJ3a3WdzVuKKCvfKOjsKDapGGdlK7wlhCI2Fii/gP+
-	A==
-X-Received: by 2002:ad4:5f8e:0:b0:6f0:e2d4:5936 with SMTP id
- 6a1803df08f44-6f8b0881a22mr402532476d6.22.1747901944252; Thu, 22 May 2025
- 01:19:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250507133043.61905-1-lukas.bulwahn@redhat.com>
- <20250508164425.GD834338@ax162> <CACT4Y+a=FLk--rrN0TQiKcQ+NjND_vnSRnwrrg1XzAYaUmKxhw@mail.gmail.com>
- <CAG_fn=XTLcqa8jBTQONNDEWFMJaMTKYO+rxjoWMHESWaYVYbgA@mail.gmail.com> <61db74cd-2d6c-4880-8e80-12baa338a727@app.fastmail.com>
-In-Reply-To: <61db74cd-2d6c-4880-8e80-12baa338a727@app.fastmail.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 22 May 2025 10:18:27 +0200
-X-Gm-Features: AX0GCFuwLEa7GMNWl3kzXafes8eikGOYdLyOEbupah07l52RPChxZx4Uvrgxo3o
-Message-ID: <CAG_fn=XZ4CrMfPEr8hgsFfkuftRAKp3xLjAUqSjwmn5Q98c27A@mail.gmail.com>
-Subject: Re: [PATCH] Makefile.kcov: apply needed compiler option
- unconditionally in CFLAGS_KCOV
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 May 2025 21:39:39 -0700 (PDT)
+Received-SPF: pass (google.com: domain of kees@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id A879D5C6D20;
+	Fri, 23 May 2025 04:37:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66D66C4AF09;
+	Fri, 23 May 2025 04:39:38 +0000 (UTC)
+From: "'Kees Cook' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Arnd Bergmann <arnd@arndb.de>
-Cc: Linux Memory Management List <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Lukas Bulwahn <lbulwahn@redhat.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, linux-kbuild@vger.kernel.org, 
-	kasan-dev@googlegroups.com, kernel-janitors@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Lukas Bulwahn <lukas.bulwahn@redhat.com>, 
-	Dmitry Vyukov <dvyukov@google.com>
+Cc: Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Marco Elver <elver@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	linux-kernel@vger.kernel.org,
+	x86@kernel.org,
+	kasan-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH v2 00/14] stackleak: Support Clang stack depth tracking
+Date: Thu, 22 May 2025 21:39:10 -0700
+Message-Id: <20250523043251.it.550-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: glider@google.com
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5806; i=kees@kernel.org; h=from:subject:message-id; bh=XVwkrc3glEUjTIVHxhgADYvS6InRhqZwcVUoNmb8gLs=; b=owGbwMvMwCVmps19z/KJym7G02pJDBn6v7/zd349lB4js43v/P8PVhOrZ671qt7bkPjchC/4n VqhgOyjjlIWBjEuBlkxRZYgO/c4F4+37eHucxVh5rAygQxh4OIUgIm8qWdkeLn+6AuHlaaR0h8X HD0uxWndd9xPfAPD46tHXz3TfCnRVcDwTy94qstMZtfd7Myfr9qe83KzmFlVcIJ9CYvupkfljK9 kmQE=
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+X-Original-Sender: kees@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=4cPL6kGA;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f34 as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@kernel.org header.s=k20201202 header.b=KqTkaNur;       spf=pass
+ (google.com: domain of kees@kernel.org designates 139.178.84.217 as permitted
+ sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass (p=QUARANTINE
+ sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Kees Cook <kees@kernel.org>
+Reply-To: Kees Cook <kees@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,55 +165,124 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, May 21, 2025 at 4:11=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
-:
->
-> On Wed, May 21, 2025, at 12:02, Alexander Potapenko wrote:
-> > On Tue, May 20, 2025 at 4:57=E2=80=AFPM 'Dmitry Vyukov' via kasan-dev
-> > <kasan-dev@googlegroups.com> wrote:
-> >>
-> >> On Thu, 8 May 2025 at 18:44, Nathan Chancellor <nathan@kernel.org> wro=
-te:
-> >> >
-> >> > On Wed, May 07, 2025 at 03:30:43PM +0200, Lukas Bulwahn wrote:
-> >> > > From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
-> >> > >
-> >> > > Commit 852faf805539 ("gcc-plugins: remove SANCOV gcc plugin") remo=
-ves the
-> >> > > config CC_HAS_SANCOV_TRACE_PC, as all supported compilers include =
-the
-> >> > > compiler option '-fsanitize-coverage=3Dtrace-pc' by now.
-> >> > >
-> >> > > The commit however misses the important use of this config option =
-in
-> >> > > Makefile.kcov to add '-fsanitize-coverage=3Dtrace-pc' to CFLAGS_KC=
-OV.
-> >> > > Include the compiler option '-fsanitize-coverage=3Dtrace-pc' uncon=
-ditionally
-> >> > > to CFLAGS_KCOV, as all compilers provide that option now.
-> >> > >
-> >> > > Fixes: 852faf805539 ("gcc-plugins: remove SANCOV gcc plugin")
-> >> > > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
-> >> >
-> >> > Good catch.
-> >> >
-> >> > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-> >>
-> >> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> >>
-> >> Thanks for fixing this!
-> >
-> > @akpm, could you please take this patch at your convenience?
->
-> I have applied it on the asm-generic tree now, as this contains
-> the original broken commit. Sorry for missing it earlier.
+ v2:
+  - rename stackleak to kstack_erase (mingo)
+  - address __init vs inline with KCOV changes
+ v1:  https://lore.kernel.org/lkml/20250507180852.work.231-kees@kernel.org/
+ RFC: https://lore.kernel.org/lkml/20250502185834.work.560-kees@kernel.org/
+
+Hi,
+
+As part of looking at what GCC plugins could be replaced with Clang
+implementations, this series uses the recently landed stack depth tracking
+callback in Clang[1] to implement the stackleak feature. Since the Clang
+feature is now landed, I'm moving this out of RFC to a v1.
+
+Since this touches a lot of arch-specific Makefiles, I tried to trim
+the CC list down to just mailing lists in those cases, otherwise the CC
+was giant.
 
 Thanks!
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-AG_fn%3DXZ4CrMfPEr8hgsFfkuftRAKp3xLjAUqSjwmn5Q98c27A%40mail.gmail.com.
+-Kees
+
+[1] https://clang.llvm.org/docs/SanitizerCoverage.html#tracing-stack-depth
+
+Kees Cook (14):
+  stackleak: Rename STACKLEAK to KSTACK_ERASE
+  stackleak: Rename stackleak_track_stack to __sanitizer_cov_stack_depth
+  stackleak: Split KSTACK_ERASE_CFLAGS from GCC_PLUGINS_CFLAGS
+  x86: Handle KCOV __init vs inline mismatches
+  arm: Handle KCOV __init vs inline mismatches
+  arm64: Handle KCOV __init vs inline mismatches
+  s390: Handle KCOV __init vs inline mismatches
+  powerpc: Handle KCOV __init vs inline mismatches
+  mips: Handle KCOV __init vs inline mismatches
+  loongarch: Handle KCOV __init vs inline mismatches
+  init.h: Disable sanitizer coverage for __init and __head
+  kstack_erase: Support Clang stack depth tracking
+  configs/hardening: Enable CONFIG_KSTACK_ERASE
+  configs/hardening: Enable CONFIG_INIT_ON_FREE_DEFAULT_ON
+
+ arch/Kconfig                                  |  4 +-
+ arch/arm/Kconfig                              |  2 +-
+ arch/arm64/Kconfig                            |  2 +-
+ arch/riscv/Kconfig                            |  2 +-
+ arch/s390/Kconfig                             |  2 +-
+ arch/x86/Kconfig                              |  2 +-
+ security/Kconfig.hardening                    | 45 +++++++++-------
+ Makefile                                      |  1 +
+ arch/arm/boot/compressed/Makefile             |  2 +-
+ arch/arm/vdso/Makefile                        |  2 +-
+ arch/arm64/kernel/pi/Makefile                 |  2 +-
+ arch/arm64/kernel/vdso/Makefile               |  3 +-
+ arch/arm64/kvm/hyp/nvhe/Makefile              |  2 +-
+ arch/riscv/kernel/pi/Makefile                 |  2 +-
+ arch/riscv/purgatory/Makefile                 |  2 +-
+ arch/sparc/vdso/Makefile                      |  3 +-
+ arch/x86/entry/vdso/Makefile                  |  3 +-
+ arch/x86/purgatory/Makefile                   |  2 +-
+ drivers/firmware/efi/libstub/Makefile         |  8 +--
+ drivers/misc/lkdtm/Makefile                   |  2 +-
+ kernel/Makefile                               | 10 ++--
+ lib/Makefile                                  |  2 +-
+ scripts/Makefile.gcc-plugins                  | 16 +-----
+ scripts/Makefile.kstack_erase                 | 21 ++++++++
+ scripts/gcc-plugins/stackleak_plugin.c        | 52 +++++++++----------
+ Documentation/admin-guide/sysctl/kernel.rst   |  4 +-
+ Documentation/arch/x86/x86_64/mm.rst          |  2 +-
+ Documentation/security/self-protection.rst    |  2 +-
+ .../zh_CN/security/self-protection.rst        |  2 +-
+ arch/arm64/include/asm/acpi.h                 |  2 +-
+ arch/loongarch/include/asm/smp.h              |  2 +-
+ arch/mips/include/asm/time.h                  |  2 +-
+ arch/s390/hypfs/hypfs.h                       |  2 +-
+ arch/s390/hypfs/hypfs_diag.h                  |  2 +-
+ arch/x86/entry/calling.h                      |  4 +-
+ arch/x86/include/asm/acpi.h                   |  4 +-
+ arch/x86/include/asm/init.h                   |  2 +-
+ arch/x86/include/asm/realmode.h               |  2 +-
+ include/linux/acpi.h                          |  4 +-
+ include/linux/bootconfig.h                    |  2 +-
+ include/linux/efi.h                           |  2 +-
+ include/linux/init.h                          |  4 +-
+ include/linux/{stackleak.h => kstack_erase.h} | 20 +++----
+ include/linux/memblock.h                      |  2 +-
+ include/linux/mfd/dbx500-prcmu.h              |  2 +-
+ include/linux/sched.h                         |  4 +-
+ arch/arm/kernel/entry-common.S                |  2 +-
+ arch/arm64/kernel/entry.S                     |  2 +-
+ arch/riscv/kernel/entry.S                     |  2 +-
+ arch/s390/kernel/entry.S                      |  2 +-
+ arch/arm/mm/cache-feroceon-l2.c               |  2 +-
+ arch/arm/mm/cache-tauros2.c                   |  2 +-
+ arch/loongarch/kernel/time.c                  |  2 +-
+ arch/loongarch/mm/ioremap.c                   |  4 +-
+ arch/powerpc/mm/book3s64/hash_utils.c         |  2 +-
+ arch/powerpc/mm/book3s64/radix_pgtable.c      |  2 +-
+ arch/s390/mm/init.c                           |  2 +-
+ arch/x86/kernel/kvm.c                         |  2 +-
+ drivers/clocksource/timer-orion.c             |  2 +-
+ .../lkdtm/{stackleak.c => kstack_erase.c}     | 26 +++++-----
+ drivers/platform/x86/thinkpad_acpi.c          |  4 +-
+ drivers/soc/ti/pm33xx.c                       |  2 +-
+ fs/proc/base.c                                |  6 +--
+ kernel/fork.c                                 |  2 +-
+ kernel/{stackleak.c => kstack_erase.c}        | 22 ++++----
+ tools/objtool/check.c                         |  4 +-
+ tools/testing/selftests/lkdtm/config          |  2 +-
+ MAINTAINERS                                   |  6 ++-
+ kernel/configs/hardening.config               |  6 +++
+ 69 files changed, 203 insertions(+), 171 deletions(-)
+ create mode 100644 scripts/Makefile.kstack_erase
+ rename include/linux/{stackleak.h => kstack_erase.h} (81%)
+ rename drivers/misc/lkdtm/{stackleak.c => kstack_erase.c} (89%)
+ rename kernel/{stackleak.c => kstack_erase.c} (87%)
+
+-- 
+2.34.1
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250523043251.it.550-kees%40kernel.org.
