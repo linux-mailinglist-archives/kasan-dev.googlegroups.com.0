@@ -1,172 +1,81 @@
-Return-Path: <kasan-dev+bncBDS6NZUJ6ILRBNWWY3AQMGQEJDF4IYY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCHOBQFLQQHBBCEOY7AQMGQERO2SFKA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x837.google.com (mail-qt1-x837.google.com [IPv6:2607:f8b0:4864:20::837])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC61BAC2F51
-	for <lists+kasan-dev@lfdr.de>; Sat, 24 May 2025 13:19:19 +0200 (CEST)
-Received: by mail-qt1-x837.google.com with SMTP id d75a77b69052e-494a0afbbfbsf31093271cf.0
-        for <lists+kasan-dev@lfdr.de>; Sat, 24 May 2025 04:19:19 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1748085558; cv=pass;
-        d=google.com; s=arc-20240605;
-        b=kURYUwPZsF1OCnIAW1kTBUcixyZAt1Lqf1urkgMG/VIdcG5aahbtGG+CpEpvJlo6pn
-         VVGYZh6hT5mXT4YrzQwa2tTklldXTzm5+DqFUBfIwFHVaZaJh8tOE+WnB8mzXxAqGnWK
-         9nVedj9d4OUMuuW4HHspQ/6PRJwNVvtvKzau2pk7EREuxDXsFMgnmjAyHfWNhoCMuWTG
-         MLMqjiFMhcR+17RHEjxKVHW7oXKErZD+4L/TZc5WbThbGJMgBXhwXsSpX+DREGUaSGZ8
-         FPR0t4/5h26vT2+iIZR6sPwUt28Q56ccN+GKyffczmEpxlwkCjderLHvMh1KAm/+GnIE
-         0A7Q==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:message-id
-         :date:in-reply-to:subject:cc:to:from:sender:dkim-signature
-         :dkim-signature;
-        bh=eCpy6ERKJ58I9RfLMhA7XF3pN99iDdxL7Aeej/QaZPU=;
-        fh=s5/NNf4b3wN8PcnCKM3F/KouZr355b0kbNbtw9BCkiM=;
-        b=XaqPlx4v0lkdCu57mCWTeSw8iIgCi7HolAwAoGHoca+q3Zw/5Qv+JqFl60xPIyT7MV
-         IlCSCpcJqqzSx5XKnYuKA9c/0DTiAZf0N2UA9TwmMS0Dq+g46mwnVVgdVdwzqTlJrKFJ
-         4pk09s94Y+XRV4Zd+UlDOVCz/zVOMskzbh3Ctg2szVk1epufkppPY+QzZAL35Sj6S6gS
-         tqdF3fGU184JC5IAQ4Lv5zjmJY/B2/VmKSB3UT89ICGIG4WEY8U8Mz8kJS1I0wsZUCdq
-         L2lPjR24ad0UjqpMbLvblqzzxEaAHk43Q1Ab6KwSqWdtEmU2DwjmAAzGKjTg9h0Ei0I5
-         /pWg==;
-        darn=lfdr.de
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=Yrmkjtbr;
-       spf=pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::435 as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+Received: from mail-oi1-x239.google.com (mail-oi1-x239.google.com [IPv6:2607:f8b0:4864:20::239])
+	by mail.lfdr.de (Postfix) with ESMTPS id D38FDAC2FD7
+	for <lists+kasan-dev@lfdr.de>; Sat, 24 May 2025 15:18:01 +0200 (CEST)
+Received: by mail-oi1-x239.google.com with SMTP id 5614622812f47-403290c1620sf889344b6e.0
+        for <lists+kasan-dev@lfdr.de>; Sat, 24 May 2025 06:18:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1748085558; x=1748690358; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1748092680; x=1748697480; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:message-id:date
-         :in-reply-to:subject:cc:to:from:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eCpy6ERKJ58I9RfLMhA7XF3pN99iDdxL7Aeej/QaZPU=;
-        b=b37ynaaBYubM6bDmrRqP9rWeZwi67ZmA3N6Kp9ZRmYOHicnepYsiycKw23KXadYoDR
-         XCqVe/NNr3oFGh3kV4OMtLfPwYxxLqQSRkSmDXMtMJ3MwL0CL27UZCMnQc7WqOLJZl8s
-         T9cZGt2/q+66rDHbqIgmPbVnbZ5+8yoqZKYzyvU9tSf3C3A6XdHa1v3MpjGj8vRL5veY
-         BoOGd+2qxsJlTMWpiWvOStM2WgQ04WMnn7BaMH/GnDJbEJUKdAFSDZDkIReN2bRoc+ME
-         iXz1hSejzUjv0VCca8oGwh2NGoAsi3d68vw9MoUyl6UbWYE/c6uNd2r0awoFiIYm8sJH
-         H2bA==
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:references:in-reply-to:message-id:to:from:date:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=1J8rS6854B4AO/JZdaEbZovZwDKfOkAnkMtz4WWrC6U=;
+        b=xQ77Gm1J8/o4hRmeKccThRA8T6p1c0xIn7iet6nPtoazUX4r2qMntn/WYpPJS7iRbK
+         cqkSXE0RDdrNeNZTZ0EcplO+C6OoBg/riWD2Pta8od4d8+GiW8q8770NtBfahOMYsnW2
+         e+KcoB4i9r+suY01pLIYhohDRcb9Be0e60FqK3LXJfjRnLOS12pck7B9c7FnzViBac8k
+         PxMORt/2BNiKrP22YatixKgLX1yxyCBpGJB64/0WfjsPHLFGcfttGYM5jCWzfGLpuY92
+         D+rQKfM4pb7k4qEeUWp8+st03FExu26II2/S0837XmEtnj87njOK05CwjUVkMaB+uUq3
+         vNfg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748085558; x=1748690358; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1748092680; x=1748697480; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:message-id:date
-         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eCpy6ERKJ58I9RfLMhA7XF3pN99iDdxL7Aeej/QaZPU=;
-        b=KWIFji7c/akSTqvk8wp/m4Kby6k47JbvcIKWcKjwLQpLwui13HvjCdLu4Jzu0o7lvL
-         k6CeY7/1eWORnBF0NORSBvQg5J1m+h6OTlh09hY0dL62KNoNS543737aU3LOXuI1eShD
-         ly7fsOKxwB7hZo2N4wnbU6b3yaU8YEJ9BGnwBqSco/iajuPS9keu3Bc6NeSwcSpLptLy
-         VbeMCv2JmuiOTDRHay6xKPcz6+KYm2/cQRhvAxE185wsDxFF6OL7BSlHGqUb6+lMyfkL
-         X1WsV9Gmit6k6CsQjGpir/tqyrg54FNG8tDDYECbJqOQGFF1AilQD2WKMjNNL+YUSqbv
-         rTEA==
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:references:in-reply-to:message-id:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1J8rS6854B4AO/JZdaEbZovZwDKfOkAnkMtz4WWrC6U=;
+        b=g1jV593M2TM92Lvv8R8H86BW6zLzUZPcKvhZh9B1fgB9/xpbrchPySw+cmjUrK3uCB
+         9Lf5D7QnMlqLMENNkcyTB7GM/pvLzamVa9nnoDIiAKB4fEYt/tHI2z3Ykxpg1i04FOvR
+         O+XjCCuoFlnjpqaajzp1vtpFnop6BRR44QfwbCY+wWWBvSWVy0Hnb31CH8wKi8HhV+E/
+         anwr3QvJoSV9I4PL1sAD5aCRqjUBbnLCEKGy8z3ekdBkQsoga0s2O4n8QjPnrC/Lo8/U
+         QGDzytEH5jX6ysLb69sfeVedUpcIbY7n4HcCXvfJuDjz5LPFTNlI48E4aaqNGk3U/CWM
+         PQow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748085558; x=1748690358;
+        d=1e100.net; s=20230601; t=1748092680; x=1748697480;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:message-id:date:in-reply-to:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eCpy6ERKJ58I9RfLMhA7XF3pN99iDdxL7Aeej/QaZPU=;
-        b=klt7aF45XAvM+AmH0+P54kXxSCWaXr9moQuC2NioYNAQVXrXSgZO1FHLisFY9IIYve
-         6xoZi8nLmfvJKvmrIHm7qogNFLnhGii5YLzcYG8vrDNAftQ43nlger8W48X7N/JBdBOw
-         WLq4XL6EgFqjvCfSEKWgrs0QN4OQjOY8XPAxhKFAgfHs5qQWUUmRGdKDXO7jWJbXhGo3
-         63A/EsVw09jdyivX83yA0wjJMrVW3TwObfcAvSs3fyEzf15MgiveMUcSZWbO2ktWMrRT
-         EAK8/MngERLD97adGanWwQ8Wld/6e8Aoanp13rSrXyK5rQ0HtEmobS7VWQrjFxcjRzqN
-         /tyQ==
+         :x-original-sender:mime-version:subject:references:in-reply-to
+         :message-id:to:from:date:x-beenthere:x-gm-message-state:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=1J8rS6854B4AO/JZdaEbZovZwDKfOkAnkMtz4WWrC6U=;
+        b=lSIgEsDI+FInXdClUAutFfOR9FG0nhXeonfUxm4/5UEF6cRO8lr+USlgwmZHtzBM2G
+         VxSB5AsTSP+T3XuSiQObVUP1Y461oj7Vg6XyXOdc+RTnbFvfuBsFjA2jtopu4PdBrUE7
+         tPj0ZJwdinBagc3E3+Ah9DrdUwEzEJU2v+N4LfgRZyavbkUz40H9KTQmBEY9syGsqeO/
+         wJu+ZB+bVzCajxf3e/dHADD8rjAvOqYQuL4W1RErp2NTe9zUYnXC/GYzn1jEX6WRh1VV
+         QWNsgdIGqjROKAt1l7oqbyKK35Swp3Gma2CvB20kWcHoBQyyrDp6KyY0TRIgAmI4T1iC
+         QoMg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUzpnbt7VcoRe44bQ6gjoJDT+rPDm2ZaSP2fYzHbWHZ56RPhpbMjuzAFckiBzCUS0JBRCgFFA==@lfdr.de
-X-Gm-Message-State: AOJu0YyVGlZ17FnkLvhjk9zcseA1wSQsVHncqzbkgSH+tYY7DW0pr5RB
-	8E30prBwqFe7Du7Lczxn5nqoLng1x+jFEGjzqOBhnfoq2EqLXKQryNse
-X-Google-Smtp-Source: AGHT+IFivUxf5hVBu5XTjiUak6wMs5WZqidbKZL6AGiNCJcwMffh8bxo0O3HgvT9jjx+Fj9zpOsdIA==
-X-Received: by 2002:ac8:5049:0:b0:49e:815:b6a8 with SMTP id d75a77b69052e-49e0815b6famr57653991cf.1.1748085558442;
-        Sat, 24 May 2025 04:19:18 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBFPKrjNBY1y4Y18+4GQTWIl+zAmrqU0y7ZAzfQ5XZGL+A==
-Received: by 2002:ac8:5053:0:b0:476:6eec:3aa5 with SMTP id d75a77b69052e-49f2f264ed6ls10100731cf.0.-pod-prod-00-us;
- Sat, 24 May 2025 04:19:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVVpAZC9SjF4wY9/gD6cx5w7Icx9AZuzN0cJoXLQGn/xYxi47vyaNuVb3BjznEYEfBsFX/ByT1SKXo=@googlegroups.com
-X-Received: by 2002:a05:620a:4441:b0:7cd:1afa:81b3 with SMTP id af79cd13be357-7ceec49d8c7mr356293185a.19.1748085557334;
-        Sat, 24 May 2025 04:19:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1748085557; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Jz1qs/lDO+lp/b6/MTCl6O2T3f3U9mOuK6Em/0pOQLXK/fDH1zaHJ5kudiJemdAq0I
-         PvyCqgL85bbZT6AxUl/7se1bPR6mBw3w+IjQ/lYdLFDahsf9nAacRrMxdF9Y2U6vwVss
-         yeR1bxuGrBaVAw3PokpNXPJbO3Rwfj3BOfh186wrz4JDBRwD+Vk+rOx+Z7rlocKXFO4u
-         DJn/fG1/xVKL6fqKztuA7QNlqu8jQ+iA8FvJu+EB4BYQAcLEuXStLGrLzuCeEJbZziuS
-         TQwZX+4BYmUSnH2rFL5ScGZQugGDhpYrUXUd2czB5Z5WXT+kgT5KRFpa8msEaZGSoHIT
-         G8zw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=mime-version:references:message-id:date:in-reply-to:subject:cc:to
-         :from:dkim-signature;
-        bh=rScpXVbASUqjAgnv8asCUXuGu69m7xK2h2FjiRqoUxs=;
-        fh=clK7u6NH2f7+JwMsUCPFUbR3mrBG5AA6HsM8wvE15wI=;
-        b=F/hK2NNF740rd99lOyFDO2DpLz/f2u1fYXII6KIzRh87wo5deGAEoh4EUUmWklMWDG
-         3FHZ0nsnmkBY/PGJ4mkXdqwZyGsuy7wsdQ/N0TeCmBq2bE3tXo7xLzZ5kh//iPBEbqMP
-         x7HC+0htM+01/NYqwecGZuu9tSv/EwGGTHUHiFMtTDn5YyxZA7LqN/q3YjuquHQ7F2Y2
-         UO2dGfJ8h7CUCgEdf+Ouv1m9FXLTOqD3jpBVY33v+clm2sNFa39f4dSxxlKGa/ZTHWC9
-         x5lDTOsOk4sBxu5834kSZozg0ML4pGdfA3smPYOP80dHgVpXVvcIGqGkFebNdo5FSa0w
-         lE3Q==;
-        dara=google.com
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=Yrmkjtbr;
-       spf=pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::435 as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com. [2607:f8b0:4864:20::435])
-        by gmr-mx.google.com with ESMTPS id af79cd13be357-7cd467c4081si42829285a.2.2025.05.24.04.19.17
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 24 May 2025 04:19:17 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::435 as permitted sender) client-ip=2607:f8b0:4864:20::435;
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-7399838db7fso605975b3a.0
-        for <kasan-dev@googlegroups.com>; Sat, 24 May 2025 04:19:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWieGh1oXEXmsUNTajiJ0leKzLaVb5Ac91p4LHdyTXA8qIUcG5VbcfrC3ks6twsZSef7sB4aclF/so=@googlegroups.com
-X-Gm-Gg: ASbGncvX2oerJxQLP/OirlWJyLSJYOQFLra3RgrQwUErd17SmmAra9854mQSiEg5PRg
-	2XGGdOo6Kk/LDOuZGFne5hNTIxCzSsP2H4AEYbvwQ8nGG1M0qR1A09ywhbhNEhHCNUreAeRsPE/
-	ilJHrZ01ayQqtXVr2qBuFQKip9sJ4EOXcR1qXTVJqIWCSeW172IjlbvcmAjGz7pHvLFehFCz/n9
-	Vtip0ExJqqS/hiJulJPcsaU//BoXOPXM0BtvFrCDj+2EuIhQ8EMxsA00RHDPjSs9LlgQH0Bfsj3
-	iF4XTI2f2VbQ5nNRkGCh++9K2Ao1OAv8xyabVaC9FPYodrL0yaEUSrQ=
-X-Received: by 2002:a05:6a00:1903:b0:73e:2367:c914 with SMTP id d2e1a72fcca58-745fe068d61mr3795551b3a.7.1748085556260;
-        Sat, 24 May 2025 04:19:16 -0700 (PDT)
-Received: from dw-tp ([49.205.218.89])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a96dfacesm14024380b3a.5.2025.05.24.04.19.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 May 2025 04:19:15 -0700 (PDT)
-From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
-To: Kees Cook <kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>
-Cc: Kees Cook <kees@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	linuxppc-dev@lists.ozlabs.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	Christoph Hellwig <hch@lst.de>, Marco Elver <elver@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
-	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-efi@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org, 
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v2 08/14] powerpc: Handle KCOV __init vs inline mismatches
-In-Reply-To: <20250523043935.2009972-8-kees@kernel.org>
-Date: Sat, 24 May 2025 16:13:02 +0530
-Message-ID: <87jz662ssp.fsf@gmail.com>
-References: <20250523043251.it.550-kees@kernel.org> <20250523043935.2009972-8-kees@kernel.org>
+X-Forwarded-Encrypted: i=1; AJvYcCWME45LNodllkRXY3e3PAVtKopCdzYxRPhEowzsqGNeTl92s+d/BC9kuVbfZBNllFR/EFNG2g==@lfdr.de
+X-Gm-Message-State: AOJu0Yw00+Gumxm7z8Amukd6aSQjjvUkeSHIHgRV+5pEkTDJ6XVFyadv
+	pISX8RD9s5y1CTbQ0T6016xoHGK5cLuttF6EoIRl7T8HqLQd4pGRM5nj
+X-Google-Smtp-Source: AGHT+IGlO9n0fIMunCiu+iQOFqKxi/Wb2sB5PPvwZvqe/oFbbUZX+NNnD1X/REfZu2hJrC/+q2mLnA==
+X-Received: by 2002:a05:6808:6b97:b0:401:188e:caa2 with SMTP id 5614622812f47-40646872337mr1714961b6e.35.1748092680293;
+        Sat, 24 May 2025 06:18:00 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AVT/gBGdQa4pkZkDvBbUuRqOxKHp22QRy4WRElKJ3683ieei4g==
+Received: by 2002:a4a:d504:0:b0:604:8bd0:c016 with SMTP id 006d021491bc7-60b9f754834ls243104eaf.2.-pod-prod-01-us;
+ Sat, 24 May 2025 06:17:59 -0700 (PDT)
+X-Received: by 2002:a05:6808:6f8d:b0:3f4:af3:74a5 with SMTP id 5614622812f47-40646813e66mr1699417b6e.21.1748092679395;
+        Sat, 24 May 2025 06:17:59 -0700 (PDT)
+Date: Sat, 24 May 2025 06:17:58 -0700 (PDT)
+From: Selah Acostadh <selahacostadh@gmail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <0fa6b674-e591-4222-bafe-0316e7ff0893n@googlegroups.com>
+In-Reply-To: <CAC1kPDM2pUEwFRiUZFHKq_7sYpjARkFczJnp_FRu+r9-xYdgKg@mail.gmail.com>
+References: <20250429-noautoinline-v3-0-4c49f28ea5b5@uniontech.com>
+ <20250429123504.GA13093@lst.de>
+ <D9KW1QQR88EY.2TOSTVYZZH5KN@google.com>
+ <20250501150229.GU4439@noisy.programming.kicks-ass.net>
+ <D9KXE2YX8R2M.3L7Q6NVIXKPE9@google.com>
+ <08163d8b-4056-4b84-82a1-3dd553ee6468@acm.org>
+ <CAC1kPDM2pUEwFRiUZFHKq_7sYpjARkFczJnp_FRu+r9-xYdgKg@mail.gmail.com>
+Subject: Re: [PATCH RFC v3 0/8] kernel-hacking: introduce
+ CONFIG_NO_AUTO_INLINE
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: ritesh.list@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=Yrmkjtbr;       spf=pass
- (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::435
- as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_3826_771244816.1748092678842"
+X-Original-Sender: selahacostadh@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -179,163 +88,52 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Kees Cook <kees@kernel.org> writes:
+------=_Part_3826_771244816.1748092678842
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_3827_1410260170.1748092678842"
 
-> When KCOV is enabled all functions get instrumented, unless
-> the __no_sanitize_coverage attribute is used. To prepare for
-> __no_sanitize_coverage being applied to __init functions, we have to
-> handle differences in how GCC's inline optimizations get resolved. For
-> s390 this requires forcing a couple functions to be inline with
-> __always_inline.
->
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
-> Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
-> Cc: Michael Ellerman <mpe@ellerman.id.au>
-> Cc: Nicholas Piggin <npiggin@gmail.com>
-> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
-> Cc: Naveen N Rao <naveen@kernel.org>
-> Cc: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-> Cc: "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: <linuxppc-dev@lists.ozlabs.org>
-> ---
->  arch/powerpc/mm/book3s64/hash_utils.c    | 2 +-
->  arch/powerpc/mm/book3s64/radix_pgtable.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/powerpc/mm/book3s64/hash_utils.c b/arch/powerpc/mm/book3s64/hash_utils.c
-> index 5158aefe4873..93f1e1eb5ea6 100644
-> --- a/arch/powerpc/mm/book3s64/hash_utils.c
-> +++ b/arch/powerpc/mm/book3s64/hash_utils.c
-> @@ -409,7 +409,7 @@ static DEFINE_RAW_SPINLOCK(linear_map_kf_hash_lock);
->  
->  static phys_addr_t kfence_pool;
->  
-> -static inline void hash_kfence_alloc_pool(void)
-> +static __always_inline void hash_kfence_alloc_pool(void)
->  {
->  	if (!kfence_early_init_enabled())
->  		goto err;
-> diff --git a/arch/powerpc/mm/book3s64/radix_pgtable.c b/arch/powerpc/mm/book3s64/radix_pgtable.c
-> index 9f764bc42b8c..3238e9ed46b5 100644
-> --- a/arch/powerpc/mm/book3s64/radix_pgtable.c
-> +++ b/arch/powerpc/mm/book3s64/radix_pgtable.c
-> @@ -363,7 +363,7 @@ static int __meminit create_physical_mapping(unsigned long start,
->  }
->  
->  #ifdef CONFIG_KFENCE
-> -static inline phys_addr_t alloc_kfence_pool(void)
-> +static __always_inline phys_addr_t alloc_kfence_pool(void)
->  {
->  	phys_addr_t kfence_pool;
->  
+------=_Part_3827_1410260170.1748092678842
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I remember seeing a warning msg around .init.text section. Let me dig
-that...
+https://www.google.com/aclk?sa=3Dl&ai=3DDChsSEwi6u4jpkryNAxWhfG8EHfz-KFoYAC=
+ICCAEQABoCamY&ae=3D2&aspm=3D1&co=3D1&ase=3D5&gclid=3DCjwKCAjw3MXBBhAzEiwA0v=
+LXQVZHo6AsoRNN_hHk10uqxB7Jo70fftBBjiOdV26wL-DI-XMY0c2pWhoC9-AQAvD_BwE&categ=
+ory=3Dacrcp_v1_3&sig=3DAOD64_1ogmwu83ub131Tt8wScUkN-AiLyA&q&adurl&ved=3D2ah=
+UKEwikyYHpkryNAxVJBdAFHef6Eu0Q0Qx6BAgIEAE
 
-... Here it is: https://lore.kernel.org/oe-kbuild-all/202504190552.mnFGs5sj-lkp@intel.com/
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/0=
+fa6b674-e591-4222-bafe-0316e7ff0893n%40googlegroups.com.
 
-I am not sure why it only complains for hash_debug_pagealloc_alloc_slots().
-I believe there should me more functions to mark with __init here.
-Anyways, here is the patch of what I had in mind.. I am not a compiler expert,
-so please let me know your thoughts on this.
+------=_Part_3827_1410260170.1748092678842
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--ritesh
+https://www.google.com/aclk?sa=3Dl&amp;ai=3DDChsSEwi6u4jpkryNAxWhfG8EHfz-KF=
+oYACICCAEQABoCamY&amp;ae=3D2&amp;aspm=3D1&amp;co=3D1&amp;ase=3D5&amp;gclid=
+=3DCjwKCAjw3MXBBhAzEiwA0vLXQVZHo6AsoRNN_hHk10uqxB7Jo70fftBBjiOdV26wL-DI-XMY=
+0c2pWhoC9-AQAvD_BwE&amp;category=3Dacrcp_v1_3&amp;sig=3DAOD64_1ogmwu83ub131=
+Tt8wScUkN-AiLyA&amp;q&amp;adurl&amp;ved=3D2ahUKEwikyYHpkryNAxVJBdAFHef6Eu0Q=
+0Qx6BAgIEAE<br /><br />
 
+<p></p>
 
-From 59d64dc0014ccb4ae13ed08ab596738628ee23b1 Mon Sep 17 00:00:00 2001
-Message-Id: <59d64dc0014ccb4ae13ed08ab596738628ee23b1.1748084756.git.ritesh.list@gmail.com>
-From: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-Date: Sat, 24 May 2025 16:14:08 +0530
-Subject: [RFC] powerpc/mm/book3s64: Move few kfence & debug_pagealloc
- related calls to __init section
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion visit <a href=3D"https://groups.google.com/d/msgid/=
+kasan-dev/0fa6b674-e591-4222-bafe-0316e7ff0893n%40googlegroups.com?utm_medi=
+um=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid/kasan-dev=
+/0fa6b674-e591-4222-bafe-0316e7ff0893n%40googlegroups.com</a>.<br />
 
-Move few kfence and debug_pagealloc related functions in hash_utils.c
-and radix_pgtable.c to __init sections since these are only invoked once
-by an __init function during system initialization.
+------=_Part_3827_1410260170.1748092678842--
 
-i.e.
-- hash_debug_pagealloc_alloc_slots()
-- hash_kfence_alloc_pool()
-- hash_kfence_map_pool()
-  The above 3 functions only gets called by __init htab_initialize().
-
-- alloc_kfence_pool()
-- map_kfence_pool()
-  The above 2 functions only gets called by __init radix_init_pgtable()
-
-This should also help fix warning msgs like:
-
->> WARNING: modpost: vmlinux: section mismatch in reference:
-hash_debug_pagealloc_alloc_slots+0xb0 (section: .text) ->
-memblock_alloc_try_nid (section: .init.text)
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202504190552.mnFGs5sj-lkp@intel.com/
-Signed-off-by: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
----
- arch/powerpc/mm/book3s64/hash_utils.c    | 6 +++---
- arch/powerpc/mm/book3s64/radix_pgtable.c | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/arch/powerpc/mm/book3s64/hash_utils.c b/arch/powerpc/mm/book3s64/hash_utils.c
-index 5158aefe4873..4693c464fc5a 100644
---- a/arch/powerpc/mm/book3s64/hash_utils.c
-+++ b/arch/powerpc/mm/book3s64/hash_utils.c
-@@ -343,7 +343,7 @@ static inline bool hash_supports_debug_pagealloc(void)
- static u8 *linear_map_hash_slots;
- static unsigned long linear_map_hash_count;
- static DEFINE_RAW_SPINLOCK(linear_map_hash_lock);
--static void hash_debug_pagealloc_alloc_slots(void)
-+static __init void hash_debug_pagealloc_alloc_slots(void)
- {
- 	if (!hash_supports_debug_pagealloc())
- 		return;
-@@ -409,7 +409,7 @@ static DEFINE_RAW_SPINLOCK(linear_map_kf_hash_lock);
- 
- static phys_addr_t kfence_pool;
- 
--static inline void hash_kfence_alloc_pool(void)
-+static __init void hash_kfence_alloc_pool(void)
- {
- 	if (!kfence_early_init_enabled())
- 		goto err;
-@@ -445,7 +445,7 @@ static inline void hash_kfence_alloc_pool(void)
- 	disable_kfence();
- }
- 
--static inline void hash_kfence_map_pool(void)
-+static __init void hash_kfence_map_pool(void)
- {
- 	unsigned long kfence_pool_start, kfence_pool_end;
- 	unsigned long prot = pgprot_val(PAGE_KERNEL);
-diff --git a/arch/powerpc/mm/book3s64/radix_pgtable.c b/arch/powerpc/mm/book3s64/radix_pgtable.c
-index 311e2112d782..ed226ee1569a 100644
---- a/arch/powerpc/mm/book3s64/radix_pgtable.c
-+++ b/arch/powerpc/mm/book3s64/radix_pgtable.c
-@@ -363,7 +363,7 @@ static int __meminit create_physical_mapping(unsigned long start,
- }
- 
- #ifdef CONFIG_KFENCE
--static inline phys_addr_t alloc_kfence_pool(void)
-+static __init phys_addr_t alloc_kfence_pool(void)
- {
- 	phys_addr_t kfence_pool;
- 
-@@ -393,7 +393,7 @@ static inline phys_addr_t alloc_kfence_pool(void)
- 	return 0;
- }
- 
--static inline void map_kfence_pool(phys_addr_t kfence_pool)
-+static __init void map_kfence_pool(phys_addr_t kfence_pool)
- {
- 	if (!kfence_pool)
- 		return;
--- 
-2.39.5
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/87jz662ssp.fsf%40gmail.com.
+------=_Part_3826_771244816.1748092678842--
