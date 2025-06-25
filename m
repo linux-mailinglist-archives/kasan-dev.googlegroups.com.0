@@ -1,118 +1,118 @@
-Return-Path: <kasan-dev+bncBDP6DZOSRENBBCUF6LBAMGQELBUGUZA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDP6DZOSRENBBCMF6LBAMGQEZGZV7LQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3f.google.com (mail-oa1-x3f.google.com [IPv6:2001:4860:4864:20::3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0504FAE91AB
-	for <lists+kasan-dev@lfdr.de>; Thu, 26 Jun 2025 01:13:18 +0200 (CEST)
-Received: by mail-oa1-x3f.google.com with SMTP id 586e51a60fabf-2eaf00d1b3bsf473184fac.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 25 Jun 2025 16:13:17 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1750893195; cv=pass;
+Received: from mail-qk1-x73e.google.com (mail-qk1-x73e.google.com [IPv6:2607:f8b0:4864:20::73e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E36FAE91A7
+	for <lists+kasan-dev@lfdr.de>; Thu, 26 Jun 2025 01:13:16 +0200 (CEST)
+Received: by mail-qk1-x73e.google.com with SMTP id af79cd13be357-7caee990721sf107396685a.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 25 Jun 2025 16:13:16 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1750893193; cv=pass;
         d=google.com; s=arc-20240605;
-        b=BTJKDbV4dp3cmtFfRr2u0F0TwFvExgHsY70uxo4ukZEt2KL7P8wyuxFk4PB/Zir8/S
-         k72+Ao9J5YrBZD+p4QaKfyPKXIB1ylP3fLvQZwhKCghdtsDLx23Xui/5L5gZOnDdEXPU
-         4EbpiuNW3OSTk4mw7sQMtACv72hIdqZZLCGIe5gEaRQww5iRC48KMX6GU8BzPqYvKXek
-         MxjdvZ3UGqG/phOkr0aah4VtMj1xTfVZG0UVIm0UUdK+ziwqHWs6SboxpaiYOnV3gQp0
-         jVAroww2IPW89lLv2np1dFikB5Tz+ipXeyrNTnoYlFpCao1aiT5PpkNj5U/JHmIrlO8X
-         GTig==
+        b=QC6J97ccObBxEvQml4wT3tNDR86BmhQmzymDtXdXNlsTpUN/dZa3u31ALaocuDjhqk
+         ZYZ83dJdFJOaOMsBbaueP843i4lfdjZfZQKBhlBS6GdHrnEEV5crGcQI+9OWUhFjE4ch
+         l2ktnMja+DyGVH6BBy9flXI5KWzQb0wt9cxxNEB4ZQNAkGWgYNttt8rIQ2p/9XmVxBNl
+         JgCOsU+eU3tjDxrfopFwBoNUioKT2kGQwuR7Ty2AaqLBRt4weIV6TVSCMwVaHBI8Wmjz
+         iAPICTnaedEuRk+u3dOKKqDatp6nUsDd6aE2h+HIktFfaHwEzbzsgjuWhwMvenhFopjO
+         Wy5g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:dkim-filter
          :dkim-signature;
-        bh=p4AyQew4DNc3uEO0Mt+gkPwyBjgDczpQhB6GfN9il+M=;
-        fh=41Y0Y7GK8Wq95atPI0MHsrzbVnhuLPu7pBVZD3rnk4o=;
-        b=AEjHRJIg+d23ulfbRsm2lsG6DPPuRDqL2uljzB9hfU0AtLLS+f+dslpEdn79c6VmVW
-         by8a+Ae8QWOPbdztmW62fzVQvpheHfPnD2nL8JD+30WrDDDRqs+cg4Yueb2EelsodDq/
-         0pQdJHvc5AXw9BC+7zVEn7s3+raMGhAsSa+82Q8brFoVIA4QugEc5Wa/ZwYvX1m5flWm
-         0IK4VSn8jRRxmNyHez2h8xf3xuoRUncE6zM5fAc1Scbwrzr/iyRd7EuEe3eOUi8jRXIX
-         bJws3EjoxVTGzOEjPe/k3BBuTY8+ZlWoVy2Y/z9rVLk9DkGt6lojto1B7yccG1QsdvG9
-         6lvw==;
+        bh=tS0LhZvKn29lcAYl48n1ADofeb2Kg4uA1Zxlk8EpoxM=;
+        fh=+Oit38z/a3fyUL4zAHWTSau2C5CVWfHCIUBvVqPBR2o=;
+        b=VaDKp0wGh8BwNyDLWjcVFkAVJrUVdoBcKi3Zgf0n4c4KAjhX62HfNPi9ZTrtMQe0/N
+         y92lOO7DB5xOjQtHevaE/S0eMV/m/fahVaIHSqFKPCQY/ZNB7ErS3M9DCtHYaqEmmy1a
+         WBJNIRhIOh85wHAefUBKmaFjKrm5X0rSD3nOES94cG6BX/Il69cAGF94ITqT7ofsmM0h
+         FmQ/53CA/lk6GP+UNtS6HFKK+lFsCWAEtrCBMluJ6ODWNkpyzvArq7zV79Xl+3l3sX3z
+         cm5kgW2ny3viy0J31Rg6VWf6lAhFdPURG199NK0Vci2KknUuuHUEOsuF4DLy51MXs2XV
+         BTpQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@broadcom.com header.s=dkimrelay header.b=pKoUJLsG;
+       dkim=pass header.i=@broadcom.com header.s=dkimrelay header.b=l5eguNNw;
        spf=pass (google.com: domain of florian.fainelli@broadcom.com designates 192.19.144.207 as permitted sender) smtp.mailfrom=florian.fainelli@broadcom.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=broadcom.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1750893195; x=1751497995; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1750893193; x=1751497993; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :dkim-filter:from:to:cc:subject:date:message-id:reply-to;
-        bh=p4AyQew4DNc3uEO0Mt+gkPwyBjgDczpQhB6GfN9il+M=;
-        b=NzkEZoXTPDHD1uGgyehbdNVUs8v5UbiwZ+T5WMrp2Gigq8jBIrHAk7uNBR2llUoVjk
-         Z/LWNq9Ed1c4PcMFAZUEw/AXhB0nUlZlqU7O2tnEGbTygbH+rJ1+s00F8Mk6WEGu2xR2
-         /+v+XxmiHOw2YeinsOIdIyPaomdx5QDfDsModo11/6RWHfB1UGkeQ+N0XBDyIKgDbqss
-         E1J/93T7DG36mZUK9/7Y3zIhD1CTyqIFY62rmSOlOnXiz3V5COWGpu9nTn+EwMLq5Y2l
-         t/VwL/Ffgb7a+NQwiG23PSDCWTBGeHmra1VW0NeL5fa25aaA5tHF7KU30hhlVzP48WKC
-         ewCg==
+        bh=tS0LhZvKn29lcAYl48n1ADofeb2Kg4uA1Zxlk8EpoxM=;
+        b=XfwknfmSymPQReMHP00N0WIusPJ2UqlSUORAVVbIVfUDMLoU3f9j+pa71M5tPF/0UN
+         RwnDt3oqZLXhjy3u9275ZXDLONfHB345vcQtjJNUVZ+qVDryLMbo7LGiNthgRfligTu+
+         bwKyhogfq08Z3pBxGvpTKGZNwcOExQ22imaLafbMKMyyNT6LhCCRpufx2b+dFSPym/Oj
+         Hogz9KgUB9fUyKshst4pz6tCkn9G9s777qZz6qijsoZ1EnNfsyud/OyEAArwph7J0+dJ
+         3kluicOc6wrnLZReQdf8gktsNbJuw4hOxgvwq1HDZuX1XLYfPA5mkxhpArq9YdjZqhJl
+         dP4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750893195; x=1751497995;
+        d=1e100.net; s=20230601; t=1750893193; x=1751497993;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :dkim-filter:x-beenthere:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=p4AyQew4DNc3uEO0Mt+gkPwyBjgDczpQhB6GfN9il+M=;
-        b=VCSqFjDrmrGwXCnjt9qE7YPS3RZ0btC8CdTcqsickvL3vUjOkp+cbeZM4jq48zEJH3
-         EbpSZIXTHe9/s/Aa/ZZkgFXVtrVhnChiSMP8xTDXAdP71NMr3zX64kCXvwXsm10N8dC3
-         yigLlG5aNe6N/jFu46vR0fE2tElbhyx7McXgspjGXtZZ2GJP7DPRYHO01+iGvXGimHoV
-         tcbFa0NZiXADU91YyRy7pQNcsp1vJ5yZ0GSCQZ3WHH3deE2w+q/0mx5lN0ZJmyvWcGln
-         ET5kXek9/DtnUePypGkhcB/qgoCynh509AQ71Lx8Tx5bI7s4BmEAX7Jc3DRNmsN3SKln
-         V6FA==
-X-Forwarded-Encrypted: i=2; AJvYcCV3wd66Ppol699aYxAfjrY2Z6G/PfmLGV8cQ03m84fBXgfMv3wPIB5RTLe3IsQvWPJXrZjkYw==@lfdr.de
-X-Gm-Message-State: AOJu0YxHfvHrHj8D8wZXU7VURSWBT0dLBRrMiQfPTuh6r8By7OtuOW2n
-	CYOerhYM1C9FnBfq0NN2MNNscgvxgXKzPsuThQDiatq4wApzDdUwKKqf
-X-Google-Smtp-Source: AGHT+IFRX2KerUWvcYMJnaOWrT8lH+G6FSgd7M6Ir7Qale9xCSuvJQyJSXx42yfs5AxoXZCha9FM0Q==
-X-Received: by 2002:a05:6871:72c:b0:2bc:8c4a:aac2 with SMTP id 586e51a60fabf-2efce32bf94mr1323834fac.27.1750893194720;
-        Wed, 25 Jun 2025 16:13:14 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZef6YSe+9KkQKRgLpS4eduqNEZJ+LcFe4entBMbe1YsCA==
-Received: by 2002:a05:6870:91d5:b0:2c2:2ed7:fb78 with SMTP id
- 586e51a60fabf-2efceea298bls195314fac.0.-pod-prod-01-us; Wed, 25 Jun 2025
+        bh=tS0LhZvKn29lcAYl48n1ADofeb2Kg4uA1Zxlk8EpoxM=;
+        b=WEOMnKGOf9MEl5xpMX+Be1dk3cQOgo1uAWmf7GRazBnBNdhZscz9bVHpGappp1k6Gd
+         VAhDslWn3xGGfyn5rvwTwD9kY6mV/mZ51zkSlEHr+fd0/c9yf7xuOBm7uxlybqHGg76J
+         AjAup/tMkim6F1OpceIy3q7aZi+SOBsAO7vMfpHLOYyW5BDZVbxA8dRMZqVZKXL4a/88
+         a4xmTQsIaxfEuZXqeUi/CmyCQdAhDA4QPmwAF8zSJotWuL6MMOLcdwaudlYmfwL6vmt9
+         51q79lql1Jq5Wq7w6eIZ+dV3ubKriISraz4ewsRaHsGlXNU4MvSNdgCGeFzw6WkG7EmI
+         8NvQ==
+X-Forwarded-Encrypted: i=2; AJvYcCVUG6YuyMxkm3b3qD52nSRJXssMJh45RFpXyCqUoQUBe6RjR7dM7Kk2CQSXbc62xTxwGOZwmg==@lfdr.de
+X-Gm-Message-State: AOJu0YzypvsPi1BiPRj5KRy3oRtvGUNI8npCHM1JnxOWH+PoYsEBfmAF
+	5DpghIXq6orJ3P3Tf9l36tLVm5yOJbgyP55DHnrIEj8tbB8wmOhWfWLs
+X-Google-Smtp-Source: AGHT+IFEc/Pzhu3So3ypXIGq/89kG4RopxcJbBTdCGt59VYGX41Ck9uepD8PPG828E/BzLQSVgKokA==
+X-Received: by 2002:a05:620a:44d0:b0:7d0:a10c:95b4 with SMTP id af79cd13be357-7d4296c9faemr665540985a.1.1750893193563;
+        Wed, 25 Jun 2025 16:13:13 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcAoTMIoUNoDDyAfkpsPk1IlM1vk+4c+PV7AZLE1iE2Kw==
+Received: by 2002:a0c:f096:0:10b0:6fb:4bc7:dc0d with SMTP id
+ 6a1803df08f44-6fd75126538ls6574136d6.1.-pod-prod-06-us; Wed, 25 Jun 2025
  16:13:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUDeXY7tZo1Ev+4BFyP3i5js/v3cp1CeZZuVJNJLxA0e3yw7ngQwGqB/jgTKT2Xo2dY6bl6Wyx6oP8=@googlegroups.com
-X-Received: by 2002:a05:6870:d0a:b0:2d5:2955:aa5c with SMTP id 586e51a60fabf-2efcdda663amr1237848fac.0.1750893192352;
+X-Forwarded-Encrypted: i=2; AJvYcCWOhd0RuBswE/qBrYMV2FgxZUIpaKhAeGoxE0GwUlQLENGJ8hDKZx9/UJBZ+DV7tN3fgURPGOJby6Y=@googlegroups.com
+X-Received: by 2002:ad4:576f:0:b0:6fa:fb7d:6e4c with SMTP id 6a1803df08f44-6fd5ef81cddmr77906966d6.25.1750893192607;
         Wed, 25 Jun 2025 16:13:12 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1750893192; cv=none;
         d=google.com; s=arc-20240605;
-        b=hJ+1Ci50Fkz9sVMusa5ao/nJ3HgOuVK3vtb089MoFSbcBa6UAY/0Sh+vcPXzDHWk2Z
-         /SGKlGRnSjmC87kwjgE8WBUp+iewudL7IhhPPJwG7tyvnh1wN1cjtHB0Uz9ui8U99CUY
-         CEhOIzHrvBKhNdN/WXtXMkUIsBtyk4os6YnETjVK+1sPzl8i0wQhjG/o31L/C78BfQBr
-         LJsSEI0Rb/BdHQgbIfSEa/RUm1aSxVOTM7JIZEEYmqpxyRumOi2PO2hMY0KquSENUXpE
-         GeJy3irwNTx5O0rnQ6h3qLfxZaggVuErkAB1TImZ8IFH1ytAHs/FdUvS9tfz+fmrQLv5
-         /YaA==
+        b=eHsX3Su9nwGVV/OG9i5Estno/V7ClQTfIuKI2ADYHF2aBN0DqzaPanHBXpni0/+11Y
+         ThoTqgk7oN6DygzB/6QaV9GzO/RwJbxbkOulumAykseS8gfoeivoK8nXUcgmCJDf94I6
+         /mnmKNkIWClmpvBATQ1Kjm0/ugAnWhmf9oy4KI5mRumIHVUo1zqACA8MXSXSY1GN/p1K
+         9GOu1XVuiGj8A4s1SwygAy4GBYrn8XW0wYR8UDUxNjt/OEuAOHNLomjg1AeV6jTPQMpt
+         OjIRf4fQP9xM80M5rMaGkl8aai5roLYz9JFIp0bh3YWF6MzMHDK5g3dbncMIy58i2iyh
+         ntEQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature:dkim-filter;
-        bh=aIMaM4ibbWSp+1YyAgspl9CK//LWmQPq0AAdZ8caZGk=;
+        bh=OSywoB4j80jM/NWz/WB2jbc7zvOmdw+0j7s10pJqte0=;
         fh=OYnYQ2Qi4AglTmqWgAhKJslZrlWtos4yS7cvABM55lU=;
-        b=eG54LAUtYwG5DtvhMoD7Uwx9nTw0OQ7YuxUwFuZdyyj8viafU6SeLuEv6zL3W8aP+t
-         IRYuNGj7egzjivW2eKu8+rowjwJfCiWf4ir4zgkdgAfk7fR+ZWwt8w4pVmZ8kkpzbVdu
-         1iUCxtTda04tQqguh1BnzYPL05OTM46zOc9EWxsOVAmIEPPRSBRFi26xkV/nN1AyZNpy
-         y6h3Ab/jC8OLDqiXGgXhLFrRv8xJ2BhfYRXNo44HJxvPz07YsCzdjyM7RWCIQBBBiVvQ
-         /RQkNf3waR9mhO6xsRRFYyZL4VRFuqgdFVqnD7uSHASUseFmU4QZcP6p7u5Mwzg0HtSl
-         W29A==;
+        b=dwVOcXqCP3vW9YK3EopJwd6Ha9W1rL/9+iaPb/qlDCJas8EoI4zGis3txAXHVTidlC
+         E2CLTn19wwsfNr/2AVJx4dpUKr2xu/JpvBNwN1D6HOSoWv32VXWsnxXVVQAHd/aaBL+J
+         aBCtJiZE50xtlj1Zv82B/5pkqCUIbs3r376466MWVEg+YlmasrQaVXFIcCVKurz8Oh/i
+         6yFlI3a3esu3m9Yq0Ow3qL/8Ge3DwOO7XqNzz36wGliWuLbfGqGFDWNT1f+8wAZ5OD+M
+         ZFe5ZeANknYVnrGNlaNm/H07hNwwHQKo8X8t0nn1mw8RA3/xsYc3zT36pLfiR4elA8TG
+         0zqQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@broadcom.com header.s=dkimrelay header.b=pKoUJLsG;
+       dkim=pass header.i=@broadcom.com header.s=dkimrelay header.b=l5eguNNw;
        spf=pass (google.com: domain of florian.fainelli@broadcom.com designates 192.19.144.207 as permitted sender) smtp.mailfrom=florian.fainelli@broadcom.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=broadcom.com
 Received: from relay.smtp-ext.broadcom.com (relay.smtp-ext.broadcom.com. [192.19.144.207])
-        by gmr-mx.google.com with ESMTPS id 586e51a60fabf-2efd509ebebsi8848fac.3.2025.06.25.16.13.12
+        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-6fd772468eesi84636d6.1.2025.06.25.16.13.12
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 25 Jun 2025 16:13:12 -0700 (PDT)
 Received-SPF: pass (google.com: domain of florian.fainelli@broadcom.com designates 192.19.144.207 as permitted sender) client-ip=192.19.144.207;
 Received: from mail-lvn-it-01.broadcom.com (mail-lvn-it-01.lvn.broadcom.net [10.36.132.253])
-	by relay.smtp-ext.broadcom.com (Postfix) with ESMTP id A9C5AC00282F;
-	Wed, 25 Jun 2025 16:13:11 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 relay.smtp-ext.broadcom.com A9C5AC00282F
+	by relay.smtp-ext.broadcom.com (Postfix) with ESMTP id 39D83C002830;
+	Wed, 25 Jun 2025 16:13:12 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 relay.smtp-ext.broadcom.com 39D83C002830
 Received: from fainelli-desktop.igp.broadcom.net (fainelli-desktop.dhcp.broadcom.net [10.67.48.245])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail-lvn-it-01.broadcom.com (Postfix) with ESMTPSA id 1A0C318000853;
+	by mail-lvn-it-01.broadcom.com (Postfix) with ESMTPSA id A0DB818000530;
 	Wed, 25 Jun 2025 16:13:11 -0700 (PDT)
 From: "'Florian Fainelli' via kasan-dev" <kasan-dev@googlegroups.com>
 To: linux-kernel@vger.kernel.org
@@ -164,16 +164,16 @@ Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
 	maple-tree@lists.infradead.org (open list:MAPLE TREE),
 	linux-modules@vger.kernel.org (open list:MODULE SUPPORT),
 	linux-fsdevel@vger.kernel.org (open list:PROC FILESYSTEM)
-Subject: [PATCH 11/16] MAINTAINERS: Include timerlist.py under POSIX CLOCKS and TIMERS entry
-Date: Wed, 25 Jun 2025 16:10:48 -0700
-Message-ID: <20250625231053.1134589-12-florian.fainelli@broadcom.com>
+Subject: [PATCH 12/16] MAINTAINERS: Include dmesg.py under PRINTK entry
+Date: Wed, 25 Jun 2025 16:10:49 -0700
+Message-ID: <20250625231053.1134589-13-florian.fainelli@broadcom.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250625231053.1134589-1-florian.fainelli@broadcom.com>
 References: <20250625231053.1134589-1-florian.fainelli@broadcom.com>
 MIME-Version: 1.0
 X-Original-Sender: florian.fainelli@broadcom.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@broadcom.com header.s=dkimrelay header.b=pKoUJLsG;       spf=pass
+ header.i=@broadcom.com header.s=dkimrelay header.b=l5eguNNw;       spf=pass
  (google.com: domain of florian.fainelli@broadcom.com designates
  192.19.144.207 as permitted sender) smtp.mailfrom=florian.fainelli@broadcom.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=broadcom.com
@@ -192,9 +192,9 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Include the GDB scripts file under scripts/gdb/linux/timerlist.py under
-the POSIX CLOCKS and TIMERS subsystem since it parses internal data
-structures that depend upon that subsystem.
+Include the GDB scripts file under scripts/gdb/linux/dmesg.py under the
+PRINTK subsystem since it parses internal data structures that depend
+upon that subsystem.
 
 Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
 ---
@@ -202,21 +202,21 @@ Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 687f2b7cd382..224825ddea83 100644
+index 224825ddea83..0931440c890b 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -19866,6 +19866,7 @@ F:	include/trace/events/timer*
- F:	kernel/time/itimer.c
- F:	kernel/time/posix-*
- F:	kernel/time/namespace.c
-+F:	scripts/gdb/linux/timerlist.py
+@@ -19982,6 +19982,7 @@ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/printk/linux.git
+ F:	include/linux/printk.h
+ F:	kernel/printk/
++F:	scripts/gdb/linux/dmesg.py
  
- POWER MANAGEMENT CORE
- M:	"Rafael J. Wysocki" <rafael@kernel.org>
+ PRINTK INDEXING
+ R:	Chris Down <chris@chrisdown.name>
 -- 
 2.43.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250625231053.1134589-12-florian.fainelli%40broadcom.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250625231053.1134589-13-florian.fainelli%40broadcom.com.
