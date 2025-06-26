@@ -1,164 +1,149 @@
-Return-Path: <kasan-dev+bncBDLKPY4HVQKBB66M6TBAMGQEFBAP6NY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRBV4W6XBAMGQEJNPAKZI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 233E6AE9BDD
-	for <lists+kasan-dev@lfdr.de>; Thu, 26 Jun 2025 12:52:48 +0200 (CEST)
-Received: by mail-lf1-x13b.google.com with SMTP id 2adb3069b0e04-553d57646d0sf1052396e87.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 26 Jun 2025 03:52:48 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1750935165; cv=pass;
+Received: from mail-wr1-x439.google.com (mail-wr1-x439.google.com [IPv6:2a00:1450:4864:20::439])
+	by mail.lfdr.de (Postfix) with ESMTPS id 143A4AE9EC5
+	for <lists+kasan-dev@lfdr.de>; Thu, 26 Jun 2025 15:30:06 +0200 (CEST)
+Received: by mail-wr1-x439.google.com with SMTP id ffacd0b85a97d-3a4f55ea44dsf417005f8f.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 26 Jun 2025 06:30:06 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1750944602; cv=pass;
         d=google.com; s=arc-20240605;
-        b=euCOwx6KMDI06MN4UQTiuStgiz9jV6PtKekrgz2XxpMSeL2bnnZWLczN46CDzEYlqS
-         /syH69x4PoYbjeAxDXAVeEijvyFtq2VL8IKDP8+lG5RSxsBdzAwAsM+1EDNLazGhywa/
-         QgT/E/0mWKR/M2WwZWIZCu+qLvkgODJVqg6WgXiDpVpcgUmZInT/fni0JPdXR1gWr1JB
-         N+h/xYg+yckWY8Y9067tl+gdeb74HB9ByshSztsqcy449u05x1MS6Cmv56eNMK0z/3xs
-         ylSaCJUZ8EcapzrCW2rzMakZueRqRPnh1fMIMB7s1SgWEf2/sLjfe+Pler7/XNmaTTtZ
-         xEhw==
+        b=axvlMkN3LU4QksDToF46VRUb/MS84bRJAYhb9zoEQxIKj7mLGzFxTYFjFiFeu2+Juy
+         FCRQ0GYU/lH0IGZQTmxd5jFttdV5lNuH5Vvc8xDfZajgNxOcyyGNxJ9DzYhNsv4MmZcm
+         Yea85sMs4mcwda0n2+GiSjioFcIGDFx6zVQdAYRWcg8DJMgn7qK0JqbeNAvSWedTZuav
+         vXrK5RTjTvn1m2G39Iz+jifMNKgbeCPo6PiAWLmFygqyypX3pVRmW5DFEwlrQgUOkX+B
+         m9vSk5eDqEoRvDamWDicf29mw00nLMRIdxTZTD67Wba75YGX+83H745kU2OHXlmEB9WD
+         pTVQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:dkim-signature;
-        bh=lKroT1S7j2W4b+4iW9d75mFXSdw5jKX3WjcF6fChOaU=;
-        fh=BYL5KtyC3YLyM59LzFAaHQLYA46y/ZGulBW+LIoPvAM=;
-        b=Ylb90mg0LtkJgFCAhQvHA/BZDVs63AlKaFgoVPMuTxEJIsfttGKfUtQ0dc9aYHjbBI
-         I1mIMRv56S0J5VcjonX4+EsU27BY0DxLl9tOMs2JEi1LfPaPSbSjeXnannqWI7gp5VTz
-         ddHyG7V0HjPVeo8WdcVdopAVS9yjR5flBvLebPIaxX+o55x1swZUZQzwwKXvK45L9iB5
-         5PLPxS6UYzwIC2m7V8Mhg0+xhrMZClvj89RCdoVRv9W9B6pMlvkkVNjgL0do7yvJtcHD
-         AYevEqriCrIN6B+emGlAYkXG+4soyTpaJqFXHCfTdNNv3HKEOMErJMkswjITPE/g7bkH
-         Ps+Q==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=QVCENZ9ak6b4dhC57in9MDuCnY1JuChC8l46KMYdLrI=;
+        fh=bFFH6FintuBEziKOfOby7W5PltBZsUqup4w+G6Yx/F0=;
+        b=Qc59ZhGG7D7iHKAFKc8kWoYmg3c1rksD28zj1zDMkJ4szGesAxxEQEDiFYFgMZpikp
+         0eeCLH8O/ow7lmBQpo5hglUw5ee32V0dixdbvKESZsF2MhlZ2xeUJbGdVkec69lMH8oj
+         yxyM2NiLZ4UmWi74+kvkK1E2LTFp5WAt2hRE/99gd1A/95v3/0QsPX/sXmzkY2kXid4r
+         +oQw+BH53BAQR1gGyNd1Lh3BozczO04O9PzLdap8TJBsDaX6cg/IsQlLtMzGIjVHieTO
+         Bv1oGWDFs19pIikfc7tspDrAhiDVOQZxaI59hLV+H3k+nzOWdiRSSEKnsstVtYH/kRQA
+         bztQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=mBNUpeDF;
+       spf=none (google.com: peterz@infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1750935165; x=1751539965; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1750944602; x=1751549402; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lKroT1S7j2W4b+4iW9d75mFXSdw5jKX3WjcF6fChOaU=;
-        b=aKRDAULKOVGH8SWdHmnL0Yluhs0imxNA9IfIN1Lv1BM3DtzCjaYYNId08bNmhe9cKj
-         xDZwPJtgBp1yAxI2J2ekMB19hVSUdBVcJZYm3b9DWlxeLkvbAc6B9jAEGxpQGqUbUw7R
-         Plo4gX8IMcshbvwZVy7FUp+YqqFsUz0ZFNi1Hxi/koRN2IvgSG7lz0qK44sgsTBqYUgd
-         I5VuecHp6nNw5xVxaUgDF7oiDRwKjzx0c9MrNyJld1V6HO9q5LgpmRkMwdBkPxmmzTOu
-         siL1byWYt0nzJY0/fl8JASB97O1jX6HQ0B6tiCgAEpGsoUbsVbGIwHec/KYuaUkk0DFH
-         vt8A==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QVCENZ9ak6b4dhC57in9MDuCnY1JuChC8l46KMYdLrI=;
+        b=ajF0NgkEK7OtMAbQDWPnT4nUDhk7DhFw/rBDzLaAutMsPFNJ3QGJA3q7bw9ZMqWoru
+         KKiQcuBjQpaGvV2zD2xIWM1XncdMpWqnaSuw8U//Cbp1MaCbjCHdVUfnyrVDi27ZMZ5c
+         WvPMav5d+0wdSiXIXoz97TjNnFnn9IhtUpnsLl+1JU/UM+6vGLs5ZQToFg39CWqIYvLu
+         c8l2+0wIE+4GnIm0w3C4LPub2eP1/0+ukzrzXa66BtrfgSNyYu7/CP75xNSJIFh4JAt0
+         znjONCjJ+uzDXDCxreGQ/DQvUV0HPSgaoLDw6jOclMsrTF+I/Dk7knZqROHrS+EL8Gj/
+         Bg0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750935165; x=1751539965;
+        d=1e100.net; s=20230601; t=1750944602; x=1751549402;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lKroT1S7j2W4b+4iW9d75mFXSdw5jKX3WjcF6fChOaU=;
-        b=Cw81zj8M5w0PxQYEsGFUQ0xUTJXxeB5ZfHbpTnrBeyN1AcIsbsErvafdCZqqsgIiaF
-         TtzPqSsuV1GphMPglBtr9yOLvvU5MJBRMHltUsFxmcp+1wTBhdlvmmlKjT3ZOUt9gR/J
-         FYD/a8SJmvzs5OPTvRaxXHOpJnkr4k7TZBlimqMJ/fJKQ7Z/G7wpBO801oRIaoDFPUFv
-         7m4UeXf1Vr3Vwm6FlzSiElSqnaf4MI52tn8GxXUPkzNOmVJjrvrlXCZS5RnYmuGb3vQt
-         SR5KCOCxs7Z/eUQFvuRApP+8q9c9cocOIe1mrU2WIw9J1eExVaRPHflN5aCPGgHR9Yiv
-         0/0w==
-X-Forwarded-Encrypted: i=2; AJvYcCXQuUb12H/RTKgyGerfG/v00yZrsJQPPuAhblaVQ7+gNksxWUW1TLu3Y7zi62L8uviPN7zvKQ==@lfdr.de
-X-Gm-Message-State: AOJu0Ywj5lFSHLBeM1s+Df/yBd+YP9CtgP48C6ZCsYnseQwLKZz2w9Y2
-	MBRiNRTTPImaiO0KMIhMrer4HoaeGuBCBXTLSxb6BTO7adMDp/soJglo
-X-Google-Smtp-Source: AGHT+IHBtdgluvPzu3OLFZNWay8Towd46MN19VEY4BkwUGmCX1UuJWWNhFJ7Lo5KDN4WK0u56lHcbA==
-X-Received: by 2002:a05:6512:2314:b0:553:b054:f4ba with SMTP id 2adb3069b0e04-55502c8979bmr1072348e87.12.1750935164574;
-        Thu, 26 Jun 2025 03:52:44 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZearcpy3TaLa71+YMUs18CKZjJTQ0huGXMdf6aPmI1S7g==
-Received: by 2002:a19:5f55:0:b0:551:5195:ea7b with SMTP id 2adb3069b0e04-55502de61ecls197110e87.1.-pod-prod-00-eu;
- Thu, 26 Jun 2025 03:52:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVN6HMhz1W/p7bNYB9GmggqUJQop/BVus5vfq9dw/gEWjfMsDuraorZXBFPIaI5WBqUN02SmJ62PtE=@googlegroups.com
-X-Received: by 2002:ac2:5686:0:b0:550:e692:611b with SMTP id 2adb3069b0e04-55502c9aca4mr1119493e87.16.1750935161074;
-        Thu, 26 Jun 2025 03:52:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1750935161; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QVCENZ9ak6b4dhC57in9MDuCnY1JuChC8l46KMYdLrI=;
+        b=nMHYlJiyFiDqUOBfiWlT8K+zwexdO/yMLgoHHa8MBFaR6HvyPi2bZpEsYfRo3td2rf
+         OcgDVF4UncHBx7XXd3sghYCa2EhAxdqFu5WxNUlpEVc/+WcbgYLCX60nlXVY0b+x97v5
+         s/In1rx1f/F1Y9C3+XrQ9twbIwFmKOQITuLl2AnJOg0VWFS7HIgL0yXtzAFOavHp84Ma
+         kLZROo9MkyO9aYvgduAWc5KQlZt8Acm7/hxxg4W8I7W72xKkrp4imWUT813BbZ523azg
+         cEG8I4APEAz3QhgTCnVpe2NgCGSe/Fy6SJilqucH0k2r2Fnnm/NPwLSmLayOQX5m+BTE
+         Em4A==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCUKl7rV3w8hFDbJJo1LXttWjp3YpUCTZsRVgy49GIs2I4dsQh2RhIc2msz2+YnM6BpwIPbAzg==@lfdr.de
+X-Gm-Message-State: AOJu0YxgCbOf04CmIGYWZ5dvisNv1/7MzX8yfY6KyoI0dD9m+Di4QG/b
+	X3k7WgKQhlUkptizEvoaf2Ncde6bcqoIvw4E4rMKWPfQpUkpenoOXuUn
+X-Google-Smtp-Source: AGHT+IFNg6/XhGfT3LQggEhxVdH1+8t34ni2Z+DEJ5IZ9K2pNiLTZImZYGVy84Z6YbXg3XIw07dfrg==
+X-Received: by 2002:a05:6000:40cf:b0:3a4:d02e:84af with SMTP id ffacd0b85a97d-3a6ed67b12bmr5811508f8f.58.1750944601304;
+        Thu, 26 Jun 2025 06:30:01 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZc63CjG+kj9mQzw+/zyniK9zZuwPuMcq/9bMnXd33NzLw==
+Received: by 2002:a05:600c:1d1f:b0:453:f4b:a664 with SMTP id
+ 5b1f17b1804b1-4538b9f063cls3859895e9.1.-pod-prod-08-eu; Thu, 26 Jun 2025
+ 06:29:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCW1UVXc1b1TxRlEhPtv0xb0alMBRHreNrnOPdL5Lx6rI5gF0U58pf2zX8ndOHcKxptdNljEJFUglzU=@googlegroups.com
+X-Received: by 2002:a5d:5e8e:0:b0:3a4:f35b:d016 with SMTP id ffacd0b85a97d-3a6ed61a680mr5940254f8f.11.1750944597820;
+        Thu, 26 Jun 2025 06:29:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1750944597; cv=none;
         d=google.com; s=arc-20240605;
-        b=DIJ54Yg+ZUuu8t+8G5s/MVQuhFuaV0J4AQvLtpSSs+jfyijwXZyaEHf7i6vd1QZl1/
-         vALAXUt/CI5brgxfpGi6TFt1IGVVx4ck6/gtRcbOpskLk9rCfEoJB3WFzOkBI1EApceZ
-         cl4UHLkd5P4qrjgPZM5YblyumYtNl/QbxtkI1sDSDlhDDHsc7evqTtaRuG0jct79gu84
-         So4uI5cJtEamaXn5YAhupxQeYoE7RGqa3DROS2+wwriQaaQ1YdigM+kN8IRnpf/LBeKh
-         ei7/O64I2TubVorhCllcLDjWAh7qeBBWpHJDtFqjvb3xet/Hx8kQxX+NiysQqBywCm9O
-         zRDw==
+        b=eTFshYRH9nwrfdfdzsjfeMXXs5VqEs1J6kSjsWBKS7wHVx+5QielsRXvwL35UwjseD
+         EjlvjS8L3vcnvJRqf/+V7iQwkou1Zy7p4OVqM8sI6q/ylgLftyHtGEUpZmKuCn/kiSWa
+         Vyh/bQ2gGDYKSVSysHSBHv4PplaayQe21GkghctDEMxpG4sAVfr4akvXN/SBts4kiB/C
+         rALIiX0avX+I/nMEgdcvF8RBv/CjDMpfZkli5n5MeIgi7fWPZxI4YwMrjWLYgmRaMkiD
+         C6v+psHOA14lNYtrAPGnY0Y5181CGs/0U/hW9izJmbiEn3oIgXHsPKWPqG054I97/Fc9
+         dOZg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id;
-        bh=JNPRNVa0NXAIt/TPNv1Il9lD8lH58j3TXeT6bKfk/5M=;
-        fh=SFdHZR8zxg6TEbE6MgAXQj1yZoKJ36rM9pB/hubh7sU=;
-        b=dNf4FWP5CkoSuL4ny7Uzlhert5VKd/oc86brt6J/47NwBUSaRDh+DmAR50B7x1EX2Y
-         9AD1TGZAWyhgZppBBHPvwmJAQmuxCNyhlhfOaqFxsUd5s2Eh6OKzQJrM/9TqRviPYSe2
-         2sig8JTBQ1y25XDlp8gI7d0xVMTkhfeszZg8spWGDrIkhbOWytQix+b3JANVtZA7WcC7
-         AaNkN7tS/s3nrdSkH+onEjsfkcj+SXMkBPQNpm+ds1uWN/dHYVj5Cg3S7TGYTmVwALUj
-         xgg4lIR8/Pk+gjtOG5zd8EZ2nNMbwTwGzBAxxyVLYwJ0CoTyM1l9Ho5MIDMAP9kLwmOe
-         5UUQ==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=p1Vrlz3g9lucIoHJorqCas+zLBoRLvQnyL0+A+0WnpA=;
+        fh=wLCz6RBe1kvcnRxcdH99TqGMpIg35JoKod5gMU/w/xA=;
+        b=NrdXDgbHbFZUqqZQSiIwvMHNYEQUYzo5swvTW/T0uoI6NmQ856ZPQSvbWVJsNpJ4QR
+         k4631DMNSFIwTa0LZONRoNnbQIIxsWZ1EMTHYPXyPB14nKbkEh3WCv7HE3zWYfXzm8iH
+         vdHj4ra+dZFczKTXnEys+hiK5NcL21Tp5B5ktZmyrd1/tfRUuNzy4zxCL+2jFRnk4XHI
+         bp5maUkzwth00XJDzOMxafZCO1hRJhMo1xyxyvajW4ydK6aDKXZbXyg+1FzWZvBABQn7
+         lBxq1XULoaAcAdTw35vvexvfPhcuvfw/BhFJZ+XHRG6f1wdOcR1oxZI1l1Ws8a8wxFjR
+         S7VA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
-Received: from pegase1.c-s.fr (pegase1.c-s.fr. [93.17.236.30])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-553e41c0307si488435e87.8.2025.06.26.03.52.40
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=mBNUpeDF;
+       spf=none (google.com: peterz@infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
+Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3a6e80bffafsi106515f8f.5.2025.06.26.06.29.57
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jun 2025 03:52:40 -0700 (PDT)
-Received-SPF: pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) client-ip=93.17.236.30;
-Received: from localhost (mailhub3.si.c-s.fr [192.168.12.233])
-	by localhost (Postfix) with ESMTP id 4bSbB02K49z9vGJ;
-	Thu, 26 Jun 2025 12:52:40 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-	by localhost (pegase1.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uDQegORpF3hS; Thu, 26 Jun 2025 12:52:40 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase1.c-s.fr (Postfix) with ESMTP id 4bSbB017ZFz9vGH;
-	Thu, 26 Jun 2025 12:52:40 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 1B36F8B7B7;
-	Thu, 26 Jun 2025 12:52:40 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id 1FFBuvr_5nqx; Thu, 26 Jun 2025 12:52:39 +0200 (CEST)
-Received: from [192.168.235.99] (unknown [192.168.235.99])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 8F3C38B7A7;
-	Thu, 26 Jun 2025 12:52:37 +0200 (CEST)
-Message-ID: <3b6ff3a9-6b88-4a28-a0fd-31f31ae3e84b@csgroup.eu>
-Date: Thu, 26 Jun 2025 12:52:37 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 9/9] kasan/powerpc: call kasan_init_generic in kasan_init
-To: Sabyrzhan Tasbolatov <snovitoll@gmail.com>, ryabinin.a.a@gmail.com,
- glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
- vincenzo.frascino@arm.com, catalin.marinas@arm.com, will@kernel.org,
- chenhuacai@kernel.org, kernel@xen0n.name, maddy@linux.ibm.com,
- mpe@ellerman.id.au, npiggin@gmail.com, hca@linux.ibm.com, gor@linux.ibm.com,
- agordeev@linux.ibm.com, borntraeger@linux.ibm.com, svens@linux.ibm.com,
- richard@nod.at, anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
- dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
- hpa@zytor.com, chris@zankel.net, jcmvbkbc@gmail.com,
- akpm@linux-foundation.org
-Cc: guoweikang.kernel@gmail.com, geert@linux-m68k.org, rppt@kernel.org,
- tiwei.btw@antgroup.com, richard.weiyang@gmail.com, benjamin.berg@intel.com,
- kevin.brodsky@arm.com, kasan-dev@googlegroups.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
- linux-s390@vger.kernel.org, linux-um@lists.infradead.org, linux-mm@kvack.org
+        Thu, 26 Jun 2025 06:29:57 -0700 (PDT)
+Received-SPF: none (google.com: peterz@infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1236::1;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uUmfg-0000000Biam-20O3;
+	Thu, 26 Jun 2025 13:29:44 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 5644930BDA9; Thu, 26 Jun 2025 15:29:43 +0200 (CEST)
+Date: Thu, 26 Jun 2025 15:29:43 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+Cc: ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
+	dvyukov@google.com, vincenzo.frascino@arm.com,
+	catalin.marinas@arm.com, will@kernel.org, chenhuacai@kernel.org,
+	kernel@xen0n.name, maddy@linux.ibm.com, mpe@ellerman.id.au,
+	npiggin@gmail.com, christophe.leroy@csgroup.eu, hca@linux.ibm.com,
+	gor@linux.ibm.com, agordeev@linux.ibm.com,
+	borntraeger@linux.ibm.com, svens@linux.ibm.com, richard@nod.at,
+	anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
+	dave.hansen@linux.intel.com, luto@kernel.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+	chris@zankel.net, jcmvbkbc@gmail.com, akpm@linux-foundation.org,
+	guoweikang.kernel@gmail.com, geert@linux-m68k.org, rppt@kernel.org,
+	tiwei.btw@antgroup.com, richard.weiyang@gmail.com,
+	benjamin.berg@intel.com, kevin.brodsky@arm.com,
+	kasan-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev,
+	linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+	linux-um@lists.infradead.org, linux-mm@kvack.org
+Subject: Re: [PATCH 5/9] kasan/loongarch: call kasan_init_generic in
+ kasan_init
+Message-ID: <20250626132943.GJ1613200@noisy.programming.kicks-ass.net>
 References: <20250625095224.118679-1-snovitoll@gmail.com>
- <20250625095224.118679-10-snovitoll@gmail.com>
-Content-Language: fr-FR
-From: "'Christophe Leroy' via kasan-dev" <kasan-dev@googlegroups.com>
-In-Reply-To: <20250625095224.118679-10-snovitoll@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: christophe.leroy@csgroup.eu
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as
- permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
-X-Original-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-Reply-To: Christophe Leroy <christophe.leroy@csgroup.eu>
+ <20250625095224.118679-6-snovitoll@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20250625095224.118679-6-snovitoll@gmail.com>
+X-Original-Sender: peterz@infradead.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@infradead.org header.s=casper.20170209 header.b=mBNUpeDF;
+       spf=none (google.com: peterz@infradead.org does not designate permitted
+ sender hosts) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -171,113 +156,93 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
-
-Le 25/06/2025 =C3=A0 11:52, Sabyrzhan Tasbolatov a =C3=A9crit=C2=A0:
+On Wed, Jun 25, 2025 at 02:52:20PM +0500, Sabyrzhan Tasbolatov wrote:
 > Call kasan_init_generic() which enables the static flag
 > to mark generic KASAN initialized, otherwise it's an inline stub.
-> Also prints the banner from the single place.
->=20
-> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=3D218315
-> Fixes: 55d77bae7342 ("kasan: fix Oops due to missing calls to kasan_arch_=
-is_ready()")
+> 
+> Replace `kasan_arch_is_ready` with `kasan_enabled`.
+> Delete the flag `kasan_early_stage` in favor of the global static key
+> enabled via kasan_enabled().
+> 
+> printk banner is printed earlier right where `kasan_early_stage`
+> was flipped, just to keep the same flow.
+> 
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218315
 > Signed-off-by: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
 > ---
->   arch/powerpc/include/asm/kasan.h       | 14 --------------
->   arch/powerpc/mm/kasan/init_book3s_64.c |  6 +-----
->   2 files changed, 1 insertion(+), 19 deletions(-)
->=20
-> diff --git a/arch/powerpc/include/asm/kasan.h b/arch/powerpc/include/asm/=
-kasan.h
-> index b5bbb94c51f..23a06fbec72 100644
-> --- a/arch/powerpc/include/asm/kasan.h
-> +++ b/arch/powerpc/include/asm/kasan.h
-> @@ -52,20 +52,6 @@
->  =20
->   #endif
->  =20
-> -#ifdef CONFIG_KASAN
-
-The above #ifdef must remain, at the moment I get:
-
-   CC      arch/powerpc/kernel/asm-offsets.s
-In file included from ./arch/powerpc/include/asm/nohash/32/pgtable.h:65,
-                  from ./arch/powerpc/include/asm/nohash/pgtable.h:13,
-                  from ./arch/powerpc/include/asm/pgtable.h:20,
-                  from ./include/linux/pgtable.h:6,
-                  from ./arch/powerpc/include/asm/kup.h:43,
-                  from ./arch/powerpc/include/asm/uaccess.h:8,
-                  from ./include/linux/uaccess.h:12,
-                  from ./include/linux/sched/task.h:13,
-                  from ./include/linux/sched/signal.h:9,
-                  from ./include/linux/rcuwait.h:6,
-                  from ./include/linux/percpu-rwsem.h:7,
-                  from ./include/linux/fs.h:34,
-                  from ./include/linux/compat.h:17,
-                  from arch/powerpc/kernel/asm-offsets.c:12:
-./arch/powerpc/include/asm/kasan.h:70:2: error: #endif without #if
-  #endif
-   ^~~~~
-In file included from ./include/linux/kasan.h:21,
-                  from ./include/linux/slab.h:260,
-                  from ./include/linux/fs.h:46,
-                  from ./include/linux/compat.h:17,
-                  from arch/powerpc/kernel/asm-offsets.c:12:
-./arch/powerpc/include/asm/kasan.h:70:2: error: #endif without #if
-  #endif
-   ^~~~~
-make[2]: *** [scripts/Makefile.build:182:=20
-arch/powerpc/kernel/asm-offsets.s] Error 1
-
-
-> -#ifdef CONFIG_PPC_BOOK3S_64
-> -DECLARE_STATIC_KEY_FALSE(powerpc_kasan_enabled_key);
-> -
+>  arch/loongarch/include/asm/kasan.h | 7 -------
+>  arch/loongarch/mm/kasan_init.c     | 7 ++-----
+>  2 files changed, 2 insertions(+), 12 deletions(-)
+> 
+> diff --git a/arch/loongarch/include/asm/kasan.h b/arch/loongarch/include/asm/kasan.h
+> index 7f52bd31b9d..b0b74871257 100644
+> --- a/arch/loongarch/include/asm/kasan.h
+> +++ b/arch/loongarch/include/asm/kasan.h
+> @@ -66,7 +66,6 @@
+>  #define XKPRANGE_WC_SHADOW_OFFSET	(KASAN_SHADOW_START + XKPRANGE_WC_KASAN_OFFSET)
+>  #define XKVRANGE_VC_SHADOW_OFFSET	(KASAN_SHADOW_START + XKVRANGE_VC_KASAN_OFFSET)
+>  
+> -extern bool kasan_early_stage;
+>  extern unsigned char kasan_early_shadow_page[PAGE_SIZE];
+>  
+>  #define kasan_mem_to_shadow kasan_mem_to_shadow
+> @@ -75,12 +74,6 @@ void *kasan_mem_to_shadow(const void *addr);
+>  #define kasan_shadow_to_mem kasan_shadow_to_mem
+>  const void *kasan_shadow_to_mem(const void *shadow_addr);
+>  
+> -#define kasan_arch_is_ready kasan_arch_is_ready
 > -static __always_inline bool kasan_arch_is_ready(void)
 > -{
-> -	if (static_branch_likely(&powerpc_kasan_enabled_key))
-> -		return true;
-> -	return false;
+> -	return !kasan_early_stage;
 > -}
 > -
-> -#define kasan_arch_is_ready kasan_arch_is_ready
-> -#endif
+>  #define addr_has_metadata addr_has_metadata
+>  static __always_inline bool addr_has_metadata(const void *addr)
+>  {
+> diff --git a/arch/loongarch/mm/kasan_init.c b/arch/loongarch/mm/kasan_init.c
+> index d2681272d8f..cf8315f9119 100644
+> --- a/arch/loongarch/mm/kasan_init.c
+> +++ b/arch/loongarch/mm/kasan_init.c
+> @@ -40,11 +40,9 @@ static pgd_t kasan_pg_dir[PTRS_PER_PGD] __initdata __aligned(PAGE_SIZE);
+>  #define __pte_none(early, pte) (early ? pte_none(pte) : \
+>  ((pte_val(pte) & _PFN_MASK) == (unsigned long)__pa(kasan_early_shadow_page)))
+>  
+> -bool kasan_early_stage = true;
 > -
->   void kasan_early_init(void);
->   void kasan_mmu_init(void);
->   void kasan_init(void);
-> diff --git a/arch/powerpc/mm/kasan/init_book3s_64.c b/arch/powerpc/mm/kas=
-an/init_book3s_64.c
-> index 7d959544c07..dcafa641804 100644
-> --- a/arch/powerpc/mm/kasan/init_book3s_64.c
-> +++ b/arch/powerpc/mm/kasan/init_book3s_64.c
-> @@ -19,8 +19,6 @@
->   #include <linux/memblock.h>
->   #include <asm/pgalloc.h>
->  =20
-> -DEFINE_STATIC_KEY_FALSE(powerpc_kasan_enabled_key);
-> -
->   static void __init kasan_init_phys_region(void *start, void *end)
->   {
->   	unsigned long k_start, k_end, k_cur;
-> @@ -92,11 +90,9 @@ void __init kasan_init(void)
->   	 */
->   	memset(kasan_early_shadow_page, 0, PAGE_SIZE);
->  =20
-> -	static_branch_inc(&powerpc_kasan_enabled_key);
-> -
->   	/* Enable error messages */
->   	init_task.kasan_depth =3D 0;
-> -	pr_info("KASAN init done\n");
+>  void *kasan_mem_to_shadow(const void *addr)
+>  {
+> -	if (!kasan_arch_is_ready()) {
+> +	if (!kasan_enabled()) {
+>  		return (void *)(kasan_early_shadow_page);
+>  	} else {
+>  		unsigned long maddr = (unsigned long)addr;
+> @@ -298,7 +296,7 @@ void __init kasan_init(void)
+>  	kasan_populate_early_shadow(kasan_mem_to_shadow((void *)VMALLOC_START),
+>  					kasan_mem_to_shadow((void *)KFENCE_AREA_END));
+>  
+> -	kasan_early_stage = false;
 > +	kasan_init_generic();
->   }
->  =20
->   void __init kasan_early_init(void) { }
+>  
+>  	/* Populate the linear mapping */
+>  	for_each_mem_range(i, &pa_start, &pa_end) {
+> @@ -329,5 +327,4 @@ void __init kasan_init(void)
+>  
+>  	/* At this point kasan is fully initialized. Enable error messages */
+>  	init_task.kasan_depth = 0;
+> -	pr_info("KernelAddressSanitizer initialized.\n");
+>  }
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/3=
-b6ff3a9-6b88-4a28-a0fd-31f31ae3e84b%40csgroup.eu.
+This one is weird because its the only arch that does things after
+marking early_state false.
+
+Is that really correct, or should kasan_init_generic() be last, like all
+the other architectures?
+
+Also, please move init_task.kasan_depth = 0 into the generic thing.
+ARM64 might have fooled you with the wrapper function, but they all do
+this right before that pr_info you're taking out.
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250626132943.GJ1613200%40noisy.programming.kicks-ass.net.
