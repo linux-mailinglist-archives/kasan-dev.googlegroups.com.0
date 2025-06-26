@@ -1,138 +1,137 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBPM46XBAMGQECTEUFOI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBQE46XBAMGQELZXPNBQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33b.google.com (mail-wm1-x33b.google.com [IPv6:2a00:1450:4864:20::33b])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11AEAE9F30
-	for <lists+kasan-dev@lfdr.de>; Thu, 26 Jun 2025 15:42:24 +0200 (CEST)
-Received: by mail-wm1-x33b.google.com with SMTP id 5b1f17b1804b1-4532ff43376sf7623935e9.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 26 Jun 2025 06:42:24 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1750945342; cv=pass;
+Received: from mail-wr1-x43c.google.com (mail-wr1-x43c.google.com [IPv6:2a00:1450:4864:20::43c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08FA3AE9F31
+	for <lists+kasan-dev@lfdr.de>; Thu, 26 Jun 2025 15:42:26 +0200 (CEST)
+Received: by mail-wr1-x43c.google.com with SMTP id ffacd0b85a97d-3a56b3dee17sf1086325f8f.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 26 Jun 2025 06:42:26 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1750945345; cv=pass;
         d=google.com; s=arc-20240605;
-        b=ZsroHLxdTzcxM1XzOjNYcmYzYX868Uu5m1cYyRR65gwSs+b5bjeUurkWbTPSslzTyv
-         edaHoGLglHkN1Yv8/YY96Z2x73KRt+OpP04cy/W7xtVtNJhFR3ksR5teue/FgMF9ZBpT
-         +w6eSDiA0TAflo5n+LTBjoHm9VbIs0ZuFxu+/lv6T1O1G4F/jJTbLZTRTA92XBDeOt8U
-         iQeu60zvpayhtsl+RBsGYHoQ2AwifW3yePZ1DDhyZ/STK2wzrmofHZW3JcShEGfdxzXD
-         Sy4gGNSDS9giKzFv9W+EXFmqQ91Y861v1ydEyGQja+Wnb/P78ak+QsRQg3P08ywsJUQk
-         Pbaw==
+        b=N/rNka1NcBGyWiTAcXpYiPoTFS0GB1vnQkWRTmLYmI5gMzjycJOWQeZ3oGuKT9u9hV
+         sSz7BpyMSh6IQkeQbzHzmJMrvixebfhkumrtv+wRWPkH8LJ0SOAlUexgxO3KskKEdPeS
+         qY1XSaKsAQ7A8XOXYwD2T8M+4t4VMrfH1zBjhINl6G1gI0vyw0eSithoCyXbq7cmBL1g
+         0CZkCINtTLx2zwpr9A3lE8bxbf9x2PcA4EsbzW+yB0KzHfttHwYnsKAf1YnpKer90L0a
+         0H5um7r0FMMdZTOd5bDpVmrH57e5llHeIeGRqY7JQ6aaRcRYwl7lCUOHcJ46Sb6kgxji
+         Qkaw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=Fhg9idfcVKKZ/imbvOE3f0wjhr+B1+42Ehpj7ShlzQ4=;
-        fh=x3gd7dtlB0109+/ugbXqoB1a9ae9ns7SAIA+Tl7tH+I=;
-        b=Ieowx2bBP/u7TBQbi8hRcFltKIvIHwoF1jZkwtuhSszSX3ujiZiW3Pv4cfuWQ27TDb
-         GrOmvaQLNWZMYZuh/2rwu83dn9x8jY+OggLMwh9t0ZSbB0PNms2iyxg+49G1pgGoVF8M
-         erSygu3qnRd5KKJ59i4iZof+pCPNpPFu2eosvEi/vurjmv9VxDg5J0b4ktELg9CIGI4L
-         AXagaf53xc4TI3rwzb2LgT3GZHpwGouaHp4uUh4DxLdeXhK4dVn26D8acCnMcD9lPukX
-         B0eBNQqsT9ZlNjnqceb3FpCpCgAYRwIoNeMY28OKbPJEuUPFLPKYoiWJP0hTgk4Bws3v
-         FX+w==;
+        bh=gle3Yuv4J8nCwRF79ER0BXoPJh6u75cPUdN8e4kRT/U=;
+        fh=loqidbNnpP5nsrSEO2KuSW7+5VsmLHkX/0vlxLfP5Ik=;
+        b=UGzSgk8A7vKFpmbgFMgXo63BWi+LmfmeBMveiGo8kOOoEbkQY3QwG6WGK8qpsoGnvU
+         ahYX/UZ0Al6dcMiBdmGNN9AuHmN1/Ghva41lpKtsz1EKMd1Ftec3BEjE80gtAkNDyN3/
+         V/38S8KBhGQpCuXeByPvBcXM5FM4jIEEmsLniAONWlgih2BAk/2q4NVg8SpNoEj3lVpc
+         MoC8OoTgrZJtDMcZUtCRBRWukFK8h7CMSKIdlfk+umeRhOhNW8PiFEVv+t+vLnoth5bu
+         8x1Z60Tw+3EYoHV4Chxvh6/lmHCxQcU/pqruvp79obPlQvJnPhPZnQ4AiG2OCdaTWoME
+         NoMA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=AD0FrbX1;
-       spf=pass (google.com: domain of 3o05daaykczy6b834h6ee6b4.2eca0i0d-34l6ee6b46hekfi.2ec@flex--glider.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3O05daAYKCZY6B834H6EE6B4.2ECA0I0D-34L6EE6B46HEKFI.2EC@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=pj3+szrV;
+       spf=pass (google.com: domain of 3pk5daaykczk9eb67k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--glider.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3Pk5daAYKCZk9EB67K9HH9E7.5HFD3L3G-67O9HH9E79KHNIL.5HF@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1750945342; x=1751550142; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1750945345; x=1751550145; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Fhg9idfcVKKZ/imbvOE3f0wjhr+B1+42Ehpj7ShlzQ4=;
-        b=m0WrZdqxQSYE0mMT04q6Zm3X4Alt9X4wDCaZM8xMjccvq5JAZVwcwL7xsZA9bUQ42y
-         0tnwYD9RdL7NQIrGIIruLb6k+1EBLHxIE5HaUzqcyS8TJ08qtt2znofXxcqrg90Ddhp5
-         taAWwli9zObXzT1ZVHCM2OF3MoasX5F0ZBh8Jb6y/SGkFepmfxZs+QYc6/oXFCq8YOeD
-         gtn+iedvmG/InWpD3+nAUPGL1cuLQmR9Ecxc+Jb1Ie6tO4UTAygH5sOjjtCUJMjwTIW5
-         Mrpt3jSdZFAt8AARHDExcOcfNGXLbdlhZ1/gyrmmTYnU4INrBJr4xruApFPvoRa/2f9F
-         0SpQ==
+        bh=gle3Yuv4J8nCwRF79ER0BXoPJh6u75cPUdN8e4kRT/U=;
+        b=Xachq+tmZRalj7KRutqC6O+YhE8EgxxI9lYOY+kU0FaIrJES8jFiiT+pmUgJCFgWyl
+         /mQVzTPWJl9FDK9+k3+LkG2BS2eymBrNcXHiUTN3TaZismOMqIis3X5QkLiAYp0Kf+4e
+         6z1TXEgIAmaMgQzG1Yqe67uytLrOgded8t4ArP7Cnp7H2vO8ugWwqpcm5rnZGPJ6bKH8
+         EuzWIGXeZIxo0sU5lqZhGisUwhVr6LOvj7SO01fMHVjsNSWNznHcWBY3reo2Qwm6Fqee
+         qV84q8L6j6OTbJusrF/ogg+juDktVkiBGjxyiOK3XKbfdyTB5eJjxHYVvTtfuYn01CcX
+         12tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750945342; x=1751550142;
+        d=1e100.net; s=20230601; t=1750945345; x=1751550145;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Fhg9idfcVKKZ/imbvOE3f0wjhr+B1+42Ehpj7ShlzQ4=;
-        b=XGsoIiqPto09svBwGvNFUneLAN0m3MVpDsRjX+uZnk6i6uQkNsH5jTyGxO9GHw9jSH
-         TxNXLsdtVYTZonmkVz7QlE7wu8PUf2UTxItsYW8vehgpapUSiKF9Dz7dTTp9NYPKjXfp
-         wkomSso4WRcG6HxPMyN3tvSlCRI+gIfTwy9vv9y4Gb1cjE0deRy0mfnxMe2PZf5FY4at
-         Q2aLaI1MRreYsbfYG5U48TmEe+C845e/R0QvYr04ZxAPMmuslAOfMT6vcZrH+yT694k8
-         9B2VJNET5erlhKeHk6pCcPYkP1lXuNYQBXeAbfTNpNHcL3LPXSw+Mlbu2gR+TMte0Rmn
-         tJtQ==
-X-Forwarded-Encrypted: i=2; AJvYcCXwDKY/yh18SEKEmwuGjmB0rRskolrNqZ0PKlr4XmRgSdtTRmV1tM536vfXPXQZ/awC8BN00w==@lfdr.de
-X-Gm-Message-State: AOJu0Yylm1hiBkeS5XzIJbsJngSBJ2ovkFNtJbMvdLKAlmbDgKVFFAQv
-	Ly2bW7UbSxidXYxwzbSS2U9Mbrx6Zvgfg/UonbV3lqsu3F96SUjj8GPx
-X-Google-Smtp-Source: AGHT+IEhI3ViKhzLMKVwrD0CQTGC80bpHQ+APrm/9fhMwJOpP/fgR8eCDL3OkHcEqjQd0sEnVjp4MA==
-X-Received: by 2002:a05:600c:37ca:b0:450:cf42:7565 with SMTP id 5b1f17b1804b1-45381ae5157mr62782425e9.23.1750945342298;
+        bh=gle3Yuv4J8nCwRF79ER0BXoPJh6u75cPUdN8e4kRT/U=;
+        b=BNiUt10vd0cw0+xiZHQ3ZctO+ov8o+1Oqctfw4uKECvIP48ZN8tli+2AqH771R0q0b
+         S3EGpAQIFlifvv/4YthB7F3wTflsSOkPPyPKPjLK/DTxVpjKgogIOgfBFAllvH1HTAWh
+         bnwRPXNFBBBA8755XbxCo4QjMXHTYgoPsueT1TsRQRCC8IMAmLWz5vmYFvfbxlMWegNC
+         sWHbU0EAr5YwxGbfP69/KjvBxXEeOp6A+Ui3LwgyCN9E782I6vnnqXPjeaM+emRh0XHr
+         nErj17w/uC7Y4QuTlzFSKLEbRNuH6THHhDY2fmx3T1+FndAASQk9+yLLCCuENOgm2vIL
+         2DFg==
+X-Forwarded-Encrypted: i=2; AJvYcCXdDij2Sqn9tOe2uEFDsJhxgcS0/XSEEacBSkNcy0M4KHzYJHz8pqGfwvNe1c1lhLTzwlXmBw==@lfdr.de
+X-Gm-Message-State: AOJu0YzUFzGGcOCWTWpBcJ78gZeyq13Gl3HX4K4csRMob/CEny65OoWO
+	tkrapbQWaaqAu+4hudmNLgx53UtdSB5NXjTRSDUtGbjd5lYjSC5J6cDU
+X-Google-Smtp-Source: AGHT+IHejaescJGqoqLZjMAdPOHNM1wLX3MCGMa8SQv4YLctSQuhtDo7P3LEMEe05L1VhUMc6XxaNw==
+X-Received: by 2002:a05:6000:40d9:b0:3a4:cec5:b59c with SMTP id ffacd0b85a97d-3a6f3162238mr3504655f8f.25.1750945344843;
+        Thu, 26 Jun 2025 06:42:24 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcWZChjdj3FXvkNRGA4YYBY/FswrIad0lrZdozeFe8idQ==
+Received: by 2002:a5d:5f83:0:b0:3a3:681e:6505 with SMTP id ffacd0b85a97d-3a6f328d773ls370793f8f.2.-pod-prod-00-eu;
+ Thu, 26 Jun 2025 06:42:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUPWzGEV6XrCHxZ67TXt7u35yBoGe6MpDfoiQ+mkYgO/HALQdDvSSRyWixFEDxsdDiVXxKu1Hq3YVg=@googlegroups.com
+X-Received: by 2002:a05:6000:290f:b0:3a6:d93e:526d with SMTP id ffacd0b85a97d-3a6f3102808mr3385162f8f.10.1750945342553;
         Thu, 26 Jun 2025 06:42:22 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZc2U2mJXXr0ZBSaKKMJO/X/c8bPv7+3cai4SE9pKiZpjg==
-Received: by 2002:a05:600c:6087:b0:43c:eb7b:1403 with SMTP id
- 5b1f17b1804b1-45388a8786als6694145e9.1.-pod-prod-09-eu; Thu, 26 Jun 2025
- 06:42:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUO1ZFVhwrYLQF+cBQpqiwTNB0FbWzuK5QW79sEP75ZA58EquNo/5LVX2YHyPwpiY7TyiYL/rVGy+Q=@googlegroups.com
-X-Received: by 2002:a05:6000:3111:b0:3a4:e629:6504 with SMTP id ffacd0b85a97d-3a6ed6508a1mr5724389f8f.49.1750945340041;
-        Thu, 26 Jun 2025 06:42:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1750945340; cv=none;
+ARC-Seal: i=1; a=rsa-sha256; t=1750945342; cv=none;
         d=google.com; s=arc-20240605;
-        b=G7qnA9ea2pkaDU03L/fL5Taw2zZAwrx3YLSUb9MKT+6ON+qr83ldr28wGVzQ+hyg0Y
-         rjj2EbPjxPF9hcljcBmLgA3KA6SMbzk/RerRtvHIxUhowZxepppUv51Wp3YRafwQNSSd
-         Uksy2XiABSpToP+nYxAM6KFJrdmWVX07bER9H3ITYmlVQCCT+taqfxqjyfOvUsKheVmF
-         kFpJIL9veXm56aKiw0A94Jh0FMErVrA3/k4EEZkSyrLzywl9rNq1ylkk8Z/MAxmYB2LN
-         ARQA94A990g1+FQmsZ8Llg/oohk7RHe0lLk7QywMUXAvoALFbyzbMcb5Pj2JR1LPBKIw
-         ZSQg==
+        b=WK0KgoiwJkM754NS/+w4z4a4aP6Rb+jwAbOe4IMSzF7kJbasttgQuBDwiJ/VLlT4Q1
+         FKORWx//Stjj+3NPB/qDcPAtiHtR7Sf3mO6KKEZmYWZ/8U84vHO+/bFfdu4tEZjkgAyK
+         aNHYMHYsmmNHHeA0e/joIVTJZQzodmsuTAYN6Zq9FRN4HyMuwS/23SXoTc6a1/8C/AiX
+         iMW0qM9QCaP35wMFpQcPpoSOutR171CjmozUSszCCB2x/FeMweKpug3Is7zGsGCYkQP7
+         BBk2uJg/xFewLapHXegy3MYU4MIyBv9aMH8WgeVdjTlauG7Vo+Bi9wnwsq36ohxpW//K
+         kUYg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=yNvNdo60faam5nFnHvZbzCMJ04X3V7FkkVfM1Z/F4Ac=;
-        fh=RBZhsEr0jb6P8/v3l3l6fNr6o+G7e5e3oHZJJTgTrSI=;
-        b=AbPw9ON3YlRWJKonZerG2CaM+csveM2CMOKXD4zJtdDo643NAOAiRHcaI3NW6RQEhx
-         w71k/0YXmlVWSnAyLxPIBhistAd7UgZDa/CjEDHvZMTuszmsGhYjbRn33E672ZGOA3Ej
-         sJo42sUV8m/u3qvbyKJr1rmqlOYb5TwcdZnRP+JOYUDtOdiZBlLo33JBQ1VSYFfh8GRL
-         GKu4aRevZEJJq+vYrmg1cvNG1VII3DtjXIMw/Oyxgq8IfdfSoI64Jy6er8lmMEIrZmPl
-         hLkTsSmx5/eB8frD5PFqRikVoROrEFFCyjAB8HdP1fITf+51ZUF3zbBzEhUzUxn5Do/s
-         Oq+w==;
+        bh=3X/PLO35Kby/7c8Y0k4KR1mlzE+5Joj5D37Kq7kXi8s=;
+        fh=A3X4Lczj3cO/Q10Zakym/Kit0X2g/dchQLz0C3RRFao=;
+        b=Ry+rnCkGxApDTsBf/OWTDqSHv7t8MSLv0JynGixZGC83BeHgIrNhC6g5r1BknC8ydB
+         LZO6YLGwKXV46MbFkcF41XCdL9XhvgaVibSQj4kvdTyd9yRnAINyS5rxyOeWnmuNyQyy
+         oD60GSlFKLgJ72EmKeYYc+5XqzZeXTL7h7UJJh0KnMh68n2dlhPCCsxsLDuhpjjbDqra
+         fXuUkzziM5fd53qCrGTcXvJeNZyx821iuKdrfdZaAcoSqPGyG7aMrcoCyumGhulrke4y
+         3mZ126AYTb9z4cWTBL2N30wpsUJucPWVCo2wolIwhkuLb1ZxBW0Ybk1dBFJKrH6u0nlq
+         Jl6g==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=AD0FrbX1;
-       spf=pass (google.com: domain of 3o05daaykczy6b834h6ee6b4.2eca0i0d-34l6ee6b46hekfi.2ec@flex--glider.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3O05daAYKCZY6B834H6EE6B4.2ECA0I0D-34L6EE6B46HEKFI.2EC@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=pj3+szrV;
+       spf=pass (google.com: domain of 3pk5daaykczk9eb67k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--glider.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3Pk5daAYKCZk9EB67K9HH9E7.5HFD3L3G-67O9HH9E79KHNIL.5HF@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com. [2a00:1450:4864:20::449])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3a6e80e41d5si136466f8f.8.2025.06.26.06.42.20
+Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com. [2a00:1450:4864:20::34a])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-4538235f627si1191485e9.1.2025.06.26.06.42.22
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jun 2025 06:42:20 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3o05daaykczy6b834h6ee6b4.2eca0i0d-34l6ee6b46hekfi.2ec@flex--glider.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) client-ip=2a00:1450:4864:20::449;
-Received: by mail-wr1-x449.google.com with SMTP id ffacd0b85a97d-3a6d90929d6so431651f8f.2
-        for <kasan-dev@googlegroups.com>; Thu, 26 Jun 2025 06:42:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWt2YR6Wlh5j08gckV3xMdTvqgJfZRZlgTfJstMqVx4Wyj72bJxEvCOWmLol6nLE0ZAGudvO0/qBms=@googlegroups.com
-X-Received: from wmbfs5.prod.google.com ([2002:a05:600c:3f85:b0:450:41ed:d20e])
- (user=glider job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:2011:b0:3a4:e54c:adf2
- with SMTP id ffacd0b85a97d-3a6ed61a12cmr5925433f8f.5.1750945339545; Thu, 26
- Jun 2025 06:42:19 -0700 (PDT)
-Date: Thu, 26 Jun 2025 15:41:53 +0200
+        Thu, 26 Jun 2025 06:42:22 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3pk5daaykczk9eb67k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--glider.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) client-ip=2a00:1450:4864:20::34a;
+Received: by mail-wm1-x34a.google.com with SMTP id 5b1f17b1804b1-4538a2f4212so4082155e9.2
+        for <kasan-dev@googlegroups.com>; Thu, 26 Jun 2025 06:42:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUuc1leFSn+g98u0BFjDWGfUHiUQJjbQcS8k5LaGbsKJ8hsPwlK1N5ep79evvOqDHbmbrkzZZdqBzw=@googlegroups.com
+X-Received: from wmbet8.prod.google.com ([2002:a05:600c:8188:b0:442:f451:ae05])
+ (user=glider job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:3590:b0:442:d9f2:ded8
+ with SMTP id 5b1f17b1804b1-45381ab8dbemr83015875e9.15.1750945342082; Thu, 26
+ Jun 2025 06:42:22 -0700 (PDT)
+Date: Thu, 26 Jun 2025 15:41:54 +0200
 In-Reply-To: <20250626134158.3385080-1-glider@google.com>
 Mime-Version: 1.0
 References: <20250626134158.3385080-1-glider@google.com>
 X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
-Message-ID: <20250626134158.3385080-7-glider@google.com>
-Subject: [PATCH v2 06/11] kcov: x86: introduce CONFIG_KCOV_UNIQUE
+Message-ID: <20250626134158.3385080-8-glider@google.com>
+Subject: [PATCH v2 07/11] kcov: add trace and trace_size to struct kcov_state
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
 To: glider@google.com
 Cc: quic_jiangenj@quicinc.com, linux-kernel@vger.kernel.org, 
-	kasan-dev@googlegroups.com, x86@kernel.org, 
-	Aleksandr Nogikh <nogikh@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Borislav Petkov <bp@alien8.de>, 
+	kasan-dev@googlegroups.com, Aleksandr Nogikh <nogikh@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Borislav Petkov <bp@alien8.de>, 
 	Dave Hansen <dave.hansen@linux.intel.com>, Dmitry Vyukov <dvyukov@google.com>, 
 	Ingo Molnar <mingo@redhat.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Marco Elver <elver@google.com>, 
 	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=AD0FrbX1;       spf=pass
- (google.com: domain of 3o05daaykczy6b834h6ee6b4.2eca0i0d-34l6ee6b46hekfi.2ec@flex--glider.bounces.google.com
- designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3O05daAYKCZY6B834H6EE6B4.2ECA0I0D-34L6EE6B46HEKFI.2EC@flex--glider.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b=pj3+szrV;       spf=pass
+ (google.com: domain of 3pk5daaykczk9eb67k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--glider.bounces.google.com
+ designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3Pk5daAYKCZk9EB67K9HH9E7.5HFD3L3G-67O9HH9E79KHNIL.5HF@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 X-Original-From: Alexander Potapenko <glider@google.com>
@@ -149,314 +148,208 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The new config switches coverage instrumentation to using
-  __sanitizer_cov_trace_pc_guard(u32 *guard)
-instead of
-  __sanitizer_cov_trace_pc(void)
+Keep kcov_state.area as the pointer to the memory buffer used by
+kcov and shared with the userspace. Store the pointer to the trace
+(part of the buffer holding sequential events) separately, as we will
+be splitting that buffer in multiple parts.
+No functional changes so far.
 
-This relies on Clang's -fsanitize-coverage=trace-pc-guard flag [1].
-
-Each callback receives a unique 32-bit guard variable residing in the
-__sancov_guards section. Those guards can be used by kcov to deduplicate
-the coverage on the fly.
-
-As a first step, we make the new instrumentation mode 1:1 compatible
-with the old one.
-
-[1] https://clang.llvm.org/docs/SanitizerCoverage.html#tracing-pcs-with-guards
-
-Cc: x86@kernel.org
 Signed-off-by: Alexander Potapenko <glider@google.com>
 
 ---
-Change-Id: Iacb1e71fd061a82c2acadf2347bba4863b9aec39
+Change-Id: I50b5589ef0e0b6726aa0579334093c648f76790a
 
 v2:
- - Address comments by Dmitry Vyukov
-   - rename CONFIG_KCOV_ENABLE_GUARDS to CONFIG_KCOV_UNIQUE
-   - update commit description and config description
- - Address comments by Marco Elver
+ - Address comments by Dmitry Vyukov:
+   - tweak commit description
+ - Address comments by Marco Elver:
    - rename sanitizer_cov_write_subsequent() to kcov_append_to_buffer()
-   - make config depend on X86_64 (via ARCH_HAS_KCOV_UNIQUE)
-   - swap #ifdef branches
-   - tweak config description
-   - remove redundant check for CONFIG_CC_HAS_SANCOV_TRACE_PC_GUARD
+ - Update code to match the new description of struct kcov_state
 ---
- arch/x86/Kconfig                  |  1 +
- arch/x86/kernel/vmlinux.lds.S     |  1 +
- include/asm-generic/vmlinux.lds.h | 14 ++++++-
- include/linux/kcov.h              |  2 +
- kernel/kcov.c                     | 61 +++++++++++++++++++++----------
- lib/Kconfig.debug                 | 24 ++++++++++++
- scripts/Makefile.kcov             |  4 ++
- scripts/module.lds.S              | 23 ++++++++++++
- tools/objtool/check.c             |  1 +
- 9 files changed, 110 insertions(+), 21 deletions(-)
+ include/linux/kcov_types.h |  9 ++++++-
+ kernel/kcov.c              | 54 ++++++++++++++++++++++----------------
+ 2 files changed, 39 insertions(+), 24 deletions(-)
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index e21cca404943e..d104c5a193bdf 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -93,6 +93,7 @@ config X86
- 	select ARCH_HAS_FORTIFY_SOURCE
- 	select ARCH_HAS_GCOV_PROFILE_ALL
- 	select ARCH_HAS_KCOV			if X86_64
-+	select ARCH_HAS_KCOV_UNIQUE		if X86_64
- 	select ARCH_HAS_KERNEL_FPU_SUPPORT
- 	select ARCH_HAS_MEM_ENCRYPT
- 	select ARCH_HAS_MEMBARRIER_SYNC_CORE
-diff --git a/arch/x86/kernel/vmlinux.lds.S b/arch/x86/kernel/vmlinux.lds.S
-index cda5f8362e9da..8076e8953fddc 100644
---- a/arch/x86/kernel/vmlinux.lds.S
-+++ b/arch/x86/kernel/vmlinux.lds.S
-@@ -372,6 +372,7 @@ SECTIONS
- 		. = ALIGN(PAGE_SIZE);
- 		__bss_stop = .;
- 	}
-+	SANCOV_GUARDS_BSS
+diff --git a/include/linux/kcov_types.h b/include/linux/kcov_types.h
+index 53b25b6f0addd..233e7a682654b 100644
+--- a/include/linux/kcov_types.h
++++ b/include/linux/kcov_types.h
+@@ -7,9 +7,16 @@
+ struct kcov_state {
+ 	/* Size of the area (in long's). */
+ 	unsigned int size;
++	/*
++	 * Pointer to user-provided memory used by kcov. This memory may
++	 * contain multiple buffers.
++	 */
++	void *area;
+ 
++	/* Size of the trace (in long's). */
++	unsigned int trace_size;
+ 	/* Buffer for coverage collection, shared with the userspace. */
+-	void *area;
++	unsigned long *trace;
  
  	/*
- 	 * The memory occupied from _text to here, __end_of_kernel_reserve, is
-diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-index 58a635a6d5bdf..875c4deb66208 100644
---- a/include/asm-generic/vmlinux.lds.h
-+++ b/include/asm-generic/vmlinux.lds.h
-@@ -102,7 +102,8 @@
-  * sections to be brought in with rodata.
-  */
- #if defined(CONFIG_LD_DEAD_CODE_DATA_ELIMINATION) || defined(CONFIG_LTO_CLANG) || \
--defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG)
-+	defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG) || \
-+	defined(CONFIG_KCOV_UNIQUE)
- #define TEXT_MAIN .text .text.[0-9a-zA-Z_]*
- #else
- #define TEXT_MAIN .text
-@@ -121,6 +122,17 @@ defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG)
- #define SBSS_MAIN .sbss
- #endif
- 
-+#if defined(CONFIG_KCOV_UNIQUE)
-+#define SANCOV_GUARDS_BSS			\
-+	__sancov_guards(NOLOAD) : {		\
-+		__start___sancov_guards = .;	\
-+		*(__sancov_guards);		\
-+		__stop___sancov_guards = .;	\
-+	}
-+#else
-+#define SANCOV_GUARDS_BSS
-+#endif
-+
- /*
-  * GCC 4.5 and later have a 32 bytes section alignment for structures.
-  * Except GCC 4.9, that feels the need to align on 64 bytes.
-diff --git a/include/linux/kcov.h b/include/linux/kcov.h
-index 0e425c3524b86..dd8bbee6fe274 100644
---- a/include/linux/kcov.h
-+++ b/include/linux/kcov.h
-@@ -107,6 +107,8 @@ typedef unsigned long long kcov_u64;
- #endif
- 
- void __sanitizer_cov_trace_pc(void);
-+void __sanitizer_cov_trace_pc_guard(u32 *guard);
-+void __sanitizer_cov_trace_pc_guard_init(uint32_t *start, uint32_t *stop);
- void __sanitizer_cov_trace_cmp1(u8 arg1, u8 arg2);
- void __sanitizer_cov_trace_cmp2(u16 arg1, u16 arg2);
- void __sanitizer_cov_trace_cmp4(u32 arg1, u32 arg2);
+ 	 * KCOV sequence number: incremented each time kcov is reenabled, used
 diff --git a/kernel/kcov.c b/kernel/kcov.c
-index ff7f118644f49..8e98ca8d52743 100644
+index 8e98ca8d52743..038261145cf93 100644
 --- a/kernel/kcov.c
 +++ b/kernel/kcov.c
-@@ -195,27 +195,15 @@ static notrace unsigned long canonicalize_ip(unsigned long ip)
+@@ -195,11 +195,11 @@ static notrace unsigned long canonicalize_ip(unsigned long ip)
  	return ip;
  }
  
--/*
-- * Entry point from instrumented code.
-- * This is called once per basic-block/edge.
-- */
--void notrace __sanitizer_cov_trace_pc(void)
-+static notrace void kcov_append_to_buffer(unsigned long *area, int size,
-+					  unsigned long ip)
+-static notrace void kcov_append_to_buffer(unsigned long *area, int size,
++static notrace void kcov_append_to_buffer(unsigned long *trace, int size,
+ 					  unsigned long ip)
  {
--	struct task_struct *t;
--	unsigned long *area;
--	unsigned long ip = canonicalize_ip(_RET_IP_);
--	unsigned long pos;
--
--	t = current;
--	if (!check_kcov_mode(KCOV_MODE_TRACE_PC, t))
--		return;
--
--	area = t->kcov_state.area;
  	/* The first 64-bit word is the number of subsequent PCs. */
--	pos = READ_ONCE(area[0]) + 1;
--	if (likely(pos < t->kcov_state.size)) {
--		/* Previously we write pc before updating pos. However, some
--		 * early interrupt code could bypass check_kcov_mode() check
-+	unsigned long pos = READ_ONCE(area[0]) + 1;
-+
-+	if (likely(pos < size)) {
-+		/*
-+		 * Some early interrupt code could bypass check_kcov_mode() check
- 		 * and invoke __sanitizer_cov_trace_pc(). If such interrupt is
- 		 * raised between writing pc and updating pos, the pc could be
+-	unsigned long pos = READ_ONCE(area[0]) + 1;
++	unsigned long pos = READ_ONCE(trace[0]) + 1;
+ 
+ 	if (likely(pos < size)) {
+ 		/*
+@@ -209,9 +209,9 @@ static notrace void kcov_append_to_buffer(unsigned long *area, int size,
  		 * overitten by the recursive __sanitizer_cov_trace_pc().
-@@ -226,7 +214,40 @@ void notrace __sanitizer_cov_trace_pc(void)
- 		area[pos] = ip;
+ 		 * Update pos before writing pc to avoid such interleaving.
+ 		 */
+-		WRITE_ONCE(area[0], pos);
++		WRITE_ONCE(trace[0], pos);
+ 		barrier();
+-		area[pos] = ip;
++		trace[pos] = ip;
  	}
  }
-+
-+/*
-+ * Entry point from instrumented code.
-+ * This is called once per basic-block/edge.
-+ */
-+#ifdef CONFIG_KCOV_UNIQUE
-+void notrace __sanitizer_cov_trace_pc_guard(u32 *guard)
-+{
-+	if (!check_kcov_mode(KCOV_MODE_TRACE_PC, current))
-+		return;
-+
-+	kcov_append_to_buffer(current->kcov_state.area,
-+			      current->kcov_state.size,
-+			      canonicalize_ip(_RET_IP_));
-+}
-+EXPORT_SYMBOL(__sanitizer_cov_trace_pc_guard);
-+
-+void notrace __sanitizer_cov_trace_pc_guard_init(uint32_t *start,
-+						 uint32_t *stop)
-+{
-+}
-+EXPORT_SYMBOL(__sanitizer_cov_trace_pc_guard_init);
-+#else /* !CONFIG_KCOV_UNIQUE */
-+void notrace __sanitizer_cov_trace_pc(void)
-+{
-+	if (!check_kcov_mode(KCOV_MODE_TRACE_PC, current))
-+		return;
-+
-+	kcov_append_to_buffer(current->kcov_state.area,
-+			      current->kcov_state.size,
-+			      canonicalize_ip(_RET_IP_));
-+}
- EXPORT_SYMBOL(__sanitizer_cov_trace_pc);
-+#endif
  
+@@ -225,8 +225,8 @@ void notrace __sanitizer_cov_trace_pc_guard(u32 *guard)
+ 	if (!check_kcov_mode(KCOV_MODE_TRACE_PC, current))
+ 		return;
+ 
+-	kcov_append_to_buffer(current->kcov_state.area,
+-			      current->kcov_state.size,
++	kcov_append_to_buffer(current->kcov_state.trace,
++			      current->kcov_state.trace_size,
+ 			      canonicalize_ip(_RET_IP_));
+ }
+ EXPORT_SYMBOL(__sanitizer_cov_trace_pc_guard);
+@@ -242,8 +242,8 @@ void notrace __sanitizer_cov_trace_pc(void)
+ 	if (!check_kcov_mode(KCOV_MODE_TRACE_PC, current))
+ 		return;
+ 
+-	kcov_append_to_buffer(current->kcov_state.area,
+-			      current->kcov_state.size,
++	kcov_append_to_buffer(current->kcov_state.trace,
++			      current->kcov_state.trace_size,
+ 			      canonicalize_ip(_RET_IP_));
+ }
+ EXPORT_SYMBOL(__sanitizer_cov_trace_pc);
+@@ -252,9 +252,9 @@ EXPORT_SYMBOL(__sanitizer_cov_trace_pc);
  #ifdef CONFIG_KCOV_ENABLE_COMPARISONS
  static void notrace write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
-@@ -254,7 +275,7 @@ static void notrace write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
+ {
+-	struct task_struct *t;
+-	u64 *area;
+ 	u64 count, start_index, end_pos, max_pos;
++	struct task_struct *t;
++	u64 *trace;
+ 
+ 	t = current;
+ 	if (!check_kcov_mode(KCOV_MODE_TRACE_CMP, t))
+@@ -266,22 +266,22 @@ static void notrace write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
+ 	 * We write all comparison arguments and types as u64.
+ 	 * The buffer was allocated for t->kcov_state.size unsigned longs.
+ 	 */
+-	area = (u64 *)t->kcov_state.area;
++	trace = (u64 *)t->kcov_state.trace;
+ 	max_pos = t->kcov_state.size * sizeof(unsigned long);
+ 
+-	count = READ_ONCE(area[0]);
++	count = READ_ONCE(trace[0]);
+ 
+ 	/* Every record is KCOV_WORDS_PER_CMP 64-bit words. */
  	start_index = 1 + count * KCOV_WORDS_PER_CMP;
  	end_pos = (start_index + KCOV_WORDS_PER_CMP) * sizeof(u64);
  	if (likely(end_pos <= max_pos)) {
--		/* See comment in __sanitizer_cov_trace_pc(). */
-+		/* See comment in kcov_append_to_buffer(). */
- 		WRITE_ONCE(area[0], count + 1);
+ 		/* See comment in kcov_append_to_buffer(). */
+-		WRITE_ONCE(area[0], count + 1);
++		WRITE_ONCE(trace[0], count + 1);
  		barrier();
- 		area[start_index] = type;
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index f9051ab610d54..24dcb721dbb0b 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2156,6 +2156,8 @@ config ARCH_HAS_KCOV
- config CC_HAS_SANCOV_TRACE_PC
- 	def_bool $(cc-option,-fsanitize-coverage=trace-pc)
- 
-+config CC_HAS_SANCOV_TRACE_PC_GUARD
-+	def_bool $(cc-option,-fsanitize-coverage=trace-pc-guard)
- 
- config KCOV
- 	bool "Code coverage for fuzzing"
-@@ -2172,6 +2174,28 @@ config KCOV
- 
- 	  For more details, see Documentation/dev-tools/kcov.rst.
- 
-+config ARCH_HAS_KCOV_UNIQUE
-+	bool
-+	help
-+	  An architecture should select this when it can successfully
-+	  build and run with CONFIG_KCOV_UNIQUE.
-+
-+config KCOV_UNIQUE
-+	depends on KCOV
-+	depends on CC_HAS_SANCOV_TRACE_PC_GUARD && ARCH_HAS_KCOV_UNIQUE
-+	bool "Use coverage guards for KCOV"
-+	help
-+	  Use coverage guards instrumentation for KCOV, passing
-+	  -fsanitize-coverage=trace-pc-guard to the compiler.
-+
-+	  Every coverage callback is associated with a global variable that
-+	  allows to efficiently deduplicate coverage at collection time.
-+	  This drastically reduces the buffer size required for coverage
-+	  collection.
-+
-+	  This config comes at a cost of increased binary size (4 bytes of .bss
-+	  plus 1-2 instructions to pass an extra parameter, per basic block).
-+
- config KCOV_ENABLE_COMPARISONS
- 	bool "Enable comparison operands collection by KCOV"
- 	depends on KCOV
-diff --git a/scripts/Makefile.kcov b/scripts/Makefile.kcov
-index 67e8cfe3474b7..0b17533ef35f6 100644
---- a/scripts/Makefile.kcov
-+++ b/scripts/Makefile.kcov
-@@ -1,5 +1,9 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+ifeq ($(CONFIG_KCOV_UNIQUE),y)
-+kcov-flags-y					+= -fsanitize-coverage=trace-pc-guard
-+else
- kcov-flags-$(CONFIG_CC_HAS_SANCOV_TRACE_PC)	+= -fsanitize-coverage=trace-pc
-+endif
- kcov-flags-$(CONFIG_KCOV_ENABLE_COMPARISONS)	+= -fsanitize-coverage=trace-cmp
- kcov-flags-$(CONFIG_GCC_PLUGIN_SANCOV)		+= -fplugin=$(objtree)/scripts/gcc-plugins/sancov_plugin.so
- 
-diff --git a/scripts/module.lds.S b/scripts/module.lds.S
-index 450f1088d5fd3..314b56680ea1a 100644
---- a/scripts/module.lds.S
-+++ b/scripts/module.lds.S
-@@ -64,6 +64,29 @@ SECTIONS {
- 		MOD_CODETAG_SECTIONS()
+-		area[start_index] = type;
+-		area[start_index + 1] = arg1;
+-		area[start_index + 2] = arg2;
+-		area[start_index + 3] = ip;
++		trace[start_index] = type;
++		trace[start_index + 1] = arg1;
++		trace[start_index + 2] = arg2;
++		trace[start_index + 3] = ip;
  	}
- #endif
-+
-+#ifdef CONFIG_KCOV_UNIQUE
-+	__sancov_guards(NOLOAD) : {
-+		__start___sancov_guards = .;
-+		*(__sancov_guards);
-+		__stop___sancov_guards = .;
-+	}
-+
-+	.text : {
-+		*(.text .text.[0-9a-zA-Z_]*)
-+		*(.text..L*)
-+	}
-+
-+	.init.text : {
-+		*(.init.text .init.text.[0-9a-zA-Z_]*)
-+		*(.init.text..L*)
-+	}
-+	.exit.text : {
-+		*(.exit.text .exit.text.[0-9a-zA-Z_]*)
-+		*(.exit.text..L*)
-+	}
-+#endif
-+
- 	MOD_SEPARATE_CODETAG_SECTIONS()
  }
  
-diff --git a/tools/objtool/check.c b/tools/objtool/check.c
-index b21b12ec88d96..62fbe9b2aa077 100644
---- a/tools/objtool/check.c
-+++ b/tools/objtool/check.c
-@@ -1154,6 +1154,7 @@ static const char *uaccess_safe_builtin[] = {
- 	"write_comp_data",
- 	"check_kcov_mode",
- 	"__sanitizer_cov_trace_pc",
-+	"__sanitizer_cov_trace_pc_guard",
- 	"__sanitizer_cov_trace_const_cmp1",
- 	"__sanitizer_cov_trace_const_cmp2",
- 	"__sanitizer_cov_trace_const_cmp4",
+@@ -382,11 +382,13 @@ static void kcov_start(struct task_struct *t, struct kcov *kcov,
+ 
+ static void kcov_stop(struct task_struct *t)
+ {
++	int saved_sequence = t->kcov_state.sequence;
++
+ 	WRITE_ONCE(t->kcov_mode, KCOV_MODE_DISABLED);
+ 	barrier();
+ 	t->kcov = NULL;
+-	t->kcov_state.size = 0;
+-	t->kcov_state.area = NULL;
++	t->kcov_state = (typeof(t->kcov_state)){ 0 };
++	t->kcov_state.sequence = saved_sequence;
+ }
+ 
+ static void kcov_task_reset(struct task_struct *t)
+@@ -736,6 +738,8 @@ static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+ 		}
+ 		kcov->state.area = area;
+ 		kcov->state.size = size;
++		kcov->state.trace = area;
++		kcov->state.trace_size = size;
+ 		kcov->mode = KCOV_MODE_INIT;
+ 		spin_unlock_irqrestore(&kcov->lock, flags);
+ 		return 0;
+@@ -928,10 +932,12 @@ void kcov_remote_start(u64 handle)
+ 		local_lock_irqsave(&kcov_percpu_data.lock, flags);
+ 	}
+ 
+-	/* Reset coverage size. */
+-	*(u64 *)area = 0;
+ 	state.area = area;
+ 	state.size = size;
++	state.trace = area;
++	state.trace_size = size;
++	/* Reset coverage size. */
++	state.trace[0] = 0;
+ 
+ 	if (in_serving_softirq()) {
+ 		kcov_remote_softirq_start(t);
+@@ -1004,8 +1010,8 @@ void kcov_remote_stop(void)
+ 	struct task_struct *t = current;
+ 	struct kcov *kcov;
+ 	unsigned int mode;
+-	void *area;
+-	unsigned int size;
++	void *area, *trace;
++	unsigned int size, trace_size;
+ 	int sequence;
+ 	unsigned long flags;
+ 
+@@ -1037,6 +1043,8 @@ void kcov_remote_stop(void)
+ 	kcov = t->kcov;
+ 	area = t->kcov_state.area;
+ 	size = t->kcov_state.size;
++	trace = t->kcov_state.trace;
++	trace_size = t->kcov_state.trace_size;
+ 	sequence = t->kcov_state.sequence;
+ 
+ 	kcov_stop(t);
 -- 
 2.50.0.727.gbf7dc18ff4-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250626134158.3385080-7-glider%40google.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250626134158.3385080-8-glider%40google.com.
