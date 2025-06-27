@@ -1,119 +1,119 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRBLVA7HBAMGQEO4ZQAIQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRBSNE7HBAMGQENKC777Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53a.google.com (mail-ed1-x53a.google.com [IPv6:2a00:1450:4864:20::53a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3495BAEB0DF
-	for <lists+kasan-dev@lfdr.de>; Fri, 27 Jun 2025 10:02:56 +0200 (CEST)
-Received: by mail-ed1-x53a.google.com with SMTP id 4fb4d7f45d1cf-6077af4c313sf1597714a12.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 27 Jun 2025 01:02:56 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1751011375; cv=pass;
+Received: from mail-wr1-x440.google.com (mail-wr1-x440.google.com [IPv6:2a00:1450:4864:20::440])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E400AEB0FF
+	for <lists+kasan-dev@lfdr.de>; Fri, 27 Jun 2025 10:11:55 +0200 (CEST)
+Received: by mail-wr1-x440.google.com with SMTP id ffacd0b85a97d-3a4ff581df3sf915203f8f.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 27 Jun 2025 01:11:55 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1751011914; cv=pass;
         d=google.com; s=arc-20240605;
-        b=KYZnwRTGZmtw9GLrraoiFgLn9W6UGdRPFLkVjQvp3o634+Pjse5Ou4R3ZOnsSIhbz/
-         cdxKG9WsmZjbr79WnAov5L8/kbD97hyi2SloE+jE2W0LBMDroFqCh/5Z8uE0kXhGU/uQ
-         dGERtqJ0aB7a5lMmTrz4FD1Deu4RmIZmt6AXHs3YOr0i7d2TfkB3vby5q74d+v1vfw7O
-         45rWWFZzWYaV9i16WT8SHmYlYjyWbwa5TXr9JIwWLdO9eA/1KE150zvl5DWqvbcMTG5S
-         frDCE1ZQE9AoqhLJiehqyLN0CAeAI/CX4r6BclolcChGVuPTUi5M2Ud34L/3Y/MaxDTG
-         3KFw==
+        b=M5hATQazFIB0aua0qlBlMylKdoKahZ8IvTqcCGVh3uQd86qp6kNumofBKfP2fQFMRi
+         utaPiKU6Z0q8nZmMu5zsTxo6Y1hnEZjiibXkV4sL05jgt2P6zUntU3Z+7c/4uvMIoDp3
+         9a0sxWN3tWcSKWx8A6xOsapRliMEaJTrjT5kBwK/SE9njOpZZZqiSniEksvP/SomIH9e
+         6znTJCsidFcmTzUk6v66RJMiHsdT5Uyx9FgwK2wbf7wfyXzgBZgliw7I2iWL+c9mc4af
+         GanPzb5brd20Cil4+26NxVZOKfmmwGq8WhkxspcX5d4UifoPLaJ58jx5sHVNtBz1rswt
+         Sd7w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=ukq+eZM2H3/V7i0d6eo/R4YGEBTseYJKQCZHLBNSpXY=;
-        fh=2EsxqvF/BRi4Kax5LhVmvswHd1fPARX0Gky+//7wJGk=;
-        b=DijjOwnwGJI3jDhb9UAhuAnQazAE/JlbUACzoWULoLj1OfYcX3VjEXhiSqQX+tCUXc
-         hIkdZd1SWkZv4wWWD621FAlRRkrvMnygN0GaknIabu8adc6HleqO9Os7GzoyA3quQmXW
-         CXP1BzLX02r3oRK8XIolu/lW1FLH46kbRacZkbDZ4Q5lrQYvm8IZQarPmRBZFFNn2UA+
-         Ckotum8fDfgcEV9pVt43nJuEzN/SlS0r9NUonEmpvDvWSKXwkE/YPT0Ihajgg3RdiP/y
-         4DNHHMa6qA6FwXh5SSCNtj/8harv078QEBKruCKyiLtqBVf71oLg9fgerljg621paVPT
-         /SHA==;
+        bh=G8s6IlAxYnSRw675l1mbGNIMFjyLsJcAaAfO0fXRdIg=;
+        fh=C1sVJaSAvRsoXIGV5dO/ReAISOTTDiRuQ5iMtIqzGpA=;
+        b=KKQkjQOeEmJpa5iPHopIvOz0fcdya0FBOFT+JljwEJdQcUMDYLF/Njry0bAUjwkPAh
+         UeIKNUXhk/8uc90+le1EvAC/aU6Z0xpCMzzoYr0OmbR11JMSTDsoKpHpiD7Z0aGdrBKy
+         nX/k9s8nIOUQZT38/cvbF2oyMZM/nXxLg9WUL5WKgHNSbODVGn+poTi84h/HRQf8W+ig
+         MdJUnCqonFZqGlwqeTcUYX8TwLNKcm5yqW/xMZ89P4VlZH1O0RxpxJp2k4HZ6HvAB6II
+         yZIFYuDiYNVx/pWr37mF0s/cqgLdKKw42C8Fi4n3KuCSOX9dgutHuRc4wVmnLGio0o5g
+         2gNg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=Str6SwuN;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=pkjFDojl;
        spf=none (google.com: peterz@infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1751011375; x=1751616175; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1751011914; x=1751616714; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ukq+eZM2H3/V7i0d6eo/R4YGEBTseYJKQCZHLBNSpXY=;
-        b=SRl+hqiIYrWNS1x925e0DPC+rQVYFPCum2SEdhRlMpMwDid8V6xcVvkhzuOT6+Yc6N
-         PaieSpvNfuRv+5PSXODQAePwrV3UIq4DL5mnqlMYVGeqYXZcIGruqbDWnFQ5pQcmzVPQ
-         6Y0+85ZQ7qQzYrp37gRpULfmgz4fuDk7YBUjyVxavc52UILGxkvyGjSgu7CbRAbkQYV8
-         wgYZsdHZ9wnFkHfE19UTtLs72K7pCpNzRTSN4fSr+zuUABZ5lddUE/M77egq6X4v3I4P
-         bQIhgFtyl4bzsQu+S3E26SsTre+svX2Ijuvpxeqik6eljE38hgtq1UFXOPR7qUsZxTQB
-         sKkQ==
+        bh=G8s6IlAxYnSRw675l1mbGNIMFjyLsJcAaAfO0fXRdIg=;
+        b=YLyPjMKHomJzOA04fhN8WCpIeIIWkiz4S3uHq+5YlzprCm3vSZ26HBelr4X+nRkqNZ
+         FKPz+znPazIQW6npCoR0fsVvnX9ruenQMIhTIcjOdJI+R+bike1curXjvLrlYKljS8k8
+         MluQu6QPNRudz8fE5pTZGchRk7JWIfnVao1AKgsAyqjp8+CfQInciiw8zCm64V6lrIKZ
+         Rl+xek2X9/uDCMaqevxEqTpBw3ctAAtDPV0Kn68Q3z0ws/dQ+BFJzFWqu6SqyQqtYklD
+         R/TzYRLKsOk7URx9/gFTJ5b0rBWluljFt3fzglxlq3kGAxnVzB48Z2Vk8ZkF3ulwltxB
+         ijXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751011375; x=1751616175;
+        d=1e100.net; s=20230601; t=1751011914; x=1751616714;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ukq+eZM2H3/V7i0d6eo/R4YGEBTseYJKQCZHLBNSpXY=;
-        b=b0mmJE6otuUE3AwQJTmuSkPPWc+PF2ep329l1wI8MBzdkPpYANva/JmMZnM5otqJGY
-         9tdaAW1kbWN+TX47KTL0H/j+LM/gnjgO++beiDhX539hNgD5Jr+kEV3IXKfXaVjpMWvz
-         ZEJBbt4mjok+jhd44fl5SeKUjWUfejvQCN58c3xuAqe25k3S3AnP9b/Jnz5fhrU+uhxk
-         G7D40Rsgmzj8JNLsO55AnBBSba1C5xS2JwnoC5qYf/v9Hil4CRvDPzTzutcPXQvHz+d9
-         j9srXi/I7SyM99aGR3f8tTKtX0twX5z7j8ZoITGp4mo3i/MOmIy8WzgwRIihaVQ8XTmd
-         EBHg==
+        bh=G8s6IlAxYnSRw675l1mbGNIMFjyLsJcAaAfO0fXRdIg=;
+        b=ABo+gtTUWaEi6EgxZpueN5kX6AzulO0RWUWFnP5m7q+vKFK3lQpJDjGXPKlTgN+nUR
+         Avn7Divz6XwXTBSvpztCYcAs8sxigvgjGZYzGM+Nz+baG00n3PEm1Gj/Hog7lV0aQ1E5
+         h5oph3xfpNIcl07mE2v7iH0+b8ulwUN9HTAD3jahpdXxEucMuixWfJ+fuWf8oHJBNr2X
+         b7FnTZ0e41BT2LvqCo3LRvHaQxF+FUow+xOd+oZUSgDfYYcUQwKC4VKGzahx6rVjE9dl
+         pxr33En7VJqjOpFmyRyxhK3BQurbna07wCGfhTyMOLDuNOeSVjaoP08gJ2gVuSCCaiO2
+         W0mg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCViefg9jQZn+hu0B05M1zHeg/LrYZ4hzanl8pKeGZndRyQGjiJK7Gt0awqH41/w3+qtXROgAg==@lfdr.de
-X-Gm-Message-State: AOJu0YwMTMLBk6PiSX3rLAUrHBXtXlr0yxqttMsUNwvHmVRPqAZFSr6t
-	zmysVL12Jhgc6dlQKj1briLcqDZt20bs2kwqe/7k2ld12nLxXcQMHCke
-X-Google-Smtp-Source: AGHT+IEK9ZJbi4MFSY6aRZ9SycH13fpJCQ0YSGKuMgKiaJwG949ENUMtESNxlAflTJrf5xI519bjWA==
-X-Received: by 2002:a05:6402:5386:b0:605:c570:57de with SMTP id 4fb4d7f45d1cf-60c66f27d79mr5278957a12.8.1751011374782;
-        Fri, 27 Jun 2025 01:02:54 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfNkPk9xNiI7SpKqY1Ih2P1gBX5DnYUofaOtUPjNJghmg==
-Received: by 2002:a05:6402:34ca:b0:609:aa85:8d81 with SMTP id
- 4fb4d7f45d1cf-60c65f82400ls1531905a12.2.-pod-prod-00-eu; Fri, 27 Jun 2025
- 01:02:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCX1z4gHtNmjoo1LUFr/jtVITwiQYLY6IuuOEdkgxvFO8LkTGVeRPAa5x59fvBOQxwNcTXMWCIoQ2IM=@googlegroups.com
-X-Received: by 2002:a05:6402:321c:b0:605:390d:6445 with SMTP id 4fb4d7f45d1cf-60c66e000f9mr6713850a12.6.1751011370930;
-        Fri, 27 Jun 2025 01:02:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1751011370; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCUstTlftL5iCDufLc5BX6wO8RhPCUMtrkLC56mQdm/U8lf+4lNUVDhascGkyWBS9NnkeBbnAw==@lfdr.de
+X-Gm-Message-State: AOJu0YxgoVf6movXUyg2lnM3j7XzhfIH6wTIuiS4sR2IXAk7vlQcJyKX
+	4tzKleZqJ+eL8VKoeQzTiT199YB8R2d+GHjk5BN32Fu18Sv2H+blmfyV
+X-Google-Smtp-Source: AGHT+IGyKprIF+huvUka9O6VJ9ZLSmYUO7hGG8i0n7pg5RTiZAtfxi7tIxWgtEL8Ape8cgK15uSYcw==
+X-Received: by 2002:a05:6000:2f82:b0:3a5:1241:afde with SMTP id ffacd0b85a97d-3a9802971a1mr1455934f8f.9.1751011913715;
+        Fri, 27 Jun 2025 01:11:53 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfz+/W8xhmPAS5bd2nZP6/zxGD/7EF0gDMNmbflrReGnw==
+Received: by 2002:a5d:5f83:0:b0:3a3:681e:6505 with SMTP id ffacd0b85a97d-3a6f328d773ls644146f8f.2.-pod-prod-00-eu;
+ Fri, 27 Jun 2025 01:11:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCX5qbGUdliNeWfGkQlpzRjT5RNz34oYE8f99QepUjfXxQEyzkj8QB2Hzb4VrAVlF95LDb0yWgokkwI=@googlegroups.com
+X-Received: by 2002:a05:6000:25f9:b0:3a3:64b9:773 with SMTP id ffacd0b85a97d-3a9802971b3mr1740790f8f.10.1751011910506;
+        Fri, 27 Jun 2025 01:11:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1751011910; cv=none;
         d=google.com; s=arc-20240605;
-        b=BX/VI0jpeeARVeXYZXDxWgKJdebeJw0cH8dF3s/AgJJuHVeJpDIaKyI+NaYEj0quAi
-         okzpGZQmqygH5AJEnK7brttFBG0ggATSSo9gPRsnOId5hN9BeiFnp2B4OxCGog//CPBf
-         5f+vUJn2Q2ofU9hvHRBhMUWztfLjz9DsOzsiqlXHMPA5SpXPxLoLweYS8cq0aR14cR0P
-         2MMBOsoD2Q58caYhtpgKxboC1i4ccPiZkKOuxjGbcOkKZ3LVJPfKmFyMZghuV1qE5Fph
-         cCczlCi9S0VjOhuKbxZTLQcWMWWtn2ekqZBp/bqCjFgSP8N2U4VXjbqbqGdXRKmeDeiL
-         G46A==
+        b=ENPOMhmvdDAIaLmvywxtkcz9S9T7NUY2O84ij87Rzoosl1sfbyHgna0hDII8jIE7Na
+         O+pM9TpS68zx13pngfQ3vXpmPgAyTlpR9cBOfADmgJowCZ53APCIpViW//2GoCcOxdOe
+         BBsTLPKFUL2XMUDCLmp9maYvwXdfISAlY80UpQJpF5f0D1ZzF+kHuOQ+OmOp4v1Xvmxx
+         5f1b23I/pxtLiE9qO5iapr4/r6wM+Ud+r4sf14p5UpRwsaEX8JpsPzC1uGqfsJYV9reT
+         ZKdtV54QNCTv7AQg3MxxzbugQ1qmR+YzdUnImuASoWW7YLAp1pf0Mm1aUkGlGPGa8dyO
+         QQ1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=GQJ6cEtAWkqqCEmraKtILCYkz5+4I5qUBIAFj/BaO74=;
-        fh=Ek1jAUi3GNl8SEwqAncxOvAsWJOejJFeI61Czi5lJC4=;
-        b=Wiht0AL6OLKCn1zh/aiQqz8nl1t4Ohz4gVAItN0AAgxm0OIeacnH58819OJd5hWctm
-         6VA4eCR96pVGBcTCHPPIHufEsreU6MIoCMtRL1fPNxAz7E7a40pLCbvz0lhg+X8v+1Vl
-         EX7o13ymLHpb8r4rJXF4peut8i3QZmrMDTyk8YR/iivXYm30S9sYFYxDNAOP4sqfiCD+
-         0cYSsO94QtFs3cSiLFbnhNetXF1Dp4/HG5a7+nQZdY0yHsLR3+j67uUCfzjqiJIWl/Ty
-         BjWQBHGh+TpgOFItczmo0WDWOnG9mi8u7vVeVIR2rnh0koiP4igrY3hHFDUhU7Rmx6k5
-         sMIA==;
+        bh=OZxKizN0JpjR36/RT3EOCTRtfhdellHAaqC3esyhcTg=;
+        fh=6TKN9zgLvb/CKgMZeaoGfcJ+4WSlcvu0IVYYdqB+xXE=;
+        b=AGf0tFkfCNHD39ku5FQbolphzks2H0k2424sD52fxxT3+1W4pPegXQoyMorDpmynnA
+         urKNRkpzHA8D1BxaBS1oNhAZDvu8ABcmFzDBHBh/FaVp//76YmcueC97Jzxj72vmlFSS
+         ipWmTD7tvTNyffECVYGjyL+TQ3IaIZXpQVkHOe/wILs0LAT01MvURmMKE2S9oca5G+YH
+         r2qnqaULsLlz6a7RQquPWsRVeyp+3qpfAv8CJEDlNb82PGvKh9/X660khvAU5opDfS2Q
+         76UXKnbi2WWgTczNARSL+I8GdXCHC60QfMgqu94SBDjwUzZRoeca+NAuicVS3c5UrDbe
+         +lIw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=Str6SwuN;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=pkjFDojl;
        spf=none (google.com: peterz@infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
-Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
-        by gmr-mx.google.com with ESMTPS id 4fb4d7f45d1cf-60c828ae04asi91322a12.2.2025.06.27.01.02.50
+Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3a892e5318asi62137f8f.4.2025.06.27.01.11.50
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jun 2025 01:02:50 -0700 (PDT)
-Received-SPF: none (google.com: peterz@infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1236::1;
+        Fri, 27 Jun 2025 01:11:50 -0700 (PDT)
+Received-SPF: none (google.com: peterz@infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
 Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uV42r-0000000DYu7-1a3d;
-	Fri, 27 Jun 2025 08:02:49 +0000
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uV4BX-00000006H4F-230u;
+	Fri, 27 Jun 2025 08:11:47 +0000
 Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id D32DB300222; Fri, 27 Jun 2025 10:02:48 +0200 (CEST)
-Date: Fri, 27 Jun 2025 10:02:48 +0200
+	id 8D644300222; Fri, 27 Jun 2025 10:11:46 +0200 (CEST)
+Date: Fri, 27 Jun 2025 10:11:46 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: Alexander Potapenko <glider@google.com>
 Cc: quic_jiangenj@quicinc.com, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, Aleksandr Nogikh <nogikh@google.com>,
+	kasan-dev@googlegroups.com, x86@kernel.org,
+	Aleksandr Nogikh <nogikh@google.com>,
 	Andrey Konovalov <andreyknvl@gmail.com>,
 	Borislav Petkov <bp@alien8.de>,
 	Dave Hansen <dave.hansen@linux.intel.com>,
@@ -121,17 +121,17 @@ Cc: quic_jiangenj@quicinc.com, linux-kernel@vger.kernel.org,
 	Josh Poimboeuf <jpoimboe@kernel.org>,
 	Marco Elver <elver@google.com>,
 	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH v2 02/11] kcov: apply clang-format to kcov code
-Message-ID: <20250627080248.GQ1613200@noisy.programming.kicks-ass.net>
+Subject: Re: [PATCH v2 06/11] kcov: x86: introduce CONFIG_KCOV_UNIQUE
+Message-ID: <20250627081146.GR1613200@noisy.programming.kicks-ass.net>
 References: <20250626134158.3385080-1-glider@google.com>
- <20250626134158.3385080-3-glider@google.com>
+ <20250626134158.3385080-7-glider@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20250626134158.3385080-3-glider@google.com>
+In-Reply-To: <20250626134158.3385080-7-glider@google.com>
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=casper.20170209 header.b=Str6SwuN;
+ header.i=@infradead.org header.s=desiato.20200630 header.b=pkjFDojl;
        spf=none (google.com: peterz@infradead.org does not designate permitted
  sender hosts) smtp.mailfrom=peterz@infradead.org
 Precedence: list
@@ -146,128 +146,22 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Jun 26, 2025 at 03:41:49PM +0200, Alexander Potapenko wrote:
-> kcov used to obey clang-format style, but somehow diverged over time.
-> This patch applies clang-format to kernel/kcov.c and
-> include/linux/kcov.h, no functional change.
+On Thu, Jun 26, 2025 at 03:41:53PM +0200, Alexander Potapenko wrote:
+> The new config switches coverage instrumentation to using
+>   __sanitizer_cov_trace_pc_guard(u32 *guard)
+> instead of
+>   __sanitizer_cov_trace_pc(void)
+> 
+> This relies on Clang's -fsanitize-coverage=trace-pc-guard flag [1].
+> 
+> Each callback receives a unique 32-bit guard variable residing in the
+> __sancov_guards section. Those guards can be used by kcov to deduplicate
+> the coverage on the fly.
 
-I'm not sure I agree this is in fact a good thing. Very questionable
-style choices made.
-
-I had to kill clang-format hard in my nvim-lsp-clangd setup, because
-clang-format is such a piece of shit.
-
-
-> -static inline void kcov_task_init(struct task_struct *t) {}
-> -static inline void kcov_task_exit(struct task_struct *t) {}
-> -static inline void kcov_prepare_switch(struct task_struct *t) {}
-> -static inline void kcov_finish_switch(struct task_struct *t) {}
-> -static inline void kcov_remote_start(u64 handle) {}
-> -static inline void kcov_remote_stop(void) {}
-> +static inline void kcov_task_init(struct task_struct *t)
-> +{
-> +}
-> +static inline void kcov_task_exit(struct task_struct *t)
-> +{
-> +}
-> +static inline void kcov_prepare_switch(struct task_struct *t)
-> +{
-> +}
-> +static inline void kcov_finish_switch(struct task_struct *t)
-> +{
-> +}
-> +static inline void kcov_remote_start(u64 handle)
-> +{
-> +}
-> +static inline void kcov_remote_stop(void)
-> +{
-> +}
-
-This is not an improvement.
-
-> @@ -52,36 +53,36 @@ struct kcov {
->  	 *  - task with enabled coverage (we can't unwire it from another task)
->  	 *  - each code section for remote coverage collection
->  	 */
-> -	refcount_t		refcount;
-> +	refcount_t refcount;
->  	/* The lock protects mode, size, area and t. */
-> -	spinlock_t		lock;
-> -	enum kcov_mode		mode;
-> +	spinlock_t lock;
-> +	enum kcov_mode mode;
->  	/* Size of arena (in long's). */
-> -	unsigned int		size;
-> +	unsigned int size;
->  	/* Coverage buffer shared with user space. */
-> -	void			*area;
-> +	void *area;
->  	/* Task for which we collect coverage, or NULL. */
-> -	struct task_struct	*t;
-> +	struct task_struct *t;
->  	/* Collecting coverage from remote (background) threads. */
-> -	bool			remote;
-> +	bool remote;
->  	/* Size of remote area (in long's). */
-> -	unsigned int		remote_size;
-> +	unsigned int remote_size;
->  	/*
->  	 * Sequence is incremented each time kcov is reenabled, used by
->  	 * kcov_remote_stop(), see the comment there.
->  	 */
-> -	int			sequence;
-> +	int sequence;
->  };
->  
->  struct kcov_remote_area {
-> -	struct list_head	list;
-> -	unsigned int		size;
-> +	struct list_head list;
-> +	unsigned int size;
->  };
->  
->  struct kcov_remote {
-> -	u64			handle;
-> -	struct kcov		*kcov;
-> -	struct hlist_node	hnode;
-> +	u64 handle;
-> +	struct kcov *kcov;
-> +	struct hlist_node hnode;
->  };
->  
->  static DEFINE_SPINLOCK(kcov_remote_lock);
-> @@ -89,14 +90,14 @@ static DEFINE_HASHTABLE(kcov_remote_map, 4);
->  static struct list_head kcov_remote_areas = LIST_HEAD_INIT(kcov_remote_areas);
->  
->  struct kcov_percpu_data {
-> -	void			*irq_area;
-> -	local_lock_t		lock;
-> -
-> -	unsigned int		saved_mode;
-> -	unsigned int		saved_size;
-> -	void			*saved_area;
-> -	struct kcov		*saved_kcov;
-> -	int			saved_sequence;
-> +	void *irq_area;
-> +	local_lock_t lock;
-> +
-> +	unsigned int saved_mode;
-> +	unsigned int saved_size;
-> +	void *saved_area;
-> +	struct kcov *saved_kcov;
-> +	int saved_sequence;
->  };
->  
->  static DEFINE_PER_CPU(struct kcov_percpu_data, kcov_percpu_data) = {
-
-This is just plain wrong. Making something that was readable into a
-trainwreck.
-
-
-Please either teach clang-format sensible style choices, or refrain from
-using it.
+This sounds like a *LOT* of data; how big is this for a typical kernel
+build?
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250627080248.GQ1613200%40noisy.programming.kicks-ass.net.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250627081146.GR1613200%40noisy.programming.kicks-ass.net.
