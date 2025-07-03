@@ -1,157 +1,277 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBKM7TPBQMGQELZMQYRY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCD6ROMWZ4CBBMNETPBQMGQE6W3GHDY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
-	by mail.lfdr.de (Postfix) with ESMTPS id C690FAF806C
-	for <lists+kasan-dev@lfdr.de>; Thu,  3 Jul 2025 20:44:58 +0200 (CEST)
-Received: by mail-lj1-x23e.google.com with SMTP id 38308e7fff4ca-32e0bb64d99sf2090861fa.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 03 Jul 2025 11:44:58 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1751568298; cv=pass;
+Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDEC7AF80C6
+	for <lists+kasan-dev@lfdr.de>; Thu,  3 Jul 2025 20:55:46 +0200 (CEST)
+Received: by mail-il1-x140.google.com with SMTP id e9e14a558f8ab-3df40226ab7sf4708525ab.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 03 Jul 2025 11:55:46 -0700 (PDT)
+ARC-Seal: i=4; a=rsa-sha256; t=1751568945; cv=pass;
         d=google.com; s=arc-20240605;
-        b=f6gFM63o/yluvcihyjG6iSqfQSE+wJrpU6LqPTF/4A179dlt+ZfJkhGt+hwe0jVsVk
-         31fq8rEhH+a8EWhJqjQgN+lgbZRw92O7uowtLkxXQkv3dacIfaDil6MWYnhSUO7gmlI1
-         RTY18ehbHfhnGZslWDrppmQL+eRx5e2Oh0Bl6NR8GxIekvqwF7AYfOI4MLqs9sblQ4Wh
-         KB9qYAAfawlTC+KEeOOARaLRScak8TiXJxVC8cyDJxtNSXtxkernjYnk1Mo5SwSsPGR2
-         ot+rbEJOJELwBf7HK1CXzUIv7VQXemmtzaZM+KO07O5TaAcIw5m4pQsVPSvWidv3FAGF
-         A4fg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        b=SVcr8op8ggKMVfFstevJCuSB4Kf5xk9k/TbNpSleNT1Jb5pzsLdU0noOnEE6XYsYuK
+         EHipcoeJwnufqlTvrRS8lkBnaE++ugmRXp0XvowZeG0z/alRO4dAJawN+/IFgPPpUVxA
+         lhFNNrRy9xVhCsDW554ndYbBYhPYQwL+GBZo+S7rX1XOvpf1bDbQfQIZfwt6CFXMF2RX
+         ijvbrREXA4eO4B5QmoavJbhRKalkf+2enLwU4hvwRVqM1d8gSNOhFCeLg5A5ujufi5Zy
+         vOXkmGpcdAmoBPa8kP37oHJVMX6NOzflH2he3YqHkl3ucas310GVov+Ykwf7oiZQ/GHI
+         mmCA==
+ARC-Message-Signature: i=4; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=UAHvFh2/m1JeEqY7pXFItCvRAoHbNof14QUQvMVLdB0=;
-        fh=j4D84i/3bL5oyi09NhKsOt1I4/ot32Xg7K7hxEVfbno=;
-        b=bu/BG6QvdRaeHZh/6Ys2gV3eZZeBVox7vvjB/WczWMcpIrA0vLXjbMzp9K0LpZZWG+
-         CJnoX1xYGsz8srP+3K24Na21F1+ALgoaqxT0ETKk9+6L9yCecz6cB6B5Rt0OWHc4T8VX
-         k0f4Qmn8kt1Zsp3F/DCjdj1X8qgh0JwzZBcrBjHWZELhxvjU7yOnXzAiLsVLmjJWFGXQ
-         XlbkvQsi5NuuKlac3Xi1cNQZZdLk8muuUFzHzE3h/0QoHwIRw+bKd3/OMKLDKyzfD7af
-         RDPJJnwga1sGkoTJBUb/hNh8cclQ7w7nLMS3qQriDAQTXFVHeT131AZf4Y0N/k5vplTX
-         VMJw==;
+         :list-id:mailing-list:precedence:nodisclaimer:mime-version
+         :in-reply-to:content-disposition:references:message-id:subject:cc:to
+         :from:date:authentication-results-original:sender:dkim-signature;
+        bh=qZmbasnNZiSR/TNe2xcEgfmR7K5gqNA2cShiUDnBHIc=;
+        fh=pB3fZaq/3lz/NUKdqJPl1ePmcz10j/K+9GIR07cmk2Q=;
+        b=gRBzT1pBAPfNp8jSxWDu+0n9/j24RRFruwjEk1TMaKR4cS2ecb/9exesMg2ESTJH3G
+         Hj1KiTIsxgSb+YU4OCxyUq2j9HFqWYrImWGMAfZOLrU68KuG1xojF+XL0Dnyt56UKNJC
+         BjHsGz4LzLE+nR7CS1gbWD2KQqPCKtvi8Tmj8/9hDot1OfVxVHUmYqwi3RoRn04sdjxr
+         FBlSOHbanb3aRhqmVSruc/FDLiKcWu1+IVr3I7q9Sa3yqnhUR6sHGD76afAozn/v1BD/
+         un+P9mDs8khEHBovVDUWt7McSUL0vLbUNGByo/z0ediHWE4DqI9CfSo1KO09yHmt6vuF
+         VUsA==;
         darn=lfdr.de
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=U2poOcLQ;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42f as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+ARC-Authentication-Results: i=4; gmr-mx.google.com;
+       dkim=pass header.i=@arm.com header.s=selector1 header.b=RChKMpUx;
+       dkim=pass header.i=@arm.com header.s=selector1 header.b=RChKMpUx;
+       arc=pass (i=2 spf=pass spfdomain=arm.com dkim=pass dkdomain=arm.com dmarc=pass fromdomain=arm.com);
+       spf=pass (google.com: domain of yeoreum.yun@arm.com designates 2a01:111:f403:c200::5 as permitted sender) smtp.mailfrom=YeoReum.Yun@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1751568298; x=1752173098; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1751568945; x=1752173745; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UAHvFh2/m1JeEqY7pXFItCvRAoHbNof14QUQvMVLdB0=;
-        b=Q6UFc7+jbceoxueK9w1kLPfdH/KXYf40qldH/I4ZHR+U4/A5yE6WjsKn2JuAT6Hr8B
-         fn5iSR1xt/Fd+UgnyhcWoH5xnUyObdcf7cdly2xbsuzEs4hB4n0b7rgdMxVY1r9Yvjaw
-         rhXC55e+Z9e/0vMRfGBbatuUrtiYaYtM/2fDxZcvW5aXA9flzmgpgb459771aIZIZfNT
-         Y+G9NbTvGAXwzCTgzGpDIRGNzA8LQYbMsVyYB7+5FtHDfXbvapBmVczn9KlqpIA+4naJ
-         Nq2ztix+iJPMZZ0Fd+OU7zietngxo3c0jq4U8quxx9cNZOpsjorrO+kxba9T4OP9UdPc
-         6rCg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751568298; x=1752173098; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UAHvFh2/m1JeEqY7pXFItCvRAoHbNof14QUQvMVLdB0=;
-        b=gly3L6l/WcmInV+HYNJzpzOST3sHOozlYGka6v8EXvW3uF4KcZCXTMzTJ9J74mCd+U
-         NjrXjBG/MhXRTHiY37aw6b5ANYOUkpc/YJ6mrtebIJ2kiQIAdlwRxNm0+yz7/zuPRY46
-         hh+KS+aEmoVFwNzZRb6bQ2vpTLDFYFjlj7AeGE/D9WvISEoKGi1a1nRkRZdX+3fWo4xo
-         3Rl1qXmfCevucUQDiTvwCJ7tMXyDQa8ANdgH68eox8O8SSJ28nMShXtuduEzgbFb80x1
-         bGQz3mUwr7ASO7X3TVHN30M5EEC6s+7gEocERsvQKXwY3fg4GcPT6qYaUQsKphh4+mFN
-         TDKA==
+         :x-original-sender:nodisclaimer:mime-version:in-reply-to
+         :content-disposition:references:message-id:subject:cc:to:from:date
+         :authentication-results-original:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qZmbasnNZiSR/TNe2xcEgfmR7K5gqNA2cShiUDnBHIc=;
+        b=Tvnfq9oqriEnyVE9U5XjCiT8Pc9/TFBd2rrAqsfeuGtN6JlfhbIcaTKirJ4MLzV6Zb
+         Yk0f0tkE9KuRUgSPSOPwpYXCblABg6hCwSy4MJJwlHMrLJLlY4b032sESBOn/3lHCeKz
+         mgrppuc8YQsWREqW8NnMny5VX6Pc91G1pc6WFXgQ2dkWrkTtW+KnVfgEwzNrGCpmT0l2
+         EY2iTVd3cAD/grOXGd0h7MkUkS0I8aoyV/gLdlAUPzHVHSrv4OXP7bWQyrYNpQv/yiZp
+         ISDBm9DMn/IlmplaFrKxvraraZ7WA4tsF5Pe2zQ3HXPyisTpgRz1+jfE1+84pvGYm883
+         w3Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751568298; x=1752173098;
+        d=1e100.net; s=20230601; t=1751568945; x=1752173745;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=UAHvFh2/m1JeEqY7pXFItCvRAoHbNof14QUQvMVLdB0=;
-        b=dyfUzbOTzXBbUUpvjpAVCDevG8hDodRhCKJu6A5mYMHZffTEwd6Pom2+EdyqGt3lN6
-         TY5EsnNgWtLO1//RNEuPxACUyrM4iQsH//uCkQKagawHhjXCCddIPMAVzzZv6OD9Quw1
-         y/RKfpQKSE14HiGgTuxBX0Zvo4V33JaJxeeWy704J9tmbtj6ewCEiYCQlHR1xOyN6FwA
-         nZSVTRiv5sg1spc8COlg9hSZlEt1nlafnNwmhq1tgpZ0ULaybmLKNWgNLmH28Ghw9bgI
-         PFlQ8JcVyUikpg3q/xRrtbw1h/lH5KwcoGccgq6ecBtQZ9SjlLtKb/2ByZ4YNSFU8I1B
-         /sgw==
+         :x-original-authentication-results:x-original-sender:nodisclaimer
+         :mime-version:in-reply-to:content-disposition:references:message-id
+         :subject:cc:to:from:date:authentication-results-original:x-beenthere
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qZmbasnNZiSR/TNe2xcEgfmR7K5gqNA2cShiUDnBHIc=;
+        b=F/J5b2wsfHCe5bFATa377S+1598ZUUte5AZMiwJOG3ZZYZ5Oed8ScXnE+nADg2g0Dv
+         leBlRLJvUND7KdPGm+fCWyH8jZb6w2vwNQmAIa6s+QgDIQYBBokt1mYw49+KJnSWOGGN
+         gmrxjfZneJmJC5+TjTY86nJbffvFa34yogom8KYC2dV+M6XTjGHxmb+1A+UkVZBKZ0Uc
+         O2JMu9rcf38lWl788tfsTlGdbQi7MfrJxUjqBBHkDzALhjrSCCQYOR0eOf47/qvXBocW
+         Lqq/gPTxy7WMklHT4NfefeQhhSvP4V/E2li3776M98nuaC8cwx/GLMiUW6Lg01Emshhp
+         BHJQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWr2sTJyajivLSej8fms7+Aejx01Ev8S1zjtYv2jxJvTYadFX4EqbSBdIv0OtiSr3TK6YLMcw==@lfdr.de
-X-Gm-Message-State: AOJu0YytV47etkRzkdxkh/ufkNbqdniqzko4MlAI+/H+Q+t0LRZRnwdD
-	UOYEUk2jUm5P5Q+We4TG8lzSES6X4VEjPemC2JIlZ7dUUHQXXdhm7fJT
-X-Google-Smtp-Source: AGHT+IFkrzvzwPgRCqbjJomc89FH+6uNeb1qNut+jaQ8zIujQ9IVW6mw+9tkJ2cPn4K6cuCe/0vSzg==
-X-Received: by 2002:a05:651c:41ce:b0:32b:522e:e073 with SMTP id 38308e7fff4ca-32e0d05548dmr20970081fa.25.1751568297725;
-        Thu, 03 Jul 2025 11:44:57 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZeTcN13oDBxmtBwdegMW8o8Vvc5TLQ/tx5pyfB6Qo+uZg==
-Received: by 2002:a05:651c:30c9:b0:32a:646b:ac65 with SMTP id
- 38308e7fff4ca-32e1acdd534ls2353931fa.0.-pod-prod-05-eu; Thu, 03 Jul 2025
- 11:44:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUHzlREBhkhHZMj14uTUXGh56UVWZ+367O5/KEQjSl16wuoM7KqzUjCD5aMr7UfovzIUzE8pp5le70=@googlegroups.com
-X-Received: by 2002:a2e:8a99:0:b0:32b:59d1:7ef3 with SMTP id 38308e7fff4ca-32e0d0c443emr11054021fa.35.1751568294596;
-        Thu, 03 Jul 2025 11:44:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1751568294; cv=none;
+X-Forwarded-Encrypted: i=4; AJvYcCVAgv8y5RcDJsTDkvOYYZVuE8bdmkONzLBWt4NTHMYVzVxYg920XwIx5jtAJ809V6cguS2nTA==@lfdr.de
+X-Gm-Message-State: AOJu0YxSon3hz1AVcPFAGbsEQqWF2NW3G02Dw0mFO/poaRJOzGBrHE03
+	3QmeXHpKu8fFE28qIpq/Yt1ejBbOEyvOtnxibwDhCYZMDad2QUmYxCWo
+X-Google-Smtp-Source: AGHT+IHglf+uh3dWY3gkaNauHK5W1n33XtIJauBeLeTJMQw8MT4Rkm07/BDuSR68tYIVFHIyU+Ed4Q==
+X-Received: by 2002:a05:6e02:2403:b0:3dd:ce9b:aa17 with SMTP id e9e14a558f8ab-3e054a36b8cmr101150445ab.20.1751568945334;
+        Thu, 03 Jul 2025 11:55:45 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdORqH4/JPdXEh4GPpJiuvJ0nvI1TcYnO4r2I7M9iOT/A==
+Received: by 2002:a05:6e02:4708:b0:3de:12e2:fba4 with SMTP id
+ e9e14a558f8ab-3e0d222357als2895055ab.0.-pod-prod-02-us; Thu, 03 Jul 2025
+ 11:55:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=4; AJvYcCVI8+YOn9PzY29k4BqEkOgGrL2jokueNBdL1uPgw0C7X2TLTB4bOXp6Y1lExbfTssam/yIaKkgnPLE=@googlegroups.com
+X-Received: by 2002:a92:ca4e:0:b0:3df:3bdc:2e49 with SMTP id e9e14a558f8ab-3e0549e5af3mr101762705ab.12.1751568944479;
+        Thu, 03 Jul 2025 11:55:44 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1751568944; cv=pass;
         d=google.com; s=arc-20240605;
-        b=ZWf+WwkMv9PPUgjVFznZmfPv1oR8ZtBZnCUNiAAD6VYky3000ygwaohMEhqujBQFK9
-         2CtjFH1CaGPHnMsAEAfzUHj82HhhCTo7s+dhm75B85r9/YaGFTNqi6dRSpSRUqUknvj3
-         0NTaz2O6Qa8SJb0B2XDxa0WOw53BsnWfCW6Y5I3lhz7ku+ErI0XrSy1EBT9Pzvk4Rrw0
-         o1EW23lc5/wWFHsj0Rc50cm+bPNV4wZI4FWy9s9Lv2b8/Uxovp6+DhtXWmYvVwNsjFWq
-         h+9+hVD5RnT/e1XKs9EvvkVJXp9IpCcJ1d8tyzei0VuzwqcR47sYrLAOel/eYJ/gMVmZ
-         Sd6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=nhkOyWvT8G/VMXyw/UKeBC01BSrCEvw5VmaWeJzf0yQ=;
-        fh=KU3SdjVvR3CFFEEOt9REjR6Rhgd9sAwkNbsLwOWOCzY=;
-        b=YlIa8c2CewspT9sDJaX58vKQW2M4bAVlTKfU15Ee7tTHn5LpoLJppGbsys9Ua7qemu
-         +ImH4+RrTKO870k5fKRBNnzZVipCQKT3+dN7q/d734GjMJcUGC60KjP9tpJ2b8jVXFQD
-         1PVj5mjDlJmPzQGHfAoIzMz/sgRB93SZYiWzzetvr3BwncH+U42vt1ldKToaN9TCEVZB
-         50V7T7P4WXULm+2OZne5lTrOHKrS++spnc8SCt2JBQXZ9E2lbl44GMBrSbpqEeDS6bdF
-         O7jEvsr6V0tctE80B7KZZ8GKKwsKg6IjetGinzxOz0yAaeEH9w0mI3tHlMNrRO9gOLe5
-         VnFg==;
+        b=Kq50ih6zPbOXr97ajHZqiLFcm6oT/9tjvkNZVME/FynooALrjQx863fXKx+qVkx6RR
+         1D4uxx67Q6AZaYGgRYmMEz2vFIZEl7Ju1jfBzgFAkmaPAw2QCjR9r+hrsgcU0vZpnI7L
+         duA0lsbVY/1rswIUD52UFqaYi7VhNLWJUaSTzecI0MxtX9CNWsQv20vR4XNeBv3+QgKu
+         KOSsJ9ZnEmThfZKWTrXz5RQNalxgqMnWW/dCJ/oU9/XjdgnxhYnSQkhs+yn0/im7zwcj
+         ic+hkI+WgDMR0N2H3MXWU3Q/j7Qck6TKhgLyWK5Rev8q2MOKPBwwnni2q69hfrS/lAW1
+         VQnA==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=nodisclaimer:mime-version:in-reply-to:content-disposition
+         :references:message-id:subject:cc:to:from:date
+         :authentication-results-original:dkim-signature:dkim-signature;
+        bh=gZw4qscm6Odl02eAKUFBl+K4BWWENTOF8o7MLivTahk=;
+        fh=1X3XrfHOzKEo1IarGcqbZugxljYA/D5wEIEQU1e3iro=;
+        b=gbZepB0kr2bq6STmCKxSi65gGtGP0rgFQ1GQjzwq0kzoxRDFPwEUiOj2skz+DF8Rw9
+         55hOJtPZGgUCkYe9KYLxUmyeVvc0ZlOGYyWpPNaxxu1B9ko4z3+DV4xcmFUMCgmMHPYv
+         Ba46II+K8N5w04W/4TYiUCbyYv0JlPEPEGRcaAg8+y7YfM/lcmYlVunCG72sevJCTM28
+         mNJhx+xtCnYU5wOFtLsV03sT2gO73QGp2kB62Gd4Iiq2B3o4LjGmBwICcUPk5Afbooqj
+         69NY6g1WCzYHasEXIbkiK8FiVHylFHPGFv2CFBpwrMYf2USPt/6xQ3/teD/vZeg33QDI
+         zHfQ==;
         dara=google.com
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=U2poOcLQ;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42f as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com. [2a00:1450:4864:20::42f])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-32e1ae410e3si97681fa.0.2025.07.03.11.44.54
+ARC-Authentication-Results: i=3; gmr-mx.google.com;
+       dkim=pass header.i=@arm.com header.s=selector1 header.b=RChKMpUx;
+       dkim=pass header.i=@arm.com header.s=selector1 header.b=RChKMpUx;
+       arc=pass (i=2 spf=pass spfdomain=arm.com dkim=pass dkdomain=arm.com dmarc=pass fromdomain=arm.com);
+       spf=pass (google.com: domain of yeoreum.yun@arm.com designates 2a01:111:f403:c200::5 as permitted sender) smtp.mailfrom=YeoReum.Yun@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazlp170120005.outbound.protection.outlook.com. [2a01:111:f403:c200::5])
+        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-503b5b953e2si12939173.4.2025.07.03.11.55.44
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Jul 2025 11:44:54 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42f as permitted sender) client-ip=2a00:1450:4864:20::42f;
-Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-3a52874d593so103401f8f.0
-        for <kasan-dev@googlegroups.com>; Thu, 03 Jul 2025 11:44:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWPjTEHb4XX+Y0N+2g1v2+S0iL2uxetSJFCWquT6yGSt5jZxgacJZk8Q3zS4Vk3bTSWECTT8ngGlqE=@googlegroups.com
-X-Gm-Gg: ASbGnctDMF9xIeBhSc/iQNpVyHooSoByXaypyCmoAmaiZ0FUT5g1BpsadfI55dx2a3U
-	BKcBDJzBunTkkiCSXUsKFt93rOlH65fvJipw3erekK/j7mWTMmD3d89uHpYWu5awi26t6L1FQz8
-	naXtESti5duSOqEMyDbx0QzvQnUvfwcW3kAMNhuQitAP3tG7R/tc9j2qsp
-X-Received: by 2002:adf:9b96:0:b0:3a6:d191:a835 with SMTP id
- ffacd0b85a97d-3b32de6aa89mr3137295f8f.41.1751568293470; Thu, 03 Jul 2025
- 11:44:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250703181018.580833-1-yeoreum.yun@arm.com>
-In-Reply-To: <20250703181018.580833-1-yeoreum.yun@arm.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Thu, 3 Jul 2025 20:44:42 +0200
-X-Gm-Features: Ac12FXxK_uNd7MYB8JUTDzt5QKdGlekxuViZupditnH5BtfReGGJsAY_cAZre7c
-Message-ID: <CA+fCnZeL4KQJYg=yozG7Tr9JA=d+pMFHag_dkPUT=06khjz4xA@mail.gmail.com>
-Subject: Re: [PATCH v2] kasan: remove kasan_find_vm_area() to prevent possible deadlock
-To: Yeoreum Yun <yeoreum.yun@arm.com>
-Cc: glider@google.com, dvyukov@google.com, vincenzo.frascino@arm.com, 
-	akpm@linux-foundation.org, bigeasy@linutronix.de, clrkwllms@kernel.org, 
-	rostedt@goodmis.org, byungchul@sk.com, max.byungchul.park@gmail.com, 
-	ysk@kzalloc.com, kasan-dev@googlegroups.com, linux-mm@kvack.org, 
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Jul 2025 11:55:44 -0700 (PDT)
+Received-SPF: pass (google.com: domain of yeoreum.yun@arm.com designates 2a01:111:f403:c200::5 as permitted sender) client-ip=2a01:111:f403:c200::5;
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=ZP8CMtMlA9MWEamwrTkIORvbCkBPY14hYLpKgrTfuUlMGYdWWEvS5xD+itHaMiMDPw3kQwLrob4MheBrAq+QIFjjZCcWfsc7BSeTwv9OQybyfIxQUoQANSS4TU3M4x/EJKr1MA5nY4jEaa6OLcbcAl1v73MO4NnC9RytN7uv+skMUlOrV2mjJgdoBvQguASKPPAQENEAK44Pgq6PeIsiIPlXAa0r5NYEAErW8rTESdQWRaaMjYSoMql5OKCCiJhA2iulRTgGWKVBU8sHGghl/IxrDx/x0rM5zEdea//VLd8YmSa9lCmGh6ID/CLPxHkKgOrPIX5Xtw/qMJxDZkDfEQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gZw4qscm6Odl02eAKUFBl+K4BWWENTOF8o7MLivTahk=;
+ b=AX4rB1l2iu3uWiOnoIBVvSFhX/13n1u4CGQikX6VbR0h/tv1vuyLItrGwRcPHimso5YYwNmytcNJD/5EXm7cOcj4D/3t5+iQgxqAYmCXI4OkBmXzf3yBxR6eKs47RkC6wd/X73GzvGt/cz/bgc6nUi+MNUMmVGvaqSLZylsGgHzDUiK5ek5ufnfQwt+VJgNWxgsyehlAnX2sjhwrsy4aC9kkkPE+cvs1pIHeGgdPUzWztmXN7weymtmfWJWTFF4R0GMC1B2gDECIbQEiWD8fJ67XSv1ewwOOpVlIewD5rI8k9fytO+/Kgjj/UrQC5k/qwbqCycbl57lx+hSjowP+3Q==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+Received: from AM0PR03CA0024.eurprd03.prod.outlook.com (2603:10a6:208:14::37)
+ by FRZPR08MB11024.eurprd08.prod.outlook.com (2603:10a6:d10:137::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.20; Thu, 3 Jul
+ 2025 18:55:39 +0000
+Received: from AMS1EPF0000004D.eurprd04.prod.outlook.com
+ (2603:10a6:208:14:cafe::35) by AM0PR03CA0024.outlook.office365.com
+ (2603:10a6:208:14::37) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8901.21 via Frontend Transport; Thu,
+ 3 Jul 2025 18:55:39 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AMS1EPF0000004D.mail.protection.outlook.com (10.167.16.138) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8901.15
+ via Frontend Transport; Thu, 3 Jul 2025 18:55:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IGNOfibb+sZM84Z0SMQvOdN0j7hb653XqzcYIiLeOuIcbXDORhXuzNjYrZRJrV8Z7axf1sK7pdvmht6DXtnIZCd0Ky0Agi5CZOMzKUo7C41EUZuUxmdQPwCNMmxLSrADFWZ5azh4vC0K1knd4Y9Emv0xok8cfIHH0TiQjgPiJY6j9MDQWQTRAtewBr1m3MUZdf+dWgIB0P4xo78QZpnoqzaDcYA+/foem0rjyFNSgGUsJosDQhcA7MYRXbv4HF55lX6RHIl2MWEnl8MN489jsUTow8A10p2cg9bemdJ9KMm4UR+FDZsHkeoh7J42aFfSPAGCeM8RXqzpKLfmlkBBQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gZw4qscm6Odl02eAKUFBl+K4BWWENTOF8o7MLivTahk=;
+ b=IMaKevwB2sprsD0KbjGFbloYmwc5J12jw9i5QtcZRniV4qpcEppQWd7EChP+Q0IMUbd19rKp0wV9l6iHupA5a3MxUl+hUe51AVikCO5OQDDqu8iMeMfGkXjysnN+6YiJi4QSp48rPaP2ojbpR6FX6/eSVqClOxA/AKinhUhkEulkaAiC3miitsJK3+gGkrfeBv8B3UsAFoJnm9dAb3/VIC8NhR00G6lL2xLd3Qyp/cJDU5vcKGAde2vgcRR/qQwstS8uaY6Q690KMNSE9Mu5WntVvpumWMLgFEb36u16UF/UkBXSX0pzIheKrxNebkFpcYa0UpPbldN5gw5i5cVs9A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
+ (2603:10a6:150:163::20) by DB4PR08MB8077.eurprd08.prod.outlook.com
+ (2603:10a6:10:387::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.22; Thu, 3 Jul
+ 2025 18:55:07 +0000
+Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
+ ([fe80::d430:4ef9:b30b:c739]) by GV1PR08MB10521.eurprd08.prod.outlook.com
+ ([fe80::d430:4ef9:b30b:c739%5]) with mapi id 15.20.8901.021; Thu, 3 Jul 2025
+ 18:55:07 +0000
+Date: Thu, 3 Jul 2025 19:55:04 +0100
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: glider@google.com, dvyukov@google.com, vincenzo.frascino@arm.com,
+	akpm@linux-foundation.org, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, rostedt@goodmis.org, byungchul@sk.com,
+	max.byungchul.park@gmail.com, ysk@kzalloc.com,
+	kasan-dev@googlegroups.com, linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v2] kasan: remove kasan_find_vm_area() to prevent
+ possible deadlock
+Message-ID: <aGbSCG2B6464Lfz7@e129823.arm.com>
+References: <20250703181018.580833-1-yeoreum.yun@arm.com>
+ <CA+fCnZeL4KQJYg=yozG7Tr9JA=d+pMFHag_dkPUT=06khjz4xA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: andreyknvl@gmail.com
+Content-Disposition: inline
+In-Reply-To: <CA+fCnZeL4KQJYg=yozG7Tr9JA=d+pMFHag_dkPUT=06khjz4xA@mail.gmail.com>
+X-ClientProxiedBy: LO4P265CA0118.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c6::8) To GV1PR08MB10521.eurprd08.prod.outlook.com
+ (2603:10a6:150:163::20)
+MIME-Version: 1.0
+X-MS-TrafficTypeDiagnostic: GV1PR08MB10521:EE_|DB4PR08MB8077:EE_|AMS1EPF0000004D:EE_|FRZPR08MB11024:EE_
+X-MS-Office365-Filtering-Correlation-Id: a8f47e9e-88e8-4222-b6db-08ddba633422
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?btdki1ZELYEVhsFrjZ1om64lXz6dO31IxQSW7diTMxiyhT2SHgKzUusBFj5h?=
+ =?us-ascii?Q?0iFPa0x7yOMcD8wa7E5QNHHDRQdsrG9Dm0M6hwpKT0YLoDX/Ybq3xlozpXH3?=
+ =?us-ascii?Q?teiqu0FSl5GIEqQOOi7MfX5tHdz9FBRsgt+A8NENOC+lvnGylxec+rV6KQbw?=
+ =?us-ascii?Q?t54YaiW2odsHsNt15KKSDn9W2aNnvIkbAE7zWg4i/yZa4lvIvX9Eo1iNWpwu?=
+ =?us-ascii?Q?ObhheZFxr/xPuKJa8kTqd9ENkjplcuge7U6xV0U8lD1MTz1vXPfxB64By1Up?=
+ =?us-ascii?Q?0Xr5YjVOFmP0I/9NghKC+6F1SNEuwHJ/4ZWioWqBNmA0y9ylBtMeXJOt0SdX?=
+ =?us-ascii?Q?h+iqYsn3WvK8uCGup3zZhrOpsLA70QmKW6g6mgjKMTGuqLWUzJlxCh3GnEB3?=
+ =?us-ascii?Q?ZHvwHH9bsAUIh8GGu67UhwLU6s7RkMi2+M1RE/Mi6tC7ZpAwGd6h3IYPSmhv?=
+ =?us-ascii?Q?tPQzdw4lmEijn0oEkCAPrsFBRIK9haPm8P090ORsDSViaTCejlrd7NvXbx8S?=
+ =?us-ascii?Q?VZBHUFCD3CP2Itgm4lGZAxfn7nDe4pdXQmg9KV8Jsg73TZTUTj6uWP/Ie7/L?=
+ =?us-ascii?Q?JvHzbEZtjcHksBJKupSgE+LYS+Vbsr0EX2xx+wK3pVKiFI7FPigkudpIHdPO?=
+ =?us-ascii?Q?1YQ562E1b9GF0oCmE536lxVybZVHikL1F/Gtva1Aj8qjA/7mbj5mZZJoOW53?=
+ =?us-ascii?Q?PTS7VzvzFCxzq/F7JWUkXOf2jVcdKVWszqAU4m4g48iaiZx9AoZdvkCtEZoz?=
+ =?us-ascii?Q?AkPI+IbqkfO1xYTA0B3zSqk8fu6TlUExWlyIVutaMHCt2CWSpbDgBlR30OMZ?=
+ =?us-ascii?Q?OvrFdLH0qCWQH+0BSjuaJQRTJyM2fBqc9AQ+kRNck8sLMHAsiFw+H+DInSOx?=
+ =?us-ascii?Q?xGdq+qI8uXNuBRq6FbElFhLtwSmo4Nbct85REu/QHhkAw52vRejif5Rd0B15?=
+ =?us-ascii?Q?maYX5HN6c1wZU49Qt2haeCgQjg3bDoPWG7DXj8NXZ0Ik/rj3/Mm+vT0GkpG9?=
+ =?us-ascii?Q?fLgEu15kJjamZy9JZuB1PymaMwKs9ZQ8+Q/vmY4GcbinEi4EyXkjaJTz9rGE?=
+ =?us-ascii?Q?u38N3YOUExYiOYFgABeeP9sL5vX4YNfsM2yj2Kj0PP4wAPLNKgM1JfCYbpWT?=
+ =?us-ascii?Q?pIi2yNEv3Q9Rk6Ue8hiWs+Jk8Ll1l22rmv+vF9Yz8UTrt1WGL5wsnFDNfFQ3?=
+ =?us-ascii?Q?R8duMVfgy77bTJG8YhRRleFFR4gJJTeTkyyDx9NH2zaLXTmlpF3jBlCWrfYu?=
+ =?us-ascii?Q?PrP/pkWe18JZV/kuAs01u9N1JaKpQTqu/rd2CM0J4XD3s0tPVoVVVNnUUO6Y?=
+ =?us-ascii?Q?sLR9KC4mIftQmaH2puJVscyKH6FZmMjhKFyf/644f6f1SE4uhHlwPceLp9wy?=
+ =?us-ascii?Q?NJw21DlOJgbeHLLxUzPfINICBsi1JUkq6tPX0k5k4eBG2YEi82LBDsNFf7lx?=
+ =?us-ascii?Q?Ztkeq085NAA=3D?=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB10521.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR08MB8077
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AMS1EPF0000004D.eurprd04.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 14534c07-9a58-488f-7397-08ddba6320a1
+X-Microsoft-Antispam: BCL:0;ARA:13230040|36860700013|14060799003|82310400026|35042699022|7416014|376014|1800799024|13003099007;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?HnMHFhlFNScq6yV2vZ6S3/ku0RTpbkGEYYHK/XuEG9jJNzYXpseTlbqLAaKN?=
+ =?us-ascii?Q?MxhYCmQiZrDzKB24sIG3lIa537HATdxvb7aTQy7Br6vHr7O2EBsMBbEX0Xg4?=
+ =?us-ascii?Q?5wRw11fOuWpWS75j8YxlqZVqNVTPj7I1sSz2yS083gFEWctjKbcCPLeeuq6t?=
+ =?us-ascii?Q?CO4VhBJGuNzOVlihexLkFl8QRzqFAMYO0EEHES2dI4iV3FbIbsEMZvS68tQY?=
+ =?us-ascii?Q?2b6MsmaenboRBt9NAGxCvFmxQiBMstkCuR9tW3ebkGY1c1Sfta6KZG+pOHGE?=
+ =?us-ascii?Q?Exc7T0CYMgluuR3Izd8VS7+xE+hYLGotpwUz3Hp9AG3T5Vi6/v6bylBVLf1D?=
+ =?us-ascii?Q?lKv25lzc7XXy6ICizW20YyXzGXTlxYa00c8oq2SY+NDT+bxPsTxzOWQjqpLn?=
+ =?us-ascii?Q?+Oxk9WdN75lI4/c5mvdaS+GbQGdb0HsxO76vMQPqqCsBFyle/8GYBsXCSu9U?=
+ =?us-ascii?Q?9yR9xRvScWt2yYpKRZjlWjBJmzK4xi7eO0v5O8vB/RJZoPA+mpn/7qOmcZcP?=
+ =?us-ascii?Q?lSfG/ZK+fkJuOWEebMJOXABjoeFTnkiUaevBHVei+85xfRgrG0Wuuq+5vQoC?=
+ =?us-ascii?Q?f9DWwYHZwoFO+8Oo0jlzexQ5DjRsy6lbNkgf76w0si2KNBS2GTBrwIgNUQJN?=
+ =?us-ascii?Q?+U7BQcn2QLuIW/ktZ0gipMIITsaw+cLmV/bkCggAhtF1QFhmU51u0kE8dLTn?=
+ =?us-ascii?Q?E4KapyMlo0nm3jrkC2eDGtsixrr4byqYwWrn+3DdSNIqotQNwIfCtLbsaCIw?=
+ =?us-ascii?Q?a0Jo/atcEX7MxZ672mEsMTPIOaKlVriaYeMaOi93BPw4khX4MtFzMuyXwCwm?=
+ =?us-ascii?Q?G5pp8dzFFWnxO0yPO8cBHsXRVe0WmNIzpmrhEeYgLQDttEacR2lYodM5kS82?=
+ =?us-ascii?Q?vnUPe0ql1UIOnsrek+2kdauI5cCH/NPnAx45l7tGoXoxZxUAcMJ92UZa1wMa?=
+ =?us-ascii?Q?OU6UzUZD9qd4JslLAoHcudDvuB9LlcVr4vKzXoWyId2Dhy2FFnyW2GG8q527?=
+ =?us-ascii?Q?JB5DlBsidZR9LoLs7xnpnqZ6MXnIBV5/LkKsivVoAeLTRWmmeZR96WxumcO/?=
+ =?us-ascii?Q?0OBBwBUUlbSmbhIKCdVbmxMdbZBU6Gckg7js2wTvB43lII0jNGlS9suU/0la?=
+ =?us-ascii?Q?Slvwit9V7VbvB420wxe0hh7S/PvLk+EmjljiVI4VNTTl7uXseGn2Xv1Qu9Rs?=
+ =?us-ascii?Q?1uQpcPLYnJtzo51ZOWuRRb03LTH6a35MdtBBfUTjgahIYHAEm1+gNGm5Y5PR?=
+ =?us-ascii?Q?h3Nahmb0CsIVL/6iMBxPNvCNYHhoymZBsqxd8xBjMC5hPwXntTOg0Q/jsAr6?=
+ =?us-ascii?Q?qXYVMpqCGsNgDzw6g4RrvkMr35rYIFhBz6SbAqUZ6yLZTZcpcP8MF9iUr7cg?=
+ =?us-ascii?Q?wO83laRlgCIA70JgY/36VTrLhUolNNKZblmfEcNDhnFJdgVNtF6emy8hXq3N?=
+ =?us-ascii?Q?r6qI10klrK0ZJX9rhd79zRKN/EPEXobkNUb+hCA1+seI1a+hzNpBaqGykZZ1?=
+ =?us-ascii?Q?cpDYKxQUGJmkaPdEo1jDbHeldj/owqB7NaaR8d/HNqN6c4u8jZGM+r5fpg?=
+ =?us-ascii?Q?=3D=3D?=
+X-Forefront-Antispam-Report: CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(14060799003)(82310400026)(35042699022)(7416014)(376014)(1800799024)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2025 18:55:39.4817
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a8f47e9e-88e8-4222-b6db-08ddba633422
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: AMS1EPF0000004D.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRZPR08MB11024
+X-Original-Sender: yeoreum.yun@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=U2poOcLQ;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42f
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+ header.i=@arm.com header.s=selector1 header.b=RChKMpUx;       dkim=pass
+ header.i=@arm.com header.s=selector1 header.b=RChKMpUx;       arc=pass (i=2
+ spf=pass spfdomain=arm.com dkim=pass dkdomain=arm.com dmarc=pass
+ fromdomain=arm.com);       spf=pass (google.com: domain of
+ yeoreum.yun@arm.com designates 2a01:111:f403:c200::5 as permitted sender)
+ smtp.mailfrom=YeoReum.Yun@arm.com;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -164,507 +284,46 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Jul 3, 2025 at 8:10=E2=80=AFPM Yeoreum Yun <yeoreum.yun@arm.com> wr=
-ote:
->
-> find_vm_area() couldn't be called in atomic_context.
-> If find_vm_area() is called to reports vm area information,
-> kasan can trigger deadlock like:
->
-> CPU0                                CPU1
-> vmalloc();
->  alloc_vmap_area();
->   spin_lock(&vn->busy.lock)
->                                     spin_lock_bh(&some_lock);
->    <interrupt occurs>
->    <in softirq>
->    spin_lock(&some_lock);
->                                     <access invalid address>
->                                     kasan_report();
->                                      print_report();
->                                       print_address_description();
->                                        kasan_find_vm_area();
->                                         find_vm_area();
->                                          spin_lock(&vn->busy.lock) // dea=
-dlock!
->
-> To prevent possible deadlock while kasan reports, remove kasan_find_vm_ar=
-ea().
+Hi Andrey,
 
-Can we keep it for when we are in_task()?
+> >
+> > find_vm_area() couldn't be called in atomic_context.
+> > If find_vm_area() is called to reports vm area information,
+> > kasan can trigger deadlock like:
+> >
+> > CPU0                                CPU1
+> > vmalloc();
+> >  alloc_vmap_area();
+> >   spin_lock(&vn->busy.lock)
+> >                                     spin_lock_bh(&some_lock);
+> >    <interrupt occurs>
+> >    <in softirq>
+> >    spin_lock(&some_lock);
+> >                                     <access invalid address>
+> >                                     kasan_report();
+> >                                      print_report();
+> >                                       print_address_description();
+> >                                        kasan_find_vm_area();
+> >                                         find_vm_area();
+> >                                          spin_lock(&vn->busy.lock) // deadlock!
+> >
+> > To prevent possible deadlock while kasan reports, remove kasan_find_vm_area().
+>
+> Can we keep it for when we are in_task()?
 
->
-> Fixes: c056a364e954 ("kasan: print virtual mapping info in reports")
-> Reported-by: Yunseong Kim <ysk@kzalloc.com>
-> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
-> ---
->
-> Patch History
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> From v1 to v2:
->   - remove kasan_find_vm_area()
->   - v1: https://lore.kernel.org/all/20250701203545.216719-1-yeoreum.yun@a=
-rm.com/
->
-> NOTE
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Below report is from Yunseong Kim using DEPT:
->
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> DEPT: Circular dependency has been detected.
-> 6.15.0-rc6-00043-ga83a69ec7f9f #5 Not tainted
-> ---------------------------------------------------
-> summary
-> ---------------------------------------------------
-> *** DEADLOCK ***
->
-> context A
->    [S] lock(report_lock:0)
->    [W] lock(&vn->busy.lock:0)
->    [E] unlock(report_lock:0)
->
-> context B
->    [S] lock(&tb->tb6_lock:0)
->    [W] lock(report_lock:0)
->    [E] unlock(&tb->tb6_lock:0)
->
-> context C
->    [S] write_lock(&ndev->lock:0)
->    [W] lock(&tb->tb6_lock:0)
->    [E] write_unlock(&ndev->lock:0)
->
-> context D
->    [S] lock(&vn->busy.lock:0)
->    [W] write_lock(&ndev->lock:0)
->    [E] unlock(&vn->busy.lock:0)
->
-> [S]: start of the event context
-> [W]: the wait blocked
-> [E]: the event not reachable
-> ---------------------------------------------------
-> context A's detail
-> ---------------------------------------------------
-> context A
->    [S] lock(report_lock:0)
->    [W] lock(&vn->busy.lock:0)
->    [E] unlock(report_lock:0)
->
-> [S] lock(report_lock:0):
-> [<ffff800080bd2600>] start_report mm/kasan/report.c:215 [inline]
-> [<ffff800080bd2600>] kasan_report+0x74/0x1d4 mm/kasan/report.c:623
-> stacktrace:
->       __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inlin=
-e]
->       _raw_spin_lock_irqsave+0x88/0xd8 kernel/locking/spinlock.c:162
->       start_report mm/kasan/report.c:215 [inline]
->       kasan_report+0x74/0x1d4 mm/kasan/report.c:623
->       __asan_report_load4_noabort+0x20/0x2c mm/kasan/report_generic.c:380
->       fib6_ifdown+0x67c/0x6bc net/ipv6/route.c:4910
->       fib6_clean_node+0x23c/0x4e0 net/ipv6/ip6_fib.c:2199
->       fib6_walk_continue+0x38c/0x774 net/ipv6/ip6_fib.c:2124
->       fib6_walk+0x158/0x31c net/ipv6/ip6_fib.c:2172
->       fib6_clean_tree+0xe0/0x128 net/ipv6/ip6_fib.c:2252
->       __fib6_clean_all+0x104/0x2b8 net/ipv6/ip6_fib.c:2268
->       fib6_clean_all+0x3c/0x50 net/ipv6/ip6_fib.c:2279
->       rt6_sync_down_dev net/ipv6/route.c:4951 [inline]
->       rt6_disable_ip+0x270/0x840 net/ipv6/route.c:4956
->       addrconf_ifdown.isra.0+0x104/0x175c net/ipv6/addrconf.c:3857
->       addrconf_notify+0x3a0/0x1688 net/ipv6/addrconf.c:3780
->       notifier_call_chain+0x94/0x50c kernel/notifier.c:85
->       raw_notifier_call_chain+0x3c/0x50 kernel/notifier.c:453
->       call_netdevice_notifiers_info+0xb8/0x150 net/core/dev.c:2176
->
-> [W] lock(&vn->busy.lock:0):
-> [<ffff800080ae57a0>] spin_lock include/linux/spinlock.h:351 [inline]
-> [<ffff800080ae57a0>] find_vmap_area+0xa0/0x228 mm/vmalloc.c:2418
-> stacktrace:
->       spin_lock include/linux/spinlock.h:351 [inline]
->       find_vmap_area+0xa0/0x228 mm/vmalloc.c:2418
->       find_vm_area+0x20/0x68 mm/vmalloc.c:3208
->       kasan_find_vm_area mm/kasan/report.c:398 [inline]
->       print_address_description mm/kasan/report.c:432 [inline]
->       print_report+0x3d8/0x54c mm/kasan/report.c:521
->       kasan_report+0xb8/0x1d4 mm/kasan/report.c:634
->       __asan_report_load4_noabort+0x20/0x2c mm/kasan/report_generic.c:380
->       fib6_ifdown+0x67c/0x6bc net/ipv6/route.c:4910
->       fib6_clean_node+0x23c/0x4e0 net/ipv6/ip6_fib.c:2199
->       fib6_walk_continue+0x38c/0x774 net/ipv6/ip6_fib.c:2124
->       fib6_walk+0x158/0x31c net/ipv6/ip6_fib.c:2172
->       fib6_clean_tree+0xe0/0x128 net/ipv6/ip6_fib.c:2252
->       __fib6_clean_all+0x104/0x2b8 net/ipv6/ip6_fib.c:2268
->       fib6_clean_all+0x3c/0x50 net/ipv6/ip6_fib.c:2279
->       rt6_sync_down_dev net/ipv6/route.c:4951 [inline]
->       rt6_disable_ip+0x270/0x840 net/ipv6/route.c:4956
->       addrconf_ifdown.isra.0+0x104/0x175c net/ipv6/addrconf.c:3857
->       addrconf_notify+0x3a0/0x1688 net/ipv6/addrconf.c:3780
->       notifier_call_chain+0x94/0x50c kernel/notifier.c:85
->
-> [E] unlock(report_lock:0):
-> (N/A)
-> ---------------------------------------------------
-> context B's detail
-> ---------------------------------------------------
-> context B
->    [S] lock(&tb->tb6_lock:0)
->    [W] lock(report_lock:0)
->    [E] unlock(&tb->tb6_lock:0)
->
-> [S] lock(&tb->tb6_lock:0):
-> [<ffff80008a172d10>] spin_lock_bh include/linux/spinlock.h:356 [inline]
-> [<ffff80008a172d10>] __fib6_clean_all+0xe8/0x2b8 net/ipv6/ip6_fib.c:2267
-> stacktrace:
->       __raw_spin_lock_bh include/linux/spinlock_api_smp.h:126 [inline]
->       _raw_spin_lock_bh+0x80/0xd0 kernel/locking/spinlock.c:178
->       spin_lock_bh include/linux/spinlock.h:356 [inline]
->       __fib6_clean_all+0xe8/0x2b8 net/ipv6/ip6_fib.c:2267
->       fib6_clean_all+0x3c/0x50 net/ipv6/ip6_fib.c:2279
->       rt6_sync_down_dev net/ipv6/route.c:4951 [inline]
->       rt6_disable_ip+0x270/0x840 net/ipv6/route.c:4956
->       addrconf_ifdown.isra.0+0x104/0x175c net/ipv6/addrconf.c:3857
->       addrconf_notify+0x3a0/0x1688 net/ipv6/addrconf.c:3780
->       notifier_call_chain+0x94/0x50c kernel/notifier.c:85
->       raw_notifier_call_chain+0x3c/0x50 kernel/notifier.c:453
->       call_netdevice_notifiers_info+0xb8/0x150 net/core/dev.c:2176
->       call_netdevice_notifiers_extack net/core/dev.c:2214 [inline]
->       call_netdevice_notifiers net/core/dev.c:2228 [inline]
->       dev_close_many+0x290/0x4b8 net/core/dev.c:1731
->       unregister_netdevice_many_notify+0x574/0x1fa0 net/core/dev.c:11940
->       unregister_netdevice_many net/core/dev.c:12034 [inline]
->       unregister_netdevice_queue+0x2b8/0x390 net/core/dev.c:11877
->       unregister_netdevice include/linux/netdevice.h:3374 [inline]
->       __tun_detach+0xec4/0x1180 drivers/net/tun.c:620
->       tun_detach drivers/net/tun.c:636 [inline]
->       tun_chr_close+0xa4/0x248 drivers/net/tun.c:3390
->       __fput+0x374/0xa30 fs/file_table.c:465
->       ____fput+0x20/0x3c fs/file_table.c:493
->
-> [W] lock(report_lock:0):
-> [<ffff800080bd2600>] start_report mm/kasan/report.c:215 [inline]
-> [<ffff800080bd2600>] kasan_report+0x74/0x1d4 mm/kasan/report.c:623
-> stacktrace:
->       __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inlin=
-e]
->       _raw_spin_lock_irqsave+0x6c/0xd8 kernel/locking/spinlock.c:162
->       start_report mm/kasan/report.c:215 [inline]
->       kasan_report+0x74/0x1d4 mm/kasan/report.c:623
->       __asan_report_load4_noabort+0x20/0x2c mm/kasan/report_generic.c:380
->       fib6_ifdown+0x67c/0x6bc net/ipv6/route.c:4910
->       fib6_clean_node+0x23c/0x4e0 net/ipv6/ip6_fib.c:2199
->       fib6_walk_continue+0x38c/0x774 net/ipv6/ip6_fib.c:2124
->       fib6_walk+0x158/0x31c net/ipv6/ip6_fib.c:2172
->       fib6_clean_tree+0xe0/0x128 net/ipv6/ip6_fib.c:2252
->       __fib6_clean_all+0x104/0x2b8 net/ipv6/ip6_fib.c:2268
->       fib6_clean_all+0x3c/0x50 net/ipv6/ip6_fib.c:2279
->       rt6_sync_down_dev net/ipv6/route.c:4951 [inline]
->       rt6_disable_ip+0x270/0x840 net/ipv6/route.c:4956
->       addrconf_ifdown.isra.0+0x104/0x175c net/ipv6/addrconf.c:3857
->       addrconf_notify+0x3a0/0x1688 net/ipv6/addrconf.c:3780
->       notifier_call_chain+0x94/0x50c kernel/notifier.c:85
->       raw_notifier_call_chain+0x3c/0x50 kernel/notifier.c:453
->       call_netdevice_notifiers_info+0xb8/0x150 net/core/dev.c:2176
->
-> [E] unlock(&tb->tb6_lock:0):
-> (N/A)
-> ---------------------------------------------------
-> context C's detail
-> ---------------------------------------------------
-> context C
->    [S] write_lock(&ndev->lock:0)
->    [W] lock(&tb->tb6_lock:0)
->    [E] write_unlock(&ndev->lock:0)
->
-> [S] write_lock(&ndev->lock:0):
-> [<ffff80008a133bd8>] addrconf_permanent_addr net/ipv6/addrconf.c:3622 [in=
-line]
-> [<ffff80008a133bd8>] addrconf_notify+0xab4/0x1688 net/ipv6/addrconf.c:369=
-8
-> stacktrace:
->       __raw_write_lock_bh include/linux/rwlock_api_smp.h:202 [inline]
->       _raw_write_lock_bh+0x88/0xd4 kernel/locking/spinlock.c:334
->       addrconf_permanent_addr net/ipv6/addrconf.c:3622 [inline]
->       addrconf_notify+0xab4/0x1688 net/ipv6/addrconf.c:3698
->       notifier_call_chain+0x94/0x50c kernel/notifier.c:85
->       raw_notifier_call_chain+0x3c/0x50 kernel/notifier.c:453
->       call_netdevice_notifiers_info+0xb8/0x150 net/core/dev.c:2176
->       call_netdevice_notifiers_extack net/core/dev.c:2214 [inline]
->       call_netdevice_notifiers net/core/dev.c:2228 [inline]
->       __dev_notify_flags+0x114/0x294 net/core/dev.c:9393
->       netif_change_flags+0x108/0x160 net/core/dev.c:9422
->       do_setlink.isra.0+0x960/0x3464 net/core/rtnetlink.c:3152
->       rtnl_changelink net/core/rtnetlink.c:3769 [inline]
->       __rtnl_newlink net/core/rtnetlink.c:3928 [inline]
->       rtnl_newlink+0x1080/0x1a1c net/core/rtnetlink.c:4065
->       rtnetlink_rcv_msg+0x82c/0xc30 net/core/rtnetlink.c:6955
->       netlink_rcv_skb+0x218/0x400 net/netlink/af_netlink.c:2534
->       rtnetlink_rcv+0x28/0x38 net/core/rtnetlink.c:6982
->       netlink_unicast_kernel net/netlink/af_netlink.c:1313 [inline]
->       netlink_unicast+0x50c/0x778 net/netlink/af_netlink.c:1339
->       netlink_sendmsg+0x794/0xc28 net/netlink/af_netlink.c:1883
->       sock_sendmsg_nosec net/socket.c:712 [inline]
->       __sock_sendmsg+0xe0/0x1a0 net/socket.c:727
->       __sys_sendto+0x238/0x2fc net/socket.c:2180
->
-> [W] lock(&tb->tb6_lock:0):
-> [<ffff80008a1643fc>] spin_lock_bh include/linux/spinlock.h:356 [inline]
-> [<ffff80008a1643fc>] __ip6_ins_rt net/ipv6/route.c:1350 [inline]
-> [<ffff80008a1643fc>] ip6_route_add+0x7c/0x220 net/ipv6/route.c:3900
-> stacktrace:
->       __raw_spin_lock_bh include/linux/spinlock_api_smp.h:126 [inline]
->       _raw_spin_lock_bh+0x5c/0xd0 kernel/locking/spinlock.c:178
->       spin_lock_bh include/linux/spinlock.h:356 [inline]
->       __ip6_ins_rt net/ipv6/route.c:1350 [inline]
->       ip6_route_add+0x7c/0x220 net/ipv6/route.c:3900
->       addrconf_prefix_route+0x28c/0x494 net/ipv6/addrconf.c:2487
->       fixup_permanent_addr net/ipv6/addrconf.c:3602 [inline]
->       addrconf_permanent_addr net/ipv6/addrconf.c:3626 [inline]
->       addrconf_notify+0xfd0/0x1688 net/ipv6/addrconf.c:3698
->       notifier_call_chain+0x94/0x50c kernel/notifier.c:85
->       raw_notifier_call_chain+0x3c/0x50 kernel/notifier.c:453
->       call_netdevice_notifiers_info+0xb8/0x150 net/core/dev.c:2176
->       call_netdevice_notifiers_extack net/core/dev.c:2214 [inline]
->       call_netdevice_notifiers net/core/dev.c:2228 [inline]
->       __dev_notify_flags+0x114/0x294 net/core/dev.c:9393
->       netif_change_flags+0x108/0x160 net/core/dev.c:9422
->       do_setlink.isra.0+0x960/0x3464 net/core/rtnetlink.c:3152
->       rtnl_changelink net/core/rtnetlink.c:3769 [inline]
->       __rtnl_newlink net/core/rtnetlink.c:3928 [inline]
->       rtnl_newlink+0x1080/0x1a1c net/core/rtnetlink.c:4065
->       rtnetlink_rcv_msg+0x82c/0xc30 net/core/rtnetlink.c:6955
->       netlink_rcv_skb+0x218/0x400 net/netlink/af_netlink.c:2534
->       rtnetlink_rcv+0x28/0x38 net/core/rtnetlink.c:6982
->       netlink_unicast_kernel net/netlink/af_netlink.c:1313 [inline]
->       netlink_unicast+0x50c/0x778 net/netlink/af_netlink.c:1339
->       netlink_sendmsg+0x794/0xc28 net/netlink/af_netlink.c:1883
->
-> [E] write_unlock(&ndev->lock:0):
-> (N/A)
-> ---------------------------------------------------
-> context D's detail
-> ---------------------------------------------------
-> context D
->    [S] lock(&vn->busy.lock:0)
->    [W] write_lock(&ndev->lock:0)
->    [E] unlock(&vn->busy.lock:0)
->
-> [S] lock(&vn->busy.lock:0):
-> [<ffff800080adcf80>] spin_lock include/linux/spinlock.h:351 [inline]
-> [<ffff800080adcf80>] alloc_vmap_area+0x800/0x26d0 mm/vmalloc.c:2027
-> stacktrace:
->       __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
->       _raw_spin_lock+0x78/0xc0 kernel/locking/spinlock.c:154
->       spin_lock include/linux/spinlock.h:351 [inline]
->       alloc_vmap_area+0x800/0x26d0 mm/vmalloc.c:2027
->       __get_vm_area_node+0x1c8/0x360 mm/vmalloc.c:3138
->       __vmalloc_node_range_noprof+0x168/0x10d4 mm/vmalloc.c:3805
->       __vmalloc_node_noprof+0x130/0x178 mm/vmalloc.c:3908
->       vzalloc_noprof+0x3c/0x54 mm/vmalloc.c:3981
->       alloc_counters net/ipv6/netfilter/ip6_tables.c:815 [inline]
->       copy_entries_to_user net/ipv6/netfilter/ip6_tables.c:837 [inline]
->       get_entries net/ipv6/netfilter/ip6_tables.c:1039 [inline]
->       do_ip6t_get_ctl+0x520/0xad0 net/ipv6/netfilter/ip6_tables.c:1677
->       nf_getsockopt+0x8c/0x10c net/netfilter/nf_sockopt.c:116
->       ipv6_getsockopt+0x24c/0x460 net/ipv6/ipv6_sockglue.c:1493
->       tcp_getsockopt+0x98/0x120 net/ipv4/tcp.c:4727
->       sock_common_getsockopt+0x9c/0xcc net/core/sock.c:3867
->       do_sock_getsockopt+0x308/0x57c net/socket.c:2357
->       __sys_getsockopt+0xec/0x188 net/socket.c:2386
->       __do_sys_getsockopt net/socket.c:2393 [inline]
->       __se_sys_getsockopt net/socket.c:2390 [inline]
->       __arm64_sys_getsockopt+0xa8/0x110 net/socket.c:2390
->       __invoke_syscall arch/arm64/kernel/syscall.c:36 [inline]
->       invoke_syscall+0x88/0x2e0 arch/arm64/kernel/syscall.c:50
->       el0_svc_common.constprop.0+0xe8/0x2e0 arch/arm64/kernel/syscall.c:1=
-39
->
-> [W] write_lock(&ndev->lock:0):
-> [<ffff80008a127f20>] addrconf_rs_timer+0xa0/0x730 net/ipv6/addrconf.c:402=
-5
-> stacktrace:
->       __raw_write_lock include/linux/rwlock_api_smp.h:209 [inline]
->       _raw_write_lock+0x5c/0xd0 kernel/locking/spinlock.c:300
->       addrconf_rs_timer+0xa0/0x730 net/ipv6/addrconf.c:4025
->       call_timer_fn+0x204/0x964 kernel/time/timer.c:1789
->       expire_timers kernel/time/timer.c:1840 [inline]
->       __run_timers+0x830/0xb00 kernel/time/timer.c:2414
->       __run_timer_base kernel/time/timer.c:2426 [inline]
->       __run_timer_base kernel/time/timer.c:2418 [inline]
->       run_timer_base+0x124/0x198 kernel/time/timer.c:2435
->       run_timer_softirq+0x20/0x58 kernel/time/timer.c:2445
->       handle_softirqs+0x30c/0xdc0 kernel/softirq.c:579
->       __do_softirq+0x14/0x20 kernel/softirq.c:613
->       ____do_softirq+0x14/0x20 arch/arm64/kernel/irq.c:81
->       call_on_irq_stack+0x24/0x30 arch/arm64/kernel/entry.S:891
->       do_softirq_own_stack+0x20/0x40 arch/arm64/kernel/irq.c:86
->       invoke_softirq kernel/softirq.c:460 [inline]
->       __irq_exit_rcu+0x400/0x560 kernel/softirq.c:680
->       irq_exit_rcu+0x14/0x80 kernel/softirq.c:696
->       __el1_irq arch/arm64/kernel/entry-common.c:561 [inline]
->       el1_interrupt+0x38/0x54 arch/arm64/kernel/entry-common.c:575
->       el1h_64_irq_handler+0x18/0x24 arch/arm64/kernel/entry-common.c:580
->       el1h_64_irq+0x6c/0x70 arch/arm64/kernel/entry.S:596
->
-> [E] unlock(&vn->busy.lock:0):
-> (N/A)
-> ---------------------------------------------------
-> information that might be helpful
-> ---------------------------------------------------
-> CPU: 1 UID: 0 PID: 19536 Comm: syz.4.2592 Not tainted 6.15.0-rc6-00043-ga=
-83a69ec7f9f #5 PREEMPT
-> Hardware name: QEMU KVM Virtual Machine, BIOS 2025.02-8 05/13/2025
-> Call trace:
->  dump_backtrace arch/arm64/kernel/stacktrace.c:449 [inline] (C)
->  show_stack+0x34/0x80 arch/arm64/kernel/stacktrace.c:466 (C)
->  __dump_stack lib/dump_stack.c:94 [inline]
->  dump_stack_lvl+0x104/0x180 lib/dump_stack.c:120
->  dump_stack+0x20/0x2c lib/dump_stack.c:129
->  print_circle kernel/dependency/dept.c:928 [inline]
->  cb_check_dl kernel/dependency/dept.c:1362 [inline]
->  cb_check_dl+0x1080/0x10ec kernel/dependency/dept.c:1356
->  bfs+0x4d8/0x630 kernel/dependency/dept.c:980
->  check_dl_bfs kernel/dependency/dept.c:1381 [inline]
->  add_dep+0x1cc/0x364 kernel/dependency/dept.c:1710
->  add_wait kernel/dependency/dept.c:1829 [inline]
->  __dept_wait+0x60c/0x16e0 kernel/dependency/dept.c:2585
->  dept_wait kernel/dependency/dept.c:2666 [inline]
->  dept_wait+0x168/0x1a8 kernel/dependency/dept.c:2640
->  __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
->  _raw_spin_lock+0x54/0xc0 kernel/locking/spinlock.c:154
->  spin_lock include/linux/spinlock.h:351 [inline]
->  find_vmap_area+0xa0/0x228 mm/vmalloc.c:2418
->  find_vm_area+0x20/0x68 mm/vmalloc.c:3208
->  kasan_find_vm_area mm/kasan/report.c:398 [inline]
->  print_address_description mm/kasan/report.c:432 [inline]
->  print_report+0x3d8/0x54c mm/kasan/report.c:521
->  kasan_report+0xb8/0x1d4 mm/kasan/report.c:634
->  __asan_report_load4_noabort+0x20/0x2c mm/kasan/report_generic.c:380
->  fib6_ifdown+0x67c/0x6bc net/ipv6/route.c:4910
->  fib6_clean_node+0x23c/0x4e0 net/ipv6/ip6_fib.c:2199
->  fib6_walk_continue+0x38c/0x774 net/ipv6/ip6_fib.c:2124
->  fib6_walk+0x158/0x31c net/ipv6/ip6_fib.c:2172
->  fib6_clean_tree+0xe0/0x128 net/ipv6/ip6_fib.c:2252
->  __fib6_clean_all+0x104/0x2b8 net/ipv6/ip6_fib.c:2268
->  fib6_clean_all+0x3c/0x50 net/ipv6/ip6_fib.c:2279
->  rt6_sync_down_dev net/ipv6/route.c:4951 [inline]
->  rt6_disable_ip+0x270/0x840 net/ipv6/route.c:4956
->  addrconf_ifdown.isra.0+0x104/0x175c net/ipv6/addrconf.c:3857
->  addrconf_notify+0x3a0/0x1688 net/ipv6/addrconf.c:3780
->  notifier_call_chain+0x94/0x50c kernel/notifier.c:85
->  raw_notifier_call_chain+0x3c/0x50 kernel/notifier.c:453
->  call_netdevice_notifiers_info+0xb8/0x150 net/core/dev.c:2176
->  call_netdevice_notifiers_extack net/core/dev.c:2214 [inline]
->  call_netdevice_notifiers net/core/dev.c:2228 [inline]
->  dev_close_many+0x290/0x4b8 net/core/dev.c:1731
->  unregister_netdevice_many_notify+0x574/0x1fa0 net/core/dev.c:11940
->  unregister_netdevice_many net/core/dev.c:12034 [inline]
->  unregister_netdevice_queue+0x2b8/0x390 net/core/dev.c:11877
->  unregister_netdevice include/linux/netdevice.h:3374 [inline]
->  __tun_detach+0xec4/0x1180 drivers/net/tun.c:620
->  tun_detach drivers/net/tun.c:636 [inline]
->  tun_chr_close+0xa4/0x248 drivers/net/tun.c:3390
->  __fput+0x374/0xa30 fs/file_table.c:465
->  ____fput+0x20/0x3c fs/file_table.c:493
->  task_work_run+0x154/0x278 kernel/task_work.c:227
->  exit_task_work include/linux/task_work.h:40 [inline]
->  do_exit+0x950/0x23a8 kernel/exit.c:953
->  do_group_exit+0xc0/0x248 kernel/exit.c:1103
->  get_signal+0x1f98/0x20cc kernel/signal.c:3034
->  do_signal+0x200/0x880 arch/arm64/kernel/signal.c:1658
->  do_notify_resume+0x1a0/0x26c arch/arm64/kernel/entry-common.c:148
->  exit_to_user_mode_prepare arch/arm64/kernel/entry-common.c:169 [inline]
->  exit_to_user_mode arch/arm64/kernel/entry-common.c:178 [inline]
->  el0_svc+0xf8/0x188 arch/arm64/kernel/entry-common.c:745
->  el0t_64_sync_handler+0x10c/0x140 arch/arm64/kernel/entry-common.c:762
->  el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
->
-> ---
->  mm/kasan/report.c | 45 ++-------------------------------------------
->  1 file changed, 2 insertions(+), 43 deletions(-)
->
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index 8357e1a33699..b0877035491f 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -370,36 +370,6 @@ static inline bool init_task_stack_addr(const void *=
-addr)
->                         sizeof(init_thread_union.stack));
->  }
->
-> -/*
-> - * This function is invoked with report_lock (a raw_spinlock) held. A
-> - * PREEMPT_RT kernel cannot call find_vm_area() as it will acquire a sle=
-eping
-> - * rt_spinlock.
-> - *
-> - * For !RT kernel, the PROVE_RAW_LOCK_NESTING config option will print a
-> - * lockdep warning for this raw_spinlock -> spinlock dependency. This co=
-nfig
-> - * option is enabled by default to ensure better test coverage to expose=
- this
-> - * kind of RT kernel problem. This lockdep splat, however, can be suppre=
-ssed
-> - * by using DEFINE_WAIT_OVERRIDE_MAP() if it serves a useful purpose and=
- the
-> - * invalid PREEMPT_RT case has been taken care of.
-> - */
-> -static inline struct vm_struct *kasan_find_vm_area(void *addr)
-> -{
-> -       static DEFINE_WAIT_OVERRIDE_MAP(vmalloc_map, LD_WAIT_SLEEP);
-> -       struct vm_struct *va;
-> -
-> -       if (IS_ENABLED(CONFIG_PREEMPT_RT))
-> -               return NULL;
-> -
-> -       /*
-> -        * Suppress lockdep warning and fetch vmalloc area of the
-> -        * offending address.
-> -        */
-> -       lock_map_acquire_try(&vmalloc_map);
-> -       va =3D find_vm_area(addr);
-> -       lock_map_release(&vmalloc_map);
-> -       return va;
-> -}
-> -
->  static void print_address_description(void *addr, u8 tag,
->                                       struct kasan_report_info *info)
->  {
-> @@ -429,19 +399,8 @@ static void print_address_description(void *addr, u8=
- tag,
->         }
->
->         if (is_vmalloc_addr(addr)) {
-> -               struct vm_struct *va =3D kasan_find_vm_area(addr);
-> -
-> -               if (va) {
-> -                       pr_err("The buggy address belongs to the virtual =
-mapping at\n"
-> -                              " [%px, %px) created by:\n"
-> -                              " %pS\n",
-> -                              va->addr, va->addr + va->size, va->caller)=
-;
-> -                       pr_err("\n");
-> -
-> -                       page =3D vmalloc_to_page(addr);
-> -               } else {
-> -                       pr_err("The buggy address %px belongs to a vmallo=
-c virtual mapping\n", addr);
-> -               }
-> +               pr_err("The buggy address %px belongs to a vmalloc virtua=
-l mapping\n", addr);
-> +               page =3D vmalloc_to_page(addr);
->         }
->
->         if (page) {
-> --
-> LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
->
+We couldn't do. since when kasan_find_vm_area() is called,
+the report_lock is grabbed with irq disabled.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-A%2BfCnZeL4KQJYg%3DyozG7Tr9JA%3Dd%2BpMFHag_dkPUT%3D06khjz4xA%40mail.gmail.c=
-om.
+Please check discuss with Andrey Ryabinin:
+  https://lore.kernel.org/all/4599f645-f79c-4cce-b686-494428bb9e2a@gmail.com/
+
+Thanks
+
+--
+Sincerely,
+Yeoreum Yun
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aGbSCG2B6464Lfz7%40e129823.arm.com.
