@@ -1,142 +1,142 @@
-Return-Path: <kasan-dev+bncBCU4TIPXUUFRBTFAT3BQMGQEYEGQANY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDTMJ55N44FBBXMVT7BQMGQEIA4IQCI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63b.google.com (mail-pl1-x63b.google.com [IPv6:2607:f8b0:4864:20::63b])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C87AF8B66
-	for <lists+kasan-dev@lfdr.de>; Fri,  4 Jul 2025 10:26:54 +0200 (CEST)
-Received: by mail-pl1-x63b.google.com with SMTP id d9443c01a7336-23638e1605dsf6617145ad.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 04 Jul 2025 01:26:54 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1751617613; cv=pass;
+Received: from mail-ed1-x53c.google.com (mail-ed1-x53c.google.com [IPv6:2a00:1450:4864:20::53c])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4B2AF92C7
+	for <lists+kasan-dev@lfdr.de>; Fri,  4 Jul 2025 14:36:48 +0200 (CEST)
+Received: by mail-ed1-x53c.google.com with SMTP id 4fb4d7f45d1cf-6076ad0b2f1sf827696a12.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 04 Jul 2025 05:36:48 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1751632608; cv=pass;
         d=google.com; s=arc-20240605;
-        b=PVIBzDP1PK+wZE6FQQd6g1md/4n+1GJ3bRwfhVDCfB4hglEl+/8iBBb8BU82vTB+kH
-         W5QbWITPzZUSfAx3C3tUf/FTMHfwXYbjN9I0XwDCgUDaCgNS8chK1gD7DtfWnWGXdue3
-         llTpGKbiAFmycf/s7pU+G1qnFQz0gUso02aJCsVW++UmY5/s6/btMsUj366/T7zyYq5I
-         VhEmVf2aaIQhIZF4RC8z3fvIYcCTeB0dnPLIpJeHPiqou6eh8+flbwy/YJwg7QEHPd3i
-         Hl867XdGy1NXai2oPmu/29BtVUCL7oQ5B2WwaVyRtaIh25hs9Vq3+1PHTAJtAmoOT68U
-         xuZA==
+        b=BOXF7fINV7WYIok3vMFJtkIL9HkHbMMdDHtZlP32qkO5KRyaZb1+QCCH8msuzkrIh5
+         1RqhviF4MGQJlS1Y2D0BnaQTLGIB/qeNk3Y5Hjo+ymz4PSgIoDivrO2raFJ3d7jCVhiA
+         rgnvyNQLxSmYLK6IibCW68PFmkG3AWP55AjnCvVrUUb2IFByPTU0I6tNbOqGnWI2GavM
+         SL7hWXO7vQDjs9ztwUL9FwKH8yFITgL0A8X7Us+BhltLkdTUeP/n5Z+D3F+RBi4Gte1O
+         AePYeEZtW5TRpR7wFm/Fha3I6DVvRJtU2xX33JEAM2s1ktoUVMuZ8lmuFxNhCa8qe99j
+         t89Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=ANBcH5ze6dVHz7UKqOcmFV9z1aBPL9adghJHnSMwMIA=;
-        fh=7ObvARqt9UP+/zN+YyszDVUykadpFLD3u8SOJTSk6sQ=;
-        b=S90kd9a8Q64O6aQfEQailocHL/8pknlDq4EGnYgPVkxAUmdKxx5UnbzDl5NPF8i3X3
-         qXyAw0xUXKs+PoOMlxFiND9atF6SoE1EMrjfCKl+S54HqH4d7kwe/Eu2Je3i14Y+hD9y
-         cmT2uN8zGstUPWM3CYKBNYHBPHHE+S04ZM+rzxADHIE+uPNjKbyX+IrJ1uoHeb4d8LUJ
-         6qVFfF7i7DnQSxLUYx7aV51gpknP6bn6cAsiZdeo/B0xOnMiW0Z9h6JP6hnprsgBKTeL
-         cWG9bVB6YeoUIP/SLMIIfnXATGd2miU30INIct7oKCiPHbyOcgFK/1CwyTQo1pLjgrSe
-         rBXA==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=HAbHqYal1y9OZsc8vliN+/9pB1N++noxYz+Oq5+sYdg=;
+        fh=H1xpqIL/0V2TkQNym4NXaRQNKuErfWHhjkMW+oy3DSo=;
+        b=QAJrTLwPqc2akkXfHY856CiT1uvELoxPFi8Tjg/BPaVQN5edVTubAP/w7uVvzYMCBw
+         7qlBt3lNFdORBw2LQZiN05aUojGnLYwls+f5hdGp6nrCSPtwoDxK7JtWa3w0/Vx1ceoS
+         O6d1m+MS7K4/3hjRIipu5AaTY08J91SfNuAJPoW58B7OgJDHpw51PpJ6lxc/rmIgdrZw
+         ZBd16SID+uYBPy19Js9BgWO2gJZqmcbwaxGT1R32X9BddgfG8uZC7TTdgZ/IrdwjjCOX
+         RtZ3bGrqFTyaOY90L2dcenVCAsHnOjMR28xwFs8WBtaCU3V50ErLD96x2gUdrt/rF3mk
+         JyEg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=OURYlIL9;
-       spf=pass (google.com: domain of ardb@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=ardb@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of breno.debian@gmail.com designates 209.85.208.46 as permitted sender) smtp.mailfrom=breno.debian@gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1751617613; x=1752222413; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1751632608; x=1752237408; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ANBcH5ze6dVHz7UKqOcmFV9z1aBPL9adghJHnSMwMIA=;
-        b=I8DwYEXdfIl8KHs27mXpE/miizYlIg8gmshBhuyMMurwAnt5Wf862Xd1gfTZKd3qrU
-         DeZ2Mal7erpUx4CaA0cPqGlYzmcSKetpeGeRQgnrPNeg5BxXSYOxwWndX4bwLao8UNV1
-         E8R4rB6QRMFY2tv8Sxavw7mI5U0Rv4lSVwpQ7Azexa5JW8Q+qyEHztAG6SC/Z1QgHleJ
-         tduhkUn9hXeriVv3gLhmRan2hEFzgWP13qLTIo4pMEW2p4P/l+hi6POH/jOc87IQAKF1
-         IIp7zw4Kv3urhze8jaKlG0DQBwtu5DCnoPsLF5LE92j/y2zSGWWC7GAesoWmNlVxQatb
-         j0PQ==
+        bh=HAbHqYal1y9OZsc8vliN+/9pB1N++noxYz+Oq5+sYdg=;
+        b=b8Ny2eGG+HLyH6XTBGeV/21Y2cF0zq0xpikAUOPqwMZ+0xOld9Pg3Bbzq3yaoWGxMP
+         dbzcoIAKV8LTG++vacLNh5nXazYdM83QQUwiSORqM3fremJTBp998sB3ICeiw8Omceb+
+         Cu4AYRzF7wCv67OqNfCOfccUped7v+wZlktNRmx/+tW3Z8pDruCPTHgM7Uy6TeMWlj1T
+         rbxw0ciCLJxlbQ+F7gCXyXzxMZF9A0Mk6yBw17chzMn2+Q4323358bUbO9lkGxB022QZ
+         8J72KznSF0WJm8rHWXU8RBEwQMF3WLyS6ZMLwwc2totCdmGRrozHv1r93n4MJxoDD/EE
+         vdFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751617613; x=1752222413;
+        d=1e100.net; s=20230601; t=1751632608; x=1752237408;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ANBcH5ze6dVHz7UKqOcmFV9z1aBPL9adghJHnSMwMIA=;
-        b=fvk0CzcNSnPIdgx4VLglbMESEHZD/FiFHlVxx4znWU/qu1nmrJF08FZ86KguV6P3Oz
-         8G6J1T3/5BbEzmPfXZW0pQjqoVYCpbxFCIhqkA6D4PrigoUvChzdTfa43uc12Bi48Rxw
-         jJesDCWOENC94kaG3R+Q35bmlBXQSjFAUkCH7ai50Wk/415vF636hl1/Lbrn7zSc9iEd
-         rOfIz18mZcUDOkf2QNTo44Ug0FOWWhqXMDRfm2ziEp8/gt4U8k79q1pUeizKa4etIbBg
-         0+bBtUzI5cix7M5ajb+3yNklWqIB5YVPMc7hAnUEFSux31AaceAFSyJmmp72n4+ENcfX
-         vouQ==
-X-Forwarded-Encrypted: i=2; AJvYcCXrE99aur1inagu6Ix7inh/cQlDZB2nd3Au987hIq/h75/2nmNcyaJpceldeGmq5U7dg8P26Q==@lfdr.de
-X-Gm-Message-State: AOJu0YwtE3idIs1RjNBNBjEEmlEq8bh7N8jaKeyR9cDKOlG27EV/Hszg
-	1F5FEG71XPfR5tnZ368YVHG/0nFC03qOmnxvTSB+MRn6Mka121pWKu6a
-X-Google-Smtp-Source: AGHT+IHLJhOwVhgig2f2v0qizT9STMnBLc/OSmBxFifWstJAoiLWPmyoM70TTVh+vhB84lFbjpsCdw==
-X-Received: by 2002:a17:902:ce85:b0:234:e655:a618 with SMTP id d9443c01a7336-23c8755bdbcmr19194525ad.25.1751617613277;
-        Fri, 04 Jul 2025 01:26:53 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfKhkDzSjciOpGbAO8/TWl8GrC0gYn06jLGlPqR5Tmn1g==
-Received: by 2002:a17:902:e88b:b0:234:aa6d:511a with SMTP id
- d9443c01a7336-23c89ac2454ls2309165ad.0.-pod-prod-07-us; Fri, 04 Jul 2025
- 01:26:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXLIGRihYcP9lx0CoUTR2IW6arUj1+hC5JMvscVlzf/j0uE7S4elgLIDe+QfGICh/ODj9eR6Q0IBGs=@googlegroups.com
-X-Received: by 2002:a17:902:daca:b0:235:f298:cbbd with SMTP id d9443c01a7336-23c8747eddcmr26934975ad.21.1751617611518;
-        Fri, 04 Jul 2025 01:26:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1751617611; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HAbHqYal1y9OZsc8vliN+/9pB1N++noxYz+Oq5+sYdg=;
+        b=cl1N8QB26e5bh6YzJuXtyeKkqgyWUgJs6kI+BmiAU2myJWp2+ESrxjdBB19/L9SI0z
+         oD4JaFmdsayguMjUCYSbqecWrw1A8DE0x7wBT+Av7GhAC+6kgOk/IydJOYVYPjsYOsYz
+         b5ZmVdsXvbQJJRJzlFwNuFjl4412GScHz+LRqF72fVzvMuAK94OcPN/GP8OmdpO9nX7M
+         KhyCQbAW07DKDFUclBrBbfezuAn7wBmpzb/UXaHKCSnVq3mNRm7nkRxc2L2wGXTxegm3
+         /kstbP460KJJDkiHeniFw743s2xNREtoyOpFnNtEsLw7TNl+9TtCpNPVCF/rTgH43mlQ
+         gNEg==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCWHuxO3M8V39l+2b6ML3LxQf7ELlV2As/FEghqI+Kbyh5kmV3WF3qLMAWf8sAwGvG8km8UlWg==@lfdr.de
+X-Gm-Message-State: AOJu0YyfU4CGOF0wiULloZEmXeBO9mbAjp/MGGnJcP02XhGSFZ8NeHfm
+	YSId4NiseENwoDdlSumt7ohRLcpT10sf+M04o6JShWMksK+VWb8YBJcv
+X-Google-Smtp-Source: AGHT+IEa7aXSlghIUkjZsfOkQ2AmE2HaEXFzOXv2ANFQpEnthf7zPdpLIOpCU8a4NSFJr2/R4LYzwQ==
+X-Received: by 2002:a05:6402:5210:b0:608:6734:7744 with SMTP id 4fb4d7f45d1cf-60fd2f854f1mr2500613a12.7.1751632606913;
+        Fri, 04 Jul 2025 05:36:46 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdQcLyZd+a+goauFscx2RN93x/Eo0IGK8KJE0FmojLY1Q==
+Received: by 2002:a05:6402:84f:b0:5e7:88ec:e96d with SMTP id
+ 4fb4d7f45d1cf-60fdb651b57ls390617a12.2.-pod-prod-05-eu; Fri, 04 Jul 2025
+ 05:36:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCV35UMB21hRYfONnsQGIaA2YQ9j8LmRI5lBjrvXQnD353Fq5aPOaKDAKcWqtuz2fJ0WZiAMFrPXV0I=@googlegroups.com
+X-Received: by 2002:a17:907:60d4:b0:ad8:9257:5737 with SMTP id a640c23a62f3a-ae3fbc814ccmr238390966b.25.1751632603293;
+        Fri, 04 Jul 2025 05:36:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1751632603; cv=none;
         d=google.com; s=arc-20240605;
-        b=NJonUvAiFF8rZzD/cyGmiM4ntwxm1luyd4AVBb+Z4mPiWBmaAouJZKg5FG5FIAAMw5
-         JFoAGRUaH32AVVC/pvAiZziAGNTlFm9P6atvvl6XCuqoBzlOzvlRyvpIYiIHomQfoaNk
-         pczb1Cf5JH0KZRwaUFIRTn7nDFdThjNkLVxsbRdx/21m54LCe9PecCMdtLVS5Nblu8zG
-         2ySrQuwsF9HDuNeqIJVbxf1SoWNNMSAgualxH12RDPyfsvdXf8rjkVbA4/hVO+UY0S1w
-         XEd1ZfH0d9np2td+SwEGaoRElEpPZ0qivDJIvSxMad8iqxkOY5eVXl1mMNUMlIACN77R
-         Mx5g==
+        b=cw/wBdNSYISAyitZojfmiOOlRFjrNneqamwKGxM2l0dnSM2lxrqicQ0bulZr3OpUBX
+         ogWzBRzx4313YYykpTdJXs3vJcG9iFmnt/qefAEqlsMfy1bEdCSMmh3srobvKE6/4eCs
+         AavRo+PGnMx7zWb9wxX2QGTetUDhBHjjyzcZEwFQxzNfqi5fNZSW/qSH/xgM7YANsHhk
+         mHxgT/rB1dHYBX614AmObPAEKN9jRJ5USj5jSPOglqe4YwGlSXrGcUnRTuiWClkCi/31
+         BJBqZjGBvog0L8WhyEAkbmUbGM7zSrSjbqC83FV1c/DyVHdrosxpZWWHYckUJ2fGM1GN
+         GwzA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=gx3SHwSSOHA1sK+lAyXr0DHkaYK3RbpLwm1zJ8Ey4Lc=;
-        fh=WbASvt3sCH75tEmR+c7q0c18GszoZxW+58rNuON1Kqo=;
-        b=CrzCjefbGlMZBN2xZOP7bHfkgl0N7r08RnRQi+yEPHo7Tydngs3y6M/XSyt+c5J+xe
-         1rZ9kfQ8r7jmz5gg5PfS7RryJgC6TDpr6Bcu0s6oDYgP4/ZVEFMMJ6qyCleW0EakX564
-         S1+8esTLsJmYv1DIpUjmsQNizrUwCR5TwaLOZm0/TFPpnA1YqgVJjtFQDR9nvWACK0cV
-         YzDN0F5+hpALvD4jvjelMed0UbCmlxlhw/V2HhiTRUn+eqyp7Bxl4ulal4eLMRCI5+P7
-         mnye4ar5UIHJCW/S3mvc5Unsu4hDwwGNlaoKbCAA3Vad+Y9ReJppo05Cqs/qwq3vewf2
-         Gosg==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date;
+        bh=YW8Mdm8VBfi1qlOCL6Pf2QZ+6mI2RYO5Q+XtAXUgQJ4=;
+        fh=diTzhwP0MWr5jydknocsY5/NQjpU3U8ZCCsUdU5Q3o4=;
+        b=b1IYruqZ2SysI694W9lI9V9c6ukAvOmo7Al25kzpapT23Vue6gmQ9MiQceoh2Fasb4
+         W4G4D2o7NTH3pqEOCH+kTqZm4o4u2Y8AfrKHVZ2usn29XNzO97kCkKyZ7LPDASbfzIzd
+         XNx4L70zhkaXipewUXIs18jEWce7Rhcn773nsl+GaoRPOT1nkBH49Pw4MF037cdOP7p3
+         3ZRNFmDQhpGZrXOtIf3igSanIAecawZtFg34g5E6ksRPS4jhKpMZCg/meqPSYWI2oce8
+         ZD+1wJ5bV3LO8/EcVY8CzP1H7mUsv9qj7a9IqwgpCMeiAP55tKcSXa5UPwhLn7LSgXKP
+         Q4zQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=OURYlIL9;
-       spf=pass (google.com: domain of ardb@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=ardb@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from sea.source.kernel.org (sea.source.kernel.org. [2600:3c0a:e001:78e:0:1991:8:25])
-        by gmr-mx.google.com with ESMTPS id d9443c01a7336-23c842b4678si584775ad.1.2025.07.04.01.26.51
+       spf=pass (google.com: domain of breno.debian@gmail.com designates 209.85.208.46 as permitted sender) smtp.mailfrom=breno.debian@gmail.com
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com. [209.85.208.46])
+        by gmr-mx.google.com with ESMTPS id a640c23a62f3a-ae3f69554afsi5576066b.2.2025.07.04.05.36.43
         for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Jul 2025 05:36:43 -0700 (PDT)
+Received-SPF: pass (google.com: domain of breno.debian@gmail.com designates 209.85.208.46 as permitted sender) client-ip=209.85.208.46;
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-605b9488c28so1450770a12.2
+        for <kasan-dev@googlegroups.com>; Fri, 04 Jul 2025 05:36:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXP4u4YrAz0Tz3yLPfcQSqKdaXkCk223kI0mPkYsYfInoGLgFSdxgxFwo0Cx+b6PmmkiQWY0qAY14s=@googlegroups.com
+X-Gm-Gg: ASbGncvQbVnsYcO0E/nByOH4p4AAGJ9SOMJU2BPzWGdqgyXim+6LUMv4+MNCsuGKer6
+	hGbx12whHfkbU1TJH7JQmHoqvwgF2pPc+aXgYkxMaYs+l6jojN1PFIZjC957JoboANghOmhVaik
+	cPMURH3BZQkbz2/szc5RRMD0et+BHBpyDaN25XFtv52Rphd+yu5/fV6WDAGFkTEMxqsDIFQbzAD
+	ZJ0x8rRxB+3SpgDvfKMVq80Y1cvkGiQ8H+NLXPln/2IHKCKMAZgLNg9Z49pHJEP3/CRoNVCJQKA
+	CRxl9PVCtC2X0Q66DuoDBJ9hIlwN8bzP8JAepny5H/z3usL8o2e0/vEHwSM=
+X-Received: by 2002:a05:6402:2103:b0:5ff:ef06:1c52 with SMTP id 4fb4d7f45d1cf-60fd2f84f16mr2179344a12.3.1751632602449;
+        Fri, 04 Jul 2025 05:36:42 -0700 (PDT)
+Received: from gmail.com ([2620:10d:c092:400::5:c915])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-60fc81a70e4sm1285566a12.0.2025.07.04.05.36.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jul 2025 01:26:51 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ardb@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) client-ip=2600:3c0a:e001:78e:0:1991:8:25;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 30F2B46743
-	for <kasan-dev@googlegroups.com>; Fri,  4 Jul 2025 08:26:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11EB5C4CEED
-	for <kasan-dev@googlegroups.com>; Fri,  4 Jul 2025 08:26:51 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-553b16a0e38so886039e87.1
-        for <kasan-dev@googlegroups.com>; Fri, 04 Jul 2025 01:26:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW0NS7iLOj6HT3RICioh3mmhu8X1KzKGuK2AQNUj50T7Th/e/HQuoJoUVjgV4xcrE5/0MGOoc2dXQk=@googlegroups.com
-X-Received: by 2002:a05:6512:3690:b0:553:3770:c91d with SMTP id
- 2adb3069b0e04-556d160f06bmr486751e87.4.1751617609446; Fri, 04 Jul 2025
- 01:26:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250624-arm_kasan-v1-1-21e80eab3d70@debian.org> <aGaxZHLnDQc_kSur@arm.com>
-In-Reply-To: <aGaxZHLnDQc_kSur@arm.com>
-From: "'Ard Biesheuvel' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 4 Jul 2025 10:26:37 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXFadibWLnhFv3cOk-7Ah2MmPz8RqDuQjGr-3gmq+hEnMg@mail.gmail.com>
-X-Gm-Features: Ac12FXxELlmJOgclmPetSiXcBqm7bPSktVfuSqSd0ARv_5mIl32jvgAoBlJoUvA
-Message-ID: <CAMj1kXFadibWLnhFv3cOk-7Ah2MmPz8RqDuQjGr-3gmq+hEnMg@mail.gmail.com>
-Subject: Re: [PATCH] arm64: efi: Fix KASAN false positive for EFI runtime stack
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Breno Leitao <leitao@debian.org>, Will Deacon <will@kernel.org>, usamaarif642@gmail.com, 
-	rmikey@meta.com, andreyknvl@gmail.com, kasan-dev@googlegroups.com, 
-	linux-efi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+        Fri, 04 Jul 2025 05:36:42 -0700 (PDT)
+Date: Fri, 4 Jul 2025 13:36:40 +0100
+From: Breno Leitao <leitao@debian.org>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, usamaarif642@gmail.com,
+	rmikey@meta.com, andreyknvl@gmail.com, kasan-dev@googlegroups.com,
+	linux-efi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH] arm64: efi: Fix KASAN false positive for EFI runtime
+ stack
+Message-ID: <aGfK2N6po39zyVIp@gmail.com>
+References: <20250624-arm_kasan-v1-1-21e80eab3d70@debian.org>
+ <aGaxZHLnDQc_kSur@arm.com>
+ <CAMj1kXFadibWLnhFv3cOk-7Ah2MmPz8RqDuQjGr-3gmq+hEnMg@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: ardb@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=OURYlIL9;       spf=pass
- (google.com: domain of ardb@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25
- as permitted sender) smtp.mailfrom=ardb@kernel.org;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: Ard Biesheuvel <ardb@kernel.org>
-Reply-To: Ard Biesheuvel <ardb@kernel.org>
+Content-Disposition: inline
+In-Reply-To: <CAMj1kXFadibWLnhFv3cOk-7Ah2MmPz8RqDuQjGr-3gmq+hEnMg@mail.gmail.com>
+X-Original-Sender: leitao@debian.org
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of breno.debian@gmail.com designates 209.85.208.46 as
+ permitted sender) smtp.mailfrom=breno.debian@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,80 +149,81 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, 3 Jul 2025 at 18:35, Catalin Marinas <catalin.marinas@arm.com> wrote:
->
-> On Tue, Jun 24, 2025 at 05:55:53AM -0700, Breno Leitao wrote:
-> > KASAN reports invalid accesses during arch_stack_walk() for EFI runtime
-> > services due to vmalloc tagging[1]. The EFI runtime stack must be allocated
-> > with KASAN tags reset to avoid false positives.
-> >
-> > This patch uses arch_alloc_vmap_stack() instead of __vmalloc_node() for
-> > EFI stack allocation, which internally calls kasan_reset_tag()
-> >
-> > The changes ensure EFI runtime stacks are properly sanitized for KASAN
-> > while maintaining functional consistency.
-> >
-> > Link: https://lore.kernel.org/all/aFVVEgD0236LdrL6@gmail.com/ [1]
-> > Suggested-by: Andrey Konovalov <andreyknvl@gmail.com>
-> > Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
-> > Signed-off-by: Breno Leitao <leitao@debian.org>
-> > ---
-> >  arch/arm64/kernel/efi.c | 9 ++++++---
-> >  1 file changed, 6 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/arch/arm64/kernel/efi.c b/arch/arm64/kernel/efi.c
-> > index 3857fd7ee8d46..d2af881a48290 100644
-> > --- a/arch/arm64/kernel/efi.c
-> > +++ b/arch/arm64/kernel/efi.c
-> > @@ -15,6 +15,7 @@
-> >
-> >  #include <asm/efi.h>
-> >  #include <asm/stacktrace.h>
-> > +#include <asm/vmap_stack.h>
-> >
-> >  static bool region_is_misaligned(const efi_memory_desc_t *md)
-> >  {
-> > @@ -214,9 +215,11 @@ static int __init arm64_efi_rt_init(void)
-> >       if (!efi_enabled(EFI_RUNTIME_SERVICES))
-> >               return 0;
-> >
-> > -     p = __vmalloc_node(THREAD_SIZE, THREAD_ALIGN, GFP_KERNEL,
-> > -                        NUMA_NO_NODE, &&l);
-> > -l:   if (!p) {
-> > +     if (!IS_ENABLED(CONFIG_VMAP_STACK))
-> > +             return -ENOMEM;
->
-> Mark Rutland pointed out in a private chat that this should probably
-> clear the EFI_RUNTIME_SERVICES flag as well.
->
+Hello Ard,
 
-If VMAP_STACK is a hard requirement, should we make CONFIG_EFI depend
-on it for arm64?
-
-> > +
-> > +     p = arch_alloc_vmap_stack(THREAD_SIZE, NUMA_NO_NODE);
-> > +     if (!p) {
-> >               pr_warn("Failed to allocate EFI runtime stack\n");
-> >               clear_bit(EFI_RUNTIME_SERVICES, &efi.flags);
-> >               return -ENOMEM;
+On Fri, Jul 04, 2025 at 10:26:37AM +0200, Ard Biesheuvel wrote:
+> On Thu, 3 Jul 2025 at 18:35, Catalin Marinas <catalin.marinas@arm.com> wrote:
+> > On Tue, Jun 24, 2025 at 05:55:53AM -0700, Breno Leitao wrote:
+...
+> > >  arch/arm64/kernel/efi.c | 9 ++++++---
+...
+> > >  static bool region_is_misaligned(const efi_memory_desc_t *md)
+> > >  {
+> > > @@ -214,9 +215,11 @@ static int __init arm64_efi_rt_init(void)
+> > >       if (!efi_enabled(EFI_RUNTIME_SERVICES))
+> > >               return 0;
+> > >
+> > > -     p = __vmalloc_node(THREAD_SIZE, THREAD_ALIGN, GFP_KERNEL,
+> > > -                        NUMA_NO_NODE, &&l);
+> > > -l:   if (!p) {
+> > > +     if (!IS_ENABLED(CONFIG_VMAP_STACK))
+> > > +             return -ENOMEM;
 > >
->
-> With that:
->
-> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
->
-> (but let's see if Ard has a different opinion on the approach)
->
+> > Mark Rutland pointed out in a private chat that this should probably
+> > clear the EFI_RUNTIME_SERVICES flag as well.
+> >
+> 
+> If VMAP_STACK is a hard requirement, should we make CONFIG_EFI depend
+> on it for arm64?
 
-I think this is fine - the stack just needs to be disjoint from the
-ordinary kernel mode task stack so that buggy firmware is less likely
-to corrupt it, and so that we can recover from an unexpected
-synchronous exception more reliably.
+What about if we make CONFIG_EFI select VMAP_STACK? I think it is more
+straight forward from a configuration perspective.
 
-In that sense, the old and the new code are equivalent, so no
-objections from me.
+I thought about the following. What do you think?
+
+	arm64: EFI selects VMAP_STACK
+
+	Modify the ARM64 Kconfig to make the CONFIG_EFI configuration option
+	automatically select CONFIG_VMAP_STACK.
+
+	The motivation is that arm64_efi_rt_init() will fail at runtime if
+	CONFIG_VMAP_STACK is not set, so the patch ensures that enabling EFI
+	will always enable VMAP_STACK as well, and avoid having EFI disabled in
+	case the user didn't set VMAP_STACK.
+
+	Suggested-by: Ard Biesheuvel <ardb@kernel.org>
+	Signed-off-by: Breno Leitao <leitao@debian.org>
+
+	diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+	index 55fc331af3371..cc2585143f511 100644
+	--- a/arch/arm64/Kconfig
+	+++ b/arch/arm64/Kconfig
+	@@ -2437,6 +2437,7 @@ config EFI
+		select EFI_RUNTIME_WRAPPERS
+		select EFI_STUB
+		select EFI_GENERIC_STUB
+	+	select VMAP_STACK
+		imply IMA_SECURE_AND_OR_TRUSTED_BOOT
+		default y
+		help
+
+> > (but let's see if Ard has a different opinion on the approach)
+
+> I think this is fine - the stack just needs to be disjoint from the
+> ordinary kernel mode task stack so that buggy firmware is less likely
+> to corrupt it, and so that we can recover from an unexpected
+> synchronous exception more reliably.
+> 
+> In that sense, the old and the new code are equivalent, so no
+> objections from me.
+
+Thanks. I will send an update with the update that Catalin and Mark
+suggested.
+
+Thanks!
+--breno
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CAMj1kXFadibWLnhFv3cOk-7Ah2MmPz8RqDuQjGr-3gmq%2BhEnMg%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aGfK2N6po39zyVIp%40gmail.com.
