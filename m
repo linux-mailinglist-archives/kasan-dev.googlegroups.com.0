@@ -1,161 +1,151 @@
-Return-Path: <kasan-dev+bncBC3ZPIWN3EFBBZXFWDBQMGQEILSN4PQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBU7HWDBQMGQEGWLE6VA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
-	by mail.lfdr.de (Postfix) with ESMTPS id E994DAFBCCE
-	for <lists+kasan-dev@lfdr.de>; Mon,  7 Jul 2025 22:49:43 +0200 (CEST)
-Received: by mail-wm1-x33c.google.com with SMTP id 5b1f17b1804b1-450db029f2asf16027935e9.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 07 Jul 2025 13:49:43 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1751921383; cv=pass;
+Received: from mail-pf1-x43c.google.com (mail-pf1-x43c.google.com [IPv6:2607:f8b0:4864:20::43c])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0664AFBCDE
+	for <lists+kasan-dev@lfdr.de>; Mon,  7 Jul 2025 22:53:41 +0200 (CEST)
+Received: by mail-pf1-x43c.google.com with SMTP id d2e1a72fcca58-74913385dd8sf5049228b3a.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 07 Jul 2025 13:53:41 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1751921619; cv=pass;
         d=google.com; s=arc-20240605;
-        b=RA8f4JS8txNxRWJFWtBDoO7HtJ1E+stGvGpkkf46C9egHm3gcpJxyGyRxoSwHLbwSA
-         nD17Bbi78ox3oeGKmAvd7PtJWuxxUMceKhtbS7FVvREmSQDLOzngFv+bVeHDydMnqCKE
-         hLCaGfNvbE2s8nVoOEXm53siAMpRItmSPDXbfUUghJ1ckMjIK6nxPSqD5ZOqvYOAlrYF
-         fM2rekDPmE6jfU6eGIT/WsWVZfmP7zJdycO823nZ7Cs60B4F1Udm7GjIHoqZYijLkd0h
-         iPnSU/2DTP+PzYtj6z11NEIPbHryTFYPOKmnn/j57TGcRGNoHkfO1MxCOaUu6tbXeAlG
-         rVqA==
+        b=bT/PQXlvSP+/7dZIwYPb3CdywhZdA6LsuYKRXOICrnuMLBQdcnLEIx6dEBNiYORZlp
+         h9KNvBe7+w5A30GjHxRyjhpQYAD5PAaK3lKlJHki6izOjATusw2k/qcW/cYrLnLZuMAA
+         oj5i+jCwmNh68zjQHGO+U3G5nilb9Uu7km4b0Jc4WuHsXsX+AZL7JYgxzvWUo45PBaDo
+         vtAqAIZzHdWCWU7CoGbXngBuTeYntSmzOqcPv/NgYIG8UkFQ6LDNVqQuwmgVI2Z6/BLE
+         Fvo1WN2H7wetvQ7zFBEY5IBEPGcjJgJgwACd3xxcqtgrfmM0XUL9SC7ttlt6+pOBly9m
+         CSeA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=Ae6ZTvJrEhVr2HTdTI1NxbrGzfC9H/F4j0cKeVm7/i0=;
-        fh=/x1aX5nOhi9nIjjK8ELAwjIBZ9h08XHNpypQ72aI1Dk=;
-        b=DzuMLJLbk3eZBeAerV+9W+YVpYR+uo87cMpKLBJY2x94M/uO8kkk1vxbEBX9xQHy4o
-         Aou1Mtaet6VHvpa4/WuadpT3n34W/Gxt1IwKpAR+SkolAhFja8NS7XUgYUR75CO7YAKD
-         EvniXKYsYRcq6LG8xRbRCTc3iWuEjBjVzYz/wPswHZE0vPBWN+qt7Y+PUmGgohF6JUvB
-         RpYCJB1Pp97MG9FS30mH+pHPCLKOoG3iht1VOojuuQYcXpopT0aaIc9U0vQhCuwPpfT9
-         ka3TlFxr9RTCJN40umnWKfzG7fP3n9qnpW9j876iYTP/Iu5jxK49eJNa/cQ0h9aZqdZz
-         v+cQ==;
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=r8AYwhWpGiieJ48vhaVtQd4DI6x4kCytYNn3N5Dw7X4=;
+        fh=YVXFjYxVEBHw+j25RAoC4wnQvFDkwen0yvh0svxo1/o=;
+        b=dxYSiQUC1KfTkCHsrWHDuyo+WwCAHeLp8eM46cNi82yScWGBWtYfvqxUfDPFxq4FMa
+         Is/FyJzW+rKBxqT+ju4GODqPNlGa3w5TdNw1nMin+POzQgdLBVRPseLDaXXISuxKJMQ8
+         RYUYtNy3vtI9X/PdiBOxzXrKlAJlF/Q2W/vzgkV22PWpynKmmyK9NYFSoQUN8BZjOlEU
+         ujKq1BBfK9gpfMlmR2NLrxYJakJTnYgpr16xX+Z6Q63TZhq9O1kZ8HZCTuZR9etzpK48
+         3KiMFrI7TSxiC9J26Vf5x/XRRUx07AePoGoO9EFnctqXNSSdDbrhdZ5x6tLjdSjH6eJw
+         3txg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=google header.b=Ab+F7ClH;
-       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::62d as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=PUJz70kr;
+       spf=pass (google.com: domain of alx@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=alx@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1751921383; x=1752526183; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1751921619; x=1752526419; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ae6ZTvJrEhVr2HTdTI1NxbrGzfC9H/F4j0cKeVm7/i0=;
-        b=xfWaqCazM1a3KRB6YmwJKhXa+Y+9tEkR95o8wU/aShDX0DPTJsSDhcuGcvk4/Celwp
-         2Z4WMFN7AU9PYmBYG8l1p92JIPPy8bc6iQsozLHoqI4Jd25hlMsuUwiK0wpgkRWcjghy
-         /7QyNhTBqIpuA0QkEsRHcEg632ZuRvgctjnkDfsRW6NgWFfV0xavUwAwLq174UbNcpyw
-         JtNoa9uGehgGRlAxhKllwGTiZaLdKGIJe8j1oezn9JqufrEYT2qqAZtA951XTPVGf5cG
-         cf2aLCdt5hvHnrfC+vTzpD/DLsW7pqncoRBRiJdauGHKuDwBZovWdpfAhOYfBMQ9NP2V
-         /kZA==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=r8AYwhWpGiieJ48vhaVtQd4DI6x4kCytYNn3N5Dw7X4=;
+        b=wGd4e9iTvrkwEKDix9GaOYrAHyylUj+RLw9c2ADkInPO96rZlt8dQC6owEmkb2S4ui
+         V37SUzTVnXEjDAjstxsi2jpLOpL3pwRl87YiJhreCaxn+0egZnmfAgwB3HejTvnTXq0z
+         9RIqgERatbtrArfqagOBElyoTHGldli3lP38I1OLB026jqdY7IZBvWRSxWTrXkctaJ6B
+         vL4Ypo3Hzho6EI9ue7Nd6/wdUStj2HP/cAP4NUYAJpqJevnJrnLT6cS6rWnA3u5yoDG2
+         XXyJdKMi5qPcsRRvdJtBWLfVvgZ7W7AIpzrcnsAwB6xbeef6v+Hr8KtT/t3uQoNJaY9D
+         VsNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751921383; x=1752526183;
+        d=1e100.net; s=20230601; t=1751921619; x=1752526419;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ae6ZTvJrEhVr2HTdTI1NxbrGzfC9H/F4j0cKeVm7/i0=;
-        b=pewK6z4Lsnk/qgRtOXTooxng3pmsvcUHUReyPhbJcjjGgVk6LowQiaXI7uStoFhE/W
-         4MtJrTx321VEpwoQhkJB1qfLt7ZKuWTHb9JFFeRE4Ccf4DspnViNxvwpfT6INDnybwdO
-         hKHxSODSa00jmQHbl7OdIXv6QsP4nR8jAHJKAjjYfilvrPrFdWlqso6r4xVsmPrjrC4p
-         Ce6OkQkAWDJsYP6Ak+rOfEwWhNhnvmdFyMX/Joo2QQZQN8MLtqjOHPDduca/b2C4Q1pJ
-         1WFcq2bE0O6L1sgC31VxI4qW2rE11/aS5pViOgzxaVt3PdhoJYYwHXy2g+WNxMfTOqV3
-         jKqA==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWNI6+FF7KO012rKSFV6eLaHSt5N8lwJ9HwtgAb5clWreB9Ge1NUPHNPXwjQ3c0H7CuobwnVw==@lfdr.de
-X-Gm-Message-State: AOJu0YzHHe+Xh6yR37fPJXbeMSQp0wRD2pGD3+lpyDwUa3eBNleuGL7V
-	3wThHhnlzYAIJhRlfhDXIkEjw9zoP2fbv3BszhYEIcHWaDccd3zuDX3T
-X-Google-Smtp-Source: AGHT+IEZNOqs8ajN8abfgtg4DPpKsA1aXjifCAAdczX4Z3MAjIbNor5UwekAd6Vbr38yX9BwAdIZ5Q==
-X-Received: by 2002:a05:600c:154d:b0:450:d00d:588b with SMTP id 5b1f17b1804b1-454ccc7ff08mr10927055e9.9.1751921383078;
-        Mon, 07 Jul 2025 13:49:43 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfAHlA8mu2HO/5E9hVmLiNMpt+E1+wp1ssKTFYGUAIFPA==
-Received: by 2002:a05:600c:3e0b:b0:453:dbe:7585 with SMTP id
- 5b1f17b1804b1-454b5d08b39ls16495905e9.1.-pod-prod-04-eu; Mon, 07 Jul 2025
- 13:49:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUEfzlUr9Z56/066wzke0twmah3eKAT0Cmxx3cCHKUSAS+4PIUVNfLXALOtHkoRc/Ffsjukbm+KY34=@googlegroups.com
-X-Received: by 2002:a05:600c:8b84:b0:43c:f513:958a with SMTP id 5b1f17b1804b1-454ccc806f2mr11457515e9.13.1751921380092;
-        Mon, 07 Jul 2025 13:49:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1751921380; cv=none;
+        bh=r8AYwhWpGiieJ48vhaVtQd4DI6x4kCytYNn3N5Dw7X4=;
+        b=UW+bmV1kAWmckT8Mdi1MlYRdNe3+UQkWEgV+YtCcJQmeQf/vqwuADj6/I1wNPQJG6c
+         VOdxJ/dZmHAyHMCd7SM8qQluwPYRlMikjATip7qCrwxPT5ZLRZFZvTukKTkMwqPgJ7EF
+         5Fd04clgOnSdSy4G2rF2aBB1ne8Ci+fMEiSuba5p4nx/PXa7S6NUxB+ZrcCh4f31ZZD7
+         q3RMw8lvFIf8Xm53ddGn/hh7qwUz0ZkSn0jWZbDJNB3BmBZWq15vaRGDGSJvEpxFe0ZU
+         j5vYQzQ/JYxmG+RJ2YgLsxVvHW/cbeLwEoNEgFw7TeMG1k85XS+7pb+a1y4GnpSWZOMz
+         ElxQ==
+X-Forwarded-Encrypted: i=2; AJvYcCVUX5PieGNretjESZKXeIlBM2c3nb9bTHlsClnb0ubIbjkLmOA6aJQgpJ5A8s9wXLVJ4ePUVA==@lfdr.de
+X-Gm-Message-State: AOJu0YyOzTCOE8KGWLzktRbD76uqcEUyUrQyhRj+FhC/50aOUnt4Kg9Y
+	pnGxtW0QIUV7vKgaMM2WMsSROdarnbf7w5gH70abl0pi1MZ93bUyrpNo
+X-Google-Smtp-Source: AGHT+IEXdvlY8pOyCwurUC7ZuZbEx5tJtXXg21Gly/njNh7VY70rBpylSSya+gDrLwiO9iqGZ+qXQA==
+X-Received: by 2002:a05:6a00:130f:b0:748:2f4e:ab4e with SMTP id d2e1a72fcca58-74ce66697a2mr19642386b3a.11.1751921619350;
+        Mon, 07 Jul 2025 13:53:39 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZehRt1nSItneCMaJILRl4HvTD53+XGuvIf3DVepDlRMGA==
+Received: by 2002:a05:6a00:3a15:b0:730:7e1b:db16 with SMTP id
+ d2e1a72fcca58-74ceb9cda5cls3197305b3a.1.-pod-prod-06-us; Mon, 07 Jul 2025
+ 13:53:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWuk1vgWa4VE7O3aUqzW7HlXCYU0zGH1TErBTJbtGsGKZmgH1Gepiv+uxZKcDx15qAYKuvZ3ZVCNz8=@googlegroups.com
+X-Received: by 2002:a05:6a00:4808:b0:74d:2312:ca7e with SMTP id d2e1a72fcca58-74d2312cc18mr1034834b3a.24.1751921617971;
+        Mon, 07 Jul 2025 13:53:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1751921617; cv=none;
         d=google.com; s=arc-20240605;
-        b=WP5JZmMmtuvH+ZAVBLcfVCP6YadoS8CHsQSgpZVTc4pqxOxW65QRxYj2pBZnEp7qXg
-         SDUq49vlUV428CfpHSsztpf8IHj54hmg9AoKZaov+pNG/ZvW2ysaZGfkrH0J1egM0a16
-         N9hRkZMAMGi4uuW4E0+9fYIInrELKOavlc8REk8x0w4MPWLuorBHv90kb9qN6Ongmer+
-         KmncrjAwxuR1RKY9Xre7AJMTXX6lN3lMbHQF++/akY9k8oHIPNwE4M0FZ+A+Hj8G9G1r
-         clKNuOZY148cxk08MMH0GiwHNwwRMoTjJaGRQgTeIiBMAOIPjx8H+OUKpZHMWykSQlBN
-         qx/g==
+        b=E+RlY9awEyZRjr8u0A/hCQRf6Yv/MfvEEOjQkNMr6OXpFUoq/mwmSDVZrR+RREfvyX
+         SdBQkTMZ1wUdyB/fnF2f2knvICsHp9hkGb961DIsyWLi36L6/tWlb1dcyY8c6PzxtmK2
+         yE7u4HgrM39iyPiN54D6kFTHtyl9kokOxYqfuH4wfOY7w0pplkJIkxH3l7HBUN4Lo0pI
+         jTfWokbJHD8PMqyd2JflzWzuQFv5GhAVOWfYolRLaW18THnScuN7bZPjD9s7v7k+QlNo
+         bkY+R1fe999vYFq2SW6TwVi5eH7OWhU3iUF3D5vCTTVt8cf6e5OqZrcPS1t7dSOBrKk+
+         5Bzw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=02PgiN7PJFVFaSl1V+OWG4TgqqQ82M8yAYvu32Fbss8=;
-        fh=sKzJvAC8MMYZ/Jxw9NEWhIV5xid8rCXEzd5Hjl3MZZA=;
-        b=BklPy+iuzvmJoIwf2lcSGX2ylS5vaePUlXlU7RsWdb1ytOOC5anUfLqjuFiPHwXbDI
-         ZVbM6+AMqQzK6bv2gchvoxjSGm3oa2FhGE44b80MqQC8SdlCkJh7zefoqHYkCcfJHLGp
-         s9nJSmr01Qg51lHGfDHeh+1EhAtw76KTfFQ1lCKtEheEV5hspCtNNxeuikhHHMaBWgV3
-         v+V7Y1pUYUdcIq8F/X8t8id0JhUSbpHpoI93SLgL3oEA1Z4vBdiUWOzUjrLtcyFqon6v
-         zHtAH+WJvEr9FSzWoo+x3BfhlXL3NDMB4xO/I3O6mgUAJphlydKO0Hg1jsokjPm12lOQ
-         gtRg==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=BTNKP2LOva/Dahf0Ork9MJGMn/uawc7iGFzQVbaz6Cg=;
+        fh=ZFmqDGIg7cn7OadhPwrJaXrZ3b0GVPkdcyJRWc1zL1w=;
+        b=HyedAErjMAGgSyCrhSegDRc6apeROdA7fWkTsSxHMn+hb0rRPkL4bJ1VTIXEC7Q8kh
+         fnP1TaMxLnR20X09/vL7JxfPW5HqSrcWTx+AsWmO+gDk9n9f4xE5xwlcfBBiupiGHtbi
+         IB/bjXQcrhqmEHi4YEMt7J+LunKj0WkH4zF4i2YwOSsttF64P6BQ0DVEwrpbhNNPkrlY
+         9kt0/CsRjnk41Svqs9H0zIrzzEPUNVPqasuBXRDT1AW2NwSOM9QwPtJ/UGssiycCmbCZ
+         mfrNtEwEf1j5tPCPI8DScSKQ5yljPAKJ1IbFoHo3KNajMxH0ZOpKkf5lUmd4wbw+aiVB
+         Tfcg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=google header.b=Ab+F7ClH;
-       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::62d as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com. [2a00:1450:4864:20::62d])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3b471b93792si303229f8f.7.2025.07.07.13.49.40
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=PUJz70kr;
+       spf=pass (google.com: domain of alx@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=alx@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-74ce32e29b0si78308b3a.1.2025.07.07.13.53.37
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Jul 2025 13:49:40 -0700 (PDT)
-Received-SPF: pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::62d as permitted sender) client-ip=2a00:1450:4864:20::62d;
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-ae3703c2a8bso721468566b.0
-        for <kasan-dev@googlegroups.com>; Mon, 07 Jul 2025 13:49:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWUMTNSxm1OdaUpXI1BK9o9xuitrcVVdPMYfYAmtneP2RdBziQg6N0LjRealGb9XKodWZwgH15CdfA=@googlegroups.com
-X-Gm-Gg: ASbGncvlHY48QNOwV5ZTtlGlb3wtHoj2iyOOtJAtdpkQaOX6QSMdFyW+7LmeWGN8U3r
-	koeGVmMl0FALWEmHa2dPuEJm4DwLPBV5vmX7mMgL8MIQXYR/L+n8LhCib+12WXeOVJlXiLAZV1e
-	KDFPTCBUe/tMX/d1XEqVwQE1r7ovt03CUg2sPelYCQQjXqnLnGivf+mJrhFZ2XySbXxWImFHjn+
-	RpFCbK53KAUQTzDKgWzLzaccQRC6mbWyrknc+BBdb0gGwT9oYqi84LX/q2chWF5kWzvYwYTOII2
-	2bPBaNZlK7E698YWhzT9/8vVpi4wWwIehllUzGbpAX1Z6gpCT3iHrObTphd+mIoYNJrcBYvH5AP
-	T5gcBwhcLmOTO2NfNVLIfZ/XmjHHmSrUNRMo5
-X-Received: by 2002:a17:907:3d4b:b0:ad8:a329:b490 with SMTP id a640c23a62f3a-ae6b00c303cmr65103666b.23.1751921379304;
-        Mon, 07 Jul 2025 13:49:39 -0700 (PDT)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com. [209.85.208.48])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae3f6b02a2esm763696066b.119.2025.07.07.13.49.37
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Jul 2025 13:49:38 -0700 (PDT)
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-60c6fea6742so7543858a12.1
-        for <kasan-dev@googlegroups.com>; Mon, 07 Jul 2025 13:49:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWSpxmVCQ1Q+bIWgBFhQtlX97+NrAnHRGyo5GxBbZaF+cPKCeYs4eykJR0Uys3ZBS638qH0A9rpywA=@googlegroups.com
-X-Received: by 2002:a05:6402:35cc:b0:60c:3cca:6503 with SMTP id
- 4fb4d7f45d1cf-610472e9b9dmr1045719a12.32.1751921377273; Mon, 07 Jul 2025
- 13:49:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1751862634.git.alx@kernel.org> <033bf00f1fcf808245ae150346019aa7b997ea11.1751862634.git.alx@kernel.org>
- <CAHk-=wh9Pqz07ne9iSt1_v0c14rkOGvF9AbEkaq1KnFhQD1SSA@mail.gmail.com> <ugf4pu7qrojegz7arkcpa4cyde6hoyh73h66oc4f6ncc7jg23t@bklkbbotyzvp>
-In-Reply-To: <ugf4pu7qrojegz7arkcpa4cyde6hoyh73h66oc4f6ncc7jg23t@bklkbbotyzvp>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 7 Jul 2025 13:49:20 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whQ_0qFvg3cugt84+iKXi_eebNGY4so+PSnyyVNGVde1A@mail.gmail.com>
-X-Gm-Features: Ac12FXyBZiGga4SfFrcaUHuYJV_R_nCmMtiL9Yd7402tdLFKvKKk4keGfQkJ8kk
-Message-ID: <CAHk-=whQ_0qFvg3cugt84+iKXi_eebNGY4so+PSnyyVNGVde1A@mail.gmail.com>
-Subject: Re: [RFC v3 3/7] mm: Use seprintf() instead of less ergonomic APIs
-To: Alejandro Colomar <alx@kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Jul 2025 13:53:37 -0700 (PDT)
+Received-SPF: pass (google.com: domain of alx@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 196085C06EF;
+	Mon,  7 Jul 2025 20:53:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9460EC4CEE3;
+	Mon,  7 Jul 2025 20:53:33 +0000 (UTC)
+Date: Mon, 7 Jul 2025 22:53:26 +0200
+From: "'Alejandro Colomar' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Marco Elver <elver@google.com>
 Cc: linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
 	Kees Cook <kees@kernel.org>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
 	shadow <~hallyn/shadow@lists.sr.ht>, linux-kernel@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com, 
-	Dmitry Vyukov <dvyukov@google.com>, Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
-	Christoph Lameter <cl@linux.com>, David Rientjes <rientjes@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>, 
+	Alexander Potapenko <glider@google.com>, Christoph Lameter <cl@linux.com>, 
+	David Rientjes <rientjes@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
 	Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>, 
 	Andrew Clayton <andrew@digital-domain.net>, Sven Schnelle <svens@linux.ibm.com>, 
 	Heiko Carstens <hca@linux.ibm.com>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
 	"Huang, Ying" <ying.huang@intel.com>, Lee Schermerhorn <lee.schermerhorn@hp.com>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
-	Chao Yu <chao.yu@oppo.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: torvalds@linux-foundation.org
+	Linus Torvalds <torvalds@linux-foundation.org>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, Chao Yu <chao.yu@oppo.com>
+Subject: Re: [RFC v3 3/7] mm: Use seprintf() instead of less ergonomic APIs
+Message-ID: <t3wv6hlt7quhab7qqvxbx6zn4rh2oo6466urtu6tmnix63ju7v@hiwhnb5l4twf>
+References: <cover.1751862634.git.alx@kernel.org>
+ <033bf00f1fcf808245ae150346019aa7b997ea11.1751862634.git.alx@kernel.org>
+ <CANpmjNMPWWdushTvUqYJzqQJz4SJLgPggH9cs4KPob_9=1T-nw@mail.gmail.com>
+ <kicfhrecpahv5kkawnnazsuterxjoqscwf3rb4u6in5gig2bq6@jbt6dwnzs67r>
+ <CANpmjNNXyyfmYFPYm2LCF_+vdPtWED3xj5gOJPQazpGhBizk5w@mail.gmail.com>
+ <gvckzzomd7x3cxd7fxb37b6zn4uowjubpyrnvj7ptzz3mr3zq2@xovzgew63mxr>
+ <CANpmjNO0_RAMgZJktaempOm-KdY6Q0iJYFz=YEibvBgh7hNPwg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="v74lbtuwitce4ome"
+Content-Disposition: inline
+In-Reply-To: <CANpmjNO0_RAMgZJktaempOm-KdY6Q0iJYFz=YEibvBgh7hNPwg@mail.gmail.com>
+X-Original-Sender: alx@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux-foundation.org header.s=google header.b=Ab+F7ClH;
-       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates
- 2a00:1450:4864:20::62d as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org;
-       dara=pass header.i=@googlegroups.com
+ header.i=@kernel.org header.s=k20201202 header.b=PUJz70kr;       spf=pass
+ (google.com: domain of alx@kernel.org designates 2604:1380:4641:c500::1 as
+ permitted sender) smtp.mailfrom=alx@kernel.org;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Alejandro Colomar <alx@kernel.org>
+Reply-To: Alejandro Colomar <alx@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -168,31 +158,451 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 7 Jul 2025 at 13:29, Alejandro Colomar <alx@kernel.org> wrote:
->
-> I am in the C Committee, and have proposed this API for standardization.
-> I have a feeling that the committee might be open to it.
 
-Honestly, how about fixing the serious problems with the language instead?
+--v74lbtuwitce4ome
+Content-Type: text/plain; protected-headers=v1; charset="UTF-8"
+Content-Disposition: inline
+From: Alejandro Colomar <alx@kernel.org>
+To: Marco Elver <elver@google.com>
+Cc: linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
+	Kees Cook <kees@kernel.org>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	shadow <~hallyn/shadow@lists.sr.ht>, linux-kernel@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>, 
+	Alexander Potapenko <glider@google.com>, Christoph Lameter <cl@linux.com>, 
+	David Rientjes <rientjes@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>, 
+	Andrew Clayton <andrew@digital-domain.net>, Sven Schnelle <svens@linux.ibm.com>, 
+	Heiko Carstens <hca@linux.ibm.com>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+	"Huang, Ying" <ying.huang@intel.com>, Lee Schermerhorn <lee.schermerhorn@hp.com>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, Chao Yu <chao.yu@oppo.com>
+Subject: Re: [RFC v3 3/7] mm: Use seprintf() instead of less ergonomic APIs
+References: <cover.1751862634.git.alx@kernel.org>
+ <033bf00f1fcf808245ae150346019aa7b997ea11.1751862634.git.alx@kernel.org>
+ <CANpmjNMPWWdushTvUqYJzqQJz4SJLgPggH9cs4KPob_9=1T-nw@mail.gmail.com>
+ <kicfhrecpahv5kkawnnazsuterxjoqscwf3rb4u6in5gig2bq6@jbt6dwnzs67r>
+ <CANpmjNNXyyfmYFPYm2LCF_+vdPtWED3xj5gOJPQazpGhBizk5w@mail.gmail.com>
+ <gvckzzomd7x3cxd7fxb37b6zn4uowjubpyrnvj7ptzz3mr3zq2@xovzgew63mxr>
+ <CANpmjNO0_RAMgZJktaempOm-KdY6Q0iJYFz=YEibvBgh7hNPwg@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CANpmjNO0_RAMgZJktaempOm-KdY6Q0iJYFz=YEibvBgh7hNPwg@mail.gmail.com>
 
-Get rid of the broken "strict aliasing" garbage.
+Hi Marco,
 
-Get rid of the random "undefined behavior" stuff that is literally
-designed to let compilers intentionally mis-compile code.
+On Mon, Jul 07, 2025 at 09:08:29PM +0200, Marco Elver wrote:
+> > > > > Did you run the tests? Do they pass?
+> > > >
+> > > > I don't know how to run them.  I've only built the kernel.  If you point
+> > > > me to instructions on how to run them, I'll do so.  Thanks!
+> > >
+> > > Should just be CONFIG_KFENCE_KUNIT_TEST=y -- then boot kernel and
+> > > check that the test reports "ok".
+> >
+> > Hmmm, I can't see the results.  Did I miss anything?
+> >
+> >         alx@debian:~$ uname -a
+> >         Linux debian 6.15.0-seprintf-mm+ #5 SMP PREEMPT_DYNAMIC Mon Jul  7 19:16:40 CEST 2025 x86_64 GNU/Linux
+> >         alx@debian:~$ cat /boot/config-6.15.0-seprintf-mm+ | grep KFENCE
+> >         CONFIG_HAVE_ARCH_KFENCE=y
+> >         CONFIG_KFENCE=y
+> >         CONFIG_KFENCE_SAMPLE_INTERVAL=0
+> 
+>                      ^^ This means KFENCE is off.
+> 
+> Not sure why it's 0 (distro default config?), but if you switch it to
+> something like:
 
-Because as things are, "I am on the C committee" isn't a
-recommendation. It's a "we have decades of bad decisions to show our
-credentials".
+Yup, Debian default config plus what you told me.  :)
 
-In the kernel, I have made it very very clear that we do not use
-standard C, because standard C is broken.
+> 
+>   CONFIG_KFENCE_SAMPLE_INTERVAL=10
 
-I stand by my "let's not add random letters to existing functions that
-are already too confusing".
+Thanks!  Now I see the tests.
 
-              Linus
+I see no regressions.  I've tested both v6.15 and my branch, and see no
+differences:
+
+
+This was generated with the kernel built from my branch:
+
+	$ sudo dmesg | grep -inC2 kfence | sed 's/^....//' > tmp/log_after
+
+This was generated with a v6.15 kernel with the same exact config:
+
+	$ sudo dmesg | grep -inC2 kfence | sed 's/^....//' > tmp/log_before
+
+And here's a diff, ignoring some numbers that were easy to filter out:
+
+	$ diff -U999 \
+		<(cat tmp/log_before \
+			| sed 's/0x[0-9a-f]*/0x????/g' \
+			| sed 's/[[:digit:]]\.[[:digit:]]\+/?.?/g' \
+			| sed 's/#[[:digit:]]\+/#???/g') \
+		<(cat tmp/log_after \
+			| sed 's/0x[0-9a-f]*/0x????/g' \
+			| sed 's/[[:digit:]]\.[[:digit:]]\+/?.?/g' \
+			| sed 's/#[[:digit:]]\+/#???/g');
+	--- /dev/fd/63	2025-07-07 22:47:37.395608776 +0200
+	+++ /dev/fd/62	2025-07-07 22:47:37.395608776 +0200
+	@@ -1,303 +1,303 @@
+	 [    ?.?] NR_IRQS: 524544, nr_irqs: 1096, preallocated irqs: 16
+	 [    ?.?] rcu: srcu_init: Setting srcu_struct sizes based on contention.
+	 [    ?.?] kfence: initialized - using 2097152 bytes for 255 objects at 0x????(____ptrval____)-0x????(____ptrval____)
+	 [    ?.?] Console: colour dummy device 80x????
+	 [    ?.?] printk: legacy console [tty0] enabled
+	 --
+	 [    ?.?] ok 7 sysctl_test
+	 [    ?.?]     KTAP version 1
+	 [    ?.?]     # Subtest: kfence
+	 [    ?.?]     1..27
+	 [    ?.?]     # test_out_of_bounds_read: test_alloc: size=32, gfp=cc0, policy=left, cache=0
+	 [    ?.?] ==================================================================
+	 [    ?.?] BUG: KFENCE: out-of-bounds read in test_out_of_bounds_read+0x????/0x????
+	 
+	 [    ?.?] Out-of-bounds read at 0x???? (1B left of kfence-#???):
+	 [    ?.?]  test_out_of_bounds_read+0x????/0x????
+	 [    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 [    ?.?]  ret_from_fork_asm+0x????/0x????
+	 
+	 [    ?.?] kfence-#???: 0x????-0x????, size=32, cache=kmalloc-32
+	 
+	-[    ?.?] allocated by task 281 on cpu 6 at ?.?s (?.?s ago):
+	+[    ?.?] allocated by task 286 on cpu 8 at ?.?s (?.?s ago):
+	 --
+	 [    ?.?]     # test_out_of_bounds_read: test_alloc: size=32, gfp=cc0, policy=right, cache=0
+	 [    ?.?] ==================================================================
+	 [    ?.?] BUG: KFENCE: out-of-bounds read in test_out_of_bounds_read.cold+0x????/0x????
+	 
+	 [    ?.?] Out-of-bounds read at 0x???? (32B right of kfence-#???):
+	 [    ?.?]  test_out_of_bounds_read.cold+0x????/0x????
+	 [    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 [    ?.?]  ret_from_fork_asm+0x????/0x????
+	 
+	 [    ?.?] kfence-#???: 0x????-0x????, size=32, cache=kmalloc-32
+	 
+	-[    ?.?] allocated by task 281 on cpu 6 at ?.?s (?.?s ago):
+	+[    ?.?] allocated by task 286 on cpu 11 at ?.?s (?.?s ago):
+	 --
+	 [    ?.?]     # test_out_of_bounds_read-memcache: test_alloc: size=32, gfp=cc0, policy=left, cache=1
+	 -[    ?.?] ==================================================================
+	 :[    ?.?] BUG: KFENCE: out-of-bounds read in test_out_of_bounds_read+0x????/0x????
+	 -
+	 :[    ?.?] Out-of-bounds read at 0x???? (1B left of kfence-#???):
+	 -[    ?.?]  test_out_of_bounds_read+0x????/0x????
+	 -[    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 -[    ?.?]  ret_from_fork_asm+0x????/0x????
+	 -
+	 :[    ?.?] kfence-#???: 0x????-0x????, size=32, cache=test
+	 -
+	--[    ?.?] allocated by task 284 on cpu 6 at ?.?s (?.?s ago):
+	+-[    ?.?] allocated by task 289 on cpu 8 at ?.?s (?.?s ago):
+	 --
+	 -[    ?.?]     # test_out_of_bounds_read-memcache: test_alloc: size=32, gfp=cc0, policy=right, cache=1
+	 -[    ?.?] ==================================================================
+	 :[    ?.?] BUG: KFENCE: out-of-bounds read in test_out_of_bounds_read.cold+0x????/0x????
+	 -
+	 :[    ?.?] Out-of-bounds read at 0x???? (32B right of kfence-#???):
+	 -[    ?.?]  test_out_of_bounds_read.cold+0x????/0x????
+	 -[    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 -[    ?.?]  ret_from_fork_asm+0x????/0x????
+	 -
+	 :[    ?.?] kfence-#???: 0x????-0x????, size=32, cache=test
+	 -
+	--[    ?.?] allocated by task 284 on cpu 6 at ?.?s (?.?s ago):
+	+-[    ?.?] allocated by task 289 on cpu 8 at ?.?s (?.?s ago):
+	 --
+	 -[    ?.?]     # test_out_of_bounds_write: test_alloc: size=32, gfp=cc0, policy=left, cache=0
+	 -[    ?.?] ==================================================================
+	 :[    ?.?] BUG: KFENCE: out-of-bounds write in test_out_of_bounds_write+0x????/0x????
+	 -
+	 :[    ?.?] Out-of-bounds write at 0x???? (1B left of kfence-#???):
+	 -[    ?.?]  test_out_of_bounds_write+0x????/0x????
+	 -[    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 -[    ?.?]  ret_from_fork_asm+0x????/0x????
+	 -
+	 :[    ?.?] kfence-#???: 0x????-0x????, size=32, cache=kmalloc-32
+	 -
+	--[    ?.?] allocated by task 288 on cpu 6 at ?.?s (?.?s ago):
+	+-[    ?.?] allocated by task 291 on cpu 6 at ?.?s (?.?s ago):
+	 --
+	--[    ?.?]     # test_out_of_bounds_write-memcache: test_alloc: size=32, gfp=cc0, policy=left, cache=1
+	 -[    ?.?] ==================================================================
+	+-[    ?.?] clocksource: tsc: mask: 0x???? max_cycles: 0x????, max_idle_ns: 881590599626 ns
+	 :[    ?.?] BUG: KFENCE: out-of-bounds write in test_out_of_bounds_write+0x????/0x????
+	 -
+	 :[    ?.?] Out-of-bounds write at 0x???? (1B left of kfence-#???):
+	 -[    ?.?]  test_out_of_bounds_write+0x????/0x????
+	 -[    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 -[    ?.?]  ret_from_fork_asm+0x????/0x????
+	 -
+	 :[    ?.?] kfence-#???: 0x????-0x????, size=32, cache=test
+	 -
+	--[    ?.?] allocated by task 290 on cpu 6 at ?.?s (?.?s ago):
+	+-[    ?.?] allocated by task 293 on cpu 10 at ?.?s (?.?s ago):
+	 --
+	 -[    ?.?]     # test_use_after_free_read: test_alloc: size=32, gfp=cc0, policy=any, cache=0
+	 -[    ?.?] ==================================================================
+	 :[    ?.?] BUG: KFENCE: use-after-free read in test_use_after_free_read+0x????/0x????
+	 -
+	 :[    ?.?] Use-after-free read at 0x???? (in kfence-#???):
+	 -[    ?.?]  test_use_after_free_read+0x????/0x????
+	 -[    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 -[    ?.?]  ret_from_fork_asm+0x????/0x????
+	 -
+	 :[    ?.?] kfence-#???: 0x????-0x????, size=32, cache=kmalloc-32
+	 -
+	--[    ?.?] allocated by task 292 on cpu 6 at ?.?s (?.?s ago):
+	+-[    ?.?] allocated by task 296 on cpu 10 at ?.?s (?.?s ago):
+	 --
+	 -[    ?.?]     # test_use_after_free_read-memcache: test_alloc: size=32, gfp=cc0, policy=any, cache=1
+	 -[    ?.?] ==================================================================
+	 :[    ?.?] BUG: KFENCE: use-after-free read in test_use_after_free_read+0x????/0x????
+	 -
+	 :[    ?.?] Use-after-free read at 0x???? (in kfence-#???):
+	 -[    ?.?]  test_use_after_free_read+0x????/0x????
+	 -[    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 -[    ?.?]  ret_from_fork_asm+0x????/0x????
+	 -
+	 :[    ?.?] kfence-#???: 0x????-0x????, size=32, cache=test
+	 -
+	--[    ?.?] allocated by task 294 on cpu 6 at ?.?s (?.?s ago):
+	+-[    ?.?] allocated by task 298 on cpu 10 at ?.?s (?.?s ago):
+	 --
+	 -[    ?.?]     # test_double_free: test_alloc: size=32, gfp=cc0, policy=any, cache=0
+	 -[    ?.?] ==================================================================
+	 :[    ?.?] BUG: KFENCE: invalid free in test_double_free+0x????/0x????
+	 -
+	 :[    ?.?] Invalid free of 0x???? (in kfence-#???):
+	 -[    ?.?]  test_double_free+0x????/0x????
+	 -[    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 -[    ?.?]  ret_from_fork_asm+0x????/0x????
+	 -
+	 :[    ?.?] kfence-#???: 0x????-0x????, size=32, cache=kmalloc-32
+	 -
+	--[    ?.?] allocated by task 300 on cpu 6 at ?.?s (?.?s ago):
+	+-[    ?.?] allocated by task 304 on cpu 6 at ?.?s (?.?s ago):
+	 --
+	 -[    ?.?]     # test_double_free-memcache: test_alloc: size=32, gfp=cc0, policy=any, cache=1
+	 -[    ?.?] ==================================================================
+	 :[    ?.?] BUG: KFENCE: invalid free in test_double_free+0x????/0x????
+	 -
+	 :[    ?.?] Invalid free of 0x???? (in kfence-#???):
+	 -[    ?.?]  test_double_free+0x????/0x????
+	 -[    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 -[    ?.?]  ret_from_fork_asm+0x????/0x????
+	 -
+	 :[    ?.?] kfence-#???: 0x????-0x????, size=32, cache=test
+	 -
+	--[    ?.?] allocated by task 302 on cpu 6 at ?.?s (?.?s ago):
+	+-[    ?.?] allocated by task 306 on cpu 8 at ?.?s (?.?s ago):
+	 --
+	 -[    ?.?]     # test_invalid_addr_free: test_alloc: size=32, gfp=cc0, policy=any, cache=0
+	 -[    ?.?] ==================================================================
+	 :[    ?.?] BUG: KFENCE: invalid free in test_invalid_addr_free+0x????/0x????
+	 -
+	 :[    ?.?] Invalid free of 0x???? (in kfence-#???):
+	 -[    ?.?]  test_invalid_addr_free+0x????/0x????
+	 -[    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 -[    ?.?]  ret_from_fork_asm+0x????/0x????
+	 -
+	 :[    ?.?] kfence-#???: 0x????-0x????, size=32, cache=kmalloc-32
+	 -
+	--[    ?.?] allocated by task 304 on cpu 6 at ?.?s (?.?s ago):
+	+-[    ?.?] allocated by task 308 on cpu 8 at ?.?s (?.?s ago):
+	 --
+	 -[    ?.?]     # test_invalid_addr_free-memcache: test_alloc: size=32, gfp=cc0, policy=any, cache=1
+	 -[    ?.?] ==================================================================
+	 :[    ?.?] BUG: KFENCE: invalid free in test_invalid_addr_free+0x????/0x????
+	 -
+	 :[    ?.?] Invalid free of 0x???? (in kfence-#???):
+	 -[    ?.?]  test_invalid_addr_free+0x????/0x????
+	 -[    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 -[    ?.?]  ret_from_fork_asm+0x????/0x????
+	 -
+	 :[    ?.?] kfence-#???: 0x????-0x????, size=32, cache=test
+	 -
+	--[    ?.?] allocated by task 306 on cpu 6 at ?.?s (?.?s ago):
+	+-[    ?.?] allocated by task 310 on cpu 8 at ?.?s (?.?s ago):
+	 --
+	 -[    ?.?]     # test_corruption: test_alloc: size=32, gfp=cc0, policy=left, cache=0
+	 -[    ?.?] ==================================================================
+	 :[    ?.?] BUG: KFENCE: memory corruption in test_corruption+0x????/0x????
+	 -
+	 :[    ?.?] Corrupted memory at 0x???? [ ! . . . . . . . . . . . . . . . ] (in kfence-#???):
+	 -[    ?.?]  test_corruption+0x????/0x????
+	 -[    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 -[    ?.?]  ret_from_fork_asm+0x????/0x????
+	 -
+	 :[    ?.?] kfence-#???: 0x????-0x????, size=32, cache=kmalloc-32
+	 -
+	--[    ?.?] allocated by task 308 on cpu 6 at ?.?s (?.?s ago):
+	+-[    ?.?] allocated by task 312 on cpu 6 at ?.?s (?.?s ago):
+	 --
+	 -[    ?.?]     # test_corruption: test_alloc: size=32, gfp=cc0, policy=right, cache=0
+	 -[    ?.?] ==================================================================
+	 :[    ?.?] BUG: KFENCE: memory corruption in test_corruption+0x????/0x????
+	 -
+	 :[    ?.?] Corrupted memory at 0x???? [ ! ] (in kfence-#???):
+	 -[    ?.?]  test_corruption+0x????/0x????
+	 -[    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 -[    ?.?]  ret_from_fork_asm+0x????/0x????
+	 -
+	 :[    ?.?] kfence-#???: 0x????-0x????, size=32, cache=kmalloc-32
+	 -
+	--[    ?.?] allocated by task 308 on cpu 6 at ?.?s (?.?s ago):
+	+-[    ?.?] allocated by task 312 on cpu 6 at ?.?s (?.?s ago):
+	 --
+	 -[    ?.?]     # test_corruption-memcache: test_alloc: size=32, gfp=cc0, policy=left, cache=1
+	 -[    ?.?] ==================================================================
+	 :[    ?.?] BUG: KFENCE: memory corruption in test_corruption+0x????/0x????
+	 -
+	 :[    ?.?] Corrupted memory at 0x???? [ ! . . . . . . . . . . . . . . . ] (in kfence-#???):
+	 -[    ?.?]  test_corruption+0x????/0x????
+	 -[    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 -[    ?.?]  ret_from_fork_asm+0x????/0x????
+	 -
+	 :[    ?.?] kfence-#???: 0x????-0x????, size=32, cache=test
+	 -
+	--[    ?.?] allocated by task 310 on cpu 6 at ?.?s (?.?s ago):
+	+-[    ?.?] allocated by task 314 on cpu 6 at ?.?s (?.?s ago):
+	 --
+	 -[    ?.?]     # test_corruption-memcache: test_alloc: size=32, gfp=cc0, policy=right, cache=1
+	 -[    ?.?] ==================================================================
+	 :[    ?.?] BUG: KFENCE: memory corruption in test_corruption+0x????/0x????
+	 -
+	 :[    ?.?] Corrupted memory at 0x???? [ ! ] (in kfence-#???):
+	 -[    ?.?]  test_corruption+0x????/0x????
+	 -[    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 -[    ?.?]  ret_from_fork_asm+0x????/0x????
+	 -
+	 :[    ?.?] kfence-#???: 0x????-0x????, size=32, cache=test
+	 -
+	--[    ?.?] allocated by task 310 on cpu 6 at ?.?s (?.?s ago):
+	+-[    ?.?] allocated by task 314 on cpu 6 at ?.?s (?.?s ago):
+	 --
+	 -[    ?.?]     # test_kmalloc_aligned_oob_read: test_alloc: size=73, gfp=cc0, policy=right, cache=0
+	 -[    ?.?] ==================================================================
+	 :[    ?.?] BUG: KFENCE: out-of-bounds read in test_kmalloc_aligned_oob_read+0x????/0x????
+	 -
+	 :[    ?.?] Out-of-bounds read at 0x???? (105B right of kfence-#???):
+	 -[    ?.?]  test_kmalloc_aligned_oob_read+0x????/0x????
+	 -[    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 -[    ?.?]  ret_from_fork_asm+0x????/0x????
+	 -
+	 :[    ?.?] kfence-#???: 0x????-0x????, size=73, cache=kmalloc-96
+	 -
+	--[    ?.?] allocated by task 320 on cpu 10 at ?.?s (?.?s ago):
+	+-[    ?.?] allocated by task 326 on cpu 6 at ?.?s (?.?s ago):
+	 --
+	 -[    ?.?]     # test_kmalloc_aligned_oob_write: test_alloc: size=73, gfp=cc0, policy=right, cache=0
+	 -[    ?.?] ==================================================================
+	 :[    ?.?] BUG: KFENCE: memory corruption in test_kmalloc_aligned_oob_write+0x????/0x????
+	 -
+	 :[    ?.?] Corrupted memory at 0x???? [ ! . . . . . . . . . . . . . . . ] (in kfence-#???):
+	 -[    ?.?]  test_kmalloc_aligned_oob_write+0x????/0x????
+	 -[    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 -[    ?.?]  ret_from_fork_asm+0x????/0x????
+	 -
+	 :[    ?.?] kfence-#???: 0x????-0x????, size=73, cache=kmalloc-96
+	 -
+	--[    ?.?] allocated by task 326 on cpu 8 at ?.?s (?.?s ago):
+	+-[    ?.?] allocated by task 328 on cpu 4 at ?.?s (?.?s ago):
+	 --
+	 -[    ?.?]     ok 22 test_memcache_ctor
+	 -[    ?.?] ==================================================================
+	 :[    ?.?] BUG: KFENCE: invalid read in test_invalid_access+0x????/0x????
+	 -
+	 -[    ?.?] Invalid read at 0x????:
+	 --
+	 -[    ?.?]     # test_memcache_typesafe_by_rcu: test_alloc: size=32, gfp=cc0, policy=any, cache=1
+	 -[    ?.?] ==================================================================
+	 :[    ?.?] BUG: KFENCE: use-after-free read in test_memcache_typesafe_by_rcu.cold+0x????/0x????
+	 -
+	 :[    ?.?] Use-after-free read at 0x???? (in kfence-#???):
+	 -[    ?.?]  test_memcache_typesafe_by_rcu.cold+0x????/0x????
+	 -[    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 -[    ?.?]  ret_from_fork_asm+0x????/0x????
+	 -
+	 :[    ?.?] kfence-#???: 0x????-0x????, size=32, cache=test
+	 -
+	--[    ?.?] allocated by task 336 on cpu 6 at ?.?s (?.?s ago):
+	+-[    ?.?] allocated by task 338 on cpu 10 at ?.?s (?.?s ago):
+	 --
+	 -[    ?.?]     # test_krealloc: test_alloc: size=32, gfp=cc0, policy=any, cache=0
+	 -[    ?.?] ==================================================================
+	 :[    ?.?] BUG: KFENCE: use-after-free read in test_krealloc+0x????/0x????
+	 -
+	 :[    ?.?] Use-after-free read at 0x???? (in kfence-#???):
+	 -[    ?.?]  test_krealloc+0x????/0x????
+	 -[    ?.?]  kunit_try_run_case+0x????/0x????
+	 --
+	 -[    ?.?]  ret_from_fork_asm+0x????/0x????
+	 -
+	 :[    ?.?] kfence-#???: 0x????-0x????, size=32, cache=kmalloc-32
+	 -
+	--[    ?.?] allocated by task 338 on cpu 4 at ?.?s (?.?s ago):
+	+-[    ?.?] allocated by task 340 on cpu 6 at ?.?s (?.?s ago):
+	 --
+	 -[    ?.?]     # test_memcache_alloc_bulk: setup_test_cache: size=32, ctor=0x????
+	 -[    ?.?]     ok 27 test_memcache_alloc_bulk
+	 :[    ?.?] # kfence: pass:25 fail:0 skip:2 total:27
+	 -[    ?.?] # Totals: pass:25 fail:0 skip:2 total:27
+	 :[    ?.?] ok 8 kfence
+	 -[    ?.?]     KTAP version 1
+	 -[    ?.?]     # Subtest: damon
+
+If you'd like me to grep for something more specific, please let me
+know.
+
+
+Cheers,
+Alex
+
+-- 
+<https://www.alejandro-colomar.es/>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CAHk-%3DwhQ_0qFvg3cugt84%2BiKXi_eebNGY4so%2BPSnyyVNGVde1A%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/t3wv6hlt7quhab7qqvxbx6zn4rh2oo6466urtu6tmnix63ju7v%40hiwhnb5l4twf.
+
+--v74lbtuwitce4ome
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmhsM78ACgkQ64mZXMKQ
+wqkNcw//cAOxiIsGa8kbXMBkXN7Ook5P9u2Zs0cUjCYoHn9AIRtW+hYf1lDdnNav
+BahwpujFq2zGzRyI1s959gqIYMg6K4bcKTE4INHACBnjgjMpRlHJy80VmHF2teO0
+wRIrPP+kH8fp005+LI5DjXLKwT6f8y6n0qGCfvQ9TRXkzrUSs8k0RKnhfW36sSff
+OVOARSwCyWLTgW0fXraBYwON/iFLjqYaMtqQrJ98XD1kzuOd8mIySqvFeDT7rZIN
+ysSww7O/EkPOGx6eWNpFHdhsW97XfYMsfMjULq3bJ2k6qxEryGG3f2Tz02d3VtYN
+Li7+VnK17YTfCtUIvztGRuhXWibtoqEcHt2bkmw1pHU2CTErtQi0c5+eeQ3T67dU
+1ypdyvk0q9xBxr77E031Po0VyXtRIhkEFwtAKsLU2zL7ebF9m0kj1tMqYGeS6UfO
+8G7ljq4NsBLX75+50dJGzbeRYdcxrMmbCNgAijuH5tN834b4BY5lw2mAuMeYUKg0
+58N4TGr/2jZ224zRFArUB7rlnfqnDUs/G4Qb6qM2VQJ0m5viWQ5QEJRvYQSr6TDh
+HYvlfve6M4tKrCmCKq6bc5Mpv13I3oGzushJn7gb8dFGkbTBe44youIcBMojljcz
+QJWkCtjVuSEA9icPljo1VU9boyGgmnPnf7gznVm1eCmLgpBRbQ0=
+=wycf
+-----END PGP SIGNATURE-----
+
+--v74lbtuwitce4ome--
