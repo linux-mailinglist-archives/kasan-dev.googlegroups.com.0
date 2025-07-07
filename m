@@ -1,278 +1,147 @@
-Return-Path: <kasan-dev+bncBCD6ROMWZ4CBB7NAV7BQMGQENHPF4EY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBL5YV7BQMGQEPMWCX7Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AC39AFB51F
-	for <lists+kasan-dev@lfdr.de>; Mon,  7 Jul 2025 15:49:52 +0200 (CEST)
-Received: by mail-lf1-x140.google.com with SMTP id 2adb3069b0e04-55629c3a5dasf2478602e87.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 07 Jul 2025 06:49:52 -0700 (PDT)
-ARC-Seal: i=4; a=rsa-sha256; t=1751896191; cv=pass;
+Received: from mail-il1-x137.google.com (mail-il1-x137.google.com [IPv6:2607:f8b0:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A32AFB63E
+	for <lists+kasan-dev@lfdr.de>; Mon,  7 Jul 2025 16:39:45 +0200 (CEST)
+Received: by mail-il1-x137.google.com with SMTP id e9e14a558f8ab-3e0548d7e86sf18417065ab.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 07 Jul 2025 07:39:45 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1751899184; cv=pass;
         d=google.com; s=arc-20240605;
-        b=jjjXSuv/fiKMBIQTAKP25rjznROw5m1y9qX7xJIgz1IGp6mVMZ4DcWjO2zlY/ECkgf
-         Y9yi3YB6WfB3GbMGkiQjY99DM4QGkB0Xu/51Z3dXhuPtCcKDIOz8AefFYMtgEVj6S5DS
-         2MHnlE3uHJ1FBwM7I+2pWWErhKw0RXtrf79hZBg7fm+WEaUIPBzhgk0I8PWsHdFxMUip
-         VZcBFtAzhyWV3DwTQpd+1ikjkCl2WPxVQELLT7dj2t3TBiW3ZCEtJQbwYuvzQJZsTZB1
-         HmIVmMQIasL/Lo8ij1Y2z8ExtEPHQHf14UoxZ3oSLrHnsnbrPTx6VnY7n8sXrvN326T2
-         sjng==
-ARC-Message-Signature: i=4; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        b=YR683jEPj6P58S8jn6p7hNngzMS7HXVG7ZaT8QWqiNBhjWJqtXDt3z/CIrz6RQb2p9
+         TILClRkM86q50guwU/n00kn6YQWPXfv+NO+nfr1rIK1hu0m5o4vY+aJ9QjWmMvhKMOjg
+         NNhYYEgYyI4AGSch3ueMhWxUctw9vLSp9Il0oc9FXi/paebb9YeEiblwfjB0Gn8mHuHH
+         bCkobXzHKJhJzSV3Jmtk7KZAXFFfHUOlCwv84gcR3WAw+xHb71iVRzt7/YT0EcZeAK2I
+         1BEoQcoJajAEXgyAXrFpOcq+oB1mxdwH00oVQoQSriIk4oHme593EgtYglSeXqHMq1AU
+         5paw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:nodisclaimer:mime-version
-         :in-reply-to:content-disposition:references:message-id:subject:cc:to
-         :from:date:authentication-results-original:sender:dkim-signature;
-        bh=7RSLsPmd6slmeyvboBfeTm6e6ObeFyo1NKRew079H1Q=;
-        fh=XMatVXmQ77JT05abuA/Gg7JMXPCHipjc/zyfXrwGhO4=;
-        b=EraWDiVrM4HWI+ErVUk9mv+/OJUeBz3Y1Yj6HW3YwnQmuRxKCAeT2uso/9nK6Ou7JJ
-         Kxt2Oe4siL7YqC9zVNNoLvDZHfUs5AhR23zqm2Q72F32XgnlcYRSlbbnfddYihCQRdmx
-         5hinDBUDQcuoi8kRuN9cso3mBno9HffEqtT6X4ghv3HmzPxoyjI25Hku4GAXhuGkYeG6
-         gU8m3cZELActhUQGHvHssKbvb5CH4oR++5r0LAxSEjGcj68u44L2DKq7z6KQOJby9BrY
-         +ERzuBxQYaSRZn99s6hVmD731hq+p0Faa7SMihyeuYPXARsZkgZKyw+w9G1iUueBPj9R
-         vL3Q==;
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=xKIkyehGfQCXqQYxRl1kFi3KScowyiu5Mh4Ub7Yusbs=;
+        fh=mfbrnVMWe3Pa1oe0gVCNrqR6A9X3UrkHLJgaCb+T1sU=;
+        b=UMUJsILr5NFvwlkTaczAoI4lF2geg7za5FTOsBmnYs9fk1qTRhnIFhk7UIoSZVm797
+         5wDzQBKdEUVsrrIq5ySsxAkKRFA8pjsKiGrUthegU3Lu7xaCcjaWQcAuMPNmeaJtk0ma
+         R4aKDxxzZwskATrGY0HZXcSWkBXwiL21vQCrozZresZ7vr0N/2RAzkLtUpNOrXJ/Bw7t
+         QQ489WR+skrPVoTLGZ7ko7l1YNXoBf2jYHSFN6HdATfkJ/vAxmM90RhOubUBm0v3PzQx
+         7ZJn4bxngUzbzP2pKiNMeJ2ydCHYFA+mvkv9nllUoc89J6nzGb/te9aDQbTqwNOuOE7s
+         Fi0w==;
         darn=lfdr.de
-ARC-Authentication-Results: i=4; gmr-mx.google.com;
-       dkim=pass header.i=@arm.com header.s=selector1 header.b=DarnSAiw;
-       dkim=pass header.i=@arm.com header.s=selector1 header.b=DarnSAiw;
-       arc=pass (i=2 spf=pass spfdomain=arm.com dkim=pass dkdomain=arm.com dmarc=pass fromdomain=arm.com);
-       spf=pass (google.com: domain of yeoreum.yun@arm.com designates 2a01:111:f403:c20a::7 as permitted sender) smtp.mailfrom=YeoReum.Yun@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="Mu0gY5q/";
+       spf=pass (google.com: domain of alx@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=alx@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1751896191; x=1752500991; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1751899184; x=1752503984; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:nodisclaimer:mime-version:in-reply-to
-         :content-disposition:references:message-id:subject:cc:to:from:date
-         :authentication-results-original:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7RSLsPmd6slmeyvboBfeTm6e6ObeFyo1NKRew079H1Q=;
-        b=mzm6E4p/0r5nXWLkkHzCivmrKwEN11nKwPs168ZtOfHXvTng5IKnRADeJCx7NZ0cxR
-         nSTkfQ12UlN5HG/0CN0aDUpldwzRBNfmeVBsrdlLfvFez/uivDyCOxgA1wEht43eOq61
-         wcMXPn+1/9BniPM3We7f4Ne6vj8Wk3tzCeWJ9biHp5gTNWfvz2dA7iQjPtYDTmXN5CPF
-         ep3xYY0dVHBqOMv8a9susBhSE5LvCrHVCWAhq+2jPM3c00d7qtD9T52S0BwSDkOpcGLn
-         tRXqJpaP/muhIdsBHumwCop/aVrlHURPUIJX1OIE+934h95euoZJ8hcjuAHeRAxUJhdL
-         Nu3Q==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xKIkyehGfQCXqQYxRl1kFi3KScowyiu5Mh4Ub7Yusbs=;
+        b=wbi5J/DuVK9hDUxkFBoDx5VjXJTF06hswqX8CsMzh/rvXj2+BtKX1GEeTkA/R1jyJA
+         jkMmZgngUmcOzd5oobpLmWIuCxvLX8INVP76L+NekB3vB4iOolNtcGyfzGXsIkBeQy4i
+         IuXunUJa73wPS/W2pARDZUvLWXIgzCEhkqK8p2KqUKD7KNnhHC72QGdUZdnMI9xkQmQc
+         ZkoFN48tjEsBsty5afiJ6RCWvUt1o8gZZkPsFxqRJljfoRgTCxRqcL+ohIz0UrkH0PbK
+         rUJ10qrvHRm22+oxQV59qfbXdb+0br9evqHNoTn8WUfIK9vYI8ykV613lNDbtIa6bbo4
+         ltyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751896191; x=1752500991;
+        d=1e100.net; s=20230601; t=1751899184; x=1752503984;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:nodisclaimer
-         :mime-version:in-reply-to:content-disposition:references:message-id
-         :subject:cc:to:from:date:authentication-results-original:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7RSLsPmd6slmeyvboBfeTm6e6ObeFyo1NKRew079H1Q=;
-        b=R4JIpOMnUbeeqaC/JV0phUGVkyF/ii2b/qyZ+1PDWtdNOrVCRR8SYNp5RVQhAhV4ow
-         2K2FTkW4X1eSet0Lbymu/19IEyI7fYCkiVPM79U52hUmAZXckTK9x5o8uERHeyEpqkPt
-         B+6tO7QLbY2gwTsLljqdzW8UaQ9RGf7Jwc8KeOtenXiL62unT9eW0Plht6N8z59aCvXG
-         rSA8y1eJp55XS5iLi1mJO2B06k8cS6q5NNp5+6Y92VqRjdP00IyLfYg9H3KtjKbqoG2q
-         /mtD6TSEdBWY9UGrsvz8ioBwykn62NGyrNp+GT1rSvKx5/dwI8pKb5ruev6CVh7GFNQ0
-         hTgg==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=4; AJvYcCV+GpVix5LiQqQODIWiChVNAcJgHulbgA3ncklP0ENirgq9ajaFIu+T7i3fdw341bharsp6gg==@lfdr.de
-X-Gm-Message-State: AOJu0YxcGnYMVOfx0/lBYDsZ2Jt79GVoGBGokVcU7j59UEorITzbrDDh
-	0SuYoy+V3CxUsUEMIu5590ExyPijQUFTRS10iG9IikEyrHsJCdPRXmvm
-X-Google-Smtp-Source: AGHT+IFr/C3ma+lK+rum70ZGw338t28JEOytLkGrfDzY8iU0vVuOInuDy9UpJ46gQa5rsi2alBP9Qw==
-X-Received: by 2002:a05:6512:e93:b0:553:2ef3:f73f with SMTP id 2adb3069b0e04-557e5528af0mr2280257e87.3.1751896191049;
-        Mon, 07 Jul 2025 06:49:51 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcPDt5q2PvgtXfALLn4nLsjUxH+ncD3SfNrVvesN9wESg==
-Received: by 2002:a05:6512:650e:b0:553:34d7:c3a3 with SMTP id
- 2adb3069b0e04-557d2ccf17cls636194e87.1.-pod-prod-02-eu; Mon, 07 Jul 2025
- 06:49:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=4; AJvYcCX223M46rNuw2BuIUQPaKkpgynrA3QcIe05CrQ4wzred/Zl1Y1Wo/HdAxQPQz9D0kh1CBBZN+Cwv7g=@googlegroups.com
-X-Received: by 2002:a05:6512:3e0e:b0:553:5d4a:1ce4 with SMTP id 2adb3069b0e04-557e5528acfmr1832723e87.2.1751896186573;
-        Mon, 07 Jul 2025 06:49:46 -0700 (PDT)
-ARC-Seal: i=3; a=rsa-sha256; t=1751896186; cv=pass;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xKIkyehGfQCXqQYxRl1kFi3KScowyiu5Mh4Ub7Yusbs=;
+        b=Mscw0sJQ+za9AS+C0DGlgEGeJq16MBn25mUQ3Wt7N6XQar5F2aMuw0FUo8isfEnAJX
+         i6xRy9DkTSeojPDJHpH/lxpZt02EkKXyxREk8flqZNpciED4DLUxzYLpzQFJQ4DzqzMZ
+         eVhQHc+OZ2m1kZALvIM2mWdzWl9A9fPh0NNzOdslFQVmJGG/f/nBeOJcuQzR3n01rJIM
+         oSJEncRmIps4MO9f9pYSCmQqNzeTnJooodhU70Iez5dCedU6APEu1VlXfcH/6cmYCK9C
+         at8QyomlpP8Twbc/Z958jNLz1ENS1HbaqlB7+HSNr+0L5reeshsq7PK5dvyBAny0Q9LO
+         +llg==
+X-Forwarded-Encrypted: i=2; AJvYcCVkQFsxW3k7qsFrqWGKcG6V0WLmWxbQbPRToMfljodLaZFwciIwqzzeoX5ZW5CZepb/F5fFwA==@lfdr.de
+X-Gm-Message-State: AOJu0YyQ5Hrpy2BdRgdruZUNi/Yj+9g9IuxpvQwuvaRHjJSD4pEi8M4g
+	yaxJLkg7m1coLrbfvN+PkoRgqu9Aamaw9zJLBInPFkaXv22i4VRbprUc
+X-Google-Smtp-Source: AGHT+IHMdQok78Jo0x1ck7DlAaHMUJWzo+OhzghQjIaLc9CA6y1D88n5zfmYzna7+7R+r7TfT3q8BQ==
+X-Received: by 2002:a05:6e02:1a4c:b0:3dd:bb7e:f1af with SMTP id e9e14a558f8ab-3e1371f6b2emr116864905ab.20.1751899183903;
+        Mon, 07 Jul 2025 07:39:43 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdGju3YUnYlfvPTmQgg03xfO+XuMBhnZB8GI5E5Hwwe5w==
+Received: by 2002:a05:6e02:5e86:b0:3dd:bf83:da96 with SMTP id
+ e9e14a558f8ab-3e1391d9516ls18640745ab.2.-pod-prod-09-us; Mon, 07 Jul 2025
+ 07:39:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCV5EubKYCETla7l1V/fZ2dgV/o0KcUMWrlZuZstvWNdTjhJSDLRpsyRDPG4RUraqqF2IL2WbTos+e4=@googlegroups.com
+X-Received: by 2002:a05:6602:6d05:b0:875:bc7e:26ce with SMTP id ca18e2360f4ac-876e4575f8cmr1164767039f.0.1751899182871;
+        Mon, 07 Jul 2025 07:39:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1751899182; cv=none;
         d=google.com; s=arc-20240605;
-        b=SBBgyS8vhbEPy1jbTYpbtZrtWdzT+cpMaOtDtAl1LCmGWdx/gu41M0PYXVLF5h0P3X
-         CTOfg0O6Khn439XTQ0UsEirluPejsbNz1y5xrua7ALJEfwfgxM6o1B6spdn5qI1rS9bn
-         YfBbFA3xheTz3upkxSMccOUrhyLwVLOO6ypfqu6TmINwzq3GzD0tru1rabxHExvIpC+h
-         hwQp8c+jh05MGruz7MK/bNmEC3ohzHwYZ4eRWEid3+UpN8XxImE2Zo4zXY42XpTqCjOz
-         RxYubQFjrXSq/KUeb35emX5CXQTb25SXv3T9SBCypMmSY+vneSVFCxqVeQMZ2jUUlg8t
-         yydA==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=nodisclaimer:mime-version:in-reply-to:content-disposition
-         :references:message-id:subject:cc:to:from:date
-         :authentication-results-original:dkim-signature:dkim-signature;
-        bh=1pvKJflPTtna4BeEr94pcY8AALUPGeayAmKR1Br9wXQ=;
-        fh=X1g3Iduv1LIhUmA5gkv7QBP9KVJ5fgEQUfZ5/GeGTr8=;
-        b=E02FcA4FAhy27/KxlXp2qpzLZKbMSjkScm66xlXBrWcrX+qLt3BaKPUgU9fKz+zEbf
-         e4vlVkn1qkexGqZ9nTTpTYhQJariPqdIKf/g+835pIcdwVMOkuwLPDZqdU3nhmgfGo16
-         Di7T6JU1mLG+miBhPzdT7ltNjJMGPauXimd6qzI4L+fm69vEsNoykNNnbOpYrETuInvo
-         TjitIvs1Vp2Y+SzE3GV7UlGZ+ZarjJrgZs1rJOGHNvDeNjdDpC3Csp7m7x7B5FQCpT/o
-         aMJLHBvFAl5SkYMVnBGXbZIm+Z39fI4LU3LZsDFE+0iZAlJDSjkY0Ikv6W6wDgyarwDo
-         Td+w==;
+        b=GuVNRlI/T8fb0QxgWxBqRCoE+CsTeIkHgtU+YAwhE3VG0f55mygvWqbR+y0UCsvDnS
+         CbTrv22j29vox9EdSwOi6DvyJnx+rfm4NvwbaXrXAWZijXlp4S3EW4WjLE0F9itmwrrv
+         c0uhRoUZA2nvrDoK5P7fVpPyL7wRjw/MB2wE9q1wkmF71mI/pdDYrNaOFRVr7/JuGUOa
+         ktaMrxMPbzhUEE4uPXRIhAPeDND0KgNohKB7X01DhdyWPYqE+IKwFaJu4RLX7A8Xf7tl
+         uZCZjSTsacPGGRJ1jMhbXpC6Miy1rMrgKG1t93urlfwy3pm2IZ0ptt2qHoRDq95GFm7g
+         CD4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=5uQo5Vc97pDWJCEUVhG8HQ2dc7MeOTiQ+bYt9yMxSY0=;
+        fh=ZFmqDGIg7cn7OadhPwrJaXrZ3b0GVPkdcyJRWc1zL1w=;
+        b=GYToEXmk2KVnPpX5oete5QRtT8a3mEZ353LKzZJZP96f0d4JCAZ7XeWCg6zVdIt7hW
+         a1xGTvjUoDgpxo3vobdV98KnNRHU9DHrocZjaG2GpIrQYZhWjFKTYgUrzxkZt2h0Vdwh
+         ojTGAUDQI326GaJ0LfXFGSC+P9VZUwjJ6WpEaBcsmMAT4Davmuyeqe//qLMBOrrcajYC
+         w+dqJAX5JX5j5UQGvl0DvvWEp7DV9P8nUao6KNvt25K9pW/q1p7tnbLrWGjjXbIQkvxu
+         3KYyHb5kjfjxb3/DNA04sUFmWOzxLQtU5A5phqoSBJ8LwWnURfUmz7m/oYxj9GUZ/YAg
+         KwfA==;
         dara=google.com
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@arm.com header.s=selector1 header.b=DarnSAiw;
-       dkim=pass header.i=@arm.com header.s=selector1 header.b=DarnSAiw;
-       arc=pass (i=2 spf=pass spfdomain=arm.com dkim=pass dkdomain=arm.com dmarc=pass fromdomain=arm.com);
-       spf=pass (google.com: domain of yeoreum.yun@arm.com designates 2a01:111:f403:c20a::7 as permitted sender) smtp.mailfrom=YeoReum.Yun@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazlp170130007.outbound.protection.outlook.com. [2a01:111:f403:c20a::7])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-5563847b1b8si290378e87.10.2025.07.07.06.49.46
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="Mu0gY5q/";
+       spf=pass (google.com: domain of alx@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=alx@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-503b5989891si197667173.2.2025.07.07.07.39.42
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jul 2025 06:49:46 -0700 (PDT)
-Received-SPF: pass (google.com: domain of yeoreum.yun@arm.com designates 2a01:111:f403:c20a::7 as permitted sender) client-ip=2a01:111:f403:c20a::7;
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=nYsiyXs/4u6mHZCziTHedR8U9opA8F1lY9l02Z/XV6QE/LxVY2aJypRm38NJT/6Bpy50SEFphZ1IrQlcg8P4putKy9tVKsv+2pGN7rji8PfKh/7U+R49OKMoeh7LXeY2NeEKtgfLuzqK25GVsNjHqVTLWNJ52/YeAJeqBcmQIkku9x+H0e+5LXcvSo9BzawVvsppcv24JOfTn4ier8sLjRUDXSWw+znezDbwM8Ws50/vnaM6o2wr9U/7+z8x4SBjanj5sZiFhyRtCFEJEmBhRfwINPNZ3+NGYXT2gbvjmcnGeR9BTcsNYg3SGzAS/gajgZ9yIp/XMPVWjxDIzukf6Q==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1pvKJflPTtna4BeEr94pcY8AALUPGeayAmKR1Br9wXQ=;
- b=uLowg75kMv3wVE/0iDAK5H5AJllPy/ZbsLCLdCoK3Tj9GlaROr/0ddV0r6+cl9t6a5F7g3/0oFEsLErg7oMOSGQ7XDD6lVYyjhx+ww163tBMs3UvJ4D/aF4rC4nX/96k9kIqYECwVnhAu4YTOBnEtV4XgLGv7o3tmnEKMu7XBdla3u+3qhPG9fXg2CN5pA0IhS2LOg25wLF83mC8bOGlIQl11nd9gpLOU04O30E8Q5Is67h04BD1dc1zsSYF9gVHYt2f24OXrRH8WvgwCVEqH06SnXiiTO9W7lJEN98/ZDvDikHy9Sy0dlacksoStjBR4n7Ej9tgsTnFVgj3I0wehw==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=linutronix.de smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-Received: from AM0PR10CA0091.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:15::44)
- by AM8PR08MB6515.eurprd08.prod.outlook.com (2603:10a6:20b:369::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.26; Mon, 7 Jul
- 2025 13:49:43 +0000
-Received: from AM2PEPF0001C714.eurprd05.prod.outlook.com
- (2603:10a6:208:15:cafe::ce) by AM0PR10CA0091.outlook.office365.com
- (2603:10a6:208:15::44) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8901.26 via Frontend Transport; Mon,
- 7 Jul 2025 13:49:43 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AM2PEPF0001C714.mail.protection.outlook.com (10.167.16.184) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8901.20
- via Frontend Transport; Mon, 7 Jul 2025 13:49:43 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UEG6B85ZAwKThErgrwM8thKsGFvRdfBJtm2LJnkbO7moGqt/WSdfmo4CMB1pi+60gdxImex6mJLa/+4Wt0zDzcDnXAnIJDU7bFe/sK2fenBmphag1tWw89cQxDB6KYf5KiM7UmjGHLRjFcaz1vR+UR/uj8nOX26KG+lXQDjtY/Jif06JuDw/zpKRTDAsUEKko86UUaKJbszzwYd+Fg/1NWewgdZGAFxlvmR0Rrm2tdIYGU85G0EQbOgR7waG+VJVfprt9jXA8eIu0Lms6fddZQGfUHk+vLjSIhFYsO5swUdmdksK2FkO917cZm79qvAR9fuxVIthZVQK4UwXhJX+hw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1pvKJflPTtna4BeEr94pcY8AALUPGeayAmKR1Br9wXQ=;
- b=fSqwGkS8AWBNIX+e1IXUlF2jKPu36btH9MbN30/zI/hAA3yuZSQtaASl+9Tnc5n9nHKgtIH+rshIfeQVXNiTEV6jQ9ICRiEd5FTz19Ue+uvBZTTORYziN5GmvF2O+RS2eFfX+ClAwSmT7QqJ810uiDjhDgJIEh3XrsqMPGSzKBSe0s5bigXMZGfgT9b8HLIv4awFXgoZt6w04kYsAT4oGP3uyuLpmm6zaOPV95rY6tirxTX2tycZavPVWYl9W5Gk7dN6zqBSkxrmq1AZ41TZAyD9dJ9mKdxhXrYBwvlQqBDd5I3xd039qynV4T2idxvFBT4DXBBKuWOR3Cwc23TNAA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
- (2603:10a6:150:163::20) by DU0PR08MB9297.eurprd08.prod.outlook.com
- (2603:10a6:10:41c::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.24; Mon, 7 Jul
- 2025 13:49:09 +0000
-Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
- ([fe80::d430:4ef9:b30b:c739]) by GV1PR08MB10521.eurprd08.prod.outlook.com
- ([fe80::d430:4ef9:b30b:c739%5]) with mapi id 15.20.8901.024; Mon, 7 Jul 2025
- 13:49:08 +0000
-Date: Mon, 7 Jul 2025 14:49:05 +0100
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
-	vincenzo.frascino@arm.com, akpm@linux-foundation.org,
-	clrkwllms@kernel.org, rostedt@goodmis.org, byungchul@sk.com,
-	max.byungchul.park@gmail.com, ysk@kzalloc.com,
-	kasan-dev@googlegroups.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v2] kasan: remove kasan_find_vm_area() to prevent
- possible deadlock
-Message-ID: <aGvQUXfNcnRfU0jg@e129823.arm.com>
-References: <20250703181018.580833-1-yeoreum.yun@arm.com>
- <20250707083034.VXPTwRh2@linutronix.de>
- <aGuGcnk+su95oV5J@e129823.arm.com>
- <20250707084440.9hrE23w0@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20250707084440.9hrE23w0@linutronix.de>
-X-ClientProxiedBy: LO4P123CA0505.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:272::15) To GV1PR08MB10521.eurprd08.prod.outlook.com
- (2603:10a6:150:163::20)
+        Mon, 07 Jul 2025 07:39:42 -0700 (PDT)
+Received-SPF: pass (google.com: domain of alx@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 4E8B35C5961;
+	Mon,  7 Jul 2025 14:39:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36BB9C4CEE3;
+	Mon,  7 Jul 2025 14:39:40 +0000 (UTC)
+Date: Mon, 7 Jul 2025 16:39:37 +0200
+From: "'Alejandro Colomar' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Marco Elver <elver@google.com>
+Cc: linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
+	Kees Cook <kees@kernel.org>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	shadow <~hallyn/shadow@lists.sr.ht>, linux-kernel@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>, 
+	Alexander Potapenko <glider@google.com>, Christoph Lameter <cl@linux.com>, 
+	David Rientjes <rientjes@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>, 
+	Andrew Clayton <andrew@digital-domain.net>, Sven Schnelle <svens@linux.ibm.com>, 
+	Heiko Carstens <hca@linux.ibm.com>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+	"Huang, Ying" <ying.huang@intel.com>, Lee Schermerhorn <lee.schermerhorn@hp.com>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, Chao Yu <chao.yu@oppo.com>
+Subject: Re: [RFC v3 3/7] mm: Use seprintf() instead of less ergonomic APIs
+Message-ID: <kicfhrecpahv5kkawnnazsuterxjoqscwf3rb4u6in5gig2bq6@jbt6dwnzs67r>
+References: <cover.1751862634.git.alx@kernel.org>
+ <033bf00f1fcf808245ae150346019aa7b997ea11.1751862634.git.alx@kernel.org>
+ <CANpmjNMPWWdushTvUqYJzqQJz4SJLgPggH9cs4KPob_9=1T-nw@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: GV1PR08MB10521:EE_|DU0PR08MB9297:EE_|AM2PEPF0001C714:EE_|AM8PR08MB6515:EE_
-X-MS-Office365-Filtering-Correlation-Id: cd6569b5-250d-492a-4d3a-08ddbd5d20c2
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?kBoOWVH1uaVbuCEBz945jhxVEvgSDPUj618EM/P64q2/ev4+pzAMiy+w2Ixs?=
- =?us-ascii?Q?usz6VfBpk3z9x8nfwLbri0fdhfKysEY6aYEIZvwqz7j+cu/GNB/9eh4h0wp3?=
- =?us-ascii?Q?hDJGSBTU4NuU0n7wZ91Ej4umnMzRlMV2Nizh6Epz+flr2E9aJeFQ7V/jCn5I?=
- =?us-ascii?Q?F5O2dqArLsMMby9RAXbvqqKd6vTqUtUSJGupaeO3ja9v1yx8ZCM9wP2tnVth?=
- =?us-ascii?Q?hrgs9PFdu1tAF8Lr1RDAbFxThGawJa6RG3ji679AzGtZFdIZDw86ghn3SG8N?=
- =?us-ascii?Q?t7mE5AB5K/KismSzc7qCaed9VigNiZN2asgFp7Z7DTzP9wEIz23xa4yDfy+f?=
- =?us-ascii?Q?naB4IYv7vx3y5zBvOtCteW5P0UwsT207XCX/Vn6+dxCth5bUlCykNCCLLOPT?=
- =?us-ascii?Q?MCjfh/1bpOg8DjSpO+sowDs14J77P+yawbLlNz7NId5RTayy8GRo7EM3cpZT?=
- =?us-ascii?Q?9KaYCjFR1ZgfPjAdj7mgDQNcUXG1xjFWKVBSV00aYqpXHCEXtDz2wgbcbjV+?=
- =?us-ascii?Q?KwmIs83bVak4DKg99RB+BLP3bDS4QDDoT+6DNHphvlD3Kpx5Nyc48M2sPsuV?=
- =?us-ascii?Q?jwWffLD8GQQqqcblGDEBvLKaD1XOTl+OHJHRahd3m3DA6vJ/6q3Id38aOqsh?=
- =?us-ascii?Q?8qxx0/64o8BWCb3wmrS3mwYY3NrGPJVqa5B+E4zH5YCK1Eq9QcUFlvEyiWm0?=
- =?us-ascii?Q?/UNqR3NrBusVhELvYvaajFYzyyX5H4dSfNndGvY5uvuBkVk+lps1Jh97DcYZ?=
- =?us-ascii?Q?DxPVPpM8WaJUgUhr9u0VsM2tfqGFtR47RLyyeD0gtd4kgsSa578VGWvMLLEE?=
- =?us-ascii?Q?vC0l2wkyNVK/J2+zzS5zHCIYuHaLMBJR1KUhbaxwuuxGvBsuD0MTf9yfGv+x?=
- =?us-ascii?Q?ymWVXS8HmchG2NyDdUPDgJxl4uddz0DEewgauIJXUAmBsG6c64+Qp29GkC1I?=
- =?us-ascii?Q?DooRsk90nChJan4vsZXxFEYU0toLiulfj/Wqv6cFSr8jHdLeEgjYh8t2nXLc?=
- =?us-ascii?Q?0go+L9eSYBSu+4TUQndQyz2v8c741hdxoKiIDx5oGa+BKqJm1HnvRYjuFw5p?=
- =?us-ascii?Q?kaYpG5hIoSBeHOuvgnOvXslQ2gVTtzL0tmhHK6D7HgmzyNCAo07otBaDK6Ie?=
- =?us-ascii?Q?rWPe1tYUTTtAGJnvp0bXhwFJNINGLgWQh9ITDML2KjBSNL0fsW6jNfxOCddj?=
- =?us-ascii?Q?I8+pDkvdk5bouQfKBA8TkUyP2KgvGtR3d0n7YgRPv/JKI5DLGug7J8aCppO/?=
- =?us-ascii?Q?kHDvzrYXyMoOUPdMw0Mi9C6R+Yc+7VZFhkqy7kBp1fonwm/A2MTUyUHjo243?=
- =?us-ascii?Q?CPNdz5bKNrDp88BIGCEk2Aty5YevqVazdhkSQ8M8CgJaMe2TYvn23m6HpbzV?=
- =?us-ascii?Q?yHLDcJOfaYJALocvLRPkUYVcd+i1vrTgtT5y3UqJfmf2beAbgX09QtvOPJv4?=
- =?us-ascii?Q?Y1deFou4y+4=3D?=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB10521.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9297
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM2PEPF0001C714.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 8c475ad0-df1c-41cc-159b-08ddbd5d0bc7
-X-Microsoft-Antispam: BCL:0;ARA:13230040|14060799003|82310400026|36860700013|35042699022|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?lS+sR+s/d6PIP1Ym8kbmA6ZbXgQpMov5hrfd7hqdRb4zx+V400TyY8JQeXQs?=
- =?us-ascii?Q?hI3KR3YrdDFDxgsRpMrexMHs9Ejg7hI8Qg2WZLRpJymZvXYVud+kGWqoHTFa?=
- =?us-ascii?Q?SRJrBF6VrAYfMJCVHIvwzY91VSpx7VL1pZlR+ZTPKZCG99h8GnPvZLWnlvsi?=
- =?us-ascii?Q?uJwzQdI27vfxZSqEt5/rgyoHRFPClZjjhUAzOVKTWxUjutQtAX5U28HvVK1T?=
- =?us-ascii?Q?b7tbPCd4lu/r57YUjulUfdj1KaHR9N58Tian3wzP9wurkwA3irdmmuubuwn1?=
- =?us-ascii?Q?yY44UNVV6eV5V7xOn+cDX3gdJA2E15hQWTiv/M7SNa7vEtNCFhdngsUG5TFw?=
- =?us-ascii?Q?IsWJlhB7O5VnzpLiBpVA9OH3vefgTbyv5gzFhy5Y80rCyNjgoPgd7u6ZSGGC?=
- =?us-ascii?Q?LTxbvzTbs3kKQ4BM0gHoLAeZskTaCg/b0tN8+ppgTjZZQP2RP1N7kHWiB9UX?=
- =?us-ascii?Q?UhQKLQPQY64lfqVbRUn+Ni/oQGvGbYwlwMl+gZslRp3PvVMrUbgH59qg05Ck?=
- =?us-ascii?Q?fhEH6+eILevFQwrf2Lkek9im+eOuc2N7umALk0bSefYqK7VbQ2K834ivAevN?=
- =?us-ascii?Q?+iGrZQdlvgqDc7mjnhEDOPsQInxVbe6xG08KMZpWUUV1QuoeUqlEVjNSkAX/?=
- =?us-ascii?Q?Quo84Oe0KVKCW4rbfi1SXAHCa9a8Pt1/Q842LnZDnrW9ovb8Fp+HrB00ESrT?=
- =?us-ascii?Q?MWYO7iGGRmhn2tdidjS/c/H/x+SZp3TufWfKHl7KDv7GG+QPSo850UQM0EvE?=
- =?us-ascii?Q?Svdcgm/eF08a1UXRBnuIIlP771QMxmuueKWzKZQSRIjzLyS4CcFVk6qHQHgv?=
- =?us-ascii?Q?/62gZKBuFsc64MsXn6/4I38gWOAEuwf6gLb/xc3FZc4Vd5klwUaUFIat/n6U?=
- =?us-ascii?Q?k7A8JFwtIKs+1vtcinxzxB/F4PGiv4w3Z8vF9CjLmG5mdGmOVPg6M8FqVuo2?=
- =?us-ascii?Q?DrFRk3rcwviow962ZzZKoW2H9gA0ws4v/tYCJmpBblZtpffWIb1k5bIdVG+2?=
- =?us-ascii?Q?EO7MP2kMNWkzFbjSHd9jvaNZtluLMeqehg30OR7IMws1rDOtQPLsSF189M8r?=
- =?us-ascii?Q?9FsPTsoqon0pXgz7ezPQM8iqiA9NEemwBABL8rOmmknkbDvP7tapo6G3EogK?=
- =?us-ascii?Q?mZNTu1Nr4pVY/zeagZ53r7nQEbiEyRXTZAXD9YsFC/oNG7X34e8YBI5swIlr?=
- =?us-ascii?Q?mnbgEeQXfixOIaNc99O6Q+crGQO5Y/EGF5//sU8G7G98AtLVotYdzdHCE3Y6?=
- =?us-ascii?Q?PP3IAYg6bbHDqpGQgtsxmLQwa/8fnmMyYl+ypqe52ljyUT3kdOkiWuolJGxG?=
- =?us-ascii?Q?aSFZ+wQbOdX79nRjQe1AzUC+CYEpoHZJ5ACaB2hoSJ0EVn+q0Pto8lFJx5Y/?=
- =?us-ascii?Q?QRpz8xpZgzSM3bDwhd6jJ/vqWS/R/ZlIg8P2eZn4pJxQ0Wf0JFAF33IDhQ03?=
- =?us-ascii?Q?KvLcw5Dn9tDLVA+D8uUAgGEKPNQxmY9kx8fant/iIOUKqL408GpORAZ9P5D4?=
- =?us-ascii?Q?X20YU5aIXwNx7aYH4jTDjHpwmzly8q6SCjl4?=
-X-Forefront-Antispam-Report: CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(82310400026)(36860700013)(35042699022)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2025 13:49:43.4804
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd6569b5-250d-492a-4d3a-08ddbd5d20c2
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: AM2PEPF0001C714.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB6515
-X-Original-Sender: yeoreum.yun@arm.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="pzndlq26xqhms7za"
+Content-Disposition: inline
+In-Reply-To: <CANpmjNMPWWdushTvUqYJzqQJz4SJLgPggH9cs4KPob_9=1T-nw@mail.gmail.com>
+X-Original-Sender: alx@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@arm.com header.s=selector1 header.b=DarnSAiw;       dkim=pass
- header.i=@arm.com header.s=selector1 header.b=DarnSAiw;       arc=pass (i=2
- spf=pass spfdomain=arm.com dkim=pass dkdomain=arm.com dmarc=pass
- fromdomain=arm.com);       spf=pass (google.com: domain of
- yeoreum.yun@arm.com designates 2a01:111:f403:c20a::7 as permitted sender)
- smtp.mailfrom=YeoReum.Yun@arm.com;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+ header.i=@kernel.org header.s=k20201202 header.b="Mu0gY5q/";       spf=pass
+ (google.com: domain of alx@kernel.org designates 139.178.84.217 as permitted
+ sender) smtp.mailfrom=alx@kernel.org;       dmarc=pass (p=QUARANTINE
+ sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Alejandro Colomar <alx@kernel.org>
+Reply-To: Alejandro Colomar <alx@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -285,54 +154,450 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Sebastian,
 
-> On 2025-07-07 09:33:54 [+0100], Yeoreum Yun wrote:
-> > Hi Sebastian,
-> Hi,
->
-> > > what is DEPT?
+--pzndlq26xqhms7za
+Content-Type: text/plain; protected-headers=v1; charset="UTF-8"
+Content-Disposition: inline
+From: Alejandro Colomar <alx@kernel.org>
+To: Marco Elver <elver@google.com>
+Cc: linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
+	Kees Cook <kees@kernel.org>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	shadow <~hallyn/shadow@lists.sr.ht>, linux-kernel@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>, 
+	Alexander Potapenko <glider@google.com>, Christoph Lameter <cl@linux.com>, 
+	David Rientjes <rientjes@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>, 
+	Andrew Clayton <andrew@digital-domain.net>, Sven Schnelle <svens@linux.ibm.com>, 
+	Heiko Carstens <hca@linux.ibm.com>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+	"Huang, Ying" <ying.huang@intel.com>, Lee Schermerhorn <lee.schermerhorn@hp.com>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, Chao Yu <chao.yu@oppo.com>
+Subject: Re: [RFC v3 3/7] mm: Use seprintf() instead of less ergonomic APIs
+References: <cover.1751862634.git.alx@kernel.org>
+ <033bf00f1fcf808245ae150346019aa7b997ea11.1751862634.git.alx@kernel.org>
+ <CANpmjNMPWWdushTvUqYJzqQJz4SJLgPggH9cs4KPob_9=1T-nw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CANpmjNMPWWdushTvUqYJzqQJz4SJLgPggH9cs4KPob_9=1T-nw@mail.gmail.com>
+
+Hi Marco,
+
+On Mon, Jul 07, 2025 at 09:44:09AM +0200, Marco Elver wrote:
+> On Mon, 7 Jul 2025 at 07:06, Alejandro Colomar <alx@kernel.org> wrote:
 > >
-> > Please check the below patchset:
-> >   https://lore.kernel.org/all/20250519091826.19752-1-byungchul@sk.com/
->
-> Thank you.
->
-> Would lockdep see this if check_region_inline() would have something
-> like (minus missing exports, just illustrate the idea)
->
-> diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
-> index d54e89f8c3e76..c74e8e0863723 100644
-> --- a/mm/kasan/generic.c
-> +++ b/mm/kasan/generic.c
-> @@ -171,6 +171,11 @@ static __always_inline bool check_region_inline(const void *addr,
->  	if (unlikely(size == 0))
->  		return true;
->
-> +	{
-> +		struct vmap_node *vn = vn = &vmap_nodes[0];
-> +		might_lock(vn->busy.lock);
-> +	}
-> +
->  	if (unlikely(addr + size < addr))
->  		return !kasan_report(addr, size, write, ret_ip);
->
->
-> ? Just to understand if lockdep is missing something essential or if
-> DEPT was simply enabled why this "bad" accessed occurred and was able to
-> see the lock chain which otherwise stays invisible.
+> > While doing this, I detected some anomalies in the existing code:
+> >
+> > mm/kfence/kfence_test.c:
+> >
+> >         -  The last call to scnprintf() did increment 'cur', but it's
+> >            unused after that, so it was dead code.  I've removed the dead
+> >            code in this patch.
+> 
+> That was done to be consistent with the other code for readability,
+> and to be clear where the next bytes should be appended (if someone
+> decides to append more). There is no runtime dead code, the compiler
+> optimizes away the assignment. But I'm indifferent, so removing the
+> assignment is fine if you prefer that.
 
-No. I think lockdep could print this error situation without this patch.
-Since lockdep prints other cycle in test enviroment. I've attached the
-DEPT report.
+Yeah, I guessed that might be the reason.  I'm fine restoring it if you
+prefer it.  I tend to use -Wunused-but-set-variable, but if it is not
+used here and doesn't trigger, I guess it's fine to keep it.
 
-Thanks.
+> Did you run the tests? Do they pass?
 
---
-Sincerely,
-Yeoreum Yun
+I don't know how to run them.  I've only built the kernel.  If you point
+me to instructions on how to run them, I'll do so.  Thanks!
+
+> >         -  'end' is calculated as
+> >
+> >                 end = &expect[0][sizeof(expect[0] - 1)];
+> >
+> >            However, the '-1' doesn't seem to be necessary.  When passing
+> >            $2 to scnprintf(), the size was specified as 'end - cur'.
+> >            And scnprintf() --just like snprintf(3)--, won't write more
+> >            than $2 bytes (including the null byte).  That means that
+> >            scnprintf() wouldn't write more than
+> >
+> >                 &expect[0][sizeof(expect[0]) - 1] - expect[0]
+> >
+> >            which simplifies to
+> >
+> >                 sizeof(expect[0]) - 1
+> >
+> >            bytes.  But we have sizeof(expect[0]) bytes available, so
+> >            we're wasting one byte entirely.  This is a benign off-by-one
+> >            bug.  The two occurrences of this bug will be fixed in a
+> >            following patch in this series.
+> >
+> > mm/kmsan/kmsan_test.c:
+> >
+> >         The same benign off-by-one bug calculating the remaining size.
+> 
+> 
+> Same - does the test pass?
+
+Same; built the kernel, but didn't know how to run tests.
+
+
+Have a lovely day!
+Alex
+
+> > mm/mempolicy.c:
+> >
+> >         This file uses the 'p += snprintf()' anti-pattern.  That will
+> >         overflow the pointer on truncation, which has undefined
+> >         behavior.  Using seprintf(), this bug is fixed.
+> >
+> >         As in the previous file, here there was also dead code in the
+> >         last scnprintf() call, by incrementing a pointer that is not
+> >         used after the call.  I've removed the dead code.
+> >
+> > mm/page_owner.c:
+> >
+> >         Within print_page_owner(), there are some calls to scnprintf(),
+> >         which do report truncation.  And then there are other calls to
+> >         snprintf(), where we handle errors (there are two 'goto err').
+> >
+> >         I've kept the existing error handling, as I trust it's there for
+> >         a good reason (i.e., we may want to avoid calling
+> >         print_page_owner_memcg() if we truncated before).  Please review
+> >         if this amount of error handling is the right one, or if we want
+> >         to add or remove some.  For seprintf(), a single test for null
+> >         after the last call is enough to detect truncation.
+> >
+> > mm/slub.c:
+> >
+> >         Again, the 'p += snprintf()' anti-pattern.  This is UB, and by
+> >         using seprintf() we've fixed the bug.
+> >
+> > Fixes: f99e12b21b84 (2021-07-30; "kfence: add function to mask address bits")
+> > [alx: that commit introduced dead code]
+> > Fixes: af649773fb25 (2024-07-17; "mm/numa_balancing: teach mpol_to_str about the balancing mode")
+> > [alx: that commit added p+=snprintf() calls, which are UB]
+> > Fixes: 2291990ab36b (2008-04-28; "mempolicy: clean-up mpol-to-str() mempolicy formatting")
+> > [alx: that commit changed p+=sprintf() into p+=snprintf(), which is still UB]
+> > Fixes: 948927ee9e4f (2013-11-13; "mm, mempolicy: make mpol_to_str robust and always succeed")
+> > [alx: that commit changes old code into p+=snprintf(), which is still UB]
+> > [alx: that commit also produced dead code by leaving the last 'p+=...']
+> > Fixes: d65360f22406 (2022-09-26; "mm/slub: clean up create_unique_id()")
+> > [alx: that commit changed p+=sprintf() into p+=snprintf(), which is still UB]
+> > Cc: Kees Cook <kees@kernel.org>
+> > Cc: Christopher Bazley <chris.bazley.wg14@gmail.com>
+> > Cc: Sven Schnelle <svens@linux.ibm.com>
+> > Cc: Marco Elver <elver@google.com>
+> > Cc: Heiko Carstens <hca@linux.ibm.com>
+> > Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> > Cc: "Huang, Ying" <ying.huang@intel.com>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: Lee Schermerhorn <lee.schermerhorn@hp.com>
+> > Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> > Cc: David Rientjes <rientjes@google.com>
+> > Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> > Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+> > Cc: Chao Yu <chao.yu@oppo.com>
+> > Cc: Vlastimil Babka <vbabka@suse.cz>
+> > Signed-off-by: Alejandro Colomar <alx@kernel.org>
+> > ---
+> >  mm/kfence/kfence_test.c | 24 ++++++++++++------------
+> >  mm/kmsan/kmsan_test.c   |  4 ++--
+> >  mm/mempolicy.c          | 18 +++++++++---------
+> >  mm/page_owner.c         | 32 +++++++++++++++++---------------
+> >  mm/slub.c               |  5 +++--
+> >  5 files changed, 43 insertions(+), 40 deletions(-)
+> >
+> > diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
+> > index 00034e37bc9f..ff734c514c03 100644
+> > --- a/mm/kfence/kfence_test.c
+> > +++ b/mm/kfence/kfence_test.c
+> > @@ -113,26 +113,26 @@ static bool report_matches(const struct expect_report *r)
+> >         end = &expect[0][sizeof(expect[0]) - 1];
+> >         switch (r->type) {
+> >         case KFENCE_ERROR_OOB:
+> > -               cur += scnprintf(cur, end - cur, "BUG: KFENCE: out-of-bounds %s",
+> > +               cur = seprintf(cur, end, "BUG: KFENCE: out-of-bounds %s",
+> >                                  get_access_type(r));
+> >                 break;
+> >         case KFENCE_ERROR_UAF:
+> > -               cur += scnprintf(cur, end - cur, "BUG: KFENCE: use-after-free %s",
+> > +               cur = seprintf(cur, end, "BUG: KFENCE: use-after-free %s",
+> >                                  get_access_type(r));
+> >                 break;
+> >         case KFENCE_ERROR_CORRUPTION:
+> > -               cur += scnprintf(cur, end - cur, "BUG: KFENCE: memory corruption");
+> > +               cur = seprintf(cur, end, "BUG: KFENCE: memory corruption");
+> >                 break;
+> >         case KFENCE_ERROR_INVALID:
+> > -               cur += scnprintf(cur, end - cur, "BUG: KFENCE: invalid %s",
+> > +               cur = seprintf(cur, end, "BUG: KFENCE: invalid %s",
+> >                                  get_access_type(r));
+> >                 break;
+> >         case KFENCE_ERROR_INVALID_FREE:
+> > -               cur += scnprintf(cur, end - cur, "BUG: KFENCE: invalid free");
+> > +               cur = seprintf(cur, end, "BUG: KFENCE: invalid free");
+> >                 break;
+> >         }
+> >
+> > -       scnprintf(cur, end - cur, " in %pS", r->fn);
+> > +       seprintf(cur, end, " in %pS", r->fn);
+> >         /* The exact offset won't match, remove it; also strip module name. */
+> >         cur = strchr(expect[0], '+');
+> >         if (cur)
+> > @@ -144,26 +144,26 @@ static bool report_matches(const struct expect_report *r)
+> >
+> >         switch (r->type) {
+> >         case KFENCE_ERROR_OOB:
+> > -               cur += scnprintf(cur, end - cur, "Out-of-bounds %s at", get_access_type(r));
+> > +               cur = seprintf(cur, end, "Out-of-bounds %s at", get_access_type(r));
+> >                 addr = arch_kfence_test_address(addr);
+> >                 break;
+> >         case KFENCE_ERROR_UAF:
+> > -               cur += scnprintf(cur, end - cur, "Use-after-free %s at", get_access_type(r));
+> > +               cur = seprintf(cur, end, "Use-after-free %s at", get_access_type(r));
+> >                 addr = arch_kfence_test_address(addr);
+> >                 break;
+> >         case KFENCE_ERROR_CORRUPTION:
+> > -               cur += scnprintf(cur, end - cur, "Corrupted memory at");
+> > +               cur = seprintf(cur, end, "Corrupted memory at");
+> >                 break;
+> >         case KFENCE_ERROR_INVALID:
+> > -               cur += scnprintf(cur, end - cur, "Invalid %s at", get_access_type(r));
+> > +               cur = seprintf(cur, end, "Invalid %s at", get_access_type(r));
+> >                 addr = arch_kfence_test_address(addr);
+> >                 break;
+> >         case KFENCE_ERROR_INVALID_FREE:
+> > -               cur += scnprintf(cur, end - cur, "Invalid free of");
+> > +               cur = seprintf(cur, end, "Invalid free of");
+> >                 break;
+> >         }
+> >
+> > -       cur += scnprintf(cur, end - cur, " 0x%p", (void *)addr);
+> > +       seprintf(cur, end, " 0x%p", (void *)addr);
+> >
+> >         spin_lock_irqsave(&observed.lock, flags);
+> >         if (!report_available())
+> > diff --git a/mm/kmsan/kmsan_test.c b/mm/kmsan/kmsan_test.c
+> > index 9733a22c46c1..a062a46b2d24 100644
+> > --- a/mm/kmsan/kmsan_test.c
+> > +++ b/mm/kmsan/kmsan_test.c
+> > @@ -107,9 +107,9 @@ static bool report_matches(const struct expect_report *r)
+> >         cur = expected_header;
+> >         end = &expected_header[sizeof(expected_header) - 1];
+> >
+> > -       cur += scnprintf(cur, end - cur, "BUG: KMSAN: %s", r->error_type);
+> > +       cur = seprintf(cur, end, "BUG: KMSAN: %s", r->error_type);
+> >
+> > -       scnprintf(cur, end - cur, " in %s", r->symbol);
+> > +       seprintf(cur, end, " in %s", r->symbol);
+> >         /* The exact offset won't match, remove it; also strip module name. */
+> >         cur = strchr(expected_header, '+');
+> >         if (cur)
+> > diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+> > index b28a1e6ae096..c696e4a6f4c2 100644
+> > --- a/mm/mempolicy.c
+> > +++ b/mm/mempolicy.c
+> > @@ -3359,6 +3359,7 @@ int mpol_parse_str(char *str, struct mempolicy **mpol)
+> >  void mpol_to_str(char *buffer, int maxlen, struct mempolicy *pol)
+> >  {
+> >         char *p = buffer;
+> > +       char *e = buffer + maxlen;
+> >         nodemask_t nodes = NODE_MASK_NONE;
+> >         unsigned short mode = MPOL_DEFAULT;
+> >         unsigned short flags = 0;
+> > @@ -3384,33 +3385,32 @@ void mpol_to_str(char *buffer, int maxlen, struct mempolicy *pol)
+> >                 break;
+> >         default:
+> >                 WARN_ON_ONCE(1);
+> > -               snprintf(p, maxlen, "unknown");
+> > +               seprintf(p, e, "unknown");
+> >                 return;
+> >         }
+> >
+> > -       p += snprintf(p, maxlen, "%s", policy_modes[mode]);
+> > +       p = seprintf(p, e, "%s", policy_modes[mode]);
+> >
+> >         if (flags & MPOL_MODE_FLAGS) {
+> > -               p += snprintf(p, buffer + maxlen - p, "=");
+> > +               p = seprintf(p, e, "=");
+> >
+> >                 /*
+> >                  * Static and relative are mutually exclusive.
+> >                  */
+> >                 if (flags & MPOL_F_STATIC_NODES)
+> > -                       p += snprintf(p, buffer + maxlen - p, "static");
+> > +                       p = seprintf(p, e, "static");
+> >                 else if (flags & MPOL_F_RELATIVE_NODES)
+> > -                       p += snprintf(p, buffer + maxlen - p, "relative");
+> > +                       p = seprintf(p, e, "relative");
+> >
+> >                 if (flags & MPOL_F_NUMA_BALANCING) {
+> >                         if (!is_power_of_2(flags & MPOL_MODE_FLAGS))
+> > -                               p += snprintf(p, buffer + maxlen - p, "|");
+> > -                       p += snprintf(p, buffer + maxlen - p, "balancing");
+> > +                               p = seprintf(p, e, "|");
+> > +                       p = seprintf(p, e, "balancing");
+> >                 }
+> >         }
+> >
+> >         if (!nodes_empty(nodes))
+> > -               p += scnprintf(p, buffer + maxlen - p, ":%*pbl",
+> > -                              nodemask_pr_args(&nodes));
+> > +               seprintf(p, e, ":%*pbl", nodemask_pr_args(&nodes));
+> >  }
+> >
+> >  #ifdef CONFIG_SYSFS
+> > diff --git a/mm/page_owner.c b/mm/page_owner.c
+> > index cc4a6916eec6..5811738e3320 100644
+> > --- a/mm/page_owner.c
+> > +++ b/mm/page_owner.c
+> > @@ -496,7 +496,7 @@ void pagetypeinfo_showmixedcount_print(struct seq_file *m,
+> >  /*
+> >   * Looking for memcg information and print it out
+> >   */
+> > -static inline int print_page_owner_memcg(char *kbuf, size_t count, int ret,
+> > +static inline char *print_page_owner_memcg(char *p, const char end[0],
+> >                                          struct page *page)
+> >  {
+> >  #ifdef CONFIG_MEMCG
+> > @@ -511,8 +511,7 @@ static inline int print_page_owner_memcg(char *kbuf, size_t count, int ret,
+> >                 goto out_unlock;
+> >
+> >         if (memcg_data & MEMCG_DATA_OBJEXTS)
+> > -               ret += scnprintf(kbuf + ret, count - ret,
+> > -                               "Slab cache page\n");
+> > +               p = seprintf(p, end, "Slab cache page\n");
+> >
+> >         memcg = page_memcg_check(page);
+> >         if (!memcg)
+> > @@ -520,7 +519,7 @@ static inline int print_page_owner_memcg(char *kbuf, size_t count, int ret,
+> >
+> >         online = (memcg->css.flags & CSS_ONLINE);
+> >         cgroup_name(memcg->css.cgroup, name, sizeof(name));
+> > -       ret += scnprintf(kbuf + ret, count - ret,
+> > +       p = seprintf(p, end,
+> >                         "Charged %sto %smemcg %s\n",
+> >                         PageMemcgKmem(page) ? "(via objcg) " : "",
+> >                         online ? "" : "offline ",
+> > @@ -529,7 +528,7 @@ static inline int print_page_owner_memcg(char *kbuf, size_t count, int ret,
+> >         rcu_read_unlock();
+> >  #endif /* CONFIG_MEMCG */
+> >
+> > -       return ret;
+> > +       return p;
+> >  }
+> >
+> >  static ssize_t
+> > @@ -538,14 +537,16 @@ print_page_owner(char __user *buf, size_t count, unsigned long pfn,
+> >                 depot_stack_handle_t handle)
+> >  {
+> >         int ret, pageblock_mt, page_mt;
+> > -       char *kbuf;
+> > +       char *kbuf, *p, *e;
+> >
+> >         count = min_t(size_t, count, PAGE_SIZE);
+> >         kbuf = kmalloc(count, GFP_KERNEL);
+> >         if (!kbuf)
+> >                 return -ENOMEM;
+> >
+> > -       ret = scnprintf(kbuf, count,
+> > +       p = kbuf;
+> > +       e = kbuf + count;
+> > +       p = seprintf(p, e,
+> >                         "Page allocated via order %u, mask %#x(%pGg), pid %d, tgid %d (%s), ts %llu ns\n",
+> >                         page_owner->order, page_owner->gfp_mask,
+> >                         &page_owner->gfp_mask, page_owner->pid,
+> > @@ -555,7 +556,7 @@ print_page_owner(char __user *buf, size_t count, unsigned long pfn,
+> >         /* Print information relevant to grouping pages by mobility */
+> >         pageblock_mt = get_pageblock_migratetype(page);
+> >         page_mt  = gfp_migratetype(page_owner->gfp_mask);
+> > -       ret += scnprintf(kbuf + ret, count - ret,
+> > +       p = seprintf(p, e,
+> >                         "PFN 0x%lx type %s Block %lu type %s Flags %pGp\n",
+> >                         pfn,
+> >                         migratetype_names[page_mt],
+> > @@ -563,22 +564,23 @@ print_page_owner(char __user *buf, size_t count, unsigned long pfn,
+> >                         migratetype_names[pageblock_mt],
+> >                         &page->flags);
+> >
+> > -       ret += stack_depot_snprint(handle, kbuf + ret, count - ret, 0);
+> > -       if (ret >= count)
+> > -               goto err;
+> > +       p = stack_depot_seprint(handle, p, e, 0);
+> > +       if (p == NULL)
+> > +               goto err;  // XXX: Should we remove this error handling?
+> >
+> >         if (page_owner->last_migrate_reason != -1) {
+> > -               ret += scnprintf(kbuf + ret, count - ret,
+> > +               p = seprintf(p, e,
+> >                         "Page has been migrated, last migrate reason: %s\n",
+> >                         migrate_reason_names[page_owner->last_migrate_reason]);
+> >         }
+> >
+> > -       ret = print_page_owner_memcg(kbuf, count, ret, page);
+> > +       p = print_page_owner_memcg(p, e, page);
+> >
+> > -       ret += snprintf(kbuf + ret, count - ret, "\n");
+> > -       if (ret >= count)
+> > +       p = seprintf(p, e, "\n");
+> > +       if (p == NULL)
+> >                 goto err;
+> >
+> > +       ret = p - kbuf;
+> >         if (copy_to_user(buf, kbuf, ret))
+> >                 ret = -EFAULT;
+> >
+> > diff --git a/mm/slub.c b/mm/slub.c
+> > index be8b09e09d30..b67c6ca0d0f7 100644
+> > --- a/mm/slub.c
+> > +++ b/mm/slub.c
+> > @@ -7451,6 +7451,7 @@ static char *create_unique_id(struct kmem_cache *s)
+> >  {
+> >         char *name = kmalloc(ID_STR_LENGTH, GFP_KERNEL);
+> >         char *p = name;
+> > +       char *e = name + ID_STR_LENGTH;
+> >
+> >         if (!name)
+> >                 return ERR_PTR(-ENOMEM);
+> > @@ -7475,9 +7476,9 @@ static char *create_unique_id(struct kmem_cache *s)
+> >                 *p++ = 'A';
+> >         if (p != name + 1)
+> >                 *p++ = '-';
+> > -       p += snprintf(p, ID_STR_LENGTH - (p - name), "%07u", s->size);
+> > +       p = seprintf(p, e, "%07u", s->size);
+> >
+> > -       if (WARN_ON(p > name + ID_STR_LENGTH - 1)) {
+> > +       if (WARN_ON(p == NULL)) {
+> >                 kfree(name);
+> >                 return ERR_PTR(-EINVAL);
+> >         }
+> > --
+> > 2.50.0
+> >
+
+-- 
+<https://www.alejandro-colomar.es/>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aGvQUXfNcnRfU0jg%40e129823.arm.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/kicfhrecpahv5kkawnnazsuterxjoqscwf3rb4u6in5gig2bq6%40jbt6dwnzs67r.
+
+--pzndlq26xqhms7za
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmhr3CEACgkQ64mZXMKQ
+wqk4aA/+Mvv63Bmz7LwbWP8jHRGdodX7lT887AsPc0MIl1gzOpJQDO5mawJIKZ2O
+Ezz2CFlK0W3da0JvdHK8QoIoyR/NV0+KxOfyliTUDn21rOMmDqH0Y7qE0i9gCLA3
+GIIAD3K2WgQf6HMHpbZsGYQTYsOz8lr1mHmE6QHeaaLvlaux4Sa6DeZPAGG3rU7/
+NOZvqadKOlS+oNWkgeENZeINRGNsxbldMLuKd3XfR/WTJg1oLzJiiQgTIO1o/X1F
+FjwdbCAQMDOcgp9yBPqfm3XfQgiAUtVBt6sOQks7r9+mTHIE7D6eBaXnDSZf+cry
+BzQ85B/ABW5MFYG7f7zp21FS7DLivXyRHI60ZFCT/i+fPOxA+mRUbRgv2A0WlMLY
+7dL0+7y6RvV+Q53r7ecH8VaBgxoFUN37KJE6fSR1TRI+H0tizGS5w//HRU+Ahods
+cFN+w7/TJb7c+1hOTE86MXp28dXEZ7qsHIwlh67aL4F4LaVtzstmp8RgdKRXwYcO
+M5PzWaLgRBsvSK0TavaypccT4+mWlsGEiy5K0CV4hu2bXultKXnbxbFmV3XQ77Dx
+sc1FRzM0HVT/FJ95KiqREeqRIVK4+MogvZEadOqidPvio7pob6CLXrKAHJg3valr
+WSf7uk/yJC61MlWf7gKEbFzQD4/Nnkgum229f2FHj6es6MtYDzs=
+=TrTS
+-----END PGP SIGNATURE-----
+
+--pzndlq26xqhms7za--
