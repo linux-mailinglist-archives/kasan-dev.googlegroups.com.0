@@ -1,138 +1,148 @@
-Return-Path: <kasan-dev+bncBCKLNNXAXYFBB7MRV3BQMGQEYPJBILQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBZNPV3BQMGQEAZBKSCY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD37BAFAED7
-	for <lists+kasan-dev@lfdr.de>; Mon,  7 Jul 2025 10:44:47 +0200 (CEST)
-Received: by mail-lf1-x13d.google.com with SMTP id 2adb3069b0e04-553d7f16558sf1962486e87.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 07 Jul 2025 01:44:47 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1751877887; cv=pass;
+Received: from mail-pg1-x538.google.com (mail-pg1-x538.google.com [IPv6:2607:f8b0:4864:20::538])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21BA2AFB023
+	for <lists+kasan-dev@lfdr.de>; Mon,  7 Jul 2025 11:48:45 +0200 (CEST)
+Received: by mail-pg1-x538.google.com with SMTP id 41be03b00d2f7-b3913a15e3fsf773397a12.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 07 Jul 2025 02:48:45 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1751881702; cv=pass;
         d=google.com; s=arc-20240605;
-        b=ir7zboJ/tBTl6IIa1TjdqqjH0odbYAQphpTnsVZmbcojEs2/GkE2pXcdb3wviEF2kY
-         f8BsdFensAX3BEYbjG/mIw0GSdFC2jQJOggZEuRb0bbD5N7PTNAk7FVdhD6ndQJMr4Jb
-         ik+e6HDSooone7TAbvwoYu8f0c9oTs18f6viCD5KoOE0UWRxkk58CFZNU2k7jOBxoHlI
-         lEtqpuPIsQTviauZzOIE+5iupL3mbfqr/F2ndmle2mF3jqY4Up0i47TZVuCQGYtF9Gif
-         qxygVEJdswjYPfvWcuuEf/+1tt4LtMUdSC29n4T6I5/yDZ1QTVSAKYfxZvGit32anOP3
-         6NXQ==
+        b=LiTsSUoKVxTJ8KCJUyPXZte3wWyQNqPKnQkvRZ9gxtAyRIj40Jh+d8C4Vi/fThM/sx
+         nEM1VT41J2WNQsKPQPg2rwsLAFP984PpvyrQ81PxKlGU66XAsTiKlRVdXBEocXLTKbJh
+         nAQl2KzkL96WZqEFaA4LegjuD2CafTt0zPANbGvZH3r76sm8w/BrfLfrDOn4+li9g/l2
+         e/etMbhN1mWYW8IPl/pDHpDtOLw3pQFNtjLDjHEMhis9qdJtcgXAz5QxyoysgaFAPghq
+         Ym4LNRx3OvBudBg1rgW+WshS5ZrrqDGrNcsk7l4DVlWseqOM3kr/Wq9AOt+0bpA7L0i/
+         IGGg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=/H1bNePvC0YEHCJ4QogFNOLEnP4PMkH6sjUugBYaX6s=;
-        fh=xe12QLbl/IxzHTvWXf3aLohIJy2naRAhy1+Tb6Pk4+4=;
-        b=cdvK0rxF4kU/1/M1Z4Hhg1INKb7QcsJ4+fLauElv7ST/gNfRPmuX/hVcFRLgm1rQed
-         enxEnxsqmDKmtSZjvr02MwiaaKuVtdhoDnRHYtc3DHkbe6Vnv+/TV/zbD04iwP8hhTUT
-         9/19uGhAhL9kj5JuC23q2riMwdkugYHWfViW+S2bOBjePQyUCnevYcDPpb554xDefM0N
-         Bii4yN4nMQReYUHd+MIOnR6y21GTu8GeTo/ItVnbAl4u5COIpNTZom3PYHZT6TMdHpVD
-         9Nt/BTXW2KR6LbZ/1WyuQQTWGsghRDggd3boVfwD+HdqEqs2o86j+zKzvmqYYBNxCwJ5
-         VCbw==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=YmLMZsRln2XFZgdaNauVM1nC/CmoM6Y31svdNjcDn6s=;
+        fh=W1mfadBXSO5bT3ARGRQCxCNli5FeloLoec0HC5gdtbY=;
+        b=VQt0nSHy4N1uHcGlnsinhqt94+rJy9xONWZDRIbfoR9c+/RkssnIu8jWI8Ct4ZJxIS
+         mhmBxf6j4htEZIDHg0j4J4kSjoeAJftW0OrnUYC0h86JEFhlj327xJSCRRv5l17N1tP4
+         jLF3/6v6RPSpfMDB8dTR32TSt7NjnywH0eGZsDWUTRdFCqkXBSAeou78VkAoodzXICTE
+         EbZ9SnzZnh/Wu5BzdXim6TK6TTgaOnlYCAbjUT+YYgwERBpjFkNm6ZLe83TpxOyQmnMk
+         9jLjDsMaxcWfVRkZnQNAXbghmEd1rR+rX4Mwqt0M1KGQhJMJ8pufwZ/aTAzqBB3glITi
+         7flg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=t+4ylqAF;
-       dkim=neutral (no key) header.i=@linutronix.de;
-       spf=pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+       dkim=pass header.i=@google.com header.s=20230601 header.b=Px0fWGle;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f36 as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1751877887; x=1752482687; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1751881702; x=1752486502; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/H1bNePvC0YEHCJ4QogFNOLEnP4PMkH6sjUugBYaX6s=;
-        b=HxPuOf39goBhDukpo9rCiasrXTlit8XxyT3t2XhmRFJ97cZE02oyvrFRY27sqIMngF
-         g4S3I/9p2nkfLVoHDUP9/WAb+AHebhJ2mIK1+kDJlZ2MslYx2T/UQ9Gfk4v+Wwrvx5MM
-         ymlP1itrzUkY+DmHN3y0/yn14g2CvTHyrgOTjIWtofSvBRou2oF+ZiIj2QlKy6OPuH9d
-         hwAtd69qw2nczjvwNmSYeoTOM1gCLQBm4m/5HQwlUirWJIzlEIvr7oe7E5FUzL3jsDoJ
-         4WEa2DnB12KsvAmRx+mmnViyJpyjQhilpKuZbBldJhq9eWciAPmrTXTueU85phq77+pm
-         6T+A==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YmLMZsRln2XFZgdaNauVM1nC/CmoM6Y31svdNjcDn6s=;
+        b=dnhB14BOeknARI8dPrbkGG2k8MxLaPhQzKLwK9HQ7pIN8ST2Ota4IYnA/nGyEGxM25
+         UY7WDAUjVaZ6mzvZc1BMfMbSIjznEPMmOzalEAoinrySNkmSynSK1I8CUjyqRy9N3jIB
+         Ypv6eKLAk4Z44PEfB9M67T6PLUYyRx03+kAzqZLlZJM6zubMmWLjHpH5thA6L6RhHHry
+         Owk0EZDUHBk+64QBfGqpT2H/lQ5ZoFo4LziCt4UkLNx1EFLX2GKhF3gJxO+xF/NBz/C6
+         oS00MdL3AEm98FZatpLVas9MN864Gx1/qYeTkTleGqfrVIAWUiiPmCR5LObzwXwQp8ID
+         fvGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751877887; x=1752482687;
+        d=1e100.net; s=20230601; t=1751881702; x=1752486502;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/H1bNePvC0YEHCJ4QogFNOLEnP4PMkH6sjUugBYaX6s=;
-        b=WWFNNzboq8aYe2Zrw5Ox+0mydMdHX9T6RTU+0mT0OlxzPZxUDSpeU1cVpcCGOYHFeB
-         9HgZyp8z11Psp8wFNxeKuo7YS/I+xTWMwEErk9eArmbxnn92K2HN6RF99Rya8r/svto7
-         phwsaQv3BBWsOxkaapj7S3dx8qhAX0tf9Scf9k4B93OcE0DdIdJnKCLwq/oBCFwqXf5y
-         AWG9bdFD7s9UJhkj1pCMWc7XEwkW+td6/W7aWq6SIS6GDNtkoqBh2mPjkEyu/IFGhe5H
-         sOtFmMXXcgNJdxCTzESRA4NWXZ4CvvU9oXs2dCaPj+VyruXuEYWkNrIVQ/Q4YZfNEOO0
-         mCQg==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUEX6um6bKIaBEPslPFTjJwsTPaNL38ssMAxQH7pwBFAFXnJRluSI9WjGTzR8tdD0fumwpNcw==@lfdr.de
-X-Gm-Message-State: AOJu0YxdPXIH+AUhOLfQoWnipu+wm8JNvNFRMmLGOUu9nqe9QowgPMRy
-	QL+27w8V0OAab4Q54i+BZDYK53z+xBQPE/PAKL15GTviuDY5323owA/E
-X-Google-Smtp-Source: AGHT+IGqCFiov/BQQYJnciLFdiHEQPsP6in0VLusyo/N/z6kWzky3RtzVLNQQ3uZTczs/bts3nCUWQ==
-X-Received: by 2002:a05:6512:3c94:b0:553:aa32:4106 with SMTP id 2adb3069b0e04-557e5556e89mr1651567e87.23.1751877886529;
-        Mon, 07 Jul 2025 01:44:46 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfl2UE+IMdbcY+D0LIuBI6pb9GRGgWbJfOCqGf1+1nHcg==
-Received: by 2002:a05:6512:440a:b0:553:d22f:f92e with SMTP id
- 2adb3069b0e04-557d3a40dcals568114e87.2.-pod-prod-01-eu; Mon, 07 Jul 2025
- 01:44:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXugufaLfypqCsuRWZAYBzkUhfC/af4wsbc8CYFFmDhuMMClnhKFBAIhT9rhnH3Dho56aPQdPlLUb0=@googlegroups.com
-X-Received: by 2002:a05:6512:12d0:b0:553:5d00:be8e with SMTP id 2adb3069b0e04-557e55949c1mr1906953e87.37.1751877882988;
-        Mon, 07 Jul 2025 01:44:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1751877882; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YmLMZsRln2XFZgdaNauVM1nC/CmoM6Y31svdNjcDn6s=;
+        b=SxaIWP7xY/1NIEn8VFh7mZbReMSBAJP/ytXOJKhvcJH8Vd/zL3afRIn2KBqCy3R/pk
+         H579PeAL1jCyVeG8uyucQm3hI+3Z2L6N5vW/vJykXcs2DaIS/UYcebGINgm8dOObhpoH
+         B4/Qhyy1sJ2mgvEJONPIuiuE1iIGvMEFXcGmc5W7wHV2RFJeq4mLgI7vHjqWdFikQXOH
+         Mz6Q440fGGAs4jdz4ynU+be31CrLCE6pOKSTX5zwQ2olceXzWVNv7AosqzvUYXVJaal3
+         sE9nJVkFY5ctnsVA78ax1Kn4w/2nkZUge75hTPggi0ApX3gF7f9q0D0yO/vtBK0sr7be
+         OO3g==
+X-Forwarded-Encrypted: i=2; AJvYcCVrc5rC7HRHt3u7g4xbUs4CAGj5PeofNCR47qX/9Uwd51AJrgkLamkwGieoQajgGihGmQqurw==@lfdr.de
+X-Gm-Message-State: AOJu0YwibWfEHgpi/CIFibvojsG7cPE11BBWNsKctsBYvwxv7wjTwpTH
+	9RdkGAWpKMnWV1hrMr5F6gifcOGJ2xK7Tyb6I3spxAf4TepLynH6zjzu
+X-Google-Smtp-Source: AGHT+IEBzIbaKRrxk7yQAPZ/ZiGRNNO/me80TIcfzH8rlghbH3dEcgsYHUdREljYaLVK6WhdN7hKjw==
+X-Received: by 2002:a17:903:1988:b0:231:e331:b7df with SMTP id d9443c01a7336-23c91057f45mr154502805ad.29.1751881702098;
+        Mon, 07 Jul 2025 02:48:22 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZc19CVvrSnPjtlIEnNXsl/WRtYT7tq01k7YeAlARU+/ww==
+Received: by 2002:a17:902:d486:b0:238:cdf:5037 with SMTP id
+ d9443c01a7336-23c89ac5153ls25529685ad.0.-pod-prod-01-us; Mon, 07 Jul 2025
+ 02:48:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXKd0bif7BFvlZM2cQiJsYSdaIFguPNHdz0ztAEFcgqXADAMHU0Le0mtigqW+U9DIGXKLGT16ADOv8=@googlegroups.com
+X-Received: by 2002:a17:902:d4cf:b0:236:15b7:62e4 with SMTP id d9443c01a7336-23c9107d28fmr121118905ad.38.1751881700748;
+        Mon, 07 Jul 2025 02:48:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1751881700; cv=none;
         d=google.com; s=arc-20240605;
-        b=V0urTYC60JlFIe3CJtQii635hiqCSv+bAIeIt6pj0XX3RavA0u5MVSCVm3cJbZkzoe
-         ilxUwgqcT36PRJMvEr4ljKjqneL1Jm3O2LxxnYY1I0GC+/06WcJo6GUoi90hXq3AkZf6
-         P0eGrid2P/M1rbyZYWLOrZd0fSygLRCaVJhNWaIt+1di372GFEusoUmBWBw20FlBviZl
-         r8n5Ibv1bMYIFs1qnTLq/sAjw2z0dO/pzj2rPeqCQYpD316soo4ELolw6FWRFgQeICyU
-         +uhK+t+EvZPWeZeJpevjM68vCADfYxf8um7FU19b2lxAZzs2lo+JCjhO8is3VT1bJ5iG
-         8SPw==
+        b=Lg0zM1Sjg/juZAnLacA22V+3ckh3Hu4xuy/LyhPjlF+XsaO3g+vQFRg5PKylO35YH5
+         fWyNzt1l3NBowOMpHscboYoZpMjlOuHN4I5zvn5ELGtJgjArTuSHsDtkhasxORVvefFn
+         GO1mk76X1npQRNko1h4EzmHb+Evyx5XhLHUkUn81Q4nX/xVIv4i2S1mzxULoo5HRcktB
+         WugfIJzRBxbzMqijPnMIKgr9bNnwBm8L1ePKhGN4sa9Rnlv7O+NWbdfiryx25H8VrQLK
+         ifoyr0hQVL7quRaFoWw99LMh3v0+5hlDzDkkujW5Q8NxDcL1+i/yBg8Dmx316x6w66TC
+         3L3Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:dkim-signature:dkim-signature:date;
-        bh=fm2v9rBCIXUzUrmt72RQoSJ2B3nGVKZtSeUnw7U71lE=;
-        fh=1w8HeWEvSlwODmpRGh4OdOj4E8TW8kP7woR1B7ALjr4=;
-        b=S2GGAB2CLbX57PgxIXGp8jwGcRj201YzUQx7TDuV6tGxA/C58e+qLKPWHvX3QMIhEG
-         AFLwZV1g09rnNN7sbL1HUR0utB1UTpEYTq4iM0S9vri5iCjaEz24zIqJa5bFcxmiV6SO
-         FHLoN6HqOGkqOJb45SbngvEQDzqkWW0JWe3E/Wx19qRd3aHNY72WS+CDUVIm8rPVk/k4
-         mN4Q+UjAUajq89xaRiZeYH56/+mQWpUAGuv6/GoLww7hJbdY7h2z1vH4K+cP3dMVMXfA
-         A0+r0PgAaxCPszWYyawxvt/cTmlZg4iUaeTWMLlQdqSAXd27JzZJWDCEeB1MfCzF124R
-         Uhrw==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=frbjbKfca0mgstlmUpI74NtNTt6lUs+p9/a8UNKkFt4=;
+        fh=ZX7pdS+EU5ciUeMFy6SG+xUSb1ypiNEhSL3dkgIQwYE=;
+        b=fZ4+VZtTeemUC/ArAO8x9Bl62akoTSbMhdcrQ6NakiTTEfk4a8Gwhe+OTpFbmZpthu
+         pCo2EgJk4yb7/ZmorB34SLwmYrgopWCJkkPe8PO2k1jH84ciYgoS1NxjZRwaUXatmleO
+         l0JG19B3VMJOPzyukVUwvd2LZRBYSzi2xE0yin3O5AOc70xwH5cBlHruuEXsYUAubwK7
+         0G+22fklFokE8WodEwilRKIUJJcKVq4lc1H9YW9Ui/Wkmm2S9nPirjFDMP3n9jVVBUQ8
+         NF+rB/F2YyK13bD1rvgih0AhGXhfNPZKUvFPRjb7byY9dp28B1vx6CEMhZsHfTew5Qz1
+         RXBA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=t+4ylqAF;
-       dkim=neutral (no key) header.i=@linutronix.de;
-       spf=pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
-Received: from galois.linutronix.de (Galois.linutronix.de. [193.142.43.55])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-556382c29f4si128250e87.0.2025.07.07.01.44.42
+       dkim=pass header.i=@google.com header.s=20230601 header.b=Px0fWGle;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f36 as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com. [2607:f8b0:4864:20::f36])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-23c845037bdsi3153075ad.9.2025.07.07.02.48.20
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jul 2025 01:44:42 -0700 (PDT)
-Received-SPF: pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) client-ip=193.142.43.55;
-Date: Mon, 7 Jul 2025 10:44:40 +0200
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Yeoreum Yun <yeoreum.yun@arm.com>
-Cc: glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
-	vincenzo.frascino@arm.com, akpm@linux-foundation.org,
-	clrkwllms@kernel.org, rostedt@goodmis.org, byungchul@sk.com,
-	max.byungchul.park@gmail.com, ysk@kzalloc.com,
-	kasan-dev@googlegroups.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v2] kasan: remove kasan_find_vm_area() to prevent
- possible deadlock
-Message-ID: <20250707084440.9hrE23w0@linutronix.de>
-References: <20250703181018.580833-1-yeoreum.yun@arm.com>
- <20250707083034.VXPTwRh2@linutronix.de>
- <aGuGcnk+su95oV5J@e129823.arm.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Jul 2025 02:48:20 -0700 (PDT)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f36 as permitted sender) client-ip=2607:f8b0:4864:20::f36;
+Received: by mail-qv1-xf36.google.com with SMTP id 6a1803df08f44-6f8aa9e6ffdso28743246d6.3
+        for <kasan-dev@googlegroups.com>; Mon, 07 Jul 2025 02:48:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXqExKajS6VZ+tTztowigoYsG/9Jje2Qta0S+aP0VfD9PnQrreqasF2Kf9hXdYdsgHGmY2ezgfUELs=@googlegroups.com
+X-Gm-Gg: ASbGncumE2fJe97bYOdRRwicZP+YuPG1EtLrzdyuwW06dJupHZaMFjuTl3ygGO7PQB5
+	7b8Zu339GrSz3t0XtETXnZctl/r0azKBnf7Ekr1sijddJToDpSZ4CigaYpvVRztTUH6X49aeym4
+	YEWuxVP6Nr9gcoY2nDaZIcdphAZXWLQLp+fmeuVkbxZ8KqhzbhU5+Lus9lnTEzcafEtiw8Hg7Fj
+	A==
+X-Received: by 2002:a05:6214:5d0f:b0:6fd:609d:e924 with SMTP id
+ 6a1803df08f44-702d16b5b13mr143596346d6.36.1751881699546; Mon, 07 Jul 2025
+ 02:48:19 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.1751747518.git.alx@kernel.org> <2d20eaf1752efefcc23d0e7c5c2311dd5ae252af.1751747518.git.alx@kernel.org>
+In-Reply-To: <2d20eaf1752efefcc23d0e7c5c2311dd5ae252af.1751747518.git.alx@kernel.org>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 7 Jul 2025 11:47:43 +0200
+X-Gm-Features: Ac12FXyyIGAsATyNgJop_7rvBktTGUGYSMPyLaAqY218kgxIasAxME7dbvT6CZY
+Message-ID: <CAG_fn=UG3O-3_ik0TY_kstxzMVh4Z9noTP1cYfAiWvCnaXQ-6A@mail.gmail.com>
+Subject: Re: [RFC v1 1/3] vsprintf: Add [v]seprintf(), [v]stprintf()
+To: Alejandro Colomar <alx@kernel.org>
+Cc: linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
+	Kees Cook <kees@kernel.org>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	shadow <~hallyn/shadow@lists.sr.ht>, linux-kernel@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com, 
+	Dmitry Vyukov <dvyukov@google.com>, Marco Elver <elver@google.com>, Christoph Lameter <cl@linux.com>, 
+	David Rientjes <rientjes@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <aGuGcnk+su95oV5J@e129823.arm.com>
-X-Original-Sender: bigeasy@linutronix.de
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linutronix.de header.s=2020 header.b=t+4ylqAF;       dkim=neutral
- (no key) header.i=@linutronix.de;       spf=pass (google.com: domain of
- bigeasy@linutronix.de designates 193.142.43.55 as permitted sender)
- smtp.mailfrom=bigeasy@linutronix.de;       dmarc=pass (p=NONE sp=QUARANTINE
- dis=NONE) header.from=linutronix.de
+ header.i=@google.com header.s=20230601 header.b=Px0fWGle;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f36 as
+ permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,46 +155,163 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 2025-07-07 09:33:54 [+0100], Yeoreum Yun wrote:
-> Hi Sebastian,
-Hi,
+On Sat, Jul 5, 2025 at 10:33=E2=80=AFPM Alejandro Colomar <alx@kernel.org> =
+wrote:
+>
+> seprintf()
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> seprintf() is a function similar to stpcpy(3) in the sense that it
+> returns a pointer that is suitable for chaining to other copy
+> operations.
+>
+> It takes a pointer to the end of the buffer as a sentinel for when to
+> truncate, which unlike a size, doesn't need to be updated after every
+> call.  This makes it much more ergonomic, avoiding manually calculating
+> the size after each copy, which is error prone.
+>
+> It also makes error handling much easier, by reporting truncation with
+> a null pointer, which is accepted and transparently passed down by
+> subsequent seprintf() calls.  This results in only needing to report
+> errors once after a chain of seprintf() calls, unlike snprintf(3), which
+> requires checking after every call.
+>
+>         p =3D buf;
+>         e =3D buf + countof(buf);
+>         p =3D seprintf(p, e, foo);
+>         p =3D seprintf(p, e, bar);
+>         if (p =3D=3D NULL)
+>                 goto trunc;
+>
+> vs
+>
+>         len =3D 0;
+>         size =3D countof(buf);
+>         len +=3D snprintf(buf + len, size - len, foo);
+>         if (len >=3D size)
+>                 goto trunc;
+>
+>         len +=3D snprintf(buf + len, size - len, bar);
+>         if (len >=3D size)
+>                 goto trunc;
+>
+> And also better than scnprintf() calls:
+>
+>         len =3D 0;
+>         size =3D countof(buf);
+>         len +=3D scnprintf(buf + len, size - len, foo);
+>         len +=3D scnprintf(buf + len, size - len, bar);
+>         if (len >=3D size)
+>                 goto trunc;
+>
+> It seems aparent that it's a more elegant approach to string catenation.
+>
+> stprintf()
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> stprintf() is a helper that is needed for implementing seprintf()
+> --although it could be open-coded within vseprintf(), of course--, but
+> it's also useful by itself.  It has the same interface properties as
+> strscpy(): that is, it copies with truncation, and reports truncation
+> with -E2BIG.  It would be useful to replace some calls to snprintf(3)
+> and scnprintf() which don't need chaining, and where it's simpler to
+> pass a size.
+>
+> It is better than plain snprintf(3), because it results in simpler error
+> detection (it doesn't need a check >=3Dcountof(buf), but rather <0).
+>
+> Cc: Kees Cook <kees@kernel.org>
+> Cc: Christopher Bazley <chris.bazley.wg14@gmail.com>
+> Signed-off-by: Alejandro Colomar <alx@kernel.org>
+> ---
+>  lib/vsprintf.c | 109 +++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 109 insertions(+)
+>
+> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+> index 01699852f30c..a3efacadb5e5 100644
+> --- a/lib/vsprintf.c
+> +++ b/lib/vsprintf.c
+> @@ -2892,6 +2892,37 @@ int vsnprintf(char *buf, size_t size, const char *=
+fmt_str, va_list args)
+>  }
+>  EXPORT_SYMBOL(vsnprintf);
+>
+> +/**
+> + * vstprintf - Format a string and place it in a buffer
+> + * @buf: The buffer to place the result into
+> + * @size: The size of the buffer, including the trailing null space
+> + * @fmt: The format string to use
+> + * @args: Arguments for the format string
+> + *
+> + * The return value is the length of the new string.
+> + * If the string is truncated, the function returns -E2BIG.
+> + *
+> + * If you're not already dealing with a va_list consider using stprintf(=
+).
+> + *
+> + * See the vsnprintf() documentation for format string extensions over C=
+99.
+> + */
+> +int vstprintf(char *buf, size_t size, const char *fmt, va_list args)
+> +{
+> +       int len;
+> +
+> +       len =3D vsnprintf(buf, size, fmt, args);
+> +
+> +       // It seems the kernel's vsnprintf() doesn't fail?
+> +       //if (unlikely(len < 0))
+> +       //      return -E2BIG;
+> +
+> +       if (unlikely(len >=3D size))
+> +               return -E2BIG;
+> +
+> +       return len;
+> +}
+> +EXPORT_SYMBOL(vstprintf);
+> +
+>  /**
+>   * vscnprintf - Format a string and place it in a buffer
+>   * @buf: The buffer to place the result into
+> @@ -2923,6 +2954,36 @@ int vscnprintf(char *buf, size_t size, const char =
+*fmt, va_list args)
+>  }
+>  EXPORT_SYMBOL(vscnprintf);
+>
+> +/**
+> + * vseprintf - Format a string and place it in a buffer
+> + * @p: The buffer to place the result into
+> + * @end: A pointer to one past the last character in the buffer
+> + * @fmt: The format string to use
+> + * @args: Arguments for the format string
+> + *
+> + * The return value is a pointer to the trailing '\0'.
+> + * If @p is NULL, the function returns NULL.
+> + * If the string is truncated, the function returns NULL.
+> + *
+> + * If you're not already dealing with a va_list consider using seprintf(=
+).
+> + *
+> + * See the vsnprintf() documentation for format string extensions over C=
+99.
+> + */
+> +char *vseprintf(char *p, const char end[0], const char *fmt, va_list arg=
+s)
+> +{
+> +       int len;
+> +
+> +       if (unlikely(p =3D=3D NULL))
+> +               return NULL;
+> +
+> +       len =3D vstprintf(p, end - p, fmt, args);
 
-> > what is DEPT?
-> 
-> Please check the below patchset:
->   https://lore.kernel.org/all/20250519091826.19752-1-byungchul@sk.com/
+It's easy to imagine a situation in which `end` is calculated from the
+user input and may overflow.
+Maybe we can add a check for `end > p` to be on the safe side?
 
-Thank you.
-
-Would lockdep see this if check_region_inline() would have something
-like (minus missing exports, just illustrate the idea)
-
-diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
-index d54e89f8c3e76..c74e8e0863723 100644
---- a/mm/kasan/generic.c
-+++ b/mm/kasan/generic.c
-@@ -171,6 +171,11 @@ static __always_inline bool check_region_inline(const void *addr,
- 	if (unlikely(size == 0))
- 		return true;
- 
-+	{
-+		struct vmap_node *vn = vn = &vmap_nodes[0];
-+		might_lock(vn->busy.lock);
-+	}
-+
- 	if (unlikely(addr + size < addr))
- 		return !kasan_report(addr, size, write, ret_ip);
- 
-
-? Just to understand if lockdep is missing something essential or if
-DEPT was simply enabled why this "bad" accessed occurred and was able to
-see the lock chain which otherwise stays invisible.
-
-> Thanks!
-
-Sebastian
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250707084440.9hrE23w0%40linutronix.de.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
+AG_fn%3DUG3O-3_ik0TY_kstxzMVh4Z9noTP1cYfAiWvCnaXQ-6A%40mail.gmail.com.
