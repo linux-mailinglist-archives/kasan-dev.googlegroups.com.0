@@ -1,150 +1,164 @@
-Return-Path: <kasan-dev+bncBD7I3CGX5IPRBM74WLBQMGQE647XQRA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDG6PF6SSYDRBBHFWPBQMGQEYFNLCLY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FFCCAFC303
-	for <lists+kasan-dev@lfdr.de>; Tue,  8 Jul 2025 08:44:05 +0200 (CEST)
-Received: by mail-wm1-x340.google.com with SMTP id 5b1f17b1804b1-4532ff43376sf31531635e9.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 07 Jul 2025 23:44:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1751957044; cv=pass;
+Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5091DAFC855
+	for <lists+kasan-dev@lfdr.de>; Tue,  8 Jul 2025 12:27:18 +0200 (CEST)
+Received: by mail-lj1-x239.google.com with SMTP id 38308e7fff4ca-32b37b118a3sf14472471fa.3
+        for <lists+kasan-dev@lfdr.de>; Tue, 08 Jul 2025 03:27:18 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1751970437; cv=pass;
         d=google.com; s=arc-20240605;
-        b=GdFOrcJWOMGEhpNs4k6reHQTkWaAdNcEnJgjUANOW4G1eXuLHc+/X/j5Em8h9wrTNq
-         INdYPNhwIN2y6g+KV5++/7yL0kepu1CNpKW9ILZ1otqFh33QNzw72dmU9owQDgEJJ2q8
-         2TpIBwVdzRqLItjWMSkxh6NuMR4k7GDR3YeCc2hGAEEID+3REGHGqJCu0wXAB4EriH8F
-         dEYNmUiblLLHU1Yfz42q35DvH5UqSpzAY6hwlsg1h3uBilJcwkN4+84xWEz61+G3dV+K
-         +asnmJ6+IWY0c4/e7ldSKW064pqwURPmw3KclvB5d15qJTtFq4kzFLXipiJ3SDsIqYY6
-         6GfQ==
+        b=DqTbF7+HDYtKBlugsOvNlKHyCzVVeZ6WHEN9ZUKYs17jut6r4ZNnTBGioL4p7xwQFK
+         gyIvXceU9YlqiyhQ7UeuYsEOggH68jXRPCxlG/EtTgPnlgo6tkBMcux2FXkhAjL8Qp2T
+         rbjS2KdkdQpF6KiZfqrCAI99ND6lk9ds0xEWG1FK7Bw6b19xz+3pfhByQOXHS7FJqy4f
+         jXIO2NLx1kArb0IjugyFY2nyTTDUXJCx3eevfdOxco7X3HMBG/EYwXJebcC6YaWT8Mkh
+         oX4zZQAwnySitmfPbJRJNiDXK1JSnXPkA33wXiEn6jeui/gViD49BpgMWeGTomXZj8bO
+         ejkg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:user-agent:message-id
-         :date:references:in-reply-to:subject:cc:to:from:sender
-         :dkim-signature;
-        bh=hyzkDCFdAUBsIZQOIE+a4kRRY1D9RGfihLN8UeWW7o0=;
-        fh=nxqlPs3RPJzeSTHx2k5O0Ac6/Q/vTk1i9GaEoSymd9w=;
-        b=H2/iASD4ZA11kCw6p5KhaKEO3pv+v6Rym8+/EAvgqc9OIRRn/vu6i52cIEmIlXsl/x
-         m5zPy4kkrGaZJbJ18rqoUgF8MSS+pC9OfYhDyqvc2rACvoF0L8K+g//FhnNeGZ8pmxzj
-         CGqN1/0K9wFK8oDcdW7dhbVgbqJGnmJEm7ozZNy+PjXRaboqahsB4fcomaa+zNGvmdus
-         gIWLbi9yDXw5eO0PxcdyvsyMYehaBr6tljBZGwMa2jmr29DVkTYyAkea8UwTkKcrtTR0
-         cvB3lKzrqJljhcOP2XSw77Yw7FLidjM8I3zVlABaRMFMd48JiPy0pLMU/7oX750iyQBr
-         haDQ==;
+         :list-id:mailing-list:precedence:references:in-reply-to:from
+         :content-language:cc:to:subject:user-agent:mime-version:date
+         :message-id:dkim-filter:sender:dkim-signature;
+        bh=4TNSSo39Go8azwAlOdwWyX0pTKOXUND8t16okLDZhrA=;
+        fh=1aJjc9IJ2E3daW2DDqca1sStq12xpMWIk80notiFLUg=;
+        b=E5DKyKMcjozjzj1UWzg7F5aPoEUQaBgZJ61oh4hGZ2R10eade3iPul7O/wFLv0Omoa
+         lYClt4cFXu+qHr1S4vcYLE+7bZzq6G5lHmDPGdaLY9HgTV6N+EPW820aesEiryjt8/hr
+         eaqO/qqdYpYTdRJnIVd+Qi7HXPFYoLuR9LEflV3f6kdTFJdamZhAW4dfRGllpZaqCpJx
+         Mc0+T8czdgJkQ13fSzBQs4FqY7v4aavTmWcTyjv/gg8rARZmEEFv0+9/2qSUmYHesOli
+         nSS6yRZyDqV+AgSWxmGCCLginFwzGx/nzuuqnBgx1HFgRwRCSa2miIbige/wOkuYlXCj
+         1eYg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@rasmusvillemoes.dk header.s=google header.b=NoLwhtDD;
-       spf=pass (google.com: domain of linux@rasmusvillemoes.dk designates 2a00:1450:4864:20::12e as permitted sender) smtp.mailfrom=linux@rasmusvillemoes.dk;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=F008LidY;
+       spf=pass (google.com: domain of m.szyprowski@samsung.com designates 210.118.77.12 as permitted sender) smtp.mailfrom=m.szyprowski@samsung.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1751957044; x=1752561844; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1751970437; x=1752575237; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:user-agent:message-id:date
-         :references:in-reply-to:subject:cc:to:from:sender:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=hyzkDCFdAUBsIZQOIE+a4kRRY1D9RGfihLN8UeWW7o0=;
-        b=A3RBung8BSLz7yURP1n/u/QPoRRRcBNiRDiCQADGz/+JJHQW53chs3iqtGtDePgQQt
-         YauyLGJ9Ips3Un95ndXd4OJHZGUtzBi7n+EfWroEG5gIjNJc6albcv0xSMnzLjVknWOx
-         PL3KLBCzbGVAvX0rOzZNLSnxSBiuR3IQujp+slwnEQYUWUgU8uO12K3xNRlLZwvqrDQN
-         5gCestA7H9XlQbvfj9epWmLooHVMjCiwz1EMdNHDidJnn0+K5KwJWu3l48ALzxLXgDVM
-         WK5+DfR/C96VehhyeGOGW7FYZzlNQ8b7hm9yjT0BHgob1jmggVBeSayNpGgG4dv0Rc3v
-         XzLQ==
+         :x-original-sender:references:in-reply-to:from:content-language:cc
+         :to:subject:user-agent:mime-version:date:message-id:dkim-filter
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=4TNSSo39Go8azwAlOdwWyX0pTKOXUND8t16okLDZhrA=;
+        b=mI+A5Jci4GEIzfUd12UtwNjscN/3Is8r6/v64vuQW4x050ug+z9MKsB9tPJUnEmQnI
+         No3edImSOCsB0VpPC4X5SMAv/5Vv5ubtPVor+sWOs/N6FW1CRniO90KRlRYEsVdCbK0I
+         9z+rzF56XOcPCMldBRElnChb1NoXL9ZzH4Ka7Nj/N2KXUYlV+LrFgL11fDTIMZi3cU/q
+         MmX7RyCwGLJR0lfjEBtjuBNkLvfJFQaZbIJ6Ff8wjne1zpg2tJK8yKENRk1pYQNGhviR
+         vCsVxTCvNJuKDGm4fSVtgej6Yygh1mJUyRIS3tmRhB1fvBXEMf9kGze34V/LD7f4Lj8b
+         es0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751957044; x=1752561844;
+        d=1e100.net; s=20230601; t=1751970437; x=1752575237;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :user-agent:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hyzkDCFdAUBsIZQOIE+a4kRRY1D9RGfihLN8UeWW7o0=;
-        b=l65CneFmh52ZycQCR5Gsos8o/ojSPOrWJ1OrBwlhM0KRmrpFltBmnWnC50JG56FPEv
-         Nqkb1OfE5XAOL0uXry/pc+kTYWLUWh9mJpGR8d7i36LGRjZWdaHvUOWRoF/OiQ+UJA8g
-         pDNEGS8RMwgaqKrcngUn4pjI7uY4GWWo+5jUf3LauIgxEynyJREb4aST+gfchHNfTqPn
-         LB0mH9IcDZODubslVtrFM8AmGPj/XM9ik84TMvvFXiIENvtHrviRwErEl+kDiXOzF78U
-         VN6uYQFYPWBrRs5906hv+bRV5iuVXvJuyxsa7JWxnXvPedIgK/npUcv0Td32tEzcuLvt
-         1gKA==
+         :x-original-authentication-results:x-original-sender:references
+         :in-reply-to:from:content-language:cc:to:subject:user-agent
+         :mime-version:date:message-id:dkim-filter:x-beenthere
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4TNSSo39Go8azwAlOdwWyX0pTKOXUND8t16okLDZhrA=;
+        b=MQM7fAOlrsqopcadchkeSgQzyHcCG2WOXJ8uSJVnQE1r79/RhaV8PkG4PeBCeUxtJJ
+         9pyV4PAz/D8QywQ4zikny6XHwoGbZZgcIeRWlJEWS+OQgRXwG9iz7dqSmHQXeQTHat2p
+         fooweO9uP/zMW5PFjlBPGPeuRcjVIh8dMGjI1I4gPxFgj1+znCTrwONOUuxBifGef4fL
+         oHzN3+cx0rm6Rj5tuJU25NawrQnvjvfFyCjODqjDyDDmiWn2wJDivteu3TUtOHCtxfJO
+         E0URkUqfudk0wQLus8/spLC2wuaDQJYwdEPLoW3ed0yBPujB+C+Rg06q+yckwkWcN7EK
+         9DZQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWefvjX30WvHcb5EHEURsjS2a+JjlfXb5Gq0BrLAx9tqqeKM6ft94uP8t6xjPTghVGDiufQAw==@lfdr.de
-X-Gm-Message-State: AOJu0YwJGHOtaR2BB4UpDh77ki2c9cOvPVJWIiIpPw/1rgI/0j0t9Kq5
-	ft6WV62fH/5lYgn0SrH4zWseZaJp76GOpTTntbp4XKTwtyhYOPeW3MYG
-X-Google-Smtp-Source: AGHT+IEsHtmXEVkC3qQKgTDO6eG8qgpXRm6HEaatAX15udZGH9zKu6HtA/E058PFpaim775OEdYYhA==
-X-Received: by 2002:a05:600c:540c:b0:43d:45a:8fbb with SMTP id 5b1f17b1804b1-454b4ead7f5mr114359415e9.22.1751957043993;
-        Mon, 07 Jul 2025 23:44:03 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZeJJZipZ6Xq7V9f4eFkIZGdKHmM2tu9sbKCaGlh8nAx/A==
-Received: by 2002:a05:600c:5252:b0:43c:eb7b:1403 with SMTP id
- 5b1f17b1804b1-454bbea90cdls15309705e9.1.-pod-prod-09-eu; Mon, 07 Jul 2025
- 23:44:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVZwcxdUmKCcUt8TML/x4siaocDRJbOUqH2Nrp5u4gF84D+i3TdRRcshh7l5mth18q9wdd1yJS2Qto=@googlegroups.com
-X-Received: by 2002:a05:600c:3b25:b0:43c:ee3f:2c3 with SMTP id 5b1f17b1804b1-454b4e6e3aemr127733405e9.7.1751957041379;
-        Mon, 07 Jul 2025 23:44:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1751957041; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCWp7qtqOUoqqQbxvdFKNL1MxzWFodbOWGps5IbFLPVNtvdSyAjxpvULWtQl9zvfhsqyyNJ0XQ==@lfdr.de
+X-Gm-Message-State: AOJu0Yzk3JiDibIHvmBN8aSOFJdbBph2uUcyI5Az+tsetDWnwa8h5kbw
+	rgLu2mUkbGZJQYf1hVFr4vrh0+eidy+BT3fvbc34w4aaVBNzz89kyBqJ
+X-Google-Smtp-Source: AGHT+IED1q0+LB7fq6Zy9nRxB++wLLu6Yz+Jpe3ZK3siH6b1rlcZVi66B7F4/NCyqEVVIbgaLZm2SA==
+X-Received: by 2002:a2e:a99f:0:b0:32b:5de6:89c6 with SMTP id 38308e7fff4ca-32f39aa3b68mr7168211fa.13.1751970437206;
+        Tue, 08 Jul 2025 03:27:17 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdJX9WqJdRGDKx9gs1Ik5WZQZ9zwScVV+4IgGf2vfSlwg==
+Received: by 2002:a2e:ae16:0:b0:32a:5c14:7f1e with SMTP id 38308e7fff4ca-32f11458b02ls4452071fa.2.-pod-prod-01-eu;
+ Tue, 08 Jul 2025 03:27:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCU9u1YbUhNEiPzFDrmUHPUDi6sNWW9tzrB745jTNFSeFqyaw/IzG7NIt/koha4bx7+2MbFG9jGLb/o=@googlegroups.com
+X-Received: by 2002:a2e:a549:0:b0:32b:2fba:8b90 with SMTP id 38308e7fff4ca-32f39aa3b50mr5922261fa.14.1751970434305;
+        Tue, 08 Jul 2025 03:27:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1751970434; cv=none;
         d=google.com; s=arc-20240605;
-        b=bpwd7BV+koREX0KSe/U4WcNbrg2aN9b+HO+Q2c7f4GoNkmQuKLtj7E7v4f/2L12lXf
-         4hyj8TuWRNAkomdipBjKI4Q9BLdHk9Eq4qf44U1q+WzvojT9XnMACipKGlzxwzHl1IKU
-         oi/RYbQ3FgiGdMGhX42qFD3T4NB/qBXyEtOnmDWRh8oHg2XrQ53EtZd2i3DVIJt3omaj
-         zdDoWVHRFE9qqBz+6RLV0GVw09t1JVmmd+D/YeAvmh5SUyRpQDg3gSfpYqENEzO5kxQc
-         6rhXfZaziNux4wVPRQ3gsZj+PJ8HaWc4YRHk3+MP5UQRrqlW7//9TMuacvJxQnxhyKH3
-         k/gw==
+        b=iK8Z+0WRk4RgKTWDQFVngk1pyv13SbR+hOu/VqYWfa9Vqf/JlVknSvh8RIuhIYlN8n
+         LMOB1MpalZBtCz4kythEStXQWo/db2PENicBQO1/67yxi8v+8iXSHSxs+Sv6GuP6HWvJ
+         4RYUmLLyn1rM9JPlwfREx14KdbFeW0RYfVCy01AuBuPLsqQDD9ci8VAPcp0eLuWtG5lY
+         WON3YDdkMab/mcvfzk/z2fNqvn2wowBQhe6SutgXllm5eoy2witZjY6ztQJnDKdCv7ph
+         UE5BbTq7JT6o7nNQaDTTc6fGEKMAdbIN0p2WvKAlnbX7qxFE9jv+cFv9a/Y5woxYMxK8
+         WzeA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=mime-version:user-agent:message-id:date:references:in-reply-to
-         :subject:cc:to:from:dkim-signature;
-        bh=VwcmJ/ZhvGTQZtfzPShfeClIbetsIVYAmTNQ+zOrI/Q=;
-        fh=Ezb2KwQdr6Jb7GLZPlJjeLogfHv50yuZFCWy3wpv2gI=;
-        b=M/vFGBaQ8Vda0Q0FVn6xw4soLWWGVMU4DxPD6eoNWkJ8lspYVn/INgLgpCJxvnkunG
-         rbWQ4wP+VYqi2tLON3dHHo97RgOKh13ibLS/Y9KcfTntpnbERbv71xEXCI4ZWDyGjPqf
-         oigypsZtb3mjVQBYS8Ezt/BVs7pqhAyW4qGq4SkiYFwmS2bUMhnX5wn+H+DmFT02oFR5
-         K/KDdsORMBne5Orqwc02VaLiNjMsC35j2OD1vlwMqCSt2S64MvB5iAsj7YfnqLwAngvH
-         mY5RlKFqti+Sc/nfJVJxW30HQcxnJsQdfHkZbpa0WcFD6Vbjw+mESDJSUbUYKjafGgpu
-         yZnQ==;
+        h=references:content-transfer-encoding:in-reply-to:from
+         :content-language:cc:to:subject:user-agent:mime-version:date
+         :message-id:dkim-signature:dkim-filter;
+        bh=CvHwMYp2XIGbJnf/9QWS8C8NtBZtZV/va6aW8p1Pd0k=;
+        fh=Vybu629c/t6Bxguwm0ZzA/B2Lv/TTdklcjG7jdpoXn8=;
+        b=JLHfWfe8PdO7xz6mR9TbqbOVdmU6UoR00nofsDK1k5IuSy1z7xn4+pppgJS/T/a3ay
+         akzXT8ZlIDq/wjNRZXWueamjAkRrkLkTNxogAZ5qCo2dHFDHxYThRhkSF02/5FStGx3z
+         VLKlQcW2O+aJ1vMgWEqY7ocSITtZLfq+odRV2euElFy46WfXvL+BL4gLBzKuZY4WxFS2
+         mC1mRpLFvT+V2NuT+4Rt2HD+ZU+bfIHZQXo0IZBVHyzF5WSigyS/7GRNHLHbgn0BL8vt
+         gdve+YA+QI2rnp2Q4DjhVFWwc4FZB/jLpn8Ger2bfRz7Ky6sA7I9HKAxlHyQaN5gKKvX
+         AuwQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@rasmusvillemoes.dk header.s=google header.b=NoLwhtDD;
-       spf=pass (google.com: domain of linux@rasmusvillemoes.dk designates 2a00:1450:4864:20::12e as permitted sender) smtp.mailfrom=linux@rasmusvillemoes.dk;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com. [2a00:1450:4864:20::12e])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-454cd498c64si108925e9.0.2025.07.07.23.44.01
+       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=F008LidY;
+       spf=pass (google.com: domain of m.szyprowski@samsung.com designates 210.118.77.12 as permitted sender) smtp.mailfrom=m.szyprowski@samsung.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com. [210.118.77.12])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-32f13e3031asi1990481fa.8.2025.07.08.03.27.13
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Jul 2025 23:44:01 -0700 (PDT)
-Received-SPF: pass (google.com: domain of linux@rasmusvillemoes.dk designates 2a00:1450:4864:20::12e as permitted sender) client-ip=2a00:1450:4864:20::12e;
-Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-555024588b1so3902959e87.1
-        for <kasan-dev@googlegroups.com>; Mon, 07 Jul 2025 23:44:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVeo3m126WtyvswI2j8LjyVAJx+ujTpkMDAfsO8pbzgkuDK5ivl0aiHELF6a/pqujMzE5K5fpMEucc=@googlegroups.com
-X-Gm-Gg: ASbGncuemIeMqPkBesbgJV74QHQiXpLzKUmy1IHBz2x3ESCOSDpJhH4iLO5OW9EFPLO
-	2ek8WNhpXXaeCogl7Rw7oQZ+nG5TGsAe7e+g5fLprh7mXB4xZ0mwAreYApXHEhxx8bgcSrErWeB
-	ghTK71P3kpWUsJEVW5IuBx/4ifHbITwPb4vkOD9SpsujSpqxKGCDAHG2574zY2dyUceWu4run7D
-	MuPrBORZufQR6mtZLH9RfSU5zFarPNlx4iSPxDIkRGw2LhIgWHpwQklNlhSx8Qz7tR/HkB4wjf3
-	86kJyErJRKmxLVYNJeNld6W7pRWoK/MFHqiNC2EcccIlEtzJyXBI1M2hEOBwzfZ8
-X-Received: by 2002:a05:6512:230f:b0:553:388a:e794 with SMTP id 2adb3069b0e04-557a19df4f8mr5244040e87.17.1751957040069;
-        Mon, 07 Jul 2025 23:44:00 -0700 (PDT)
-Received: from localhost ([81.216.59.226])
-        by smtp.gmail.com with UTF8SMTPSA id 38308e7fff4ca-32e1af83038sm14820851fa.14.2025.07.07.23.43.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jul 2025 23:43:59 -0700 (PDT)
-From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-mm@kvack.org,  linux-hardening@vger.kernel.org,  Kees Cook
- <kees@kernel.org>,  Christopher Bazley <chris.bazley.wg14@gmail.com>,
-  shadow <~hallyn/shadow@lists.sr.ht>,  linux-kernel@vger.kernel.org,
-  Andrew Morton <akpm@linux-foundation.org>,  kasan-dev@googlegroups.com,
-  Dmitry Vyukov <dvyukov@google.com>,  Alexander Potapenko
- <glider@google.com>,  Marco Elver <elver@google.com>,  Christoph Lameter
- <cl@linux.com>,  David Rientjes <rientjes@google.com>,  Vlastimil Babka
- <vbabka@suse.cz>,  Roman Gushchin <roman.gushchin@linux.dev>,  Harry Yoo
- <harry.yoo@oracle.com>
-Subject: Re: [RFC v1 0/3] Add and use seprintf() instead of less ergonomic APIs
-In-Reply-To: <cover.1751747518.git.alx@kernel.org> (Alejandro Colomar's
-	message of "Sat, 5 Jul 2025 22:33:47 +0200")
-References: <cover.1751747518.git.alx@kernel.org>
-Date: Tue, 08 Jul 2025 08:43:57 +0200
-Message-ID: <87a55fw5aq.fsf@prevas.dk>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 08 Jul 2025 03:27:13 -0700 (PDT)
+Received-SPF: pass (google.com: domain of m.szyprowski@samsung.com designates 210.118.77.12 as permitted sender) client-ip=210.118.77.12;
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20250708102712euoutp02b3d8674c35b8169adb57fa6eaae42cea~QP9OHtL232034920349euoutp02k
+	for <kasan-dev@googlegroups.com>; Tue,  8 Jul 2025 10:27:12 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20250708102712euoutp02b3d8674c35b8169adb57fa6eaae42cea~QP9OHtL232034920349euoutp02k
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20250708102712eucas1p1199b906d3c40b7ff5066a92aacd7b14c~QP9NsRWhM2715427154eucas1p1l;
+	Tue,  8 Jul 2025 10:27:12 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20250708102710eusmtip12ad336592b93f91919ed398faf3d4122~QP9LytFDz1124711247eusmtip1B;
+	Tue,  8 Jul 2025 10:27:10 +0000 (GMT)
+Message-ID: <69b177dc-c149-40d3-bbde-3f6bad0efd0e@samsung.com>
+Date: Tue, 8 Jul 2025 12:27:09 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/8] dma-mapping: migrate to physical address-based API
+To: Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leon@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan
+	<maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, Nicholas
+	Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, Will
+	Deacon <will@kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang
+	<jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, Alexander Potapenko
+	<glider@google.com>, Marco Elver <elver@google.com>, Dmitry Vyukov
+	<dvyukov@google.com>, Masami Hiramatsu <mhiramat@kernel.org>, Mathieu
+	Desnoyers <mathieu.desnoyers@efficios.com>, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?=
+	<jglisse@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, iommu@lists.linux.dev,
+	virtualization@lists.linux.dev, kasan-dev@googlegroups.com,
+	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org, Jason Gunthorpe
+	<jgg@ziepe.ca>
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20250630133839.GA26981@lst.de>
+X-CMS-MailID: 20250708102712eucas1p1199b906d3c40b7ff5066a92aacd7b14c
+X-Msg-Generator: CA
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: linux@rasmusvillemoes.dk
+X-RootMTR: 20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf
+X-EPHeader: CA
+X-CMS-RootMailID: 20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf
+References: <CGME20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf@eucas1p2.samsung.com>
+	<cover.1750854543.git.leon@kernel.org>
+	<35df6f2a-0010-41fe-b490-f52693fe4778@samsung.com>
+	<20250627170213.GL17401@unreal> <20250630133839.GA26981@lst.de>
+X-Original-Sender: m.szyprowski@samsung.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@rasmusvillemoes.dk header.s=google header.b=NoLwhtDD;
-       spf=pass (google.com: domain of linux@rasmusvillemoes.dk designates
- 2a00:1450:4864:20::12e as permitted sender) smtp.mailfrom=linux@rasmusvillemoes.dk;
-       dara=pass header.i=@googlegroups.com
+ header.i=@samsung.com header.s=mail20170921 header.b=F008LidY;       spf=pass
+ (google.com: domain of m.szyprowski@samsung.com designates 210.118.77.12 as
+ permitted sender) smtp.mailfrom=m.szyprowski@samsung.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=samsung.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,25 +171,34 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sat, Jul 05 2025, Alejandro Colomar <alx@kernel.org> wrote:
+On 30.06.2025 15:38, Christoph Hellwig wrote:
+> On Fri, Jun 27, 2025 at 08:02:13PM +0300, Leon Romanovsky wrote:
+>>> Thanks for this rework! I assume that the next step is to add map_phys
+>>> callback also to the dma_map_ops and teach various dma-mapping providers
+>>> to use it to avoid more phys-to-page-to-phys conversions.
+>> Probably Christoph will say yes, however I personally don't see any
+>> benefit in this. Maybe I wrong here, but all existing .map_page()
+>> implementation platforms don't support p2p anyway. They won't benefit
+>> from this such conversion.
+> I think that conversion should eventually happen, and rather sooner than
+> later.
 
-> On top of that, I have a question about the functions I'm adding,
-> and the existing kernel snprintf(3): The standard snprintf(3)
-> can fail (return -1), but the kernel one doesn't seem to return <0 ever.
-> Should I assume that snprintf(3) doesn't fail here?
+Agreed.
 
-Yes. Just because the standard says it may return an error, as a QoI
-thing the kernel's implementation never fails. That also means that we
-do not ever do memory allocation or similar in the guts of vsnsprintf
-(that would anyway be a mine field of locking bugs).
+Applied patches 1-7 to my dma-mapping-next branch. Let me know if one 
+needs a stable branch with it.
 
-If we hit some invalid or unsupported format specifier (i.e. a bug in
-the caller), we return early, but still report what we wrote until
-hitting that.
+Leon, it would be great if You could also prepare an incremental patch 
+adding map_phys callback to the dma_maps_ops, so the individual 
+arch-specific dma-mapping providers can be then converted (or simplified 
+in many cases) too.
 
-Rasmus
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/87a55fw5aq.fsf%40prevas.dk.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/69b177dc-c149-40d3-bbde-3f6bad0efd0e%40samsung.com.
