@@ -1,150 +1,144 @@
-Return-Path: <kasan-dev+bncBAABBMUQXHBQMGQE2IIRSBA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBRWVXHBQMGQEMHI277I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3a.google.com (mail-qv1-xf3a.google.com [IPv6:2607:f8b0:4864:20::f3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88ED0AFE62C
-	for <lists+kasan-dev@lfdr.de>; Wed,  9 Jul 2025 12:45:08 +0200 (CEST)
-Received: by mail-qv1-xf3a.google.com with SMTP id 6a1803df08f44-6faca0f2677sf136405146d6.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 09 Jul 2025 03:45:08 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1752057907; cv=pass;
+Received: from mail-pj1-x1040.google.com (mail-pj1-x1040.google.com [IPv6:2607:f8b0:4864:20::1040])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46689AFE9BF
+	for <lists+kasan-dev@lfdr.de>; Wed,  9 Jul 2025 15:12:40 +0200 (CEST)
+Received: by mail-pj1-x1040.google.com with SMTP id 98e67ed59e1d1-3139c0001b5sf4873329a91.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 09 Jul 2025 06:12:40 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1752066758; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Psj1XY4SzoToPJULC/f8h3GVfNbKEIuR3ilP4/3XuBacZAbfoyNAP42bgecNG/d1xh
-         +7Rcnkz9JnsRywpRG7eFe7uFYyKjmONOJFBsWPNGwSCSfaYauxXE83aN48bkrtnsQ5uK
-         NXqlZjI7SYqwps9myKS5DEylR9l+4MXsxm8Q3qVg922wBjPa9H+onZH8MsLKxxlqUDLe
-         ng8HTBaSN/uVQVCzfeBc19XPW443/vxnWo/PuyTRmLUvHAKeJiGvj3L+MINwRTiiPv2y
-         hs7u3j+HdecQ9rTT61eIarcpIMo9Qt6KcsnxLDZPVIQr8yglsnpO0EhamhYf56HaagIL
-         WTrw==
+        b=Z/3Ag6iMP+bEeUdtfmNYl3hhSZrvbH3oEvSre3hbsOjhDaRKLMuvOimEaYrIDYZHZi
+         IkdHo6JksNzzn3S9C/J0gfF0+/3fbR6xweWGDDrYpQQB36Lc3gnolkd95aflShIpGegA
+         urxZrUVooqdFOMsbzG8Jcq5uZCb6YLiEF9S+Gxfqqf18cYTR4WztZnqIGxh1H+92Te4L
+         N4JnA8lkl1cvM7rO1pPFJ8aqnZv0tQOTzc4fWhjWQ2gPpKNnseozREggifzUsL2Xm3yN
+         CVJjGu6ktFViKIQosSmoI1U/txZWaTsXyefVtyjVScSon3NrucgB8+AMIyV9qj8U267o
+         39+w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=YkCvv7CwM7DOtOYOrRFTAe/g8KX0Uuf7dkFE8ALaVXA=;
-        fh=3IYUvXhH//71T9swE3w+d21/9IVY84R/LF7UPerbfRo=;
-        b=SJwEQpiGkPjVdul9zIW+gOlAPmCcQS3aJuqMIVms0eaNABMonNUj8cAJ5CX7l8ZbMb
-         NMoACRbB3+OzXdshPBuhtrD4fkzWpBXcixYi23hR/rsAyoPw5QyuMNbZtOn3x8tuUaBq
-         mZngWmJGZF0nCyJ30YHeu+QlA7vaSZ9tFzguGqfSvmDHMOWw7ZSQTrV7a/VCRYdGrfd7
-         w9LkFsJYgQvfv1uH++ZRIM6A2lBnoDnMCd6urjNDChaqEaAZWt143Yvo03jTqo27rSRa
-         CpIfmsv755J8hgJzII4NWpSzLXLP+ZyqKal/wljBgUSLa1McPK3uIPendunGuyUOL1C4
-         dXhQ==;
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=x3l1VNBIJNfWAZMhrrVVyJiCusd13hph/2Hq23KHTLQ=;
+        fh=GjLgILTIA+w1sFRLH/tFCW1xd3jUZJUIm8VJxJRSkdc=;
+        b=cWCD8TpenDcLywfqiy56Kth+pnMAoTox7u6Hmp98YQ7B+T6x1a6X+HtkI+T/33sbMw
+         +dVyhSnLLAtQj2cT2F4yrwxAmCZz0EzPrYcbGLuIuLGOxpFYAEzJwXI8UYkO6S9O7tce
+         hpzwhvwUk6S155RNVi7yBRtXQaZdiYIJzpZUbPY3xjjgtrJJ/V/0tNTyM/J9ZWkzsTQb
+         hrBYcn4HrVLgTEM4ohu9o+mne41TSZUobPgga1uAKGFuFl88g5gLrIWmCZaeeHsDwUz+
+         7mnRbS43WiSg4D3wbkdP/E/aCgRiyNIfIUAksZsmtVxPx6FVQzLkZUV3enlOy/xYFLoz
+         Oqtw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=i4g4NyRe;
-       spf=pass (google.com: domain of neeraj.upadhyay@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=neeraj.upadhyay@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20230601 header.b=xE94S6pw;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::d33 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1752057907; x=1752662707; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1752066758; x=1752671558; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=YkCvv7CwM7DOtOYOrRFTAe/g8KX0Uuf7dkFE8ALaVXA=;
-        b=FxRxux8SWJfp2tm9I/SX/cH5JjF8Q80W+DwZxAdpb8DOk6dtnC5r7SOtI0Gvpx1mzR
-         WWX4F+hVcM3RQvEERuJfgTGpPXTWTlaPXUpFRUcBeWTXMGFEZ4XzwvEoLcIoGQdqP4Gi
-         N5Oxg9o1TH4DQqkdE1nuh/16EDJTiupA1LUwApl9VJGaWByDY7Ib2ORxbaaGswa5rKLO
-         KtIWtXNOShq8V4N0NUmCQBRtOpdRZSpIeWhA/vKRI2V/WLxzloEKewWz3k3V6IJRocU+
-         mUuZvVJX81i0t51gt0dR27ZHQEaUo2AOy+LxSO6UH1r8efnB5DRwFSXrPQy4vMWAl1Ny
-         CLAA==
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=x3l1VNBIJNfWAZMhrrVVyJiCusd13hph/2Hq23KHTLQ=;
+        b=jHQWlA3vLtRDPuZy3NQm20h/CDUrpwpDDPny6Zk/g2ltfIYdzePJSdAu69Ayha1xjU
+         zEOwBVhdBHYFW4Jbo5S4DKKH8ypbfIPlT3DKPf9kTUcJI7NGJBXFoH3dqNDT6FWWCc6A
+         Wf0vEEcgidGMapaYECY7wuepFMVFpaPuqG3oCi7O89a8etCO6/SncG8aaL+L1apS0Uxa
+         KNYftAmR29Eg7czmyk5oV5QPAuHtI85y61siBSAPoHi9/GRKZYwNnMicWgWyGnEY4Ur1
+         QhzdcVU376e53gtjDPOCbgfXZC0Uv/SdXxopIZWblbAYmYjb7dp0XtY7+3pZ31eMcfld
+         oHkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752057907; x=1752662707;
+        d=1e100.net; s=20230601; t=1752066758; x=1752671558;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YkCvv7CwM7DOtOYOrRFTAe/g8KX0Uuf7dkFE8ALaVXA=;
-        b=rbixG0FOzqc0vnMnGDsC8ZTRCzCKF4+eaNMnXX9oQUbhshrI+yNg1OMMLeAr2hc3mc
-         wDGVicOf0UQjBJWjhnC94tgV0tq+zVpkxZqRguUIJ/bjMVlT6UkRc8NMr8pf+POkxtdB
-         FqjgiEWW6oPjMqfD2Hdd0RJ1EI5L0PHZV/mI/uitTeKvSCTKLLI52QaBhG6qQBnzFhEe
-         T1DU/Yk6QXRI1aEYNXk1HGX/YKz9GQYpcwG8RZlhoGRXXHjdSaxF8jJGX8P7BBZc1MNL
-         u7Ff/hFvYnVw0vE8relwJqbEP79mmdZofevoZvpY1BkKwFBslE2rSmGfiS0IkFvCM8F+
-         HwXw==
-X-Forwarded-Encrypted: i=2; AJvYcCXKl+HhmuNlMvdk7dvRC83/Wtt9qrkKAAHSMkrwD4o7cxUZ9eV51jRPDX92+5k8NTyiVjz42Q==@lfdr.de
-X-Gm-Message-State: AOJu0YxBN7WxlwH0TThKFB4sOJBp/TfTIiLnmDv13t/1M9USbny8lXXy
-	JKKJpidQ9PXXaDj1LIyEDLqAvXL4xyBiI6FzJ7wvPdVJWEdUW9RDe/La
-X-Google-Smtp-Source: AGHT+IHiqp9ldefh6n3nc8d4XcuKjrTBxU/OcDQrIW3gfVZ7/8k9s6ydxETnHpjbYlEctsmlnKZChg==
-X-Received: by 2002:a05:6214:260f:b0:6e8:ddf6:d11e with SMTP id 6a1803df08f44-7048b94c5dfmr25592586d6.21.1752057907085;
-        Wed, 09 Jul 2025 03:45:07 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfXkVDfg3l9WXtyJJ0H6qU3wjwL8GIdXE8jV66whi+fDg==
-Received: by 2002:a05:6214:d6b:b0:6fa:bcf6:6723 with SMTP id
- 6a1803df08f44-702c9d2dc60ls83133146d6.1.-pod-prod-04-us; Wed, 09 Jul 2025
- 03:45:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUrzALNxFq9FaeFAEt/Jz9b/9SG0OKEZS6sfEKPi6dBOA1AehiKex2NQ8E2CWGR8lFxiuANfte6Fiw=@googlegroups.com
-X-Received: by 2002:a05:6214:6214:b0:704:8fa0:969e with SMTP id 6a1803df08f44-7048fa09750mr9128886d6.41.1752057906066;
-        Wed, 09 Jul 2025 03:45:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1752057906; cv=none;
+        bh=x3l1VNBIJNfWAZMhrrVVyJiCusd13hph/2Hq23KHTLQ=;
+        b=cOrOYSY0Z8j8MeBjSsXMvDhS57pZHbBtMZvNEEUof0XNY/KqOQnihzQP7tqxj0/Ek7
+         LfECAVDS2Oq2/sNa76CJt90Fbpp28kaTq9DNqYDhVFHguC9MGcT6M+WT1GNZL0y/bfAC
+         fiMWvMtlbkv14pnBSWbrD1OWIRpgQlVld1xnh2MsioWGFT4zMLt46TpaGf6WLQIn7N3i
+         vSCMbupQtq+S2J51O+EHmH4GnUDYDXix62wZhigQjLnl9Q9qSdK356YKi5HslgJMDOej
+         zBQTPQr/Lnc3NUOlQbwaedhqlWHbqXFsXDDcOeDwg3l6h7HsfMuJfWcnkDyxUj6ofG0U
+         qzwA==
+X-Forwarded-Encrypted: i=2; AJvYcCXUZPdnaWvO/K5NwrXNLWqGMNVNp57vRDSnSfNKwcJDkkmCiZEZLdb9I4i87e8yvSvQm0pS4A==@lfdr.de
+X-Gm-Message-State: AOJu0YypBeYQ3EgoKkCwc1Y+HrtSXGK15Y6u60o+0tC0yTLeajXS/+5q
+	yYxjiMDADg4lJgx5C9rs9PEEadFZ4TQLxdJ1Erq9u3vOfDlJQvHISjP6
+X-Google-Smtp-Source: AGHT+IEsbAGaIrF8sN902v5gA2NnOoHyY4kwdpEu53qZsDxDBhfSSL6CP0ymJ0zYZJTd3X8u8y8s7w==
+X-Received: by 2002:a17:90b:3dc4:b0:313:2754:5910 with SMTP id 98e67ed59e1d1-31c2fcf80ffmr4303285a91.15.1752066758400;
+        Wed, 09 Jul 2025 06:12:38 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZc0s47TWazSCVUk5q8NMPvSGiCmrN06dOfNv1zF3ooBOg==
+Received: by 2002:a17:90b:50c3:b0:311:b6ba:c5da with SMTP id
+ 98e67ed59e1d1-31ab03359cfls4750442a91.1.-pod-prod-05-us; Wed, 09 Jul 2025
+ 06:12:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVj1bdu7WrmWfaJRr9nSEqsjZfwsGAA34We6sV+syJSbgkZEnEWxh8hiLaA9IujXX9giLDmCP//YT0=@googlegroups.com
+X-Received: by 2002:a17:90b:4f8c:b0:311:b0ec:135f with SMTP id 98e67ed59e1d1-31c2fdff74fmr3795996a91.30.1752066757131;
+        Wed, 09 Jul 2025 06:12:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1752066757; cv=none;
         d=google.com; s=arc-20240605;
-        b=ZWL8NmgEoJYUo0pmrJsf+0/RrfTov4Tse8I62AL9r7/52SBnpgnowGZ4C6WrTVhizI
-         LhyzYjOs8/5CMQ+gSz7gSSCMjFBu85WTO9Eiat5u4LrTVYhH9uEKs0KXANi0Oce4tjFi
-         GNTmDGc/H9Frcj4MTXlNr36tDLCqAUceBs398IVQfQHrJ2MEW+zzKaD0KdWzm6EzLi/j
-         RWqXwDNrfcIJxsKGb1DNYiOMeZfmFidSosz/8yhVDLiPWl72Wj0y+MHUoFH6vcZBOl5E
-         IGCn7HgnM8FwjblIbEqnBpyrfKm9XG6EGFNH1KcP5RtUCfpYWpX6fhMHyXFcJLqXbzhY
-         kytA==
+        b=S6jJvd7Kmd5oTUvqqb7CO5At7gmWSdquesh/wH7FtFR9ReFOYqCdVKt8PpEy4BkBqL
+         zgwyRXRrMc29lh/O3hH7/aGcAM4+TpizwVMpFmtW48wgtxdFrzEkCG0tVvV44LWfZJz+
+         32/im7+qzTzGg2KjnGXN/A6lzyun5sh1ZRNuv+sVOtJ7JnYVHyLgZ81vzG3RWiZjpWTw
+         EElm3RBjfOJzTfHbCkGngpMs773tRlSeZWDGSrqe0vGV7ft3pTRf+2I+l42WrD/ULh9s
+         hPDL3+EURN8V3OxgvJcwKY3UtlSOtu7e3PusjHC/rB72yG4O4PRqhin0rvekQqVx4alX
+         vcRg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=qAfYco4WfrGmByfZk6qWtv5WDZbE7I4F4cu33eC8eLw=;
-        fh=1Vm7G+nURg5qLIv9oLN4HoGLEhEB6Hu00EHWeKSgmpo=;
-        b=WRyqbdAcqxwxSY3Lip2adUA0Qj+0qc0rj4T26YYpjCxp1LzBsY2QQAqndsC3ysdZJO
-         v6u0SuuVcOgnpdh7pRbGS8y2SE1HUA5luD6jDgoyjKj1+kk4AR8wsYZp6lGRmzMWDW0N
-         7eobdyJvh2V44uszwNHHnBJ7G1oVgLCB6ZVigCJluJJVvNpHbWXCMAO2KM87NVvaGX0D
-         XokDQaq4h/uKGntolimwaJz9JPmCRAAgCqVFbj1zwZ8VkVXboULrF+uYQmtBIPO7RLav
-         Ji9NAF2vxD+hKBjKwSYq/8yLOzZLErgsfDi6QGnl5ciTpKjMzMLvN6ACATj/iEqXxvyB
-         0xwA==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=fL+pY6fWp85rYXFbZMcl5dcJ/9fsmg9O8nAr0THFasw=;
+        fh=SrdHPjEK8DxbTXu1NHxb0uzX156e8dU+OxNhHkKxDDs=;
+        b=Ew80ZKGuro4prcHQ5EG49dOmk9zbSzR9fSWtUwzJa1gyJh7tysqaaACZ/zMWmLXAiP
+         8QkRlmSUGkq83Lm+R0mUtcPDwGzPNiKU0xT5hd9sKXxXBEdPJ9EQZypHjP07sfJdr1N/
+         Km9IFtkPPgI0QtRaSx3tZ4UHRQH2lFd4X5wYCoCRAllHJUN+KI07vKfp/LIcWgC26TVc
+         rHHZFlyyFKjTiTd3M6wu9pa0/70bZ62wTneLoLMZpW6wErLif0Xi704MRhwrTrQkRXRt
+         05SeK3ME8fHcBmLAAdbJlMYA2wif+j41xKohbU6vGJASXH/l0UfRLmCzHLROneWjijQA
+         O5Ww==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=i4g4NyRe;
-       spf=pass (google.com: domain of neeraj.upadhyay@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=neeraj.upadhyay@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from sea.source.kernel.org (sea.source.kernel.org. [2600:3c0a:e001:78e:0:1991:8:25])
-        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-702c4d292ffsi5513106d6.8.2025.07.09.03.45.05
+       dkim=pass header.i=@google.com header.s=20230601 header.b=xE94S6pw;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::d33 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com. [2607:f8b0:4864:20::d33])
+        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-31c2feddc8csi71083a91.0.2025.07.09.06.12.37
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jul 2025 03:45:06 -0700 (PDT)
-Received-SPF: pass (google.com: domain of neeraj.upadhyay@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) client-ip=2600:3c0a:e001:78e:0:1991:8:25;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 28F7D447C2;
-	Wed,  9 Jul 2025 10:45:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1A58C4CEEF;
-	Wed,  9 Jul 2025 10:44:58 +0000 (UTC)
-From: "neeraj.upadhyay via kasan-dev" <kasan-dev@googlegroups.com>
-To: rcu@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	paulmck@kernel.org,
-	joelagnelf@nvidia.com,
-	frederic@kernel.org,
-	boqun.feng@gmail.com,
-	urezki@gmail.com,
-	rostedt@goodmis.org,
-	mathieu.desnoyers@efficios.com,
-	jiangshanlai@gmail.com,
-	qiang.zhang1211@gmail.com,
-	neeraj.iitr10@gmail.com,
-	neeraj.upadhyay@amd.com,
-	"Neeraj Upadhyay (AMD)" <neeraj.upadhyay@kernel.org>,
-	Marco Elver <elver@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	kasan-dev@googlegroups.com,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH rcu 06/13] torture: Provide EXPERT Kconfig option for arm64 KCSAN torture.sh runs
-Date: Wed,  9 Jul 2025 16:14:07 +0530
-Message-Id: <20250709104414.15618-7-neeraj.upadhyay@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20250709104414.15618-1-neeraj.upadhyay@kernel.org>
-References: <20250709104414.15618-1-neeraj.upadhyay@kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Jul 2025 06:12:37 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::d33 as permitted sender) client-ip=2607:f8b0:4864:20::d33;
+Received: by mail-io1-xd33.google.com with SMTP id ca18e2360f4ac-86d013c5e79so445414639f.0
+        for <kasan-dev@googlegroups.com>; Wed, 09 Jul 2025 06:12:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWgFwdxoATCZJXRrnb7appga1d2hex7vsMGzTatVBDBm4ou0BxYZQ9UYOwwGehWelw5JVGt2zuEYA0=@googlegroups.com
+X-Gm-Gg: ASbGncu123MckdG115pGrdWiUQ41K6/DytQ0a+26rAWrbHNGOp1i1aEUPo6yzWPYCa8
+	q6Wfq0T172dNFOSoElktw1wis4bnnSRf6MFCIcKp53XTpDF4ouSWvveRipJUge+AFk1hpev8Qfl
+	8groVbm2sWh7Bhm9HjwTK1aggPyZcs3rv1gJG2ue/Ehoo9MVPA/aweKdTtxYokF33GahSt6wrIu
+	FOG1snWp5pobtE=
+X-Received: by 2002:a05:6602:4a0e:b0:861:d8ca:3587 with SMTP id
+ ca18e2360f4ac-8795b0fa8d5mr306086339f.4.1752066756235; Wed, 09 Jul 2025
+ 06:12:36 -0700 (PDT)
 MIME-Version: 1.0
-X-Original-Sender: neeraj.upadhyay@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=i4g4NyRe;       spf=pass
- (google.com: domain of neeraj.upadhyay@kernel.org designates
- 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=neeraj.upadhyay@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: neeraj.upadhyay@kernel.org
-Reply-To: neeraj.upadhyay@kernel.org
+References: <20250626134158.3385080-1-glider@google.com> <20250626134158.3385080-4-glider@google.com>
+In-Reply-To: <20250626134158.3385080-4-glider@google.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 9 Jul 2025 15:12:22 +0200
+X-Gm-Features: Ac12FXz8IWecUDpLj5NTCC5KnNHKtX0iPWuNoUP_LzOkkm3xhcQGIGzEOXtSrOI
+Message-ID: <CACT4Y+Z=G0PBvMk=5MgLAC3LjKOHvCpMqtnw6PLey3SxeUa5gQ@mail.gmail.com>
+Subject: Re: [PATCH v2 03/11] kcov: elaborate on using the shared buffer
+To: Alexander Potapenko <glider@google.com>
+Cc: quic_jiangenj@quicinc.com, linux-kernel@vger.kernel.org, 
+	kasan-dev@googlegroups.com, Aleksandr Nogikh <nogikh@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Ingo Molnar <mingo@redhat.com>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Marco Elver <elver@google.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: dvyukov@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20230601 header.b=xE94S6pw;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::d33
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,56 +151,86 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: "Paul E. McKenney" <paulmck@kernel.org>
+On Thu, 26 Jun 2025 at 15:42, Alexander Potapenko <glider@google.com> wrote:
+>
+> Add a paragraph about the shared buffer usage to kcov.rst.
+>
+> Signed-off-by: Alexander Potapenko <glider@google.com>
+> ---
+> Change-Id: Ia47ef7c3fcc74789fe57a6e1d93e29a42dbc0a97
+> ---
+>  Documentation/dev-tools/kcov.rst | 55 ++++++++++++++++++++++++++++++++
+>  1 file changed, 55 insertions(+)
+>
+> diff --git a/Documentation/dev-tools/kcov.rst b/Documentation/dev-tools/kcov.rst
+> index 6611434e2dd24..abf3ad2e784e8 100644
+> --- a/Documentation/dev-tools/kcov.rst
+> +++ b/Documentation/dev-tools/kcov.rst
+> @@ -137,6 +137,61 @@ mmaps coverage buffer, and then forks child processes in a loop. The child
+>  processes only need to enable coverage (it gets disabled automatically when
+>  a thread exits).
+>
+> +Shared buffer for coverage collection
+> +-------------------------------------
+> +KCOV employs a shared memory buffer as a central mechanism for efficient and
+> +direct transfer of code coverage information between the kernel and userspace
+> +applications.
+> +
+> +Calling ``ioctl(fd, KCOV_INIT_TRACE, size)`` initializes coverage collection for
+> +the current thread associated with the file descriptor ``fd``. The buffer
+> +allocated will hold ``size`` unsigned long values, as interpreted by the kernel.
+> +Notably, even in a 32-bit userspace program on a 64-bit kernel, each entry will
+> +occupy 64 bits.
+> +
+> +Following initialization, the actual shared memory buffer is created using::
+> +
+> +    mmap(NULL, size * sizeof(unsigned long), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0)
+> +
+> +The size of this memory mapping, calculated as ``size * sizeof(unsigned long)``,
+> +must be a multiple of ``PAGE_SIZE``.
+> +
+> +This buffer is then shared between the kernel and the userspace. The first
+> +element of the buffer contains the number of PCs stored in it.
+> +Both the userspace and the kernel may write to the shared buffer, so to avoid
+> +race conditions each userspace thread should only update its own buffer.
+> +
+> +Normally the shared buffer is used as follows::
+> +
+> +              Userspace                                         Kernel
+> +    -----------------------------------------+-------------------------------------------
+> +    ioctl(fd, KCOV_INIT_TRACE, size)         |
+> +                                             |    Initialize coverage for current thread
+> +    mmap(..., MAP_SHARED, fd, 0)             |
+> +                                             |    Allocate the buffer, initialize it
+> +                                             |    with zeroes
+> +    ioctl(fd, KCOV_ENABLE, KCOV_TRACE_PC)    |
+> +                                             |    Enable PC collection for current thread
+> +                                             |    starting at buffer[1] (KCOV_ENABLE will
+> +                                             |    already write some coverage)
+> +    Atomically write 0 to buffer[0] to       |
+> +    reset the coverage                       |
+> +                                             |
+> +    Execute some syscall(s)                  |
+> +                                             |    Write new coverage starting at
+> +                                             |    buffer[1]
+> +    Atomically read buffer[0] to get the     |
+> +    total coverage size at this point in     |
+> +    time                                     |
+> +                                             |
+> +    ioctl(fd, KCOV_DISABLE, 0)               |
+> +                                             |    Write some more coverage for ioctl(),
+> +                                             |    then disable PC collection for current
+> +                                             |    thread
+> +    Safely read and process the coverage     |
+> +    up to the buffer[0] value saved above    |
+> +
+> +
+>  Comparison operands collection
+>  ------------------------------
 
-The arm64 architecture requires that KCSAN-enabled kernels be built with
-the CONFIG_EXPERT=y Kconfig option.  This commit therefore causes the
-torture.sh script to provide this option, but only for --kcsan runs on
-arm64 systems.
-
-Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-Cc: Marco Elver <elver@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: <kasan-dev@googlegroups.com>
-Cc: <linux-arm-kernel@lists.infradead.org>
-Signed-off-by: Neeraj Upadhyay (AMD) <neeraj.upadhyay@kernel.org>
----
- tools/testing/selftests/rcutorture/bin/torture.sh | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/tools/testing/selftests/rcutorture/bin/torture.sh b/tools/testing/selftests/rcutorture/bin/torture.sh
-index 25847042e30e..420c551b824b 100755
---- a/tools/testing/selftests/rcutorture/bin/torture.sh
-+++ b/tools/testing/selftests/rcutorture/bin/torture.sh
-@@ -313,6 +313,13 @@ then
- 	do_scftorture=no
- fi
- 
-+# CONFIG_EXPERT=y is currently required for arm64 KCSAN runs.
-+kcsan_expert=
-+if test "${thisarch}" = aarch64
-+then
-+	kcsan_expert="CONFIG_EXPERT=y"
-+fi
-+
- touch $T/failures
- touch $T/successes
- 
-@@ -392,7 +399,7 @@ function torture_set {
- 		then
- 			chk_rdr_state="CONFIG_RCU_TORTURE_TEST_CHK_RDR_STATE=y"
- 		fi
--		torture_one "$@" --kconfig "CONFIG_DEBUG_LOCK_ALLOC=y CONFIG_PROVE_LOCKING=y ${chk_rdr_state}" $kcsan_kmake_tag $cur_kcsan_kmake_args --kcsan
-+		torture_one "$@" --kconfig "CONFIG_DEBUG_LOCK_ALLOC=y CONFIG_PROVE_LOCKING=y ${kcsan_expert} ${chk_rdr_state}" $kcsan_kmake_tag $cur_kcsan_kmake_args --kcsan
- 		mv $T/last-resdir $T/last-resdir-kcsan || :
- 	fi
- }
--- 
-2.40.1
+Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250709104414.15618-7-neeraj.upadhyay%40kernel.org.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BZ%3DG0PBvMk%3D5MgLAC3LjKOHvCpMqtnw6PLey3SxeUa5gQ%40mail.gmail.com.
