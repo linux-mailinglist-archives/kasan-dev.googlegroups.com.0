@@ -1,115 +1,115 @@
-Return-Path: <kasan-dev+bncBAABBBPCYDBQMGQELGZG3XQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBDHCYDBQMGQEPZUNN5A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3c.google.com (mail-oa1-x3c.google.com [IPv6:2001:4860:4864:20::3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA7BB00DC4
-	for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 23:30:47 +0200 (CEST)
-Received: by mail-oa1-x3c.google.com with SMTP id 586e51a60fabf-2e8f1365181sf993204fac.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 14:30:47 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1752183046; cv=pass;
+Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5332FB00DC8
+	for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 23:30:54 +0200 (CEST)
+Received: by mail-pj1-x1038.google.com with SMTP id 98e67ed59e1d1-31220ecc586sf1434386a91.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 14:30:54 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1752183052; cv=pass;
         d=google.com; s=arc-20240605;
-        b=eoTMd9Bal3cbMJgyhBdAooltk5wiLnFLyks1uqgpQFvg3u6PfCGbY7s/dQkTfFhV9g
-         lDT+akcS+DvZ/4530VD6GLSKl/lFl0O88stunn8wUp2PfeoPPwgat1n6N8voAvHXFZCJ
-         bztTteLn4wKYwrr50g7qvxSMgTOVG5tzstqu4ODumqi6eWMc8xkmWwqrR0qkqValy3K/
-         7V7qriBwq4Jv5n9V5xKw4qSt10L/OYjrrlNJy4wNAMohRfnfxAVa1lU9KVRpSdjl8lps
-         PwW3NjjGDfx+3m+/zowyEDrYKnWKd+uEK6zRj3Aj0pQcqfCfeMbVgyPsiQRsrM20KZuV
-         bgkg==
+        b=hiYu0ozF9x5kAV4EXUq767FSqRtc9dahjcdO05rue8YFMdWwkxOHZlCw0ybiH7cLv2
+         1qMLxufxbhm4305AnresxuB4Kgm2ufK/EyGASWEOI6JHRLgAGV3fMH5qcTI6e6EDebX9
+         fUMgzRIpFV8uv1d1JJ+4F7yNl5e/VCtcthgm4gHnXvkUy3ySr7oCQem/urYONz49vdpJ
+         dFLZLKuj5U8OhDlbwfGRE3kysLcNhq02BzOL/As223hrYFm8shq+ZDpt/JT2AUTWGfQ0
+         KvAZuiXUg8bNkFpnH0vJru3earapLgQ6qfuyWDnIN739tlytZMrX1c4wY/cYLrdEyX0B
+         mEGA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=HdrGl9sSl9v2y4XUG3LReOGtM1iMXnYnCc366aJvRZQ=;
-        fh=yxuL6UqZ09oIP5vYtJ+OpxWoNOcpN3ZPoh9G67JUTP0=;
-        b=bMYwLNSdWCXhQvfhW0xG5QxLhtmBx7zhLyQPEFLeWRdG+O1hB+3wLMvkZyk+ISu6DV
-         aQjFDD6wBYNEgcPrOZ7uLluquWwQn/EEb18gKVHWx0GWkMdCts7cqzGM4WOdG2LiNmBK
-         Pm665RdW7VaZZWU/ndnmOXDHqtJhL9UYM2/A/JZR2MJevCVHIFNOKsxJ1aNe0X9abEe2
-         4R1agFIKuxwxVgD2ub+1u/oMl8FkI/w6Vj4YSX0JDBJJugA9D875UVJUYsAbjmO7+kA2
-         T0qs506U/UOdv9RvgOVAMPQcBD23UPIuyH+wANMI8FM4RPjslUEhci2kIi4iAqgubsWo
-         D6cg==;
+        bh=f4RjsjG+qtr/TStt/b1HZI9/qDxRffg5+msO+RnHfXg=;
+        fh=13ef1Eevim1T1nURC7lw5TaP7fM5Ku9jHqz4VVvcw0E=;
+        b=JhTsOdKlG+TQVv9WUit8cnUB8DHXV6BtOUwAPV3b33zxpIC2BwZb3ltTJ1jt+77E2z
+         1z9RSHu48FF1uL/O+qjjRpvI1MBVmuayAxkGTPVvD935HCJgCHXBXWXOld64YMHOSZWT
+         oV4y3jWCZFGAMAP1X1fK5JpgCA1IMzEGX1penL/s5umy5dIKrWIgvTC+GTO7ScD0BsaO
+         UAcOmHGG2TrI6+BUeV4sG3ASh1CVtmqYCg+u1WMMpd8Ipsm90Rmvk2mFlPMFGZqxvXTU
+         6v4jwrUkYRWZxOip/4qlrUmIdkFHplJgGYa7pTYj5tnTF+PQTO56SyVdSftwJZ1msFaY
+         n88w==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=SHxRN2zF;
-       spf=pass (google.com: domain of alx@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom=alx@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="dPANN/xW";
+       spf=pass (google.com: domain of alx@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=alx@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1752183046; x=1752787846; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1752183052; x=1752787852; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HdrGl9sSl9v2y4XUG3LReOGtM1iMXnYnCc366aJvRZQ=;
-        b=vb8doSotuAP7MtCSerUX7/zmqZ4CliFdggYW/9XrBpEb3Kji5roa0k2IxJ1K7lG7bu
-         zfAYsNt46iVBkg7N/dyAaXEk/duXD4Ia2izNaVgF/M55xOiajg57cZF4c5zJX0mLplk6
-         g9mIOWlUUG1U/5Q+ySEiMaoWRUGzzl1Jbcjs4MBx5r93x+QJcRmhVwq5lvotwaQ7q23j
-         e/Q6BTSdxmpTFlHU0GcDLWIIlnqAhFXmo47eHFkW3AqBliVa9FVsWH0K6+fkYcBMam/R
-         G+l/VqB5XCY//tcftzy26FRGNstnCcQ74F2JjNn7jHOlK1Nx0gwqMXK7BWqetDlU7vhY
-         6QEA==
+        bh=f4RjsjG+qtr/TStt/b1HZI9/qDxRffg5+msO+RnHfXg=;
+        b=hBjoZWNkfuJ61PDtlp65+94kNQCcn/E8sBZztxMOegIrY7XCK9/zxeWugxLRly+QMN
+         Ga6QOFbDmttsoB0i38P1rO6hHazRYnKUfPjVTPy+BHfnXuAELXtT2xoP1MbY15uBn5tC
+         v9jykn7MEzcY1NUa74kvXXGLJbJ9oeedwsjLNRiUy65IQq0hCQGNK57Nn1eR0kPKyz67
+         MtKmw6xQkv3ApN4hn/jjdjtVlUS/RHUNXTyBbs+y6XGvvIB6qaG/kJG39lMjYHHi0U2x
+         dW2HXDxA3yQD96zeK1ZTJlbfUOrpO6ch2RUlVvYVS4wPJpt0ulwD6hWurf1duk1G3TJp
+         PkJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752183046; x=1752787846;
+        d=1e100.net; s=20230601; t=1752183052; x=1752787852;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HdrGl9sSl9v2y4XUG3LReOGtM1iMXnYnCc366aJvRZQ=;
-        b=XEBTCoSH8JSykHRoGTtiKcUk5szLuc6CYJ87pV1hKwWWzAXQae9+TPSK2KGMzvQoRb
-         MhD1Q0+kdT0b/aGcXYAhPN1g94of5guHJ6J+5FQVHvYdIw7dC9lrGZWD6zpaj98hU7oh
-         J2EUXU6ZlT4+mfCV+SchjyshJbbMDKsDC3NsjA1hXZMt9Ojr56YZd/LLBiC9cBvZRQ53
-         aeO2v6f711JDFSqgv1iM3aO1YM+iSQrIg0rzhY25Yh+dP0QaW0Jy+SNIQO8Xymc1qCzL
-         4o3DpIHkuqrABtAGj9sS2YITy4hAiKIaaPByB+p/NPY4XGuasYbZ47VoKUKOsP5oNMZC
-         3BJg==
-X-Forwarded-Encrypted: i=2; AJvYcCXhvcnaBS0mauXrVh3phBNjQAGnUtL6omoUVwT9es1Jd3hL4CuLRXM37oapTg1QdfQDBNpd9w==@lfdr.de
-X-Gm-Message-State: AOJu0YwfoWA8OZ0fvhrSw8EXdalZnzSQQElj/1HWAajOB8/VDZUDpdbh
-	TJWe7xJT+JXYsSwk1giMI3/dh+ewdpzynFucGJNuOLtTCSwDkpfW6Mfs
-X-Google-Smtp-Source: AGHT+IHcyxi/2iqfUUl7N0xTmfDPBrncr9wGNgM5u1ouN/KRCppuM01TMsfzUlPkBJ3qL2YuYBZl2w==
-X-Received: by 2002:a05:6870:aa8a:b0:287:471:41eb with SMTP id 586e51a60fabf-2ff26e7a7d4mr591020fac.6.1752183046148;
-        Thu, 10 Jul 2025 14:30:46 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdkvIGaT0VdUwMjvfHP6PYE6+wlFSV4cg7Ou9g7u08BRQ==
-Received: by 2002:a05:6870:3054:b0:2c1:8546:7864 with SMTP id
- 586e51a60fabf-2ff0bcc7901ls488196fac.2.-pod-prod-07-us; Thu, 10 Jul 2025
- 14:30:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXZ965KzQBI6bOePFgBixK3vrgOX2yOzU+BN6cOvrYgIfz4ny2z6ed20/JO/9zcmrQi7WmMJy+pGGA=@googlegroups.com
-X-Received: by 2002:a05:6870:1c9:b0:2e9:735:91ba with SMTP id 586e51a60fabf-2ff27001c8emr490988fac.25.1752183045141;
-        Thu, 10 Jul 2025 14:30:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1752183045; cv=none;
+        bh=f4RjsjG+qtr/TStt/b1HZI9/qDxRffg5+msO+RnHfXg=;
+        b=CPasA8eipQy+2oX9BJGdAKR3vHl4ehKMFSvKEyl2iMlthypilbbSBhGPvUVrj8QAsz
+         CKjGpeg+KujPFOtO5U3LGxZikqDWErTX1wovlHlWZPjkF53KyBUWyqNq8p3BlWPBdFNI
+         mCzAJopnbiduAZkMxuJidgQbh0xPMdRpXL3h96O2dJVfFuOC5GJDMDh0YMwnxGNYg6Di
+         ha/F0iFcFxHDIZURewIVujwCvXqCoDzjD3DhGyKjMnsdUd44dURgPYbvk3lLLVuPsGNn
+         ka9NvOLCSm4hI7QJ+vU+gG2U/l8jperncJH7uHovoxYW9pvOiniL/uc0vMtU8xz21W/n
+         ddng==
+X-Forwarded-Encrypted: i=2; AJvYcCWiEfVkX21ou3kJ2ciZEHeSa+m6PLZQX0YnVnjtDbz6Hv8HMtyy1MCPrqJ51si5KI2Wg8wxIw==@lfdr.de
+X-Gm-Message-State: AOJu0YxiPFaq/ALi4eiHVzRnoPZjRBk12UtfK/L9qjvF7EbCRJsWZUpp
+	+HxkWJpnPVp6Z7Rw/KqGf0qCPIP6oYQEIt7BgxHg6CHC3ZZZCUAe/jWW
+X-Google-Smtp-Source: AGHT+IGasU/7Waymag3436LvR8kUWkYXalu36zNIEgypKVU+T8Zq6y8ikRIcnjAwfnJhmChHzj9g6g==
+X-Received: by 2002:a17:90b:1f8d:b0:311:eb85:96df with SMTP id 98e67ed59e1d1-31c4cd73886mr1426495a91.17.1752183052415;
+        Thu, 10 Jul 2025 14:30:52 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcPs5sOabqc9g646Sh8hsCA8uoXm6oTUWgSt55OrMyBTA==
+Received: by 2002:a17:90b:4c8f:b0:311:b5ad:42d6 with SMTP id
+ 98e67ed59e1d1-31c3c5b0bcdls1289747a91.0.-pod-prod-02-us; Thu, 10 Jul 2025
+ 14:30:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXQ9hU/ulRc/Dbb39CAaI6Ljo8whFw24jizGiDkPHiTLvRpaaqHxbD92GeN20nhhfAfKk7PoK6YGSM=@googlegroups.com
+X-Received: by 2002:a05:6a20:430d:b0:21f:97f3:d4c2 with SMTP id adf61e73a8af0-2311eb48bcamr1301348637.16.1752183051104;
+        Thu, 10 Jul 2025 14:30:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1752183051; cv=none;
         d=google.com; s=arc-20240605;
-        b=LOM4itGREj+vd1QKmWDsEylFtwJpD+AtzAQSjUptaVFyJ+/AJk1kw4EU/NmSP+LK5V
-         jqC6batUm6eit+oylk+DWnaR6PlAZwNIvWFZVh3xuizdkyhoXcoK+PgkF9HA3C2LPoEN
-         fPRCB3J/2Nr9Hl7ia3i9PRumXL9pN+f4U7unJdzsJjuAM8hKKhqRY3WPSYm/mGgj2WMI
-         eIwFj+gpRdnDgtzbIdpRsWd5t3I/gApENX805Rn4yN7dhIZDrGup/v5BPZJZPw3qjEMO
-         ykafixtvUR9LFw3p8GTwNCTmm+coF4TGAJkn4UR0AnMu3uCRpIZG/Ok7F+a/Q7utwXSo
-         bGgQ==
+        b=cI8NDw8Gl1gmBTvkEIMAXl3WbOrd0QwJrN3uDnmBRwAQvMbbG4GhAIpoI7/NYJEKhr
+         ptdIptt8MNySSYu4zJTgrzMFRt6QE0t1r/FGbZGn6/NONeJfhJ6Ot+bigiGgA0rPeKqF
+         JMPj4WLXs9jqG0tqhwWpLg+LGiSx+H9NchOvJ2sdMJzHyVPKSH6WrkVVrmbnBeL7XSBe
+         ZncPoT9uxrgxeSBsrbzzd9O40esL2irlM8us/f5PzKxYLstdKwMPnMbiYjc1QExl42fD
+         +smqkpOJREEBmiXRwN0wEHFeudPKoJH4ellpYCUIGNM/SfTOcRoUYiOYAVwO93Q3PqHy
+         MD9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=Z2ExmJthtYwpDpsJZIDGDpDtUQzlQ2X/0+RptXBPkxY=;
+        bh=0sUPaBsrRtVECUWOJKm+GE3R6Wlp2E4kocwkF3cjpXM=;
         fh=QOnzKEUq9WcvM0XNCrg2hWMbQW8+1K0P/8Aq77keZA4=;
-        b=MusTBIBRIokZbnnn8X+bHSNa4GyzJu6eZbHdJwBik3RU/l8jtNCunEkZS/lh99sUHI
-         VrNiR/1ZdLy84/WLKC+p6XgvfUps1f2yNHJAsL812C2AmwcyDlzB4OQhZndkU5bff7Py
-         /G1tC/oDlqhxLM4TBFsaaugkU9NK2TKydDOyJWHJL5ELagcUy14Xi/hvB2jScH6ykadX
-         8XZCefS91m/Gzmgc4a4rzl/9BmRtSF8+8nMnm50chOL0M1DWzsOm9lNJVnlOdvI7Do0y
-         C1y+EAFrUaTUzP+2dN053rLN2aXDX+Af5EisD0mfWEKQaQ5tBWkbtAJ6SAP9OpL+DLRp
-         W05g==;
+        b=UmkmIPHpUHxgt8JuhsPnVonSQL3JMBIFi9mpMShzao2Fqc0m2CTgnKLFQM6ffyyaVI
+         6ZZBMnc/+ZpLszU9fXZOMLs9iGvq8bLRjBYsFurLSFuKmXuDSBptTp9CdRUKnpVYj6Gn
+         KbugI6JAJoQ0Ll5QU/MHKncFoqtMpsc3W+8Dplazom1SgzcPFGi1xzo2/Y26INS+ignW
+         Fj4fL2r7FdEM5dUe5HQac8wC4ODI+PnkyPOmEHwdh57FZ9jgVEojhhmLfpGPhGjfSl3Y
+         SWXho95e31flHnwL33abV1MPpnXBMlSYZozDJ4j/sPn20czK57YjPTYBeVj4BQ36zXrU
+         7vkg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=SHxRN2zF;
-       spf=pass (google.com: domain of alx@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom=alx@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="dPANN/xW";
+       spf=pass (google.com: domain of alx@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=alx@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org. [2604:1380:45d1:ec00::3])
-        by gmr-mx.google.com with ESMTPS id 586e51a60fabf-2ff1165acd1si146213fac.3.2025.07.10.14.30.45
+Received: from sea.source.kernel.org (sea.source.kernel.org. [2600:3c0a:e001:78e:0:1991:8:25])
+        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-b3bbe6d5146si122082a12.4.2025.07.10.14.30.51
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jul 2025 14:30:45 -0700 (PDT)
-Received-SPF: pass (google.com: domain of alx@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) client-ip=2604:1380:45d1:ec00::3;
+        Thu, 10 Jul 2025 14:30:51 -0700 (PDT)
+Received-SPF: pass (google.com: domain of alx@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) client-ip=2600:3c0a:e001:78e:0:1991:8:25;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 689B2A547D5;
-	Thu, 10 Jul 2025 21:30:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F644C4CEE3;
-	Thu, 10 Jul 2025 21:30:39 +0000 (UTC)
-Date: Thu, 10 Jul 2025 23:30:37 +0200
+	by sea.source.kernel.org (Postfix) with ESMTP id C97C845C98;
+	Thu, 10 Jul 2025 21:30:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15833C4CEF6;
+	Thu, 10 Jul 2025 21:30:45 +0000 (UTC)
+Date: Thu, 10 Jul 2025 23:30:44 +0200
 From: "'Alejandro Colomar' via kasan-dev" <kasan-dev@googlegroups.com>
 To: linux-mm@kvack.org, linux-hardening@vger.kernel.org
 Cc: Alejandro Colomar <alx@kernel.org>, Kees Cook <kees@kernel.org>, 
@@ -123,20 +123,20 @@ Cc: Alejandro Colomar <alx@kernel.org>, Kees Cook <kees@kernel.org>,
 	Michal Hocko <mhocko@suse.com>, Linus Torvalds <torvalds@linux-foundation.org>, 
 	Al Viro <viro@zeniv.linux.org.uk>, Martin Uecker <uecker@tugraz.at>, Sam James <sam@gentoo.org>, 
 	Andrew Pinski <pinskia@gmail.com>
-Subject: [RFC v5 0/7] Add and use sprintf_{end,array}() instead of less
- ergonomic APIs
-Message-ID: <cover.1752182685.git.alx@kernel.org>
+Subject: [RFC v5 1/7] vsprintf: Add [v]sprintf_end()
+Message-ID: <2c4f793de0b849259088c1f52db44ace5a4e6f66.1752182685.git.alx@kernel.org>
 X-Mailer: git-send-email 2.50.0
 References: <cover.1751823326.git.alx@kernel.org>
+ <cover.1752182685.git.alx@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <cover.1751823326.git.alx@kernel.org>
+In-Reply-To: <cover.1752182685.git.alx@kernel.org>
 X-Original-Sender: alx@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=SHxRN2zF;       spf=pass
- (google.com: domain of alx@kernel.org designates 2604:1380:45d1:ec00::3 as
- permitted sender) smtp.mailfrom=alx@kernel.org;       dmarc=pass
+ header.i=@kernel.org header.s=k20201202 header.b="dPANN/xW";       spf=pass
+ (google.com: domain of alx@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25
+ as permitted sender) smtp.mailfrom=alx@kernel.org;       dmarc=pass
  (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 X-Original-From: Alejandro Colomar <alx@kernel.org>
 Reply-To: Alejandro Colomar <alx@kernel.org>
@@ -152,265 +152,162 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi,
+sprintf_end() is a function similar to stpcpy(3) in the sense that it
+returns a pointer that is suitable for chaining to other copy
+operations.
 
-Changes in v5:
+It takes a pointer to the end of the buffer as a sentinel for when to
+truncate, which unlike a size, doesn't need to be updated after every
+call.  This makes it much more ergonomic, avoiding manually calculating
+the size after each copy, which is error prone.
 
--  Minor fix in commit message.
--  Rename [V]SPRINTF_END() => [v]sprintf_array(), keeping the
-   implementation.
+It also makes error handling much easier, by reporting truncation with
+a null pointer, which is accepted and transparently passed down by
+subsequent sprintf_end() calls.  This results in only needing to report
+errors once after a chain of sprintf_end() calls, unlike snprintf(3),
+which requires checking after every call.
 
-Remaining questions:
+	p = buf;
+	e = buf + countof(buf);
+	p = sprintf_end(p, e, foo);
+	p = sprintf_end(p, e, bar);
+	if (p == NULL)
+		goto trunc;
 
--  There are only 3 remaining calls to snprintf(3) under mm/.  They are
-   just fine for now, which is why I didn't replace them.  If anyone
-   wants to replace them, to get rid of all snprintf(3), we could that.
-   I think for now we can leave them, to minimize the churn.
+vs
 
-        $ grep -rnI snprintf mm/
-        mm/hugetlb_cgroup.c:674:                snprintf(buf, size, "%luGB", hsize / SZ_1G);
-        mm/hugetlb_cgroup.c:676:                snprintf(buf, size, "%luMB", hsize / SZ_1M);
-        mm/hugetlb_cgroup.c:678:                snprintf(buf, size, "%luKB", hsize / SZ_1K);
+	len = 0;
+	size = countof(buf);
+	len += snprintf(buf + len, size - len, foo);
+	if (len >= size)
+		goto trunc;
 
--  There are only 2 remaining calls to the kernel's scnprintf().  This
-   one I would really like to get rid of.  Also, those calls are quite
-   suspicious of not being what we want.  Please do have a look at them
-   and confirm what's the appropriate behavior in the 2 cases when the
-   string is truncated or not copied at all.  That code is very scary
-   for me to try to guess.
+	len += snprintf(buf + len, size - len, bar);
+	if (len >= size)
+		goto trunc;
 
-        $ grep -rnI scnprintf mm/
-        mm/kfence/report.c:75:          int len = scnprintf(buf, sizeof(buf), "%ps", (void *)stack_entries[skipnr]);
-        mm/kfence/kfence_test.mod.c:22: { 0x96848186, "scnprintf" },
-        mm/kmsan/report.c:42:           len = scnprintf(buf, sizeof(buf), "%ps",
+And also better than scnprintf() calls:
 
-   Apart from two calls, I see a string literal with that name.  Please
-   let me know if I should do anything about it.  I don't know what that
-   is.
+	len = 0;
+	size = countof(buf);
+	len += scnprintf(buf + len, size - len, foo);
+	len += scnprintf(buf + len, size - len, bar);
+	// No ability to check.
 
--  I think we should remove one error handling check in
-   "mm/page_owner.c" (marked with an XXX comment), but I'm not 100%
-   sure.  Please confirm.
+It seems aparent that it's a more elegant approach to string catenation.
 
-Other comments:
+These functions will soon be proposed for standardization as
+[v]seprintf() into C2y, and they exist in Plan9 as seprint(2) --but the
+Plan9 implementation has important bugs--.
 
--  This is still not complying to coding style.  I'll keep it like that
-   while questions remain open.
--  I've tested the tests under CONFIG_KFENCE_KUNIT_TEST=y, and this has
-   no regressions at all.
--  With the current style of the sprintf_end() prototyope, this triggers
-   a diagnostic due to a GCC bug:
-   <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=108036>
-   It would be interesting to ask GCC to fix that bug.  (Added relevant
-   GCC maintainers and contributors to CC in this cover letter.)
+Link: <https://www.alejandro-colomar.es/src/alx/alx/wg14/alx-0049.git/tree/alx-0049.txt>
+Cc: Kees Cook <kees@kernel.org>
+Cc: Christopher Bazley <chris.bazley.wg14@gmail.com>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: Marco Elver <elver@google.com>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Alejandro Colomar <alx@kernel.org>
+---
+ include/linux/sprintf.h |  2 ++
+ lib/vsprintf.c          | 59 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 61 insertions(+)
 
-For anyone new to the thread, sprintf_end() will be proposed for
-standardization soon as seprintf():
-<https://lore.kernel.org/linux-hardening/20250710024745.143955-1-alx@kernel.org/T/#u>
-
-
-Have a lovely night!
-Alex
-
-
-Alejandro Colomar (7):
-  vsprintf: Add [v]sprintf_end()
-  stacktrace, stackdepot: Add sprintf_end()-like variants of functions
-  mm: Use sprintf_end() instead of less ergonomic APIs
-  array_size.h: Add ENDOF()
-  mm: Fix benign off-by-one bugs
-  sprintf: Add [v]sprintf_array()
-  mm: Use [v]sprintf_array() to avoid specifying the array size
-
- include/linux/array_size.h |  6 ++++
- include/linux/sprintf.h    |  6 ++++
- include/linux/stackdepot.h | 13 +++++++++
- include/linux/stacktrace.h |  3 ++
- kernel/stacktrace.c        | 28 ++++++++++++++++++
- lib/stackdepot.c           | 13 +++++++++
- lib/vsprintf.c             | 59 ++++++++++++++++++++++++++++++++++++++
- mm/backing-dev.c           |  2 +-
- mm/cma.c                   |  4 +--
- mm/cma_debug.c             |  2 +-
- mm/hugetlb.c               |  3 +-
- mm/hugetlb_cgroup.c        |  2 +-
- mm/hugetlb_cma.c           |  2 +-
- mm/kasan/report.c          |  3 +-
- mm/kfence/kfence_test.c    | 28 +++++++++---------
- mm/kmsan/kmsan_test.c      |  6 ++--
- mm/memblock.c              |  4 +--
- mm/mempolicy.c             | 18 ++++++------
- mm/page_owner.c            | 32 +++++++++++----------
- mm/percpu.c                |  2 +-
- mm/shrinker_debug.c        |  2 +-
- mm/slub.c                  |  5 ++--
- mm/zswap.c                 |  2 +-
- 23 files changed, 187 insertions(+), 58 deletions(-)
-
-Range-diff against v4:
-1:  2c4f793de0b8 = 1:  2c4f793de0b8 vsprintf: Add [v]sprintf_end()
-2:  894d02b08056 = 2:  894d02b08056 stacktrace, stackdepot: Add sprintf_end()-like variants of functions
-3:  690ed4d22f57 = 3:  690ed4d22f57 mm: Use sprintf_end() instead of less ergonomic APIs
-4:  e05c5afabb3c = 4:  e05c5afabb3c array_size.h: Add ENDOF()
-5:  44a5cfc82acf ! 5:  515445ae064d mm: Fix benign off-by-one bugs
-    @@ Commit message
-     
-         We were wasting a byte due to an off-by-one bug.  s[c]nprintf()
-         doesn't write more than $2 bytes including the null byte, so trying to
-    -    pass 'size-1' there is wasting one byte.  Now that we use seprintf(),
-    -    the situation isn't different: seprintf() will stop writing *before*
-    +    pass 'size-1' there is wasting one byte.  Now that we use sprintf_end(),
-    +    the situation isn't different: sprintf_end() will stop writing *before*
-         'end' --that is, at most the terminating null byte will be written at
-         'end-1'--.
-     
-6:  0314948eb225 ! 6:  04c1e026a67f sprintf: Add [V]SPRINTF_END()
-    @@ Metadata
-     Author: Alejandro Colomar <alx@kernel.org>
-     
-      ## Commit message ##
-    -    sprintf: Add [V]SPRINTF_END()
-    +    sprintf: Add [v]sprintf_array()
-     
-         These macros take the end of the array argument implicitly to avoid
-         programmer mistakes.  This guarantees that the input is an array, unlike
-    @@ include/linux/sprintf.h
-      #include <linux/types.h>
-     +#include <linux/array_size.h>
-     +
-    -+#define SPRINTF_END(a, fmt, ...)  sprintf_end(a, ENDOF(a), fmt, ##__VA_ARGS__)
-    -+#define VSPRINTF_END(a, fmt, ap)  vsprintf_end(a, ENDOF(a), fmt, ap)
-    ++#define sprintf_array(a, fmt, ...)  sprintf_end(a, ENDOF(a), fmt, ##__VA_ARGS__)
-    ++#define vsprintf_array(a, fmt, ap)  vsprintf_end(a, ENDOF(a), fmt, ap)
-      
-      int num_to_str(char *buf, int size, unsigned long long num, unsigned int width);
-      
-7:  f99632f42eee ! 7:  e53d87e684ef mm: Use [V]SPRINTF_END() to avoid specifying the array size
-    @@ Metadata
-     Author: Alejandro Colomar <alx@kernel.org>
-     
-      ## Commit message ##
-    -    mm: Use [V]SPRINTF_END() to avoid specifying the array size
-    +    mm: Use [v]sprintf_array() to avoid specifying the array size
-     
-         Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-         Cc: Marco Elver <elver@google.com>
-    @@ mm/backing-dev.c: int bdi_register_va(struct backing_dev_info *bdi, const char *
-      		return 0;
-      
-     -	vsnprintf(bdi->dev_name, sizeof(bdi->dev_name), fmt, args);
-    -+	VSPRINTF_END(bdi->dev_name, fmt, args);
-    ++	vsprintf_array(bdi->dev_name, fmt, args);
-      	dev = device_create(&bdi_class, NULL, MKDEV(0, 0), bdi, bdi->dev_name);
-      	if (IS_ERR(dev))
-      		return PTR_ERR(dev);
-    @@ mm/cma.c: static int __init cma_new_area(const char *name, phys_addr_t size,
-      
-      	if (name)
-     -		snprintf(cma->name, CMA_MAX_NAME, "%s", name);
-    -+		SPRINTF_END(cma->name, "%s", name);
-    ++		sprintf_array(cma->name, "%s", name);
-      	else
-     -		snprintf(cma->name, CMA_MAX_NAME,  "cma%d\n", cma_area_count);
-    -+		SPRINTF_END(cma->name, "cma%d\n", cma_area_count);
-    ++		sprintf_array(cma->name, "cma%d\n", cma_area_count);
-      
-      	cma->available_count = cma->count = size >> PAGE_SHIFT;
-      	cma->order_per_bit = order_per_bit;
-    @@ mm/cma_debug.c: static void cma_debugfs_add_one(struct cma *cma, struct dentry *
-      	for (r = 0; r < cma->nranges; r++) {
-      		cmr = &cma->ranges[r];
-     -		snprintf(rdirname, sizeof(rdirname), "%d", r);
-    -+		SPRINTF_END(rdirname, "%d", r);
-    ++		sprintf_array(rdirname, "%d", r);
-      		dir = debugfs_create_dir(rdirname, rangedir);
-      		debugfs_create_file("base_pfn", 0444, dir,
-      			    &cmr->base_pfn, &cma_debugfs_fops);
-    @@ mm/hugetlb.c: void __init hugetlb_add_hstate(unsigned int order)
-      	INIT_LIST_HEAD(&h->hugepage_activelist);
-     -	snprintf(h->name, HSTATE_NAME_LEN, "hugepages-%lukB",
-     -					huge_page_size(h)/SZ_1K);
-    -+	SPRINTF_END(h->name, "hugepages-%lukB", huge_page_size(h)/SZ_1K);
-    ++	sprintf_array(h->name, "hugepages-%lukB", huge_page_size(h)/SZ_1K);
-      
-      	parsed_hstate = h;
-      }
-    @@ mm/hugetlb_cgroup.c: hugetlb_cgroup_cfttypes_init(struct hstate *h, struct cftyp
-      		*cft = *tmpl;
-      		/* rebuild the name */
-     -		snprintf(cft->name, MAX_CFTYPE_NAME, "%s.%s", buf, tmpl->name);
-    -+		SPRINTF_END(cft->name, "%s.%s", buf, tmpl->name);
-    ++		sprintf_array(cft->name, "%s.%s", buf, tmpl->name);
-      		/* rebuild the private */
-      		cft->private = MEMFILE_PRIVATE(idx, tmpl->private);
-      		/* rebuild the file_offset */
-    @@ mm/hugetlb_cma.c: void __init hugetlb_cma_reserve(int order)
-      		size = round_up(size, PAGE_SIZE << order);
-      
-     -		snprintf(name, sizeof(name), "hugetlb%d", nid);
-    -+		SPRINTF_END(name, "hugetlb%d", nid);
-    ++		sprintf_array(name, "hugetlb%d", nid);
-      		/*
-      		 * Note that 'order per bit' is based on smallest size that
-      		 * may be returned to CMA allocator in the case of
-    @@ mm/kasan/report.c: static void print_memory_metadata(const void *addr)
-      
-     -		snprintf(buffer, sizeof(buffer),
-     -				(i == 0) ? ">%px: " : " %px: ", row);
-    -+		SPRINTF_END(buffer, (i == 0) ? ">%px: " : " %px: ", row);
-    ++		sprintf_array(buffer, (i == 0) ? ">%px: " : " %px: ", row);
-      
-      		/*
-      		 * We should not pass a shadow pointer to generic
-    @@ mm/memblock.c: static void __init_memblock memblock_dump(struct memblock_type *t
-      #ifdef CONFIG_NUMA
-      		if (numa_valid_node(memblock_get_region_node(rgn)))
-     -			snprintf(nid_buf, sizeof(nid_buf), " on node %d",
-    -+			SPRINTF_END(nid_buf, " on node %d",
-    ++			sprintf_array(nid_buf, " on node %d",
-      				 memblock_get_region_node(rgn));
-      #endif
-      		pr_info(" %s[%#x]\t[%pa-%pa], %pa bytes%s flags: %#x\n",
-    @@ mm/memblock.c: int reserve_mem_release_by_name(const char *name)
-      	start = phys_to_virt(map->start);
-      	end = start + map->size - 1;
-     -	snprintf(buf, sizeof(buf), "reserve_mem:%s", name);
-    -+	SPRINTF_END(buf, "reserve_mem:%s", name);
-    ++	sprintf_array(buf, "reserve_mem:%s", name);
-      	free_reserved_area(start, end, 0, buf);
-      	map->size = 0;
-      
-    @@ mm/percpu.c: int __init pcpu_page_first_chunk(size_t reserved_size, pcpu_fc_cpu_
-      	int nr_g0_units;
-      
-     -	snprintf(psize_str, sizeof(psize_str), "%luK", PAGE_SIZE >> 10);
-    -+	SPRINTF_END(psize_str, "%luK", PAGE_SIZE >> 10);
-    ++	sprintf_array(psize_str, "%luK", PAGE_SIZE >> 10);
-      
-      	ai = pcpu_build_alloc_info(reserved_size, 0, PAGE_SIZE, NULL);
-      	if (IS_ERR(ai))
-    @@ mm/shrinker_debug.c: int shrinker_debugfs_add(struct shrinker *shrinker)
-      	shrinker->debugfs_id = id;
-      
-     -	snprintf(buf, sizeof(buf), "%s-%d", shrinker->name, id);
-    -+	SPRINTF_END(buf, "%s-%d", shrinker->name, id);
-    ++	sprintf_array(buf, "%s-%d", shrinker->name, id);
-      
-      	/* create debugfs entry */
-      	entry = debugfs_create_dir(buf, shrinker_debugfs_root);
-    @@ mm/zswap.c: static struct zswap_pool *zswap_pool_create(char *type, char *compre
-      
-      	/* unique name for each pool specifically required by zsmalloc */
-     -	snprintf(name, 38, "zswap%x", atomic_inc_return(&zswap_pools_count));
-    -+	SPRINTF_END(name, "zswap%x", atomic_inc_return(&zswap_pools_count));
-    ++	sprintf_array(name, "zswap%x", atomic_inc_return(&zswap_pools_count));
-      	pool->zpool = zpool_create_pool(type, name, gfp);
-      	if (!pool->zpool) {
-      		pr_err("%s zpool not available\n", type);
+diff --git a/include/linux/sprintf.h b/include/linux/sprintf.h
+index 51cab2def9ec..a0dc35574521 100644
+--- a/include/linux/sprintf.h
++++ b/include/linux/sprintf.h
+@@ -13,6 +13,8 @@ __printf(3, 4) int snprintf(char *buf, size_t size, const char *fmt, ...);
+ __printf(3, 0) int vsnprintf(char *buf, size_t size, const char *fmt, va_list args);
+ __printf(3, 4) int scnprintf(char *buf, size_t size, const char *fmt, ...);
+ __printf(3, 0) int vscnprintf(char *buf, size_t size, const char *fmt, va_list args);
++__printf(3, 4) char *sprintf_end(char *p, const char end[0], const char *fmt, ...);
++__printf(3, 0) char *vsprintf_end(char *p, const char end[0], const char *fmt, va_list args);
+ __printf(2, 3) __malloc char *kasprintf(gfp_t gfp, const char *fmt, ...);
+ __printf(2, 0) __malloc char *kvasprintf(gfp_t gfp, const char *fmt, va_list args);
+ __printf(2, 0) const char *kvasprintf_const(gfp_t gfp, const char *fmt, va_list args);
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index 01699852f30c..d32df53a713a 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -2923,6 +2923,40 @@ int vscnprintf(char *buf, size_t size, const char *fmt, va_list args)
+ }
+ EXPORT_SYMBOL(vscnprintf);
+ 
++/**
++ * vsprintf_end - va_list string end-delimited print formatted
++ * @p: The buffer to place the result into
++ * @end: A pointer to one past the last character in the buffer
++ * @fmt: The format string to use
++ * @args: Arguments for the format string
++ *
++ * The return value is a pointer to the trailing '\0'.
++ * If @p is NULL, the function returns NULL.
++ * If the string is truncated, the function returns NULL.
++ * If @end <= @p, the function returns NULL.
++ *
++ * See the vsnprintf() documentation for format string extensions over C99.
++ */
++char *vsprintf_end(char *p, const char end[0], const char *fmt, va_list args)
++{
++	int len;
++	size_t size;
++
++	if (unlikely(p == NULL))
++		return NULL;
++
++	size = end - p;
++	if (WARN_ON_ONCE(size == 0 || size > INT_MAX))
++		return NULL;
++
++	len = vsnprintf(p, size, fmt, args);
++	if (unlikely(len >= size))
++		return NULL;
++
++	return p + len;
++}
++EXPORT_SYMBOL(vsprintf_end);
++
+ /**
+  * snprintf - Format a string and place it in a buffer
+  * @buf: The buffer to place the result into
+@@ -2974,6 +3008,31 @@ int scnprintf(char *buf, size_t size, const char *fmt, ...)
+ }
+ EXPORT_SYMBOL(scnprintf);
+ 
++/**
++ * sprintf_end - string end-delimited print formatted
++ * @p: The buffer to place the result into
++ * @end: A pointer to one past the last character in the buffer
++ * @fmt: The format string to use
++ * @...: Arguments for the format string
++ *
++ * The return value is a pointer to the trailing '\0'.
++ * If @buf is NULL, the function returns NULL.
++ * If the string is truncated, the function returns NULL.
++ * If @end <= @p, the function returns NULL.
++ */
++
++char *sprintf_end(char *p, const char end[0], const char *fmt, ...)
++{
++	va_list args;
++
++	va_start(args, fmt);
++	p = vsprintf_end(p, end, fmt, args);
++	va_end(args);
++
++	return p;
++}
++EXPORT_SYMBOL(sprintf_end);
++
+ /**
+  * vsprintf - Format a string and place it in a buffer
+  * @buf: The buffer to place the result into
 -- 
 2.50.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/cover.1752182685.git.alx%40kernel.org.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2c4f793de0b849259088c1f52db44ace5a4e6f66.1752182685.git.alx%40kernel.org.
