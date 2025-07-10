@@ -1,115 +1,115 @@
-Return-Path: <kasan-dev+bncBAABBDHCYDBQMGQEPZUNN5A@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBE7CYDBQMGQELNS6UPY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5332FB00DC8
-	for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 23:30:54 +0200 (CEST)
-Received: by mail-pj1-x1038.google.com with SMTP id 98e67ed59e1d1-31220ecc586sf1434386a91.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 14:30:54 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1752183052; cv=pass;
+Received: from mail-pl1-x639.google.com (mail-pl1-x639.google.com [IPv6:2607:f8b0:4864:20::639])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5BBEB00DCD
+	for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 23:31:04 +0200 (CEST)
+Received: by mail-pl1-x639.google.com with SMTP id d9443c01a7336-235e3f93687sf20835265ad.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 14:31:04 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1752183060; cv=pass;
         d=google.com; s=arc-20240605;
-        b=hiYu0ozF9x5kAV4EXUq767FSqRtc9dahjcdO05rue8YFMdWwkxOHZlCw0ybiH7cLv2
-         1qMLxufxbhm4305AnresxuB4Kgm2ufK/EyGASWEOI6JHRLgAGV3fMH5qcTI6e6EDebX9
-         fUMgzRIpFV8uv1d1JJ+4F7yNl5e/VCtcthgm4gHnXvkUy3ySr7oCQem/urYONz49vdpJ
-         dFLZLKuj5U8OhDlbwfGRE3kysLcNhq02BzOL/As223hrYFm8shq+ZDpt/JT2AUTWGfQ0
-         KvAZuiXUg8bNkFpnH0vJru3earapLgQ6qfuyWDnIN739tlytZMrX1c4wY/cYLrdEyX0B
-         mEGA==
+        b=B8jQ+MTDSRS7H0OcFnPAcK8Yk+ICF3Oy1RFRP5pJIZPgjTerxj6DNq5ZYn2FpjggJd
+         EwKtBEMdKsPJCwM1yXPmFHyYt27jgZ8VvUMYvXhIEltV3z7lXH8GaIjCBRk+HTjqTdH1
+         QSrB7w+JNEOaMDDfQHGuQPQVXUeMfryf7+1WIsj9n7Jgt3mZA6QQafb2Wd6fpJT93wWv
+         2hyQYQ0wPHxn+fx0i6Ow80dQrZ+6iBGKUVcfbWYINuWbSPN7svc2cKsxPoFxVptIxGMz
+         rTf0GlKAKZGYVn0WZ4a0yb1ONp08bv3I2vtIREBKrWYNKXklo3TQ0Gr4l5QkcfU2shZK
+         gBpw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=f4RjsjG+qtr/TStt/b1HZI9/qDxRffg5+msO+RnHfXg=;
-        fh=13ef1Eevim1T1nURC7lw5TaP7fM5Ku9jHqz4VVvcw0E=;
-        b=JhTsOdKlG+TQVv9WUit8cnUB8DHXV6BtOUwAPV3b33zxpIC2BwZb3ltTJ1jt+77E2z
-         1z9RSHu48FF1uL/O+qjjRpvI1MBVmuayAxkGTPVvD935HCJgCHXBXWXOld64YMHOSZWT
-         oV4y3jWCZFGAMAP1X1fK5JpgCA1IMzEGX1penL/s5umy5dIKrWIgvTC+GTO7ScD0BsaO
-         UAcOmHGG2TrI6+BUeV4sG3ASh1CVtmqYCg+u1WMMpd8Ipsm90Rmvk2mFlPMFGZqxvXTU
-         6v4jwrUkYRWZxOip/4qlrUmIdkFHplJgGYa7pTYj5tnTF+PQTO56SyVdSftwJZ1msFaY
-         n88w==;
+        bh=rKs4R/eNZemenAQz1/wt9sbfg/B0tv4enjYH6GVUsNc=;
+        fh=c55tvDEqFvZrJQ7Q/seTfTEABNYGX7ULMfKd/3GUI14=;
+        b=RzxLOm42AqRMtrQWoEguXPsNWU04bf7aeGpTeREsvOLixNkFki5fWn3BcjnXVFhJAQ
+         4yPo6dwNgiqbxD1q8pRVzM1svb2pebHq/QD24Z36IuLYRdDWh6bEtWvaqEUe9PrDNSQF
+         MwbAiTG74MaqjkbMJ4PgnTiuHsHSZfdiCIQXB4HpF+oPWhuo/LzfjShQgsDWmet+Egcc
+         lMwWeZ5yyIDs90IAJRl+vhbViy2I59wCGO/0RMcsQqnawiISD8kx9+1hMuxLpdSXA5JR
+         S6NThV4qqf5LLKL0qtN9sddTjQIi+5AwHqMGSEQhvAQHJ8QAoT5qxiGnTX0Rqpzmg7mo
+         yfMA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="dPANN/xW";
-       spf=pass (google.com: domain of alx@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=alx@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=lChuc2aI;
+       spf=pass (google.com: domain of alx@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) smtp.mailfrom=alx@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1752183052; x=1752787852; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1752183060; x=1752787860; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=f4RjsjG+qtr/TStt/b1HZI9/qDxRffg5+msO+RnHfXg=;
-        b=hBjoZWNkfuJ61PDtlp65+94kNQCcn/E8sBZztxMOegIrY7XCK9/zxeWugxLRly+QMN
-         Ga6QOFbDmttsoB0i38P1rO6hHazRYnKUfPjVTPy+BHfnXuAELXtT2xoP1MbY15uBn5tC
-         v9jykn7MEzcY1NUa74kvXXGLJbJ9oeedwsjLNRiUy65IQq0hCQGNK57Nn1eR0kPKyz67
-         MtKmw6xQkv3ApN4hn/jjdjtVlUS/RHUNXTyBbs+y6XGvvIB6qaG/kJG39lMjYHHi0U2x
-         dW2HXDxA3yQD96zeK1ZTJlbfUOrpO6ch2RUlVvYVS4wPJpt0ulwD6hWurf1duk1G3TJp
-         PkJg==
+        bh=rKs4R/eNZemenAQz1/wt9sbfg/B0tv4enjYH6GVUsNc=;
+        b=AheekwOTZua3VjH/E/3TR8P5NKhYlKYqdr63LKpi8CdyEArRS7uJODSqmV3P7wiGfO
+         4NPVJyHnitS+vs37Ef3sNrpzBo/EO5EeyeKdrDWDm3dxzKfEx6zbAtqKK/fTkFMi2Sf5
+         zndfqGmynC4giF9G8bROOaqobVoy8e/BS5pFTmQhtlJIxuo8yg9cuO7yaYZURBo9oDEz
+         pPOCGhrBagtPIZlmJneNEKg4APbNvnzrGMz3nZ7k0ao5fAkxtMofdeNw4IHQDmdQcPLY
+         lnhXB5407z3+d2YRknxLsgb4BYUvyD6HydamREcz5rGEWPOSJg/jGWKfUoUbQfh5pNAB
+         wijw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752183052; x=1752787852;
+        d=1e100.net; s=20230601; t=1752183060; x=1752787860;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=f4RjsjG+qtr/TStt/b1HZI9/qDxRffg5+msO+RnHfXg=;
-        b=CPasA8eipQy+2oX9BJGdAKR3vHl4ehKMFSvKEyl2iMlthypilbbSBhGPvUVrj8QAsz
-         CKjGpeg+KujPFOtO5U3LGxZikqDWErTX1wovlHlWZPjkF53KyBUWyqNq8p3BlWPBdFNI
-         mCzAJopnbiduAZkMxuJidgQbh0xPMdRpXL3h96O2dJVfFuOC5GJDMDh0YMwnxGNYg6Di
-         ha/F0iFcFxHDIZURewIVujwCvXqCoDzjD3DhGyKjMnsdUd44dURgPYbvk3lLLVuPsGNn
-         ka9NvOLCSm4hI7QJ+vU+gG2U/l8jperncJH7uHovoxYW9pvOiniL/uc0vMtU8xz21W/n
-         ddng==
-X-Forwarded-Encrypted: i=2; AJvYcCWiEfVkX21ou3kJ2ciZEHeSa+m6PLZQX0YnVnjtDbz6Hv8HMtyy1MCPrqJ51si5KI2Wg8wxIw==@lfdr.de
-X-Gm-Message-State: AOJu0YxiPFaq/ALi4eiHVzRnoPZjRBk12UtfK/L9qjvF7EbCRJsWZUpp
-	+HxkWJpnPVp6Z7Rw/KqGf0qCPIP6oYQEIt7BgxHg6CHC3ZZZCUAe/jWW
-X-Google-Smtp-Source: AGHT+IGasU/7Waymag3436LvR8kUWkYXalu36zNIEgypKVU+T8Zq6y8ikRIcnjAwfnJhmChHzj9g6g==
-X-Received: by 2002:a17:90b:1f8d:b0:311:eb85:96df with SMTP id 98e67ed59e1d1-31c4cd73886mr1426495a91.17.1752183052415;
-        Thu, 10 Jul 2025 14:30:52 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcPs5sOabqc9g646Sh8hsCA8uoXm6oTUWgSt55OrMyBTA==
-Received: by 2002:a17:90b:4c8f:b0:311:b5ad:42d6 with SMTP id
- 98e67ed59e1d1-31c3c5b0bcdls1289747a91.0.-pod-prod-02-us; Thu, 10 Jul 2025
- 14:30:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXQ9hU/ulRc/Dbb39CAaI6Ljo8whFw24jizGiDkPHiTLvRpaaqHxbD92GeN20nhhfAfKk7PoK6YGSM=@googlegroups.com
-X-Received: by 2002:a05:6a20:430d:b0:21f:97f3:d4c2 with SMTP id adf61e73a8af0-2311eb48bcamr1301348637.16.1752183051104;
-        Thu, 10 Jul 2025 14:30:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1752183051; cv=none;
+        bh=rKs4R/eNZemenAQz1/wt9sbfg/B0tv4enjYH6GVUsNc=;
+        b=O9OmdcPmzQ1Zn8rEAhg9vzTetrdsQcTC8cbhETk3N3tC0nFRJtQb/dVALaDxV/Nqxm
+         wmukz1aCCinY3ozJUvbeoGBBF7BngPn6s0p2t8vbCzJp2teZT/SjiIHhaviBvanmrUJG
+         2IEwlEnNM6HALy3tlduLVL3ufeM9u5/wT2AOPNiWm6a2tsDNX68GLmu/eqLjkeYtmQ5y
+         EG565rdyxdQ6BLBKzWs8Gjcixtiic5HN0nRVe9mxb9pfNJKEJVin61Y2oD/NOGD77olS
+         UQpngXN45mQDtefe/m/lKYy20+WVZ8I5wb/Mn8+lEiiXx0U8CncqKWLPbafTT219ltpz
+         X3CA==
+X-Forwarded-Encrypted: i=2; AJvYcCXlz380tfg4XB2H9WFxBadtVjGujrtwEkxBkCHkUeI8iB6odL6YDwcrTLzrZNpMKLH2N8oHbw==@lfdr.de
+X-Gm-Message-State: AOJu0YwbDKO5CVVgR77jqF9yicIy6KoYxgJBaYASZJifEyoQkWLMhuBw
+	QjBKDOcmJ7GFSjLrGwfjTVqv/Xhv7qxKWaIeRIzSc/7P94ju5W8FdJcx
+X-Google-Smtp-Source: AGHT+IH/Zixoe+H8HfLRwEVXR2USPp5gUOoNyV/b4TPxFgG3Q5qAap+ZowAiHX18RY+hRLHdcz0ycg==
+X-Received: by 2002:a17:902:e5d1:b0:234:eb6:a35d with SMTP id d9443c01a7336-23dede7d5c5mr10641805ad.27.1752183059704;
+        Thu, 10 Jul 2025 14:30:59 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZd2kOZ3lpkvyeUm23pNERonXk7J+a0CnxTNoDir6r7lOw==
+Received: by 2002:a17:902:e204:b0:237:e6fe:2370 with SMTP id
+ d9443c01a7336-23de2e1f633ls10519065ad.2.-pod-prod-06-us; Thu, 10 Jul 2025
+ 14:30:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCW+OmYm1uUFylqxdK4LJPUtNCVnOJW2+XQlJPI3m9WfhWOA58L79LBDxwnQt8YNER/sGp4dWIigrH0=@googlegroups.com
+X-Received: by 2002:a17:902:da2d:b0:235:eefe:68f4 with SMTP id d9443c01a7336-23dede7d480mr10070525ad.29.1752183058507;
+        Thu, 10 Jul 2025 14:30:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1752183058; cv=none;
         d=google.com; s=arc-20240605;
-        b=cI8NDw8Gl1gmBTvkEIMAXl3WbOrd0QwJrN3uDnmBRwAQvMbbG4GhAIpoI7/NYJEKhr
-         ptdIptt8MNySSYu4zJTgrzMFRt6QE0t1r/FGbZGn6/NONeJfhJ6Ot+bigiGgA0rPeKqF
-         JMPj4WLXs9jqG0tqhwWpLg+LGiSx+H9NchOvJ2sdMJzHyVPKSH6WrkVVrmbnBeL7XSBe
-         ZncPoT9uxrgxeSBsrbzzd9O40esL2irlM8us/f5PzKxYLstdKwMPnMbiYjc1QExl42fD
-         +smqkpOJREEBmiXRwN0wEHFeudPKoJH4ellpYCUIGNM/SfTOcRoUYiOYAVwO93Q3PqHy
-         MD9Q==
+        b=ZOJMFiYDbCayt3DADsRG4fnyTdWr3cUDMmu1RRV/ed047aQ7l9aC53hkVxelzdM04a
+         2OtpFkxVbgHJ3fQ1UGtMcroJyRjlVjIJGzHIPP4jAEs64N7vg6OVzmS0IlyNOp/ITsBu
+         Og26htVru9s/ui2BnLYoHC0l90rAvRSHbygpvNvDWsT61p0/zSJf/vf2+Vl7hXbbiwtW
+         Wim5J7k8EZCXllCrzqdxNOtdeawnObvaAXQGIntx8BqyaP7/RhtzV6iXTupzWMkDkNkv
+         j1NCA7yB139YLcHmoz+n1Wuls0h9BZUQud7mF9uuk8kIxwPjtYCyPs+SQC2oYmndOpkq
+         0jiw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=0sUPaBsrRtVECUWOJKm+GE3R6Wlp2E4kocwkF3cjpXM=;
+        bh=FG5EU/f/hB5bUkYkfvMhOxqTQ8gFlOM0lPZIWF+q+cc=;
         fh=QOnzKEUq9WcvM0XNCrg2hWMbQW8+1K0P/8Aq77keZA4=;
-        b=UmkmIPHpUHxgt8JuhsPnVonSQL3JMBIFi9mpMShzao2Fqc0m2CTgnKLFQM6ffyyaVI
-         6ZZBMnc/+ZpLszU9fXZOMLs9iGvq8bLRjBYsFurLSFuKmXuDSBptTp9CdRUKnpVYj6Gn
-         KbugI6JAJoQ0Ll5QU/MHKncFoqtMpsc3W+8Dplazom1SgzcPFGi1xzo2/Y26INS+ignW
-         Fj4fL2r7FdEM5dUe5HQac8wC4ODI+PnkyPOmEHwdh57FZ9jgVEojhhmLfpGPhGjfSl3Y
-         SWXho95e31flHnwL33abV1MPpnXBMlSYZozDJ4j/sPn20czK57YjPTYBeVj4BQ36zXrU
-         7vkg==;
+        b=DxDlJleZfQ+7N7tt27BCreKTvobwFNsMSh31CG6ZCbQx0cKNLihLA5en8iYlLMNLnA
+         Ox6wiTZ39NkhtDXeonl1V5E4w3veKoJr3lC+yde4ku02Ba4uDnOXQrQ3y5K3ZybRgYLF
+         JCt9BsJ+t7H26+RtQlVvLqxfwbscbIK86J8cBFORq0xtM2IV/Mcr+3KW+PzPXlaBlOPw
+         r8uqoRMMYXSk8XrWDgQl34n5terW4PR0dHrlWj7JbmSl9JhKPnHe9BaXpka/QU2TgwUK
+         z7b+OmXGhvVQ+lQlfsVVkWdITfp2rLNLJPy6an/qRig0SuAGN7tXspcIcF41djgwDErd
+         VeEQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="dPANN/xW";
-       spf=pass (google.com: domain of alx@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=alx@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=lChuc2aI;
+       spf=pass (google.com: domain of alx@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) smtp.mailfrom=alx@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from sea.source.kernel.org (sea.source.kernel.org. [2600:3c0a:e001:78e:0:1991:8:25])
-        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-b3bbe6d5146si122082a12.4.2025.07.10.14.30.51
+Received: from tor.source.kernel.org (tor.source.kernel.org. [2600:3c04:e001:324:0:1991:8:25])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-23de4254d1dsi1231825ad.1.2025.07.10.14.30.58
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jul 2025 14:30:51 -0700 (PDT)
-Received-SPF: pass (google.com: domain of alx@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) client-ip=2600:3c0a:e001:78e:0:1991:8:25;
+        Thu, 10 Jul 2025 14:30:58 -0700 (PDT)
+Received-SPF: pass (google.com: domain of alx@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) client-ip=2600:3c04:e001:324:0:1991:8:25;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id C97C845C98;
-	Thu, 10 Jul 2025 21:30:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15833C4CEF6;
-	Thu, 10 Jul 2025 21:30:45 +0000 (UTC)
-Date: Thu, 10 Jul 2025 23:30:44 +0200
+	by tor.source.kernel.org (Postfix) with ESMTP id 777BB61423;
+	Thu, 10 Jul 2025 21:30:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B5FDC4CEED;
+	Thu, 10 Jul 2025 21:30:52 +0000 (UTC)
+Date: Thu, 10 Jul 2025 23:30:50 +0200
 From: "'Alejandro Colomar' via kasan-dev" <kasan-dev@googlegroups.com>
 To: linux-mm@kvack.org, linux-hardening@vger.kernel.org
 Cc: Alejandro Colomar <alx@kernel.org>, Kees Cook <kees@kernel.org>, 
@@ -123,8 +123,9 @@ Cc: Alejandro Colomar <alx@kernel.org>, Kees Cook <kees@kernel.org>,
 	Michal Hocko <mhocko@suse.com>, Linus Torvalds <torvalds@linux-foundation.org>, 
 	Al Viro <viro@zeniv.linux.org.uk>, Martin Uecker <uecker@tugraz.at>, Sam James <sam@gentoo.org>, 
 	Andrew Pinski <pinskia@gmail.com>
-Subject: [RFC v5 1/7] vsprintf: Add [v]sprintf_end()
-Message-ID: <2c4f793de0b849259088c1f52db44ace5a4e6f66.1752182685.git.alx@kernel.org>
+Subject: [RFC v5 2/7] stacktrace, stackdepot: Add sprintf_end()-like variants
+ of functions
+Message-ID: <894d02b08056c59b5acb79af73a1a698d56016f5.1752182685.git.alx@kernel.org>
 X-Mailer: git-send-email 2.50.0
 References: <cover.1751823326.git.alx@kernel.org>
  <cover.1752182685.git.alx@kernel.org>
@@ -134,8 +135,8 @@ Content-Disposition: inline
 In-Reply-To: <cover.1752182685.git.alx@kernel.org>
 X-Original-Sender: alx@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b="dPANN/xW";       spf=pass
- (google.com: domain of alx@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25
+ header.i=@kernel.org header.s=k20201202 header.b=lChuc2aI;       spf=pass
+ (google.com: domain of alx@kernel.org designates 2600:3c04:e001:324:0:1991:8:25
  as permitted sender) smtp.mailfrom=alx@kernel.org;       dmarc=pass
  (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 X-Original-From: Alejandro Colomar <alx@kernel.org>
@@ -152,55 +153,6 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-sprintf_end() is a function similar to stpcpy(3) in the sense that it
-returns a pointer that is suitable for chaining to other copy
-operations.
-
-It takes a pointer to the end of the buffer as a sentinel for when to
-truncate, which unlike a size, doesn't need to be updated after every
-call.  This makes it much more ergonomic, avoiding manually calculating
-the size after each copy, which is error prone.
-
-It also makes error handling much easier, by reporting truncation with
-a null pointer, which is accepted and transparently passed down by
-subsequent sprintf_end() calls.  This results in only needing to report
-errors once after a chain of sprintf_end() calls, unlike snprintf(3),
-which requires checking after every call.
-
-	p = buf;
-	e = buf + countof(buf);
-	p = sprintf_end(p, e, foo);
-	p = sprintf_end(p, e, bar);
-	if (p == NULL)
-		goto trunc;
-
-vs
-
-	len = 0;
-	size = countof(buf);
-	len += snprintf(buf + len, size - len, foo);
-	if (len >= size)
-		goto trunc;
-
-	len += snprintf(buf + len, size - len, bar);
-	if (len >= size)
-		goto trunc;
-
-And also better than scnprintf() calls:
-
-	len = 0;
-	size = countof(buf);
-	len += scnprintf(buf + len, size - len, foo);
-	len += scnprintf(buf + len, size - len, bar);
-	// No ability to check.
-
-It seems aparent that it's a more elegant approach to string catenation.
-
-These functions will soon be proposed for standardization as
-[v]seprintf() into C2y, and they exist in Plan9 as seprint(2) --but the
-Plan9 implementation has important bugs--.
-
-Link: <https://www.alejandro-colomar.es/src/alx/alx/wg14/alx-0049.git/tree/alx-0049.txt>
 Cc: Kees Cook <kees@kernel.org>
 Cc: Christopher Bazley <chris.bazley.wg14@gmail.com>
 Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
@@ -210,104 +162,117 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: Al Viro <viro@zeniv.linux.org.uk>
 Signed-off-by: Alejandro Colomar <alx@kernel.org>
 ---
- include/linux/sprintf.h |  2 ++
- lib/vsprintf.c          | 59 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 61 insertions(+)
+ include/linux/stackdepot.h | 13 +++++++++++++
+ include/linux/stacktrace.h |  3 +++
+ kernel/stacktrace.c        | 28 ++++++++++++++++++++++++++++
+ lib/stackdepot.c           | 13 +++++++++++++
+ 4 files changed, 57 insertions(+)
 
-diff --git a/include/linux/sprintf.h b/include/linux/sprintf.h
-index 51cab2def9ec..a0dc35574521 100644
---- a/include/linux/sprintf.h
-+++ b/include/linux/sprintf.h
-@@ -13,6 +13,8 @@ __printf(3, 4) int snprintf(char *buf, size_t size, const char *fmt, ...);
- __printf(3, 0) int vsnprintf(char *buf, size_t size, const char *fmt, va_list args);
- __printf(3, 4) int scnprintf(char *buf, size_t size, const char *fmt, ...);
- __printf(3, 0) int vscnprintf(char *buf, size_t size, const char *fmt, va_list args);
-+__printf(3, 4) char *sprintf_end(char *p, const char end[0], const char *fmt, ...);
-+__printf(3, 0) char *vsprintf_end(char *p, const char end[0], const char *fmt, va_list args);
- __printf(2, 3) __malloc char *kasprintf(gfp_t gfp, const char *fmt, ...);
- __printf(2, 0) __malloc char *kvasprintf(gfp_t gfp, const char *fmt, va_list args);
- __printf(2, 0) const char *kvasprintf_const(gfp_t gfp, const char *fmt, va_list args);
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 01699852f30c..d32df53a713a 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -2923,6 +2923,40 @@ int vscnprintf(char *buf, size_t size, const char *fmt, va_list args)
- }
- EXPORT_SYMBOL(vscnprintf);
+diff --git a/include/linux/stackdepot.h b/include/linux/stackdepot.h
+index 2cc21ffcdaf9..76182e874f67 100644
+--- a/include/linux/stackdepot.h
++++ b/include/linux/stackdepot.h
+@@ -219,6 +219,19 @@ void stack_depot_print(depot_stack_handle_t stack);
+ int stack_depot_snprint(depot_stack_handle_t handle, char *buf, size_t size,
+ 		       int spaces);
  
 +/**
-+ * vsprintf_end - va_list string end-delimited print formatted
-+ * @p: The buffer to place the result into
-+ * @end: A pointer to one past the last character in the buffer
-+ * @fmt: The format string to use
-+ * @args: Arguments for the format string
++ * stack_depot_sprint_end - Print a stack trace from stack depot into a buffer
 + *
-+ * The return value is a pointer to the trailing '\0'.
-+ * If @p is NULL, the function returns NULL.
-+ * If the string is truncated, the function returns NULL.
-+ * If @end <= @p, the function returns NULL.
++ * @handle:	Stack depot handle returned from stack_depot_save()
++ * @p:		Pointer to the print buffer
++ * @end:	Pointer to one past the last element in the buffer
++ * @spaces:	Number of leading spaces to print
 + *
-+ * See the vsnprintf() documentation for format string extensions over C99.
++ * Return:	Pointer to trailing '\0'; or NULL on truncation
 + */
-+char *vsprintf_end(char *p, const char end[0], const char *fmt, va_list args)
-+{
-+	int len;
-+	size_t size;
-+
-+	if (unlikely(p == NULL))
-+		return NULL;
-+
-+	size = end - p;
-+	if (WARN_ON_ONCE(size == 0 || size > INT_MAX))
-+		return NULL;
-+
-+	len = vsnprintf(p, size, fmt, args);
-+	if (unlikely(len >= size))
-+		return NULL;
-+
-+	return p + len;
-+}
-+EXPORT_SYMBOL(vsprintf_end);
++char *stack_depot_sprint_end(depot_stack_handle_t handle, char *p,
++                             const char end[0], int spaces);
 +
  /**
-  * snprintf - Format a string and place it in a buffer
-  * @buf: The buffer to place the result into
-@@ -2974,6 +3008,31 @@ int scnprintf(char *buf, size_t size, const char *fmt, ...)
+  * stack_depot_put - Drop a reference to a stack trace from stack depot
+  *
+diff --git a/include/linux/stacktrace.h b/include/linux/stacktrace.h
+index 97455880ac41..79ada795d479 100644
+--- a/include/linux/stacktrace.h
++++ b/include/linux/stacktrace.h
+@@ -67,6 +67,9 @@ void stack_trace_print(const unsigned long *trace, unsigned int nr_entries,
+ 		       int spaces);
+ int stack_trace_snprint(char *buf, size_t size, const unsigned long *entries,
+ 			unsigned int nr_entries, int spaces);
++char *stack_trace_sprint_end(char *p, const char end[0],
++			     const unsigned long *entries,
++			     unsigned int nr_entries, int spaces);
+ unsigned int stack_trace_save(unsigned long *store, unsigned int size,
+ 			      unsigned int skipnr);
+ unsigned int stack_trace_save_tsk(struct task_struct *task,
+diff --git a/kernel/stacktrace.c b/kernel/stacktrace.c
+index afb3c116da91..f389647d8e44 100644
+--- a/kernel/stacktrace.c
++++ b/kernel/stacktrace.c
+@@ -70,6 +70,34 @@ int stack_trace_snprint(char *buf, size_t size, const unsigned long *entries,
  }
- EXPORT_SYMBOL(scnprintf);
+ EXPORT_SYMBOL_GPL(stack_trace_snprint);
  
 +/**
-+ * sprintf_end - string end-delimited print formatted
-+ * @p: The buffer to place the result into
-+ * @end: A pointer to one past the last character in the buffer
-+ * @fmt: The format string to use
-+ * @...: Arguments for the format string
++ * stack_trace_sprint_end - Print the entries in the stack trace into a buffer
++ * @p:		Pointer to the print buffer
++ * @end:	Pointer to one past the last element in the buffer
++ * @entries:	Pointer to storage array
++ * @nr_entries:	Number of entries in the storage array
++ * @spaces:	Number of leading spaces to print
 + *
-+ * The return value is a pointer to the trailing '\0'.
-+ * If @buf is NULL, the function returns NULL.
-+ * If the string is truncated, the function returns NULL.
-+ * If @end <= @p, the function returns NULL.
++ * Return: Pointer to the trailing '\0'; or NULL on truncation.
 + */
-+
-+char *sprintf_end(char *p, const char end[0], const char *fmt, ...)
++char *stack_trace_sprint_end(char *p, const char end[0],
++			  const unsigned long *entries, unsigned int nr_entries,
++			  int spaces)
 +{
-+	va_list args;
++	unsigned int i;
 +
-+	va_start(args, fmt);
-+	p = vsprintf_end(p, end, fmt, args);
-+	va_end(args);
++	if (WARN_ON(!entries))
++		return 0;
++
++	for (i = 0; i < nr_entries; i++) {
++		p = sprintf_end(p, end, "%*c%pS\n", 1 + spaces, ' ',
++			     (void *)entries[i]);
++	}
 +
 +	return p;
 +}
-+EXPORT_SYMBOL(sprintf_end);
++EXPORT_SYMBOL_GPL(stack_trace_sprint_end);
 +
- /**
-  * vsprintf - Format a string and place it in a buffer
-  * @buf: The buffer to place the result into
+ #ifdef CONFIG_ARCH_STACKWALK
+ 
+ struct stacktrace_cookie {
+diff --git a/lib/stackdepot.c b/lib/stackdepot.c
+index 73d7b50924ef..48e5c0ff37e8 100644
+--- a/lib/stackdepot.c
++++ b/lib/stackdepot.c
+@@ -771,6 +771,19 @@ int stack_depot_snprint(depot_stack_handle_t handle, char *buf, size_t size,
+ }
+ EXPORT_SYMBOL_GPL(stack_depot_snprint);
+ 
++char *stack_depot_sprint_end(depot_stack_handle_t handle, char *p,
++			     const char end[0], int spaces)
++{
++	unsigned long *entries;
++	unsigned int nr_entries;
++
++	nr_entries = stack_depot_fetch(handle, &entries);
++	return nr_entries ?
++		stack_trace_sprint_end(p, end, entries, nr_entries, spaces)
++		: sprintf_end(p, end, "");
++}
++EXPORT_SYMBOL_GPL(stack_depot_sprint_end);
++
+ depot_stack_handle_t __must_check stack_depot_set_extra_bits(
+ 			depot_stack_handle_t handle, unsigned int extra_bits)
+ {
 -- 
 2.50.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2c4f793de0b849259088c1f52db44ace5a4e6f66.1752182685.git.alx%40kernel.org.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/894d02b08056c59b5acb79af73a1a698d56016f5.1752182685.git.alx%40kernel.org.
