@@ -1,144 +1,162 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBKUPXLBQMGQEOEFKNLY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDCPL7WX3MKBB353XTBQMGQENLIM3AI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33b.google.com (mail-wm1-x33b.google.com [IPv6:2a00:1450:4864:20::33b])
-	by mail.lfdr.de (Postfix) with ESMTPS id A751CAFED61
-	for <lists+kasan-dev@lfdr.de>; Wed,  9 Jul 2025 17:15:55 +0200 (CEST)
-Received: by mail-wm1-x33b.google.com with SMTP id 5b1f17b1804b1-453817323afsf33782905e9.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 09 Jul 2025 08:15:55 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1752074155; cv=pass;
+Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33B12AFF686
+	for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 03:57:06 +0200 (CEST)
+Received: by mail-pl1-x637.google.com with SMTP id d9443c01a7336-235089528a0sf13676185ad.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 09 Jul 2025 18:57:06 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1752112624; cv=pass;
         d=google.com; s=arc-20240605;
-        b=CqA0LSrdEkQbB1H8efp1AG47+3+P3h6LrbiVUbPCcxPBfhRcXItfGyLqjVvTB3qZRO
-         SIqu1Ak8cwLX77/EnRqP83If87YcNL4huWh1FpGCZGKme3nvH+7Qex8HPjqw9b7MoT/b
-         CmqBlQaPayJCeaf6SligiE9R6b1vGPCIGacp6Ko/BdVwcbjIqoMXOp252oQm7TxMa5my
-         /pW6uUxGKHSALWBo9kpIWYV41ixiNHjDh12LrdU2q5EHJTUgClCCXKtRch79FIJHkuEk
-         FL26Am+r6fZLV8Z9eRWKncmZdFUOcTdynnyXSsZndaX9SDSSgx4BCCqaX2IrGoJS9bk5
-         9gzA==
+        b=kijQNxl8RbPKgNYOaXaEbAR+FgEa/XAcFN24HfBwHZkywgHptBDUBKv3xr3MyxJPWk
+         WEelgjaEVWvQVHgmoJJ/b02/6r1ORmF7oacXPWNmbcKVRVzwelvl9CWMzBJw+pHKBSNO
+         wHIDdCEeESohYTpQ01LNijuN3NG88fET7/70FSTvpTW9zjXN98PA0d6EnixKFYtAsPCF
+         jC7uXXmzXMgomHRwxLZ9x+MEkrubcKUgOt9nJi00ilqZL4sLF7Y7IFpdfHssCNgBvbgr
+         uvWFzi1v6qd+mauLM6gIJa3G1C79DgKJhrc6Zp/IvGuAEMV0oyD1CcLM3xlABhJg4nYQ
+         oVpA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=0iEEAaNoj0mA2X7jhk95WDjj6G6xgsD6P/mDcHhEpUw=;
-        fh=iaFkM+CwdjBBpHYqpqvBFr99SKRB5Zuw97rB8YpQNXM=;
-        b=biNKckGTMyLvIKDsc7iRpmhyrVgM47cm+GLpzK9o/IfDwbgOGaqiVbC70wvk79EjGr
-         eSgmDXUaN4Q1OnsYX/y/7Wi448LZGx9eyHLp1npFciUgCSz0ZWchnxMSrVjEOMW2jWGM
-         59svoZFO2NQcsUblsA4WL1b9N1TerzQY+ZAZO9MBDqoWlIltA/lblr1wl86p3ekDmoH4
-         cWe/CQGpjKokwmr0RyvwVmc2Y4zHyM+65LZEDeQNi/WiCVV2zdYyD6FqAoWI9Ve2qaGe
-         qsY54ELvNB7RzNOnVMrebR4fZJ2AeOPMGqLPM6QUzj1aiCPcR8fICieHEtUUYMGHu9LX
-         V3LQ==;
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=OfC1cEN8ZjZGYERJtpQdVx70BEkaPXDvOT69MnMvkvo=;
+        fh=lSbsEXbogOnsRiPtDHQvUuIn3r6djYLZ0GRRGbv+SB0=;
+        b=b5kNXz9V8uHGWZs+RfAuSGOIo3PxghfV1UHbLIwPEAIpJBs+L9GADWTBRhxOyNIm/p
+         FdFsWP3LeqHy7TOY34BwFuJww+f2zc1H3/1JlSwJJ8jMYkUBaycWZ6IG7/axkKqy21/4
+         gLWhwqHDFp8wYtUzFj6Xu6F2M3WKvTZA0mjU+DDZWQuowP/YLlH52rsNrZ+H9J9ZAf/P
+         Ele8uwU3utjFx77DMr9doT3XsEV2aYqtOKRa6O2UcjW79GKV+JYV61ejSBtbetrh4Rql
+         2oPG5E2smzuBcwBw/qwK1qemhgMtXS9c4J8KNmDHFRVTZww1yj33A8Wnh1DVVtLteehr
+         aZIw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=vnEsuWUI;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::231 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=s36gQ67r;
+       spf=pass (google.com: domain of kees@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1752074155; x=1752678955; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1752112624; x=1752717424; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0iEEAaNoj0mA2X7jhk95WDjj6G6xgsD6P/mDcHhEpUw=;
-        b=taE1zB5AI7/e3P1ZWwJIiCmsIsATVaqfATy053o7YiEpVNX4xJJuhqTf/Cc7RxsjqS
-         cLq5B9jKgOz/IT4BIDWD9kqF3b9Iqj9RCR+y5r2uH8qqCgrv4aBeBy2oCVtLZ5LC7RDW
-         mOyrTwh+7+C+J601Dpl1fG4Mfgq53D2BpS5dBEuVK5+ULbDN+nRRXWeqUb428cpLBJbI
-         8N6V0HEjEXuwa4KCp1753d4rf6Hvzxao+fwHvdSo2bCPzfOQ0P2KW5yPa/OI4tq2/8QT
-         4eVogzEIbOce4BgCzwgcrVcfrAXBpCAbdZuM/W0cQ+Ds3Ci3eBOZnVl5wW1xX2jlwH2U
-         Na8w==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OfC1cEN8ZjZGYERJtpQdVx70BEkaPXDvOT69MnMvkvo=;
+        b=TDt4K40cOrTGSHgGETBAt69c2I65kFCWNAZszeFClIRshGS7MFO1++pSmSTMtaCzvm
+         GJTQesnBBQAE0xJucJXoYjoCCHeZw3kkh+r6K++YoXnzaXzf3PUVKdJoqPYi38Lp2BEc
+         HSLxgEskIaiQQT5HplxRNPFrc5U6PQVWRNZMci1yPXYoaEdrqUKaUheA9AD9RkQq1utB
+         SeZLnZUXoTMmUPvxLQ5awdsI9f6PCREKXmmHIKUvpvhZFijxV76CEtbAP/fQ6LlccKmm
+         K4zUflmkynSqNYwjvyGBe/Argzbkd2FFIIo7XnC4wrCvC1LfIQ79BTduFIkMe26yiUkT
+         q0ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752074155; x=1752678955;
+        d=1e100.net; s=20230601; t=1752112624; x=1752717424;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0iEEAaNoj0mA2X7jhk95WDjj6G6xgsD6P/mDcHhEpUw=;
-        b=BmLRldj3U6WYvc+Q9PLdLmcDN880b+x6NAVZrAEhlnK2NggmlXenAkd599tOf6mHnN
-         fvPKQoAY1zqhXbEtKXSr2tgMNEoTAmoJ6ImSu1LATkZ+bz9wBEMMocM+QyxbEG3oB5X9
-         VT9tTzEvAHhXcxjbxy40Ep9cDwWFLRt9xctVfY6G7FL3CgoaOqX0R28GEyMiw/MhbEI5
-         doo69+tHaTQ7LXTpkPzk4hFUBFga9nzp0j79G11c0x9UKZeEjJKC4rFvifKnD2YT2v1R
-         Xx5dRiL2JGBBwuoDwqAMdlfDHeVoytVyxD/HASDyBPB9JC902QpflCy2MOu0y4FN7QDJ
-         0DmQ==
-X-Forwarded-Encrypted: i=2; AJvYcCUItIofaH91TK4X57lD92iS8Z0liSltw0w9I5sNjz8RqjERW3l6RcDMX7w6gpi4q9jsbJ4haw==@lfdr.de
-X-Gm-Message-State: AOJu0Yzt04uSDNDG9RZeZezrospC1ijlTheGoi+/4WpQZ4LGlbWmwCSo
-	elElMyIl4yHoHxi61nlE4F7iM1TJmaAq9HYL0vR089cPicASiT6pLUKp
-X-Google-Smtp-Source: AGHT+IFTsO64D20vKo2Q6IWF/fLpiuIFITyWH+8hXJfPwa4EBo5fscYhopg+b0oBJRXKWaEEL7K6NQ==
-X-Received: by 2002:a05:600c:198c:b0:442:dc6f:7a21 with SMTP id 5b1f17b1804b1-454d52f3b13mr31710735e9.3.1752074154633;
-        Wed, 09 Jul 2025 08:15:54 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfw+Y3IZ/Q6aM0lklXwuN1K9nBePOk23BbPl6XSwbkzMg==
-Received: by 2002:a05:600c:4f07:b0:454:ae22:a989 with SMTP id
- 5b1f17b1804b1-454db524ddels125065e9.2.-pod-prod-04-eu; Wed, 09 Jul 2025
- 08:15:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCU9yHqdi0B+MOhnl06ViJcjmZnipkH8R3l5xied5VUMTTtwxvXJC5enhA3BTpsQtdIHQNz+yFOxWL0=@googlegroups.com
-X-Received: by 2002:a05:600c:4f11:b0:43d:9d5:474d with SMTP id 5b1f17b1804b1-454d522d0d0mr32338255e9.0.1752074151729;
-        Wed, 09 Jul 2025 08:15:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1752074151; cv=none;
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OfC1cEN8ZjZGYERJtpQdVx70BEkaPXDvOT69MnMvkvo=;
+        b=M3WMX+19y6yhdcB9aALJKEKC9uPS1Q1ekwvbdYbbubSKq5nDuKhlzfdgk0cuq4yu5d
+         P7CNwMVAfxRYZF6aiaZ3Emh+kirKR8xRa8JBzXxmtygfEKggbUpG0F2GmskMlSio9woJ
+         vFPKGQBhXj/mZJumKDVf8Cd+Kfe7jxB6LJbYaQGATo+bjZdRat0QTiUjwvhf7hMTvlFo
+         E124wbSWrUKAuwSARJNHfznW8ttx5Ks1963efmXno9tGnXUy6JQZ23ON8MyhwEnygu55
+         9CV0Bbf6iBfYdq/oT6s+D7WGizUU8rGbHcrG7S667ts3yv/ReAsFjBsufs3mJOXOQ2XH
+         HghA==
+X-Forwarded-Encrypted: i=2; AJvYcCUe/KkGtzZ8Hl1abuhttOTlt51kAhlebarO4aoFEVh2URCviX4A2MaVIb5RkrZl5us7iZAj+g==@lfdr.de
+X-Gm-Message-State: AOJu0YxYEqr5pw65/RssWFrYfwmz7AtMzMMjs/86BtQFodLPhIN6R1CQ
+	pC31348RI5uBrbOdD1L1fdPL3Vv4ENHZbn2p01d/vbvhDTP58LtbFAxL
+X-Google-Smtp-Source: AGHT+IGe0lssmlfvRt5NHdoC8tqx0/UZMQcfJIhTT3jTF2CkZDq/XlEEYvJy6lemgIvp4NCo7nqHvA==
+X-Received: by 2002:a17:903:4b2f:b0:236:15b7:62e3 with SMTP id d9443c01a7336-23de2f52462mr27030305ad.9.1752112624158;
+        Wed, 09 Jul 2025 18:57:04 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZct2niJXqE6alz8FWEM06KQ4r79I/DtoPXMk4mVXs44CA==
+Received: by 2002:a17:903:2f83:b0:236:6e4f:f30d with SMTP id
+ d9443c01a7336-23de2d2ae20ls3656995ad.0.-pod-prod-00-us; Wed, 09 Jul 2025
+ 18:57:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVYO7ujCzQK6dkV6qosJT8oJBrkS3SDT27KfjJ/8nRpwMqnfVa9ImKTxKJHqlSZEqjl7EWGK5Vdg9M=@googlegroups.com
+X-Received: by 2002:a17:903:32c3:b0:23d:d290:705 with SMTP id d9443c01a7336-23de2f44349mr25164915ad.3.1752112622454;
+        Wed, 09 Jul 2025 18:57:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1752112622; cv=none;
         d=google.com; s=arc-20240605;
-        b=fvYDwFUtBjWUt12Xwj3YxzBUgQHITBGPztZ8mG47CQ89ZrGjqnS5BW/XIQ9VbgRvMp
-         IILPsLSMdRmOyWk507qSSQwsyUoWSO6QBOgXhOUE55k2RJ8KC2J6PYSRW3IFUresN/xx
-         h920GwPR+mH/3PRVVt7UodefV5QUwNE/7DFd9Zbb9vG7OnbOCP4l+GwXGqXPSMlORy4Y
-         zKbLcNYSA+uIB6MZJp/bJVBpaUMLiCQtXCOa3Xe2Pqn7e3z2OnXhSWC2yukaBMAuAkwq
-         kDe8aFAdctPPBeROK/lccWDom3iBmjX/KJxygMgJnixc11nw0sIqJPsq/RPlMxYnaNR6
-         uGGQ==
+        b=PjVg3g/8ZpnwW928DkomqIlD6K2Yg0sMDlU/5WPC+E7UfsJWa+aTAXtmx82/Le3YPN
+         bZ9RgFopURTViaridJYUY0kYCzVhxQFHp1SYDTzREpn4JidtxYYtCYCRzMgX8adIo1OV
+         ujeUv4RGDdTnXdPLlHjRB8nwumSroB90KRC5JJkwq51h7Eods59XkVuyXZ4F5oIrpxVU
+         cpC74rtado3Pb61pIKpa1ggjILxVUHgtA5rlAtQPwhyYqDK3JE3H3NCVv1gWffmyASU+
+         k/K2/GMVCumtalz/eWQdvDACubRNsJlcA9JS55OHiAQMfJP9r6ErXfbqsRT8RaGKa3Ty
+         zP/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=A27z97/vgIlW4uCKp2EUHjwiwnAcyEU21rAHulzMCfI=;
-        fh=SmWGiGKaxOZ/J9Dz2TGAZSIE3Yrf3hfdxrHw1hUNJOM=;
-        b=jHV9Ak88418eZ8E2Zhxlw2LdAFg6X1zBXBHNfrO8ANZHihqGAxKeE2wuW1baP16bqZ
-         CDX2AmwoiB/HrqlrG6doKWpHlQMQ5f8qql0aHCkwzN8TklgqopnfYz6gVNzJlhHmecE1
-         6sD9/pyOMhI/AVtvs426Ia7waAf7BFzJ6JOOgqCIgxcllQcuQeJKSKMgtY1lgKxjopPK
-         g2+UZEypy9sPe2LKbQU1ZOvcOY6qcbnwNGRoWrfZZMtQ43p9j67cULSO3B1XGHDSb5Vl
-         S+/MKdWFKs55XA7bwPB1/x4JARkEeQc+HJXjS3tZB1j8vIfW8NhKL52C7FhZTrRi6dHS
-         HuHg==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=DDObvEJ/jIdbBg5ZxcRmtzlW2/cKEzrqP8L22Qd6WsY=;
+        fh=i7bVn5v9w+7goYASDRxSCsmO9K5U1rdcjQefYit2SPw=;
+        b=QYrtR0H0DPep0RClPLug7FG6rL/PAmnPSPn+KCuDZF7+trdLmUq/mDC24ciFILCpgj
+         GyK0qsWNSFrC92Kd5zUYz5H1+n8lxqFEC8+OKn+i+qZlZrzNyvp/NEYzo8jkFv7FJJTO
+         P97NkuSxR8IzdaBoKSaR8N4zk2Jo3Co2bO2MVzzIaRVNcv2y2/xDkl1Svi7kxbXsDMwo
+         z2NGxvjiSG45jNt9gTyyF87ledVSEkKHqOlp+Dz/aL7uQo35kVctO38pSiPatpKu6Pix
+         l7ho4c7NWyz050E+nQLdXdj/k/WXge0EDo4sgCTZNOtvUd8oKDcnq/j8+b5lIV5bBeaj
+         VnIg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=vnEsuWUI;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::231 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com. [2a00:1450:4864:20::231])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-454d4fc2865si447365e9.0.2025.07.09.08.15.51
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=s36gQ67r;
+       spf=pass (google.com: domain of kees@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-23de42a5613si210125ad.4.2025.07.09.18.57.02
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Jul 2025 08:15:51 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::231 as permitted sender) client-ip=2a00:1450:4864:20::231;
-Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-32b43846e8cso45754491fa.0
-        for <kasan-dev@googlegroups.com>; Wed, 09 Jul 2025 08:15:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUrqtrpnN7NS7201jTZgvCb3KqgoVRJsEwiMAyBvPCmxSQYq7D69FYDE0DU5NX9AgSU+GaAD02qB5k=@googlegroups.com
-X-Gm-Gg: ASbGncug7xzU0Obgt1u3QhsvVjqZVGYRRZlFoLkrsi4z3PJ5cto+Xpr3h7fHhfr30Zn
-	2O24x8dZL9fx+K9NeMlOOgbYslRrISbCMojhyoPTux88UUYuYVibdvyP5w6A15cwGUqyOV8zfVB
-	ML1aNIFvWDsZOhJMv5XeBELrVP3GdN5YtkzOnf037izYOL+OAmwm2TCSLzmgT6mC39zSfSnvXQw
-	b2z
-X-Received: by 2002:a2e:a98a:0:b0:32a:7d76:262e with SMTP id
- 38308e7fff4ca-32f5005d663mr477901fa.3.1752074150568; Wed, 09 Jul 2025
- 08:15:50 -0700 (PDT)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Jul 2025 18:57:02 -0700 (PDT)
+Received-SPF: pass (google.com: domain of kees@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 9CBA65C6B8A;
+	Thu, 10 Jul 2025 01:57:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B5A6C4CEEF;
+	Thu, 10 Jul 2025 01:57:01 +0000 (UTC)
+Date: Wed, 9 Jul 2025 18:57:00 -0700
+From: "'Kees Cook' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Ritesh Harjani <ritesh.list@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	"Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linuxppc-dev@lists.ozlabs.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Marco Elver <elver@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
+	x86@kernel.org, kasan-dev@googlegroups.com,
+	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-efi@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v2 08/14] powerpc: Handle KCOV __init vs inline mismatches
+Message-ID: <202507091856.C6510D809A@keescook>
+References: <20250523043251.it.550-kees@kernel.org>
+ <20250523043935.2009972-8-kees@kernel.org>
+ <87jz662ssp.fsf@gmail.com>
 MIME-Version: 1.0
-References: <20250626134158.3385080-1-glider@google.com> <20250626134158.3385080-11-glider@google.com>
-In-Reply-To: <20250626134158.3385080-11-glider@google.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 9 Jul 2025 17:15:39 +0200
-X-Gm-Features: Ac12FXxtraw61CeongbninQQSqNyIx-qmohyONha6T45O1gbt8Lp-PbNMBz2M-A
-Message-ID: <CACT4Y+YSfOE6Y9y-8mUwUOyyE-L3PUHUr6PuNX=iu-zyMyv3=A@mail.gmail.com>
-Subject: Re: [PATCH v2 10/11] kcov: selftests: add kcov_test
-To: Alexander Potapenko <glider@google.com>
-Cc: quic_jiangenj@quicinc.com, linux-kernel@vger.kernel.org, 
-	kasan-dev@googlegroups.com, Aleksandr Nogikh <nogikh@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Ingo Molnar <mingo@redhat.com>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Marco Elver <elver@google.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+Content-Disposition: inline
+In-Reply-To: <87jz662ssp.fsf@gmail.com>
+X-Original-Sender: kees@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=vnEsuWUI;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::231
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@kernel.org header.s=k20201202 header.b=s36gQ67r;       spf=pass
+ (google.com: domain of kees@kernel.org designates 139.178.84.217 as permitted
+ sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass (p=QUARANTINE
+ sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Kees Cook <kees@kernel.org>
+Reply-To: Kees Cook <kees@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -151,435 +169,77 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, 26 Jun 2025 at 15:42, Alexander Potapenko <glider@google.com> wrote:
->
-> Implement test fixtures for testing different combinations of coverage
-> collection modes:
->  - unique and non-unique coverage;
->  - collecting PCs and comparison arguments;
->  - mapping the buffer as RO and RW.
->
-> To build:
->  $ make -C tools/testing/selftests/kcov kcov_test
->
-> Signed-off-by: Alexander Potapenko <glider@google.com>
-> ---
->  MAINTAINERS                              |   1 +
->  tools/testing/selftests/kcov/Makefile    |   6 +
->  tools/testing/selftests/kcov/kcov_test.c | 364 +++++++++++++++++++++++
+On Sat, May 24, 2025 at 04:13:02PM +0530, Ritesh Harjani wrote:
+> Kees Cook <kees@kernel.org> writes:
+> 
+> > When KCOV is enabled all functions get instrumented, unless
+> > the __no_sanitize_coverage attribute is used. To prepare for
+> > __no_sanitize_coverage being applied to __init functions, we have to
+> > handle differences in how GCC's inline optimizations get resolved. For
+> > s390 this requires forcing a couple functions to be inline with
+> > __always_inline.
+> >
+> > Signed-off-by: Kees Cook <kees@kernel.org>
+> > ---
+> > Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
+> > Cc: Michael Ellerman <mpe@ellerman.id.au>
+> > Cc: Nicholas Piggin <npiggin@gmail.com>
+> > Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+> > Cc: Naveen N Rao <naveen@kernel.org>
+> > Cc: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+> > Cc: "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: <linuxppc-dev@lists.ozlabs.org>
+> > ---
+> >  arch/powerpc/mm/book3s64/hash_utils.c    | 2 +-
+> >  arch/powerpc/mm/book3s64/radix_pgtable.c | 2 +-
+> >  2 files changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/arch/powerpc/mm/book3s64/hash_utils.c b/arch/powerpc/mm/book3s64/hash_utils.c
+> > index 5158aefe4873..93f1e1eb5ea6 100644
+> > --- a/arch/powerpc/mm/book3s64/hash_utils.c
+> > +++ b/arch/powerpc/mm/book3s64/hash_utils.c
+> > @@ -409,7 +409,7 @@ static DEFINE_RAW_SPINLOCK(linear_map_kf_hash_lock);
+> >  
+> >  static phys_addr_t kfence_pool;
+> >  
+> > -static inline void hash_kfence_alloc_pool(void)
+> > +static __always_inline void hash_kfence_alloc_pool(void)
+> >  {
+> >  	if (!kfence_early_init_enabled())
+> >  		goto err;
+> > diff --git a/arch/powerpc/mm/book3s64/radix_pgtable.c b/arch/powerpc/mm/book3s64/radix_pgtable.c
+> > index 9f764bc42b8c..3238e9ed46b5 100644
+> > --- a/arch/powerpc/mm/book3s64/radix_pgtable.c
+> > +++ b/arch/powerpc/mm/book3s64/radix_pgtable.c
+> > @@ -363,7 +363,7 @@ static int __meminit create_physical_mapping(unsigned long start,
+> >  }
+> >  
+> >  #ifdef CONFIG_KFENCE
+> > -static inline phys_addr_t alloc_kfence_pool(void)
+> > +static __always_inline phys_addr_t alloc_kfence_pool(void)
+> >  {
+> >  	phys_addr_t kfence_pool;
+> >  
+> 
+> I remember seeing a warning msg around .init.text section. Let me dig
+> that...
+> 
+> ... Here it is: https://lore.kernel.org/oe-kbuild-all/202504190552.mnFGs5sj-lkp@intel.com/
+> 
+> I am not sure why it only complains for hash_debug_pagealloc_alloc_slots().
+> I believe there should me more functions to mark with __init here.
+> Anyways, here is the patch of what I had in mind.. I am not a compiler expert,
+> so please let me know your thoughts on this.
 
-Let's also add 'config' fragment (see e.g. ./dma/config)
-Otherwise it's impossible to run these tests in automated fashion.
+Yeah, this looks good. I'll snag your patch and drop mine. :)
 
->  3 files changed, 371 insertions(+)
->  create mode 100644 tools/testing/selftests/kcov/Makefile
->  create mode 100644 tools/testing/selftests/kcov/kcov_test.c
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5bbc78b0fa6ed..0ec909e085077 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12833,6 +12833,7 @@ F:      include/linux/kcov_types.h
->  F:     include/uapi/linux/kcov.h
->  F:     kernel/kcov.c
->  F:     scripts/Makefile.kcov
-> +F:     tools/testing/selftests/kcov/
->
->  KCSAN
->  M:     Marco Elver <elver@google.com>
-> diff --git a/tools/testing/selftests/kcov/Makefile b/tools/testing/selftests/kcov/Makefile
-> new file mode 100644
-> index 0000000000000..08abf8b60bcf9
-> --- /dev/null
-> +++ b/tools/testing/selftests/kcov/Makefile
-> @@ -0,0 +1,6 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +LDFLAGS += -static
-> +
-> +TEST_GEN_PROGS := kcov_test
-> +
-> +include ../lib.mk
-> diff --git a/tools/testing/selftests/kcov/kcov_test.c b/tools/testing/selftests/kcov/kcov_test.c
-> new file mode 100644
-> index 0000000000000..4d3ca41f28af4
-> --- /dev/null
-> +++ b/tools/testing/selftests/kcov/kcov_test.c
-> @@ -0,0 +1,364 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Test the kernel coverage (/sys/kernel/debug/kcov).
-> + *
-> + * Copyright 2025 Google LLC.
-> + */
-> +#include <fcntl.h>
-> +#include <linux/kcov.h>
-> +#include <stdint.h>
-> +#include <stddef.h>
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <sys/ioctl.h>
-> +#include <sys/mman.h>
-> +#include <sys/types.h>
-> +#include <unistd.h>
-> +
-> +#include "../kselftest_harness.h"
-> +
-> +/* Normally these defines should be provided by linux/kcov.h, but they aren't there yet. */
+-Kees
 
-Then I think we need to do:
-#ifndef KCOV_UNIQUE_ENABLE
-
-
-
-> +#define KCOV_UNIQUE_ENABLE _IOW('c', 103, unsigned long)
-> +#define KCOV_RESET_TRACE _IO('c', 104)
-> +
-> +#define COVER_SIZE (64 << 10)
-> +#define BITMAP_SIZE (4 << 10)
-> +
-> +#define DEBUG_COVER_PCS 0
-> +
-> +FIXTURE(kcov)
-> +{
-> +       int fd;
-> +       unsigned long *mapping;
-> +       size_t mapping_size;
-> +};
-> +
-> +FIXTURE_VARIANT(kcov)
-> +{
-> +       int mode;
-> +       bool fast_reset;
-> +       bool map_readonly;
-> +};
-> +
-> +/* clang-format off */
-> +FIXTURE_VARIANT_ADD(kcov, mode_trace_pc)
-> +{
-> +       /* clang-format on */
-> +       .mode = KCOV_TRACE_PC,
-> +       .fast_reset = true,
-> +       .map_readonly = false,
-> +};
-> +
-> +/* clang-format off */
-> +FIXTURE_VARIANT_ADD(kcov, mode_trace_cmp)
-> +{
-> +       /* clang-format on */
-> +       .mode = KCOV_TRACE_CMP,
-> +       .fast_reset = true,
-> +       .map_readonly = false,
-> +};
-> +
-> +/* clang-format off */
-> +FIXTURE_VARIANT_ADD(kcov, reset_ioctl_rw)
-> +{
-> +       /* clang-format on */
-> +       .mode = KCOV_TRACE_PC,
-> +       .fast_reset = false,
-> +       .map_readonly = false,
-> +};
-> +
-> +FIXTURE_VARIANT_ADD(kcov, reset_ioctl_ro)
-> +/* clang-format off */
-> +{
-> +       /* clang-format on */
-> +       .mode = KCOV_TRACE_PC,
-> +       .fast_reset = false,
-> +       .map_readonly = true,
-> +};
-> +
-> +int kcov_open_init(struct __test_metadata *_metadata, unsigned long size,
-> +                  int prot, unsigned long **out_mapping)
-> +{
-> +       unsigned long *mapping;
-> +
-> +       /* A single fd descriptor allows coverage collection on a single thread. */
-> +       int fd = open("/sys/kernel/debug/kcov", O_RDWR);
-> +
-> +       ASSERT_NE(fd, -1)
-> +       {
-> +               perror("open");
-> +       }
-> +
-> +       EXPECT_EQ(ioctl(fd, KCOV_INIT_TRACE, COVER_SIZE), 0)
-> +       {
-> +               perror("ioctl KCOV_INIT_TRACE");
-> +               close(fd);
-> +       }
-> +
-> +       /* Mmap buffer shared between kernel- and user-space. */
-> +       mapping = (unsigned long *)mmap(NULL, size * sizeof(unsigned long),
-> +                                       prot, MAP_SHARED, fd, 0);
-> +       ASSERT_NE((void *)mapping, MAP_FAILED)
-> +       {
-> +               perror("mmap");
-> +               close(fd);
-> +       }
-> +       *out_mapping = mapping;
-> +
-> +       return fd;
-> +}
-> +
-> +FIXTURE_SETUP(kcov)
-> +{
-> +       int prot = variant->map_readonly ? PROT_READ : (PROT_READ | PROT_WRITE);
-> +
-> +       /* Read-only mapping is incompatible with fast reset. */
-> +       ASSERT_FALSE(variant->map_readonly && variant->fast_reset);
-> +
-> +       self->mapping_size = COVER_SIZE;
-> +       self->fd = kcov_open_init(_metadata, self->mapping_size, prot,
-> +                                 &(self->mapping));
-> +
-> +       /* Enable coverage collection on the current thread. */
-> +       EXPECT_EQ(ioctl(self->fd, KCOV_ENABLE, variant->mode), 0)
-> +       {
-> +               perror("ioctl KCOV_ENABLE");
-> +               munmap(self->mapping, COVER_SIZE * sizeof(unsigned long));
-> +               close(self->fd);
-> +       }
-> +}
-> +
-> +void kcov_uninit_close(struct __test_metadata *_metadata, int fd,
-> +                      unsigned long *mapping, size_t size)
-> +{
-> +       /* Disable coverage collection for the current thread. */
-> +       EXPECT_EQ(ioctl(fd, KCOV_DISABLE, 0), 0)
-> +       {
-> +               perror("ioctl KCOV_DISABLE");
-> +       }
-> +
-> +       /* Free resources. */
-> +       EXPECT_EQ(munmap(mapping, size * sizeof(unsigned long)), 0)
-> +       {
-> +               perror("munmap");
-> +       }
-> +
-> +       EXPECT_EQ(close(fd), 0)
-> +       {
-> +               perror("close");
-> +       }
-> +}
-> +
-> +FIXTURE_TEARDOWN(kcov)
-> +{
-> +       kcov_uninit_close(_metadata, self->fd, self->mapping,
-> +                         self->mapping_size);
-> +}
-> +
-> +void dump_collected_pcs(struct __test_metadata *_metadata, unsigned long *cover,
-> +                       size_t start, size_t end)
-> +{
-> +       int i = 0;
-> +
-> +       TH_LOG("Collected %lu PCs", end - start);
-> +#if DEBUG_COVER_PCS
-> +       for (i = start; i < end; i++)
-> +               TH_LOG("0x%lx", cover[i + 1]);
-> +#endif
-> +}
-> +
-> +/* Coverage collection helper without assertions. */
-> +unsigned long collect_coverage_unchecked(struct __test_metadata *_metadata,
-> +                                        unsigned long *cover, bool dump)
-> +{
-> +       unsigned long before, after;
-> +
-> +       before = __atomic_load_n(&cover[0], __ATOMIC_RELAXED);
-> +       /*
-> +        * Call the target syscall call. Here we use read(-1, NULL, 0) as an example.
-> +        * This will likely return an error (-EFAULT or -EBADF), but the goal is to
-> +        * collect coverage for the syscall's entry/exit paths.
-> +        */
-> +       read(-1, NULL, 0);
-> +
-> +       after = __atomic_load_n(&cover[0], __ATOMIC_RELAXED);
-> +
-> +       if (dump)
-> +               dump_collected_pcs(_metadata, cover, before, after);
-> +       return after - before;
-> +}
-> +
-> +unsigned long collect_coverage_once(struct __test_metadata *_metadata,
-> +                                   unsigned long *cover)
-> +{
-> +       unsigned long collected =
-> +               collect_coverage_unchecked(_metadata, cover, /*dump*/ true);
-> +
-> +       /* Coverage must be non-zero. */
-> +       EXPECT_GT(collected, 0);
-> +       return collected;
-> +}
-> +
-> +void reset_coverage(struct __test_metadata *_metadata, bool fast, int fd,
-> +                   unsigned long *mapping)
-> +{
-> +       unsigned long count;
-> +
-> +       if (fast) {
-> +               __atomic_store_n(&mapping[0], 0, __ATOMIC_RELAXED);
-> +       } else {
-> +               EXPECT_EQ(ioctl(fd, KCOV_RESET_TRACE, 0), 0)
-> +               {
-> +                       perror("ioctl KCOV_RESET_TRACE");
-> +               }
-> +               count = __atomic_load_n(&mapping[0], __ATOMIC_RELAXED);
-> +               EXPECT_NE(count, 0);
-> +       }
-> +}
-> +
-> +TEST_F(kcov, kcov_basic_syscall_coverage)
-> +{
-> +       unsigned long first, second, before, after, i;
-> +
-> +       /* Reset coverage that may be left over from the fixture setup. */
-> +       reset_coverage(_metadata, variant->fast_reset, self->fd, self->mapping);
-> +
-> +       /* Collect the coverage for a single syscall two times in a row. */
-> +       first = collect_coverage_once(_metadata, self->mapping);
-> +       second = collect_coverage_once(_metadata, self->mapping);
-> +       /* Collected coverage should not differ too much. */
-> +       EXPECT_GT(first * 10, second);
-> +       EXPECT_GT(second * 10, first);
-> +
-> +       /* Now reset the buffer and collect the coverage again. */
-> +       reset_coverage(_metadata, variant->fast_reset, self->fd, self->mapping);
-> +       collect_coverage_once(_metadata, self->mapping);
-> +
-> +       /* Now try many times to fill up the buffer. */
-> +       reset_coverage(_metadata, variant->fast_reset, self->fd, self->mapping);
-> +       while (collect_coverage_unchecked(_metadata, self->mapping,
-> +                                         /*dump*/ false)) {
-> +               /* Do nothing. */
-> +       }
-> +       before = __atomic_load_n(&(self->mapping[0]), __ATOMIC_RELAXED);
-> +       /*
-> +        * Resetting with ioctl may still generate some coverage, but much less
-> +        * than there was before.
-> +        */
-> +       reset_coverage(_metadata, variant->fast_reset, self->fd, self->mapping);
-> +       after = __atomic_load_n(&(self->mapping[0]), __ATOMIC_RELAXED);
-> +       EXPECT_GT(before, after);
-> +       /* Collecting coverage after reset will now succeed. */
-> +       collect_coverage_once(_metadata, self->mapping);
-> +}
-> +
-> +FIXTURE(kcov_uniq)
-> +{
-> +       int fd;
-> +       unsigned long *mapping;
-> +       size_t mapping_size;
-> +       unsigned long *bitmap;
-> +       size_t bitmap_size;
-> +       unsigned long *cover;
-> +       size_t cover_size;
-> +};
-> +
-> +FIXTURE_VARIANT(kcov_uniq)
-> +{
-> +       bool fast_reset;
-> +       bool map_readonly;
-> +};
-> +
-> +/* clang-format off */
-> +FIXTURE_VARIANT_ADD(kcov_uniq, fast_rw)
-> +{
-> +       /* clang-format on */
-> +       .fast_reset = true,
-> +       .map_readonly = false,
-> +};
-> +
-> +/* clang-format off */
-> +FIXTURE_VARIANT_ADD(kcov_uniq, slow_rw)
-> +{
-> +       /* clang-format on */
-> +       .fast_reset = false,
-> +       .map_readonly = false,
-> +};
-> +
-> +/* clang-format off */
-> +FIXTURE_VARIANT_ADD(kcov_uniq, slow_ro)
-> +{
-> +       /* clang-format on */
-> +       .fast_reset = false,
-> +       .map_readonly = true,
-> +};
-> +
-> +FIXTURE_SETUP(kcov_uniq)
-> +{
-> +       int prot = variant->map_readonly ? PROT_READ : (PROT_READ | PROT_WRITE);
-> +
-> +       /* Read-only mapping is incompatible with fast reset. */
-> +       ASSERT_FALSE(variant->map_readonly && variant->fast_reset);
-> +
-> +       self->mapping_size = COVER_SIZE;
-> +       self->fd = kcov_open_init(_metadata, self->mapping_size, prot,
-> +                                 &(self->mapping));
-> +
-> +       /* Enable coverage collection on the current thread. */
-> +       EXPECT_EQ(ioctl(self->fd, KCOV_UNIQUE_ENABLE, BITMAP_SIZE), 0)
-> +       {
-> +               perror("ioctl KCOV_ENABLE");
-> +               munmap(self->mapping, COVER_SIZE * sizeof(unsigned long));
-> +               close(self->fd);
-> +       }
-> +}
-> +
-> +FIXTURE_TEARDOWN(kcov_uniq)
-> +{
-> +       kcov_uninit_close(_metadata, self->fd, self->mapping,
-> +                         self->mapping_size);
-> +}
-> +
-> +TEST_F(kcov_uniq, kcov_uniq_coverage)
-> +{
-> +       unsigned long first, second, before, after, i;
-> +
-> +       /* Reset coverage that may be left over from the fixture setup. */
-> +       reset_coverage(_metadata, variant->fast_reset, self->fd, self->mapping);
-> +
-> +       /*
-> +        * Collect the coverage for a single syscall two times in a row.
-> +        * Use collect_coverage_unchecked(), because it may return zero coverage.
-> +        */
-> +       first = collect_coverage_unchecked(_metadata, self->mapping,
-> +                                          /*dump*/ true);
-> +       second = collect_coverage_unchecked(_metadata, self->mapping,
-> +                                           /*dump*/ true);
-> +
-> +       /* Now reset the buffer and collect the coverage again. */
-> +       reset_coverage(_metadata, variant->fast_reset, self->fd, self->mapping);
-> +       collect_coverage_once(_metadata, self->mapping);
-> +
-> +       /* Now try many times to saturate the unique coverage bitmap. */
-> +       reset_coverage(_metadata, variant->fast_reset, self->fd, self->mapping);
-> +       for (i = 0; i < 1000; i++)
-> +               collect_coverage_unchecked(_metadata, self->mapping,
-> +                                          /*dump*/ false);
-> +       /* Another invocation of collect_coverage_unchecked() should not produce new coverage. */
-> +       EXPECT_EQ(collect_coverage_unchecked(_metadata, self->mapping,
-> +                                            /*dump*/ false),
-> +                 0);
-> +
-> +       before = __atomic_load_n(&(self->mapping[0]), __ATOMIC_RELAXED);
-> +       /*
-> +        * Resetting with ioctl may still generate some coverage, but much less
-> +        * than there was before.
-> +        */
-> +       reset_coverage(_metadata, variant->fast_reset, self->fd, self->mapping);
-> +       after = __atomic_load_n(&(self->mapping[0]), __ATOMIC_RELAXED);
-> +       EXPECT_GT(before, after);
-> +       /* Collecting coverage after reset will now succeed. */
-> +       collect_coverage_once(_metadata, self->mapping);
-> +}
-> +
-> +TEST_HARNESS_MAIN
-> --
-> 2.50.0.727.gbf7dc18ff4-goog
->
+-- 
+Kees Cook
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BYSfOE6Y9y-8mUwUOyyE-L3PUHUr6PuNX%3Diu-zyMyv3%3DA%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/202507091856.C6510D809A%40keescook.
