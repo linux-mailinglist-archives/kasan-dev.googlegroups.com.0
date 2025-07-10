@@ -1,157 +1,145 @@
-Return-Path: <kasan-dev+bncBC3ZPIWN3EFBBQ6DX7BQMGQEBS6FM2I@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBZUNYDBQMGQEQEFUCQQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5062B007A5
-	for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 17:52:37 +0200 (CEST)
-Received: by mail-lj1-x23b.google.com with SMTP id 38308e7fff4ca-32b78b5a8fcsf7149081fa.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 08:52:37 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1752162757; cv=pass;
+Received: from mail-pl1-x63f.google.com (mail-pl1-x63f.google.com [IPv6:2607:f8b0:4864:20::63f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73A5EB00B6F
+	for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 20:31:12 +0200 (CEST)
+Received: by mail-pl1-x63f.google.com with SMTP id d9443c01a7336-235eefe6a8fsf11018855ad.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 11:31:12 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1752172263; cv=pass;
         d=google.com; s=arc-20240605;
-        b=G+u9wg5ecD+9EOKzBaIEqUJzEPnmkpUsd4cpXkeowTiTJOiADPzYRJ6Glex3GlXx2R
-         LvsVKizd8PBATBNe1VVU5vbln227gPtgmvR/f/2fZ0fksypdK5oeSzet/yV1MIlUgakd
-         cKJBwAUr3b35sGWHX3D1e9RgOo3E7jrgCairoV5bl6BOd2SEjs0ebh6jgdgxaCzUuf9k
-         W42BUm6g+ZBys1km0z8xbb59MFnE/Jd+imeE1tp6UHIQdSU4ddccwWPREORhR4Ms55/T
-         wla6UWU0kUOAHPO6sFWYlhD/jiVgcsZVURIqYuxzufYGcmlsQetWIpKC9jjihVgVae3Z
-         cVqg==
+        b=ck7UO3iDbQt4Gs2WThv+sC3TR/YntbzaC91azjZOV2JoOVDzkQKX4GiWiPb5IYnSeh
+         pnSdRaxo1vzkzUAGMCfWidrgyrKyx7t0yz0zxDh6B5voUjW5J1Sq2SlDL4+DJQRSmrN4
+         ujSISqNr8idSsIEcsD7yb6SHVEP3/c2PLjSs5DwHZ9xduka08ztysQL5VvrE2qcN31d7
+         RR0wM3GsOmXWonn0lc+UTHzGCbBW5Z8jpAmXB+Etuq2h3+dqxq5FmTp8xFLV0NtTsXag
+         tSdIp54OAnyYGp1U0N7J35UuHgN8/UuKgmW6DdVzLthB8hxzBnuv/pWoxclzKPJAbMlK
+         T4tg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=M/gSjbb/26JQMYwPg89DbFZOhFyQhHw+A2N5+t0t/84=;
-        fh=YtBl19jTjd79O5ULxeFQC4KWU0kmMSfrpT0PlSmDxjU=;
-        b=kGqJKZKr0+EVRy3UaAkXK7bQC8Ub0E5XhPv2XjEkx6786TEnp7rotHq5bvApFQboM5
-         kdqfauVt1uD2A/WXqHLvG5BLcPZ55dg1SYf2dDqAFSPKdSU3AlWJLe+A4SnPTAKEYV5o
-         UfEKijHu00kdHQR1E4wPO7fl8b2xEn7zsu1OI1iSdT/3GFLT8AyI9HGAw/e3V83mfskh
-         LgZGUTQ4gbRRCj1zv/ckoM1UBLEkhktR8b9LuKsliSd14Jr+0bOpzOQKT80ymTduR934
-         NO8ydOhMSnHQsdF67Kzqx51DsYVB5cXAKNYr/1Nl1PZua33KflqX3zAR+KJf6U530/4p
-         h9Ew==;
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=L7reXMGsOfOgoamXhdyeqV0Mc4yvG2ZgIUI1qKUqrno=;
+        fh=NVYL8VOmZ5CggeiLuqVTLwN/3L7WZQ0KSkfd5oHSEi0=;
+        b=b6ESBQ+wUp8NzLpniVLyBowwjV0vXsuTlaBijxzco67M1UYKuTR2Js3HRZ/S5Sur5J
+         3C14LM6q0SgrQpq1sjilED+b/QZA0yG7dMvJ7LEkxF/xkz+RJWwwdAecoAFQ2cftDt5G
+         F6b6gH8ZxSNigqLypTaonvJt52YM/qG4fxBHtFNIgXr6lcqchV2iv5lGV9Z4sqhZJwkn
+         9vqt3S2JmruSPMNV/7NTSpH7+JHrlrH/+YEx10DdB4Xjw4yXBzRixoseltHauEdh6v85
+         95n6GQaQvsHz+f6oEBpqR4u98G/6IQsNKJPzDZdO+70cRTzfRhn9iYVi2+75V/LcNp/V
+         3Svg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=google header.b=IrfeoosP;
-       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::62a as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=pMXbP2GH;
+       spf=pass (google.com: domain of alx@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=alx@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1752162757; x=1752767557; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1752172263; x=1752777063; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=M/gSjbb/26JQMYwPg89DbFZOhFyQhHw+A2N5+t0t/84=;
-        b=lTa7il3Gvy6MQ5aT7uqSR0T2DTfRzmpTToVUbjnxcBXD/cvF2g8PvgbJTjYjJWAHHD
-         KjpM2RCdGl2dqEZcxO+09bqiCo8Pzls2y/e+PUKa0xH0DeoLXzRUt/wsBj/v8xObUn3P
-         /M0TO+MaBCZsYALMvOe3D8bq21rnDBjFS8EqJfK7F68M4gs/NI++pxky+lzvnPnee40c
-         m9fiJsbLEEReAAALXulzQfXvbCPWBpKGcxMx5TGP9x+CoNMgYVHzIhVu40zYgQrL+314
-         zIeparufWz23ATKUMXJnSVbtnXSX+sXjO7uzhPyj00Sy8iCM8d7qA7eujQZ+6I7B95St
-         UrjA==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=L7reXMGsOfOgoamXhdyeqV0Mc4yvG2ZgIUI1qKUqrno=;
+        b=S0m8Kva5s1fuw3l/3Ouhww7JQD5HZqPd8+VJvS/sJoTyfD48dVlBMI4Sf6cP1lk11c
+         2UCNBdDQolODWUGpHPEJpuWMb1b2dhdkz4REueZ+VuQoMMvNVVsDix3hNyysyGAbGkp3
+         x/q3FAJz+IfziHiHb8+gKYw5mq+ST4yehQZPZCMfMeZETIcg3ujoDYPk3StD6yHb8Kl9
+         +nxO4z1yy3lgP45hmFnDfB5nzdm8cCSAhkZcnfMPnqYqUqqdqXG7Ty7TuFj/1YFZNoit
+         ZEEHAQ8dTqVP7/OdmzdTlNBx0QRYo6wi2akQ/OS4DGso6iYX/GKMF5fKdrlaxHNb5Tc6
+         taTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752162757; x=1752767557;
+        d=1e100.net; s=20230601; t=1752172263; x=1752777063;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=M/gSjbb/26JQMYwPg89DbFZOhFyQhHw+A2N5+t0t/84=;
-        b=ZLpNvhHNJ7Y9iZ+nU1JJmw2EjL3xxNSJqxbdkTmR8eu2Qo8JmnBIu93OpP3w7k06TS
-         nn2I4kwFGvrzxImVkO6DRA2B9SgISvxq0ItDeiZQ3qr5yRCMaOk0+btqKpKKOaWd9/LI
-         lZM4arnKC8jhaCdL6PVKqjlL4wJPaFnr8bvTmLh1cDvpqVCBp/ytZeG/ht6tTlkiDzm3
-         ed81QIrx2zQ7RvITdixR0cFlO43L0aaa+dXJQq6G4fp+SdMATXaxH3gkpEPYR2UBYgtO
-         wsXFR25oVdn43fCW1Tjs3uPMCAk0p771BgLs8W9pUly/U9CO8p+GkKVJwk9323tpxTvS
-         wd/A==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWNt8/DUtoSyqaICGEv01aMyamkl3V4ENa59aeTbnwijFDQ+kUYKoftppJ1uAEE9uOY5+Vv1Q==@lfdr.de
-X-Gm-Message-State: AOJu0YxxjrOD1BWwjcpYCuCcPtfArdD2PlhQl+WNQFG+S4VhLIWF8uMX
-	Rj4FVro6xZ/6PKMyu5IBs/w9Cb206NckhMTqEzfrHw5gtzIX6pUNsWMJ
-X-Google-Smtp-Source: AGHT+IGWm1nvZyrDiW3pMzKX5wsoMk66XC8R3+m+gXlsIktnlVT2oi3VZ88FVA/6y3ppy23WNFzz1g==
-X-Received: by 2002:a05:651c:32c:b0:32a:778d:be86 with SMTP id 38308e7fff4ca-32fb2ebc1f7mr7568951fa.31.1752162756486;
-        Thu, 10 Jul 2025 08:52:36 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfuqxN+8GPovDplwcccyLg0audlGLcDJlYeVwyJdXMOUQ==
-Received: by 2002:a2e:b90a:0:b0:32a:70e1:1d4e with SMTP id 38308e7fff4ca-32f5006024els4021161fa.2.-pod-prod-08-eu;
- Thu, 10 Jul 2025 08:52:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUL7R6iOXIZ/t0S9srgjKNBF6hEFHQb3RL6PalJAQxWmSFnS4UGi5/GmpkWf5oB5UGOG5WA2wRCNkI=@googlegroups.com
-X-Received: by 2002:a2e:a984:0:b0:32b:7ddd:278b with SMTP id 38308e7fff4ca-3304d90b275mr7409321fa.40.1752162752398;
-        Thu, 10 Jul 2025 08:52:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1752162752; cv=none;
+        bh=L7reXMGsOfOgoamXhdyeqV0Mc4yvG2ZgIUI1qKUqrno=;
+        b=L1v14D+GG5+IvDafOi4Wwc66ZJmuob2JG8LOzW4jDXDWPoBypIvNXqUAAHSuIsy8Hy
+         Myyh27Z3BAMSeQqvpVwFdeIDcUDFqLm7J//BuWR0NW3ZjMhfcAsmmAA0eRO5j9bbyMtB
+         65gzR1AcCeZO2euHn2ZKDgvm4Swlcdd2rCV/0o1O7z51I9qytK3xYGJNMKVk9BdmwXH5
+         8GhJ5Sxgo8UL2Yhl3iiTDr0ZZCYn12L5FworhBytWhlUyHeIYsNTk+VM44m5TZYzWAyJ
+         769hq+cXOFD0JZNT41Jcm1VI/dH+t2wwbLHkXsuS83yaHWMfoF/mn/ruTeIdZdXQjnKX
+         5yrg==
+X-Forwarded-Encrypted: i=2; AJvYcCX4d9niF7D74yWwojp3tUFzyArq57bQT98NFM9yFRSR+vtFj67K70WaircTcOQ/YzfmybTMcA==@lfdr.de
+X-Gm-Message-State: AOJu0YyRBB1ezqZ4dlXud6IEC0ELxnRPMTcbEShUNCWKOJLTnO7oEzUE
+	rFsY9fqvCAU3sc/897pqFSeFy9QEc6U1dzJhgZtL6ZDg/k4BkOdRVpXW
+X-Google-Smtp-Source: AGHT+IEwgCkUwoitAd1bkrpwt9uLsRhThn829nhohL7J+CYdFLvF7GRbNGziDBKG2NclIAVF6K4EjQ==
+X-Received: by 2002:a17:902:e54f:b0:234:c65f:6c0c with SMTP id d9443c01a7336-23dede45f81mr3774745ad.15.1752172262351;
+        Thu, 10 Jul 2025 11:31:02 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdd1Ilbi7mI00Llb1FwxvXDa/YQSL6QcwaDs56tkg7tJw==
+Received: by 2002:a17:903:2055:b0:234:9fce:56ab with SMTP id
+ d9443c01a7336-23de2dfc22dls7431915ad.1.-pod-prod-04-us; Thu, 10 Jul 2025
+ 11:31:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVaBLe7l7sJjB4FfhdR56Xk02plL+3URgG1btBv7Wx1rAXKiUJ5K0K9fBTLqlKNPn0/vPThM6Gxq2w=@googlegroups.com
+X-Received: by 2002:a17:903:90e:b0:234:d7c5:a0f6 with SMTP id d9443c01a7336-23dede860c0mr3152025ad.31.1752172260671;
+        Thu, 10 Jul 2025 11:31:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1752172260; cv=none;
         d=google.com; s=arc-20240605;
-        b=fX1LfLKcPSBcv7JBp7N5Zn9VzgacCVarUxNt1yzZ05qNreN9wCvOdy/j7pJuoHxGgX
-         Q8KOuPfQDpQyK5LbHwRGN+ZNZbg6h0WQ+bz0nL2PEollUNZV4FIhQr0NnxiQnP73C9sV
-         uh8/RgEaTZ6XllJpj+ImWiefpNNfV5VMEmDitAPjAzKrNRk7zraqGiN3ZlHmZknYFxY0
-         gvbPkpAt6nHtFwMx1Lm/qfoRxUOZ9JKQpFJYhO50ZPgPz0PurW/OKFyTjWlPZ7nVn+uQ
-         RSKCeZFUpyx4QjOthgfqKDr2M82Um5w6sFKIDjgCuCk9I45AttSdkcTQUBjDkqjpoEPv
-         yLQw==
+        b=dR/wBcoP0pDwci0ssrSwQszltYCtNpAKNBeNFlCTavfGif0ws+m4Un3lxhypZZUPbc
+         nGhQ1aWqeWWulLkfhyIJHdIpZAidZ/v1kBXpm61HndHi7KirN6Cgk5OTeu9zUcDChLdP
+         4u0bqZ2TAKqbUK+O8d7dbuywT9uc0XWdIx68a2212FKwhKjAkofqaDUCQbHtzLkR0dYa
+         VXr1jelaf9R6o3VNlPTRRwssrpZD2NVgdapUD9TrXW0vqH2OpkbvKuCZv6nASsKblYN4
+         AkPUKaGZhmKsmlxz8JrIhBtksLvEKbD7KQyKH+nliXYZNNUwMIUxQpUpAhzNxC3ZTJD0
+         3NgQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=DCLKwFa0neCTBla2iQUvszaIW/YcUeww7BNmMA0A/10=;
-        fh=W2bBF6uI4pfCtebrsSoRYT9KKNxs0N9wQfKXg3BNGUc=;
-        b=EWUNzpSCpCAPjQPxrCFavvIBzldP0wgfzEfrwC2LIFc9/Yl9DdMFKqdYtQNpsFwgIu
-         MIuIofryRngj8Cptsm6NYTEDdbfstDIy/MGxZzEKzwFIH5PI/p3AEHZCVogjmjQJiClO
-         0iE+yFgRYSdhRuXefych8Y6Q8TeQRQ09bJaOR+tkX2B67u08MNu0ZtVNQFZz0scUiHCH
-         4orVP3StYR3EmTvZ/8grvxPtNvrNXAsPWhxRjSafL4e2aGdGoIDITAbZBfDQYggSRgiX
-         AeVa8bqRj6wK44op3HDRtTZETqq8FJFkiKfXxVBXZzb+liTxliRO9+MCg2AKHfPXVaWV
-         RKCA==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=lyRdOARNiPxKcJ9Sgw+OlpMDBnmziLhWvxyx39eyrL0=;
+        fh=27HATg/3q9XP1Ib0lz1m3MmiSlFXVfpHfl9a0h/+uVM=;
+        b=TY45R4396ImyPzqPzBgYVxESCk7S4BmWce5SFvfoah8nbm9Za3aAXN0Q3+xvO5wOMS
+         xZtZxkNJznutCSxke0LSEIgRpRoAZdJuf85fYeht3lLZH/uPhq3Hbq4SwzLur57TIEKM
+         +QKum3qdN0s1Fe5m9J0clGCE+A/Xsc/0XvUWgwSij0wPwo8yAv4c7iP/3o8PpPhZxgTQ
+         GcgMl8/F25JX7Ka3lbx2CAGLbajuj5PwxsdMkrI4r7mCxlSiSTkhb+cz8X5IDX6nRC3w
+         oWWaNllhXzfax+JdX2l4zQjlwm32pv4ikegp60q8Cpd1y0ewqYL5EK03wQVcexhhec6B
+         Vb5g==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=google header.b=IrfeoosP;
-       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::62a as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com. [2a00:1450:4864:20::62a])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-32fa29f22e5si490691fa.3.2025.07.10.08.52.32
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=pMXbP2GH;
+       spf=pass (google.com: domain of alx@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=alx@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-23de43411desi908565ad.11.2025.07.10.11.31.00
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Jul 2025 08:52:32 -0700 (PDT)
-Received-SPF: pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::62a as permitted sender) client-ip=2a00:1450:4864:20::62a;
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-ae3cd8fdd77so229729166b.1
-        for <kasan-dev@googlegroups.com>; Thu, 10 Jul 2025 08:52:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWW/disQdYz6oSbeCovM5w2+6fFMk5XzWwkWgGm9rKpExPmtLYwsvkxyK+xhT6B+O5B6mJ+Al4lzcI=@googlegroups.com
-X-Gm-Gg: ASbGncuwgAJJ6t4Ren6foX2YFXKHpcD+C0bCSGSqEtmFaK4nbCconOy2mRZvrssE9Xo
-	4cwCSATwLs2ijq/JZ2Fsq/gPLfHgkLiNPjJ7DbT+SkfR7jfZxDBmF07wrrJBcfvWuHQUl8d1Hzf
-	Q2YnLGQo4N9p02YO4wv2dQ45vIDlXMwZL8H4x9LxWbqkaI9R361fd9u9oXg2MrK3t4ad6Y9zeur
-	EGfJSMvyx3nltixJz45GQyaGPWOsOxzBK0c6KV/OF0hMdu38RRwlRlUi6bR0UkZAlvGOxKpkcfa
-	KiUut64f7oWw+j9hXiY/uYPxODPJLevOB6U2f4BLaNE8f2/FAb8tcy59bGRFml21fR4psuX6xUh
-	r3lhyVPVa8UvuphA4aZoFt2yFflfXaiYerQRh
-X-Received: by 2002:a17:907:60d1:b0:ae1:f1e0:8730 with SMTP id a640c23a62f3a-ae6e70ef2ecmr391355466b.57.1752162751550;
-        Thu, 10 Jul 2025 08:52:31 -0700 (PDT)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com. [209.85.208.41])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e7e949f2sm154006366b.34.2025.07.10.08.52.31
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Jul 2025 08:52:31 -0700 (PDT)
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-60700a745e5so2180044a12.3
-        for <kasan-dev@googlegroups.com>; Thu, 10 Jul 2025 08:52:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV/gF6NN33Znw3hfiwCzSYqV+WtLDZ6I65eQpWksx7C/pS1fXC+ooQ06/CVCf/cCpkVtqf69JW+2Ik=@googlegroups.com
-X-Received: by 2002:a50:9e0a:0:b0:605:878:3553 with SMTP id
- 4fb4d7f45d1cf-611c8507641mr2264146a12.16.1752162750681; Thu, 10 Jul 2025
- 08:52:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1751823326.git.alx@kernel.org> <cover.1752113247.git.alx@kernel.org>
- <0314948eb22524d8938fab645052840eb0c20cfa.1752113247.git.alx@kernel.org>
-In-Reply-To: <0314948eb22524d8938fab645052840eb0c20cfa.1752113247.git.alx@kernel.org>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 10 Jul 2025 08:52:13 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiYistgF+BBeHY_Q58-7-MZLHsvtKybrwtiF97w+aU-UQ@mail.gmail.com>
-X-Gm-Features: Ac12FXyZN9kxQm0HXniuJ3TdAUc1hQKzCbrnbibn7oPEnjnUTOgpa2jjfvxQ0Ho
-Message-ID: <CAHk-=wiYistgF+BBeHY_Q58-7-MZLHsvtKybrwtiF97w+aU-UQ@mail.gmail.com>
-Subject: Re: [RFC v4 6/7] sprintf: Add [V]SPRINTF_END()
-To: Alejandro Colomar <alx@kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Jul 2025 11:31:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of alx@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id B337F5C6CCA;
+	Thu, 10 Jul 2025 18:30:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C7FEC4CEE3;
+	Thu, 10 Jul 2025 18:30:55 +0000 (UTC)
+Date: Thu, 10 Jul 2025 20:30:52 +0200
+From: "'Alejandro Colomar' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
 	Kees Cook <kees@kernel.org>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
 	shadow <~hallyn/shadow@lists.sr.ht>, linux-kernel@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com, 
-	Dmitry Vyukov <dvyukov@google.com>, Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
-	Christoph Lameter <cl@linux.com>, David Rientjes <rientjes@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>, 
+	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, Christoph Lameter <cl@linux.com>, 
+	David Rientjes <rientjes@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
 	Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>, 
 	Andrew Clayton <andrew@digital-domain.net>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
 	Michal Hocko <mhocko@suse.com>, Al Viro <viro@zeniv.linux.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: torvalds@linux-foundation.org
+Subject: Re: [RFC v4 6/7] sprintf: Add [V]SPRINTF_END()
+Message-ID: <svune35mcrnaiuoz4xtzegnghojmphxulpb2jdgczy3tcqaijb@dskdebhbhtrq>
+References: <cover.1751823326.git.alx@kernel.org>
+ <cover.1752113247.git.alx@kernel.org>
+ <0314948eb22524d8938fab645052840eb0c20cfa.1752113247.git.alx@kernel.org>
+ <CAHk-=wiYistgF+BBeHY_Q58-7-MZLHsvtKybrwtiF97w+aU-UQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fodiyed7jhvlrxi3"
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wiYistgF+BBeHY_Q58-7-MZLHsvtKybrwtiF97w+aU-UQ@mail.gmail.com>
+X-Original-Sender: alx@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux-foundation.org header.s=google header.b=IrfeoosP;
-       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates
- 2a00:1450:4864:20::62a as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org;
-       dara=pass header.i=@googlegroups.com
+ header.i=@kernel.org header.s=k20201202 header.b=pMXbP2GH;       spf=pass
+ (google.com: domain of alx@kernel.org designates 139.178.84.217 as permitted
+ sender) smtp.mailfrom=alx@kernel.org;       dmarc=pass (p=QUARANTINE
+ sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Alejandro Colomar <alx@kernel.org>
+Reply-To: Alejandro Colomar <alx@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -164,39 +152,123 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 9 Jul 2025 at 19:49, Alejandro Colomar <alx@kernel.org> wrote:
->
-> +#define SPRINTF_END(a, fmt, ...)  sprintf_end(a, ENDOF(a), fmt, ##__VA_ARGS__)
-> +#define VSPRINTF_END(a, fmt, ap)  vsprintf_end(a, ENDOF(a), fmt, ap)
 
-So I like vsprintf_end() more as a name ("like more" not being "I love
-it", but at least it makes me think it's a bit more self-explanatory).
+--fodiyed7jhvlrxi3
+Content-Type: text/plain; protected-headers=v1; charset="UTF-8"
+Content-Disposition: inline
+From: Alejandro Colomar <alx@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
+	Kees Cook <kees@kernel.org>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
+	shadow <~hallyn/shadow@lists.sr.ht>, linux-kernel@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>, 
+	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, Christoph Lameter <cl@linux.com>, 
+	David Rientjes <rientjes@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>, 
+	Andrew Clayton <andrew@digital-domain.net>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Michal Hocko <mhocko@suse.com>, Al Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [RFC v4 6/7] sprintf: Add [V]SPRINTF_END()
+References: <cover.1751823326.git.alx@kernel.org>
+ <cover.1752113247.git.alx@kernel.org>
+ <0314948eb22524d8938fab645052840eb0c20cfa.1752113247.git.alx@kernel.org>
+ <CAHk-=wiYistgF+BBeHY_Q58-7-MZLHsvtKybrwtiF97w+aU-UQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAHk-=wiYistgF+BBeHY_Q58-7-MZLHsvtKybrwtiF97w+aU-UQ@mail.gmail.com>
 
-But I don't love screaming macros. They historically scream because
-they are unsafe, but they shouldn't be unsafe in the first place.
+Hi Linus,
 
-And I don't think those [V]SPRINTF_END() and ENDOF() macros are unsafe
-- they use our ARRAY_SIZE() macro which does not evaluate the
-argument, only the type, and is safe to use.
+On Thu, Jul 10, 2025 at 08:52:13AM -0700, Linus Torvalds wrote:
+> On Wed, 9 Jul 2025 at 19:49, Alejandro Colomar <alx@kernel.org> wrote:
+> >
+> > +#define SPRINTF_END(a, fmt, ...)  sprintf_end(a, ENDOF(a), fmt, ##__VA_ARGS__)
+> > +#define VSPRINTF_END(a, fmt, ap)  vsprintf_end(a, ENDOF(a), fmt, ap)
+> 
+> So I like vsprintf_end() more as a name ("like more" not being "I love
+> it", but at least it makes me think it's a bit more self-explanatory).
 
-So honestly, this interface looks easy to use, but the screaming must stop.
+:-)
 
-And none of this has *anything* to do with "end" in this form anyway.
+> But I don't love screaming macros. They historically scream because
+> they are unsafe, but they shouldn't be unsafe in the first place.
+> 
+> And I don't think those [V]SPRINTF_END() and ENDOF() macros are unsafe
+> - they use our ARRAY_SIZE() macro which does not evaluate the
+> argument, only the type, and is safe to use.
 
-IOW, why isn't this just
+Yup, it's safe to use.
 
-  #define sprintf_array(a,...) snprintf(a, ARRAY_SIZE(a), __VA_ARGS__)
+> So honestly, this interface looks easy to use, but the screaming must stop.
+> 
+> And none of this has *anything* to do with "end" in this form anyway.
 
-which is simpler and more direct, doesn't use the "end" version that
-is pointless (it's _literally_ about the size of the array, so
-'snprintf' is the right thing to use), doesn't scream, and has a
-rather self-explanatory name.
+That same thing happened through my head while doing it, but I didn't
+think of a better name.
 
-Naming matters.
+In shadow, we have many interfaces for which we have an uppercase macro
+version of many functions that gets array sizes and other extra safety
+measures where we can.  (So there, the uppercase versions are indeed
+extra safety, instead of the historical "there be dragons".  I use the
+uppercase to mean "this does some magic to be safer".)
 
-                Linus
+> IOW, why isn't this just
+> 
+>   #define sprintf_array(a,...) snprintf(a, ARRAY_SIZE(a), __VA_ARGS__)
+
+Agree.  This is a better name for the kernel.
+
+> which is simpler and more direct, doesn't use the "end" version that
+> is pointless (it's _literally_ about the size of the array, so
+> 'snprintf' is the right thing to use),
+
+I disagree with snprintf(3), but not because of the input, but rather
+because of the output.  I think an API similar to strscpy() would be
+better, so it can return an error code for truncation.  In fact, up to
+v2, I had a stprintf() (T for truncation) that did exactly that.
+However, I found out I could do the same with sprintf_end(), which would
+mean one less function to grok, which is why I dropped that part.
+
+I'll use your suggested name, as I like it.  Expect v5 in a few minutes.
+
+> doesn't scream, and has a
+> rather self-explanatory name.
+> 
+> Naming matters.
+
++1
+
+
+Have a lovely day!
+Alex
+
+> 
+>                 Linus
+
+-- 
+<https://www.alejandro-colomar.es/>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CAHk-%3DwiYistgF%2BBBeHY_Q58-7-MZLHsvtKybrwtiF97w%2BaU-UQ%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/svune35mcrnaiuoz4xtzegnghojmphxulpb2jdgczy3tcqaijb%40dskdebhbhtrq.
+
+--fodiyed7jhvlrxi3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmhwBtYACgkQ64mZXMKQ
+wqmOQA//bIEhEXLVgwS7mz/jBLQAGT4v53a5yhA1vSbBvckl7+P/z4tYOhS7drGu
+KipZBsVxwdBQhN097m1zOT1T1T9q4vbqFOVX1uNVL7Q2R/0WyYC5APIKDHO1ijNF
+uXc0HmMSM7Lm0CrY0nvPsI6ZGVagYdXm7QuQ9+GfBc2NAoiJU9fGRPBOjzllradR
+3ALXe1Y5c2lgE4sEPPHmAAQNK7LGIX17yx/+YlMDtbZ9/F8fYQrIyW6nkWLgoid9
+BmaQ1be4FK7NNbemif5QzHXxaLiwe3OgJrEsgEEAB7cmAvSc+bTloPpFv7UErAsq
+BRAv7ivc/Saq5S7779xS5e4GDq8MjdCG2qSMvMnUtfAuhNB90zarK5cXAdCPKvAB
+oD+7JptOjM1LHBvjK+Y7ZUIZ1JzP2/4NFtam9ioZUE+Drb5iLSGdwTYjOHzfF+Pi
+FLmGbNNQzBMl1b8kjXnOxvmMfYeYM39/eNWUxYXxrhfZGIiRnIdh3ezJreD8t5Rp
+AvqHuTbMKRbZmExHJ5sQFJ+MYH1/dOwkgpXvmhFnO78EgLJQSbW05CdDnGvlCNpj
+NvcOhy5N+fVmC64ytcS/ALIWJk6XG/Tadns1r2Dn44oDlm1po+tt5k5nT81+cL9t
+8gyc+6tp4He6Q4/zznnOCaQytRCja4eJcji3hvW3q2loFPWpzTw=
+=kDfd
+-----END PGP SIGNATURE-----
+
+--fodiyed7jhvlrxi3--
