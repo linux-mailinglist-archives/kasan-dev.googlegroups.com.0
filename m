@@ -1,115 +1,115 @@
-Return-Path: <kasan-dev+bncBAABB6O6YHBQMGQE3JBGJCI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBAG7YHBQMGQEZ7F7ZHQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3c.google.com (mail-oa1-x3c.google.com [IPv6:2001:4860:4864:20::3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60817B01107
-	for <lists+kasan-dev@lfdr.de>; Fri, 11 Jul 2025 03:57:15 +0200 (CEST)
-Received: by mail-oa1-x3c.google.com with SMTP id 586e51a60fabf-2eae95dfae3sf1644952fac.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 18:57:15 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1752199034; cv=pass;
+Received: from mail-pj1-x103b.google.com (mail-pj1-x103b.google.com [IPv6:2607:f8b0:4864:20::103b])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE408B01108
+	for <lists+kasan-dev@lfdr.de>; Fri, 11 Jul 2025 03:57:22 +0200 (CEST)
+Received: by mail-pj1-x103b.google.com with SMTP id 98e67ed59e1d1-31218e2d5b0sf2894952a91.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 18:57:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1752199041; cv=pass;
         d=google.com; s=arc-20240605;
-        b=gbuLzKpVZ9Pvn3pJ0ZORXmtrKR3GTr3ZA8VzpDgBcOR0qaX9hOepYKek2S9JyahKhl
-         ZMUOCLZBhXUcqO4y64r1cRwhwzmYUtq9MDuKUqCDPCtBiei4yQ92h6Tq7rO/Twzsy3g5
-         t9zSWX7Ytgc6PnFkDVq/U9YIwczbksGPsKPLiu8gwZXfdfrHXETA/RrNk6irW4RKcuFx
-         F2R3yyqNth8BRxRIWzgv8TEylR8mZHkYvnDFmeeDbVVpBSpC1eyREJY9mKR1M3G4UbbJ
-         +GIzVwxamjnPkeOXIkjgvM7AouoFDjjhqzBi1mYylM9vjEt6H5JDQpMGhwOFt0SUZEQ4
-         Prxg==
+        b=EKAEN4kf/FKQm+BQGe2IzUWdZI1t+Zq6IIX5ZVNsTAHVClD129p14KkEfBapXZycc7
+         r+K3JprSisdAFhWEyuabb8eBZrExbKKWXVImcjV0BPNMkv/EtO7PjV8cmu8T2fepZ4Yi
+         uqAfDP2eLNARVxyKu4u+pin4263bunKwelc0o5nE2q5D+zpaX3IfFwjgiMRnTyuunXI2
+         Bkq3hLwVLOxj4s7mssIBxLz/KLxyPgNN8CQaZT3O6eiglekd5ufBTkNlg5Oj6TYqz7v0
+         iKsaopPnMsrQxQxjpv4w8zYKSGq+pxNqXTn37+jfR5MFh8W3qfG3fahCMtcoTACxhO+y
+         qJ1g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=U9GWGxg3Uqc7uOsRoJQhGthMw2ovLm94fo1ofM72Y0c=;
-        fh=beAJ+YiWn2kkA63CQTg69i1aqDTy57FkGyaTtzUjYg0=;
-        b=QJN52g47S8yWRHJCgBAYIXIDrIhloEsXglBEfilb2gEvEOTAxFtM7mtq9cXUldVn32
-         6DPneGD83+4LqBNqraaT0dyqTQWzwJJN4rVgl7lWV6PzW6L0j04v30MpFr/7IJlp2Fsg
-         DtsWWfjLYOKPj1GBky2rYkoFHRfMCpHsnt3PqrdA/YYOgehG9noIhF4qhi2L/ei8YBXV
-         6Hx14rjGcUpEIPAnnqsYMEvkng5wTaVQ6MbMpYrjJj45V9LKA9wVs9bxXNfD0Vq9mRFk
-         GIkvKaRzovIKLoL8TR84hKP91b+vA04SHaSK5fdeAJvxkdAimkURLIYDVVAisUoat9FI
-         1mlw==;
+        bh=9RMWw/NA1tyAPBc1wwM6zcMgGUyvWx4pwSLD180T+rg=;
+        fh=EfAHsETTOMXsw2TGHgQTCKXtLDTDsZXRSBNknnTHwlA=;
+        b=bZBx6Bf2DaNe8U+QtkQktPX+OLbgn7Vx7GXgYe3Z8IVZ2Qg4vmcWqstPc+MsD3JZXO
+         sLc7/0DkviJlGsn/L0kGhR1vOeMnVJn58u5RJZp8XEY1bog6rwax2nuoHJqlTrTLfyhV
+         aHrcoGvhabOsip1bGml8FbLosjiFf8B0RlZFPlBR/DcBVkoPqDtVMargHtFj4ekcQwzL
+         5qgHJnfHkTorQSneNcQOn9sJ3QiAKFf/rN/7/d0CsJ6rsLo3Dmm0sbnm0P4RX6YZioXc
+         GVtrs+wVVU+Y1DfOl3mfZVxtPUkhWMbEqDgziXsIm6e9ABJyiJpnxALGIykOAtEDPQGp
+         0aWw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=NHhCnKgm;
-       spf=pass (google.com: domain of alx@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom=alx@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=NLhTvbdN;
+       spf=pass (google.com: domain of alx@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=alx@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1752199034; x=1752803834; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1752199041; x=1752803841; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=U9GWGxg3Uqc7uOsRoJQhGthMw2ovLm94fo1ofM72Y0c=;
-        b=eHNCzKjJYlq13qxOiJ3TJQrYAY05lAZuPYAUj+TgNyeToC+ranwzDR4SBkMubTkzoi
-         X2KOqj/RcG6rLmWJUx2D+psjcU6hxqZSZ+GfkQQ551/EsWZLxjZahGkrG44Stuq/Ytzz
-         mW5XunJ5k4PgN5Etu4aymEw7fGqoxLJ7MwZv0l1K4nwV9H4IEub5Iq/7b1qjxvrQ4Yb4
-         JUi8+G1khWlmn5fhNg8psQ0ENkHpjggVVNNZeKZjzMYRkUM+EK23Dr6kAxwf8Q6nLh1D
-         kIv/YYfpbxV1qVyjyzXydPpO6PAunm2yyurJa+ZSTikvfVO9vPGdUhHXTIHKtM0KulHF
-         OEZg==
+        bh=9RMWw/NA1tyAPBc1wwM6zcMgGUyvWx4pwSLD180T+rg=;
+        b=pdKFoIkZGNSmBMWne4gLqgD/EIu33I5euoWsMYhwisyAkLs4C3xcBpFs87i+58meDA
+         44ZtpY3M/IkZt5l0YHy8T32a5pr0L37usXt2r12co+ITmEZmaq7cdQn6IlSE1bre7R3p
+         cDgs4vns62yd8kzxTx/ljy2JNUkfjYKGVf3AjHXnHW09tkZu957GJPhFl8rnetXlHafI
+         Mm/n6rbXBiwt5C3y3Yj+iWWWYocXVjUJ3k8NruKaH1iIancHkvibCbvZonoVwUyMHOGl
+         k/yUdGt81Yu7farmyz4I3tCxrIM8yCE43lO+BPv8Gt5bB+Nl7mnX12a+VGK7a+9AqPte
+         m1gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752199034; x=1752803834;
+        d=1e100.net; s=20230601; t=1752199041; x=1752803841;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=U9GWGxg3Uqc7uOsRoJQhGthMw2ovLm94fo1ofM72Y0c=;
-        b=bdacKg82NJpwkTq0rAFyxMNpqdRHb/FMgXpJ8YFNeH+r6ddutvvBqf7U+5KGy3WFYx
-         VtgpX0l0yAa/N2pipZzGzUCD6oZo5mXpIuSjiBfuoYWuoXGYGiSvHomU13UuO/swqzi6
-         PtJR3NHyo0BslevnzwVvn/z6jqz9BE2fq5DSDHcvs1khs4io9NLLYuTWB13pNMf/xCkN
-         SoPMEKT2GjmMt2wbJBX/vvrTY22hwTyaT3dmSgoCZjJy6wGkfFm6cLkC0iEAoL/s9Gqr
-         Tjgreeg+aT1KIpTyUZy0MpqLOvUg1ULchQRmDCaLdtPmzBxdU8sd/3REkJ1jAuLWwX2C
-         Y3iA==
-X-Forwarded-Encrypted: i=2; AJvYcCUja/bhtDoWLeXv4d3vKToZe/nOSRPhKRBLjW7j7Tas60xsDGaWzVGh4XL7+4TLQRqheoCvgQ==@lfdr.de
-X-Gm-Message-State: AOJu0YywmwRD8mwjbqsnymjZw/cErzzLzQe/6b/a29HjcvVXXPOHTwyg
-	Zi26KDan4mrlE9rvIfUf8LFGUsnGF6OeLdnJStxrG6uHHTRCZVknvPkI
-X-Google-Smtp-Source: AGHT+IG2O0gWtHkEgQw4Wzf6/ZFjh+J/pcERE2LRhzfcjaImxZQrv0mf2NuNIGSOd7o0a5XApB59gg==
-X-Received: by 2002:a05:687c:20c8:b0:2eb:b4f8:fe7f with SMTP id 586e51a60fabf-2ff2676f8f0mr1135761fac.11.1752199034062;
-        Thu, 10 Jul 2025 18:57:14 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdseCCKhQCKWnQnA6how+PwhuG4LoYBd0foxEH2ybtkQA==
-Received: by 2002:a05:6870:1054:b0:2ef:17ae:f2b8 with SMTP id
- 586e51a60fabf-2ff0b8aeecals568807fac.0.-pod-prod-05-us; Thu, 10 Jul 2025
- 18:57:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCU4jr9a4kO/CbWKyC9BkYw8tImhrvh/dpxOcJF1tmIucelLZseH9KCtp0WtOieNdXI4g9lA2xHhgsg=@googlegroups.com
-X-Received: by 2002:a05:6808:11ca:b0:406:3370:3bc6 with SMTP id 5614622812f47-4150d7441c9mr1355604b6e.2.1752199032842;
-        Thu, 10 Jul 2025 18:57:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1752199032; cv=none;
+        bh=9RMWw/NA1tyAPBc1wwM6zcMgGUyvWx4pwSLD180T+rg=;
+        b=UvIfsTQ43GdTN4GPewT6WlCWTSdX/1BA7A3tp24cu50jMCHMKnUpMRg9Jz6EflJ3ws
+         UdQX3owynHA6lf68bOIADdp+Hg9gPmTsNxZwPKs3TkIiZmBDqnm0pcw26dis80Jk+25f
+         Ev/f2S2+9qmnzaKL7WOAEtEBtbT0yZ6H7go3wXcF3RN9lcTxABkLHomFhDDTDp2dh+Bn
+         aZkGmgLlws7UIwuSF+oIjG0pWl9wEzVdz2pjQ6hSx8sFDvxc4einbzm8REYNGM9NB5sW
+         35jC56iBY85LWNCrk4bhqPadcp0DTIWmNyJYBGTaxCEEZjgOWUk55/f+x4Fg/SL9n7vL
+         GAew==
+X-Forwarded-Encrypted: i=2; AJvYcCVKP7uS9ZvlfE+NG3or+Du9Q8qR/qHPiDnk08hBrBPLTpjfFAJDTKiOveD8CC4N+HmPME4d0Q==@lfdr.de
+X-Gm-Message-State: AOJu0YwBlkvhwLKkrWj2V+V0h44Lkmv3GWEBWr0jX3XGe6L/J3/r7+U8
+	2np3iLOLv2pSG0Kr3Ofjz2jJMu7FZt6KOMqnERhjR3icoYgL+6D/phc8
+X-Google-Smtp-Source: AGHT+IEeyzAth72kla4Y0c6xjaipE5C8RaK3trd/tw7IbKFbOUMtADefLR2qdrAC7DXJtlE+1pSX3w==
+X-Received: by 2002:a17:90b:4a81:b0:31a:9004:899d with SMTP id 98e67ed59e1d1-31c4ccd89b4mr2559701a91.18.1752199041174;
+        Thu, 10 Jul 2025 18:57:21 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfo3GuJ9T57fghbFNX+ODZ8dCHo1MEDsYZrAykK4vHXRg==
+Received: by 2002:a17:90a:d41:b0:315:40ea:75bd with SMTP id
+ 98e67ed59e1d1-31c3c8cc3e4ls1206484a91.2.-pod-prod-06-us; Thu, 10 Jul 2025
+ 18:57:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCU0JOW+l0AVTE4eQ9m8ZVBRmJFWddknTN/LRe8+FweS3VL4lkUQwk4sBd8dETQju2rVgTmyrook2e0=@googlegroups.com
+X-Received: by 2002:a17:90b:1c07:b0:311:9e59:7aba with SMTP id 98e67ed59e1d1-31c4ca64db7mr2342514a91.2.1752199039680;
+        Thu, 10 Jul 2025 18:57:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1752199039; cv=none;
         d=google.com; s=arc-20240605;
-        b=ATa9TtOZdt/61e5MS8WYPOqydsXiW+kNqMKiVDghGaW6Kb/RbKc+5g42o9dzOOetA/
-         ZhimQnHNY/TonuQIQmgxFrGAyBHiURM8HaHA2yyOK/K2F8CXG3BH+0eyzj+VzP4+7idT
-         KfknqgPA2dc/O5whoY6/B7aIlNQJufFpYXAY7rHNBn7mMDTFypS+5u2ugDX+i9OJEGIg
-         T8mBpylXMOS+rsrjVkiXD9Q/89eskXTjDyM8FT/4K8kZ5UHbnY1eQwE3GHXW2eAGGk7a
-         2CPYHM9hDy282RfHrwGoMTwjfjAxeNj4GB0vMbahxdv/HuUZ45myPrTSu3PKHihAyCt+
-         77bw==
+        b=FleWXeUhTMCbOK/mjE0fOanBlUD85VSHM65XOb7xn2WHgoqABJF0Dg8M5+sJeaezax
+         XqcRHF7+ElsOA/+AMhb2zQLjkmClCPsADf1TFD9H74gt9jytzeeVKbl4GsL2j7/o6AiL
+         PM/kR+L1wD8f+OqZfYlRUIBpOWtyuRbYyxyuj2ZXj8Cn2UxQqRQHLISQFOhiuUXGQMt/
+         PL/XCMNqXvQ6PA5gHg/QkiUpMpY0GQfvB9taQ8kQOQKaxoiDPqJDYkbp5lMxApQZ2dOy
+         EWDKQXGkMKb6TT/qpSqdhv5cFAxRdsso73VvsFwAN/RcMmOU6Km/llfNk6bMU7BUkIse
+         9eog==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=++evECV9nwKSxaMYRtG3Dl+zFkiyxCKX7uNVyUkPMKg=;
-        fh=+ssjY8gDudDjHil0tj8NfK+xwgMWn4uePyBSuj+F4bw=;
-        b=SZkZL9ybUBMUSw1Xdjiik7aw+JQq0hlztLZg4qCYSlCqu/OeXyhg6C4IMX6pIu4gBx
-         9Nlwj7V84AUwZP0q6J8EtxKytLnlqI5qtWt73mKl2RUz0XyS76pwkj1ibN57Wh6D5QaJ
-         2yWh+v4nSYgplWd1p91pUCkJad4BS2DlCaQ1bneFkgECDFcMZCzzm1Uqv2JqdH2b6AkL
-         aJIfr7fg6V+I+IxYsR7Ms5L3gYNU5Ez6a8qVdNLWk3ZS+9j3/v2lEKkHfTUTcvc8mC4E
-         tOR3cCRz8aNqX8Va7QBGBDu0wiOJ83v0Z6bNwAoEzcbNGN5mbrBjpgg7B1fBHUy1O36s
-         GA/Q==;
+        bh=ZTzMdAzS0MUZsG3INWu7KjxgVxyuWBJkeq2Ek55G1bY=;
+        fh=QOnzKEUq9WcvM0XNCrg2hWMbQW8+1K0P/8Aq77keZA4=;
+        b=JeijcJFUVTEBwN0Xg/1FOhcU8XM8VeLDko4+X6w9g1SjbBH0zFnaLZgcgzDgtWPdfv
+         hjC0Am4Ezf26chfdhiptl4z7mRhG0KefPusvjD7MQDMnehiY0hVP1tcHTsVjfzLpfhaD
+         q2jl/Xr+Oo8MsSJd1iSKc0lR+0o0+JStvglZenKocFcXfBEkTr/eshTDKa2zRmJ6fJYu
+         Go9sXfaSeEDn6HYlbZhcjKutFvJHbh6nMjWvQ3iMrbe52DEOGbKAHgw/RzwEsqLGcOAq
+         wIEP64Eou2uNuruGwZ7pbzHUJJBai6fYGm92UBjNQF/F5ASm65JT5Zok1FsccgYyO0mn
+         BiUQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=NHhCnKgm;
-       spf=pass (google.com: domain of alx@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom=alx@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=NLhTvbdN;
+       spf=pass (google.com: domain of alx@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=alx@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org. [2604:1380:45d1:ec00::3])
-        by gmr-mx.google.com with ESMTPS id 006d021491bc7-613d9d85ce8si190502eaf.1.2025.07.10.18.57.12
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-31c3eb4e0aasi122885a91.3.2025.07.10.18.57.19
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jul 2025 18:57:12 -0700 (PDT)
-Received-SPF: pass (google.com: domain of alx@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) client-ip=2604:1380:45d1:ec00::3;
+        Thu, 10 Jul 2025 18:57:19 -0700 (PDT)
+Received-SPF: pass (google.com: domain of alx@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 36E3EA54B34;
-	Fri, 11 Jul 2025 01:57:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E2D8C4CEE3;
-	Fri, 11 Jul 2025 01:57:06 +0000 (UTC)
-Date: Fri, 11 Jul 2025 03:57:04 +0200
+	by dfw.source.kernel.org (Postfix) with ESMTP id 00D515C6F4D;
+	Fri, 11 Jul 2025 01:57:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D0C2C4CEE3;
+	Fri, 11 Jul 2025 01:57:13 +0000 (UTC)
+Date: Fri, 11 Jul 2025 03:57:12 +0200
 From: "'Alejandro Colomar' via kasan-dev" <kasan-dev@googlegroups.com>
 To: linux-mm@kvack.org, linux-hardening@vger.kernel.org
 Cc: Alejandro Colomar <alx@kernel.org>, Kees Cook <kees@kernel.org>, 
@@ -122,11 +122,9 @@ Cc: Alejandro Colomar <alx@kernel.org>, Kees Cook <kees@kernel.org>,
 	Andrew Clayton <andrew@digital-domain.net>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
 	Michal Hocko <mhocko@suse.com>, Linus Torvalds <torvalds@linux-foundation.org>, 
 	Al Viro <viro@zeniv.linux.org.uk>, Martin Uecker <uecker@tugraz.at>, Sam James <sam@gentoo.org>, 
-	Andrew Pinski <pinskia@gmail.com>, Sven Schnelle <svens@linux.ibm.com>, 
-	Heiko Carstens <hca@linux.ibm.com>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, Chao Yu <chao.yu@oppo.com>
-Subject: [RFC v6 5/8] mm: Use sprintf_end() instead of less ergonomic APIs
-Message-ID: <8a0ffc1bf43d60e1654c10546b9f615c38f604f0.1752193588.git.alx@kernel.org>
+	Andrew Pinski <pinskia@gmail.com>
+Subject: [RFC v6 6/8] array_size.h: Add ENDOF()
+Message-ID: <37b1088dbd01a21d2f9d460aa510726119b3bcb0.1752193588.git.alx@kernel.org>
 X-Mailer: git-send-email 2.50.0
 References: <cover.1751823326.git.alx@kernel.org>
  <cover.1752193588.git.alx@kernel.org>
@@ -136,8 +134,8 @@ Content-Disposition: inline
 In-Reply-To: <cover.1752193588.git.alx@kernel.org>
 X-Original-Sender: alx@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=NHhCnKgm;       spf=pass
- (google.com: domain of alx@kernel.org designates 2604:1380:45d1:ec00::3 as
+ header.i=@kernel.org header.s=k20201202 header.b=NLhTvbdN;       spf=pass
+ (google.com: domain of alx@kernel.org designates 2604:1380:4641:c500::1 as
  permitted sender) smtp.mailfrom=alx@kernel.org;       dmarc=pass
  (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 X-Original-From: Alejandro Colomar <alx@kernel.org>
@@ -154,360 +152,40 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-While doing this, I detected some anomalies in the existing code:
-
-mm/kfence/kfence_test.c:
-
-	-  The last call to scnprintf() did increment 'cur', but it's
-	   unused after that, so it was dead code.  I've removed the dead
-	   code in this patch.
-
-	-  'end' is calculated as
-
-		end = &expect[0][sizeof(expect[0] - 1)];
-
-	   However, the '-1' doesn't seem to be necessary.  When passing
-	   $2 to scnprintf(), the size was specified as 'end - cur'.
-	   And scnprintf() --just like snprintf(3)--, won't write more
-	   than $2 bytes (including the null byte).  That means that
-	   scnprintf() wouldn't write more than
-
-		&expect[0][sizeof(expect[0]) - 1] - expect[0]
-
-	   which simplifies to
-
-		sizeof(expect[0]) - 1
-
-	   bytes.  But we have sizeof(expect[0]) bytes available, so
-	   we're wasting one byte entirely.  This is a benign off-by-one
-	   bug.  The two occurrences of this bug will be fixed in a
-	   following patch in this series.
-
-mm/kmsan/kmsan_test.c:
-
-	The same benign off-by-one bug calculating the remaining size.
-
-mm/mempolicy.c:
-
-	This file uses the 'p += snprintf()' anti-pattern.  That will
-	overflow the pointer on truncation, which has undefined
-	behavior.  Using sprintf_end(), this bug is fixed.
-
-	As in the previous file, here there was also dead code in the
-	last scnprintf() call, by incrementing a pointer that is not
-	used after the call.  I've removed the dead code.
-
-mm/page_owner.c:
-
-	Within print_page_owner(), there are some calls to scnprintf(),
-	which do report truncation.  And then there are other calls to
-	snprintf(), where we handle errors (there are two 'goto err').
-
-	I've kept the existing error handling, as I trust it's there for
-	a good reason (i.e., we may want to avoid calling
-	print_page_owner_memcg() if we truncated before).  Please review
-	if this amount of error handling is the right one, or if we want
-	to add or remove some.  For sprintf_end(), a single test for
-	null after the last call is enough to detect truncation.
-
-mm/slub.c:
-
-	Again, the 'p += snprintf()' anti-pattern.  This is UB, and by
-	using sprintf_end() we've fixed the bug.
+This macro is useful to calculate the second argument to sprintf_end(),
+avoiding off-by-one bugs.
 
 Cc: Kees Cook <kees@kernel.org>
 Cc: Christopher Bazley <chris.bazley.wg14@gmail.com>
-Cc: Sven Schnelle <svens@linux.ibm.com>
-Cc: Marco Elver <elver@google.com>
-Cc: Heiko Carstens <hca@linux.ibm.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: David Rientjes <rientjes@google.com>
-Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Cc: Chao Yu <chao.yu@oppo.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>
 Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: Marco Elver <elver@google.com>
 Cc: Michal Hocko <mhocko@suse.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: Al Viro <viro@zeniv.linux.org.uk>
 Signed-off-by: Alejandro Colomar <alx@kernel.org>
 ---
- mm/kfence/kfence_test.c | 24 ++++++++++++------------
- mm/kmsan/kmsan_test.c   |  4 ++--
- mm/mempolicy.c          | 18 +++++++++---------
- mm/page_owner.c         | 32 +++++++++++++++++---------------
- mm/slub.c               |  5 +++--
- 5 files changed, 43 insertions(+), 40 deletions(-)
+ include/linux/array_size.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
-index 00034e37bc9f..bae382eca4ab 100644
---- a/mm/kfence/kfence_test.c
-+++ b/mm/kfence/kfence_test.c
-@@ -113,26 +113,26 @@ static bool report_matches(const struct expect_report *r)
- 	end = &expect[0][sizeof(expect[0]) - 1];
- 	switch (r->type) {
- 	case KFENCE_ERROR_OOB:
--		cur += scnprintf(cur, end - cur, "BUG: KFENCE: out-of-bounds %s",
-+		cur = sprintf_end(cur, end, "BUG: KFENCE: out-of-bounds %s",
- 				 get_access_type(r));
- 		break;
- 	case KFENCE_ERROR_UAF:
--		cur += scnprintf(cur, end - cur, "BUG: KFENCE: use-after-free %s",
-+		cur = sprintf_end(cur, end, "BUG: KFENCE: use-after-free %s",
- 				 get_access_type(r));
- 		break;
- 	case KFENCE_ERROR_CORRUPTION:
--		cur += scnprintf(cur, end - cur, "BUG: KFENCE: memory corruption");
-+		cur = sprintf_end(cur, end, "BUG: KFENCE: memory corruption");
- 		break;
- 	case KFENCE_ERROR_INVALID:
--		cur += scnprintf(cur, end - cur, "BUG: KFENCE: invalid %s",
-+		cur = sprintf_end(cur, end, "BUG: KFENCE: invalid %s",
- 				 get_access_type(r));
- 		break;
- 	case KFENCE_ERROR_INVALID_FREE:
--		cur += scnprintf(cur, end - cur, "BUG: KFENCE: invalid free");
-+		cur = sprintf_end(cur, end, "BUG: KFENCE: invalid free");
- 		break;
- 	}
- 
--	scnprintf(cur, end - cur, " in %pS", r->fn);
-+	sprintf_end(cur, end, " in %pS", r->fn);
- 	/* The exact offset won't match, remove it; also strip module name. */
- 	cur = strchr(expect[0], '+');
- 	if (cur)
-@@ -144,26 +144,26 @@ static bool report_matches(const struct expect_report *r)
- 
- 	switch (r->type) {
- 	case KFENCE_ERROR_OOB:
--		cur += scnprintf(cur, end - cur, "Out-of-bounds %s at", get_access_type(r));
-+		cur = sprintf_end(cur, end, "Out-of-bounds %s at", get_access_type(r));
- 		addr = arch_kfence_test_address(addr);
- 		break;
- 	case KFENCE_ERROR_UAF:
--		cur += scnprintf(cur, end - cur, "Use-after-free %s at", get_access_type(r));
-+		cur = sprintf_end(cur, end, "Use-after-free %s at", get_access_type(r));
- 		addr = arch_kfence_test_address(addr);
- 		break;
- 	case KFENCE_ERROR_CORRUPTION:
--		cur += scnprintf(cur, end - cur, "Corrupted memory at");
-+		cur = sprintf_end(cur, end, "Corrupted memory at");
- 		break;
- 	case KFENCE_ERROR_INVALID:
--		cur += scnprintf(cur, end - cur, "Invalid %s at", get_access_type(r));
-+		cur = sprintf_end(cur, end, "Invalid %s at", get_access_type(r));
- 		addr = arch_kfence_test_address(addr);
- 		break;
- 	case KFENCE_ERROR_INVALID_FREE:
--		cur += scnprintf(cur, end - cur, "Invalid free of");
-+		cur = sprintf_end(cur, end, "Invalid free of");
- 		break;
- 	}
- 
--	cur += scnprintf(cur, end - cur, " 0x%p", (void *)addr);
-+	sprintf_end(cur, end, " 0x%p", (void *)addr);
- 
- 	spin_lock_irqsave(&observed.lock, flags);
- 	if (!report_available())
-diff --git a/mm/kmsan/kmsan_test.c b/mm/kmsan/kmsan_test.c
-index 9733a22c46c1..e48ca1972ff3 100644
---- a/mm/kmsan/kmsan_test.c
-+++ b/mm/kmsan/kmsan_test.c
-@@ -107,9 +107,9 @@ static bool report_matches(const struct expect_report *r)
- 	cur = expected_header;
- 	end = &expected_header[sizeof(expected_header) - 1];
- 
--	cur += scnprintf(cur, end - cur, "BUG: KMSAN: %s", r->error_type);
-+	cur = sprintf_end(cur, end, "BUG: KMSAN: %s", r->error_type);
- 
--	scnprintf(cur, end - cur, " in %s", r->symbol);
-+	sprintf_end(cur, end, " in %s", r->symbol);
- 	/* The exact offset won't match, remove it; also strip module name. */
- 	cur = strchr(expected_header, '+');
- 	if (cur)
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index b28a1e6ae096..6beb2710f97c 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -3359,6 +3359,7 @@ int mpol_parse_str(char *str, struct mempolicy **mpol)
- void mpol_to_str(char *buffer, int maxlen, struct mempolicy *pol)
- {
- 	char *p = buffer;
-+	char *e = buffer + maxlen;
- 	nodemask_t nodes = NODE_MASK_NONE;
- 	unsigned short mode = MPOL_DEFAULT;
- 	unsigned short flags = 0;
-@@ -3384,33 +3385,32 @@ void mpol_to_str(char *buffer, int maxlen, struct mempolicy *pol)
- 		break;
- 	default:
- 		WARN_ON_ONCE(1);
--		snprintf(p, maxlen, "unknown");
-+		sprintf_end(p, e, "unknown");
- 		return;
- 	}
- 
--	p += snprintf(p, maxlen, "%s", policy_modes[mode]);
-+	p = sprintf_end(p, e, "%s", policy_modes[mode]);
- 
- 	if (flags & MPOL_MODE_FLAGS) {
--		p += snprintf(p, buffer + maxlen - p, "=");
-+		p = sprintf_end(p, e, "=");
- 
- 		/*
- 		 * Static and relative are mutually exclusive.
- 		 */
- 		if (flags & MPOL_F_STATIC_NODES)
--			p += snprintf(p, buffer + maxlen - p, "static");
-+			p = sprintf_end(p, e, "static");
- 		else if (flags & MPOL_F_RELATIVE_NODES)
--			p += snprintf(p, buffer + maxlen - p, "relative");
-+			p = sprintf_end(p, e, "relative");
- 
- 		if (flags & MPOL_F_NUMA_BALANCING) {
- 			if (!is_power_of_2(flags & MPOL_MODE_FLAGS))
--				p += snprintf(p, buffer + maxlen - p, "|");
--			p += snprintf(p, buffer + maxlen - p, "balancing");
-+				p = sprintf_end(p, e, "|");
-+			p = sprintf_end(p, e, "balancing");
- 		}
- 	}
- 
- 	if (!nodes_empty(nodes))
--		p += scnprintf(p, buffer + maxlen - p, ":%*pbl",
--			       nodemask_pr_args(&nodes));
-+		sprintf_end(p, e, ":%*pbl", nodemask_pr_args(&nodes));
- }
- 
- #ifdef CONFIG_SYSFS
-diff --git a/mm/page_owner.c b/mm/page_owner.c
-index cc4a6916eec6..c00b3be01540 100644
---- a/mm/page_owner.c
-+++ b/mm/page_owner.c
-@@ -496,7 +496,7 @@ void pagetypeinfo_showmixedcount_print(struct seq_file *m,
- /*
-  * Looking for memcg information and print it out
+diff --git a/include/linux/array_size.h b/include/linux/array_size.h
+index 06d7d83196ca..781bdb70d939 100644
+--- a/include/linux/array_size.h
++++ b/include/linux/array_size.h
+@@ -10,4 +10,10 @@
   */
--static inline int print_page_owner_memcg(char *kbuf, size_t count, int ret,
-+static inline char *print_page_owner_memcg(char *p, const char end[0],
- 					 struct page *page)
- {
- #ifdef CONFIG_MEMCG
-@@ -511,8 +511,7 @@ static inline int print_page_owner_memcg(char *kbuf, size_t count, int ret,
- 		goto out_unlock;
+ #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
  
- 	if (memcg_data & MEMCG_DATA_OBJEXTS)
--		ret += scnprintf(kbuf + ret, count - ret,
--				"Slab cache page\n");
-+		p = sprintf_end(p, end, "Slab cache page\n");
- 
- 	memcg = page_memcg_check(page);
- 	if (!memcg)
-@@ -520,7 +519,7 @@ static inline int print_page_owner_memcg(char *kbuf, size_t count, int ret,
- 
- 	online = (memcg->css.flags & CSS_ONLINE);
- 	cgroup_name(memcg->css.cgroup, name, sizeof(name));
--	ret += scnprintf(kbuf + ret, count - ret,
-+	p = sprintf_end(p, end,
- 			"Charged %sto %smemcg %s\n",
- 			PageMemcgKmem(page) ? "(via objcg) " : "",
- 			online ? "" : "offline ",
-@@ -529,7 +528,7 @@ static inline int print_page_owner_memcg(char *kbuf, size_t count, int ret,
- 	rcu_read_unlock();
- #endif /* CONFIG_MEMCG */
- 
--	return ret;
-+	return p;
- }
- 
- static ssize_t
-@@ -538,14 +537,16 @@ print_page_owner(char __user *buf, size_t count, unsigned long pfn,
- 		depot_stack_handle_t handle)
- {
- 	int ret, pageblock_mt, page_mt;
--	char *kbuf;
-+	char *kbuf, *p, *e;
- 
- 	count = min_t(size_t, count, PAGE_SIZE);
- 	kbuf = kmalloc(count, GFP_KERNEL);
- 	if (!kbuf)
- 		return -ENOMEM;
- 
--	ret = scnprintf(kbuf, count,
-+	p = kbuf;
-+	e = kbuf + count;
-+	p = sprintf_end(p, e,
- 			"Page allocated via order %u, mask %#x(%pGg), pid %d, tgid %d (%s), ts %llu ns\n",
- 			page_owner->order, page_owner->gfp_mask,
- 			&page_owner->gfp_mask, page_owner->pid,
-@@ -555,7 +556,7 @@ print_page_owner(char __user *buf, size_t count, unsigned long pfn,
- 	/* Print information relevant to grouping pages by mobility */
- 	pageblock_mt = get_pageblock_migratetype(page);
- 	page_mt  = gfp_migratetype(page_owner->gfp_mask);
--	ret += scnprintf(kbuf + ret, count - ret,
-+	p = sprintf_end(p, e,
- 			"PFN 0x%lx type %s Block %lu type %s Flags %pGp\n",
- 			pfn,
- 			migratetype_names[page_mt],
-@@ -563,22 +564,23 @@ print_page_owner(char __user *buf, size_t count, unsigned long pfn,
- 			migratetype_names[pageblock_mt],
- 			&page->flags);
- 
--	ret += stack_depot_snprint(handle, kbuf + ret, count - ret, 0);
--	if (ret >= count)
--		goto err;
-+	p = stack_depot_sprint_end(handle, p, e, 0);
-+	if (p == NULL)
-+		goto err;  // XXX: Should we remove this error handling?
- 
- 	if (page_owner->last_migrate_reason != -1) {
--		ret += scnprintf(kbuf + ret, count - ret,
-+		p = sprintf_end(p, e,
- 			"Page has been migrated, last migrate reason: %s\n",
- 			migrate_reason_names[page_owner->last_migrate_reason]);
- 	}
- 
--	ret = print_page_owner_memcg(kbuf, count, ret, page);
-+	p = print_page_owner_memcg(p, e, page);
- 
--	ret += snprintf(kbuf + ret, count - ret, "\n");
--	if (ret >= count)
-+	p = sprintf_end(p, e, "\n");
-+	if (p == NULL)
- 		goto err;
- 
-+	ret = p - kbuf;
- 	if (copy_to_user(buf, kbuf, ret))
- 		ret = -EFAULT;
- 
-diff --git a/mm/slub.c b/mm/slub.c
-index be8b09e09d30..dcc857676857 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -7451,6 +7451,7 @@ static char *create_unique_id(struct kmem_cache *s)
- {
- 	char *name = kmalloc(ID_STR_LENGTH, GFP_KERNEL);
- 	char *p = name;
-+	char *e = name + ID_STR_LENGTH;
- 
- 	if (!name)
- 		return ERR_PTR(-ENOMEM);
-@@ -7475,9 +7476,9 @@ static char *create_unique_id(struct kmem_cache *s)
- 		*p++ = 'A';
- 	if (p != name + 1)
- 		*p++ = '-';
--	p += snprintf(p, ID_STR_LENGTH - (p - name), "%07u", s->size);
-+	p = sprintf_end(p, e, "%07u", s->size);
- 
--	if (WARN_ON(p > name + ID_STR_LENGTH - 1)) {
-+	if (WARN_ON(p == NULL)) {
- 		kfree(name);
- 		return ERR_PTR(-EINVAL);
- 	}
++/**
++ * ENDOF - get a pointer to one past the last element in array @a
++ * @a: array
++ */
++#define ENDOF(a)  (a + ARRAY_SIZE(a))
++
+ #endif  /* _LINUX_ARRAY_SIZE_H */
 -- 
 2.50.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/8a0ffc1bf43d60e1654c10546b9f615c38f604f0.1752193588.git.alx%40kernel.org.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/37b1088dbd01a21d2f9d460aa510726119b3bcb0.1752193588.git.alx%40kernel.org.
