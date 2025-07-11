@@ -1,145 +1,143 @@
-Return-Path: <kasan-dev+bncBAABBLVRYHBQMGQEDKVTLQI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBWG6YHBQMGQEEHNNRPI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x40.google.com (mail-oa1-x40.google.com [IPv6:2001:4860:4864:20::40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5622DB0101C
-	for <lists+kasan-dev@lfdr.de>; Fri, 11 Jul 2025 02:20:00 +0200 (CEST)
-Received: by mail-oa1-x40.google.com with SMTP id 586e51a60fabf-2f3bc8c5573sf1794806fac.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 17:20:00 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1752193199; cv=pass;
+Received: from mail-pl1-x63f.google.com (mail-pl1-x63f.google.com [IPv6:2607:f8b0:4864:20::63f])
+	by mail.lfdr.de (Postfix) with ESMTPS id B456BB010FF
+	for <lists+kasan-dev@lfdr.de>; Fri, 11 Jul 2025 03:56:42 +0200 (CEST)
+Received: by mail-pl1-x63f.google.com with SMTP id d9443c01a7336-23507382e64sf15966785ad.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 18:56:42 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1752199001; cv=pass;
         d=google.com; s=arc-20240605;
-        b=eEKEFkEqjmmebQTjj+XhhHAjAERuKGVMglxgBzINS2IJKhMqek3zMZJC5mXzUUqKI5
-         aTmQbt2EdeKGgz3eYexgoxR8Oi0kuDGh0TBkor17d4aAKDt8M17aRAsYv/9UMODBqMiv
-         Z+7mIngYT9FIgKCHvSC6BXmT9Jvo4xXSfYFbQx0oBHlHRx4Q+6vMXScBNkpavPVdupav
-         vVcU30rLtupkZu0AROGwLdk+Y7Hpy1kUi+1xs/BtuYwwMII366cR8/0KmT/lvmVCPhfq
-         skgWePXiYOcK9tU4c64O1AyJrk3dEJCUz8JO56VkcbtC1NhfXhmCz6jI6VhraEOwI91o
-         WUtg==
+        b=NVdBU0tMyZhSIdpKNxytBdCqoAM9/IjHJtKNTft8TylBmcluSrplNhNmTKsbufHRhi
+         7HjDonAIpoQxwP79d/goVklTjDe6xC+rDGaHTioFPHF+mZxmtJi3L/gaWjKDAjdrVS3T
+         IIbRkfnyYdGo28WTxMzhu92EsfypjlGFt6k//yT1ShgsAPg93ZXMadzBhJm53XPWYaCn
+         hwiZzyas4pnrJWKjdU4I+3WFh0Ibj7S5xmEYVrA1TA4y0UDQoKIrCLPgxIaALDA5C4z+
+         TfzcgobSu5DD166UYxwSMcw/NbFWXJmkgPLdKc22KhL+A5/Nj0U0F+pGly6TNbyaRomc
+         m3FQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=bi/Mf1dWU7uP+LT8rddpDMYcfqPOjRNwHNEL6rUBN7o=;
-        fh=EHNkBNcMduxA1yah6ziEQABXtzCpe6h8NxjpG14pqQs=;
-        b=XMKTbg1YIDo+/ZHFhBXYt3iJjMQXaiuxgN/IM6TzcR539kSbef/4VoJa04VIBXfgIG
-         CwT4n+ZAaqVchi+qzKnQMCOFo65o7CKCFxbc+YMxRkGLfNvEMIad0T9QD5S6bTLhoprI
-         7h9+xQTlzgY50pghNL/rDxoo2bS3CTeVI9ZBDbuM079H9pxOqUI40KDxQDi6L9K5G1LN
-         TlB/4krIejKC4jClIrZDiQ51QYHao40GqOvgA7b2ZnqpaBWu8O1eOtVREpf7u1gNfNQe
-         qo6h5r6bGMdyCEA4VBU/Y6sf19tIoFKaKxg5Nsvk7fvekT72+RirlwN80KH+CWW4zNrs
-         c0GA==;
+        bh=37t1P/OyeiYOJL2g6YdHAC8KZaf2gEpvnMGhjcViKeY=;
+        fh=P/Y4JKm+hnGVi96jx5ZTIDSa+pdf4gY0y4xMkysticQ=;
+        b=dINM0jfG/OdfgRrZDWRR6Ai/5LITrGmxc/Y6zFrjpI/MHSTykQwB2TMYJCB816tc75
+         +DLcXJgVxA6p+aEvtJk7aeyaZg15mVXlMj37/6pXago9jbQ0oR3CQhd6u8rnu7WYRCax
+         v3cJKOH+xt2L+exLyW6FmkPKiGEmFRoGDQ1NmUniEvis/9oCwhuypsGMxM0PKm/Feli5
+         dm++6ydbtKwBsjyupDhMdyhQ5Op/HWMMJyqge4fluJucXSudImzmHM5i2fI4Bahahrbt
+         82UZyF7t/PPYYAdtyqJjLHnlgzI00wkN9OjRAepBPLpuwroPfEYGu04IzUmAfC0WHdo2
+         Gc9w==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="Weh/yhwS";
-       spf=pass (google.com: domain of alx@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) smtp.mailfrom=alx@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=kZLNgHjX;
+       spf=pass (google.com: domain of alx@kernel.org designates 172.105.4.254 as permitted sender) smtp.mailfrom=alx@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1752193199; x=1752797999; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1752199001; x=1752803801; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bi/Mf1dWU7uP+LT8rddpDMYcfqPOjRNwHNEL6rUBN7o=;
-        b=uDNKk+Saeo8M/AZmkI2nOV2FZGYRdKfOFwWyHvKP/tmipTiruWhOgrJX3mZGy+vZlG
-         Toc+GAoY9tZwDjio9YQh1UwLL57Rf6Di+aMI6xRtvXtaWqpENix2nKNiYZb2ohpvjCD9
-         wek1ewYCmP83EzNIeNjE1UyiTf+BVpRD+jVfr4dcBrngkfrNjxWzEN4fzRZ3IZJ+UrYo
-         fpwJD3+K3ksgN3hG34feRmkrJvH+/SsqTB14rgcVFO8RMIR0HjsAlRRGLBowTzVveCRz
-         uE4Hms/or//3JjLb9zjqK7huIAzAzwsrVQV7IKJ3em+TOz7Y9+SMqTKZDDBwi9x6qAwx
-         i6sg==
+        bh=37t1P/OyeiYOJL2g6YdHAC8KZaf2gEpvnMGhjcViKeY=;
+        b=SdvGyF3x5oLPkHgQimfcqcT7Du4lWrozTJTOQkxe6xtt0wEaRAyC2hMFYqVAqfIs8N
+         u0NZZJ0qjH7EBvqD7bmHn3VehGtQ4X3wIWDEv/0OSSK+zQlYdet3fuUAY2RNN7QNpq+Q
+         sWYmx6DOOwSvHAKT5+Il4Zg2G2hcNR9v+tudE/oqg0YZpFhr2Uk+Qonjr2l0Dzl8XsmZ
+         qviJrNsaQuKMLZOtoCNTZ8UX6TZSf0e+fnXTVJLuCPRPl4yNF3FhLaGyEcnJkFifPqnc
+         6GmTw3kyskn7Zm4soV5Vtuic7I3deNPKJ61NwddTWO0xj1i3o2Ekl79wLDTxjmLZVIzq
+         6r3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752193199; x=1752797999;
+        d=1e100.net; s=20230601; t=1752199001; x=1752803801;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bi/Mf1dWU7uP+LT8rddpDMYcfqPOjRNwHNEL6rUBN7o=;
-        b=oKdnl+B2ZrtgdjE5cnEvN1i2EicxumzxsqrkD0moAf5l1f/lDKFROqqr+8+PgY1xxY
-         IwTxDqVCjwxY0yL0IPdh92m0EusVtS/b+ycpImkWepksz3GaSMiDp7RFEOVD1TjBcL3N
-         OO+wjQhn4JxBJGFVybbBdde5k7CGZTqfT9szG4ZNBO6ZdoZDAHilzgyMGsYQkjsQieFb
-         tv9Xqbpb1cTdJbnbdcFn9JI02gAIqLr08TKi5Jb1s59fruyaRUBR6MYhc5ylIKe4V97l
-         OvC791BeFBxuWE8Fvr42DV/ZkpFxnoZWFJKyQf5iAZdGTZQzCZzA9v9kVYVqLHh0TGQe
-         c2Ng==
-X-Forwarded-Encrypted: i=2; AJvYcCXQgTixXk/C5qUUvgkNyWazNfPpmrw5WUVFzwUEa2hsfFDAWdEK6DhXTgzHGur2PtykXCTDSQ==@lfdr.de
-X-Gm-Message-State: AOJu0YxW4yi9BEgXG6in7WpcHhiYhrNfYAxJJdfh//RVJPxOWpJEIQKN
-	ZAhWg2oh89TZ7sj2EgFF72TwFtYR3fnThRJMGIWDU7E2fItVfxWOTYw9
-X-Google-Smtp-Source: AGHT+IFeDthvZ3iPfEMe9ksUEplEU6+p7hZDyqXZwBGZsTghAT31Dc+Sabtd1dweD9l0yzgXG1D1pw==
-X-Received: by 2002:a05:6871:6aa:b0:2e8:ec55:aafc with SMTP id 586e51a60fabf-2ff269fb9c0mr929105fac.37.1752193198933;
-        Thu, 10 Jul 2025 17:19:58 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfrXWe5cR01sdEG8z3SPltz0nlhFrxTev3O425ZB6A+IQ==
-Received: by 2002:a05:6870:e6c9:b0:2ec:f2fe:213c with SMTP id
- 586e51a60fabf-2ff0bd2fba4ls898618fac.2.-pod-prod-05-us; Thu, 10 Jul 2025
- 17:19:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXIRm5pLh2LCNI5Zo21wYzfMKNhyLVsEtoKwaiPhJCjJKaALQMPjTyWC0ILPVxO7K5jarwjr2fJMG8=@googlegroups.com
-X-Received: by 2002:a05:6870:a450:b0:2f7:840d:3e7 with SMTP id 586e51a60fabf-2ff267aae51mr979420fac.13.1752193198177;
-        Thu, 10 Jul 2025 17:19:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1752193198; cv=none;
+        bh=37t1P/OyeiYOJL2g6YdHAC8KZaf2gEpvnMGhjcViKeY=;
+        b=wHQBtsBmoxHeYvJGwbLwPXwn8OLPOOwvMUY0TElinI4Try3cYUEg+OwgZqgzlGS47z
+         bKj2CF/c3aeK6FyMfL2oIyapu5VwOcIH1V5nDkvKQ2LDbk4fe8KEvexnVeojD+CdYZEu
+         cxJJrG3w1501mmsv8RtkkMFYWU6T5r+708tQJwg24l/0S4sdU14VWw3BuLQ/bDx7xkjm
+         QX4GzskaJTWQZWvpQOgUh/JtISRSVFcW2w8P//gZLZFTHh2BwG7zFwmwsbiKQcUCZHXB
+         b1Kl3NlNkCCRPZRpWXdwNsY1ZM+IV3SZSOqetgsZYIg3dZ1XNel9oCPlVRJhaX629nSI
+         5kEQ==
+X-Forwarded-Encrypted: i=2; AJvYcCUglsEpXYSbYEGw6d5PJnZZhXLXLILjvdNNx0HyYgVz1zKVKi7YbZQi7/MfVdAX9ge9jRewcw==@lfdr.de
+X-Gm-Message-State: AOJu0YxxHiHKDxro9yhNX8ivj128xdYvxtk280JBC8V+/Zn+imKtBrEo
+	yk7IFpMAR1+4zl5OShV8N1nWhN8R3W8/qkLYU0bDd601Ps1rGUPAx9aZ
+X-Google-Smtp-Source: AGHT+IH3Hyd50KZZ9+bzvH+TFSOcnBKa8ZLYsWc8aDMGNEGmQVDW0mnCOHf56TB0GM/+wxjBeNZipA==
+X-Received: by 2002:a17:902:e78c:b0:235:225d:3098 with SMTP id d9443c01a7336-23dee3a363amr14474325ad.46.1752199000851;
+        Thu, 10 Jul 2025 18:56:40 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZd80/Pp5CR2bITnrInBATMqnoFNBzBG8cPZItnDFGMupA==
+Received: by 2002:a17:902:c7c1:b0:234:a07c:2698 with SMTP id
+ d9443c01a7336-23de2e0d5a4ls9490685ad.1.-pod-prod-07-us; Thu, 10 Jul 2025
+ 18:56:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUSQkpgqf5v7hDgsvAMUNiDmgiqt1TsmGsr8XT0V8WGS0fWfet+ba2GxfgGX0ClAUrTb5aO/slyzPs=@googlegroups.com
+X-Received: by 2002:a17:902:db08:b0:234:8e78:ce8a with SMTP id d9443c01a7336-23dee3a62f4mr15762065ad.48.1752198999685;
+        Thu, 10 Jul 2025 18:56:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1752198999; cv=none;
         d=google.com; s=arc-20240605;
-        b=e+IopByDj/WZTOlmBYE+GwfeT+i/ZtTjVy2fDz9xScbSwuJTB2rnuDdEuo/a/YWoJc
-         +ClJNRmQ0fQSsQWbW3Et+k5UcZgjMErNPMamPAgcwvqF0d5phiIjgy2gy75sgR1cXts1
-         o8YffHo3iUuowGbRHkUPW592FJTWPIXvwdalSccFdylyZ9oki/Iq+Vd55g5JS9fgu20J
-         ZHj4vO97G5UxmcMmD/DUscsZRIZP6AQ4cOh3mXr6yfO/IELr00XSWs57Ijq92Sh/4Nqa
-         1L+6Uy9c/+YrZJZdMu+d4lWATwsxOoHEvW43VX/Sn8uvJEQHW44ZPJGD/5V/vULnE2VT
-         bo2g==
+        b=Pwi9swUXFe9+3T+Q7+GYF3XpNrOjCBFlVusw+jiSOZlOQPCV4xIKvPO7tV+vNLLOny
+         z681Ik+zP7WmCpVKo/J8oG1BkMKLJxaTr8Ir9tyMF5Q0PM9IjiQ6OvGbE9kDyLTSmv/F
+         nKzOFCO1yy0ch6A8b2Opr2brD2F9yV0i/YqmX0xwHb4N99tBU9x3KdBCO7s0ocO+3pW/
+         LxkpE2UpNxrkXtyGitgqdT7gTRHQGYeB7hwrvmrCXpCa6mJNobvE3doC18O2x4Vfxquo
+         MMqAGiG+oZ8x/2i8YMd6vTM3eGM03fd5heGfMBKhzhs9M9ArSwrRRoIuim31HT5ZIAqF
+         chug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=7anj020mL6gxQRjluBn5RQ282qTmpp0hZCMqhCUti+I=;
-        fh=zUc2rdoSbCbn7clUWHxfTk4+JRSRpIJzJWpzDhccr1w=;
-        b=Fn4jSWWJF9FXUg6EPM+35WeNYtMBedrmawu45kZW9JS5zU/wd17QLl6NVQQmrLbFZu
-         yj2I78SMK6sYqse2XbpC+mBrcU7e8/ppNH3TVERUDdbC8cAPCsyt2omw5y9fKc6k5aWg
-         b1CmJaFQdeR/rfuLIL65WcHb5zb1phYBxwhpDE7GiY/ONlqezzFXe/G0NHbqkJM4QDhj
-         J8bSeDZHioWHZjv9N4p3iGoZksDTh5YsEKrnLJXTQTO1MVErxSAPluoYXJainabD65TR
-         7yoVaKzZ4SCMsIR9l2ohxbpFgwLMVfai/onuBK/IZvxvPX3wAkUdP8kON/K4S4yIa+O2
-         uulg==;
+        bh=hklIomL9+Py3wU4DJKozEXEGrC5N+H4xo9VGphGB9eY=;
+        fh=QOnzKEUq9WcvM0XNCrg2hWMbQW8+1K0P/8Aq77keZA4=;
+        b=XDBNbFmM9JUdvThezQYIp2JiuLIkz8smnfIh/LXu/yqn0QUK524uriWHtuJPnEQlW+
+         4y1e4wk5j+wQBbnXufkRyPzaBwWa/uCcHM49CnDeC2ZzYfntvZHAzXW7AERoE8LA2/A+
+         QMkw4i8QugKAMkgqAF7YD2s99jw3r17WnYbh4mno8TZA5ha00zFiV76sC+KGzqRspDfk
+         5WEmTa39RualHB1hyTJpDsTg3ZYXM6W9JQYII4noWmigXtV8BK6Niw4jVUIO4uy71Jb7
+         ycU9UQst95SetOAFvjgkdIE/dYE07hyPSycfjU952UOhbr1Sc/2DhCrKjY6oMZ14VosT
+         SA3A==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="Weh/yhwS";
-       spf=pass (google.com: domain of alx@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) smtp.mailfrom=alx@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=kZLNgHjX;
+       spf=pass (google.com: domain of alx@kernel.org designates 172.105.4.254 as permitted sender) smtp.mailfrom=alx@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from tor.source.kernel.org (tor.source.kernel.org. [2600:3c04:e001:324:0:1991:8:25])
-        by gmr-mx.google.com with ESMTPS id 586e51a60fabf-2ff116fafc8si178746fac.5.2025.07.10.17.19.58
+Received: from tor.source.kernel.org (tor.source.kernel.org. [172.105.4.254])
+        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-b3bbe558c25si123530a12.1.2025.07.10.18.56.39
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jul 2025 17:19:58 -0700 (PDT)
-Received-SPF: pass (google.com: domain of alx@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) client-ip=2600:3c04:e001:324:0:1991:8:25;
+        Thu, 10 Jul 2025 18:56:39 -0700 (PDT)
+Received-SPF: pass (google.com: domain of alx@kernel.org designates 172.105.4.254 as permitted sender) client-ip=172.105.4.254;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 48307614A6;
-	Fri, 11 Jul 2025 00:19:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26BA0C4CEE3;
-	Fri, 11 Jul 2025 00:19:51 +0000 (UTC)
-Date: Fri, 11 Jul 2025 02:19:49 +0200
+	by tor.source.kernel.org (Postfix) with ESMTP id 72300614FE;
+	Fri, 11 Jul 2025 01:56:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2028BC4CEE3;
+	Fri, 11 Jul 2025 01:56:32 +0000 (UTC)
+Date: Fri, 11 Jul 2025 03:56:31 +0200
 From: "'Alejandro Colomar' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
-	Kees Cook <kees@kernel.org>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
-	shadow <~hallyn/shadow@lists.sr.ht>, linux-kernel@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>, 
+To: linux-mm@kvack.org, linux-hardening@vger.kernel.org
+Cc: Alejandro Colomar <alx@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Christopher Bazley <chris.bazley.wg14@gmail.com>, shadow <~hallyn/shadow@lists.sr.ht>, 
+	linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+	kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>, 
 	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, Christoph Lameter <cl@linux.com>, 
 	David Rientjes <rientjes@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
 	Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>, 
 	Andrew Clayton <andrew@digital-domain.net>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Michal Hocko <mhocko@suse.com>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Martin Uecker <uecker@tugraz.at>, Sam James <sam@gentoo.org>, Andrew Pinski <pinskia@gmail.com>
-Subject: Re: [RFC v5 6/7] sprintf: Add [v]sprintf_array()
-Message-ID: <z275r52gltcgv6gbixfdwj7z6ocn6qa26v5lif3h7n5otapiq2@37bsjlraqalo>
+	Michal Hocko <mhocko@suse.com>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Martin Uecker <uecker@tugraz.at>, Sam James <sam@gentoo.org>, 
+	Andrew Pinski <pinskia@gmail.com>
+Subject: [RFC v6 0/8] Add and use sprintf_{end,trunc,array}() instead of less
+ ergonomic APIs
+Message-ID: <cover.1752193588.git.alx@kernel.org>
+X-Mailer: git-send-email 2.50.0
 References: <cover.1751823326.git.alx@kernel.org>
- <cover.1752182685.git.alx@kernel.org>
- <04c1e026a67f1609167e834471d0f2fe977d9cb0.1752182685.git.alx@kernel.org>
- <CAHk-=wiNJQ6dVU8t7oM0sFpSqxyK8JZQXV5NGx7h+AE0PY4kag@mail.gmail.com>
- <krmt6a25gio6ing5mgahl72nvw36jc7u3zyyb5dzbk4nfjnuy4@fex2h7lqmfwt>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wxhooa7cq2eiokbj"
+Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <krmt6a25gio6ing5mgahl72nvw36jc7u3zyyb5dzbk4nfjnuy4@fex2h7lqmfwt>
+In-Reply-To: <cover.1751823326.git.alx@kernel.org>
 X-Original-Sender: alx@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b="Weh/yhwS";       spf=pass
- (google.com: domain of alx@kernel.org designates 2600:3c04:e001:324:0:1991:8:25
- as permitted sender) smtp.mailfrom=alx@kernel.org;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+ header.i=@kernel.org header.s=k20201202 header.b=kZLNgHjX;       spf=pass
+ (google.com: domain of alx@kernel.org designates 172.105.4.254 as permitted
+ sender) smtp.mailfrom=alx@kernel.org;       dmarc=pass (p=QUARANTINE
+ sp=QUARANTINE dis=NONE) header.from=kernel.org
 X-Original-From: Alejandro Colomar <alx@kernel.org>
 Reply-To: Alejandro Colomar <alx@kernel.org>
 Precedence: list
@@ -154,221 +152,211 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+Hi,
 
---wxhooa7cq2eiokbj
-Content-Type: text/plain; protected-headers=v1; charset="UTF-8"
-Content-Disposition: inline
-From: Alejandro Colomar <alx@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
-	Kees Cook <kees@kernel.org>, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
-	shadow <~hallyn/shadow@lists.sr.ht>, linux-kernel@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>, 
-	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, Christoph Lameter <cl@linux.com>, 
-	David Rientjes <rientjes@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>, 
-	Andrew Clayton <andrew@digital-domain.net>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Michal Hocko <mhocko@suse.com>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Martin Uecker <uecker@tugraz.at>, Sam James <sam@gentoo.org>, Andrew Pinski <pinskia@gmail.com>
-Subject: Re: [RFC v5 6/7] sprintf: Add [v]sprintf_array()
-References: <cover.1751823326.git.alx@kernel.org>
- <cover.1752182685.git.alx@kernel.org>
- <04c1e026a67f1609167e834471d0f2fe977d9cb0.1752182685.git.alx@kernel.org>
- <CAHk-=wiNJQ6dVU8t7oM0sFpSqxyK8JZQXV5NGx7h+AE0PY4kag@mail.gmail.com>
- <krmt6a25gio6ing5mgahl72nvw36jc7u3zyyb5dzbk4nfjnuy4@fex2h7lqmfwt>
-MIME-Version: 1.0
-In-Reply-To: <krmt6a25gio6ing5mgahl72nvw36jc7u3zyyb5dzbk4nfjnuy4@fex2h7lqmfwt>
+Changes in v6:
 
-On Fri, Jul 11, 2025 at 01:23:56AM +0200, Alejandro Colomar wrote:
-> Hi Linus,
-> 
-> [I'll reply to both of your emails at once]
-> 
-> On Thu, Jul 10, 2025 at 02:58:24PM -0700, Linus Torvalds wrote:
-> > You took my suggestion, and then you messed it up.
-> > 
-> > Your version of sprintf_array() is broken. It evaluates 'a' twice.
-> > Because unlike ARRAY_SIZE(), your broken ENDOF() macro evaluates the
-> > argument.
-> 
-> An array has no issue being evaluated twice (unless it's a VLA).  On the
-> other hand, I agree it's better to not do that in the first place.
-> My bad for forgetting about it.  Sorry.
-> 
-> On Thu, Jul 10, 2025 at 03:08:29PM -0700, Linus Torvalds wrote:
-> > If you want to return an error on truncation, do it right.  Not by
-> > returning NULL, but by actually returning an error.
-> 
-> Okay.
-> 
-> > For example, in the kernel, we finally fixed 'strcpy()'. After about a
-> > million different versions of 'copy a string' where every single
-> > version was complete garbage, we ended up with 'strscpy()'. Yeah, the
-> > name isn't lovely, but the *use* of it is:
-> 
-> I have implemented the same thing in shadow, called strtcpy() (T for
-> truncation).  (With the difference that we read the string twice, since
-> we don't care about threads.)
-> 
-> I also plan to propose standardization of that one in ISO C.
-> 
-> >  - it returns the length of the result for people who want it - which
-> > is by far the most common thing people want
-> 
-> Agree.
-> 
-> >  - it returns an actual honest-to-goodness error code if something
-> > overflowed, instead of the absoilutely horrible "source length" of the
-> > string that strlcpy() does and which is fundamentally broken (because
-> > it requires that you walk *past* the end of the source,
-> > Christ-on-a-stick what a broken interface)
-> 
-> Agree.
-> 
-> >  - it can take an array as an argument (without the need for another
-> > name - see my earlier argument about not making up new names by just
-> > having generics)
-> 
-> We can't make the same thing with sprintf() variants because they're
-> variadic, so you can't count the number of arguments.  And since the
-> 'end' argument is of the same type as the formatted string, we can't
-> do it with _Generic reliably either.
-> 
-> > Now, it has nasty naming (exactly the kind of 'add random character'
-> > naming that I was arguing against), and that comes from so many
-> > different broken versions until we hit on something that works.
-> > 
-> > strncpy is horrible garbage. strlcpy is even worse. strscpy actually
-> > works and so far hasn't caused issues (there's a 'pad' version for the
-> > very rare situation where you want 'strncpy-like' padding, but it
-> > still guarantees NUL-termination, and still has a good return value).
-> 
-> Agree.
-> 
-> > Let's agree to *not* make horrible garbage when making up new versions
-> > of sprintf.
-> 
-> Agree.  I indeed introduced the mistake accidentally in v4, after you
-> complained of having too many functions, as I was introducing not one
-> but two APIs: seprintf() and stprintf(), where seprintf() is what now
-> we're calling sprintf_end(), and stprintf() we could call it
-> sprintf_trunc().  So I did the mistake by trying to reduce the number of
-> functions to just one, which is wrong.
-> 
-> So, maybe I should go back to those functions, and just give them good
-> names.
-> 
-> What do you think of the following?
-> 
-> 	#define sprintf_array(a, ...)  sprintf_trunc(a, ARRAY_SIZE(a), __VA_ARGS__)
-> 	#define vsprintf_array(a, ap)  vsprintf_trunc(a, ARRAY_SIZE(a), ap)
+[As commented in private to Linus, I assume the NAK from Linus in v5
+ applies to the macro that evaluates twice.  This is resolved in v6, so
+ I send assuming no NAKs to the overall patch set.]
 
-Typo: forgot the fmt argument.
+-  Don't try to have a single function.  Have sprintf_end() for chaining
+   calls and sprintf_trunc() --which is the fmt version of strscpy()--
+   for single calls.  Then sprintf_array() --which is the fmt version of
+   the 2-argument strscpy()-- for single calls with an array as input.
+-  Fix implementation of sprintf_array() to not evaluate twice.
 
-> 
-> 	char *sprintf_end(char *p, const char end[0], const char *fmt, ...);
-> 	char *vsprintf_end(char *p, const char end[0], const char *fmt, va_list args);
-> 	int sprintf_trunc(char *buf, size_t size, const char *fmt, ...);
-> 	int vsprintf_trunc(char *buf, size_t size, const char *fmt, va_list args);
-> 
-> 	char *sprintf_end(char *p, const char end[0], const char *fmt, ...)
-> 	{
-> 		va_list args;
-> 
-> 		va_start(args, fmt);
-> 		p = vseprintf(p, end, fmt, args);
-> 		va_end(args);
-> 
-> 		return p;
-> 	}
-> 
-> 	char *vsprintf_end(char *p, const char end[0], const char *fmt, va_list args)
-> 	{
-> 		int len;
-> 
-> 		if (unlikely(p == NULL))
-> 			return NULL;
-> 
-> 		len = vsprintf_trunc(p, end - p, fmt, args);
-> 		if (unlikely(len < 0))
-> 			return NULL;
-> 
-> 		return p + len;
-> 	}
-> 
-> 	int sprintf_trunc(char *buf, size_t size, const char *fmt, ...)
-> 	{
-> 		va_list args;
-> 		int len;
-> 
-> 		va_start(args, fmt);
-> 		len = vstprintf(buf, size, fmt, args);
-> 		va_end(args);
-> 
-> 		return len;
-> 	}
-> 
-> 	int vsprintf_trunc(char *buf, size_t size, const char *fmt, va_list args)
-> 	{
-> 		int len;
-> 
-> 		if (WARN_ON_ONCE(size == 0 || size > INT_MAX))
-> 			return -EOVERFLOW;
-> 
-> 		len = vsnprintf(buf, size, fmt, args);
-> 		if (unlikely(len >= size))
-> 			return -E2BIG;
-> 
-> 		return len;
-> 	}
-> 
-> sprintf_trunc() is like strscpy(), but with a formatted string.  It
-> could replace uses of s[c]nprintf() where there's a single call (no
-> chained calls).
-> 
-> sprintf_array() is like the 2-argument version of strscpy().  It could
-> replace s[c]nprintf() calls where there's no chained calls, where the
-> input is an array.
-> 
-> sprintf_end() would replace the chained calls.
-> 
-> Does this sound good to you?
-> 
-> 
-> Cheers,
-> Alex
-> 
-> -- 
-> <https://www.alejandro-colomar.es/>
+These changes are essentially a roll-back to the general idea in v3,
+except for the more explicit names.
+
+Remaining questions:
+
+-  There are only 3 remaining calls to snprintf(3) under mm/.  They are
+   just fine for now, which is why I didn't replace them.  If anyone
+   wants to replace them, to get rid of all snprintf(3), we could that.
+   I think for now we can leave them, to minimize the churn.
+
+        $ grep -rnI snprintf mm/
+        mm/hugetlb_cgroup.c:674:                snprintf(buf, size, "%luGB", hsize / SZ_1G);
+        mm/hugetlb_cgroup.c:676:                snprintf(buf, size, "%luMB", hsize / SZ_1M);
+        mm/hugetlb_cgroup.c:678:                snprintf(buf, size, "%luKB", hsize / SZ_1K);
+
+   They could be replaced by sprintf_trunc().
+
+-  There are only 2 remaining calls to the kernel's scnprintf().  This
+   one I would really like to get rid of.  Also, those calls are quite
+   suspicious of not being what we want.  Please do have a look at them
+   and confirm what's the appropriate behavior in the 2 cases when the
+   string is truncated or not copied at all.  That code is very scary
+   for me to try to guess.
+
+        $ grep -rnI scnprintf mm/
+        mm/kfence/report.c:75:          int len = scnprintf(buf, sizeof(buf), "%ps", (void *)stack_entries[skipnr]);
+        mm/kfence/kfence_test.mod.c:22: { 0x96848186, "scnprintf" },
+        mm/kmsan/report.c:42:           len = scnprintf(buf, sizeof(buf), "%ps",
+
+   Apart from two calls, I see a string literal with that name.  Please
+   let me know if I should do anything about it.  I don't know what that
+   is.
+
+-  I think we should remove one error handling check in
+   "mm/page_owner.c" (marked with an XXX comment), but I'm not 100%
+   sure.  Please confirm.
+
+Other comments:
+
+-  This is still not complying to coding style.  I'll keep it like that
+   while questions remain open.
+-  I've tested the tests under CONFIG_KFENCE_KUNIT_TEST=y, and this has
+   no regressions at all.
+-  With the current style of the sprintf_end() prototyope, this triggers
+   a diagnostic due to a GCC bug:
+   <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=108036>
+   It would be interesting to ask GCC to fix that bug.  (Added relevant
+   GCC maintainers and contributors to CC in this cover letter.)
+-  The call sprintf_end(p, end, "") in lib/stackdepot.c, within
+   stack_depot_sprint_end(), produces a warning for having an empty
+   string.  This could be replaced by a strcpy_end(p, end, "") if/when
+   we add that function.
+
+For anyone new to the thread, sprintf_end() will be proposed for
+standardization soon as seprintf():
+<https://lore.kernel.org/linux-hardening/20250710024745.143955-1-alx@kernel.org/T/#u>
 
 
+Have a lovely night!
+Alex
 
+
+Alejandro Colomar (8):
+  vsprintf: Add [v]sprintf_trunc()
+  vsprintf: Add [v]sprintf_end()
+  sprintf: Add [v]sprintf_array()
+  stacktrace, stackdepot: Add sprintf_end()-like variants of functions
+  mm: Use sprintf_end() instead of less ergonomic APIs
+  array_size.h: Add ENDOF()
+  mm: Fix benign off-by-one bugs
+  mm: Use [v]sprintf_array() to avoid specifying the array size
+
+ include/linux/array_size.h |   6 +++
+ include/linux/sprintf.h    |   8 +++
+ include/linux/stackdepot.h |  13 +++++
+ include/linux/stacktrace.h |   3 ++
+ kernel/stacktrace.c        |  28 ++++++++++
+ lib/stackdepot.c           |  13 +++++
+ lib/vsprintf.c             | 107 +++++++++++++++++++++++++++++++++++++
+ mm/backing-dev.c           |   2 +-
+ mm/cma.c                   |   4 +-
+ mm/cma_debug.c             |   2 +-
+ mm/hugetlb.c               |   3 +-
+ mm/hugetlb_cgroup.c        |   2 +-
+ mm/hugetlb_cma.c           |   2 +-
+ mm/kasan/report.c          |   3 +-
+ mm/kfence/kfence_test.c    |  28 +++++-----
+ mm/kmsan/kmsan_test.c      |   6 +--
+ mm/memblock.c              |   4 +-
+ mm/mempolicy.c             |  18 +++----
+ mm/page_owner.c            |  32 +++++------
+ mm/percpu.c                |   2 +-
+ mm/shrinker_debug.c        |   2 +-
+ mm/slub.c                  |   5 +-
+ mm/zswap.c                 |   2 +-
+ 23 files changed, 237 insertions(+), 58 deletions(-)
+
+Range-diff against v5:
+-:  ------------ > 1:  dab6068bef5c vsprintf: Add [v]sprintf_trunc()
+1:  2c4f793de0b8 ! 2:  c801c9a1a90d vsprintf: Add [v]sprintf_end()
+    @@ Commit message
+         Signed-off-by: Alejandro Colomar <alx@kernel.org>
+     
+      ## include/linux/sprintf.h ##
+    -@@ include/linux/sprintf.h: __printf(3, 4) int snprintf(char *buf, size_t size, const char *fmt, ...);
+    - __printf(3, 0) int vsnprintf(char *buf, size_t size, const char *fmt, va_list args);
+    - __printf(3, 4) int scnprintf(char *buf, size_t size, const char *fmt, ...);
+    +@@ include/linux/sprintf.h: __printf(3, 4) int scnprintf(char *buf, size_t size, const char *fmt, ...);
+      __printf(3, 0) int vscnprintf(char *buf, size_t size, const char *fmt, va_list args);
+    + __printf(3, 4) int sprintf_trunc(char *buf, size_t size, const char *fmt, ...);
+    + __printf(3, 0) int vsprintf_trunc(char *buf, size_t size, const char *fmt, va_list args);
+     +__printf(3, 4) char *sprintf_end(char *p, const char end[0], const char *fmt, ...);
+     +__printf(3, 0) char *vsprintf_end(char *p, const char end[0], const char *fmt, va_list args);
+      __printf(2, 3) __malloc char *kasprintf(gfp_t gfp, const char *fmt, ...);
+    @@ include/linux/sprintf.h: __printf(3, 4) int snprintf(char *buf, size_t size, con
+      __printf(2, 0) const char *kvasprintf_const(gfp_t gfp, const char *fmt, va_list args);
+     
+      ## lib/vsprintf.c ##
+    -@@ lib/vsprintf.c: int vscnprintf(char *buf, size_t size, const char *fmt, va_list args)
+    +@@ lib/vsprintf.c: int vsprintf_trunc(char *buf, size_t size, const char *fmt, va_list args)
+      }
+    - EXPORT_SYMBOL(vscnprintf);
+    + EXPORT_SYMBOL(vsprintf_trunc);
+      
+     +/**
+     + * vsprintf_end - va_list string end-delimited print formatted
+    @@ lib/vsprintf.c: int vscnprintf(char *buf, size_t size, const char *fmt, va_list
+     +char *vsprintf_end(char *p, const char end[0], const char *fmt, va_list args)
+     +{
+     +  int len;
+    -+  size_t size;
+     +
+     +  if (unlikely(p == NULL))
+     +          return NULL;
+     +
+    -+  size = end - p;
+    -+  if (WARN_ON_ONCE(size == 0 || size > INT_MAX))
+    -+          return NULL;
+    -+
+    -+  len = vsnprintf(p, size, fmt, args);
+    -+  if (unlikely(len >= size))
+    ++  len = vsprintf_trunc(p, end - p, fmt, args);
+    ++  if (unlikely(len < 0))
+     +          return NULL;
+     +
+     +  return p + len;
+    @@ lib/vsprintf.c: int vscnprintf(char *buf, size_t size, const char *fmt, va_list
+      /**
+       * snprintf - Format a string and place it in a buffer
+       * @buf: The buffer to place the result into
+    -@@ lib/vsprintf.c: int scnprintf(char *buf, size_t size, const char *fmt, ...)
+    +@@ lib/vsprintf.c: int sprintf_trunc(char *buf, size_t size, const char *fmt, ...)
+      }
+    - EXPORT_SYMBOL(scnprintf);
+    + EXPORT_SYMBOL(sprintf_trunc);
+      
+     +/**
+     + * sprintf_end - string end-delimited print formatted
+6:  04c1e026a67f ! 3:  9348d5df2d9f sprintf: Add [v]sprintf_array()
+    @@ Commit message
+         array.
+     
+         These macros are essentially the same as the 2-argument version of
+    -    strscpy(), but with a formatted string, and returning a pointer to the
+    -    terminating '\0' (or NULL, on error).
+    +    strscpy(), but with a formatted string.
+     
+         Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+         Cc: Marco Elver <elver@google.com>
+    @@ include/linux/sprintf.h
+      #include <linux/types.h>
+     +#include <linux/array_size.h>
+     +
+    -+#define sprintf_array(a, fmt, ...)  sprintf_end(a, ENDOF(a), fmt, ##__VA_ARGS__)
+    -+#define vsprintf_array(a, fmt, ap)  vsprintf_end(a, ENDOF(a), fmt, ap)
+    ++#define sprintf_array(a, fmt, ...)  sprintf_trunc(a, ARRAY_SIZE(a), fmt, ##__VA_ARGS__)
+    ++#define vsprintf_array(a, fmt, ap)  vsprintf_trunc(a, ARRAY_SIZE(a), fmt, ap)
+      
+      int num_to_str(char *buf, int size, unsigned long long num, unsigned int width);
+      
+2:  894d02b08056 = 4:  6c5d8e6012f0 stacktrace, stackdepot: Add sprintf_end()-like variants of functions
+3:  690ed4d22f57 = 5:  8a0ffc1bf43d mm: Use sprintf_end() instead of less ergonomic APIs
+4:  e05c5afabb3c = 6:  37b1088dbd01 array_size.h: Add ENDOF()
+5:  515445ae064d = 7:  c88780354e13 mm: Fix benign off-by-one bugs
+7:  e53d87e684ef = 8:  aa6323cbea64 mm: Use [v]sprintf_array() to avoid specifying the array size
+
+base-commit: 0ff41df1cb268fc69e703a08a57ee14ae967d0ca
 -- 
-<https://www.alejandro-colomar.es/>
+2.50.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/z275r52gltcgv6gbixfdwj7z6ocn6qa26v5lif3h7n5otapiq2%4037bsjlraqalo.
-
---wxhooa7cq2eiokbj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmhwWKUACgkQ64mZXMKQ
-wqlpAw//RdeLKJ5j+1r2HH8/miXwNO+Td73GjSPzQwmr0qv5WC6xsxijQKo0TqcZ
-hCbrsLeLZwNnEOqaOpGJzyUyROAoqpFDN6WsPa2N4ZvZdPoktE2PwkUzTcCscJG7
-H/cZigcGgcQn2vNWM6RvGPCYrATCt7ijFBiuWsw42ojhDyLsF5WrmuzyD7z+zCOr
-/QuqtAH3pcX8lyyQQbKDqJKwoUDg0LR6jwnqYLuHPALsFH3h3NKKYanRGUqM5if3
-FfN9XQu+YGRAAIl0LNPD97im7wi0EVdt0VmnmVB8B0SuS2aBE6tEyQoP90lSkY5h
-X37I7y7fyevgIl/nfsOaWWe6kYSbFqI2gIRh4YE0pN0eaYwyiclf7L+GHu8ZyZs+
-ABUSDY9H7UThNDDC9mgZE4Cs9qTeCgAU0TllLqcrxVI15JsTriRIayp7dmCCZx4y
-eZg9sizGjpd6/X/s7F8w6yAWEvfVxt8Vcfm/064Z1/UtvkK/pRA04324lPZbVxVK
-l79tjbCwzIyfvtyhTPlCvCCOl5vSKGrsiTgxQDd0rGsMxj7bsmfehMAbvHIwYhGu
-dB2Mgil21Ce0I38Vx0oGdlaOQtXGSl1OCDttCcD+kkxjqfY0nJTX6psFr9DIQzhe
-BSdqZU3Kd2uKHWLPmxH0xAy7EzJ9iuECkOnGL3J9SKg8VLiWCg0=
-=KM9i
------END PGP SIGNATURE-----
-
---wxhooa7cq2eiokbj--
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/cover.1752193588.git.alx%40kernel.org.
