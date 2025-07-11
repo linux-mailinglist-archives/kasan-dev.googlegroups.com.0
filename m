@@ -1,115 +1,115 @@
-Return-Path: <kasan-dev+bncBAABB4O6YHBQMGQEJMLNMNQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB6O6YHBQMGQE3JBGJCI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23f.google.com (mail-oi1-x23f.google.com [IPv6:2607:f8b0:4864:20::23f])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F99B01106
-	for <lists+kasan-dev@lfdr.de>; Fri, 11 Jul 2025 03:57:07 +0200 (CEST)
-Received: by mail-oi1-x23f.google.com with SMTP id 5614622812f47-408d05d8c03sf600601b6e.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 18:57:07 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1752199026; cv=pass;
+Received: from mail-oa1-x3c.google.com (mail-oa1-x3c.google.com [IPv6:2001:4860:4864:20::3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60817B01107
+	for <lists+kasan-dev@lfdr.de>; Fri, 11 Jul 2025 03:57:15 +0200 (CEST)
+Received: by mail-oa1-x3c.google.com with SMTP id 586e51a60fabf-2eae95dfae3sf1644952fac.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 18:57:15 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1752199034; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Oz9xrzlsQmhfeTm+tbR/C529DMUGh60XO4h+fN+2GYO+OtMT2tJ4pgI0+H1qmFk/Bl
-         G7WO1pBG9JRlSyvejYHA2orgKY3lyNmmk+qQbshDKR83Mr5SqUxgW3nT5UWhR66CXp+8
-         5bna3lhDcUpLh68SFHEQNFwFPZ0mjlhMizySdr1MKoYYsWyZbtSHvFksYrt8EggWBDcC
-         HxurpZOf0TN9OjPI6rWCeRiuHGLz7ubPysmc2NKuUbEGGy0BECvBIzmslFs2PhMs/sl+
-         6v70S2UYly9P2sVv7topUsYPLTzV2XfHufBKpeRSInbRa5tSV6nsGxWn/YLZfS0nWJRk
-         4HgQ==
+        b=gbuLzKpVZ9Pvn3pJ0ZORXmtrKR3GTr3ZA8VzpDgBcOR0qaX9hOepYKek2S9JyahKhl
+         ZMUOCLZBhXUcqO4y64r1cRwhwzmYUtq9MDuKUqCDPCtBiei4yQ92h6Tq7rO/Twzsy3g5
+         t9zSWX7Ytgc6PnFkDVq/U9YIwczbksGPsKPLiu8gwZXfdfrHXETA/RrNk6irW4RKcuFx
+         F2R3yyqNth8BRxRIWzgv8TEylR8mZHkYvnDFmeeDbVVpBSpC1eyREJY9mKR1M3G4UbbJ
+         +GIzVwxamjnPkeOXIkjgvM7AouoFDjjhqzBi1mYylM9vjEt6H5JDQpMGhwOFt0SUZEQ4
+         Prxg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=uKnVmWfkut8XL91a7kHdXhpF+4l9qYf5VkVk1b8x/nY=;
-        fh=UFKCzd27Yme1QhWAuV1uutoRmpFjvKRMefYOhnWfcoU=;
-        b=YawtDG9xxj/zXtmT/UYFDNkRY2DOWRxeknOCYngbgDDM+2Zq2K6niroPCE21DABG79
-         9h2PZ0j1/0SPmpUWK9OoJy69sVfiHDii5qMFZ6xRIIAWxaR4n/u3FaiVJj6C7AxE79Hk
-         eBhBkCIuvjV0gta8GSjQw7R39imPJy/b7Qpavmvf5dtnFXCMdBnEqeOZx2HXsAZ3FNly
-         uICeu/cTlx2BodaCnqwqfYj3Zgjxg37wC2G3DRV5ykHz/TzSykrOZU1dKVtVZVFKLStY
-         AaWZCC5zHpmkNXgD2QDpW3UwPOgdMyOddJhnap9X2N+4eW2idEFbYsi+BR2owaEL5QB/
-         zDVw==;
+        bh=U9GWGxg3Uqc7uOsRoJQhGthMw2ovLm94fo1ofM72Y0c=;
+        fh=beAJ+YiWn2kkA63CQTg69i1aqDTy57FkGyaTtzUjYg0=;
+        b=QJN52g47S8yWRHJCgBAYIXIDrIhloEsXglBEfilb2gEvEOTAxFtM7mtq9cXUldVn32
+         6DPneGD83+4LqBNqraaT0dyqTQWzwJJN4rVgl7lWV6PzW6L0j04v30MpFr/7IJlp2Fsg
+         DtsWWfjLYOKPj1GBky2rYkoFHRfMCpHsnt3PqrdA/YYOgehG9noIhF4qhi2L/ei8YBXV
+         6Hx14rjGcUpEIPAnnqsYMEvkng5wTaVQ6MbMpYrjJj45V9LKA9wVs9bxXNfD0Vq9mRFk
+         GIkvKaRzovIKLoL8TR84hKP91b+vA04SHaSK5fdeAJvxkdAimkURLIYDVVAisUoat9FI
+         1mlw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=b+yrik1Y;
-       spf=pass (google.com: domain of alx@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=alx@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=NHhCnKgm;
+       spf=pass (google.com: domain of alx@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom=alx@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1752199026; x=1752803826; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1752199034; x=1752803834; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uKnVmWfkut8XL91a7kHdXhpF+4l9qYf5VkVk1b8x/nY=;
-        b=dl7rhrGp56fW36twLQEyoLueIGvIOlQwXtBgMEBUi9lmb4WPmb4pxWVlKAD7cBxp8e
-         8iQuM/cYB/4hhuSUG8oVo87LC3ywHu3xCVnaj7GWqKtZvOAf2KrckSMEdGcuFvB+IKzK
-         7qbTQVvlqv94Ynp82Tac2XpXE8aUdqToYoj5CHkB4599wP9i5tvKMJNu2tWerRMJj28Q
-         Hiex8R/U8/BDj7JGvIbHu43syC5uOLZbTUzizgID9zoLgVcItr6/e0nmtG9eMoTEC02Z
-         VQZIhM0eZ0W2P9H36lRb2x5R4Nqq44jELHGYGRavLMpIMQRt6WqAkruiJFuXSfyPda3J
-         R+oQ==
+        bh=U9GWGxg3Uqc7uOsRoJQhGthMw2ovLm94fo1ofM72Y0c=;
+        b=eHNCzKjJYlq13qxOiJ3TJQrYAY05lAZuPYAUj+TgNyeToC+ranwzDR4SBkMubTkzoi
+         X2KOqj/RcG6rLmWJUx2D+psjcU6hxqZSZ+GfkQQ551/EsWZLxjZahGkrG44Stuq/Ytzz
+         mW5XunJ5k4PgN5Etu4aymEw7fGqoxLJ7MwZv0l1K4nwV9H4IEub5Iq/7b1qjxvrQ4Yb4
+         JUi8+G1khWlmn5fhNg8psQ0ENkHpjggVVNNZeKZjzMYRkUM+EK23Dr6kAxwf8Q6nLh1D
+         kIv/YYfpbxV1qVyjyzXydPpO6PAunm2yyurJa+ZSTikvfVO9vPGdUhHXTIHKtM0KulHF
+         OEZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752199026; x=1752803826;
+        d=1e100.net; s=20230601; t=1752199034; x=1752803834;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uKnVmWfkut8XL91a7kHdXhpF+4l9qYf5VkVk1b8x/nY=;
-        b=q7AIVlHxWyN81BLct4tvFm9QqRdQe38eTGd8Ag/1Ca/xnB6cNvtAcnSpioN5vpPtmD
-         QNP5S0zScAMVEzDGsd3bqsQWl7SzWiQ2V03kUchOqWJ+5xMmA3o2+rOV5P16PKZu8u3J
-         PmBhoegNc4+D3rie0cZjnH3DVVxXa3fT90fb7TXdatMk10FRegeiZwWQLNW/ZqQafGRa
-         K5lQL3+3PO9+OkRN4QdOJC0Ngkwa/dIOFg2peRSxfdLMfU9bBhVGbOYDCoSBou2QcKCC
-         dBys6N0/V8dbfZrmflGMA9WabpAGR1JmWskjJteBnBpHC4NvjarGNuDkJwbh1u8sU/9g
-         CS0w==
-X-Forwarded-Encrypted: i=2; AJvYcCVidGKHvhRakuoR9JZx+SaXJVl1e5WWX5pSJLedG5Gz+1nadLM2A8oywHBEKJujKxxn5ZKYQw==@lfdr.de
-X-Gm-Message-State: AOJu0Yx0oZ82pvW2mF/P6jwMeFYEn7ahuhpFbFWsSiV5nnN5gvlzXQWs
-	1mayJwaRGqO3N4GGn0Mwqw0YYoAR7tgu7j9fgduewFzd9L3l4V6tczEG
-X-Google-Smtp-Source: AGHT+IFNvG4DbU+zIHa/JMeWrKuXX0Sox6c/6CTxN/Qmt6bPHojyjU4InewrTQA+LHTrSOaROekJLQ==
-X-Received: by 2002:a05:6820:1e8a:b0:611:af6f:ee77 with SMTP id 006d021491bc7-613e6054038mr929392eaf.8.1752199026203;
-        Thu, 10 Jul 2025 18:57:06 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcRqYDtUHSyz23zSc2y+OonneuXzYSPj2BOCFfCRhiqBQ==
-Received: by 2002:a05:6820:f44:b0:611:6efe:3007 with SMTP id
- 006d021491bc7-613d7d065ebls384357eaf.2.-pod-prod-04-us; Thu, 10 Jul 2025
- 18:57:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWFeyRjXmewBHLDmxsUXa1Nf5ijb/dLqembSfN/yViLt7B6SxgLN4f5D6Z379dpWIkFzeClAbC6JI8=@googlegroups.com
-X-Received: by 2002:a05:6820:4deb:b0:613:d673:c01b with SMTP id 006d021491bc7-613e5d3970cmr917918eaf.0.1752199025050;
-        Thu, 10 Jul 2025 18:57:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1752199025; cv=none;
+        bh=U9GWGxg3Uqc7uOsRoJQhGthMw2ovLm94fo1ofM72Y0c=;
+        b=bdacKg82NJpwkTq0rAFyxMNpqdRHb/FMgXpJ8YFNeH+r6ddutvvBqf7U+5KGy3WFYx
+         VtgpX0l0yAa/N2pipZzGzUCD6oZo5mXpIuSjiBfuoYWuoXGYGiSvHomU13UuO/swqzi6
+         PtJR3NHyo0BslevnzwVvn/z6jqz9BE2fq5DSDHcvs1khs4io9NLLYuTWB13pNMf/xCkN
+         SoPMEKT2GjmMt2wbJBX/vvrTY22hwTyaT3dmSgoCZjJy6wGkfFm6cLkC0iEAoL/s9Gqr
+         Tjgreeg+aT1KIpTyUZy0MpqLOvUg1ULchQRmDCaLdtPmzBxdU8sd/3REkJ1jAuLWwX2C
+         Y3iA==
+X-Forwarded-Encrypted: i=2; AJvYcCUja/bhtDoWLeXv4d3vKToZe/nOSRPhKRBLjW7j7Tas60xsDGaWzVGh4XL7+4TLQRqheoCvgQ==@lfdr.de
+X-Gm-Message-State: AOJu0YywmwRD8mwjbqsnymjZw/cErzzLzQe/6b/a29HjcvVXXPOHTwyg
+	Zi26KDan4mrlE9rvIfUf8LFGUsnGF6OeLdnJStxrG6uHHTRCZVknvPkI
+X-Google-Smtp-Source: AGHT+IG2O0gWtHkEgQw4Wzf6/ZFjh+J/pcERE2LRhzfcjaImxZQrv0mf2NuNIGSOd7o0a5XApB59gg==
+X-Received: by 2002:a05:687c:20c8:b0:2eb:b4f8:fe7f with SMTP id 586e51a60fabf-2ff2676f8f0mr1135761fac.11.1752199034062;
+        Thu, 10 Jul 2025 18:57:14 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdseCCKhQCKWnQnA6how+PwhuG4LoYBd0foxEH2ybtkQA==
+Received: by 2002:a05:6870:1054:b0:2ef:17ae:f2b8 with SMTP id
+ 586e51a60fabf-2ff0b8aeecals568807fac.0.-pod-prod-05-us; Thu, 10 Jul 2025
+ 18:57:13 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCU4jr9a4kO/CbWKyC9BkYw8tImhrvh/dpxOcJF1tmIucelLZseH9KCtp0WtOieNdXI4g9lA2xHhgsg=@googlegroups.com
+X-Received: by 2002:a05:6808:11ca:b0:406:3370:3bc6 with SMTP id 5614622812f47-4150d7441c9mr1355604b6e.2.1752199032842;
+        Thu, 10 Jul 2025 18:57:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1752199032; cv=none;
         d=google.com; s=arc-20240605;
-        b=Eye3Ra/MmfyL1KX915FqEkPnzsdpRFgANSm+aSdPvlaV6ntW7M7DthQT4CNVYGEhsh
-         xnXIOfZlJrf4PNnHBCMhzAXmnspz95455Y1E9V93rRR1YUmiJ5Px8NndAq2jo3VpVKrn
-         gtmdzGU1/ug+6FRKYiDqTBeVDn8/mrebHVuHe8IOXO8u4JDHXUBWlst28yZ9+iPsSljI
-         yKphhJQh3LxZtHDOOtkSKKMR9KbXerq+vCRHEIWFdjsw2St2vutH7voW+aBaHFFAAESl
-         4d+SKZ/xZVPl1cJ7sY/6xakO6jLj/TF2CxHHPHSh5lAtGcQA8RUVrHJqpZ2vz/qTPMvV
-         NsIQ==
+        b=ATa9TtOZdt/61e5MS8WYPOqydsXiW+kNqMKiVDghGaW6Kb/RbKc+5g42o9dzOOetA/
+         ZhimQnHNY/TonuQIQmgxFrGAyBHiURM8HaHA2yyOK/K2F8CXG3BH+0eyzj+VzP4+7idT
+         KfknqgPA2dc/O5whoY6/B7aIlNQJufFpYXAY7rHNBn7mMDTFypS+5u2ugDX+i9OJEGIg
+         T8mBpylXMOS+rsrjVkiXD9Q/89eskXTjDyM8FT/4K8kZ5UHbnY1eQwE3GHXW2eAGGk7a
+         2CPYHM9hDy282RfHrwGoMTwjfjAxeNj4GB0vMbahxdv/HuUZ45myPrTSu3PKHihAyCt+
+         77bw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=FG5EU/f/hB5bUkYkfvMhOxqTQ8gFlOM0lPZIWF+q+cc=;
-        fh=QOnzKEUq9WcvM0XNCrg2hWMbQW8+1K0P/8Aq77keZA4=;
-        b=TNF9cUKd2JEkAhECZLGmDNf/3/AMMPCt+q+GbrGeVjmbc8SH1CRhd+I4tuCVmd82gK
-         0GMFShX2Y9j/EF8HRS70ylsnTMXIzUD1Z4AGny4eHJno2LWMduKxS3zjIaYtnbK2WX/S
-         NRFWCeHnsbTYJlFxNrI3wzwvFHLa4KzqLefpRIuSFka9J7EOPFy4TLzYzMo86Iew1LDC
-         XA3ImRBZE1G+NO+PUgMJGRaQn/cvswtanE0jyN3b7WpTPflDa8FY+qLMH8rtE/6oyEm3
-         8ppwUcgCw0XiUf/pO4+cferm9N3NQ53lO45pJHeZgmsrM93Mqr5x7y0b6uwV9P7x/Ijn
-         c0LA==;
+        bh=++evECV9nwKSxaMYRtG3Dl+zFkiyxCKX7uNVyUkPMKg=;
+        fh=+ssjY8gDudDjHil0tj8NfK+xwgMWn4uePyBSuj+F4bw=;
+        b=SZkZL9ybUBMUSw1Xdjiik7aw+JQq0hlztLZg4qCYSlCqu/OeXyhg6C4IMX6pIu4gBx
+         9Nlwj7V84AUwZP0q6J8EtxKytLnlqI5qtWt73mKl2RUz0XyS76pwkj1ibN57Wh6D5QaJ
+         2yWh+v4nSYgplWd1p91pUCkJad4BS2DlCaQ1bneFkgECDFcMZCzzm1Uqv2JqdH2b6AkL
+         aJIfr7fg6V+I+IxYsR7Ms5L3gYNU5Ez6a8qVdNLWk3ZS+9j3/v2lEKkHfTUTcvc8mC4E
+         tOR3cCRz8aNqX8Va7QBGBDu0wiOJ83v0Z6bNwAoEzcbNGN5mbrBjpgg7B1fBHUy1O36s
+         GA/Q==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=b+yrik1Y;
-       spf=pass (google.com: domain of alx@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=alx@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=NHhCnKgm;
+       spf=pass (google.com: domain of alx@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom=alx@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from sea.source.kernel.org (sea.source.kernel.org. [2600:3c0a:e001:78e:0:1991:8:25])
-        by gmr-mx.google.com with ESMTPS id 006d021491bc7-613d9d85ce8si190487eaf.1.2025.07.10.18.57.04
+Received: from nyc.source.kernel.org (nyc.source.kernel.org. [2604:1380:45d1:ec00::3])
+        by gmr-mx.google.com with ESMTPS id 006d021491bc7-613d9d85ce8si190502eaf.1.2025.07.10.18.57.12
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jul 2025 18:57:05 -0700 (PDT)
-Received-SPF: pass (google.com: domain of alx@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) client-ip=2600:3c0a:e001:78e:0:1991:8:25;
+        Thu, 10 Jul 2025 18:57:12 -0700 (PDT)
+Received-SPF: pass (google.com: domain of alx@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) client-ip=2604:1380:45d1:ec00::3;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 6648D47053;
-	Fri, 11 Jul 2025 01:57:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BD82C4CEF6;
-	Fri, 11 Jul 2025 01:56:59 +0000 (UTC)
-Date: Fri, 11 Jul 2025 03:56:57 +0200
+	by nyc.source.kernel.org (Postfix) with ESMTP id 36E3EA54B34;
+	Fri, 11 Jul 2025 01:57:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E2D8C4CEE3;
+	Fri, 11 Jul 2025 01:57:06 +0000 (UTC)
+Date: Fri, 11 Jul 2025 03:57:04 +0200
 From: "'Alejandro Colomar' via kasan-dev" <kasan-dev@googlegroups.com>
 To: linux-mm@kvack.org, linux-hardening@vger.kernel.org
 Cc: Alejandro Colomar <alx@kernel.org>, Kees Cook <kees@kernel.org>, 
@@ -122,10 +122,11 @@ Cc: Alejandro Colomar <alx@kernel.org>, Kees Cook <kees@kernel.org>,
 	Andrew Clayton <andrew@digital-domain.net>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
 	Michal Hocko <mhocko@suse.com>, Linus Torvalds <torvalds@linux-foundation.org>, 
 	Al Viro <viro@zeniv.linux.org.uk>, Martin Uecker <uecker@tugraz.at>, Sam James <sam@gentoo.org>, 
-	Andrew Pinski <pinskia@gmail.com>
-Subject: [RFC v6 4/8] stacktrace, stackdepot: Add sprintf_end()-like variants
- of functions
-Message-ID: <6c5d8e6012f06f595fbb30e3c25a88a400538ad8.1752193588.git.alx@kernel.org>
+	Andrew Pinski <pinskia@gmail.com>, Sven Schnelle <svens@linux.ibm.com>, 
+	Heiko Carstens <hca@linux.ibm.com>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, Chao Yu <chao.yu@oppo.com>
+Subject: [RFC v6 5/8] mm: Use sprintf_end() instead of less ergonomic APIs
+Message-ID: <8a0ffc1bf43d60e1654c10546b9f615c38f604f0.1752193588.git.alx@kernel.org>
 X-Mailer: git-send-email 2.50.0
 References: <cover.1751823326.git.alx@kernel.org>
  <cover.1752193588.git.alx@kernel.org>
@@ -135,9 +136,9 @@ Content-Disposition: inline
 In-Reply-To: <cover.1752193588.git.alx@kernel.org>
 X-Original-Sender: alx@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=b+yrik1Y;       spf=pass
- (google.com: domain of alx@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25
- as permitted sender) smtp.mailfrom=alx@kernel.org;       dmarc=pass
+ header.i=@kernel.org header.s=k20201202 header.b=NHhCnKgm;       spf=pass
+ (google.com: domain of alx@kernel.org designates 2604:1380:45d1:ec00::3 as
+ permitted sender) smtp.mailfrom=alx@kernel.org;       dmarc=pass
  (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 X-Original-From: Alejandro Colomar <alx@kernel.org>
 Reply-To: Alejandro Colomar <alx@kernel.org>
@@ -153,126 +154,360 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+While doing this, I detected some anomalies in the existing code:
+
+mm/kfence/kfence_test.c:
+
+	-  The last call to scnprintf() did increment 'cur', but it's
+	   unused after that, so it was dead code.  I've removed the dead
+	   code in this patch.
+
+	-  'end' is calculated as
+
+		end = &expect[0][sizeof(expect[0] - 1)];
+
+	   However, the '-1' doesn't seem to be necessary.  When passing
+	   $2 to scnprintf(), the size was specified as 'end - cur'.
+	   And scnprintf() --just like snprintf(3)--, won't write more
+	   than $2 bytes (including the null byte).  That means that
+	   scnprintf() wouldn't write more than
+
+		&expect[0][sizeof(expect[0]) - 1] - expect[0]
+
+	   which simplifies to
+
+		sizeof(expect[0]) - 1
+
+	   bytes.  But we have sizeof(expect[0]) bytes available, so
+	   we're wasting one byte entirely.  This is a benign off-by-one
+	   bug.  The two occurrences of this bug will be fixed in a
+	   following patch in this series.
+
+mm/kmsan/kmsan_test.c:
+
+	The same benign off-by-one bug calculating the remaining size.
+
+mm/mempolicy.c:
+
+	This file uses the 'p += snprintf()' anti-pattern.  That will
+	overflow the pointer on truncation, which has undefined
+	behavior.  Using sprintf_end(), this bug is fixed.
+
+	As in the previous file, here there was also dead code in the
+	last scnprintf() call, by incrementing a pointer that is not
+	used after the call.  I've removed the dead code.
+
+mm/page_owner.c:
+
+	Within print_page_owner(), there are some calls to scnprintf(),
+	which do report truncation.  And then there are other calls to
+	snprintf(), where we handle errors (there are two 'goto err').
+
+	I've kept the existing error handling, as I trust it's there for
+	a good reason (i.e., we may want to avoid calling
+	print_page_owner_memcg() if we truncated before).  Please review
+	if this amount of error handling is the right one, or if we want
+	to add or remove some.  For sprintf_end(), a single test for
+	null after the last call is enough to detect truncation.
+
+mm/slub.c:
+
+	Again, the 'p += snprintf()' anti-pattern.  This is UB, and by
+	using sprintf_end() we've fixed the bug.
+
 Cc: Kees Cook <kees@kernel.org>
 Cc: Christopher Bazley <chris.bazley.wg14@gmail.com>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: Sven Schnelle <svens@linux.ibm.com>
 Cc: Marco Elver <elver@google.com>
-Cc: Michal Hocko <mhocko@suse.com>
+Cc: Heiko Carstens <hca@linux.ibm.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: David Rientjes <rientjes@google.com>
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Cc: Chao Yu <chao.yu@oppo.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: Michal Hocko <mhocko@suse.com>
 Cc: Al Viro <viro@zeniv.linux.org.uk>
 Signed-off-by: Alejandro Colomar <alx@kernel.org>
 ---
- include/linux/stackdepot.h | 13 +++++++++++++
- include/linux/stacktrace.h |  3 +++
- kernel/stacktrace.c        | 28 ++++++++++++++++++++++++++++
- lib/stackdepot.c           | 13 +++++++++++++
- 4 files changed, 57 insertions(+)
+ mm/kfence/kfence_test.c | 24 ++++++++++++------------
+ mm/kmsan/kmsan_test.c   |  4 ++--
+ mm/mempolicy.c          | 18 +++++++++---------
+ mm/page_owner.c         | 32 +++++++++++++++++---------------
+ mm/slub.c               |  5 +++--
+ 5 files changed, 43 insertions(+), 40 deletions(-)
 
-diff --git a/include/linux/stackdepot.h b/include/linux/stackdepot.h
-index 2cc21ffcdaf9..76182e874f67 100644
---- a/include/linux/stackdepot.h
-+++ b/include/linux/stackdepot.h
-@@ -219,6 +219,19 @@ void stack_depot_print(depot_stack_handle_t stack);
- int stack_depot_snprint(depot_stack_handle_t handle, char *buf, size_t size,
- 		       int spaces);
+diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
+index 00034e37bc9f..bae382eca4ab 100644
+--- a/mm/kfence/kfence_test.c
++++ b/mm/kfence/kfence_test.c
+@@ -113,26 +113,26 @@ static bool report_matches(const struct expect_report *r)
+ 	end = &expect[0][sizeof(expect[0]) - 1];
+ 	switch (r->type) {
+ 	case KFENCE_ERROR_OOB:
+-		cur += scnprintf(cur, end - cur, "BUG: KFENCE: out-of-bounds %s",
++		cur = sprintf_end(cur, end, "BUG: KFENCE: out-of-bounds %s",
+ 				 get_access_type(r));
+ 		break;
+ 	case KFENCE_ERROR_UAF:
+-		cur += scnprintf(cur, end - cur, "BUG: KFENCE: use-after-free %s",
++		cur = sprintf_end(cur, end, "BUG: KFENCE: use-after-free %s",
+ 				 get_access_type(r));
+ 		break;
+ 	case KFENCE_ERROR_CORRUPTION:
+-		cur += scnprintf(cur, end - cur, "BUG: KFENCE: memory corruption");
++		cur = sprintf_end(cur, end, "BUG: KFENCE: memory corruption");
+ 		break;
+ 	case KFENCE_ERROR_INVALID:
+-		cur += scnprintf(cur, end - cur, "BUG: KFENCE: invalid %s",
++		cur = sprintf_end(cur, end, "BUG: KFENCE: invalid %s",
+ 				 get_access_type(r));
+ 		break;
+ 	case KFENCE_ERROR_INVALID_FREE:
+-		cur += scnprintf(cur, end - cur, "BUG: KFENCE: invalid free");
++		cur = sprintf_end(cur, end, "BUG: KFENCE: invalid free");
+ 		break;
+ 	}
  
-+/**
-+ * stack_depot_sprint_end - Print a stack trace from stack depot into a buffer
-+ *
-+ * @handle:	Stack depot handle returned from stack_depot_save()
-+ * @p:		Pointer to the print buffer
-+ * @end:	Pointer to one past the last element in the buffer
-+ * @spaces:	Number of leading spaces to print
-+ *
-+ * Return:	Pointer to trailing '\0'; or NULL on truncation
-+ */
-+char *stack_depot_sprint_end(depot_stack_handle_t handle, char *p,
-+                             const char end[0], int spaces);
-+
- /**
-  * stack_depot_put - Drop a reference to a stack trace from stack depot
-  *
-diff --git a/include/linux/stacktrace.h b/include/linux/stacktrace.h
-index 97455880ac41..79ada795d479 100644
---- a/include/linux/stacktrace.h
-+++ b/include/linux/stacktrace.h
-@@ -67,6 +67,9 @@ void stack_trace_print(const unsigned long *trace, unsigned int nr_entries,
- 		       int spaces);
- int stack_trace_snprint(char *buf, size_t size, const unsigned long *entries,
- 			unsigned int nr_entries, int spaces);
-+char *stack_trace_sprint_end(char *p, const char end[0],
-+			     const unsigned long *entries,
-+			     unsigned int nr_entries, int spaces);
- unsigned int stack_trace_save(unsigned long *store, unsigned int size,
- 			      unsigned int skipnr);
- unsigned int stack_trace_save_tsk(struct task_struct *task,
-diff --git a/kernel/stacktrace.c b/kernel/stacktrace.c
-index afb3c116da91..f389647d8e44 100644
---- a/kernel/stacktrace.c
-+++ b/kernel/stacktrace.c
-@@ -70,6 +70,34 @@ int stack_trace_snprint(char *buf, size_t size, const unsigned long *entries,
- }
- EXPORT_SYMBOL_GPL(stack_trace_snprint);
+-	scnprintf(cur, end - cur, " in %pS", r->fn);
++	sprintf_end(cur, end, " in %pS", r->fn);
+ 	/* The exact offset won't match, remove it; also strip module name. */
+ 	cur = strchr(expect[0], '+');
+ 	if (cur)
+@@ -144,26 +144,26 @@ static bool report_matches(const struct expect_report *r)
  
-+/**
-+ * stack_trace_sprint_end - Print the entries in the stack trace into a buffer
-+ * @p:		Pointer to the print buffer
-+ * @end:	Pointer to one past the last element in the buffer
-+ * @entries:	Pointer to storage array
-+ * @nr_entries:	Number of entries in the storage array
-+ * @spaces:	Number of leading spaces to print
-+ *
-+ * Return: Pointer to the trailing '\0'; or NULL on truncation.
-+ */
-+char *stack_trace_sprint_end(char *p, const char end[0],
-+			  const unsigned long *entries, unsigned int nr_entries,
-+			  int spaces)
-+{
-+	unsigned int i;
-+
-+	if (WARN_ON(!entries))
-+		return 0;
-+
-+	for (i = 0; i < nr_entries; i++) {
-+		p = sprintf_end(p, end, "%*c%pS\n", 1 + spaces, ' ',
-+			     (void *)entries[i]);
-+	}
-+
-+	return p;
-+}
-+EXPORT_SYMBOL_GPL(stack_trace_sprint_end);
-+
- #ifdef CONFIG_ARCH_STACKWALK
+ 	switch (r->type) {
+ 	case KFENCE_ERROR_OOB:
+-		cur += scnprintf(cur, end - cur, "Out-of-bounds %s at", get_access_type(r));
++		cur = sprintf_end(cur, end, "Out-of-bounds %s at", get_access_type(r));
+ 		addr = arch_kfence_test_address(addr);
+ 		break;
+ 	case KFENCE_ERROR_UAF:
+-		cur += scnprintf(cur, end - cur, "Use-after-free %s at", get_access_type(r));
++		cur = sprintf_end(cur, end, "Use-after-free %s at", get_access_type(r));
+ 		addr = arch_kfence_test_address(addr);
+ 		break;
+ 	case KFENCE_ERROR_CORRUPTION:
+-		cur += scnprintf(cur, end - cur, "Corrupted memory at");
++		cur = sprintf_end(cur, end, "Corrupted memory at");
+ 		break;
+ 	case KFENCE_ERROR_INVALID:
+-		cur += scnprintf(cur, end - cur, "Invalid %s at", get_access_type(r));
++		cur = sprintf_end(cur, end, "Invalid %s at", get_access_type(r));
+ 		addr = arch_kfence_test_address(addr);
+ 		break;
+ 	case KFENCE_ERROR_INVALID_FREE:
+-		cur += scnprintf(cur, end - cur, "Invalid free of");
++		cur = sprintf_end(cur, end, "Invalid free of");
+ 		break;
+ 	}
  
- struct stacktrace_cookie {
-diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-index 73d7b50924ef..48e5c0ff37e8 100644
---- a/lib/stackdepot.c
-+++ b/lib/stackdepot.c
-@@ -771,6 +771,19 @@ int stack_depot_snprint(depot_stack_handle_t handle, char *buf, size_t size,
- }
- EXPORT_SYMBOL_GPL(stack_depot_snprint);
+-	cur += scnprintf(cur, end - cur, " 0x%p", (void *)addr);
++	sprintf_end(cur, end, " 0x%p", (void *)addr);
  
-+char *stack_depot_sprint_end(depot_stack_handle_t handle, char *p,
-+			     const char end[0], int spaces)
-+{
-+	unsigned long *entries;
-+	unsigned int nr_entries;
-+
-+	nr_entries = stack_depot_fetch(handle, &entries);
-+	return nr_entries ?
-+		stack_trace_sprint_end(p, end, entries, nr_entries, spaces)
-+		: sprintf_end(p, end, "");
-+}
-+EXPORT_SYMBOL_GPL(stack_depot_sprint_end);
-+
- depot_stack_handle_t __must_check stack_depot_set_extra_bits(
- 			depot_stack_handle_t handle, unsigned int extra_bits)
+ 	spin_lock_irqsave(&observed.lock, flags);
+ 	if (!report_available())
+diff --git a/mm/kmsan/kmsan_test.c b/mm/kmsan/kmsan_test.c
+index 9733a22c46c1..e48ca1972ff3 100644
+--- a/mm/kmsan/kmsan_test.c
++++ b/mm/kmsan/kmsan_test.c
+@@ -107,9 +107,9 @@ static bool report_matches(const struct expect_report *r)
+ 	cur = expected_header;
+ 	end = &expected_header[sizeof(expected_header) - 1];
+ 
+-	cur += scnprintf(cur, end - cur, "BUG: KMSAN: %s", r->error_type);
++	cur = sprintf_end(cur, end, "BUG: KMSAN: %s", r->error_type);
+ 
+-	scnprintf(cur, end - cur, " in %s", r->symbol);
++	sprintf_end(cur, end, " in %s", r->symbol);
+ 	/* The exact offset won't match, remove it; also strip module name. */
+ 	cur = strchr(expected_header, '+');
+ 	if (cur)
+diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+index b28a1e6ae096..6beb2710f97c 100644
+--- a/mm/mempolicy.c
++++ b/mm/mempolicy.c
+@@ -3359,6 +3359,7 @@ int mpol_parse_str(char *str, struct mempolicy **mpol)
+ void mpol_to_str(char *buffer, int maxlen, struct mempolicy *pol)
  {
+ 	char *p = buffer;
++	char *e = buffer + maxlen;
+ 	nodemask_t nodes = NODE_MASK_NONE;
+ 	unsigned short mode = MPOL_DEFAULT;
+ 	unsigned short flags = 0;
+@@ -3384,33 +3385,32 @@ void mpol_to_str(char *buffer, int maxlen, struct mempolicy *pol)
+ 		break;
+ 	default:
+ 		WARN_ON_ONCE(1);
+-		snprintf(p, maxlen, "unknown");
++		sprintf_end(p, e, "unknown");
+ 		return;
+ 	}
+ 
+-	p += snprintf(p, maxlen, "%s", policy_modes[mode]);
++	p = sprintf_end(p, e, "%s", policy_modes[mode]);
+ 
+ 	if (flags & MPOL_MODE_FLAGS) {
+-		p += snprintf(p, buffer + maxlen - p, "=");
++		p = sprintf_end(p, e, "=");
+ 
+ 		/*
+ 		 * Static and relative are mutually exclusive.
+ 		 */
+ 		if (flags & MPOL_F_STATIC_NODES)
+-			p += snprintf(p, buffer + maxlen - p, "static");
++			p = sprintf_end(p, e, "static");
+ 		else if (flags & MPOL_F_RELATIVE_NODES)
+-			p += snprintf(p, buffer + maxlen - p, "relative");
++			p = sprintf_end(p, e, "relative");
+ 
+ 		if (flags & MPOL_F_NUMA_BALANCING) {
+ 			if (!is_power_of_2(flags & MPOL_MODE_FLAGS))
+-				p += snprintf(p, buffer + maxlen - p, "|");
+-			p += snprintf(p, buffer + maxlen - p, "balancing");
++				p = sprintf_end(p, e, "|");
++			p = sprintf_end(p, e, "balancing");
+ 		}
+ 	}
+ 
+ 	if (!nodes_empty(nodes))
+-		p += scnprintf(p, buffer + maxlen - p, ":%*pbl",
+-			       nodemask_pr_args(&nodes));
++		sprintf_end(p, e, ":%*pbl", nodemask_pr_args(&nodes));
+ }
+ 
+ #ifdef CONFIG_SYSFS
+diff --git a/mm/page_owner.c b/mm/page_owner.c
+index cc4a6916eec6..c00b3be01540 100644
+--- a/mm/page_owner.c
++++ b/mm/page_owner.c
+@@ -496,7 +496,7 @@ void pagetypeinfo_showmixedcount_print(struct seq_file *m,
+ /*
+  * Looking for memcg information and print it out
+  */
+-static inline int print_page_owner_memcg(char *kbuf, size_t count, int ret,
++static inline char *print_page_owner_memcg(char *p, const char end[0],
+ 					 struct page *page)
+ {
+ #ifdef CONFIG_MEMCG
+@@ -511,8 +511,7 @@ static inline int print_page_owner_memcg(char *kbuf, size_t count, int ret,
+ 		goto out_unlock;
+ 
+ 	if (memcg_data & MEMCG_DATA_OBJEXTS)
+-		ret += scnprintf(kbuf + ret, count - ret,
+-				"Slab cache page\n");
++		p = sprintf_end(p, end, "Slab cache page\n");
+ 
+ 	memcg = page_memcg_check(page);
+ 	if (!memcg)
+@@ -520,7 +519,7 @@ static inline int print_page_owner_memcg(char *kbuf, size_t count, int ret,
+ 
+ 	online = (memcg->css.flags & CSS_ONLINE);
+ 	cgroup_name(memcg->css.cgroup, name, sizeof(name));
+-	ret += scnprintf(kbuf + ret, count - ret,
++	p = sprintf_end(p, end,
+ 			"Charged %sto %smemcg %s\n",
+ 			PageMemcgKmem(page) ? "(via objcg) " : "",
+ 			online ? "" : "offline ",
+@@ -529,7 +528,7 @@ static inline int print_page_owner_memcg(char *kbuf, size_t count, int ret,
+ 	rcu_read_unlock();
+ #endif /* CONFIG_MEMCG */
+ 
+-	return ret;
++	return p;
+ }
+ 
+ static ssize_t
+@@ -538,14 +537,16 @@ print_page_owner(char __user *buf, size_t count, unsigned long pfn,
+ 		depot_stack_handle_t handle)
+ {
+ 	int ret, pageblock_mt, page_mt;
+-	char *kbuf;
++	char *kbuf, *p, *e;
+ 
+ 	count = min_t(size_t, count, PAGE_SIZE);
+ 	kbuf = kmalloc(count, GFP_KERNEL);
+ 	if (!kbuf)
+ 		return -ENOMEM;
+ 
+-	ret = scnprintf(kbuf, count,
++	p = kbuf;
++	e = kbuf + count;
++	p = sprintf_end(p, e,
+ 			"Page allocated via order %u, mask %#x(%pGg), pid %d, tgid %d (%s), ts %llu ns\n",
+ 			page_owner->order, page_owner->gfp_mask,
+ 			&page_owner->gfp_mask, page_owner->pid,
+@@ -555,7 +556,7 @@ print_page_owner(char __user *buf, size_t count, unsigned long pfn,
+ 	/* Print information relevant to grouping pages by mobility */
+ 	pageblock_mt = get_pageblock_migratetype(page);
+ 	page_mt  = gfp_migratetype(page_owner->gfp_mask);
+-	ret += scnprintf(kbuf + ret, count - ret,
++	p = sprintf_end(p, e,
+ 			"PFN 0x%lx type %s Block %lu type %s Flags %pGp\n",
+ 			pfn,
+ 			migratetype_names[page_mt],
+@@ -563,22 +564,23 @@ print_page_owner(char __user *buf, size_t count, unsigned long pfn,
+ 			migratetype_names[pageblock_mt],
+ 			&page->flags);
+ 
+-	ret += stack_depot_snprint(handle, kbuf + ret, count - ret, 0);
+-	if (ret >= count)
+-		goto err;
++	p = stack_depot_sprint_end(handle, p, e, 0);
++	if (p == NULL)
++		goto err;  // XXX: Should we remove this error handling?
+ 
+ 	if (page_owner->last_migrate_reason != -1) {
+-		ret += scnprintf(kbuf + ret, count - ret,
++		p = sprintf_end(p, e,
+ 			"Page has been migrated, last migrate reason: %s\n",
+ 			migrate_reason_names[page_owner->last_migrate_reason]);
+ 	}
+ 
+-	ret = print_page_owner_memcg(kbuf, count, ret, page);
++	p = print_page_owner_memcg(p, e, page);
+ 
+-	ret += snprintf(kbuf + ret, count - ret, "\n");
+-	if (ret >= count)
++	p = sprintf_end(p, e, "\n");
++	if (p == NULL)
+ 		goto err;
+ 
++	ret = p - kbuf;
+ 	if (copy_to_user(buf, kbuf, ret))
+ 		ret = -EFAULT;
+ 
+diff --git a/mm/slub.c b/mm/slub.c
+index be8b09e09d30..dcc857676857 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -7451,6 +7451,7 @@ static char *create_unique_id(struct kmem_cache *s)
+ {
+ 	char *name = kmalloc(ID_STR_LENGTH, GFP_KERNEL);
+ 	char *p = name;
++	char *e = name + ID_STR_LENGTH;
+ 
+ 	if (!name)
+ 		return ERR_PTR(-ENOMEM);
+@@ -7475,9 +7476,9 @@ static char *create_unique_id(struct kmem_cache *s)
+ 		*p++ = 'A';
+ 	if (p != name + 1)
+ 		*p++ = '-';
+-	p += snprintf(p, ID_STR_LENGTH - (p - name), "%07u", s->size);
++	p = sprintf_end(p, e, "%07u", s->size);
+ 
+-	if (WARN_ON(p > name + ID_STR_LENGTH - 1)) {
++	if (WARN_ON(p == NULL)) {
+ 		kfree(name);
+ 		return ERR_PTR(-EINVAL);
+ 	}
 -- 
 2.50.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/6c5d8e6012f06f595fbb30e3c25a88a400538ad8.1752193588.git.alx%40kernel.org.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/8a0ffc1bf43d60e1654c10546b9f615c38f604f0.1752193588.git.alx%40kernel.org.
