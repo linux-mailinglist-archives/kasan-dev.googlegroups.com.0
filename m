@@ -1,51 +1,51 @@
-Return-Path: <kasan-dev+bncBAABBRXEYHBQMGQEAZZHSJQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBPHFYHBQMGQEWJF23AQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x738.google.com (mail-qk1-x738.google.com [IPv6:2607:f8b0:4864:20::738])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01909B0111A
-	for <lists+kasan-dev@lfdr.de>; Fri, 11 Jul 2025 04:09:12 +0200 (CEST)
-Received: by mail-qk1-x738.google.com with SMTP id af79cd13be357-7d40f335529sf467798985a.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 19:09:11 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1752199750; cv=pass;
+Received: from mail-pl1-x63c.google.com (mail-pl1-x63c.google.com [IPv6:2607:f8b0:4864:20::63c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2C7B0111C
+	for <lists+kasan-dev@lfdr.de>; Fri, 11 Jul 2025 04:11:10 +0200 (CEST)
+Received: by mail-pl1-x63c.google.com with SMTP id d9443c01a7336-23dc7d3e708sf9416435ad.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 10 Jul 2025 19:11:10 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1752199869; cv=pass;
         d=google.com; s=arc-20240605;
-        b=D/uhu+VE2UHr5HhvWxjqh2/TSLEfKVKaPYlJxKS3LkD9Tfl1uMyVblc6QX3CstJK4S
-         hnZ968nJtrckbh+oHVufwSW3plNpYnO1diynz6pmpOckIqC5GKHRveqPlCI/aOiyGSwx
-         emYVDvKoSjsrcK8EqlA47wCfCNIuOCgiJlhUsro0UHBGddaBrAiFVvP4giCLcsDD0E9r
-         ikA0MVnBUBreI3RMVQhsSbipbQPBpe+OwyN/H/4427v6ep7MaL/wOGwVgeZlKhccRWcC
-         /S8/atB4cUslkIyNNZdOGP4QdD2em4z5V6NQb9jnvWbbmhm41yn77xEDGS+6CXoX2VPK
-         9LPg==
+        b=apElCGAVmeIaHaQ7+4joq1m4NiQ1+sf7pKONwYxujlwjLbQx7XtjXiqxFmIW2FkWb8
+         1i0oGaRVEFFwS0BSBaPWRzv0IlMDczgvSpTJIiZ1FzCbpiNndolHFRKrpwv2GNMlD2Jm
+         n5PyKeK8neIMHGRV+yTPprn4gESrtOIHUtgChZSAx4qDWaLOIDM4IFRV1uElu3V3VD6u
+         8QPPHB3VDrp106bu/Vct5ybqHP7+RxijmiQJHbji9JjWmpOwE57qOeM4w+oOT8q30qS2
+         R3uX2gkKUSjsyIZvIS3JBujr/KkBzs5/QCHHS/FadbRrOtCW7j8ZzQ/MH185aO0bCULh
+         6BOg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:user-agent:in-reply-to
          :content-transfer-encoding:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=SUSW4TlyybOjHs/AYHWsGKhVqEt7Yn+AMkO+E2Myjs8=;
-        fh=T1RttgqWASELEcdIuo1I3OMO+dboB9khbSmQ75l6Iso=;
-        b=eNthG2UtgjnzMeYprkbJPPEEPVIOODUQMJwqRZ2M7rpNILl002s2zay7b92+HI7Nh2
-         cnVqm7gAIgvFmcHm/0VkfIzQUAbf/665sKMvbZXqtj8S2C9B7ZkroPu4NCcVhd3056dD
-         wlxklA3wKLh7+se7j5GMc9feh3mzsqfA7Q5aeC4uXFpcUtpfCX8QlTjTAjz43pBA1pQn
-         hNCtmKGCGuJ7CoCR/PNJIdfxaFZwTI3209s9Lb8z4annD+371Z523+PuL6uPAuiAIMNO
-         hoYd+VZyOkhIrjFtm5dJfD7UaHcystX7znarbc/uHW8CZY0FVewfKC61jVDBthB8u8n6
-         Ei6g==;
+        bh=qhK70V5daj4o3V3cdu6/g1gnEdFJNA+O65P1UHI75/Y=;
+        fh=VxHU723zO4BMQ0a4xvWMUP42Sekjd7w0y3fibb4EIMM=;
+        b=QIviU+RCFMMcgx24J/qxxnNzqBy5+P0feHryXTVu9eIjGxybt7OnqubbJvHR46BdTZ
+         L1AUyzW62kGl2wqDL5c3gENHO2aW6ESQAdpn79nvfG85m6wqV50cWI6al42nW+gXoF5I
+         6Dymswae6HHd94Hku358XJkrbUoS34etVvXSCblYFhCDg9KR3p4ylQmJvTcylc3Quz01
+         H0pJQi8tq+vVqYnvYB3ymzWCor/Lt4PZgHt2gxxpXl2RgP+KGC3HrzZ1x4UF8JXCFVrm
+         7d4lDwjN0NReYsf58ISVDa4Th0yeTz4RZBWEle36CtQndcRmsOosWT2aYRS392R1n5QV
+         H2aA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of byungchul@sk.com designates 166.125.252.92 as permitted sender) smtp.mailfrom=byungchul@sk.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1752199750; x=1752804550; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1752199869; x=1752804669; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:user-agent:in-reply-to:content-transfer-encoding
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=SUSW4TlyybOjHs/AYHWsGKhVqEt7Yn+AMkO+E2Myjs8=;
-        b=bP32Xi9DlXfH1LQF6aQ53KjAp5w1Ai+q+OtGEq8iK3VnIPB8WweZVNNvIT4YNZx2JM
-         rBwJUW+soNXccMBuxT4pPSBNG3TlODZefK+P+gFd8jgPZ3B4dJcD9vqbBn3olXNcXwxA
-         dYI14+8Q66qp5exeWMQun2MUGYEv4WCg5PtOEWdDVAyegpzbzqnLdDr5mmfQV0c0KxYF
-         /C6T1ed+VRoEW8OyFfoX6VfM9UauZn8aEJoPOLuxy7C0Jru89Fe8i4lWg5gxUENqupfG
-         IQw2v4B4usc7bWGjEe8ejPD4GQSqQDI6QRQo9FR+pRS/ERa1UC3ZfBzKEdac7VFh6GAS
-         XOig==
+        bh=qhK70V5daj4o3V3cdu6/g1gnEdFJNA+O65P1UHI75/Y=;
+        b=bx2JGBGprg+/b+/ZP0kjzJEtFzqWzAJipCFdF6fxj5LTfgemn76QAdWiec6qEn5lhZ
+         r8SmYmaGfQ/qAv//tHe9jnghoEycCRj+ram8/ZUG5nh1xTQ8/NJCSUM7cKSfxAQPL7YY
+         5pupViqVyP+brLthXFaLieaQAwwYtw7xrHsHx7VoH4fZaYBsokWh1IabChyLvfA356GD
+         3xAjQgMcy1I1miW+nHwmG1YzzPLfq/n+gTcmcirwwZERE5s3W3gRADunp/0aQ8YORDRF
+         y0fqjAEJNn1kvBGm72qP93lVdcrpJIRRSta7TNj56ASL3lC4szD+dBzbMwwmHt0FJgkf
+         liKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752199750; x=1752804550;
+        d=1e100.net; s=20230601; t=1752199869; x=1752804669;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:user-agent
@@ -53,57 +53,57 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SUSW4TlyybOjHs/AYHWsGKhVqEt7Yn+AMkO+E2Myjs8=;
-        b=c8/7VgyTykQpiu5Yl7hXA25G7KEtVg2WYscLR32jet8DAOcut0MFVp8uHLPIrhY3F1
-         1Oo1VPJHLwxwlb59mgH9u9SsLrc6zg53pWj2uvAYMc8v2JRMGCESX3hy7MtXkZq/czgM
-         5cZOdLk/fQXMbtwH6aC4B1Q7dJRgWW2MwvdL8DuoBTzczP/QBAFfNitbZCCtv8QPbH+O
-         W1hFr9mDWx1YUh5sRLKxPkh4UfGVerCIP0wdraT1C5ppmAofd97wYrcJfSX+N7wpvBV3
-         L3nsDX0WYJqKiAh84HlJX9BDD5K+mxNTr8VA9s687qh5cvtyOKLx2YGITZOY/sG5SqAX
-         9VFA==
+        bh=qhK70V5daj4o3V3cdu6/g1gnEdFJNA+O65P1UHI75/Y=;
+        b=CfHeN698Pc3g+vl23nqopjEkmvlKcfMjI9AVeOc0WeevKh/qmtwzF8rbkbaCRmmPaU
+         OqL92oplFSbv4xYXryDFtJHlc4ersgHC011VdDjWwNwBbaYTypPanO6vfiW24fsSkW7q
+         YPmxaDm5PjlATEwkPcRE4QyUJ836Vd/EJ6G0FxXGFK6vt1jlj7tHXDCSM7/ui8mMPec1
+         DYR7r3JAG85X7aD0GxAd7a1oakZW0ud0so90Da0e4Q0ZOCU19VVgLQ4lGyaSFqAj6RaF
+         nJLBt5y3EoyHD2/baK6qVVMhMBmU+9ohCqoRvqUVRFoHJvzNwbXlbNBgMy7Jf0kiJ1QT
+         ewFA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUbrKS2yCA6kEG4wLVYT3KoORoxIb0GRsGoaETJhfFGDDxeWvGYIUGG2Er8jm0pY35O+Vp4Pg==@lfdr.de
-X-Gm-Message-State: AOJu0Yy7VpsrrHJ9ytBZEdkEIE7YMJ4dgvvnRaJEqKcJuOAXd2Jwfqhe
-	N+m1D0e1yR7WR4QnhkVGU3S+1qHgEwJzyihUWn3z/wupOGvSq56tD3tp
-X-Google-Smtp-Source: AGHT+IGyW7VU1PXWIAFyS1VcRb4DMiR+DpF28sLLKsRIbdnQbft0MchuAy5sdCKC8nueL8+OOaFHmA==
-X-Received: by 2002:a05:620a:2912:b0:7d5:d182:af44 with SMTP id af79cd13be357-7dc992eeef1mr927966785a.17.1752199750547;
-        Thu, 10 Jul 2025 19:09:10 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfVh0smkxli/RWnvEHeLHweFqsLT9nEtt1l2MW9rO6CQQ==
-Received: by 2002:a05:6214:921:b0:704:a8c3:e6e4 with SMTP id
- 6a1803df08f44-704a8c3ecc6ls229136d6.1.-pod-prod-00-us-canary; Thu, 10 Jul
- 2025 19:09:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCU2P9dYfMjujpapDVp33HNFNBwByPRWUlswnlNyaxtVi27NSozL86mKlqsjrjWJ8lhiDN+rawx/bNE=@googlegroups.com
-X-Received: by 2002:a05:6122:800d:20b0:535:ae4c:8023 with SMTP id 71dfb90a1353d-535e40badc3mr3215424e0c.7.1752199749668;
-        Thu, 10 Jul 2025 19:09:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1752199749; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCXzM/39fP1p/3oPQDDjv7YLvb4bvUTVC9YDAbUkiMPCWEhmDZjM5qgW6s3itSHamKo1H6KYtA==@lfdr.de
+X-Gm-Message-State: AOJu0YynRDbiOHZQD8eRoRmwPUpA9J5LZfJ21NyOj4oJ2g6lPO1mhxYF
+	2pbCRci90NHZnYEJfzN0OaAA7meADjESsQ9qiLt0uPMMevMXC+j4FlOz
+X-Google-Smtp-Source: AGHT+IHObPoNFx2qr/N5aM6CDElfpvUMEzPhqguwCBzjeqwH0g8+UEXMwYZw9opoyh9oy5FjIysdTQ==
+X-Received: by 2002:a17:902:e78c:b0:23d:deca:6eb5 with SMTP id d9443c01a7336-23dee27d5bcmr16930415ad.28.1752199868875;
+        Thu, 10 Jul 2025 19:11:08 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcy6yIKI//ADBDDxO089ChE++jjDlF/kNagwIATdxfF/A==
+Received: by 2002:a17:903:24e:b0:231:e735:850a with SMTP id
+ d9443c01a7336-23de2dfa1f9ls15111255ad.1.-pod-prod-09-us; Thu, 10 Jul 2025
+ 19:11:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUztuwoSgQM4ew/c3BCuv1b7khJZ4+7LtXbowwi3jqOSuCtNvKcXX6tp9pXsvmwigll+CXvO2XgwJ0=@googlegroups.com
+X-Received: by 2002:a17:903:1a0b:b0:23d:ed96:e2b6 with SMTP id d9443c01a7336-23dee2a09c6mr19738305ad.44.1752199867641;
+        Thu, 10 Jul 2025 19:11:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1752199867; cv=none;
         d=google.com; s=arc-20240605;
-        b=S+1AzLcJ+4a05Nz7wZSAPV0hXC2j1hCV843O8exLieNAQi3ZzAut5Y5a6ammmmPak2
-         rm9jcE4jbAR1NYnDcw/aDEV2nIoIPrZPR9yXCtq3H/P1+rq4x5ypfxYCmN07qN6zsAMl
-         rJ00dI67lem77kTWFiGVZP0olaQd3NmIgI4QAUMEkNx78bci+gN5+dhYGQRIXS6zua/s
-         3ck9deqnvOiDGmZbgt1BdlNdK4eMABkS9SzvD9+VfGZAvukFPOhRkvw1l1oPXJQjs0zB
-         5uTyxcm2N/kVudFAprA3Lf+OSRcVEVzxmhVeiHZug0PqtDm55xR0KbrpTtFHvBc6ZoJP
-         CAVQ==
+        b=XbqhwphO+KE/QY/08n+rpniydRq8p5B++2YbN7UtbLIB+CKkAvOvonbRN9C37I2W3e
+         n/lr+vy+msHAgstasfcPBdMf+UidIhCG+3Z3thmjpYwnpTaPBTNtBKM62eZA1EBb5wuA
+         D3irPd4QDfR6U4L7YUQ9C78c7oSXnrM/cmfgw+NFmfcPZLIRaewyM+ZvGFNO+TEdDvqm
+         M8fW6PO4VXfX2NcCUVdLuU0sh1u4G3a89GMf5VHhcSoX7PVBQhgnFQDtFRzLnkm/6lKn
+         G1GRgpwROKym2MNYcsyOJExG4/Y4hU/Lhj4u3qbe4vRylMS8ZybdOJYJS1sgUk/b9VTR
+         V06w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=user-agent:in-reply-to:content-transfer-encoding
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date;
-        bh=wTWr4mJ32ozYRri87Db5vvO+OyrXMsszsr5+EFL2t0g=;
+        bh=M4FuFyIhaKWQ9IY1d9E8e2SU3FPYmT8fAOBa1QqKOVE=;
         fh=UbV6yiLW7GyO9E7pnXMyfVYw3hT2aRfAZh/vGGa2El4=;
-        b=SQQKOGGoK8v0jlsC/DtP7lqBrOoGFb9zXYT4gmYNxap1Fs7uI4L5gioOHhLFlqEtKX
-         sFAfw/Z3KBWlK/fIXlLgPnPAFmOOs/HfUpqTKXrMP2WG8gJxaMpo8LnRfBMyUjEhHLTO
-         K5cIa+OryPHDXZy2t+aUQyoeiGOZ+QXOqIUa/uDQjm2FJL7BBTdgwQ14NZJc8G01LOth
-         AbNLWWyWfIWNaPX5keiRH1TbSLY3rFR6FHHuTFtAwTwHuUiWgwVjYiE6wGy8EmzfxU0k
-         DIJDsAMWAw70oHUcq4sUiDkG8xgBOZqUJmN0UvXxWbc22dg2qgpZSNGoLjwP4BRkmBKh
-         kR/Q==;
+        b=cfj+LukPsy9Y4g1JdmQ31mYz/zLzyQeMU6XGCaTm/nPcae+arkiUD3kByJRpYbgfUm
+         WcsZWpDOmNa6enLM5fJFQw4xrHezXzSbfgVOJsqCifugaWrx+q1wSRbizLeOtGSS9Nm/
+         mc93eFdcGvPgoAAaqODwJCaXI8C6DpSwSLYYg84tQtFx67TCwbhxcMAwpfSIrg97Bv3K
+         3L6nBQra9GnKzyleYCihbwvGxmT4mmuJMd9stHBGxaGBiRScvWLEk3lG9b2/VgJEFz1E
+         RwFC5KdbGlUXzadC8Rn8Sn84s+ZLS5x7DWSBsXijfd9VSKWsv9pj2yBipzgwfKm/Uib0
+         SSSA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of byungchul@sk.com designates 166.125.252.92 as permitted sender) smtp.mailfrom=byungchul@sk.com
 Received: from invmail4.hynix.com (exvmail4.hynix.com. [166.125.252.92])
-        by gmr-mx.google.com with ESMTP id 71dfb90a1353d-535e7086212si125945e0c.0.2025.07.10.19.09.07
+        by gmr-mx.google.com with ESMTP id d9443c01a7336-23de4333b5csi1168575ad.10.2025.07.10.19.11.06
         for <kasan-dev@googlegroups.com>;
-        Thu, 10 Jul 2025 19:09:08 -0700 (PDT)
+        Thu, 10 Jul 2025 19:11:07 -0700 (PDT)
 Received-SPF: pass (google.com: domain of byungchul@sk.com designates 166.125.252.92 as permitted sender) client-ip=166.125.252.92;
-X-AuditID: a67dfc5b-669ff7000002311f-28-6870723f8102
-Date: Fri, 11 Jul 2025 11:08:58 +0900
+X-AuditID: a67dfc5b-681ff7000002311f-17-687072b9b6c9
+Date: Fri, 11 Jul 2025 11:11:00 +0900
 From: Byungchul Park <byungchul@sk.com>
 To: Andrey Konovalov <andreyknvl@gmail.com>
 Cc: Yeoreum Yun <yeoreum.yun@arm.com>, akpm@linux-foundation.org,
@@ -115,41 +115,42 @@ Cc: Yeoreum Yun <yeoreum.yun@arm.com>, akpm@linux-foundation.org,
 	kernel_team@skhynix.com
 Subject: Re: [PATCH v2] kasan: remove kasan_find_vm_area() to prevent
  possible deadlock
-Message-ID: <20250711020858.GA78977@system.software.com>
+Message-ID: <20250711021100.GA4320@system.software.com>
 References: <20250703181018.580833-1-yeoreum.yun@arm.com>
  <CA+fCnZcMpi6sUW2ksd_r1D78D8qnKag41HNYCHz=HM1-DL71jg@mail.gmail.com>
+ <20250711020858.GA78977@system.software.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CA+fCnZcMpi6sUW2ksd_r1D78D8qnKag41HNYCHz=HM1-DL71jg@mail.gmail.com>
+In-Reply-To: <20250711020858.GA78977@system.software.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJIsWRmVeSWpSXmKPExsXC9ZZnoa59UUGGwex1IhZz1q9hs/g+cTq7
-	xbSLk5gtlj35x2Qx4WEbu0X7x73MFiue3WeyuLxrDpvFvTX/WS0urb7AYnFhYi+rxb6OB0wW
-	e//9ZLGY+8XQ4svqVWwO/B5r5q1h9Ng56y67R8u+W+weCzaVeuyZeJLNY9OqTiDxaRK7x8Lf
-	L5g93p07x+5xYsZvFo8Xm2cyenzeJBfAE8Vlk5Kak1mWWqRvl8CVcb9hIWPBV8GKi02bWRsY
-	d/J0MXJySAiYSJx4e4YFxv7eeRfMZhFQlXh94Dg7iM0moC5x48ZPZhBbREBbYsKNX0A1XBzM
-	Am3MEn8232UFSQgLREo0b7vGBGLzClhIfFswGaxISKCBUWL+m14WiISgxMmZT8BsZqCpf+Zd
-	AprKAWRLSyz/xwERlpdo3jobbBmnQKBE+7Z/YLaogLLEgW3HmUBmSgisYpe4u3wOO8TVkhIH
-	V9xgmcAoOAvJillIVsxCWDELyYoFjCyrGIUy88pyEzNzTPQyKvMyK/SS83M3MQIjdFntn+gd
-	jJ8uBB9iFOBgVOLhdVidnyHEmlhWXJl7iFGCg1lJhHedb0GGEG9KYmVValF+fFFpTmrxIUZp
-	DhYlcV6jb+UpQgLpiSWp2ampBalFMFkmDk6pBka3E29YplfUyb5eGuf+8Mmavt1Ct10TdvX4
-	SdeIFi8X62bovjZl9nWNUxpxd4IuFLzRWqn/eZJjxvobVgIbtf8J7fj//K+szN48hogXhnfb
-	Xfjbvkhv/qfIWL9XdofBvUVcDzd1ld+uiBLqd8p9o/r0Z8G8H/ebawp2zbjgFbDa5rD/WrXs
-	/QeUWIozEg21mIuKEwEDMfAizAIAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrAIsWRmVeSWpSXmKPExsXC5WfdrGtfVJBhcGEqi8Wc9WvYLL5PnM5u
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJIsWRmVeSWpSXmKPExsXC9ZZnoe7OooIMg6/fNS3mrF/DZvF94nR2
+	i2kXJzFbLHvyj8liwsM2dov2j3uZLVY8u89kcXnXHDaLe2v+s1pcWn2BxeLCxF5Wi30dD5gs
+	9v77yWIx94uhxZfVq9gc+D3WzFvD6LFz1l12j5Z9t9g9Fmwq9dgz8SSbx6ZVnUDi0yR2j4W/
+	XzB7vDt3jt3jxIzfLB4vNs9k9Pi8SS6AJ4rLJiU1J7MstUjfLoEr4/WUSWwFJ4QrOtYdZG5g
+	3MfbxcjJISFgInH52RoWGHvz8dvMIDaLgKrE7J/vmEBsNgF1iRs3foLFRQS0JSbc+AVUz8XB
+	LNDGLPFn811WkISwQKRE87ZrYA28AuYSzU9nghUJCaxnlPj16idUQlDi5MwnYNuYgab+mXcJ
+	aCoHkC0tsfwfB0RYXqJ562ywZZwClhKvp2xlB7FFBZQlDmw7zgQyU0JgGbvE8/NLmSGulpQ4
+	uOIGywRGwVlIVsxCsmIWwopZSFYsYGRZxSiUmVeWm5iZY6KXUZmXWaGXnJ+7iREYoctq/0Tv
+	YPx0IfgQowAHoxIPr8Pq/Awh1sSy4srcQ4wSHMxKIrzrfAsyhHhTEiurUovy44tKc1KLDzFK
+	c7AoifMafStPERJITyxJzU5NLUgtgskycXBKNTBKeBz6yvDh+PZ8DdbUkoN8iw5FzH4Vlc0l
+	MmH219LrNoopYnXpC+6pm1dyr9zLHq7NdvvXhWnSHx9sWr7HY9Lm20uLz++NWDrB47/G+kd3
+	tmxxPfn01NmFJ126196uC5vzQFa8Sr4jOztZpbnzckZx5or1+q3TK7dOTJx89JmHyrLLlVcz
+	TUPuK7EUZyQaajEXFScCAB4frvrMAgAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrAIsWRmVeSWpSXmKPExsXC5WfdrLuzqCDDoPuktMWc9WvYLL5PnM5u
 	Me3iJGaLZU/+MVlMeNjGbtH+cS+zxYpn95ksDs89yWpxedccNot7a/6zWlxafYHF4sLEXlaL
 	fR0PmCz2/vvJYjH3i6HFl9Wr2BwEPNbMW8PosXPWXXaPln232D0WbCr12DPxJJvHplWdQOLT
-	JHaPhb9fMHu8O3eO3ePEjN8sHi82z2T0WPziA5PH501yAbxRXDYpqTmZZalF+nYJXBn3GxYy
-	FnwVrLjYtJm1gXEnTxcjJ4eEgInE9867LCA2i4CqxOsDx9lBbDYBdYkbN34yg9giAtoSE278
-	Aqrh4mAWaGOW+LP5LitIQlggUqJ52zUmEJtXwELi24LJYEVCAg2MEvPf9LJAJAQlTs58AmYz
-	A039M+8S0FQOIFtaYvk/DoiwvETz1tlgyzgFAiXat/0Ds0UFlCUObDvONIGRbxaSSbOQTJqF
-	MGkWkkkLGFlWMYpk5pXlJmbmmOoVZ2dU5mVW6CXn525iBMbbsto/E3cwfrnsfohRgINRiYfX
-	YXV+hhBrYllxZe4hRgkOZiUR3nW+BRlCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeb3CUxOEBNIT
-	S1KzU1MLUotgskwcnFINjAkZwV9fGeso6bmLPPGKMfWun/37ye1FN13mnrl5jOui5qKFl0/V
-	PP3N1ZaV+vipSbKxp/3dZ7f2fE77c+v3yWOXdi0IUlwzoSuvoJlpzYQcebbJb6/euCn/ZqvD
-	ZIMvzhNuFG78Z188p+1gpeoOcYal3BrLL2y9oNNV+OC95gLP8xvn3OZ4kTpfiaU4I9FQi7mo
-	OBEAuCK4YLMCAAA=
+	JHaPhb9fMHu8O3eO3ePEjN8sHi82z2T0WPziA5PH501yAbxRXDYpqTmZZalF+nYJXBmvp0xi
+	KzghXNGx7iBzA+M+3i5GTg4JAROJzcdvM4PYLAKqErN/vmMCsdkE1CVu3PgJFhcR0JaYcOMX
+	SxcjFwezQBuzxJ/Nd1lBEsICkRLN266BNfAKmEs0P50JViQksJ5R4tern1AJQYmTM5+wgNjM
+	QFP/zLsENJUDyJaWWP6PAyIsL9G8dTbYMk4BS4nXU7ayg9iiAsoSB7YdZ5rAyDcLyaRZSCbN
+	Qpg0C8mkBYwsqxhFMvPKchMzc0z1irMzKvMyK/SS83M3MQLjbVntn4k7GL9cdj/EKMDBqMTD
+	67A6P0OINbGsuDL3EKMEB7OSCO8634IMId6UxMqq1KL8+KLSnNTiQ4zSHCxK4rxe4akJQgLp
+	iSWp2ampBalFMFkmDk6pBsY718TSjfVnFbI07tWb/Jj77yyxzhvpdYqHVRizjy94rv5+l8tJ
+	Ywe9STF39VZLvY8QWVUnaW55LCBWWkY9aYmmgdb0k2F63oz1jNIXefxUWq4tavfuC565/nu+
+	9HnvqCkF1iktiwT2+QesrlqjsvbA1Y6WhYt/7KxPO95du4tr87WY2SGy15VYijMSDbWYi4oT
+	AQ9n3/KzAgAA
 X-CFilter-Loop: Reflected
 X-Original-Sender: byungchul@sk.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
@@ -167,63 +168,68 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Jul 10, 2025 at 02:43:15PM +0200, Andrey Konovalov wrote:
-> On Thu, Jul 3, 2025 at 8:10=E2=80=AFPM Yeoreum Yun <yeoreum.yun@arm.com> =
-wrote:
-> >
-> > find_vm_area() couldn't be called in atomic_context.
-> > If find_vm_area() is called to reports vm area information,
-> > kasan can trigger deadlock like:
-> >
-> > CPU0                                CPU1
-> > vmalloc();
-> >  alloc_vmap_area();
-> >   spin_lock(&vn->busy.lock)
-> >                                     spin_lock_bh(&some_lock);
-> >    <interrupt occurs>
-> >    <in softirq>
-> >    spin_lock(&some_lock);
-> >                                     <access invalid address>
-> >                                     kasan_report();
-> >                                      print_report();
-> >                                       print_address_description();
-> >                                        kasan_find_vm_area();
-> >                                         find_vm_area();
-> >                                          spin_lock(&vn->busy.lock) // d=
-eadlock!
-> >
-> > To prevent possible deadlock while kasan reports, remove kasan_find_vm_=
-area().
-> >
-> > Fixes: c056a364e954 ("kasan: print virtual mapping info in reports")
-> > Reported-by: Yunseong Kim <ysk@kzalloc.com>
-> > Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+On Fri, Jul 11, 2025 at 11:08:58AM +0900, Byungchul Park wrote:
+> On Thu, Jul 10, 2025 at 02:43:15PM +0200, Andrey Konovalov wrote:
+> > On Thu, Jul 3, 2025 at 8:10=E2=80=AFPM Yeoreum Yun <yeoreum.yun@arm.com=
+> wrote:
+> > >
+> > > find_vm_area() couldn't be called in atomic_context.
+> > > If find_vm_area() is called to reports vm area information,
+> > > kasan can trigger deadlock like:
+> > >
+> > > CPU0                                CPU1
+> > > vmalloc();
+> > >  alloc_vmap_area();
+> > >   spin_lock(&vn->busy.lock)
+> > >                                     spin_lock_bh(&some_lock);
+> > >    <interrupt occurs>
+> > >    <in softirq>
+> > >    spin_lock(&some_lock);
+> > >                                     <access invalid address>
+> > >                                     kasan_report();
+> > >                                      print_report();
+> > >                                       print_address_description();
+> > >                                        kasan_find_vm_area();
+> > >                                         find_vm_area();
+> > >                                          spin_lock(&vn->busy.lock) //=
+ deadlock!
+> > >
+> > > To prevent possible deadlock while kasan reports, remove kasan_find_v=
+m_area().
+> > >
+> > > Fixes: c056a364e954 ("kasan: print virtual mapping info in reports")
+> > > Reported-by: Yunseong Kim <ysk@kzalloc.com>
+> > > Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+> >=20
+> > As a fix:
+> >=20
+> > Acked-by: Andrey Konovalov <andreyknvl@gmail.com>
+> >=20
+> > But it would be great to figure out a way to eventually restore this
+> > functionality; I'll file a bug for this once this patch lands. The
+> > virtual mapping info helps with real issues: e.g. just recently it
+> > helped me to quickly see the issue that caused a false-positive report
 >=20
-> As a fix:
->=20
-> Acked-by: Andrey Konovalov <andreyknvl@gmail.com>
->=20
-> But it would be great to figure out a way to eventually restore this
-> functionality; I'll file a bug for this once this patch lands. The
-> virtual mapping info helps with real issues: e.g. just recently it
-> helped me to quickly see the issue that caused a false-positive report
+> I checked the critical section by &vn->busy.lock in find_vm_area().  The
+> time complextity looks O(log N).  I don't think an irq disabled section
+> of O(log N) is harmful.  I still think using
+> spin_lock_irqsave(&vn->busy.lock) can resolve this issue with no worry
+> of significant irq delay.  Am I missing something?
 
-I checked the critical section by &vn->busy.lock in find_vm_area().  The
-time complextity looks O(log N).  I don't think an irq disabled section
-of O(log N) is harmful.  I still think using
-spin_lock_irqsave(&vn->busy.lock) can resolve this issue with no worry
-of significant irq delay.  Am I missing something?
-
-If it's unacceptable for some reasons, why don't we introduce kind of
-try_find_vm_area() using trylock so as to go ahead only if there's no
-lock contention?
+I prefer this one tho.
 
 	Byungchul
-
-> [1].
 >=20
-> [1] https://lore.kernel.org/all/CA+fCnZfzHOFjVo43UZK8H6h3j=3DOHjfF13oFJvT=
-0P-SM84Oc4qQ@mail.gmail.com/
+> If it's unacceptable for some reasons, why don't we introduce kind of
+> try_find_vm_area() using trylock so as to go ahead only if there's no
+> lock contention?
+>=20
+> 	Byungchul
+>=20
+> > [1].
+> >=20
+> > [1] https://lore.kernel.org/all/CA+fCnZfzHOFjVo43UZK8H6h3j=3DOHjfF13oFJ=
+vT0P-SM84Oc4qQ@mail.gmail.com/
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -231,4 +237,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
-0250711020858.GA78977%40system.software.com.
+0250711021100.GA4320%40system.software.com.
