@@ -1,151 +1,188 @@
-Return-Path: <kasan-dev+bncBAABBZ7427BQMGQEYRZMHJA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBVWE3DBQMGQEDXJCQHY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x137.google.com (mail-il1-x137.google.com [IPv6:2607:f8b0:4864:20::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D922B05269
-	for <lists+kasan-dev@lfdr.de>; Tue, 15 Jul 2025 09:08:25 +0200 (CEST)
-Received: by mail-il1-x137.google.com with SMTP id e9e14a558f8ab-3e055be2288sf53683265ab.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 15 Jul 2025 00:08:25 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1752563304; cv=pass;
+Received: from mail-pf1-x43f.google.com (mail-pf1-x43f.google.com [IPv6:2607:f8b0:4864:20::43f])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB0DB056D7
+	for <lists+kasan-dev@lfdr.de>; Tue, 15 Jul 2025 11:41:44 +0200 (CEST)
+Received: by mail-pf1-x43f.google.com with SMTP id d2e1a72fcca58-74ea83a6c1bsf2394239b3a.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 15 Jul 2025 02:41:44 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1752572503; cv=pass;
         d=google.com; s=arc-20240605;
-        b=lw4eb3iZ9G6NvqdQMct+b86ZvQJIKoYJWGavkOMm0OrUtKQXPM4eoGp0JtmnEGuVYV
-         X1Pf45E8GdOZpw3OeKQVE4QumG5WH/DQMk7rYjd7qX/onEyRClmdku+R2B5LTrfZrrG7
-         9cAxdgLL6SbJT6wulf4al4hmTXUvPzyRxkcOku/JAisU+RBUNFDvuNq3kKRKOfuayAMt
-         dmZi1GVcTN/IcUrQ74f9h6BjKUWFBpT737xzUFQtOYTIyQxhlas9/zFihrqvshXLeZHt
-         EtMEXE9Swq9xxgrEDkx0rQnwfZ0EjMPdyMCZjnq7Wj7B2Fi0maLt20A44CqTg6vkRRIP
-         /kqw==
+        b=eiFrZOQtFC64rPqZTplNeeMjl8G8kynb4I8JClgJJN/QbeIJf8OK/Wndb6bFE4JiHY
+         i3QgZ/opo9nfRafyiDN3dY5SWCMch/Xd8GAsfqYfIqpn/lDv4tL7bB+Fxm2ZO0Qc4412
+         rL7VeIFujt9YcT41PaIpKfUqltinQOTaKm830awPDF5dWV5UGtXOFLwx0UYo36qkJpWr
+         WXzqX0B4dzaYVTKIJ4f4aoCzgUZ5sYupt+6d50AU4OU6dqO8I6+zS5O5f1NgUvnGCvma
+         aQD8vmIvL3wm0riVvOpyhw07zJUCsEQiK2HW/L8uU8uifrFeXb+ZdwfN6kFDD5F9sdYx
+         1Nyw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=1nRg/9c6y+F4w+BQ+TqWvahZWyBQkR9bxD0rGv1LzPI=;
-        fh=KAK+EYu0/wh8r3TtkggOMtJ/HrZlnLyok58jQH2sXNM=;
-        b=C7KBPKYtJe3za7swZ0koVetYiVwQAsUg8Y6vhX+1iSmDMjwYK+rXaPSlGphSrjesoC
-         lmQaXJdqfxphE8e2IntTFp+M+v8z3Q+/E1zDmAjrLshBqJnioz47UFSC1XAn05WqxuIe
-         fBEvOjV2LUGfLMfVVg7EUeRHLzVVkvYttIKpW1vk5gowy5ReIhdZBmiiKK9nZ6lk3/9R
-         NbkuLTyfEJD2tYwbcPegRKqtYOKDK64ewjj8LqyKaOvQeR3CegrDx8gmQGtuT8hOLFpm
-         IFRczQ8xf6yIUT/sPktelci0BrYYwTC7dW75OqDSL4M2iQ4xe5xjLS3djifCdG1Yd/bm
-         twsg==;
+         :list-id:mailing-list:precedence:reply-to:mime-version
+         :content-transfer-encoding:content-language:accept-language
+         :in-reply-to:references:message-id:date:thread-index:thread-topic
+         :subject:cc:to:from:dkim-signature;
+        bh=CrDU6+X00oT2IaqSwTieap275V7Z8zcDlWen9qHZQAE=;
+        fh=b24KRTfO6/iNf2vfjt1Zw3c1cKldzboTskqGPVAg0iA=;
+        b=QmvM/pFhy4EyxW24edEknlZ9AdxcJanHqZ+ZGXs8vgM6NwQUf0IkT0N3ltYwgV9IOt
+         xeJBBF0o6G9rHy/9ESm92dZOJouMUF5M0k/KcpwsxzBcfU2qwvkwcTAXKwnUIvEAVNO8
+         hmucd/mJ433e1dfmBqD3O6tt+1imexn8Q8F+tOsGA6wc/MpcTfJ4/2kUGiKLV98eS3ki
+         4cJOi6C1Vkz8RNTJXs/LuOItWfRWMsqug9qFCeSaBmu4uglejhLNe+p8RGu6QT6bVgcA
+         ZldRdQx9xKktHKAbg4vYRHsmIuHWWdDk6rv+ryQyM25p/vdNwWz+ZzFF7106hyRWMZP/
+         87Eg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=TP0IAAkR;
-       spf=pass (google.com: domain of alx@kernel.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=alx@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of haiyan.liu@unisoc.com designates 222.66.158.135 as permitted sender) smtp.mailfrom=haiyan.liu@unisoc.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=unisoc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1752563304; x=1753168104; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1752572503; x=1753177303; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1nRg/9c6y+F4w+BQ+TqWvahZWyBQkR9bxD0rGv1LzPI=;
-        b=g+gbQEQ2scq4mQcSwxts6kFEI2j6z+xZrlMXtda8RImQPnvnnp8e8j/camf2NTCYH2
-         8rHIuBWYKPyywXYWzpfxqQFMGGa0+TxvG8tzogbF25Qtk6mlmnVUChhLFXLDpXjE/prg
-         IZmGDBY0ec6oPV7iYszmMKrBgnYP87zY0DxwyOAvQGydCQRxJos5W0Ybt3l2tQR3vdZZ
-         nILLYNACkISFLTVy74+MaTjyVpeEzhayxxPLWHYHMlxgaiQ66u+flf9XsLnRFHO3AUcy
-         bNsLiqV2BY93oxQdRJNjlyaNlYhO6YSQHhSi4uBgxCsOHFztzdEtbDrEJrwVTqfEUCwc
-         cvEA==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-transfer-encoding:content-language:accept-language
+         :in-reply-to:references:message-id:date:thread-index:thread-topic
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CrDU6+X00oT2IaqSwTieap275V7Z8zcDlWen9qHZQAE=;
+        b=Acx+d+zup68IHkyRwZ/TRxIsySxXGR2IufukbT4GhX3Z8JfaEgIPNYhy4QCeXzTlku
+         NN/8+5BfdWYMJwc1/DY1WCuwQq1WEexcc4P/MNyOhNzMBKFkuZa7LwJeaswsGCpgnw74
+         MT6lr+6LsIBCCy35LFKh4mliLg0SkVX0EgYSt7Vph652+VsYFE5Jo7VlQs2lkcBuNAfw
+         oj+8bwIgEons86E5Elh99A3Gk0w38IO84Mdh45jckCLyI8LoL0Ok/uyQ/+2XwBnWYyDd
+         TzkfBazuMsGjF1YhkCD4x5GBN6qeoKrraWo2d6KMp76jtkU910DV4Jr4yfxLymF7zszG
+         PIGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752563304; x=1753168104;
+        d=1e100.net; s=20230601; t=1752572503; x=1753177303;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1nRg/9c6y+F4w+BQ+TqWvahZWyBQkR9bxD0rGv1LzPI=;
-        b=Gi1NB40LiG0BdZXLguMIVuISuiP05tjaqi+ejl4v4rkcQhYghin1fNRu5nCaGir00T
-         PBMxb3p069GuN80DgjIDvC5lEV7YjYXxsAWLxRZO4WA4pb2yJsIcSc1T0lo1hSm74kuJ
-         9c3xCpHO9a+HiIwVRKdrpJFvOJjM5YGd086IM1zzZ6vXy9xRaiBkAaWZiFmxGFCvxAKL
-         oyhG0PCo2CBWLC0icRH0dfNmjLkd87nNKA6HxHRD9J598jZHb/8iOIAFcLrGwIbffi56
-         ATyO9fyxF2WQRuIA5naZYYYiahstaMenX52Pyzpb+zem6bBFfT+D7IrolcXMwa7KP6JB
-         scKw==
-X-Forwarded-Encrypted: i=2; AJvYcCV3UlqUozYwfilgFp7436C2K/O8earwppq42VkGh0ZkYSzLn/mu17NqtG+sOj6giubp5fWX/w==@lfdr.de
-X-Gm-Message-State: AOJu0YzN4za/gCG7DX8ziCs9vmW3XTJ8TRvsDZxPHrCy9KCv1N2iGyqJ
-	QP4aIRxHtMIt0NvhM07HY6okyppCpF1SBcELn+H4834SGBsBk4vHPdCA
-X-Google-Smtp-Source: AGHT+IF4/BLUh5TaL67gdFvQMs7FU1Jsl5EyYx1SPMgyL6Fb7fwzhNG7muZHQMn2+JS2AKCQ8/KwEA==
-X-Received: by 2002:a92:ca4f:0:b0:3dd:f4d5:1c1a with SMTP id e9e14a558f8ab-3e25429f85emr147293955ab.17.1752563303912;
-        Tue, 15 Jul 2025 00:08:23 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZe5Zj934j3W4AGliuspaESD5OrpYDVv6aJ41uK/Ydvg+w==
-Received: by 2002:a05:6e02:481b:b0:3dd:bf83:da96 with SMTP id
- e9e14a558f8ab-3e24411b6b2ls39816525ab.2.-pod-prod-09-us; Tue, 15 Jul 2025
- 00:08:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUQibxqJ64bHLqSToKBqCsdt45CkiwE7NPgtSZ8nVLJEvM4KGfJoTaIhvf86MmATdsQTbeqjFYMyhw=@googlegroups.com
-X-Received: by 2002:a05:6602:26c5:b0:861:7237:9021 with SMTP id ca18e2360f4ac-879787d4d9emr1652844139f.3.1752563302961;
-        Tue, 15 Jul 2025 00:08:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1752563302; cv=none;
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-transfer-encoding:content-language:accept-language
+         :in-reply-to:references:message-id:date:thread-index:thread-topic
+         :subject:cc:to:from:x-beenthere:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CrDU6+X00oT2IaqSwTieap275V7Z8zcDlWen9qHZQAE=;
+        b=djUKmMy+9U6EipBFpfHcDf/oalvEWEo3eoNB9akm4f9p/IHxwBPOgpMrO5rNE/Bdvd
+         6SEkeYBJiVNfMJwXye5hqxGS+2mBllJfz3qQuvIoOAYmcrYYWOsc+Ge1yshZTS9I8spN
+         XoC+NPCNzzYyQzm9ljaYe0/YM0Wbz0NwP+QTu1bQ3i+G7nXTfUMEm7bx3SbFrKS87Dvz
+         1t7f4YQrcjIyPW4DLGkvIyJposLAURO6EJAavuMWPyw/5vR5espujyZQCRKA3V9uy1De
+         caCdWmLtpt5cigfWWlpiqbkdw7k7hBiWG2uSRqRJKQCcyhiRrLfn3I67MfABpcW7M2Tw
+         WyqA==
+X-Forwarded-Encrypted: i=2; AJvYcCWEyOT7gHYjdg3YAqZ9qLvzCDt6H54qex8qE11paUrPLseqhbP4hgKtJD7zkcyNWOTm4L2Pxw==@lfdr.de
+X-Gm-Message-State: AOJu0Ywh5YoJBkf6syPBPbiYaXC+7tkWIpLba0B/NDASDD+Px/UDEAd1
+	3DFvrNmPSPka1G0itGAR/iXUNZKbZbkW+y9WT/sC5RQmKoR7RaGPH+wW
+X-Google-Smtp-Source: AGHT+IGPWGe+B438tA2tUfNPL7mcdStdPPfKyXy3D9JElhN6XkjLJDXjZAt9Y78AAKlrtPCkW01OEg==
+X-Received: by 2002:a05:6a00:228c:b0:74e:a9ba:55f with SMTP id d2e1a72fcca58-755b48bf91fmr3169963b3a.20.1752572502720;
+        Tue, 15 Jul 2025 02:41:42 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfUD1eocEpOEWe4wPquC2ETC9RndlLi55SLrllfb1UArg==
+Received: by 2002:a05:6a00:4f84:b0:725:e3f6:b149 with SMTP id
+ d2e1a72fcca58-74eb4904162ls5075784b3a.1.-pod-prod-02-us; Tue, 15 Jul 2025
+ 02:41:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXST5sxA1S8/DapezJZ7vzClk8L5DL4yYvEF0sykXTQb/noAYXqyl9S6JFur2oRYLjxSx7mTEQ92p0=@googlegroups.com
+X-Received: by 2002:a05:6a21:a43:b0:232:93c2:8851 with SMTP id adf61e73a8af0-236b630e226mr3927494637.18.1752572501407;
+        Tue, 15 Jul 2025 02:41:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1752572501; cv=none;
         d=google.com; s=arc-20240605;
-        b=aC+5Bzu8YFGlvWyWt49ziiAW62+1eyqOCjy5aFjb/mJP4wXSPLbWWfTtkTN1CW9Pt3
-         NfQ1qxGB/4ueiDzch+9RJWt39V9jcqhVvbj2LxQ9ZkyekUfeM+D2RxNBL0EpEix/PtZx
-         /596MOjujuJADKNyGWSiieOoIqDT6sRblt+IAQTb+fhPSyvEGFRRIeAn2KOYjTJhNRdB
-         YrcsQa4D5Y7bOlKnjtm/tiRTO93uZkhgRgTjshaRb2f7xyk/halX3a2vhn8Y8JqH3naS
-         oiGcEsxe4s1Gv/vPUZQMIiqzeZmYybQKv97qB5gcvt/3rV/aD8M45cBrEcaT4Q/FbJDC
-         APug==
+        b=Pwy5SnZYcLRr8dAKIPXNgraFpvCaFxOeaEF9AFsPXzDkq8wjpcmEv1X8jUS65NXjvu
+         4Dm8brXyvpOgmmALQIO2wIVIdHobRgkPAjRBvUDoU4VJ1J8Et/ADWjvxt245lSOIcWWf
+         k/rPqpFrv2GLiQtatSYbjO4plVB6h9N1obalR+fcQEx08cBYl8DRY5+YwAGc1HmMKQ8a
+         eaUZAEo7R4+YgOdSBYIprBaWqMoIZMJwt+8t/dGhGf68tH5ecYUks4q39vW8RjV37Gmb
+         DCdG9I/IWkeDAm4agBErivLH5/fYkyJDgIqqLHwne/1BdT+tFOSX1hKwnbN8K3IKMvWs
+         YccQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=wgOy1FmSDbs+GUCR+IA9ljOb//Y1Ab7h6QXhOcw1yfU=;
-        fh=cmp4Fc4FmjixHz6c78+txVwv/pt5TTtyGPnBpLg+W2Y=;
-        b=YnL+MSWtvmJ3kaQg+OP02Cxvw1qzzdTZsA+TaSrpIt6R71ic5uHXgezO2PDZhAmNed
-         7PHu5Qc8JaLv9OqISQ8NtglHtOZUg2sHiazioVe2CMDx3aYeZfHLP99a86l7ujzaCcdR
-         eK234df1Ghc3ziyE4YbZUWRLfG3vy4hicGja7VNMBebB5dbwSLHLlRbMldkVum6kzbjg
-         ZGCFbbFT5hFwj5LWmXKwQejnxaDLNjnCRXDiv4NU0au6WqjaTvbhZvQZ0lA7JeErcuME
-         DfyX+k7P5c43xca3BNqoxWdclU2+nbusabUFffO3Cm8pQPvXhBBeVKDRWk9z6x0plzZx
-         OGfQ==;
+        h=mime-version:content-transfer-encoding:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:cc:to:from;
+        bh=5SjDOtjzW9fZx4Am+5lLRHubgcbDf0fDM13w8lVFCws=;
+        fh=lKEiWUJJGfmzVz91uuKceao8S3nQTpLRabFMJzVnNTM=;
+        b=VgYfTTwpgpPM39uAGj9tgl1wPuIsJ1ocIWviOwF/RNWXPCAJ4zKK5psB+3Wq4TfMpL
+         O+c08ulBmU0LUlADgJlzwQKYw4sm+gH4+gi2uAlg1qSy2ywQ81SQXYa6xgQmLse7bMhE
+         LzlR1LEQ7FGSSPbAKHMgvvJm4EcqoY57fVz6npad8jJRHSByZeHUdm9wrl4WllNHJ1BG
+         2ZtEyYtgLvXwWfxXaLPn2vP2OePPB4zMs7GZeR5/kT2uu3WVg/Pms6hqaFo+CbHVcihe
+         QQSTpqufI+m8nSdv/gUZ34LIhCTv2XGSvHiwARhK8TYHIFuleLTuT+hkXHf+k7HmGhBz
+         b3iw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=TP0IAAkR;
-       spf=pass (google.com: domain of alx@kernel.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=alx@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from sea.source.kernel.org (sea.source.kernel.org. [172.234.252.31])
-        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-505562d346dsi410245173.0.2025.07.15.00.08.22
+       spf=pass (google.com: domain of haiyan.liu@unisoc.com designates 222.66.158.135 as permitted sender) smtp.mailfrom=haiyan.liu@unisoc.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=unisoc.com
+Received: from SHSQR01.spreadtrum.com (mx1.unisoc.com. [222.66.158.135])
+        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-74eb9fb0445si513684b3a.6.2025.07.15.02.41.39
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jul 2025 00:08:22 -0700 (PDT)
-Received-SPF: pass (google.com: domain of alx@kernel.org designates 172.234.252.31 as permitted sender) client-ip=172.234.252.31;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 068BB436A4;
-	Tue, 15 Jul 2025 07:08:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D79EBC4CEE3;
-	Tue, 15 Jul 2025 07:08:16 +0000 (UTC)
-Date: Tue, 15 Jul 2025 09:08:14 +0200
-From: "'Alejandro Colomar' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Kees Cook <kees@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	David Laight <david.laight.linux@gmail.com>, Martin Uecker <ma.uecker@gmail.com>, linux-mm@kvack.org, 
-	linux-hardening@vger.kernel.org, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
-	shadow <~hallyn/shadow@lists.sr.ht>, linux-kernel@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>, 
-	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, Christoph Lameter <cl@linux.com>, 
-	David Rientjes <rientjes@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>, 
-	Andrew Clayton <andrew@digital-domain.net>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Michal Hocko <mhocko@suse.com>, Al Viro <viro@zeniv.linux.org.uk>, Sam James <sam@gentoo.org>, 
-	Andrew Pinski <pinskia@gmail.com>
-Subject: Re: [RFC v5 6/7] sprintf: Add [v]sprintf_array()
-Message-ID: <3o3ra7vjn44iey2dosunsm3wa4kagfeas2o4yzsl34girgn2eb@6rnktm2dmwul>
-References: <cover.1751823326.git.alx@kernel.org>
- <cover.1752182685.git.alx@kernel.org>
- <04c1e026a67f1609167e834471d0f2fe977d9cb0.1752182685.git.alx@kernel.org>
- <CAHk-=wiNJQ6dVU8t7oM0sFpSqxyK8JZQXV5NGx7h+AE0PY4kag@mail.gmail.com>
- <28c8689c7976b4755c0b5c2937326b0a3627ebf6.camel@gmail.com>
- <20250711184541.68d770b9@pumpkin>
- <CAHk-=wjC0pAFfMBHKtCLOAcUvLs30PpjKoMfN9aP1-YwD0MZ5Q@mail.gmail.com>
- <202507142211.F1E0730A@keescook>
+        Tue, 15 Jul 2025 02:41:41 -0700 (PDT)
+Received-SPF: pass (google.com: domain of haiyan.liu@unisoc.com designates 222.66.158.135 as permitted sender) client-ip=222.66.158.135;
+Received: from dlp.unisoc.com ([10.29.3.86])
+	by SHSQR01.spreadtrum.com with ESMTP id 56F9eb1Q093836;
+	Tue, 15 Jul 2025 17:40:37 +0800 (+08)
+	(envelope-from haiyan.liu@unisoc.com)
+Received: from SHDLP.spreadtrum.com (bjmbx02.spreadtrum.com [10.0.64.8])
+	by dlp.unisoc.com (SkyGuard) with ESMTPS id 4bhDb50sFvz2K4cJr;
+	Tue, 15 Jul 2025 17:36:17 +0800 (CST)
+Received: from BJMBX01.spreadtrum.com (10.0.64.7) by BJMBX02.spreadtrum.com
+ (10.0.64.8) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Tue, 15 Jul
+ 2025 17:40:31 +0800
+Received: from BJMBX01.spreadtrum.com ([fe80::54e:9a:129d:fac7]) by
+ BJMBX01.spreadtrum.com ([fe80::54e:9a:129d:fac7%16]) with mapi id
+ 15.00.1497.048; Tue, 15 Jul 2025 17:40:31 +0800
+From: =?UTF-8?B?J+WImOa1t+eHlSAoSGFpeWFuIExpdSknIHZpYSBrYXNhbi1kZXY=?= <kasan-dev@googlegroups.com>
+To: Miguel Ojeda <ojeda@kernel.org>
+CC: =?utf-8?B?5ZGo5bmzIChQaW5nIFpob3UvOTAzMik=?= <Ping.Zhou1@unisoc.com>,
+        =?utf-8?B?5Luj5a2Q5Li6IChaaXdlaSBEYWkp?= <Ziwei.Dai@unisoc.com>,
+        =?utf-8?B?5p2o5Li95aicIChMaW5hIFlhbmcp?= <lina.yang@unisoc.com>,
+        "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        "rust-for-linux@vger.kernel.org"
+	<rust-for-linux@vger.kernel.org>,
+        =?utf-8?B?546L5Y+MIChTaHVhbmcgV2FuZyk=?=
+	<shuang.wang@unisoc.com>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        "Alexander Potapenko" <glider@google.com>,
+        Andrey Konovalov
+	<andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Vincenzo Frascino
+	<vincenzo.frascino@arm.com>,
+        "kasan-dev@googlegroups.com"
+	<kasan-dev@googlegroups.com>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        =?utf-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?=
+	<arve@android.com>,
+        Todd Kjos <tkjos@android.com>, Martijn Coenen
+	<maco@android.com>,
+        Joel Fernandes <joelagnelf@nvidia.com>,
+        Christian Brauner
+	<christian@brauner.io>,
+        Carlos Llamas <cmllamas@google.com>,
+        "Suren
+ Baghdasaryan" <surenb@google.com>,
+        Jamie Cunliffe <Jamie.Cunliffe@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>
+Subject: =?utf-8?B?562U5aSNOiBNZWV0IGNvbXBpbGVkIGtlcm5lbCBiaW5hcmF5IGFibm9ybWFs?=
+ =?utf-8?B?IGlzc3VlIHdoaWxlIGVuYWJsaW5nIGdlbmVyaWMga2FzYW4gaW4ga2VybmVs?=
+ =?utf-8?Q?_6.12_with_some_default_KBUILD=5FRUSTFLAGS_on?=
+Thread-Topic: Meet compiled kernel binaray abnormal issue while enabling
+ generic kasan in kernel 6.12 with some default KBUILD_RUSTFLAGS on
+Thread-Index: Adv0awkF3quLQs5+RfaRTr3Yr7SnUQATGr8AACy4DEA=
+Date: Tue, 15 Jul 2025 09:40:30 +0000
+Message-ID: <c34f4f606eb04c38b64e8f3a658cd051@BJMBX01.spreadtrum.com>
+References: <4c459085b9ae42bdbf99b6014952b965@BJMBX01.spreadtrum.com>
+ <202507150830.56F8U908028199@SHSPAM01.spreadtrum.com>
+In-Reply-To: <202507150830.56F8U908028199@SHSPAM01.spreadtrum.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.93.65]
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="42cidsdllbjeiguv"
-Content-Disposition: inline
-In-Reply-To: <202507142211.F1E0730A@keescook>
-X-Original-Sender: alx@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=TP0IAAkR;       spf=pass
- (google.com: domain of alx@kernel.org designates 172.234.252.31 as permitted
- sender) smtp.mailfrom=alx@kernel.org;       dmarc=pass (p=QUARANTINE
- sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: Alejandro Colomar <alx@kernel.org>
-Reply-To: Alejandro Colomar <alx@kernel.org>
+X-MAIL: SHSQR01.spreadtrum.com 56F9eb1Q093836
+X-Original-Sender: haiyan.liu@unisoc.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of haiyan.liu@unisoc.com designates 222.66.158.135 as
+ permitted sender) smtp.mailfrom=haiyan.liu@unisoc.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=unisoc.com
+X-Original-From: =?utf-8?B?5YiY5rW354eVIChIYWl5YW4gTGl1KQ==?= <haiyan.liu@unisoc.com>
+Reply-To: =?utf-8?B?5YiY5rW354eVIChIYWl5YW4gTGl1KQ==?= <haiyan.liu@unisoc.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -159,143 +196,94 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 
---42cidsdllbjeiguv
-Content-Type: text/plain; protected-headers=v1; charset="UTF-8"
-Content-Disposition: inline
-From: Alejandro Colomar <alx@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	David Laight <david.laight.linux@gmail.com>, Martin Uecker <ma.uecker@gmail.com>, linux-mm@kvack.org, 
-	linux-hardening@vger.kernel.org, Christopher Bazley <chris.bazley.wg14@gmail.com>, 
-	shadow <~hallyn/shadow@lists.sr.ht>, linux-kernel@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>, 
-	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, Christoph Lameter <cl@linux.com>, 
-	David Rientjes <rientjes@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>, 
-	Andrew Clayton <andrew@digital-domain.net>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Michal Hocko <mhocko@suse.com>, Al Viro <viro@zeniv.linux.org.uk>, Sam James <sam@gentoo.org>, 
-	Andrew Pinski <pinskia@gmail.com>
-Subject: Re: [RFC v5 6/7] sprintf: Add [v]sprintf_array()
-References: <cover.1751823326.git.alx@kernel.org>
- <cover.1752182685.git.alx@kernel.org>
- <04c1e026a67f1609167e834471d0f2fe977d9cb0.1752182685.git.alx@kernel.org>
- <CAHk-=wiNJQ6dVU8t7oM0sFpSqxyK8JZQXV5NGx7h+AE0PY4kag@mail.gmail.com>
- <28c8689c7976b4755c0b5c2937326b0a3627ebf6.camel@gmail.com>
- <20250711184541.68d770b9@pumpkin>
- <CAHk-=wjC0pAFfMBHKtCLOAcUvLs30PpjKoMfN9aP1-YwD0MZ5Q@mail.gmail.com>
- <202507142211.F1E0730A@keescook>
-MIME-Version: 1.0
-In-Reply-To: <202507142211.F1E0730A@keescook>
 
-Hi Kees,
+> -----=E9=82=AE=E4=BB=B6=E5=8E=9F=E4=BB=B6-----
+> =E5=8F=91=E4=BB=B6=E4=BA=BA: Miguel Ojeda <ojeda@kernel.org>
+> =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2025=E5=B9=B47=E6=9C=8815=E6=97=A5 =
+4:05
+> =E6=94=B6=E4=BB=B6=E4=BA=BA: =E5=88=98=E6=B5=B7=E7=87=95 (Haiyan Liu) <ha=
+iyan.liu@unisoc.com>
+> =E6=8A=84=E9=80=81: =E5=91=A8=E5=B9=B3 (Ping Zhou/9032) <Ping.Zhou1@uniso=
+c.com>; =E4=BB=A3=E5=AD=90=E4=B8=BA (Ziwei Dai) <Ziwei.Dai@unisoc.com>; =E6=
+=9D=A8=E4=B8=BD=E5=A8=9C (Lina Yang)
+> <lina.yang@unisoc.com>; linux-arm-kernel@lists.infradead.org; linux-kerne=
+l@vger.kernel.org; rust-for-linux@vger.kernel.org; =E7=8E=8B=E5=8F=8C
+> (Shuang Wang) <shuang.wang@unisoc.com>; Andrey Ryabinin <ryabinin.a.a@gma=
+il.com>; Alexander Potapenko <glider@google.com>;
+> Andrey Konovalov <andreyknvl@gmail.com>; Dmitry Vyukov <dvyukov@google.co=
+m>; Vincenzo Frascino <vincenzo.frascino@arm.com>;
+> kasan-dev@googlegroups.com; Greg Kroah-Hartman <gregkh@linuxfoundation.or=
+g>; Arve Hj=C3=B8nnev=C3=A5g <arve@android.com>; Todd Kjos
+> <tkjos@android.com>; Martijn Coenen <maco@android.com>; Joel Fernandes <j=
+oelagnelf@nvidia.com>; Christian Brauner
+> <christian@brauner.io>; Carlos Llamas <cmllamas@google.com>; Suren Baghda=
+saryan <surenb@google.com>; Jamie Cunliffe
+> <Jamie.Cunliffe@arm.com>; Catalin Marinas <catalin.marinas@arm.com>
+> =E4=B8=BB=E9=A2=98: Re: Meet compiled kernel binaray abnormal issue while=
+ enabling generic kasan in kernel 6.12 with some default KBUILD_RUSTFLAGS
+> on
+>=20
+>=20
+> =E6=B3=A8=E6=84=8F: =E8=BF=99=E5=B0=81=E9=82=AE=E4=BB=B6=E6=9D=A5=E8=87=
+=AA=E4=BA=8E=E5=A4=96=E9=83=A8=E3=80=82=E9=99=A4=E9=9D=9E=E4=BD=A0=E7=A1=AE=
+=E5=AE=9A=E9=82=AE=E4=BB=B6=E5=86=85=E5=AE=B9=E5=AE=89=E5=85=A8=EF=BC=8C=E5=
+=90=A6=E5=88=99=E4=B8=8D=E8=A6=81=E7=82=B9=E5=87=BB=E4=BB=BB=E4=BD=95=E9=93=
+=BE=E6=8E=A5=E5=92=8C=E9=99=84=E4=BB=B6=E3=80=82
+> CAUTION: This email originated from outside of the organization. Do not c=
+lick links or open attachments unless you recognize the sender
+> and know the content is safe.
+>=20
+>=20
+>=20
+> On Mon, 14 Jul 2025 03:12:33 +0000 "=E5=88=98=E6=B5=B7=E7=87=95 (Haiyan L=
+iu)" <haiyan.liu@unisoc.com> wrote:
+> >
+> > After I delete the rust build flags, the asan.module_ctor binary is rig=
+ht and kasan feature works fine.Could you help check why
+> KBUILD_RUSTFLAGS impacts kernel complication with kasan feature enabled a=
+nd how can this issue fixed?
+>=20
+> I assume Rust is enabled in that kernel, right? Or do you mean that someh=
+ow removing those lines from the `Makefile` makes the issue go
+> away even if Rust is not enabled?
+=20
+Rust is enabled in kernel, and rustc version is 1.82.0. I want to know why =
+the pacisap/autiasp are not in pair.
 
-On Mon, Jul 14, 2025 at 10:19:39PM -0700, Kees Cook wrote:
-> On Fri, Jul 11, 2025 at 10:58:56AM -0700, Linus Torvalds wrote:
-> >         struct seq_buf s;
-> >         seq_buf_init(&s, buf, szie);
-> 
-> And because some folks didn't like this "declaration that requires a
-> function call", we even added:
-> 
-> 	DECLARE_SEQ_BUF(s, 32);
-> 
-> to do it in 1 line. :P
-> 
-> I would love to see more string handling replaced with seq_buf.
+> Could you please share your kernel commit and the full configuration? Fro=
+m a quick build arm64 KASAN in v6.12.38, I see the
+> `paciasp`/`autiasp` pair in one of the Rust object files:
 
-The thing is, it's not as easy as the fixes I'm proposing, and
-sprintf_end() solves a lot of UB in a minimal diff that you can dumbly
-apply.
+The commit changes the fragment and diff is:
++CONFIG_CMDLINE=3D"stack_depot_disable=3Doff kasan.stacktrace=3Don kasan.fa=
+ult=3Dpanic kvm-arm.mode=3Dprotected cgroup_disable=3Dpressure"
++CONFIG_KASAN_GENERIC=3Dy
+Only two rust-related global variables in fmr.rs and layout.rs have this is=
+sue. Their asan.module_ctor complied binaries are wrong.
 
-And transitioning from sprintf_end() to seq_buf will still be a
-possibility --probably even easier, because the code is simpler than
-with s[c]nprintf()--.
+>     0000000000000000 <asan.module_ctor>:
+>            0: d503233f          paciasp
+>            4: f81f0ffe          str     x30, [sp, #-0x10]!
+>            8: 90000000          adrp    x0, 0x0 <asan.module_ctor>
+>            c: 91000000          add     x0, x0, #0x0
+>           10: 52800601          mov     w1, #0x30               // =3D48
+>           14: 94000000          bl      0x14 <asan.module_ctor+0x14>
+>           18: f84107fe          ldr     x30, [sp], #0x10
+>           1c: d50323bf          autiasp
+>           20: d65f03c0          ret
+>=20
+> But I am definitely not an expert at all in this, so Cc'ing KASAN and And=
+roid maintainers:
+> https://lore.kernel.org/rust-for-linux/4c459085b9ae42bdbf99b6014952b965@B=
+JMBX01.spreadtrum.com/
+>=20
+> Cheers,
+> Miguel
 
-Another thing, and this is my opinion, is that I'm not fond of APIs that
-keep an internal state.  With sprintf_end(), the state is minimal and
-external: the state is the 'p' pointer to where you're going to write.
-That way, the programmer knows exactly where the writes occur, and can
-reason about it without having to read the implementation and keep a
-model of the state in its head.  With a struct-based approach, you hide
-the state inside the structure, which means it's not so easy to reason
-about how an action will affect the string, at first glance; you need an
-expert in the API to know how to use it.
-
-With sprintf_end(), either one is stupid/careless enough to get the
-parameters wrong, or the function necessarily works well, *and is simple
-to fully understand*.  And considering that we have ENDOF(), it's hard
-to understand how one could get it wrong:
-
-	p = buf;
-	e = ENDOF(buf);
-	p = sprintf_end(p, e, ...);
-	p = sprintf_end(p, e, ...);
-	p = sprintf_end(p, e, ...);
-	p = sprintf_end(p, e, ...);
-
-Admittedly, ENDOF() doesn't compile if buf is not an array, so in those
-cases, there's a chance of a paranoic programmer slapping a -1 just in
-case, but that doesn't hurt:
-
-	p = buf;
-	e = buf + size;  // Someone might accidentally -1 that?
-
-I'm working on extending the _Countof() operator so that it can be
-applied to array parameters to functions, so that it can be used to
-count arrays that are not arrays:
-
-	void
-	f(size_t n, char buf[n])
-	{
-		p = buf;
-		e = buf + _Countof(buf);  // _Countof(buf) will evaluate to n.
-		...
-	}
-
-Which will significantly enhance the usability of sprintf_end().  I want
-to implement this for GCC next year (there are a few things that need to
-be improved first to be able to do that), and also propose it for
-standardization.
-
-For a similar comparison of stateful vs stateless functions, there are
-strtok(3) and strsep(3), which apart from minor differences (strtok(3)
-collapses adjacent delimiters) are more or less the same.  But I'd use
-strsep(3) over strtok(3), even if just because strtok(3) keeps an
-internal state, so I always need to be very careful of reading the
-documentation to remind myself of what happens to the state after each
-call.  strsep(3) is dead simple: you call it, and it updates the pointer
-you passed; nothing is kept secretly from the programmer.
-
-
-Have a lovely day!
-Alex
-
--- 
-<https://www.alejandro-colomar.es/>
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/3o3ra7vjn44iey2dosunsm3wa4kagfeas2o4yzsl34girgn2eb%406rnktm2dmwul.
-
---42cidsdllbjeiguv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmh1/lcACgkQ64mZXMKQ
-wqkuig//S3hiwlkmTsz7a0bec7iYCPTHlJQErIaH1hA0PDwadlm0Uld/f8mbbM7o
-Ps84e7sweLABRiI8zlkgBCM4sK3SY+wyoKz7d9vasg5XiyIVVAPxE3PaArxdTYz5
-0eEJpu96pwyMyMk5efylDBnL7q7C2orgiimax53nITbsbQs3gx5rrT1eAFjQ18fk
-SWYjiO4LTE+vn/XWYSm/RJQpTRkss67jMrxNTg534J8NG3WRAK4q4ytJPxd3cCrB
-1EQs5McuvHSVYcRCqdSfW4BK4EF1gQwwfBGh6VEX/t+i7K4tufhSeaQUGU1x4xmx
-ERW0AWe80VDMCyz1hmZkyEj/4r4nXn1hZ8Tjg/bvUK5WDICFKfaTGgd4EbQ4yyuY
-+GGOGLpHF/LzIQfGsAMLhv6QCgRd29bT3EHlCSdqpQYYDcBvCY/yCzS19q9C/5r+
-kZBJGn0g+hStrC1CjItE8yrviowVmopVLsx5d3cEnjdK1FqZX8OgfWjNdDR6d0dl
-Ypk3D6e857x/WBd2p19r6k+Qda0Mw0KDLz/qZ0aoEjGoyBj2s86Ipi3aA54MqJyV
-YV/c78fOIDQB4PC+AfsvQ9xYO8Ij264dGBnHJunjZGsL1pTwVSlOnjdVw6gVsr8p
-bUsCwLZLs4q1EEFG4RELMcCvjXBoziYheUg2rvW5+lkV/ZPVryI=
-=tD+S
------END PGP SIGNATURE-----
-
---42cidsdllbjeiguv--
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/c=
+34f4f606eb04c38b64e8f3a658cd051%40BJMBX01.spreadtrum.com.
