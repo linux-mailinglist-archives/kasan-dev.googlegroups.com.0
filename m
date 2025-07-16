@@ -1,172 +1,190 @@
-Return-Path: <kasan-dev+bncBDRZHGH43YJRB7VJ3LBQMGQE4T2HMIY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBY453XBQMGQE55S4ECA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103d.google.com (mail-pj1-x103d.google.com [IPv6:2607:f8b0:4864:20::103d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13CD0B06563
-	for <lists+kasan-dev@lfdr.de>; Tue, 15 Jul 2025 19:51:12 +0200 (CEST)
-Received: by mail-pj1-x103d.google.com with SMTP id 98e67ed59e1d1-3132c8437ffsf9459692a91.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 15 Jul 2025 10:51:12 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1752601855; cv=pass;
+Received: from mail-oa1-x3c.google.com (mail-oa1-x3c.google.com [IPv6:2001:4860:4864:20::3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C2FB06E75
+	for <lists+kasan-dev@lfdr.de>; Wed, 16 Jul 2025 09:04:05 +0200 (CEST)
+Received: by mail-oa1-x3c.google.com with SMTP id 586e51a60fabf-2ff53b48950sf2332418fac.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 16 Jul 2025 00:04:05 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1752649444; cv=pass;
         d=google.com; s=arc-20240605;
-        b=cso2IQk/XW2HUVU9WxbN8eCZFYl25RGcUU4QSlFv7FoqoWBVd9UQbIAKynLcz8oDuh
-         F9MpdoXdEcFt6N04HKt86QVfbbJG/RFlOVu8H5UCWrMa7EsvL9Yq3sBgeWTY0bZlj1OG
-         Q00Y9SC5uoNb2WWB074c5XQkuflnMhSfRYaXsqJotiE+AJhRdYRAj77WazB3+ujxWNcZ
-         AhKa7UygMORImij2gatfP941gfcez5Yq9LBJyjs19zIbDdpgWGhN3lr2ByVbRZOtI4nd
-         zc4qzu6GemmyUeehdbiHlFbQ1LrwYrUYpDIsThHurBbSTib9CkDQ6NQadbmO7/OW24Is
-         DSAQ==
+        b=WaozOWP3LuLyXFdI/iM40lBO2E/A51XdFUtIza4lc+1TT6VSo90TbdY1no9prDaK8U
+         iZroJWep8gTxkVqaCGT+/ZXzvLAyEZ7b/LIr4JgM+QQr1h9PcEffNIZombqf7gOMTcUG
+         SWqy5275ezw8OqJBoErOPuRpbxTXKYeNmIQgxxAAOiBmnH7A1tYmQJgHjUpr/y+pozm9
+         rKGqdOJsxHCDJnVvG4uB7ZU/fYVRiygm1BDvuleP9xax55QtgbZuUPE2n6GcoFmUuNss
+         wUWiYHkEbSrGG/EAX/gxkuDsqyLfFUwMdyvCJV2yM5BEY8myqozRU3AvFEKiL9+5AHuT
+         /rzg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=8lfB0ZUUsU5CBVX3ay5UHlCO50r+hHlFFt1/CYQJ+rk=;
-        fh=5II2qwmio358u9AeE3lheNo6xdbEUK1RhEYhpIqZjDU=;
-        b=QrtKC+KY56w73G6rnHIlOIOX1fXkkavnHJ9GlJo1hG1G4UxjiYI3/o2zUQq5Aws1Ac
-         xoX37hKkoMyFmiBspoYpY8JPKoxjATS0IdiPJJkqDGq4U0LFOPpoYU9NkeyVroXSTn5f
-         x3Yql/Tbfg+tvjq0KMV+k7UcBPBGALxISWpntmCYaQuoRU89yhwzkxdtpHyptHvmxM/Q
-         oZDWP1zet9Sp5THweKXo2JOQd+3jYJX+6IwNCATxZIiC8P+zhLYp87SeI9uaJNMLgVqO
-         S9OAOCO8WovxLpWshlX6gtbBQzfqzKGtzeilpYY5dV7yQdKxo1R+4gHqoPihgcByfrb1
-         LanA==;
+         :list-id:mailing-list:precedence:reply-to:mime-version
+         :content-transfer-encoding:content-language:accept-language
+         :in-reply-to:references:message-id:date:thread-index:thread-topic
+         :subject:cc:to:from:dkim-signature;
+        bh=JklZNDXiUWIl2yP3M5u2Wu9oGXwi5d9ahumVT7HcwQ0=;
+        fh=iaunBNRovrlkpRXdHxjGeVEDuZ0JYQb8fSf1QEdUBZA=;
+        b=PhM4ET4rR3pdafmQA4rF7vspVig+6sROyeoMX7tNFbA1QRMSeNgFd8C5eCTBnogBrQ
+         jEUa3tvmlDuUrQZYKu78JWkXvUZDx6ar8mCieit5YDNjZrIozIUSlTbCq90wQLCvlG+g
+         CUJqz9VWL/i+lCXlhH4Jx5e7xSlrewKiv1lbMDJV0MPulxvWg22/TsIJtwkjZBYNznY/
+         tGgDqYFjd9Th2LqnTeF+hWTZUeOW//M1hMysLGwogmZmX0D+NbxXHEwhpopLXJSa9a62
+         Z19bG75wbGXY3PPuc5OMJ31tlwGnDhfW+zDLoY1heGaZKWPcFauVgLyIvkL4mmLhDXiA
+         sLwQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=DJ0St0AU;
-       spf=pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::1029 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+       spf=pass (google.com: domain of haiyan.liu@unisoc.com designates 222.66.158.135 as permitted sender) smtp.mailfrom=haiyan.liu@unisoc.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=unisoc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1752601855; x=1753206655; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1752649444; x=1753254244; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8lfB0ZUUsU5CBVX3ay5UHlCO50r+hHlFFt1/CYQJ+rk=;
-        b=a9IIei7RRXvkojIRXcCX+ezW9Jyje3ssioziy47mbe5ceJtto9j9T79Qq/8Rt4u+CV
-         H92/qajPyIXd0XJbyzGoRv90QC8ziNOb4D/wG1ho48Ueudf3pRhF6Gj5alqDak2EZJZs
-         J1X8GsaE+9qvvCehxTZgOg3+Qb+JWqMMa8UWLO6d59yny7CDWryEdigIhDhpm4kWbrly
-         +X8sLmLpDTHYeeEZ2VquRW93v4z35q3Ga2J3I+8MzI5+ax6REcDOzrXQC6ooCy1+7z0V
-         x2Wnqr1ChFphDkosvQQ67tmN/J7NwOUGLQiNsMHoBTxCh54nG741YCmmmtU8JlP2uk1D
-         c+rg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752601855; x=1753206655; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8lfB0ZUUsU5CBVX3ay5UHlCO50r+hHlFFt1/CYQJ+rk=;
-        b=kyec7+CYshXHNLyhDbKgw/lqHKCXvNhCvaHYROw/LwbICiERMX5gn05fUMAh0L/hHV
-         Yo7x1zcarH+5nwwyzSHiAEJt4v9L6iibmb2arBMS1Qt9qf09KRooeIjJcye1G2PNamcQ
-         N8NE8+4YNNKSIqAwtCDR5jv3qUuuElQuTGWunHKfMJUqq1B68ZqWWeCzurKB+SvvziWf
-         7M0r2P9z7NrWql9Tuxr1K7RPJwgeBz2ECS4uaY4TG9UxQeQEeffQdm+iClUx2kT5fgs0
-         /drvP1JTJ0xE8uzFwv4H1M20smFs4zyMGkfIPaDyIrC+hzIBTsunEakxLAr8HVEHqSS/
-         +2lQ==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-transfer-encoding:content-language:accept-language
+         :in-reply-to:references:message-id:date:thread-index:thread-topic
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JklZNDXiUWIl2yP3M5u2Wu9oGXwi5d9ahumVT7HcwQ0=;
+        b=uUEgQOFNsttf+ATOLA3EXJ6sEyPfK0ZSvFthz4GvtkpRPaeRBprWaFQX2ol1tLfpPN
+         iQaDtdONF7YQWaBpe5IKQsN/b4UrXr8M427xbdg5ifNE985tiQwqLemopCGbt4Ba7YzZ
+         nNhMG44KX/AdF0V0/i0TGWzPSVOHlid9J/cU0zfUAMCn+jsk9eZNAA/v6OA+aGS9bJp8
+         07hcrAacpmR8e+tFcHzSaHcHqhiv+6meIE83cMOAl0jPn72jbrmrc+0fPcZU1NTz/t1z
+         yXmFPMF2KOkA21iX11itzi05+l6HdgfuVfFmNtVWUsWsycJijTst+JjodjDMjhy06KDN
+         //EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752601855; x=1753206655;
+        d=1e100.net; s=20230601; t=1752649444; x=1753254244;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=8lfB0ZUUsU5CBVX3ay5UHlCO50r+hHlFFt1/CYQJ+rk=;
-        b=TWnzX6vOBCakQw0F7eatZP6MQ9iRv55Wt7GKxWDeULnFNU9oeYHBZQIjwg6SbLCxj6
-         gZQVGQDOqw/N++DZ0x0oIjyVVe0xD8zu/irGvYqMhj6rxELrqFvYc60XZDliAUmB8vU7
-         8V/WA25/U6yZRDE6FLS2n0hGjHUm3lE9e8ef9WL1XqL36EITmvxIkjJLjOe+neSssCBg
-         WXaHQGndC9n8e7ZyEx6LAtIfK2Siww2RfVTrETemxq1BC9az/0tR9D2KR7T8qF2ZDpC0
-         e/qvJm+wYsRzLm1epyLgo0E4cx6Ba4FPQL07nPYDUnGDgFvUDfek32CUgO/9I+NPxCcp
-         4qZQ==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWVwGL6uK5wmCKSUNYurgllKAbpsxIvG2CIyzfea/am0OFei/NZSCForcfQf27nC8k19wfTVg==@lfdr.de
-X-Gm-Message-State: AOJu0Yzu77rH6ehR9PMbwK79x1mNWHJmcjQS5boq5BvuK+IOUYKUjitR
-	Y9jMa5nL3d+bameyVpE3T1XalY5/xxZtMuL97w4W13DpqpzlbDHW9ekW
-X-Google-Smtp-Source: AGHT+IFgA5eOBfp/XKQWvIpR1b+syeiwMB3ueu/bvPvQRdvCXXBzwldM9PBny53QiHg/ZLXKf1bunA==
-X-Received: by 2002:a17:90a:da8d:b0:311:d28a:73ef with SMTP id 98e67ed59e1d1-31c9e700806mr148530a91.10.1752601854493;
-        Tue, 15 Jul 2025 10:50:54 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZf7+No5wIiMqpzx7+ZdDSObttQSYhH/tDyqldbtkWKX2w==
-Received: by 2002:a17:90b:4a4d:b0:314:21ab:c5d3 with SMTP id
- 98e67ed59e1d1-31c3c7adb7bls6278958a91.1.-pod-prod-06-us; Tue, 15 Jul 2025
- 10:50:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXYnAE1EhxwNomDJPFKZyzo4VHUDD9beaFMO4hcJXN4HW0xW+HapRZRiy104g+5Noj+CBUZIIub8Rc=@googlegroups.com
-X-Received: by 2002:a17:90b:3d86:b0:311:a4d6:30f8 with SMTP id 98e67ed59e1d1-31c9e701e0fmr99087a91.13.1752601850901;
-        Tue, 15 Jul 2025 10:50:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1752601850; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-transfer-encoding:content-language:accept-language
+         :in-reply-to:references:message-id:date:thread-index:thread-topic
+         :subject:cc:to:from:x-beenthere:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JklZNDXiUWIl2yP3M5u2Wu9oGXwi5d9ahumVT7HcwQ0=;
+        b=vib05pUw0FgHwyiVdiZRZtJF1ZaNZz9c7rhs2vSS1s1WMe15ysqiDtvzJDmtfti0Ms
+         LXpVK/IRPbue2GVc/crE37RSbJDwWJLJjUhnINlRBTv/Npb7ZrK75hYQVWHPjPGRFp76
+         CxkWCKgzpI676g9UDzFxcXuSrqXUK8OoRkfIWDMgcPKkPQBW6eCfCalD2qITjrpjBact
+         nqpo8T+FnnGG6Y7S1QPh7EQu1gR0yYW7cLjUg0M2XoY02QnBhmpfZNe+pOMTiVwIqlnq
+         SUVkFF45xD8U0iEn/igF6idwAJMm6B5Qw73+6arXdTQsJP8jIfJW9Ofp+arPAvo8Nkbe
+         nVpQ==
+X-Forwarded-Encrypted: i=2; AJvYcCVtOu7oLnj9o5fqBr0Osw1J6ZVNHnkFZSfJyKhHUOojTNLTD4+qDXhAM/b3ykwj8PnFyGbSYQ==@lfdr.de
+X-Gm-Message-State: AOJu0YxpfS6fZQCO6TwMFUfKOMeVJCmIkGUvts2Yph7spLhw+VU1cm0Z
+	ivKWw+QuG7n/k9FcN1wo/6tV3ndgKGRFio1l0+Be3UaX+EefqMJScq5K
+X-Google-Smtp-Source: AGHT+IHGU5mgRx/9uufF9xCvMGYJMsjxMVIAwEa+kKhDvw8S/SSmofNomuG0dsGmESkrGEfIsWokzQ==
+X-Received: by 2002:a05:6870:d14a:b0:2e8:ec55:aafc with SMTP id 586e51a60fabf-2ffb253ef42mr1228654fac.37.1752649443651;
+        Wed, 16 Jul 2025 00:04:03 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdPcFLmP+4HVoug2hdLorrAnFD46hgOfb4yFXmf9i3f7g==
+Received: by 2002:a05:6871:3214:b0:2ff:8cb6:b720 with SMTP id
+ 586e51a60fabf-2ff8cb6ba0dls985743fac.0.-pod-prod-05-us; Wed, 16 Jul 2025
+ 00:04:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCW7q0U8cagZGzE162ljvB9o7Z9I9St+cAsNyBxm41zq9EOpkWjP24Nreq3vImr3Kla0LXH0ateFC2w=@googlegroups.com
+X-Received: by 2002:a05:6808:50a4:b0:405:6b13:ca55 with SMTP id 5614622812f47-41d05c3ca63mr1198893b6e.37.1752649442913;
+        Wed, 16 Jul 2025 00:04:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1752649442; cv=none;
         d=google.com; s=arc-20240605;
-        b=UD5xEI0p4g1ujQBrwVuCe7j4cH6Et87tDL8k0pdw/QJpaAQHlQytMz0TqD1ExvHG4c
-         NXtfqRtMkAa/dzWb4C2oj7oPh6bXT9e8XC3kZ9q7xS0XbvI830NBcjL7B/cGXzOgQzEV
-         HyW6h7uHwRMgtKOOCosBSdKTfudsWD1vyBzSuTJZFyn16Y9EDtOtGjIXhvsnSOm0zVSQ
-         XxczauRnwYG1Ukfa4ux4iZnPoWT3VmLAx8GCqdSiF7HwBP8SGrC+xQv2Mg47RiHvSXxb
-         FsY0KZrD6F+VTgpUSshy0dYmvBONDCqQliTSiPcTsfpwXqsHjYeoZQNoyrJu69GHWuUj
-         x7DQ==
+        b=VQLUS12XXg4uVDh4lMhItDXIyQ3I8x6090gdQwDqxVd0hRZcgkexuTBVdw7daTfn2S
+         fnqQHKWiK+Br6mj/6EhxnMfp1pyObrV7KnPD8ctRFET4MqCO2ma29NgpT5gVcrSXsZPq
+         O5+KP8N1/pgNm7TOulIcZWwjwe786OltazfPr+mL7YXIYo5rvSZzPyne/8Lu6cP8DqTM
+         vgzouQXLwjbCwkk/AvZvEBLHjAw8Kx83wmONu+lkRNmrvLhSJGDhjdJd+2WTZ01uRmiM
+         tp8baZa1qRgLjaNu0N6Dt0IQk4xuCIej3s4IO5QjF1l/3CiugJg4tspG/rGjIDJ/AFs4
+         cSjw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=/tvLXhbUj3btoVOLnjJSvLA3iyBL9Ok27em6LBsQ+Xo=;
-        fh=FWceelyi4/vZtzqxmZhVa3i1dY8uD4xWqyVZxmt19Q8=;
-        b=OHprYW3snHF9PiObzGRkknprZF+5qc4jVSvWyhcoAiCHQh4mo/Vii5Cu9jrwmbnQJL
-         6AQXS/C6LJjrtcaVLucFOvV9/T57+ev8XY8ul2ZbCTbYovr2M/WTU2dE2vnT/p4mx4bZ
-         6cfF9cNR7//kIo1JQempVbVfF4UoOeZK7Cr1269+OJgTR8hedzgEbUGr6BNKOHg/wm5T
-         bu6PeqdtuStJo/JysX+IdfoWw+J0RyT20sjIhGOhsyyEWABbI706XRKCM/BWhlCMCElx
-         QGdOTG9I2yaerEdHEyjBsyTmLA3oGneFxDbnx98fjW4Nc20RIl163ouI8PWamdZMW7Im
-         jmlg==;
+        h=mime-version:content-transfer-encoding:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:cc:to:from;
+        bh=l1mCwU/UAqJpitjQKQAf0VtDhJtI7nZ/jUOaeDsPe6s=;
+        fh=cuiwWX2kxqkUy0w8KZltQwvTK75tfgb0OtR8Ofc9GEc=;
+        b=LihJzZqtFXvhpIMrFb/HSc4g7JUE0NV+QefVBeFO5dB2wtewbkPYEs59E/5XZ2uh9+
+         xIpW00R9M6t/0Kw9pzFzLQ9f5BMLfwsh1hk07gjyCXOAFa7Nf21IYE2rSx9sYAfB5Xpa
+         +jVNbSkbU1aGYec3FR+Uf9dqit/0J8P37csgc//pJf+3tr3bHwEmqv8HTa+g7Nlx2oS/
+         Stxqokjep3Qt0Or26a8A6SCgN4CydLhk3qXCDc8xiJF+Z3cYbLgge+28I0x7/Ww2AxfU
+         WqdYl7FEo39a1b7U2n1YG3n4Cno5TL+ZbfXW9GPfzvvJhZyyMX5l3d8nztwZpocEx72Q
+         v/1A==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=DJ0St0AU;
-       spf=pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::1029 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com. [2607:f8b0:4864:20::1029])
-        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-31c924766b1si98633a91.1.2025.07.15.10.50.50
+       spf=pass (google.com: domain of haiyan.liu@unisoc.com designates 222.66.158.135 as permitted sender) smtp.mailfrom=haiyan.liu@unisoc.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=unisoc.com
+Received: from SHSQR01.spreadtrum.com (mx1.unisoc.com. [222.66.158.135])
+        by gmr-mx.google.com with ESMTPS id 006d021491bc7-6159092ea4asi227193eaf.2.2025.07.16.00.03.59
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Jul 2025 10:50:50 -0700 (PDT)
-Received-SPF: pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::1029 as permitted sender) client-ip=2607:f8b0:4864:20::1029;
-Received: by mail-pj1-x1029.google.com with SMTP id 98e67ed59e1d1-3138e64fc73so1387041a91.2
-        for <kasan-dev@googlegroups.com>; Tue, 15 Jul 2025 10:50:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV2jTMu//FEWuOf+DXQQuTOub3SScHxj9Pb8BBcGe+Ykt+1pFQI3648Fyix8Wf+kUhXy+RPN7biP88=@googlegroups.com
-X-Gm-Gg: ASbGncsWH4EAnTVJG4dV0GHrUPsmaT9+0Cv90RbYBxZKvhywm5WxD8suUpDYkkGPq65
-	hmhTiS44/8gLRIJTFH8z11TticL7bD+3goObEVHGDh0Fyv9NKWR2tsZ61vRjDC++Nv8iSZjXcbv
-	IJuMObbxFvpBC3OyqshYJZDaYwptNYYXoWh5jmUCFXICGZvzsH1G6wU/e4vBsUNUlFcG81ha71N
-	0JIPhmM
-X-Received: by 2002:a17:90b:518d:b0:312:ec:411a with SMTP id
- 98e67ed59e1d1-31c9e76ae7amr42706a91.3.1752601850205; Tue, 15 Jul 2025
- 10:50:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <4c459085b9ae42bdbf99b6014952b965@BJMBX01.spreadtrum.com>
- <202507150830.56F8U908028199@SHSPAM01.spreadtrum.com> <c34f4f606eb04c38b64e8f3a658cd051@BJMBX01.spreadtrum.com>
-In-Reply-To: <c34f4f606eb04c38b64e8f3a658cd051@BJMBX01.spreadtrum.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 15 Jul 2025 19:50:36 +0200
-X-Gm-Features: Ac12FXyoQ4fNoRKEvC6GhXGS-MiKTOay0FzcQVu316wRZ_qnU2L3B1IndxZsU0Q
-Message-ID: <CANiq72=v6jkOasLiem7RXe-WUSg9PkNqrZneeMOTi1pzwXuHYg@mail.gmail.com>
-Subject: Re: Meet compiled kernel binaray abnormal issue while enabling
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jul 2025 00:04:02 -0700 (PDT)
+Received-SPF: pass (google.com: domain of haiyan.liu@unisoc.com designates 222.66.158.135 as permitted sender) client-ip=222.66.158.135;
+Received: from dlp.unisoc.com ([10.29.3.86])
+	by SHSQR01.spreadtrum.com with ESMTP id 56G71YUo039376;
+	Wed, 16 Jul 2025 15:01:34 +0800 (+08)
+	(envelope-from haiyan.liu@unisoc.com)
+Received: from SHDLP.spreadtrum.com (bjmbx02.spreadtrum.com [10.0.64.8])
+	by dlp.unisoc.com (SkyGuard) with ESMTPS id 4bhn176KQXz2K5mNX;
+	Wed, 16 Jul 2025 14:57:15 +0800 (CST)
+Received: from BJMBX01.spreadtrum.com (10.0.64.7) by BJMBX02.spreadtrum.com
+ (10.0.64.8) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Wed, 16 Jul
+ 2025 15:01:29 +0800
+Received: from BJMBX01.spreadtrum.com ([fe80::54e:9a:129d:fac7]) by
+ BJMBX01.spreadtrum.com ([fe80::54e:9a:129d:fac7%16]) with mapi id
+ 15.00.1497.048; Wed, 16 Jul 2025 15:01:29 +0800
+From: =?UTF-8?B?J+WImOa1t+eHlSAoSGFpeWFuIExpdSknIHZpYSBrYXNhbi1kZXY=?= <kasan-dev@googlegroups.com>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+CC: Miguel Ojeda <ojeda@kernel.org>,
+        =?utf-8?B?5ZGo5bmzIChQaW5nIFpob3UvOTAzMik=?= <Ping.Zhou1@unisoc.com>,
+        =?utf-8?B?5Luj5a2Q5Li6IChaaXdlaSBEYWkp?= <Ziwei.Dai@unisoc.com>,
+        =?utf-8?B?5p2o5Li95aicIChMaW5hIFlhbmcp?= <lina.yang@unisoc.com>,
+        "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        "rust-for-linux@vger.kernel.org"
+	<rust-for-linux@vger.kernel.org>,
+        =?utf-8?B?546L5Y+MIChTaHVhbmcgV2FuZyk=?=
+	<shuang.wang@unisoc.com>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        "Alexander Potapenko" <glider@google.com>,
+        Andrey Konovalov
+	<andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Vincenzo Frascino
+	<vincenzo.frascino@arm.com>,
+        "kasan-dev@googlegroups.com"
+	<kasan-dev@googlegroups.com>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        =?utf-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?=
+	<arve@android.com>,
+        Todd Kjos <tkjos@android.com>, Martijn Coenen
+	<maco@android.com>,
+        Joel Fernandes <joelagnelf@nvidia.com>,
+        Christian Brauner
+	<christian@brauner.io>,
+        Carlos Llamas <cmllamas@google.com>,
+        "Suren
+ Baghdasaryan" <surenb@google.com>,
+        Jamie Cunliffe <Jamie.Cunliffe@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>
+Subject: Meet compiled kernel binaray abnormal issue while enabling generic
+ kasan in kernel 6.12 with some default KBUILD_RUSTFLAGS on
+Thread-Topic: Meet compiled kernel binaray abnormal issue while enabling
  generic kasan in kernel 6.12 with some default KBUILD_RUSTFLAGS on
-To: =?UTF-8?B?5YiY5rW354eVIChIYWl5YW4gTGl1KQ==?= <haiyan.liu@unisoc.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, =?UTF-8?B?5ZGo5bmzIChQaW5nIFpob3UvOTAzMik=?= <Ping.Zhou1@unisoc.com>, 
-	=?UTF-8?B?5Luj5a2Q5Li6IChaaXdlaSBEYWkp?= <Ziwei.Dai@unisoc.com>, 
-	=?UTF-8?B?5p2o5Li95aicIChMaW5hIFlhbmcp?= <lina.yang@unisoc.com>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>, 
-	=?UTF-8?B?546L5Y+MIChTaHVhbmcgV2FuZyk=?= <shuang.wang@unisoc.com>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
-	Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, 
-	Joel Fernandes <joelagnelf@nvidia.com>, Christian Brauner <christian@brauner.io>, 
-	Carlos Llamas <cmllamas@google.com>, Suren Baghdasaryan <surenb@google.com>, 
-	Jamie Cunliffe <Jamie.Cunliffe@arm.com>, Catalin Marinas <catalin.marinas@arm.com>
+Thread-Index: Adv0awkF3quLQs5+RfaRTr3Yr7SnUQATGr8AACy4DEAAAOVlAAAqFjnw
+Date: Wed, 16 Jul 2025 07:01:29 +0000
+Message-ID: <24e87f60203c443abe7549ce5c0e9e75@BJMBX01.spreadtrum.com>
+References: <4c459085b9ae42bdbf99b6014952b965@BJMBX01.spreadtrum.com>
+ <202507150830.56F8U908028199@SHSPAM01.spreadtrum.com>
+ <c34f4f606eb04c38b64e8f3a658cd051@BJMBX01.spreadtrum.com>
+ <CANiq72=v6jkOasLiem7RXe-WUSg9PkNqrZneeMOTi1pzwXuHYg@mail.gmail.com>
+In-Reply-To: <CANiq72=v6jkOasLiem7RXe-WUSg9PkNqrZneeMOTi1pzwXuHYg@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.93.65]
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: miguel.ojeda.sandonis@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=DJ0St0AU;       spf=pass
- (google.com: domain of miguel.ojeda.sandonis@gmail.com designates
- 2607:f8b0:4864:20::1029 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+MIME-Version: 1.0
+X-MAIL: SHSQR01.spreadtrum.com 56G71YUo039376
+X-Original-Sender: haiyan.liu@unisoc.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of haiyan.liu@unisoc.com designates 222.66.158.135 as
+ permitted sender) smtp.mailfrom=haiyan.liu@unisoc.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=unisoc.com
+X-Original-From: =?utf-8?B?5YiY5rW354eVIChIYWl5YW4gTGl1KQ==?= <haiyan.liu@unisoc.com>
+Reply-To: =?utf-8?B?5YiY5rW354eVIChIYWl5YW4gTGl1KQ==?= <haiyan.liu@unisoc.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -179,31 +197,129 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jul 15, 2025 at 11:41=E2=80=AFAM =E5=88=98=E6=B5=B7=E7=87=95 (Haiya=
-n Liu) <haiyan.liu@unisoc.com> wrote:
->
-> The commit changes the fragment and diff is:
 
-An Android engineer should know how to handle that, but if you are
-reporting upstream, it is best to try to reproduce the issue with the
-upstream kernels (e.g. arm64 is not in 6.6.y) and provide the full
-kernel config used.
 
-> Only two rust-related global variables in fmr.rs and layout.rs have this =
-issue. Their asan.module_ctor complied binaries are wrong.
+> -----=E9=82=AE=E4=BB=B6=E5=8E=9F=E4=BB=B6-----
+> =E5=8F=91=E4=BB=B6=E4=BA=BA: Miguel Ojeda <miguel.ojeda.sandonis@gmail.co=
+m>
+> =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2025=E5=B9=B47=E6=9C=8816=E6=97=A5 =
+1:51
+> =E6=94=B6=E4=BB=B6=E4=BA=BA: =E5=88=98=E6=B5=B7=E7=87=95 (Haiyan Liu) <ha=
+iyan.liu@unisoc.com>
+> =E6=8A=84=E9=80=81: Miguel Ojeda <ojeda@kernel.org>; =E5=91=A8=E5=B9=B3 (=
+Ping Zhou/9032) <Ping.Zhou1@unisoc.com>; =E4=BB=A3=E5=AD=90=E4=B8=BA (Ziwei=
+ Dai)
+> <Ziwei.Dai@unisoc.com>; =E6=9D=A8=E4=B8=BD=E5=A8=9C (Lina Yang) <lina.yan=
+g@unisoc.com>; linux-arm-kernel@lists.infradead.org;
+> linux-kernel@vger.kernel.org; rust-for-linux@vger.kernel.org; =E7=8E=8B=
+=E5=8F=8C (Shuang Wang) <shuang.wang@unisoc.com>; Andrey Ryabinin
+> <ryabinin.a.a@gmail.com>; Alexander Potapenko <glider@google.com>; Andrey=
+ Konovalov <andreyknvl@gmail.com>; Dmitry Vyukov
+> <dvyukov@google.com>; Vincenzo Frascino <vincenzo.frascino@arm.com>; kasa=
+n-dev@googlegroups.com; Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org>; Arve Hj=C3=B8nnev=C3=A5g <arve@android.com>=
+; Todd Kjos <tkjos@android.com>; Martijn Coenen
+> <maco@android.com>; Joel Fernandes <joelagnelf@nvidia.com>; Christian Bra=
+uner <christian@brauner.io>; Carlos Llamas
+> <cmllamas@google.com>; Suren Baghdasaryan <surenb@google.com>; Jamie Cunl=
+iffe <Jamie.Cunliffe@arm.com>; Catalin Marinas
+> <catalin.marinas@arm.com>
+> =E4=B8=BB=E9=A2=98: Re: Meet compiled kernel binaray abnormal issue while=
+ enabling generic kasan in kernel 6.12 with some default KBUILD_RUSTFLAGS
+> on
+>=20
+>=20
+> =E6=B3=A8=E6=84=8F: =E8=BF=99=E5=B0=81=E9=82=AE=E4=BB=B6=E6=9D=A5=E8=87=
+=AA=E4=BA=8E=E5=A4=96=E9=83=A8=E3=80=82=E9=99=A4=E9=9D=9E=E4=BD=A0=E7=A1=AE=
+=E5=AE=9A=E9=82=AE=E4=BB=B6=E5=86=85=E5=AE=B9=E5=AE=89=E5=85=A8=EF=BC=8C=E5=
+=90=A6=E5=88=99=E4=B8=8D=E8=A6=81=E7=82=B9=E5=87=BB=E4=BB=BB=E4=BD=95=E9=93=
+=BE=E6=8E=A5=E5=92=8C=E9=99=84=E4=BB=B6=E3=80=82
+> CAUTION: This email originated from outside of the organization. Do not c=
+lick links or open attachments unless you recognize the sender
+> and know the content is safe.
+>=20
+>=20
+>=20
+> On Tue, Jul 15, 2025 at 11:41=E2=80=AFAM =E5=88=98=E6=B5=B7=E7=87=95 (Hai=
+yan Liu) <haiyan.liu@unisoc.com> wrote:
+> >
+> > The commit changes the fragment and diff is:
+>=20
+> An Android engineer should know how to handle that, but if you are report=
+ing upstream, it is best to try to reproduce the issue with the
+> upstream kernels (e.g. arm64 is not in 6.6.y) and provide the full kernel=
+ config used.
+>=20
+> > Only two rust-related global variables in fmr.rs and layout.rs have thi=
+s issue. Their asan.module_ctor complied binaries are wrong.
+>=20
+> I am not sure what you mean by `fmr.rs`. As for `layout.rs`, that is in t=
+he `kernel` crate in 6.12.y -- isn't there a single `asan.module_ctor`
+> per TU? Which object file are you referring to? I get the pair for my `ru=
+st/kernel.o`.
 
-I am not sure what you mean by `fmr.rs`. As for `layout.rs`, that is
-in the `kernel` crate in 6.12.y -- isn't there a single
-`asan.module_ctor` per TU? Which object file are you referring to? I
-get the pair for my `rust/kernel.o`.
+  NSX:FFFFFFC0800A7C94|F800865E  asan.module_ctor:   str     x30,[x18],#0x8=
+   ; x30,[x18],#8
+   NSX:FFFFFFC0800A7C98|F81F0FFE                      str     x30,[sp,#-0x1=
+0]!   ; x30,[sp,#-16]!
+   NSX:FFFFFFC0800A7C9C|F00240A0                      adrp    x0,0xFFFFFFC0=
+848BE000
+   NSX:FFFFFFC0800A7CA0|911D8000                      add     x0,x0,#0x760 =
+    ; x0,x0,#1888
+   NSX:FFFFFFC0800A7CA4|52803D61                      mov     w1,#0x1EB    =
+    ; w1,#491
+   NSX:FFFFFFC0800A7CA8|94233816                      bl      0xFFFFFFC0809=
+75D00   ; __asan_register_globals
+   NSX:FFFFFFC0800A7CAC|F84107FE                      ldr     x30,[sp],#0x1=
+0   ; x30,[sp],#16
+   NSX:FFFFFFC0800A7CB0|D50323BF                      autiasp
+   NSX:FFFFFFC0800A7CB4|D65F03C0                      ret
+The first __asan_global struct value is=20
+ ENAXI:FFFFFFC0848BE760|>FFFFFFC082EDB180 000000000000005F ........_.......
+ ENAXI:FFFFFFC0848BE770| 0000000000000080 FFFFFFC0836DC431 ........1.m.....
+ ENAXI:FFFFFFC0848BE780| FFFFFFC082EEC780 0000000000000000 ................
+ ENAXI:FFFFFFC0848BE790| 0000000000000000 FFFFFFFFFFFFFFFF ................
+The address of the global is 0xFFFFFFC082EDB180 which value is '/proc/self/=
+cwd/prebuilts/rust/linux-x86/1.82.0/lib/rustlib/src/rust/library/core/src/n=
+um/fmt.rs' and its viewinfo is 'vmlinux\Global\__unnamed_357'
+The original size of the global is 0x5F
+The name of the global is kmalloc-2k
+The module name of the global is 'core.27758904ccee4c80-cgu.o'
 
-Cheers,
-Miguel
+   NSX:FFFFFFC0800A7D4C|F800865E  asan.mod.:str     x30,[x18],#0x8   ; x30,=
+[x18],#8
+   NSX:FFFFFFC0800A7D50|F81F0FFE            str     x30,[sp,#-0x10]!   ; x3=
+0,[sp,#-16]!
+   NSX:FFFFFFC0800A7D54|F00240E0            adrp    x0,0xFFFFFFC0848C6000
+   NSX:FFFFFFC0800A7D58|912E8000            add     x0,x0,#0xBA0     ; x0,x=
+0,#2976
+   NSX:FFFFFFC0800A7D5C|52800961            mov     w1,#0x4B         ; w1,#=
+75
+   NSX:FFFFFFC0800A7D60|942337E8            bl      0xFFFFFFC080975D00   ; =
+__asan_register_globals
+   NSX:FFFFFFC0800A7D64|F84107FE            ldr     x30,[sp],#0x10   ; x30,=
+[sp],#16
+   NSX:FFFFFFC0800A7D68|D50323BF            autiasp
+   NSX:FFFFFFC0800A7D6C|D65F03C0            ret
+The second __asan_global struct value is=20
+   NSD:FFFFFFC0848C6BA0|>FFFFFFC082EECA80 0000000000000020 ........ .......
+   NSD:FFFFFFC0848C6BB0| 0000000000000040 FFFFFFC0836DC431 @.......1.m.....
+   NSD:FFFFFFC0848C6BC0| FFFFFFC082EEDA80 0000000000000000 ................
+   NSD:FFFFFFC0848C6BD0| 0000000000000000 FFFFFFFFFFFFFFFF ................
+The address of the global is 0xFFFFFFC082EECA80 which value is 0 and its vi=
+ewinfo is '<&usize_as_core::f..vmlinux\kernel_9a6cb9fd7c8dfd66_cgu\<&usize_=
+as_core::fmt::Debug>::{vtable}'
+The original size of the global is 0x20
+The name of the global is kmalloc-2k
+The module name of the global is 'kernel.9a6cb9fd7c8dfd66-cgu.o'
+
+> Cheers,
+> Miguel
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-ANiq72%3Dv6jkOasLiem7RXe-WUSg9PkNqrZneeMOTi1pzwXuHYg%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
+4e87f60203c443abe7549ce5c0e9e75%40BJMBX01.spreadtrum.com.
