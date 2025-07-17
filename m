@@ -1,137 +1,140 @@
-Return-Path: <kasan-dev+bncBDAOJ6534YNBBX4Q4TBQMGQEMTE2POQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDAOJ6534YNBBYUQ4TBQMGQEURIN7ZY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE4C3B08F34
-	for <lists+kasan-dev@lfdr.de>; Thu, 17 Jul 2025 16:27:45 +0200 (CEST)
-Received: by mail-wm1-x339.google.com with SMTP id 5b1f17b1804b1-456175dba68sf7775265e9.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 17 Jul 2025 07:27:45 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1752762465; cv=pass;
+Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 671B2B08F35
+	for <lists+kasan-dev@lfdr.de>; Thu, 17 Jul 2025 16:27:48 +0200 (CEST)
+Received: by mail-wm1-x33a.google.com with SMTP id 5b1f17b1804b1-45611579300sf7110325e9.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 17 Jul 2025 07:27:48 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1752762468; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Ntx4v0Xy8rnXkxRvk4Vpy6F1WvHCijuOXDEURccxpOXpCTCqhhk5JpKIQ4uZ1qNIYy
-         ycRjaXUrjlAUfwFCV3f97R26FsRcpd+AbhH4MvB2eFncjmuqxbuHgIbtFzXcJu3lvB7o
-         J2CynWMZhbZnDoJ+xtDbeWNmUyDLO/JLJPh59PY9jnmIfiCFhuAXZH4dGia4ce0ctJ7h
-         HgQyTVMZiSf3k9GAL7sjpaHRG579JgUWY98f6d4xmuSZ9YEtbb54XpySJ24V1fJFGFEa
-         SO8Y4AK/P35TSD/ng9hx739pKtpjwOJl0LjPzaSQ+iBsAN4w4ozn5ojvvPLv4KPKegK+
-         Fk7Q==
+        b=C3gYaow6AnUOK/qJD19Zvo+3lcIuBohqMsFWtNrsDTAAVHtwfNOKQYHgt8iRxZDkU1
+         Msm5of0E8X4AyqOKh0TeYe/GJ0UMNOQ6bH17nGtA5zNJKGarQuj3wFjd2Y0vMM5EUULP
+         J4c/3YKb64opIvYKNX4xgFo6zxrCLqm5AhQUkXOv4TOtWIdIYPrXqsyZsG1EzKcTACOF
+         wq1LQbD/L5Xbp4qC8wM+NJAO9h8MZpxQbns3zt451MBMP1a+/bQcSwMEfUj1Fa/nUYTx
+         kEiEeDMVKFjZOB8g9RVe0OemcxtPrTfkERv4fejq5ZhcSBxOmUHZgtOyvQPBh6qfFB9/
+         UhkQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature:dkim-signature;
-        bh=FDGtbnBdB038aFU7Z0fl9JUdDWHsrLsH1MwB9dzfoJY=;
-        fh=lrWPXoGFRPB+G7C6kLAcXjUpBVCsPMi2akHsWPD2uGI=;
-        b=GqrF/HWWM/86i13d8xZjfVJPVZNpPRlACivY91lRiL8LgRLtBL/EcOme06RvcCEJ1x
-         2qBu/+6iB+DTNFSfei7jJZKBnK4D1DPvoKd2TgHSSMPNCvVhfeY9kjFY/4vdGObBSRkB
-         NG3rddba48pJ/mYVZ5Y6dJ0ajNUha96HSQ2uWrxfPMIbWCrMQt4OENQ5XVw4WfCY9Kd2
-         cDmyat7LVlSJWr3bF8ZDDWNwKK8j4gDzby4u5RYRbS471Gubwi5IdaiD1u1jbUaL5Iiy
-         nvDjTAP6t0Ma/PZA0oG3wRcbbRO5n7OeVMJWaRxaZo8HGdhZakYLHol/Iae7K7z+9m1j
-         +6CQ==;
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature
+         :dkim-signature;
+        bh=acqNDdMMCDBIzL8R9xyjcBoCG6A0dPYco9bALPEaw8w=;
+        fh=61qY86cvYXNzoaeMoEBNLaE51frSjEF6wznnkiQdjh8=;
+        b=EijQjFQlJzZWCrLolD9/mzmPFzVpOz2jsHfoTMvw+d+qrryBU2hudkK8Rmj89Kqepg
+         Dyc3lHCZYaaq+lIRxPow8IX3Bz5jx/chf0K/sAAdQRRKrH2EqLyOj8eXIzSJHlt04ukl
+         TrVMRwu7GG0OlHPERTzoZkKs2gV4+8cEZlOmO1mmAy1aueNlON6mB457ydftuWFKuaoB
+         oAHG6dSYymGvIce3MZInOGc942tL1Mm3lw4OkFR3z4n2St57tpZAlLpWf/CmLd1Oc7wy
+         NHqDsTe9w2Z7a3pI3yQeN5V61tQdOkUDaGOnvelFxuapCJBwbBgwQeq6e6F9dFycp9iq
+         rUHA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=TNPRaYd7;
-       spf=pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::134 as permitted sender) smtp.mailfrom=snovitoll@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=AqvB9NVe;
+       spf=pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::129 as permitted sender) smtp.mailfrom=snovitoll@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1752762465; x=1753367265; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1752762468; x=1753367268; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=FDGtbnBdB038aFU7Z0fl9JUdDWHsrLsH1MwB9dzfoJY=;
-        b=hMANpLhtaeV5IZ1o3JYJdU1ZeZE2Hfn9fAlSVa8j2eEapM97JqQ2LdYoT1E3rpNart
-         aIW76XBM+SrMq7cEkAXuVjhPsw+gaqupsQOSgDjyyTsnaV+NDIOSOPtun4e2/mJRKYWI
-         C31Z56NCGmfd+rXFBg78DZYkuFAALTmLn1ZjkbjurZtWo8rCjWbpG0rAXhzrZwAOOTMk
-         BGRYxxhkfGlCZP5F+/Dyt1jGQBl/ev8gAfQLnDGy+J5d46tTEzIJl1bm3uw9PfY/eHfx
-         FTUJ6FFdMzRcYx9KT/TrHyP/4SIMjt2jtmBsccEjZP4ieez5eKxYSGf3EjaiF7VU/yjZ
-         mzhw==
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=acqNDdMMCDBIzL8R9xyjcBoCG6A0dPYco9bALPEaw8w=;
+        b=lrLVE2BO12+F2LGXfi8zVIUKyAWaaOmN+i0GxJ1SWXSMIh9KnHoCP5pHMLyhapN13n
+         QCXp6OqCK+rp3HITGFextMx1ReJawg70zmK6wXWrrXf222eMRhEwNkK3CzsW4gWkrZTK
+         HsmwcZbaURDarQkwGzYs80mdBeA+ZzMLxYt/ZU6xEZirpc9n2+hf1UFPsNm6qU2/cUU7
+         1nOVZk32Cng0AsYuJxxPuDv3xaYO/YRtrG8bzhgiGMM1bRj/xF/oHqYbX6R55fbQJR5G
+         JjjSrk61TpEXe6rdJWC461TB6AMq/YiwXQ9xPxcfze+952QNFHu4UkWVa9TVpALOvALU
+         gfYQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752762465; x=1753367265; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1752762468; x=1753367268; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FDGtbnBdB038aFU7Z0fl9JUdDWHsrLsH1MwB9dzfoJY=;
-        b=D+uaUgJLVdC7NSBS5ninMx7HrBTxY00X/RCUljel3Tjhr/kW1dr22luDR+Khsn0jcU
-         6R87Cq3d65Ad9XUOrnhm6H+q+eF2vo7UTo/j49qoDzAciLodWs7sLIM/dk7v0CkQh3fT
-         vhVUKPWB8sZblrYNpgePpZ1knRxh5ozTkMNwACq4j3Qu4ulfX5AEiNFycIu4rVbpldlY
-         +Hiy6EwfOakHpixaFOsa/ZCUm+ELQ+jKMC0SZdeaFra9c9Z1itgv0+1HVXH2zN27MQs2
-         Rrwxou+TDnseNExfCGOT0onOdoHs8Th+9iN3iaFCRkk/at8o8aFV8jsXYQ5OAuR7/yga
-         Z6ow==
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :date:subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=acqNDdMMCDBIzL8R9xyjcBoCG6A0dPYco9bALPEaw8w=;
+        b=G25XvDudRiRE0tSMlVs2K78WstRZaQb3qxA4Q+rll9FgaOffdD6cM80+ZjJYipQg4p
+         /1XqR88AfpAjIzz/UDLZKZapJI7cCv8KJjF+oZky7rg4uJ7LAcB8LxIqlEqtd+kF0uqf
+         DE0RKdejBGnVBm9Yo2wLS2vpo1mw5W3mBrru245ZVd4z7Trv3m0RqqUUmz8Y9fb0vK/Q
+         /+bjur+d+zYwWVyYVwOAz6Wb3IA5LzJKqiwiCtQB9cb4ujAJe/qO0LDTcIfvxWvEZ0Oi
+         EaQHiYjdFb5W0g6rqEtanF++BJKQUqS/3lcTSW1XqamXEC0tfm2Gt+a8TXM6iPt+lK6N
+         rX6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752762465; x=1753367265;
+        d=1e100.net; s=20230601; t=1752762468; x=1753367268;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=FDGtbnBdB038aFU7Z0fl9JUdDWHsrLsH1MwB9dzfoJY=;
-        b=PLwntkFmDjtWC8Mu0lylEa89F4UYzqTnQLks4i1PKqXDhXnTm+yvQ5PIJ1Nh+iwslQ
-         4G6SpZSZyGaHsgWLnluRuhJUDUDnShrJmwmyYacXERLw1RG0UVpg5UbY00MrgenRAPUE
-         rhcDaToCJUaC9O4doSptyiLxgjjP0pZICDQ0Rbv8WO1aHDuJSGIZr6Cp7cJnrbkoPxqs
-         5/VqiYnQ80eEMo8o7OZFIIsNCm6AQoe/cwcDXmoqkD2n0qx1r5gvBgjmRV0pTN2x8ufw
-         qQY5Di+2t+Igf7L13avgq7KdY2IwQtbOlsy7ClnEWpHsmHPWSEtyBGQ48nPdyB0JZ6Qn
-         VL0Q==
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=acqNDdMMCDBIzL8R9xyjcBoCG6A0dPYco9bALPEaw8w=;
+        b=L8T97dWVQjCyf228As3UN5RudoRdP22rvSkq4As8bgz13FZg1euBx8/lC0CNxTHIMd
+         39tJ3sYZBPd7eIWxaQcZQVRBHvVZM/jasEsfNxh4Zi64J8/Wd9fzD6r87zZ0w3w5i9cV
+         C4RP3InNMrtLWU+zpM5j6eSaIe8w30Yimf+3S7j1RK4p9jxYhHlpWEOQYdHLTU6KDvxm
+         Qjsz95Wi3TaMgFEF8t8rl4Y+bw1kTolHLqJ5qpLMEWe+1Bo2Sx1h40Fg7CmOgdLm34Ti
+         E3Sjv8GfBSy51MEaqP9DI1+ELvkcDhE+UARpCLWCpaj0sGIVoYNnz+sTleR4dUMXvLcc
+         vlLw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWVKsZrogDmhwQmLYBRI/SC0mqTXsoUZD1Cz9+xRKuyWWcgT86hQWrAHzLo/YHLCvFwRbAQ7g==@lfdr.de
-X-Gm-Message-State: AOJu0Yz1go0XCMdC+aSgdWxfB+DGpOyfpXNe+aR5hmt6HHfXfR92JKnv
-	l6v+L0Ydded+EWuVdYfx23FITUx+Ee+i3FPmTDCPvHyUFxQOTPxjw5OW
-X-Google-Smtp-Source: AGHT+IHBd6UWrTWEsoN5Vi/pZBLsEe53fuRhx9IVKi2THd/YZ1rb9Zdy6Cz83JlY3d1+i+YeFHwLKQ==
-X-Received: by 2002:a05:600c:64ce:b0:455:f59e:fd79 with SMTP id 5b1f17b1804b1-4562e33d64emr70779145e9.11.1752762464496;
+X-Forwarded-Encrypted: i=2; AJvYcCVNzzTgrKfZm1HpE7thz34sEOMXFuOBy91Alx/X2iGCQcyqCZ3JtwRHdPuLYyeJ9LenSaTMQg==@lfdr.de
+X-Gm-Message-State: AOJu0Yx8mT33Ga2sPNYdmh+EA33xU1A7FdUGB+DHYmT8/WD4J/1Yj5rT
+	x6aKNLGro/lY6mDVEeLlMmxViTcsQC63IYCCF1OEiEOU/b7B1u0hmZ57
+X-Google-Smtp-Source: AGHT+IFe02WraJC6qv/QhXkOKrMI9P+7Sk9xtQI5i8jaGiWt08Jxp83f3Jb0kkYpBpNl2ZGziPWTTw==
+X-Received: by 2002:a05:600c:c0d2:10b0:456:1d93:4365 with SMTP id 5b1f17b1804b1-4562e32e2dbmr43559375e9.5.1752762467473;
+        Thu, 17 Jul 2025 07:27:47 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZeM6FDSmm1/euHo8gtggWPzYqd0PmU7gC/qHO0KAOjrNg==
+Received: by 2002:a05:600c:4e4a:b0:456:136f:d41f with SMTP id
+ 5b1f17b1804b1-45637a13d6els3439045e9.1.-pod-prod-07-eu; Thu, 17 Jul 2025
+ 07:27:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUCur8JdyK4QuhzU+P8O45SHs0zrrbqAB0a6cH37ZFtLYtzwD835bwBJJKDUxFs91DDMtIKuDZjqOs=@googlegroups.com
+X-Received: by 2002:a5d:5e8a:0:b0:3a5:8a68:b823 with SMTP id ffacd0b85a97d-3b60e4c90d0mr5671473f8f.23.1752762464737;
         Thu, 17 Jul 2025 07:27:44 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZefnk2698MlPTKN4arB6lCDo8nfgFcyILGNKMS4kOFf0A==
-Received: by 2002:a05:600c:1c25:b0:456:241d:50d0 with SMTP id
- 5b1f17b1804b1-456341b19eels6578125e9.2.-pod-prod-07-eu; Thu, 17 Jul 2025
- 07:27:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXoPb+qaWbb5hRSrIwEcfwOcpHiDqZhEh/P4BRcE/t6C4HOxZpCXDP1d1Er2EFxZbOpwE9amKZaO1g=@googlegroups.com
-X-Received: by 2002:a05:600c:c4a7:b0:456:1a87:a6ba with SMTP id 5b1f17b1804b1-4562e380259mr62994005e9.33.1752762461873;
-        Thu, 17 Jul 2025 07:27:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1752762461; cv=none;
+ARC-Seal: i=1; a=rsa-sha256; t=1752762464; cv=none;
         d=google.com; s=arc-20240605;
-        b=d7bdT9MKhLuxngQFstdyS74oCUti1RLCgqJaT2EbNHKYYE133azfNUE3Ucr0bsbiHy
-         DEmD19xjwi1VE3a/IJB5CpKD/oKwuKauJKID2LIa8vpJMGoYjpwX+QIFh83bzUfD52E9
-         Evckt59SAF+CIvbKb/0RvKXmbTdlLFgjxRiZUyeu5G+PKlYDumPSO3MZgbZ1WkSb7jDP
-         884AWgAiQzVt723a4SE2oDhuno72QTF2IYoQ4lkMzCiuewhqsuhqXAUa/bbqC1NgGQsV
-         Oe3DIDn46EM3cr+WdTewIxEYc50QhU84xH5bpmzTNXdVxn3Dqu9VoAs5nVoG6TZPR+Bp
-         hz0A==
+        b=hLwAl8YSAsCP6MDHSVSAu56I7acHkslwQ9ZL7isg0HchG0nwOMPuBaqa0Kk7DXJzId
+         uhLROUIzCpIh2CAdmnYZZ3h2E5VViMdaZe8r5r0iwMq8uUffn9ZbvZy3fMQi8W/t3Bcs
+         gR5fNV3JqOHrVTtqltevj90L1mYfNqlPrqjijpH6rx47MFKuycWSnO6+WODP6W688rQV
+         KkV15LYzAJ4tNAuLR82zljSxVnpMiXrDfhb1NcdutGWvT0qMcZOLtk6z2ZjgJa0hHnm3
+         btlGCegXpToXemyHVZ1QLO5ltaKzZw6BJ//yJqTeY4KVuhuV8gg8hVPUpehYqB5hlzJV
+         B1jg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=S1+MAZvM+N/4+avawJ7fodWecsPBgKeK+9BQEGE2Ung=;
-        fh=6WoVrW5i5X4lg54y2SDnViXVuaqgqDXg9CZnArn9XLg=;
-        b=ImLPlGtH7TdAtIQzStjxz3szvSd6Ff1Iv8h349lSBOVjkvYvkoasu0E+t9NxxuLsVl
-         R2siEDZ6TeXqKgShB0iEo8o70l4etBbcWIdbnJFH7oRSRt9iuvyQbkwzBYHIo3VNVyAX
-         +Z4NHR3ZwjBDOzkg/8CJ4ZTJ7ITh9kJ2TgsztGyenYpm/MJ7CtrwfXgCOsbjhGa/pb01
-         J/MclOPfKCfTbhcp8iSdpIYlA462bYK2Yy5UXN0EqwoX6EX+IY9898+XId36jQRICZ1H
-         u7l+FgGCra0vNR98tlxVwlQhVtmp4TAv8qgMTBj4OwjNX/vSEYcLZhzT5apSX9H1HQUs
-         NuoQ==;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=Y3WcQqYlZ+nGmkIZO7BZjNBhDOM5R3Ju7Hd0Z8GcHCU=;
+        fh=sUj0jLBBCrBzVm0gZkHASlxgfKJVykFky5lj4iwwkNc=;
+        b=g3+yMjBTBwYwhW6wqbZPbNpiB0YaIKj8CX/vlyvjkVyh6ECQXzidcdmdHd8YcnfZmu
+         ZLleBhsjsixtwcSEo2JdnYcq59HWKICWIT9eyeSYoevbVkHye1PiZkHpTUYOJ2l+WfLD
+         6lw8Xw7OF4wLc+1zwVkfvTcAWeNA3wYHbZJ2yHegBstAI/FBgxAXrPQzqtBU/yUlQLt/
+         UMTLna1v8hjkjEXxZDqGkMZVul6FxHJzNTKKnaHuz0FZZ6xsC0aH4kWXrcVaaOTmIzbI
+         0z6veD3JYqPWCYm6ix4Xt/le2WmOvGt/g9raFNk5fRwogOzSZhhaBLGs7obMH1pwA/tj
+         HxFQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=TNPRaYd7;
-       spf=pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::134 as permitted sender) smtp.mailfrom=snovitoll@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=AqvB9NVe;
+       spf=pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::129 as permitted sender) smtp.mailfrom=snovitoll@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com. [2a00:1450:4864:20::134])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-45627898572si2485605e9.1.2025.07.17.07.27.41
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com. [2a00:1450:4864:20::129])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-4562e570043si1377495e9.0.2025.07.17.07.27.44
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Jul 2025 07:27:41 -0700 (PDT)
-Received-SPF: pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::134 as permitted sender) client-ip=2a00:1450:4864:20::134;
-Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-5561d41fc96so1208439e87.1
-        for <kasan-dev@googlegroups.com>; Thu, 17 Jul 2025 07:27:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUAN3vZXxbAAQzbx/Yp1VnxmScDJ3ncJMwHyGBXSqZV2ZTH0CyAc+Yc2O1qtVGoI7BmiD+JDXS3Yt8=@googlegroups.com
-X-Gm-Gg: ASbGncsqJjs5mpWq9x1gMPfqKfECH0aEX5/Dz8Hwfw3BszC10/pzFpKx5sOPyBkGFtH
-	T2kyEtY2Lf4THaSWqyQ/57g+HHHFvlW/yBsv1kmIbbn9d4qOXxbSIaiA/yZA78yQQimjLD5hNkr
-	Br5MLEO47aQHyoXxjeghfta+4ymYjEKeBSyfiUtUPcnYRFew25M42bh8k4EEKYDfYe6Xida4dpZ
-	hpdlU5FfXvqaFRNWPL0/zvqNPLJMeWLQY0AfwjuP3+ji3KKVjvwZpAjBZRz0koPHHAJK4zrxYaH
-	CjjPItUD4z2ey+xXqqLXEYFd+gAQ9AgFUIBv/jzDtdYabuvbpDT0y3dFP3/kQBtKQOBQ+HjK8Ya
-	Q6ZkXNXOtkz6WXHyUMb4ESCsQT1ZWaPDiyjvREZ8bDC9xBalY7IKkhx23D1BIIThWjBcz
-X-Received: by 2002:a05:6512:b17:b0:553:ad81:4de1 with SMTP id 2adb3069b0e04-55a23f2d227mr2243765e87.24.1752762460660;
-        Thu, 17 Jul 2025 07:27:40 -0700 (PDT)
+        Thu, 17 Jul 2025 07:27:44 -0700 (PDT)
+Received-SPF: pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::129 as permitted sender) client-ip=2a00:1450:4864:20::129;
+Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-55a2604ebc1so1000120e87.0
+        for <kasan-dev@googlegroups.com>; Thu, 17 Jul 2025 07:27:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW/chiNgP4VLagG3VzV4ixSGiCuIhO4gViABkplrlXM7Vgz1Yfh6KSjneROqyapqTpxZGfs1c60dO4=@googlegroups.com
+X-Gm-Gg: ASbGncsok/xd2mnBhL0oPcZClsxcrKwpeGhUluPbYRr+ML16zUqPH8Ccmvm3U/Jy35t
+	CHZZv1I7xzX12W07683RgdECNDCimzloM5jWN6BtZlN87bJ6WlIQXWKKkTAn6belZ/nxpq59sBa
+	o5/abEATzbpa90S5ZtckWy0DnvtZKu5KWW18jbdrdK3JgXhbZmvmnHbN9/5S5Roq7yRB4rFFKZ4
+	T2T4TCiJMUFEj7sff30MP2cSXDVfQLUl63QJmG73dtqbwKcpLDenduhUPn5+V/rJuIrHqGpWBN/
+	J5xH/iJ/tBSw6TH2HxUq/gdOpJlU0f/EpDJsjC/2iJw5PPsTaEuV0esSRAehXd68LQWwDWhykcE
+	V7oa6tJrUPX+61rn786h4yrJ9CMkXd8A5JAWYZs8mjRE0OZWdi1zn62ZfbCEouTEIAXhH
+X-Received: by 2002:a05:6512:15a9:b0:553:2421:f5e3 with SMTP id 2adb3069b0e04-55a23f1f963mr2211249e87.19.1752762463801;
+        Thu, 17 Jul 2025 07:27:43 -0700 (PDT)
 Received: from localhost.localdomain (178.90.89.143.dynamic.telecom.kz. [178.90.89.143])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55989825fe3sm3022975e87.223.2025.07.17.07.27.37
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55989825fe3sm3022975e87.223.2025.07.17.07.27.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jul 2025 07:27:39 -0700 (PDT)
+        Thu, 17 Jul 2025 07:27:42 -0700 (PDT)
 From: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
 To: hca@linux.ibm.com,
 	christophe.leroy@csgroup.eu,
@@ -150,15 +153,17 @@ Cc: ryabinin.a.a@gmail.com,
 	linux-um@lists.infradead.org,
 	linux-mm@kvack.org,
 	snovitoll@gmail.com
-Subject: [PATCH v3 00/12] kasan: unify kasan_arch_is_ready() and remove arch-specific implementations
-Date: Thu, 17 Jul 2025 19:27:20 +0500
-Message-Id: <20250717142732.292822-1-snovitoll@gmail.com>
+Subject: [PATCH v3 01/12] lib/kasan: introduce CONFIG_ARCH_DEFER_KASAN option
+Date: Thu, 17 Jul 2025 19:27:21 +0500
+Message-Id: <20250717142732.292822-2-snovitoll@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250717142732.292822-1-snovitoll@gmail.com>
+References: <20250717142732.292822-1-snovitoll@gmail.com>
 MIME-Version: 1.0
 X-Original-Sender: snovitoll@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=TNPRaYd7;       spf=pass
- (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::134
+ header.i=@gmail.com header.s=20230601 header.b=AqvB9NVe;       spf=pass
+ (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::129
  as permitted sender) smtp.mailfrom=snovitoll@gmail.com;       dmarc=pass
  (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
@@ -174,171 +179,55 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This patch series addresses the fragmentation in KASAN initialization
-across architectures by introducing a unified approach that eliminates
-duplicate static keys and arch-specific kasan_arch_is_ready()
-implementations.
+Introduce CONFIG_ARCH_DEFER_KASAN to identify architectures that need
+to defer KASAN initialization until shadow memory is properly set up.
 
-The core issue is that different architectures have inconsistent approaches
-to KASAN readiness tracking:
-- PowerPC, LoongArch, and um arch, each implement own kasan_arch_is_ready()
-- Only HW_TAGS mode had a unified static key (kasan_flag_enabled)
-- Generic and SW_TAGS modes relied on arch-specific solutions
-  or always-on behavior
+Some architectures (like PowerPC with radix MMU) need to set up their
+shadow memory mappings before KASAN can be safely enabled, while others
+(like s390, x86, arm) can enable KASAN much earlier or even from the
+beginning.
 
-This series implements two-level approach:
-1. kasan_enabled() - compile-time check for KASAN configuration
-2. kasan_shadow_initialized() - runtime check for shadow memory readiness
+This option allows us to:
+1. Use static keys only where needed (avoiding overhead)
+2. Use compile-time constants for arch that don't need runtime checks
+3. Maintain optimal performance for both scenarios
 
-Key improvements:
-- Unified static key infrastructure across all KASAN modes
-- Runtime overhead only for architectures that actually need it
-- Compile-time optimization for arch. with early KASAN initialization
-- Complete elimination of arch-specific kasan_arch_is_ready()
-- Consistent interface and reduced code duplication
-
-Previous v2 thread: https://lore.kernel.org/all/20250626153147.145312-1-snovitoll@gmail.com/
-
-Changes in v3 (sorry for the 3-week gap):
-
-0. Included in TO, CC only KASAN devs and people who commented in v2.
-
-1. Addressed Andrey Konovalov's feedback:
-   - Kept separate kasan_enabled() and kasan_shadow_initialized() functions
-   - Added proper __wrapper functions with clean separation
-
-2. Addressed Christophe Leroy's performance comments:
-   - CONFIG_ARCH_DEFER_KASAN is only selected by architectures that need it
-   - No static key overhead for architectures that can enable KASAN early
-   - PowerPC 32-bit and book3e get compile-time optimization
-
-3. Addressed Heiko Carstens and Alexander Gordeev s390 comments:
-   - s390 doesn't select ARCH_DEFER_KASAN (no unnecessary static key overhead)
-   - kasan_enable() is a no-op for architectures with early KASAN setup
-
-4. Improved wrapper architecture:
-   - All existing wrapper functions in include/linux/kasan.h now check both
-     kasan_enabled() && kasan_shadow_initialized()
-   - Internal implementation functions focus purely on core functionality
-   - Shadow readiness logic is centralized in headers per Andrey's guidance
-
-Architecture-specific changes:
-- PowerPC radix MMU: selects ARCH_DEFER_KASAN for runtime control
-- LoongArch: selects ARCH_DEFER_KASAN, removes custom kasan_early_stage
-- um: selects ARCH_DEFER_KASAN, removes kasan_um_is_ready
-- Other architectures: get compile-time optimization, no runtime overhead
-
-The series maintains full backward compatibility while providing optimal
-performance for each architecture's needs.
+Architectures that need deferred KASAN should select this option.
+Architectures that can enable KASAN early will get compile-time
+optimizations instead of runtime checks.
 
 Closes: https://bugzilla.kernel.org/show_bug.cgi?id=217049
+Signed-off-by: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+---
+Changes in v3:
+- Introduced CONFIG_ARCH_DEFER_KASAN to control static key usage
+---
+ lib/Kconfig.kasan | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-=== Current mainline KUnit status
-
-To see if there is any regression, I've tested via compiling a kernel
-with CONFIG_KASAN_KUNIT_TEST and running QEMU VM. There are failing tests
-in SW_TAGS and GENERIC modes in arm64:
-
-arm64 CONFIG_KASAN_HW_TAGS:
-	# kasan: pass:62 fail:0 skip:13 total:75
-	# Totals: pass:62 fail:0 skip:13 total:75
-	ok 1 kasan
-
-arm64 CONFIG_KASAN_SW_TAGS=y:
-	# kasan: pass:65 fail:1 skip:9 total:75
-	# Totals: pass:65 fail:1 skip:9 total:75
-	not ok 1 kasan
-	# kasan_strings: EXPECTATION FAILED at mm/kasan/kasan_test_c.c:1598
-	KASAN failure expected in "strscpy(ptr, src + KASAN_GRANULE_SIZE, KASAN_GRANULE_SIZE)", but none occurred
-
-arm64 CONFIG_KASAN_GENERIC=y, CONFIG_KASAN_OUTLINE=y:
-	# kasan: pass:61 fail:1 skip:13 total:75
-	# Totals: pass:61 fail:1 skip:13 total:75
-	not ok 1 kasan
-	# same failure as above
-
-x86_64 CONFIG_KASAN_GENERIC=y:
-	# kasan: pass:58 fail:0 skip:17 total:75
-	# Totals: pass:58 fail:0 skip:17 total:75
-	ok 1 kasan
-
-=== Testing with patches
-
-Testing in v3:
-
-- Compiled every affected arch with no errors:
-
-$ make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
-	OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
-	HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld \
-	ARCH=$ARCH
-
-$ clang --version
-ClangBuiltLinux clang version 19.1.4
-Target: x86_64-unknown-linux-gnu
-Thread model: posix
-
-- make ARCH=um produces the warning during compiling:
-	MODPOST Module.symvers
-	WARNING: modpost: vmlinux: section mismatch in reference: \
-		kasan_init+0x43 (section: .ltext) -> \
-		kasan_init_generic (section: .init.text)
-
-AFAIU, it's due to the code in arch/um/kernel/mem.c, where kasan_init()
-is placed in own section ".kasan_init", which calls kasan_init_generic()
-which is marked with "__init".
-
-- Booting via qemu-system- and running KUnit tests:
-
-* arm64  (GENERIC, HW_TAGS, SW_TAGS): no regression, same above results.
-* x86_64 (GENERIC): no regression, no errors
-
-Sabyrzhan Tasbolatov (12):
-  lib/kasan: introduce CONFIG_ARCH_DEFER_KASAN option
-  kasan: unify static kasan_flag_enabled across modes
-  kasan/powerpc: select ARCH_DEFER_KASAN and call kasan_init_generic
-  kasan/arm64: call kasan_init_generic in kasan_init
-  kasan/arm: call kasan_init_generic in kasan_init
-  kasan/xtensa: call kasan_init_generic in kasan_init
-  kasan/loongarch: select ARCH_DEFER_KASAN and call kasan_init_generic
-  kasan/um: select ARCH_DEFER_KASAN and call kasan_init_generic
-  kasan/x86: call kasan_init_generic in kasan_init
-  kasan/s390: call kasan_init_generic in kasan_init
-  kasan/riscv: call kasan_init_generic in kasan_init
-  kasan: add shadow checks to wrappers and rename kasan_arch_is_ready
-
- arch/arm/mm/kasan_init.c               |  2 +-
- arch/arm64/mm/kasan_init.c             |  4 +--
- arch/loongarch/Kconfig                 |  1 +
- arch/loongarch/include/asm/kasan.h     |  7 -----
- arch/loongarch/mm/kasan_init.c         |  7 ++---
- arch/powerpc/Kconfig                   |  1 +
- arch/powerpc/include/asm/kasan.h       | 12 --------
- arch/powerpc/mm/kasan/init_32.c        |  2 +-
- arch/powerpc/mm/kasan/init_book3e_64.c |  2 +-
- arch/powerpc/mm/kasan/init_book3s_64.c |  6 +---
- arch/riscv/mm/kasan_init.c             |  1 +
- arch/s390/kernel/early.c               |  3 +-
- arch/um/Kconfig                        |  1 +
- arch/um/include/asm/kasan.h            |  5 ---
- arch/um/kernel/mem.c                   |  4 +--
- arch/x86/mm/kasan_init_64.c            |  2 +-
- arch/xtensa/mm/kasan_init.c            |  2 +-
- include/linux/kasan-enabled.h          | 34 ++++++++++++++++-----
- include/linux/kasan.h                  | 42 ++++++++++++++++++++------
- lib/Kconfig.kasan                      |  8 +++++
- mm/kasan/common.c                      | 18 +++++++----
- mm/kasan/generic.c                     | 23 ++++++++------
- mm/kasan/hw_tags.c                     |  9 +-----
- mm/kasan/kasan.h                       | 36 ++++++++++++++++------
- mm/kasan/shadow.c                      | 32 +++++---------------
- mm/kasan/sw_tags.c                     |  2 ++
- 26 files changed, 146 insertions(+), 120 deletions(-)
-
+diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
+index f82889a830f..38456560c85 100644
+--- a/lib/Kconfig.kasan
++++ b/lib/Kconfig.kasan
+@@ -19,6 +19,14 @@ config ARCH_DISABLE_KASAN_INLINE
+ 	  Disables both inline and stack instrumentation. Selected by
+ 	  architectures that do not support these instrumentation types.
+ 
++config ARCH_DEFER_KASAN
++	bool
++	help
++	  Architectures should select this if they need to defer KASAN
++	  initialization until shadow memory is properly set up. This
++	  enables runtime control via static keys. Otherwise, KASAN uses
++	  compile-time constants for better performance.
++
+ config CC_HAS_KASAN_GENERIC
+ 	def_bool $(cc-option, -fsanitize=kernel-address)
+ 
 -- 
 2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250717142732.292822-1-snovitoll%40gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250717142732.292822-2-snovitoll%40gmail.com.
