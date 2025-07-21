@@ -1,148 +1,179 @@
-Return-Path: <kasan-dev+bncBAABBZNZ7LBQMGQE43GXZJQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDCPL7WX3MKBBLV77LBQMGQEV6SSKLY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDABCB0CB3F
-	for <lists+kasan-dev@lfdr.de>; Mon, 21 Jul 2025 22:02:47 +0200 (CEST)
-Received: by mail-lj1-x239.google.com with SMTP id 38308e7fff4ca-32b574cd23dsf24642361fa.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 21 Jul 2025 13:02:47 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1753128167; cv=pass;
+Received: from mail-pl1-x638.google.com (mail-pl1-x638.google.com [IPv6:2607:f8b0:4864:20::638])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10FB2B0CB6B
+	for <lists+kasan-dev@lfdr.de>; Mon, 21 Jul 2025 22:14:41 +0200 (CEST)
+Received: by mail-pl1-x638.google.com with SMTP id d9443c01a7336-236725af87fsf65624885ad.3
+        for <lists+kasan-dev@lfdr.de>; Mon, 21 Jul 2025 13:14:40 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1753128879; cv=pass;
         d=google.com; s=arc-20240605;
-        b=ajEiknSh/42O7AwXeWMwotnbY1qBtWkRDm3sZsVbz+EY0OBrAK1UfQ4paT0pt46Gko
-         AjUHx2Qw1rCVQpIk2cRj/CzAyWRqunJHEd3pL4/51kbvgnkZz5tWbrqmvtXJehe/ecvb
-         QdXgR/QCMCym2+d/FgRlOKCOfKbDdgqX9sZcCfNDV7fMy1JzIqP24cE8NkJuOQUfxUx8
-         DGv1QmqGyiUOrXurxL/Whdu5E2ibefXcOxnse3Rll5TatrCHyjQdqn/2/OoYbXnyB4gB
-         D4dVkUMsV4yGsyufTdwVyakSeITfRB9RqUu2YnZpt4GeF35w79qwaMCXQl6OMXs/yRcs
-         eXmg==
+        b=brZ17zixzOQw4NtyP0QFoV18pvMqdCFlGJFQWVmLa9g9zrVlChsiHv1J85CsF0VQ6k
+         62tPD4KSDFIJpKRqmI2FUsaybtiokr4vGORRhImruCB+xp4mgT4R2s40s2vvXX+6GMMo
+         8CKJPQV8rguBzG1jkPGlne5eVLXazGtcAX7W2tvr1q3D12+et+fwS7oLGOjRwmTV0sPa
+         0qUKN1UBGwPzjBPO638Rqt0/pGQ7Vn98uiqtZRQHmw6Fky8gmNx3L0uAJ1eAQrmPTt4L
+         I8WTbgPCjAloATC3WRJ99JSQbsys5Y8lyY85VB4qbKJyrcV91hJQjDq5ZNBYTpGnHTm2
+         k5mA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=ymGWMVDWD4epROlDUXzKE39eWehUZZF+5mL9L0Bevn4=;
-        fh=BhxO7cJAW8mP5F4qi1EgT40yHOMO9cmyRWL1Nkis29I=;
-        b=X78pAK4MkdL2xF01wImkA1n6uJV8amylg4expMCxUbXutik+0+k2VpfNtsR8wep3mq
-         PngoiIM5cfBxf0qeyg54AzdpVKlruILuNU1XkgUVVpCGwQwV7rb/zobPk6zEHXr5+DEb
-         cYot6P/ttaJqBw6wFNIJ/37DPsLFVCw7bu2DpCEoaTWOX8lU677mMcm/hLspyjVNkj95
-         ho+++8WUQ8BLDWH9RbUvwIXG/FeFBjmdWhGJUSalH+T1vZLxqVkqINK0b4aIQVkJ2Rqd
-         4wJIaqUdJPzp5dRN5owx0rZxxevsFY8MB57IR1+rOSQjF/X+C1Pu/lDTcgDbWNhmqvlI
-         f4zw==;
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=4kgqaxj8yAESn3fAJmvzXzgYQW1pKxhiT9Tal11sdoA=;
+        fh=YLQqqv/5Qc3TCBCzpgLyfcNvjEATd+TqzlEKTSS2xyg=;
+        b=fYCh10gBSTb67s1aULuDzFPUBuBgvRPyfqExlL9PtZmx7rNuF2RjEPwjy7PJ/lWGXx
+         1X6VlUDUO2Xu44J08DnRss6ZpoWHKyP4XYnt/QzVAdwntApwFPTIlI4y77oJ7bi9euk9
+         yas9xaTmUhefH7Zie/FhVSuBnWP2BXBfMMErRiYWjX9F3LOeiNXmElNVJawfeCiEVi/c
+         fqgMUiJAX5xWSexlq6+rT2W/sgmqbvHCD7PTEEGJUjlAiJfA3z6H4eqvONLscTd1VJWL
+         u6ccm3bPzLUEI4IsDuoFE8rsnicdIbaCA6/3f3nNWZrSQAk4MKvP6Mdj5Lnu2hWDm1aT
+         Fvgw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=Q8Bzke5+;
-       spf=pass (google.com: domain of nicolas.schier@linux.dev designates 2001:41d0:203:375::bd as permitted sender) smtp.mailfrom=nicolas.schier@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=lFAdcpLW;
+       spf=pass (google.com: domain of kees@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1753128167; x=1753732967; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1753128879; x=1753733679; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ymGWMVDWD4epROlDUXzKE39eWehUZZF+5mL9L0Bevn4=;
-        b=FcIMN++XfXyoPoGoDYleglOaCr4uVIW98GVyg7qC1gSx1GLC/Nygy5Hn/PXQWyxO4b
-         g6uOqp66zUnIxan2C2cVY8gc06iYGZu5PsFxSsgRytq9Xg57qJxDpqlx+V1yT3UGTt7s
-         h1WVppXE+tfGLZ5yn+SnTMoAGghazqUiOAFujmhahyOIM2znyR0MfcPerlECY2JQfOzf
-         Tti+jSaRlZ5ymzKTWS23zCOz0KC2mKJ2ZCdaGP0c/s/kB8CzcbwwS338Hrfy6izg0R70
-         Fcjh46gipe03/AJx9vmXoA4bqm62g7CtFPBUhNPmFe5/uRGSMHgO58YeVrsyNLI2J7Vd
-         xIcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753128167; x=1753732967;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ymGWMVDWD4epROlDUXzKE39eWehUZZF+5mL9L0Bevn4=;
-        b=BQBOwgFzj2giaaifIdqkjJC0YvS5y6uZilgXn/JpXHGdYc004+3+lzrTuNqmuI3VPT
-         SaWZNaLQkvU5OGZfrPmFXCKFhThfR0qAcUNVsLfNac17/GmmfqcQKfG0cUy/AeykXh6r
-         5cOaOO1aD+kJb9pnMJ/uB/gINFU8BE7IZ155y0Yz74zJXUdVfvToyK+HqLJIk3LhzAjf
-         AIgEyFIsrEXtIb90Ri4YluwJSHv82B+bBw7GM+dGIPnPtpWLjEnFHHAIAKVc9oiqkTV7
-         Ld+RCqxQ1BKKU9RDpyj/fcLgVfEUSg+AtCrpMzImr6Nd685Cm7T+/twlBHZ5geHFS2yf
-         3Dnw==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWxlx2BOjEVGl1zRb756jw2AweHMlYowWGPxHcl0r4ruQnhiD57DSmCySwxtR+RDjMjK/ZxuA==@lfdr.de
-X-Gm-Message-State: AOJu0YxV09OBt9HUyCHwVO/Li5nlox2DhYjSK/LczDlLfzOx/0XoqUB1
-	XO5CtCaiPOarvzuoRAFtadipDOiXBZ/mTtd0ilGLYFkTk7XSR+5G2wny
-X-Google-Smtp-Source: AGHT+IHKyq2p0vB9jxNVNgCUFsTQnzowuJU7uaEZ+WKhPFpjhKMwYn5foj0lecwafXkUZ+F4cAajtw==
-X-Received: by 2002:a05:6512:1046:b0:553:a2dc:6624 with SMTP id 2adb3069b0e04-55a23312f66mr6026025e87.7.1753128166394;
-        Mon, 21 Jul 2025 13:02:46 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZedckCLyy6igZCwK/3lWKkh49K51NB80B4+qUZXHNfLtQ==
-Received: by 2002:a19:5f4d:0:b0:553:d22f:f92e with SMTP id 2adb3069b0e04-55a288c10d5ls845581e87.2.-pod-prod-01-eu;
- Mon, 21 Jul 2025 13:02:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVoXoNqLHGzbn1BFNdy3QOql5fy7LYex6sKCrlY7SzRbcy4O6GYEdqIrhYrwFVY3/SueI0uG6GqAWQ=@googlegroups.com
-X-Received: by 2002:a05:6512:63c4:10b0:553:d910:9344 with SMTP id 2adb3069b0e04-55a233d9950mr4688707e87.45.1753128164073;
-        Mon, 21 Jul 2025 13:02:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1753128164; cv=none;
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4kgqaxj8yAESn3fAJmvzXzgYQW1pKxhiT9Tal11sdoA=;
+        b=TuIEgq5sCk+CUWTO8+txv7k5JcFEQN4GRudQ539zZvLJzHVS+Gj50o7iqum7tDS2HZ
+         6+gtgv+LwSlkFXYwVlRPHnvIaNPANxKHIj9e6QhWihaJxxynoZeYfBEEaIbaaIZfumBQ
+         h6eaHspQcUgh0H/qLS3yHpNnlha0Q6iqYO52bEHGYGyoIHAXRKGq3aEshmYMxv0M93uL
+         PblUkikllnLlu7Pp5q6l7R5f56R6hzquu6Y6f6SJOi3YVYrWSkjZNUprte7ClCxOZhRI
+         +RwvCLX/32gv0IMSWJI5FdCRN47HtrRfLWt8Tq6jT/7BXVfMSuM1GEhJofXZjwiGQ1v1
+         mdjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753128879; x=1753733679;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4kgqaxj8yAESn3fAJmvzXzgYQW1pKxhiT9Tal11sdoA=;
+        b=LUix6KmllM7iVtPNlKKk8fc/ndxVusdJrRKMk3bliIbJqKyIJ4ZokNEHpNKh/VG9Zn
+         budtYQZIX0X24aoqTfCi/fcDXsqi++7hDGyvERVLQR+m4CVeY/tHFVKQtApkiIOT5aOb
+         XzYstNElHTjYCA0UFZqybVfyK9UhXkDmmvQiAmHrFdeHEqDbDUJsKeWEmkMmFvmYwI6y
+         W2uV5FWi2xAApQwOy5e55Pdx3hb+4gwZ1o2Op0VefysUfpSVVzW2TA6ozm1ewM1fcMmp
+         w99YAPmjdUM3JpcnBuGyAqtfZWNWAbjkypdzIYlPsJaxoAoE6NO3nwiBE9KaMK0OnLuP
+         d0/Q==
+X-Forwarded-Encrypted: i=2; AJvYcCXdP+vmNhRlrPkWUeybd+ZcXDfH3j6hmgfDWBEbzDbazZziZ4DCTmNFbFARoJmG6TcamkpF8w==@lfdr.de
+X-Gm-Message-State: AOJu0YwAteEB01pSSObZHmhunI67Foixg48y78GHDrg0BNOIzy2Nelgz
+	yMdAl6jBQhVLL4qcYKKzS08sl6oYLJdO0ic2wxJr0bxunokMKKDgPfgn
+X-Google-Smtp-Source: AGHT+IFBQQWh5+rwZQgLZJwWY3DhE3XgxekUsDVHQfgoEQ6v+/3PJqzQeu0MTjd6lvrJriQfRBLHSw==
+X-Received: by 2002:a17:902:f68c:b0:234:d7b2:2aab with SMTP id d9443c01a7336-23e302a27abmr237685065ad.14.1753128879010;
+        Mon, 21 Jul 2025 13:14:39 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZf7Zut2SHugGxiaBRcP6rHB8ButXzeDZ0as1POmaGP8fA==
+Received: by 2002:a17:903:13cc:b0:234:d1d3:ca2 with SMTP id
+ d9443c01a7336-23e2ecf5cdels32164045ad.1.-pod-prod-03-us; Mon, 21 Jul 2025
+ 13:14:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXqLy8e4KjO9arPjxHX1vxILa9QweGaY9Es4EYBEes971ihVicsbA1H3WSVZgwWyGvH17DHckwBEhI=@googlegroups.com
+X-Received: by 2002:a17:903:228d:b0:238:2437:ada8 with SMTP id d9443c01a7336-23e3038466bmr266069745ad.48.1753128877713;
+        Mon, 21 Jul 2025 13:14:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1753128877; cv=none;
         d=google.com; s=arc-20240605;
-        b=W4Z95y1ZZhR6YAXNAtWvVqf7sdFQe9Y1w7EniLR7ymuYJBW+jLSYO1wPzd4GjrrguJ
-         wCs16EUVV9T2Cwf7J6yQgHGqrs2ndqy00cNnO5yoH+zVTpybri6SflFuCYKT1zQxZ50j
-         hCXnLvjZJYSRSfG7zn7YnPL2lTb83/iQHfDOByFoZJWooVohG2Z8LAtE8XsBJhjxxVjt
-         fODxcyhVHd4jW7QZQCtPssnNo+ABewcKc+5gsZ+zQCsmqGu8rTKMGK9R6emDxdWU8sVy
-         MxugS2aMNQ8tf9M5LA+h2NKtMFZ/T2/oAhdx2cpw+YXi1aR39WXUdSAmd6wq4bKdbGYw
-         VoqA==
+        b=VHufzK0iShgFZ8bl9CjlYaB14qagLg/CW07CjNolPMl+I6TO/qa4TyRWP5qlbyDJZ5
+         qSifZGMbROA4PTnpz3NqVkUFBlVrSI0UzlRetn4L6dgpWuPFuiEcddtpmVmNAFDvTowN
+         0nJcN/qA8OdHfmv2K3J2T92vkmTJ+lMn6JIZ5wriAXsxxs9AxGIgPpU/+iiJpkOjWeXB
+         dTBHmtG9z5KB3Bz4bL3T8ne/q1sxn9UCGvCExJn+szPItz9sL5MeLX9YcF/oA+Yl+N+I
+         vEwz4p2zglNwPIMAIhB2qRl/87OXHY7Ua7MmHhUgzEdC97JeGNsutIqRKRdU/y11e53h
+         VhoA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:dkim-signature:date;
-        bh=faRHgN5I3SJaokyooR8tND95TU4Zl2EbUy+q1BeFqEE=;
-        fh=mXvrb47lNowf4BwEcCjERSVh28xsXFbawTDSxPtKyaY=;
-        b=dAYStetSMEvHx/RjPH7njeepi96W1yIa4lzTVdS6LRc+pYzUMEh5uxVhZ0Jx5F9oYz
-         fxLm0qVZP9JXJKsTSvmqA8IgzkLcisAAhqUDU+n+8txvjlAVzCoZxA0KQtGfCRFZRYrD
-         kRta683G0i6yFC/6uYl1PfKwWicG3xkq97dfKAGmrKORalzQkADE71Bq/2vqWl6UMnXO
-         pmNOP9LboJzvT4dMhgUgvK2GFrQ1APHcZwIBYYuyraWhq/FSezZQ57h5G/zJsXWRDI53
-         BGgZCRBmS/GQPuWca3TuQXVhV1UK3W/yyVJsVx+kdHhEIrQ8z7Hjv5F7W2eaOENugv2+
-         30Iw==;
+         :subject:cc:to:from:date:dkim-signature;
+        bh=u/NyKUxBiS0QG5jJhquPTyFd9NQpPurrr/JYyOYtD/w=;
+        fh=tZyt6e0HlhPmBOSekvjLfrL8od2tSeZQJlfFsWQOwgU=;
+        b=VbJWQcIXRCW9qeVkGnCL2THFqQDeUfJSaF+u2Ge26AL52DYgLuD69hfpqOf1LFGmhx
+         Gck5bWhdoS9CYgznkYaUjCm2ZpviXNRFFpHLQKzT4fXsxj5PdIYPlTNJSA+no1lINy2V
+         /Z+RBdlJY2njHNaFrZ3fgnntDgLqvRAg6oXdUMbIc0U+e2cfLuUTRs/Uk/aLuZXsJjTc
+         cZime1SETQHQVdiIYDEi7OwlzeDxCimXOT7SGK3QDzN/1ZjkoAZICnVmNumaWFD/pulO
+         oAejMwDjE1EsJD9nAZ4Hr1qls7IwwHfZ6PJ6sgyPj/XOcubwDRisNrfsvc2eV45lf04Q
+         048w==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=Q8Bzke5+;
-       spf=pass (google.com: domain of nicolas.schier@linux.dev designates 2001:41d0:203:375::bd as permitted sender) smtp.mailfrom=nicolas.schier@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com. [2001:41d0:203:375::bd])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-55a31a9c966si217506e87.1.2025.07.21.13.02.43
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=lFAdcpLW;
+       spf=pass (google.com: domain of kees@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from nyc.source.kernel.org (nyc.source.kernel.org. [147.75.193.91])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-23e3b6bafdesi3514955ad.8.2025.07.21.13.14.37
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jul 2025 13:02:43 -0700 (PDT)
-Received-SPF: pass (google.com: domain of nicolas.schier@linux.dev designates 2001:41d0:203:375::bd as permitted sender) client-ip=2001:41d0:203:375::bd;
-Date: Mon, 21 Jul 2025 22:02:36 +0200
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Nicolas Schier <nicolas.schier@linux.dev>
-To: Kees Cook <kees@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Ingo Molnar <mingo@kernel.org>,
-	x86@kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-efi@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+        Mon, 21 Jul 2025 13:14:37 -0700 (PDT)
+Received-SPF: pass (google.com: domain of kees@kernel.org designates 147.75.193.91 as permitted sender) client-ip=147.75.193.91;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id D3432A55D87;
+	Mon, 21 Jul 2025 20:14:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75591C4CEED;
+	Mon, 21 Jul 2025 20:14:36 +0000 (UTC)
+Date: Mon, 21 Jul 2025 13:14:36 -0700
+From: "'Kees Cook' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Will Deacon <will@kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+	Michal Wilczynski <michal.wilczynski@intel.com>,
+	Juergen Gross <jgross@suse.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Roger Pau Monne <roger.pau@citrix.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Usama Arif <usama.arif@bytedance.com>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Thomas Huth <thuth@redhat.com>, Brian Gerst <brgerst@gmail.com>,
+	kvm@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+	platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+	linux-mm@kvack.org, Ingo Molnar <mingo@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
 	Andrey Konovalov <andreyknvl@gmail.com>,
 	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
 	Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
 	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
 	Bill Wendling <morbo@google.com>,
 	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, sparclinux@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org,
 	llvm@lists.linux.dev
-Subject: Re: [PATCH v3 01/13] stackleak: Rename STACKLEAK to KSTACK_ERASE
-Message-ID: <20250721-spiked-adamant-hyrax-eea284@lindesnes>
+Subject: Re: [PATCH v3 04/13] x86: Handle KCOV __init vs inline mismatches
+Message-ID: <202507211311.8DAC4C7@keescook>
 References: <20250717231756.make.423-kees@kernel.org>
- <20250717232519.2984886-1-kees@kernel.org>
+ <20250717232519.2984886-4-kees@kernel.org>
+ <aHoHkDvvp4AHIzU1@kernel.org>
+ <202507181541.B8CFAC7E@keescook>
+ <CAMj1kXGAwjChyFvjQcTbL8dFXkFWnn9n47bkN7FP=+EsLNsJdg@mail.gmail.com>
+ <aH42--h-ARsvX5Wk@willie-the-truck>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="cgD5lPAL2MBjPn/0"
+Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20250717232519.2984886-1-kees@kernel.org>
-X-Operating-System: Debian GNU/Linux 13.0
-X-Migadu-Flow: FLOW_OUT
-X-Original-Sender: nicolas.schier@linux.dev
+In-Reply-To: <aH42--h-ARsvX5Wk@willie-the-truck>
+X-Original-Sender: kees@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=Q8Bzke5+;       spf=pass
- (google.com: domain of nicolas.schier@linux.dev designates
- 2001:41d0:203:375::bd as permitted sender) smtp.mailfrom=nicolas.schier@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+ header.i=@kernel.org header.s=k20201202 header.b=lFAdcpLW;       spf=pass
+ (google.com: domain of kees@kernel.org designates 147.75.193.91 as permitted
+ sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass (p=QUARANTINE
+ sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Kees Cook <kees@kernel.org>
+Reply-To: Kees Cook <kees@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -155,89 +186,80 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
---cgD5lPAL2MBjPn/0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-
-On Thu, Jul 17, 2025 at 04:25:06PM -0700, Kees Cook wrote:
-> In preparation for adding Clang sanitizer coverage stack depth tracking
-> that can support stack depth callbacks:
+On Mon, Jul 21, 2025 at 01:47:55PM +0100, Will Deacon wrote:
+> On Sun, Jul 20, 2025 at 04:10:01PM +1000, Ard Biesheuvel wrote:
+> > On Sat, 19 Jul 2025 at 08:51, Kees Cook <kees@kernel.org> wrote:
+> > > On Fri, Jul 18, 2025 at 11:36:32AM +0300, Mike Rapoport wrote:
+> > > > On Thu, Jul 17, 2025 at 04:25:09PM -0700, Kees Cook wrote:
+> > > > > When KCOV is enabled all functions get instrumented, unless the
+> > > > > __no_sanitize_coverage attribute is used. To prepare for
+> > > > > __no_sanitize_coverage being applied to __init functions, we have to
+> > > > > handle differences in how GCC's inline optimizations get resolved. For
+> > > > > x86 this means forcing several functions to be inline with
+> > > > > __always_inline.
+> > > > >
+> > > > > Signed-off-by: Kees Cook <kees@kernel.org>
+> > > >
+> > > > ...
+> > > >
+> > > > > diff --git a/include/linux/memblock.h b/include/linux/memblock.h
+> > > > > index bb19a2534224..b96746376e17 100644
+> > > > > --- a/include/linux/memblock.h
+> > > > > +++ b/include/linux/memblock.h
+> > > > > @@ -463,7 +463,7 @@ static inline void *memblock_alloc_raw(phys_addr_t size,
+> > > > >                                       NUMA_NO_NODE);
+> > > > >  }
+> > > > >
+> > > > > -static inline void *memblock_alloc_from(phys_addr_t size,
+> > > > > +static __always_inline void *memblock_alloc_from(phys_addr_t size,
+> > > > >                                             phys_addr_t align,
+> > > > >                                             phys_addr_t min_addr)
+> > > >
+> > > > I'm curious why from all memblock_alloc* wrappers this is the only one that
+> > > > needs to be __always_inline?
+> > >
+> > > Thread-merge[1], adding Will Deacon, who was kind of asking the same
+> > > question.
+> > >
+> > > Based on what I can tell, GCC has kind of fragile inlining logic, in the
+> > > sense that it can change whether or not it inlines something based on
+> > > optimizations. It looks like the kcov instrumentation being added (or in
+> > > this case, removed) from a function changes the optimization results,
+> > > and some functions marked "inline" are _not_ inlined. In that case, we end up
+> > > with __init code calling a function not marked __init, and we get the
+> > > build warnings I'm trying to eliminate.
 > 
-> - Add the new top-level CONFIG_KSTACK_ERASE option which will be
->   implemented either with the stackleak GCC plugin, or with the Clang
->   stack depth callback support.
-> - Rename CONFIG_GCC_PLUGIN_STACKLEAK as needed to CONFIG_KSTACK_ERASE,
->   but keep it for anything specific to the GCC plugin itself.
-> - Rename all exposed "STACKLEAK" names and files to "KSTACK_ERASE" (named
->   for what it does rather than what it protects against), but leave as
->   many of the internals alone as possible to avoid even more churn.
+> Got it, thanks for the explanation!
 > 
-> While here, also split "prev_lowest_stack" into CONFIG_KSTACK_ERASE_METRICS,
-> since that's the only place it is referenced from.
+> > > So, to Will's comment, yes, the problem is somewhat fragile (though
+> > > using either __always_inline or __init will deterministically solve it).
+> > > We've tripped over this before with GCC and the solution has usually
+> > > been to just use __always_inline and move on.
+> > >
+> > 
+> > Given that 'inline' is already a macro in the kernel, could we just
+> > add __attribute__((__always_inline__)) to it when KCOV is enabled?
 > 
-> Suggested-by: Ingo Molnar <mingo@kernel.org>
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: <x86@kernel.org>
-> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-> Cc: <linux-doc@vger.kernel.org>
-> Cc: <linux-arm-kernel@lists.infradead.org>
-> Cc: <kvmarm@lists.linux.dev>
-> Cc: <linux-riscv@lists.infradead.org>
-> Cc: <linux-s390@vger.kernel.org>
-> Cc: <linux-efi@vger.kernel.org>
-> Cc: <linux-hardening@vger.kernel.org>
-> Cc: <linux-kbuild@vger.kernel.org>
-> Cc: <linux-security-module@vger.kernel.org>
-> Cc: <linux-kselftest@vger.kernel.org>
-> ---
->  arch/Kconfig                                  |  4 +--
->  arch/arm/Kconfig                              |  2 +-
->  arch/arm64/Kconfig                            |  2 +-
->  arch/riscv/Kconfig                            |  2 +-
->  arch/s390/Kconfig                             |  2 +-
->  arch/x86/Kconfig                              |  2 +-
->  security/Kconfig.hardening                    | 36 ++++++++++---------
->  arch/arm/boot/compressed/Makefile             |  2 +-
->  arch/arm64/kernel/pi/Makefile                 |  2 +-
->  arch/arm64/kvm/hyp/nvhe/Makefile              |  2 +-
->  arch/riscv/kernel/pi/Makefile                 |  2 +-
->  arch/riscv/purgatory/Makefile                 |  2 +-
->  arch/x86/purgatory/Makefile                   |  2 +-
+> That sounds like a more robust approach and, by the sounds of it, we
+> could predicate it on GCC too. That would also provide a neat place for
+> a comment describing the problem.
+> 
+> Kees, would that work for you?
 
-Did you miss arch/loongarch/Kconfig by accident?
+That seems like an extremely large hammer for this problem, IMO. It
+feels like it could cause new strange corner cases. I'd much prefer the
+small fixes I've currently got since it keeps it focused. KCOV is
+already enabled for "allmodconfig", so any new instances would be found
+very quickly, etc. (And GCC's fragility in this regard has already been
+exposed to these cases -- it's just that I changed one of the
+combinations of __init vs inline vs instrumentation.
 
-$ git grep -Hrne ARCH_STACKLEAK
-arch/loongarch/Kconfig:127:     select HAVE_ARCH_STACKLEAK
+I could give it a try, if you really prefer the big hammer approach...
 
-Kind regards,
-Nicolas
+-- 
+Kees Cook
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250721-spiked-adamant-hyrax-eea284%40lindesnes.
-
---cgD5lPAL2MBjPn/0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmh+nNwACgkQB1IKcBYm
-EmlaKg/+Oulyjlzl6ITiwJiV1weZc0KBlop49wW3/ilmJ9U/16ChNrQlv9S6c21O
-ytwj5NZ3lgiznFSMFUOkOxA6ctKIXVyGyNPSmJIUJ6Sqk9iHm3zMakHBxpr2uemy
-DP6Nb6zORIiNJiTd3lVcdz1XQJRGfHfoMpUoW+GRKqQMtw4NyankD/eCESFv6mKh
-T27cet3p0OMQg5S3lM/AD8uuhCxYlLXnD2LJ1XC7z5v9s2QMFnm2FKuEbwwRikgZ
-k4V5IQ6fVjZRe7AuIZpAgOC2mWYkumx3EriVPGKNQu7L0MSQfUAjDF83NE4CBwIO
-EKdR7rp9ZBpJXIQwG0SNnVDCG/xfryC0LzVorLlZOR65GUHYiONL5Eq+J2QE8zwZ
-ugfv15CDaABIA5Rc6VW655EQePy0grJb6wQRpZAQRtsg5HQQfPgWXewm+OetC6sk
-1yqSuYqUrmJ0j4usrxCxbZRrRcGzfdDuGAmg4XpUKrEJIZRxfsV5InrSJ+o2nA14
-yjqgSeDRliPvyePCLddpnDyye4RgIyNgDQSuYJoivHQryIdrYJE3LIk+EoQdw3dv
-c+5c9ea/sNADpeyyA/RAzDrLGAEXAh2qZFu/o71KZIUOwOLp6IjYtZ9MfI54KyhK
-0TTlmcFody1uFinctfOk+8zBzO/foM1hkNF9knW0vJmnEV4khOU=
-=dSeG
------END PGP SIGNATURE-----
-
---cgD5lPAL2MBjPn/0--
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/202507211311.8DAC4C7%40keescook.
