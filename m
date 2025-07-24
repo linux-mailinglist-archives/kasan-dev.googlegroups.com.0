@@ -1,35 +1,35 @@
 Return-Path: <kasan-dev+bncBDCPL7WX3MKBBKMTQ7CAMGQEVLZT5VI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd39.google.com (mail-io1-xd39.google.com [IPv6:2607:f8b0:4864:20::d39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67C56B10010
+Received: from mail-oa1-x3d.google.com (mail-oa1-x3d.google.com [IPv6:2001:4860:4864:20::3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DF04B10013
 	for <lists+kasan-dev@lfdr.de>; Thu, 24 Jul 2025 07:50:35 +0200 (CEST)
-Received: by mail-io1-xd39.google.com with SMTP id ca18e2360f4ac-87c30329a56sf142085239f.1
+Received: by mail-oa1-x3d.google.com with SMTP id 586e51a60fabf-306ca683dcesf1017758fac.0
         for <lists+kasan-dev@lfdr.de>; Wed, 23 Jul 2025 22:50:35 -0700 (PDT)
 ARC-Seal: i=2; a=rsa-sha256; t=1753336233; cv=pass;
         d=google.com; s=arc-20240605;
-        b=e9wjfn8qnEU88wYhcaS8ZAol7mU8fkaUhMdCdNYyMAkjyGSxBUPiHdej5bMLOtDf6v
-         Cei0qYr2FTznUnlwEs5s8nnTgyQogmGH78RF3aoX099p0lTdGCZ1hrRKY6G7sh+Tgqi8
-         C6P/aRZ/fvOMQXhk9v1KfVacC/9ULVGv+hI1TTEvBKJVRr1M96Ltr2dxTeVI9L+JzJ6J
-         qsM6+lNuR6upow6MLj83CbvT4jWGoaVKjTArJ5kEmWsIoOuGN8XI5DPCMLIy5tnQWXit
-         7X2xnjAE7yNLD4FabMBCGMldEvcCYE5W64YcrDyP8m9crZeQcB99Vrsg3Xr6+QVPwWuY
-         Z9nQ==
+        b=QT3Yd3oFcEUZ57riV2uarH/Ia/NJs2xIVhgq317s65D5m2Vg/l+wmKwVVDaftZYqYg
+         QV3jon5v9B3MpTnHfHF9k/z6SEPpJKRwFuYnl0W/tyJuo/3y+54kC3BoJjtJmhgm16D0
+         hsj/MpnkFDHka8Co0j6L3by7z5t5LsO0KeNluE+6CkR9CfYcNg89wEvuTWuLQCGVngpn
+         4JQ78rakNlmXqCCT+UlpwmKqDFZj9a7vfO4r9jlixy2wfT7gzWEx+nY/+tB4DZQf6+gQ
+         PSd+ssTA0ZaWNBQ+W2xhLEG+WFVhTQhKLIg45E99kiK2fWXS4f1qNX++z2v9hltqQyZL
+         mW0A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=XJ4KHtMzULTdkc6NYNHDXnc2xrXRtWXb+CJOkqpt+9I=;
-        fh=JOuYPzQ4MoONCh+nyEjxlpjG8DeWnk/aLnAwIIOMRIM=;
-        b=WDQI+qiLuUp6xkH5PE6XEYxXto4SighdMeWZM/QAHAXdtYA0gics36vuAcr3yr7xNB
-         i50/3ATAO6BjHIUrDsW1jStadyDvzApAnOrvt+RgrVPTuV93FuQiLhju1XkeV4tqiiUt
-         BzoFaP1oeIfq8y+aXoxqky7cygZZEjP+8Tv5A3WuiSctwHFQbK1ohHoCilPfIfUvggyf
-         DOGeDJqtaEKe3+TH9hUwrhBJdklJe+URn0f8l1fdtb8u+YZ1oZu+Ad07NYheZbJM97Dx
-         Zu/sfKBGTebeuUIhKDXPF1BqkUuYxhgDN+RJ5HorJkSMgvL7tYAjVtYL3drr+5J0XXVy
-         SkFQ==;
+        bh=snN9AvyPAmfzORtN9mwpK3KoBPwJnudT3NOhL1eCe5A=;
+        fh=0iCP6JkghRNkd1ypuTDXTYM1VKesRGOotD9ch8MKLow=;
+        b=C5ja+UGvdvhJt06zpYHX8wWcmY4G8LLqo5EAGUruY4ZXmXZdrrOBnSrHasdxjEB29M
+         CH8mWhQePVeSqALHckJ46LnQjpmpULkdAKukG2qjQTI9etPACrceMt0W7f298AntabMw
+         2Z26y9C1iHInHqC3oovCjwu+EiN7lLy1u/D8XPP+ajhiqYA5toe/x9RYgOBlSpE4n0mh
+         D74AOAkTAbrqv4IVWIq1vGRRzMNIcG1rqKeOT2HeQvaGJivZEdIE6ub0aYl1aQ7PUN1g
+         kPNjbklTw1v3J+lVLDD/Mqm8GKlxVgio4azvMtMNeZa5j/M76TlIPBbrbmOW3/KFahJe
+         Lfxw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=ooTp5DYa;
-       spf=pass (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=QgWgAc1Z;
+       spf=pass (google.com: domain of kees@kernel.org designates 172.105.4.254 as permitted sender) smtp.mailfrom=kees@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20230601; t=1753336233; x=1753941033; darn=lfdr.de;
@@ -38,13 +38,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=XJ4KHtMzULTdkc6NYNHDXnc2xrXRtWXb+CJOkqpt+9I=;
-        b=E0PJk7mSvc3UbiXTnjLe7MKb/d9gyWPf1X5/cBrnCjSoE21ULYDUHfuMgvAI4t2Fc7
-         jQh7pqrLzgYnzItW6Q2iXop0NVznPcezQ9XgO9qQAApzSD2/FDCzYrWeiseqX9/DxT2t
-         943TSEFfAL6uFxhfMr2HHE7s9Mp3fj/3+6iI8Rql932lNQjsJBMQ6W9WsujCxebDsp6b
-         s2H7MtCE2zgqGA19lZBASzdud0gk1S1kDk5ecwNd94WPt4CQynvuPVOinPftNFSo985R
-         x5P9a8uSADNgWnfHmpqupO2GzQ8e45awqXJcffBfJQgQptGrOuOuIS9dHY5gDIxpAKDH
-         /4/g==
+        bh=snN9AvyPAmfzORtN9mwpK3KoBPwJnudT3NOhL1eCe5A=;
+        b=OgJdIR9Aswi8YmvRdnzntP6Ty5ROPjt+TAIEXOhqt46YO7LpV6wkQTvI9FZMiNVak6
+         epVv1meLcxD5gH4ReIa9ll9DckH4QmdBnjusHtVIeEoAZcHnEDgszD03q6g8V8zEqeUN
+         OOKL75VQJ+8WxLGUW1SkSL27n/0ADcC/7CNEev8kW2lsugO45O1KnH7cDswHmdDqT3Mj
+         deS+twNsOL/Apf/vCSTPWyr5dKHuYHXmSkbxbRnmKzrEB5++mFgnAAz3VZ5qGNdM+QBI
+         MMd9oRTST83IwSkF5IyKs+X7ESFoZsrePCP8Fng1eEGufS1Q/O6Nb8XOFf8YUXRtkttA
+         hhJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1753336233; x=1753941033;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -53,83 +53,75 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XJ4KHtMzULTdkc6NYNHDXnc2xrXRtWXb+CJOkqpt+9I=;
-        b=HxIaERx1eGGsUEDq4+LY/FJub5kKjxtt65zhftUG6fSyjfh5fyMDwRWAwTMwAo8rxD
-         K0qFcQ6TPOcmcKilA3hDlVIwpreC4OvUGIGwnPpf8GG3GOcAxPuO2PB0l0HFeavsQ7um
-         IOiBtSaUVb0xx8EY7BfhYCc1lN6xjCXQUiBFswFY2VqIH9CpT8nTb+CJ2uXR5EkLAWrZ
-         X8iGzim47PbWLuZ+abwmSkM1BFGun2fiyFPxbdNoFOD5iw/UpF+9XkpW+/d3ElVzguw8
-         2YvWjw/qTXnAZ/eIDjJxT0co35nqiB+XnoZxcFTb9UJezscfVBP1PqdbPuqFaguJmANy
-         Yf3w==
-X-Forwarded-Encrypted: i=2; AJvYcCUiD28Tj3vPkbIPMfcRgh5nsDw9dm9e/3Z39tx3WK7fsIb3sg7WfrTbVx36k2k2gidWOqC3Rw==@lfdr.de
-X-Gm-Message-State: AOJu0YxJNqy9C4FeRsdMPwEhgCgNUtBvqNq81F+R6cavxlLkz1ga+Ap5
-	Z4q8BOHYmPz41lO6n7yYOkg5ADwpsZakuW02JOq+9sYOHvYBusYxmajy
-X-Google-Smtp-Source: AGHT+IHLb9szOL/8Zra41oPH5r18tD/B37gNFIdiv2LGrxtkzagwV7Wsoptj1SHByvx1zkMNdeIVPg==
-X-Received: by 2002:a05:6e02:1c09:b0:3e2:8b58:60d6 with SMTP id e9e14a558f8ab-3e3355800bemr97900895ab.12.1753336233510;
+        bh=snN9AvyPAmfzORtN9mwpK3KoBPwJnudT3NOhL1eCe5A=;
+        b=w9Lk3/z4LlcjKTtup1kZG3O3srRhu0zN0ji+J5pED6yN+qSwHGQn+yenjrc4vbKVGB
+         G6RUFQqCqxHKixfXku5kYaCQtyaeqadphFUGZdPi3WndkRAmpzQICtK2Ppl6iejB49LV
+         8dCl3nCoA23ZSRtf5HI7N/0J8Nfcr5Q6+dA3ccx2SEqihM032nhF14gdXy+euuStuhJB
+         VthuLj6/AAAQ0sBc28Q3g9ZXA1kfa+AnjvVwwDQ+zcRL8OlcvaGC89uknA+lpLIHvzBC
+         GkJvHpYOFeueQmCRDudokJpD0ljtT5VzOhfaltWKNvK6fzZZo3TthdnKtJxMjtwBgmOe
+         ryYg==
+X-Forwarded-Encrypted: i=2; AJvYcCWB8m1KoHU93n9qCu/ZyL2pi6KDt3DRdeXlhvKTbTt7gyyxneD+FhkdSjnkbXaQhlXMfT7ELg==@lfdr.de
+X-Gm-Message-State: AOJu0Yy2a/efIUQx/Qqb3uFtfv0HyzyaU+iZO4Ljzhk3HEWqajatKmyB
+	bO2jGb48DKYmDfYIhuNky9tWffJX1eV9ULamtJBsi6Bc3ZxdOGxFY0ZQ
+X-Google-Smtp-Source: AGHT+IFDKwqiPJpv+QFtG4u3EV0BmJT5mQihNkK3jhy7W56krpCD7+uYgONnJxC3ZSfsAyvGPCl8lA==
+X-Received: by 2002:a05:6870:78b:b0:2e9:95cc:b855 with SMTP id 586e51a60fabf-306c73546cemr4427440fac.34.1753336233542;
         Wed, 23 Jul 2025 22:50:33 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZd8iyW06hV2uPwwBJ/ZS9mxKuJVvIXsfnSzq0RwbsJ/Wg==
-Received: by 2002:a05:6e02:2182:b0:3dc:82ff:ca6b with SMTP id
- e9e14a558f8ab-3e3b4f8d57als7905835ab.0.-pod-prod-05-us; Wed, 23 Jul 2025
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZduwmoFTIXnNJtGtX7xEf48Wq/bKJIT6qygVAH91Llj1Q==
+Received: by 2002:a05:6870:3124:b0:2c2:2ed7:fb78 with SMTP id
+ 586e51a60fabf-306dd71b007ls689115fac.0.-pod-prod-01-us; Wed, 23 Jul 2025
  22:50:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVeviC1hGs7wFb2q28OAUN3XxDH67wmwYsHftV+pVnh1MBGtA5rm3nBMH9KOBaWXqBtp0sbEaTFVPI=@googlegroups.com
-X-Received: by 2002:a05:6602:1501:b0:87c:45c2:7170 with SMTP id ca18e2360f4ac-87c64f66d0emr1249672239f.2.1753336232692;
+X-Forwarded-Encrypted: i=2; AJvYcCU9X7s3UowzHHltbeZ82UdSutDYYkAFje0UcWprW/oKD66qc3DikEnrACsIxXIo11NaNWusz6uzndM=@googlegroups.com
+X-Received: by 2002:a05:6870:d629:b0:296:5928:7a42 with SMTP id 586e51a60fabf-306c7250dfcmr3480470fac.22.1753336232375;
         Wed, 23 Jul 2025 22:50:32 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1753336232; cv=none;
         d=google.com; s=arc-20240605;
-        b=Y9fKIVHGq+BGZywiNUszp3a7n0PuiS6vrBd4MYxrXS4763nTKaWdGm/3Mr01rBQgO2
-         F5FIFttGIgFDR2/pCWPHS4dhUFovEbw4DwlBqS6inmt0n5n+MGzjeG80V4XYpzgliqoi
-         pS9GKprOjDX5VCNW+5DFiLc1WTJrU8iKwBH5SWjJNUSnIyGE7W3KmaxqSAWMLIyZMABz
-         5wU6QZVbYqnkXl44ycNDeJWQfreCfGQ/LjGP5jEx+I5JSaAv0cp4tAZoVzVrQ6BNy5u0
-         wJvBO48fyVkaE/BLLIj45SUFp537CTzmzI332XNS63JABmp9vta8xUZMSFUSYYCPlWK3
-         kGwg==
+        b=jN7/e+reOUzhltRon/iCGidTUqIqVJbltXfIM5pjKjo3QOXO1sdEV6ocFCX3tihGso
+         a5dDhhqYB1974WXgqn7csjyo0owWvUNC3lFJZCX3CqjacfTsNkrcIOzsTEo+bYj2noBQ
+         zrQQMnGupdDXcsNkt85n3jLzOE5oyyWwV6BrvKf8b8DKCq4JoAu9SBO1ttbYNUtu8JZe
+         bzfk2Gzbuj3ucVb1AYnnTW4N5polk2eEKcZUcutOUpmPNf452nt/qCdlJulO71IJzDaI
+         CViO+CHApFhAVKTpvYY40Fiac/qk5qtVS+6sj20XgbcRuNxHS0vRAU5nQLuMPdBTR9jn
+         MgmA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=C8D4LxVY5xiBAnCpq4qjYfypcmK3R7vRmG4YyK+yYkI=;
-        fh=9ECjMzqIA7gVldZLWzC688kAmAqHqxFXRS2tru8KaIc=;
-        b=NMdge24wdBNd3tpdkrgrPFIrombDkc2J1qcRfGv6TeS649H+Alrhgi+F4HGd2cNwf6
-         vrYICDg7uDLBo1j7kqDbqwth9IDUvE3cGp+rOKfrfCCkIVEBcMWJlhnNbxjPgVgW3JAu
-         WdwJTx7OY+dfMYE07qjn09KdkEWaku7AhWNd/5HnfoQF0fPHpD7erqiMVdPwKYvNt8w6
-         CZs/QSVqF+7uO+pG0Umb0OMok9XQQ+fpgQVhEBCbFVNn7g/z7paOPCFCRoDLrEnwMNOc
-         GVT4Vd6GRmWxq2IW89HF+wxIAttcmM9x7vRxfnOeWcaIbguMQvwABw4wkk/acZ1Y1tGs
-         A/gQ==;
+        bh=4j17pn+//SHkaX8ONm+HlhNEvqzcDQ+QNAUfr7A3lEQ=;
+        fh=sdm5Z2TnP2dG9IZ4WGJl1bGjmOz24FfNTpAU+6OkKMw=;
+        b=Dy5GygUEdKHJKcgu0zaioIrhBlcK4dFzY867LnWqOoWuslzucCn8FrPKotiQsFPvha
+         rV3EBst6BTA6QWnBaRzDrDJk9x64pDBNl/FTo8ateJLKwZE2P6iBlHEkSE9xAPnlCpsg
+         vrYRzWOe1/guxqlrVRUbQnI2n/Jgew3M+eWP/q32wvCChvIGUSbY/XZbzHdBpyhVpuyW
+         tcuTs5/4yr4GUugYXSnpjHlZ8Zqsw2Rx5qZ7Ip5zVubPqPipwG53Qz7gPZhO0Orhge0e
+         GaooNOrMbkiC5qvwc+j2T7qXCY7+d/Gxu7kvz5a2uFAz/ufojIUlpuDNeU9Og0wr2uz6
+         sTZg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=ooTp5DYa;
-       spf=pass (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=QgWgAc1Z;
+       spf=pass (google.com: domain of kees@kernel.org designates 172.105.4.254 as permitted sender) smtp.mailfrom=kees@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from sea.source.kernel.org (sea.source.kernel.org. [2600:3c0a:e001:78e:0:1991:8:25])
-        by gmr-mx.google.com with ESMTPS id ca18e2360f4ac-87c7430cd70si6009039f.4.2025.07.23.22.50.32
+Received: from tor.source.kernel.org (tor.source.kernel.org. [172.105.4.254])
+        by gmr-mx.google.com with ESMTPS id 586e51a60fabf-306e1d4c57fsi55433fac.4.2025.07.23.22.50.32
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 23 Jul 2025 22:50:32 -0700 (PDT)
-Received-SPF: pass (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) client-ip=2600:3c0a:e001:78e:0:1991:8:25;
+Received-SPF: pass (google.com: domain of kees@kernel.org designates 172.105.4.254 as permitted sender) client-ip=172.105.4.254;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 1FA8E46587;
+	by tor.source.kernel.org (Postfix) with ESMTP id 68FF46114C;
 	Thu, 24 Jul 2025 05:50:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97F08C19421;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC523C2BCB1;
 	Thu, 24 Jul 2025 05:50:30 +0000 (UTC)
 From: "'Kees Cook' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Arnd Bergmann <arnd@arndb.de>
 Cc: Kees Cook <kees@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
 	Marco Elver <elver@google.com>,
 	Andrey Konovalov <andreyknvl@gmail.com>,
 	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
 	Ard Biesheuvel <ardb@kernel.org>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Hou Wenlong <houwenlong.hwl@antgroup.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-kbuild@vger.kernel.org,
 	kasan-dev@googlegroups.com,
+	linux-hardening@vger.kernel.org,
 	Will Deacon <will@kernel.org>,
 	Catalin Marinas <catalin.marinas@arm.com>,
 	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
@@ -138,6 +130,11 @@ Cc: Kees Cook <kees@kernel.org>,
 	James Morse <james.morse@arm.com>,
 	Oza Pawandeep <quic_poza@quicinc.com>,
 	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	Mike Rapoport <rppt@kernel.org>,
 	Vitaly Kuznetsov <vkuznets@redhat.com>,
@@ -157,9 +154,12 @@ Cc: Kees Cook <kees@kernel.org>,
 	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
 	Thomas Huth <thuth@redhat.com>,
 	Brian Gerst <brgerst@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Hou Wenlong <houwenlong.hwl@antgroup.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
 	Andy Lutomirski <luto@kernel.org>,
 	Baoquan He <bhe@redhat.com>,
 	Alexander Graf <graf@amazon.com>,
@@ -177,6 +177,7 @@ Cc: Kees Cook <kees@kernel.org>,
 	Bibo Mao <maobibo@loongson.cn>,
 	linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
+	x86@kernel.org,
 	kvm@vger.kernel.org,
 	ibm-acpi-devel@lists.sourceforge.net,
 	platform-driver-x86@vger.kernel.org,
@@ -184,26 +185,24 @@ Cc: Kees Cook <kees@kernel.org>,
 	linux-trace-kernel@vger.kernel.org,
 	linux-efi@vger.kernel.org,
 	linux-mm@kvack.org,
-	linux-kbuild@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
 	kexec@lists.infradead.org,
 	linux-security-module@vger.kernel.org,
 	llvm@lists.linux.dev
-Subject: [PATCH v4 3/4] init.h: Disable sanitizer coverage for __init and __head
-Date: Wed, 23 Jul 2025 22:50:27 -0700
-Message-Id: <20250724055029.3623499-3-kees@kernel.org>
+Subject: [PATCH v4 4/4] kstack_erase: Support Clang stack depth tracking
+Date: Wed, 23 Jul 2025 22:50:28 -0700
+Message-Id: <20250724055029.3623499-4-kees@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250724054419.it.405-kees@kernel.org>
 References: <20250724054419.it.405-kees@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2887; i=kees@kernel.org; h=from:subject; bh=9V+bffTinVGVEjmw6TF+C5G0YfQpy53YZa3Wm2q7aj4=; b=owGbwMvMwCVmps19z/KJym7G02pJDBmNJxdz3tX005Y/rnL4YOLkChWuJ+9Wl0ZxtHAnf5w+4 +zlC8f3dZSyMIhxMciKKbIE2bnHuXi8bQ93n6sIM4eVCWQIAxenAEzkYR0jQ3OLrmDdCpsGS/2v XwqtbKYZz2RJ7Lh0a141x9MPJVGnpzIydBStU54v9Wp98GqlzKdyYSda/YzleKsypsy4O3tZzgI uBgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2299; i=kees@kernel.org; h=from:subject; bh=p+7YUBTmffdnZ8pKAPuZ2rzC3Zvp9P0MFRgY7Xz1ydU=; b=owGbwMvMwCVmps19z/KJym7G02pJDBmNJ5fsPnPUwKQyTLv6YDRX59942Z9pVg4x/Z3tr6sPL i8Lmbqoo5SFQYyLQVZMkSXIzj3OxeNte7j7XEWYOaxMIEMYuDgFYCLbGRj+55xsNLv8fgpvz+zJ 97Q2v1jyfM6aXx5r3h0o/XvrBVfaBhWG/34taus75nNe6jl2+9BH9ihD5yM7dLl817dcaviWpVx +gAsA
 X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 X-Original-Sender: kees@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=ooTp5DYa;       spf=pass
- (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25
- as permitted sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+ header.i=@kernel.org header.s=k20201202 header.b=QgWgAc1Z;       spf=pass
+ (google.com: domain of kees@kernel.org designates 172.105.4.254 as permitted
+ sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass (p=QUARANTINE
+ sp=QUARANTINE dis=NONE) header.from=kernel.org
 X-Original-From: Kees Cook <kees@kernel.org>
 Reply-To: Kees Cook <kees@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -219,77 +218,69 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-While __noinstr already contained __no_sanitize_coverage, it needs to
-be added to __init and __head section markings to support the Clang
-implementation of CONFIG_KSTACK_ERASE. This is to make sure the stack
-depth tracking callback is not executed in unsupported contexts.
+Wire up CONFIG_KSTACK_ERASE to Clang 21's new stack depth tracking
+callback[1] option.
 
-The other sanitizer coverage options (trace-pc and trace-cmp) aren't
-needed in __head nor __init either ("We are interested in code coverage
-as a function of a syscall inputs"[1]), so this is fine to disable for
-them as well.
-
-Link: https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/kernel/kcov.c?h=v6.14#n179 [1]
-Acked-by: Marco Elver <elver@google.com>
+Link: https://clang.llvm.org/docs/SanitizerCoverage.html#tracing-stack-depth [1]
 Signed-off-by: Kees Cook <kees@kernel.org>
 ---
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas.schier@linux.dev>
 Cc: Marco Elver <elver@google.com>
 Cc: Andrey Konovalov <andreyknvl@gmail.com>
 Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: <x86@kernel.org>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
 Cc: Ard Biesheuvel <ardb@kernel.org>
-Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: Hou Wenlong <houwenlong.hwl@antgroup.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Sami Tolvanen <samitolvanen@google.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: <linux-kbuild@vger.kernel.org>
 Cc: <kasan-dev@googlegroups.com>
+Cc: <linux-hardening@vger.kernel.org>
 ---
- arch/x86/include/asm/init.h | 2 +-
- include/linux/init.h        | 4 +++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ security/Kconfig.hardening    | 5 ++++-
+ scripts/Makefile.kstack_erase | 6 ++++++
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/include/asm/init.h b/arch/x86/include/asm/init.h
-index 8b1b1abcef15..6bfdaeddbae8 100644
---- a/arch/x86/include/asm/init.h
-+++ b/arch/x86/include/asm/init.h
-@@ -5,7 +5,7 @@
- #if defined(CONFIG_CC_IS_CLANG) && CONFIG_CLANG_VERSION < 170000
- #define __head	__section(".head.text") __no_sanitize_undefined __no_stack_protector
- #else
--#define __head	__section(".head.text") __no_sanitize_undefined
-+#define __head	__section(".head.text") __no_sanitize_undefined __no_sanitize_coverage
- #endif
+diff --git a/security/Kconfig.hardening b/security/Kconfig.hardening
+index f7aa2024ab25..b9a5bc3430aa 100644
+--- a/security/Kconfig.hardening
++++ b/security/Kconfig.hardening
+@@ -82,10 +82,13 @@ choice
  
- struct x86_mapping_info {
-diff --git a/include/linux/init.h b/include/linux/init.h
-index ee1309473bc6..c65a050d52a7 100644
---- a/include/linux/init.h
-+++ b/include/linux/init.h
-@@ -49,7 +49,9 @@
+ endchoice
  
- /* These are for everybody (although not all archs will actually
-    discard it in modules) */
--#define __init		__section(".init.text") __cold  __latent_entropy __noinitretpoline
-+#define __init		__section(".init.text") __cold __latent_entropy	\
-+						__noinitretpoline	\
-+						__no_sanitize_coverage
- #define __initdata	__section(".init.data")
- #define __initconst	__section(".init.rodata")
- #define __exitdata	__section(".exit.data")
++config CC_HAS_SANCOV_STACK_DEPTH_CALLBACK
++	def_bool $(cc-option,-fsanitize-coverage-stack-depth-callback-min=1)
++
+ config KSTACK_ERASE
+ 	bool "Poison kernel stack before returning from syscalls"
+ 	depends on HAVE_ARCH_KSTACK_ERASE
+-	depends on GCC_PLUGINS
++	depends on GCC_PLUGINS || CC_HAS_SANCOV_STACK_DEPTH_CALLBACK
+ 	help
+ 	  This option makes the kernel erase the kernel stack before
+ 	  returning from system calls. This has the effect of leaving
+diff --git a/scripts/Makefile.kstack_erase b/scripts/Makefile.kstack_erase
+index 5223d3a35817..c7bc2379e113 100644
+--- a/scripts/Makefile.kstack_erase
++++ b/scripts/Makefile.kstack_erase
+@@ -8,6 +8,12 @@ kstack-erase-cflags-$(CONFIG_GCC_PLUGIN_STACKLEAK_VERBOSE) += -fplugin-arg-stack
+ DISABLE_KSTACK_ERASE := -fplugin-arg-stackleak_plugin-disable
+ endif
+ 
++ifdef CONFIG_CC_IS_CLANG
++kstack-erase-cflags-y += -fsanitize-coverage=stack-depth
++kstack-erase-cflags-y += -fsanitize-coverage-stack-depth-callback-min=$(CONFIG_KSTACK_ERASE_TRACK_MIN_SIZE)
++DISABLE_KSTACK_ERASE  := -fno-sanitize-coverage=stack-depth
++endif
++
+ KSTACK_ERASE_CFLAGS   := $(kstack-erase-cflags-y)
+ 
+ export STACKLEAK_CFLAGS DISABLE_KSTACK_ERASE
 -- 
 2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250724055029.3623499-3-kees%40kernel.org.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250724055029.3623499-4-kees%40kernel.org.
