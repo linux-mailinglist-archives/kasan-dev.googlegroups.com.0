@@ -1,148 +1,149 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBS5NR3CAMGQEMDY7GNY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCUJBAM67YFRB3GGR7CAMGQEDJKECIA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x539.google.com (mail-pg1-x539.google.com [IPv6:2607:f8b0:4864:20::539])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C6E0B12033
-	for <lists+kasan-dev@lfdr.de>; Fri, 25 Jul 2025 16:38:05 +0200 (CEST)
-Received: by mail-pg1-x539.google.com with SMTP id 41be03b00d2f7-b362d101243sf1674080a12.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 25 Jul 2025 07:38:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1753454284; cv=pass;
+Received: from mail-il1-x13f.google.com (mail-il1-x13f.google.com [IPv6:2607:f8b0:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 759BDB12513
+	for <lists+kasan-dev@lfdr.de>; Fri, 25 Jul 2025 22:05:02 +0200 (CEST)
+Received: by mail-il1-x13f.google.com with SMTP id e9e14a558f8ab-3e3cba15753sf2140945ab.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 25 Jul 2025 13:05:02 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1753473901; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Hg7Mw9bRfm4o4L/+cjrGOPZYLkX6S+eTuix6+TjkWWt7SccsvHNzvzt9SvClZKMBvj
-         2FjhbbqjYU/pbp2g2ReNMzlk27z+uO133V386gB4er9lTFKJtww58HkUhw2+dhCUtHAc
-         2HR0+o34ks5BIKKoa54pM1ofTGme8g0RfDfL5zizvK+2fwnrTXMS5dza+uFbOPfXOLu1
-         cjSGAec9wQZethBvZvKpe13SfDdnhTXzsAYvTprCPLFj6w8faNzQVl77VLD1yCrrpJ8w
-         CnyKrfZl97wrcG9dfCLe+GeAGJdIbp4oaZhpouz9rdpr/fWcrif8UWEUhNvxCmKEJ6ox
-         BNmQ==
+        b=JntBV7JUMMKnAUwcbBsUHAVc/S9ipb5kf6nKOuF8DGbnsBywiStd0ekeAZOZySS/uy
+         N0inn0X1SIicjGjfBo7IvECwXZsSj7QsTAzSLw0VPZoQtruylRt4dYyfEKN/2EC5T5ke
+         sZUv/2BAZPJdqABHUiwcOLOttFTHVY8hGjUSedLH5+HgTTkKSaikhUQOPbAZ8sRJ5TaC
+         jsUOQSB+3hbS/7hmsI7pGcQFv6ngFlelrJlyyh1x8SCdRHJIciqCRACkwpbAMPzsHCaC
+         7LuCXL7Q59M1y0wC5Y9TE5X3LndCiQ7Jyp7ykih1Jp8bz0Rf8wWdvH7WTo96kjlijZqe
+         wApw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=MeUJDBPMwVFTZSLw6+LYAcf0szFx+Kpxn2csfUf9wuQ=;
-        fh=0lXCBNZMKAUHB/wJXHPVJOK+fznJdzHXrCRtkKzoOxc=;
-        b=H3p45fe6Lf5JueycUg5pG9aYqgLp6/tw/WMskGGmf4ElP5qc0SiAf+wZ8Al5/23oCg
-         mMwnS8VltzNk0nSnRrl3erAi1MRKpvvM4AgJK1a/QXBS+PZDby3kAijqMlpV/Wm+qW7E
-         MU52HHbnmy2zt717fJPi8TIXP0lCkCkbdLRy7a14vzerXcfBSwPttWOb0KnF6Oor9rdC
-         E9EWX70lxMnGywk9KOKk0kcMvyg1TUgk0Ly6N6+Gg4ABJBj+JjC7V5SKGl+FeJ8pvdgJ
-         wIL0iNc4NRsX92HX24KCjB/lNRhWCyerrpHmmwJE2FF0srJe4Yfam7HfPSamii62bt42
-         vVSA==;
+         :list-id:mailing-list:precedence:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=5I9/7Df5gL9PGbGLMl+HQHcFg0LrICCNK75mDsk+NDs=;
+        fh=mf6cCKJZxlxl1na9CNuqmwTaRmpPgMAZv9Emci6xNos=;
+        b=f6ag8KnjHxqg+jyQF4Vdt2lxSMFxt3dhnf+thPjAW8s5JkWH3H918cdN7cAapIxO5Z
+         Dv9nybWLLHCdnnVLAsXj5D+1kdTzoH2aqIliW//fyzLgdkdfGpHtSUh4Y0G0QzQQ9ZdF
+         UdYNx6TsQ95SXaFK02ZIPyIRLKzvkqpb2MkmAnEYP+ZIAQPy/ltEKmlmyTJKRyGi6Oam
+         RZUt8u1b1eOK9wqUdQII+UvY06j5UlMK4G49IzWAdQ4VuJWd8ZdyOk11uatnXAdj6jE9
+         ctg2E0b51ILvLZC70yJj/tAVK5i5JXp3DfNbASM7RICuutX/X0a8HR+z5BvVmG4zK/ju
+         TCMg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b="g370aK4/";
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2a as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
+       spf=pass (google.com: domain of robin.murphy@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=robin.murphy@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1753454284; x=1754059084; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1753473901; x=1754078701; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MeUJDBPMwVFTZSLw6+LYAcf0szFx+Kpxn2csfUf9wuQ=;
-        b=CURnECVnQigTepFhmW0Geqq8Mk9zMf4yQkduh6Iwixdw89aUB7Z/znRGywFCWLCzaf
-         zLP7Gby96KXTKuDFe66AJ1wYWxO4TZBcjwmC2N/BA9htOQILoil2iVXdf4y9hcVKVH21
-         7plzy0Q0yxElTymqCs7HNNKGBpt/+3gMF/PSIcxF7hTwOPJPb6bhvykx1BFjadyZrBm5
-         U6lwmUPam1EigVG/9j6pMb8aWoNv4424TXr+VFYAh5M3EEvO8ft8i6jSS9ZMdqTpfM2J
-         gQzmVSgEDVzbB7nduw1Xd1ugGsEyhI89rapZ6y1usEjm0pj8JlXND5jCYIH0JOofPgUE
-         2EhA==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-language:from:references:cc
+         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=5I9/7Df5gL9PGbGLMl+HQHcFg0LrICCNK75mDsk+NDs=;
+        b=Pp/n5FNvLdNSZfuwvZap5ct03DjK3w3ltHveCC9Acn8rV3tEVF4D8KuLPoMqtw+j1m
+         UA9P2IZcM64M20YB0BXDVYfwZOJPZ3JAsL5++EwfCiERS8IjFtin95U0wQG9EWtRdZdN
+         bLk1AwTpuDFzxWnsyK3GJvTouFm0M45SM3NVzph26KKaAM6Wv1BKANkVps+4hE2n9h7y
+         CGwrdAa6hNIwdJ9VJXhca/cH2MI9j35X6382xgHioe5y4N2wV/3ST9UE0pXInZEq01dE
+         EXfYb0DNl7DzOSve6fEyeUV4poA64824Bpe4BvjQFOmtLLykW+2uzGJHv1b1yIAAd+TJ
+         hOQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753454284; x=1754059084;
+        d=1e100.net; s=20230601; t=1753473901; x=1754078701;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=MeUJDBPMwVFTZSLw6+LYAcf0szFx+Kpxn2csfUf9wuQ=;
-        b=XQWU1HI2IEBIVzCN4yGC9iQ2daq0mLrqAXAB9sQf+ArIpDw3jkhmU9JCJXJmS4c6/t
-         nZ6v38sb97KW5cWOYgTXmvs3Xa56HeT1nV1f7qxf8kzl5VDCcirD53KWh0UqEEyNhdy1
-         K7BlMpxQ3cGdgtWUYSrgNjSmHk5NfeTSbJ069/L0h8eaRgt3FwIlU8f785Vt0o/5YLtU
-         5T3XzZ0whgAOmk4+NZ9X2NrmRYO2ARyecUGsULcog4FhwsmTB9xMplAHa6u87Kqs3a2b
-         Dj+x6TPKGmYSE2e6d0unhHIBf0cpZemymf8rMV6kclYRJgWPcFsVoLxOgOsafKwnvFy9
-         Wm1g==
-X-Forwarded-Encrypted: i=2; AJvYcCWnBkm5TTfjn/J0uJCxKeSfphM3AB4ca/iCvnFHCTLVnzkWx1VMs15liyeHptscxrg3FBvJcg==@lfdr.de
-X-Gm-Message-State: AOJu0YzCEh3A1P48XTiVQK7JI3ZAzT4RCZZACPfkqbekyWFwrXGr1ZEC
-	GxF+GnAeMvRlNh4dDMhgPKsNKNx0USwJY76X+rqcNj/SSeA8tv++6c8e
-X-Google-Smtp-Source: AGHT+IGB4A9MS+xcSJ9jiG3KJMH1xZYKWFaPwfFQTzLstmKnZoIacYMkiZSCc7+17W3KjDtYKgG0yw==
-X-Received: by 2002:a17:90b:48ce:b0:311:9c9a:58c5 with SMTP id 98e67ed59e1d1-31e7788c54emr3054829a91.12.1753454283678;
-        Fri, 25 Jul 2025 07:38:03 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZevrEyBVVT3RUATgW3Qld6U8sOV0LFLNpGZT00FCTBGKA==
-Received: by 2002:a17:90b:3cc5:b0:31e:2f83:f300 with SMTP id
- 98e67ed59e1d1-31e5fac4980ls2147115a91.2.-pod-prod-09-us; Fri, 25 Jul 2025
- 07:38:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWArGuw7w+wwEYdf1I2PMrkuxSpLzVcCCcazPFt6UTTLS/iDza6bEUQWLsGcQVHlXMo2cxzoIgpQy0=@googlegroups.com
-X-Received: by 2002:a17:90b:2b4d:b0:313:287c:74bd with SMTP id 98e67ed59e1d1-31e77a4b0f3mr3502852a91.33.1753454280393;
-        Fri, 25 Jul 2025 07:38:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1753454280; cv=none;
+        bh=5I9/7Df5gL9PGbGLMl+HQHcFg0LrICCNK75mDsk+NDs=;
+        b=QdhOTq7HY+VLSIVn/ZrTCGLzUuoLuXGa+EuP6g9n35Uu7+NnJK5j0hvyjIXmIjVZIa
+         NahzHZoN7zgAy8A1l5nJVX8RyWoqQ0JshZ1dKT5kIKn8ZzU1FeOUAt+nzfi09K6eT1zQ
+         1GU4i+FLrwp9TZ1AbyiH0UpgqrBeBfYYUEeWXgjiu/DLTeQzT7FWRm0lhWpQXYSqprtE
+         GCKlCOqgQCQAsH1P0T+0HkfQd7BPgIB9HGBtbjSwlhX/f4njEWcX4JPtlmZLTpwapnm5
+         reMkEHYDBctjlG7dMX33SO17951GAVv466w6iQ7IFH6/3OyxnBB0DSc5h3/bEGGO5kJG
+         CxsA==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCUrb/GYEYkEtof4AI8FmwNfG0c6RMp0j+aboB4PbQjJK9jUbRdzoOlsgIfTfI7rS3hkd0pvOg==@lfdr.de
+X-Gm-Message-State: AOJu0Yyun+yAGmvIR6hLIkDecr4UqnXBI3aWzLhcRZQXTpGBl95Vbt9p
+	rwoaJSq09yGSXDanKL7DBCSKeqc5bLpDjWZMTAK4984LAgVbf2OjP9br
+X-Google-Smtp-Source: AGHT+IH6oGP1HuIktmtSM9PV6OwnLB/Yj5aGHsVsuAslBeeWtholKJ/DeAwqVpkPflxZZ+XXmKmRdQ==
+X-Received: by 2002:a05:6e02:11:b0:3e2:abbc:c0c with SMTP id e9e14a558f8ab-3e3c527cf90mr47028785ab.7.1753473900603;
+        Fri, 25 Jul 2025 13:05:00 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcD6y9svEjL1g6M7kv2d2lM+p6ONUmOYbTsOTFVVgXSJQ==
+Received: by 2002:a05:6e02:2182:b0:3dd:c3df:51ee with SMTP id
+ e9e14a558f8ab-3e3b4f8dc47ls28123555ab.0.-pod-prod-06-us; Fri, 25 Jul 2025
+ 13:04:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWXIFs0aiTm3m4O5RrjVwehd89zIyv5IFRM6DEQJm5/0C1XICSUB4EbeHQavqh0gurZUtPblG7PjM8=@googlegroups.com
+X-Received: by 2002:a05:6e02:16c9:b0:3e2:8e44:8240 with SMTP id e9e14a558f8ab-3e3c52e3e54mr42435635ab.11.1753473899421;
+        Fri, 25 Jul 2025 13:04:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1753473899; cv=none;
         d=google.com; s=arc-20240605;
-        b=HGTB6USzk+YPJSq0PtSzYSntnbpxjZwZhKIqJzDLvXwz8aQoJj1QXMHE/h8J4wKsHz
-         4MPSTojQv47VIgtZjqhehssGLHtJjBYiG6sPezIaLiJA9Ko8AHrWC/3v79dUJZTua18w
-         xYK5zYBvJt/ZLq1KDmGdlvuxEPGLis476+LN6+B9psStMLjhwGnf7GKxU3p87qRsatXt
-         Jrnhe3Fnst0t/NQsljHpmzwqw7PMbvn8sDiRm/4XofhpvTjOZXnSZ9o38KoioazH124d
-         sjarR4cyEXfkLdvxS1AjY20NCSQexPuQqNPBr3UyGeE0/lTQeeCiLAlTYxptY8X89hEJ
-         0N1g==
+        b=F+sMTtVkKLrEMRaifz74UldNR2Hach0GfG8fhFtJXH31vnGxBx7R42IkSl38DuE4E4
+         itJchx6GrdzxsLAY775zngtZQUAQ8NlzaNmWzNs5b+WK0DLEpFDK67g1rb2Z+0EXWNtP
+         QaiRt/MPNVoW9K7//JLbW5QkBfj3iul8F23NTTrDArlkC6kyzLTej5sSCt7REhoXfIYB
+         QWtQrk2cDSMjcKFNHDZzpiGY2j5NjPRVB2Z23tiLVABCEfy64Np4W/zvklHJs818h/em
+         bOzJjJbYYjwzuNrxDC6/YQ/qBEEemgppK9tsiBwqbYj3qadFlfavyHNtnNeBiTnYhWmA
+         GQJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=x8Br67kpHlUcVp1I+AlPTk1fWbNSy9YXckgKLzf2oqc=;
-        fh=0LgEV4SZDOORcNpVdG1iztMusQCCMEOP0xvhk3tFrSk=;
-        b=ItiyrKez8YpxybdU2uDVAU57hGJgvd3s4KvTNT7aAbICWhjaDnMVH6JFsgghY+oV/H
-         p6gIo7KxVwHFvtS+l8SHhq8W06Z9MSCGglmgVDtScZCEd3uOhAmUxwVyhJKSEF5MsrBI
-         W0BswKK8iuxz6qUqG6BsOCgpc2GZyohACqYy0lMnGByuzlWOQrCvap4M9TmgIGHXNBIL
-         AloPs5yRxe9SySAGv21pcamLFOeFNy6zgnSbo1A/6a5wpn6aNpkdK4S9UKiVMOTfVv84
-         92SB8ky0T08gHtQlqRZqAJbWMHCqf8U/56M/w+wGLmfSaHUJhorNS6ij/lu3WKnWNa01
-         RWUA==;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id;
+        bh=QMHalZqBHj5+vLhnCWsCzA0DqNLiKy2tC9hrHiUhNds=;
+        fh=1HtAbHoqHUiw2ZpZsQg9wfFqUHSdlFQcUawwbx1FZgI=;
+        b=Vb/YGAWqTYVMQW+iOqZIuS4t68zQ3O/GPHVs56WbtAQ02K7yRUJ7M4Zp4zI8UHyL+X
+         U198TUMkoCcxcQpmOdQ7OCZWTGU0XJIRJrDGHp4ytqsdJOKcM2UMKCu5Vl0hqTDxxi/2
+         PNgWks00c9yRtlWIvYGiDz7RtQOOJCjHCT1GX3mjIcyX4+9Z5PVyaVTxi+9s7wGR0HC3
+         h4jifOCoecE6xJZCqJ/J8A6Ip+iA59KAo6G0I2UKRbVsbcnZw+oxwTkMGhs/M8R1VQP0
+         bNY7uYa5DvxUbit+95WLLnFloBD9FbrgkW3vfSx1IeHQGk1u0mgez7DRsBZfo/BY1Q8x
+         KZYQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b="g370aK4/";
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2a as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com. [2607:f8b0:4864:20::f2a])
-        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-b3f7f4a98d4si4427a12.0.2025.07.25.07.38.00
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Jul 2025 07:38:00 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2a as permitted sender) client-ip=2607:f8b0:4864:20::f2a;
-Received: by mail-qv1-xf2a.google.com with SMTP id 6a1803df08f44-707122b5b37so15939056d6.3
-        for <kasan-dev@googlegroups.com>; Fri, 25 Jul 2025 07:38:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXDr4cYdO2dBitPuUR2Fw1XRO9hAuUBUKtA3jlqZ5hEtGGkUWQwivQVdApnpzFuY/bnGoM0AuDwrg4=@googlegroups.com
-X-Gm-Gg: ASbGnctodOu3J928XmSH5/cZtZgps3EEkSrhUr/wi71gCCNUNXcu6U4uQlz5iHVa8VA
-	KFQIu1yNQ3bIR4+uzQh6J6B4HxNGZ21tSo60fSvqwd/ljZmELjROjdLdOMD3NkHmt3edYNkBlMS
-	AsbA1AKlhmnk+oH01PGesF7iMplus2n89TCyTYPHmHj4paUKtkygSOjFir/Z0rF755DfYqnT59v
-	JAXRIfdigEyLwEmQ2jR0xfApo9KuwxZ4JImSq8LQo8DE0op
-X-Received: by 2002:a05:6214:1ccc:b0:705:982:3cb8 with SMTP id
- 6a1803df08f44-707204b0ff6mr23039986d6.6.1753454276038; Fri, 25 Jul 2025
- 07:37:56 -0700 (PDT)
+       spf=pass (google.com: domain of robin.murphy@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=robin.murphy@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id e9e14a558f8ab-3e3ca84dc9asi608995ab.2.2025.07.25.13.04.59
+        for <kasan-dev@googlegroups.com>;
+        Fri, 25 Jul 2025 13:04:59 -0700 (PDT)
+Received-SPF: pass (google.com: domain of robin.murphy@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E344176C;
+	Fri, 25 Jul 2025 13:04:51 -0700 (PDT)
+Received: from [10.57.4.83] (unknown [10.57.4.83])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 167FB3F6A8;
+	Fri, 25 Jul 2025 13:04:52 -0700 (PDT)
+Message-ID: <02240cf7-c4d4-4296-9b1e-87b4231874a1@arm.com>
+Date: Fri, 25 Jul 2025 21:04:50 +0100
 MIME-Version: 1.0
-References: <20250626134158.3385080-1-glider@google.com> <20250626134158.3385080-11-glider@google.com>
- <CACT4Y+YSfOE6Y9y-8mUwUOyyE-L3PUHUr6PuNX=iu-zyMyv3=A@mail.gmail.com>
-In-Reply-To: <CACT4Y+YSfOE6Y9y-8mUwUOyyE-L3PUHUr6PuNX=iu-zyMyv3=A@mail.gmail.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 25 Jul 2025 16:37:19 +0200
-X-Gm-Features: Ac12FXy-DhcoJp-qiCmwab46NJ0PZ2JSKLIvCIWT-laejPsOjCULrKUtahAig3I
-Message-ID: <CAG_fn=WSm=u1zOGaPydq89jSw_iiQdSTPSNsd=WbeByLfTVmtw@mail.gmail.com>
-Subject: Re: [PATCH v2 10/11] kcov: selftests: add kcov_test
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: quic_jiangenj@quicinc.com, linux-kernel@vger.kernel.org, 
-	kasan-dev@googlegroups.com, Aleksandr Nogikh <nogikh@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Ingo Molnar <mingo@redhat.com>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Marco Elver <elver@google.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: glider@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b="g370aK4/";       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2a as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/8] dma-mapping: fail early if physical address is mapped
+ through platform callback
+To: Leon Romanovsky <leon@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Leon Romanovsky <leonro@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+ Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Alexander Potapenko <glider@google.com>,
+ Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ iommu@lists.linux.dev, virtualization@lists.linux.dev,
+ kasan-dev@googlegroups.com, linux-trace-kernel@vger.kernel.org,
+ linux-mm@kvack.org
+References: <cover.1750854543.git.leon@kernel.org>
+ <5fc1f0ca52a85834b3e978c5d6a3171d7dd3c194.1750854543.git.leon@kernel.org>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <5fc1f0ca52a85834b3e978c5d6a3171d7dd3c194.1750854543.git.leon@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Original-Sender: robin.murphy@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of robin.murphy@arm.com designates 217.140.110.172 as
+ permitted sender) smtp.mailfrom=robin.murphy@arm.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -155,43 +156,61 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Jul 9, 2025 at 5:15=E2=80=AFPM Dmitry Vyukov <dvyukov@google.com> w=
-rote:
->
-> On Thu, 26 Jun 2025 at 15:42, Alexander Potapenko <glider@google.com> wro=
-te:
-> >
-> > Implement test fixtures for testing different combinations of coverage
-> > collection modes:
-> >  - unique and non-unique coverage;
-> >  - collecting PCs and comparison arguments;
-> >  - mapping the buffer as RO and RW.
-> >
-> > To build:
-> >  $ make -C tools/testing/selftests/kcov kcov_test
-> >
-> > Signed-off-by: Alexander Potapenko <glider@google.com>
-> > ---
-> >  MAINTAINERS                              |   1 +
-> >  tools/testing/selftests/kcov/Makefile    |   6 +
-> >  tools/testing/selftests/kcov/kcov_test.c | 364 +++++++++++++++++++++++
->
-> Let's also add 'config' fragment (see e.g. ./dma/config)
-> Otherwise it's impossible to run these tests in automated fashion.
-Done in v3.
+On 2025-06-25 2:19 pm, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
+> 
+> All platforms which implement map_page interface don't support physical
+> addresses without real struct page. Add condition to check it.
 
-> > +/* Normally these defines should be provided by linux/kcov.h, but they=
- aren't there yet. */
->
-> Then I think we need to do:
-> #ifndef KCOV_UNIQUE_ENABLE
+As-is, the condition also needs to cover iommu-dma, because that also 
+still doesn't support non-page-backed addresses. You can't just do a 
+simple s/page/phys/ rename and hope it's OK because you happen to get 
+away with it for coherent, 64-bit, trusted devices.
 
-Good point!
+Thanks,
+Robin.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-AG_fn%3DWSm%3Du1zOGaPydq89jSw_iiQdSTPSNsd%3DWbeByLfTVmtw%40mail.gmail.com.
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> ---
+>   kernel/dma/mapping.c | 15 ++++++++++++++-
+>   1 file changed, 14 insertions(+), 1 deletion(-)
+> 
+> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+> index 709405d46b2b..74efb6909103 100644
+> --- a/kernel/dma/mapping.c
+> +++ b/kernel/dma/mapping.c
+> @@ -158,6 +158,7 @@ dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
+>   {
+>   	const struct dma_map_ops *ops = get_dma_ops(dev);
+>   	phys_addr_t phys = page_to_phys(page) + offset;
+> +	bool is_pfn_valid = true;
+>   	dma_addr_t addr;
+>   
+>   	BUG_ON(!valid_dma_direction(dir));
+> @@ -170,8 +171,20 @@ dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
+>   		addr = dma_direct_map_phys(dev, phys, size, dir, attrs);
+>   	else if (use_dma_iommu(dev))
+>   		addr = iommu_dma_map_phys(dev, phys, size, dir, attrs);
+> -	else
+> +	else {
+> +		if (IS_ENABLED(CONFIG_DMA_API_DEBUG))
+> +			is_pfn_valid = pfn_valid(PHYS_PFN(phys));
+> +
+> +		if (unlikely(!is_pfn_valid))
+> +			return DMA_MAPPING_ERROR;
+> +
+> +		/*
+> +		 * All platforms which implement .map_page() don't support
+> +		 * non-struct page backed addresses.
+> +		 */
+>   		addr = ops->map_page(dev, page, offset, size, dir, attrs);
+> +	}
+> +
+>   	kmsan_handle_dma(phys, size, dir);
+>   	trace_dma_map_phys(dev, phys, addr, size, dir, attrs);
+>   	debug_dma_map_phys(dev, phys, size, dir, addr, attrs);
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/02240cf7-c4d4-4296-9b1e-87b4231874a1%40arm.com.
