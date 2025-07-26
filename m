@@ -1,139 +1,195 @@
-Return-Path: <kasan-dev+bncBDAMN6NI5EERBNMGSPCAMGQECYCUK7I@googlegroups.com>
+Return-Path: <kasan-dev+bncBDCPL7WX3MKBBEM2SXCAMGQELPCV7OY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33e.google.com (mail-wm1-x33e.google.com [IPv6:2a00:1450:4864:20::33e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA6DB12A52
-	for <lists+kasan-dev@lfdr.de>; Sat, 26 Jul 2025 13:59:51 +0200 (CEST)
-Received: by mail-wm1-x33e.google.com with SMTP id 5b1f17b1804b1-456267c79desf8165615e9.1
-        for <lists+kasan-dev@lfdr.de>; Sat, 26 Jul 2025 04:59:51 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1753531190; cv=pass;
+Received: from mail-il1-x13b.google.com (mail-il1-x13b.google.com [IPv6:2607:f8b0:4864:20::13b])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8048B12CB8
+	for <lists+kasan-dev@lfdr.de>; Sat, 26 Jul 2025 23:48:03 +0200 (CEST)
+Received: by mail-il1-x13b.google.com with SMTP id e9e14a558f8ab-3e3c5c03a75sf16359455ab.3
+        for <lists+kasan-dev@lfdr.de>; Sat, 26 Jul 2025 14:48:03 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1753566482; cv=pass;
         d=google.com; s=arc-20240605;
-        b=PJutP9Q5aqCziSLjxKpCm6FTz0WSSCyQkGO5HMTHq6blrHRS34bu43TkGFfjo404iJ
-         oGaqmf/5gCDYBNEC+uSUsi7QagrUyhi37myARWgf1CF311e9oz+B83pN24OVJXiZ/kpb
-         iLmeodZwNkBuhs9qKYBrj0CAyitgfKLDhm63RO1rp/pmiMvgVAhrK2qjAIGShc2pnnP9
-         /MjkRFrxHo4TWEdAMO6ZXEb53uKJKiEqZCdUVNcaUjDKWBc+HbjomI57srgazJp3+FkV
-         fGfrdJzRziVcyihtmCBABdgEiOfkwz7rWeRPNfaKCS9us0fbWceNIr6uVejq4uAQYRm9
-         QSOA==
+        b=IUmLk7FEuJQXPNSmrcvo2yR4ENW5pSsjG/xTpR/jd2dC4BMzwFz1WyOo7yy8s9URuv
+         NXPfFPKfv9w8qeDcLha7aRe7tlEwKeVgdn9N4C9gNGnJsSQY32f0T6QTI07I003qad5t
+         gvHGkb61+Ml+dgzwhseNICh+fenfUwpIqoxcGFHCQjYSgzTU/0f0t6zSbudN8QAtZdV8
+         TWBeJHZBY4LF76ZYP0y1IjkyYgril4yOjRYKq/TfwOp9iWPQrmP1hrUWaWdXFVj+907l
+         cF+k6piTM+AMvWeVY/NkAEyHT8pKv9Z3VN23o6meM1X4ZxPlM/3bBVUC9lEVLZToLxyJ
+         6Rbw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
-        bh=Tn7HbzUVxDX/e6EfpDGUJ3o2rT+znE8jf3F1K819P1A=;
-        fh=cWrgP0rRbL/sYi7beLTWYXt6+AIrhEJi8rX60rHl8zs=;
-        b=jEHbWknJK4rHhSYd3iJcCzXDlBYxgxTLLPj+qnM4wL0E654RZqb5n0VPGqBz8SjvT3
-         okIySvYN8RHr4P9sTFD9P3uk9u4XTUYQ8nEC6qqzyS9zvAEbZ5Bc5fOSRF2sa5FQ7gSn
-         U2v79r6zOSm9ENBu7Dl1O3jcgwSJaBMCybc/wfMeb+Ms2VXo5/ytkTtQOnBrul87XKV8
-         Ne0/SXUlwyVRUH8e12c8rrMcCo5ZoJdMlLoKNFOcITFNf+MO2h6PZqprGxTfBnXotMXH
-         WruKtKopgibVURBCm+MfAxC9+Ub3Pk3riZeM842hHCFcwQH0QrLaZhArFEbIkVvJzz7A
-         Vm2A==;
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=EBP7+vP2UqwWWHR0dPsEFMpGk8xdh0W8HSXKtFAceEQ=;
+        fh=0FU+1W3jLAv02P8Eq2uJEVongSzgh+hoXeBgok7KQe0=;
+        b=Eals46o9p7fFsfbll7SdDEY5dhxxEM+t1o98u9gnqZMx6JpiBhuE8z++0zAY6g0eLD
+         SRNuU4BoWVWnkKPhPy9c3+IMWkU3u3hGLBzjLadmpPrPefO0gNtLvJpLZsd+FB2cLETl
+         u2nmreQManVC6V/V0V/DNqrV0LmIXbonUQclz7rnLGmwuoXXiV12vjGUPwaeEg6EebDV
+         bg9iFKhGUAvmn80cbEy3LNZ9VhgYHrp0veSEYM6ZrdNMGQb3ajZNEHhZeyI5XpMiAmYD
+         XUb8kj82/NFh+tnGilu37FZbc+VKdFBwinMPRLbcPPBO/pYknemDN4RF3CqLJ5dI0UMR
+         cmWA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=cfXFPJlk;
-       dkim=neutral (no key) header.i=@linutronix.de;
-       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="fLV+aIK/";
+       spf=pass (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1753531190; x=1754135990; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1753566482; x=1754171282; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tn7HbzUVxDX/e6EfpDGUJ3o2rT+znE8jf3F1K819P1A=;
-        b=g8F98BaReZSOhHDKuXMPZ2KMwCLlGT9j+94TdfiT6BdxpHAqLCFtwfU4r9b/Nv5Qo8
-         scqLOJCXiIOnE9KQ64z9LlcltoXS4MWCwb3y5tYEM1AzYY3/PPxyXKX5Ef4kXKzjPxlj
-         F6eOwIpS0qZIDFzGrMMcc5Ynk1/5IjjwrOl7Ti5+dv/pp2GgHQ0BpnAJfEjNzEuLqsA6
-         GJAQqsv6qxD/PRChQKGXX9c01MOlCk8t2MPCWPfbxwlxL7PMFgAf96FKtw60/aE2Y7zy
-         FDowMVJzlrZKY3cReuVF6llQ5aE9WAceecssNdq5jJ/VoaSQHg+fOCIYrIFsXUADckVI
-         nbXQ==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EBP7+vP2UqwWWHR0dPsEFMpGk8xdh0W8HSXKtFAceEQ=;
+        b=b19UEtKCDPEHHiuwjnuopJCZNOfOT5AK/duY7gTc2n7+80ZiAZo7yFGQN1vIhp+OT3
+         G8DtUbZfK5naPIQdenvtdS6xAYcbia7wUEyr65u5Rx5NUQr9Hcg0V9eaNoj/7dNvjwXF
+         Xxaxuzj1LXar6wJmJIned1+MJecdnYv/DbJIOeUSCSLX/VAefdwlYYsNKHoPQNwPhqVA
+         1/E1iQ99Rh8osWvHH5cOSwXSwM7LcLTtsUDU91oshi+m+QP4a8DAY6YE3jlIktFKW0Ah
+         aUEtMeOSA510ZCJW2g+wpR73qMQlX5TtgDicC3eETT4hDJSdmoyFQu0tkWxpAw9lcF46
+         BBrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753531190; x=1754135990;
+        d=1e100.net; s=20230601; t=1753566482; x=1754171282;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:references:in-reply-to:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Tn7HbzUVxDX/e6EfpDGUJ3o2rT+znE8jf3F1K819P1A=;
-        b=HCN/PlH2zSzPMDADQbYQhNISNgDJj+60UrFg5fXpk8VKmN7Vl2pPbYtmBBCLfUPp6o
-         uuuGu8eGbWiAsA7flzU7zVQJcLjZt+iLgWNZ+mJkLT4f7uEteRnbuvMfLKqTYaeXUFeL
-         ZjLP+OhSS42emrweaXwDVgGcf4h/8PsKuzPV1YB9P8jw/SoSS5Bi0vlsrxTUQ/veja6l
-         6lqaHLxN1paOJ3qYz34/2sYXsOf+iy9PmpqKzwM8M25gtKs9j1aAyCvFmGMhuR36JnNJ
-         whh1g32LQXB0NqrkxXiUHulEGobEcaNDxIm3pUyHoCEG0gPjvBLIpy6vMJHBmpz1Avlr
-         9XMw==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUzxpGbOr80AIEq10lZHniCDds7/a82e6STJ/Bu9ay9gYli2bxZ3xk5v1MTVb/+o9amuNToEA==@lfdr.de
-X-Gm-Message-State: AOJu0YyhL6yIW619sYYFQ/PIGmASbnPAD03KDHl3HaFBw6VrbzJfaUWY
-	dlQ0ExAdc8FbGomHpX2FMq6CrSHHUt/M/RGUkPjiz1PQXQmdKXYLGCgY
-X-Google-Smtp-Source: AGHT+IGgJXJvZrBENbAL2h+AX0INDGpj3PABsMz5O+yXK6NO7ZNcXWo8u30YFaWzABdZEREThthe2Q==
-X-Received: by 2002:a05:600c:4f0d:b0:439:643a:c8d5 with SMTP id 5b1f17b1804b1-458791252f3mr28495035e9.0.1753531190345;
-        Sat, 26 Jul 2025 04:59:50 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZel/4NWhdpWP4uRphPhoOQwWzFe1Wlbq39V0rRmSgGu8Q==
-Received: by 2002:a05:600c:6387:b0:456:241d:50de with SMTP id
- 5b1f17b1804b1-4586e643aebls14534785e9.1.-pod-prod-09-eu; Sat, 26 Jul 2025
- 04:59:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUWxFtfhAK2yCBYhQ/xcdeDPynWOJ1CjdficPmRtV/8uruy74T/5xTeDO25oZQsw/soIMoDNB2ATsE=@googlegroups.com
-X-Received: by 2002:a05:600c:470f:b0:456:e1f:4dc4 with SMTP id 5b1f17b1804b1-45876331bddmr52309325e9.15.1753531187064;
-        Sat, 26 Jul 2025 04:59:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1753531187; cv=none;
+        bh=EBP7+vP2UqwWWHR0dPsEFMpGk8xdh0W8HSXKtFAceEQ=;
+        b=chJK9o/pf0S/NmZqssGmi/g9o4HUodZwzlCxaSg23tUNnTP2PLzAsc9XAzIwsYk+cf
+         UZFgPvKLT191WHG3IYeJXUsiE1Te8t9/EPp3jdh0DzYOJSdpbdcIsp2I0y1wkvoeqdZC
+         kHQw/K1/KsspODtBVq4B4cb+dF+xd4RRzwcRbntu/9MhAK324KoDjrEussYP9Lw+tSM0
+         XaL9T7aMQLEjmuuKFkv40zfAwfEYhqpPyeRLBM/vYTpb3/mzBIYh7AXj8E4UWu3Pemf/
+         CKhJIFMVJ4Mrj9v5OMBNN5X5B1r0FiIZIUAyoNhkuhZEavl5j+yQykEwFTNuv3oHJtu1
+         Zssg==
+X-Forwarded-Encrypted: i=2; AJvYcCVhdkP2kNRaaeYy4b/+4NNZUv0jzh3dMoJ4/he9b2m6/5e0ql+z5YG3SlbWl24u8bEvpZiASg==@lfdr.de
+X-Gm-Message-State: AOJu0YyTITcQACbPTtm9BzfjGTBwMbsdU5bRTlWuO2A/E9oqmGWKqcqT
+	AYFniVJylTuYDgimNpsibF8wBJO0HJVW7X+4lQDdY3Q9Dq5aLUzK1tzD
+X-Google-Smtp-Source: AGHT+IHL/s/uWoLqyo3g85N+d4vVOd2qx74alSTGU99WOl0A15RZuJgUHDv7nG8tvJaCCC24qL6YNA==
+X-Received: by 2002:a05:6e02:744:b0:3df:385d:50a8 with SMTP id e9e14a558f8ab-3e3c527c275mr106319425ab.6.1753566482385;
+        Sat, 26 Jul 2025 14:48:02 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZezRqp/qxSTlzwGnz8V8c1Um+VMIaZpxNsilfJc7MMoJA==
+Received: by 2002:a05:6e02:9a:b0:3dd:b672:7f90 with SMTP id
+ e9e14a558f8ab-3e3b5190fc6ls23713835ab.1.-pod-prod-06-us; Sat, 26 Jul 2025
+ 14:48:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXTLc9s2sS+WxVGd/9IyXL1/msG5Yr0i9c0k2kNPS7AZHSNlQz6XN/hFOEDtqKulI1xO2O/QAtqRYQ=@googlegroups.com
+X-Received: by 2002:a05:6e02:198d:b0:3df:39e2:f1a8 with SMTP id e9e14a558f8ab-3e3c531c607mr98973015ab.16.1753566481152;
+        Sat, 26 Jul 2025 14:48:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1753566481; cv=none;
         d=google.com; s=arc-20240605;
-        b=gZ/pCWisqt+JFSbtXc2GkCr9PuH3hLffCss2gk2PRiF0UTzF6gpZFDqXgMejhk4MEL
-         /DZhkvzdpEJgo0+pOk6mDiNsvOhs7bq7z31GnIijtR2e9WkPNwdsg0StNiWz77ayeju0
-         O7XQUc8xcluUwDlLfe1oAmUdDsq7PkylqHkfVULyEQAxOR4EzkeN4HgZyUrz+2njW7fn
-         lZYEI7BNlVj93BPRSbXTpXtLd/jN+b6gjqFVQwlbQV5sAhKgYRy+dG3hb22w7spD5x7C
-         T6JBjAqHlXJIDSCJgte/0OPBzTfHqTF9InZe9ecu59o5EoKq2wGw0lmDxoBCJpCl9CjP
-         nvqw==
+        b=hJs59WcHTWKJuAd13LioOGgCobk7z0sjh7vLynuPEkO0Uklx9k2HnN7sJ3CO3NZIb6
+         LxKZoxkUU5e5kn9bI7SuVQ5GkoWqlwBo3C439VcyIdrIx26wJ1T0LBDDZ9C0/X+rdm2o
+         kHa8mMgKagUn2jRqwLslhtujkF8sp9d/No0g+ZNtR9e3kLdxPBGy3/wsd4/5t5KKzz1Y
+         jK7ABMxGEvLvBzmjaLkoFmS263JFb9nhd7NLov88locOjJOZGxOvyOQXiEQvolq/CcW7
+         rBk8TBnaDS/LUbYJS2Jhl9GW1z+fKbXZ6WwjdsE8avQvNTv7x0Tm3VlporF/Ec2PV9cV
+         1IAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :dkim-signature:dkim-signature:from;
-        bh=6QLD/9vDRaxK7wnQrPT92N/0V2GDCn8DkNHpJH1+2ME=;
-        fh=AQEcWLCxP68B3muzQBhKFZUT0wnFHNEQFxHn5z5QIiw=;
-        b=F11En7Ohcl7uhmoULkDWMv4Z2oY+/RVfbzoMSF2LZ5m1FnIvRpKW+7evs3/lnZkGzJ
-         OuLmNAqcKkRWKICrKOGhqkoTZ1rD/7JckEzN+65Q5pCBqoqnnGNk7A6TPNtU+YuV3sf9
-         c4goaK933RSr8AQjILR4VNt2JKZiuAUOqIoyHUSwQLrGdetax+MyDndP/JEp8pyYFU8i
-         /lcywPKqLYoijno6fZ2w7OgI5ZB+8vis72adNzWlC5oRgHThAsEA37oN0AkhjIMm8BhF
-         nqukAqacPxkkZmm2K6ViWlyStgUw9PeZmvpFHbIOuKbMbMoxgE07r1n8+syv4neaoLhp
-         EAdw==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=gpEW/IT9jhTobSNbCvdFZFzFslfquWaEscBQfdtNojw=;
+        fh=LHpruR+ABs0JYPCPK57s6mWY5xR/svvkH4rO/yAMWbQ=;
+        b=h5zzJHBUFijJXFH1gDLErCA1vNxSPcUwv7SrEEi8HhU6L+FfndQsuMgmVMQxSOW9lX
+         aVlQWJpfSWnclSC+2cxoI6V7xO/ZdN0uIFTher2hi8h2mBBCjMKe2VkO0MFRoyaPL9pC
+         jTmZmxO3S39fXAytXbi6WyLSzKeLwjoa7wXkru/7nLEg2L4v0LjUKqwd6CNVD9yt3Oiw
+         +LJTnFCTE1sf/GCRNXsYDfP9a0csvjbQpwjZfxUmClaY4AhToCATEeBEPYeJ4ksR7+dY
+         s65dQ1QqcyLyPPICbXqTKJ8HEVl23BE+RlSq1k3mB+5jhb1Gc2dCE+WWexb7qqXe3AYV
+         URLA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=cfXFPJlk;
-       dkim=neutral (no key) header.i=@linutronix.de;
-       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
-Received: from galois.linutronix.de (Galois.linutronix.de. [2a0a:51c0:0:12e:550::1])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-4587ab452ffsi705605e9.0.2025.07.26.04.59.46
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="fLV+aIK/";
+       spf=pass (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from sea.source.kernel.org (sea.source.kernel.org. [2600:3c0a:e001:78e:0:1991:8:25])
+        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-508c905e79esi146343173.0.2025.07.26.14.48.01
+        for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Jul 2025 04:59:46 -0700 (PDT)
-Received-SPF: pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) client-ip=2a0a:51c0:0:12e:550::1;
-From: Thomas Gleixner <tglx@linutronix.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tetsuo Handa
- <penguin-kernel@i-love.sakura.ne.jp>
-Cc: Yunseong Kim <ysk@kzalloc.com>, Dmitry Vyukov <dvyukov@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Byungchul Park
- <byungchul@sk.com>, max.byungchul.park@gmail.com, Yeoreum Yun
- <yeoreum.yun@arm.com>, Michelle Jin <shjy180909@gmail.com>,
- linux-kernel@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, stable@vger.kernel.org,
- kasan-dev@googlegroups.com, syzkaller@googlegroups.com,
- linux-usb@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] kcov, usb: Fix invalid context sleep in softirq path on
- PREEMPT_RT
-In-Reply-To: <2025072614-molehill-sequel-3aff@gregkh>
-References: <20250725201400.1078395-2-ysk@kzalloc.com>
- <2025072615-espresso-grandson-d510@gregkh>
- <77c582ad-471e-49b1-98f8-0addf2ca2bbb@I-love.SAKURA.ne.jp>
- <2025072614-molehill-sequel-3aff@gregkh>
-Date: Sat, 26 Jul 2025 13:59:45 +0200
-Message-ID: <87ldobp3gu.ffs@tglx>
+        Sat, 26 Jul 2025 14:48:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) client-ip=2600:3c0a:e001:78e:0:1991:8:25;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id BE3AD45B23;
+	Sat, 26 Jul 2025 21:47:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D861C4CEED;
+	Sat, 26 Jul 2025 21:47:59 +0000 (UTC)
+Date: Sat, 26 Jul 2025 14:47:59 -0700
+From: "'Kees Cook' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Will Deacon <will@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Gavin Shan <gshan@redhat.com>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	James Morse <james.morse@arm.com>,
+	Oza Pawandeep <quic_poza@quicinc.com>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+	Michal Wilczynski <michal.wilczynski@intel.com>,
+	Juergen Gross <jgross@suse.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	"Kirill A. Shutemov" <kas@kernel.org>,
+	Roger Pau Monne <roger.pau@citrix.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Usama Arif <usama.arif@bytedance.com>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Thomas Huth <thuth@redhat.com>, Brian Gerst <brgerst@gmail.com>,
+	Marco Elver <elver@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Hou Wenlong <houwenlong.hwl@antgroup.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Andy Lutomirski <luto@kernel.org>, Baoquan He <bhe@redhat.com>,
+	Alexander Graf <graf@amazon.com>,
+	Changyuan Lyu <changyuanl@google.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Jan Beulich <jbeulich@suse.com>, Boqun Feng <boqun.feng@gmail.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Bibo Mao <maobibo@loongson.cn>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, x86@kernel.org,
+	kvm@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+	platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+	linux-mm@kvack.org, kasan-dev@googlegroups.com,
+	linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org,
+	kexec@lists.infradead.org, linux-security-module@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v4 0/4] stackleak: Support Clang stack depth tracking
+Message-ID: <202507261446.8BDE8B8@keescook>
+References: <20250724054419.it.405-kees@kernel.org>
+ <20250726004313.GA3650901@ax162>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: tglx@linutronix.de
+Content-Disposition: inline
+In-Reply-To: <20250726004313.GA3650901@ax162>
+X-Original-Sender: kees@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linutronix.de header.s=2020 header.b=cfXFPJlk;       dkim=neutral
- (no key) header.i=@linutronix.de;       spf=pass (google.com: domain of
- tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender)
- smtp.mailfrom=tglx@linutronix.de;       dmarc=pass (p=NONE sp=QUARANTINE
- dis=NONE) header.from=linutronix.de
+ header.i=@kernel.org header.s=k20201202 header.b="fLV+aIK/";       spf=pass
+ (google.com: domain of kees@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25
+ as permitted sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Kees Cook <kees@kernel.org>
+Reply-To: Kees Cook <kees@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,60 +202,37 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sat, Jul 26 2025 at 09:59, Greg Kroah-Hartman wrote:
-> On Sat, Jul 26, 2025 at 04:44:42PM +0900, Tetsuo Handa wrote:
->> static void __usb_hcd_giveback_urb(struct urb *urb)
->> {
->>   (...snipped...)
->>   kcov_remote_start_usb_softirq((u64)urb->dev->bus->busnum) {
->>     if (in_serving_softirq()) {
->>       local_irq_save(flags); // calling local_irq_save() is wrong if CONFIG_PREEMPT_RT=y
->>       kcov_remote_start_usb(id) {
->>         kcov_remote_start(id) {
->>           kcov_remote_start(kcov_remote_handle(KCOV_SUBSYSTEM_USB, id)) {
->>             (...snipped...)
->>             local_lock_irqsave(&kcov_percpu_data.lock, flags) {
->>               __local_lock_irqsave(lock, flags) {
->>                 #ifndef CONFIG_PREEMPT_RT
->>                   https://elixir.bootlin.com/linux/v6.16-rc7/source/include/linux/local_lock_internal.h#L125
->>                 #else
->>                   https://elixir.bootlin.com/linux/v6.16-rc7/source/include/linux/local_lock_internal.h#L235 // not calling local_irq_save(flags)
->>                 #endif
+On Fri, Jul 25, 2025 at 05:43:13PM -0700, Nathan Chancellor wrote:
+>   ld.lld: error: undefined symbol: __sanitizer_cov_stack_depth
+>   >>> referenced by atags_to_fdt.c
 
-Right, it does not invoke local_irq_save(flags), but it takes the
-underlying lock, which means it prevents reentrance.
+Proposed fix:
+https://lore.kernel.org/lkml/20250726212945.work.975-kees@kernel.org/
 
-> Ok, but then how does the big comment section for
-> kcov_remote_start_usb_softirq() work, where it explicitly states:
->
->  * 2. Disables interrupts for the duration of the coverage collection section.
->  *    This allows avoiding nested remote coverage collection sections in the
->  *    softirq context (a softirq might occur during the execution of a work in
->  *    the BH workqueue, which runs with in_serving_softirq() > 0).
->  *    For example, usb_giveback_urb_bh() runs in the BH workqueue with
->  *    interrupts enabled, so __usb_hcd_giveback_urb() might be interrupted in
->  *    the middle of its remote coverage collection section, and the interrupt
->  *    handler might invoke __usb_hcd_giveback_urb() again.
->
->
-> You are removing half of this function entirely, which feels very wrong
-> to me as any sort of solution, as you have just said that all of that
-> documentation entry is now not needed.
+>   kernel/kstack_erase.c:168:2: warning: function with attribute 'no_caller_saved_registers' should only call a function with attribute 'no_caller_saved_registers' or be compiled with '-mgeneral-regs-only' [-Wexcessive-regsave]
 
-I'm not so sure because kcov_percpu_data.lock is only held within
-kcov_remote_start() and kcov_remote_stop(), but the above comment
-suggests that the whole section needs to be serialized.
+Proposed fix:
+https://lore.kernel.org/lkml/20250726212615.work.800-kees@kernel.org/
 
-Though I'm not a KCOV wizard and might be completely wrong here.
+>   In file included from kernel/fork.c:96:
+>   include/linux/kstack_erase.h:29:37: error: passing 'const struct task_struct *' to parameter of type 'struct task_struct *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+>      29 |         return (unsigned long)end_of_stack(tsk) + sizeof(unsigned long);
+>         |                                            ^~~
+>   include/linux/sched/task_stack.h:56:63: note: passing argument to parameter 'p' here
+>      56 | static inline unsigned long *end_of_stack(struct task_struct *p)
+>         |                                                               ^
 
-If the whole section is required to be serialized, then this need
-another local lock in kcov_percpu_data to work correctly on RT.
+Proposed fix:
+https://lore.kernel.org/lkml/20250726210641.work.114-kees@kernel.org/
 
-Thanks,
+Thanks for the reports! :)
 
-        tglx
+-Kees
+
+-- 
+Kees Cook
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/87ldobp3gu.ffs%40tglx.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/202507261446.8BDE8B8%40keescook.
