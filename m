@@ -1,154 +1,150 @@
-Return-Path: <kasan-dev+bncBDXK3J6D5EHRBAGETXCAMGQEI3XBW3Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBTGITXCAMGQE6O6OD2I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf39.google.com (mail-qv1-xf39.google.com [IPv6:2607:f8b0:4864:20::f39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A53B139FC
-	for <lists+kasan-dev@lfdr.de>; Mon, 28 Jul 2025 13:41:54 +0200 (CEST)
-Received: by mail-qv1-xf39.google.com with SMTP id 6a1803df08f44-7073bfeef28sf11427486d6.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 28 Jul 2025 04:41:54 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1753702913; cv=pass;
+Received: from mail-wr1-x437.google.com (mail-wr1-x437.google.com [IPv6:2a00:1450:4864:20::437])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D81DB13A0A
+	for <lists+kasan-dev@lfdr.de>; Mon, 28 Jul 2025 13:51:42 +0200 (CEST)
+Received: by mail-wr1-x437.google.com with SMTP id ffacd0b85a97d-3b78a034d25sf748207f8f.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 28 Jul 2025 04:51:42 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1753703501; cv=pass;
         d=google.com; s=arc-20240605;
-        b=CJbOSKrSsXGGtgEPqTdQsdF8G3uRDL0D+d2p/IeYG2waMops1v5f1xV+TGYtbbO4ab
-         HKCizX55e49cuYx47vKpzEeWooNkZTARcG24i0nHHMmSkDXk7knj9AaR/d7aLZQL15nU
-         hy2Jf7gr7UJrdaaxiB7wFca2ChHK9m1qyVEN8AHgZi9viYO0lrfOyoSfzDx4hmwru28U
-         ri+4SZ+wP0geDYaEkny6pCJgTLx3BAqIfq/bNrR1GonbVL9omd2lv3fqReM5ol3capqB
-         S7xdhGGSH4faxq8S7Uv863UK3FG4Na6bVNR9izZzRQVNZoKEwFVkd4DyBK6B52AbOuN0
-         ww5A==
+        b=KBpifZmfIFNSrlrxXla32GPBnRQZjQqYuPIX/6hVyD/Ttul4rDipZEtW3mj3/SUdl8
+         E9W3aXl9g114JzkTqfNwa89Wo3fmhK6Dl6ZUsnVApZmoYlsRYvyk3a9tsMuYFq0wJZNh
+         Y88ti/LYJA7pI4FL76ruS43vIkScS0gHvC0DAEOBk90OPNwJskt0H7TmYXp+tu5U7jpZ
+         1msl8dPXd7wlx3MGwHbvlQybG6twc/qMadyzw5FlHP6g5VjowcxDN6gJEYsIx+zhydKH
+         RBKSg63KZODgojXF6H0K3G5RmZhUWQyWqaOU35p2nzo10iFaVfP4Nokg6g2B4k7r1alE
+         WboQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=tAOxpCDYFAPlNUielOhUuLih/q/WL+rW13tPmwYKdNk=;
-        fh=1Rxby4u6+kwL1CTtV6gLTWMgr9HMdoqvyusJcmxTm+k=;
-        b=JTdg8KAFCtbOF7jyV6AL+95Zve/fboXP/7yGXCACz2xX2155YgBik3Gmft/EypH1Wn
-         UhsbxzR1hPg0et61UFL3q8VUoIZxuAkw5+mtk50nsOn6i29T9kdDOnbZDMetZnpXxO64
-         bFF+uEUKCcf4JsJI8lyXLRGXdF5+1PT2wYQz+25CBWKbvlj7W+CAhdeOtF/lP7F1lAH5
-         eBqK0hgG54xJZIIyD8qCuiiKTP4k0NOsvy3C4SNlvBOG4xVuxEvSGRGaShAHQXAz/Fw4
-         cw2k87Lpj3u3s+qXTR+kxh6NDGXmIjDYnqDO1P4CeS5piZchL1cUZwELJzDJljb/UpPb
-         YQ7A==;
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=1oOns9po82Im/UsexYqh8ii5Tcb+J9n1E4+C7F2BUsc=;
+        fh=zKASMGaJNqSKD7Aut2leF2jQ4y7qNcdjzUZhCwFlc74=;
+        b=IpfRwQ2lSNoaPZOYi6EV7iAkxYtn72vOCudoDylVduOmE3bKarLzNj7VwoZIq+zb3S
+         xqUXJCHkvNrw0cWT8XgYsZMRwlE43YnjGFOT62G7mSYMiE0N3pTrGm1o6tFFoAuXPaF8
+         HiwvIuStnnlSQtYuZC4DuXvBCJDBoAIYP9QYvKFWGLoDZnUUu6Dh5VTAqjGAq1ZSfF/A
+         SFKTpiuZx2AF4sbrC0lCLFSITXeWcXWmB56pK4nE4LLoWBmAxykH6DSYImlCBy0b88j8
+         VoB9WKuPA+wJUPDmo5JQwzJTsrYA8mlvDdHbRzUUQkY3i0Ty0deN17tPApKPtN3KKwGG
+         dBZA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=UifswnEo;
-       spf=pass (google.com: domain of jogidishank503@gmail.com designates 2607:f8b0:4864:20::529 as permitted sender) smtp.mailfrom=jogidishank503@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=glFAPL+V;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::435 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1753702913; x=1754307713; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1753703501; x=1754308301; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tAOxpCDYFAPlNUielOhUuLih/q/WL+rW13tPmwYKdNk=;
-        b=xq3HRfIlvLJK0chVW7FMqIjF84+cRDStAKMNAXvk/vvI1FoNuCz/7jPvcsMJt9z1bz
-         xKkDKu8CE5vJd+MIDBuAr/v8mv3pbgLazr5EkCZSA8G1ECMKRwmgJaqVW9L/2bOt0s7m
-         MvNqzh8ynq8EfLhzozkG5DQHP1yfK7/i8bzRrTrsbAqtRCQlnoctvkdGrKnLTAJYGQJ/
-         ajJJBOdH7Y2NNlYn86/LFYyNzaMX63dW2D8/KPXPVQNMy8ojfkC1BEvt4eUPAIH2bOwM
-         XZsvI/2rA4Yej9oq7noK5tyrSsXr9Pz33F7c9qeHHW6S48aDq5HnU1PwLEFgb3cZYzXY
-         7igA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753702913; x=1754307713; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tAOxpCDYFAPlNUielOhUuLih/q/WL+rW13tPmwYKdNk=;
-        b=Pi1uqEZP2VrOQrHli/i2BzmnLiF7Rvf5/UK8gmnfl/LIuRd2UyRaPvM/nm4ZEN4ofP
-         wNfdviJDACoQ63OzNGWRDzKfsfwztGHb9d4JJpmGkGxeUV+MHwu3vfyQEOXDHLqY581s
-         4ln1tYzZx3GpgvkMqQwz+6UBTvBmlunRYIRcQ0fTfrbKPzw9MZbXKUiXgiaAMX2lgTk1
-         diOsQITnA52IhTGcfZrAEbozRgfRUeksmDa6Y/YGmqCeiz7xBRC3+q3Hc1CLxZ9LWPCL
-         yy5XnRfTM1GcWWgWb8PHuc3MAVUhe+YuA12OAhSuFtbgt1SOl9WzzKP/GmiQX3lD1Kfb
-         CBKw==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:user-agent
+         :in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1oOns9po82Im/UsexYqh8ii5Tcb+J9n1E4+C7F2BUsc=;
+        b=uBqXw9ocnD+cdyD2LqSM8cdSjvUfXke33xW42V1I3Mw2RZTvg9LAYaUttdN/LSNWXE
+         fNteT3xjQdAmhlP+nkigcRaUgeBBFlgDBbLIR61d9KdV8qIasDolieyvBZgkoFnVwwXY
+         7KA9qJW+604njangyq4t5SgtYRGweu3uyP3mvvjI3+oF9kTjNgTgN540Fis4PeWJOh9J
+         DkdQiq9DpBLqxKEslheSim5nl2ZxYFDtFn90khG02zG/NqSWCsMJh7QdcYAmsdZ5IWnk
+         Fy+pXTfvwvRQMGpc19SgTWpnaYQQP4Nxb4hxDamnvaEPsAl4G34QCRZjVXehjho5lWEs
+         wXFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753702913; x=1754307713;
+        d=1e100.net; s=20230601; t=1753703501; x=1754308301;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tAOxpCDYFAPlNUielOhUuLih/q/WL+rW13tPmwYKdNk=;
-        b=WagILcQSdeiOEWVORLmUfjDOqOtjS05uhhMSS1eu249EoMJHIhmio8g6xM1w6N9OvU
-         Q0XgdH/JsQH84d38z2BQv942fjjBV/+jMNX7piiE8w3K0fzX/h9q76Hh7wQP68Ox/Q6L
-         jurUBsF2p6UNr26g9lYDQCbEGWqBU7F4aIMl2JOLdCE82fko5HTY2rbiFnDEReyKfaeQ
-         w1snNi7vuTjo8CQgryrrL8BjkND6Yjx13XzkxUQH5dURCSBT202aJ2CzZLmUS5hV1tGX
-         BniPAOdp5R1IZrZsBl+TBSn11znB5T7VDcdKJVHeYcbE8peHRssfrg15lL0TKzwB8jOF
-         dvNQ==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWmlpwdwmBxe9ofDDxT4KhrCdZNCYs9dbUo///7WoKrMK7K8NbeJPJXDatMbedksA71490niA==@lfdr.de
-X-Gm-Message-State: AOJu0YypK7ynPQWc385Tm7wbcCYTS3LjfN3hYKj2itshKlgYS1TKAkUw
-	3pfFjsc/t0DVYuZp4OWFT7NLMH4fIbZ2j+9BDsNYb3eOIwqUQCgKYAER
-X-Google-Smtp-Source: AGHT+IGtvyCSJ7Rv9wtiS3fvKNcKtgW7/B4X0E+VMUZj0TY3WYG0cp/yOE/R4FNpns2M9YrJDWtVHA==
-X-Received: by 2002:a05:6214:224a:b0:707:9eb:d483 with SMTP id 6a1803df08f44-707205a1bcemr153779906d6.27.1753702912386;
-        Mon, 28 Jul 2025 04:41:52 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZeNjhPJMd/d652jdx0nY9IHHa/iSeJeFg0plIUYxzkezg==
-Received: by 2002:a05:6214:588f:b0:707:1cc2:24d with SMTP id
- 6a1803df08f44-7073a1794e4ls14725446d6.0.-pod-prod-08-us; Mon, 28 Jul 2025
- 04:41:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXGSK1ABsBInjXM4tgLOFxiXWI109phflAVvVRwbWz5Fs5I/TZmusnh/bp8JV6R3PTiHFOXPmPtz8k=@googlegroups.com
-X-Received: by 2002:a05:6102:a4f:b0:4fa:37cc:2877 with SMTP id ada2fe7eead31-4fa3f7f54e6mr4017615137.0.1753702911461;
-        Mon, 28 Jul 2025 04:41:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1753702911; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:user-agent
+         :in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1oOns9po82Im/UsexYqh8ii5Tcb+J9n1E4+C7F2BUsc=;
+        b=IloXyrqk/KIHVv0WapqbQvFHWSHTR6FyxvhOFNoFvP7Srw1vNX3Ki5R6WY+8eS14DB
+         G9aMWZ81eHbYBY+I+qzWEJgVwutwJ1X7thuAbhp78ppM+8RCQzYsKeRZcvCiXIj6SwbO
+         lJevvijR693xSGZ/APe6v7wflJvRfcKLXM6BFGTAKXnihXWMsDJ1oKfXnz5kuZ8B6YRe
+         Rp9qTJavUxCVrcmkPhA404Y3Xg+v6wYOb/rI+Tb/YhzuR3cYVsmfDaMt7GCouCPkU3SR
+         GJhm/PQYCF17ZSAv26/adB3SzjNiqaXyhZVz/3GdTa5hWxCoNwYk9diybfJdNUKEnQzL
+         JQNQ==
+X-Forwarded-Encrypted: i=2; AJvYcCWOS0IVm0Z/SQQovMZYC7I1CUFktBOt6QmLeH6THNuL1v9CX5E4+B6Kugexnw1NXKMI1Jf8og==@lfdr.de
+X-Gm-Message-State: AOJu0YyaRTJ3jFErz4PU6DeIqdQnAE68K/QYDpiNckYwI2dnaAKzMa+T
+	FfmVMLyvdY7v73bSidQCoOvpo04lxFt3nH/oPMvUQv4pW1uCxUlQLurr
+X-Google-Smtp-Source: AGHT+IGky1/4WWwNHdmUf1W+exJozVMVlbtM8tFhKuXGi1izuzbWoe7lR4ReNtqcmMvoNBvI/HQ2bg==
+X-Received: by 2002:a05:6000:250f:b0:3b7:737b:4067 with SMTP id ffacd0b85a97d-3b7765e58b0mr7506256f8f.4.1753703501177;
+        Mon, 28 Jul 2025 04:51:41 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfyHiJRyTHnfVNruC0GSW7HYqAC4qfXGjfnoBuxugekmQ==
+Received: by 2002:a05:600c:6387:b0:455:1744:2c98 with SMTP id
+ 5b1f17b1804b1-4586e627c50ls22321935e9.1.-pod-prod-02-eu; Mon, 28 Jul 2025
+ 04:51:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUstXq0aASxUQW1s7QHyGqGOgY1/OJ27qjosiRp+nxFmWHPoEB5g6e/rubTyYAJPjOjchL+Pe11cIc=@googlegroups.com
+X-Received: by 2002:a05:6000:4c8:b0:3b7:83c0:a9ab with SMTP id ffacd0b85a97d-3b783c0b042mr3192394f8f.55.1753703498115;
+        Mon, 28 Jul 2025 04:51:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1753703498; cv=none;
         d=google.com; s=arc-20240605;
-        b=EjCHwLshgHRjRdajxlerrX4VmQrcRpm4liyx6bEWPJt+fgg1pL873ywmwX5850OHkz
-         73EB0TAuu4Uj+BJtDd7OVr1zbkg9a65j/W/yUfTQkrygMuOztcggQFXV9a8+DawwpRmB
-         PjPv8ryrlWL796QAA/ttTfSheSL9YT2Qh0f8SjaY8smVhL4g/EYrlHn3qmfFtL2Rj2nV
-         M9/JJNXIZouROUcpsSX3NUtPYwJDsDi5lFhfPgQvAzorhtbFUGQk2aznO9MC8smt9OEI
-         i7VitlrRQpwzD4OYeRlspYsuJA4Ll1uMkvs7JhvqIlpNgE1Y+9qiqn3asN0uHAcQ5y5H
-         UnMw==
+        b=G30/IYbqbMGvmzMi53wWaRKAGwCP0bngddD2b8f1cOteZ0vDT2A4+zx322ozujYpwj
+         akop79fUZ9r/KzRls0SnzfOut4vc0HQqCmbt8T0aTB5H+tO/h74aLvJ09BcHD9zctnLP
+         lYcE5ia3nLshIsM2dZkvp+AxuidbmORQlgiVPscrE43wHVgRjd23MZPujxwZ7kp3tfDh
+         E6ThC3mt2tRLeFFu24zPUTTqiTK4w/4iSKYubl48O3xNfClH73sQ9/6rKFd3zFgpVYnt
+         1i5aDZZXfZXYz4RHgk8WjBPQ1IIKI0JQeoSp+E8jvwh8liLvbDT5sjdpjav1DCJHMK94
+         eB4Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=0RAuApdVZvmNYpd6CqvkkHn3l0yEyazEo63wOkp20M0=;
-        fh=nCyUekU51LLvpR/EIiw08zzxai6FdSArjRUp8LiUpY8=;
-        b=DqIs13FUOTkg09s+RMaHmqEYIMbsQ197JGRPU0K7HtEE3LEP4SnOvGBqKbk6neZiFQ
-         ++wZlGuW3cyksUyZibIVPk1qfD7Zn1BFP1w6idywfGBtGKpO3HurS+CUIo3StHHm0Jhj
-         dj4+HlPbiXi3C9IGFTwm/BVQILBF3XgnXUfZQCkOgFupuQT5QmjiM7fdvEHeb83ZGaow
-         CB+nvF9WN/3VczoUZzsAxaNunQB1Fzw7rIXfcWgXH8VhPg6EEdVnWB7knL0puM4WarG2
-         M6ux0hFaX23Zdic5yRN2wtPn9TBie/MhO0sHnfuWrIvXHCY1xFj9US0UxmmOcJMAmJQQ
-         +10Q==;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=l56t6uPmq3cSkV0C7DGr6+BsykVsDYraodDtRGzpDuE=;
+        fh=CNo2pY4U3KuUS5zcLuiM747I/41AxCoDo6HMOchYa8M=;
+        b=ksY/PXIg3wfp5zX2bGE8U47aLTbZ+iW2bISjy6c729WWQFPa2E9/dctF0MMawqgCg4
+         F6542knqe6tUgeA33j+IuIb0ZxIkc5nvp1skN7Ur5ZNpOjuv6zVFhDbI+jwPX8/srKEF
+         xus6N+9O9hNKRWTt/vr0EKIM9eqtsdLMbYglYdjxkTNFKTAAYLBeRz1bXvzL9wpOkFXE
+         1HDNA+EvOTMzdTk7O+ZJ/C+mKCFf5geV+3N4Woa6Qx9ujXX5r038jCJKpj35sHb83ZIV
+         Kwwt7rFRz2EWWTf0OZRgu+JHRJVWzh6Q0wZPp5w5gKxFVAMWBZuQrWw6fuHReISfZqsk
+         WTqg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=UifswnEo;
-       spf=pass (google.com: domain of jogidishank503@gmail.com designates 2607:f8b0:4864:20::529 as permitted sender) smtp.mailfrom=jogidishank503@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=glFAPL+V;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::435 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com. [2607:f8b0:4864:20::529])
-        by gmr-mx.google.com with ESMTPS id a1e0cc1a2514c-88b8c880d50si452675241.1.2025.07.28.04.41.51
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com. [2a00:1450:4864:20::435])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3b7845511besi105892f8f.8.2025.07.28.04.51.38
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Jul 2025 04:41:51 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jogidishank503@gmail.com designates 2607:f8b0:4864:20::529 as permitted sender) client-ip=2607:f8b0:4864:20::529;
-Received: by mail-pg1-x529.google.com with SMTP id 41be03b00d2f7-b390d09e957so4615030a12.1
-        for <kasan-dev@googlegroups.com>; Mon, 28 Jul 2025 04:41:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX1iPiHmx3Hrr9MzRzzZipJ26cUpl+uzMUK+PZKPVHjES8MZ0VzYAN/5RMN0Fme1SnbX+RtPmG8wWY=@googlegroups.com
-X-Gm-Gg: ASbGncvySD3w7nBAgT000tr+KTlp7xbmarOrLit++vcQpQSXi/q9vpXosNp8cm7GgTc
-	8/g69g4dP0vJZHWrBfRNudvMwcpXIba8hH5FEbm3ZMen8mkS3gRyoiBYQYiyNYg3LV43uQi6O/t
-	RNh9IkwaOd2/ouPUIMSvoJw0BNx2FINqhO0ZMtJcTwYNf/v3Im4346jTxUJLe7ddHkViXkCoti8
-	g7BjVer4sS3m8ZnxZrB9PXizBN+QBNTRU6sWxYW
-X-Received: by 2002:a17:90a:ec8f:b0:31e:424e:5303 with SMTP id
- 98e67ed59e1d1-31e77b1f040mr14189921a91.34.1753702910429; Mon, 28 Jul 2025
- 04:41:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250728104327.48469-1-jogidishank503@gmail.com> <CANpmjNN-xAqYrPUoC5Vka=uohtJzhOfJsD9hhqhPJzQGt=CHGQ@mail.gmail.com>
-In-Reply-To: <CANpmjNN-xAqYrPUoC5Vka=uohtJzhOfJsD9hhqhPJzQGt=CHGQ@mail.gmail.com>
-From: Jogi Dishank <jogidishank503@gmail.com>
-Date: Mon, 28 Jul 2025 17:11:39 +0530
-X-Gm-Features: Ac12FXwgNQhUEFcH8EUcpBGdznEMdfxR6tBcRADaovPQEaIeeONILcfptvQ1uug
-Message-ID: <CADorM--0n1zeT8jxT3LtjmqrP5Cp1g-hFS=oz_12SptjZwRWtw@mail.gmail.com>
-Subject: Re: [PATCH] kcsan: clean up redundant empty macro arguments in atomic ops.
-To: Marco Elver <elver@google.com>
-Cc: dvyukov@google.com, kasan-dev@googlegroups.com, 
+        Mon, 28 Jul 2025 04:51:38 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::435 as permitted sender) client-ip=2a00:1450:4864:20::435;
+Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-3b7886bee77so947100f8f.0
+        for <kasan-dev@googlegroups.com>; Mon, 28 Jul 2025 04:51:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVoPm1bZJ7UzbE2a2jvvcNpm6E2FT9lF2mvTJR0fR5pc0UvOwUZxjY6I7ITPeRP9zGPXDI8XTPxU6o=@googlegroups.com
+X-Gm-Gg: ASbGncvj+rU6SKe30KUDWSB+zqbiESNJO5fhwPBbj1HyipmCkYpzukUrEk5cNU6/mTG
+	5cKunrA1zPf8dL0rKAAhR8AuQ0Bj/qqwssJyP67KzGGctnNtag5cvukXcFNoW9pMUQeX/s7rYGl
+	k3Wm+ssi018myZTufcrn9fyyaTTfvNjrMB6roH4dCxoPstnJGpK7e+qGlth7dAUxaMTBC3WNKS9
+	/xnw7CjKgCvs7cdHWlpZTX/9fyoXnqZ1lR9MzqhGLnahBc7ANOL+9nXPWjXO5aC9oJPhu9cvpY0
+	wtFWrTkoiXzGc4LkFokbQUG5/VVIJi4XTcOFdfKF23Ngo0WCKM3HYFPzfCerFF/1II0RnxDhqk5
+	+Gz6j6j7zNc36pYQixg1DEshY4KC/TikiAKaX3r6k7E/OIFVovbBHqWBoq4wT8lQiDhP38g==
+X-Received: by 2002:a05:6000:2dca:b0:3a4:f7e6:2b29 with SMTP id ffacd0b85a97d-3b7765e5877mr9262604f8f.5.1753703497322;
+        Mon, 28 Jul 2025 04:51:37 -0700 (PDT)
+Received: from elver.google.com ([2a00:79e0:2834:9:4524:5552:e4f3:8548])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4587ac78af2sm96075685e9.33.2025.07.28.04.51.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Jul 2025 04:51:36 -0700 (PDT)
+Date: Mon, 28 Jul 2025 13:51:30 +0200
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Jogi Dishank <jogidishank503@gmail.com>
+Cc: dvyukov@google.com, kasan-dev@googlegroups.com,
 	linux-kernel@vger.kernel.org, rathod.darshan.0896@gmail.com
-Content-Type: multipart/alternative; boundary="000000000000048ee2063afbc7ae"
-X-Original-Sender: jogidishank503@gmail.com
+Subject: Re: [PATCH] kcsan: clean up redundant empty macro arguments in
+ atomic ops.
+Message-ID: <aIdkQixt-tfT7IPw@elver.google.com>
+References: <20250728104327.48469-1-jogidishank503@gmail.com>
+ <CANpmjNN-xAqYrPUoC5Vka=uohtJzhOfJsD9hhqhPJzQGt=CHGQ@mail.gmail.com>
+ <CADorM--0n1zeT8jxT3LtjmqrP5Cp1g-hFS=oz_12SptjZwRWtw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <CADorM--0n1zeT8jxT3LtjmqrP5Cp1g-hFS=oz_12SptjZwRWtw@mail.gmail.com>
+User-Agent: Mutt/2.2.13 (2024-03-09)
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=UifswnEo;       spf=pass
- (google.com: domain of jogidishank503@gmail.com designates
- 2607:f8b0:4864:20::529 as permitted sender) smtp.mailfrom=jogidishank503@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+ header.i=@google.com header.s=20230601 header.b=glFAPL+V;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::435 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -161,204 +157,148 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---000000000000048ee2063afbc7ae
-Content-Type: text/plain; charset="UTF-8"
+On Mon, Jul 28, 2025 at 05:11PM +0530, Jogi Dishank wrote:
+> Yes, I build the kernel with the change.
+> And it's build without any error.
 
-Yes, I build the kernel with the change.
-And it's build without any error.
+You have to set CONFIG_KCSAN=y
 
-
-*On Mon, 28 Jul 2025 at 16:25, Marco Elver <elver@google.com
-<elver@google.com>> wrote:*
-
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
-> *On Mon, 28 Jul 2025 at 12:43, Dishank Jogi <jogidishank503@gmail.com
-> <jogidishank503@gmail.com>> wrote: > >
-> --------------------------------------------------------- > > - Removed
-> unnecessary trailing commas from DEFINE_TSAN_ATOMIC_RMW() macro >   calls
-> within DEFINE_TSAN_ATOMIC_OPS() in kernel/kcsan/core.c > > - It passes
-> checkpatch.pl <http://checkpatch.pl> with no errors or warnings and >
->  introduces no functional changes. > >
-> --------------------------------------------------------- > >
-> Signed-off-by: Dishank Jogi <jogidishank503@gmail.com
-> <jogidishank503@gmail.com>> Nack. Did you compile the kernel with this? >
-> --- >  kernel/kcsan/core.c | 12 ++++++------ >  1 file changed, 6
-> insertions(+), 6 deletions(-) > > diff --git a/kernel/kcsan/core.c
-> b/kernel/kcsan/core.c > index 8a7baf4e332e..f2ec7fa4a44d 100644 > ---
-> a/kernel/kcsan/core.c > +++ b/kernel/kcsan/core.c > @@ -1257,12 +1257,12 @@
-> static __always_inline void kcsan_atomic_builtin_memorder(int memorder) >
-> #define DEFINE_TSAN_ATOMIC_OPS(bits)
->                        \ >         DEFINE_TSAN_ATOMIC_LOAD_STORE(bits);
->                                                    \ >
->  DEFINE_TSAN_ATOMIC_RMW(exchange, bits, _n);
->                 \ > -       DEFINE_TSAN_ATOMIC_RMW(fetch_add, bits, );
->                                            \ > -
->  DEFINE_TSAN_ATOMIC_RMW(fetch_sub, bits, );
->                  \ > -       DEFINE_TSAN_ATOMIC_RMW(fetch_and, bits, );
->                                              \ > -
->  DEFINE_TSAN_ATOMIC_RMW(fetch_or, bits, );
->                 \ > -       DEFINE_TSAN_ATOMIC_RMW(fetch_xor, bits, );
->                                            \ > -
->  DEFINE_TSAN_ATOMIC_RMW(fetch_nand, bits, );
->                 \ > +       DEFINE_TSAN_ATOMIC_RMW(fetch_add, bits);
->                                          \ > +
->  DEFINE_TSAN_ATOMIC_RMW(fetch_sub, bits);
->                \ > +       DEFINE_TSAN_ATOMIC_RMW(fetch_and, bits);
->                                          \ > +
->  DEFINE_TSAN_ATOMIC_RMW(fetch_or, bits);
->               \ > +       DEFINE_TSAN_ATOMIC_RMW(fetch_xor, bits);
->                                        \ > +
->  DEFINE_TSAN_ATOMIC_RMW(fetch_nand, bits);
->               \ >         DEFINE_TSAN_ATOMIC_CMPXCHG(bits, strong, 0);
->                                          \ >
->  DEFINE_TSAN_ATOMIC_CMPXCHG(bits, weak, 1);
->                  \ >         DEFINE_TSAN_ATOMIC_CMPXCHG_VAL(bits) > -- >
-> 2.43.0 >*
->
+kernel/kcsan/core.c:1270:1: error: too few arguments provided to function-like macro invocation
+ 1270 | DEFINE_TSAN_ATOMIC_OPS(8);
+      | ^
+kernel/kcsan/core.c:1261:40: note: expanded from macro 'DEFINE_TSAN_ATOMIC_OPS'
+ 1261 |         DEFINE_TSAN_ATOMIC_RMW(fetch_sub, bits);                                                 \
+      |                                               ^
+kernel/kcsan/core.c:1193:9: note: macro 'DEFINE_TSAN_ATOMIC_RMW' defined here
+ 1193 | #define DEFINE_TSAN_ATOMIC_RMW(op, bits, suffix)                                                   \
+      |         ^
+kernel/kcsan/core.c:1270:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+ 1270 | DEFINE_TSAN_ATOMIC_OPS(8);
+      | ^
+kernel/kcsan/core.c:1261:2: note: expanded from macro 'DEFINE_TSAN_ATOMIC_OPS'
+ 1261 |         DEFINE_TSAN_ATOMIC_RMW(fetch_sub, bits);                                                 \
+      |         ^
+kernel/kcsan/core.c:1270:1: error: too few arguments provided to function-like macro invocation
+kernel/kcsan/core.c:1262:40: note: expanded from macro 'DEFINE_TSAN_ATOMIC_OPS'
+ 1262 |         DEFINE_TSAN_ATOMIC_RMW(fetch_and, bits);                                                 \
+      |                                               ^
+kernel/kcsan/core.c:1193:9: note: macro 'DEFINE_TSAN_ATOMIC_RMW' defined here
+ 1193 | #define DEFINE_TSAN_ATOMIC_RMW(op, bits, suffix)                                                   \
+      |         ^
+kernel/kcsan/core.c:1270:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+ 1270 | DEFINE_TSAN_ATOMIC_OPS(8);
+      | ^
+kernel/kcsan/core.c:1262:2: note: expanded from macro 'DEFINE_TSAN_ATOMIC_OPS'
+ 1262 |         DEFINE_TSAN_ATOMIC_RMW(fetch_and, bits);                                                 \
+      |         ^
+kernel/kcsan/core.c:1270:1: error: too few arguments provided to function-like macro invocation
+kernel/kcsan/core.c:1263:39: note: expanded from macro 'DEFINE_TSAN_ATOMIC_OPS'
+ 1263 |         DEFINE_TSAN_ATOMIC_RMW(fetch_or, bits);                                                  \
+      |                                              ^
+kernel/kcsan/core.c:1193:9: note: macro 'DEFINE_TSAN_ATOMIC_RMW' defined here
+ 1193 | #define DEFINE_TSAN_ATOMIC_RMW(op, bits, suffix)                                                   \
+      |         ^
+kernel/kcsan/core.c:1270:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+ 1270 | DEFINE_TSAN_ATOMIC_OPS(8);
+      | ^
+kernel/kcsan/core.c:1263:2: note: expanded from macro 'DEFINE_TSAN_ATOMIC_OPS'
+ 1263 |         DEFINE_TSAN_ATOMIC_RMW(fetch_or, bits);                                                  \
+      |         ^
+kernel/kcsan/core.c:1271:1: error: too few arguments provided to function-like macro invocation
+ 1271 | DEFINE_TSAN_ATOMIC_OPS(16);
+      | ^
+kernel/kcsan/core.c:1261:40: note: expanded from macro 'DEFINE_TSAN_ATOMIC_OPS'
+ 1261 |         DEFINE_TSAN_ATOMIC_RMW(fetch_sub, bits);                                                 \
+      |                                               ^
+kernel/kcsan/core.c:1193:9: note: macro 'DEFINE_TSAN_ATOMIC_RMW' defined here
+ 1193 | #define DEFINE_TSAN_ATOMIC_RMW(op, bits, suffix)                                                   \
+      |         ^
+kernel/kcsan/core.c:1271:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+ 1271 | DEFINE_TSAN_ATOMIC_OPS(16);
+      | ^
+kernel/kcsan/core.c:1261:2: note: expanded from macro 'DEFINE_TSAN_ATOMIC_OPS'
+ 1261 |         DEFINE_TSAN_ATOMIC_RMW(fetch_sub, bits);                                                 \
+      |         ^
+kernel/kcsan/core.c:1271:1: error: too few arguments provided to function-like macro invocation
+kernel/kcsan/core.c:1262:40: note: expanded from macro 'DEFINE_TSAN_ATOMIC_OPS'
+ 1262 |         DEFINE_TSAN_ATOMIC_RMW(fetch_and, bits);                                                 \
+      |                                               ^
+kernel/kcsan/core.c:1193:9: note: macro 'DEFINE_TSAN_ATOMIC_RMW' defined here
+ 1193 | #define DEFINE_TSAN_ATOMIC_RMW(op, bits, suffix)                                                   \
+      |         ^
+kernel/kcsan/core.c:1271:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+ 1271 | DEFINE_TSAN_ATOMIC_OPS(16);
+      | ^
+kernel/kcsan/core.c:1262:2: note: expanded from macro 'DEFINE_TSAN_ATOMIC_OPS'
+ 1262 |         DEFINE_TSAN_ATOMIC_RMW(fetch_and, bits);                                                 \
+      |         ^
+kernel/kcsan/core.c:1271:1: error: too few arguments provided to function-like macro invocation
+kernel/kcsan/core.c:1263:39: note: expanded from macro 'DEFINE_TSAN_ATOMIC_OPS'
+ 1263 |         DEFINE_TSAN_ATOMIC_RMW(fetch_or, bits);                                                  \
+      |                                              ^
+kernel/kcsan/core.c:1193:9: note: macro 'DEFINE_TSAN_ATOMIC_RMW' defined here
+ 1193 | #define DEFINE_TSAN_ATOMIC_RMW(op, bits, suffix)                                                   \
+      |         ^
+kernel/kcsan/core.c:1271:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+ 1271 | DEFINE_TSAN_ATOMIC_OPS(16);
+      | ^
+kernel/kcsan/core.c:1263:2: note: expanded from macro 'DEFINE_TSAN_ATOMIC_OPS'
+ 1263 |         DEFINE_TSAN_ATOMIC_RMW(fetch_or, bits);                                                  \
+      |         ^
+  CC      lib/crypto/mpi/mpi-cmp.o
+kernel/kcsan/core.c:1272:1: error: too few arguments provided to function-like macro invocation
+ 1272 | DEFINE_TSAN_ATOMIC_OPS(32);
+      | ^
+kernel/kcsan/core.c:1261:40: note: expanded from macro 'DEFINE_TSAN_ATOMIC_OPS'
+ 1261 |         DEFINE_TSAN_ATOMIC_RMW(fetch_sub, bits);                                                 \
+      |                                               ^
+kernel/kcsan/core.c:1193:9: note: macro 'DEFINE_TSAN_ATOMIC_RMW' defined here
+ 1193 | #define DEFINE_TSAN_ATOMIC_RMW(op, bits, suffix)                                                   \
+      |         ^
+kernel/kcsan/core.c:1272:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+ 1272 | DEFINE_TSAN_ATOMIC_OPS(32);
+      | ^
+kernel/kcsan/core.c:1261:2: note: expanded from macro 'DEFINE_TSAN_ATOMIC_OPS'
+ 1261 |         DEFINE_TSAN_ATOMIC_RMW(fetch_sub, bits);                                                 \
+      |         ^
+kernel/kcsan/core.c:1272:1: error: too few arguments provided to function-like macro invocation
+kernel/kcsan/core.c:1262:40: note: expanded from macro 'DEFINE_TSAN_ATOMIC_OPS'
+ 1262 |         DEFINE_TSAN_ATOMIC_RMW(fetch_and, bits);                                                 \
+      |                                               ^
+kernel/kcsan/core.c:1193:9: note: macro 'DEFINE_TSAN_ATOMIC_RMW' defined here
+ 1193 | #define DEFINE_TSAN_ATOMIC_RMW(op, bits, suffix)                                                   \
+      |         ^
+kernel/kcsan/core.c:1272:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+ 1272 | DEFINE_TSAN_ATOMIC_OPS(32);
+      | ^
+kernel/kcsan/core.c:1262:2: note: expanded from macro 'DEFINE_TSAN_ATOMIC_OPS'
+ 1262 |         DEFINE_TSAN_ATOMIC_RMW(fetch_and, bits);                                                 \
+      |         ^
+kernel/kcsan/core.c:1272:1: error: too few arguments provided to function-like macro invocation
+kernel/kcsan/core.c:1263:39: note: expanded from macro 'DEFINE_TSAN_ATOMIC_OPS'
+ 1263 |         DEFINE_TSAN_ATOMIC_RMW(fetch_or, bits);                                                  \
+      |                                              ^
+kernel/kcsan/core.c:1193:9: note: macro 'DEFINE_TSAN_ATOMIC_RMW' defined here
+ 1193 | #define DEFINE_TSAN_ATOMIC_RMW(op, bits, suffix)                                                   \
+      |         ^
+kernel/kcsan/core.c:1272:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+ 1272 | DEFINE_TSAN_ATOMIC_OPS(32);
+      | ^
+kernel/kcsan/core.c:1263:2: note: expanded from macro 'DEFINE_TSAN_ATOMIC_OPS'
+ 1263 |         DEFINE_TSAN_ATOMIC_RMW(fetch_or, bits);                                                  \
+      |         ^
+kernel/kcsan/core.c:1274:1: error: too few arguments provided to function-like macro invocation
+ 1274 | DEFINE_TSAN_ATOMIC_OPS(64);
+      | ^
+kernel/kcsan/core.c:1261:40: note: expanded from macro 'DEFINE_TSAN_ATOMIC_OPS'
+ 1261 |         DEFINE_TSAN_ATOMIC_RMW(fetch_sub, bits);                                                 \
+      |                                               ^
+kernel/kcsan/core.c:1193:9: note: macro 'DEFINE_TSAN_ATOMIC_RMW' defined here
+ 1193 | #define DEFINE_TSAN_ATOMIC_RMW(op, bits, suffix)                                                   \
+      |         ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CADorM--0n1zeT8jxT3LtjmqrP5Cp1g-hFS%3Doz_12SptjZwRWtw%40mail.gmail.com.
-
---000000000000048ee2063afbc7ae
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
-
-PGRpdiBkaXI9Imx0ciI+PGRpdiBjbGFzcz0iZ21haWxfZGVmYXVsdCIgc3R5bGU9ImZvbnQtZmFt
-aWx5OiZxdW90O2FyaWFsIGJsYWNrJnF1b3Q7LHNhbnMtc2VyaWYiPjxiPjwvYj48L2Rpdj48ZGl2
-IGRpcj0ibHRyIj48ZGl2IGNsYXNzPSJnbWFpbF9kZWZhdWx0IiBzdHlsZT0iIj48Zm9udCBmYWNl
-PSJhcmlhbCwgc2Fucy1zZXJpZiI+WWVzLCBJIGJ1aWxkwqB0aGUga2VybmVsIHdpdGggdGhlIGNo
-YW5nZS7CoDxicj5BbmQgaXQmIzM5O3MgYnVpbGQgd2l0aG91dCBhbnkgZXJyb3IuwqA8L2ZvbnQ+
-PC9kaXY+PC9kaXY+PGI+PGJyPjwvYj48ZGl2IGNsYXNzPSJnbWFpbF9xdW90ZSBnbWFpbF9xdW90
-ZV9jb250YWluZXIiPjxkaXYgZGlyPSJsdHIiIGNsYXNzPSJnbWFpbF9hdHRyIj48Yj5PbiBNb24s
-IDI4IEp1bCAyMDI1IGF0IDE2OjI1LCBNYXJjbyBFbHZlciAmbHQ7PGEgaHJlZj0ibWFpbHRvOmVs
-dmVyQGdvb2dsZS5jb20iPmVsdmVyQGdvb2dsZS5jb208L2E+Jmd0OyB3cm90ZTo8YnI+PC9iPjwv
-ZGl2PjxibG9ja3F1b3RlIGNsYXNzPSJnbWFpbF9xdW90ZSIgc3R5bGU9Im1hcmdpbjowcHggMHB4
-IDBweCAwLjhleDtib3JkZXItbGVmdDoxcHggc29saWQgcmdiKDIwNCwyMDQsMjA0KTtwYWRkaW5n
-LWxlZnQ6MWV4Ij48Yj5PbiBNb24sIDI4IEp1bCAyMDI1IGF0IDEyOjQzLCBEaXNoYW5rIEpvZ2kg
-Jmx0OzxhIGhyZWY9Im1haWx0bzpqb2dpZGlzaGFuazUwM0BnbWFpbC5jb20iIHRhcmdldD0iX2Js
-YW5rIj5qb2dpZGlzaGFuazUwM0BnbWFpbC5jb208L2E+Jmd0OyB3cm90ZTo8YnI+DQomZ3Q7PGJy
-Pg0KJmd0OyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS08YnI+DQomZ3Q7PGJyPg0KJmd0OyAtIFJlbW92ZWQgdW5uZWNlc3NhcnkgdHJhaWxp
-bmcgY29tbWFzIGZyb20gREVGSU5FX1RTQU5fQVRPTUlDX1JNVygpIG1hY3JvPGJyPg0KJmd0O8Kg
-IMKgY2FsbHMgd2l0aGluIERFRklORV9UU0FOX0FUT01JQ19PUFMoKSBpbiBrZXJuZWwva2NzYW4v
-Y29yZS5jPGJyPg0KJmd0Ozxicj4NCiZndDsgLSBJdCBwYXNzZXMgPGEgaHJlZj0iaHR0cDovL2No
-ZWNrcGF0Y2gucGwiIHJlbD0ibm9yZWZlcnJlciIgdGFyZ2V0PSJfYmxhbmsiPmNoZWNrcGF0Y2gu
-cGw8L2E+IHdpdGggbm8gZXJyb3JzIG9yIHdhcm5pbmdzIGFuZDxicj4NCiZndDvCoCDCoGludHJv
-ZHVjZXMgbm8gZnVuY3Rpb25hbCBjaGFuZ2VzLjxicj4NCiZndDs8YnI+DQomZ3Q7IC0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLTxicj4NCiZn
-dDs8YnI+DQomZ3Q7IFNpZ25lZC1vZmYtYnk6IERpc2hhbmsgSm9naSAmbHQ7PGEgaHJlZj0ibWFp
-bHRvOmpvZ2lkaXNoYW5rNTAzQGdtYWlsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmpvZ2lkaXNoYW5r
-NTAzQGdtYWlsLmNvbTwvYT4mZ3Q7PGJyPg0KPGJyPg0KTmFjay48YnI+DQo8YnI+DQpEaWQgeW91
-IGNvbXBpbGUgdGhlIGtlcm5lbCB3aXRoIHRoaXM/PGJyPg0KPGJyPg0KJmd0OyAtLS08YnI+DQom
-Z3Q7wqAga2VybmVsL2tjc2FuL2NvcmUuYyB8IDEyICsrKysrKy0tLS0tLTxicj4NCiZndDvCoCAx
-IGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKTxicj4NCiZndDs8
-YnI+DQomZ3Q7IGRpZmYgLS1naXQgYS9rZXJuZWwva2NzYW4vY29yZS5jIGIva2VybmVsL2tjc2Fu
-L2NvcmUuYzxicj4NCiZndDsgaW5kZXggOGE3YmFmNGUzMzJlLi5mMmVjN2ZhNGE0NGQgMTAwNjQ0
-PGJyPg0KJmd0OyAtLS0gYS9rZXJuZWwva2NzYW4vY29yZS5jPGJyPg0KJmd0OyArKysgYi9rZXJu
-ZWwva2NzYW4vY29yZS5jPGJyPg0KJmd0OyBAQCAtMTI1NywxMiArMTI1NywxMiBAQCBzdGF0aWMg
-X19hbHdheXNfaW5saW5lIHZvaWQga2NzYW5fYXRvbWljX2J1aWx0aW5fbWVtb3JkZXIoaW50IG1l
-bW9yZGVyKTxicj4NCiZndDvCoCAjZGVmaW5lIERFRklORV9UU0FOX0FUT01JQ19PUFMoYml0cynC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoFw8YnI+DQomZ3Q7wqAgwqAgwqAg
-wqAgwqBERUZJTkVfVFNBTl9BVE9NSUNfTE9BRF9TVE9SRShiaXRzKTvCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoFw8YnI+DQomZ3Q7wqAgwqAgwqAgwqAgwqBERUZJTkVfVFNBTl9BVE9NSUNfUk1X
-KGV4Y2hhbmdlLCBiaXRzLCBfbik7wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgXDxicj4NCiZndDsgLcKgIMKgIMKg
-IMKgREVGSU5FX1RTQU5fQVRPTUlDX1JNVyhmZXRjaF9hZGQsIGJpdHMsICk7wqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqBcPGJyPg0KJmd0OyAtwqAgwqAgwqAgwqBERUZJTkVfVFNBTl9BVE9NSUNfUk1XKGZldGNo
-X3N1YiwgYml0cywgKTvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoFw8YnI+DQomZ3Q7IC3CoCDCoCDCoCDCoERF
-RklORV9UU0FOX0FUT01JQ19STVcoZmV0Y2hfYW5kLCBiaXRzLCApO8KgIMKgIMKgIMKgIMKgIMKg
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
-XDxicj4NCiZndDsgLcKgIMKgIMKgIMKgREVGSU5FX1RTQU5fQVRPTUlDX1JNVyhmZXRjaF9vciwg
-Yml0cywgKTvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBcPGJyPg0KJmd0OyAtwqAgwqAgwqAgwqBERUZJTkVf
-VFNBTl9BVE9NSUNfUk1XKGZldGNoX3hvciwgYml0cywgKTvCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoFw8YnI+
-DQomZ3Q7IC3CoCDCoCDCoCDCoERFRklORV9UU0FOX0FUT01JQ19STVcoZmV0Y2hfbmFuZCwgYml0
-cywgKTvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCBcPGJyPg0KJmd0OyArwqAgwqAgwqAgwqBERUZJTkVfVFNBTl9B
-VE9NSUNfUk1XKGZldGNoX2FkZCwgYml0cyk7wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBcPGJyPg0KJmd0OyAr
-wqAgwqAgwqAgwqBERUZJTkVfVFNBTl9BVE9NSUNfUk1XKGZldGNoX3N1YiwgYml0cyk7wqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqBcPGJyPg0KJmd0OyArwqAgwqAgwqAgwqBERUZJTkVfVFNBTl9BVE9NSUNfUk1X
-KGZldGNoX2FuZCwgYml0cyk7wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBcPGJyPg0KJmd0OyArwqAgwqAgwqAg
-wqBERUZJTkVfVFNBTl9BVE9NSUNfUk1XKGZldGNoX29yLCBiaXRzKTvCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCBcPGJyPg0KJmd0OyArwqAgwqAgwqAgwqBERUZJTkVfVFNBTl9BVE9NSUNfUk1XKGZldGNoX3hv
-ciwgYml0cyk7wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBcPGJyPg0KJmd0OyArwqAgwqAgwqAgwqBERUZJTkVf
-VFNBTl9BVE9NSUNfUk1XKGZldGNoX25hbmQsIGJpdHMpO8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIFw8YnI+DQom
-Z3Q7wqAgwqAgwqAgwqAgwqBERUZJTkVfVFNBTl9BVE9NSUNfQ01QWENIRyhiaXRzLCBzdHJvbmcs
-IDApO8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
-IMKgIMKgIMKgIMKgIMKgIMKgXDxicj4NCiZndDvCoCDCoCDCoCDCoCDCoERFRklORV9UU0FOX0FU
-T01JQ19DTVBYQ0hHKGJpdHMsIHdlYWssIDEpO8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgXDxicj4NCiZndDvC
-oCDCoCDCoCDCoCDCoERFRklORV9UU0FOX0FUT01JQ19DTVBYQ0hHX1ZBTChiaXRzKTxicj4NCiZn
-dDsgLS08YnI+DQomZ3Q7IDIuNDMuMDxicj4NCiZndDs8L2I+PGJyPg0KPC9ibG9ja3F1b3RlPjwv
-ZGl2PjwvZGl2Pg0KDQo8cD48L3A+CgotLSA8YnIgLz4KWW91IHJlY2VpdmVkIHRoaXMgbWVzc2Fn
-ZSBiZWNhdXNlIHlvdSBhcmUgc3Vic2NyaWJlZCB0byB0aGUgR29vZ2xlIEdyb3VwcyAmcXVvdDtr
-YXNhbi1kZXYmcXVvdDsgZ3JvdXAuPGJyIC8+ClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBncm91
-cCBhbmQgc3RvcCByZWNlaXZpbmcgZW1haWxzIGZyb20gaXQsIHNlbmQgYW4gZW1haWwgdG8gPGEg
-aHJlZj0ibWFpbHRvOmthc2FuLWRldit1bnN1YnNjcmliZUBnb29nbGVncm91cHMuY29tIj5rYXNh
-bi1kZXYrdW5zdWJzY3JpYmVAZ29vZ2xlZ3JvdXBzLmNvbTwvYT4uPGJyIC8+ClRvIHZpZXcgdGhp
-cyBkaXNjdXNzaW9uIHZpc2l0IDxhIGhyZWY9Imh0dHBzOi8vZ3JvdXBzLmdvb2dsZS5jb20vZC9t
-c2dpZC9rYXNhbi1kZXYvQ0FEb3JNLS0wbjF6ZVQ4anhUM0x0am1xclA1Q3AxZy1oRlMlM0Rvel8x
-MlNwdGpad1JXdHclNDBtYWlsLmdtYWlsLmNvbT91dG1fbWVkaXVtPWVtYWlsJnV0bV9zb3VyY2U9
-Zm9vdGVyIj5odHRwczovL2dyb3Vwcy5nb29nbGUuY29tL2QvbXNnaWQva2FzYW4tZGV2L0NBRG9y
-TS0tMG4xemVUOGp4VDNMdGptcXJQNUNwMWctaEZTJTNEb3pfMTJTcHRqWndSV3R3JTQwbWFpbC5n
-bWFpbC5jb208L2E+LjxiciAvPgo=
---000000000000048ee2063afbc7ae--
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aIdkQixt-tfT7IPw%40elver.google.com.
