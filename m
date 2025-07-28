@@ -1,156 +1,156 @@
-Return-Path: <kasan-dev+bncBAABBT4JT7CAMGQE7BEB5KI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQ2XPNX7EOBBEVTT7CAMGQE46GAGRI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43c.google.com (mail-pf1-x43c.google.com [IPv6:2607:f8b0:4864:20::43c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D93B14221
-	for <lists+kasan-dev@lfdr.de>; Mon, 28 Jul 2025 20:43:30 +0200 (CEST)
-Received: by mail-pf1-x43c.google.com with SMTP id d2e1a72fcca58-7641e7c233csf2277813b3a.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 28 Jul 2025 11:43:29 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1753728208; cv=pass;
+Received: from mail-ej1-x63f.google.com (mail-ej1-x63f.google.com [IPv6:2a00:1450:4864:20::63f])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4601B142B6
+	for <lists+kasan-dev@lfdr.de>; Mon, 28 Jul 2025 22:12:03 +0200 (CEST)
+Received: by mail-ej1-x63f.google.com with SMTP id a640c23a62f3a-ade5b98537dsf518834666b.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 28 Jul 2025 13:12:03 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1753733523; cv=pass;
         d=google.com; s=arc-20240605;
-        b=kODCZrS9VTfQQxioGNlUJ/CR/ITCYiHaeDVA6NSat3RcxMLPcQ1IRyOyV5DushWoDA
-         g7NGhXcO0nHPbafArrWroGRppBeBvKcDJEiG1tUnJnREQidR+xt6xRK/g4FCvXKAH3Hj
-         uN/UT+t9x3reGKeEZZ+D5drDRUQe9ya/FQkIHKe7pHBDb30/qP1uJCl9YCJeurHhDZBZ
-         C5zCxi1ahFAzaTkVvoAiLD4Xjid+VUXTGVF4vDrFIsCnMhhkG/P4ZB/Lt7a660lLeake
-         tIr0pRM57Y4rbYuIQ5ps133RIsqdcZvSeomrxaa/3PhJU2216Z/daLnAjUn3GMSB+//0
-         PMdg==
+        b=kjWyz63R3Qp13BxDtB+1QmJBCKevHaWPB8wDoI3C/9aCZsferkUrHVrzi201UhzaFl
+         Ar7Yrm394am2TxSlbeaRj1b4oPGoVfrKHWes2yc0+f9yesTSRc3bsLWqHS+AjdubEHwP
+         GT2zTF2s2nHV+rxvqpeW93isRwo+uiloFUND54q7dxoRPHmFLarjD66IxNGrLO0mzwWS
+         sn9G0bGr1Ej2qurIZOQQm18VesU7JZ9pOv07IuDCTO6i1yhE8OuCyOtv4wmmT4W6s5Rm
+         bHLpPM90HLi+Zrc9AiFsqzXeObHwe7VbWaO91uIcln0v/uvBIqiDtTkvyMRbZvFYhO6k
+         UQZg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=I7xQO73lYWM1JzTOG8+n9sxWvtnHZKUuJLxhJ//oBBg=;
-        fh=6DqDlwS3rt1vWS6aFrmzRPE4sryadWH86vHJnPqZn1Q=;
-        b=aiDIgqBC0NrcJav9UKXHuZbFp4JtyU5TaJaB5ZIR5cWONNFjK4sNajrGzdQW4lIIPw
-         42/bLi9OGmv035n+ZxI0FyM8xa4X34O4FpGkSqGcLW9v0Z8zFk1NzgVYf4kFl1TKKWHa
-         mffVqjVVdQCb3CZ7gv6bj3yL+lRYuzhBiNKk21JJwGuyTza/gF4qxLOkGRg2gd9XIVjR
-         9OcK6RdBxPDmivgWAys+ryyQ8CSzaQPRPdVf91PiMstRF4aoTRw72Rs5eTefvB4N8lH0
-         cTz2vyeawwo5c9m4YFvHbo+psXVOzRi7F5E/KVZgIFILHNrUaVyHeMU8UmruBREWyRXn
-         cDFQ==;
+         :list-id:mailing-list:precedence:reply-to:cc:to:message-id
+         :mime-version:subject:date:from:dkim-signature;
+        bh=vCvZUaerGBueGpoJIVxorGmuCfye7M2nlQ4smbOUvwE=;
+        fh=8qKlhpyEhBikK1HIRxdeLAdaTnlIrIp8+7vZ7Jm22gs=;
+        b=TTc7ga4r7TjW4rUZg6QLWqoOnMwEl6Od8e4PMQRJ+lTsQvOtk24wbvwt5VvjB+Mp3s
+         QIsCGyjqwAq303s0hw4zJoCQMVpDZ2PVD9UOgRHsa9SPBp8kUPrUAGgWq+hRdz6MIV+j
+         TstPNHqS31A/GY+CO34wKiNaD6UzoW2oZu9RUFRG6Rk3e+toFcaP4hNe4p9NsK1DBmq7
+         U0TrL9O+nTTspM+yyBWbSIlgn1g/rSGn38TmrlfEzkPi5Hdt+RfJWd9XxCAl09QTZuR5
+         u6rBovK1eZkp3iJhvEmoAzHCwJ9bgqaINXjy3aPbJq3ZvjRe70wqZVkH8ORUTuHnz/xo
+         Onyw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@utah.edu header.s=UniversityOfUtah header.b=TmbQg43p;
-       spf=pass (google.com: domain of soba@cs.utah.edu designates 155.97.144.47 as permitted sender) smtp.mailfrom=soba@cs.utah.edu;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=utah.edu
+       dkim=pass header.i=@google.com header.s=20230601 header.b=y5Y4Bjoi;
+       spf=pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::32d as permitted sender) smtp.mailfrom=jannh@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1753728208; x=1754333008; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1753733523; x=1754338323; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I7xQO73lYWM1JzTOG8+n9sxWvtnHZKUuJLxhJ//oBBg=;
-        b=M+KjHW2kQWnuq5XxSc0u+eZ9rleFirvSHB5PSc6NPUznSiH2T3zRqtBMxjAzlj6tak
-         KjxPSmJ98GZzO0Syaz9KsG/nKtLGKeZL1iTWNsSqjeVc+I6YE28hkLKsratW8dtEpAdE
-         p2O9B9PbpnA/JiCcX+igD3BVoDuwcQEVWZFhKVX5fIXo/4NAWrVsdrMql5AFt3M7RLif
-         A7LA8GNRdex4G82NdO7VIln7HEDAm/VHGpCG3PfxSMdFjJPnlmaYbh6G1M22ECxopHIw
-         ZzNNKMGIVofCz0vKb05WXPEIwAiseKfm7krsvrWEY4r3GmHRbuM7sMq678ubfct7mgTV
-         kU3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753728208; x=1754333008;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to
+         :message-id:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=I7xQO73lYWM1JzTOG8+n9sxWvtnHZKUuJLxhJ//oBBg=;
-        b=g9Zfe5H3AHsqggen0l65YWTSjLVvcMgPOBJk46RuSLa7A58I70Nu74R83wIcY/7wjc
-         DiBZ3gwqbS4xpzDkxp5ch61n9KbDIr6ddJvT8n0rA/Hm9xEe36DwB1CXXr0mSlWS54BO
-         1fOizeLdDswyQxF45EjMznx+2y+w5UtGN1ZIhIsONWOSzHiWqS/cruVbldGSntSsOuAy
-         qGldYzH+pJFz1+DXjO2xG8H7yGrbNV47QToafC0/BmlhDw7Ta3xoqrIDq/BTPriUlMUK
-         OyE+0d6P9of+d9wt2abVCFfCFv7hyIA88DquWIJHJV/0SWJfoyYWLtfDGmk6TvbYMpfl
-         A5Vw==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVSWQKVIn6Pu6DfxBfvJqmd+KKGm7mzCiS1ftNw/2KbovENrVxOcr6KmFDb59kzF+TOGJcv/Q==@lfdr.de
-X-Gm-Message-State: AOJu0YzRJZ6By2GG9CgRgC3FIoQSecZ7ny1SQxJU3dImADySzVI4yo2K
-	FZPPUHnW1Knrn97K25b1QbkuM8idbIPDh/CgzGOtb5rJi0V95+ppovTF
-X-Google-Smtp-Source: AGHT+IG3xM0gfld5A6qHg6W8Fhnj9PGd1j7cOAH2ao3GBH1nK4rDts1HeelgNE/V6rJZF6mxpzB34A==
-X-Received: by 2002:a05:6300:218a:b0:239:1625:81ad with SMTP id adf61e73a8af0-23d7018ed9cmr18471288637.38.1753728208049;
-        Mon, 28 Jul 2025 11:43:28 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcTrKWbtvLQjGjAzbL4jgF7ZZH/wCL8rhyDH3qXIWAfAw==
-Received: by 2002:a05:6a00:4603:b0:732:d98:9b2e with SMTP id
- d2e1a72fcca58-7615fe9804fls4691740b3a.0.-pod-prod-04-us; Mon, 28 Jul 2025
- 11:43:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWm+T8Bhdf0PvF2TeTsUMi3343YuA3KRgDaU/PRUQ4d2DWk58zlTr1pMMb2NTFKA/YN83CG96+J9U4=@googlegroups.com
-X-Received: by 2002:a05:6a00:1950:b0:732:2484:e0ce with SMTP id d2e1a72fcca58-763389acafdmr16454982b3a.17.1753728206055;
-        Mon, 28 Jul 2025 11:43:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1753728206; cv=none;
+        bh=vCvZUaerGBueGpoJIVxorGmuCfye7M2nlQ4smbOUvwE=;
+        b=djqCc8kSbSf/11zGuqEGlyI7WEDHycowsAgrjpENcoi74cqhIcVId3r+1Xra48DBBy
+         eQMI7EiR/PRLISPvfD15Zx7w/hhw/xddSLiL0na03VmeMlTjutxRTW7QYas0kjKy8eeF
+         er9g9GbPPHYvV8loUILhtUeNaWFQTIJUDDphjIKni1Gy7zzmhrzKcRdhNGC8720SxdPs
+         QPx+xCK0pHic//CYqkYXxLohE2dadYPOSeAhFfuXxaOzPsiBZnnux6B2BYl53STKRlld
+         lSQ+PRjPY2RV9Os3kF++qUsUlDrUz43XCmf3aK56m1H7ts3K7Yk+Rjk9PYiQORcL+Chu
+         N3rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753733523; x=1754338323;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to
+         :message-id:mime-version:subject:date:from:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vCvZUaerGBueGpoJIVxorGmuCfye7M2nlQ4smbOUvwE=;
+        b=guiR8OIszb0z/WRAPbhpVBULUTJaVtnUWJtetmExt+rEupV66Dvl612rFAMXb2tgTS
+         laN0wqv3vy11sVN6mEJX770C4oDgaAF/jvxL0tZPA4wgvDbeJ3yAW0zdWVHf7vF2gyRc
+         Sss/Yug1XbuTgxsXglG/D6JHoscDFK0JDbhWHvSbDse0+1mpVe//ZxONRWmxQq+Slm7C
+         AncE98FQRQrhbrUnjd5hJVC5pqdkM/UHXGyW+SuNmToqW/Wib4Sm/oi1thx5cKyukkNC
+         Y5c6KPM4k9r6N/JIsNs4aslsJjLn2K4Pkr0v8JCD81aYzPe50BVDnj4BBQ5uoOTcPfxH
+         XRbg==
+X-Forwarded-Encrypted: i=2; AJvYcCUYaoMQFyR0hK8OE+EMLxTyhw5yQb9l7Zpt1rR9QTbL09V5MDQeCIS8jBHJ6BVs/2TUjuVGXg==@lfdr.de
+X-Gm-Message-State: AOJu0YzuDmKV9vsYd7pyiLOZe/TEz853sUEuKxoRnHk/q9zal6djFF8Y
+	qwrOQ5o2/SWU5sGp/PxPbLpjb6VbRdknz01PULKwyg1vLuhZhd4pUgE6
+X-Google-Smtp-Source: AGHT+IEHUSL7JLu2yCDuCMJluxaUAQ40K/7+F3zmvJmR2TLieW2tQNO4Z3ugv9VUWbqq1HUwCojGCQ==
+X-Received: by 2002:a05:6402:562f:b0:615:4236:5902 with SMTP id 4fb4d7f45d1cf-615423659f5mr2980431a12.18.1753733522959;
+        Mon, 28 Jul 2025 13:12:02 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcjLw925/o9WPAvRyBswMVMaJeMJkKF7kQM0AUYfbTV7g==
+Received: by 2002:a05:6402:2356:b0:604:f62b:4112 with SMTP id
+ 4fb4d7f45d1cf-614c0ad4a0als5036128a12.2.-pod-prod-06-eu; Mon, 28 Jul 2025
+ 13:12:00 -0700 (PDT)
+X-Received: by 2002:a17:907:2d94:b0:ae3:b85f:6eef with SMTP id a640c23a62f3a-af6191f02b4mr1484872466b.42.1753733520416;
+        Mon, 28 Jul 2025 13:12:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1753733520; cv=none;
         d=google.com; s=arc-20240605;
-        b=eM3mcnElL7n62vlamu9AQn58x0BuKptdtEPJi9GGpGHOYookKRsVzy/kuXyWnYz6ti
-         F4Z5wI/oSrnifZrhzXKVftI6LytIMnqXbF/vPwTzkN7D1sffSFlx6fQSPjAeu/Xzu5gu
-         eMoaC17EPJE84RvRGV9WtGSejfsxyoQpmQblwB+Xo7YaSvDZAiTCa9GJikK730hB3xuJ
-         i65FxgO/jbN007Px9CijgIe4h+DwGmYbj1a2D2effYTXpjByy2z68lLs4P2SZr8DK/Vq
-         ZQp4MGNOHV/ob7D64z09vzTail9+OQ69lN2LS3ojBds4AvFs8PAqC/ka9bQPOcrtbM5L
-         h2zw==
+        b=iEVoCV67Fy7Cn+L3GncF8InBqx5HltWBeX5mxaLQJLRMWf/ssdfrzxZzlwDhp4Eo8U
+         w/uGZTjRu3zt8pYl4vLN7lX5IwPRaEvkMhv0UeKjMP7MLsCVh9n9nP7l/ax+PjpcRxJu
+         r/Sa/MnGVxZwETo6Y1XZBZTHFBYKWVoM+0vnJ/C7349wLqDaMkc20vezvG8lwZdIKFad
+         nokaBQNBlXqeUjyoVbGU2Y3PfBuHCx0E0fXr4TNYzxHBQyL2IHYOqI1V5Arz1wAHGZBK
+         qxfPD+Q6tsiR5iYRLdm0dW3/nTTATWrhKqLHVVcHnIExYKkIlulNemWkK33PqvPXm6/a
+         3ZiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=o0wY4fs4tIY954jyuvMzrD2KLgWvnR6xXGiR2gyMuMY=;
-        fh=Spr1FW9jGs9z/q/FiUd9ELvZNQivoYeLPzx4dkbEjbM=;
-        b=FdHKEMCNL853esD70vPxMG9DIgJVogSttke8hd7N/xHFYmqqHaZcZoiuvunUI6MiyO
-         QuWC8AGAiegj2MIZ8cs/nEwAILjyTtsD/aVJqOBHSw21GCEFDfYs80HOHPxjNbYSE/Tw
-         ZTdJcdQWcALnsBfhelTbpDxY9KxwjNxTWYaHInu1lNvEK0rzmMevD4y580/q/fPEfY7+
-         yacMyjC/UAdnvSxOvq64hBz/YEshVhNtKlp20nmcBBJK7n/ni3nbLd44pQ2dY+NbPuqA
-         idMmgjRSTBgimg0nHWjIXvhtGmrMcaRi8Zu//FDD3kdPUfvlO0YKC229wTTsx7LmkYdg
-         6qnA==;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:dkim-signature;
+        bh=s0cHzSvxGHBD6anMEro7maJOsM/+ZwrFtNd3kS/G7GU=;
+        fh=2PrAEiz3NiBwc81TSmX/60ggqnD0YUz3V+yJHqVlTxE=;
+        b=UVaFEWnGBYAD6DaOB6fHP7e/DH33bjf20nXJmTyL/qN5zqREj0wrrVx8rmZSs1vuNr
+         IFdP29WmmnA4FQ+edo8Kge364bFkqVItPM946YzcErh8NvCfOejFAwgzjP/fGtLVixWy
+         JH9ft1To7qizAFR+BIDIz4o2+Hg7fsTmDnFLaG5VN7CZA2vC4861dGe8IBZy9V+c6CH5
+         u2hpiCn9K8av8/zoYlaqWhGojDGMi97UBJfXuWjpk8gusQ0f1WqrRNiPrpEFYmRR+1pl
+         KKTtZGycdU8EzB37LvSb7WyNU8+NPYgnOlFqKbth5hp4S2Kw14avQjtKGFQfj/eBSVi8
+         paFQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@utah.edu header.s=UniversityOfUtah header.b=TmbQg43p;
-       spf=pass (google.com: domain of soba@cs.utah.edu designates 155.97.144.47 as permitted sender) smtp.mailfrom=soba@cs.utah.edu;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=utah.edu
-Received: from ipo8.cc.utah.edu (ipo8.cc.utah.edu. [155.97.144.47])
-        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-7640b6c0e8asi311537b3a.5.2025.07.28.11.43.25
+       dkim=pass header.i=@google.com header.s=20230601 header.b=y5Y4Bjoi;
+       spf=pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::32d as permitted sender) smtp.mailfrom=jannh@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com. [2a00:1450:4864:20::32d])
+        by gmr-mx.google.com with ESMTPS id a640c23a62f3a-af6358b5b62si15128666b.1.2025.07.28.13.12.00
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 28 Jul 2025 11:43:26 -0700 (PDT)
-Received-SPF: pass (google.com: domain of soba@cs.utah.edu designates 155.97.144.47 as permitted sender) client-ip=155.97.144.47;
-X-CSE-ConnectionGUID: Nk14R2r5QbiSUWohi0GGzw==
-X-CSE-MsgGUID: A/rCkRQdRFCd9E7CeEuQWw==
-X-IronPort-AV: E=Sophos;i="6.16,339,1744092000"; 
-   d="scan'208";a="78049462"
-Received: from rio.cs.utah.edu (HELO mail-svr1.cs.utah.edu) ([155.98.64.241])
-  by ipo8.smtp.cc.utah.edu with ESMTP; 28 Jul 2025 12:43:22 -0600
-Received: from localhost (localhost [127.0.0.1])
-	by mail-svr1.cs.utah.edu (Postfix) with ESMTP id 049CF3021AE;
-	Mon, 28 Jul 2025 12:41:13 -0600 (MDT)
-X-Virus-Scanned: Debian amavisd-new at cs.utah.edu
-Received: from mail-svr1.cs.utah.edu ([127.0.0.1])
-	by localhost (rio.cs.utah.edu [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IJQq1hn-PunM; Mon, 28 Jul 2025 12:41:12 -0600 (MDT)
-Received: from memphis.cs.utah.edu (memphis.cs.utah.edu [155.98.65.56])
-	by mail-svr1.cs.utah.edu (Postfix) with ESMTP id B14813020EF;
-	Mon, 28 Jul 2025 12:41:12 -0600 (MDT)
-Received: by memphis.cs.utah.edu (Postfix, from userid 1628)
-	id 58C651A02B5; Mon, 28 Jul 2025 12:43:20 -0600 (MDT)
-From: Soham Bagchi <soham.bagchi@utah.edu>
-To: dvyukov@google.com,
-	andreyknvl@gmail.com,
-	elver@google.com,
-	akpm@linux-foundation.org,
-	tglx@linutronix.de,
-	glider@google.com,
-	sohambagchi@outlook.com,
-	arnd@arndb.de,
-	kasan-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: Soham Bagchi <soham.bagchi@utah.edu>
-Subject: [PATCH 2/2] kcov: load acquire coverage count in user-space code
-Date: Mon, 28 Jul 2025 12:43:18 -0600
-Message-Id: <20250728184318.1839137-2-soham.bagchi@utah.edu>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250728184318.1839137-1-soham.bagchi@utah.edu>
-References: <20250728184318.1839137-1-soham.bagchi@utah.edu>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Jul 2025 13:12:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::32d as permitted sender) client-ip=2a00:1450:4864:20::32d;
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-456007cfcd7so2995e9.1
+        for <kasan-dev@googlegroups.com>; Mon, 28 Jul 2025 13:12:00 -0700 (PDT)
+X-Gm-Gg: ASbGncsb3Vp24BMpnt+6aEqfTiJkqIDZ2POLjxklTCkdzIt0KLRh44KKi4EJA+iQ6iW
+	30Br8XcUzjGfTNfdhbq6p/YWzNlG3U1hbwXkBnk1r95BnjCxtcPx5ows4x4pZeVhrFMdNhCUBtC
+	EIKvNrV/YNPsD+/lYzohh9z6IvpssXazfSIhvJMDDbhx5Rkkb/iS6ZEjMuYCn8jntWRP5AW00jc
+	wwVhD+OcO32UDr6kTwn1wJR7+TjBlgfZQlrzn8MmEfhu/ZP6DiAU2jb92u4XYelVNwDqTXij9M6
+	E+BJWZQ3O8jS6825gM2C1YnMArdowp6T/4ev6/mQqMfVe6+Do4Lm1TimyI47EXdLz8Kt2sZQvuC
+	ayqs8nQMyTg==
+X-Received: by 2002:a05:600c:1c8f:b0:456:e94:466c with SMTP id 5b1f17b1804b1-4588d6faea0mr193425e9.3.1753733519713;
+        Mon, 28 Jul 2025 13:11:59 -0700 (PDT)
+Received: from localhost ([2a00:79e0:9d:4:ec3e:2435:f96c:43d])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-458705c4fcfsm167139575e9.29.2025.07.28.13.11.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Jul 2025 13:11:59 -0700 (PDT)
+From: "'Jann Horn' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 28 Jul 2025 22:11:54 +0200
+Subject: [PATCH] kasan/test: fix protection against compiler elision
 MIME-Version: 1.0
-X-Original-Sender: soham.bagchi@utah.edu
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@utah.edu header.s=UniversityOfUtah header.b=TmbQg43p;
-       spf=pass (google.com: domain of soba@cs.utah.edu designates
- 155.97.144.47 as permitted sender) smtp.mailfrom=soba@cs.utah.edu;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=utah.edu
 Content-Type: text/plain; charset="UTF-8"
+Message-Id: <20250728-kasan-kunit-fix-volatile-v1-1-e7157c9af82d@google.com>
+X-B4-Tracking: v=1; b=H4sIAInZh2gC/x2MSQqAMAwAvyI5G6gF16+Ih9SmGpQqrYog/t3ic
+ RhmHogchCN02QOBL4my+QRFnsE4k58YxSYGrXSpat3gQpE8LqeXA53ceG0rHbIyWm1aVxlDdqw
+ h5Xvg5P91P7zvBw59gk5qAAAA
+X-Change-ID: 20250728-kasan-kunit-fix-volatile-d2b9f6bbadc7
+To: Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+ Alexander Potapenko <glider@google.com>, 
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Nihar Chaithanya <niharchaithanya@gmail.com>
+Cc: kasan-dev@googlegroups.com, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, Jann Horn <jannh@google.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1753733515; l=1506;
+ i=jannh@google.com; s=20240730; h=from:subject:message-id;
+ bh=Lw44dNghmCiq28TogKJdMlT60+fsL5APY9+7UOE+tB8=;
+ b=C6lZbcU2X+AJW0vETjhTQhf3UGiePUoutVdYlhO5KePE7UNaPnUOl8JEhfpjN20q0CI8rf9es
+ golCyt2pFHDBgyH8gSS+VI4ja5yi+aO2ecmGVWz3fDq3wNJKKFrjOeH
+X-Developer-Key: i=jannh@google.com; a=ed25519;
+ pk=AljNtGOzXeF6khBXDJVVvwSEkVDGnnZZYqfWhP1V+C8=
+X-Original-Sender: jannh@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20230601 header.b=y5Y4Bjoi;       spf=pass
+ (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::32d as
+ permitted sender) smtp.mailfrom=jannh@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
+X-Original-From: Jann Horn <jannh@google.com>
+Reply-To: Jann Horn <jannh@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -163,47 +163,47 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Updating the KCOV documentation to use a load-acquire
-operation for the first element of the shared memory
-buffer between kernel-space and user-space.
+The kunit test is using assignments to
+"static volatile void *kasan_ptr_result" to prevent elision of memory
+loads, but that's not working:
+In this variable definition, the "volatile" applies to the "void", not to
+the pointer.
+To make "volatile" apply to the pointer as intended, it must follow
+after the "*".
 
-The load-acquire pairs with the write memory barrier
-used in kcov_move_area()
+This makes the kasan_memchr test pass again on my system.
+The kasan_strings test is still failing because all the definitions of
+load_unaligned_zeropad() are lacking explicit instrumentation hooks and
+ASAN does not instrument asm() memory operands.
 
-Signed-off-by: Soham Bagchi <soham.bagchi@utah.edu>
+Fixes: 5f1c8108e7ad ("mm:kasan: fix sparse warnings: Should it be static?")
+Signed-off-by: Jann Horn <jannh@google.com>
 ---
- Documentation/dev-tools/kcov.rst | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ mm/kasan/kasan_test_c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/dev-tools/kcov.rst b/Documentation/dev-tools/kcov.rst
-index 6611434e2dd..46450fb46fe 100644
---- a/Documentation/dev-tools/kcov.rst
-+++ b/Documentation/dev-tools/kcov.rst
-@@ -287,6 +287,11 @@ handle instance id.
- The following program demonstrates using KCOV to collect coverage from both
- local tasks spawned by the process and the global task that handles USB bus #1:
+diff --git a/mm/kasan/kasan_test_c.c b/mm/kasan/kasan_test_c.c
+index 5f922dd38ffa..c9cdafdde132 100644
+--- a/mm/kasan/kasan_test_c.c
++++ b/mm/kasan/kasan_test_c.c
+@@ -47,7 +47,7 @@ static struct {
+  * Some tests use these global variables to store return values from function
+  * calls that could otherwise be eliminated by the compiler as dead code.
+  */
+-static volatile void *kasan_ptr_result;
++static void *volatile kasan_ptr_result;
+ static volatile int kasan_int_result;
  
-+The user-space code for KCOV should also use an acquire to fetch the count
-+of coverage entries in the shared buffer. This acquire pairs with the
-+corresponding write memory barrier (smp_wmb()) on the kernel-side in
-+kcov_move_area().
-+
- .. code-block:: c
- 
-     /* Same includes and defines as above. */
-@@ -361,7 +366,7 @@ local tasks spawned by the process and the global task that handles USB bus #1:
- 	 */
- 	sleep(2);
- 
--	n = __atomic_load_n(&cover[0], __ATOMIC_RELAXED);
-+	n = __atomic_load_n(&cover[0], __ATOMIC_ACQUIRE);
- 	for (i = 0; i < n; i++)
- 		printf("0x%lx\n", cover[i + 1]);
- 	if (ioctl(fd, KCOV_DISABLE, 0))
+ /* Probe for console output: obtains test_status lines of interest. */
+
+---
+base-commit: 01a412d06bc5786eb4e44a6c8f0f4659bd4c9864
+change-id: 20250728-kasan-kunit-fix-volatile-d2b9f6bbadc7
+
 -- 
-2.34.1
+Jann Horn <jannh@google.com>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250728184318.1839137-2-soham.bagchi%40utah.edu.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250728-kasan-kunit-fix-volatile-v1-1-e7157c9af82d%40google.com.
