@@ -1,225 +1,144 @@
-Return-Path: <kasan-dev+bncBDEKVJM7XAHRB6VLULCAMGQEXNXQ4RY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBYGXULCAMGQE27EDZNA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13d.google.com (mail-il1-x13d.google.com [IPv6:2607:f8b0:4864:20::13d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 858D4B14B58
-	for <lists+kasan-dev@lfdr.de>; Tue, 29 Jul 2025 11:35:56 +0200 (CEST)
-Received: by mail-il1-x13d.google.com with SMTP id e9e14a558f8ab-3e3d7e44ac5sf55198545ab.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 29 Jul 2025 02:35:56 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1753781755; cv=pass;
+Received: from mail-wm1-x338.google.com (mail-wm1-x338.google.com [IPv6:2a00:1450:4864:20::338])
+	by mail.lfdr.de (Postfix) with ESMTPS id 586E1B14CBD
+	for <lists+kasan-dev@lfdr.de>; Tue, 29 Jul 2025 13:09:22 +0200 (CEST)
+Received: by mail-wm1-x338.google.com with SMTP id 5b1f17b1804b1-45624f0be48sf25872055e9.3
+        for <lists+kasan-dev@lfdr.de>; Tue, 29 Jul 2025 04:09:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1753787362; cv=pass;
         d=google.com; s=arc-20240605;
-        b=AZNOTw6AogVEc+uNoyQqPoHrvljO7+QXIAE+ANL55RcOMntjVKyQ6OT20NDmEjrY0u
-         c5wLKaS6k4uWR8jBUzN7WgTOv0cu5JYWPn9C8dLQx+HS5XleYzXqvu3nlJ6tFFrIaJfB
-         NKSoLbSDZBS8jKiBjvTIfrOtUnYIGJeUMCHCqkpEUHm+TPGov6bZtm3+OBNI+VUzuToI
-         CDsdaQQeyvOMjBXwligfatph2rqrtM/Ok4rjFYE3n6PvB2eAexpu0onUHiorZ3eGzurf
-         sp7GmU/mqpEiuqdaXm87tZhb3x2DVHKyszhbW1MLDitWl3FPjLv2KhrdylwAMvB9RZOU
-         wqzA==
+        b=a7+qxuSuzF8xkjG5m4RLjv0kFZrwxtP1vYCx0Jv1xM+EZ3MbfumurFrWPL0Mvuvwg1
+         Nlrcqhn3PW70UnP7U8v4VgkGb4gkb6LryXtNo4mx3PfyM+pNFpwPU6SGrUjrYfrEUFTG
+         pz4/f8kchFtwr5ATenUCUQHcbj/qkp2HYbbgeEEw3t1/c49+DwnO2DXdtZBZII6GiI9m
+         4InXp3tPWI7t/dOYh+m1cUFd/H5Ke+nUng21S2you7xqw0+/K9JzxKA6NdiTwnjQIEop
+         Oce/ms2MJwplAcajGIQUOyJfl7aQvj5ocYFGmLaT13vYnsrmwCrR8iRow5Mi631JeUkc
+         rH/g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:subject:references:in-reply-to
-         :message-id:cc:to:from:date:mime-version:feedback-id:sender
-         :dkim-signature;
-        bh=DXrAbEwA1e2iheQN2Iv9SSk4hngUKP6Bv+5trQEedD8=;
-        fh=TM29HvV3PCKu2M55f5LWZ/kcXKaNjI2omV3SO7S+HrU=;
-        b=WYxoTjA77A8OdmIBif94iAMYkgRiN52xsqhJhUxiokq7xKBbmaOm0IROk8e8V9DzB0
-         1ujx2CIx75a3jqDPujzvC7tYqlOAfyYjj8HzDoMxnDzQHykqH5keQGEVPJKomV8lHMG1
-         T28wW7zIbhfsGtt/tPnrdJJ7ufRQ/o30ymqgzSMbWl80SJ1QX5VlkcQEgNQsZpHEO7E0
-         1eIm0rwbOKixM3lNK3N2eg5dTs/7JBsHRWpYUORc+Sgvr26qj26dGUcifItaDmKb1AZH
-         z58J3io6urNoGxslO9Ok/ZwMnCW+qzEtUA3VHnRuMqcpYPPxssVZqYuzjCe18KSmhfqd
-         wNHA==;
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=f+/2TE017TaD291Juo555HhVb0XDr6UFgvaltVVwaCo=;
+        fh=dKo3EEXGbgg9ZrwvahMueqofSlBLE5ZimaiaTazmgwY=;
+        b=Oyv3AcprktVLiICXiV+QzKy+QEA+ydx8kyqpnWZwQhF/uCRWGbh1EHy2RR5Eiv9c9s
+         WlOapJxmaaDTY3TPGL1kKL8mKod42sV46Hzsbp8W2Kd/KT0zbVcu7uRk1J4qMc+O+XOe
+         Vnkx7U1CvL0iocZHgAIgeekYO7W2oec5AgJMbDQRKKzsVbI72hGqafCgy9VJRL5K0T+2
+         lSbFUgJIFT63OJEpN+3lr90vZnlZIXswkJ9nJI2WTrHHhQFJ6rBKQ0HRwaQs5gFzoZOO
+         TnDLcXJhgj5a7HqiASIQH4Mgvo2JxtvjIG+tXCNtDhqmihRUlITBGlbp9jmmegZY9o6y
+         3RBw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@arndb.de header.s=fm2 header.b=SefSK9JI;
-       dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=dcWL30Zc;
-       spf=pass (google.com: domain of arnd@arndb.de designates 202.12.124.140 as permitted sender) smtp.mailfrom=arnd@arndb.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arndb.de
+       dkim=pass header.i=@google.com header.s=20230601 header.b=T0m933xL;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::230 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1753781755; x=1754386555; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1753787361; x=1754392161; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:subject:references:in-reply-to:message-id:cc:to
-         :from:date:mime-version:feedback-id:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DXrAbEwA1e2iheQN2Iv9SSk4hngUKP6Bv+5trQEedD8=;
-        b=PBaCvyUwW4Wdz4RAPV7VxVvjHcZQmgddfRzK2p3QzvdVbOOtQRptLNZyS/K99Xh7bi
-         VTk+T7MI3pEancIfh6CnZaVtnCHVGZgO2B4FmFNFyVMw6mK8i+ugSMuQ1e6FfBYq7O+P
-         YWjxluda9oLOh+aIHGjXOGGTZBMmKfyrxbbNuwcnyAEETKRGcxS+6bzoix9evuZnAZcl
-         hcpBZ3d+yyP2B0+YqANedM/46BwMHVjHemBz7u0PkPM1htaq+p8jUQR1EtY5Vd//WtFk
-         /WHfPgGTvJI0kcMGeLelQILdBWW1V+B36hHXeMRF0rOYzZOTzPyNBFehps7Kz/QBUly/
-         n/uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753781755; x=1754386555;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:subject
-         :references:in-reply-to:message-id:cc:to:from:date:mime-version
-         :feedback-id:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DXrAbEwA1e2iheQN2Iv9SSk4hngUKP6Bv+5trQEedD8=;
-        b=AUbCxfJXuRDxkNtTQ+LQVhns5VVJ2fV6l3VbaCWzy9UT7qUkdeTuy+pVDYtb35Ej/X
-         glwqztQYKSy2m+y9bugeATNWTdhdEngGNTSbxCV/kQtCM4J3IQdHig6+9xTRftJINr/p
-         OwDIxOx4jvVl1rVvE2efdUDAlJRbwci2gGO+vEVhi0VXV3eZEvL6AVpiU19ZC6b/DGbx
-         knP1ifzikvofSzeapQQ3hDRui9cQhgsLejh1cNQK1amuwIt6y97KEFprTKSMBOM7p1A7
-         GCaV38N7JHcPnCRPWcyzRQhN+5SEQPWEcQbONd6LpDBxdoQR4EImcUDhwsd6mnAtd+9e
-         h9FQ==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWvrCZMraCPrXvH0YtoRy6AuoIpvqsG84bgnfnPu+LbEw8HZv0kF6H7MtzOKLoxxUA/0roftQ==@lfdr.de
-X-Gm-Message-State: AOJu0YzuSjSEH+19P/pPQZClB6vheejvweVt8+Rzm9GPrELU4CAelXnP
-	YKzROpFda5LeRUYP4+hvjiV0Sf3vKyR93SwliIG0TrHDomagK5NFlJeY
-X-Google-Smtp-Source: AGHT+IFf3XQQvTUs9NrxCwdiC5y4uV2ovOAGdWuZOVCIlQKaDOVkSRnqw0zqka+EcqDC2cA00o85BA==
-X-Received: by 2002:a05:6e02:194a:b0:3e3:ee9c:725e with SMTP id e9e14a558f8ab-3e3ee9c77e1mr9819185ab.0.1753781754832;
-        Tue, 29 Jul 2025 02:35:54 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZc4UiM+6/8Ga5H1C3IdQArQTjOYJuyfmSVA/xHE0ds66w==
-Received: by 2002:a05:6e02:4618:b0:3e0:5c71:88f9 with SMTP id
- e9e14a558f8ab-3e3b51957abls55739085ab.1.-pod-prod-02-us; Tue, 29 Jul 2025
- 02:35:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUypkaPzsV1x2vEgx1Rgo/N1+MnDvW43ROiWZQ6Cs+H/Rm3wNfYHuR0z5o77QZq6b1JatJLnayemJE=@googlegroups.com
-X-Received: by 2002:a05:6e02:4508:20b0:3e3:cf0e:c2dd with SMTP id e9e14a558f8ab-3e3cf0ec54bmr120251285ab.11.1753781753428;
-        Tue, 29 Jul 2025 02:35:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1753781753; cv=none;
+        bh=f+/2TE017TaD291Juo555HhVb0XDr6UFgvaltVVwaCo=;
+        b=u7uzKf4AFih/HtME+XDIl/gJzlWB4CEepfxGlBE7M3sOI6aMZP2ollbzDEZrDPC6Hp
+         DBD+Ahtn55k/q5qoRJ94jRd4P6cpZ/kjvfILwgrKNGeRFJC1faLNLcidMg2WwVTTul+o
+         4QedN9bQv7bCsaf68A3ZtPq44OA6/CacU8j8LYJ/96TtletGTrS/tkYnJR4vaoDIwvKC
+         IpYtFQVtoRhcLfQleZKirr93fAO6LA0DjSzEcznY4G/ByLjeU+pd4UNWaJ/sWRoCZxSh
+         Zrq8g/B7d7WnNAqc6ph7MmbxkTH2njdircKeASR6w+ULVKqZbcDF7pj1wkjcqxm1u8E7
+         1Z6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753787362; x=1754392162;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=f+/2TE017TaD291Juo555HhVb0XDr6UFgvaltVVwaCo=;
+        b=t2VsSVEpzQ/EqdUF2xfpIwv0Tbpr7Zz+/ijJJNLCDV5OX10G7xBHxGRqRdordKPrzK
+         bvkZlF6IKym0dyIjS+yQpRdNE3hX7h6cH4MoEvU9Vj9qnN+TYv2HXiHayhuQT1r8Jouq
+         UfkX/Gua1xGVdf1gdQi3tG+JqAEdwupK/FrWhSond/IyafB6GSAgACMcU0Fx0VM0we5x
+         FPQRQ3bLMFLfWWpyk+Hsy6dJzxoYmK85TPfRrEO0BRRani/kvHcIW/g8UmgO1Di6Z1oy
+         6IOiKt8XFH4U1u+mLwfLfIt52KgJHqjHQP4IvAulOy/BWS3lymOauKlXYRVnhrlQGwl2
+         WHqA==
+X-Forwarded-Encrypted: i=2; AJvYcCV3ufMlrNwRC6ztGeuyE433N1jhjSiOtZrsYzLrzquO+uYegIyO29w6WDtbcbCAKHpsk723ng==@lfdr.de
+X-Gm-Message-State: AOJu0YzEo2BVvbnqcfIvv/7PVCaQvKwZvTMMVteyOe20GAslr2CVcSd5
+	KM/2kCSvEMLytXN01e7c9VWxCwTcRmeNG3Haqy3GfssZtwiJnjcmIIiw
+X-Google-Smtp-Source: AGHT+IGFgzYJx4Zo2l1V1YkmF8//WFhL2lmwoFwFD3F9yFwzqZ9ZnvI/jpW0ykSn0v0fr6l76vjIgQ==
+X-Received: by 2002:a5d:5d0d:0:b0:3b7:8ac1:5e30 with SMTP id ffacd0b85a97d-3b78ac161c4mr4684005f8f.52.1753787361309;
+        Tue, 29 Jul 2025 04:09:21 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcbt+MFMg52eI9xGaPrZW24jBblnVzGioFbcXFukENq0w==
+Received: by 2002:a05:6000:230f:b0:3b6:db:74a4 with SMTP id
+ ffacd0b85a97d-3b76e3a2b6cls2622546f8f.1.-pod-prod-01-eu; Tue, 29 Jul 2025
+ 04:09:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUs2PZQPdL9zHKxuBgNCR9RoCGQguUTM8epprMk+6nZPAVhU6VYGfnz/MLAG6sC5xozeUwZob8KxA4=@googlegroups.com
+X-Received: by 2002:a05:6000:290d:b0:3b5:f93a:bcc with SMTP id ffacd0b85a97d-3b77675be5amr11335024f8f.35.1753787358440;
+        Tue, 29 Jul 2025 04:09:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1753787358; cv=none;
         d=google.com; s=arc-20240605;
-        b=IwvHHhjgH1aVuRoVED40uWo9wDtw2FhFfIfyWud/WtnwzkEMCaILH183gRHpOQZY3j
-         rYtVDbog1XeAI6aWCqk3yyKkV9oqZhGyw00OtEGppKmwMFBdygEhAb05yOWZLEIYIUbl
-         1234j5e0EaD4sbhgXEd38DMqc3jAwb/NSnfQIgYSpOabWwW/45qT11pCSc6AeqgxXzwO
-         zfftl0XySPzgiYAAKc4bC+6nclnEFNkcX2GfwckWEPMnrGArXRDhW2DW3/Wt5mTfWqAo
-         HQBrhiHHWpsiCJRLxdomTUbAc97iCxUUBkwoUz2tVf/Ekc+B48JoFZiiVNXcLkIeHoD7
-         kYXw==
+        b=JAQRQM9i0Fm7rku8gm+Iz9Vm183vI/J104LRNjS3UimOhBspwykLTlStiOxlTZG2Wg
+         Oq5ghOErhfIg6HrNMKEKpAIB+W5dzChyidaRpBRIniWbFuoyFNbIHp/qnRTNEtAJHgw9
+         mFEa2Fjb516lVFbcZgla3NzsYRbl5s2syXskDqTWIvj5L4gNq4mZV6v8gUH6QKg2lFU+
+         DsN4bzgIjrgWd+8ksFF40VuhGdFmSIXAra8LS2zuz62MuVPrnPFFgEupLYkkzX4FiAPE
+         VYFHH/iXwsGol0sNVjXLV8Uz+5a/c0sa8sZd1/6VYgXKNOLL4beeAdjF0OdXIlcXsNuu
+         Ov+g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:subject:references:in-reply-to:message-id
-         :cc:to:from:date:mime-version:feedback-id:dkim-signature
-         :dkim-signature;
-        bh=//ORI/NIeaAxh1YrBcckAswwPCVYsSmGgDQbyUkZAq8=;
-        fh=IgZXsUC05qQiC8XeuYc003uxjiYGDIXPtWmLui7lWo4=;
-        b=SPpjNoZ9zGP/zXPqYJMMnuuTx84MeWbRLHSRzF/zzJ20KYYa9/XqYep/EeYli1nhCb
-         ZSbLr/xAvnMBrXlEYxEVKSuL68pjBESvgxYzmnpx6BG+vqKxB8knYcoblPxz0ppUunaM
-         3D1a0pXdseUxB92MLdzyfVlcJkwuwXjjyKrozvNXz7dok2ii9uPf4WkdYVBqtvX1U8rg
-         fwA3qzZVXaZR/WXallAa+e1SU/yr3rdCbGlnW4ybM9hEqlPpDgV8oHttkUF7ENoa0JJH
-         sZQ8MfbEJ5pWvQxI/nlsL/AcrluTVdBs9E7iQnVPGz9r47rvh3NQIEKeWwQ87dXhHUn6
-         4vgA==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=m1Ngu8YHQrtXHt/o2iZDBt2xiRJgE6ESwrQcRS4m+Ho=;
+        fh=y2KtRndDG5mjiDStZ+OjtYvdQ4bsjSemBGEkcVkc5NM=;
+        b=jIXfSFPMDk6nHoneivkVsWjvd8PnRAYVdRlqHDvNh/Wb+hLruDqvaaaTw4gMfgtZnn
+         L+2Ht8H7/OffyW2vEOnMmqUegESXqGYIgiCVrM/vHIUhE87sVhYjVrl0JSTfHX2Q/+YI
+         G0MqHMGz2H4P3Pk6Ht/hb2l3mugDrNuSLwRTzCDE0zkCBMU/EhykLmgcQGtxlvFnlhEI
+         HcC4pOFpdBTw6pbKQdYAUCI2kto6avY2w7RAIRoD0ngjiXrLOA/uve84+ympxWab125W
+         170LRjK4NODst30sUV8MoxoJ/KiHSyFIHF8tI2qNtFST5/Mu7yGs4z1D0c82HrTgC2fR
+         NTig==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@arndb.de header.s=fm2 header.b=SefSK9JI;
-       dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=dcWL30Zc;
-       spf=pass (google.com: domain of arnd@arndb.de designates 202.12.124.140 as permitted sender) smtp.mailfrom=arnd@arndb.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arndb.de
-Received: from flow-b5-smtp.messagingengine.com (flow-b5-smtp.messagingengine.com. [202.12.124.140])
-        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-508c92ed610si399503173.3.2025.07.29.02.35.53
+       dkim=pass header.i=@google.com header.s=20230601 header.b=T0m933xL;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::230 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com. [2a00:1450:4864:20::230])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3b778ee1bedsi23490f8f.5.2025.07.29.04.09.18
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Jul 2025 02:35:53 -0700 (PDT)
-Received-SPF: pass (google.com: domain of arnd@arndb.de designates 202.12.124.140 as permitted sender) client-ip=202.12.124.140;
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailflow.stl.internal (Postfix) with ESMTP id 282E51302005;
-	Tue, 29 Jul 2025 05:35:51 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-05.internal (MEProxy); Tue, 29 Jul 2025 05:35:52 -0400
-X-ME-Sender: <xms:85WIaMSdGeQUGSWiZhLdfx2lJ2mSTS7IehTipzI8wt2v51LJCX16QQ>
-    <xme:85WIaJxgTNOs5oElfHTSY2AEYjlrQwVHJZaKe-7EAi0lzxzNaEeVgBrJT6vSi8wjW
-    LT2PNORziXGfT5G4H8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdelgeejudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
-    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
-    hnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
-    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopeehtddpmhhouggvpehsmhhtphhouhht
-    pdhrtghpthhtohepsghpsegrlhhivghnkedruggvpdhrtghpthhtohepugifmhifsegrmh
-    griihonhdrtghordhukhdprhgtphhtthhopehgrhgrfhesrghmrgiiohhnrdgtohhmpdhr
-    tghpthhtohephhhouhifvghnlhhonhhgrdhhfihlsegrnhhtghhrohhuphdrtghomhdprh
-    gtphhtthhopegrnhhshhhumhgrnhdrkhhhrghnughurghlsegrrhhmrdgtohhmpdhrtghp
-    thhtoheptggrthgrlhhinhdrmhgrrhhinhgrshesrghrmhdrtghomhdprhgtphhtthhope
-    hjrghmvghsrdhmohhrshgvsegrrhhmrdgtohhmpdhrtghpthhtoheprhhmkhdokhgvrhhn
-    vghlsegrrhhmlhhinhhugidrohhrghdruhhkpdhrtghpthhtohepuhhsrghmrgdrrghrih
-    hfsegshihtvggurghntggvrdgtohhm
-X-ME-Proxy: <xmx:85WIaBg7DA5uE80TwTiALrCzrej-0WgEHArKmquSwrXZjnU_QkHjTA>
-    <xmx:85WIaDuZyOtGTHzz9bt_zPfC2qi8OrDyaJph1YM8cz3Q2pyWkFKbIA>
-    <xmx:85WIaJInB3n0SkqGw796UfROaiDbKXXRWu3O7x2Xa33TjPnJPwVAIw>
-    <xmx:85WIaOrnoUdsZpkoMcDfVOZN4XnTcRVptWOuf5XhqRCWibFXNKnQJQ>
-    <xmx:9pWIaGmo_XxnnYEJX4gT9GDpjIrX6lXqryh7rr9LZTo_B0167GYZAeVZ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 9F298700065; Tue, 29 Jul 2025 05:35:47 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Jul 2025 04:09:18 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::230 as permitted sender) client-ip=2a00:1450:4864:20::230;
+Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-32b5931037eso44364301fa.2
+        for <kasan-dev@googlegroups.com>; Tue, 29 Jul 2025 04:09:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXLQoQnCz3veeKIzsYwp9I8ik0Y8VtPotzluMyqbVL0vKCcYLdcLnDBdyO5paSLV/+2CDa1QdZzRFo=@googlegroups.com
+X-Gm-Gg: ASbGncvl4Gw3y5dxeJbDs60OiabSk2rAMXSjFkqf8nnvGwS4JaWUm/Ozq9HzdyUolG+
+	YixoNun+/Fzz26l/DByhcH6ePwhuwjbmg+SVNbtVQV3MoeWuiuB3UQE05vjflXkLPjWYvEDm6By
+	YG+VzZIdf4FsKdryhalqt1KMXRC6BRcGQLyu4QFMy1Thy1Xr0Fyqld4n4ASQSDZL5vA+/PyG06X
+	6m4Dvo+iUNMT6ypaCC4rL6A04SgDfHzs1zibg==
+X-Received: by 2002:a2e:bea5:0:b0:32a:66e6:9ffe with SMTP id
+ 38308e7fff4ca-331ee7d3804mr47485341fa.21.1753787356936; Tue, 29 Jul 2025
+ 04:09:16 -0700 (PDT)
 MIME-Version: 1.0
-X-ThreadId: Tf1c1d2456aa020de
-Date: Tue, 29 Jul 2025 11:34:57 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Kees Cook" <kees@kernel.org>
-Cc: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, "Paolo Bonzini" <pbonzini@redhat.com>,
- "Mike Rapoport" <rppt@kernel.org>, "Ard Biesheuvel" <ardb@kernel.org>,
- "Vitaly Kuznetsov" <vkuznets@redhat.com>,
- "Henrique de Moraes Holschuh" <hmh@hmh.eng.br>,
- "Hans de Goede" <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, "Len Brown" <lenb@kernel.org>,
- "Masami Hiramatsu" <mhiramat@kernel.org>,
- "Michal Wilczynski" <michal.wilczynski@intel.com>,
- "Juergen Gross" <jgross@suse.com>,
- "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- "Roger Pau Monne" <roger.pau@citrix.com>,
- "David Woodhouse" <dwmw@amazon.co.uk>,
- "Usama Arif" <usama.arif@bytedance.com>,
- "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
- "Thomas Huth" <thuth@redhat.com>, "Brian Gerst" <brgerst@gmail.com>,
- kvm@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
- platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-mm@kvack.org, "Will Deacon" <will@kernel.org>,
- "Catalin Marinas" <catalin.marinas@arm.com>,
- "Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
- "Gavin Shan" <gshan@redhat.com>,
- "Russell King" <rmk+kernel@armlinux.org.uk>,
- "James Morse" <james.morse@arm.com>,
- "Oza Pawandeep" <quic_poza@quicinc.com>,
- "Anshuman Khandual" <anshuman.khandual@arm.com>,
- "Hans de Goede" <hansg@kernel.org>,
- "Kirill A. Shutemov" <kas@kernel.org>, "Marco Elver" <elver@google.com>,
- "Andrey Konovalov" <andreyknvl@gmail.com>,
- "Andrey Ryabinin" <ryabinin.a.a@gmail.com>,
- "Hou Wenlong" <houwenlong.hwl@antgroup.com>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Masahiro Yamada" <masahiroy@kernel.org>,
- "Peter Zijlstra" <peterz@infradead.org>,
- "Luis Chamberlain" <mcgrof@kernel.org>,
- "Sami Tolvanen" <samitolvanen@google.com>,
- "Christophe Leroy" <christophe.leroy@csgroup.eu>,
- "Nathan Chancellor" <nathan@kernel.org>,
- "Nicolas Schier" <nicolas.schier@linux.dev>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- "Andy Lutomirski" <luto@kernel.org>, "Baoquan He" <bhe@redhat.com>,
- "Alexander Graf" <graf@amazon.com>,
- "Changyuan Lyu" <changyuanl@google.com>,
- "Paul Moore" <paul@paul-moore.com>, "James Morris" <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>,
- "Nick Desaulniers" <nick.desaulniers+lkml@gmail.com>,
- "Bill Wendling" <morbo@google.com>,
- "Justin Stitt" <justinstitt@google.com>,
- "Jan Beulich" <jbeulich@suse.com>, "Boqun Feng" <boqun.feng@gmail.com>,
- "Viresh Kumar" <viresh.kumar@linaro.org>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- "Bibo Mao" <maobibo@loongson.cn>, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kasan-dev@googlegroups.com,
- linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org,
- kexec@lists.infradead.org, linux-security-module@vger.kernel.org,
- llvm@lists.linux.dev
-Message-Id: <f8bcf5ce-8b8b-4555-a210-14e1974eac92@app.fastmail.com>
-In-Reply-To: <20250724055029.3623499-2-kees@kernel.org>
-References: <20250724054419.it.405-kees@kernel.org>
- <20250724055029.3623499-2-kees@kernel.org>
-Subject: Re: [PATCH v4 2/4] x86: Handle KCOV __init vs inline mismatches
+References: <20250728152548.3969143-1-glider@google.com> <20250728152548.3969143-4-glider@google.com>
+In-Reply-To: <20250728152548.3969143-4-glider@google.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 29 Jul 2025 13:09:05 +0200
+X-Gm-Features: Ac12FXzCmhc07C6QzxlrscE4np9DutG_RGPHH85CmK1kWrz6rOLnHVAWcLgXiB4
+Message-ID: <CACT4Y+bAp2YLh8hXwnDiVuq9HqoKEU9wFJSDZe5-kWYnnKk=qA@mail.gmail.com>
+Subject: Re: [PATCH v3 03/10] kcov: factor out struct kcov_state
+To: Alexander Potapenko <glider@google.com>
+Cc: quic_jiangenj@quicinc.com, linux-kernel@vger.kernel.org, 
+	kasan-dev@googlegroups.com, Aleksandr Nogikh <nogikh@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Ingo Molnar <mingo@redhat.com>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Marco Elver <elver@google.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: arnd@arndb.de
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@arndb.de header.s=fm2 header.b=SefSK9JI;       dkim=pass
- header.i=@messagingengine.com header.s=fm3 header.b=dcWL30Zc;       spf=pass
- (google.com: domain of arnd@arndb.de designates 202.12.124.140 as permitted
- sender) smtp.mailfrom=arnd@arndb.de;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=arndb.de
+ header.i=@google.com header.s=20230601 header.b=T0m933xL;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::230
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -232,110 +151,466 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Jul 24, 2025, at 07:50, Kees Cook wrote:
-> GCC appears to have kind of fragile inlining heuristics, in the
-> sense that it can change whether or not it inlines something based on
-> optimizations. It looks like the kcov instrumentation being added (or in
-> this case, removed) from a function changes the optimization results,
-> and some functions marked "inline" are _not_ inlined. In that case,
-> we end up with __init code calling a function not marked __init, and we
-> get the build warnings I'm trying to eliminate in the coming patch that
-> adds __no_sanitize_coverage to __init functions:
+On Mon, 28 Jul 2025 at 17:26, Alexander Potapenko <glider@google.com> wrote:
 >
-> WARNING: modpost: vmlinux: section mismatch in reference: xbc_exit+0x8 
-> (section: .text.unlikely) -> _xbc_exit (section: .init.text)
-> WARNING: modpost: vmlinux: section mismatch in reference: 
-> real_mode_size_needed+0x15 (section: .text.unlikely) -> 
-> real_mode_blob_end (section: .init.data)
-> WARNING: modpost: vmlinux: section mismatch in reference: 
-> __set_percpu_decrypted+0x16 (section: .text.unlikely) -> 
-> early_set_memory_decrypted (section: .init.text)
-> WARNING: modpost: vmlinux: section mismatch in reference: 
-> memblock_alloc_from+0x26 (section: .text.unlikely) -> 
-> memblock_alloc_try_nid (section: .init.text)
-> WARNING: modpost: vmlinux: section mismatch in reference: 
-> acpi_arch_set_root_pointer+0xc (section: .text.unlikely) -> x86_init 
-> (section: .init.data)
-> WARNING: modpost: vmlinux: section mismatch in reference: 
-> acpi_arch_get_root_pointer+0x8 (section: .text.unlikely) -> x86_init 
-> (section: .init.data)
-> WARNING: modpost: vmlinux: section mismatch in reference: 
-> efi_config_table_is_usable+0x16 (section: .text.unlikely) -> 
-> xen_efi_config_table_is_usable (section: .init.text)
+> Group several kcov-related fields (area, size, sequence) that are
+> stored in various structures, into `struct kcov_state`, so that
+> these fields can be easily passed around and manipulated.
+> Note that now the spinlock in struct kcov applies to every member
+> of struct kcov_state, including the sequence number.
 >
-> This problem is somewhat fragile (though using either __always_inline
-> or __init will deterministically solve it), but we've tripped over
-> this before with GCC and the solution has usually been to just use
-> __always_inline and move on.
+> This prepares us for the upcoming change that will introduce more
+> kcov state.
 >
-> For x86 this means forcing several functions to be inline with
-> __always_inline.
+> Also update the MAINTAINERS entry: add include/linux/kcov_types.h,
+> add myself as kcov reviewer.
 >
-> Signed-off-by: Kees Cook <kees@kernel.org>
+> Signed-off-by: Alexander Potapenko <glider@google.com>
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 
-In my randconfig tests, I got these ones as well:
-
-WARNING: modpost: vmlinux: section mismatch in reference: early_page_ext_enabled+0x14 (section: .text.unlikely) -> early_
-page_ext (section: .init.data)
-x86_64-linux-ld: lm75.c:(.text+0xd25): undefined reference to `i3c_device_do_priv_xfers'
-
-And one more with a private patch of mine.
-
-These are the fixups that make it build for arm/arm64/x86
-randconfigs for me, so you could fold them as well in
-as well. I have already sent the i3c patch for upstream
-but not the page_ext.h patch.
-
---- a/include/linux/page_ext.h
-+++ b/include/linux/page_ext.h
-@@ -57,7 +57,7 @@ extern bool early_page_ext;
- extern unsigned long page_ext_size;
- extern void pgdat_page_ext_init(struct pglist_data *pgdat);
- 
--static inline bool early_page_ext_enabled(void)
-+static __always_inline bool early_page_ext_enabled(void)
- {
-        return early_page_ext;
- }
-@@ -189,7 +189,7 @@ static inline struct page_ext *page_ext_iter_get(const struct page_ext_iter *ite
- #else /* !CONFIG_PAGE_EXTENSION */
- struct page_ext;
- 
--static inline bool early_page_ext_enabled(void)
-+static __always_inline bool early_page_ext_enabled(void)
- {
-        return false;
- }
---- a/include/linux/i3c/device.h
-+++ b/include/linux/i3c/device.h
-@@ -245,7 +245,7 @@ void i3c_driver_unregister(struct i3c_driver *drv);
-  *
-  * Return: 0 if both registrations succeeds, a negative error code otherwise.
-  */
--static inline int i3c_i2c_driver_register(struct i3c_driver *i3cdrv,
-+static __always_inline int i3c_i2c_driver_register(struct i3c_driver *i3cdrv,
-                                          struct i2c_driver *i2cdrv)
- {
-        int ret;
-@@ -270,7 +270,7 @@ static inline int i3c_i2c_driver_register(struct i3c_driver *i3cdrv,
-  * Note that when CONFIG_I3C is not enabled, this function only unregisters the
-  * @i2cdrv.
-  */
--static inline void i3c_i2c_driver_unregister(struct i3c_driver *i3cdrv,
-+static __always_inline void i3c_i2c_driver_unregister(struct i3c_driver *i3cdrv,
-                                             struct i2c_driver *i2cdrv)
- {
-        if (IS_ENABLED(CONFIG_I3C))
-
-As I understand, the underlying problem is less gcc inlining
-being fragile, but more that gcc does not inline functions
-when they have different __no_sanitize_coverage attributes.
-
-      Arnd
+> ---
+> v3:
+>  - fix comments by Dmitry Vyukov:
+>    - adjust a comment in sched.h
+>    - fix incorrect parameters passed to kcov_start()
+>
+> v2:
+>  - add myself to kcov MAINTAINERS
+>  - rename kcov-state.h to kcov_types.h
+>  - update the description
+>  - do not move mode into struct kcov_state
+>  - use '{ }' instead of '{ 0 }'
+>
+> Change-Id: If225682ea2f6e91245381b3270de16e7ea40df39
+> ---
+>  MAINTAINERS                |   2 +
+>  include/linux/kcov.h       |   2 +-
+>  include/linux/kcov_types.h |  22 ++++++++
+>  include/linux/sched.h      |  13 +----
+>  kernel/kcov.c              | 112 ++++++++++++++++---------------------
+>  5 files changed, 77 insertions(+), 74 deletions(-)
+>  create mode 100644 include/linux/kcov_types.h
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index c0b444e5fd5ad..6906eb9d88dae 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13008,11 +13008,13 @@ F:    include/linux/kcore.h
+>  KCOV
+>  R:     Dmitry Vyukov <dvyukov@google.com>
+>  R:     Andrey Konovalov <andreyknvl@gmail.com>
+> +R:     Alexander Potapenko <glider@google.com>
+>  L:     kasan-dev@googlegroups.com
+>  S:     Maintained
+>  B:     https://bugzilla.kernel.org/buglist.cgi?component=Sanitizers&product=Memory%20Management
+>  F:     Documentation/dev-tools/kcov.rst
+>  F:     include/linux/kcov.h
+> +F:     include/linux/kcov_types.h
+>  F:     include/uapi/linux/kcov.h
+>  F:     kernel/kcov.c
+>  F:     scripts/Makefile.kcov
+> diff --git a/include/linux/kcov.h b/include/linux/kcov.h
+> index 75a2fb8b16c32..2b3655c0f2278 100644
+> --- a/include/linux/kcov.h
+> +++ b/include/linux/kcov.h
+> @@ -2,7 +2,7 @@
+>  #ifndef _LINUX_KCOV_H
+>  #define _LINUX_KCOV_H
+>
+> -#include <linux/sched.h>
+> +#include <linux/kcov_types.h>
+>  #include <uapi/linux/kcov.h>
+>
+>  struct task_struct;
+> diff --git a/include/linux/kcov_types.h b/include/linux/kcov_types.h
+> new file mode 100644
+> index 0000000000000..53b25b6f0addd
+> --- /dev/null
+> +++ b/include/linux/kcov_types.h
+> @@ -0,0 +1,22 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef _LINUX_KCOV_STATE_H
+> +#define _LINUX_KCOV_STATE_H
+> +
+> +#ifdef CONFIG_KCOV
+> +/* See kernel/kcov.c for more details. */
+> +struct kcov_state {
+> +       /* Size of the area (in long's). */
+> +       unsigned int size;
+> +
+> +       /* Buffer for coverage collection, shared with the userspace. */
+> +       void *area;
+> +
+> +       /*
+> +        * KCOV sequence number: incremented each time kcov is reenabled, used
+> +        * by kcov_remote_stop(), see the comment there.
+> +        */
+> +       int sequence;
+> +};
+> +#endif /* CONFIG_KCOV */
+> +
+> +#endif /* _LINUX_KCOV_STATE_H */
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index aa9c5be7a6325..7901fece5aba3 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -42,6 +42,7 @@
+>  #include <linux/restart_block.h>
+>  #include <uapi/linux/rseq.h>
+>  #include <linux/seqlock_types.h>
+> +#include <linux/kcov_types.h>
+>  #include <linux/kcsan.h>
+>  #include <linux/rv.h>
+>  #include <linux/uidgid_types.h>
+> @@ -1516,16 +1517,11 @@ struct task_struct {
+>  #endif /* CONFIG_TRACING */
+>
+>  #ifdef CONFIG_KCOV
+> -       /* See kernel/kcov.c for more details. */
+> -
+>         /* Coverage collection mode enabled for this task (0 if disabled): */
+>         unsigned int                    kcov_mode;
+>
+> -       /* Size of the kcov_area: */
+> -       unsigned int                    kcov_size;
+> -
+> -       /* Buffer for coverage collection: */
+> -       void                            *kcov_area;
+> +       /* KCOV buffer state for this task. */
+> +       struct kcov_state               kcov_state;
+>
+>         /* KCOV descriptor wired with this task or NULL: */
+>         struct kcov                     *kcov;
+> @@ -1533,9 +1529,6 @@ struct task_struct {
+>         /* KCOV common handle for remote coverage collection: */
+>         u64                             kcov_handle;
+>
+> -       /* KCOV sequence number: */
+> -       int                             kcov_sequence;
+> -
+>         /* Collect coverage from softirq context: */
+>         unsigned int                    kcov_softirq;
+>  #endif
+> diff --git a/kernel/kcov.c b/kernel/kcov.c
+> index 187ba1b80bda1..5170f367c8a1b 100644
+> --- a/kernel/kcov.c
+> +++ b/kernel/kcov.c
+> @@ -23,6 +23,7 @@
+>  #include <linux/debugfs.h>
+>  #include <linux/uaccess.h>
+>  #include <linux/kcov.h>
+> +#include <linux/kcov_types.h>
+>  #include <linux/refcount.h>
+>  #include <linux/log2.h>
+>  #include <asm/setup.h>
+> @@ -53,24 +54,17 @@ struct kcov {
+>          *  - each code section for remote coverage collection
+>          */
+>         refcount_t              refcount;
+> -       /* The lock protects mode, size, area and t. */
+> +       /* The lock protects mode, state and t. */
+>         spinlock_t              lock;
+>         enum kcov_mode          mode;
+> -       /* Size of arena (in long's). */
+> -       unsigned int            size;
+> -       /* Coverage buffer shared with user space. */
+> -       void                    *area;
+> +       struct kcov_state       state;
+> +
+>         /* Task for which we collect coverage, or NULL. */
+>         struct task_struct      *t;
+>         /* Collecting coverage from remote (background) threads. */
+>         bool                    remote;
+>         /* Size of remote area (in long's). */
+>         unsigned int            remote_size;
+> -       /*
+> -        * Sequence is incremented each time kcov is reenabled, used by
+> -        * kcov_remote_stop(), see the comment there.
+> -        */
+> -       int                     sequence;
+>  };
+>
+>  struct kcov_remote_area {
+> @@ -92,11 +86,9 @@ struct kcov_percpu_data {
+>         void                    *irq_area;
+>         local_lock_t            lock;
+>
+> -       unsigned int            saved_mode;
+> -       unsigned int            saved_size;
+> -       void                    *saved_area;
+> +       enum kcov_mode          saved_mode;
+>         struct kcov             *saved_kcov;
+> -       int                     saved_sequence;
+> +       struct kcov_state       saved_state;
+>  };
+>
+>  static DEFINE_PER_CPU(struct kcov_percpu_data, kcov_percpu_data) = {
+> @@ -217,10 +209,10 @@ void notrace __sanitizer_cov_trace_pc(void)
+>         if (!check_kcov_mode(KCOV_MODE_TRACE_PC, t))
+>                 return;
+>
+> -       area = t->kcov_area;
+> +       area = t->kcov_state.area;
+>         /* The first 64-bit word is the number of subsequent PCs. */
+>         pos = READ_ONCE(area[0]) + 1;
+> -       if (likely(pos < t->kcov_size)) {
+> +       if (likely(pos < t->kcov_state.size)) {
+>                 /* Previously we write pc before updating pos. However, some
+>                  * early interrupt code could bypass check_kcov_mode() check
+>                  * and invoke __sanitizer_cov_trace_pc(). If such interrupt is
+> @@ -250,10 +242,10 @@ static void notrace write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
+>
+>         /*
+>          * We write all comparison arguments and types as u64.
+> -        * The buffer was allocated for t->kcov_size unsigned longs.
+> +        * The buffer was allocated for t->kcov_state.size unsigned longs.
+>          */
+> -       area = (u64 *)t->kcov_area;
+> -       max_pos = t->kcov_size * sizeof(unsigned long);
+> +       area = (u64 *)t->kcov_state.area;
+> +       max_pos = t->kcov_state.size * sizeof(unsigned long);
+>
+>         count = READ_ONCE(area[0]);
+>
+> @@ -354,15 +346,13 @@ EXPORT_SYMBOL(__sanitizer_cov_trace_switch);
+>  #endif /* ifdef CONFIG_KCOV_ENABLE_COMPARISONS */
+>
+>  static void kcov_start(struct task_struct *t, struct kcov *kcov,
+> -                       unsigned int size, void *area, enum kcov_mode mode,
+> -                       int sequence)
+> +                      enum kcov_mode mode, struct kcov_state *state)
+>  {
+> -       kcov_debug("t = %px, size = %u, area = %px\n", t, size, area);
+> +       kcov_debug("t = %px, size = %u, area = %px\n", t, state->size,
+> +                  state->area);
+>         t->kcov = kcov;
+>         /* Cache in task struct for performance. */
+> -       t->kcov_size = size;
+> -       t->kcov_area = area;
+> -       t->kcov_sequence = sequence;
+> +       t->kcov_state = *state;
+>         /* See comment in check_kcov_mode(). */
+>         barrier();
+>         WRITE_ONCE(t->kcov_mode, mode);
+> @@ -373,14 +363,14 @@ static void kcov_stop(struct task_struct *t)
+>         WRITE_ONCE(t->kcov_mode, KCOV_MODE_DISABLED);
+>         barrier();
+>         t->kcov = NULL;
+> -       t->kcov_size = 0;
+> -       t->kcov_area = NULL;
+> +       t->kcov_state.size = 0;
+> +       t->kcov_state.area = NULL;
+>  }
+>
+>  static void kcov_task_reset(struct task_struct *t)
+>  {
+>         kcov_stop(t);
+> -       t->kcov_sequence = 0;
+> +       t->kcov_state.sequence = 0;
+>         t->kcov_handle = 0;
+>  }
+>
+> @@ -396,7 +386,7 @@ static void kcov_reset(struct kcov *kcov)
+>         kcov->mode = KCOV_MODE_INIT;
+>         kcov->remote = false;
+>         kcov->remote_size = 0;
+> -       kcov->sequence++;
+> +       kcov->state.sequence++;
+>  }
+>
+>  static void kcov_remote_reset(struct kcov *kcov)
+> @@ -436,7 +426,7 @@ static void kcov_put(struct kcov *kcov)
+>  {
+>         if (refcount_dec_and_test(&kcov->refcount)) {
+>                 kcov_remote_reset(kcov);
+> -               vfree(kcov->area);
+> +               vfree(kcov->state.area);
+>                 kfree(kcov);
+>         }
+>  }
+> @@ -493,8 +483,8 @@ static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
+>         unsigned long flags;
+>
+>         spin_lock_irqsave(&kcov->lock, flags);
+> -       size = kcov->size * sizeof(unsigned long);
+> -       if (kcov->area == NULL || vma->vm_pgoff != 0 ||
+> +       size = kcov->state.size * sizeof(unsigned long);
+> +       if (kcov->state.area == NULL || vma->vm_pgoff != 0 ||
+>             vma->vm_end - vma->vm_start != size) {
+>                 res = -EINVAL;
+>                 goto exit;
+> @@ -502,7 +492,7 @@ static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
+>         spin_unlock_irqrestore(&kcov->lock, flags);
+>         vm_flags_set(vma, VM_DONTEXPAND);
+>         for (off = 0; off < size; off += PAGE_SIZE) {
+> -               page = vmalloc_to_page(kcov->area + off);
+> +               page = vmalloc_to_page(kcov->state.area + off);
+>                 res = vm_insert_page(vma, vma->vm_start + off, page);
+>                 if (res) {
+>                         pr_warn_once("kcov: vm_insert_page() failed\n");
+> @@ -523,7 +513,7 @@ static int kcov_open(struct inode *inode, struct file *filep)
+>         if (!kcov)
+>                 return -ENOMEM;
+>         kcov->mode = KCOV_MODE_DISABLED;
+> -       kcov->sequence = 1;
+> +       kcov->state.sequence = 1;
+>         refcount_set(&kcov->refcount, 1);
+>         spin_lock_init(&kcov->lock);
+>         filep->private_data = kcov;
+> @@ -558,10 +548,10 @@ static int kcov_get_mode(unsigned long arg)
+>  static void kcov_fault_in_area(struct kcov *kcov)
+>  {
+>         unsigned long stride = PAGE_SIZE / sizeof(unsigned long);
+> -       unsigned long *area = kcov->area;
+> +       unsigned long *area = kcov->state.area;
+>         unsigned long offset;
+>
+> -       for (offset = 0; offset < kcov->size; offset += stride)
+> +       for (offset = 0; offset < kcov->state.size; offset += stride)
+>                 READ_ONCE(area[offset]);
+>  }
+>
+> @@ -600,7 +590,7 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+>                  * at task exit or voluntary by KCOV_DISABLE. After that it can
+>                  * be enabled for another task.
+>                  */
+> -               if (kcov->mode != KCOV_MODE_INIT || !kcov->area)
+> +               if (kcov->mode != KCOV_MODE_INIT || !kcov->state.area)
+>                         return -EINVAL;
+>                 t = current;
+>                 if (kcov->t != NULL || t->kcov != NULL)
+> @@ -610,8 +600,7 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+>                         return mode;
+>                 kcov_fault_in_area(kcov);
+>                 kcov->mode = mode;
+> -               kcov_start(t, kcov, kcov->size, kcov->area, kcov->mode,
+> -                               kcov->sequence);
+> +               kcov_start(t, kcov, mode, &kcov->state);
+>                 kcov->t = t;
+>                 /* Put either in kcov_task_exit() or in KCOV_DISABLE. */
+>                 kcov_get(kcov);
+> @@ -628,7 +617,7 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+>                 kcov_put(kcov);
+>                 return 0;
+>         case KCOV_REMOTE_ENABLE:
+> -               if (kcov->mode != KCOV_MODE_INIT || !kcov->area)
+> +               if (kcov->mode != KCOV_MODE_INIT || !kcov->state.area)
+>                         return -EINVAL;
+>                 t = current;
+>                 if (kcov->t != NULL || t->kcov != NULL)
+> @@ -722,8 +711,8 @@ static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+>                         vfree(area);
+>                         return -EBUSY;
+>                 }
+> -               kcov->area = area;
+> -               kcov->size = size;
+> +               kcov->state.area = area;
+> +               kcov->state.size = size;
+>                 kcov->mode = KCOV_MODE_INIT;
+>                 spin_unlock_irqrestore(&kcov->lock, flags);
+>                 return 0;
+> @@ -821,10 +810,8 @@ static void kcov_remote_softirq_start(struct task_struct *t)
+>         mode = READ_ONCE(t->kcov_mode);
+>         barrier();
+>         if (kcov_mode_enabled(mode)) {
+> +               data->saved_state = t->kcov_state;
+>                 data->saved_mode = mode;
+> -               data->saved_size = t->kcov_size;
+> -               data->saved_area = t->kcov_area;
+> -               data->saved_sequence = t->kcov_sequence;
+>                 data->saved_kcov = t->kcov;
+>                 kcov_stop(t);
+>         }
+> @@ -835,13 +822,9 @@ static void kcov_remote_softirq_stop(struct task_struct *t)
+>         struct kcov_percpu_data *data = this_cpu_ptr(&kcov_percpu_data);
+>
+>         if (data->saved_kcov) {
+> -               kcov_start(t, data->saved_kcov, data->saved_size,
+> -                               data->saved_area, data->saved_mode,
+> -                               data->saved_sequence);
+> -               data->saved_mode = 0;
+> -               data->saved_size = 0;
+> -               data->saved_area = NULL;
+> -               data->saved_sequence = 0;
+> +               kcov_start(t, data->saved_kcov, data->saved_mode,
+> +                          &data->saved_state);
+> +               data->saved_state = (struct kcov_state){};
+>                 data->saved_kcov = NULL;
+>         }
+>  }
+> @@ -850,12 +833,12 @@ void kcov_remote_start(u64 handle)
+>  {
+>         struct task_struct *t = current;
+>         struct kcov_remote *remote;
+> +       struct kcov_state state;
+> +       enum kcov_mode mode;
+> +       unsigned long flags;
+> +       unsigned int size;
+>         struct kcov *kcov;
+> -       unsigned int mode;
+>         void *area;
+> -       unsigned int size;
+> -       int sequence;
+> -       unsigned long flags;
+>
+>         if (WARN_ON(!kcov_check_handle(handle, true, true, true)))
+>                 return;
+> @@ -900,7 +883,7 @@ void kcov_remote_start(u64 handle)
+>          * KCOV_DISABLE / kcov_remote_reset().
+>          */
+>         mode = kcov->mode;
+> -       sequence = kcov->sequence;
+> +       state.sequence = kcov->state.sequence;
+>         if (in_task()) {
+>                 size = kcov->remote_size;
+>                 area = kcov_remote_area_get(size);
+> @@ -923,12 +906,14 @@ void kcov_remote_start(u64 handle)
+>
+>         /* Reset coverage size. */
+>         *(u64 *)area = 0;
+> +       state.area = area;
+> +       state.size = size;
+>
+>         if (in_serving_softirq()) {
+>                 kcov_remote_softirq_start(t);
+>                 t->kcov_softirq = 1;
+>         }
+> -       kcov_start(t, kcov, size, area, mode, sequence);
+> +       kcov_start(t, kcov, mode, &state);
+>
+>         local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
+>
+> @@ -1027,9 +1012,9 @@ void kcov_remote_stop(void)
+>         }
+>
+>         kcov = t->kcov;
+> -       area = t->kcov_area;
+> -       size = t->kcov_size;
+> -       sequence = t->kcov_sequence;
+> +       area = t->kcov_state.area;
+> +       size = t->kcov_state.size;
+> +       sequence = t->kcov_state.sequence;
+>
+>         kcov_stop(t);
+>         if (in_serving_softirq()) {
+> @@ -1042,8 +1027,9 @@ void kcov_remote_stop(void)
+>          * KCOV_DISABLE could have been called between kcov_remote_start()
+>          * and kcov_remote_stop(), hence the sequence check.
+>          */
+> -       if (sequence == kcov->sequence && kcov->remote)
+> -               kcov_move_area(kcov->mode, kcov->area, kcov->size, area);
+> +       if (sequence == kcov->state.sequence && kcov->remote)
+> +               kcov_move_area(kcov->mode, kcov->state.area, kcov->state.size,
+> +                              area);
+>         spin_unlock(&kcov->lock);
+>
+>         if (in_task()) {
+> --
+> 2.50.1.470.g6ba607880d-goog
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/f8bcf5ce-8b8b-4555-a210-14e1974eac92%40app.fastmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BbAp2YLh8hXwnDiVuq9HqoKEU9wFJSDZe5-kWYnnKk%3DqA%40mail.gmail.com.
