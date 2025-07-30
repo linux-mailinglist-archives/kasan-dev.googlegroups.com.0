@@ -1,149 +1,151 @@
-Return-Path: <kasan-dev+bncBDPPVSUFVUPBB664UTCAMGQEKPWNXHA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCUJBAM67YFRB3P3U7CAMGQEWHBEKCI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13f.google.com (mail-il1-x13f.google.com [IPv6:2607:f8b0:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300DAB1544F
-	for <lists+kasan-dev@lfdr.de>; Tue, 29 Jul 2025 22:26:37 +0200 (CEST)
-Received: by mail-il1-x13f.google.com with SMTP id e9e14a558f8ab-3e05997f731sf132599085ab.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 29 Jul 2025 13:26:37 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1753820796; cv=pass;
+Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B4FB15F1E
+	for <lists+kasan-dev@lfdr.de>; Wed, 30 Jul 2025 13:11:51 +0200 (CEST)
+Received: by mail-pj1-x1038.google.com with SMTP id 98e67ed59e1d1-31ed9a17f22sf5550576a91.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 30 Jul 2025 04:11:51 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1753873902; cv=pass;
         d=google.com; s=arc-20240605;
-        b=TQ3WLkRu9J+65Hkv1IvFouFDwA7iVMeVkW97Thvs2LUJVxD87vobCwlt5jSB08Vd0n
-         YNlZ00adJblTqZKyj5W0eMuDgb7YB/OsAgxa+3foaRLSSB/B4k7BN4rxZ2xTPGuFzZFm
-         WBCTALDLvBSaAmlP/P3wizyQv+dgsWgHCggcwYuiTvkHabRVCoLgip2il3DgLjrb/bD4
-         yTbw6zVb3xpZvWzKsW10h/WcNA8PLuS5KEzqQjtyVLjnUB4ZEmASCS4T1EyLxKuuQiBp
-         5K124+OoAkSNqxp1Vc1KGFkJB29woKmaDKCS/owfF4sNpyKCP2c+ENYBPLO1zbNAs8cD
-         2cvA==
+        b=F6vUNEfHG1qDnC0maK3apclfq3tp1wiYV/KfMIAS5NOvuoqWBM1+ETFFgBd4A3DvBG
+         SuBs4Jr3NxrQkUB1aNBaIY0Tiv2cPRsRAKLOWHYpnsYYBts0DS7r/bnY9T956N1RidPw
+         m9oU0EyCLIu4Mip988VKmgDuGmfCDFORn2AyL7YMsTm2zRwWHyIJscPhCC/jwlGQ/WoI
+         6AW2EyaGF+tM1nU8wCP5XzHfpSsUWNAfAgHymiBFzfSy6qab/Ot5FF6CURvNqJBEw0Cr
+         UYOffdJMw4TGZgJ2YqPSfPmbrjxBnlA5SXixzvwTq5BQAFTzvpIzmsysn7zy2x9gLXbL
+         WkwA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ahrlZyLcB86+5lexJREt41GqKKsgxoiwf+ZJpR4KZfw=;
-        fh=jI6w8A9ofj07AbVrcbW5ob2OK7XcB0LZnQIseZrf4cc=;
-        b=QjdH7EBsL2bTs5nlXIr+j7N8oJY4NTYDUZRtDFu1TXakZmoB3DZUyO1CxCiuVS5XSC
-         M7SJdvnhhkJucgf56rhwTzey4Xo88z5sXl2SmbmD5FUUnMiYUUUeuK5zK0i437HCzGP1
-         YdQ/MxWSJdPhgGfakS+i5YBbglYEzsVgzZzBSfip9kgZEdedoMRe5fU1rQFxYmZlUpAi
-         Crw2pz04iVw98w++ZgIJzBijHVSlQrrpvq/ynH4XMYLENCDrKVdL9RSDYJB5N+3q4t4v
-         J41ywMgHgxK6oZHVmtDsD3U8CallVuCWPVHGSKbRhR9ak/ARX2xZ1IYZ5XVoJVz1hhBL
-         iWrw==;
+         :list-id:mailing-list:precedence:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=TqCUuM1htNJjpWZ4+Y728AALzOO0tmUTNUrM/JKWowk=;
+        fh=PiB1aEvP/XQIpr5eh9ItBcc7TOMYHWxC4TMOXM8Hvn4=;
+        b=C0CIPWQIPCJNpWbkDgmo/ok2UK73oR5MsaqVZzyJ1iJVQlLkZUulIHjZYyLIXC/prZ
+         rPIdv0DokauDykePwYlP+znwB3ORfQgZIw8tjHkjaaaEY4IekQogylufUuAlgb/gPE27
+         tPjmxDhigV0w9LmiMdktSa+24lWNoo7O+l3yHCvKuKcesxtBTok4qb6vbX4PQpDBBRKr
+         H0+XDI3J67eo2Sb8ATIwAznixv+a4GVm1p2BQb36X+qiu2fWZY+8iYlU232Io4KegmzI
+         iKSWrwibf6YtPmMKcI+SgbBPS48JFVHaYWaxpkmr1XgKxofJn/0znkkQU8gCQbPKTHEq
+         M8fg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=jIFwOzmW;
-       spf=pass (google.com: domain of rmoar@google.com designates 2607:f8b0:4864:20::f30 as permitted sender) smtp.mailfrom=rmoar@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
+       spf=pass (google.com: domain of robin.murphy@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=robin.murphy@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1753820796; x=1754425596; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1753873902; x=1754478702; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ahrlZyLcB86+5lexJREt41GqKKsgxoiwf+ZJpR4KZfw=;
-        b=YJ/nWEPz3qcmSHdEWD4gU1rWVgC5WA9hiJMQi0UGR++nMteuhbAhLzNueQKi07jl8a
-         4DLsFm3M/a2oH/BnzkOTlMfc/0e30R+Gg39cVXGspe0rIHfJHgPd7c7RD5iyFBDsknX+
-         0DKwaD9OSpm3BT2+QTGYrbYXUF0ZjMulAAKioqH5hHg3yQlwrURuZhPSi4IsYle3sysc
-         cGSD2jqLYs1YWE0MbxWNxb+YHCLmllh1pbzQ8bq5G8Pz6hUilk8MbkF2267L5ie2HW+T
-         rmrRipoADKMHhhUFGbbThsCspWPJk8N7jmtsV1NHJi+gSXMlD+8ZLPBQwlAidjmPWaZX
-         S50w==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-language:from:references:cc
+         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=TqCUuM1htNJjpWZ4+Y728AALzOO0tmUTNUrM/JKWowk=;
+        b=M8iB/pqHhGDIjyLOEBwm7jU3G0RuD/vcv6l4jiRsYgKdU+BI/m32aam0sYvxtyK3nG
+         KqM3SXTVuU4k8EZN2/7OyAcXG7njaxBCJMK08/5M6sq62YadnGhuxsPXK6QdeZ2HtSKl
+         TtFD7ew7QYUZpSwT0zW+Vr2uPd15ZUX0f+SGpIwNWuAQ1l7eaPsm40xO6iOH9ghCAiGa
+         hBDTKVYmPvBa/WTY/GuufgkE0nmJwls1cgtezJmm8cwN60yxME1Ig257mh+XxcWxYPjt
+         Dhiz5zaj3gWVtlUJRWbywvvuXJBnJSuIvBiDd3nnmCW8KOIyK9xaclEfqc31HyB7eIac
+         OpHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753820796; x=1754425596;
+        d=1e100.net; s=20230601; t=1753873902; x=1754478702;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ahrlZyLcB86+5lexJREt41GqKKsgxoiwf+ZJpR4KZfw=;
-        b=Tz17DNRwTfp0U9dkCNa9t7sAv7p6I5/HvazhtXlmSaVuWg7lHebuCvnG2epuETNFBK
-         UY4REPRsO2vH2Z8vR7Nx+WBTqiQic4I+3I6vrZuidJDx2OE6PG/TjgeeuN3cHksSD0x4
-         O+7WlAE3rnDLlNkdL45QvuSwfTo15vddK0aMRY0qoJx8GDqkA5etHwYOviizqUfDGf+3
-         d92IgBsO9KyPL3Zuag5FhJ3ZcMHdXIvpU3LmCpopV5FarPZW2Fkqefy8l/ZppRGIRtOg
-         9U6nOvqGh12bRImQCBbYrymlAm8byoh+ngcKcja6fn1KxSDVxMHRG2n3JLh8Rul2DWiw
-         H9fg==
-X-Forwarded-Encrypted: i=2; AJvYcCXy1XwndyXPVt8CceE32KPxaYjpVoAGPzTGtBUMAf94yH9PczZUn5Yz1WwLebvJ/sFK4IeGOA==@lfdr.de
-X-Gm-Message-State: AOJu0YxIP9+8q20RzRXkweXrqmjp76FFBt+SWrMJnudIuIEmQot971QB
-	z18Y0oLBaJz87rMHXh35s6orIJYTDY2+HLLYUD9MddfWYgTA6uZ5IAIb
-X-Google-Smtp-Source: AGHT+IFUOTDB0s0ElaCXqgFk4hmmwjhYePE7DA4JbBaOA5IlMc6d8XJ6+XGN3GawuFLYf0U6YbfvGA==
-X-Received: by 2002:a05:6e02:2388:b0:3df:347f:ff3e with SMTP id e9e14a558f8ab-3e3f60df47fmr14674855ab.7.1753820795800;
-        Tue, 29 Jul 2025 13:26:35 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZetWemjlZ0SzpDf58/Py7UG2OPzdooe1OfsbbJFkjgnUg==
-Received: by 2002:a05:6e02:4701:b0:3dd:bfcd:edd6 with SMTP id
- e9e14a558f8ab-3e3b517af0dls60109335ab.1.-pod-prod-08-us; Tue, 29 Jul 2025
- 13:26:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWHq6bhKwlt+1qKuGTxiGhaW8tmHUWxhnzK2uMTJXar9+hl29X7zlXM7rDWWa4bxuKC0ofZLXBweaM=@googlegroups.com
-X-Received: by 2002:a05:6602:2dc6:b0:87c:5e79:203 with SMTP id ca18e2360f4ac-881375f425dmr164406339f.4.1753820794838;
-        Tue, 29 Jul 2025 13:26:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1753820794; cv=none;
+        bh=TqCUuM1htNJjpWZ4+Y728AALzOO0tmUTNUrM/JKWowk=;
+        b=Nd5UVf6wgZej/7JqkpVY9bxTxXNsyY1o/+dIapP+yKCDxvflIYFzSN34M6/0zPK4ss
+         8op/7C9tXjlv0IBJS87Q9eh8peyZtBiSOzcyYlmeAtmr6fEK5FfVnXqgqglOeKW9Xi2Z
+         /WvSIC3HLMOtQ8OlFIf4TS7DzwctYNMczzPzVUj086vORGzXHHi1sgnSGFemN4V51bSR
+         IWUyFaVAjNS3KurfEOvucF11rLQ0pQm6FMFiQS47s1GKhsdgap61EpUqeAS6u2FcbWrX
+         a5QCcmfytx/MbZ4zuZDzacAIU4nDXewP7SL9aVzRoQZLTKcn0jOUuufhBSuHKnvB5FCR
+         XGBw==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCWgyRqangVjDM5xa8SL70zPWw3v3G7Nq1YvynBcsCgJsQb0AoOre/P8d7t+JevUUvp5srQ0Xw==@lfdr.de
+X-Gm-Message-State: AOJu0Yzq/58Y2RFktR1LZQFHso+CvZDOWRIQMbkQjCsTzprlSXSUsSlH
+	a7y4LwNkUq9DjghFMn2BLAhJcEBO7ZA+TyvNRmMmzot3xVK2ypIHbqBm
+X-Google-Smtp-Source: AGHT+IFSDLbUTohKQ9xm3UK4T7o6wpwBSsvN8r6ww2Ae/S1/FZOWPVWUrcMReQjCvTrK7ZX7zlhTog==
+X-Received: by 2002:a17:90a:e70f:b0:312:25dd:1c99 with SMTP id 98e67ed59e1d1-31f5de55570mr4511841a91.19.1753873901714;
+        Wed, 30 Jul 2025 04:11:41 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfxp983bUQUUPoge2r6p9R55MhSFWiq3dRbOv8Wkc/QJw==
+Received: by 2002:a17:90a:1016:b0:31e:b3c1:308 with SMTP id
+ 98e67ed59e1d1-31eb3c10497ls3913594a91.1.-pod-prod-06-us; Wed, 30 Jul 2025
+ 04:11:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCU5GcLqa7Eww1Horjc6corw8zv6SzAdN6aX1abZ9TOSg8SPgRaqsaYx8fnMv9sHXh2pwkWQejPYLmY=@googlegroups.com
+X-Received: by 2002:a17:90b:4a0a:b0:312:e279:9ccf with SMTP id 98e67ed59e1d1-31f5ddb7e79mr4276968a91.5.1753873899869;
+        Wed, 30 Jul 2025 04:11:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1753873899; cv=none;
         d=google.com; s=arc-20240605;
-        b=KPQLctBbgg6OKJv7WcslX6MXB9OEeButkoHCiUe8pdXY5Ofa9LxDDdNmhKB5D+/wHK
-         9hnJ/dQAACeFRFtAPcY3rII9KfEB+8auleZpLDdDZd3CmJ85ot6vQAr9owKoc8B+W7jL
-         EpBbk8+tLyZ2FNQWj1bqUXZrwJObA1BvKT+hhOd1VTLyocPtssneB3LugiHlFNa9MG7B
-         MU2zxJywnxzRwkCCbjF44IoIkGXeMiSgxfgE+zIj4tjackfQJjJneQ9GAyERj64bNU0X
-         yy3BH9mgkTRmyV4XbyCeoLpPGvwuSGQ/foffmRZ5W6mqMTQ1ScnT7WVNe1738fi1L1rJ
-         qI8g==
+        b=JBh4OPDe/PD0LLrfXn5uXUyFPiND4YkaRr2Wj4okalxircR9/7MQ7riQYEYHL8Fz19
+         5M2p8I0UlVBguw/EE/nRpZU6XBGmLOda5ZbFYiVwm8rLJ4Bf6cVeoryhKpT7rsdVgfuQ
+         btak3dplLrkAzIs9Uk/ZJ8OENt9WmPvb//PxOU0qIBjx+dGPnM6l0lCsdEDsnZp6v1dL
+         DOG9q0/3/mgKc6Q2FZFqoAhe0YjM9F1J8FncdEgsCpPlTiKMIb+wiCL056FHowLx4GnK
+         sg0Dy8rP2jWWSM3PmmHrMv+bJ1u1/napQ3hw++wgvQJm9eJpF3S9wgmPRquG/CpyB9KA
+         BB+g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=lUba6K8jqFTo7PyTbrkud2zkkQZs/3cD7l8HjP/HFnw=;
-        fh=m/xyyfIQ+VhQe0WOU9EuTaWRnrTKmq2tLwR+X+LAa3w=;
-        b=LeIyWWNZDBcyl/tBusHaPfKKYnssIs/06c8Mg2497oQeZ6JHvnSq2OPpMSmBPdVSMc
-         wHAyxGJ0upxvpuvsLif+gOupGqxln0pk8WbHhsdur31L/3r+y+qv1m19i14rSPfIvqEr
-         xLgtdNAj5ScmBxpsUCb0ovBdrnWPoSUKL/bUWfhNmAF0xKjrJPW7uDo30ZoixBh+u2c2
-         4whScWDSY+bI3CY90zRZTPe9BVBO4bMEAIdbOdHbaIBD8VkDCCa0zdGoRpq3vIsnppn3
-         I6Yfq3p+uaLQoDqS48wbGzVpTDWezkbX6a4dAqdDfKko3JwxblIKsk8LKmQXtvLBYYHE
-         BICw==;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id;
+        bh=tTgLyvTZgN5Rt8Z+AwFysB1xxPIwzHY5WQRBxQh+D0k=;
+        fh=LOOrIZb2MUEW+lG6ZEp720tZf8V2uYYWyUVOa30ySOM=;
+        b=UIzy+WSOyIFbe+Piy+WHwdWWs3dKqpEvQhSXt+YAy1YoaWRI4N1aSBjzJ14u4eCWwT
+         9iyUqT3Q5t+bDLE1BJlh7N3KlYfMFLNsXTKeEoP804vBUAzL8UklF97nf7TitaCQjeKP
+         N+g2gU6W+iXEKu2k3Tw9ar86gVkPZCNeNlSoOWk17d8x9P7NoQw/oCulv8zcZbgPBxTg
+         sX2loEvcNzab1ZVAeuqDYgK9RakSRJLPDxrV8Uz3RG9hhxALd9V8wlF8l4Nsnohuqdj+
+         tlVzNxNGvEAUHcxZGDBDP093rqqh1OTRIVgfgRJBCcsFvM5EncT774N35PMYJv6N9iyU
+         XJQA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=jIFwOzmW;
-       spf=pass (google.com: domain of rmoar@google.com designates 2607:f8b0:4864:20::f30 as permitted sender) smtp.mailfrom=rmoar@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com. [2607:f8b0:4864:20::f30])
-        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-508c91d2086si510230173.2.2025.07.29.13.26.34
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Jul 2025 13:26:34 -0700 (PDT)
-Received-SPF: pass (google.com: domain of rmoar@google.com designates 2607:f8b0:4864:20::f30 as permitted sender) client-ip=2607:f8b0:4864:20::f30;
-Received: by mail-qv1-xf30.google.com with SMTP id 6a1803df08f44-6faf66905adso34810876d6.2
-        for <kasan-dev@googlegroups.com>; Tue, 29 Jul 2025 13:26:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUI1LGZNUTo6WifzBPuV4DZrBp1MvPLVoAi7E4Haflx1Qw9hNhsOi+xQ8bRPXMAUV5QzOAsI0FG35Q=@googlegroups.com
-X-Gm-Gg: ASbGncsCCvMaiYCt5YYyoMome4w4wl7esd8ehJ9FbsKjrXPSgoMvLHGdmGBwh7wweIY
-	Eh6ov6zW0gBdzHKnFTTQxzvFIFrDQBq+k9/ins9CqIVsig+eO2IEiEv3v//CAqQpdNym/L2zw38
-	lEey1rqSWZK+Cu/fAG+XW/EwJPwak3Lvtv651MrUJIvw2GNEaYDDxGAy658yR/q95HLsVnN8hKM
-	oIEN082fJ9URrmXIfkUdW8MMgBKTWbV/9jlgQ24FuyPZKEV
-X-Received: by 2002:ad4:5c8d:0:b0:702:d655:f4e9 with SMTP id
- 6a1803df08f44-70766e3f302mr12378566d6.18.1753820793697; Tue, 29 Jul 2025
- 13:26:33 -0700 (PDT)
+       spf=pass (google.com: domain of robin.murphy@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=robin.murphy@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id 98e67ed59e1d1-31f2ef276a0si207861a91.0.2025.07.30.04.11.39
+        for <kasan-dev@googlegroups.com>;
+        Wed, 30 Jul 2025 04:11:39 -0700 (PDT)
+Received-SPF: pass (google.com: domain of robin.murphy@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E047C1E5E;
+	Wed, 30 Jul 2025 04:11:30 -0700 (PDT)
+Received: from [10.57.3.116] (unknown [10.57.3.116])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3E3A73F673;
+	Wed, 30 Jul 2025 04:11:34 -0700 (PDT)
+Message-ID: <f912c446-1ae9-4390-9c11-00dce7bf0fd3@arm.com>
+Date: Wed, 30 Jul 2025 12:11:32 +0100
 MIME-Version: 1.0
-References: <20250729193647.3410634-1-marievic@google.com> <20250729193647.3410634-7-marievic@google.com>
- <CA+GJov7gQMughx7wR5J_BGqo7FaPhEPF-OHaCg3OuuL17X5vpA@mail.gmail.com>
-In-Reply-To: <CA+GJov7gQMughx7wR5J_BGqo7FaPhEPF-OHaCg3OuuL17X5vpA@mail.gmail.com>
-From: "'Rae Moar' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 29 Jul 2025 16:26:22 -0400
-X-Gm-Features: Ac12FXwMXtoJETJwjrpeWEppK8R5hxomMaIXf4G-i3r5Ati6QR7pZQsQ7V97C04
-Message-ID: <CA+GJov4SneU9XeKLiACAcO-q5EVe=jo-AfYH4cs87o92MpQ00g@mail.gmail.com>
-Subject: Re: [PATCH 6/9] kunit: Enable direct registration of parameter arrays
- to a KUnit test
-To: Marie Zhussupova <marievic@google.com>
-Cc: davidgow@google.com, shuah@kernel.org, brendan.higgins@linux.dev, 
-	elver@google.com, dvyukov@google.com, lucas.demarchi@intel.com, 
-	thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	kasan-dev@googlegroups.com, intel-xe@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: rmoar@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=jIFwOzmW;       spf=pass
- (google.com: domain of rmoar@google.com designates 2607:f8b0:4864:20::f30 as
- permitted sender) smtp.mailfrom=rmoar@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Rae Moar <rmoar@google.com>
-Reply-To: Rae Moar <rmoar@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/8] dma-mapping: migrate to physical address-based API
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leon@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Alexander Potapenko <glider@google.com>,
+ Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ iommu@lists.linux.dev, virtualization@lists.linux.dev,
+ kasan-dev@googlegroups.com, linux-trace-kernel@vger.kernel.org,
+ linux-mm@kvack.org, Jason Gunthorpe <jgg@ziepe.ca>
+References: <CGME20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf@eucas1p2.samsung.com>
+ <cover.1750854543.git.leon@kernel.org>
+ <35df6f2a-0010-41fe-b490-f52693fe4778@samsung.com>
+ <20250627170213.GL17401@unreal> <20250630133839.GA26981@lst.de>
+ <69b177dc-c149-40d3-bbde-3f6bad0efd0e@samsung.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <69b177dc-c149-40d3-bbde-3f6bad0efd0e@samsung.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Original-Sender: robin.murphy@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of robin.murphy@arm.com designates 217.140.110.172 as
+ permitted sender) smtp.mailfrom=robin.murphy@arm.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -156,157 +158,72 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jul 29, 2025 at 4:14=E2=80=AFPM Rae Moar <rmoar@google.com> wrote:
->
-> On Tue, Jul 29, 2025 at 3:37=E2=80=AFPM Marie Zhussupova <marievic@google=
-.com> wrote:
-> >
-> > KUnit parameterized tests currently support two
-> > primary methods for getting parameters:
-> > 1.  Defining custom logic within a `generate_params`
-> >     function.
-> > 2.  Using the KUNIT_ARRAY_PARAM and KUNIT_ARRAY_PARAM_DESC
-> >     macros with pre-defined static arrays.
-> >
-> > These methods present limitations when dealing with
-> > dynamically generated parameter arrays, or in scenarios
-> > where populating parameters sequentially via
-> > `generate_params` is inefficient or overly complex.
-> >
-> > This patch addresses these limitations by adding a new
-> > `params_data` field to `struct kunit`, of the type
-> > `kunit_params`. The struct `kunit_params` is designed to
-> > store the parameter array itself, along with essential metadata
-> > including the parameter count, parameter size, and a
-> > `get_description` function for providing custom descriptions
-> > for individual parameters.
-> >
-> > The `params_data` field can be populated by calling the new
-> > `kunit_register_params_array` macro from within a
-> > `param_init` function. By attaching the parameter array
-> > directly to the parent kunit test instance, these parameters
-> > can be iterated over in kunit_run_tests() behind the scenes.
-> >
-> > This modification provides greater flexibility to the
-> > KUnit framework, allowing testers to easily register and
-> > utilize both dynamic and static parameter arrays.
-> >
-> > Signed-off-by: Marie Zhussupova <marievic@google.com>
-> > ---
-> >  include/kunit/test.h | 54 ++++++++++++++++++++++++++++++++++++++++----
-> >  lib/kunit/test.c     | 26 ++++++++++++++++++++-
-> >  2 files changed, 75 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/include/kunit/test.h b/include/kunit/test.h
-> > index 4ba65dc35710..9143f0e22323 100644
-> > --- a/include/kunit/test.h
-> > +++ b/include/kunit/test.h
-> > @@ -245,7 +245,8 @@ static inline char *kunit_status_to_ok_not_ok(enum =
-kunit_status status)
-> >   */
-> >  #define KUNIT_CASE_PARAM_WITH_INIT(test_name, gen_params, init, exit) =
-         \
-> >                 { .run_case =3D test_name, .name =3D #test_name,       =
-             \
-> > -                 .generate_params =3D gen_params,                     =
-           \
-> > +                 .generate_params =3D (gen_params)                    =
-           \
-> > +                  ?: kunit_get_next_param_and_desc,                   =
-         \
-> >                   .param_init =3D init, .param_exit =3D exit,          =
-             \
-> >                   .module_name =3D KBUILD_MODNAME}
-> >
-> > @@ -294,6 +295,21 @@ struct kunit_suite_set {
-> >         struct kunit_suite * const *end;
-> >  };
-> >
-> > +/* Stores the pointer to the parameter array and its metadata. */
-> > +struct kunit_params {
-> > +       /*
-> > +        * Reference to the parameter array for the parameterized tests=
-. This
-> > +        * is NULL if a parameter array wasn't directly passed to the
-> > +        * parent kunit struct via the kunit_register_params_array macr=
-o.
-> > +        */
-> > +       const void *params;
-> > +       /* Reference to a function that gets the description of a param=
-eter. */
-> > +       void (*get_description)(const void *param, char *desc);
-> > +
-> > +       int num_params;
-> > +       size_t elem_size;
-> > +};
-> > +
-> >  /**
-> >   * struct kunit - represents a running instance of a test.
-> >   *
-> > @@ -302,12 +318,14 @@ struct kunit_suite_set {
-> >   * @parent: for user to store data that they want to shared across
-> >   *         parameterized tests. Typically, the data is provided in
-> >   *         the param_init function (see &struct kunit_case).
-> > + * @params_data: for users to directly store the parameter array.
-> >   *
-> >   * Used to store information about the current context under which the=
- test
-> >   * is running. Most of this data is private and should only be accesse=
-d
-> > - * indirectly via public functions; the two exceptions are @priv and @=
-parent
-> > - * which can be used by the test writer to store arbitrary data or dat=
-a that is
-> > - * available to all parameter test executions, respectively.
-> > + * indirectly via public functions. There are three exceptions to this=
-: @priv,
-> > + * @parent, and @params_data. These members can be used by the test wr=
-iter to
-> > + * store arbitrary data, data available to all parameter test executio=
-ns, and
-> > + * the parameter array, respectively.
-> >   */
-> >  struct kunit {
-> >         void *priv;
-> > @@ -316,6 +334,8 @@ struct kunit {
-> >          * during parameterized testing.
-> >          */
-> >         struct kunit *parent;
-> > +       /* Stores the params array and all data related to it. */
-> > +       struct kunit_params params_data;
-> >
-> >         /* private: internal use only. */
-> >         const char *name; /* Read only after initialization! */
-> > @@ -386,6 +406,8 @@ void kunit_exec_list_tests(struct kunit_suite_set *=
-suite_set, bool include_attr)
-> >  struct kunit_suite_set kunit_merge_suite_sets(struct kunit_suite_set i=
-nit_suite_set,
-> >                 struct kunit_suite_set suite_set);
-> >
-> > +const void *kunit_get_next_param_and_desc(struct kunit *test, const vo=
-id *prev, char *desc);
->
-> Hello!
->
-> Thanks for sending out this series! I will do a full review of it. For
-> now, I noticed that I get an error when I try to run KUnit tests as
-> modules. I get the following error: "ERROR: modpost:
-> "kunit_get_next_param_and_desc" [lib/kunit/kunit-example-test.ko]
-> undefined!". As a possible fix, I suggest moving the function
-> definition into the header file and making it a static inline
-> function.
->
-> Thanks!
-> -Rae
->
+On 2025-07-08 11:27 am, Marek Szyprowski wrote:
+> On 30.06.2025 15:38, Christoph Hellwig wrote:
+>> On Fri, Jun 27, 2025 at 08:02:13PM +0300, Leon Romanovsky wrote:
+>>>> Thanks for this rework! I assume that the next step is to add map_phys
+>>>> callback also to the dma_map_ops and teach various dma-mapping providers
+>>>> to use it to avoid more phys-to-page-to-phys conversions.
+>>> Probably Christoph will say yes, however I personally don't see any
+>>> benefit in this. Maybe I wrong here, but all existing .map_page()
+>>> implementation platforms don't support p2p anyway. They won't benefit
+>>> from this such conversion.
+>> I think that conversion should eventually happen, and rather sooner than
+>> later.
+> 
+> Agreed.
+> 
+> Applied patches 1-7 to my dma-mapping-next branch. Let me know if one
+> needs a stable branch with it.
 
-Hello! Feel free to also use EXPORT_SYMBOL_GPL(). Either solution
-should work here. Thanks!
+As the maintainer of iommu-dma, please drop the iommu-dma patch because 
+it is broken. It does not in any way remove the struct page dependency 
+from iommu-dma, it merely hides it so things can crash more easily in 
+circumstances that clearly nobody's bothered to test.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-A%2BGJov4SneU9XeKLiACAcO-q5EVe%3Djo-AfYH4cs87o92MpQ00g%40mail.gmail.com.
+> Leon, it would be great if You could also prepare an incremental patch
+> adding map_phys callback to the dma_maps_ops, so the individual
+> arch-specific dma-mapping providers can be then converted (or simplified
+> in many cases) too.
+
+Marek, I'm surprised that even you aren't seeing why that would at best 
+be pointless churn. The fundamental design of dma_map_page() operating 
+on struct page is that it sits in between alloc_pages() at the caller 
+and kmap_atomic() deep down in the DMA API implementation (which also 
+subsumes any dependencies on having a kernel virtual address at the 
+implementation end). The natural working unit for whatever replaces 
+dma_map_page() will be whatever the replacement for alloc_pages() 
+returns, and the replacement for kmap_atomic() operates on. Until that 
+exists (and I simply cannot believe it would be an unadorned physical 
+address) there cannot be any *meaningful* progress made towards removing 
+the struct page dependency from the DMA API. If there is also a goal to 
+kill off highmem before then, then logically we should just wait for 
+that to land, then revert back to dma_map_single() being the first-class 
+interface, and dma_map_page() can turn into a trivial page_to_virt() 
+wrapper for the long tail of caller conversions.
+
+Simply obfuscating the struct page dependency today by dressing it up as 
+a phys_addr_t with implicit baggage is not not in any way helpful. It 
+only makes the code harder to understand and more bug-prone. Despite the 
+disingenuous claims, it is quite blatantly the opposite of "efficient" 
+for callers to do extra work to throw away useful information with 
+page_to_phys(), and the implementation then have to re-derive that 
+information with pfn_valid()/phys_to_page().
+
+And by "bug-prone" I also include greater distractions like this 
+misguided idea that the same API could somehow work for non-memory 
+addresses too, so then everyone can move on bikeshedding VFIO while 
+overlooking the fundamental flaws in the whole premise. I mean, besides 
+all the issues I've already pointed out in that regard, not least the 
+glaring fact that it's literally just a worse version of *an API we 
+already have*, as DMA API maintainer do you *really* approve of a design 
+that depends on callers abusing DMA_ATTR_SKIP_CPU_SYNC, yet will still 
+readily blow up if they did then call a dma_sync op?
+
+Thanks,
+Robin.
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/f912c446-1ae9-4390-9c11-00dce7bf0fd3%40arm.com.
