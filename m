@@ -1,152 +1,159 @@
-Return-Path: <kasan-dev+bncBC4LXIPCY4NRB4M6VDCAMGQE2OVYKUY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC3ZLA5BYIFBBUWBVDCAMGQELVB4RNA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ej1-x638.google.com (mail-ej1-x638.google.com [IPv6:2a00:1450:4864:20::638])
-	by mail.lfdr.de (Postfix) with ESMTPS id A899CB1604A
-	for <lists+kasan-dev@lfdr.de>; Wed, 30 Jul 2025 14:26:46 +0200 (CEST)
-Received: by mail-ej1-x638.google.com with SMTP id a640c23a62f3a-ae0d76b4f84sf618759666b.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 30 Jul 2025 05:26:46 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1753878386; cv=pass;
+Received: from mail-yb1-xb37.google.com (mail-yb1-xb37.google.com [IPv6:2607:f8b0:4864:20::b37])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7A54B161AE
+	for <lists+kasan-dev@lfdr.de>; Wed, 30 Jul 2025 15:40:36 +0200 (CEST)
+Received: by mail-yb1-xb37.google.com with SMTP id 3f1490d57ef6-e73290d75a8sf1539640276.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 30 Jul 2025 06:40:36 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1753882835; cv=pass;
         d=google.com; s=arc-20240605;
-        b=XdsTGzyQpRhneh24x3pgBa7ozc8YU2d2qzwIYQtzicIj6BTFqxHH5Dre37FhSN41Ji
-         WDhtFOcjDRRHiwB1lHKkL1eUVoqqZxDc34ADSsWmL+T9xM2wTzpcEBfKgDZQVoGA+LmW
-         XNxEDJFqM36LIUJO0LuIcvpUM91Fa4z40mIdikrwcYo+UopIBGxW9pMk4Ehmwa1Mn8xH
-         qvcNNStB9rYn27EPK75Vq2UWDVfTrIjtBTF3mLYByzvcqN7XQjhFMltVq8SUGLMqT3+T
-         QGRwm9O0jo3tQmFWdLF5Vx/7pAb0EEeII9C70Zpb5c7iRrkXOTagm2B9XASxLffJl4pa
-         C5Xw==
+        b=TQ1q83qFJFwMZYStggonbJvPkp7kbLAVmMDgEHGF6TS0POt77mpG4qNgo33nqvf6YL
+         KFowZSGPHr9wB9Z6ngVkCHSNu8s+0hK4cD07QpVcwjd6zskAO4NZNHGwiGf+KAoW/lRS
+         RX98RmC8xeP3fwkKZjqtEzNWxedvniSP6PeRFX2mbcI+23w+k9CsW0iL38qaXV1gfFSX
+         JSu6fsiW5VkLYmlFtzhQwGegSTEJVU7HBT0XnqTewNCm9UIZ7OkTd2aRoTlQ0Q4XJ3Qk
+         ZHNlmVf8rygDne7MyN3BAv/XRSj4YOk49DPhoNDPTcKkp2wUe3H+faa3azI/orEZKoms
+         M3kQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=0+OxSPKJmsBbSueRxN5wgSIYUg13W6WvMhqbw69qehI=;
-        fh=L2BZXR2C/HhYkTMLPRikblur7GHkf3dn3qeKXBKwBp0=;
-        b=SRfT1VSXB9qgVOJNScyaUsIiJBMkj+hzJ+9DlDpPKvVylBl+Pl8GHvRxfM2dIbaAGo
-         pZZ/FcNPBkCLqxIqHypSTq4spJeqISd+dY1dspbvc6bFZkCxjBPL+vTXRpkaVvgNW+hy
-         xgpmlurLZbsWDHg6+tgIM1/P5Z0k7QYPTC2IHq3svsPjxwsLLFzHm0JCngF7+uF8kNyc
-         4aBxNSiZ02086B1+QLt2dVkxp83pmucsknnv1f/45wZDK01GcGdDjuYImf9xEp+4R0j5
-         VFgUOea/XGZTkjjdqTRZuqYUNW6Ahzc3KJrCZLkNuHcLQkvPtu4abgxxXkwSRmZ3yW6L
-         LjfA==;
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=ZB64VXJu2TWxv+tf2MHz2yCfGylRkfOZ4HSfjiWDz3Q=;
+        fh=Cl6UKBFg9Nv1G+lcOLO+E8hJj5H3fV4G1PBOcINVcvA=;
+        b=JyGRzTKAkks8ntwcMyP1r+r7u3WtBZ7Ux4crtoo+C5+4aLBH1iPrIxn5CjeqPcYVe/
+         Vj0c7XZm4ZcPgcgUyQu6h0amESknwM/2yGPvAhkfVB+wRwoW7pfXBYXcAnDOnW2NYUd3
+         zh/vZ3OY0ix9zuGZ+jJ74CTo2u+D/Fiox1ZJsjcFA+ie1a6CO9VWh8PV8q51kKRH64LE
+         /gnbmWqi4wigyznU5gGaB1a37JPQkOjVYOP/Nb/tcTO1lWCJetKVJkRs5rcM/03ZFgF4
+         qYYCGF4LI2mipWiqbXbbBAFNGy1XW3P3h6Wk9lwIMw1WXG04jLcXC6bDKhIJc9HmPWha
+         HR/g==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=iB8aGXNy;
-       spf=pass (google.com: domain of lkp@intel.com designates 198.175.65.17 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=m8TgLaML;
+       spf=pass (google.com: domain of leon@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom=leon@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1753878386; x=1754483186; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1753882835; x=1754487635; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0+OxSPKJmsBbSueRxN5wgSIYUg13W6WvMhqbw69qehI=;
-        b=p/eBe0OMa21TueEcZK5AOTbrOnALcNelkyjKTdVCKWHJWlBVtV4P63P3+WlOc5Qjss
-         RYkMO+56LKTOukCGczA9wGMVE7L+c90Dw4US3HR5VcFHhTtRKKyEIyAt1ioVyQVWHKs/
-         cHapGRxuGl0qpza1mn3l1Xkxpdmu9B8dw7vqwvrYumZsJx4+YX69p3C5tW1xMpTO20EI
-         HNgKt3WWfc5FkcIwhRm5JFSqqQeOW0MzfAFWKa7wZB9M8WauFLMu4sMTOnFp+5J1FuN5
-         312mpSrp+AY6S5dL5+qm0v5tsGDf5a/qjwZlnwQmT4CyJKzM7WttPTuldjE6OXCeWJDv
-         sAVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753878386; x=1754483186;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0+OxSPKJmsBbSueRxN5wgSIYUg13W6WvMhqbw69qehI=;
-        b=UgCkPkcnihHrPL5rcqcXMYhyHPDy3RykGGYjTiqVk3L65dZ2Xhh4cfbtYPFdQcQbz0
-         hk4ClAV5E1c5a9Io7fdlonC62S+vDb7fHSHRxd4ap2qpdXWvUlu0OVRvL/CrgQ6PVFrb
-         KyeiQRQ1PGzipULAMIYlaakQZqJCWWUZ9Z51yuu60kBPFPkTNejeHUmh+hhzMUbGSYiG
-         VSFP3Oxp28ysaLo6bwoOC3ybW3erP/IvoFBFGlvLxZXR/8NmYinyoUvEFV+hG4uT6Ka9
-         J3s9iCezJ58GLkYvv7qeqfkCeqPXfFoK0GcAKGyN+3P6j/T32Y8ri8PH5TDKIizciX2X
-         HW8Q==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCV7DW05Uz0BqUO7H+yXyhohhW39q+zGaQSIEaoObF06UjrFoQi8AmhyO+5BwvT0rZ8qpy0YDw==@lfdr.de
-X-Gm-Message-State: AOJu0YzJJHZDN3URr+T/JgcpWmB0U1i9U4AFkQFtq6QSadHbmN4LSCCT
-	WwS62OJf+FFgx7wrZ5uQAZ0tWKeMtgQKVOd5QADCsS5g1YTi8dkybc3x
-X-Google-Smtp-Source: AGHT+IG1FCgP6lrmmPTHfxHskamk7DN1MmiDOhA+bCwQpM7o3nF8U787IATpQ6IyI/zfxUIRubsESA==
-X-Received: by 2002:a17:906:9fc4:b0:ae3:7255:ba53 with SMTP id a640c23a62f3a-af8fda28fc5mr387011966b.53.1753878385587;
-        Wed, 30 Jul 2025 05:26:25 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZe6qlF8OrJgXgFaElPe/NqqK5RCP3GY7w5N1F2ZB5W2YQ==
-Received: by 2002:a05:6402:524d:b0:604:f62b:4107 with SMTP id
- 4fb4d7f45d1cf-614c0ac1b68ls6742571a12.2.-pod-prod-04-eu; Wed, 30 Jul 2025
- 05:26:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVjRkNM2/eWk3aNILp42qddYrLkaRBxFb5fLCP9lTfvWW4uZjhsiV27y+URnI8BqyUwzH6NB2V2bbg=@googlegroups.com
-X-Received: by 2002:a05:6402:268a:b0:615:8bee:56ad with SMTP id 4fb4d7f45d1cf-6158bee65a8mr2608760a12.5.1753878382742;
-        Wed, 30 Jul 2025 05:26:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1753878382; cv=none;
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZB64VXJu2TWxv+tf2MHz2yCfGylRkfOZ4HSfjiWDz3Q=;
+        b=le8Ldc/5r9RbDdf0J/4QYI39Fy12L65OdIEXQ63+LtJhtF0xwza4UNAj0mu0zfrszW
+         v35rLDJkjz9Yjtqnr0dHAg005PiKExmw/Gchh+KrraNUkWiEDkLbjWmVQFQM8xNx73HA
+         /wSnoFexGeqh4GSkIm30xJ3S/tn5gg2GcIBRzCzwSbgqKPXRZuWoMooM1+pnYyHBUC6M
+         dt1eq310pUkBRE4A7FVlatcBEuUld01Kj65A8wFwPa8EK73OmiJNupOixTMp5uJ0RxUI
+         bRa4IbzB2nu1ATeL3AbS59F+LLraJmkRlj3x6hyH6BVyw/YCOmCx3nEEJYqal4cVddZZ
+         YGew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753882835; x=1754487635;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZB64VXJu2TWxv+tf2MHz2yCfGylRkfOZ4HSfjiWDz3Q=;
+        b=DVjjJy93zxpcEicUi4F8phwnQ8J9M1tOpcSyigOQ2iyyn+NVkO91zxj4FsUW3qyhA0
+         2O/GhUAfR+X5/yH9h8WYIajMC96NqExbsSxVVdj3NT4Ih9oLanP7xCgwcY6yJCFTOPHb
+         sf2N+/dkZrg7oF8PKvybtBT3Chm6fH0WgDZ92AYInWxetTFJUt+19zRI7kMcOJzZQp8U
+         PRnYzBns0RaMPGOZx8ei7wVYA3wjCJLd7IwtAqnBn9us0TFm802UB6pb/jBbxGnkA5Sz
+         nFqdVRdglDWmvn9BGBMJ6bjl48OpAXnm6ri/FTCWstsEUz4HX4fviR/6zyjfMkheM0LB
+         6mOw==
+X-Forwarded-Encrypted: i=2; AJvYcCXU/UbSeAIz+XZvV2YeJGqU+0/ykaXKtL9c7cTumpiRjxBjHtcOXGRwXBwniqsauThauU50kg==@lfdr.de
+X-Gm-Message-State: AOJu0Ywvz3or/x37URJGiRU8q3vLC2nKg+Ul9WT7mAyR32pdyXKCQJfn
+	H7Yv81fm6rQua/uH0kqR7LzdiaKnHemCX3gXR0i2vuHARv5qzx3rSmmw
+X-Google-Smtp-Source: AGHT+IHENmB9MAFM9OORVd9AftrdcY3At1cXExaGgqheFSJPfnYGI30bzhbwtgDk+g7Lq0roJAXilw==
+X-Received: by 2002:a05:6902:2484:b0:e8b:5465:fd73 with SMTP id 3f1490d57ef6-e8e3148441emr3700890276.4.1753882834944;
+        Wed, 30 Jul 2025 06:40:34 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcaYZcCSp1mapI07lz8T7Dmy1m0+pL9xhNNupJVWNvxPg==
+Received: by 2002:a25:350a:0:b0:e8e:1672:b04e with SMTP id 3f1490d57ef6-e8e1672fd3als2837270276.2.-pod-prod-01-us;
+ Wed, 30 Jul 2025 06:40:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVKO1vDGJdr6s69xt13nnJJ2uz7TCQRqMBJqRluEdooP8707tUR/743SEyDIPo/Gip+75XXL5FCI7M=@googlegroups.com
+X-Received: by 2002:a05:690c:c08:b0:719:559f:3320 with SMTP id 00721157ae682-71a4656d453mr46008977b3.14.1753882833785;
+        Wed, 30 Jul 2025 06:40:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1753882833; cv=none;
         d=google.com; s=arc-20240605;
-        b=CBSAX7j3oCbZBEIXkzQiy4PKSAU6OudSVz//v52C1csTv6gk0w+W1CmMd0+fqcNWzz
-         XZloJargWnPn+aU8+lYyVPARhctSKp3BfQuwN4meyHhZHT4/5I1QYpBihppppjqb4vCb
-         gDyry0TpO4jIh81ebQTj4Z3EynRfIp/AEvxsGgXovzhv/NTLENaDkQVP92A/Artj/aDM
-         5falt7f19ApXG1z5FvAP/mEAotY6wXcvk0r9NyDSeouh2o2engovn7iQsoK4OcQdQVMs
-         i5IYCAwRK4fypWWC+bARSduADEUYXp3/JvqoQlneCWCWLn3XMdnmYGbYntBoxGiGsVBH
-         asLg==
+        b=RXOAcCEWgXSykGpQws9pw6In5URwRC7mVjvjJ51ajnrnnXfcvz48Qj0mBGfYSLBh9+
+         XdDwO3ccvVBpFiGglytasq7MKaUaNbg1ju6fJaNEMAIt2DQ7MooGY2FwacjE7rg0kach
+         gp4YO4d/HXVVKGUV70uoIis9kVn2IrAZZpePBnKvdG6RlosaWB3YtIm/qPzIdRey6+1V
+         bHjyDjDUhyjUutnrEgtfSMzhFnIR1gA7LqT9sS2qzU0E8E6g/ov2UCZkmXvgY7mBAD6l
+         56tcCGw21V2tTPfV7mQGCLdGFn5/t6SRGfA7GHuGkXbXmOF0TJOzMAbn26odeHfxh7n5
+         xdjA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=uVHkEQP3vM5YgPU7qWqNFjEoGqJApn+S6iV1mh2s7ls=;
-        fh=/cgQMBJIatGqJQeifegXRTVZ9u6aajGJpaq1AvoqfCg=;
-        b=ULPC19UqLeI7AGV4T/KJjGz8psMg7NF1XormoYL4FZohh3ROZyrZbUK7eRQYn617ev
-         H087N0JviivBrfSVDvStp1VN4yuYWvUMi6AYmU0fvn5OFhWv9En8MoO3ak03z+dA8HGr
-         IYGbKPFqXmiBFJCkTbfpex505MsmQiwEyO8iJARoGKrPvy7GcqVWCte6jFNvfj4y/wKv
-         Vx16ciknDu3HD8U1WKfOMDWUl6l9VSgpZej0b2fMAKos9hNDGe1M/zsvw2DEZspQjOdu
-         eW2kjTcwV60jnu9RC3Xd+u+i5e+KLN0JWb46UK24y14aSLI9k9teXwxnhJCX0VyfdY5M
-         yZaQ==;
+        bh=DwI8HW24x7jyl46fjynmA/WxmX0LnPGEQIHuMkllTKQ=;
+        fh=NUaCMTTkjQWu0it4bf5GqqEpNV5PLtKEbTvHyNurJss=;
+        b=GEEL9tn3J3G9+8wRYKwY/yMjbIyo5WAtDKuKemyMYZ6t/bwY1s3jqwkxEOo5/nc6Jx
+         YsGxlV0rgW9RBSoTLqk2r4dvgNYpn/sX51IsrAEsbIy5CHvDtdDwPfghcBUXdH79cT75
+         bUF2Jngz7zlt3QmSdaMO/cbeLBtVzBhbkcCU6Zzok14i0FAoqurOfV0fHb6cWRA6kg7A
+         d+PVPB1Ytbs0Hn5ENamw4kMK87WoBoy9JG5L9W4nMofWI17BiFb6PG3dKqAEpLCWwDBJ
+         CcAUQa4GktPswjzXZaIeGiCewvbdUc5/JaM5ieZU6GP3Pd+9kT1EOZ0dBhIGY2avhqsM
+         m7Yg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=iB8aGXNy;
-       spf=pass (google.com: domain of lkp@intel.com designates 198.175.65.17 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mgamail.intel.com (mgamail.intel.com. [198.175.65.17])
-        by gmr-mx.google.com with ESMTPS id 4fb4d7f45d1cf-61589d492b7si43529a12.0.2025.07.30.05.26.21
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 30 Jul 2025 05:26:22 -0700 (PDT)
-Received-SPF: pass (google.com: domain of lkp@intel.com designates 198.175.65.17 as permitted sender) client-ip=198.175.65.17;
-X-CSE-ConnectionGUID: FaOqzXTGT7Khec9ODKZH9Q==
-X-CSE-MsgGUID: WWSDi356Tz+FflabPWBLxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="56142549"
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="56142549"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 05:26:21 -0700
-X-CSE-ConnectionGUID: QsyMguNhTASkZtzr+udzvw==
-X-CSE-MsgGUID: vuxavx1ZQKGyIClQO/DVXA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="163427193"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 30 Jul 2025 05:26:16 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uh5sr-0002ie-31;
-	Wed, 30 Jul 2025 12:26:13 +0000
-Date: Wed, 30 Jul 2025 20:25:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Marie Zhussupova <marievic@google.com>, rmoar@google.com,
-	davidgow@google.com, shuah@kernel.org, brendan.higgins@linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, elver@google.com, dvyukov@google.com,
-	lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
-	rodrigo.vivi@intel.com, linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com, kasan-dev@googlegroups.com,
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	Marie Zhussupova <marievic@google.com>
-Subject: Re: [PATCH 7/9] kunit: Add example parameterized test with shared
- resources and direct static parameter array setup
-Message-ID: <202507302042.9Aw3rrmW-lkp@intel.com>
-References: <20250729193647.3410634-8-marievic@google.com>
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=m8TgLaML;
+       spf=pass (google.com: domain of leon@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom=leon@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from nyc.source.kernel.org (nyc.source.kernel.org. [2604:1380:45d1:ec00::3])
+        by gmr-mx.google.com with ESMTPS id 00721157ae682-71a26a02b82si4312287b3.0.2025.07.30.06.40.33
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Jul 2025 06:40:33 -0700 (PDT)
+Received-SPF: pass (google.com: domain of leon@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) client-ip=2604:1380:45d1:ec00::3;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 67A16A5525C;
+	Wed, 30 Jul 2025 13:40:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 640CCC4CEE7;
+	Wed, 30 Jul 2025 13:40:32 +0000 (UTC)
+Date: Wed, 30 Jul 2025 16:40:26 +0300
+From: "'Leon Romanovsky' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Robin Murphy <robin.murphy@arm.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, iommu@lists.linux.dev,
+	virtualization@lists.linux.dev, kasan-dev@googlegroups.com,
+	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
+	Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH 0/8] dma-mapping: migrate to physical address-based API
+Message-ID: <20250730134026.GQ402218@unreal>
+References: <CGME20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf@eucas1p2.samsung.com>
+ <cover.1750854543.git.leon@kernel.org>
+ <35df6f2a-0010-41fe-b490-f52693fe4778@samsung.com>
+ <20250627170213.GL17401@unreal>
+ <20250630133839.GA26981@lst.de>
+ <69b177dc-c149-40d3-bbde-3f6bad0efd0e@samsung.com>
+ <f912c446-1ae9-4390-9c11-00dce7bf0fd3@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20250729193647.3410634-8-marievic@google.com>
-X-Original-Sender: lkp@intel.com
+In-Reply-To: <f912c446-1ae9-4390-9c11-00dce7bf0fd3@arm.com>
+X-Original-Sender: leon@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=iB8aGXNy;       spf=pass
- (google.com: domain of lkp@intel.com designates 198.175.65.17 as permitted
- sender) smtp.mailfrom=lkp@intel.com;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=intel.com
+ header.i=@kernel.org header.s=k20201202 header.b=m8TgLaML;       spf=pass
+ (google.com: domain of leon@kernel.org designates 2604:1380:45d1:ec00::3 as
+ permitted sender) smtp.mailfrom=leon@kernel.org;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Leon Romanovsky <leon@kernel.org>
+Reply-To: Leon Romanovsky <leon@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -159,38 +166,89 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Marie,
+On Wed, Jul 30, 2025 at 12:11:32PM +0100, Robin Murphy wrote:
+> On 2025-07-08 11:27 am, Marek Szyprowski wrote:
+> > On 30.06.2025 15:38, Christoph Hellwig wrote:
+> > > On Fri, Jun 27, 2025 at 08:02:13PM +0300, Leon Romanovsky wrote:
+> > > > > Thanks for this rework! I assume that the next step is to add map_phys
+> > > > > callback also to the dma_map_ops and teach various dma-mapping providers
+> > > > > to use it to avoid more phys-to-page-to-phys conversions.
+> > > > Probably Christoph will say yes, however I personally don't see any
+> > > > benefit in this. Maybe I wrong here, but all existing .map_page()
+> > > > implementation platforms don't support p2p anyway. They won't benefit
+> > > > from this such conversion.
+> > > I think that conversion should eventually happen, and rather sooner than
+> > > later.
+> > 
+> > Agreed.
+> > 
+> > Applied patches 1-7 to my dma-mapping-next branch. Let me know if one
+> > needs a stable branch with it.
+> 
+> As the maintainer of iommu-dma, please drop the iommu-dma patch because it
+> is broken. It does not in any way remove the struct page dependency from
+> iommu-dma, it merely hides it so things can crash more easily in
+> circumstances that clearly nobody's bothered to test.
+> 
+> > Leon, it would be great if You could also prepare an incremental patch
+> > adding map_phys callback to the dma_maps_ops, so the individual
+> > arch-specific dma-mapping providers can be then converted (or simplified
+> > in many cases) too.
+> 
+> Marek, I'm surprised that even you aren't seeing why that would at best be
+> pointless churn. The fundamental design of dma_map_page() operating on
+> struct page is that it sits in between alloc_pages() at the caller and
+> kmap_atomic() deep down in the DMA API implementation (which also subsumes
+> any dependencies on having a kernel virtual address at the implementation
+> end). The natural working unit for whatever replaces dma_map_page() will be
+> whatever the replacement for alloc_pages() returns, and the replacement for
+> kmap_atomic() operates on. Until that exists (and I simply cannot believe it
+> would be an unadorned physical address) there cannot be any *meaningful*
+> progress made towards removing the struct page dependency from the DMA API.
+> If there is also a goal to kill off highmem before then, then logically we
+> should just wait for that to land, then revert back to dma_map_single()
+> being the first-class interface, and dma_map_page() can turn into a trivial
+> page_to_virt() wrapper for the long tail of caller conversions.
+> 
+> Simply obfuscating the struct page dependency today by dressing it up as a
+> phys_addr_t with implicit baggage is not not in any way helpful. It only
+> makes the code harder to understand and more bug-prone. Despite the
+> disingenuous claims, it is quite blatantly the opposite of "efficient" for
+> callers to do extra work to throw away useful information with
+> page_to_phys(), and the implementation then have to re-derive that
+> information with pfn_valid()/phys_to_page().
+> 
+> And by "bug-prone" I also include greater distractions like this misguided
+> idea that the same API could somehow work for non-memory addresses too, so
+> then everyone can move on bikeshedding VFIO while overlooking the
+> fundamental flaws in the whole premise. I mean, besides all the issues I've
+> already pointed out in that regard, not least the glaring fact that it's
+> literally just a worse version of *an API we already have*, as DMA API
+> maintainer do you *really* approve of a design that depends on callers
+> abusing DMA_ATTR_SKIP_CPU_SYNC, yet will still readily blow up if they did
+> then call a dma_sync op?
 
-kernel test robot noticed the following build errors:
+Robin, Marek
 
-[auto build test ERROR on shuah-kselftest/kunit]
-[also build test ERROR on shuah-kselftest/kunit-fixes drm-xe/drm-xe-next linus/master v6.16 next-20250730]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I would like to ask you to do not drop this series and allow me to
+gradually change the code during my VFIO DMABUF adventure.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marie-Zhussupova/kunit-Add-parent-kunit-for-parameterized-test-context/20250730-033818
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git kunit
-patch link:    https://lore.kernel.org/r/20250729193647.3410634-8-marievic%40google.com
-patch subject: [PATCH 7/9] kunit: Add example parameterized test with shared resources and direct static parameter array setup
-config: arc-randconfig-001-20250730 (https://download.01.org/0day-ci/archive/20250730/202507302042.9Aw3rrmW-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250730/202507302042.9Aw3rrmW-lkp@intel.com/reproduce)
+The most reasonable way to prevent DMA_ATTR_SKIP_CPU_SYNC leakage is to
+introduce new DMA attribute (let's call it DMA_ATTR_MMIO for now) and
+pass it to both dma_map_phys() and dma_iova_link(). This flag will
+indicate that p2p type is PCI_P2PDMA_MAP_THRU_HOST_BRIDGE and call to
+right callbacks which will set IOMMU_MMIO flag and skip CPU sync,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507302042.9Aw3rrmW-lkp@intel.com/
+dma_map_phys() isn't entirely wrong, it just needs an extra tweaks.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+Thanks
 
->> ERROR: modpost: "kunit_get_next_param_and_desc" [lib/kunit/kunit-example-test.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> Thanks,
+> Robin.
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/202507302042.9Aw3rrmW-lkp%40intel.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250730134026.GQ402218%40unreal.
