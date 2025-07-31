@@ -1,153 +1,155 @@
-Return-Path: <kasan-dev+bncBC65ZG75XIPRBKVFV3CAMGQEAY7YPGI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCS5D2F7IUIONU5OYQDBUBHI3EEUK@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33d.google.com (mail-ot1-x33d.google.com [IPv6:2607:f8b0:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603CCB17468
-	for <lists+kasan-dev@lfdr.de>; Thu, 31 Jul 2025 17:58:36 +0200 (CEST)
-Received: by mail-ot1-x33d.google.com with SMTP id 46e09a7af769-73e797ccc81sf388504a34.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 31 Jul 2025 08:58:36 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1753977515; cv=pass;
+Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B26B175AF
+	for <lists+kasan-dev@lfdr.de>; Thu, 31 Jul 2025 19:37:44 +0200 (CEST)
+Received: by mail-wm1-x33f.google.com with SMTP id 5b1f17b1804b1-455e918d690sf11382715e9.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 31 Jul 2025 10:37:44 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1753983464; cv=pass;
         d=google.com; s=arc-20240605;
-        b=eyRPTGGP9nFZ0ffZ8z1Zi34V2wk4de0M/22h5sIirE4fT3NAHtaC8i7tByQRa90Zmb
-         99rg7xdNXeHnry1NpcnvpksGhfMHaMVAnAk0Q0Tmueq3+WIkHR3qS0WHzwPUt8nqDiXp
-         5Xpx2bWd21BOOeoyFfNdl6wcSPGzqhXvXkMu3iaZA6td/Z5UYJVb4eUa9vR0hWGZh5Kp
-         a/AZkLeI1iC/nRq9cSL+0QgqaUEi8Qv8Ldh65t4kDlIVkm5cko68LrgTniu4F/vyYVyK
-         Y9aHMh6VnaPJ4On2Kzuy8Z2T34OlsSn3qDZJfL7YlPRwWCzzOTweiXHjRJ70QRgNn456
-         sh4A==
+        b=FutY/aH8F9lJLyvZlPYQ35BmsK4+ogX6siMpcNM1spj5aw1LyOgKgSR0PFKSoS5ZSG
+         kJ768z7IAd7Z8R9se73moHqPqEZaD/M0GuFMeMQOu4BpHA3czeTYrbZZGlTO/JcuAZ49
+         Pq19tu8BNzjr9lgePq2xwLD9TTADSaUImo0PYgM9kDGg/jGfUItZO/6FToNe7/DDFZDY
+         cKmAMPzU6eq9sWHNVsi5dQCV7iiK+A3y7Gk5L13LKvzfWgpCy4vnPoSMcrLlA/l5g/YO
+         WPlFcKOPdzOmuEraE06XyNZg8zkLdwBZmlvKAWi+P77i1fs8ANaro0gN1WYnSJOgZx3I
+         uEHw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:sender
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=eFlNpVsaL3xDBTPZgtLMxVAEy1Th/wobY9Ir1HhwyI0=;
-        fh=7ByX6EQQZ3rQFsaVNA1P+1tyaNCjTDvOJQi/lIx7aNo=;
-        b=d0W1pQAyNXNmemL+RkthPBQGeFNe+JwL2+x4OVasEyWw2W1Au6Jxa30pvtpZP9DdtH
-         BfCMySQbMIKpeZp4JSkrXJWyIg37ALuwdvLOvVwoEv6PxpPe2s9pCn5cX2XsWzlHORtk
-         svwXFWkTbQKNbWIJ3V8YKBNOhEM8AxfUCmh2D6OaZEhXVWVFzcfKtjABWAakEJ2uhFc+
-         PEzO/NoL8wbQu53pW5KhKlNkt6luPgVZV2tvQ2e08woNJknMQ7h6ua5xpMduNZyOnrcI
-         DpNNH3cd3jyVCJS0Wg/Dp+kw7EF5QmrVIVwN3rvU1JwVQSBqsysQ3kTWnnWi9LyIvyuv
-         hVWw==;
+        bh=zs7VGHWcpgsToxVy+x0NxN0dD+8E/CXW0b/KpIXUSVY=;
+        fh=68kChivJyEVobDhHcu8AmA2WHRzhEMBl6SPWgq3AXzg=;
+        b=VGIcSWqGPeTth3HcaNLpru91ZMtRBr3SAjj0y+1ajxZGjF0rJeYARo0BWsKIc/+Fwb
+         k0UtS2Y/92cT4azvfa6O8d60R2a4cmPvFeKlzEI30xh8wtax0aa6TcYPUx/doqBJ1K6Q
+         KCSTobpYFrDGu3DDFW6Q8DE0O4QsNtgTxs3YmlpXwEVfcoND5U9wAoe5BoZOPvrOJ+23
+         JdnBnUht/uDXyIq6CKZpgXAZhUsAiNQIDbqJaF5vzmUBfZvDME+WdzuVODyKQ/ChTjxQ
+         TY7Y2JSixRXuHi/C0ui4xGTdGm39dO5ZoC3CLoEeyMrj5TD1ZA9bFUIvMvrZSpb0bWIK
+         ImSg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=oXyvrd7L;
-       spf=pass (google.com: domain of dan.carpenter@linaro.org designates 2607:f8b0:4864:20::e33 as permitted sender) smtp.mailfrom=dan.carpenter@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=iKWwh1a8;
+       spf=none (google.com: willy@infradead.org does not designate permitted sender hosts) smtp.mailfrom=willy@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1753977515; x=1754582315; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1753983464; x=1754588264; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eFlNpVsaL3xDBTPZgtLMxVAEy1Th/wobY9Ir1HhwyI0=;
-        b=VivEwxLt5H1yuNuErjwvy7Qu/HXNt56WLLpHKW3Om72fDcu9HGAf81CIrIjyhnuutV
-         sZDf+RMMHprc+gSWOYBYi2UyxeA4qqtgMbcF5UgvD6Nc9xwPer8rAyyr0rf/NQDQ1ZqL
-         xSCzkv0ifVK6wzDQo0RJ6xh1FFhlsf7xBvi93d+TphqXoIwecWLV16YRD037kiBJfZD6
-         RIKySwTmdWmmnXu1ub3cnCxHXkvtP0njbcFvFab2vwKFmaH037x8RhUcZlg5ime8+VyN
-         Me5ODlz2VIO+6db0AdiDV2OmeworvHo7adoA61bLmp17bpj9jONbD5fxgBxE3E2DfKtK
-         IRRA==
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zs7VGHWcpgsToxVy+x0NxN0dD+8E/CXW0b/KpIXUSVY=;
+        b=vc866ipBWkZD2LcSCXbBDqFspWjBVsVYjmKcM/n4QAFOmFZbjjlLEutU3P/bnW0ngq
+         +p59qXRWTYSHC3O6LH7DPTe8MsQLi14HaiVlsHErIL5aOo1VKfqTetCfbKfzpJQV9m5O
+         xaSbMVMxo4Sg6DsvaXL7N5ky3qM1at84vhNW59dX5bNDTVgVHqlgKgKxyy/sbidWVMbV
+         fkWYVrEvAVc4vHM2HIdcG4F0Onitru8uWGmTbcwkRziBNvS/U5e4ZqbjsvFEn0KfFeHp
+         eo0wafz8KOIMsNqfHspKJ9+O37XmWNiQi1tm/q8RSXBBKTGy7csEELaV7HVPss9+U55R
+         9ZOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753977515; x=1754582315;
+        d=1e100.net; s=20230601; t=1753983464; x=1754588264;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eFlNpVsaL3xDBTPZgtLMxVAEy1Th/wobY9Ir1HhwyI0=;
-        b=AVy6oZj799rZfna7Lp1DuYzTREhx1ln8oghu/XBlPrdlFa6PrjOdyUyeaEmCkpcTFk
-         UJO3acUDImw3eW1lj9AtwnPlD2/AbYAx+YTi1D35lM9I9ByvVP+dNuhxGovvEO3wg7gl
-         gENs/d1hWGKFKqaXd0cfxvAQdu61wdN89H+yW6Dao1SivVxwP+Nfcvbi9NunFu2hQbyI
-         lRkXcEvloCjCcEh6Z61q8mltljRm/SyG9d607E14p39o6oyqHbm+2mcx/j/hmoCq+9ep
-         7oJBmH/wK+e8uABUvN7F6VWrSBywgpvfKjXIqJEmUWZlFVahExMPeWkMJsxqsDbP6aCr
-         iA3w==
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zs7VGHWcpgsToxVy+x0NxN0dD+8E/CXW0b/KpIXUSVY=;
+        b=sbrpnN+JZL9CpHyyDI6kPNZHvsDPrcLXB87/e2e5X0iFOUdmDD4+mPuIDfgv0Hdjgk
+         VMvw8qqn11OCV+6nJZLkGRh+ed8Vs4sByiFONlCFO5tpTp8kIokHofTp9tG5orDcVWbM
+         BMrewZ1o31SSTeAleVA2EkNuJk7K1v8BLhblUp6W51DGPl+xZVYWdL6lEdVFvAmy6rpe
+         MwFqVxFDr9ccjPC+ZJetiSOqSPYMvDYhvhiE9omIRkzzcM498nl7a7Uak4u9LthhrRDO
+         UpXrqWNuDJGuO0rtoskvg4ULOCX+0RrwfdtYE7YCBI4F5SvKw9aBfsbGzt9VUJgxWrwP
+         M7BQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCV6C7jJb4pikoej7Jeq2JoqWDnHLocxi4wxWFBMSSb5J1luJAlJzxBkH3w+6ktSLt0lDazJ/Q==@lfdr.de
-X-Gm-Message-State: AOJu0YxesEy2rAgmWz5/+KSuFGTX2LAkyK7xw98PwWgPtkKax/319Z4P
-	FcwNELWakxJfUFjB4roC5Z0Y+l5ocqJ5stWbCwsO8/fCtNaarJMId6iT
-X-Google-Smtp-Source: AGHT+IHK8Qz3Uv8lz9fcfb4ysQnTbK1PkwRXFfhUczBdvwU/0wL7etsPBug1RCHg4xb326mFefFVPQ==
-X-Received: by 2002:a05:6808:5093:b0:3fe:b1fd:527f with SMTP id 5614622812f47-431994c5dbamr4034615b6e.1.1753977514583;
-        Thu, 31 Jul 2025 08:58:34 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZf+fAHgIAxlyJvaHRHLbED1AdxIhwqp9EcLBbGQCGKoKg==
-Received: by 2002:a05:6820:7819:b0:611:730c:a293 with SMTP id
- 006d021491bc7-6196f7b8f01ls335294eaf.0.-pod-prod-02-us; Thu, 31 Jul 2025
- 08:58:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVvmESUIeREjCExl0fAuIBlEROjyw7idnlQ6+SRG7/f/6rgRs2wOA/bQaQiHZvDmx+/aVMOBPtDPJE=@googlegroups.com
-X-Received: by 2002:a05:6830:6007:b0:73e:8b47:a3cc with SMTP id 46e09a7af769-74177c87481mr5602961a34.17.1753977513658;
-        Thu, 31 Jul 2025 08:58:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1753977513; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCV1/jrlueSzND/9pBs1TBaURTi9ZjOtmf1hgwyzOt1uZ9yuGmv0ab05JVP0HCDT/ebwu+OoCQ==@lfdr.de
+X-Gm-Message-State: AOJu0YxV+nxqOPdnF8xM6nT4W0zcOJbdYRzIrfBr6YCJ93AhNJGDNqaN
+	vrBbXyFMtPe+nd35dx/frROgEQX1EQGq1dnRZjI4IKK8/A3acS9dzBcK
+X-Google-Smtp-Source: AGHT+IEp5zdnhoFagonmwSmXvLmMf/zlVm7ZoVraMf0/1FjNCpcOt9fSk/0oq8Y3D8jP9lqViNRz4Q==
+X-Received: by 2002:a5d:64c9:0:b0:3b7:94ad:ef50 with SMTP id ffacd0b85a97d-3b79d42068bmr2362187f8f.2.1753983462772;
+        Thu, 31 Jul 2025 10:37:42 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZe0v16u10v2uH5R5h3/Z5PxWyBMjgHqtVOC4MOSS/dCdw==
+Received: by 2002:a05:6000:2007:b0:3b5:f09f:4a9f with SMTP id
+ ffacd0b85a97d-3b7951d2072ls550844f8f.1.-pod-prod-00-eu-canary; Thu, 31 Jul
+ 2025 10:37:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWDWsSebdm/7T72rGagCUlBzfehy+eE+PIeOuVmYW55nHfdUPo7U191971W3P/Vt6gdyuOuZMoxh6E=@googlegroups.com
+X-Received: by 2002:a05:6000:188c:b0:3a5:8977:e0fd with SMTP id ffacd0b85a97d-3b79d1f809bmr2840560f8f.0.1753983459077;
+        Thu, 31 Jul 2025 10:37:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1753983459; cv=none;
         d=google.com; s=arc-20240605;
-        b=i3dxWIKwqw1mkpaT1YuG/7wmrjzNlYP+EySUa8K5Bk7pssmiknkN1U113zgjPnjd1k
-         WvUaDBK07KHnHK2zasaoS55py2BSKnjEhP+uHaGZ/EoIpTE9ihSSF0Nq5js/lcz9AzqZ
-         pTajolzI4K4tgI9OfaktUvRsiHJAyXrfI2lPnn6ZGQG76cMvl4lZrGFYFi9Uy8a/gXwJ
-         JMiThh75svvWn5cznX6bxZl24vf+Ipz+MIAlOvIhX5DsijpBMY5+/tQYKUZA3OaeSCA3
-         EmBs79wmhFUvltBVOYnGp/d8x38EVzWwT5/zHot0mLGdeErN5H+rUdQk/Su1qjRWwJDm
-         Na+Q==
+        b=Ix6YQkBgg9mcxQh/b22c2Ls89gyHYlLScQP+i6Xnnn41itkI+8dSl5Ap2ECSCEUvE1
+         xQHja/PIYif18tgf9xV/xYCNDE95L9w6cjRPyP+ZdFgtQv/Vl7cSuc+v+PO21stkGC7N
+         mENvbjgeO7VfMdCLwSoz/MBax8ezLYZ6F7KqybJ6oIK2GpJr1PEjIqz4hjMFrncn7FUz
+         Gbe0yQuypvwUhewabu0td+P2ikAvh5BKOvJEjJ+teEGVqD4JrqXYhFeEUuCfqv5Ylm7R
+         H/IkbpqFC+xEHWrbqnAk3Qf/RWQ7Lq3i+TYRXjUjjsQlVgENtaXV19pO1W+mW7cwaRBx
+         6Smg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=jKKboCZbQOuMPhW93A7UzwoZX1h4N/abO1uaKk6KKOQ=;
-        fh=MuMiIB3YD+BNBVIUgiz6MyACMhWn++OCH1gdG1IuZeE=;
-        b=gdTg/lZxcIeMOXKN7Rins0BqkR3vYpnK7+PHMZSoJLqNXom+aunMrdJC8N3FpFW/QF
-         izDtAxXbRD9g/Y6BpU7hGdD84oytz1ALiE24sadmcCpTQ37ap4dvqg5OInHTWiFD+pHO
-         g3/uFExktOrjrCcODRiAuvwFqZXpFZ8Gch0fV4Rl/46YupZPyVLUdKAaAOSS0Wy5Sxdc
-         yjsH+17r3boxTa3joLMvk6AxZwYEJJDmMCOjyhAkGXAD+0REyzGVscVBsnHASiREwruV
-         fEOkuNzTcdz8MHrSQoUdRhuqTt+2394N/P+3ClT4CojMBrD6EuuPtyhzhqkKkaOxWYad
-         ukJA==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=p81bLGAEXCTve0S2bSlDolWBTWQ0gkC1ozZDbrTl9gw=;
+        fh=oAt3CmzDhFh4viFxsurSoo58VZFx2ag9hNGckAnYPCk=;
+        b=XdPaaDYjdUz55pJHKvRxUdsYlOu698eoidfI0FHI6X5tFMkvAoL/gvAYwku0cRhQZK
+         K/dU+mmn4ZAxpJSG2qQBl99t7ALcRd5Oh6a5tczEkab5F95KD0OgUQNkmKmj10jvOAVf
+         rtqxOvVxJZE2zZ+XcTtw5BOOFiAHuUfcYUQZf/SWNsj247vdKW5xdNpUWxo7g+TNuI+B
+         vRictdl2u0PbP3tAYjlGJc0VKSTmePhG69Yd7T0S/nxSkD11kH+6jxs9AyYEBRs2klmH
+         fpcMDi//nP94XAuR//9GQPKhC0eNv3xx6ppKxJ/GduJumS4I5UA3dVPuSbd0x2KxD//l
+         86sA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=oXyvrd7L;
-       spf=pass (google.com: domain of dan.carpenter@linaro.org designates 2607:f8b0:4864:20::e33 as permitted sender) smtp.mailfrom=dan.carpenter@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com. [2607:f8b0:4864:20::e33])
-        by gmr-mx.google.com with ESMTPS id 46e09a7af769-741869ec354si96098a34.0.2025.07.31.08.58.33
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=iKWwh1a8;
+       spf=none (google.com: willy@infradead.org does not designate permitted sender hosts) smtp.mailfrom=willy@infradead.org
+Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-4588dd3fe52si2622295e9.1.2025.07.31.10.37.39
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Jul 2025 08:58:33 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dan.carpenter@linaro.org designates 2607:f8b0:4864:20::e33 as permitted sender) client-ip=2607:f8b0:4864:20::e33;
-Received: by mail-vs1-xe33.google.com with SMTP id ada2fe7eead31-4fc1094c24eso423677137.0
-        for <kasan-dev@googlegroups.com>; Thu, 31 Jul 2025 08:58:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUO/O2F1zargcscxosZdSkCKCkaosYsbushY2jVQfQE+2A/vy/LzM9zRsgQyZIkIyo9WrCO8vMUA8Q=@googlegroups.com
-X-Gm-Gg: ASbGncvIRkCR1EYuWtozBX8vHtujyc90yzvW0wGEvPn2wJHFuYR4JtZ2NY+rOhHk6Fx
-	iuKc1QFt5y6JBLF5ltYL41sxi37UxvHQpPX4+ZjBqy2dQC/zmdPtJyihM2I4I30igVtVzCgf+RA
-	abs+z9PunoQOMdVDeBH783c8zU0NB8tYNoAIDENzJsTFB5MRr+aBg+q/fsCUSCV6+G2DMaZf9qZ
-	fC84DRbfVz2pAoELT5HKJxrnbV5gEIzVC1SgMJPSbNDf+urM6ca039icxeGtYOeMpnc56RZERVF
-	OfHVSajeu3VByRTr7qytEY6uB9CUk7pE10uSX5SQ8EIVA7ZNaBZlnqXlJ92DJErA0Jbf8VcJxNd
-	T3th3bsAtFwG+Ox39u28MAeGTXLE=
-X-Received: by 2002:a05:6102:5686:b0:4e7:3e76:cd21 with SMTP id ada2fe7eead31-4fbe7f376f5mr4909961137.9.1753977512820;
-        Thu, 31 Jul 2025 08:58:32 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-88d8f422459sm431284241.21.2025.07.31.08.58.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Jul 2025 08:58:32 -0700 (PDT)
-Date: Thu, 31 Jul 2025 18:58:28 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Marie Zhussupova <marievic@google.com>,
-	rmoar@google.com, davidgow@google.com, shuah@kernel.org,
-	brendan.higgins@linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, elver@google.com,
-	dvyukov@google.com, lucas.demarchi@intel.com,
-	thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	kasan-dev@googlegroups.com, intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	Marie Zhussupova <marievic@google.com>
-Subject: Re: [PATCH 6/9] kunit: Enable direct registration of parameter
- arrays to a KUnit test
-Message-ID: <5683507a-dacc-4e46-893f-d1e775d2ef22@suswa.mountain>
+        Thu, 31 Jul 2025 10:37:39 -0700 (PDT)
+Received-SPF: none (google.com: willy@infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1236::1;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uhXDL-0000000H6sX-2SDg;
+	Thu, 31 Jul 2025 17:37:11 +0000
+Date: Thu, 31 Jul 2025 18:37:11 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leon@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, iommu@lists.linux.dev,
+	virtualization@lists.linux.dev, kasan-dev@googlegroups.com,
+	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
+	Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH 0/8] dma-mapping: migrate to physical address-based API
+Message-ID: <aIupx_8vOg8wQh6w@casper.infradead.org>
+References: <CGME20250625131920eucas1p271b196cde042bd39ac08fb12beff5baf@eucas1p2.samsung.com>
+ <cover.1750854543.git.leon@kernel.org>
+ <35df6f2a-0010-41fe-b490-f52693fe4778@samsung.com>
+ <20250627170213.GL17401@unreal>
+ <20250630133839.GA26981@lst.de>
+ <69b177dc-c149-40d3-bbde-3f6bad0efd0e@samsung.com>
+ <f912c446-1ae9-4390-9c11-00dce7bf0fd3@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20250729193647.3410634-7-marievic@google.com>
-X-Original-Sender: dan.carpenter@linaro.org
+In-Reply-To: <f912c446-1ae9-4390-9c11-00dce7bf0fd3@arm.com>
+X-Original-Sender: willy@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linaro.org header.s=google header.b=oXyvrd7L;       spf=pass
- (google.com: domain of dan.carpenter@linaro.org designates
- 2607:f8b0:4864:20::e33 as permitted sender) smtp.mailfrom=dan.carpenter@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org;
-       dara=pass header.i=@googlegroups.com
+ header.i=@infradead.org header.s=casper.20170209 header.b=iKWwh1a8;
+       spf=none (google.com: willy@infradead.org does not designate permitted
+ sender hosts) smtp.mailfrom=willy@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -160,97 +162,51 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Marie,
+Hi Robin,
 
-kernel test robot noticed the following build warnings:
+I don't know the DMA mapping code well and haven't reviewed this
+patch set in particular, but I wanted to comment on some of the things
+you say here.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> Marek, I'm surprised that even you aren't seeing why that would at best be
+> pointless churn. The fundamental design of dma_map_page() operating on
+> struct page is that it sits in between alloc_pages() at the caller and
+> kmap_atomic() deep down in the DMA API implementation (which also subsumes
+> any dependencies on having a kernel virtual address at the implementation
+> end). The natural working unit for whatever replaces dma_map_page() will be
+> whatever the replacement for alloc_pages() returns, and the replacement for
+> kmap_atomic() operates on. Until that exists (and I simply cannot believe it
+> would be an unadorned physical address) there cannot be any *meaningful*
+> progress made towards removing the struct page dependency from the DMA API.
+> If there is also a goal to kill off highmem before then, then logically we
+> should just wait for that to land, then revert back to dma_map_single()
+> being the first-class interface, and dma_map_page() can turn into a trivial
+> page_to_virt() wrapper for the long tail of caller conversions.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marie-Zhussupova/kunit-Add-parent-kunit-for-parameterized-test-context/20250730-033818
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git kunit
-patch link:    https://lore.kernel.org/r/20250729193647.3410634-7-marievic%40google.com
-patch subject: [PATCH 6/9] kunit: Enable direct registration of parameter arrays to a KUnit test
-config: nios2-randconfig-r072-20250731 (https://download.01.org/0day-ci/archive/20250731/202507310854.pZvIcswn-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
+While I'm sure we'd all love to kill off highmem, that's not a realistic
+goal for another ten years or so.  There are meaningful improvements we
+can make, for example pulling page tables out of highmem, but we need to
+keep file data and anonymous memory in highmem, so we'll need to support
+DMA to highmem for the foreseeable future.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202507310854.pZvIcswn-lkp@intel.com/
+The replacement for kmap_atomic() is already here -- it's
+kmap_(atomic|local)_pfn().  If a simple wrapper like kmap_local_phys()
+would make this more palatable, that would be fine by me.  Might save
+a bit of messing around with calculating offsets in each caller.
 
-New smatch warnings:
-lib/kunit/test.c:723 kunit_run_tests() error: we previously assumed 'test_case->generate_params' could be null (see line 714)
+As far as replacing alloc_pages() goes, some callers will still use
+alloc_pages().  Others will use folio_alloc() or have used kmalloc().
+Or maybe the caller won't have used any kind of page allocation because
+they're doing I/O to something that isn't part of Linux's memory at all.
+Part of the Grand Plan here is for Linux to catch up with Xen's ability
+to do I/O to guests without allocating struct pages for every page of
+memory in the guests.
 
-vim +723 lib/kunit/test.c
-
-914cc63eea6fbe Brendan Higgins     2019-09-23  681  int kunit_run_tests(struct kunit_suite *suite)
-914cc63eea6fbe Brendan Higgins     2019-09-23  682  {
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  683  	char param_desc[KUNIT_PARAM_DESC_SIZE];
-914cc63eea6fbe Brendan Higgins     2019-09-23  684  	struct kunit_case *test_case;
-acd8e8407b8fcc David Gow           2021-08-03  685  	struct kunit_result_stats suite_stats = { 0 };
-acd8e8407b8fcc David Gow           2021-08-03  686  	struct kunit_result_stats total_stats = { 0 };
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  687  	const void *curr_param;
-914cc63eea6fbe Brendan Higgins     2019-09-23  688  
-c272612cb4a2f7 David Gow           2022-07-01  689  	/* Taint the kernel so we know we've run tests. */
-c272612cb4a2f7 David Gow           2022-07-01  690  	add_taint(TAINT_TEST, LOCKDEP_STILL_OK);
-c272612cb4a2f7 David Gow           2022-07-01  691  
-1cdba21db2ca31 Daniel Latypov      2022-04-29  692  	if (suite->suite_init) {
-1cdba21db2ca31 Daniel Latypov      2022-04-29  693  		suite->suite_init_err = suite->suite_init(suite);
-1cdba21db2ca31 Daniel Latypov      2022-04-29  694  		if (suite->suite_init_err) {
-1cdba21db2ca31 Daniel Latypov      2022-04-29  695  			kunit_err(suite, KUNIT_SUBTEST_INDENT
-1cdba21db2ca31 Daniel Latypov      2022-04-29  696  				  "# failed to initialize (%d)", suite->suite_init_err);
-1cdba21db2ca31 Daniel Latypov      2022-04-29  697  			goto suite_end;
-1cdba21db2ca31 Daniel Latypov      2022-04-29  698  		}
-1cdba21db2ca31 Daniel Latypov      2022-04-29  699  	}
-1cdba21db2ca31 Daniel Latypov      2022-04-29  700  
-cae56e1740f559 Daniel Latypov      2022-04-29  701  	kunit_print_suite_start(suite);
-914cc63eea6fbe Brendan Higgins     2019-09-23  702  
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  703  	kunit_suite_for_each_test_case(suite, test_case) {
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  704  		struct kunit test = { .param_value = NULL, .param_index = 0 };
-acd8e8407b8fcc David Gow           2021-08-03  705  		struct kunit_result_stats param_stats = { 0 };
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  706  
-887d85a0736ff3 Rae Moar            2023-03-08  707  		kunit_init_test(&test, test_case->name, test_case->log);
-03806177fa4cbb Marie Zhussupova    2025-07-29  708  		__kunit_init_parent_test(test_case, &test);
-03806177fa4cbb Marie Zhussupova    2025-07-29  709  
-529534e8cba3e6 Rae Moar            2023-07-25  710  		if (test_case->status == KUNIT_SKIPPED) {
-529534e8cba3e6 Rae Moar            2023-07-25  711  			/* Test marked as skip */
-529534e8cba3e6 Rae Moar            2023-07-25  712  			test.status = KUNIT_SKIPPED;
-529534e8cba3e6 Rae Moar            2023-07-25  713  			kunit_update_stats(&param_stats, test.status);
-44c50ed8e59936 Marie Zhussupova    2025-07-29 @714  		} else if (!test_case->generate_params && !test.params_data.params) {
-                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^
-Imagine ->generate_parms is NULL but test.params_data.params is
-non-NULL.
-
-37dbb4c7c7442d David Gow           2021-11-02  715  			/* Non-parameterised test. */
-529534e8cba3e6 Rae Moar            2023-07-25  716  			test_case->status = KUNIT_SKIPPED;
-37dbb4c7c7442d David Gow           2021-11-02  717  			kunit_run_case_catch_errors(suite, test_case, &test);
-37dbb4c7c7442d David Gow           2021-11-02  718  			kunit_update_stats(&param_stats, test.status);
-03806177fa4cbb Marie Zhussupova    2025-07-29  719  		} else if (test_case->status != KUNIT_FAILURE) {
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  720  			/* Get initial param. */
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  721  			param_desc[0] = '\0';
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  722  			/* TODO: Make generate_params try-catch */
-13ee0c64bd88a3 Marie Zhussupova    2025-07-29 @723  			curr_param = test_case->generate_params(&test, NULL, param_desc);
-                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
-Then this could crash.
-
-I suspect that this is fine, but I bet that in the previous
-condition, just testing one would probably have been sufficient
-or maybe we could have change && to ||.
-
-529534e8cba3e6 Rae Moar            2023-07-25  724  			test_case->status = KUNIT_SKIPPED;
-6c738b52316c58 Rae Moar            2022-11-23  725  			kunit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT KUNIT_SUBTEST_INDENT
-6c738b52316c58 Rae Moar            2022-11-23  726  				  "KTAP version 1\n");
-44b7da5fcd4c99 David Gow           2021-11-02  727  			kunit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT KUNIT_SUBTEST_INDENT
-44b7da5fcd4c99 David Gow           2021-11-02  728  				  "# Subtest: %s", test_case->name);
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  729  
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  730  			while (curr_param) {
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+You say that a physical address will need some adornment -- can you
+elaborate on that for me?  It may be that I'm missing something
+important here.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/5683507a-dacc-4e46-893f-d1e775d2ef22%40suswa.mountain.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aIupx_8vOg8wQh6w%40casper.infradead.org.
