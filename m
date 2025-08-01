@@ -1,132 +1,133 @@
-Return-Path: <kasan-dev+bncBCD6ROMWZ4CBBKURWLCAMGQE3SNSFQQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQYJOPHAQIIXFVSYQDBUBDO4CAZS@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x139.google.com (mail-il1-x139.google.com [IPv6:2607:f8b0:4864:20::139])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E230B17F3F
-	for <lists+kasan-dev@lfdr.de>; Fri,  1 Aug 2025 11:28:34 +0200 (CEST)
-Received: by mail-il1-x139.google.com with SMTP id e9e14a558f8ab-3e3d462b81csf13308325ab.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 01 Aug 2025 02:28:34 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1754040491; cv=pass;
+Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D9AAB17F79
+	for <lists+kasan-dev@lfdr.de>; Fri,  1 Aug 2025 11:38:39 +0200 (CEST)
+Received: by mail-lf1-x13a.google.com with SMTP id 2adb3069b0e04-55b8422dbdasf878112e87.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 01 Aug 2025 02:38:39 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1754041101; cv=pass;
         d=google.com; s=arc-20240605;
-        b=QO4SH4sZVbk1v+PtVFpHMsk5d+woiipEQtSr7TVla2Dntn9FxAFJ4CEaKXwt/kyu7u
-         SbPziJ/dF8sgiN9ehxH2dgdmuSmB/BaCutEdHcvclFBajEzi0VqxwpDFnHkgUBF3va/S
-         CKPWUyKqOND6ITk3G7e+YGb3rvfVlxa1IjjdROHog/EQHsg/62F+RMXKa3JznLxZzfks
-         Lj54rIdJFWm0v0ndTMW8LhIxzzNpeHDXmyOrf+Pw8ZNGBfOL3S6pXJyfsNKgDT54WDD+
-         0NRtymR/ILY8ddX8PX4UKx2IK6lF6oB48PcrNfNTZEhMOkM53QzjZm1AsoAIVSBJktpg
-         yvgw==
+        b=QF1nD5TqXFew1KHCNmYX5vrtH74ucLcdbDO3mtRT1hzezTRJb3sEXL6Y7iND+j2+Lq
+         Xs3GMVaE8b+INjUhFIsicIIVJWru/DVqtv70CqRreUSrquDumcrvO5H3JYxhDoMcEtGe
+         3MOx0sQ27J3SOi76rldNLUtN/hGYUqpnVX0v/VL3/ArlsTjbIWsPF3tx70f+vPcWcuWF
+         srAM5f8uhURXVPUaSt7yFgTKogrdXags+26hTWn9bWQJYmk8aDpYNl1LkA9dIPr5J3qy
+         b/bbNU+qSnZF2t1dkQ52pgsCU74h+scy5Z3lNM+25wMfivKAFEHh+uYijeqB0zQKzGnD
+         Br9g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=7PnWNJRYwUC9kRSEnu8q7Mp3ChZ/ZKU4HAeC13z81qw=;
-        fh=7/bjjl98yFmbOuWuoncGCH/G0UZlcFMkIf7Uwjwi2vw=;
-        b=hfsn01VcmcKepGY/7E7N5JbFp/NUrYoZO4bpCqFpVIZqXlPsWlrG7zK4WWLK4TISpA
-         wJt2R/dEd29j+9p4LpNodEId+Tb3a1vA9u6Tcy2uvMJgp+fd9zjJYqBG7bTDPDB0rwkJ
-         sQjGMuecEmbNHXT0lF5iGdFp0OuR2a6xfyQZvi3aCfDpxlbW8LTdA8rrWJ8XLiDIOyXi
-         Bl2cpdmUaI4NArS/tHhi5BpnRRqtDwB3JmzfaGpyLd7kcDbHdsb5wK8L/SMAYghAkFWc
-         ziTgn0swqIas8hh95joKQbPrIxn00bST/VHoZ5PIERUMLhEZ+q+MSU3FM6rZsrGvH5sG
-         74/A==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=g3qbJ6J+1Zpn7gEJVXpZrcZTB3EZMUtdi2GldXnL4Z4=;
+        fh=tavAS9PoQP+Nf0jmqUe6AeryLSpuB+XrT1LVJSykETE=;
+        b=DOyrF/zRLUCe7sws8i0JNnl8WmcwaKVW1YCW8w44+ySucX6EZVNNpvD+XqRCy+1+mW
+         z7pC/hKa46gjHlCL4iqqAF9/mJKyJFpW6OLf4ol+xu9yu/UAKufazqIR0bgi80wrOR2I
+         h0qLa5zu/aoJD7O8UvRyRxtraEew8YO3hFVELeMtmHvuLsJzj3Nq9oWOU3ozI5W2xANI
+         du11hkZNhy/a/NhwXJvh1qt+t68NuqLrXs8Gt5vS9UNuwXjie6gWzifUjLwKuAdaFpTI
+         VhJKuU1uaPqe3v9CKaK/fM114D09YrcvhD3Ifhawr0UjLgRm8gTeM/+EFMUxlElu4ylN
+         9oag==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of yeoreum.yun@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=yeoreum.yun@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=hgmTsZgP;
+       dkim=neutral (no key) header.i=@linutronix.de;
+       spf=pass (google.com: domain of t-8ch@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=t-8ch@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1754040491; x=1754645291; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1754041101; x=1754645901; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=7PnWNJRYwUC9kRSEnu8q7Mp3ChZ/ZKU4HAeC13z81qw=;
-        b=oiW+fyLhVHNLRFGLdxKpF4cqF/O4jY6Nyrdn2YRb7O2Y/Kqpoe9DkTn+VOwI0jjD5A
-         OZiVxioLOCXAOv7n4qgP8YdqsRqsVI5wDC6PWO3xvIHbYoxHsxjM8G/2PxjyPJD2mezL
-         SgETrGPkh5Mhz3q4G93PjiyRLlaGtiHq/EZe1saD+SE27eAo/iveE9qO4zvgkznLjNhw
-         neSTTzoRyz6VXW1miAX8GMN7tu5VC2lj+5h4M/SXRku8/LVNt20JJGQTCAyqVdFN7wU+
-         AwspdwBFiehyON7x6tg/eFqWqUbZ38gxs0MI8r/hNIVQZ3aTdDn2MRVmnuiAcIrM40cm
-         sCsg==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=g3qbJ6J+1Zpn7gEJVXpZrcZTB3EZMUtdi2GldXnL4Z4=;
+        b=ozwQ/4gBtPo0qZ8AQdbyzzG/aO84E4qNBJH5MWx1FxqitCJ21O5BdIwGWqzz+3f6Ee
+         O41u/c2CXb7H2ZK7Vv/TPN0dNTsN4Be1EbocRLoO5gI1bbEBwXxBTURtheVy+doyydPN
+         YSrP1knpo1H+HubwIMXtbzF+A2XKvHTbR76Npg5h4KDddip7bNZ8tzhHD5MYqL6dMqg/
+         hfNEVxEZ5evDbQMhuQMte1Kw6tMHzr4hz9tR93H4jRko/wJIpAnY2rKnaLuz+t1H1WF2
+         pT6KTa6I1Y+nWP9vMaMNfzkPTIX35nef66iGH5if9r8yZVmiN2Vboh670pFO+jgEK1+1
+         n2ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754040491; x=1754645291;
+        d=1e100.net; s=20230601; t=1754041101; x=1754645901;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=7PnWNJRYwUC9kRSEnu8q7Mp3ChZ/ZKU4HAeC13z81qw=;
-        b=v+q7sxGVmcg/3sJ00PTexo6jiMpDUTkiqUBnojk/Exihw5eyeFZwJ4x4R9/l71dV2B
-         clEa0hWgX1uzE8zBxsvLDIVKH+Z9ROP5JDMKwQ1JuRS4xNdn3G+gxkdQAlROUUmn/VzN
-         zVqUHXrxVN1vsWW4pgl2CvBlnby8I3rzgFTS+kqKac293oqxx2PJ6x/CNDe8H8OFNk/m
-         NGLCdH6YLhVVKHJJlBEoiQRNqIqHqKR7US43jnNbeYHskqnfyQCB9MLyLBde2e278Pot
-         3eOvXzzv4Nnm6MtDAQOTLNFA89Ngm9V+YLPbxWgB6iMVCxp0m5wreEGPrXucy9j1sjvL
-         TV7Q==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=g3qbJ6J+1Zpn7gEJVXpZrcZTB3EZMUtdi2GldXnL4Z4=;
+        b=dmOX8RKT4NrX27DJIkniqokRwvHHotO+uttoq8Tlm88pB1H/FmyF2EIOl0h16PRUDs
+         aXmiciNLkAPLf8WISXni0AcEyC978dLVZ9UzRFzpoCn6L5U1qlsSmBqkRgmACAHDSC1B
+         hK3fG8hqH1Ihe48IIk8WR/5Hgqz+DZT4F2njnjVHodR3H6GW1izQvLCJ50/LLJQUA4Xi
+         s0y4ZD0DHwlVeed0oGv7l03SzN1HOoCrJodH9ieAuuOGUqT7XqBs5PMpm1aWBL1sfQQa
+         s+1aLcZemgE8BcMe5TvsYupl60ejRV5SzN/33ih7C/6BFhy6TxYcLMdon14XkrXBXlcI
+         IVGw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWPvZCC2vfCEv1F48NJ8NW3WMARbvSqKQVkgDvNdcLTYEJBLNW4jUctbJ11wxFPoA++SjVN8w==@lfdr.de
-X-Gm-Message-State: AOJu0Yx28vZZh5GvRVJT/aSqEV14YAuwA2NcYsD9Vky2WrYP5tjF8e+0
-	hYJpdpdQQwOloNwpglLUhFCQc8GPEhYEaVBrm/k3EpBSP5gRPwRbSesp
-X-Google-Smtp-Source: AGHT+IFRqgVS1QxaYKMFzdEM70HT1zPJBUicMA+HFQaVnlWOoHagCoT3hosOCLiQN9WUsj4S7sidYw==
-X-Received: by 2002:a05:6e02:cc6:b0:3df:3bc5:bac1 with SMTP id e9e14a558f8ab-3e3f60d2107mr148041085ab.5.1754040490974;
-        Fri, 01 Aug 2025 02:28:10 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZeXv4L/gFP5hUjesxspGYl8keBJr81sokkOoIgioC+i3Q==
-Received: by 2002:a05:6e02:1527:b0:3e3:cbfe:cd96 with SMTP id
- e9e14a558f8ab-3e401b21509ls14676595ab.2.-pod-prod-04-us; Fri, 01 Aug 2025
- 02:28:10 -0700 (PDT)
-X-Received: by 2002:a05:6e02:cc6:b0:3df:3bc5:bac1 with SMTP id e9e14a558f8ab-3e3f60d2107mr148040645ab.5.1754040490120;
-        Fri, 01 Aug 2025 02:28:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1754040490; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCV8H2OddhDKxnE6lKnYtc0LGUwyVozNhJx7tPSsaoppwn9Wg0izfugzqRKVmESVuacxBtus4g==@lfdr.de
+X-Gm-Message-State: AOJu0Yw+T11ACPEhWxyeq9quLrSEMRWtPzVBTStpe0c95cjjYOhIg58r
+	ITGyeTD4BmDLrRo1TXy2v4BxQOmnYah55/6MrDCW6Nha/G/r38iI3bwa
+X-Google-Smtp-Source: AGHT+IGV0gDAf2ePQKdmRzUw5g8I4cqmSOF3irYCqAW/9k5HXy8tymhIbsT0hJqhsE+9beCIe0fFZw==
+X-Received: by 2002:a05:6512:10c5:b0:55b:760d:c2f5 with SMTP id 2adb3069b0e04-55b7c0827a2mr3114498e87.33.1754041099942;
+        Fri, 01 Aug 2025 02:38:19 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZc1nqxOFZ//ewMAUOSiJly1gUoldu9lPj06NYpd6/OPdQ==
+Received: by 2002:a05:6512:628e:b0:553:d125:e081 with SMTP id
+ 2adb3069b0e04-55b87b09f35ls330934e87.2.-pod-prod-03-eu; Fri, 01 Aug 2025
+ 02:38:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWBnR844flAzhBdyvTbMdgu0BUG8oPQoEQqYLCSywgUwd+nF9DUX1CFsuzQnO5A+Cvy2WpDRVF7OF8=@googlegroups.com
+X-Received: by 2002:a05:6512:ea8:b0:553:25e9:7f3c with SMTP id 2adb3069b0e04-55b7c0829bemr3515773e87.37.1754041096845;
+        Fri, 01 Aug 2025 02:38:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1754041096; cv=none;
         d=google.com; s=arc-20240605;
-        b=R44cMVe2LSYyLxxPUiL43rcVJZq0Ut8t7Fjj/vRZ1G3jiYGrEMNEFWRsYtqWRnbZ4z
-         6MY8Aq4CHcNbomN5qyk6xh/qAJWlpsfwCtPo8UAHwT3g8I4HMNv9o1J1axT3QGcjjiFy
-         tLNaJVG1UJ4OYTjIPAeRIpDTsuLbfUo0rsV07hWM4G91wKMjehM7Z5f3eWnjTWpANzeo
-         Sp8N4GJ+sIXV34m4Td2CQqDLzH46oizcgR1tvEMzKxyqM+V4Rk1JoRQLXE+glohY8ilQ
-         JRzUA9hNz0+ePQ73itrBCr1S+h9c5HJsIJpZj97+VcATbrRkdydi41WSbArnS8JdWzy/
-         t3gQ==
+        b=USTwmyhlr2kpapBztEi6uP3NRiUxCcw27klZCr9puIcj3hPQdofiWjkssPz1t+erkq
+         UwRRuAPRD1ntgwRrv1ZEWgYd98mJ+mWTLZvIaPgNUCodNbC78XwgFwDao7lEB3ABczEX
+         WGsly0CmAku/61ecZWk74hAN9jD84YWW3ZjLoRN/9HGp/tfMVxiLes1S69GDjVWoII+k
+         EzQDZ4i0/5kJ3UXQtxADhq7SnF0kVb2atCiGwDlCtBV4UsOD6cmTt++NAnuuy008SQZ1
+         WU53EL65wgQWHbkQLMdbryQOz3nT8dTLnlMhSeUEOBiJggQzgRA+IBgVn4C93093HdTj
+         d1cg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from;
-        bh=X3OyRbnd9tzDjFgTDuxacn2jSWdNOiudDnCqVY7X/Ro=;
-        fh=3LwrvSBe3PJwQU1VQ/HIl6WQZkyfdcGJHLCyC1aCtrk=;
-        b=BGAjKxM80Vevv/ic+MRZ3Bayr1IGzzeQdXDgD+w2ARM8DdgomruW0mjZvbP+oFAlGH
-         BJHJroW60AP0YSqg1fWCXlUPGUMkNwIu+FhvlFjUmy/HPDNdsAR9p9Lr+voz1hbzbOAE
-         d6MwO76AY9XsJNlDO5oNrTceneby4GQt8NXDFPwzpjuaFvRKdgHWt9aMkPjTu4PjQCrU
-         4zxOTP8xjSSM0UaTO9PfBkLWkthNOfQkT/P1ki2fzVMnRiJuTLYAms2GVmQf+lh1Svf8
-         qTNvy/WM866fsqx4HcMCIgQxdmnm8DGYnKifEhb9U0U+nYJLr1pfFoY75+nhaUwlWvpi
-         xazA==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:dkim-signature:dkim-signature:date;
+        bh=tGSv6RdaV6X5lnOcQToZWXgwKNlnA4P6z1e4N4UFCfU=;
+        fh=XQIM03cM5vRfQUaTYiZlU3vNX1GZFFIMxQz2Y+AaHKo=;
+        b=Exebw0lEd/ta2YENMOuyHxN9CqyY0PI/SABQtlNVKerEeEPiVhLglZJHZW4PrMvVl0
+         EDjuaZ0I7PjMKRgnZAztllvk6ug1SFtaD1WjS0ZWJ2wsoeSZxQY+9YQr7oS3KUB5BIOW
+         PXpVtTkUvgRKSrPdjp+iXJk9njRQaGTAJn/hd+CEPrdSgTp3tMyo3c/Lx292LD56++7d
+         /tm+/pn2q19/46RLn2xloskR6J/7MydzJNEFrk05tvPCr4eqAZd6jMUoTdP+xyGvHmmT
+         U6ISj6rZEGpPpubMjcGg9TLQaCYolQIa9lTojL1Tk3adfVfzgTRL+TPfAnzAmaeJYykE
+         k5Yg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of yeoreum.yun@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=yeoreum.yun@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id e9e14a558f8ab-3e402a13342si1138995ab.2.2025.08.01.02.28.10
-        for <kasan-dev@googlegroups.com>;
-        Fri, 01 Aug 2025 02:28:10 -0700 (PDT)
-Received-SPF: pass (google.com: domain of yeoreum.yun@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6CA46169C;
-	Fri,  1 Aug 2025 02:28:01 -0700 (PDT)
-Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id BEE833F66E;
-	Fri,  1 Aug 2025 02:28:07 -0700 (PDT)
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: thomas.weissschuh@linutronix.de,
-	ryabinin.a.a@gmail.com,
-	glider@google.com,
-	andreyknvl@gmail.com,
-	dvyukov@google.com,
-	vincenzo.frascino@arm.com,
-	akpm@linux-foundation.org
-Cc: kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Yeoreum Yun <yeoreum.yun@arm.com>
-Subject: [PATCH v2] kasan: disable kasan_strings() kunit test when CONFIG_FORTIFY_SOURCE enabled
-Date: Fri,  1 Aug 2025 10:28:05 +0100
-Message-Id: <20250801092805.2602490-1-yeoreum.yun@arm.com>
-X-Mailer: git-send-email 2.34.1
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=hgmTsZgP;
+       dkim=neutral (no key) header.i=@linutronix.de;
+       spf=pass (google.com: domain of t-8ch@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=t-8ch@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+Received: from galois.linutronix.de (Galois.linutronix.de. [193.142.43.55])
+        by gmr-mx.google.com with UTF8SMTPS id 2adb3069b0e04-55b8870e498si49696e87.0.2025.08.01.02.38.16
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Aug 2025 02:38:16 -0700 (PDT)
+Received-SPF: pass (google.com: domain of t-8ch@linutronix.de designates 193.142.43.55 as permitted sender) client-ip=193.142.43.55;
+Date: Fri, 1 Aug 2025 11:38:15 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com, 
+	dvyukov@google.com, vincenzo.frascino@arm.com, akpm@linux-foundation.org, 
+	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] kasan: disable kasan_strings() kunit test when
+ CONFIG_FORTIFY_SOURCE enabled
+Message-ID: <20250801113228-5a2487e0-0d90-4828-88c7-be2e3c23ad3b@linutronix.de>
+References: <20250801092805.2602490-1-yeoreum.yun@arm.com>
 MIME-Version: 1.0
-X-Original-Sender: yeoreum.yun@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of yeoreum.yun@arm.com designates 217.140.110.172 as
- permitted sender) smtp.mailfrom=yeoreum.yun@arm.com;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=arm.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20250801092805.2602490-1-yeoreum.yun@arm.com>
+X-Original-Sender: t-8ch@linutronix.de
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@linutronix.de header.s=2020 header.b=hgmTsZgP;       dkim=neutral
+ (no key) header.i=@linutronix.de;       spf=pass (google.com: domain of
+ t-8ch@linutronix.de designates 193.142.43.55 as permitted sender)
+ smtp.mailfrom=t-8ch@linutronix.de;       dmarc=pass (p=NONE sp=QUARANTINE
+ dis=NONE) header.from=linutronix.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -139,39 +140,58 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-When CONFIG_FORTIFY_SOURCE is enabled, invalid access from source
-triggers __fortify_panic() which kills running task.
+On Fri, Aug 01, 2025 at 10:28:05AM +0100, Yeoreum Yun wrote:
+> When CONFIG_FORTIFY_SOURCE is enabled, invalid access from source
+> triggers __fortify_panic() which kills running task.
+> 
+> This makes failured of kasan_strings() kunit testcase since the
+> kunit-try-cacth kthread running kasan_string() dies before checking the
+> fault.
 
-This makes failured of kasan_strings() kunit testcase since the
-kunit-try-cacth kthread running kasan_string() dies before checking the
-fault.
+"makes failured" sounds wrong. Maybe this?
 
-To address this, add define for __NO_FORTIFY for kasan kunit test.
+"This interferes with kasan_strings(), as CONFIG_FORTIFY_SOURCE will trigger
+and kill the test before KASAN can react."
 
-Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
----
- mm/kasan/Makefile | 4 ++++
- 1 file changed, 4 insertions(+)
+> To address this, add define for __NO_FORTIFY for kasan kunit test.
 
-diff --git a/mm/kasan/Makefile b/mm/kasan/Makefile
-index dd93ae8a6beb..b70d76c167ca 100644
---- a/mm/kasan/Makefile
-+++ b/mm/kasan/Makefile
-@@ -44,6 +44,10 @@ ifndef CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX
- CFLAGS_KASAN_TEST += -fno-builtin
- endif
+"To address this" is superfluous. Maybe this?
+"Disable CONFIG_FORTIFY_SOURCE through __NO_FORTIFY for the kasan kunit test to
+remove the interference."
 
-+ifdef CONFIG_FORTIFY_SOURCE
-+CFLAGS_KASAN_TEST += -D__NO_FORTIFY
-+endif
-+
- CFLAGS_REMOVE_kasan_test_c.o += $(call cc-option, -Wvla-larger-than=1)
- CFLAGS_kasan_test_c.o := $(CFLAGS_KASAN_TEST)
- RUSTFLAGS_kasan_test_rust.o := $(RUSTFLAGS_KASAN)
---
-LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
+> 
+> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+> ---
+
+Missing link and changelog to v1.
+
+>  mm/kasan/Makefile | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/mm/kasan/Makefile b/mm/kasan/Makefile
+> index dd93ae8a6beb..b70d76c167ca 100644
+> --- a/mm/kasan/Makefile
+> +++ b/mm/kasan/Makefile
+> @@ -44,6 +44,10 @@ ifndef CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX
+>  CFLAGS_KASAN_TEST += -fno-builtin
+>  endif
+> 
+> +ifdef CONFIG_FORTIFY_SOURCE
+> +CFLAGS_KASAN_TEST += -D__NO_FORTIFY
+> +endif
+
+The ifdef is unnecessary. If CONFIG_FORITY_SOURCE is not enabled, the define
+will be a no-op. This also matches other uses of __NO_FORTIFY.
+
+> +
+>  CFLAGS_REMOVE_kasan_test_c.o += $(call cc-option, -Wvla-larger-than=1)
+>  CFLAGS_kasan_test_c.o := $(CFLAGS_KASAN_TEST)
+>  RUSTFLAGS_kasan_test_rust.o := $(RUSTFLAGS_KASAN)
+> --
+> LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250801092805.2602490-1-yeoreum.yun%40arm.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250801113228-5a2487e0-0d90-4828-88c7-be2e3c23ad3b%40linutronix.de.
