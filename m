@@ -1,150 +1,144 @@
-Return-Path: <kasan-dev+bncBDQ67ZGAXYCBBD4XV7CAMGQEYNFFIEA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBMX4WDCAMGQE3J7RL7Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82077B176E0
-	for <lists+kasan-dev@lfdr.de>; Thu, 31 Jul 2025 22:01:21 +0200 (CEST)
-Received: by mail-wm1-x33f.google.com with SMTP id 5b1f17b1804b1-455f79a2a16sf14607065e9.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 31 Jul 2025 13:01:21 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1753992081; cv=pass;
+Received: from mail-wr1-x43b.google.com (mail-wr1-x43b.google.com [IPv6:2a00:1450:4864:20::43b])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC9C0B17BAF
+	for <lists+kasan-dev@lfdr.de>; Fri,  1 Aug 2025 06:10:27 +0200 (CEST)
+Received: by mail-wr1-x43b.google.com with SMTP id ffacd0b85a97d-3b783265641sf874871f8f.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 31 Jul 2025 21:10:27 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1754021427; cv=pass;
         d=google.com; s=arc-20240605;
-        b=JPKUI4/NqzyVPqMeG9nqQM5ONbbIEYuaEU9MZjk4RCeOI6z7NX8PS3f6PASyQyXGOi
-         6/PtkLJxOhPwDFb+RebhuP9PNzeMDvl8EKcd8TzaAU3wKdeMNSIMS5h9Wxc86VJ/k+Hl
-         Psd+SL0U7jcdxdfGDmMkewXOjVBj+0NS9wWGT/44yvJyKb2+dszTL0kuYFnThC1RxPRT
-         AeKLGBOhxVlY3Abe0Dm/QMIovMgM2c/fb1vVicGZwS6DJYWFvyTxlua1iOXHNNWGrYKq
-         uIME124NdfHSlZGfi3os5miXQjwGbfv7AvWSQiBFOI7yOvpMDwF9WX/jaivM5mlGjwGO
-         DovQ==
+        b=KkF6bk6tD/YVDupqk9Ssgqn0ZtEtqBQUew+R8zdQFg+aOJuMjwtBzjj/F2DRodb2aa
+         t0OvQM6Q4fg7UR6Ck4BSZj6eG1qxgpH86hHDzf6DXE5kcXshHIJ8puQ6kNK0ewGvV5pm
+         5ULjTxhz+Z57Fj8hjJawSuoAynGlfz78OVK2fQ6OXEFU6Zn048Ehru1/6FJN/AO6NYmc
+         mYjk4vaO2bWy6oY6ly/3an4DgY3xQBesxngTC54ZYuD1ubQzRyJk6fzcCsOoI2D2/i2i
+         Ne3nkYMJmpfcsgDzTjK482ilcKje6aHTAUlxiDHP/wWq0EiRU3jbp5GEC9xxY0B2xIDW
+         7HQw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=81eF2VrV0D8ed7BXXVflv5xpaMnX4OmY85WN28bHkS4=;
-        fh=LMar5hC9UYGsDnc/0pP9rbYtD2zP0Xe41yd6QdOn0GU=;
-        b=Je7mezyeHuZrO16APm8sEL3ZUurWbY6qIqJhDb+B/XRBVuEHrtlR+mufvvj4NVsfCZ
-         Ot0XTd+LZnsXJy0ChM9NrE3s/+IH57sz1RQzb23ZSKGsAgsYflL5i+mkvn54sKysrQMS
-         O/Wp+gfPtZBI4maQ/arV0k8ReBTY1wwoIlpKE9Fl1TRkbeA1soK66CVu4fn6y+jWO71G
-         Ey5BnHp5J7x+gkuOx25eJxycwfIbOvtxTPsWREXplKKym8SH5taS7nxlRD+saMXODXcM
-         77m9DgQRSVOoP9X35NLnRyt9mgzgK6HJ2rgNkpU6a9gM8gKr+D1GluaT5TGCFXVorOAv
-         0rDQ==;
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=PxdI2yGhv6qgWW32R/SslMBJBt0CrYomCUiDdmkq+OQ=;
+        fh=PPu3TqiKxB0yPIGN+zO3GMv13sQhepZn42KGZKJq4r0=;
+        b=V42qvbF0P5OG34ytjYLpdk7rBqNiH6A/ThDxXa6PWAWSrz06+HxLfzuhFKmNT2WE/1
+         DL94Ncg476KhorwTujGbbzW+4J0Re1zGX8vMLpJJdNBNTLLTATM73itPugYvb7mf6ofX
+         hAybH5IvCXcDPPMEWZIB00+Sa/FACqnUjpWrGosI8ik/8Ui36o6YMv4mwq/dWljSpybG
+         XfMMF0G/ZYBelucG86oRA9w1Jjr2VICPDoVPg9+j5ZxIkZxmWH60A4ZjBg4n0wI2BUnL
+         cW4eobffgglyiO8CbCENc2ihz5eJpJCW6nukYys2mlnXrn6wI+G+uJUOGqEJ9ZxvsUe7
+         ZJsQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=1huudaXn;
-       spf=pass (google.com: domain of marievic@google.com designates 2a00:1450:4864:20::52a as permitted sender) smtp.mailfrom=marievic@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=kOXJXXFT;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::236 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1753992081; x=1754596881; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1754021427; x=1754626227; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=81eF2VrV0D8ed7BXXVflv5xpaMnX4OmY85WN28bHkS4=;
-        b=J8COwUyvS4DW+xyFSLI3BJ4Qj3p/eKGEnVhxv1a6pYI82GUuxAdukp7hoAtx/divmu
-         Ltz/eGgLd9uKWXXW4H3qV6BP0QB4LDSe/DHAalPIfPGHCz+WB3tGd5PPlfdQ1lQZc1Xi
-         jaI5/M/5lIiH4ytYKBfA1E4AdyEiX7H3m5EtYKUoL3EkeCecMpQOoDinn6aqyoqmsdp9
-         nZp3Mtx4kR516G9rEPEHcreb4Sqjk5s08Bs9V9OplMs3AwGYlig381qKFEaSzqAeBTxb
-         acXvf4RDfVmLLprnAFhopY+3Rd13V21fNQVVMUYNjaNBOtAG1uOTL8S4Vo60dFrOwA9q
-         5S0A==
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PxdI2yGhv6qgWW32R/SslMBJBt0CrYomCUiDdmkq+OQ=;
+        b=fOYSp8TKAsZZ5YerQZQQGZqqWJtFUKnamXpjt/TRptN8LhptL8uHNHFpIqywcxd/M9
+         u2+lBphEa2NM2whQvu9tx/o3B6pBTVsmZ7HD/30VlahCiFMWCpSoEld1XzAQPQOkMMHE
+         w/+B7loO70vbvB9bhqpKdTPXznAJuDliXEh/H5fSUHF86nd93MXeas1iA7tx6FPP6iZH
+         0SGCBxarKtZa1dSKXckcJvWe+z9Rw1e237DB4eLWUvCA1aQKyTGZVH0L2eIe4bRaxdH9
+         vgZ9xbzZx0PIrOZZtgfI7BAN6IrVIulLjn553+oeXIKcTnXQU213hRYqLpmYklR6zKiL
+         uxnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753992081; x=1754596881;
+        d=1e100.net; s=20230601; t=1754021427; x=1754626227;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=81eF2VrV0D8ed7BXXVflv5xpaMnX4OmY85WN28bHkS4=;
-        b=fhdv6Si7EWrLANzYnRfcUqbSTicRrhTGTAlG2HJZbGERb7TP50UG5DKDZ8mQVOtrPB
-         GncCBjMykYqPvHHuevo0ATdfK2jWX/Z1Jf6J1pPrBzJBl4zH7nOvlSWmat/nG6jDS+PR
-         8y4uYQawa4WwI7Z59xJNXIWYF9P3gvAJHtDGeUoO/xGunL4o4ga2R7i+8C/kUnA5Z9v4
-         ANTWXXeqo/O7RSBcGhpGcy5vYvUvgJ5rPEItwlWLHL6bqJT6dD4nKA5lh3RnCY1JSvCG
-         kCGUuOZaKe47mj0hkCqOthBXnv0tXD8JxRYz5pQFaU+cI/xoL8Q+uXZEr7+VotCZ78UG
-         NTfA==
-X-Forwarded-Encrypted: i=2; AJvYcCUycSanopGSP9ioxnB7cfSPMQGbQq2dRaJRRe+EWVK4F03HJPu4bTzwNpQNaKkWe7CSburRRw==@lfdr.de
-X-Gm-Message-State: AOJu0Yzp2u7k/I22JZKwY+VhkUJxAsGxOWCFjl9P1sG3QD7H4NlCsnZI
-	FRFEckh1wx6zJBKxoz0qVsXdF87Xdm1aLE+9WIZVoavlxKZeEg+kjO6o
-X-Google-Smtp-Source: AGHT+IGrUyQfrt6cwdyuvBu55RIIuS9e1zO678wyRJqTlc4/ebdsYlOEgcrbWjtTw76VLIaRNx4K8A==
-X-Received: by 2002:a05:600c:314e:b0:43d:fa59:af97 with SMTP id 5b1f17b1804b1-45892bebf5dmr74867425e9.32.1753992080573;
-        Thu, 31 Jul 2025 13:01:20 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcQdIkbMNxJNriG8o29uI/8it8QkTnIqEghTLgIwOmN2g==
-Received: by 2002:a05:600c:64c8:b0:43c:ef03:56fa with SMTP id
- 5b1f17b1804b1-458a8827676ls1893375e9.2.-pod-prod-02-eu; Thu, 31 Jul 2025
- 13:01:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUOFoKCs9BIYC2FbI/3Ys1gZrPNhPN5AoDJ8GVSbDD8ofxmKmnBFYepMXCn1V4ZCRO5lgFc9hmzQr8=@googlegroups.com
-X-Received: by 2002:a05:6000:400c:b0:3b8:d32c:773e with SMTP id ffacd0b85a97d-3b8d32c79ffmr194919f8f.36.1753992077856;
-        Thu, 31 Jul 2025 13:01:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1753992077; cv=none;
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PxdI2yGhv6qgWW32R/SslMBJBt0CrYomCUiDdmkq+OQ=;
+        b=P/eBRbS6l3aOFr9+LI0hCImX1Wm0KZ7NNABtKTyLzYIc1cZi4wNgqDJxR4m6+B8wII
+         vOcksZ3MNDj7pJLNOWicukNCYxg46QLqK12C9/3+gu6fW4bhd++C86EX6fXtxAj32of+
+         z04v7QPD7K2dI9ayomxz/pQSgSC0Kp6BraiRpfOy8Si91ggeGAsCQ3jk1/s7vQTGDfyz
+         Dtn3y6pxIFJ9ytC3G79obJaANzg+9qNSo3i7Lp0tEUr2hkBoUGU7trkYvs89Oz3hmxe9
+         tnBDLL1rgv6TmN2imM+EmodR7nhJYcGZAkgVYm83MVvc7EVeamhC090/jUF1375X6+FC
+         qjZQ==
+X-Forwarded-Encrypted: i=2; AJvYcCX4GtrMxJp5i7FucQlZ3f4oF5BwArfV5QGtjibvKITucqTjTHFVkIbfiRwAUIDNzjbddjMGuw==@lfdr.de
+X-Gm-Message-State: AOJu0YwXC86mg2B7uvenp6YvoV46LQM4cyRd35BSvkQNHdaKprqxQIjQ
+	AYRiEBvuF3+T91Cr+a/UwMTLVCEQ2zALv0a8x4cahzP6Lr2KLrMLUO6C
+X-Google-Smtp-Source: AGHT+IH30Ylu1XiGIU3fTx/aynRY3OVLEUXDEwQlEIIDFk59k6Ppw7EnKib37BQ/96KhwV3j1vJDhw==
+X-Received: by 2002:a05:6000:2501:b0:3b7:974d:533f with SMTP id ffacd0b85a97d-3b7974d58a4mr5711723f8f.34.1754021427010;
+        Thu, 31 Jul 2025 21:10:27 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfp1C0OMUg28S/IHKOgucMyDdI/qEPJ0jAaCYzD8jQ52A==
+Received: by 2002:a05:6000:2892:b0:3b7:9bb1:790b with SMTP id
+ ffacd0b85a97d-3b79c34dc78ls572784f8f.0.-pod-prod-04-eu; Thu, 31 Jul 2025
+ 21:10:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCX8ZoTuJaPm3+90oNpfeT1LLm25NtnYLBCmRbf1VkkUL+AY2nLtrBW6IIHS1f8hoQb6+dL/vhznbjM=@googlegroups.com
+X-Received: by 2002:a05:6000:40ce:b0:3b7:78c8:937f with SMTP id ffacd0b85a97d-3b794fc30e4mr7197319f8f.20.1754021424327;
+        Thu, 31 Jul 2025 21:10:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1754021424; cv=none;
         d=google.com; s=arc-20240605;
-        b=W4yaKQSyPQRKC34FB674vHAYaRQpXWfaORd+11piJadJ0JD/pFGJRMuGEoyZWMCXMX
-         OSKym2Xa5ad1zmn55NYYW91Tf+Nj046ijNccpYUegh4eh+sXrHRDTZoK0l33xQ71m72m
-         noRe5fEozyznqkCZ0i1ABpLAhphITihnS2hDTu4rK9afy0EsPNYyIF3LtqiBWsSd7MbC
-         nuIo8uGbIdFVuBoId5qdrevRT962XlpoGrP0oF5Z63qaSVGcT4HAq8VZgwfkMcEhWL34
-         LXyQgAixLIZ/Rc/Wq7V3ZdFKWpxLdfNILhx7cFDvsViocQQGDqQWZwvT3YcX7sLXjEOV
-         jKBg==
+        b=c9cyFldeCorKwLek+HBdNXQLq9EnqHPsK75A25t4VJZBB7rpUUXaDj3rDN69g3Hu06
+         HvzUXapvNTF49l2e954vzgsVLKXaXyJ/BX1Gfihbpe1ZM+7x9L/6ynDONSnzGmWZvNHl
+         Ik1Gzbcb5uA+DsuScwz+pMTh5pEPZ8BgeSaet9jXz/3441aAa6XM0pvce4vlblo93jEq
+         SrI39t1GHj6OjoJBI//6HJ/6VyS57EMQ+mQOq2ss/+7C+doWhO0ROe9KacJjFRAQmSIH
+         b62gO2jNXsmBBBKS5hZUoMaS6ghw+CO3YbCt32NvUxoMMaxBsBWSZjplEgRGzoYig7V/
+         vptg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=j4B+Gc5g7Q5xkPte+e+rtUPltSMHyDQNEhLddUtHkKo=;
-        fh=ueH8OeKZ2LoFrWxnZvRqOucac5+1SV8f7rV24HXaDHs=;
-        b=j17jJjSj4X//G4I6mOF7Pe2P+c8FshTV8cgYZsHInavs/yoZUva6njil9swLpsyWMT
-         PoOTED3OpDdqXrL+27LXl7+Zd/2hrI6YqSn2Eh5wkOYnbbZ1F7pt6ModVN4njKfmuecS
-         xLdP8jimt/mN1kj92m5QI2i/IkwV+67JNMoJ8P2/4Ruz16pUgH6mvdmdI7A0m3adROHp
-         tx+vj9G6MejnTi+Jx0A9W72TrRnD4C9lblp6xjg7D5lwmktrX+R5AWR94yNP23UnKdLS
-         sTRH8WY3jvaT5lcfJ8uWg8jMgSy7dxZPn7IjId4RTD3ss7f7ph3iK2JUHc3ku/FqJzPw
-         wmmw==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=DAW4jsjGko+3B//T/ExjPGSsgZPk1ToCs8jJS1FOe/8=;
+        fh=xp3yhMsV5SV+3N2M2mxuxKs8kzvaHJFV4Ne+nhpIW6A=;
+        b=OO2sqySvQ0ziWQhD7xk4PGNj1tQZPy1wy3ofIf6kt4BjFtJMqNjCUlZrPfcawDpEdW
+         TRygK2GkLYn+ZGoMvkhgg03xI/VzNtlW6XRuYaGhnBEaZ0S5cmuKQfu5BDhlpUQOHDCr
+         kBCnT5xyqX5fVP4uD77zi/SuIf0sa8Iiwg/Fh87s3jVGT8CBuarbgcNQ9k4lGUOtXs16
+         njBlx5ec9LqIho9rp4ZPekB+ET2ps0pVjlFlG4u+oMH/uQquV/8p3JXnDFPGtPGWXFCd
+         eZhoyV2VRg4rQSED6Fx6/6MrK8tU0u0HXbYR1p+OOBOChIxOkZB5TQctr8+S4pWemwod
+         b0gA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=1huudaXn;
-       spf=pass (google.com: domain of marievic@google.com designates 2a00:1450:4864:20::52a as permitted sender) smtp.mailfrom=marievic@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=kOXJXXFT;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::236 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com. [2a00:1450:4864:20::52a])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3b79c47aa0esi70210f8f.7.2025.07.31.13.01.17
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com. [2a00:1450:4864:20::236])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3b79c48d27dsi79771f8f.8.2025.07.31.21.10.24
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Jul 2025 13:01:17 -0700 (PDT)
-Received-SPF: pass (google.com: domain of marievic@google.com designates 2a00:1450:4864:20::52a as permitted sender) client-ip=2a00:1450:4864:20::52a;
-Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-6156c3301ccso2661a12.1
-        for <kasan-dev@googlegroups.com>; Thu, 31 Jul 2025 13:01:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVjBfiBw4FpAajVTxaa1N9vKykPbPnYglGfzpURCw8bSNS2CGB9hR2KWs1SAkpKIEbpdhmT2F6CGZo=@googlegroups.com
-X-Gm-Gg: ASbGncsJGlfrL2sF1Fz7sGvaiQnPkqzrdCg+fFnv3gmhwDw13FkNC+ls7wQtAo+z5Dl
-	VFNhOsvbCG0oiCWXjhg16BYA19+Ulp6zsTJFnO+we9hF0rvPRd4JS0M1+66ChfvGJXhpm5Nv4a9
-	jq164WFfuj7Ofyy0ZpXiR8Ujn01fqDppX1vyApQIgzjfiYWEqrJ5ENPK5xJ+LBIeDbkjqtUcGYY
-	QCRPdiHDNRK7Cbyec2RBu4LCp1nGjPwCCDCZw==
-X-Received: by 2002:a50:aa8b:0:b0:60e:2e88:13b4 with SMTP id
- 4fb4d7f45d1cf-615cba4acfbmr10864a12.3.1753992076959; Thu, 31 Jul 2025
- 13:01:16 -0700 (PDT)
+        Thu, 31 Jul 2025 21:10:24 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::236 as permitted sender) client-ip=2a00:1450:4864:20::236;
+Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-33211f7f06eso9935551fa.2
+        for <kasan-dev@googlegroups.com>; Thu, 31 Jul 2025 21:10:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXmJxl0PCIhAqyIiGaHuTVk4i2zNRw7HgymVQGJ5JHWqma7Da61ACsT6RoxHADGmQSsJuNiURBYl8E=@googlegroups.com
+X-Gm-Gg: ASbGnctlHliPCPWhya7zpUfYwJzsYK34atdIRdSqB9DWnp2JcsT2A4uINMOeEMzf40I
+	VFEX49N7/GnyObm119aSp6PPueIyUMogAzg5keNs8Tf+NjMwn4z5o+LNG0O8esVjVl2ptHzfMlD
+	2ykSniXOEVZN7CVXWjBAftb7Il22Bu2jkA9js4ulzbAa+Funk8uHSTXpAKox9I9E3TLecAudWQk
+	a7dehSS2wWJKSomqlL9DLBD+IsMAluFkOA3heg=
+X-Received: by 2002:a2e:9215:0:b0:32c:bc69:e921 with SMTP id
+ 38308e7fff4ca-33224a7b2b4mr24191841fa.9.1754021423238; Thu, 31 Jul 2025
+ 21:10:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250729193647.3410634-7-marievic@google.com> <5683507a-dacc-4e46-893f-d1e775d2ef22@suswa.mountain>
-In-Reply-To: <5683507a-dacc-4e46-893f-d1e775d2ef22@suswa.mountain>
-From: "'Marie Zhussupova' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 31 Jul 2025 16:01:04 -0400
-X-Gm-Features: Ac12FXzOGGXGhE1duhbD0s56UlVQ0g2I8y9BFv08H051qzMmNgVQAGnFiVjL2Lc
-Message-ID: <CAAkQn5JVPnN_dowQAjexom9O+2vThSOiNiY4woCgRPwGNNmt7w@mail.gmail.com>
-Subject: Re: [PATCH 6/9] kunit: Enable direct registration of parameter arrays
- to a KUnit test
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, rmoar@google.com, davidgow@google.com, 
-	shuah@kernel.org, brendan.higgins@linux.dev, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, elver@google.com, dvyukov@google.com, 
-	lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com, 
-	rodrigo.vivi@intel.com, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, kasan-dev@googlegroups.com, 
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org
+References: <20250731115139.3035888-1-glider@google.com> <20250731115139.3035888-10-glider@google.com>
+In-Reply-To: <20250731115139.3035888-10-glider@google.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Fri, 1 Aug 2025 06:10:11 +0200
+X-Gm-Features: Ac12FXzVDZLMsbHd-ebP8MIlpJEBPq1Ul2ifjai1v48RZ5V6KaIP2GFJOPpyIHU
+Message-ID: <CACT4Y+bLQvbfW0_wmJ9f+ESrOd4JuR6jk5ngzq936XkZNSRZ9Q@mail.gmail.com>
+Subject: Re: [PATCH v4 09/10] kcov: selftests: add kcov_test
+To: Alexander Potapenko <glider@google.com>
+Cc: quic_jiangenj@quicinc.com, linux-kernel@vger.kernel.org, 
+	kasan-dev@googlegroups.com, Aleksandr Nogikh <nogikh@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Ingo Molnar <mingo@redhat.com>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Marco Elver <elver@google.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: marievic@google.com
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=1huudaXn;       spf=pass
- (google.com: domain of marievic@google.com designates 2a00:1450:4864:20::52a
- as permitted sender) smtp.mailfrom=marievic@google.com;       dmarc=pass
+ header.i=@google.com header.s=20230601 header.b=kOXJXXFT;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::236
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Marie Zhussupova <marievic@google.com>
-Reply-To: Marie Zhussupova <marievic@google.com>
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,175 +151,487 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Jul 31, 2025 at 11:58=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
-o.org> wrote:
+On Thu, 31 Jul 2025 at 13:52, Alexander Potapenko <glider@google.com> wrote:
 >
-> Hi Marie,
+> Implement test fixtures for testing different combinations of coverage
+> collection modes:
+>  - unique and non-unique coverage;
+>  - collecting PCs and comparison arguments;
+>  - mapping the buffer as RO and RW.
 >
-> kernel test robot noticed the following build warnings:
+> To build:
+>  $ make -C tools/testing/selftests/kcov kcov_test
 >
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Marie-Zhussupova/k=
-unit-Add-parent-kunit-for-parameterized-test-context/20250730-033818
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kself=
-test.git kunit
-> patch link:    https://lore.kernel.org/r/20250729193647.3410634-7-marievi=
-c%40google.com
-> patch subject: [PATCH 6/9] kunit: Enable direct registration of parameter=
- arrays to a KUnit test
-> config: nios2-randconfig-r072-20250731 (https://download.01.org/0day-ci/a=
-rchive/20250731/202507310854.pZvIcswn-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 8.5.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202507310854.pZvIcswn-lkp@intel.com/
->
-> New smatch warnings:
-> lib/kunit/test.c:723 kunit_run_tests() error: we previously assumed 'test=
-_case->generate_params' could be null (see line 714)
->
-> vim +723 lib/kunit/test.c
->
-> 914cc63eea6fbe Brendan Higgins     2019-09-23  681  int kunit_run_tests(s=
-truct kunit_suite *suite)
-> 914cc63eea6fbe Brendan Higgins     2019-09-23  682  {
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  683      char param_desc[K=
-UNIT_PARAM_DESC_SIZE];
-> 914cc63eea6fbe Brendan Higgins     2019-09-23  684      struct kunit_case=
- *test_case;
-> acd8e8407b8fcc David Gow           2021-08-03  685      struct kunit_resu=
-lt_stats suite_stats =3D { 0 };
-> acd8e8407b8fcc David Gow           2021-08-03  686      struct kunit_resu=
-lt_stats total_stats =3D { 0 };
-> 8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  687      const void *curr_=
-param;
-> 914cc63eea6fbe Brendan Higgins     2019-09-23  688
-> c272612cb4a2f7 David Gow           2022-07-01  689      /* Taint the kern=
-el so we know we've run tests. */
-> c272612cb4a2f7 David Gow           2022-07-01  690      add_taint(TAINT_T=
-EST, LOCKDEP_STILL_OK);
-> c272612cb4a2f7 David Gow           2022-07-01  691
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  692      if (suite->suite_=
-init) {
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  693              suite->su=
-ite_init_err =3D suite->suite_init(suite);
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  694              if (suite=
-->suite_init_err) {
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  695                      k=
-unit_err(suite, KUNIT_SUBTEST_INDENT
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  696                       =
-         "# failed to initialize (%d)", suite->suite_init_err);
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  697                      g=
-oto suite_end;
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  698              }
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  699      }
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  700
-> cae56e1740f559 Daniel Latypov      2022-04-29  701      kunit_print_suite=
-_start(suite);
-> 914cc63eea6fbe Brendan Higgins     2019-09-23  702
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  703      kunit_suite_for_e=
-ach_test_case(suite, test_case) {
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  704              struct ku=
-nit test =3D { .param_value =3D NULL, .param_index =3D 0 };
-> acd8e8407b8fcc David Gow           2021-08-03  705              struct ku=
-nit_result_stats param_stats =3D { 0 };
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  706
-> 887d85a0736ff3 Rae Moar            2023-03-08  707              kunit_ini=
-t_test(&test, test_case->name, test_case->log);
-> 03806177fa4cbb Marie Zhussupova    2025-07-29  708              __kunit_i=
-nit_parent_test(test_case, &test);
-> 03806177fa4cbb Marie Zhussupova    2025-07-29  709
-> 529534e8cba3e6 Rae Moar            2023-07-25  710              if (test_=
-case->status =3D=3D KUNIT_SKIPPED) {
-> 529534e8cba3e6 Rae Moar            2023-07-25  711                      /=
-* Test marked as skip */
-> 529534e8cba3e6 Rae Moar            2023-07-25  712                      t=
-est.status =3D KUNIT_SKIPPED;
-> 529534e8cba3e6 Rae Moar            2023-07-25  713                      k=
-unit_update_stats(&param_stats, test.status);
-> 44c50ed8e59936 Marie Zhussupova    2025-07-29 @714              } else if=
- (!test_case->generate_params && !test.params_data.params) {
->                                                                          =
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^
-> Imagine ->generate_parms is NULL but test.params_data.params is
-> non-NULL.
->
-> 37dbb4c7c7442d David Gow           2021-11-02  715                      /=
-* Non-parameterised test. */
-> 529534e8cba3e6 Rae Moar            2023-07-25  716                      t=
-est_case->status =3D KUNIT_SKIPPED;
-> 37dbb4c7c7442d David Gow           2021-11-02  717                      k=
-unit_run_case_catch_errors(suite, test_case, &test);
-> 37dbb4c7c7442d David Gow           2021-11-02  718                      k=
-unit_update_stats(&param_stats, test.status);
-> 03806177fa4cbb Marie Zhussupova    2025-07-29  719              } else if=
- (test_case->status !=3D KUNIT_FAILURE) {
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  720                      /=
-* Get initial param. */
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  721                      p=
-aram_desc[0] =3D '\0';
-> 8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  722                      /=
-* TODO: Make generate_params try-catch */
-> 13ee0c64bd88a3 Marie Zhussupova    2025-07-29 @723                      c=
-urr_param =3D test_case->generate_params(&test, NULL, param_desc);
->                                                                          =
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^
-> Then this could crash.
->
-> I suspect that this is fine, but I bet that in the previous
-> condition, just testing one would probably have been sufficient
-> or maybe we could have change && to ||.
+> Signed-off-by: Alexander Potapenko <glider@google.com>
 
-Hello Dan,
+Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 
-My apologies for the HTML version of this email earlier. Here is the
-plain text version.
-
-As of now, test.params_data.params can only be populated in a param_init
-function, which can only be used if we register the test case with a
-KUNIT_CASE_PARAM_WITH_INIT macro. That macro auto populates
-test_case->generate_params with a function called
-kunit_get_next_param_and_desc()
-(which iterates over the parameter array) if the test user didn't provide t=
-heir
-own generator function. So, there shouldn't be a case where
-test_case->generate_params is NULL but test.params_data.params is NON-NULL.
-
-However, to be robust, we could add a NULL check  before calling
-test_case->generate_params on line 723.
-
-Thank you!
--Marie
-
+> ---
+> v4:
+>  - Per Dmitry Vyukov's request, add CONFIG_KCOV_UNIQUE=y to the
+>    list of required configs
+> v3:
+>  - Address comments by Dmitry Vyukov:
+>    - add tools/testing/selftests/kcov/config
+>    - add ifdefs to KCOV_UNIQUE_ENABLE and KCOV_RESET_TRACE
+>  - Properly handle/reset the coverage buffer when collecting unique
+>    coverage
 >
-> 529534e8cba3e6 Rae Moar            2023-07-25  724                      t=
-est_case->status =3D KUNIT_SKIPPED;
-> 6c738b52316c58 Rae Moar            2022-11-23  725                      k=
-unit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT KUNIT_SUBTEST_INDENT
-> 6c738b52316c58 Rae Moar            2022-11-23  726                       =
-         "KTAP version 1\n");
-> 44b7da5fcd4c99 David Gow           2021-11-02  727                      k=
-unit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT KUNIT_SUBTEST_INDENT
-> 44b7da5fcd4c99 David Gow           2021-11-02  728                       =
-         "# Subtest: %s", test_case->name);
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  729
-> 8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  730                      w=
-hile (curr_param) {
+> Change-Id: I0793f1b91685873c77bcb222a03f64321244df8f
+> ---
+>  MAINTAINERS                              |   1 +
+>  tools/testing/selftests/kcov/Makefile    |   6 +
+>  tools/testing/selftests/kcov/config      |   2 +
+>  tools/testing/selftests/kcov/kcov_test.c | 401 +++++++++++++++++++++++
+>  4 files changed, 410 insertions(+)
+>  create mode 100644 tools/testing/selftests/kcov/Makefile
+>  create mode 100644 tools/testing/selftests/kcov/config
+>  create mode 100644 tools/testing/selftests/kcov/kcov_test.c
 >
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6906eb9d88dae..c1d64cef693b9 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13018,6 +13018,7 @@ F:      include/linux/kcov_types.h
+>  F:     include/uapi/linux/kcov.h
+>  F:     kernel/kcov.c
+>  F:     scripts/Makefile.kcov
+> +F:     tools/testing/selftests/kcov/
+>
+>  KCSAN
+>  M:     Marco Elver <elver@google.com>
+> diff --git a/tools/testing/selftests/kcov/Makefile b/tools/testing/selftests/kcov/Makefile
+> new file mode 100644
+> index 0000000000000..08abf8b60bcf9
+> --- /dev/null
+> +++ b/tools/testing/selftests/kcov/Makefile
+> @@ -0,0 +1,6 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +LDFLAGS += -static
+> +
+> +TEST_GEN_PROGS := kcov_test
+> +
+> +include ../lib.mk
+> diff --git a/tools/testing/selftests/kcov/config b/tools/testing/selftests/kcov/config
+> new file mode 100644
+> index 0000000000000..ba0c1a0bc8bf2
+> --- /dev/null
+> +++ b/tools/testing/selftests/kcov/config
+> @@ -0,0 +1,2 @@
+> +CONFIG_KCOV=y
+> +CONFIG_KCOV_UNIQUE=y
+> diff --git a/tools/testing/selftests/kcov/kcov_test.c b/tools/testing/selftests/kcov/kcov_test.c
+> new file mode 100644
+> index 0000000000000..daf12aeb374b5
+> --- /dev/null
+> +++ b/tools/testing/selftests/kcov/kcov_test.c
+> @@ -0,0 +1,401 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Test the kernel coverage (/sys/kernel/debug/kcov).
+> + *
+> + * Copyright 2025 Google LLC.
+> + */
+> +#include <fcntl.h>
+> +#include <linux/kcov.h>
+> +#include <stdint.h>
+> +#include <stddef.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <sys/ioctl.h>
+> +#include <sys/mman.h>
+> +#include <sys/types.h>
+> +#include <unistd.h>
+> +
+> +#include "../kselftest_harness.h"
+> +
+> +/* Normally these defines should be provided by linux/kcov.h, but they aren't there yet. */
+> +#ifndef KCOV_UNIQUE_ENABLE
+> +#define KCOV_UNIQUE_ENABLE _IOW('c', 103, unsigned long)
+> +#endif
+> +#ifndef KCOV_RESET_TRACE
+> +#define KCOV_RESET_TRACE _IO('c', 104)
+> +#endif
+> +
+> +#define COVER_SIZE (64 << 10)
+> +#define BITMAP_SIZE (4 << 10)
+> +
+> +#define DEBUG_COVER_PCS 0
+> +
+> +FIXTURE(kcov)
+> +{
+> +       int fd;
+> +       unsigned long *mapping;
+> +       size_t mapping_size;
+> +};
+> +
+> +FIXTURE_VARIANT(kcov)
+> +{
+> +       int mode;
+> +       bool fast_reset;
+> +       bool map_readonly;
+> +};
+> +
+> +/* clang-format off */
+> +FIXTURE_VARIANT_ADD(kcov, mode_trace_pc)
+> +{
+> +       /* clang-format on */
+> +       .mode = KCOV_TRACE_PC,
+> +       .fast_reset = true,
+> +       .map_readonly = false,
+> +};
+> +
+> +/* clang-format off */
+> +FIXTURE_VARIANT_ADD(kcov, mode_trace_cmp)
+> +{
+> +       /* clang-format on */
+> +       .mode = KCOV_TRACE_CMP,
+> +       .fast_reset = true,
+> +       .map_readonly = false,
+> +};
+> +
+> +/* clang-format off */
+> +FIXTURE_VARIANT_ADD(kcov, reset_ioctl_rw)
+> +{
+> +       /* clang-format on */
+> +       .mode = KCOV_TRACE_PC,
+> +       .fast_reset = false,
+> +       .map_readonly = false,
+> +};
+> +
+> +FIXTURE_VARIANT_ADD(kcov, reset_ioctl_ro)
+> +/* clang-format off */
+> +{
+> +       /* clang-format on */
+> +       .mode = KCOV_TRACE_PC,
+> +       .fast_reset = false,
+> +       .map_readonly = true,
+> +};
+> +
+> +int kcov_open_init(struct __test_metadata *_metadata, unsigned long size,
+> +                  int prot, unsigned long **out_mapping)
+> +{
+> +       unsigned long *mapping;
+> +
+> +       /* A single fd descriptor allows coverage collection on a single thread. */
+> +       int fd = open("/sys/kernel/debug/kcov", O_RDWR);
+> +
+> +       ASSERT_NE(fd, -1)
+> +       {
+> +               perror("open");
+> +       }
+> +
+> +       EXPECT_EQ(ioctl(fd, KCOV_INIT_TRACE, size), 0)
+> +       {
+> +               perror("ioctl KCOV_INIT_TRACE");
+> +               close(fd);
+> +       }
+> +
+> +       /* Mmap buffer shared between kernel- and user-space. */
+> +       mapping = (unsigned long *)mmap(NULL, size * sizeof(unsigned long),
+> +                                       prot, MAP_SHARED, fd, 0);
+> +       ASSERT_NE((void *)mapping, MAP_FAILED)
+> +       {
+> +               perror("mmap");
+> +               close(fd);
+> +       }
+> +       *out_mapping = mapping;
+> +
+> +       return fd;
+> +}
+> +
+> +FIXTURE_SETUP(kcov)
+> +{
+> +       int prot = variant->map_readonly ? PROT_READ : (PROT_READ | PROT_WRITE);
+> +
+> +       /* Read-only mapping is incompatible with fast reset. */
+> +       ASSERT_FALSE(variant->map_readonly && variant->fast_reset);
+> +
+> +       self->mapping_size = COVER_SIZE;
+> +       self->fd = kcov_open_init(_metadata, self->mapping_size, prot,
+> +                                 &(self->mapping));
+> +
+> +       /* Enable coverage collection on the current thread. */
+> +       EXPECT_EQ(ioctl(self->fd, KCOV_ENABLE, variant->mode), 0)
+> +       {
+> +               perror("ioctl KCOV_ENABLE");
+> +               /* Cleanup will be handled by FIXTURE_TEARDOWN. */
+> +               return;
+> +       }
+> +}
+> +
+> +void kcov_uninit_close(struct __test_metadata *_metadata, int fd,
+> +                      unsigned long *mapping, size_t size)
+> +{
+> +       /* Disable coverage collection for the current thread. */
+> +       EXPECT_EQ(ioctl(fd, KCOV_DISABLE, 0), 0)
+> +       {
+> +               perror("ioctl KCOV_DISABLE");
+> +       }
+> +
+> +       /* Free resources. */
+> +       EXPECT_EQ(munmap(mapping, size * sizeof(unsigned long)), 0)
+> +       {
+> +               perror("munmap");
+> +       }
+> +
+> +       EXPECT_EQ(close(fd), 0)
+> +       {
+> +               perror("close");
+> +       }
+> +}
+> +
+> +FIXTURE_TEARDOWN(kcov)
+> +{
+> +       kcov_uninit_close(_metadata, self->fd, self->mapping,
+> +                         self->mapping_size);
+> +}
+> +
+> +void dump_collected_pcs(struct __test_metadata *_metadata, unsigned long *cover,
+> +                       size_t start, size_t end)
+> +{
+> +       int i = 0;
+> +
+> +       TH_LOG("Collected %lu PCs", end - start);
+> +#if DEBUG_COVER_PCS
+> +       for (i = start; i < end; i++)
+> +               TH_LOG("0x%lx", cover[i + 1]);
+> +#endif
+> +}
+> +
+> +/* Coverage collection helper without assertions. */
+> +unsigned long collect_coverage_unchecked(struct __test_metadata *_metadata,
+> +                                        unsigned long *cover, bool dump)
+> +{
+> +       unsigned long before, after;
+> +
+> +       before = __atomic_load_n(&cover[0], __ATOMIC_RELAXED);
+> +       /*
+> +        * Call the target syscall call. Here we use read(-1, NULL, 0) as an example.
+> +        * This will likely return an error (-EFAULT or -EBADF), but the goal is to
+> +        * collect coverage for the syscall's entry/exit paths.
+> +        */
+> +       read(-1, NULL, 0);
+> +
+> +       after = __atomic_load_n(&cover[0], __ATOMIC_RELAXED);
+> +
+> +       if (dump)
+> +               dump_collected_pcs(_metadata, cover, before, after);
+> +       return after - before;
+> +}
+> +
+> +unsigned long collect_coverage_once(struct __test_metadata *_metadata,
+> +                                   unsigned long *cover)
+> +{
+> +       unsigned long collected =
+> +               collect_coverage_unchecked(_metadata, cover, /*dump*/ true);
+> +
+> +       /* Coverage must be non-zero. */
+> +       EXPECT_GT(collected, 0);
+> +       return collected;
+> +}
+> +
+> +void reset_coverage(struct __test_metadata *_metadata, bool fast, int fd,
+> +                   unsigned long *mapping)
+> +{
+> +       unsigned long count;
+> +
+> +       if (fast) {
+> +               __atomic_store_n(&mapping[0], 0, __ATOMIC_RELAXED);
+> +       } else {
+> +               EXPECT_EQ(ioctl(fd, KCOV_RESET_TRACE, 0), 0)
+> +               {
+> +                       perror("ioctl KCOV_RESET_TRACE");
+> +               }
+> +               count = __atomic_load_n(&mapping[0], __ATOMIC_RELAXED);
+> +               EXPECT_NE(count, 0);
+> +       }
+> +}
+> +
+> +TEST_F(kcov, kcov_basic_syscall_coverage)
+> +{
+> +       unsigned long first, second, before, after, i;
+> +
+> +       /* Reset coverage that may be left over from the fixture setup. */
+> +       reset_coverage(_metadata, variant->fast_reset, self->fd, self->mapping);
+> +
+> +       /* Collect the coverage for a single syscall two times in a row. */
+> +       first = collect_coverage_once(_metadata, self->mapping);
+> +       second = collect_coverage_once(_metadata, self->mapping);
+> +       /* Collected coverage should not differ too much. */
+> +       EXPECT_GT(first * 10, second);
+> +       EXPECT_GT(second * 10, first);
+> +
+> +       /* Now reset the buffer and collect the coverage again. */
+> +       reset_coverage(_metadata, variant->fast_reset, self->fd, self->mapping);
+> +       collect_coverage_once(_metadata, self->mapping);
+> +
+> +       /* Now try many times to fill up the buffer. */
+> +       reset_coverage(_metadata, variant->fast_reset, self->fd, self->mapping);
+> +       while (collect_coverage_unchecked(_metadata, self->mapping,
+> +                                         /*dump*/ false)) {
+> +               /* Do nothing. */
+> +       }
+> +       before = __atomic_load_n(&(self->mapping[0]), __ATOMIC_RELAXED);
+> +       /*
+> +        * Resetting with ioctl may still generate some coverage, but much less
+> +        * than there was before.
+> +        */
+> +       reset_coverage(_metadata, variant->fast_reset, self->fd, self->mapping);
+> +       after = __atomic_load_n(&(self->mapping[0]), __ATOMIC_RELAXED);
+> +       EXPECT_GT(before, after);
+> +       /* Collecting coverage after reset will now succeed. */
+> +       collect_coverage_once(_metadata, self->mapping);
+> +}
+> +
+> +FIXTURE(kcov_uniq)
+> +{
+> +       int fd;
+> +       unsigned long *mapping;
+> +       size_t mapping_size;
+> +       unsigned long *bitmap;
+> +       size_t bitmap_size;
+> +       unsigned long *cover;
+> +       size_t cover_size;
+> +};
+> +
+> +FIXTURE_VARIANT(kcov_uniq)
+> +{
+> +       bool fast_reset;
+> +       bool map_readonly;
+> +};
+> +
+> +/* clang-format off */
+> +FIXTURE_VARIANT_ADD(kcov_uniq, fast_rw)
+> +{
+> +       /* clang-format on */
+> +       .fast_reset = true,
+> +       .map_readonly = false,
+> +};
+> +
+> +/* clang-format off */
+> +FIXTURE_VARIANT_ADD(kcov_uniq, slow_rw)
+> +{
+> +       /* clang-format on */
+> +       .fast_reset = false,
+> +       .map_readonly = false,
+> +};
+> +
+> +/* clang-format off */
+> +FIXTURE_VARIANT_ADD(kcov_uniq, slow_ro)
+> +{
+> +       /* clang-format on */
+> +       .fast_reset = false,
+> +       .map_readonly = true,
+> +};
+> +
+> +FIXTURE_SETUP(kcov_uniq)
+> +{
+> +       int prot = variant->map_readonly ? PROT_READ : (PROT_READ | PROT_WRITE);
+> +
+> +       /* Read-only mapping is incompatible with fast reset. */
+> +       ASSERT_FALSE(variant->map_readonly && variant->fast_reset);
+> +
+> +       self->mapping_size = COVER_SIZE;
+> +       self->fd = kcov_open_init(_metadata, self->mapping_size, prot,
+> +                                 &(self->mapping));
+> +
+> +       self->bitmap = self->mapping;
+> +       self->bitmap_size = BITMAP_SIZE;
+> +       /*
+> +        * Enable unique coverage collection on the current thread. Carve out
+> +        * self->bitmap_size unsigned long's for the bitmap.
+> +        */
+> +       EXPECT_EQ(ioctl(self->fd, KCOV_UNIQUE_ENABLE, self->bitmap_size), 0)
+> +       {
+> +               perror("ioctl KCOV_ENABLE");
+> +               /* Cleanup will be handled by FIXTURE_TEARDOWN. */
+> +               return;
+> +       }
+> +       self->cover = self->mapping + BITMAP_SIZE;
+> +       self->cover_size = self->mapping_size - BITMAP_SIZE;
+> +}
+> +
+> +FIXTURE_TEARDOWN(kcov_uniq)
+> +{
+> +       kcov_uninit_close(_metadata, self->fd, self->mapping,
+> +                         self->mapping_size);
+> +}
+> +
+> +void reset_uniq_coverage(struct __test_metadata *_metadata, bool fast, int fd,
+> +                        unsigned long *bitmap, unsigned long *cover)
+> +{
+> +       unsigned long count;
+> +
+> +       if (fast) {
+> +               /*
+> +                * Resetting the buffer for unique coverage collection requires
+> +                * zeroing out the bitmap and cover[0]. We are assuming that
+> +                * the coverage buffer immediately follows the bitmap, as they
+> +                * belong to the same memory mapping.
+> +                */
+> +               if (cover > bitmap)
+> +                       memset(bitmap, 0, sizeof(unsigned long) * (cover - bitmap));
+> +               __atomic_store_n(&cover[0], 0, __ATOMIC_RELAXED);
+> +       } else {
+> +               EXPECT_EQ(ioctl(fd, KCOV_RESET_TRACE, 0), 0)
+> +               {
+> +                       perror("ioctl KCOV_RESET_TRACE");
+> +               }
+> +               count = __atomic_load_n(&cover[0], __ATOMIC_RELAXED);
+> +               EXPECT_NE(count, 0);
+> +       }
+> +}
+> +
+> +TEST_F(kcov_uniq, kcov_uniq_coverage)
+> +{
+> +       unsigned long first, second, before, after, i;
+> +
+> +       /* Reset coverage that may be left over from the fixture setup. */
+> +       reset_uniq_coverage(_metadata, variant->fast_reset, self->fd, self->bitmap, self->cover);
+> +
+> +       /*
+> +        * Collect the coverage for a single syscall two times in a row.
+> +        * Use collect_coverage_unchecked(), because it may return zero coverage.
+> +        */
+> +       first = collect_coverage_unchecked(_metadata, self->cover,
+> +                                          /*dump*/ true);
+> +       second = collect_coverage_unchecked(_metadata, self->cover,
+> +                                           /*dump*/ true);
+> +
+> +       /* Now reset the buffer and collect the coverage again. */
+> +       reset_uniq_coverage(_metadata, variant->fast_reset, self->fd, self->bitmap, self->cover);
+> +       collect_coverage_once(_metadata, self->cover);
+> +
+> +       /* Now try many times to saturate the unique coverage bitmap. */
+> +       reset_uniq_coverage(_metadata, variant->fast_reset, self->fd, self->bitmap, self->cover);
+> +       for (i = 0; i < 1000; i++)
+> +               collect_coverage_unchecked(_metadata, self->cover,
+> +                                          /*dump*/ false);
+> +
+> +       /* Another invocation of collect_coverage_unchecked() should not produce new coverage. */
+> +       EXPECT_EQ(collect_coverage_unchecked(_metadata, self->cover,
+> +                                            /*dump*/ false),
+> +                 0);
+> +
+> +       before = __atomic_load_n(&(self->cover[0]), __ATOMIC_RELAXED);
+> +       /*
+> +        * Resetting with ioctl may still generate some coverage, but much less
+> +        * than there was before.
+> +        */
+> +       reset_uniq_coverage(_metadata, variant->fast_reset, self->fd, self->bitmap, self->cover);
+> +       after = __atomic_load_n(&(self->cover[0]), __ATOMIC_RELAXED);
+> +       EXPECT_GT(before, after);
+> +       /* Collecting coverage after reset will now succeed. */
+> +       collect_coverage_once(_metadata, self->cover);
+> +}
+> +
+> +TEST_HARNESS_MAIN
 > --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+> 2.50.1.552.g942d659e1b-goog
 >
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-AAkQn5JVPnN_dowQAjexom9O%2B2vThSOiNiY4woCgRPwGNNmt7w%40mail.gmail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BbLQvbfW0_wmJ9f%2BESrOd4JuR6jk5ngzq936XkZNSRZ9Q%40mail.gmail.com.
