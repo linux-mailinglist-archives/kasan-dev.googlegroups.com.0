@@ -1,144 +1,143 @@
-Return-Path: <kasan-dev+bncBC6OLHHDVUOBBLN4W7CAMGQEUEDRKHI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCUJ7YGL3QFBBYMGXLCAMGQE4QG3RMI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3564B18D41
-	for <lists+kasan-dev@lfdr.de>; Sat,  2 Aug 2025 11:45:18 +0200 (CEST)
-Received: by mail-il1-x140.google.com with SMTP id e9e14a558f8ab-3e3d492a279sf54328925ab.2
-        for <lists+kasan-dev@lfdr.de>; Sat, 02 Aug 2025 02:45:18 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1754127917; cv=pass;
+Received: from mail-pl1-x63d.google.com (mail-pl1-x63d.google.com [IPv6:2607:f8b0:4864:20::63d])
+	by mail.lfdr.de (Postfix) with ESMTPS id E328BB1901A
+	for <lists+kasan-dev@lfdr.de>; Sat,  2 Aug 2025 23:30:11 +0200 (CEST)
+Received: by mail-pl1-x63d.google.com with SMTP id d9443c01a7336-24011c9da24sf26737185ad.1
+        for <lists+kasan-dev@lfdr.de>; Sat, 02 Aug 2025 14:30:11 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1754170210; cv=pass;
         d=google.com; s=arc-20240605;
-        b=b1Py1hOxViA88vAU75UtseW9oFJHLHKc68IMO1ulWbb2wfn5qwHm00Hat2X/VArgbi
-         YN0leYR4o3iR/C5V7LSETQqGTz3pqgsWdAGmR2yw5KgE7lEmVrVlv9PbFRbZ6qSpm/ZR
-         aQ16E7/QJBMhpX5OHy9srpqj2uSnzIVyPRvod6ZNuj1w8aa/XDrlV35qxhdqx18T6GWf
-         pxRojA7v7gLX8Xk1gse9BAhU6k5JAruUafcZTE6+ceGNqZe3ejDo/L7escXO6h1q+RRG
-         7QaCzOt9rQ0q/q2tfEPvU1hjZgiPp9pS8WaDv4mQvun/NvbAcBC0Ozt/vyW/Lq+oMQyC
-         pMZQ==
+        b=DxEGcwUwHRpUpQe9rtua7cejMBWN8e4HVpd3RcDLZdM3tRSRUDa588V5NyaFHzK0AM
+         DGJcunb9wK7H7GbnJOlABV4f7FV+s00K4GlIYniOlExYeCUzeKdwEgd6YNVB8EkmFXtW
+         qrBEqfQ41vtPUUHYqis2PvOitioOZPtn1EqmgaUjnkgf0894kZ20HSAYSWp5kzG7cTua
+         LgKbrDWZk74QUEwIsGPAboA8Cs+txVV7xLJEaYrEs4fvyShMmrw1tGDzW00p9UTxj+56
+         5lUVFSwy35EjGHz7fV9+7CnKOEoyY/IifuSJakgxHeNltxYE6CModlU01idbM0FzJPzl
+         8TzQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=6HPfgvXnjwd5H2AhQAOP8PRylQvGTB+TY0yCrwM1ei4=;
-        fh=fSGTch7+uSVglU8uevsexa9MiYjp0O/danOqwHKUQtk=;
-        b=kZ57deDjlRiveNJZD5irItNUwsXfMXU8hwp852JKeexT25o8i6rEIEsOYegLYYeX4C
-         axjCt78pbs2KSmy0u3hHWGgCBpLDEMOu6m7uzNpaJcMVLuPLXaozQYFWCSyh8RCtp/WJ
-         cR22P8kXV3TpznsvmgpohJrsR/7iXWCptuKr8jlHuWOmJjTgtdeGqq9hck3RqIfSzun2
-         NJL3wl//T8YvcacSTQG4cQZnkbB30YfjhRQRmuh8UCE0TLaisbPD78QV2i7HiGLbS4CR
-         Qah4FAr8MEZHpE9IEJd3d3ixeVGh45o5oauTCfa/BrATrcWjGvhGbu4/ExU8kuzvcEAq
-         fPAQ==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=bI5yjmi29c7Cwci+VgrG+hYEJfm6ay78oi2zUOXZm9k=;
+        fh=W8H4MQe5EGjqmIq86Roc28lwSXWRNVHWXSMYPl890d0=;
+        b=gYGVHM9uwis7Uh+bh+PrWc4xB/i5wMkPZcMkr8RqMD4Odx/t5rDylABJPZZV2VwTZu
+         eBjMXEtBG6ixV4FOcIXaxI2ysOsRrcyPjg0k5bEFo6zVA9NAXRDScYyaRAXxywC8Ur1r
+         N4Y5qB2TDOZaRWtJnEFosB3T7FPt0OKFOOyEX3Je1StlGXubxf5qwuhQ/slTPfSSEpqy
+         VkKuJ3vRoojdvbIoA2AEOlzPJlaxlez/fq8dsgEU0cOgJCJMngtn9X0ruGif7y8uPSZ5
+         N9XU3jSx6i5m+r8BEKXCeNUfw+Elr8wm9JCBx2J9wKSaGDqvMMI8xWEfDQLb3QXIT8lc
+         06Ug==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=3BOEPz6z;
-       spf=pass (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::f29 as permitted sender) smtp.mailfrom=davidgow@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b="j7yjvp/T";
+       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1754127917; x=1754732717; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1754170210; x=1754775010; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6HPfgvXnjwd5H2AhQAOP8PRylQvGTB+TY0yCrwM1ei4=;
-        b=o/e9ZBruyIrAPFuYgxYysbG2ajdJy0zON9llH5F5mbq7cIpnCcIsenOkviF5PxTdyQ
-         Shmu2AC5SU0/x4cvEW8Wozrys6vlfDgnPuaLm/+TC7jUagGqcubkNfr+fw7KwU8hA0qe
-         x/mVVvruara+Rh8ngF6h8Ha/0LBm1Opv99MKh0dXR8UNERzfYESM5B8KbHIO5VLbsjHg
-         KkUYA7xhPFJs8XeKay+nLR5EkxTFFy4STD6xb/2suroKWHUNTiWobp5Y134+tXNmxAFO
-         oAp4XB8TOngWo/XI9UF/K9hSQeeY+TivQ/SvVdEcq1Ox1ouiSnOC4STIaRDR/pGi9WDM
-         D/gA==
+        bh=bI5yjmi29c7Cwci+VgrG+hYEJfm6ay78oi2zUOXZm9k=;
+        b=OMfpHqif2+a+93d57o6G/HXenRE6I61nT+bcjomuF8VQ5wt5/G3Gm0gerJ1jmk7tjt
+         hnp4koerCI/1LT+LpB30uckKPelpDOgDML6f3l0aLlMNeOh8JEbfG/qjZLpNy59NLg6e
+         vzpz4smGClGhURTVkkv1VD7wU0fq+d7LjiKcpz5NIqhatWnLZcwZraaQakFvBu0JBtF5
+         qAyORhiX+UVQNnno2jh/1PaVNp4O7Q2V9AC0tZkwK1hlgHL4LcdgsAx9vG0bnF/t36VU
+         aDVpc4zyOW7/oob5Pussr5TaNuIpqUVm1ba0Vpa5QHhSLSk0WSXWxXISLlVhNOalM+su
+         F6Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754127917; x=1754732717;
+        d=1e100.net; s=20230601; t=1754170210; x=1754775010;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6HPfgvXnjwd5H2AhQAOP8PRylQvGTB+TY0yCrwM1ei4=;
-        b=EBrlvihgUNNg7UCyU/OHBTAIesn4b9gSkHxBLu1+dVGDM+OOIH4vnhSUVM7+T0c6xT
-         jvaBjltMRR41P9xlj11afOF7C/xZXFJGfdRiGJaoMPIrNJaELMDgjponWzqW1BIiIDFE
-         IgXSmG3i5sToJJnNAqj+tdtfu9Ry9JJwhxoPUFohlaRnP/+tIayyNikS5hqcHssGLSPz
-         VA2I711Vph/6NbofF9QvpVgxQ84pgig9Yj67NLTm7J3t9e8VVA70LqvqshEtBQjiOb8N
-         AjtyZAZfXdGbz3Si/UNUb/iC/Yv4GY2soJ/5RQ1Z5byr4S6LI7GZIJhZ4QH5st7Xty9u
-         rezA==
-X-Forwarded-Encrypted: i=2; AJvYcCVYseWc9Xg4zzbbM+tCNAHyIvI2n3A1CCLvVJbbvV1XV8knhRaF7Zyd2y7Vnd2/OClmN8lBlw==@lfdr.de
-X-Gm-Message-State: AOJu0YxEq7yJlgrgcfJpsSYaVVWAgTGiORMuwxGDoolT/PWKGImQRt/M
-	DBtXmT5MpHoycXPyamUA5u2DUJGAGQ1Qzfd1jHcqZ02C+4YmNLNMzlCf
-X-Google-Smtp-Source: AGHT+IHFOjinBXZBQmyB4zoXNzS5VMDUC4wjj3aGfCRroLDFnLnTjboZz0y+TM+Lkzv/3EQEt+E7Lw==
-X-Received: by 2002:a05:6e02:1f87:b0:3e3:ef79:5a8c with SMTP id e9e14a558f8ab-3e416192470mr46825175ab.14.1754127917658;
-        Sat, 02 Aug 2025 02:45:17 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdRKS8b/TqVj4TYUhj7XGsWIGwj9jqwXOpprvOaEMT+tA==
-Received: by 2002:a92:ca4d:0:b0:3e0:5c71:88f9 with SMTP id e9e14a558f8ab-3e4024e626cls33719795ab.1.-pod-prod-02-us;
- Sat, 02 Aug 2025 02:45:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVHY91jeWywaIuvAYrLKh574HK0kgkGk7CzpPKmIqrdZia9YMam6Hmx4Es8w/kNPSFmQXCnh+QHuG4=@googlegroups.com
-X-Received: by 2002:a05:6e02:1c05:b0:3e2:988a:101d with SMTP id e9e14a558f8ab-3e41612775fmr49425605ab.6.1754127916667;
-        Sat, 02 Aug 2025 02:45:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1754127916; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bI5yjmi29c7Cwci+VgrG+hYEJfm6ay78oi2zUOXZm9k=;
+        b=MpwHkTUIPiny4+e7ewpRflm9Eqi/8YTHsP/ZF0ZfwilJs1SOhYZW0tnYqEavAknAqA
+         z3+9T5+ZYvkMxC7gGzeU/KZgPaV1upX55WF0HlMx0cohwbtEbEWsuwhOpgT0BllNSDPk
+         xRKkSYdaXv0122m6fuuUBQpY8UMLKINeOCyi2PhT/zZLBfJA/QaH5VKVVlBJyi57+sis
+         T36G+9+Gd1tih0tpnYZdcaYDM8eI8Um06CFHJ6Ght2OqW+UG+8Y6IlDtDaQV2QpJBnQJ
+         GXToQ+q5cgjBfKMBpliuGFHzVq0N7z0x1Nu3r3bpzPl2XkOGWPc+4wI0gV4XyCqzSqj2
+         +e7Q==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCVV5fUqYXnZYxEbaPjDcCmeNRwgOa+s4EeHBbPSuDtbQaEL61GQ3UprFevARYCEoAoDzLIy5w==@lfdr.de
+X-Gm-Message-State: AOJu0YyFoC5CGi/ar79WVIZllXJn+3tS71s/DOEe7sMhpMRyKfycz+Ob
+	uPMYLAJ3qN3yVjFMoewB5k8hGtKNt125AhHSgMJyBDI7hO7x2TFO2hAW
+X-Google-Smtp-Source: AGHT+IF6zOsvGUyhAEb5nduI/Uaq3fSiYd6pxPe1Xh20u27+7/D596vXhyreaC9WuD0/6ciJK6174A==
+X-Received: by 2002:a17:902:e889:b0:234:325:500b with SMTP id d9443c01a7336-24246bedf75mr70369175ad.22.1754170209865;
+        Sat, 02 Aug 2025 14:30:09 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdyTISmmJ/X11CWT4Lgu3Gc07nbXAVpQF4th8r86X18dQ==
+Received: by 2002:a17:903:1ac3:b0:23f:8c3c:e26e with SMTP id
+ d9443c01a7336-241d1f0cfacls16309375ad.0.-pod-prod-00-us; Sat, 02 Aug 2025
+ 14:30:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCULezmG+lYFtw7lH5+2isxfEFnwKhEQ5tExaQM/F8kREdf4WtD7ZadINchbIQuWyoZWISPZB/+LzQE=@googlegroups.com
+X-Received: by 2002:a17:902:c406:b0:240:1ed3:fc28 with SMTP id d9443c01a7336-2424699a755mr68388255ad.12.1754170208386;
+        Sat, 02 Aug 2025 14:30:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1754170208; cv=none;
         d=google.com; s=arc-20240605;
-        b=dlrZ67JtA88O4a3TVsKMXgUqiy8JR8LycDa551RsBMohXdYphBnSHm7Aujzju1vae1
-         lP1EKG2j/AF/1YC2gJsZpfxv1DBKFY/BLmuRVETubXxsnvlofI8vV/qSrZZTLysCtL1D
-         Yw4JF1Xq3Vqpk7E8Mgq62Ns/cc02Pma33OKlIxrHzh5a3eXzCm8zpB7CWE9sIB/GL+Gp
-         vAb/jpv3GeFq8XiE4H0R15zQjOHBo8WiMPb73ZoBpvcrg22h1B6ssuuJkzqPyiZIJ5SL
-         vS1Z1l6yEKEf6NDFDanIXKr62HIHaXJQaOxshdtZMLAswhxOQnOupzRerbV1yKgAwcsJ
-         r7Qg==
+        b=K6EJAQJmPtZvuGFK8Veikrl+/5BRID1Yr937ciLtWjmZqp73No/FlSdDRoV9Jybbr0
+         PezJN2d1Mwr1r9FqGHLNF3yigsgN04sl9mCgsYtF+S+QRXxrxEoDBMiGrhitso/d5LCh
+         6Bu++e8jPXALQUTkE6Imknyj2cLURYevguxyfNEUvoLAkTHRm/lqkDhDNpMC5TLl7VXi
+         TikjPeYADoMwuiI+XWfQzC/LYvYXJ/VME9ycfcI0F4Prp4heFERvj0QvyVlcVsecxtRE
+         hreIsaKHOf34kq7SQhUDROEmyJnHX8+kSH4OxXNJhNjQiH51RJXrXRHLORRrpazSJXu6
+         Bn8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=cMSf/PzovY3lRGog4T26c1KV/ZHhfBrx0m6BcyFn75M=;
-        fh=sXmgeRYhEqUiR0FuiJ9TFbXzrJ84f9ynErLmSUSpAUY=;
-        b=TxZd0dowh7OLkL0svt8eTGOvN/dRnxDCT45k9T91sF8aZc/mS2MOpwPO9+kVpYa2Y0
-         jS2dQlLIOQoUV35i5UE+w6wKgo/w8t/9TjkfW1PZzy+DUXV1IDPa1c9gQeby2oaVYbDW
-         PmBipufd9pALBfhvzCVElhEfC54GsvPzGksTihQOuK9PBS/Iwo62jy/eb4rG1EYDr49m
-         Pm4ptw/F453FdZgCYX1sYiorgfERzgzs33YusQOAjIKa9M5Z/Wuzv3nS0WiZp/KMzKPa
-         WSX77M/7FF30mMcCaxZKI3VXE4BQyaZ3iWhFH4tueosaaUCMhM+mS6dBQk9ianlXtpnL
-         NB8g==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=8ZHe6+rreB9Szsc6ioIZd0/ZPCNc3ZJxfaeFf6vGBKE=;
+        fh=G+oqlCXTz7T7JTbY2RSs3jKYo30EskjOoE2wJNNupM4=;
+        b=XeI69N0wDdB9eht1JjBqDn+aCe7B817IaWV/GCdMuLRurywwAaN7zZInaeCTg7GTEK
+         3s49NegLlKiyZN3VwAaPoZrPtDoxhWczXel9NIDjXOfYudEVCbAfz0nchJyKkytAMnSJ
+         yCE2iOHGnzJA/KlKdJcm20tNKQG3y21yrDEhpIWHtUQkP+NWTVkU4b6jTpk8gQ0Af/Ef
+         8Obn4Kf1vrk9o6OJNAi0aM7KLV7FtxWVDbApXoZlAt8iIJcFQX/dGD/rokNvd1IgY0s9
+         aGAgwX00Gv7l1UgDoftP4pi4ycRI3t08Hbl06aN0SZLaSPg4NCcKS8e1dGi0dPXblEYC
+         yzRw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=3BOEPz6z;
-       spf=pass (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::f29 as permitted sender) smtp.mailfrom=davidgow@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com. [2607:f8b0:4864:20::f29])
-        by gmr-mx.google.com with ESMTPS id e9e14a558f8ab-3e402b1e315si2490075ab.4.2025.08.02.02.45.16
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Aug 2025 02:45:16 -0700 (PDT)
-Received-SPF: pass (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::f29 as permitted sender) client-ip=2607:f8b0:4864:20::f29;
-Received: by mail-qv1-xf29.google.com with SMTP id 6a1803df08f44-70749d4c598so26155226d6.0
-        for <kasan-dev@googlegroups.com>; Sat, 02 Aug 2025 02:45:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUDqN8lzoL/5gQ8GnGvnfcOpDwIYWcaso6i2MiiLUyvRJg2SyR0hxbE3mFn3BlDIhlHDnKPp7zxCR0=@googlegroups.com
-X-Gm-Gg: ASbGncuGd2LZemDAeWU8c5WtFaprwdat14ksYs8ju1TtcDDSxjWDMyuPa8owvEMxsc9
-	0m1fMBglHDwLf3soXfzMRtaWEu8EpeM+OFkjTOVBYHJ+Rs+RkFrxc9yBiiXiGjMotQF8jqzC+0l
-	EQKA05Z6dN0ZYnCLw6A2lf8z26njfYh28Qxtua19ogRXxB5pquOWJTnibCzLwHUB7t4N/vWFG7v
-	dP3x8kY
-X-Received: by 2002:ad4:5747:0:b0:6fb:25f:ac8c with SMTP id
- 6a1803df08f44-7093626cec8mr41067216d6.31.1754127915668; Sat, 02 Aug 2025
- 02:45:15 -0700 (PDT)
+       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b="j7yjvp/T";
+       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
+Received: from sea.source.kernel.org (sea.source.kernel.org. [172.234.252.31])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-241d1fb2627si3117835ad.5.2025.08.02.14.30.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Aug 2025 14:30:08 -0700 (PDT)
+Received-SPF: pass (google.com: domain of gregkh@linuxfoundation.org designates 172.234.252.31 as permitted sender) client-ip=172.234.252.31;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id F272141696;
+	Sat,  2 Aug 2025 21:30:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3659EC4CEEF;
+	Sat,  2 Aug 2025 21:30:07 +0000 (UTC)
+Date: Sat, 2 Aug 2025 22:30:03 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Yunseong Kim <ysk@kzalloc.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Byungchul Park <byungchul@sk.com>, max.byungchul.park@gmail.com,
+	"ppbuk5246 @ gmail . com" <ppbuk5246@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	stable@vger.kernel.org, kasan-dev@googlegroups.com,
+	syzkaller@googlegroups.com, linux-usb@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v2] kcov, usb: Fix invalid context sleep in softirq path
+ on PREEMPT_RT
+Message-ID: <2025080251-villain-subsoil-e28d@gregkh>
+References: <20250802142647.139186-3-ysk@kzalloc.com>
 MIME-Version: 1.0
-References: <20250729193647.3410634-1-marievic@google.com> <20250729193647.3410634-10-marievic@google.com>
-In-Reply-To: <20250729193647.3410634-10-marievic@google.com>
-From: "'David Gow' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Sat, 2 Aug 2025 17:45:02 +0800
-X-Gm-Features: Ac12FXztqWwaOCI5qNeFoZ80YlZQbPxDxxsBqBADT-CQI0GZH_gqfj5Bz6a0BDc
-Message-ID: <CABVgOSnWF=xnfSJjCJ4KYAPhnY7OyeU7w1e2MXi5U25nwaT+MQ@mail.gmail.com>
-Subject: Re: [PATCH 9/9] Documentation: kunit: Document new parameterized test features
-To: Marie Zhussupova <marievic@google.com>
-Cc: rmoar@google.com, shuah@kernel.org, brendan.higgins@linux.dev, 
-	elver@google.com, dvyukov@google.com, lucas.demarchi@intel.com, 
-	thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	kasan-dev@googlegroups.com, intel-xe@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000005baac4063b5ebb14"
-X-Original-Sender: davidgow@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20250802142647.139186-3-ysk@kzalloc.com>
+X-Original-Sender: gregkh@linuxfoundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=3BOEPz6z;       spf=pass
- (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::f29
- as permitted sender) smtp.mailfrom=davidgow@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: David Gow <davidgow@google.com>
-Reply-To: David Gow <davidgow@google.com>
+ header.i=@linuxfoundation.org header.s=korg header.b="j7yjvp/T";
+       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates
+ 172.234.252.31 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -151,661 +150,573 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---0000000000005baac4063b5ebb14
-Content-Type: text/plain; charset="UTF-8"
-
-On Wed, 30 Jul 2025 at 03:37, Marie Zhussupova <marievic@google.com> wrote:
->
-> -Update the KUnit documentation to explain the concept
-> of a parent parameterized test.
-> -Add examples demonstrating different ways of passing
-> parameters to parameterized tests and how to manage
-> shared resources between them.
->
-
-Nit: We don't need the dot points ('-') here. Just make them paragraphs.
-
-> Signed-off-by: Marie Zhussupova <marievic@google.com>
+On Sat, Aug 02, 2025 at 02:26:49PM +0000, Yunseong Kim wrote:
+> The KCOV subsystem currently utilizes standard spinlock_t and local_lock_t
+> for synchronization. In PREEMPT_RT configurations, these locks can be
+> implemented via rtmutexes and may therefore sleep. This behavior is
+> problematic as kcov locks are sometimes used in atomic contexts or protect
+> data accessed during critical instrumentation paths where sleeping is not
+> permissible.
+> 
+> Address these issues to make kcov PREEMPT_RT friendly:
+> 
+> 1. Convert kcov->lock and kcov_remote_lock from spinlock_t to
+>    raw_spinlock_t. This ensures they remain true, non-sleeping
+>    spinlocks even on PREEMPT_RT kernels.
+> 
+> 2. Refactor the KCOV_REMOTE_ENABLE path to move memory allocations
+>    out of the critical section. All necessary struct kcov_remote
+>    structures are now pre-allocated individually in kcov_ioctl()
+>    using GFP_KERNEL (allowing sleep) before acquiring the raw
+>    spinlocks.
+> 
+> 3. Modify the ioctl handling logic to utilize these pre-allocated
+>    structures within the critical section. kcov_remote_add() is
+>    modified to accept a pre-allocated structure instead of allocating
+>    one internally.
+> 
+> 4. Remove the local_lock_t protection for kcov_percpu_data in
+>    kcov_remote_start/stop(). Since local_lock_t can also sleep under
+>    RT, and the required protection is against local interrupts when
+>    accessing per-CPU data, it is replaced with explicit
+>    local_irq_save/restore().
+> 
+> Link: https://lore.kernel.org/all/20250725201400.1078395-2-ysk@kzalloc.com/t/#u
+> Fixes: f85d39dd7ed8 ("kcov, usb: disable interrupts in kcov_remote_start_usb_softirq")
+> Cc: Andrey Konovalov <andreyknvl@gmail.com>
+> Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+> Cc: Alan Stern <stern@rowland.harvard.edu>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Cc: Byungchul Park <byungchul@sk.com>
+> Cc: stable@vger.kernel.org
+> Cc: kasan-dev@googlegroups.com
+> Cc: syzkaller@googlegroups.com
+> Cc: linux-usb@vger.kernel.org
+> Cc: linux-rt-devel@lists.linux.dev
+> Signed-off-by: Yunseong Kim <ysk@kzalloc.com>
 > ---
-
-Thanks very, very much for including such detailed documentation.
-
-I do think some of the examples could be trimmed / left in the
-kunit-example-test.c file and referenced, as they're long enough that
-it's difficult to focus on the essentials. But otherwise, this looks
-great.
-
-A few small notes below, but otherwise:
-
-Reviewed-by: David Gow <davidgow@google.com>
-
-Cheers,
--- David
-
->  Documentation/dev-tools/kunit/usage.rst | 455 +++++++++++++++++++++++-
->  1 file changed, 449 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-> index 066ecda1dd98..be1d656053cf 100644
-> --- a/Documentation/dev-tools/kunit/usage.rst
-> +++ b/Documentation/dev-tools/kunit/usage.rst
-> @@ -542,11 +542,21 @@ There is more boilerplate code involved, but it can:
->  Parameterized Testing
->  ~~~~~~~~~~~~~~~~~~~~~
->
-> -The table-driven testing pattern is common enough that KUnit has special
-> -support for it.
+>  kernel/kcov.c | 243 +++++++++++++++++++++++++++-----------------------
+>  1 file changed, 130 insertions(+), 113 deletions(-)
+> 
+> diff --git a/kernel/kcov.c b/kernel/kcov.c
+> index 187ba1b80bda..9c8e4325cff8 100644
+> --- a/kernel/kcov.c
+> +++ b/kernel/kcov.c
+> @@ -54,7 +54,7 @@ struct kcov {
+>  	 */
+>  	refcount_t		refcount;
+>  	/* The lock protects mode, size, area and t. */
+> -	spinlock_t		lock;
+> +	raw_spinlock_t		lock;
+>  	enum kcov_mode		mode;
+>  	/* Size of arena (in long's). */
+>  	unsigned int		size;
+> @@ -84,13 +84,12 @@ struct kcov_remote {
+>  	struct hlist_node	hnode;
+>  };
+>  
+> -static DEFINE_SPINLOCK(kcov_remote_lock);
+> +static DEFINE_RAW_SPINLOCK(kcov_remote_lock);
+>  static DEFINE_HASHTABLE(kcov_remote_map, 4);
+>  static struct list_head kcov_remote_areas = LIST_HEAD_INIT(kcov_remote_areas);
+>  
+>  struct kcov_percpu_data {
+>  	void			*irq_area;
+> -	local_lock_t		lock;
+>  
+>  	unsigned int		saved_mode;
+>  	unsigned int		saved_size;
+> @@ -99,9 +98,7 @@ struct kcov_percpu_data {
+>  	int			saved_sequence;
+>  };
+>  
+> -static DEFINE_PER_CPU(struct kcov_percpu_data, kcov_percpu_data) = {
+> -	.lock = INIT_LOCAL_LOCK(lock),
+> -};
+> +static DEFINE_PER_CPU(struct kcov_percpu_data, kcov_percpu_data);
+>  
+>  /* Must be called with kcov_remote_lock locked. */
+>  static struct kcov_remote *kcov_remote_find(u64 handle)
+> @@ -116,15 +113,9 @@ static struct kcov_remote *kcov_remote_find(u64 handle)
+>  }
+>  
+>  /* Must be called with kcov_remote_lock locked. */
+> -static struct kcov_remote *kcov_remote_add(struct kcov *kcov, u64 handle)
+> +static struct kcov_remote *kcov_remote_add(struct kcov *kcov, u64 handle,
+> +					   struct kcov_remote *remote)
+>  {
+> -	struct kcov_remote *remote;
 > -
-> -By reusing the same ``cases`` array from above, we can write the test as a
-> -"parameterized test" with the following.
-> +To efficiently and elegantly validate a test case against a variety of inputs,
-> +KUnit also provides a parameterized testing framework. This feature formalizes
-> +and extends the concept of table-driven tests discussed previously, offering
-> +a more integrated and flexible way to handle multiple test scenarios with
-> +minimal code duplication.
+> -	if (kcov_remote_find(handle))
+> -		return ERR_PTR(-EEXIST);
+> -	remote = kmalloc(sizeof(*remote), GFP_ATOMIC);
+> -	if (!remote)
+> -		return ERR_PTR(-ENOMEM);
+>  	remote->handle = handle;
+>  	remote->kcov = kcov;
+>  	hash_add(kcov_remote_map, &remote->hnode, handle);
+> @@ -404,9 +395,8 @@ static void kcov_remote_reset(struct kcov *kcov)
+>  	int bkt;
+>  	struct kcov_remote *remote;
+>  	struct hlist_node *tmp;
+> -	unsigned long flags;
+>  
+> -	spin_lock_irqsave(&kcov_remote_lock, flags);
+> +	raw_spin_lock(&kcov_remote_lock);
+>  	hash_for_each_safe(kcov_remote_map, bkt, tmp, remote, hnode) {
+>  		if (remote->kcov != kcov)
+>  			continue;
+> @@ -415,7 +405,7 @@ static void kcov_remote_reset(struct kcov *kcov)
+>  	}
+>  	/* Do reset before unlock to prevent races with kcov_remote_start(). */
+>  	kcov_reset(kcov);
+> -	spin_unlock_irqrestore(&kcov_remote_lock, flags);
+> +	raw_spin_unlock(&kcov_remote_lock);
+>  }
+>  
+>  static void kcov_disable(struct task_struct *t, struct kcov *kcov)
+> @@ -450,7 +440,7 @@ void kcov_task_exit(struct task_struct *t)
+>  	if (kcov == NULL)
+>  		return;
+>  
+> -	spin_lock_irqsave(&kcov->lock, flags);
+> +	raw_spin_lock_irqsave(&kcov->lock, flags);
+>  	kcov_debug("t = %px, kcov->t = %px\n", t, kcov->t);
+>  	/*
+>  	 * For KCOV_ENABLE devices we want to make sure that t->kcov->t == t,
+> @@ -475,12 +465,12 @@ void kcov_task_exit(struct task_struct *t)
+>  	 * By combining all three checks into one we get:
+>  	 */
+>  	if (WARN_ON(kcov->t != t)) {
+> -		spin_unlock_irqrestore(&kcov->lock, flags);
+> +		raw_spin_unlock_irqrestore(&kcov->lock, flags);
+>  		return;
+>  	}
+>  	/* Just to not leave dangling references behind. */
+>  	kcov_disable(t, kcov);
+> -	spin_unlock_irqrestore(&kcov->lock, flags);
+> +	raw_spin_unlock_irqrestore(&kcov->lock, flags);
+>  	kcov_put(kcov);
+>  }
+>  
+> @@ -492,14 +482,14 @@ static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
+>  	struct page *page;
+>  	unsigned long flags;
+>  
+> -	spin_lock_irqsave(&kcov->lock, flags);
+> +	raw_spin_lock_irqsave(&kcov->lock, flags);
+>  	size = kcov->size * sizeof(unsigned long);
+>  	if (kcov->area == NULL || vma->vm_pgoff != 0 ||
+>  	    vma->vm_end - vma->vm_start != size) {
+>  		res = -EINVAL;
+>  		goto exit;
+>  	}
+> -	spin_unlock_irqrestore(&kcov->lock, flags);
+> +	raw_spin_unlock_irqrestore(&kcov->lock, flags);
+>  	vm_flags_set(vma, VM_DONTEXPAND);
+>  	for (off = 0; off < size; off += PAGE_SIZE) {
+>  		page = vmalloc_to_page(kcov->area + off);
+> @@ -511,7 +501,7 @@ static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
+>  	}
+>  	return 0;
+>  exit:
+> -	spin_unlock_irqrestore(&kcov->lock, flags);
+> +	raw_spin_unlock_irqrestore(&kcov->lock, flags);
+>  	return res;
+>  }
+>  
+> @@ -525,7 +515,7 @@ static int kcov_open(struct inode *inode, struct file *filep)
+>  	kcov->mode = KCOV_MODE_DISABLED;
+>  	kcov->sequence = 1;
+>  	refcount_set(&kcov->refcount, 1);
+> -	spin_lock_init(&kcov->lock);
+> +	raw_spin_lock_init(&kcov->lock);
+>  	filep->private_data = kcov;
+>  	return nonseekable_open(inode, filep);
+>  }
+> @@ -586,10 +576,8 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+>  			     unsigned long arg)
+>  {
+>  	struct task_struct *t;
+> -	unsigned long flags, unused;
+> -	int mode, i;
+> -	struct kcov_remote_arg *remote_arg;
+> -	struct kcov_remote *remote;
+> +	unsigned long unused;
+> +	int mode;
+>  
+>  	switch (cmd) {
+>  	case KCOV_ENABLE:
+> @@ -627,69 +615,80 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+>  		kcov_disable(t, kcov);
+>  		kcov_put(kcov);
+>  		return 0;
+> -	case KCOV_REMOTE_ENABLE:
+> -		if (kcov->mode != KCOV_MODE_INIT || !kcov->area)
+> -			return -EINVAL;
+> -		t = current;
+> -		if (kcov->t != NULL || t->kcov != NULL)
+> -			return -EBUSY;
+> -		remote_arg = (struct kcov_remote_arg *)arg;
+> -		mode = kcov_get_mode(remote_arg->trace_mode);
+> -		if (mode < 0)
+> -			return mode;
+> -		if ((unsigned long)remote_arg->area_size >
+> -		    LONG_MAX / sizeof(unsigned long))
+> -			return -EINVAL;
+> -		kcov->mode = mode;
+> -		t->kcov = kcov;
+> -	        t->kcov_mode = KCOV_MODE_REMOTE;
+> -		kcov->t = t;
+> -		kcov->remote = true;
+> -		kcov->remote_size = remote_arg->area_size;
+> -		spin_lock_irqsave(&kcov_remote_lock, flags);
+> -		for (i = 0; i < remote_arg->num_handles; i++) {
+> -			if (!kcov_check_handle(remote_arg->handles[i],
+> -						false, true, false)) {
+> -				spin_unlock_irqrestore(&kcov_remote_lock,
+> -							flags);
+> -				kcov_disable(t, kcov);
+> -				return -EINVAL;
+> -			}
+> -			remote = kcov_remote_add(kcov, remote_arg->handles[i]);
+> -			if (IS_ERR(remote)) {
+> -				spin_unlock_irqrestore(&kcov_remote_lock,
+> -							flags);
+> -				kcov_disable(t, kcov);
+> -				return PTR_ERR(remote);
+> -			}
+> -		}
+> -		if (remote_arg->common_handle) {
+> -			if (!kcov_check_handle(remote_arg->common_handle,
+> -						true, false, false)) {
+> -				spin_unlock_irqrestore(&kcov_remote_lock,
+> -							flags);
+> -				kcov_disable(t, kcov);
+> -				return -EINVAL;
+> -			}
+> -			remote = kcov_remote_add(kcov,
+> -					remote_arg->common_handle);
+> -			if (IS_ERR(remote)) {
+> -				spin_unlock_irqrestore(&kcov_remote_lock,
+> -							flags);
+> -				kcov_disable(t, kcov);
+> -				return PTR_ERR(remote);
+> -			}
+> -			t->kcov_handle = remote_arg->common_handle;
+> -		}
+> -		spin_unlock_irqrestore(&kcov_remote_lock, flags);
+> -		/* Put either in kcov_task_exit() or in KCOV_DISABLE. */
+> -		kcov_get(kcov);
+> -		return 0;
+>  	default:
+>  		return -ENOTTY;
+>  	}
+>  }
+>  
+> +static int kcov_ioctl_locked_remote_enabled(struct kcov *kcov,
+> +				 unsigned int cmd, unsigned long arg,
+> +				 struct kcov_remote *remote_handles,
+> +				 struct kcov_remote *remote_common_handle)
+> +{
+> +	struct task_struct *t;
+> +	int mode, i, ret;
+> +	struct kcov_remote_arg *remote_arg;
+> +
+> +	if (kcov->mode != KCOV_MODE_INIT || !kcov->area)
+> +		return -EINVAL;
+> +	t = current;
+> +	if (kcov->t != NULL || t->kcov != NULL)
+> +		return -EBUSY;
+> +	remote_arg = (struct kcov_remote_arg *)arg;
+> +	mode = kcov_get_mode(remote_arg->trace_mode);
+> +	if (mode < 0)
+> +		return mode;
+> +	if ((unsigned long)remote_arg->area_size >
+> +		LONG_MAX / sizeof(unsigned long))
+> +		return -EINVAL;
+> +	kcov->mode = mode;
+> +	t->kcov = kcov;
+> +	t->kcov_mode = KCOV_MODE_REMOTE;
+> +	kcov->t = t;
+> +	kcov->remote = true;
+> +	kcov->remote_size = remote_arg->area_size;
+> +	raw_spin_lock(&kcov_remote_lock);
+> +	for (i = 0; i < remote_arg->num_handles; i++) {
+> +		if (!kcov_check_handle(remote_arg->handles[i],
+> +					false, true, false)) {
+> +			ret = -EINVAL;
+> +			goto err;
+> +		}
+> +		if (kcov_remote_find(remote_arg->handles[i])) {
+> +			ret = -EEXIST;
+> +			goto err;
+> +		}
+> +		kcov_remote_add(kcov, remote_arg->handles[i],
+> +			&remote_handles[i]);
+> +	}
+> +	if (remote_arg->common_handle) {
+> +		if (!kcov_check_handle(remote_arg->common_handle,
+> +					true, false, false)) {
+> +			ret = -EINVAL;
+> +			goto err;
+> +		}
+> +		if (kcov_remote_find(remote_arg->common_handle)) {
+> +			ret = -EEXIST;
+> +			goto err;
+> +		}
+> +		kcov_remote_add(kcov,
+> +			remote_arg->common_handle, remote_common_handle);
+> +		t->kcov_handle = remote_arg->common_handle;
+> +	}
+> +	raw_spin_unlock(&kcov_remote_lock);
+> +	/* Put either in kcov_task_exit() or in KCOV_DISABLE. */
+> +	kcov_get(kcov);
+> +	return 0;
+> +
+> +err:
+> +	raw_spin_unlock(&kcov_remote_lock);
+> +	kcov_disable(t, kcov);
+> +	kfree(remote_common_handle);
+> +	kfree(remote_handles);
+> +
+> +	return ret;
+> +}
+> +
+>  static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+>  {
+>  	struct kcov *kcov;
+> @@ -697,6 +696,7 @@ static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+>  	struct kcov_remote_arg *remote_arg = NULL;
+>  	unsigned int remote_num_handles;
+>  	unsigned long remote_arg_size;
+> +	struct kcov_remote *remote_handles, *remote_common_handle;
+>  	unsigned long size, flags;
+>  	void *area;
+>  
+> @@ -716,16 +716,16 @@ static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+>  		area = vmalloc_user(size * sizeof(unsigned long));
+>  		if (area == NULL)
+>  			return -ENOMEM;
+> -		spin_lock_irqsave(&kcov->lock, flags);
+> +		raw_spin_lock_irqsave(&kcov->lock, flags);
+>  		if (kcov->mode != KCOV_MODE_DISABLED) {
+> -			spin_unlock_irqrestore(&kcov->lock, flags);
+> +			raw_spin_unlock_irqrestore(&kcov->lock, flags);
+>  			vfree(area);
+>  			return -EBUSY;
+>  		}
+>  		kcov->area = area;
+>  		kcov->size = size;
+>  		kcov->mode = KCOV_MODE_INIT;
+> -		spin_unlock_irqrestore(&kcov->lock, flags);
+> +		raw_spin_unlock_irqrestore(&kcov->lock, flags);
+>  		return 0;
+>  	case KCOV_REMOTE_ENABLE:
+>  		if (get_user(remote_num_handles, (unsigned __user *)(arg +
+> @@ -743,18 +743,35 @@ static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+>  			return -EINVAL;
+>  		}
+>  		arg = (unsigned long)remote_arg;
+> -		fallthrough;
+> +		remote_handles = kmalloc_array(remote_arg->num_handles,
+> +					sizeof(struct kcov_remote), GFP_KERNEL);
+> +		if (!remote_handles)
+> +			return -ENOMEM;
+> +		remote_common_handle = kmalloc(sizeof(struct kcov_remote), GFP_KERNEL);
+> +		if (!remote_common_handle) {
+> +			kfree(remote_handles);
+> +			return -ENOMEM;
+> +		}
+> +
+> +		raw_spin_lock_irqsave(&kcov->lock, flags);
+> +		res = kcov_ioctl_locked_remote_enabled(kcov, cmd, arg,
+> +				remote_handles, remote_common_handle);
+> +		raw_spin_unlock_irqrestore(&kcov->lock, flags);
+> +		kfree(remote_arg);
+> +		break;
+>  	default:
+>  		/*
+> +		 * KCOV_ENABLE, KCOV_DISABLE:
+>  		 * All other commands can be normally executed under a spin lock, so we
+>  		 * obtain and release it here in order to simplify kcov_ioctl_locked().
+>  		 */
+> -		spin_lock_irqsave(&kcov->lock, flags);
+> +		raw_spin_lock_irqsave(&kcov->lock, flags);
+>  		res = kcov_ioctl_locked(kcov, cmd, arg);
+> -		spin_unlock_irqrestore(&kcov->lock, flags);
+> -		kfree(remote_arg);
+> -		return res;
+> +		raw_spin_unlock_irqrestore(&kcov->lock, flags);
+> +		break;
+>  	}
+> +
+> +	return res;
+>  }
+>  
+>  static const struct file_operations kcov_fops = {
+> @@ -862,7 +879,7 @@ void kcov_remote_start(u64 handle)
+>  	if (!in_task() && !in_softirq_really())
+>  		return;
+>  
+> -	local_lock_irqsave(&kcov_percpu_data.lock, flags);
+> +	local_irq_save(flags);
+>  
+>  	/*
+>  	 * Check that kcov_remote_start() is not called twice in background
+> @@ -870,7 +887,7 @@ void kcov_remote_start(u64 handle)
+>  	 */
+>  	mode = READ_ONCE(t->kcov_mode);
+>  	if (WARN_ON(in_task() && kcov_mode_enabled(mode))) {
+> -		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
+> +		local_irq_restore(flags);
+>  		return;
+>  	}
+>  	/*
+> @@ -879,15 +896,15 @@ void kcov_remote_start(u64 handle)
+>  	 * happened while collecting coverage from a background thread.
+>  	 */
+>  	if (WARN_ON(in_serving_softirq() && t->kcov_softirq)) {
+> -		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
+> +		local_irq_restore(flags);
+>  		return;
+>  	}
+>  
+> -	spin_lock(&kcov_remote_lock);
+> +	raw_spin_lock(&kcov_remote_lock);
+>  	remote = kcov_remote_find(handle);
+>  	if (!remote) {
+> -		spin_unlock(&kcov_remote_lock);
+> -		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
+> +		raw_spin_unlock(&kcov_remote_lock);
+> +		local_irq_restore(flags);
+>  		return;
+>  	}
+>  	kcov_debug("handle = %llx, context: %s\n", handle,
+> @@ -908,17 +925,17 @@ void kcov_remote_start(u64 handle)
+>  		size = CONFIG_KCOV_IRQ_AREA_SIZE;
+>  		area = this_cpu_ptr(&kcov_percpu_data)->irq_area;
+>  	}
+> -	spin_unlock(&kcov_remote_lock);
+> +	raw_spin_unlock(&kcov_remote_lock);
+>  
+>  	/* Can only happen when in_task(). */
+>  	if (!area) {
+> -		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
+> +		local_irq_restore(flags);
+>  		area = vmalloc(size * sizeof(unsigned long));
+>  		if (!area) {
+>  			kcov_put(kcov);
+>  			return;
+>  		}
+> -		local_lock_irqsave(&kcov_percpu_data.lock, flags);
+> +		local_irq_save(flags);
+>  	}
+>  
+>  	/* Reset coverage size. */
+> @@ -930,7 +947,7 @@ void kcov_remote_start(u64 handle)
+>  	}
+>  	kcov_start(t, kcov, size, area, mode, sequence);
+>  
+> -	local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
+> +	local_irq_restore(flags);
+>  
+>  }
+>  EXPORT_SYMBOL(kcov_remote_start);
+> @@ -1004,12 +1021,12 @@ void kcov_remote_stop(void)
+>  	if (!in_task() && !in_softirq_really())
+>  		return;
+>  
+> -	local_lock_irqsave(&kcov_percpu_data.lock, flags);
+> +	local_irq_save(flags);
+>  
+>  	mode = READ_ONCE(t->kcov_mode);
+>  	barrier();
+>  	if (!kcov_mode_enabled(mode)) {
+> -		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
+> +		local_irq_restore(flags);
+>  		return;
+>  	}
+>  	/*
+> @@ -1017,12 +1034,12 @@ void kcov_remote_stop(void)
+>  	 * actually found the remote handle and started collecting coverage.
+>  	 */
+>  	if (in_serving_softirq() && !t->kcov_softirq) {
+> -		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
+> +		local_irq_restore(flags);
+>  		return;
+>  	}
+>  	/* Make sure that kcov_softirq is only set when in softirq. */
+>  	if (WARN_ON(!in_serving_softirq() && t->kcov_softirq)) {
+> -		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
+> +		local_irq_restore(flags);
+>  		return;
+>  	}
+>  
+> @@ -1037,22 +1054,22 @@ void kcov_remote_stop(void)
+>  		kcov_remote_softirq_stop(t);
+>  	}
+>  
+> -	spin_lock(&kcov->lock);
+> +	raw_spin_lock(&kcov->lock);
+>  	/*
+>  	 * KCOV_DISABLE could have been called between kcov_remote_start()
+>  	 * and kcov_remote_stop(), hence the sequence check.
+>  	 */
+>  	if (sequence == kcov->sequence && kcov->remote)
+>  		kcov_move_area(kcov->mode, kcov->area, kcov->size, area);
+> -	spin_unlock(&kcov->lock);
+> +	raw_spin_unlock(&kcov->lock);
+>  
+>  	if (in_task()) {
+> -		spin_lock(&kcov_remote_lock);
+> +		raw_spin_lock(&kcov_remote_lock);
+>  		kcov_remote_area_put(area, size);
+> -		spin_unlock(&kcov_remote_lock);
+> +		raw_spin_unlock(&kcov_remote_lock);
+>  	}
+>  
+> -	local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
+> +	local_irq_restore(flags);
+>  
+>  	/* Get in kcov_remote_start(). */
+>  	kcov_put(kcov);
+> -- 
+> 2.50.0
+> 
 
-Nit: maybe we can tone down the adjectives slightly here. I do like
-parameterised testing a lot, but it probably doesn't need to be
-"efficient", "elegant", "integrated", and "flexible".
+Hi,
 
-> +
-> +Passing Parameters to the Test Cases
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +There are three main ways to provide the parameters to a test case:
-> +
-> +Array Parameter Macros (``KUNIT_ARRAY_PARAM`` or ``KUNIT_ARRAY_PARAM_DESC``):
-> +   KUnit provides special support for the common table-driven testing pattern.
-> +   By applying either ``KUNIT_ARRAY_PARAM`` or ``KUNIT_ARRAY_PARAM_DESC`` to the
-> +   ``cases`` array from the previous section, we can create a parameterized test
-> +   as shown below:
->
->  .. code-block:: c
->
-> @@ -555,7 +565,7 @@ By reusing the same ``cases`` array from above, we can write the test as a
->                 const char *str;
->                 const char *sha1;
->         };
-> -       const struct sha1_test_case cases[] = {
-> +       static const struct sha1_test_case cases[] = {
->                 {
->                         .str = "hello world",
->                         .sha1 = "2aae6c35c94fcfb415dbe95f408b9ce91ee846ed",
-> @@ -590,6 +600,439 @@ By reusing the same ``cases`` array from above, we can write the test as a
->                 {}
->         };
->
-> +Custom Parameter Generator (``generate_params``):
-> +   You can pass your own ``generate_params`` function to the ``KUNIT_CASE_PARAM``
-> +   or ``KUNIT_CASE_PARAM_WITH_INIT`` macros. This function is responsible for
-> +   generating parameters one by one. It receives the previously generated parameter
-> +   as the ``prev`` argument (which is ``NULL`` on the first call) and can also
-> +   access any context available from the parent ``struct kunit`` passed as the
-> +   ``test`` argument. KUnit calls this function repeatedly until it returns
-> +   ``NULL``. Below is an example of how it works:
-> +
-> +.. code-block:: c
-> +
-> +       #define MAX_TEST_BUFFER_SIZE 8
-> +
-> +       // Example generator function. It produces a sequence of buffer sizes that
-> +       // are powers of two, starting at 1 (e.g., 1, 2, 4, 8).
-> +       static const void *buffer_size_gen_params(struct kunit *test, const void *prev, char *desc)
-> +       {
-> +               long prev_buffer_size = (long)prev;
-> +               long next_buffer_size = 1; // Start with an initial size of 1.
-> +
-> +               // Stop generating parameters if the limit is reached or exceeded.
-> +               if (prev_buffer_size >= MAX_TEST_BUFFER_SIZE)
-> +                       return NULL;
-> +
-> +               // For subsequent calls, calculate the next size by doubling the previous one.
-> +               if (prev)
-> +                       next_buffer_size = prev_buffer_size << 1;
-> +
-> +               return (void *)next_buffer_size;
-> +       }
-> +
-> +       // Simple test to validate that kunit_kzalloc provides zeroed memory.
-> +       static void buffer_zero_test(struct kunit *test)
-> +       {
-> +               long buffer_size = (long)test->param_value;
-> +               // Use kunit_kzalloc to allocate a zero-initialized buffer. This makes the
-> +               // memory "parameter managed," meaning it's automatically cleaned up at
-> +               // the end of each parameter execution.
-> +               int *buf = kunit_kzalloc(test, buffer_size * sizeof(int), GFP_KERNEL);
-> +
-> +               // Ensure the allocation was successful.
-> +               KUNIT_ASSERT_NOT_NULL(test, buf);
-> +
-> +               // Loop through the buffer and confirm every element is zero.
-> +               for (int i = 0; i < buffer_size; i++)
-> +                       KUNIT_EXPECT_EQ(test, buf[i], 0);
-> +       }
-> +
-> +       static struct kunit_case buffer_test_cases[] = {
-> +               KUNIT_CASE_PARAM(buffer_zero_test, buffer_size_gen_params),
-> +               {}
-> +       };
-> +
-> +Direct Registration in Parameter Init Function (using ``kunit_register_params_array``):
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-Maybe we should highlight this as being array-based more explicitly.
-"Runtime Array Registration in the Init function" or similar?
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-> +   For more complex scenarios, you can directly register a parameter array with
-> +   a test case instead of using a ``generate_params`` function. This is done by
-> +   passing the array to the ``kunit_register_params_array`` macro within an
-> +   initialization function for the parameterized test series
-> +   (i.e., a function named ``param_init``). To better understand this mechanism
-> +   please refer to the "Adding Shared Resources" section below.
-> +
-> +   This method supports both dynamically built and static arrays.
-> +
-> +   As the following code shows, the ``example_param_init_dynamic_arr`` function
-> +   utilizes ``make_fibonacci_params`` to create a dynamic array, which is then
-> +   registered using ``kunit_register_params_array``. The corresponding exit
-> +   function, ``example_param_exit``, is responsible for freeing this dynamically
-> +   allocated params array after the parameterized test series ends.
-> +
-> +.. code-block:: c
-> +
-> +       /*
-> +        * Helper function to create a parameter array of Fibonacci numbers. This example
-> +        * highlights a parameter generation scenario that is:
-> +        * 1. Not feasible to fully pre-generate at compile time.
-> +        * 2. Challenging to implement with a standard 'generate_params' function,
-> +        * as it typically only provides the immediately 'prev' parameter, while
-> +        * Fibonacci requires access to two preceding values for calculation.
-> +        */
-> +       static void *make_fibonacci_params(int seq_size)
-> +       {
-> +               int *seq;
-> +
-> +               if (seq_size <= 0)
-> +                       return NULL;
-> +
-> +               seq = kmalloc_array(seq_size, sizeof(int), GFP_KERNEL);
-> +
-> +               if (!seq)
-> +                       return NULL;
-> +
-> +               if (seq_size >= 1)
-> +                       seq[0] = 0;
-> +               if (seq_size >= 2)
-> +                       seq[1] = 1;
-> +               for (int i = 2; i < seq_size; i++)
-> +                       seq[i] = seq[i - 1] + seq[i - 2];
-> +               return seq;
-> +       }
-> +
-> +       // This is an example of a function that provides a description for each of the
-> +       // parameters.
-> +       static void example_param_dynamic_arr_get_desc(const void *p, char *desc)
-> +       {
-> +               const int *fib_num = p;
-> +
-> +               snprintf(desc, KUNIT_PARAM_DESC_SIZE, "fibonacci param: %d", *fib_num);
-> +       }
-> +
-> +       // Example of a parameterized test init function that registers a dynamic array.
-> +       static int example_param_init_dynamic_arr(struct kunit *test)
-> +       {
-> +               int seq_size = 6;
-> +               int *fibonacci_params = make_fibonacci_params(seq_size);
-> +
-> +               if (!fibonacci_params)
-> +                       return -ENOMEM;
-> +
-> +               /*
-> +                * Passes the dynamic parameter array information to the parent struct kunit.
-> +                * The array and its metadata will be stored in test->parent->params_data.
-> +                * The array itself will be located in params_data.params.
-> +                */
-> +               kunit_register_params_array(test, fibonacci_params, seq_size,
-> +                                           example_param_dynamic_arr_get_desc);
-> +               return 0;
-> +       }
-> +
-> +       // Function to clean up the parameterized test's parent kunit struct if
-> +       // there were custom allocations.
-> +       static void example_param_exit_dynamic_arr(struct kunit *test)
-> +       {
-> +               /*
-> +                * We allocated this array, so we need to free it.
-> +                * Since the parent parameter instance is passed here,
-> +                * we can directly access the array via `test->params_data.params`
-> +                * instead of `test->parent->params_data.params`.
-> +                */
-> +               kfree(test->params_data.params);
-> +       }
-> +
-> +       /*
-> +        * Example of test that uses the registered dynamic array to perform assertions
-> +        * and expectations.
-> +        */
-> +       static void example_params_test_with_init_dynamic_arr(struct kunit *test)
-> +       {
-> +               const int *param = test->param_value;
-> +               int param_val;
-> +
-> +               /* By design, param pointer will not be NULL. */
-> +               KUNIT_ASSERT_NOT_NULL(test, param);
-> +
-> +               param_val = *param;
-> +               KUNIT_EXPECT_EQ(test, param_val - param_val, 0);
-> +       }
-> +
-> +       static struct kunit_case example_tests[] = {
-> +               // The NULL here stands in for the generate_params function
-> +               KUNIT_CASE_PARAM_WITH_INIT(example_params_test_with_init_dynamic_arr, NULL,
-> +                                          example_param_init_dynamic_arr,
-> +                                          example_param_exit_dynamic_arr),
-> +               {}
-> +       };
-> +
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
 
-This is a long example, which already exists in the source code
-(kunit-example-test.c). Could we just include some highlights (e.g.,
-the init function and the KUNIT_CASE_PARAM_WITH_INIT call), and link
-to the source code for the rest?
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
-> +Adding Shared Resources
-> +^^^^^^^^^^^^^^^^^^^^^^^
-> +All parameterized test executions in this framework have a parent test of type
-> +``struct kunit``. This parent is not used to execute any test logic itself;
-> +instead, it serves as a container for shared context that can be accessed by
-> +all its individual test executions (or parameters). Therefore, each individual
-> +test execution holds a pointer to this parent, accessible via a field named
-> +``parent``.
-> +
-> +It's possible to add resources to share between the individual test executions
-> +within a parameterized test series by using the ``KUNIT_CASE_PARAM_WITH_INIT``
-> +macro, to which you pass custom ``param_init`` and ``param_exit`` functions.
-> +These functions run once before and once after the entire parameterized test
-> +series, respectively. The ``param_init`` function can be used for adding any
-> +resources to the resources field of a parent test and also provide an additional
-> +way of setting the parameter array. The ``param_exit`` function can be used
-> +release any resources that were not test managed i.e. not automatically cleaned
-> +up after the test ends.
-> +
-> +.. note::
-> +   If both a ``generate_params`` function is passed to ``KUNIT_CASE_PARAM_WITH_INIT``
-> +   and an array is registered via ``kunit_register_params_array`` in
-> +   ``param_init``, the ``generate_params`` function will be used to get
-> +   the parameters.
+thanks,
 
-Maybe note that the ``generate_params`` function can use the array
-passed, though?
-
-> +
-> +Both ``param_init`` and ``param_exit`` are passed the parent instance of a test
-> +(parent ``struct kunit``) behind the scenes. However, the test case function
-> +receives the individual instance of a test for each parameter. Therefore, to
-> +manage and access shared resources from within a test case function, you must use
-> +``test->parent``.
-> +
-> +.. note::
-> +   The ``suite->init()`` function, which runs before each parameter execution,
-> +   receives the individual instance of a test for each parameter. Therefore,
-> +   resources set up in ``suite->init()`` are reset for each individual
-> +   parameterized test execution and are only visible within that specific test.
-> +
-> +For instance, finding a shared resource allocated by the Resource API requires
-> +passing ``test->parent`` to ``kunit_find_resource()``. This principle extends to
-> +all other APIs that might be used in the test case function, including
-> +``kunit_kzalloc()``, ``kunit_kmalloc_array()``, and others (see
-> +Documentation/dev-tools/kunit/api/test.rst and the
-> +Documentation/dev-tools/kunit/api/resource.rst).
-> +
-> +The code below shows how you can add the shared resources. Note that this code
-> +utilizes the Resource API, which you can read more about here:
-> +Documentation/dev-tools/kunit/api/resource.rst.
-> +
-> +.. code-block:: c
-> +
-> +       /* An example parameter array. */
-> +       static const struct example_param {
-> +               int value;
-> +       } example_params_array[] = {
-> +               { .value = 3, },
-> +               { .value = 2, },
-> +               { .value = 1, },
-> +               { .value = 0, },
-> +       };
-> +
-> +       /*
-> +        * This custom function allocates memory for the kunit_resource data field.
-> +        * The function is passed to kunit_alloc_resource() and executed once
-> +        * by the internal helper __kunit_add_resource().
-> +        */
-> +       static int example_resource_init(struct kunit_resource *res, void *context)
-> +       {
-> +               int *info = kmalloc(sizeof(*info), GFP_KERNEL);
-> +
-> +               if (!info)
-> +                       return -ENOMEM;
-> +               *info = *(int *)context;
-> +               res->data = info;
-> +               return 0;
-> +       }
-> +
-> +       /*
-> +        * This function deallocates memory for the 'kunit_resource' data field.
-> +        * The function is passed to kunit_alloc_resource() and automatically
-> +        * executes within kunit_release_resource() when the resource's reference
-> +        * count, via kunit_put_resource(), drops to zero. KUnit uses reference
-> +        * counting to ensure that resources are not freed prematurely.
-> +        */
-> +       static void example_resource_free(struct kunit_resource *res)
-> +       {
-> +               kfree(res->data);
-> +       }
-> +
-> +       /*
-> +        * This match function is invoked by kunit_find_resource() to locate
-> +        * a test resource based on defined criteria. The current example
-> +        * uniquely identifies the resource by its free function; however,
-> +        * alternative custom criteria can be implemented. Refer to
-> +        * lib/kunit/platform.c and lib/kunit/static_stub.c for further examples.
-> +        */
-> +       static bool example_resource_alloc_match(struct kunit *test,
-> +                                                struct kunit_resource *res,
-> +                                                void *match_data)
-> +       {
-> +               return res->data && res->free == example_resource_free;
-> +       }
-> +
-> +       /*
-> +        * This is an example of a function that provides a description for each of the
-> +        * parameters.
-> +       */
-> +       static void example_param_array_get_desc(const void *p, char *desc)
-> +       {
-> +               const struct example_param *param = p;
-> +
-> +               snprintf(desc, KUNIT_PARAM_DESC_SIZE,
-> +                       "example check if %d is less than or equal to 3", param->value);
-> +       }
-> +
-> +       /*
-> +        * Initializes the parent kunit struct for parameterized KUnit tests.
-> +        * This function enables sharing resources across all parameterized
-> +        * tests by adding them to the `parent` kunit test struct. It also supports
-> +        * registering either static or dynamic arrays of test parameters.
-> +        */
-> +       static int example_param_init(struct kunit *test)
-> +       {
-> +               int ctx = 3; /* Data to be stored. */
-> +               int arr_size = ARRAY_SIZE(example_params_array);
-> +
-> +               /*
-> +                * This allocates a struct kunit_resource, sets its data field to
-> +                * ctx, and adds it to the kunit struct's resources list. Note that
-> +                * this is test managed so we don't need to have a custom exit function
-> +                * to free it.
-> +                */
-> +               void *data = kunit_alloc_resource(test, example_resource_init, example_resource_free,
-> +                                                 GFP_KERNEL, &ctx);
-> +
-> +               if (!data)
-> +                       return -ENOMEM;
-> +               /* Pass the static param array information to the parent struct kunit. */
-> +               kunit_register_params_array(test, example_params_array, arr_size,
-> +                                           example_param_array_get_desc);
-> +               return 0;
-> +       }
-> +
-> +       /*
-> +       * This is an example of a parameterized test that uses shared resources
-> +       * available from the struct kunit parent field of the kunit struct.
-> +       */
-> +       static void example_params_test_with_init(struct kunit *test)
-> +       {
-> +               int threshold;
-> +               struct kunit_resource *res;
-> +               const struct example_param *param = test->param_value;
-> +
-> +               /* By design, param pointer will not be NULL. */
-> +               KUNIT_ASSERT_NOT_NULL(test, param);
-> +
-> +               /* Here we need to access the parent pointer of the test to find the shared resource. */
-> +               res = kunit_find_resource(test->parent, example_resource_alloc_match, NULL);
-> +
-> +               KUNIT_ASSERT_NOT_NULL(test, res);
-> +
-> +               /* Since the data field in kunit_resource is a void pointer we need to typecast it. */
-> +               threshold = *((int *)res->data);
-> +
-> +               /* Assert that the parameter is less than or equal to a certain threshold. */
-> +               KUNIT_ASSERT_LE(test, param->value, threshold);
-> +
-> +               /* This decreases the reference count after calling kunit_find_resource(). */
-> +               kunit_put_resource(res);
-> +       }
-> +
-> +
-> +       static struct kunit_case example_tests[] = {
-> +               KUNIT_CASE_PARAM_WITH_INIT(example_params_test_with_init, NULL,
-> +                                          example_param_init, NULL),
-> +               {}
-> +       };
-> +
-
-This is a really long example, which already exists in
-kunit-example-test.c. Can we either link to it there (and just include
-the most critical lines here), or have a smaller, less-complete
-example inline here?
-
-
-> +As an alternative to using the KUnit Resource API for shared resources, you can
-> +place them in ``test->parent->priv``. It can store data that needs to persist
-> +and be accessible across all executions within a parameterized test series.
-> +
-> +As stated previously ``param_init`` and ``param_exit`` receive the parent
-> +``struct kunit`` instance. So, you can directly use ``test->priv`` within them
-> +to manage shared resources. However, from within the test case function, you must
-> +navigate up to the parent i.e. use ``test->parent->priv`` to access those same
-> +resources.
-> +
-> +The resources placed in ``test->parent-priv`` will also need to be allocated in
-> +memory to persist across the parameterized tests executions. If memory is
-
-Nit: 'parameterized test executions' singular?
-
-> +allocated using the memory allocation APIs provided by KUnit (described more in
-> +the section below), you will not need to worry about deallocating them as they
-> +will be managed by the parent parameterized test that gets automatically cleaned
-> +up upon the end of the parameterized test series.
-> +
-> +The code below demonstrates example usage of the ``priv`` field for shared
-> +resources:
-> +
-> +.. code-block:: c
-> +
-> +       /* An example parameter array. */
-> +       static const struct example_param {
-> +               int value;
-> +       } example_params_array[] = {
-> +               { .value = 3, },
-> +               { .value = 2, },
-> +               { .value = 1, },
-> +               { .value = 0, },
-> +       };
-> +
-> +       /*
-> +        * Initializes the parent kunit struct for parameterized KUnit tests.
-> +        * This function enables sharing resources across all parameterized
-> +        * tests.
-> +        */
-> +       static int example_param_init_priv(struct kunit *test)
-> +       {
-> +               int ctx = 3; /* Data to be stored. */
-> +               int arr_size = ARRAY_SIZE(example_params_array);
-> +
-> +               /*
-> +                * Allocate memory using kunit_kzalloc(). Since the `param_init`
-> +                * function receives the parent instance of test, this memory
-> +                * allocation will be scoped to the lifetime of the whole
-> +                * parameterized test series.
-> +                */
-> +               test->priv = kunit_kzalloc(test, sizeof(int), GFP_KERNEL);
-> +
-> +               /* Assign the context value to test->priv.*/
-> +               *((int *)test->priv) = ctx;
-> +
-> +               /* Pass the static param array information to the parent struct kunit. */
-> +               kunit_register_params_array(test, example_params_array, arr_size, NULL);
-> +               return 0;
-> +       }
-> +
-> +       /*
-> +       * This is an example of a parameterized test that uses shared resources
-> +       * available from the struct kunit parent field of the kunit struct.
-> +       */
-> +       static void example_params_test_with_init_priv(struct kunit *test)
-> +       {
-> +               int threshold;
-> +               const struct example_param *param = test->param_value;
-> +
-> +               /* By design, param pointer will not be NULL. */
-> +               KUNIT_ASSERT_NOT_NULL(test, param);
-> +
-> +               /* By design, test->parent will also not be NULL. */
-> +               KUNIT_ASSERT_NOT_NULL(test, test->parent);
-> +
-> +               /* Assert that test->parent->priv has data. */
-> +               KUNIT_ASSERT_NOT_NULL(test, test->parent->priv);
-> +
-> +               /* Here we need to use test->parent->priv to access the shared resource. */
-> +               threshold = *(int *)test->parent->priv;
-> +
-> +               /* Assert that the parameter is less than or equal to a certain threshold. */
-> +               KUNIT_ASSERT_LE(test, param->value, threshold);
-> +       }
-> +
-> +
-> +       static struct kunit_case example_tests[] = {
-> +               KUNIT_CASE_PARAM_WITH_INIT(example_params_test_with_init_priv, NULL,
-> +                                          example_param_init_priv, NULL),
-> +               {}
-> +       };
-> +
-
-Again, this is a little long, but it's not as bad as the others, and
-isn't in the example tests, so I'm okay with leaving it. Though maybe
-we could get rid of some of the asserts for the purpose of keeping the
-documentation focused and readable.
-
-
->  Allocating Memory
->  -----------------
->
-> --
-> 2.50.1.552.g942d659e1b-goog
->
+greg k-h's patch email bot
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CABVgOSnWF%3DxnfSJjCJ4KYAPhnY7OyeU7w1e2MXi5U25nwaT%2BMQ%40mail.gmail.com.
-
---0000000000005baac4063b5ebb14
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIIUnQYJKoZIhvcNAQcCoIIUjjCCFIoCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ghIEMIIGkTCCBHmgAwIBAgIQfofDAVIq0iZG5Ok+mZCT2TANBgkqhkiG9w0BAQwFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSNjETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMzA0MTkwMzUzNDdaFw0zMjA0MTkwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFI2IFNNSU1FIENBIDIwMjMwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDYydcdmKyg
-4IBqVjT4XMf6SR2Ix+1ChW2efX6LpapgGIl63csmTdJQw8EcbwU9C691spkltzTASK2Ayi4aeosB
-mk63SPrdVjJNNTkSbTowej3xVVGnYwAjZ6/qcrIgRUNtd/mbtG7j9W80JoP6o2Szu6/mdjb/yxRM
-KaCDlloE9vID2jSNB5qOGkKKvN0x6I5e/B1Y6tidYDHemkW4Qv9mfE3xtDAoe5ygUvKA4KHQTOIy
-VQEFpd/ZAu1yvrEeA/egkcmdJs6o47sxfo9p/fGNsLm/TOOZg5aj5RHJbZlc0zQ3yZt1wh+NEe3x
-ewU5ZoFnETCjjTKz16eJ5RE21EmnCtLb3kU1s+t/L0RUU3XUAzMeBVYBEsEmNnbo1UiiuwUZBWiJ
-vMBxd9LeIodDzz3ULIN5Q84oYBOeWGI2ILvplRe9Fx/WBjHhl9rJgAXs2h9dAMVeEYIYkvW+9mpt
-BIU9cXUiO0bky1lumSRRg11fOgRzIJQsphStaOq5OPTb3pBiNpwWvYpvv5kCG2X58GfdR8SWA+fm
-OLXHcb5lRljrS4rT9MROG/QkZgNtoFLBo/r7qANrtlyAwPx5zPsQSwG9r8SFdgMTHnA2eWCZPOmN
-1Tt4xU4v9mQIHNqQBuNJLjlxvalUOdTRgw21OJAFt6Ncx5j/20Qw9FECnP+B3EPVmQIDAQABo4IB
-ZTCCAWEwDgYDVR0PAQH/BAQDAgGGMDMGA1UdJQQsMCoGCCsGAQUFBwMCBggrBgEFBQcDBAYJKwYB
-BAGCNxUGBgkrBgEEAYI3FQUwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQUM7q+o9Q5TSoZ
-18hmkmiB/cHGycYwHwYDVR0jBBgwFoAUrmwFo5MT4qLn4tcc1sfwf8hnU6AwewYIKwYBBQUHAQEE
-bzBtMC4GCCsGAQUFBzABhiJodHRwOi8vb2NzcDIuZ2xvYmFsc2lnbi5jb20vcm9vdHI2MDsGCCsG
-AQUFBzAChi9odHRwOi8vc2VjdXJlLmdsb2JhbHNpZ24uY29tL2NhY2VydC9yb290LXI2LmNydDA2
-BgNVHR8ELzAtMCugKaAnhiVodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL3Jvb3QtcjYuY3JsMBEG
-A1UdIAQKMAgwBgYEVR0gADANBgkqhkiG9w0BAQwFAAOCAgEAVc4mpSLg9A6QpSq1JNO6tURZ4rBI
-MkwhqdLrEsKs8z40RyxMURo+B2ZljZmFLcEVxyNt7zwpZ2IDfk4URESmfDTiy95jf856Hcwzdxfy
-jdwx0k7n4/0WK9ElybN4J95sgeGRcqd4pji6171bREVt0UlHrIRkftIMFK1bzU0dgpgLMu+ykJSE
-0Bog41D9T6Swl2RTuKYYO4UAl9nSjWN6CVP8rZQotJv8Kl2llpe83n6ULzNfe2QT67IB5sJdsrNk
-jIxSwaWjOUNddWvCk/b5qsVUROOuctPyYnAFTU5KY5qhyuiFTvvVlOMArFkStNlVKIufop5EQh6p
-jqDGT6rp4ANDoEWbHKd4mwrMtvrh51/8UzaJrLzj3GjdkJ/sPWkDbn+AIt6lrO8hbYSD8L7RQDqK
-C28FheVr4ynpkrWkT7Rl6npWhyumaCbjR+8bo9gs7rto9SPDhWhgPSR9R1//WF3mdHt8SKERhvtd
-NFkE3zf36V9Vnu0EO1ay2n5imrOfLkOVF3vtAjleJnesM/R7v5tMS0tWoIr39KaQNURwI//WVuR+
-zjqIQVx5s7Ta1GgEL56z0C5GJoNE1LvGXnQDyvDO6QeJVThFNgwkossyvmMAaPOJYnYCrYXiXXle
-A6TpL63Gu8foNftUO0T83JbV/e6J8iCOnGZwZDrubOtYn1QwggWDMIIDa6ADAgECAg5F5rsDgzPD
-hWVI5v9FUTANBgkqhkiG9w0BAQwFADBMMSAwHgYDVQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBS
-NjETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UEAxMKR2xvYmFsU2lnbjAeFw0xNDEyMTAwMDAw
-MDBaFw0zNDEyMTAwMDAwMDBaMEwxIDAeBgNVBAsTF0dsb2JhbFNpZ24gUm9vdCBDQSAtIFI2MRMw
-EQYDVQQKEwpHbG9iYWxTaWduMRMwEQYDVQQDEwpHbG9iYWxTaWduMIICIjANBgkqhkiG9w0BAQEF
-AAOCAg8AMIICCgKCAgEAlQfoc8pm+ewUyns89w0I8bRFCyyCtEjG61s8roO4QZIzFKRvf+kqzMaw
-iGvFtonRxrL/FM5RFCHsSt0bWsbWh+5NOhUG7WRmC5KAykTec5RO86eJf094YwjIElBtQmYvTbl5
-KE1SGooagLcZgQ5+xIq8ZEwhHENo1z08isWyZtWQmrcxBsW+4m0yBqYe+bnrqqO4v76CY1DQ8BiJ
-3+QPefXqoh8q0nAue+e8k7ttU+JIfIwQBzj/ZrJ3YX7g6ow8qrSk9vOVShIHbf2MsonP0KBhd8hY
-dLDUIzr3XTrKotudCd5dRC2Q8YHNV5L6frxQBGM032uTGL5rNrI55KwkNrfw77YcE1eTtt6y+OKF
-t3OiuDWqRfLgnTahb1SK8XJWbi6IxVFCRBWU7qPFOJabTk5aC0fzBjZJdzC8cTflpuwhCHX85mEW
-P3fV2ZGXhAps1AJNdMAU7f05+4PyXhShBLAL6f7uj+FuC7IIs2FmCWqxBjplllnA8DX9ydoojRoR
-h3CBCqiadR2eOoYFAJ7bgNYl+dwFnidZTHY5W+r5paHYgw/R/98wEfmFzzNI9cptZBQselhP00sI
-ScWVZBpjDnk99bOMylitnEJFeW4OhxlcVLFltr+Mm9wT6Q1vuC7cZ27JixG1hBSKABlwg3mRl5HU
-Gie/Nx4yB9gUYzwoTK8CAwEAAaNjMGEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8w
-HQYDVR0OBBYEFK5sBaOTE+Ki5+LXHNbH8H/IZ1OgMB8GA1UdIwQYMBaAFK5sBaOTE+Ki5+LXHNbH
-8H/IZ1OgMA0GCSqGSIb3DQEBDAUAA4ICAQCDJe3o0f2VUs2ewASgkWnmXNCE3tytok/oR3jWZZip
-W6g8h3wCitFutxZz5l/AVJjVdL7BzeIRka0jGD3d4XJElrSVXsB7jpl4FkMTVlezorM7tXfcQHKs
-o+ubNT6xCCGh58RDN3kyvrXnnCxMvEMpmY4w06wh4OMd+tgHM3ZUACIquU0gLnBo2uVT/INc053y
-/0QMRGby0uO9RgAabQK6JV2NoTFR3VRGHE3bmZbvGhwEXKYV73jgef5d2z6qTFX9mhWpb+Gm+99w
-MOnD7kJG7cKTBYn6fWN7P9BxgXwA6JiuDng0wyX7rwqfIGvdOxOPEoziQRpIenOgd2nHtlx/gsge
-/lgbKCuobK1ebcAF0nu364D+JTf+AptorEJdw+71zNzwUHXSNmmc5nsE324GabbeCglIWYfrexRg
-emSqaUPvkcdM7BjdbO9TLYyZ4V7ycj7PVMi9Z+ykD0xF/9O5MCMHTI8Qv4aW2ZlatJlXHKTMuxWJ
-U7osBQ/kxJ4ZsRg01Uyduu33H68klQR4qAO77oHl2l98i0qhkHQlp7M+S8gsVr3HyO844lyS8Hn3
-nIS6dC1hASB+ftHyTwdZX4stQ1LrRgyU4fVmR3l31VRbH60kN8tFWk6gREjI2LCZxRWECfbWSUnA
-ZbjmGnFuoKjxguhFPmzWAtcKZ4MFWsmkEDCCBeQwggPMoAMCAQICEAFFwOy5zrkc9g75Fk3jHNEw
-DQYJKoZIhvcNAQELBQAwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2Ex
-KjAoBgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMzAeFw0yNTA2MDEwODEx
-MTdaFw0yNTExMjgwODExMTdaMCQxIjAgBgkqhkiG9w0BCQEWE2RhdmlkZ293QGdvb2dsZS5jb20w
-ggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCqxNhYGgWa19wqmZKM9x36vX1Yeody+Yaf
-r0MV27/mVFHsaMmnN5CpyyGgxplvPa4qPwrBj+5kp3o7syLcqCX0s8cUb24uZ/k1hPhDdkkLbb9+
-2Tplkji3loSQxuBhbxlMC75AhqT+sDo8iEX7F4BZW76cQBvDLyRr/7VG5BrviT5zFsfi0N62WlXj
-XMaUjt0G6uloszFPOWkl6GBRRVOwgLAcggqUjKiLjFGcQB5GuyDPFPyTR0uQvg8zwSOph7TNTb/F
-jyics8WBCAj6iSmMX96uJ3Q7sdtW3TWUVDkHXB3Mk+9E2P2mRw3mS5q0VhNLQpFrox4/gXbgvsji
-jmkLAgMBAAGjggHgMIIB3DAeBgNVHREEFzAVgRNkYXZpZGdvd0Bnb29nbGUuY29tMA4GA1UdDwEB
-/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIwHQYDVR0OBBYEFBp5bTxrTm/d
-WMmRETO8lNkA4c7fMFgGA1UdIARRME8wCQYHZ4EMAQUBAjBCBgorBgEEAaAyCgMDMDQwMgYIKwYB
-BQUHAgEWJmh0dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQC
-MAAwgZoGCCsGAQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWdu
-LmNvbS9jYS9nc2F0bGFzcjZzbWltZWNhMjAyMzBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5n
-bG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NhdGxhc3I2c21pbWVjYTIwMjMuY3J0MB8GA1UdIwQYMBaA
-FDO6vqPUOU0qGdfIZpJogf3BxsnGMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFs
-c2lnbi5jb20vY2EvZ3NhdGxhc3I2c21pbWVjYTIwMjMuY3JsMA0GCSqGSIb3DQEBCwUAA4ICAQBF
-tO3/N2l9hTaij/K0xCpLwIlrqpNo0nMAvvG5LPQQjSeHnTh06tWTgsPCOJ65GX+bqWRDwGTu8WTq
-c5ihCNOikBs25j82yeLkfdbeN/tzRGUb2RD+8n9I3CnyMSG49U2s0ZdncsrIVFh47KW2TpHTF7R8
-N1dri01wPg8hw4u0+XoczR2TiBrBOISKmAlkAi+P9ivT31gSHdbopoL4x0V2Ow9IOp0chrQQUZtP
-KBytLhzUzd9wIsE0QMNDbw6jeG8+a4sd17zpXSbBywIGw7sEvPtnBjMaf5ib3kznlOne6tuDVx4y
-QFExTCSrP3OTMUkNbpIdgzg2CHQ2aB8i8YsTZ8Q8Q8ztPJ+xDNsqBUeYxILLjTjxQQovToqipB3f
-6IMyk+lWCdDS+iCLYZULV1BTHSdwp1NM3t4jZ8TMlV+JzAyRqz4lzSl8ptkFhKBJ7w2tDrZ3BEXB
-8ASUByRxeh+pC1Z5/HhqfiWMVPjaWmlRRJVlRk+ObKIv2CblwxMYlo2Mn8rrbEDyfum1RTMW55Z6
-Vumvw5QTHe29TYxSiusovM6OD5y0I+4zaIaYDx/AtF0mMOFXb1MDyynf1CDxhtkgnrBUseHSOU2e
-MYs7IqzRap5xsgpJS+t7cp/P8fdlCNvsXss9zZa279tKwaxR0U2IzGxRGsWKGxDysn1HT6pqMDGC
-Al0wggJZAgEBMGgwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKjAo
-BgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMwIQAUXA7LnOuRz2DvkWTeMc
-0TANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQgMlPxF0+izsK8o7kKHV/l72mZXhae
-ld6iIER2m5x23JswGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
-ODAyMDk0NTE2WjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
-YIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcN
-AQEBBQAEggEAKJB0ew8D2koWJTeZP10lr6jNuFBETUTmjJ/w70FaxwA0+iAMgZXg8DrrQ4H7Mhsy
-ZqZj+Kt+ztKhImSC/YiHgxVN96KaiDWo04arNHo13K5biQkJALrB+sMWRsKcRsQ6aYaCeIMB3M9N
-EfQ8yZpeJFX0KEzOePiQVt2oTduz30fAQuXpB66yIcYC790qDtppQoyLqQpKDvZNo1k0ZTEkCHAy
-6wFvOgYYQY1lW7fvloByUTEflbv8GwXvgieTBBxrWhL/tkBhs3r/YjazPKcrhrkXTALDtauiG3nx
-TBdIuQurQJUlXEiFSw0SzUm3YGZo78D1dtAey5I8RaTiIqfeow==
---0000000000005baac4063b5ebb14--
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2025080251-villain-subsoil-e28d%40gregkh.
