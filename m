@@ -1,167 +1,162 @@
-Return-Path: <kasan-dev+bncBC3ZLA5BYIFBBLWWYLCAMGQEFCXJNQY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDAOJ6534YNBBCXIYLCAMGQEOHWEVOA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8B5B1A1CC
-	for <lists+kasan-dev@lfdr.de>; Mon,  4 Aug 2025 14:44:32 +0200 (CEST)
-Received: by mail-pj1-x1038.google.com with SMTP id 98e67ed59e1d1-31ecb3a3d0asf4076192a91.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 04 Aug 2025 05:44:32 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1754311471; cv=pass;
+Received: from mail-wr1-x43a.google.com (mail-wr1-x43a.google.com [IPv6:2a00:1450:4864:20::43a])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAEBBB1A323
+	for <lists+kasan-dev@lfdr.de>; Mon,  4 Aug 2025 15:22:19 +0200 (CEST)
+Received: by mail-wr1-x43a.google.com with SMTP id ffacd0b85a97d-3b7807a33fasf1534644f8f.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 04 Aug 2025 06:22:19 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1754313739; cv=pass;
         d=google.com; s=arc-20240605;
-        b=W928O2HmeEl+DPgl9n/T4rgGu7/NHbQ8O133LP5aUGKo+dhZcch3nOFyA52MW6fZNT
-         GZAEz2VkLxwIxtdfRgXt++vhLmYwUJwRVebnzQP2mqn7DBsHb11S2c11OI7WiqsU3MoX
-         R29c37l/hmNbB5QzcKZNoBLbt0y2op8zv9u7G170ewMJxQi6J7VWx0TI5fVNBTCzHpyM
-         UgHr9DuOwqcIMxwUq6YjzsH/7OwcbiM/LcrYx1YM2eILczsaTHcElvdf38v2fjOd7uox
-         hw4/sRnidB4XC4HRoBW1rPsOSn8f/hek8p6bEdFRswpxLOqubdx1og9W/jK8eigq3rvM
-         5KPA==
+        b=EbL6b6PaSVw5T0UpwO38wKl4Rl9UxWzM7vFtf/K4VVcbF6eYyxSo29ZxxhhkHoSHDw
+         /NEWcA2DK2OChDmKc4bSEesLZknsyk64fzrzq548iTWcjtmkWuONBhRgtAsXMEQ7U6NG
+         JhX0PaCZGVN7HdY+LaDOU9nsN15p6E5VV2sERzfErgnAykMU74xcUCQPgWoBnjd7NLWG
+         CGXgmkjYKoHQn/uFvVXkINRoe5onx+XNzLsJ3tV4EuQ1waculZ34Tf5gCDQuPYNJ9+fx
+         t4YGye89tt5Y/KZw2+gYNaCFIr3BpYkLg4xXHdwH+vXsqhM8VjqJB6tzFC4O5FJKRSdo
+         quXQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=JymBnFbChUrD/Nn/LfeNQ2Qchj/Q3VnvfEcy6VFqUdE=;
-        fh=zTGqzam0BcVeAEMBESEpi4ui/crRNqmzOQUil0OUSwk=;
-        b=kpYznGokiRZSPAvIY2gKThiO+F9M7Eb52o+J8qXAWDqJSMiVrWgfRdFttHW2JnBlS0
-         u32uv6sCFVv/laLMIZJY8IxRdHegVZ2V6U9lGhEWgrhIrLCDwCPo0/NZMKw+LO9qZsol
-         H/YZWuUSu12yHRY/yA/AQeeeEtpXWDZrpVtDRr9pV3gf0q7m1y4RmzVHExau9WvfYv00
-         LRDZJ4aDH8f8mwH7PiwmdWSo59zPvMzdqXWLaPxfqBlc0Fwil+axCDu9rFMNuIfnVhyk
-         KrhC6zWrFLrWqYDHXs45X/5lJg8mGPiFSGr5ZxoPolQnpF8juk6yae63Iz50QLEuOKKE
-         JCGQ==;
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=m7MxRtkekTlrZTHPclLhuroIQMJxWoAjFZyCrvYUg2I=;
+        fh=ZiY2ns1n5XmGt1cPu4PXkPcfoW3x15eWujIiOuXbMXY=;
+        b=L6R21zYTWEUrdWQe+Ji95gtEuoGOiGQcNcDaUfru0FhAynzaHVRWko+pvZqNm17/e5
+         7aefvvkEyB/pDBI8p64dbDRS1fq5Y147ka/fJXSPKtCv1+7YhYBnRPZRZzQKfXD2y+vk
+         eXIfbzvqEtdNYJhlXN/zX4jJ6LEQGFjckCrI3pQfdnm0ZN1Pmib2OxnSpN38CWQ83gO0
+         5fBbPzjf4ikvitcZJPJYFCXdpeoKnSncZz0AmcuX7hnjH9B0C7hpnegtJqyQxYXR21CS
+         A1epBdyVFbBA7M2s1KtYTRHgMwtKiPF64YckNnN+TuGrJWjwfUMv6kx0bajRgWbwgM1i
+         T/5g==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=QrNeSbr2;
-       spf=pass (google.com: domain of leon@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=leon@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=SklQ3NVn;
+       spf=pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::12b as permitted sender) smtp.mailfrom=snovitoll@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1754311471; x=1754916271; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1754313739; x=1754918539; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=JymBnFbChUrD/Nn/LfeNQ2Qchj/Q3VnvfEcy6VFqUdE=;
-        b=OrtOwDl4cM6uZqG2HYgw0VS441SEZwH/IuWVIq3cXorKkkG3e5waMBwfrOXhdwh8uV
-         zVEQaZGXNcq3j0lJifXjQwZet2vM3UvNg6y6eO2/LsNRNkwAw/XvwhCKGln4NZApeq8F
-         MjD7IPyJ0oB5jFaGwMSFUSExzgD4ejNtsoCjDmVIEq5Vn+NL8XJ4LZ3jl7rVbcusBagI
-         3/fZRbSvKiDu/FGGQbhPPU/MIy8WzuLo6XhovaZ5oToqrpkCaJmVqxnr0W62njFpKb0e
-         G7RVbb8gw5tvc8wyss3OGi8u1Oa2FuW8TahiqyzxGdANpNzTLbEm1p9gBA8+wq8HYeq8
-         yoNA==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=m7MxRtkekTlrZTHPclLhuroIQMJxWoAjFZyCrvYUg2I=;
+        b=CP9ydvIaIJavx6WnljKqRxB8w/R7hM/ZBipT5vb2tX5PgHCXmceJjAuZDtXv5h79Pp
+         GT+PkTb0J/wm541x9EetLjkarohrtK1DDEyFFghvZvP08L7PUjZnjlCOUOdQv1HEmpXM
+         mABSC+Ma/0Gg0er4ED5PaCTM7oI7wH/vzfkyIc43bv8AZbkkjKVE7wBsejWObn4MSr6I
+         GMTyIZ1x2K07cP/URddZKOWncoMYel+KMJxPqpAVMcvNeXNnNr3/pvPMweYISDBz7IYb
+         0OWnseU47QqC/y0I+p6id872QdYNv1L/WOW4sfxRGkvcc3Pp4lrSo8imxrfg8eQ5cEmC
+         ZOog==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754313739; x=1754918539; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=m7MxRtkekTlrZTHPclLhuroIQMJxWoAjFZyCrvYUg2I=;
+        b=KQtZE3fCkzWG3Lo714ESRZ6RtRnI4McbQhWOWBhSkM4zlC7Fi3OTMAhpjFG+7tf0qJ
+         gtrx+Z6QVXCaHPdWSeZR3x3YDgR7Hy1DhuVrAUeCUS/hB0eRgJXlXe9RlC5Sj25o529I
+         lyaJvBGChjkduffZ5m+aL0AHzFtCjkSTYKShLIDkaFEsPvbSoCAOd5NOuxRu1BaobdK1
+         Nby9q8+GUAZVTIj2D7dh90GbMzEWUoCrqc6+LsC99Mozg/Msc6Fx6OAU4lzjkPIfUYLV
+         SVPKNhKTP3f2IquTEhL5sKLDcgbLXE+acD6G3rprnTBpjashZfFOgk+6SU3RKbpGarki
+         FFVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754311471; x=1754916271;
+        d=1e100.net; s=20230601; t=1754313739; x=1754918539;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JymBnFbChUrD/Nn/LfeNQ2Qchj/Q3VnvfEcy6VFqUdE=;
-        b=tySXjxlUvEuD9ij8zem8zveH0RvzX50GD/+MIvIkuNH2o3bhamBWcuM31sNqUVDEAW
-         K9IPLMK5CemaSKNpgpBQ6l3u8TRulsXJ+GbkFk4IScJVdHWfglCQK8RvkzcUxVGxftoM
-         amqUAVtnWfwsEe7XnpTFu2F9PXRMb5KpYUjIBkXmO97EXTZvfyxIz/yUQYPkcekXu/zH
-         IkRiK1aFKeXkiCEfjWq+gQkV3wyU8N5TSvBq+nxzWxQAgI5N89UB7JpoiIaOsnctkRZj
-         dFEXkrTeqzdOPKgC8/B4Oz556CPcm6FHevF92lY9OGYYgPRG+G0cJAVyuFeFnai7fGRe
-         kTPw==
-X-Forwarded-Encrypted: i=2; AJvYcCXv5sVFR5yDirQrPMeahTqLCHv9kv7B3HH7FhRrR2rNnb1Dnqy3K/bv4VTd2o3oIASNr7AMEA==@lfdr.de
-X-Gm-Message-State: AOJu0YwIdhOrS7EC6W44pnRRneYaNl3avvl18QB1xvkneRDwjtLC+5SB
-	do6LDOWt2zgw7Xkc1Vmo7P44RbtxzwCnazEtpfd71rxiq3OCVHeY19DD
-X-Google-Smtp-Source: AGHT+IGhvBMpi8eeRpZXSRJVUJ7TnvWWDOMD2FBXCyqhA0qcrADmvzgnOO4SPn3yUrFaedWBGDSOZw==
-X-Received: by 2002:a17:90b:4b4d:b0:31f:a4:8bfe with SMTP id 98e67ed59e1d1-321161de09dmr11703742a91.7.1754311470749;
-        Mon, 04 Aug 2025 05:44:30 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZf1fZIZAaxHeRL4EXk0L6B7/SOjktjEg6BpYa626S48XQ==
-Received: by 2002:a17:90b:1993:b0:311:b6ba:c5da with SMTP id
- 98e67ed59e1d1-31f90c4e13els3666849a91.1.-pod-prod-05-us; Mon, 04 Aug 2025
- 05:44:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXnF5DGK+6fbWMJxCnG7m4NLUUvv/u/Sd4JqXgf8wXK4UBy58SSXtsjGLIsjsLCzsACV6YbuZrz9wQ=@googlegroups.com
-X-Received: by 2002:a17:90b:3e8a:b0:321:3715:993 with SMTP id 98e67ed59e1d1-32137150ad5mr5700294a91.14.1754311469376;
-        Mon, 04 Aug 2025 05:44:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1754311469; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=m7MxRtkekTlrZTHPclLhuroIQMJxWoAjFZyCrvYUg2I=;
+        b=XcJibIhvRxpogSIwiSUOsR2a7kL+uI+ymA+A5q1pdc6xLJx5YSIVvYtznATCdIcA1C
+         McachviiDHpskfv3pPx8oVn2zxvpq5tEj6rh8ckyoEJbhGakmSBh9F7B6v63ymDJG/zu
+         Sr7j+kK+pZFunyxoLowUH1+N8C+XBh1KG1eDZewxUzWUg1dH2MMjHKNdX9Cu+NSjOmna
+         lSPVtfdVnIky2z8Xs2WoqwKmDjsP7MxNuvMcygN1O6K5BfarOj86uAwTD7KQAIOtpn6r
+         8cTrW0yGN/tdp8oMnZ9rFab6Id3SWOFbyEq6P04+yewVrsiAw3cJRSOy5Zryf1p1EYF/
+         V5hQ==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCVNnWqjVSgnAi4CwZ0+q+sQx7seQMgiRxvnvfjuBIgLDPehT2dq1udMkNelsJ6iscqPDfUhUQ==@lfdr.de
+X-Gm-Message-State: AOJu0YzeuQniXSGui3juU56kjyh89iGQfMj/7WFuNbhCXQic5gu4/C6B
+	+huXohZst+E25dNaaEb3iL2of1NwmUgpWVNU405pMNf1bFFVUZwF9GzN
+X-Google-Smtp-Source: AGHT+IFQJ0cYi/gmlhAwTua2QUlhTCi5zo13u79DEx9nVTfiNpMLOwyvaU8zHchUZexFkzyEP/LWHg==
+X-Received: by 2002:a05:6000:2004:b0:3b8:d16a:a4b1 with SMTP id ffacd0b85a97d-3b8d94ca58dmr6285383f8f.58.1754313738735;
+        Mon, 04 Aug 2025 06:22:18 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfdJ30NQO+rox1FZSxQ2dVUBllCsuFMF0h3s42PsqGoHg==
+Received: by 2002:a05:6000:400d:b0:3b7:8a12:d1ef with SMTP id
+ ffacd0b85a97d-3b79c4068cels1930248f8f.1.-pod-prod-06-eu; Mon, 04 Aug 2025
+ 06:22:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXJggSle3glHzLOAnWIArkaXS7B+EnMQwRa46AFLU9lrwizJqzs8z1AlXPQmmmRztfu6H0aVh8sogE=@googlegroups.com
+X-Received: by 2002:a5d:584b:0:b0:3a0:b84d:60cc with SMTP id ffacd0b85a97d-3b8d9465091mr7702026f8f.2.1754313736068;
+        Mon, 04 Aug 2025 06:22:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1754313736; cv=none;
         d=google.com; s=arc-20240605;
-        b=ljaaiBeUCXgMv9nRIGbukhx0yHDrofoVUPQTXfDIZSZZ4zknuq/ln7LXgtmuCUVoQf
-         Gi1rhz4bDJYoCkNeyHtN1aRyx9ehnfhoW91LdE3TabZu5ocQgC61AVDepdKPGKnv0SXu
-         ASYU7Jeq9H94aTyxH1Z5RsGt6RhPje2dyqSy7kObsdkxj+b1YjH6mvBvBmeSAY0psg20
-         RL5KucQjR/tzwl2cB3HbEFysMUM/FaA37krcF29Og4sQ8raJUFwxn5NyU6l5wG2TnUoi
-         f0QKjvQ4IiWfNujRAyO+aiyKpKoqIWlZdQdp3froI98Cn9af9D9nvFPuQLBrct2ZqEYu
-         Drnw==
+        b=FAe6dNfinvYFvTyj8hlti9Dj/9lJJfUNERN27SpM6Ve2I7VZ/oMgbUWs5ZQf3vXbfP
+         IdMWyJp3zettwBfk+vEW+FzIH6KK74USrXFokNk36eTqNyjKIBLhEqp6yx6gIqmveKNF
+         RwZ6O9gCJ8wmV85uCRNcMgqXS3qqS6Lg0a8y9aJtxb4si4MCp5h0YRRiU7Tvl/XrhKPM
+         2QJKZe8FyKgFSm7g4VF56QBcr1UfZjvv2i800uAKuhFhwjmFYe9AXwdiMsMjdi5bjIPA
+         ZLJS5Ih13hDOTJiJJ982zoKdGVDmNsG1+QASE9HQtLVUejCiLisl8sRkq9TO3urwyRCm
+         jYow==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=TkPETycZvdzl425XaQeEjwXwnOxHyWl7Qf8kQUNymVE=;
-        fh=7V/4mfmIBPVtH5Gsq5s7pcGHGm3ouCqKnRMFyJrAs8U=;
-        b=jbURNU9rhpXQEhkc1Z8fB8m4epAL/aXVBQ6vPMX9edkYoSWva9LNdUBPd6Kl4oV+Kq
-         +0lPxrjFHaeYcaj4pJemqITyE4evyUXkVqnBi2zuQ+AAmYl9dtfjDt5W7RrPaFlvVKrp
-         zuSb2Wl+0dnEHJYazZa+fAlmyG1YxbKT/LVHceKjVc1MSI2RTnEvZyAPPeksh7XTq87d
-         tXhAf7ahRVFT17aEPT+FeDWmlCahPecNUgN/izpExi/ZZ8OTPsq38aBUyld+/cr8WD07
-         tzaXwE5Nx3QER3TFiEIdAki+HPCEMkCeGCfNU2e5NF27gvGFYzFkamxJo9bfuK/PaYTs
-         ov+g==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=j5iAv+w3B1DltX6n1vl8sRSBtmMo7RFnMn1vP/73Egs=;
+        fh=M9Xjou/NPcUoUGPmTqSY+9yOFMHxCF4AKYa7rKCdtuQ=;
+        b=LuWJI4F10ltxbgHo+4cZh4vzzElQAiRQhbv1XfSjLaWYuckLFI4dqDCldzzYyfIbbc
+         AnmU5wuuDQmAfIHOKL8YM8QY540XIIiKVpYfViI0Z1VNFcGTZmbxrgASN70BLVXrXeG2
+         GDTDNhOMJYWUONOSokeze57H0rmZlUhVgONh3n1J16miOKhNRX7AA0HLUwuTC/3nYigH
+         2dZo+ns2pUs+hJ7sm6BOlptbbonwCHcpnIY8N1Ke5yDJN/RLADza1Iu8RPqtQWQ6rwq2
+         O954fvfIBSSG91TglXk16xxx1TqF/b7iB0Xh9mx3YC4UyQhXRSu9VmaUp3m4z5/+JH8j
+         dkGQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=QrNeSbr2;
-       spf=pass (google.com: domain of leon@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=leon@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org. [147.75.193.91])
-        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-32102a5c9ccsi289343a91.1.2025.08.04.05.44.29
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=SklQ3NVn;
+       spf=pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::12b as permitted sender) smtp.mailfrom=snovitoll@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com. [2a00:1450:4864:20::12b])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-459e0508074si32075e9.1.2025.08.04.06.22.16
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Aug 2025 05:44:29 -0700 (PDT)
-Received-SPF: pass (google.com: domain of leon@kernel.org designates 147.75.193.91 as permitted sender) client-ip=147.75.193.91;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 91E81A55869;
-	Mon,  4 Aug 2025 12:44:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16A0CC4CEE7;
-	Mon,  4 Aug 2025 12:44:27 +0000 (UTC)
-From: "'Leon Romanovsky' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Leon Romanovsky <leonro@nvidia.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Danilo Krummrich <dakr@kernel.org>,
-	iommu@lists.linux.dev,
-	Jason Wang <jasowang@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Joerg Roedel <joro@8bytes.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Juergen Gross <jgross@suse.com>,
-	kasan-dev@googlegroups.com,
-	Keith Busch <kbusch@kernel.org>,
-	linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	virtualization@lists.linux.dev,
-	Will Deacon <will@kernel.org>,
-	xen-devel@lists.xenproject.org
-Subject: [PATCH v1 16/16] nvme-pci: unmap MMIO pages with appropriate interface
-Date: Mon,  4 Aug 2025 15:42:50 +0300
-Message-ID: <5b0131f82a3d14acaa85f0d1dd608d2913af84e2.1754292567.git.leon@kernel.org>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <cover.1754292567.git.leon@kernel.org>
-References: <cover.1754292567.git.leon@kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Aug 2025 06:22:16 -0700 (PDT)
+Received-SPF: pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::12b as permitted sender) client-ip=2a00:1450:4864:20::12b;
+Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-55502821bd2so4363747e87.2
+        for <kasan-dev@googlegroups.com>; Mon, 04 Aug 2025 06:22:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUa9xpfByR0VeWmIYFY6ONdN+SSwGRZyCTPLVLc4QwS0C8Pd1mORA1VAUiC2tVsqmKL6H9oe80KE/Y=@googlegroups.com
+X-Gm-Gg: ASbGncu0omE774xhl0JdZeuBON8vp10/Z6qn1k/I/zHjcQBAvddrXEbmNhmE1T7sL1b
+	ki6jtV/niL6D8CQ8n1bfYUJ5Qj+XauoA9cWr+7Sh5h9T9ef+igv6U/PeQG5gwQKOyTCEAv8osey
+	8j1BCVbWBiZliAxxW7ruaSkrogYSTE86GBA6xpbEyLpzJfAkE2ihreK6+dmZL0SA7OgR3/eXWoL
+	EKMiow=
+X-Received: by 2002:a05:6512:224a:b0:55b:5932:11a6 with SMTP id
+ 2adb3069b0e04-55b97b0a64emr2161026e87.20.1754313734779; Mon, 04 Aug 2025
+ 06:22:14 -0700 (PDT)
 MIME-Version: 1.0
-X-Original-Sender: leon@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=QrNeSbr2;       spf=pass
- (google.com: domain of leon@kernel.org designates 147.75.193.91 as permitted
- sender) smtp.mailfrom=leon@kernel.org;       dmarc=pass (p=QUARANTINE
- sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: Leon Romanovsky <leon@kernel.org>
-Reply-To: Leon Romanovsky <leon@kernel.org>
+References: <20250717142732.292822-1-snovitoll@gmail.com> <f10f3599-509d-4455-94a3-fcbeeffd8219@gmail.com>
+ <CACzwLxjD0oXGGm2dkDdXjX0sxoNC2asQbjigkDWGCn48bitxSw@mail.gmail.com>
+ <f7051d82-559f-420d-a766-6126ba2ed5ab@gmail.com> <CACzwLxjESCT_=1BG2rWiaxz1wCYbVWHAvf+v4=S5dzeHJ8c97g@mail.gmail.com>
+ <74b373bb-cf18-49b3-84ed-56d04e09c71e@csgroup.eu>
+In-Reply-To: <74b373bb-cf18-49b3-84ed-56d04e09c71e@csgroup.eu>
+From: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+Date: Mon, 4 Aug 2025 18:21:57 +0500
+X-Gm-Features: Ac12FXwPENH5G9iIdhoCEne0XPX1yyuyfz0uhB9AHi_aZ_zaO6gOiMlh6PTSrX0
+Message-ID: <CACzwLxg5i=9qxREipizLtZqy1hU3EbVNYdGNge9c-D-c9O-ptg@mail.gmail.com>
+Subject: Re: [PATCH v3 00/12] kasan: unify kasan_arch_is_ready() and remove
+ arch-specific implementations
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	linuxppc-dev@lists.ozlabs.org, hca@linux.ibm.com, akpm@linux-foundation.org, 
+	kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: snovitoll@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20230601 header.b=SklQ3NVn;       spf=pass
+ (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::12b
+ as permitted sender) smtp.mailfrom=snovitoll@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -174,66 +169,444 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Leon Romanovsky <leonro@nvidia.com>
+On Mon, Aug 4, 2025 at 5:04=E2=80=AFPM Christophe Leroy
+<christophe.leroy@csgroup.eu> wrote:
+>
+> Hi,
+>
+> Le 03/08/2025 =C3=A0 21:27, Sabyrzhan Tasbolatov a =C3=A9crit :
+> > On Wed, Jul 23, 2025 at 10:33=E2=80=AFPM Andrey Ryabinin <ryabinin.a.a@=
+gmail.com> wrote:
+> >>
+> >> ...
+> >>
+> >> I don't know if it's a real problem or not. I'm just pointing out that=
+ we might
+> >> have tricky use case here and maybe that's a problem, because nobody h=
+ad such use
+> >> case in mind. But maybe it's just fine.
+> >> I think we just need to boot test it, to see if this works.
+> >> ...
+> >> powerpc used static key same way before your patches, so powerpc shoul=
+d be fine.
+> >
+> > Hello,
+> >
+> > Just heads up that I am still working on v4.
+> > While I can verify the success on compile and booting with my changes
+> > on x86, arm with SW/HW_TAGS modes, I'm having issues with PowerPC, UML
+> > arch that selects ARCH_DEFER_KASAN.
+> >
+> > Adding Christophe Leroy in TO. Please advise on the powerpc panic issue=
+.
+>
+> I don't have the problem you report. Is it with your v3 series ?
 
-Block layer maps MMIO memory through dma_map_phys() interface
-with help of DMA_ATTR_MMIO attribute. There is a need to unmap
-that memory with the appropriate unmap function.
+Hi,
+Yes, but I've changed it to address Andrey Ryabinin's comments.
+I've found out the issue was in my pending v4 kasan-enabled.h definitions,
+So powerpc changes are fine. Your comment about revisiting v3 helped me as
+I was going through a rabbit hole. Thanks for the testing!
 
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+>
+> I started from
+> https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git/log/?h=
+=3Dmerge
+> (commit de12314b471bf)
+>
+> Took your series with
+>
+>    b4 shazam 20250717142732.292822-1-snovitoll@gmail.com
+>
+> built ppc64le_defconfig
+>
+> And successfully boot it under QEMU:
+>
+> $ qemu-system-ppc64 -M pseries,x-vof=3Don -m 1G -nographic -vga none
+> -kernel vmlinux -initrd qemu/rootfs-el.cpio.gz -append noreboot
+> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+> cap-cfpc=3Dworkaround
+> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+> cap-sbbc=3Dworkaround
+> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+> cap-ibs=3Dworkaround
+> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+> cap-ccf-assist=3Don
+> [    0.000000][    T0] random: crng init done
+> [    0.000000][    T0] radix-mmu: Page sizes from device-tree:
+> [    0.000000][    T0] radix-mmu: Page size shift =3D 12 AP=3D0x0
+> [    0.000000][    T0] radix-mmu: Page size shift =3D 16 AP=3D0x5
+> [    0.000000][    T0] radix-mmu: Page size shift =3D 21 AP=3D0x1
+> [    0.000000][    T0] radix-mmu: Page size shift =3D 30 AP=3D0x2
+> [    0.000000][    T0] Activating Kernel Userspace Access Prevention
+> [    0.000000][    T0] Activating Kernel Userspace Execution Prevention
+> [    0.000000][    T0] radix-mmu: Mapped
+> 0x0000000000000000-0x0000000003e00000 with 2.00 MiB pages (exec)
+> [    0.000000][    T0] radix-mmu: Mapped
+> 0x0000000003e00000-0x0000000040000000 with 2.00 MiB pages
+> [    0.000000][    T0] lpar: Using radix MMU under hypervisor
+> [    0.000000][    T0] Linux version 6.16.0-02450-g1c11a8599f68
+> (chleroy@PO20335.IDSI0.si.c-s.fr) (powerpc64-linux-gcc (GCC) 8.5.0, GNU
+> ld (GNU Binutils) 2.36.1) #1459 SMP Mon Aug  4 12:49:11 CEST 2025
+> [    0.000000][    T0] KernelAddressSanitizer initialized (generic)
+> [    0.000000][    T0] OF: reserved mem: Reserved memory: No
+> reserved-memory node in the DT
+> [    0.000000][    T0] Found initrd at 0xc000000004cf0000:0xc00000000530d=
+15a
+> [    0.000000][    T0] Hardware name: IBM pSeries (emulated by qemu)
+> POWER9 (architected) 0x4e1202 0xf000005 pSeries
+> [    0.000000][    T0] printk: legacy bootconsole [udbg0] enabled
+> [    0.000000][    T0] Partition configured for 1 cpus.
+> [    0.000000][    T0] CPU maps initialized for 1 thread per core
+> [    0.000000][    T0] numa: Partition configured for 1 NUMA nodes.
+> [    0.000000][    T0] --------------------------------------------------=
 ---
- drivers/nvme/host/pci.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+> [    0.000000][    T0] phys_mem_size     =3D 0x40000000
+> [    0.000000][    T0] dcache_bsize      =3D 0x80
+> [    0.000000][    T0] icache_bsize      =3D 0x80
+> [    0.000000][    T0] cpu_features      =3D 0x0001c06b8f4f9187
+> [    0.000000][    T0]   possible        =3D 0x003ffbfbcf5fb187
+> [    0.000000][    T0]   always          =3D 0x0000000380008181
+> [    0.000000][    T0] cpu_user_features =3D 0xdc0065c2 0xaef00000
+> [    0.000000][    T0] mmu_features      =3D 0x3c007641
+> [    0.000000][    T0] firmware_features =3D 0x00000a85455a445f
+> [    0.000000][    T0] vmalloc start     =3D 0xc008000000000000
+> [    0.000000][    T0] IO start          =3D 0xc00a000000000000
+> [    0.000000][    T0] vmemmap start     =3D 0xc00c000000000000
+> [    0.000000][    T0] --------------------------------------------------=
+---
+> [    0.000000][    T0] NODE_DATA(0) allocated [mem 0x3fb30800-0x3fb37fff]
+> [    0.000000][    T0] rfi-flush: fallback displacement flush available
+> [    0.000000][    T0] rfi-flush: ori type flush available
+> [    0.000000][    T0] rfi-flush: mttrig type flush available
+> [    0.000000][    T0] count-cache-flush: hardware flush enabled.
+> [    0.000000][    T0] link-stack-flush: software flush enabled.
+> [    0.000000][    T0] stf-barrier: eieio barrier available
+> [    0.000000][    T0] PPC64 nvram contains 65536 bytes
+> [    0.000000][    T0] barrier-nospec: using ORI speculation barrier
+> [    0.000000][    T0] Zone ranges:
+> [    0.000000][    T0]   Normal   [mem
+> 0x0000000000000000-0x000000003fffffff]
+> [    0.000000][    T0]   Device   empty
+> [    0.000000][    T0] Movable zone start for each node
+> [    0.000000][    T0] Early memory node ranges
+> [    0.000000][    T0]   node   0: [mem
+> 0x0000000000000000-0x000000003fffffff]
+> [    0.000000][    T0] Initmem setup node 0 [mem
+> 0x0000000000000000-0x000000003fffffff]
+> [    0.000000][    T0] percpu: Embedded 3 pages/cpu s122904 r0 d73704
+> u196608
+> [    0.000000][    T0] Kernel command line: noreboot
+> [    0.000000][    T0] Unknown kernel command line parameters
+> "noreboot", will be passed to user space.
+> [    0.000000][    T0] printk: log buffer data + meta data: 262144 +
+> 917504 =3D 1179648 bytes
+> [    0.000000][    T0] Dentry cache hash table entries: 131072 (order:
+> 4, 1048576 bytes, linear)
+> [    0.000000][    T0] Inode-cache hash table entries: 65536 (order: 3,
+> 524288 bytes, linear)
+> [    0.000000][    T0] Fallback order for Node 0: 0
+> [    0.000000][    T0] Built 1 zonelists, mobility grouping on.  Total
+> pages: 16384
+> [    0.000000][    T0] Policy zone: Normal
+> [    0.000000][    T0] mem auto-init: stack:off, heap alloc:off, heap
+> free:off
+> [    0.000000][    T0] stackdepot: allocating hash table via
+> alloc_large_system_hash
+> [    0.000000][    T0] stackdepot hash table entries: 1048576 (order: 8,
+> 16777216 bytes, linear)
+> [    0.000000][    T0] SLUB: HWalign=3D128, Order=3D0-3, MinObjects=3D0,
+> CPUs=3D1, Nodes=3D1
+> [    0.000000][    T0] ftrace: allocating 47840 entries in 12 pages
+> [    0.000000][    T0] ftrace: allocated 12 pages with 2 groups
+> [    0.000000][    T0] rcu: Hierarchical RCU implementation.
+> [    0.000000][    T0] rcu:     RCU event tracing is enabled.
+> [    0.000000][    T0] rcu:     RCU restricting CPUs from NR_CPUS=3D2048 =
+to
+> nr_cpu_ids=3D1.
+> [    0.000000][    T0]  Rude variant of Tasks RCU enabled.
+> [    0.000000][    T0]  Tracing variant of Tasks RCU enabled.
+> [    0.000000][    T0] rcu: RCU calculated value of scheduler-enlistment
+> delay is 100 jiffies.
+> [    0.000000][    T0] rcu: Adjusting geometry for rcu_fanout_leaf=3D16,
+> nr_cpu_ids=3D1
+> [    0.000000][    T0] RCU Tasks Rude: Setting shift to 0 and lim to 1
+> rcu_task_cb_adjust=3D1 rcu_task_cpu_ids=3D1.
+> [    0.000000][    T0] RCU Tasks Trace: Setting shift to 0 and lim to 1
+> rcu_task_cb_adjust=3D1 rcu_task_cpu_ids=3D1.
+> [    0.000000][    T0] NR_IRQS: 512, nr_irqs: 512, preallocated irqs: 16
+> [    0.000000][    T0] xive: Using IRQ range [0-0]
+> [    0.000000][    T0] xive: Interrupt handling initialized with spapr
+> backend
+> [    0.000000][    T0] xive: Using priority 6 for all interrupts
+> [    0.000000][    T0] xive: Using 64kB queues
+> [    0.000000][    T0] rcu: srcu_init: Setting srcu_struct sizes based
+> on contention.
+> [    0.000290][    T0] time_init: 56 bit decrementer (max: 7fffffffffffff=
+)
+> [    0.001690][    T0] clocksource: timebase: mask: 0xffffffffffffffff
+> max_cycles: 0x761537d007, max_idle_ns: 440795202126 ns
+> [    0.003232][    T0] clocksource: timebase mult[1f40000] shift[24]
+> registered
+> [    0.040308][    T0] Console: colour dummy device 80x25
+> [    0.042553][    T0] printk: legacy console [hvc0] enabled
+> [    0.042553][    T0] printk: legacy console [hvc0] enabled
+> [    0.043883][    T0] printk: legacy bootconsole [udbg0] disabled
+> [    0.043883][    T0] printk: legacy bootconsole [udbg0] disabled
+> [    0.052810][    T0] pid_max: default: 32768 minimum: 301
+> [    0.062682][    T0] LSM: initializing
+> lsm=3Dlockdown,capability,landlock,yama,selinux,bpf,ima
+> [    0.075902][    T0] landlock: Up and running.
+> [    0.076246][    T0] Yama: becoming mindful.
+> [    0.077639][    T0] SELinux:  Initializing.
+> [    0.157184][    T0] LSM support for eBPF active
+> [    0.170713][    T0] Mount-cache hash table entries: 8192 (order: 0,
+> 65536 bytes, linear)
+> [    0.171081][    T0] Mountpoint-cache hash table entries: 8192 (order:
+> 0, 65536 bytes, linear)
+> [    0.319421][    T1] POWER9 performance monitor hardware support
+> registered
+> [    0.329508][    T1] rcu: Hierarchical SRCU implementation.
+> [    0.329940][    T1] rcu:     Max phase no-delay instances is 400.
+> [    0.382714][    T1] smp: Bringing up secondary CPUs ...
+> [    0.385679][    T1] smp: Brought up 1 node, 1 CPU
+> [    0.392599][    T1] numa: Node 0 CPUs: 0
+> [    0.445093][   T20] node 0 deferred pages initialised in 21ms
+> [    0.447420][    T1] Memory: 784000K/1048576K available (25600K kernel
+> code, 9216K rwdata, 23552K rodata, 13824K init, 2373K bss, 254528K
+> reserved, 0K cma-reserved)
+> [    0.469596][   T20] pgdatinit0 (20) used greatest stack depth: 29936
+> bytes left
+> [    0.504269][    T1] devtmpfs: initialized
+> [    0.605561][    T1] PCI host bridge /pci@800000020000000  ranges:
+> [    0.607269][    T1]   IO 0x0000200000000000..0x000020000000ffff ->
+> 0x0000000000000000
+> [    0.607837][    T1]  MEM 0x0000200080000000..0x00002000ffffffff ->
+> 0x0000000080000000
+> [    0.608141][    T1]  MEM 0x0000210000000000..0x000021ffffffffff ->
+> 0x0000210000000000
+> [    0.623659][    T1] clocksource: jiffies: mask: 0xffffffff
+> max_cycles: 0xffffffff, max_idle_ns: 1911260446275000 ns
+> [    0.625600][    T1] posixtimers hash table entries: 512 (order: -3,
+> 8192 bytes, linear)
+> [    0.627067][    T1] futex hash table entries: 256 (32768 bytes on 1
+> NUMA nodes, total 32 KiB, linear).
+> [    0.692128][    T1] NET: Registered PF_NETLINK/PF_ROUTE protocol famil=
+y
+> [    0.714282][    T1] audit: initializing netlink subsys (disabled)
+> [    0.722232][   T25] audit: type=3D2000 audit(1754308137.543:1):
+> state=3Dinitialized audit_enabled=3D0 res=3D1
+> [    0.743697][    T1] cpuidle: using governor menu
+> [    0.755015][    T1] WARNING: nvram corruption detected: 0-length
+> partition
+> [    0.755541][    T1] nvram: No room to create ibm,rtas-log partition,
+> deleting any obsolete OS partitions...
+> [    0.755794][    T1] nvram: Failed to find or create ibm,rtas-log
+> partition, err -28
+> [    0.756219][    T1] nvram: No room to create lnx,oops-log partition,
+> deleting any obsolete OS partitions...
+> [    0.756379][    T1] nvram: Failed to find or create lnx,oops-log
+> partition, err -28
+> Linux ppc64le
+> #1459 SMP Mon Au[    0.756539][    T1] nvram: Failed to initialize oops
+> partition!
+> [    0.762921][    T1] EEH: pSeries platform initialized
+> [    0.808097][    T1] kprobes: kprobe jump-optimization is enabled. All
+> kprobes are optimized if possible.
+> [    1.365147][    T1] HugeTLB: allocation took 0ms with
+> hugepage_allocation_threads=3D1
+> [    1.366269][    T1] HugeTLB: registered 2.00 MiB page size,
+> pre-allocated 0 pages
+> [    1.366456][    T1] HugeTLB: 0 KiB vmemmap can be freed for a 2.00
+> MiB page
+> [    1.366728][    T1] HugeTLB: registered 1.00 GiB page size,
+> pre-allocated 0 pages
+> [    1.366870][    T1] HugeTLB: 0 KiB vmemmap can be freed for a 1.00
+> GiB page
+> [    1.486251][    T1] iommu: Default domain type: Translated
+> [    1.486543][    T1] iommu: DMA domain TLB invalidation policy: strict
+> mode
+> [    1.525452][    T1] SCSI subsystem initialized
+> [    1.552424][    T1] usbcore: registered new interface driver usbfs
+> [    1.554049][    T1] usbcore: registered new interface driver hub
+> [    1.559907][    T1] usbcore: registered new device driver usb
+> [    1.562100][    T1] pps_core: LinuxPPS API ver. 1 registered
+> [    1.562266][    T1] pps_core: Software ver. 5.3.6 - Copyright
+> 2005-2007 Rodolfo Giometti <giometti@linux.it>
+> [    1.566642][    T1] PTP clock support registered
+> [    1.577168][    T1] EDAC MC: Ver: 3.0.0
+> [    1.672772][    T1] PCI: Probing PCI hardware
+> [    1.833395][    T1] PCI host bridge to bus 0000:00
+> [    1.834524][    T1] pci_bus 0000:00: root bus resource [io
+> 0x10000-0x1ffff] (bus address [0x0000-0xffff])
+> [    1.835316][    T1] pci_bus 0000:00: root bus resource [mem
+> 0x200080000000-0x2000ffffffff] (bus address [0x80000000-0xffffffff])
+> [    1.835750][    T1] pci_bus 0000:00: root bus resource [mem
+> 0x210000000000-0x21ffffffffff 64bit]
+> [    1.836268][    T1] pci_bus 0000:00: root bus resource [bus 00-ff]
+> [    1.852192][    T1] IOMMU table initialized, virtual merging enabled
+> [    1.864698][    T1] pci_bus 0000:00: resource 4 [io  0x10000-0x1ffff]
+> [    1.864967][    T1] pci_bus 0000:00: resource 5 [mem
+> 0x200080000000-0x2000ffffffff]
+> [    1.865136][    T1] pci_bus 0000:00: resource 6 [mem
+> 0x210000000000-0x21ffffffffff 64bit]
+> [    1.865619][    T1] EEH: No capable adapters found: recovery disabled.
+> [    1.895816][    T1] vgaarb: loaded
+> [    1.906597][    T1] clocksource: Switched to clocksource timebase
+> [    7.645823][    T1] NET: Registered PF_INET protocol family
+> [    7.650783][    T1] IP idents hash table entries: 16384 (order: 1,
+> 131072 bytes, linear)
+> [    7.684628][    T1] tcp_listen_portaddr_hash hash table entries: 4096
+> (order: 0, 65536 bytes, linear)
+> [    7.686311][    T1] Table-perturb hash table entries: 65536 (order:
+> 2, 262144 bytes, linear)
+> [    7.687827][    T1] TCP established hash table entries: 8192 (order:
+> 0, 65536 bytes, linear)
+> [    7.690430][    T1] TCP bind hash table entries: 8192 (order: 2,
+> 262144 bytes, linear)
+> [    7.694736][    T1] TCP: Hash tables configured (established 8192
+> bind 8192)
+> [    7.697887][    T1] UDP hash table entries: 1024 (order: 0, 65536
+> bytes, linear)
+> [    7.700717][    T1] UDP-Lite hash table entries: 1024 (order: 0,
+> 65536 bytes, linear)
+> [    7.709437][    T1] NET: Registered PF_UNIX/PF_LOCAL protocol family
+> [    7.728670][    T1] RPC: Registered named UNIX socket transport module=
+.
+> [    7.729411][    T1] RPC: Registered udp transport module.
+> [    7.729661][    T1] RPC: Registered tcp transport module.
+> [    7.729825][    T1] RPC: Registered tcp-with-tls transport module.
+> [    7.731574][    T1] RPC: Registered tcp NFSv4.1 backchannel transport
+> module.
+> [    7.732309][    T1] PCI: CLS 0 bytes, default 128
+> [    7.769612][   T12] Trying to unpack rootfs image as initramfs...
+> [    7.937617][    T1] Initialise system trusted keyrings
+> [    7.942505][    T1] Key type blacklist registered
+> [    7.964894][    T1] workingset: timestamp_bits=3D38 max_order=3D14
+> bucket_order=3D0
+> [    8.127738][    T1] NFS: Registering the id_resolver key type
+> [    8.129779][    T1] Key type id_resolver registered
+> [    8.130646][    T1] Key type id_legacy registered
+> [    8.150761][    T1] SGI XFS with ACLs, security attributes, no debug
+> enabled
+> [    8.343926][    T1] integrity: Platform Keyring initialized
+> [    8.348809][    T1] Key type asymmetric registered
+> [    8.354232][    T1] Asymmetric key parser 'x509' registered
+> [    8.372851][    T1] Block layer SCSI generic (bsg) driver version 0.4
+> loaded (major 247)
+> [    8.375844][    T1] io scheduler mq-deadline registered
+> [    8.377498][    T1] io scheduler kyber registered
+> [   11.082153][    T1] Serial: 8250/16550 driver, 4 ports, IRQ sharing
+> disabled
+> [   11.199822][    T1] Non-volatile memory driver v1.3
+> [   11.749528][    T1] brd: module loaded
+> [   12.062135][    T1] loop: module loaded
+> [   12.078153][    T1] ipr: IBM Power RAID SCSI Device Driver version:
+> 2.6.4 (March 14, 2017)
+> [   12.118444][    T1] ibmvscsi 71000003: SRP_VERSION: 16.a
+> [   12.134566][    T1] ibmvscsi 71000003: Maximum ID: 64 Maximum LUN: 32
+> Maximum Channel: 3
+> [   12.135207][    T1] scsi host0: IBM POWER Virtual SCSI Adapter 1.5.9
+> [   12.188126][    C0] ibmvscsi 71000003: partner initialization complete
+> [   12.191555][    C0] ibmvscsi 71000003: host srp version: 16.a, host
+> partition qemu (0), OS 2, max io 2097152
+> [   12.192709][    C0] ibmvscsi 71000003: sent SRP login
+> [   12.193698][    C0] ibmvscsi 71000003: SRP_LOGIN succeeded
+> [   12.381686][    T1] scsi 0:0:2:0: CD-ROM            QEMU     QEMU
+> CD-ROM      2.5+ PQ: 0 ANSI: 5
+> [   17.470934][   T12] Freeing initrd memory: 6208K
+> [   18.458146][    C0] sr 0:0:2:0: Power-on or device reset occurred
+> [   18.468304][    T1] sr 0:0:2:0: [sr0] scsi3-mmc drive: 16x/50x cd/rw
+> xa/form2 cdda tray
+> [   18.469176][    T1] cdrom: Uniform CD-ROM driver Revision: 3.20
+> [   18.507507][    T1] sr 0:0:2:0: Attached scsi generic sg0 type 5
+> [   18.535454][    T1] e100: Intel(R) PRO/100 Network Driver
+> [   18.535682][    T1] e100: Copyright(c) 1999-2006 Intel Corporation
+> [   18.536741][    T1] e1000: Intel(R) PRO/1000 Network Driver
+> [   18.536894][    T1] e1000: Copyright (c) 1999-2006 Intel Corporation.
+> [   18.538093][    T1] e1000e: Intel(R) PRO/1000 Network Driver
+> [   18.538241][    T1] e1000e: Copyright(c) 1999 - 2015 Intel Corporation=
+.
+> [   18.548528][    T1] i2c_dev: i2c /dev entries driver
+> [   18.551722][    T1] device-mapper: core: CONFIG_IMA_DISABLE_HTABLE is
+> disabled. Duplicate IMA measurements will not be recorded in the IMA log.
+> [   18.553452][    T1] device-mapper: uevent: version 1.0.3
+> [   18.564534][    T1] device-mapper: ioctl: 4.50.0-ioctl (2025-04-28)
+> initialised: dm-devel@lists.linux.dev
+> [   18.591869][    T1] usbcore: registered new interface driver usbhid
+> [   18.592226][    T1] usbhid: USB HID core driver
+> [   18.594958][    T1] ipip: IPv4 and MPLS over IPv4 tunneling driver
+> [   18.611797][    T1] NET: Registered PF_INET6 protocol family
+> [   18.651618][    T1] Segment Routing with IPv6
+> [   18.653186][    T1] In-situ OAM (IOAM) with IPv6
+> [   18.656776][    T1] sit: IPv6, IPv4 and MPLS over IPv4 tunneling drive=
+r
+> [   18.672737][    T1] NET: Registered PF_PACKET protocol family
+> [   18.676757][    T1] Key type dns_resolver registered
+> [   18.678951][    T1] secvar-sysfs: Failed to retrieve secvar operations
+> [   18.683474][    T1] Running code patching self-tests ...
+> [   19.045499][    T1] registered taskstats version 1
+> [   19.055453][    T1] Loading compiled-in X.509 certificates
+> [   19.106895][    T1] Loaded X.509 cert 'Build time autogenerated
+> kernel key: 9f01b0d991e9d73077cd296c67edb3efb56e2c47'
+> [   19.372917][    T1] Demotion targets for Node 0: null
+> [   19.373664][    T1] page_owner is disabled
+> [   19.385615][    T1] Secure boot mode disabled
+> [   19.387815][    T1] ima: No TPM chip found, activating TPM-bypass!
+> [   19.389833][    T1] Loading compiled-in module X.509 certificates
+> [   19.406497][    T1] Loaded X.509 cert 'Build time autogenerated
+> kernel key: 9f01b0d991e9d73077cd296c67edb3efb56e2c47'
+> [   19.407680][    T1] ima: Allocated hash algorithm: sha256
+> [   19.416714][    T1] Secure boot mode disabled
+> [   19.417345][    T1] Trusted boot mode disabled
+> [   19.417596][    T1] ima: No architecture policies found
+> [   19.426439][    T1] printk: legacy console [netcon0] enabled
+> [   19.426791][    T1] netconsole: network logging started
+> [   19.610553][    T1] Freeing unused kernel image (initmem) memory: 1382=
+4K
+> [   19.766345][    T1] Checked W+X mappings: passed, no W+X pages found
+> [   19.767739][    T1] rodata_test: all tests were successful
+> [   19.768936][    T1] Run /init as init process
+> [   20.432221][   T58] mount (58) used greatest stack depth: 26992 bytes
+> left
+> [   20.808923][   T60] mount (60) used greatest stack depth: 26416 bytes
+> left
+> mount: mounting devtmpfs on /dev failed: Device or resource busy
+> Starting syslogd: OK
+> Starting klogd: OK
+> Running sysctl: [   24.879851][   T83] find (83) used greatest stack
+> depth: 26368 bytes left
+> [   24.945794][   T84] xargs (84) used greatest stack depth: 26240 bytes
+> left
+> OK
+> Saving 256 bits of creditable seed for next boot
+> Starting network: [   26.530674][   T96] ip (96) used greatest stack
+> depth: 26048 bytes left
+> [   27.018425][   T97] ip (97) used greatest stack depth: 24256 bytes lef=
+t
+> Waiting for interface eth0 to appear..... timeout!
+> run-parts: /etc/network/if-pre-up.d/wait_iface: exit status 1
+> FAIL
+> [   33.902403][    C0] hrtimer: interrupt took 3450588 ns
+> Found console hvc0
+>
+> Linux version 6.16.0-02450-g1c11a8599f68
+> (chleroy@PO20335.IDSI0.si.c-s.fr) (powerpc64-linux-gcc (GCC) 8.5.0, GNU
+> ld (GNU Binutils) 2.36.1) #1459 SMP Mon Aug  4 12:49:11 CEST 2025
+> Network interface test failed
+> TPM selftest failed
+> File system test skipped
+> Boot successful.
+> ~ #
+>
+>
+> Christophe
+>
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 071efec25346f..0b624247948c5 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -682,11 +682,15 @@ static void nvme_free_prps(struct request *req)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
- 	struct nvme_queue *nvmeq = req->mq_hctx->driver_data;
-+	unsigned int attrs = 0;
- 	unsigned int i;
- 
-+	if (req->cmd_flags & REQ_MMIO)
-+		attrs = DMA_ATTR_MMIO;
-+
- 	for (i = 0; i < iod->nr_dma_vecs; i++)
--		dma_unmap_page(nvmeq->dev->dev, iod->dma_vecs[i].addr,
--				iod->dma_vecs[i].len, rq_dma_dir(req));
-+		dma_unmap_phys(nvmeq->dev->dev, iod->dma_vecs[i].addr,
-+				iod->dma_vecs[i].len, rq_dma_dir(req), attrs);
- 	mempool_free(iod->dma_vecs, nvmeq->dev->dmavec_mempool);
- }
- 
-@@ -699,15 +703,19 @@ static void nvme_free_sgls(struct request *req)
- 	unsigned int sqe_dma_len = le32_to_cpu(iod->cmd.common.dptr.sgl.length);
- 	struct nvme_sgl_desc *sg_list = iod->descriptors[0];
- 	enum dma_data_direction dir = rq_dma_dir(req);
-+	unsigned int attrs = 0;
-+
-+	if (req->cmd_flags & REQ_MMIO)
-+		attrs = DMA_ATTR_MMIO;
- 
- 	if (iod->nr_descriptors) {
- 		unsigned int nr_entries = sqe_dma_len / sizeof(*sg_list), i;
- 
- 		for (i = 0; i < nr_entries; i++)
--			dma_unmap_page(dma_dev, le64_to_cpu(sg_list[i].addr),
--				le32_to_cpu(sg_list[i].length), dir);
-+			dma_unmap_phys(dma_dev, le64_to_cpu(sg_list[i].addr),
-+				le32_to_cpu(sg_list[i].length), dir, attrs);
- 	} else {
--		dma_unmap_page(dma_dev, sqe_dma_addr, sqe_dma_len, dir);
-+		dma_unmap_phys(dma_dev, sqe_dma_addr, sqe_dma_len, dir, attrs);
- 	}
- }
- 
--- 
-2.50.1
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/5b0131f82a3d14acaa85f0d1dd608d2913af84e2.1754292567.git.leon%40kernel.org.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
+ACzwLxg5i%3D9qxREipizLtZqy1hU3EbVNYdGNge9c-D-c9O-ptg%40mail.gmail.com.
