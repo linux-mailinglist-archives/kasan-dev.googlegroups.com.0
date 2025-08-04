@@ -1,113 +1,113 @@
-Return-Path: <kasan-dev+bncBC3ZLA5BYIFBBG6WYLCAMGQELZVI7ZA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC3ZLA5BYIFBBJGWYLCAMGQEYCS6ZMY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63c.google.com (mail-pl1-x63c.google.com [IPv6:2607:f8b0:4864:20::63c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1998CB1A1C1
-	for <lists+kasan-dev@lfdr.de>; Mon,  4 Aug 2025 14:44:14 +0200 (CEST)
-Received: by mail-pl1-x63c.google.com with SMTP id d9443c01a7336-23fe26e5a33sf53562085ad.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 04 Aug 2025 05:44:14 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1754311452; cv=pass;
+Received: from mail-oa1-x3e.google.com (mail-oa1-x3e.google.com [IPv6:2001:4860:4864:20::3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E30FB1A1C5
+	for <lists+kasan-dev@lfdr.de>; Mon,  4 Aug 2025 14:44:22 +0200 (CEST)
+Received: by mail-oa1-x3e.google.com with SMTP id 586e51a60fabf-2e933923303sf3628662fac.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 04 Aug 2025 05:44:21 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1754311460; cv=pass;
         d=google.com; s=arc-20240605;
-        b=DFt6pcv3CzGJ4s8dzK5DAwk6FVbDBspyHINTcNIMf7Oa0hFBmwDX4MgCoEOcK2drPL
-         tyc9Dni39OoA6BZZksRAt0IV+OsnBDpKUa1/xftayfZ2P+AgtTH9LBmkFmI48uetdb2j
-         wKvn331vanOllBuAzKXZlqHkU5QbJVRNlFOFM+6F/NbHIKFDnsoBO6rhVKojkImXODDM
-         +3b1W6fopEGEelvyQrNmedcWc94QwdkhkSGyootuG40EmrFxZh79hBhp7bRhRMhywgnY
-         XIZA5Ux/4Z8gZ9mlfNZzxL5jqY7enjATRz2ZVDCZMP0KY6qX1X2Lo1x+8SpoChR021Q3
-         geCA==
+        b=dnsE1mTDRUO7IZrVULLBDygG+cvW7xMx0dB8S0ld64JRzyntZHqHzkh8MVS55nQB75
+         tWJqgOcSef8Y5UTcl/G6WnNROVORqr0P0io0yF/rmUJA0uU6ugMm/9ptb45U1UiBzD8T
+         EhQuKXpHuaw+pvvlkVl05GYi4lmZEH3TSAQPHJRA7+Jk5MtuNBeJvtJKvEKvJyX6Wp5Q
+         yRnoXJtkOq4oPSEoRgj6qcvxUkP9gDSks6aqxrWmDrson6MQoRduOtPbuKLTle0Wgja+
+         vn145mtd4I5B2Rni9uSowJtO9wzGeNn+uQo9uo0QO3SJJ5KKb6B6Cc+mlzxuwTz+bAt8
+         gEGw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=PGw1e4/d2QIcbuCx08sgfzLUfmD645CTXVZgtrjQSTo=;
-        fh=14ax5IEWQfccvs1bl2hsdxEeJoCzC2c9XOBa9ajkEjY=;
-        b=Q4zcBSRE0Y4OBvjEXTZyITXXpKfKUO8nhx0LrmeFLGaIQew2EnJg0zi3m9dGXeiTY5
-         /xkU40iFp1J5958rL2eRX8Fw7xA6pHo8+c5TzwymxXCC1/zGIr8B5M1V9F9mmMjXVk8Z
-         rbK9es3w5GDEef25VcO7rV05lqEefGMmsn/iIgON1J6sBvxxDDVa2flnwdqx9CH1YRLw
-         +whCywr9fjkjn/gL4hNr2/B1EmmOAoeOmz7vsk/hiE/evPM5PAkXvu4nMXOqqi2kiVXl
-         h+Mq8x8AiZLBZ8bhTURfxz9sMvj1aMbjbGJ1Bie42MJfDyeYAm6Z3rzFo5rgG7TsrXde
-         cZog==;
+        bh=2BjIMNQVdOFAULeMg+3RJa4g2oBegYjZLt+rvdFecFU=;
+        fh=nZZPHI/l6jhQz8ZoWrhQpNqHOMlBTJRrzldeaYRTx20=;
+        b=U4lpQltNQtsxjSaqn64yAplScJ5t8WDOU3Qxbo5v7A1MA5PukKxOiuAuI88tvA0ETG
+         eWQ6Vnu8DE4e+c5qjjZ8SYIFpgDRGCPNJ7RT1XeDy8iF2EBhZ+BXmfp21rd5CfAt24vw
+         d6cFF6xaGcylAe3lXGE4yuwtkdXotHk6QST27ObdTXp8D98IS0/QhFCZQt9mNUiBuWdc
+         NOmRBLdAoARVzyujTx4x0MOnyHSM5juPH9YeZm5dTKj+P3IVhth73rEnp+T5h3cMPLqo
+         sRlfak7uH0KLFF2we6IWwZb17Nvzq5NZHR4BZEyp/dYua4DsBB9bb0+X76fXSe16wiFV
+         x78Q==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=jbu+qcbq;
-       spf=pass (google.com: domain of leon@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=leon@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=twziXknB;
+       spf=pass (google.com: domain of leon@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=leon@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1754311452; x=1754916252; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1754311460; x=1754916260; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=PGw1e4/d2QIcbuCx08sgfzLUfmD645CTXVZgtrjQSTo=;
-        b=iKO84k1TdFp0dm0nFMhnZwvS1m6N2FCNOfOKq3I161EyTBMvqvPEbjFhHtOVxPDJiB
-         IQCVAh/0jKUtrCMdAs1VLz/GmdWVk15XITBMF78qP/gofr5K4tS3VzGKSl6/C7i6riQV
-         rAe81EB51C2aOqbPC6mWw3iN3OZ+/ssaBzmLTY5QjSVL15ncYxqn7jrwYTKTFkLLgdKm
-         UU/9xYTrNfAvPOP+W4Nnm7CN49Re+uxuFVN2IRfTHwGTKaF8Yec8d7ZhwZsTl9s81GO1
-         xFZdbAqKrZdRyd1zhp6lBWVH7KZmMRraX3A0Zu6CUtKRnxk6kVBWMkd3NeLP5IhUZjGE
-         uaJg==
+        bh=2BjIMNQVdOFAULeMg+3RJa4g2oBegYjZLt+rvdFecFU=;
+        b=rp/r+3/RDB9VMi+8EuzzUrml+T3zdw5P+WBRy3flPJWoSBAOUFiB4HCMgwt2ZIRpXR
+         T/pr0My+9v3n8B6amTDtlu1sKlTd/f8hXooxqrPFkaas5bRFHi4nmpTr9dhry8J/nh1x
+         FrJT1ID5R2bZ/TgNNCMEfvRH6G1PNavTBU7J0d7b4akEO+7dJmS1RjXeUF6cHWZ8IW87
+         iLV2ACGg8RAL3eLJL4gnOPbvEr/ltC2svSH9BBILngfczQLfyLK6A8Gu+Pv8y/GtHVz5
+         dSEnVw5AqYO0l8eCORKrIn8XtYCCNpYkkbqMBcYRPpCBxhaCQlxlxVsSpOIq6U07mFfx
+         c8oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754311452; x=1754916252;
+        d=1e100.net; s=20230601; t=1754311460; x=1754916260;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PGw1e4/d2QIcbuCx08sgfzLUfmD645CTXVZgtrjQSTo=;
-        b=Sc6a0FWQCF/414WkkAk+SSL/p44u38v4x4p1qNxJ0XH9T1iOrL2Ii0AgAqo9wIvmpR
-         ZkUlm7ZqnPCXIzFv7ORsoR3cJYNtf8pVfxhnLib+gJ//aro0LKsAhydFRWmnTPpVzJSS
-         ufYZns4YTI3S+GbQsa3ricmDEXmNk8mkcu1tFY2YrDsTWSkNpwpHNGr8REAjxUOp3dUE
-         wBZuh/niLjpSr582Z3iSMdtlLyS3RhuS9gneGPoxe21aAxg2+QFR9eGw370/6Ti0Xinx
-         W1A09boikmFfcQX6CmhFk2xkas0MY6D7KXzAhcwzPRvA6rsjXc3k7gm7OYC8RnXiQvVk
-         F95g==
-X-Forwarded-Encrypted: i=2; AJvYcCVkmaMiCp+JIlSX3DFQVvPaFYbG1+CWi1y5zBtpti66laAocr7Fro4bCYiDfmJy0ZkHDCkV8A==@lfdr.de
-X-Gm-Message-State: AOJu0YwWpYDjjEpv/8HFGJYW8r11iqf/IGJMnkPZ+oM+v1HyydaR9Nbx
-	rvA31oMQ2lpNl708UWmkAxPIPoI8EUwN9tpyQF2eSYttRZbDLWOEMk5g
-X-Google-Smtp-Source: AGHT+IGZOOWqdjZiI1sR/FU8f0ELNpvXZA2AvhKpuSYYk460rR71MclVdsFNHs9ixQwClvkWAxYcJA==
-X-Received: by 2002:a17:903:1a67:b0:234:d679:72e9 with SMTP id d9443c01a7336-24246f68d3dmr136434425ad.12.1754311452154;
-        Mon, 04 Aug 2025 05:44:12 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdrGFl4kAHrSV/Jglk5JjfdJ8GGF7RDsIBRYXqR7tnkjA==
-Received: by 2002:a17:902:d581:b0:23f:ed15:442b with SMTP id
- d9443c01a7336-241d1eb3e9fls38010715ad.0.-pod-prod-06-us; Mon, 04 Aug 2025
- 05:44:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVlBwfjNF3E5ZC1HmSxfOLeZ1cN2u8rd/KICKchsnRC1mBhOMgWV0KeGuLYQCTZ2dQVmep1ZlDSX8A=@googlegroups.com
-X-Received: by 2002:a17:903:22c7:b0:240:96a:b81d with SMTP id d9443c01a7336-24246f5634fmr144630995ad.5.1754311450501;
-        Mon, 04 Aug 2025 05:44:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1754311450; cv=none;
+        bh=2BjIMNQVdOFAULeMg+3RJa4g2oBegYjZLt+rvdFecFU=;
+        b=lWPmQ/zzUyjarocf7BPjsEP57m4t75Sq67o86EewuwtyxzBYY+s9I2CDYH0Hk9P7uK
+         t7zAlZscMrAmuOoahBolyLxYsxclOkV2pRNK16/bOK6I5kJB7+9e93CE8ljVWqzlFaTA
+         graF1CxSLyqPtdAD/G+9r1PYfgkIQyngHafMT+ZSc2YTC7x16Jzdotsk5C9yn0F5WO14
+         HlPJK+eZ3F015/qzD0KKcOpHNNFpdZmUcxXiRL8+Ko4bkEqhuaXchxXe1ulmRn1cI/YW
+         859pSfp5k56Z78+LZKnOgoxHLfPWvZ1EE/LrRtvxswmG9WLO+RK1IPqHAmdN0fo3vFv9
+         Tj6g==
+X-Forwarded-Encrypted: i=2; AJvYcCXNQfN0Cyk5bJOtWd4RVcEYDmG4DT0sSg2nZVW7bUApm7hKOkwjkFhOH6ms9Q43xHaW1OfKvQ==@lfdr.de
+X-Gm-Message-State: AOJu0YylyTxcg7uQgSTdkUGQ1sh1eh/o4/Crp1hC0GqYK0AikFHVDKc6
+	tY9TuZ2UkkoXI+6XJhxDBuvlKd4K+jPO7nIp4kgYf1+rL2Fi1hDk4fDc
+X-Google-Smtp-Source: AGHT+IEerzMQRE++jErnzAsSdUivPC6Wl8JX+UQDMso59DMOqVBfgkR9Mz+l3Rr0rjCHduFb/dj0AA==
+X-Received: by 2002:a05:6870:b207:b0:2cc:4613:76f0 with SMTP id 586e51a60fabf-30b67707f0bmr4671048fac.17.1754311460418;
+        Mon, 04 Aug 2025 05:44:20 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZduP+PnvXEwIy6nbv/YyZWWMgpR2E1q3e3jwX+FYEQ23g==
+Received: by 2002:a05:6871:7296:b0:29f:aff3:65c8 with SMTP id
+ 586e51a60fabf-307a76b1d2els2427362fac.2.-pod-prod-08-us; Mon, 04 Aug 2025
+ 05:44:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCU8Ex50oyIk/byARCnn+c3MAaegf4SfdCwCmLf217RXqU5A9DJOkkjzMq73NsA/+/mE+r9J9uyWn6Q=@googlegroups.com
+X-Received: by 2002:a05:6870:380a:b0:2ff:ab4b:1e6f with SMTP id 586e51a60fabf-30b679436fdmr5701174fac.30.1754311459458;
+        Mon, 04 Aug 2025 05:44:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1754311459; cv=none;
         d=google.com; s=arc-20240605;
-        b=JG0309HA+U8/cAj293a/VCIME5QRH2OnxFGHh3O2VQdj973ZHNMV6hs2nL+AAR0j1p
-         PFwb4snUhsymKn60+5HSDyUm7I23dRWwfHa2Ec3AlTtw39DIfJfmcUF95pKO7x8AOJU+
-         nM1EKJnL278ZF9jKQuHFZjz/QTyeAxbIRwEk0MeO/8g6+GhxwdrdQQWERNaTMkUTkJOp
-         lpPefE+Hi3SitX3ihVPz8sbGjlqlY2sjnxjZk9BJs774IU8Mr0kyWdLuhw4lXFhPF3NF
-         R5MWRGXKCZRFOjo/jMsiFYClqPaT/avk0mS4XNj8ehVxMaY4m0SHrLB2UMIJFWfuXytg
-         PR6Q==
+        b=N1zwfFkgDcinjbozFag29ElDAcMkRJzCXD5QXz5B8Ygzty80gQeoO7LKR1n8eINLPf
+         se+iAkt2fYgelOQvjMcQVsteqvsLl9SNxjrfDQA0p7mxKcLXFrGQZDfDx7j+ol2Ct4VZ
+         bC+XrvTvUS2XC8US3bH1YNStphX8XgMRp6RpVl6ZplLppPMkO4suWbQVRtl1W+Olna1Y
+         ZOCOldAJpywbHOIeuCKxQX0jDOXOvB0ynxBi6pShstb5mk8y8NLeaDR1Pvnksx/EpFa9
+         uMcVyZWXCf1A/rFaIxkCA7s4Mmkueshp8Ddp/lzKPXerOxbCZswH7/T7gWqA3o1KJ3gt
+         daqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=ZQkh9YNjcmK4oEE8V4mODzcz3fsK3O/5hMC+kUDPf80=;
+        bh=+vAkscLUbC2ztTvQppga8PLzPNKX2Zo6YASdCGH79rc=;
         fh=7V/4mfmIBPVtH5Gsq5s7pcGHGm3ouCqKnRMFyJrAs8U=;
-        b=I26NaR18eqwXgVD4jDrLCQ8Xx8pt+UrDlCkBRpDWKj6wuYhkgMUALIR7xofdHV9K9Q
-         EMKw95aMtFS/zaD10bsLKXPSSlRLcl77sXMAlTqcLfRTlH9YtKUsZGpWqqfK3flNfWih
-         eDqbqUcLixsva3JFN4TvWFn3khKBv8er/o4KDcECFtKGo1e/gFlq7/3n75JzPozvglUE
-         Mj4cXUbSmfubbV+G+8wUIMjZqN7nN1V5J5gQI9huEonxZCdPOscpvP+Af6eq6bUMZ94E
-         MBO19Z3Om8nZMy1lr+p57n9XJDFCuNgQ6UhlrODUQtAVy1/8GzJx2nNyO6OPMewsexpY
-         zPpg==;
+        b=B/gNMvcQbQt+rPMEEFn4+YdWR1QKu7EZiRZ49fYhOmFw+PmGhbF5pfTUwqITrrJiIG
+         W4ph4FxabZUUvlI9ZGn6JEPWXfpFkEfr/nCVnMHG1cE28opkK9ue+A/TjwJ2/lbJlDUS
+         6IeA0rYFwRq4an6i4t8z0ERfK0ZV4Qc1C3MoJC9i+NAkLRIo9krlVbaFGHXVp4oFp0op
+         9E2Q5XvbTADGRNsdDhX5OKoDAUMYgLbveiQh08fejVkut5iBJKv7XF33zMoizRBTydm+
+         Zi80+cwY6Y1zZj8YSeq1cJXNlKtN9x9anAyc+VubRwWMI0DwjENKSuyfDoBpvWZra4uX
+         6v3Q==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=jbu+qcbq;
-       spf=pass (google.com: domain of leon@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=leon@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=twziXknB;
+       spf=pass (google.com: domain of leon@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=leon@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org. [147.75.193.91])
-        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-32102a666b3si377782a91.1.2025.08.04.05.44.10
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id 46e09a7af769-74186e002c8si473444a34.4.2025.08.04.05.44.19
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Aug 2025 05:44:10 -0700 (PDT)
-Received-SPF: pass (google.com: domain of leon@kernel.org designates 147.75.193.91 as permitted sender) client-ip=147.75.193.91;
+        Mon, 04 Aug 2025 05:44:19 -0700 (PDT)
+Received-SPF: pass (google.com: domain of leon@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id B24ACA55823;
-	Mon,  4 Aug 2025 12:44:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41354C4CEE7;
-	Mon,  4 Aug 2025 12:44:08 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 1404A5C5F2E;
+	Mon,  4 Aug 2025 12:44:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4569C4CEE7;
+	Mon,  4 Aug 2025 12:44:17 +0000 (UTC)
 From: "'Leon Romanovsky' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Marek Szyprowski <m.szyprowski@samsung.com>
 Cc: Leon Romanovsky <leonro@nvidia.com>,
@@ -146,19 +146,19 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	virtualization@lists.linux.dev,
 	Will Deacon <will@kernel.org>,
 	xen-devel@lists.xenproject.org
-Subject: [PATCH v1 12/16] mm/hmm: migrate to physical address-based DMA mapping API
-Date: Mon,  4 Aug 2025 15:42:46 +0300
-Message-ID: <6d5896c3c1eb4d481b7d49f1eb661f61353bcfdb.1754292567.git.leon@kernel.org>
+Subject: [PATCH v1 13/16] mm/hmm: properly take MMIO path
+Date: Mon,  4 Aug 2025 15:42:47 +0300
+Message-ID: <79cf36301cc05d6dd1c88e9c3812ac5c3f57e32b.1754292567.git.leon@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1754292567.git.leon@kernel.org>
 References: <cover.1754292567.git.leon@kernel.org>
 MIME-Version: 1.0
 X-Original-Sender: leon@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=jbu+qcbq;       spf=pass
- (google.com: domain of leon@kernel.org designates 147.75.193.91 as permitted
- sender) smtp.mailfrom=leon@kernel.org;       dmarc=pass (p=QUARANTINE
- sp=QUARANTINE dis=NONE) header.from=kernel.org
+ header.i=@kernel.org header.s=k20201202 header.b=twziXknB;       spf=pass
+ (google.com: domain of leon@kernel.org designates 2604:1380:4641:c500::1 as
+ permitted sender) smtp.mailfrom=leon@kernel.org;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 X-Original-From: Leon Romanovsky <leon@kernel.org>
 Reply-To: Leon Romanovsky <leon@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -176,49 +176,63 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-Convert HMM DMA operations from the legacy page-based API to the new
-physical address-based dma_map_phys() and dma_unmap_phys() functions.
-This demonstrates the preferred approach for new code that should use
-physical addresses directly rather than page+offset parameters.
+In case peer-to-peer transaction traverses through host bridge,
+the IOMMU needs to have IOMMU_MMIO flag, together with skip of
+CPU sync.
 
-The change replaces dma_map_page() and dma_unmap_page() calls with
-dma_map_phys() and dma_unmap_phys() respectively, using the physical
-address that was already available in the code. This eliminates the
-redundant page-to-physical address conversion and aligns with the
-DMA subsystem's move toward physical address-centric interfaces.
+The latter was handled by provided DMA_ATTR_SKIP_CPU_SYNC flag,
+but IOMMU flag was missed, due to assumption that such memory
+can be treated as regular one.
 
-This serves as an example of how new code should be written to leverage
-the more efficient physical address API, which provides cleaner interfaces
-for drivers that already have access to physical addresses.
+Reuse newly introduced DMA attribute to properly take MMIO path.
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- mm/hmm.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ mm/hmm.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
 diff --git a/mm/hmm.c b/mm/hmm.c
-index d545e24949949..015ab243f0813 100644
+index 015ab243f0813..6556c0e074ba8 100644
 --- a/mm/hmm.c
 +++ b/mm/hmm.c
-@@ -775,8 +775,8 @@ dma_addr_t hmm_dma_map_pfn(struct device *dev, struct hmm_dma_map *map,
- 		if (WARN_ON_ONCE(dma_need_unmap(dev) && !dma_addrs))
+@@ -746,7 +746,7 @@ dma_addr_t hmm_dma_map_pfn(struct device *dev, struct hmm_dma_map *map,
+ 	case PCI_P2PDMA_MAP_NONE:
+ 		break;
+ 	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+-		attrs |= DMA_ATTR_SKIP_CPU_SYNC;
++		attrs |= DMA_ATTR_MMIO;
+ 		pfns[idx] |= HMM_PFN_P2PDMA;
+ 		break;
+ 	case PCI_P2PDMA_MAP_BUS_ADDR:
+@@ -776,7 +776,7 @@ dma_addr_t hmm_dma_map_pfn(struct device *dev, struct hmm_dma_map *map,
  			goto error;
  
--		dma_addr = dma_map_page(dev, page, 0, map->dma_entry_size,
--					DMA_BIDIRECTIONAL);
-+		dma_addr = dma_map_phys(dev, paddr, map->dma_entry_size,
-+					DMA_BIDIRECTIONAL, 0);
+ 		dma_addr = dma_map_phys(dev, paddr, map->dma_entry_size,
+-					DMA_BIDIRECTIONAL, 0);
++					DMA_BIDIRECTIONAL, attrs);
  		if (dma_mapping_error(dev, dma_addr))
  			goto error;
  
-@@ -819,8 +819,8 @@ bool hmm_dma_unmap_pfn(struct device *dev, struct hmm_dma_map *map, size_t idx)
+@@ -811,16 +811,17 @@ bool hmm_dma_unmap_pfn(struct device *dev, struct hmm_dma_map *map, size_t idx)
+ 	if ((pfns[idx] & valid_dma) != valid_dma)
+ 		return false;
+ 
++	if (pfns[idx] & HMM_PFN_P2PDMA)
++		attrs |= DMA_ATTR_MMIO;
++
+ 	if (pfns[idx] & HMM_PFN_P2PDMA_BUS)
+ 		; /* no need to unmap bus address P2P mappings */
+-	else if (dma_use_iova(state)) {
+-		if (pfns[idx] & HMM_PFN_P2PDMA)
+-			attrs |= DMA_ATTR_SKIP_CPU_SYNC;
++	else if (dma_use_iova(state))
  		dma_iova_unlink(dev, state, idx * map->dma_entry_size,
  				map->dma_entry_size, DMA_BIDIRECTIONAL, attrs);
- 	} else if (dma_need_unmap(dev))
--		dma_unmap_page(dev, dma_addrs[idx], map->dma_entry_size,
--			       DMA_BIDIRECTIONAL);
-+		dma_unmap_phys(dev, dma_addrs[idx], map->dma_entry_size,
-+			       DMA_BIDIRECTIONAL, 0);
+-	} else if (dma_need_unmap(dev))
++	else if (dma_need_unmap(dev))
+ 		dma_unmap_phys(dev, dma_addrs[idx], map->dma_entry_size,
+-			       DMA_BIDIRECTIONAL, 0);
++			       DMA_BIDIRECTIONAL, attrs);
  
  	pfns[idx] &=
  		~(HMM_PFN_DMA_MAPPED | HMM_PFN_P2PDMA | HMM_PFN_P2PDMA_BUS);
@@ -228,4 +242,4 @@ index d545e24949949..015ab243f0813 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/6d5896c3c1eb4d481b7d49f1eb661f61353bcfdb.1754292567.git.leon%40kernel.org.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/79cf36301cc05d6dd1c88e9c3812ac5c3f57e32b.1754292567.git.leon%40kernel.org.
