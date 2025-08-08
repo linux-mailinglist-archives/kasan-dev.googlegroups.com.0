@@ -1,154 +1,143 @@
-Return-Path: <kasan-dev+bncBCKPFB7SXUERBAF63DCAMGQERFC3CWI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKLNNXAXYFBB36N3DCAMGQECL7RK5Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3f.google.com (mail-oa1-x3f.google.com [IPv6:2001:4860:4864:20::3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A4A2B1ECB7
-	for <lists+kasan-dev@lfdr.de>; Fri,  8 Aug 2025 18:00:03 +0200 (CEST)
-Received: by mail-oa1-x3f.google.com with SMTP id 586e51a60fabf-30c347fce27sf928613fac.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 08 Aug 2025 09:00:03 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1754668801; cv=pass;
+Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EA3FB1ED0A
+	for <lists+kasan-dev@lfdr.de>; Fri,  8 Aug 2025 18:33:53 +0200 (CEST)
+Received: by mail-lj1-x23b.google.com with SMTP id 38308e7fff4ca-33237715ed2sf10951831fa.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 08 Aug 2025 09:33:53 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1754670832; cv=pass;
         d=google.com; s=arc-20240605;
-        b=fBIMwQJb1YxOJ2qutjw4Al7+hnOo2LJIgUT143qQH/OmL85Xdsdx/EVTiRYvuXkyIP
-         Q+hjFV4vqwxQYZCcjDvglYJ/wljH4kBg0M9p9NtOfy308qK2lLVQ6ANPPnbr3QRl07/J
-         MuATEIODbgesj19Nx2fLBrW6GMzkbjiI1QghmG4JERVOIXODgRQXzMQVzRAvUI2DEvDK
-         4pUBr32sl9aRpRXTLCJr/GYH3N9hdw1XpfMRkJ5KCOz/fkBr9AyVI2PnQMILk0f9uR6L
-         MCqHQ5lkZbpSh2aid0opp+A2L17sm7e1hOmVFDFeNspLf7CWlr9qDD8yv6NDwlJKEDOE
-         Ehgw==
+        b=UFLZxj3Xd1qonFoefi65wOodkaSAz9xGq5/JztYg+XyMo9oHv/iFI9R4cSbdwCW7cs
+         cGPMcwTtN5/E5wm6sBWKDx2gBMlw2Uqi2KdeB20GMMkItDZSs0E4lK1r3JMDHnGE6LM3
+         1PDpZRU8E7M4f/xXfPiQEodq5i1G09/BlMuglFeGeDPkec443WbgzsdKvx839/HntCb3
+         kL77iyJGAmhg3sjcHG8ha9As5bU6KXvoIHOgJhpVLEDhOIBPk2RZM93BwfzBOJBj/Ujb
+         2lHfIYmSQq2kVDc2KCTU8MPubdmquX+oVZbmgTTfFkU06LpgUVhCtxkv6875k238VzDD
+         tOqQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :list-id:mailing-list:precedence:in-reply-to
          :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=hkOFvwhKTiWjTvOldT60OQ8XW1a8ywbp7S+PwR4rr1s=;
-        fh=TMEZt+RZu+IS4ODyTk+rIzJ++5DjJYPUSrCcyrpVXIk=;
-        b=Rs0gdWLtkDLDzHFFxSxnMbvbV7c7Rpugul2nnfRAGqChZ4ZYLlFZnPylVTWPe+5s9l
-         zKDkVl11aMCi++IAQl9H4ukjrvILBfp/4Iostf/VEYAjaQmvwQM+VIF4qqU8A0DUfYB8
-         iOUmN4G9jJ0g0nsLNvJIwNp0TQ2/n/k57Nv9FkVpxT2aw2LkYWZsLaVjB/b4dPK+aNAk
-         wgosa1k7BP1Kg1XKZgadP/RtW8Es69kZms71db0dBQjQNcYxkEvIIhUClV9psNF20ILh
-         8i+ToWM+Ubv7nu7HL6igj3+fQnrVruNTaf0i9szt8YSOVjfqS3EKSCS4q7814MPzylCk
-         TK4g==;
+         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=2U0ojCEkSrHMvORR+OlbwPuZNStpfFV1QqMDRlwrSGI=;
+        fh=Xotm2MH3eygvp1zJIkHW1KHALJEQjM+DNMzz0PeE7ts=;
+        b=jv/rMpJtbrRXnec7LZdOlojqHwFd5rdnBzJLjBIibOrvKcrdBxkxtLaLFnLqA/WplS
+         dVnOTPrfWAadvxZlkNpv0zz247nzWnpFDn1moVe4XAv/J6wwQ6ru0uf33vnQ03/kxYOi
+         s2WKnEVDR/+qbJ9g+5mKFHxyRsNgud/IuqrPZNRt85qxWModlFkx1mcL8GtAk5/FbZwX
+         wt5/GpqxPYxLtb7mdJQNse7+YJLaxZKIn8Jq8A3UljgKwTBJaZoqBLtUPMRUSmCff0od
+         OiWQ99FR+O1YlUp6eLmgQqDb43V94vhfRA3HmtaXHjIZ8N0A3tERDnI8yyYQqVtEq1W3
+         VdMw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=QCkkV5S4;
-       spf=pass (google.com: domain of bhe@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b="RVeye/4p";
+       dkim=neutral (no key) header.i=@linutronix.de;
+       spf=pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1754668801; x=1755273601; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1754670832; x=1755275632; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=hkOFvwhKTiWjTvOldT60OQ8XW1a8ywbp7S+PwR4rr1s=;
-        b=juXV2a4P/oGhX7tsnH7jlk4NcC2m0OgLzHcb0f4QtsNRtYd9r1y/uzGJ083Ogf4gAR
-         lVWxpMvv8R+tZ/QTbtv2scjlte1WVR6MDM4ZTUdwKOMJ/1Q37AVXz6ziPjibcWJnqMYN
-         yECHLBujR+rRNBBHvgb4B3HrhOa8uoA6olS0L7KrTB6geu9HAGBh2zR+kBsRqBgnv2K2
-         gP0FjkYP5sCKxpzY0N98//E7bsX1D1zBTlvZ67ye8KNlP1E/8UAElG7lHHiBzyE7EEGc
-         uSpAWvJAJw6hqUkS4MS2Pr7VDM4wJZZK84Wc1KdpvM9uDc1Ity7OI3aj8j6bXwIFheDv
-         zDWA==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=2U0ojCEkSrHMvORR+OlbwPuZNStpfFV1QqMDRlwrSGI=;
+        b=C/6lGRoJjG2DX7weN2pQHRHPtYChsIAoxAkZplziF5Sf5J3YUcPb69GkahC3qrmb1/
+         Xfn5sfVnQ0eYcpYNl01Ult0YHaOaumNIslovwT5asbkYdHHfp+HCVIK3dtRtOgFvS+wz
+         PBujoX9FmOtcCTjNXl0ICN/dS0kFbyQ4sPVzr9KfyLfY8YYbM8wm+1BJIWCcDfkXl1yW
+         3Y2gZowTRVuh52UntMrzZyV3BVuCgZlqbf82guInrAIJZridp+SDRz35aYP4CN5fPdFG
+         QHwbvmQ9SbmvGzXekE7aOQrapSfrr7hR1kWybNbj8DlgdfIOMdVbhO1/WkNsIuicK2Te
+         1I/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754668801; x=1755273601;
+        d=1e100.net; s=20230601; t=1754670832; x=1755275632;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-transfer-encoding:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:x-beenthere
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hkOFvwhKTiWjTvOldT60OQ8XW1a8ywbp7S+PwR4rr1s=;
-        b=mfVyfEsEi4HmZ/dTn8adute7Md8uIFkI5PW7B5JZwnNu+IE2vCUZy0/K0ciDPOBzh4
-         gGRZQeK6tQ5gB3iCvPZ/76TTPp4r44WyMkdLercUTjI2AVlv7OFoG5OGf/f+/39hpiBb
-         njAHiACq500U4fe9DyPX28y+p6dOMnvbEj6o7ao5/F6H/XQLCXjG0S6io97X4l7O/FG/
-         fTFGPKNCj39dFQRJbkZoXYFrzarccldgV3gQq0h2Ks7LIO0tkaFufeGt78mw9u0CSHZH
-         KGx6rCXDlXCILmcWpM9bk3Oqd02OmmS3E1wxBngyXT/x7pLjinMXIPzO462VbACYomX9
-         PhzA==
-X-Forwarded-Encrypted: i=2; AJvYcCWeCxxnUJR8OPtkCEGTIgJtq8jHe6qIlrRSw0D8WPE1OPZIPYDQGgNrQRirAfgspgmFRy2VEQ==@lfdr.de
-X-Gm-Message-State: AOJu0YzCN/0wZNGPjjepCqIb8x9e2WKsWcnyR08+X7U/Km5aR+fLhoxG
-	OogJaEXA2vxsIjQscTCkwYuj+KSwhcCAFXKeXbTgm/Hv5A2izhdNg1TT
-X-Google-Smtp-Source: AGHT+IHnVd5Gmdoh91TFZ75fASqQi7TXwIAGv69jgfUD7+X2lVy27rIR8y6aD2eApg55PFVFwE3/XA==
-X-Received: by 2002:a05:6870:64ac:b0:2bc:7e72:2110 with SMTP id 586e51a60fabf-30c21102aa3mr2185514fac.13.1754668801109;
-        Fri, 08 Aug 2025 09:00:01 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZe+JSR5fENUE4znzaVEDD7gtSQIdTj88PrjQMR7BcoMOg==
-Received: by 2002:a05:6870:58:b0:2c2:2ed7:fb78 with SMTP id
- 586e51a60fabf-30bfe37d105ls710780fac.0.-pod-prod-01-us; Fri, 08 Aug 2025
- 08:59:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWFDPqcXqBMkriDoR4UUzltVexRbFuKS/xNNa0hN6rfrxFPoA2RB3y6EItoz75tOZRTBdbfNNLTVrE=@googlegroups.com
-X-Received: by 2002:a05:6870:c4b:b0:30b:a20a:8799 with SMTP id 586e51a60fabf-30c213319eemr2424496fac.27.1754668798183;
-        Fri, 08 Aug 2025 08:59:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1754668798; cv=none;
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2U0ojCEkSrHMvORR+OlbwPuZNStpfFV1QqMDRlwrSGI=;
+        b=jl+YVczHhPIsqd7oKXgI+OfNdPYO8TpxNu8HW8J4rwCiJVVhSIjXIZLCvachLs4GU0
+         Dvg4/pCYaTiIb0uobpC1LVQHiJl0Nlvo/FQKfqcaCPhg8SN80UP2PQ7SKzfn2wxoMYL2
+         t+oTREtaMya5TZ7EseSK1EvNrwLkBb9OK/lGxBQ7gv2oIch5ezOL5CeiJw4pPmr3vAHF
+         eMFWSWVRgialfotLl3SMAbA/mNBn4cntq9Da8AUMVoOSOlHrYcgjTECp31AWHoayzxcF
+         8oQuJaad+domhM1D7fjHVDwB6sr5N1ijQBgeIcDsb/CnrczQEwV8w9sI/0DsvT7wWZk/
+         7t3g==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCXe3RuN/esXghpe9dSt/QrD6b5874tTu/wpgC+zc1o1a5fbzLo/7t4rISce1i5h/QeJ1GDLsg==@lfdr.de
+X-Gm-Message-State: AOJu0YzaIF0yG22IlZvw4ez3Fy7rvq7r7OmqYP+/ng6SoXo1U7zQ5szm
+	MmMIgPG1L+mU42q9KCyugK0FpCWEsTBnBF1QeZfgeuf2v9EWAChpt7fX
+X-Google-Smtp-Source: AGHT+IHx+TVsUgZaCfVxf/uIxunhmaWAR/wSFL7G+2890/1Yz6YR4inL/ukIC/kwkk/j7xYhD9x1Vg==
+X-Received: by 2002:a2e:b8c2:0:b0:332:4558:b30b with SMTP id 38308e7fff4ca-333a219f377mr10110261fa.18.1754670832017;
+        Fri, 08 Aug 2025 09:33:52 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfjtlCP4IFm6AApJPiMCgJgRiOldKE9Ac9KRIO2cbzN7w==
+Received: by 2002:a05:651c:4194:b0:332:347f:54ec with SMTP id
+ 38308e7fff4ca-3338c000864ls1864801fa.0.-pod-prod-06-eu; Fri, 08 Aug 2025
+ 09:33:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWkltpPi4aJewB7ANVUdnw3BVldEmWV7QQPGkeyiXjh5qV56mG65btmCmEyjtinCBu5NYR7tyRYZDw=@googlegroups.com
+X-Received: by 2002:a2e:a007:0:b0:32e:525:5141 with SMTP id 38308e7fff4ca-333a2191a95mr6275481fa.16.1754670828571;
+        Fri, 08 Aug 2025 09:33:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1754670828; cv=none;
         d=google.com; s=arc-20240605;
-        b=LVxmPL8GFW0Z+vlvcNKM/dkbu9lUuJuiICsbndqMIxfVXp5RbrFMTPD9Ff4leLn3uy
-         kJ+uFKi85c39dxkpR74MWg5W78WkxAJrpnzbFQmjAoG8vg9JJaPoOraqAaJtIm3Grn37
-         WPNc+k22wabaEYuaJN0Uusbbz23tF2Mrfv9toeYCNmgP/WyyJuVNNeYUrN66P0VHNcLW
-         Y4+7DIwg+ML6eknuPaMC+qxQtZIYOkl//mBfVO7owo7RI4vt17lDjqZJK6NZb+pWU0nW
-         N9k1apAumBxr+BoHU2l3/vsoQJaEaTrzSaHUnhdX3uozPff6vZqNI0diTcRmOGHinYeY
-         ke9g==
+        b=fCRlmevZcWlzkoHsgQCjioL78rQJMHfbBq6VDxwK94pC4oGuGTxRwJWZmSJtZWHlRp
+         brSeUdCM6FeLO7UnUtE/zxneO8KgD4pg7tB4EoFhsry0aS2i9TOJHBET5sIoG9lsBvkL
+         Z8N8Ms917Hsguo/u7hepah4jluh16Rp83a/ZbL2w8aUNlR6vEwyjNE/9ishy9X7yh7nP
+         Kl0ZZrT1/w6EsVoPkT2suPrhvXktpkbiPBT8Gf/gJEyFzFBsjpKFc+H3+0tbA2ADSZaK
+         qqibn5SzGAeA2zE77LsHnOP2yazFVMMsMcFcTwvjk7CbSfZRjZ8PTmDYO30Z9bcJ2w3f
+         tydg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=YGK9n6dq7VxCb/OM51wQ3RDMD15RnRtHlU5OclWuDJs=;
-        fh=IeZ3cIZwPqyvuITMeuQ8G+Pxg9m9IXoSF17VNZxDIjM=;
-        b=gRxenjRNKwcnlaIAk8SKj6YwGketF26VdtnRIYZ7ml1ZfhD1iGilQPhFXMlO2fnZ4f
-         HR0uxoYPKq8qX67S0EpOtQfbh1Z/DIJ2KP8a9P+djoavYeIOdNOuy4AviUzfqypqBibK
-         5mmGJoOuyLQ96mIQrRSb/4jLeaQHCuSGiyQhZv58PtVFSWEWn73O11gtQViRpPltnBys
-         Xpjape3Lx8tx6MhqUuISimL5gS7/3F2LD60L71MtW/IpUomdN2qbpOsU1SnXRRkEyaBh
-         2Hrxc74bErsz3yS08gP9mNr2XPnv+cuoFFZjuXfl4/icgEWnlhjNTiK2SmHz3mL4kinQ
-         porA==;
+         :mime-version:references:message-id:subject:cc:to:from
+         :dkim-signature:dkim-signature:date;
+        bh=JfkgxAstW/grwEhYFrNwo+E5fvmu5YawBnjm5gjeKEk=;
+        fh=4Gez1sporjsJnx/agbWCMAywaMidO2+Tws+izS2fdCI=;
+        b=WpH0ry4x7SqP4xJYD/8kEA97AXNW9k02Os3YHNd8wLnnaYIDL5BvCafI2z59FrIi19
+         e9P106tiGtXGER/21ITbp/i2u+xaD9biflko/9pWgusrdVziZMoDhE7FAJrpReddKCNY
+         EOPFABDVGyOenEg2riumlWzmt1zGzXeR5y6CyMWyzhThwVLV9F0lzwYzJssO9PbMaUCI
+         UOPn1YU+kflim/0mZpz8/+y6XxSadG1MkU9EMMS2EXFCZsC1XJBU/HJC6sRcWqIqlR4L
+         Bv8uq8qRXpTJWEQNHGUp+IXnDLmMCXzY6/TLJWfuA4HjaV7TmF9SiocQEVu4MRQ5ejyV
+         GeiQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=QCkkV5S4;
-       spf=pass (google.com: domain of bhe@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
-        by gmr-mx.google.com with ESMTPS id 46e09a7af769-74186e002c8si1005882a34.4.2025.08.08.08.59.58
-        for <kasan-dev@googlegroups.com>
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b="RVeye/4p";
+       dkim=neutral (no key) header.i=@linutronix.de;
+       spf=pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+Received: from galois.linutronix.de (Galois.linutronix.de. [193.142.43.55])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-3327023d5b7si2986881fa.7.2025.08.08.09.33.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Aug 2025 08:59:58 -0700 (PDT)
-Received-SPF: pass (google.com: domain of bhe@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-203-wt4H8Zk0P262tjW9FjN_lw-1; Fri,
- 08 Aug 2025 11:59:56 -0400
-X-MC-Unique: wt4H8Zk0P262tjW9FjN_lw-1
-X-Mimecast-MFC-AGG-ID: wt4H8Zk0P262tjW9FjN_lw_1754668794
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E6256195608B;
-	Fri,  8 Aug 2025 15:59:53 +0000 (UTC)
-Received: from localhost (unknown [10.72.112.126])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 54FE0300145A;
-	Fri,  8 Aug 2025 15:59:51 +0000 (UTC)
-Date: Fri, 8 Aug 2025 23:59:46 +0800
-From: "'Baoquan He' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
-Cc: linux-mm@kvack.org, ryabinin.a.a@gmail.com, glider@google.com,
-	andreyknvl@gmail.com, dvyukov@google.com, vincenzo.frascino@arm.com,
-	akpm@linux-foundation.org, kasan-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org, kexec@lists.infradead.org
-Subject: Re: [PATCH 4/4] mm/kasan: make kasan=on|off take effect for all
- three modes
-Message-ID: <aJYe8rAa3lIe4Nat@MiWiFi-R3L-srv>
-References: <20250805062333.121553-1-bhe@redhat.com>
- <20250805062333.121553-5-bhe@redhat.com>
- <CACzwLxivXFYXuF1OkqcP9THar7UGQ3VVAQgQm=PU9Tohb8hnRQ@mail.gmail.com>
+        Fri, 08 Aug 2025 09:33:48 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) client-ip=193.142.43.55;
+Date: Fri, 8 Aug 2025 18:33:45 +0200
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Yunseong Kim <ysk@kzalloc.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Byungchul Park <byungchul@sk.com>, max.byungchul.park@gmail.com,
+	Yeoreum Yun <yeoreum.yun@arm.com>,
+	Michelle Jin <shjy180909@gmail.com>, linux-kernel@vger.kernel.org,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thomas Gleixner <tglx@linutronix.de>, stable@vger.kernel.org,
+	kasan-dev@googlegroups.com, syzkaller@googlegroups.com,
+	linux-usb@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] kcov, usb: Fix invalid context sleep in softirq path on
+ PREEMPT_RT
+Message-ID: <20250808163345.PPfA_T3F@linutronix.de>
+References: <20250725201400.1078395-2-ysk@kzalloc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CACzwLxivXFYXuF1OkqcP9THar7UGQ3VVAQgQm=PU9Tohb8hnRQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Original-Sender: bhe@redhat.com
+In-Reply-To: <20250725201400.1078395-2-ysk@kzalloc.com>
+X-Original-Sender: bigeasy@linutronix.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=QCkkV5S4;
-       spf=pass (google.com: domain of bhe@redhat.com designates
- 170.10.129.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
-X-Original-From: Baoquan He <bhe@redhat.com>
-Reply-To: Baoquan He <bhe@redhat.com>
+ header.i=@linutronix.de header.s=2020 header.b="RVeye/4p";       dkim=neutral
+ (no key) header.i=@linutronix.de;       spf=pass (google.com: domain of
+ bigeasy@linutronix.de designates 193.142.43.55 as permitted sender)
+ smtp.mailfrom=bigeasy@linutronix.de;       dmarc=pass (p=NONE sp=QUARANTINE
+ dis=NONE) header.from=linutronix.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -161,96 +150,197 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 08/06/25 at 11:24pm, Sabyrzhan Tasbolatov wrote:
-> On Tue, Aug 5, 2025 at 11:34=E2=80=AFAM Baoquan He <bhe@redhat.com> wrote=
-:
-> >
-> > Now everything is ready, set kasan=3Doff can disable kasan for all
-> > three modes.
-> >
+On 2025-07-25 20:14:01 [+0000], Yunseong Kim wrote:
+> When fuzzing USB with syzkaller on a PREEMPT_RT enabled kernel, following
+> bug is triggered in the ksoftirqd context.
 >=20
-> Hello,
+=E2=80=A6
+> This issue was introduced by commit
+> f85d39dd7ed8 ("kcov, usb: disable interrupts in kcov_remote_start_usb_sof=
+tirq").
 >=20
-> I've been working on this already and a different approach
-> with the Kconfig ARCH_DEFER_KASAN has been proposed.
+> However, this creates a conflict on PREEMPT_RT kernels. The local_irq_sav=
+e()
+> call establishes an atomic context where sleeping is forbidden. Inside th=
+is
+> context, kcov_remote_start() is called, which on PREEMPT_RT uses sleeping
+> locks (spinlock_t and local_lock_t are mapped to rt_mutex). This results =
+in
+> a sleeping function called from invalid context.
+>=20
+> On PREEMPT_RT, interrupt handlers are threaded, so the re-entrancy scenar=
+io
+> is already safely handled by the existing local_lock_t and the global
+> kcov_remote_lock within kcov_remote_start(). Therefore, the outer
+> local_irq_save() is not necessary.
+>=20
+> This preserves the intended re-entrancy protection for non-RT kernels whi=
+le
+> resolving the locking violation on PREEMPT_RT kernels.
+>=20
+> After making this modification and testing it, syzkaller fuzzing the
+> PREEMPT_RT kernel is now running without stopping on latest announced
+> Real-time Linux.
 
-Thanks for telling, I don't always watch MM mailing list, so missed your
-earlier posting.=20
+This looks oddly familiar because I removed the irq-disable bits while
+adding local-locks.
 
-I went through your v5 series, we are doing different work. I am adding
-kasan=3Don|off to generic/sw_tags, and have added kasan_enabled() to needed
-places. In fact, based on this patchset, we can remove
-kasan_arch_is_ready() more easily since in all places kasan_enabled() has
-been added there. Before seeing your patches, this is what I planned to
-do to remove kasan_arch_is_ready(). I will see what can be done better.
-Maybe I can carry your patch in v2. I will try tomorrow.
+Commit f85d39dd7ed8 looks wrong not that it shouldn't disable
+interrupts. The statement in the added comment
 
->=20
-> Please see v4 thread.
-> https://lore.kernel.org/all/20250805142622.560992-1-snovitoll@gmail.com/
->=20
-> It also covers the printing in a single KASAN codebase, instead of
-> printing "KASAN intiilaized" in arch/* code.
-> Also covers the enabling KASAN via kasan_enable() for all 3 modes.
->=20
-> It's up to KASAN maintainers to choose either version.
-> I just need the confirmation now if I should proceed with v5,
-> or your version if it covers all arch and cases should be picked up.
->=20
-> Thanks
->=20
-> > Signed-off-by: Baoquan He <bhe@redhat.com>
-> > ---
-> >  include/linux/kasan-enabled.h | 11 +----------
-> >  1 file changed, 1 insertion(+), 10 deletions(-)
-> >
-> > diff --git a/include/linux/kasan-enabled.h b/include/linux/kasan-enable=
-d.h
-> > index 32f2d19f599f..b5857e15ef14 100644
-> > --- a/include/linux/kasan-enabled.h
-> > +++ b/include/linux/kasan-enabled.h
-> > @@ -8,30 +8,21 @@ extern bool kasan_arg_disabled;
-> >
-> >  DECLARE_STATIC_KEY_FALSE(kasan_flag_enabled);
-> >
-> > -#ifdef CONFIG_KASAN_HW_TAGS
-> > -
-> >  static __always_inline bool kasan_enabled(void)
-> >  {
-> >         return static_branch_likely(&kasan_flag_enabled);
-> >  }
-> >
-> > +#ifdef CONFIG_KASAN_HW_TAGS
-> >  static inline bool kasan_hw_tags_enabled(void)
-> >  {
-> >         return kasan_enabled();
-> >  }
-> > -
-> >  #else /* CONFIG_KASAN_HW_TAGS */
-> > -
-> > -static inline bool kasan_enabled(void)
-> > -{
-> > -       return IS_ENABLED(CONFIG_KASAN);
-> > -}
-> > -
-> >  static inline bool kasan_hw_tags_enabled(void)
-> >  {
-> >         return false;
-> >  }
-> > -
-> >  #endif /* CONFIG_KASAN_HW_TAGS */
-> >
-> >  #endif /* LINUX_KASAN_ENABLED_H */
-> > --
-> > 2.41.0
-> >
-> >
->=20
+| + * 2. Disables interrupts for the duration of the coverage collection se=
+ction.
+| + *    This allows avoiding nested remote coverage collection sections in=
+ the
+| + *    softirq context (a softirq might occur during the execution of a w=
+ork in
+| + *    the BH workqueue, which runs with in_serving_softirq() > 0).
+
+is wrong. Softirqs are never nesting. While the BH workqueue is
+running another softirq does not occur. The softirq is raised (again)
+and will be handled _after_ BH workqueue is done. So this is already
+serialised.
+
+The issue is __usb_hcd_giveback_urb() always invokes
+kcov_remote_start_usb_softirq(). __usb_hcd_giveback_urb() itself is
+invoked from BH context (for the majority of HCDs) and from hardirq
+context for the root-HUB. This gets us to the scenario that that we are
+in the give-back path in softirq context and then invoke the function
+once again in hardirq context.
+
+I have no idea how kcov works but reverting the original commit and
+avoiding the false nesting due to hardirq context should do the trick,
+an untested patch follows.
+
+This isn't any different than the tasklet handling that was used before
+so I am not sure why it is now a problem.
+
+Could someone maybe test this?
+
+--- a/drivers/usb/core/hcd.c
++++ b/drivers/usb/core/hcd.c
+@@ -1636,7 +1636,6 @@ static void __usb_hcd_giveback_urb(struct urb *urb)
+ 	struct usb_hcd *hcd =3D bus_to_hcd(urb->dev->bus);
+ 	struct usb_anchor *anchor =3D urb->anchor;
+ 	int status =3D urb->unlinked;
+-	unsigned long flags;
+=20
+ 	urb->hcpriv =3D NULL;
+ 	if (unlikely((urb->transfer_flags & URB_SHORT_NOT_OK) &&
+@@ -1654,14 +1653,13 @@ static void __usb_hcd_giveback_urb(struct urb *urb)
+ 	/* pass ownership to the completion handler */
+ 	urb->status =3D status;
+ 	/*
+-	 * Only collect coverage in the softirq context and disable interrupts
+-	 * to avoid scenarios with nested remote coverage collection sections
+-	 * that KCOV does not support.
+-	 * See the comment next to kcov_remote_start_usb_softirq() for details.
++	 * This function can be called in task context inside another remote
++	 * coverage collection section, but kcov doesn't support that kind of
++	 * recursion yet. Only collect coverage in softirq context for now.
+ 	 */
+-	flags =3D kcov_remote_start_usb_softirq((u64)urb->dev->bus->busnum);
++	kcov_remote_start_usb_softirq((u64)urb->dev->bus->busnum);
+ 	urb->complete(urb);
+-	kcov_remote_stop_softirq(flags);
++	kcov_remote_stop_softirq();
+=20
+ 	usb_anchor_resume_wakeups(anchor);
+ 	atomic_dec(&urb->use_count);
+diff --git a/include/linux/kcov.h b/include/linux/kcov.h
+index 75a2fb8b16c32..0143358874b07 100644
+--- a/include/linux/kcov.h
++++ b/include/linux/kcov.h
+@@ -57,47 +57,21 @@ static inline void kcov_remote_start_usb(u64 id)
+=20
+ /*
+  * The softirq flavor of kcov_remote_*() functions is introduced as a temp=
+orary
+- * workaround for KCOV's lack of nested remote coverage sections support.
+- *
+- * Adding support is tracked in https://bugzilla.kernel.org/show_bug.cgi?i=
+d=3D210337.
+- *
+- * kcov_remote_start_usb_softirq():
+- *
+- * 1. Only collects coverage when called in the softirq context. This allo=
+ws
+- *    avoiding nested remote coverage collection sections in the task cont=
+ext.
+- *    For example, USB/IP calls usb_hcd_giveback_urb() in the task context
+- *    within an existing remote coverage collection section. Thus, KCOV sh=
+ould
+- *    not attempt to start collecting coverage within the coverage collect=
+ion
+- *    section in __usb_hcd_giveback_urb() in this case.
+- *
+- * 2. Disables interrupts for the duration of the coverage collection sect=
+ion.
+- *    This allows avoiding nested remote coverage collection sections in t=
+he
+- *    softirq context (a softirq might occur during the execution of a wor=
+k in
+- *    the BH workqueue, which runs with in_serving_softirq() > 0).
+- *    For example, usb_giveback_urb_bh() runs in the BH workqueue with
+- *    interrupts enabled, so __usb_hcd_giveback_urb() might be interrupted=
+ in
+- *    the middle of its remote coverage collection section, and the interr=
+upt
+- *    handler might invoke __usb_hcd_giveback_urb() again.
++ * work around for kcov's lack of nested remote coverage sections support =
+in
++ * task context. Adding support for nested sections is tracked in:
++ * https://bugzilla.kernel.org/show_bug.cgi?id=3D210337
+  */
+=20
+-static inline unsigned long kcov_remote_start_usb_softirq(u64 id)
++static inline void kcov_remote_start_usb_softirq(u64 id)
+ {
+-	unsigned long flags =3D 0;
+-
+-	if (in_serving_softirq()) {
+-		local_irq_save(flags);
++	if (in_serving_softirq() && !in_hardirq())
+ 		kcov_remote_start_usb(id);
+-	}
+-
+-	return flags;
+ }
+=20
+-static inline void kcov_remote_stop_softirq(unsigned long flags)
++static inline void kcov_remote_stop_softirq(void)
+ {
+-	if (in_serving_softirq()) {
++	if (in_serving_softirq() && !in_hardirq())
+ 		kcov_remote_stop();
+-		local_irq_restore(flags);
+-	}
+ }
+=20
+ #ifdef CONFIG_64BIT
+@@ -131,11 +105,8 @@ static inline u64 kcov_common_handle(void)
+ }
+ static inline void kcov_remote_start_common(u64 id) {}
+ static inline void kcov_remote_start_usb(u64 id) {}
+-static inline unsigned long kcov_remote_start_usb_softirq(u64 id)
+-{
+-	return 0;
+-}
+-static inline void kcov_remote_stop_softirq(unsigned long flags) {}
++static inline void kcov_remote_start_usb_softirq(u64 id) {}
++static inline void kcov_remote_stop_softirq(void) {}
+=20
+ #endif /* CONFIG_KCOV */
+ #endif /* _LINUX_KCOV_H */
+--=20
+2.50.1
+
+Sebastian
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/a=
-JYe8rAa3lIe4Nat%40MiWiFi-R3L-srv.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
+0250808163345.PPfA_T3F%40linutronix.de.
