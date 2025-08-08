@@ -1,143 +1,161 @@
-Return-Path: <kasan-dev+bncBCKLNNXAXYFBB36N3DCAMGQECL7RK5Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBDLKPY4HVQKBBAG43DCAMGQETVKXQAY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EA3FB1ED0A
-	for <lists+kasan-dev@lfdr.de>; Fri,  8 Aug 2025 18:33:53 +0200 (CEST)
-Received: by mail-lj1-x23b.google.com with SMTP id 38308e7fff4ca-33237715ed2sf10951831fa.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 08 Aug 2025 09:33:53 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1754670832; cv=pass;
+Received: from mail-lj1-x23a.google.com (mail-lj1-x23a.google.com [IPv6:2a00:1450:4864:20::23a])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAC59B1ED98
+	for <lists+kasan-dev@lfdr.de>; Fri,  8 Aug 2025 19:04:01 +0200 (CEST)
+Received: by mail-lj1-x23a.google.com with SMTP id 38308e7fff4ca-3324dda6611sf12958131fa.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 08 Aug 2025 10:04:01 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1754672641; cv=pass;
         d=google.com; s=arc-20240605;
-        b=UFLZxj3Xd1qonFoefi65wOodkaSAz9xGq5/JztYg+XyMo9oHv/iFI9R4cSbdwCW7cs
-         cGPMcwTtN5/E5wm6sBWKDx2gBMlw2Uqi2KdeB20GMMkItDZSs0E4lK1r3JMDHnGE6LM3
-         1PDpZRU8E7M4f/xXfPiQEodq5i1G09/BlMuglFeGeDPkec443WbgzsdKvx839/HntCb3
-         kL77iyJGAmhg3sjcHG8ha9As5bU6KXvoIHOgJhpVLEDhOIBPk2RZM93BwfzBOJBj/Ujb
-         2lHfIYmSQq2kVDc2KCTU8MPubdmquX+oVZbmgTTfFkU06LpgUVhCtxkv6875k238VzDD
-         tOqQ==
+        b=gbfXYdWXFJnZK/xBjrng4b4ctEqzNmXQ7QftLcKv3aBzv6iHVUYO48IUSygSVPs060
+         gJVjO0kqIPWryts9eRYOszP58AhNA0Lnf+1IoaJsI8gcHLErfF8V2xZ+dRhARLO1/cRs
+         tHF4np+ILyjgrEpoeCK1xpzhWMN92zw78W1RuZrPcj3lQd2GmHrbbiu2pvU6poE4QgCU
+         90mgsjH3eAS811/zglqMG8ReA8DSdvgDYHctUKZI+D0duPJNAJWLZEdM3tBRZEt1qawz
+         qKCJjK4DRnrQjAtgyn997M1yD2HsiKf17EizvQd/AVKn2JwvihuB+nVx96P7IqP7/n1h
+         sKKg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=2U0ojCEkSrHMvORR+OlbwPuZNStpfFV1QqMDRlwrSGI=;
-        fh=Xotm2MH3eygvp1zJIkHW1KHALJEQjM+DNMzz0PeE7ts=;
-        b=jv/rMpJtbrRXnec7LZdOlojqHwFd5rdnBzJLjBIibOrvKcrdBxkxtLaLFnLqA/WplS
-         dVnOTPrfWAadvxZlkNpv0zz247nzWnpFDn1moVe4XAv/J6wwQ6ru0uf33vnQ03/kxYOi
-         s2WKnEVDR/+qbJ9g+5mKFHxyRsNgud/IuqrPZNRt85qxWModlFkx1mcL8GtAk5/FbZwX
-         wt5/GpqxPYxLtb7mdJQNse7+YJLaxZKIn8Jq8A3UljgKwTBJaZoqBLtUPMRUSmCff0od
-         OiWQ99FR+O1YlUp6eLmgQqDb43V94vhfRA3HmtaXHjIZ8N0A3tERDnI8yyYQqVtEq1W3
-         VdMw==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :in-reply-to:content-language:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:dkim-signature;
+        bh=elsd0tDDOlHpbutJNyiQihgSTbk+q0NrM7XpZl6DbW0=;
+        fh=auIH/AFX9UVf2Dr2qlnUKNA8CNjARhYvzthhWMspwrQ=;
+        b=ccMXw7wWUwklmfsjRuwN/gh7Lja1Yt6qPY+fB+Z7OzhKTuFvjU0nK/PvThzUqO5Geu
+         7I9w0HfKpnm8Z7z7pwy6upt5+P7c2RJR+pQbv4gYVZWeDUz4jGJSqRiZCwf2RNWe2EUT
+         4kGK7dpt+M3ocDErDgYZhigTMTW6NStYUWVgr8BectqX4+ejP2ivYosMZgJu7LzOqzFD
+         ttrQRQLJOBlJliqmuL/nrI3BnBbEk7TY5fWU1ISishAfLERYa66ku2XbYPHeJkMa3JI3
+         22lMzEAJd2QYbkZqsLxLBr42ohwQQNYKftv2iE8T3e/YiNdzCLVkvgW/pnemSL1MIEGq
+         Cjtw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b="RVeye/4p";
-       dkim=neutral (no key) header.i=@linutronix.de;
-       spf=pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1754670832; x=1755275632; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1754672641; x=1755277441; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=2U0ojCEkSrHMvORR+OlbwPuZNStpfFV1QqMDRlwrSGI=;
-        b=C/6lGRoJjG2DX7weN2pQHRHPtYChsIAoxAkZplziF5Sf5J3YUcPb69GkahC3qrmb1/
-         Xfn5sfVnQ0eYcpYNl01Ult0YHaOaumNIslovwT5asbkYdHHfp+HCVIK3dtRtOgFvS+wz
-         PBujoX9FmOtcCTjNXl0ICN/dS0kFbyQ4sPVzr9KfyLfY8YYbM8wm+1BJIWCcDfkXl1yW
-         3Y2gZowTRVuh52UntMrzZyV3BVuCgZlqbf82guInrAIJZridp+SDRz35aYP4CN5fPdFG
-         QHwbvmQ9SbmvGzXekE7aOQrapSfrr7hR1kWybNbj8DlgdfIOMdVbhO1/WkNsIuicK2Te
-         1I/w==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=elsd0tDDOlHpbutJNyiQihgSTbk+q0NrM7XpZl6DbW0=;
+        b=TgsJW2XoqnIKwY7AJQ9EmNG/jPA1ss/2q2F8CI3HQXBXtab6eAqRxMVgYbr1U5RNCL
+         afShgexUYMtZIFkBuDgYU8w+JoodYIPosl7Hyn8unwAkIVERperYdxx1GtSgm4vyWw+T
+         b+glsk77vPJ9F7UfO7CMkoZFXrs89vr9Yc+gURpOU93cr2Cbfx/R2SJUQ5l6eo44KrsT
+         MbUA0c2sSIIRdkNofK/Y0xVMWN+krPdEWaPhsQZstm16azVRpxgdzvB7Ablws5srsDX5
+         kI0SXq/5anIf7S5hdd8At34lpn7x0xPdHEa3R+Js82Wrnk740YG+fXZA3D+bCpMpexWR
+         vMBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754670832; x=1755275632;
+        d=1e100.net; s=20230601; t=1754672641; x=1755277441;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2U0ojCEkSrHMvORR+OlbwPuZNStpfFV1QqMDRlwrSGI=;
-        b=jl+YVczHhPIsqd7oKXgI+OfNdPYO8TpxNu8HW8J4rwCiJVVhSIjXIZLCvachLs4GU0
-         Dvg4/pCYaTiIb0uobpC1LVQHiJl0Nlvo/FQKfqcaCPhg8SN80UP2PQ7SKzfn2wxoMYL2
-         t+oTREtaMya5TZ7EseSK1EvNrwLkBb9OK/lGxBQ7gv2oIch5ezOL5CeiJw4pPmr3vAHF
-         eMFWSWVRgialfotLl3SMAbA/mNBn4cntq9Da8AUMVoOSOlHrYcgjTECp31AWHoayzxcF
-         8oQuJaad+domhM1D7fjHVDwB6sr5N1ijQBgeIcDsb/CnrczQEwV8w9sI/0DsvT7wWZk/
-         7t3g==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXe3RuN/esXghpe9dSt/QrD6b5874tTu/wpgC+zc1o1a5fbzLo/7t4rISce1i5h/QeJ1GDLsg==@lfdr.de
-X-Gm-Message-State: AOJu0YzaIF0yG22IlZvw4ez3Fy7rvq7r7OmqYP+/ng6SoXo1U7zQ5szm
-	MmMIgPG1L+mU42q9KCyugK0FpCWEsTBnBF1QeZfgeuf2v9EWAChpt7fX
-X-Google-Smtp-Source: AGHT+IHx+TVsUgZaCfVxf/uIxunhmaWAR/wSFL7G+2890/1Yz6YR4inL/ukIC/kwkk/j7xYhD9x1Vg==
-X-Received: by 2002:a2e:b8c2:0:b0:332:4558:b30b with SMTP id 38308e7fff4ca-333a219f377mr10110261fa.18.1754670832017;
-        Fri, 08 Aug 2025 09:33:52 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfjtlCP4IFm6AApJPiMCgJgRiOldKE9Ac9KRIO2cbzN7w==
-Received: by 2002:a05:651c:4194:b0:332:347f:54ec with SMTP id
- 38308e7fff4ca-3338c000864ls1864801fa.0.-pod-prod-06-eu; Fri, 08 Aug 2025
- 09:33:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWkltpPi4aJewB7ANVUdnw3BVldEmWV7QQPGkeyiXjh5qV56mG65btmCmEyjtinCBu5NYR7tyRYZDw=@googlegroups.com
-X-Received: by 2002:a2e:a007:0:b0:32e:525:5141 with SMTP id 38308e7fff4ca-333a2191a95mr6275481fa.16.1754670828571;
-        Fri, 08 Aug 2025 09:33:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1754670828; cv=none;
+        bh=elsd0tDDOlHpbutJNyiQihgSTbk+q0NrM7XpZl6DbW0=;
+        b=BZ9oqlvNLRocicfqzYSQDPzH6AMOvyYpyfLFTno1YshurY6AxE8744lJmkMBdO/mCz
+         TnCqSRRABTxrXikQTsyN1JGG+DVA0LK+LCCORwjIMpFubwnm1C9w0ofrZIzE+jAJxmzi
+         lpZ+ASw3gPJ7rAu7kuEYEf5p2Hu0HXldTcWCoXt6be+RPADDHxZK+GsNanTpTE/g8dhi
+         QKPa7v8A1yaHLoQFa47/ojfI2Pg4KeEaxI3QAUE5DCEF/78pMZ3vmwxkU101EHbcqIVn
+         vvovxSnUKy1rjBapphlv5LfgmfY/OOir/Mm7ugZX/VNgMC9bEGiPw7ZvFUYSgSXC8NRe
+         upig==
+X-Forwarded-Encrypted: i=2; AJvYcCVP4I/ep8lBB6GmvFcgyWcWfnQF2F4WDUsB6rA61ZVV58TXxvikaLumROqUIIAE1jYtKZt3lA==@lfdr.de
+X-Gm-Message-State: AOJu0YwkJWVe7qml8syXnOUQtUixWSY05tE/nESFkotNEi2KUNFmlLU9
+	FY8X3vEn4OSwrgBcLreIGFXBFZ/95nQfk6JZX8PW0wdwb/CaQ7ml7AF3
+X-Google-Smtp-Source: AGHT+IHIXxmIlFnHjyjiy466WcS2mahaw4ujwYoRMA4bgBvn626w4CGulcYG4ekQD/L5kWsPB/2ZFQ==
+X-Received: by 2002:a2e:a98a:0:b0:32a:6cab:fd75 with SMTP id 38308e7fff4ca-333a263c947mr9065181fa.11.1754672640828;
+        Fri, 08 Aug 2025 10:04:00 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcGYxyMHArmn8gXKX9x7o66t1YgIG+2hgB+yLElI81v2w==
+Received: by 2002:a05:651c:418d:b0:32a:7f90:fd84 with SMTP id
+ 38308e7fff4ca-3338c5db6f1ls877221fa.2.-pod-prod-00-eu; Fri, 08 Aug 2025
+ 10:03:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUt+Z21dxGy52mGFqepldyZlUImld/HG9zYXosUwH2gIze4/euoLJ9ulvydJjsG1XIESJzq/ea/gbQ=@googlegroups.com
+X-Received: by 2002:a05:651c:408b:b0:32b:7811:d451 with SMTP id 38308e7fff4ca-3338d1b8e35mr13825401fa.16.1754672637763;
+        Fri, 08 Aug 2025 10:03:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1754672637; cv=none;
         d=google.com; s=arc-20240605;
-        b=fCRlmevZcWlzkoHsgQCjioL78rQJMHfbBq6VDxwK94pC4oGuGTxRwJWZmSJtZWHlRp
-         brSeUdCM6FeLO7UnUtE/zxneO8KgD4pg7tB4EoFhsry0aS2i9TOJHBET5sIoG9lsBvkL
-         Z8N8Ms917Hsguo/u7hepah4jluh16Rp83a/ZbL2w8aUNlR6vEwyjNE/9ishy9X7yh7nP
-         Kl0ZZrT1/w6EsVoPkT2suPrhvXktpkbiPBT8Gf/gJEyFzFBsjpKFc+H3+0tbA2ADSZaK
-         qqibn5SzGAeA2zE77LsHnOP2yazFVMMsMcFcTwvjk7CbSfZRjZ8PTmDYO30Z9bcJ2w3f
-         tydg==
+        b=VEwSQcAij2clOchW9K5Htz8T3hdMAFDmjwUBvBRlhSm9Tk2kC7V/a5o+UqOC4yquo1
+         +CuxqN5bZ4fyty7xOIirVYMM6GahUeY2GVRlYbRSI6H6u/aQvcvwu0NGsZ6c0xL2odoo
+         ABZrZMOluGeSfCrR3Z1XGGU/5aOVlTS6qEJoMrqyeisqM07ZM2VNRxqYIbJexJgESOqE
+         N7V88L1wiFRI0EWf4J1/6x11SoFUX49K4UGSHDNh9KMDfxftZZdYqQeKpXRkbmp0Ke/S
+         CqsUNFAGt6ofot29+7rdnZuv5iMbuQSi4fKPZSziBsZTkcXrREjflQLzYhDW2TwUSkd4
+         /B2w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from
-         :dkim-signature:dkim-signature:date;
-        bh=JfkgxAstW/grwEhYFrNwo+E5fvmu5YawBnjm5gjeKEk=;
-        fh=4Gez1sporjsJnx/agbWCMAywaMidO2+Tws+izS2fdCI=;
-        b=WpH0ry4x7SqP4xJYD/8kEA97AXNW9k02Os3YHNd8wLnnaYIDL5BvCafI2z59FrIi19
-         e9P106tiGtXGER/21ITbp/i2u+xaD9biflko/9pWgusrdVziZMoDhE7FAJrpReddKCNY
-         EOPFABDVGyOenEg2riumlWzmt1zGzXeR5y6CyMWyzhThwVLV9F0lzwYzJssO9PbMaUCI
-         UOPn1YU+kflim/0mZpz8/+y6XxSadG1MkU9EMMS2EXFCZsC1XJBU/HJC6sRcWqIqlR4L
-         Bv8uq8qRXpTJWEQNHGUp+IXnDLmMCXzY6/TLJWfuA4HjaV7TmF9SiocQEVu4MRQ5ejyV
-         GeiQ==;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id;
+        bh=bro5Z1PL2eLig5Q2ncFtimJM/b9sdMd4TeRUxnnShL0=;
+        fh=Fy7HURfPayN4njpWusNf2JiZBSb47ze1MFHJWEsNmW8=;
+        b=RMl6VB1NBdhGw6kgPieyPRk7d9cA1Hy76PnVXMUEAf9Yty6eMI7K/pN/OTb/6oat4R
+         tr3mCbAaJmBR+U+7Hy8X/LdLlKw9tIxWiPQYMB48vgjgizvmSKouYhMfqPE9upy14sKb
+         /H9TJhwnSWVXw+ZCkERHZ2tILfFjQxRYaksU4hAOv886PibV8nAo8flvg2yi2K43DRzU
+         s1CWY8l2FABWBsmmxM6PjYX9joffMO5/dccWQ9X2frwuwQt1t+Vdkxvk1kygGqK1RNsw
+         0YYk6reiD9OAnX2KqDYwb88Pvcl2NP27bZiYm33qGJFx/aN0ziySg8cD0hgYnLSp/jNf
+         T8EQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b="RVeye/4p";
-       dkim=neutral (no key) header.i=@linutronix.de;
-       spf=pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
-Received: from galois.linutronix.de (Galois.linutronix.de. [193.142.43.55])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-3327023d5b7si2986881fa.7.2025.08.08.09.33.48
+       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
+Received: from pegase2.c-s.fr (pegase2.c-s.fr. [93.17.235.10])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-3323815f77bsi4591141fa.6.2025.08.08.10.03.57
+        for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Aug 2025 09:33:48 -0700 (PDT)
-Received-SPF: pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) client-ip=193.142.43.55;
-Date: Fri, 8 Aug 2025 18:33:45 +0200
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Yunseong Kim <ysk@kzalloc.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Byungchul Park <byungchul@sk.com>, max.byungchul.park@gmail.com,
-	Yeoreum Yun <yeoreum.yun@arm.com>,
-	Michelle Jin <shjy180909@gmail.com>, linux-kernel@vger.kernel.org,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thomas Gleixner <tglx@linutronix.de>, stable@vger.kernel.org,
-	kasan-dev@googlegroups.com, syzkaller@googlegroups.com,
-	linux-usb@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] kcov, usb: Fix invalid context sleep in softirq path on
- PREEMPT_RT
-Message-ID: <20250808163345.PPfA_T3F@linutronix.de>
-References: <20250725201400.1078395-2-ysk@kzalloc.com>
+        Fri, 08 Aug 2025 10:03:57 -0700 (PDT)
+Received-SPF: pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) client-ip=93.17.235.10;
+Received: from localhost (mailhub4.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4bz9NX4Hmyz9sSb;
+	Fri,  8 Aug 2025 19:03:56 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 4LtEzBBocysS; Fri,  8 Aug 2025 19:03:56 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4bz9NX36z3z9sSZ;
+	Fri,  8 Aug 2025 19:03:56 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 55AF68B770;
+	Fri,  8 Aug 2025 19:03:56 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id Z2c0fwWGRIPg; Fri,  8 Aug 2025 19:03:56 +0200 (CEST)
+Received: from [192.168.235.99] (unknown [192.168.235.99])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 20F878B763;
+	Fri,  8 Aug 2025 19:03:55 +0200 (CEST)
+Message-ID: <af677847-e625-43d7-8750-b2ce4ba9626c@csgroup.eu>
+Date: Fri, 8 Aug 2025 19:03:54 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/2] kasan: introduce ARCH_DEFER_KASAN and unify static
+ key across modes
+To: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+Cc: ryabinin.a.a@gmail.com, bhe@redhat.com, hca@linux.ibm.com,
+ andreyknvl@gmail.com, akpm@linux-foundation.org, zhangqing@loongson.cn,
+ chenhuacai@loongson.cn, davidgow@google.co, glider@google.com,
+ dvyukov@google.com, alex@ghiti.fr, agordeev@linux.ibm.com,
+ vincenzo.frascino@arm.com, elver@google.com, kasan-dev@googlegroups.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-mm@kvack.org
+References: <20250807194012.631367-1-snovitoll@gmail.com>
+ <20250807194012.631367-2-snovitoll@gmail.com>
+ <22872a3f-85dc-4740-b605-ba80b5a3b1bc@csgroup.eu>
+ <CACzwLxjnofD0EsxrtgbG3svXHL+TpYcio4B67SCY9Mi3C-jdsQ@mail.gmail.com>
+From: "'Christophe Leroy' via kasan-dev" <kasan-dev@googlegroups.com>
+Content-Language: fr-FR
+In-Reply-To: <CACzwLxjnofD0EsxrtgbG3svXHL+TpYcio4B67SCY9Mi3C-jdsQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250725201400.1078395-2-ysk@kzalloc.com>
-X-Original-Sender: bigeasy@linutronix.de
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linutronix.de header.s=2020 header.b="RVeye/4p";       dkim=neutral
- (no key) header.i=@linutronix.de;       spf=pass (google.com: domain of
- bigeasy@linutronix.de designates 193.142.43.55 as permitted sender)
- smtp.mailfrom=bigeasy@linutronix.de;       dmarc=pass (p=NONE sp=QUARANTINE
- dis=NONE) header.from=linutronix.de
+X-Original-Sender: christophe.leroy@csgroup.eu
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as
+ permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
+X-Original-From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Reply-To: Christophe Leroy <christophe.leroy@csgroup.eu>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,197 +168,138 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 2025-07-25 20:14:01 [+0000], Yunseong Kim wrote:
-> When fuzzing USB with syzkaller on a PREEMPT_RT enabled kernel, following
-> bug is triggered in the ksoftirqd context.
+
+
+Le 08/08/2025 =C3=A0 17:33, Sabyrzhan Tasbolatov a =C3=A9crit=C2=A0:
+> On Fri, Aug 8, 2025 at 10:03=E2=80=AFAM Christophe Leroy
+> <christophe.leroy@csgroup.eu> wrote:
+>>
+>>
+>>
+>> Le 07/08/2025 =C3=A0 21:40, Sabyrzhan Tasbolatov a =C3=A9crit :
+>>> Introduce CONFIG_ARCH_DEFER_KASAN to identify architectures [1] that ne=
+ed
+>>> to defer KASAN initialization until shadow memory is properly set up,
+>>> and unify the static key infrastructure across all KASAN modes.
+>>
+>> That probably desserves more details, maybe copy in informations from
+>> the top of cover letter.
+>>
+>> I think there should also be some exeplanations about
+>> kasan_arch_is_ready() becoming kasan_enabled(), and also why
+>> kasan_arch_is_ready() completely disappear from mm/kasan/common.c
+>> without being replaced by kasan_enabled().
+>>
+>>>
+>>> [1] PowerPC, UML, LoongArch selects ARCH_DEFER_KASAN.
+>>>
+>>> Closes: https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%=
+2F%2Fbugzilla.kernel.org%2Fshow_bug.cgi%3Fid%3D217049&data=3D05%7C02%7Cchri=
+stophe.leroy%40csgroup.eu%7Cfe4f5a759ad6452b047408ddd691024a%7C8b87af7d8647=
+4dc78df45f69a2011bb5%7C0%7C0%7C638902640503259176%7CUnknown%7CTWFpbGZsb3d8e=
+yJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIs=
+IldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DUM4uvQihJdeWwcC6DIiJXbn4wGsrijjRcHc55=
+uCMErI%3D&reserved=3D0
+>>> Signed-off-by: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+>>> ---
+>>> Changes in v5:
+>>> - Unified patches where arch (powerpc, UML, loongarch) selects
+>>>     ARCH_DEFER_KASAN in the first patch not to break
+>>>     bisectability
+>>> - Removed kasan_arch_is_ready completely as there is no user
+>>> - Removed __wrappers in v4, left only those where it's necessary
+>>>     due to different implementations
+>>>
+>>> Changes in v4:
+>>> - Fixed HW_TAGS static key functionality (was broken in v3)
+>>> - Merged configuration and implementation for atomicity
+>>> ---
+>>>    arch/loongarch/Kconfig                 |  1 +
+>>>    arch/loongarch/include/asm/kasan.h     |  7 ------
+>>>    arch/loongarch/mm/kasan_init.c         |  8 +++----
+>>>    arch/powerpc/Kconfig                   |  1 +
+>>>    arch/powerpc/include/asm/kasan.h       | 12 ----------
+>>>    arch/powerpc/mm/kasan/init_32.c        |  2 +-
+>>>    arch/powerpc/mm/kasan/init_book3e_64.c |  2 +-
+>>>    arch/powerpc/mm/kasan/init_book3s_64.c |  6 +----
+>>>    arch/um/Kconfig                        |  1 +
+>>>    arch/um/include/asm/kasan.h            |  5 ++--
+>>>    arch/um/kernel/mem.c                   | 10 ++++++--
+>>>    include/linux/kasan-enabled.h          | 32 ++++++++++++++++++------=
+--
+>>>    include/linux/kasan.h                  |  6 +++++
+>>>    lib/Kconfig.kasan                      |  8 +++++++
+>>>    mm/kasan/common.c                      | 17 ++++++++++----
+>>>    mm/kasan/generic.c                     | 19 +++++++++++----
+>>>    mm/kasan/hw_tags.c                     |  9 +-------
+>>>    mm/kasan/kasan.h                       |  8 ++++++-
+>>>    mm/kasan/shadow.c                      | 12 +++++-----
+>>>    mm/kasan/sw_tags.c                     |  1 +
+>>>    mm/kasan/tags.c                        |  2 +-
+>>>    21 files changed, 100 insertions(+), 69 deletions(-)
+>>>
+>>> diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
+>>> index f0abc38c40a..cd64b2bc12d 100644
+>>> --- a/arch/loongarch/Kconfig
+>>> +++ b/arch/loongarch/Kconfig
+>>> @@ -9,6 +9,7 @@ config LOONGARCH
+>>>        select ACPI_PPTT if ACPI
+>>>        select ACPI_SYSTEM_POWER_STATES_SUPPORT if ACPI
+>>>        select ARCH_BINFMT_ELF_STATE
+>>> +     select ARCH_DEFER_KASAN if KASAN
+>>
+>> Instead of adding 'if KASAN' in all users, you could do in two steps:
+>>
+>> Add a symbol ARCH_NEEDS_DEFER_KASAN.
+>>
+>> +config ARCH_NEEDS_DEFER_KASAN
+>> +       bool
+>>
+>> And then:
+>>
+>> +config ARCH_DEFER_KASAN
+>> +       def_bool
+>> +       depends on KASAN
+>> +       depends on ARCH_DEFER_KASAN
+>> +       help
+>> +         Architectures should select this if they need to defer KASAN
+>> +         initialization until shadow memory is properly set up. This
+>> +         enables runtime control via static keys. Otherwise, KASAN uses
+>> +         compile-time constants for better performance.
+>>
 >=20
-=E2=80=A6
-> This issue was introduced by commit
-> f85d39dd7ed8 ("kcov, usb: disable interrupts in kcov_remote_start_usb_sof=
-tirq").
+> Actually, I don't see the benefits from this option. Sorry, have just
+> revisited this again.
+> With the new symbol, arch (PowerPC, UML, LoongArch) still needs select
+> 2 options:
 >=20
-> However, this creates a conflict on PREEMPT_RT kernels. The local_irq_sav=
-e()
-> call establishes an atomic context where sleeping is forbidden. Inside th=
-is
-> context, kcov_remote_start() is called, which on PREEMPT_RT uses sleeping
-> locks (spinlock_t and local_lock_t are mapped to rt_mutex). This results =
-in
-> a sleeping function called from invalid context.
+> select ARCH_NEEDS_DEFER_KASAN
+> select ARCH_DEFER_KASAN
+
+Sorry, my mistake, ARCH_DEFER_KASAN has to be 'def_bool y'. Missing the=20
+'y'. That way it is automatically set to 'y' as long as KASAN and=20
+ARCH_NEEDS_DEFER_KASAN are selected. Should be:
+
+config ARCH_DEFER_KASAN
+	def_bool y
+	depends on KASAN
+	depends on ARCH_NEEDS_DEFER_KASAN
+
+
 >=20
-> On PREEMPT_RT, interrupt handlers are threaded, so the re-entrancy scenar=
-io
-> is already safely handled by the existing local_lock_t and the global
-> kcov_remote_lock within kcov_remote_start(). Therefore, the outer
-> local_irq_save() is not necessary.
+> and the oneline with `if` condition is cleaner.
+> select ARCH_DEFER_KASAN if KASAN
 >=20
-> This preserves the intended re-entrancy protection for non-RT kernels whi=
-le
-> resolving the locking violation on PREEMPT_RT kernels.
->=20
-> After making this modification and testing it, syzkaller fuzzing the
-> PREEMPT_RT kernel is now running without stopping on latest announced
-> Real-time Linux.
 
-This looks oddly familiar because I removed the irq-disable bits while
-adding local-locks.
+I don't think so because it requires all architectures to add 'if KASAN'=20
+which is not convenient.
 
-Commit f85d39dd7ed8 looks wrong not that it shouldn't disable
-interrupts. The statement in the added comment
-
-| + * 2. Disables interrupts for the duration of the coverage collection se=
-ction.
-| + *    This allows avoiding nested remote coverage collection sections in=
- the
-| + *    softirq context (a softirq might occur during the execution of a w=
-ork in
-| + *    the BH workqueue, which runs with in_serving_softirq() > 0).
-
-is wrong. Softirqs are never nesting. While the BH workqueue is
-running another softirq does not occur. The softirq is raised (again)
-and will be handled _after_ BH workqueue is done. So this is already
-serialised.
-
-The issue is __usb_hcd_giveback_urb() always invokes
-kcov_remote_start_usb_softirq(). __usb_hcd_giveback_urb() itself is
-invoked from BH context (for the majority of HCDs) and from hardirq
-context for the root-HUB. This gets us to the scenario that that we are
-in the give-back path in softirq context and then invoke the function
-once again in hardirq context.
-
-I have no idea how kcov works but reverting the original commit and
-avoiding the false nesting due to hardirq context should do the trick,
-an untested patch follows.
-
-This isn't any different than the tasklet handling that was used before
-so I am not sure why it is now a problem.
-
-Could someone maybe test this?
-
---- a/drivers/usb/core/hcd.c
-+++ b/drivers/usb/core/hcd.c
-@@ -1636,7 +1636,6 @@ static void __usb_hcd_giveback_urb(struct urb *urb)
- 	struct usb_hcd *hcd =3D bus_to_hcd(urb->dev->bus);
- 	struct usb_anchor *anchor =3D urb->anchor;
- 	int status =3D urb->unlinked;
--	unsigned long flags;
-=20
- 	urb->hcpriv =3D NULL;
- 	if (unlikely((urb->transfer_flags & URB_SHORT_NOT_OK) &&
-@@ -1654,14 +1653,13 @@ static void __usb_hcd_giveback_urb(struct urb *urb)
- 	/* pass ownership to the completion handler */
- 	urb->status =3D status;
- 	/*
--	 * Only collect coverage in the softirq context and disable interrupts
--	 * to avoid scenarios with nested remote coverage collection sections
--	 * that KCOV does not support.
--	 * See the comment next to kcov_remote_start_usb_softirq() for details.
-+	 * This function can be called in task context inside another remote
-+	 * coverage collection section, but kcov doesn't support that kind of
-+	 * recursion yet. Only collect coverage in softirq context for now.
- 	 */
--	flags =3D kcov_remote_start_usb_softirq((u64)urb->dev->bus->busnum);
-+	kcov_remote_start_usb_softirq((u64)urb->dev->bus->busnum);
- 	urb->complete(urb);
--	kcov_remote_stop_softirq(flags);
-+	kcov_remote_stop_softirq();
-=20
- 	usb_anchor_resume_wakeups(anchor);
- 	atomic_dec(&urb->use_count);
-diff --git a/include/linux/kcov.h b/include/linux/kcov.h
-index 75a2fb8b16c32..0143358874b07 100644
---- a/include/linux/kcov.h
-+++ b/include/linux/kcov.h
-@@ -57,47 +57,21 @@ static inline void kcov_remote_start_usb(u64 id)
-=20
- /*
-  * The softirq flavor of kcov_remote_*() functions is introduced as a temp=
-orary
-- * workaround for KCOV's lack of nested remote coverage sections support.
-- *
-- * Adding support is tracked in https://bugzilla.kernel.org/show_bug.cgi?i=
-d=3D210337.
-- *
-- * kcov_remote_start_usb_softirq():
-- *
-- * 1. Only collects coverage when called in the softirq context. This allo=
-ws
-- *    avoiding nested remote coverage collection sections in the task cont=
-ext.
-- *    For example, USB/IP calls usb_hcd_giveback_urb() in the task context
-- *    within an existing remote coverage collection section. Thus, KCOV sh=
-ould
-- *    not attempt to start collecting coverage within the coverage collect=
-ion
-- *    section in __usb_hcd_giveback_urb() in this case.
-- *
-- * 2. Disables interrupts for the duration of the coverage collection sect=
-ion.
-- *    This allows avoiding nested remote coverage collection sections in t=
-he
-- *    softirq context (a softirq might occur during the execution of a wor=
-k in
-- *    the BH workqueue, which runs with in_serving_softirq() > 0).
-- *    For example, usb_giveback_urb_bh() runs in the BH workqueue with
-- *    interrupts enabled, so __usb_hcd_giveback_urb() might be interrupted=
- in
-- *    the middle of its remote coverage collection section, and the interr=
-upt
-- *    handler might invoke __usb_hcd_giveback_urb() again.
-+ * work around for kcov's lack of nested remote coverage sections support =
-in
-+ * task context. Adding support for nested sections is tracked in:
-+ * https://bugzilla.kernel.org/show_bug.cgi?id=3D210337
-  */
-=20
--static inline unsigned long kcov_remote_start_usb_softirq(u64 id)
-+static inline void kcov_remote_start_usb_softirq(u64 id)
- {
--	unsigned long flags =3D 0;
--
--	if (in_serving_softirq()) {
--		local_irq_save(flags);
-+	if (in_serving_softirq() && !in_hardirq())
- 		kcov_remote_start_usb(id);
--	}
--
--	return flags;
- }
-=20
--static inline void kcov_remote_stop_softirq(unsigned long flags)
-+static inline void kcov_remote_stop_softirq(void)
- {
--	if (in_serving_softirq()) {
-+	if (in_serving_softirq() && !in_hardirq())
- 		kcov_remote_stop();
--		local_irq_restore(flags);
--	}
- }
-=20
- #ifdef CONFIG_64BIT
-@@ -131,11 +105,8 @@ static inline u64 kcov_common_handle(void)
- }
- static inline void kcov_remote_start_common(u64 id) {}
- static inline void kcov_remote_start_usb(u64 id) {}
--static inline unsigned long kcov_remote_start_usb_softirq(u64 id)
--{
--	return 0;
--}
--static inline void kcov_remote_stop_softirq(unsigned long flags) {}
-+static inline void kcov_remote_start_usb_softirq(u64 id) {}
-+static inline void kcov_remote_stop_softirq(void) {}
-=20
- #endif /* CONFIG_KCOV */
- #endif /* _LINUX_KCOV_H */
---=20
-2.50.1
-
-Sebastian
+Christophe
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
-0250808163345.PPfA_T3F%40linutronix.de.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/a=
+f677847-e625-43d7-8750-b2ce4ba9626c%40csgroup.eu.
