@@ -1,133 +1,133 @@
-Return-Path: <kasan-dev+bncBDQ67ZGAXYCBBZHK27CAMGQEJAYSBVI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ67ZGAXYCBBHHM27CAMGQEIVYDUHI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2701B1E8DB
-	for <lists+kasan-dev@lfdr.de>; Fri,  8 Aug 2025 15:02:29 +0200 (CEST)
-Received: by mail-wm1-x33c.google.com with SMTP id 5b1f17b1804b1-459d7ae12b8sf15018465e9.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 08 Aug 2025 06:02:29 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1754658149; cv=pass;
+Received: from mail-oa1-x3d.google.com (mail-oa1-x3d.google.com [IPv6:2001:4860:4864:20::3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9093B1E8E3
+	for <lists+kasan-dev@lfdr.de>; Fri,  8 Aug 2025 15:05:35 +0200 (CEST)
+Received: by mail-oa1-x3d.google.com with SMTP id 586e51a60fabf-2ffa7561f78sf599084fac.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 08 Aug 2025 06:05:35 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1754658334; cv=pass;
         d=google.com; s=arc-20240605;
-        b=e7VvVqm1xZ8lrzmOrkrKvU2A7giaNnGgGdU8iH+/qGsIZYeZG935uea6dd9Zt/AzUc
-         TXcqzWNANIm5ZhonhiNVssgAMF9lfTm+BSVWn+XkBloTkPqZVvlN0cgs12/AGqojPlsW
-         EQdg+1Clf3fKdzBuLc1UTj8KVqkWiEuq1Blg5ZWwDL6aJ952lQrmXp8QWWtHRbf8YoSc
-         EbhKPZbstYeSjjUL6T1Se+a1BwVh48YUAvqk9LT8UJUirkd2TsCa+eJfw/cO4TDkoi+e
-         hMVoiFD+RFCRfG/lUrl3LUzGIM01jbolSGaCAeNKSb+CSmvfE/MUDskH0tMeqpmn84H6
-         /WyA==
+        b=LNC3hoCLeKo8CbOLa2jV8JYaMtwRDzd8+HNLEadQ1c9Vgmaz/wN51XtxmxlrzIdAa0
+         7j5m8h2WLSXeOjGXLY+zdRKa9xnZ0Eo/q2P6cYaxph8XVBmw+emms1k71yOKSgNEuPCL
+         NkuT0u+rpZlQDpG+g3SZAAuUs+3ImEnmT7LowItrXl14lnfWyxeGws3vmKBl3KQwKbLq
+         ugpGyk+STqi1ck8Y1gD5KEdRPx9l0nr3z+eYSIwYRrXUyTohqLoYwgf63xFYUuGAeKtV
+         UZUizPE/fNVSkkS/v8LS2Rc/z3q+7uT6ZOD9y5+NJaYq78Vbn9cdc031kIy8+38DNlmn
+         dwjA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=mumDToTm8ob9yZ2iZeTJe7I9jjJ8TX/UYGSMq7NfklU=;
-        fh=0E6+qjC8B04CgVGShgcIxfAhgwJBYPh9GHsa+siHgWY=;
-        b=lmPqk1nFsw98figyJM9pontARYDHv1X5D0rbOy0W6+35gdBGbNhljcY4u3pCbzAg/p
-         OHnbXfkB9NixCXY2MoEdrBSjIAv575hAFyRlH0y0vNPr4cQ6BHi29anM6ifrNmpV2/zO
-         Krl2Cr3fJxGGpbx3RemdKXWRcalCOLVs1KRh+k6/1PtjmOOUXanfCO+lKJtbnqKJ0U8A
-         FoxKRWINO7SrcJYMsiHcDbRUTplbczRB4YUiz1inCtjtjBkCHVo9dhmZX8oGl1UJexSa
-         1ys+tJ+ojCafyYLAepQjrYtspD2ZchSXu8PzXlHmJBJ0JvXD0Apob4XvBtdqSoEIcrpn
-         2lmQ==;
+        bh=EX/rk/wAHsQfDTfm5pxaWawmem6sB64SxG6tXdcwk7s=;
+        fh=Dzy9M8CimkB0WJYYBueOolUJ58439Ob1guBs751P+ck=;
+        b=lK/rJaS6wJ8IDZVj1YRiZEjRFPSm2JH2iqMg9p5RW2sHCYEyRqNkqWTsKtp+AgpuDP
+         9sXMaPAjDzYGIkfDYz1vtUBCGMHWWf9IRuXOygQb5zs12nZLlYKXqXjYmIUtYwcOYRml
+         Vav1BXyxwjdOIasVB8UfRAb9zYXwE0Zui/Srw7O7UuD9SplavSz5Kl3c6GV9qlBQDd6K
+         gilNtKYtoJyy0eZ41Yn7G+aUKpGhXrGhA3KJ3X2Fs9nudoP45Uo8EYhynsg4H5qb+irs
+         j39ldDw2VXvW7sMoL1fwZ5a9UbEXMrFu8lBfr57DCYPhaFMEv9q4OPfgeuL3kuhf8BZT
+         OQ+A==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=3PGwDb0L;
-       spf=pass (google.com: domain of marievic@google.com designates 2a00:1450:4864:20::536 as permitted sender) smtp.mailfrom=marievic@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b="t8DFxmR/";
+       spf=pass (google.com: domain of marievic@google.com designates 2607:f8b0:4864:20::12c as permitted sender) smtp.mailfrom=marievic@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1754658149; x=1755262949; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1754658334; x=1755263134; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mumDToTm8ob9yZ2iZeTJe7I9jjJ8TX/UYGSMq7NfklU=;
-        b=JRdlN/Y3W01KoJnVET5k2Q2wBH1fmnWV0KqMFL5z6/p7CRnvVJ8Ihjz6JK0es5hOvS
-         taMeTn9A8gQ7lxvm1502u6hI4N0ORbf5Mn9lD3Hpf2QLdqKsvtpuKjTFgy/KcMEMLZF4
-         hsbH8MlHPh8W7kzPdLTo4G3zHhnqB5PSOt/2lRQGZLYU+NyZ8tXYr6IYyPIOguXn3JxJ
-         6Fjf35NBT87e9xIbHMKZ+QgNSuwTQ6Z8Qimv0gxICVWlZT4MlISDqx0KfGijU6jgv2bb
-         TRROmhu8UAlvr3FM8mQhnTT379iLIwiJFkq6qM26AA+Par7iNyp9NYJQIZLGt4t3TdQk
-         R+Jg==
+        bh=EX/rk/wAHsQfDTfm5pxaWawmem6sB64SxG6tXdcwk7s=;
+        b=Y9VpEVHRmaLdQS6JnDvxFmu9ChpTKkFY2kudzaoX1U5Q9r2+y85M3tEIBGTVP1iTen
+         Jh19B5GwCZohDB+hfGkw/nDPGCLuV/gH4ZhT7SDS82FWmCCrdNK7EGdB4dCp0JR0i7ON
+         H0yIa9mgQ2/0OKgR0mJtLyfnYCq4GyiMEE2pYmLCXYqmlzRw5jVvdM8c0KuxSbq6GoMq
+         JisP6mXQfdcAZIsKWMQOyKi+mMfCwmcczm749SZtJY7iFLzptUENadmnaGVif/3CqmcB
+         F7vXVcS376vzRk7jX0L+qufr8lj5DDdXrw4H7hZcHnKOZaifRoDZQT9Dh5bxiGH4HlZu
+         5qTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754658149; x=1755262949;
+        d=1e100.net; s=20230601; t=1754658334; x=1755263134;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=mumDToTm8ob9yZ2iZeTJe7I9jjJ8TX/UYGSMq7NfklU=;
-        b=NFoK21MrDzV985peDq1MzyYmRWv1KM2UPlCbpX6yhnYMXQljwEDG9WweD/p9Y6140t
-         IzBXOuGhCiDLnzYWjDr4MwU6HIDdlY1+9qIVxGrq+Gv4bV71h7GkjjJLVQCsbs4NCVKV
-         /uTVj4WCv1FfS9/93vlEPPza6qIdrdZWInmBFNOv/LRFad+TqHA5YgTUU4/cel8vEk8h
-         yU9JK6duKgXUenatrZ+YkxvREzAXbdyZGITpeg0JP70DhQEr6seMJmkk55nrE0W/vtJ7
-         4m6A/vfxHUgsTVLeyxYHYUwhODfSa2P1nYRAY28mb5ZdVdrWOGHcc7CDgkmOQjX1AEpP
-         dQYA==
-X-Forwarded-Encrypted: i=2; AJvYcCUetxF0KM7wVMWKYJ5zvuM47CSiL4/KGhf3lw+bcrJFMWRKkt59aXPJHZ5T8iWqxQl8DhrFUQ==@lfdr.de
-X-Gm-Message-State: AOJu0Yy3+Hahj3B1tIaD0HU+M1jssOA10O0sWJBcOSlOVAo0cH0vuGkB
-	W0xWGNgmCFurAAAWbK4MRij2sAlm4OjZ6h6Pbln3Md8TN0DOEsOedG7q
-X-Google-Smtp-Source: AGHT+IGdB4I76Pttelu1NRj6f/No/9r7Yx4Kg9EQxsbPHU/9WFBIPu5kMFeJwAN0T57rjcMgTJBdLw==
-X-Received: by 2002:a05:600c:6307:b0:459:d709:e5d4 with SMTP id 5b1f17b1804b1-459f7a1d7c9mr20416065e9.0.1754658148648;
-        Fri, 08 Aug 2025 06:02:28 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZc5Tw9joo0sVg75tZma91ToiUhw4Xn9qRO5ZCSCwbUSpw==
-Received: by 2002:a05:6000:1acf:b0:3a4:eed9:752c with SMTP id
- ffacd0b85a97d-3b8f9597680ls923873f8f.2.-pod-prod-05-eu; Fri, 08 Aug 2025
- 06:02:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWFk44sPXUCDlQPZJKurJv4WSrMUgCmschwsCgR5pG05ctrtkzmkJqxYsIdWeNeRPg8tL55qn1oG54=@googlegroups.com
-X-Received: by 2002:a05:6000:2f85:b0:3b5:e714:9770 with SMTP id ffacd0b85a97d-3b900b4d283mr2160102f8f.14.1754658144255;
-        Fri, 08 Aug 2025 06:02:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1754658144; cv=none;
+        bh=EX/rk/wAHsQfDTfm5pxaWawmem6sB64SxG6tXdcwk7s=;
+        b=KweLeEDJCF5AmTvHS/hA2e01afChj2mOHga72Cd+CExJmNVSSKV3AzfRoYRhQsKRuX
+         1eUbBIvORP4jTbVrYiQbLYSfp0sFstfopUYz3PbTLI3qHO/D6yk2cDZKEHjVAk9fCnMI
+         JIE2uLHI/SJKdFEE0cSIwK9IKgJDn6snidaQY1OBenWHvTWF7CyYC04MVOZjJ+8Pv8u+
+         LUeJFSklmzhIBTYTYhYKgi/iP+EWApNFN4UQzqnIiWSK9qXAQ0FV5BHLWAvYZOciuXLf
+         B/nd2nP+UeWPT/DYctW3QrTNwFOjcPBN+7VJ4FMYzp31Wq1SNjIrPieGWxfnR8yhMsxV
+         W5Zg==
+X-Forwarded-Encrypted: i=2; AJvYcCWiQsTraxGQiUHxOjHshPPx0QTlQ6gSVCmHBAPA3tA+HcHaXgzPs8pQyvDgbE2xIjldbiNEKQ==@lfdr.de
+X-Gm-Message-State: AOJu0YycoRoKnlK+3k/4T9Pi3XFdXVl8lUdAdnI2KuftNlq4Q6HwNxXc
+	+VqJEdW9SfIH7CM98KZJEzdjkvhzk8GjMsjJiiOxCZXHNN70uKTRQBbp
+X-Google-Smtp-Source: AGHT+IEay1QLoP7rVb45kz5WAAzQcrqQzJ/taYrIn2s3CrnHF1u9ASk3OoLF2COsO61OT6v6949Hdw==
+X-Received: by 2002:a05:6871:6010:b0:2ff:a87d:5c71 with SMTP id 586e51a60fabf-30c2119c803mr1789740fac.33.1754658332715;
+        Fri, 08 Aug 2025 06:05:32 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfzeK+KvFdj2tagwiC+UKWoxZhcb5wcpiQOnoapTmRbDQ==
+Received: by 2002:a05:6871:2b07:b0:30b:7ec0:8afb with SMTP id
+ 586e51a60fabf-30bfe77e43bls587885fac.2.-pod-prod-04-us; Fri, 08 Aug 2025
+ 06:05:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWYPKtfeuShpfugLOcbY0/DyXfXr5QmhQLAsQTfZIJtpY7NGVqcQJPhCrxWbuE/PrKa/C+fmO/Agik=@googlegroups.com
+X-Received: by 2002:a05:6871:2946:b0:2ff:b276:97f4 with SMTP id 586e51a60fabf-30c20ea1844mr1678908fac.8.1754658331319;
+        Fri, 08 Aug 2025 06:05:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1754658331; cv=none;
         d=google.com; s=arc-20240605;
-        b=anlI8NavHgYKBahB908L/O7RZjq0NnTDzplOk+nPwnK/IPybms5u+vw+eEblJAXdLW
-         AhzKG+FIYxp0vIOB5KiWmIsWSLINd0IHE4/Bw74ddvYXEpfE+RR863RzFAy8VtIaIvK7
-         lJdt9GWWbajPvcMdNpzm2dmnkxkkY5diTeCNwyT/kCG8726rbmD8MKJ3spfyjPEK/jFq
-         WhHL9g87EnEyTApLHUM4IQqjhEvXjqqd9swhZXIuIayvyIh+TPd2NcWYGyb9mZz3i/6F
-         q4RO4/RNpuahXtBNlo5tE4cUyWJSSU8MRi5Q2NlMhceC3rqORrayrfNqpSwOZYz6EU8c
-         wfpA==
+        b=O1xdlYLqa2TZomHEP4Ph8ogEdtOfYUVhUGuHWUhEiQ+NC2r6MY1cdBMaQkNsb3Ln37
+         Kj91iarggZdfCu01s1ZsFoiZ36ZZWvgofZfRnmVSLD6ehdjXg8ClSQ7mGj5aSIORGtnA
+         IcW9zx/v4RUZfCoZ1j87HYeJlGI507O1gA3H54yJl1IX3yat4ugSjUPJiAF31DcyvQ70
+         48F44g4BSFLeJr4AVg083OXAHVCPX2iShETT7RTVyffdL4mAgLT2BuG6qysd68wjIJDi
+         hLeqhXPma4ti9RSo/1/y9ISDCSbcayP/6wRv5sJj9p7f762w+d3qttxDK2qb1Xm6xDic
+         0t1w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=kAJ6FGqkbh717pDwmHpln0U4/PfoZkwnb7I/ttxK6oI=;
-        fh=PXctLtIYYJ9OMDNxC5mkuY/CZhgwYguhgHjWVeP+nZ8=;
-        b=F2zBqZfc+RBrKPnTpvPUO3HZsCKUlCcOYfVlJ/xuQpjLbqffIKSqiXX7lOjRSpz+DA
-         JZoEN2a4tYcYTPWsy8soCwE9te2GKP7u09q1nux8S2r86t+YWDrmLqw1OsT/5KnBXwPg
-         byZn4FuBJuPYQD28iA+lpCRxNJuM20FMHip1EjHGfcTnrF6SLbImFeCr+NT0PNizhZx9
-         2XbhNDx2iHE5jbKt+DygiytQJRBECZVrUx8h3Vvgt0Ie+ks+g8L6cncKdHj1ORONQfjO
-         uLXSGgMOxjw0+XBQU7AP0DFcTC0wfK7rNf+LMOQgezQZs83vCBEWHMpuxNYUxPaTuG2N
-         fleQ==;
+        bh=w6neGwwteSVypDmYCIRvpySKaDxtfHqm3VMcPtWq+jw=;
+        fh=Pqe7Xc62NnN6uWj0Pi2xsFldFL+64zpFH59C+JmEjZI=;
+        b=hXtklN5aTVuax9KLkhp0MyI3t5Fir6eO1jrgIKaKYQUXv4eiKMTWrf4t7Xm6bj3K6O
+         /R4MDNwFdUTDYNg+mak7mufl6gJQ/ZBr+pEWAi9Z/HOBKV2xZLgtHEyfSIaK+W4M8unl
+         L3lBitMCgYUJUr5c56+BW68jdkbozJSZa6RYn9GZuD4vIEKlhW3crCD1OQioQTNlbbvj
+         x4OHresHaeZWj9PYlt/aJi9ECBHh2CwhonINcrSdsZdn7QhOWr8k7N8iTHsdhKhdqK+I
+         8zA+672ipAzQ4nngWwR1zYE2NLAo4l04mkAmbWs0R14llRHFLtkWtoqOuvIMKG2UKUTH
+         1pGw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=3PGwDb0L;
-       spf=pass (google.com: domain of marievic@google.com designates 2a00:1450:4864:20::536 as permitted sender) smtp.mailfrom=marievic@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b="t8DFxmR/";
+       spf=pass (google.com: domain of marievic@google.com designates 2607:f8b0:4864:20::12c as permitted sender) smtp.mailfrom=marievic@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com. [2a00:1450:4864:20::536])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3b79c339ca7si456509f8f.0.2025.08.08.06.02.24
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com. [2607:f8b0:4864:20::12c])
+        by gmr-mx.google.com with ESMTPS id 586e51a60fabf-30be700a125si347911fac.4.2025.08.08.06.05.31
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Aug 2025 06:02:24 -0700 (PDT)
-Received-SPF: pass (google.com: domain of marievic@google.com designates 2a00:1450:4864:20::536 as permitted sender) client-ip=2a00:1450:4864:20::536;
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-5f438523d6fso8200a12.1
-        for <kasan-dev@googlegroups.com>; Fri, 08 Aug 2025 06:02:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVXRZIVZzr1TU1G08t+WDGEyQjpLZymdO15KNVbF7YYRx+7yUiWT1a3su4yFdlimLdKAXtGV2pJY8Y=@googlegroups.com
-X-Gm-Gg: ASbGncuCjTGmwAXC/NcGdd314KR/m1y5WgXIzu7O6zN9kqVErBM2TkWVSEJf2+6b5hy
-	Mqrcqi1DyD1147IS9uBx0vtFNZn5DzEfSXUYPYIwhBykTEEw5FX9mO2uGofkr84NjoioHtVnUnB
-	HZn23gDuu82Csy9yPCncIdPG+YxIVCrgGyOLaO1FSGazUpyGkkvUQo9hL8thR+AVCU2G7LI/ysH
-	UtnsFOx
-X-Received: by 2002:aa7:cccd:0:b0:615:4bd4:5798 with SMTP id
- 4fb4d7f45d1cf-617f230879amr19448a12.6.1754658143141; Fri, 08 Aug 2025
- 06:02:23 -0700 (PDT)
+        Fri, 08 Aug 2025 06:05:31 -0700 (PDT)
+Received-SPF: pass (google.com: domain of marievic@google.com designates 2607:f8b0:4864:20::12c as permitted sender) client-ip=2607:f8b0:4864:20::12c;
+Received: by mail-il1-x12c.google.com with SMTP id e9e14a558f8ab-3e40df3c68fso149385ab.0
+        for <kasan-dev@googlegroups.com>; Fri, 08 Aug 2025 06:05:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWqr9y+spTZOnkd3m1a7OGJg+mTrR+U9ekoye6HOGO0pg56mPai3jYnqnhL8gFFbif18q4IlU7kkFE=@googlegroups.com
+X-Gm-Gg: ASbGnct9IqVhizw67Z7zwWtaspK3eelWjVsUgJ7RvcbkumrnPKxo6O2Z5BqIDVxw/kQ
+	ZnSouHfKHzp96ITW8a2DsKQkmx8zkK0cFTmpAPXezE3tkX2Indl9RF4SGHBdQvnj+/yMDqy7RX9
+	+vWaLsUqmJjXDx6UYCya9Gv8/VJIl4iJUBsZJp5979TWHDEHrQuVhKCjRLeMOW8PamzptLe2yLt
+	PU7CF/aBqAVuU0kgrs=
+X-Received: by 2002:a05:6e02:12ca:b0:3e2:865b:6b64 with SMTP id
+ e9e14a558f8ab-3e5340e2741mr3830955ab.3.1754658330147; Fri, 08 Aug 2025
+ 06:05:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250729193647.3410634-1-marievic@google.com> <20250729193647.3410634-10-marievic@google.com>
- <CABVgOSnWF=xnfSJjCJ4KYAPhnY7OyeU7w1e2MXi5U25nwaT+MQ@mail.gmail.com>
-In-Reply-To: <CABVgOSnWF=xnfSJjCJ4KYAPhnY7OyeU7w1e2MXi5U25nwaT+MQ@mail.gmail.com>
+ <CA+GJov5q-mAHuchZNqS6DEv1zFmDzhF1SSdjBfJyB0ZnqUCQfg@mail.gmail.com>
+In-Reply-To: <CA+GJov5q-mAHuchZNqS6DEv1zFmDzhF1SSdjBfJyB0ZnqUCQfg@mail.gmail.com>
 From: "'Marie Zhussupova' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 8 Aug 2025 09:02:09 -0400
-X-Gm-Features: Ac12FXw6AWC0LnlsOC2ttnJifRxiBAp52bTOP9hWwsV4WLPHuDfkPnVssu6-H-I
-Message-ID: <CAAkQn5LCgSdYdp4X0Ucum+TVyf5U+X-j3gdD_qYXtzf6XDBGMA@mail.gmail.com>
+Date: Fri, 8 Aug 2025 09:05:15 -0400
+X-Gm-Features: Ac12FXznLJ3D8UlToiHeLT2K71-cEF7aX5NUvAOWyQU8KC2MUoJs-V9Mnp3-vlM
+Message-ID: <CAAkQn5+Z2mb0yrQt3Q4zOmM-7xA+dVzT7dEOi7W-1HphYAFTcw@mail.gmail.com>
 Subject: Re: [PATCH 9/9] Documentation: kunit: Document new parameterized test features
-To: David Gow <davidgow@google.com>
-Cc: rmoar@google.com, shuah@kernel.org, brendan.higgins@linux.dev, 
+To: Rae Moar <rmoar@google.com>
+Cc: davidgow@google.com, shuah@kernel.org, brendan.higgins@linux.dev, 
 	elver@google.com, dvyukov@google.com, lucas.demarchi@intel.com, 
 	thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com, 
 	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
@@ -137,8 +137,8 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: marievic@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=3PGwDb0L;       spf=pass
- (google.com: domain of marievic@google.com designates 2a00:1450:4864:20::536
+ header.i=@google.com header.s=20230601 header.b="t8DFxmR/";       spf=pass
+ (google.com: domain of marievic@google.com designates 2607:f8b0:4864:20::12c
  as permitted sender) smtp.mailfrom=marievic@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
 X-Original-From: Marie Zhussupova <marievic@google.com>
@@ -155,11 +155,10 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sat, Aug 2, 2025 at 5:45=E2=80=AFAM David Gow <davidgow@google.com> wrot=
-e:
+On Tue, Aug 5, 2025 at 11:19=E2=80=AFAM Rae Moar <rmoar@google.com> wrote:
 >
-> On Wed, 30 Jul 2025 at 03:37, Marie Zhussupova <marievic@google.com> wrot=
-e:
+> On Tue, Jul 29, 2025 at 3:37=E2=80=AFPM Marie Zhussupova <marievic@google=
+.com> wrote:
 > >
 > > -Update the KUnit documentation to explain the concept
 > > of a parent parameterized test.
@@ -167,29 +166,20 @@ e:
 > > parameters to parameterized tests and how to manage
 > > shared resources between them.
 > >
->
-> Nit: We don't need the dot points ('-') here. Just make them paragraphs.
-
-Will do!
-
->
 > > Signed-off-by: Marie Zhussupova <marievic@google.com>
+>
+> Hello!
+>
+> This is amazing! I have a few comments below but I appreciate the
+> effort to document this new feature. It is always incredibly helpful
+> to have documentation to go along with the code.
+>
+> Reviewed-by: Rae Moar <rmoar@google.com>
+>
+> Thanks!
+> -Rae
+>
 > > ---
->
-> Thanks very, very much for including such detailed documentation.
->
-> I do think some of the examples could be trimmed / left in the
-> kunit-example-test.c file and referenced, as they're long enough that
-> it's difficult to focus on the essentials. But otherwise, this looks
-> great.
->
-> A few small notes below, but otherwise:
->
-> Reviewed-by: David Gow <davidgow@google.com>
->
-> Cheers,
-> -- David
->
 > >  Documentation/dev-tools/kunit/usage.rst | 455 +++++++++++++++++++++++-
 > >  1 file changed, 449 insertions(+), 6 deletions(-)
 > >
@@ -219,14 +209,6 @@ fering
 > > +a more integrated and flexible way to handle multiple test scenarios w=
 ith
 > > +minimal code duplication.
->
-> Nit: maybe we can tone down the adjectives slightly here. I do like
-> parameterised testing a lot, but it probably doesn't need to be
-> "efficient", "elegant", "integrated", and "flexible".
-
-Will do that in v2.
-
->
 > > +
 > > +Passing Parameters to the Test Cases
 > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -241,6 +223,17 @@ C`` to the
 > > +   ``cases`` array from the previous section, we can create a paramete=
 rized test
 > > +   as shown below:
+>
+> Is it possible to bold the titles of the ways to pass in parameters:
+> Array Parameter Macros, etc.? I feel like they should stand out more
+> from the rest of the text. Also I think I would prefer if there was an
+> empty line between the title and the rest of the indented text, to
+> again further separate these titles from the rest of the text.
+
+Bolding may clutter the title a bit for people reading the .rst file.
+Adding an empty line is a great idea, I will do that in v2.
+
+>
 > >
 > >  .. code-block:: c
 > >
@@ -332,13 +325,6 @@ ms),
 > > +
 > > +Direct Registration in Parameter Init Function (using ``kunit_register=
 _params_array``):
->
-> Maybe we should highlight this as being array-based more explicitly.
-> "Runtime Array Registration in the Init function" or similar?
-
-That would make it clearer, will make this edit in v2.
-
->
 > > +   For more complex scenarios, you can directly register a parameter a=
 rray with
 > > +   a test case instead of using a ``generate_params`` function. This i=
@@ -363,6 +349,15 @@ ynamically
 > > +   allocated params array after the parameterized test series ends.
 > > +
 > > +.. code-block:: c
+>
+> As David mentioned, this example code is a bit long. I would also
+> prefer if this example had just the highlights and then a link to the
+> source code.
+>
+
+I agree it's a bit long. I will do highlights and a link to the source code
+in v2.
+
 > > +
 > > +       /*
 > > +        * Helper function to create a parameter array of Fibonacci num=
@@ -481,15 +476,7 @@ rr),
 > > +               {}
 > > +       };
 > > +
->
-> This is a long example, which already exists in the source code
-> (kunit-example-test.c). Could we just include some highlights (e.g.,
-> the init function and the KUNIT_CASE_PARAM_WITH_INIT call), and link
-> to the source code for the rest?
-
-Thank you for the suggestion! I will do that in v2.
-
->
+> > +
 > > +Adding Shared Resources
 > > +^^^^^^^^^^^^^^^^^^^^^^^
 > > +All parameterized test executions in this framework have a parent test=
@@ -529,13 +516,6 @@ RAM_WITH_INIT``
 > > +   ``param_init``, the ``generate_params`` function will be used to ge=
 t
 > > +   the parameters.
->
-> Maybe note that the ``generate_params`` function can use the array
-> passed, though?
-
-Will make this edit in v2
-
->
 > > +
 > > +Both ``param_init`` and ``param_exit`` are passed the parent instance =
 of a test
@@ -569,6 +549,15 @@ extends to
 his code
 > > +utilizes the Resource API, which you can read more about here:
 > > +Documentation/dev-tools/kunit/api/resource.rst.
+>
+> It would be nice if these references to the Documentation files were
+> actual links to the webpages. This would look something like -
+> ":ref:`kunit-resource`" and then also labeling that section: "..
+> _kunit-resource:".
+
+Thank you for this suggestion, I will do that in v2.
+
+>
 > > +
 > > +.. code-block:: c
 > > +
@@ -735,16 +724,6 @@ t, NULL,
 > > +               {}
 > > +       };
 > > +
->
-> This is a really long example, which already exists in
-> kunit-example-test.c. Can we either link to it there (and just include
-> the most critical lines here), or have a smaller, less-complete
-> example inline here?
-
-Yes, I will do that in v2.
-
->
->
 > > +As an alternative to using the KUnit Resource API for shared resources=
 , you can
 > > +place them in ``test->parent->priv``. It can store data that needs to =
@@ -764,16 +743,15 @@ ose same
 > > +
 > > +The resources placed in ``test->parent-priv`` will also need to be all=
 ocated in
+>
+> Nit: I think this is a typo for test->parent->priv.
+>
+Thank you for catching this!
+
+>
+>
 > > +memory to persist across the parameterized tests executions. If memory=
  is
->
-> Nit: 'parameterized test executions' singular?
-
-Thank you for catching this! Though I will be changing all references to
-parameter executions to "parameter runs" to be consistent with the
-terminology in v2.
-
->
 > > +allocated using the memory allocation APIs provided by KUnit (describe=
 d more in
 > > +the section below), you will not need to worry about deallocating them=
@@ -872,17 +850,6 @@ L),
 > > +               {}
 > > +       };
 > > +
->
-> Again, this is a little long, but it's not as bad as the others, and
-> isn't in the example tests, so I'm okay with leaving it. Though maybe
-> we could get rid of some of the asserts for the purpose of keeping the
-> documentation focused and readable.
-
-Sounds good!
-
-
->
->
 > >  Allocating Memory
 > >  -----------------
 > >
@@ -896,4 +863,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-AAkQn5LCgSdYdp4X0Ucum%2BTVyf5U%2BX-j3gdD_qYXtzf6XDBGMA%40mail.gmail.com.
+AAkQn5%2BZ2mb0yrQt3Q4zOmM-7xA%2BdVzT7dEOi7W-1HphYAFTcw%40mail.gmail.com.
