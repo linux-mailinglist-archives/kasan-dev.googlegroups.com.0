@@ -1,123 +1,122 @@
-Return-Path: <kasan-dev+bncBCMMDDFSWYCBBZEC5XCAMGQE7XW2R6Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMMDDFSWYCBB64C5XCAMGQEPGCAJXY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x239.google.com (mail-oi1-x239.google.com [IPv6:2607:f8b0:4864:20::239])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B36BB22864
-	for <lists+kasan-dev@lfdr.de>; Tue, 12 Aug 2025 15:28:06 +0200 (CEST)
-Received: by mail-oi1-x239.google.com with SMTP id 5614622812f47-41ea6bb72dfsf1580455b6e.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 12 Aug 2025 06:28:06 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1755005285; cv=pass;
+Received: from mail-qt1-x83c.google.com (mail-qt1-x83c.google.com [IPv6:2607:f8b0:4864:20::83c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34B50B22867
+	for <lists+kasan-dev@lfdr.de>; Tue, 12 Aug 2025 15:28:29 +0200 (CEST)
+Received: by mail-qt1-x83c.google.com with SMTP id d75a77b69052e-4b085852fb8sf217808441cf.3
+        for <lists+kasan-dev@lfdr.de>; Tue, 12 Aug 2025 06:28:29 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1755005308; cv=pass;
         d=google.com; s=arc-20240605;
-        b=ItiboUvOQHpaJxAX5jz/jSb3X3Eo38MCeE+UFBN+f/j7w3YlLxz03LQeGDhs/oY3yc
-         m2TR+4m5RTuqI5Y7rydtewhVIDi5IgSyAO3yILWb+rPqkkQhJEy4iq5sKyXBW2ZGFhAr
-         8HS3BCw3pEjT3Lwq7O6xMqrxk3iY/4H9B37H2qoIAunF1uCjs1LlOVRGeq9RaEf7K7gw
-         dS5h80q82+a+FHdtgQkvU4HGZrzYF7U2IKQZiTBKfsis0tBepjdIjEAwK+SDTcngNIbj
-         W4JpDhqiaxO48Le85J7BwkcrCr9sJagjH/BWKrV//TGLjw1wQ/1O0GLfC7UWnmdGxJEw
-         L7gg==
+        b=WIbiq2fNeX0t8zC+0l6DhMDSJNGlFdVdTdTXu88+w1zjN//RkCL3IyD3RUkMu8W8W7
+         huHn2ihsg/miEJQVM7nHCkic6lDkBmf2q3vgBJnUJtP3NVGa28iM2FG4kDUoo5UEkP8+
+         QlBZc69r5890yJWqWumIGuw6ZrHs8JDRVaeDDfE1fntXa4Qn/X3jlkZprGhfWa55EuLd
+         ZYLnNEULkzKFtWmxkv4olJQ+IACSW5t/zw18IlGVkVh+DBxdZG3Aegq5Rlx7ZRa5JtOe
+         QChW1f6Xcop906x6Y/xrRMISEca8Q6P92wnuZ/49vVJ7wogLZ+4zr4R400Oh7O1/BRu5
+         cZ/Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=B4bPB3vAQouHU7OJMYaDxiXMVQBti3fUuFKjU68KSHc=;
-        fh=Sayx5wN5t+hq2EMv5LqA38egYhPYjdBNBipU9yqbkDs=;
-        b=L8WnWUaHQmweeIn26f4qQDXeQvSkzmwJH8F+y/QIduuM5029OfgkIdQc6seYQeJvSB
-         cfOjLvyrOl4MVRascLDpWbFaO1iyuYve3zajTe7GGl4+dkxEajjy+aLWuuDKJjgBOxQ8
-         Gq5wO/JGNXB8sxyQWiMaAbRujqqAemjOVdBHz89y7Kb7Lp59v59fY3wihhIJwvGHvt6G
-         NqssPd0o3ln94Fl4qLlFDT7PrkHm9fYP4NXGwiYGkIZ8PKBzQASfynMXlzHXjtU+Cy7E
-         mpvdgXDRir2QxhX4RzyqaxPLJKLK4k+2cBZC/enA88XV3CUe/quO8IE3QmLpopHLzawn
-         nkJw==;
+        bh=R5ZKdQJVP5o4XCFTi7VtTbIJSHUqpPqQuWvBbiTr8gc=;
+        fh=iwgy/x/HqttzXYMD8wYMaURrJjcKClcJkWU+XO5MuMY=;
+        b=hi1b4JhKrZp5pfUIt04Sz1+jDDQXLNeqNZaewM8DquwqlQjqbXKnzYEH2TMoJ2KdCs
+         B37e7H8TYvjGXNUU7i+J4XvdKuDtxM4ef25+RR1czwZIddoxGuL1exfFnSohZyRHJ2od
+         xNEWi0owvyAZ6jhJzbuLY9KSGsBAEbRzRv/kb35c9x86Y2EBs5CvwkycfIs9O1UzXGBl
+         IoDuX+4QRvVsRCEIPbwd+VmDufrybieostQsZ9/wVjsX/0TOgkuBlvMoNY47rdpYWHdo
+         EFw/j2ZSn00pjpvz0eC02MyILwGM4v+4vuwjP3M7DR3/BsHtQ7+AlaazUX9KtglG5ZNN
+         nRZw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=RWRSvSNu;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=JavcaNMc;
        spf=pass (google.com: domain of maciej.wieczor-retman@intel.com designates 198.175.65.15 as permitted sender) smtp.mailfrom=maciej.wieczor-retman@intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1755005285; x=1755610085; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1755005308; x=1755610108; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=B4bPB3vAQouHU7OJMYaDxiXMVQBti3fUuFKjU68KSHc=;
-        b=G+MYWl5NkGTxyvidK9lCUnRyWiV7J4cwuF55R0pi8/4sjxbuz7XlxDkxAU4vyv7v64
-         FjrE+D8sG8aiIP6TWuAqU/xUmJfBkSnqyeGfb8gwGXiYBAag1yyAbw91HK6WIFevkXk3
-         zncVeyG5U3gqY/cCPOtPSJfC8sO+X5YP0L1yhOJ/ezGaLfcVEajUgTOdyjEG2YJyOlKR
-         tmIGim+XAf/VfmvFiSTIUkXzRBoS6T+t5oBqkWQq51bKOISW0lpDZpJRbOmA0PUrTHng
-         mKu8MYCKUNladSEXjWL6rx097z9PJ/MY5xENjK5Zh17puebSVN/z2VL/e4WAcuMRhlV8
-         KxkA==
+        bh=R5ZKdQJVP5o4XCFTi7VtTbIJSHUqpPqQuWvBbiTr8gc=;
+        b=qtpJeelIrK7hABRyXYgoOI1r7Caz4+w9+ZJy8yhQ8SxJFYAiNid0qhY4dJ5sUc90ZX
+         s6LNHk4aN/t+wQiYBLotyUOfprgU+KWDhCtcj9/VVa5Vccd4hmyu9uATSC4pG7v1w7uz
+         D9/q0aFpxUeWQe2E9tXBcMQj+s23NkBeRu2GMSWgwoBaFekaSc/CVd8lWbVSl5HzJd4p
+         1K2UhVnAuCb4pnAUqq/5Ussn0uMRG04b0NdEhh0inVj5pmf9bn7OXgcMdnHaHZQSg3V/
+         4fQoKI2OJ+IZPLExD/cT1h3tchaBUQisUsTF3Mzg8HX7gowsACA3TSJ3fH83SFMj4VY7
+         TSoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755005285; x=1755610085;
+        d=1e100.net; s=20230601; t=1755005308; x=1755610108;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=B4bPB3vAQouHU7OJMYaDxiXMVQBti3fUuFKjU68KSHc=;
-        b=fYFxDwdT7z6wqcbLf6nfUamEHaIx+L6KfpWsYj0cbGOaBqU2SuhwlaAeywPI5rS613
-         sZivwM4sO+8f2w6XkYMNY5WH4RQfSLQ0572WIelJ39zXRXKpD/1779aGVVlEfn0my0Ii
-         U5hkGe2oDjZEak/cha46VsZ2JdTpjnZ4LtGVLy9QN+9466w79cvCnS0SVFGg/HQOMpK/
-         ilbdbNRV7gXGIP+CR+uMexfu3GQkKbVx0oPycezACWTgt9sw3DT1ZjrXVc53vCnmgEO3
-         RaLaeALuV44faS3gBn52SGLaL62ZN/4eWmqiycSDCTE2ke5Fscf08ttlf9+3ogoipp4b
-         ohTg==
+        bh=R5ZKdQJVP5o4XCFTi7VtTbIJSHUqpPqQuWvBbiTr8gc=;
+        b=NIuVbWKzwrnzTwKFblEvvcJGsNgy+mu23p/Ac7yIjCiZsun608Ue1jJKYsNGwFiHEq
+         vAsLGWFz3yP1ee1nstlklCwVcp9hT7CLAlEoHBgH47AR/hxvwMIqN8+3Krxe737vw/p5
+         2b1YYeeq6p4IpjP+tKf1ohUC4DdGa21RBRme8rxM/Mi2AbJTXKsbrQqZXHQ8KdTQPP9C
+         B/5WIyiijD/5okFeNA48udQzWHQlqk0tXzZY7MRi7Tu40XlTdZyaCwzYMqOBE8U10mVf
+         5NuyRGWZZX4Cxefes7aH2h/tWIpToKItGmXtZs+MKLFfym3OVDhT1FET+SpIGDCpJdWQ
+         nYBA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCV2GWVvRIKt/kmJQFGTXBTwUmrwngbif5PPX7Y10HNWHrSvSXgP4NsSvuikTP9dsexRmo996A==@lfdr.de
-X-Gm-Message-State: AOJu0YxB2aENQDy0OipDeFkLI0FLZdW3A47g08wUvSX8/Edy2ovgh/E6
-	owCKhtvT/G39l6uYY7OwjHP2l+VfXCKoYnBJEG53J0SJEQ0bEPtI6gWs
-X-Google-Smtp-Source: AGHT+IFZL0JnsASWPTNiGif8UkG3tsX+rl2KbuN37TanAYLItQhyfsTHS5S+ZlsC6wsNsABtfVN8DA==
-X-Received: by 2002:a05:6808:2216:b0:41e:8566:1486 with SMTP id 5614622812f47-435c923242cmr1588208b6e.36.1755005285001;
-        Tue, 12 Aug 2025 06:28:05 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZda6FU3bAsKDaWgn2PTQbN2HAalcd8mnWja+jNF5izK5g==
-Received: by 2002:a05:6871:7c15:b0:30b:d237:4ffd with SMTP id
- 586e51a60fabf-30bfe706325ls1858646fac.1.-pod-prod-04-us; Tue, 12 Aug 2025
- 06:28:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXReph6VJ1E6ewseg9Lix69dDab6+/7+2RB3XsYQPCUWtJizKpS6IhdsWUC78BY5LelK8RwEhTLq9w=@googlegroups.com
-X-Received: by 2002:a05:6870:1b08:b0:2ff:a4c2:b52c with SMTP id 586e51a60fabf-30c95127822mr2098459fac.34.1755005284122;
-        Tue, 12 Aug 2025 06:28:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1755005284; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCVjJNYzpQ7G8udcwDzfFelytPPsjttnGhr/8WRX6rrz5p0EL+S2jGjZbUDMsz+bXNkj6tN88g==@lfdr.de
+X-Gm-Message-State: AOJu0YwbYHV4ad/IQV5XkSNAlyTKRsajMC6XBEY1x3LxCudtLkPbIb/o
+	2eglR0Z8c1q8UWoEvDRPNny7AjDGskW34BOWPNYwYT3be/3w9vA5KU5Z
+X-Google-Smtp-Source: AGHT+IHMBKf256pXiU2lsrfgVZcWpsgbmTDE8jBo8vtjl14uGqhAxEcdRhRPfy4ajdvGhBM+mjV8Hg==
+X-Received: by 2002:a05:622a:1a09:b0:4ab:705b:2e70 with SMTP id d75a77b69052e-4b0ecbc6938mr43389141cf.20.1755005307955;
+        Tue, 12 Aug 2025 06:28:27 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcIWjfxW5ew2Et5LglxhtBg8PokxX1J5UFF8JMTFELZBg==
+Received: by 2002:ac8:5891:0:b0:4ab:9462:5bc0 with SMTP id d75a77b69052e-4b0a061729als88790051cf.2.-pod-prod-06-us;
+ Tue, 12 Aug 2025 06:28:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCX+ImPjlRX8jGvebcZIdu8+IUBA0VY54R8g/XBB1U2qdGbsqOzAWNBQn7npmUz3I3QXj8KuGMN//cE=@googlegroups.com
+X-Received: by 2002:a05:622a:5cd:b0:4a4:41c0:b256 with SMTP id d75a77b69052e-4b0ecba2ddemr50645721cf.11.1755005306900;
+        Tue, 12 Aug 2025 06:28:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1755005306; cv=none;
         d=google.com; s=arc-20240605;
-        b=Avmk92Y3WIRTIPkU3zmb3ndTaWA5ayJoHcCmNUo8b8dK+E4PJ1GxxqrM1iIuG4ptrD
-         +i/RwLstvlNgXO8tDdwJDT8dSZMguCl6YJtLCbJac3caYAIkVwXK+lUwRFdvujvl2/7h
-         p3DuBxsSQ91T/IVzfIeNbGs+FKimP2hXP7mgR2VgsflD0YEAM7iyVWjqvEmRe3OHOGHJ
-         SFxTtR4T6/CEGPSp7IjjStUGene+m+XgvMFmluXacN/FWAX3CnLidaoa/HGHCS5aNPVP
-         Sp7l0yVqVZCT+WfqDdmhKd4pKViY6XDksJ2ThmwDC7h86moFrlwnVpv2Y9HsY4diBkSO
-         2qTQ==
+        b=k1t2E1W1CfLCz0oYA59p4bPMI5nBR6kWpEjBX5hkBxMKLWxro5NW56liz6q72Fa0gC
+         OB0qQN4ZfJRqlGUkuLBAdt39Org6luDdjH+t9DllMIgEyCCdXWXSrx0CE0jUT2XoCjNL
+         Vz4yu65quviCF1yr2dZMbKvz4bgOIPrmZfGv4+sZAdaidmEPB5AoF8j+lp94GwTQgKOZ
+         /SsytbteX6yVcwPksmUvGGdrLv2oqgf0x9Ul5oaqi8bb/2gELkcI6rBoFhB8xs76u2jn
+         ByJeTmPBWRXo4Yp8roc9BdufVCZhmRdJ8HRjGw8JE/V+MoG/k8i7NL34styfphp1pJG9
+         6Qcg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=8Yt/OTgZ/9yEnA4n8YiO4smWuTjOCRRH+QOana0DyvQ=;
+        bh=uNbMRp4NAvF971szzz7CR/2vyv0vBk3AYCxV9Q+eZ04=;
         fh=eWu/aO2D40nqoCm67aTC6qXZDH3y79upeaB1pmat6Ew=;
-        b=czYMBfQifx8urUG3QblztkPffQUKF2TPwlPZiyX27S6u08uxRXjn4cRjqzMT6ngEm4
-         9QKscSzVw1aq2CBqlPYeZFpsYl4r4IHpGfcu7fvHnYwulYJEkWU2ZltpZ47TVrdSQfZh
-         j0CPjt/LZScKGT+BqRF27hnMNuzHhjwWDUpAM782ZOtgixuf1FyJykYqrA1aMT2g6xF1
-         WTR85zzeROSzaKJtERspVi0iwNALtBwGJjilf2v1VE0sT7zJ5Ht9E4d2jKVNZJPlJon0
-         7wrUPHfd7JbKLR0/YOee/meVWElEQIyxYxXLA+SInqAXJUQg8EtsFCxDtczVcb0FtT2x
-         oN4w==;
+        b=c/GURyeNnZGOw1DCEYdPvjxfCNv3ysujkxyM/wBHCCFSw0zBeZiSsg1xat6LyE7q4A
+         nt+xynZcQZMoqQVvtuIKksqkPWFj8I0t/E4qZwcJSOIk9u3+6ssNX+deZM1pI42IdlZY
+         qF4GrKZkyYv63a2L+lWFUlg4nlCVpgy8kR6ohtz8vtxqh9dJfoq911yCIB2PXErlrbNL
+         qJwdvH5VJ8RpJUSkYz9QOmAgHRnIBeLZ2/z82NrD6IozlUiwNz+N50GUKkZtovQia8dj
+         4W5vhHnUr4EylIc2UxDB5z02eQiQ1rKTtpdcjp/3Vih7Ib+p+FC26JQCA3Fh0ZLeSrig
+         THpQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=RWRSvSNu;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=JavcaNMc;
        spf=pass (google.com: domain of maciej.wieczor-retman@intel.com designates 198.175.65.15 as permitted sender) smtp.mailfrom=maciej.wieczor-retman@intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Received: from mgamail.intel.com (mgamail.intel.com. [198.175.65.15])
-        by gmr-mx.google.com with ESMTPS id 586e51a60fabf-30c0d115ac5si428575fac.2.2025.08.12.06.28.03
+        by gmr-mx.google.com with ESMTPS id d75a77b69052e-4b09b2d8f4fsi6459671cf.3.2025.08.12.06.28.26
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 12 Aug 2025 06:28:03 -0700 (PDT)
+        Tue, 12 Aug 2025 06:28:26 -0700 (PDT)
 Received-SPF: pass (google.com: domain of maciej.wieczor-retman@intel.com designates 198.175.65.15 as permitted sender) client-ip=198.175.65.15;
-X-CSE-ConnectionGUID: 838kKliEQfaaVkRH28EB2g==
-X-CSE-MsgGUID: r5ssacTXQsyznd4GJo6DlQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="60903558"
+X-CSE-ConnectionGUID: JLpd4mkxQrugIMtjYJhXyg==
+X-CSE-MsgGUID: vjhpIQLJQiKtwWgSYf8J/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="60903614"
 X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="60903558"
+   d="scan'208";a="60903614"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:28:02 -0700
-X-CSE-ConnectionGUID: 63q+EOftQWWQMSotLrPagg==
-X-CSE-MsgGUID: fl7/gRLpTkieCVLNXAAdgQ==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:28:26 -0700
+X-CSE-ConnectionGUID: RvG1WbQvQdy6dQLlny3rTg==
+X-CSE-MsgGUID: gCS5TnjYQ6isOtqp7VNDUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="165831460"
+   d="scan'208";a="165831505"
 Received: from vpanait-mobl.ger.corp.intel.com (HELO wieczorr-mobl1.intel.com) ([10.245.245.54])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:27:38 -0700
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:28:02 -0700
 From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 To: nathan@kernel.org,
 	arnd@arndb.de,
@@ -206,16 +205,16 @@ Cc: linux-mm@kvack.org,
 	kasan-dev@googlegroups.com,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 08/18] x86: Physical address comparisons in fill_p*d/pte
-Date: Tue, 12 Aug 2025 15:23:44 +0200
-Message-ID: <ef6496efec1b978c0f479a5cc62ff92edce82912.1755004923.git.maciej.wieczor-retman@intel.com>
+Subject: [PATCH v4 09/18] x86: KASAN raw shadow memory PTE init
+Date: Tue, 12 Aug 2025 15:23:45 +0200
+Message-ID: <38129f9031dfefc3e9465a0bf06fd32256cdc157.1755004923.git.maciej.wieczor-retman@intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755004923.git.maciej.wieczor-retman@intel.com>
 References: <cover.1755004923.git.maciej.wieczor-retman@intel.com>
 MIME-Version: 1.0
 X-Original-Sender: maciej.wieczor-retman@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=RWRSvSNu;       spf=pass
+ header.i=@intel.com header.s=Intel header.b=JavcaNMc;       spf=pass
  (google.com: domain of maciej.wieczor-retman@intel.com designates
  198.175.65.15 as permitted sender) smtp.mailfrom=maciej.wieczor-retman@intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
@@ -232,72 +231,76 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Calculating page offset returns a pointer without a tag. When comparing
-the calculated offset to a tagged page pointer an error is raised
-because they are not equal.
+In KASAN's generic mode the default value in shadow memory is zero.
+During initialization of shadow memory pages they are allocated and
+zeroed.
 
-Change pointer comparisons to physical address comparisons as to avoid
-issues with tagged pointers that pointer arithmetic would create. Open
-code pte_offset_kernel(), pmd_offset(), pud_offset() and p4d_offset().
-Because one parameter is always zero and the rest of the function
-insides are enclosed inside __va(), removing that layer lowers the
-complexity of final assembly.
+In KASAN's tag-based mode the default tag for the arm64 architecture is
+0xFE which corresponds to any memory that should not be accessed. On x86
+(where tags are 4-bit wide instead of 8-bit wide) that tag is 0xE so
+during the initializations all the bytes in shadow memory pages should
+be filled with it.
+
+Use memblock_alloc_try_nid_raw() instead of memblock_alloc_try_nid() to
+avoid zeroing out the memory so it can be set with the KASAN invalid
+tag.
 
 Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 ---
 Changelog v2:
-- Open code *_offset() to avoid it's internal __va().
+- Remove dense mode references, use memset() instead of kasan_poison().
 
- arch/x86/mm/init_64.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ arch/x86/mm/kasan_init_64.c | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
-index 76e33bd7c556..51a247e258b1 100644
---- a/arch/x86/mm/init_64.c
-+++ b/arch/x86/mm/init_64.c
-@@ -251,7 +251,10 @@ static p4d_t *fill_p4d(pgd_t *pgd, unsigned long vaddr)
- 	if (pgd_none(*pgd)) {
- 		p4d_t *p4d = (p4d_t *)spp_getpage();
- 		pgd_populate(&init_mm, pgd, p4d);
--		if (p4d != p4d_offset(pgd, 0))
+diff --git a/arch/x86/mm/kasan_init_64.c b/arch/x86/mm/kasan_init_64.c
+index 0539efd0d216..e8a451cafc8c 100644
+--- a/arch/x86/mm/kasan_init_64.c
++++ b/arch/x86/mm/kasan_init_64.c
+@@ -34,6 +34,18 @@ static __init void *early_alloc(size_t size, int nid, bool should_panic)
+ 	return ptr;
+ }
+ 
++static __init void *early_raw_alloc(size_t size, int nid, bool should_panic)
++{
++	void *ptr = memblock_alloc_try_nid_raw(size, size,
++			__pa(MAX_DMA_ADDRESS), MEMBLOCK_ALLOC_ACCESSIBLE, nid);
 +
-+		if (__pa(p4d) != (pgtable_l5_enabled() ?
-+				  __pa(pgd) :
-+				  (unsigned long)pgd_val(*pgd) & PTE_PFN_MASK))
- 			printk(KERN_ERR "PAGETABLE BUG #00! %p <-> %p\n",
- 			       p4d, p4d_offset(pgd, 0));
- 	}
-@@ -263,7 +266,7 @@ static pud_t *fill_pud(p4d_t *p4d, unsigned long vaddr)
- 	if (p4d_none(*p4d)) {
- 		pud_t *pud = (pud_t *)spp_getpage();
- 		p4d_populate(&init_mm, p4d, pud);
--		if (pud != pud_offset(p4d, 0))
-+		if (__pa(pud) != (p4d_val(*p4d) & p4d_pfn_mask(*p4d)))
- 			printk(KERN_ERR "PAGETABLE BUG #01! %p <-> %p\n",
- 			       pud, pud_offset(p4d, 0));
- 	}
-@@ -275,7 +278,7 @@ static pmd_t *fill_pmd(pud_t *pud, unsigned long vaddr)
- 	if (pud_none(*pud)) {
- 		pmd_t *pmd = (pmd_t *) spp_getpage();
- 		pud_populate(&init_mm, pud, pmd);
--		if (pmd != pmd_offset(pud, 0))
-+		if (__pa(pmd) != (pud_val(*pud) & pud_pfn_mask(*pud)))
- 			printk(KERN_ERR "PAGETABLE BUG #02! %p <-> %p\n",
- 			       pmd, pmd_offset(pud, 0));
- 	}
-@@ -287,7 +290,7 @@ static pte_t *fill_pte(pmd_t *pmd, unsigned long vaddr)
- 	if (pmd_none(*pmd)) {
- 		pte_t *pte = (pte_t *) spp_getpage();
- 		pmd_populate_kernel(&init_mm, pmd, pte);
--		if (pte != pte_offset_kernel(pmd, 0))
-+		if (__pa(pte) != (pmd_val(*pmd) & pmd_pfn_mask(*pmd)))
- 			printk(KERN_ERR "PAGETABLE BUG #03!\n");
- 	}
- 	return pte_offset_kernel(pmd, vaddr);
++	if (!ptr && should_panic)
++		panic("%pS: Failed to allocate page, nid=%d from=%lx\n",
++		      (void *)_RET_IP_, nid, __pa(MAX_DMA_ADDRESS));
++
++	return ptr;
++}
++
+ static void __init kasan_populate_pmd(pmd_t *pmd, unsigned long addr,
+ 				      unsigned long end, int nid)
+ {
+@@ -63,8 +75,9 @@ static void __init kasan_populate_pmd(pmd_t *pmd, unsigned long addr,
+ 		if (!pte_none(*pte))
+ 			continue;
+ 
+-		p = early_alloc(PAGE_SIZE, nid, true);
+-		entry = pfn_pte(PFN_DOWN(__pa(p)), PAGE_KERNEL);
++		p = early_raw_alloc(PAGE_SIZE, nid, true);
++		memset(p, PAGE_SIZE, KASAN_SHADOW_INIT);
++		entry = pfn_pte(PFN_DOWN(__pa_nodebug(p)), PAGE_KERNEL);
+ 		set_pte_at(&init_mm, addr, pte, entry);
+ 	} while (pte++, addr += PAGE_SIZE, addr != end);
+ }
+@@ -436,7 +449,7 @@ void __init kasan_init(void)
+ 	 * it may contain some garbage. Now we can clear and write protect it,
+ 	 * since after the TLB flush no one should write to it.
+ 	 */
+-	memset(kasan_early_shadow_page, 0, PAGE_SIZE);
++	memset(kasan_early_shadow_page, KASAN_SHADOW_INIT, PAGE_SIZE);
+ 	for (i = 0; i < PTRS_PER_PTE; i++) {
+ 		pte_t pte;
+ 		pgprot_t prot;
 -- 
 2.50.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/ef6496efec1b978c0f479a5cc62ff92edce82912.1755004923.git.maciej.wieczor-retman%40intel.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/38129f9031dfefc3e9465a0bf06fd32256cdc157.1755004923.git.maciej.wieczor-retman%40intel.com.
