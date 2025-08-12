@@ -1,129 +1,131 @@
-Return-Path: <kasan-dev+bncBDPPVSUFVUPBBO7553CAMGQEYU5K2ZQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDPPVSUFVUPBBVX553CAMGQEZ2HIN4I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3f.google.com (mail-qv1-xf3f.google.com [IPv6:2607:f8b0:4864:20::f3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 765C4B23BC2
-	for <lists+kasan-dev@lfdr.de>; Wed, 13 Aug 2025 00:22:52 +0200 (CEST)
-Received: by mail-qv1-xf3f.google.com with SMTP id 6a1803df08f44-70741fda996sf107517116d6.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 12 Aug 2025 15:22:52 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1755037371; cv=pass;
+Received: from mail-oa1-x3c.google.com (mail-oa1-x3c.google.com [IPv6:2001:4860:4864:20::3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC5C8B23BC7
+	for <lists+kasan-dev@lfdr.de>; Wed, 13 Aug 2025 00:23:19 +0200 (CEST)
+Received: by mail-oa1-x3c.google.com with SMTP id 586e51a60fabf-2e9b1f85b2bsf11106838fac.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 12 Aug 2025 15:23:19 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1755037398; cv=pass;
         d=google.com; s=arc-20240605;
-        b=V1pKJlyTd16nyvsGX+gJyHffi7WCym7IP8odW65Q7i09Sa/LcCbO6k9OzplxDg3WTJ
-         xdMWmQAfm4rMMyGtAuOT0K/AYo1TTTKF8gbg+zFZBL36kDwlN2y5GTdcsNzxrlUx/Z7V
-         fdJTMXS0ybC0NAXAXcCBSjvp6w1mU+c4PVURPCKQNjTpLjH2/GfSdBdO+F8pZWwktRL+
-         2KHLwhCGaVPcQcFD/hA4H5GgTyxzaJ4xlfg9p0C8XhsNJCqS94kv2Sx2e0W/NEZyY6Ss
-         t6y4ExCpJiXkZy/xeyYuJHwfoCpMIZywCQMtD1fq+ZbuUI9/VgSuqXIdxqZqHM5FbTMp
-         rCkQ==
+        b=esVR+sPeI2tUevk5KCZR0sOvyqWgI00mmG1F8e0GsrC4wTzOkB7zhrDyYLa+ZDBrYB
+         tOc5ZxO8irPjiyHrRXHmz2rBT/Gsim4lWWi6Gk/nQqEj9kKY3eo2nXu8sumZkieBeU75
+         7AO0Vm7lbnfuA3Xa+ZUDIdFWeKbfEHor3nUxWOHGYhM63IF6QUUSoRGEY/lMm1pq9QQf
+         v4r37AS5Dn0O94yiNUFcZ8NyJxj5QidQuTTXBGlR4n93We8h8gZUjSfNCmmc8SWsPYl2
+         w3l4Wwm5fHMHJbqHySSarA5wEz++/I1DlcmPTUGp//mzOrc1SuXvEgFlVQRdQ3CDY3vm
+         /Hww==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=KuRGPpiDo4WXPiJXADiKiVlWW4mdYO3kT3BGRdtdgXs=;
-        fh=gpNQN/pEcr/aYLSmYIWlhNJREvzZxRijjYINEcG4BVo=;
-        b=cvFfBe6IefYkZbMNajh9sx4b4Q4ZjGXOi8O9Yo6cqX/QmNJGKtnZZuuDono2OaYZRx
-         SNgIjq+6sQw9CozOV3df6CXXDRGKvI0qjoL6zOjSK9eJa5u8iKcVJ/urqmedYTbnRVNe
-         MbnTK6PYaVEASeQRUifbEn/QbbpH2t81WWdMdRI12C/4JSnsBmA/hM/KZIgzvFoyp+mc
-         4XZv57EjC7DkcJcflqkWfm3Fe01wxt1f7VpkMPlelPnHZ1bIQOD4HVcXGCo6PZA7RZ6g
-         hmSmc5sRYMzwI9ZtM9NFXzFAT2u0dwVjmZvnSgVS+HJOor6tEZ8OaRU/ByPVp+KENoa3
-         J0KQ==;
+        bh=ujgJGzMWYwLzOmUz0y+blzTPP8nb/fPZXLvK4zF4Wjc=;
+        fh=sCz0VYCX8L90fWOSDBNjwKgYH9cfJCou/FBGjO+U6tQ=;
+        b=CN6nXfi0CG3DOOgoV+ezlrLbZaVE087GvFRJgQx4tuVlxi1J1xb6ELHzpe7pczYP6h
+         oHOPzYuEn3VWso0opalMIKfwa4oSOJSc62x2c/NzbmiNGQE2EcdlSvZeAwc8OwLCsc9m
+         1VzV8T7htT0aTH9w09NZHuegZG88qKTTNoQLOwy3pbKx4CE8pu2iI+Df8+6weQ1OnKhF
+         1x3G+qtK+VKzXlxqTHpX1tDfYj00gqQiBJDzVyCthtWU1Xwv3qBxkoa4jNd8GgCCAbH0
+         LAZlrWQlB17qRSJfSsiO83vsPOvztNWa+tJJj/k1LcO3lQsbhhOEfKjb41J80GS2fQ9d
+         3U3Q==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=goevF8Y5;
-       spf=pass (google.com: domain of rmoar@google.com designates 2607:f8b0:4864:20::f2a as permitted sender) smtp.mailfrom=rmoar@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=U6+mmVDA;
+       spf=pass (google.com: domain of rmoar@google.com designates 2607:f8b0:4864:20::f35 as permitted sender) smtp.mailfrom=rmoar@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1755037371; x=1755642171; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1755037398; x=1755642198; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KuRGPpiDo4WXPiJXADiKiVlWW4mdYO3kT3BGRdtdgXs=;
-        b=Qz7x7pIL3+jJjjfbNbRvjwHjrS+Vn+HvRpGwGi7hrHuoIo3yPWWmxOYbvySThnXCum
-         aZbpeqUv2RYwgdZ9qDCq2y5RIyCIzAQZMuHSpTLf1sdXQkkUtf3mv4OJNkAlN+nQaNMV
-         hQ+oxny/F6lbQVhLajFQmug8VnY761ACZsnuSsjLE+Ht6TC091T+c3LZkcqikUASk9yn
-         wiE5TVGOWGAurg5qGlTvT2bI39ikzGH414GZ751uFx+ULF19WA2t2f1byExJ3FVIieer
-         pbR1oYv/eR3rNWGMWS602epkY7pw2xoCnWqvBF8nj0EnBA7ALjrrjnzqZ7MOM9ymDA9T
-         1DCw==
+        bh=ujgJGzMWYwLzOmUz0y+blzTPP8nb/fPZXLvK4zF4Wjc=;
+        b=TpIBmPCVepmwTCQGIxV4iVGqkIOoFTjXz606ipyNGs+U/fGi5QAMiZNsmGWCOaQ/dV
+         NTQPdNRNaL9yaw/4SRPNPjlH5YKhu9e5ni86QDMeP3/v5ODk+tuVUiqE/QRuOHGAg6zn
+         veEQqTyUiY8QkVSYgY9yx1hR1AlhLQO7CZ2Pa5PN0sYsTxlxeM4BfFcFWMSEoErmbiHz
+         Wq7PoTuRUpOv7Avf0jCKQ6Fp2G+uNO8XQ9dCHAazQSRr/b9qPwqCZ2cDfCZM6AO8wjwW
+         zbBXwEyPJqB4ZzdKmcmtEadkDLIkrYZzySSfgNUzScg5e6ZwQGmY/ptq7t/WoukDUB86
+         WqRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755037371; x=1755642171;
+        d=1e100.net; s=20230601; t=1755037398; x=1755642198;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=KuRGPpiDo4WXPiJXADiKiVlWW4mdYO3kT3BGRdtdgXs=;
-        b=N4lQE8NQJk2zEs4IZ1lO/rJFo8wYYOUfaUPLjGJkdPtIB6HmCF8ya0rzSM238M6tkq
-         V8NZsyxB+qIcV1y0UoZWngWzNuUY9g7ARscX6GMVeCRe64A79xE+nE/iiJedBftQMPzu
-         bKCBz/IKvnXgXM+dw1ktcPA6FOnYmfKbqytmNK27uQMZvIwyifAGi6Dvhm55YcOORh7K
-         Kdr5g2KKzT/8HeUNGa1X2wZJvQId8EN/1T1mNMHRoZdMIeUdU6SaxcEja1JKny53fy3b
-         w/jkIZqPDWY6ps8Aikn0wX/QRnrmdKTBe8NOe5BgHUSuwhwcinsEC1XZ7pMsa1tONPmm
-         FiJg==
-X-Forwarded-Encrypted: i=2; AJvYcCXhkGqoOmWM2p08DVFzZzSG1QeCI4Dhg/mD/f9IKklH+z5GsZkUXkhsFlP0r5miFzX2FHVivw==@lfdr.de
-X-Gm-Message-State: AOJu0YwgV2VjBVMaCwOajUlrV2GbY/Qqh9j1bqcbwwGGTvrQ/V32G0Te
-	69gho1Yx/J2VvUP6Bo9RjfT+jPVwb0aGaDCj67+5KSfvO2CVWOJLpLSp
-X-Google-Smtp-Source: AGHT+IGgS/F8Fn7lWOedvyWGONkM1YWwgjBB50t7h1++84M14RavrKs00x9OpPO3T3/RSsysqz29rw==
-X-Received: by 2002:a05:6214:d4c:b0:707:600a:458e with SMTP id 6a1803df08f44-709e8574227mr11912946d6.0.1755037371243;
-        Tue, 12 Aug 2025 15:22:51 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfAEzNHxO39sCumgz1FhzmbV0JmUfoOWQLBNMW7SeJeDQ==
-Received: by 2002:ad4:5ca6:0:b0:707:b7f:69d1 with SMTP id 6a1803df08f44-709883faf68ls108295776d6.2.-pod-prod-09-us;
- Tue, 12 Aug 2025 15:22:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCW2GNdObd7s+7/10CgDLlS2iZWG+BocpHIq0tGIzKyRJCCwtc/8x5qq7KP9QmPXLkzogx/vlwGdTdk=@googlegroups.com
-X-Received: by 2002:a05:620a:8a83:b0:7e8:21ab:2846 with SMTP id af79cd13be357-7e8653207f2mr74823185a.36.1755037370455;
-        Tue, 12 Aug 2025 15:22:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1755037370; cv=none;
+        bh=ujgJGzMWYwLzOmUz0y+blzTPP8nb/fPZXLvK4zF4Wjc=;
+        b=NF7IKRJzYi4xI4Vlt3DtJ760BaTYBEqfK3rnFbPYMTttqfaTsdGVlWMbcSIS3W5ZLb
+         NDzK0WZvJ9Vi7UxkyJRNJXbHJf0caC+sGedya8zRMCMWTAKmuIuLVzrsURJbZSmHf1HB
+         6i27Fq/9WONn+evAwgyWv0WC/1bxl0KNLTCbPP1xStTW/jdB91ree8tRCLH95IiFAivQ
+         S1rVnaBOOcsaGY/vzFoXdWlxN3zA2mXZkC/0/qU7F3ayQigBKaTThoQAE0e6Eg9omeTm
+         2Y2t/ZkW8T+y4UTQF00mVJmsQWfCqD9qFty2okfwwoZ5SJnP3o0aJgmjnjiQkYxbWwhh
+         4llg==
+X-Forwarded-Encrypted: i=2; AJvYcCV068iCCIhaiL2x3Tl2k2+M4HrO7U0HtrvZZ+iyeiHol85vSG3IM8yWEV4VjcGOK6iKISP9eQ==@lfdr.de
+X-Gm-Message-State: AOJu0YxhBZ4NCvsgJ9mDY6tpuz6siMWi4AnxNjipuG0f7zsC9kjZecbS
+	nf4qRFKxGfeKdIN/1k+27dnDjiv9XEaHX9oKB6bwL5BLxg44zvN7KVko
+X-Google-Smtp-Source: AGHT+IGFvPlG6keuyoiIZPllaHQ4SdXgblcSUPS+PGIAaFo46v7MCEX9Ipm7fWR9cQywA6esMA07Ng==
+X-Received: by 2002:a05:6871:4b88:b0:2c1:ac88:4a8d with SMTP id 586e51a60fabf-30cb5cc1f44mr606076fac.30.1755037398479;
+        Tue, 12 Aug 2025 15:23:18 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfasfNTq7vJu+pWtRXBVHJA6d1WKQRGDIpjm/GvUrCd/g==
+Received: by 2002:a05:6870:2b15:b0:30c:593:af6b with SMTP id
+ 586e51a60fabf-30c0594514dls4673239fac.2.-pod-prod-07-us; Tue, 12 Aug 2025
+ 15:23:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWhGk+PZgrn4Jss+chq8oInrvFjAEXG5B0z+X0S9pbVgqni9JDDZXNwMRJVcZWsSfCvpUBfoUg96zI=@googlegroups.com
+X-Received: by 2002:a05:6870:d14f:b0:30b:99a5:c058 with SMTP id 586e51a60fabf-30cb5c3b4dbmr685427fac.26.1755037396060;
+        Tue, 12 Aug 2025 15:23:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1755037396; cv=none;
         d=google.com; s=arc-20240605;
-        b=Hg6wt8VqgYlNjVVgsVMVNg0GaAouEkhh8ORKaSLfF6QGDfcZsc3QtCuj9PZi8eTRlJ
-         2+IgRaCL6WUVW6S/qJn24tpsYTaCv1z/p13PrFKUIiNws/VqHjAJKvSMmWalPFIpF8Qm
-         0UEUxGVISs5Bk0KOelCTzmjOwk1bWCXN8mBUj7rRXaW/eXL5tB1sLvvUke55QISL3yEj
-         DA7b5v0wOhZB3EAYhNDA9Sa+/wVvnaE88rliRqw1ujdIj1wMhGoyhSkX6FqQO1fsoto+
-         mbSh6WWvBi45pKSzs9k7IbZzPDRiAzRC01EjkDX9laIEMLv9lvrYlD3/ViWFbBkFdH/y
-         V5Gw==
+        b=kG8DGgnQOKvJI0UbQKXVMk3mgrTCCzVezhIYvFs6QNYGvcrZ066e/KmGA8Pgd5Wnxs
+         MbDBrDmubbj7QpT7ByZhyTAH6ankPyRbLknKeXbF8BzHqEvGRWSjwhVsi3EQPuHPjJdW
+         oPRJm2luxWbEXvwP/L7R4ngytYFkPa9MlMugCcAvbpYYRIXn+mBCsFmJFQB9hd96rS3k
+         epjnTpP/ihTRZ3xCvoRAkAp9f7/Gu6uA5A41yAegoRd44Q5Wj0tEw+8Qk8b296itU/RP
+         waqnDijOIcE+3E7VkWBIIxpP2CyTrv/F221P2iPGPoNMSsz4iffjFYTRFTTmSWLMbzpc
+         TwgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=z9tXKq/V2seTJ351XUNKOgdloxTrKq2rBSM9NpgLiyo=;
-        fh=ykm8QOdc/8Q8lGcJqBa8kpIW7P8cDL3cE2NT39hIBYI=;
-        b=HWimjtJzpVUPtY4nMGtBZvSmB1FM7+Z+oAD+f79zQF62FcT3NvJPi6rc0Mz+JtDqNA
-         TTTvZzi5o+LosqKi0oKRa8wGZ1s79mqwzZ2LJloPhDtwiTMy4G+tL8URRYWxU1VYf09k
-         KokJxkPTAZuKf6KHKKV27mAYFM/x/VdnsCRxuEINk5zUSP+yvdIkpi6uYOeyKHJrzsRJ
-         U0/jfNo/BE0h5B9V9U/lugPorQaOOCHed6H41yfPDulzrIwxbTnfxxQHzz5zOwjxuIdb
-         q4s9AT06EWvsA5nyaW4Xld+XsWiRBdo8CxIGJDQe2Mlm3YviLiKHwiYyPfBoqkQQ0S+b
-         GeRA==;
+        bh=NCjfCIARl7FEQlaEVHD1Q7u5jqwvzYtlI2DxlC6TvyE=;
+        fh=9b0ycW++zidn0xRv+zNnDEmEmwhO5XJqcU+l2UeiSTM=;
+        b=Wv7oOSdxeOzIRPm8Wda+eVkag3fkq7Ql3oNrk385qzn45dpzrSIX80vLWfJBhGemIt
+         Gi9QCyNd2K8KXTRsZxKolHMS3SAaPRLN4hy6AiwOntB1WJKSyZelCnYKB80rJ8yjv3wp
+         l2CoXxNxDxVwpLpKmefeWDROzpeNtDvOf7GWFIEFXLltjlrAP6jPXJh643Xx3t3wnVqC
+         AtY7SXS8MlZPxUU2majwG+6L9CNoeCxrHj+0dZ+qFqQ8KLzxKExtxQL1EBe1rhunIahO
+         F43nSPybBsXVetlKlewsB0zTu00BH+k/5cOp/1VlOppjJ19vz/1WAtCLmoTmy29SIeCP
+         i/qg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=goevF8Y5;
-       spf=pass (google.com: domain of rmoar@google.com designates 2607:f8b0:4864:20::f2a as permitted sender) smtp.mailfrom=rmoar@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=U6+mmVDA;
+       spf=pass (google.com: domain of rmoar@google.com designates 2607:f8b0:4864:20::f35 as permitted sender) smtp.mailfrom=rmoar@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com. [2607:f8b0:4864:20::f2a])
-        by gmr-mx.google.com with ESMTPS id af79cd13be357-7e858d1f2f6si17417085a.6.2025.08.12.15.22.50
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com. [2607:f8b0:4864:20::f35])
+        by gmr-mx.google.com with ESMTPS id 46e09a7af769-7436f87ba53si81565a34.2.2025.08.12.15.23.16
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Aug 2025 15:22:50 -0700 (PDT)
-Received-SPF: pass (google.com: domain of rmoar@google.com designates 2607:f8b0:4864:20::f2a as permitted sender) client-ip=2607:f8b0:4864:20::f2a;
-Received: by mail-qv1-xf2a.google.com with SMTP id 6a1803df08f44-70740598a9dso54141406d6.0
-        for <kasan-dev@googlegroups.com>; Tue, 12 Aug 2025 15:22:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUDvl8g9A7BJqXgLwGBryo/FLE2Hf0IVwSOko9MhJnZdwfyj71HFbPVdqQo9+Z23Yon2jc7tzn1taM=@googlegroups.com
-X-Gm-Gg: ASbGncuaQiQJlh7jgdEyqIWK4FYA2Vx1H5bbrAK+mzea2DpjOSCiIHT/Q+iS266HI4G
-	J2O7oENhBO4nmRjumji+4TWSH8Uex2HMXlO0dztGv38D08566MYgEThX/DhkNMeVcKZi/TdHPaO
-	wnCd1koaCsNuW+ZpO45RpXDRXaRDDDevTBQnZFFNMWLT2z1ssB/jyw7xBlZ5JpPi8OQtnXNONZo
-	f7Lmw==
-X-Received: by 2002:ad4:5c6f:0:b0:707:5b4e:587e with SMTP id
- 6a1803df08f44-709e8957a15mr12639536d6.25.1755037369639; Tue, 12 Aug 2025
- 15:22:49 -0700 (PDT)
+        Tue, 12 Aug 2025 15:23:16 -0700 (PDT)
+Received-SPF: pass (google.com: domain of rmoar@google.com designates 2607:f8b0:4864:20::f35 as permitted sender) client-ip=2607:f8b0:4864:20::f35;
+Received: by mail-qv1-xf35.google.com with SMTP id 6a1803df08f44-70884da4b55so62081606d6.3
+        for <kasan-dev@googlegroups.com>; Tue, 12 Aug 2025 15:23:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU6jG8zsfMwBPCgR55RAZHuIYe/AoFaDxHQrfRa0GwoTIg2vgOIn+FquwAiNviVyCQPRTpsqXdi+bg=@googlegroups.com
+X-Gm-Gg: ASbGnctVPErwmBbgUS4DNNSuxXAu6zBdUPn/U1Se//R7d9+WECmGEPhZI4axicYkuK4
+	qfhA1evPkqSafWKruKF4IpBVk63gR/MhfoK+ZMDWnA3umU7+bEZv+5O3+tpQ4CodSDrs+/KeHXS
+	AIIZRWpEfyeiWD1nZGtrDRihh1kGxmRDnQgWzxl0CPY5Tih2ys94Ntku6yZz4YyD8sLkPsvgegZ
+	enAzh7DzwEgEfTc
+X-Received: by 2002:a05:6214:b65:b0:707:2a42:b9b3 with SMTP id
+ 6a1803df08f44-709e87fc8eemr13324846d6.10.1755037394932; Tue, 12 Aug 2025
+ 15:23:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250811221739.2694336-1-marievic@google.com> <20250811221739.2694336-4-marievic@google.com>
-In-Reply-To: <20250811221739.2694336-4-marievic@google.com>
+References: <20250811221739.2694336-1-marievic@google.com> <20250811221739.2694336-5-marievic@google.com>
+In-Reply-To: <20250811221739.2694336-5-marievic@google.com>
 From: "'Rae Moar' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 12 Aug 2025 18:22:38 -0400
-X-Gm-Features: Ac12FXzCBxiD-6lnoM1wi2pdHcOoqxDlVcJyEyDmKBIRdd3dc2gRgo7pWafDRyo
-Message-ID: <CA+GJov64P8XKif=QQSdxDnrwFgCTw3KJzMk+9Eo=Tsn8PUWsZg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/7] kunit: Pass parameterized test context to generate_params()
+Date: Tue, 12 Aug 2025 18:23:03 -0400
+X-Gm-Features: Ac12FXz_Z-KSxKbEjvzCLajE68vHYuAwVU6cW7c0HNZTIqwbxoPdgclX4rSmmA4
+Message-ID: <CA+GJov6bvx5FTKvDE9Bng1m4iDynwruDnFf5orpzc+yMc2-yzw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/7] kunit: Enable direct registration of parameter
+ arrays to a KUnit test
 To: Marie Zhussupova <marievic@google.com>
 Cc: davidgow@google.com, shuah@kernel.org, brendan.higgins@linux.dev, 
 	mark.rutland@arm.com, elver@google.com, dvyukov@google.com, 
@@ -136,8 +138,8 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: rmoar@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=goevF8Y5;       spf=pass
- (google.com: domain of rmoar@google.com designates 2607:f8b0:4864:20::f2a as
+ header.i=@google.com header.s=20230601 header.b=U6+mmVDA;       spf=pass
+ (google.com: domain of rmoar@google.com designates 2607:f8b0:4864:20::f35 as
  permitted sender) smtp.mailfrom=rmoar@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
 X-Original-From: Rae Moar <rmoar@google.com>
@@ -157,172 +159,380 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 On Mon, Aug 11, 2025 at 6:17=E2=80=AFPM Marie Zhussupova <marievic@google.c=
 om> wrote:
 >
-> To enable more complex parameterized testing scenarios,
-> the generate_params() function needs additional context
-> beyond just the previously generated parameter. This patch
-> modifies the generate_params() function signature to
-> include an extra `struct kunit *test` argument, giving
-> test users access to the parameterized test context when
-> generating parameters.
+> KUnit parameterized tests currently support two
+> primary methods for getting parameters:
+> 1.  Defining custom logic within a generate_params()
+>     function.
+> 2.  Using the KUNIT_ARRAY_PARAM() and KUNIT_ARRAY_PARAM_DESC()
+>     macros with a pre-defined static array and passing
+>     the created *_gen_params() to KUNIT_CASE_PARAM().
 >
-> The `struct kunit *test` argument was added as the first parameter
-> to the function signature as it aligns with the convention
-> of other KUnit functions that accept `struct kunit *test` first.
-> This also mirrors the "this" or "self" reference found
-> in object-oriented programming languages.
+> These methods present limitations when dealing with
+> dynamically generated parameter arrays, or in scenarios
+> where populating parameters sequentially via
+> generate_params() is inefficient or overly complex.
 >
-> This patch also modifies xe_pci_live_device_gen_param()
-> in xe_pci.c and nthreads_gen_params() in kcsan_test.c
-> to reflect this signature change.
+> This patch addresses these limitations by adding a new
+> `params_array` field to `struct kunit`, of the type
+> `kunit_params`. The `struct kunit_params` is designed to
+> store the parameter array itself, along with essential metadata
+> including the parameter count, parameter size, and a
+> get_description() function for providing custom descriptions
+> for individual parameters.
+>
+> The `params_array` field can be populated by calling the new
+> kunit_register_params_array() macro from within a
+> param_init() function. This will register the array as part of the
+> parameterized test context. The user will then need to pass
+> kunit_array_gen_params() to the KUNIT_CASE_PARAM_WITH_INIT()
+> macro as the generator function, if not providing their own.
+> kunit_array_gen_params() is a KUnit helper that will use
+> the registered array to generate parameters.
+>
+> The arrays passed to KUNIT_ARRAY_PARAM(,DESC) will also
+> be registered to the parameterized test context for consistency
+> as well as for higher availability of the parameter count that
+> will be used for outputting a KTAP test plan for
+> a parameterized test.
+>
+> This modification provides greater flexibility to the
+> KUnit framework, allowing testers to easily register and
+> utilize both dynamic and static parameter arrays.
 >
 > Signed-off-by: Marie Zhussupova <marievic@google.com>
+
+Hello!
+
+Thanks for all your effort in updating this patch series. It is
+looking really good. I think I am happy with this patch as is but I do
+have a comment below.
+
+Thanks!
+-Rae
+
 > ---
 >
 > Changes in v2:
 >
-> - generate_params signature changes in
->   xe_pci.c and kcsan_test.c were squashed
->   into a single patch to avoid in-between
->   breakages in the series.
+> - If the parameter count is available for a parameterized
+>   test, the kunit_run_tests() function will now output
+>   the KTAP test plan for it.
+> - The name of the struct kunit_params field in struct
+>   kunit was changed from params_data to params_array.
+>   This name change better reflects its purpose, which
+>   is to encapsulate both the parameter array and its
+>   associated metadata.
+> - The name of `kunit_get_next_param_and_desc` was changed
+>   to `kunit_array_gen_params` to make it simpler and to
+>   better fit its purpose of being KUnit's built-in generator
+>   function that uses arrays to generate parameters.
+> - The signature of get_description() in `struct params_array`
+>   was changed to accept the parameterized test context,
+>   as well. This way test users can potentially use information
+>   available in the parameterized test context, such as
+>   the parameterized test name for setting the parameter
+>   descriptions.
+> - The type of `num_params` in `struct params_array` was
+>   changed from int to size_t for better handling of the
+>   array size.
+> - The name of __kunit_init_params() was changed to be
+>   kunit_init_params(). Logic that sets the get_description()
+>   function pointer to NULL was also added in there.
+> - `kunit_array_gen_params` is now exported to make
+>   it available to use with modules.
+> - Instead of allowing NULL to be passed in as the
+>   parameter generator function in the KUNIT_CASE_PARAM_WITH_INIT
+>   macro, users will now be asked to provide
+>   `kunit_array_gen_params` as the generator function.
+>   This will ensure that a parameterized test remains
+>   defined by the existence of a parameter generation
+>   function.
+> - KUNIT_ARRAY_PARAM(,DESC) will now additionally
+>   register the passed in array in struct kunit_params.
+>   This will make things more consistent i.e. if a
+>   parameter array is available then the struct kunit_params
+>   field in parent struct kunit is populated. Additionally,
+>   this will increase the availability of the KTAP test plan.
 > - The comments and the commit message were changed to
 >   reflect the parameterized testing terminology. See
 >   the patch series cover letter change log for the
 >   definitions.
 >
-
-Hi!
-
-Happy to see this patch go through to give generate_params() access to
-resources and context!
-
-As before, this patch is:
-Reviewed-by: Rae Moar <rmoar@google.com>
-
-Thanks!
-
--Rae
-
 > ---
->  drivers/gpu/drm/xe/tests/xe_pci.c | 2 +-
->  include/kunit/test.h              | 9 ++++++---
->  kernel/kcsan/kcsan_test.c         | 2 +-
->  lib/kunit/test.c                  | 5 +++--
->  4 files changed, 11 insertions(+), 7 deletions(-)
+>  include/kunit/test.h | 65 ++++++++++++++++++++++++++++++++++++++++----
+>  lib/kunit/test.c     | 30 ++++++++++++++++++++
+>  2 files changed, 89 insertions(+), 6 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/xe/tests/xe_pci.c b/drivers/gpu/drm/xe/tests=
-/xe_pci.c
-> index 1d3e2e50c355..62c016e84227 100644
-> --- a/drivers/gpu/drm/xe/tests/xe_pci.c
-> +++ b/drivers/gpu/drm/xe/tests/xe_pci.c
-> @@ -129,7 +129,7 @@ EXPORT_SYMBOL_IF_KUNIT(xe_pci_fake_device_init);
->   * Return: pointer to the next &struct xe_device ready to be used as a p=
-arameter
->   *         or NULL if there are no more Xe devices on the system.
->   */
-> -const void *xe_pci_live_device_gen_param(const void *prev, char *desc)
-> +const void *xe_pci_live_device_gen_param(struct kunit *test, const void =
-*prev, char *desc)
->  {
->         const struct xe_device *xe =3D prev;
->         struct device *dev =3D xe ? xe->drm.dev : NULL;
 > diff --git a/include/kunit/test.h b/include/kunit/test.h
-> index d2e1b986b161..b527189d2d1c 100644
+> index b527189d2d1c..8cc9614a88d5 100644
 > --- a/include/kunit/test.h
 > +++ b/include/kunit/test.h
-> @@ -128,7 +128,8 @@ struct kunit_attributes {
->  struct kunit_case {
->         void (*run_case)(struct kunit *test);
->         const char *name;
-> -       const void* (*generate_params)(const void *prev, char *desc);
-> +       const void* (*generate_params)(struct kunit *test,
-> +                                      const void *prev, char *desc);
->         struct kunit_attributes attr;
->         int (*param_init)(struct kunit *test);
->         void (*param_exit)(struct kunit *test);
-> @@ -1691,7 +1692,8 @@ do {                                               =
-                              \
->   * Define function @name_gen_params which uses @array to generate parame=
-ters.
+> @@ -234,9 +234,13 @@ static inline char *kunit_status_to_ok_not_ok(enum k=
+unit_status status)
+>   * Provides the option to register param_init() and param_exit() functio=
+ns.
+>   * param_init/exit will be passed the parameterized test context and run=
+ once
+>   * before and once after the parameterized test. The init function can b=
+e used
+> - * to add resources to share between parameter runs, and any other setup=
+ logic.
+> - * The exit function can be used to clean up resources that were not man=
+aged by
+> - * the parameterized test, and any other teardown logic.
+> + * to add resources to share between parameter runs, pass parameter arra=
+ys,
+> + * and any other setup logic. The exit function can be used to clean up =
+resources
+> + * that were not managed by the parameterized test, and any other teardo=
+wn logic.
+> + *
+> + * Note: If you are registering a parameter array in param_init() with
+> + * kunit_register_param_array() then you need to pass kunit_array_gen_pa=
+rams()
+> + * to this as the generator function.
 >   */
->  #define KUNIT_ARRAY_PARAM(name, array, get_desc)                        =
-                       \
-> -       static const void *name##_gen_params(const void *prev, char *desc=
-)                      \
-> +       static const void *name##_gen_params(struct kunit *test,         =
-                       \
-> +                                            const void *prev, char *desc=
-)                      \
->         {                                                                =
-                       \
->                 typeof((array)[0]) *__next =3D prev ? ((typeof(__next)) p=
-rev) + 1 : (array);      \
->                 if (__next - (array) < ARRAY_SIZE((array))) {            =
-                       \
-> @@ -1712,7 +1714,8 @@ do {                                               =
-                              \
->   * Define function @name_gen_params which uses @array to generate parame=
-ters.
->   */
->  #define KUNIT_ARRAY_PARAM_DESC(name, array, desc_member)                =
-                       \
-> -       static const void *name##_gen_params(const void *prev, char *desc=
-)                      \
-> +       static const void *name##_gen_params(struct kunit *test,         =
-                       \
-> +                                            const void *prev, char *desc=
-)                      \
->         {                                                                =
-                       \
->                 typeof((array)[0]) *__next =3D prev ? ((typeof(__next)) p=
-rev) + 1 : (array);      \
->                 if (__next - (array) < ARRAY_SIZE((array))) {            =
-                       \
-> diff --git a/kernel/kcsan/kcsan_test.c b/kernel/kcsan/kcsan_test.c
-> index c2871180edcc..fc76648525ac 100644
-> --- a/kernel/kcsan/kcsan_test.c
-> +++ b/kernel/kcsan/kcsan_test.c
-> @@ -1383,7 +1383,7 @@ static void test_atomic_builtins_missing_barrier(st=
-ruct kunit *test)
->   * The thread counts are chosen to cover potentially interesting boundar=
-ies and
->   * corner cases (2 to 5), and then stress the system with larger counts.
->   */
-> -static const void *nthreads_gen_params(const void *prev, char *desc)
-> +static const void *nthreads_gen_params(struct kunit *test, const void *p=
-rev, char *desc)
->  {
->         long nthreads =3D (long)prev;
+>  #define KUNIT_CASE_PARAM_WITH_INIT(test_name, gen_params, init, exit)   =
+       \
+>                 { .run_case =3D test_name, .name =3D #test_name,         =
+           \
+> @@ -289,6 +293,20 @@ struct kunit_suite_set {
+>         struct kunit_suite * const *end;
+>  };
 >
+> +/* Stores the pointer to the parameter array and its metadata. */
+> +struct kunit_params {
+> +       /*
+> +        * Reference to the parameter array for a parameterized test. Thi=
+s
+> +        * is NULL if a parameter array wasn't directly passed to the
+> +        * parameterized test context struct kunit via kunit_register_par=
+ams_array().
+> +        */
+> +       const void *params;
+> +       /* Reference to a function that gets the description of a paramet=
+er. */
+> +       void (*get_description)(struct kunit *test, const void *param, ch=
+ar *desc);
+
+I'm a little bit uncertain whether I like this change to
+get_description. I don't like that the function signature for a
+get_description function is different now between
+kunit_register_params_array and the KUNIT_ARRAY_PARAM_DESC. I think I
+would prefer it as it was before.
+
+However, I do still like the idea of users being able to set struct
+kunit test->name for each param run as the test name but that would
+require some reworking because the struct kunit test that is passed
+into generate_params and get_description is the parent test I believe
+rather than each individual param run. So I think I might prefer it as
+it was.
+
+
+> +       size_t num_params;
+> +       size_t elem_size;
+> +};
+> +
+>  /**
+>   * struct kunit - represents a running instance of a test.
+>   *
+> @@ -296,16 +314,18 @@ struct kunit_suite_set {
+>   *       created in the init function (see &struct kunit_suite).
+>   * @parent: reference to the parent context of type struct kunit that ca=
+n
+>   *         be used for storing shared resources.
+> + * @params_array: for storing the parameter array.
+>   *
+>   * Used to store information about the current context under which the t=
+est
+>   * is running. Most of this data is private and should only be accessed
+> - * indirectly via public functions; the two exceptions are @priv and @pa=
+rent
+> - * which can be used by the test writer to store arbitrary data and acce=
+ss the
+> - * parent context, respectively.
+> + * indirectly via public functions; the exceptions are @priv, @parent an=
+d
+> + * @params_array which can be used by the test writer to store arbitrary=
+ data,
+> + * access the parent context, and to store the parameter array, respecti=
+vely.
+>   */
+>  struct kunit {
+>         void *priv;
+>         struct kunit *parent;
+> +       struct kunit_params params_array;
+>
+>         /* private: internal use only. */
+>         const char *name; /* Read only after initialization! */
+> @@ -376,6 +396,8 @@ void kunit_exec_list_tests(struct kunit_suite_set *su=
+ite_set, bool include_attr)
+>  struct kunit_suite_set kunit_merge_suite_sets(struct kunit_suite_set ini=
+t_suite_set,
+>                 struct kunit_suite_set suite_set);
+>
+> +const void *kunit_array_gen_params(struct kunit *test, const void *prev,=
+ char *desc);
+> +
+>  #if IS_BUILTIN(CONFIG_KUNIT)
+>  int kunit_run_all_tests(void);
+>  #else
+> @@ -1696,6 +1718,8 @@ do {                                               =
+                              \
+>                                              const void *prev, char *desc=
+)                      \
+>         {                                                                =
+                       \
+>                 typeof((array)[0]) *__next =3D prev ? ((typeof(__next)) p=
+rev) + 1 : (array);      \
+> +               if (!prev)                                               =
+                       \
+> +                       kunit_register_params_array(test, array, ARRAY_SI=
+ZE(array), NULL);      \
+>                 if (__next - (array) < ARRAY_SIZE((array))) {            =
+                       \
+>                         void (*__get_desc)(typeof(__next), char *) =3D ge=
+t_desc;                  \
+>                         if (__get_desc)                                  =
+                       \
+> @@ -1718,6 +1742,8 @@ do {                                               =
+                              \
+>                                              const void *prev, char *desc=
+)                      \
+>         {                                                                =
+                       \
+>                 typeof((array)[0]) *__next =3D prev ? ((typeof(__next)) p=
+rev) + 1 : (array);      \
+> +               if (!prev)                                               =
+                       \
+> +                       kunit_register_params_array(test, array, ARRAY_SI=
+ZE(array), NULL);      \
+>                 if (__next - (array) < ARRAY_SIZE((array))) {            =
+                       \
+>                         strscpy(desc, __next->desc_member, KUNIT_PARAM_DE=
+SC_SIZE);              \
+>                         return __next;                                   =
+                       \
+> @@ -1725,6 +1751,33 @@ do {                                              =
+                              \
+>                 return NULL;                                             =
+                       \
+>         }
+>
+> +/**
+> + * kunit_register_params_array() - Register parameter array for a KUnit =
+test.
+> + * @test: The KUnit test structure to which parameters will be added.
+> + * @array: An array of test parameters.
+> + * @param_count: Number of parameters.
+> + * @get_desc: Function that generates a string description for a given p=
+arameter
+> + * element.
+> + *
+> + * This macro initializes the @test's parameter array data, storing info=
+rmation
+> + * including the parameter array, its count, the element size, and the p=
+arameter
+> + * description function within `test->params_array`.
+> + *
+> + * Note: If using this macro in param_init(), kunit_array_gen_params()
+> + * will then need to be manually provided as the parameter generator fun=
+ction to
+> + * KUNIT_CASE_PARAM_WITH_INIT(). kunit_array_gen_params() is a KUnit
+> + * function that uses the registered array to generate parameters
+> + */
+> +#define kunit_register_params_array(test, array, param_count, get_desc) =
+                               \
+> +       do {                                                             =
+                       \
+> +               struct kunit *_test =3D (test);                          =
+                         \
+> +               const typeof((array)[0]) * _params_ptr =3D &(array)[0];  =
+                         \
+> +               _test->params_array.params =3D _params_ptr;              =
+                         \
+> +               _test->params_array.num_params =3D (param_count);        =
+                         \
+> +               _test->params_array.elem_size =3D sizeof(*_params_ptr);  =
+                         \
+> +               _test->params_array.get_description =3D (get_desc);      =
+                         \
+> +       } while (0)
+> +
+>  // TODO(dlatypov@google.com): consider eventually migrating users to exp=
+licitly
+>  // include resource.h themselves if they need it.
+>  #include <kunit/resource.h>
 > diff --git a/lib/kunit/test.c b/lib/kunit/test.c
-> index 49a5e6c30c86..01b20702a5a2 100644
+> index 01b20702a5a2..cbde238ff334 100644
 > --- a/lib/kunit/test.c
 > +++ b/lib/kunit/test.c
-> @@ -695,7 +695,7 @@ int kunit_run_tests(struct kunit_suite *suite)
->                         /* Get initial param. */
->                         param_desc[0] =3D '\0';
->                         /* TODO: Make generate_params try-catch */
-> -                       curr_param =3D test_case->generate_params(NULL, p=
-aram_desc);
-> +                       curr_param =3D test_case->generate_params(&test, =
-NULL, param_desc);
->                         test_case->status =3D KUNIT_SKIPPED;
+> @@ -337,6 +337,14 @@ void __kunit_do_failed_assertion(struct kunit *test,
+>  }
+>  EXPORT_SYMBOL_GPL(__kunit_do_failed_assertion);
+>
+> +static void kunit_init_params(struct kunit *test)
+> +{
+> +       test->params_array.params =3D NULL;
+> +       test->params_array.get_description =3D NULL;
+> +       test->params_array.num_params =3D 0;
+> +       test->params_array.elem_size =3D 0;
+> +}
+> +
+>  void kunit_init_test(struct kunit *test, const char *name, struct string=
+_stream *log)
+>  {
+>         spin_lock_init(&test->lock);
+> @@ -347,6 +355,7 @@ void kunit_init_test(struct kunit *test, const char *=
+name, struct string_stream
+>                 string_stream_clear(log);
+>         test->status =3D KUNIT_SUCCESS;
+>         test->status_comment[0] =3D '\0';
+> +       kunit_init_params(test);
+>  }
+>  EXPORT_SYMBOL_GPL(kunit_init_test);
+>
+> @@ -641,6 +650,23 @@ static void kunit_accumulate_stats(struct kunit_resu=
+lt_stats *total,
+>         total->total +=3D add.total;
+>  }
+>
+> +const void *kunit_array_gen_params(struct kunit *test, const void *prev,=
+ char *desc)
+> +{
+> +       struct kunit_params *params_arr =3D &test->params_array;
+> +       const void *param;
+> +
+> +       if (test->param_index < params_arr->num_params) {
+> +               param =3D (char *)params_arr->params
+> +                       + test->param_index * params_arr->elem_size;
+> +
+> +               if (params_arr->get_description)
+> +                       params_arr->get_description(test, param, desc);
+> +               return param;
+> +       }
+> +       return NULL;
+> +}
+> +EXPORT_SYMBOL_GPL(kunit_array_gen_params);
+> +
+>  static void kunit_init_parent_param_test(struct kunit_case *test_case, s=
+truct kunit *test)
+>  {
+>         if (test_case->param_init) {
+> @@ -701,6 +727,10 @@ int kunit_run_tests(struct kunit_suite *suite)
+>                                   "KTAP version 1\n");
 >                         kunit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT =
 KUNIT_SUBTEST_INDENT
->                                   "KTAP version 1\n");
-> @@ -726,7 +726,8 @@ int kunit_run_tests(struct kunit_suite *suite)
+>                                   "# Subtest: %s", test_case->name);
+> +                       if (test.params_array.params)
+> +                               kunit_log(KERN_INFO, &test, KUNIT_SUBTEST=
+_INDENT
+> +                                         KUNIT_SUBTEST_INDENT "1..%zd\n"=
+,
+> +                                         test.params_array.num_params);
 >
->                                 /* Get next param. */
->                                 param_desc[0] =3D '\0';
-> -                               curr_param =3D test_case->generate_params=
-(curr_param, param_desc);
-> +                               curr_param =3D test_case->generate_params=
-(&test, curr_param,
-> +                                                                       p=
-aram_desc);
->                         }
->                         /*
->                          * TODO: Put into a try catch. Since we don't nee=
-d suite->exit
+>                         while (curr_param) {
+>                                 struct kunit param_test =3D {
 > --
 > 2.51.0.rc0.205.g4a044479a3-goog
 >
@@ -333,5 +543,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-A%2BGJov64P8XKif%3DQQSdxDnrwFgCTw3KJzMk%2B9Eo%3DTsn8PUWsZg%40mail.gmail.com=
-.
+A%2BGJov6bvx5FTKvDE9Bng1m4iDynwruDnFf5orpzc%2ByMc2-yzw%40mail.gmail.com.
