@@ -1,115 +1,115 @@
-Return-Path: <kasan-dev+bncBDZMFEH3WYFBBHU263CAMGQEN6C2T3A@googlegroups.com>
+Return-Path: <kasan-dev+bncBDZMFEH3WYFBBOU763CAMGQEAF4JBDQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1040.google.com (mail-pj1-x1040.google.com [IPv6:2607:f8b0:4864:20::1040])
-	by mail.lfdr.de (Postfix) with ESMTPS id 564AAB25CD9
-	for <lists+kasan-dev@lfdr.de>; Thu, 14 Aug 2025 09:15:49 +0200 (CEST)
-Received: by mail-pj1-x1040.google.com with SMTP id 98e67ed59e1d1-32326e2506asf671594a91.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 14 Aug 2025 00:15:49 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1755155743; cv=pass;
+Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
+	by mail.lfdr.de (Postfix) with ESMTPS id A395DB25D28
+	for <lists+kasan-dev@lfdr.de>; Thu, 14 Aug 2025 09:26:52 +0200 (CEST)
+Received: by mail-pj1-x1038.google.com with SMTP id 98e67ed59e1d1-321cfa79cb3sf1545285a91.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 14 Aug 2025 00:26:52 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1755156411; cv=pass;
         d=google.com; s=arc-20240605;
-        b=ZcI+BhOTBuzJyp8SiXXLM49Dm0ySNWO6bUK+q+OBSeA8ALyrpSNNRXUTmbg2EdvUJd
-         tnE9e76pNv2DBPcJHZ1ld3wI3wjrFK6bSScYxTSS5n+JNBp+xsBHUZPAOniUUevRKlD6
-         mw9GQKulGn5X5T261dJSGsw27yZMWcmFuAVeko7HpK5+E3NEXawQ6aFPIuHfcDkl4E3B
-         MqbDM3CosihiV5eJTfuEmMnQYSaYA1kQBN+8loWUICjzQ/SddstOPk51b0z02GR866Hf
-         0PmuWLB1u9XEedZnHVCX13QkPCpt+kbdvjJ/utX0tI9U9HzsfMCDBg70FZidfO4C4zBV
-         UFSQ==
+        b=Qo7BOwPxdn+bqREdzmJ1lnfSa4d7zhdaOn/SdoazTC7EU9MXiENuxZGW7zdY4eV6bI
+         sqbZonRca1LdewKW0bt5xPvj2yLAOvS8vbJEvfXj+fPdCioPymCKoTfyG8i5R55GOKLT
+         b41W6KdCcbObmkie3Yy9LykVLVU4fp8IZkQOJXmklhfUovFrQ3ALgbqYGeTyX2QOx9rO
+         wY0/rm0QZM9bDuLLfiwpJZj7hnXw81MpnrHCP+yll4XkokIP2ExUD77DKwsjCNBqw61H
+         rVQTPZNip+LeDT/1L2MnEgIBU1SVAwMDshOFy5BIesXIgL5paKSXWbM1MJ1bZKtg8GCv
+         D30g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=yn6oOdEWBY3H+70CY2Dc8WI5EAbOoKt2bqRfBprGJI8=;
-        fh=3qlhKJTArBxs12sbQK1uJ5fkFbafpKSK1TWV61EVNqo=;
-        b=iVYypwpXJnxSGU3pYAFS9eJ6vytu/nSd21jVQn0Ac92KXZh/d7KN/HPdl9t/6zYh9F
-         AwGVpqz9ajAlViY2O93kO2SUhQQW5Ece4nXNGzcw/fhBZOvD2TEydKmFkqXRlnE0oVRc
-         QFxxHNJn3eFppUVWoPPa2r02NT0FB82iAmnEMdAceTvb/pXKlbo1kyteeqA4XWZgw3fF
-         Ff+duaoZ60YGm200ckQgf4LM4nDomSdnNw23PDecbikKNFNYCsuQCve2nEKfpqAsloGt
-         xnXOGSa1zwb/vJ+jqHymhVVo1EzzZqAuRlaxlQVnVXHvR3ALLnzoHshYWiDX+I7ozJf1
-         9rBw==;
+        bh=Mfpn+xC6H5iVlOlXGNKNEPxQt/GXKM8BvTQZTPX4iV0=;
+        fh=sF4hvq5t44zROtJZtyeUg0S8n6x1+gSlq+ffrmzqKp8=;
+        b=LH3aBLSfS7cmMGlPqamAYCdkLoIIO9EI9RMuw69HxXipLj5NNhzNg1ZQF4htmjkGBy
+         vf/SDCjOKRekyL8iXIO7LjqgZLkJQCf5M3GTK3XvBmxcLl7C9HLbmZV84bfvbMThnMU6
+         TcLMvTUSJbYgVjilts9mdw+EIKtH+3Y5SHyzzUK9L9xx1w+l0XuUW09Uul8UACQiGzBp
+         hnTvXi2PRQ5/6KgsQDvXdycdJzdv4nZiMRmNYO+kpuVgfi4S6L+bZNNb2NFLW+yjQpww
+         H4F8X0aEVBRetRgaljyo3EXy0ST88+XscCqr6wIo529kYLLxnUIJyXC3Qx2leG+QvDDC
+         APZA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=i1IKT2zw;
-       spf=pass (google.com: domain of rppt@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=rppt@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=R6qffIlo;
+       spf=pass (google.com: domain of rppt@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=rppt@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1755155743; x=1755760543; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1755156411; x=1755761211; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yn6oOdEWBY3H+70CY2Dc8WI5EAbOoKt2bqRfBprGJI8=;
-        b=ucZSa0hcatrg1qJK87uO/krFoj0Z20mkxskQVbCGgLBGnX+yPfjgjSpRr5+SZaP38D
-         63wQgnbbEkNqJnb9v+Sau2Es4wYy1IZT4nxjA5RayvDM53Q5JWjBw5cqypQHVVnxEcmz
-         rRxAleXEcYuEnzHYAJs3oDut78o5bPAIoFjmxK4TON03KAASqMDX9koCO4SCULncOJ3+
-         dp5fxDw0hH7LC8g52QugYR2EJuknhy16ZBB/V0ATvUrcacs0GtZnJgmhUMQnquFA2zhR
-         tlvoS6OQLjtAyVJDC00y1gdeWwyccRcJ1do0CcEmWA5itccWSeEYKlDFO09i0nX2zlNp
-         k5AQ==
+        bh=Mfpn+xC6H5iVlOlXGNKNEPxQt/GXKM8BvTQZTPX4iV0=;
+        b=LSBN1pJgRLpK7r2MUanFUiph9osXuq3cH9KQNvqulpKiLm2dan+ss1UMYG7rVcFiJ7
+         xwjPPReHkov/K6NYSgNW1mJRDV/oHi8fDXMC15zS8y0hC/SekWK+cSKY5oOzaK0vdwgr
+         FCyaZCro4qVKqwQduvxV6hoe0RX+gSg4FDvc7mrVCi4wMeivWpE7/YCAlwTXvIIKchmK
+         XTeRLzeJEKV9wVyw3m8jJPXuvK3Ok1R3JtXjKXMJcnJnh1KXquN1HqG3D2C8RjjxkmyW
+         nBIf/1Ulya4rfHT8+IJ1F8g+QLuIhHijNjZ264VY44ANGjOxifaAvslZIywSovmMP8Ok
+         gdog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755155743; x=1755760543;
+        d=1e100.net; s=20230601; t=1755156411; x=1755761211;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yn6oOdEWBY3H+70CY2Dc8WI5EAbOoKt2bqRfBprGJI8=;
-        b=n/cnijtR80BIS645UfHz/knaGf82IhQf68KEgiYYhs29eFuEFDTnDU/+2u0G2s8W6j
-         udd3vN9ANDcNY6AXaqzuSc4A8LHA5AvkIDmjRdOEulxySvD+Rlzi9Rmz+GEmhvB8Xk+6
-         N9kCXMjje6qpa4Okflw4jgmCHLM9ZMZHgQrakRXBEjW8HTOZbrejENks/livwVuzCBjU
-         jiiEingIGFK2Np8HBoiQVttSWEIpHnpSNRGMP9wlDCW0euaDTYFiSCEpUcMD3SGFL8XU
-         Aw7tUvygddP1jobCzLHsdb3EmV9eutWkHkNoTHjYoa/iK32/rbW78NC5Uph0EddvthgR
-         0H6g==
-X-Forwarded-Encrypted: i=2; AJvYcCVs4uquNAr6W5Y3gD9+d4tvoeCJSTAr8lLohSvNmnHPPNpCt898hwybBCjg19pyjzsk90RDyw==@lfdr.de
-X-Gm-Message-State: AOJu0YxZxsECca9q9tYUGStNBbJSkHO9cM8j4wjeIWLM7x3VdbuPMI8o
-	LrCshkiEnyllCPCX/ohPS4hsIV6g6xhv1upP752S/gRrI6Q6dY1NMf0x
-X-Google-Smtp-Source: AGHT+IGptWXDkzIp5sPem4K6aaZWu05HSXGPEwYLYMMd66C01CU4sGXIaDDsWrGhqQDkX9BcyJWOrw==
-X-Received: by 2002:a17:90b:2248:b0:311:f99e:7f57 with SMTP id 98e67ed59e1d1-32327a6ad49mr3184277a91.23.1755155742665;
-        Thu, 14 Aug 2025 00:15:42 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdlrqey9bN9CpE+t/8+dsxd7MnK7Spc9bdayCF75VKlxA==
-Received: by 2002:a17:90a:1050:b0:31e:cf05:e731 with SMTP id
- 98e67ed59e1d1-323265d1a8els504912a91.0.-pod-prod-07-us; Thu, 14 Aug 2025
- 00:15:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCV3ZoMRTOf5EOeYpmKEduZnvLUaV2un0CSWGmEJQ7ahkesqNVrWq/T2rDgwtMvRe9C4mY39Q7p/9IE=@googlegroups.com
-X-Received: by 2002:a17:90b:4b8e:b0:321:157a:ee73 with SMTP id 98e67ed59e1d1-3232795b36emr3206943a91.6.1755155741231;
-        Thu, 14 Aug 2025 00:15:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1755155741; cv=none;
+        bh=Mfpn+xC6H5iVlOlXGNKNEPxQt/GXKM8BvTQZTPX4iV0=;
+        b=tAGsefjrinhiCHH66CMBQFuEQT3GFDOsuFj4QbHL+oecqYYaEVnfq3thKwdxVkXn22
+         +c6IsgsMCooGAocGnx1ExTl5gIFJnjf/DK6w7mjeJv5WqpaRW1+QEIddZe3124gJYMGp
+         TogdgMjjlSfE12/vw8gt8HGHsG8Us3iLDwLz9vSas32QuQGysXhMW3INhLNJ7f5J5J1N
+         KQ7Rm5iVZP3GqmPBUQ9J88CzKW9iaqhdFR0gAzZIdnxebapZlVERxfBPGrt3VGysRnvz
+         dfvs54tjh7AkPPhVmOq+DmMi+DsHcBnEFqlwt2IjWVVWtn84tSjgptJO7MQQhT6p9Imx
+         j9BQ==
+X-Forwarded-Encrypted: i=2; AJvYcCXpuvdvUoYWHJ4mlTPNDiOxGIdKYnV5qT5AIUdm5SJ/axW+goKhtSGdoraBD0uV9nwlhrFpsA==@lfdr.de
+X-Gm-Message-State: AOJu0YzULhCC1Hs4PNJrOmqZUYw57jS76p0z9sa4RXowy+CdxS/IpAMD
+	/zYzhqSg1t7RpPyevwi+dYsANLrjhOmFlLP7wwOZZiJpNsDmC4wUJ6xD
+X-Google-Smtp-Source: AGHT+IHVIRezybP/JanmLv7MEgGBlqN3SV//d+j3U1AQVTNMk3nS4C8OF8nU1xOGIUoGwCDamRGvEg==
+X-Received: by 2002:a17:903:1a6f:b0:240:72d8:96fa with SMTP id d9443c01a7336-244598013ebmr27379935ad.20.1755156410970;
+        Thu, 14 Aug 2025 00:26:50 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZc1H8VqdkDiP5J7jfX8WFZDzbE0Om7icaVK3y6BvVVjzA==
+Received: by 2002:a17:90b:508c:b0:30c:4d44:cf23 with SMTP id
+ 98e67ed59e1d1-321cfb7ebebls690725a91.1.-pod-prod-00-us-canary; Thu, 14 Aug
+ 2025 00:26:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUxgBXDvwBaoVg2zz/PSIO4cJrwDV+R9WMIIcs++CJyEEGwNL/1HPmt5YwquHBOr2P5MotbM8xVKk0=@googlegroups.com
+X-Received: by 2002:a05:6a20:2587:b0:23f:f729:2e72 with SMTP id adf61e73a8af0-240bdf49d66mr2758739637.1.1755156409564;
+        Thu, 14 Aug 2025 00:26:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1755156409; cv=none;
         d=google.com; s=arc-20240605;
-        b=JbiFzylSTA+ljSwXQTrgrXoMRcJoPM9+Z973tW0zVPzBmB6evGbA0zDjEAtvZoJW7B
-         JeQx86j3NZCoNdLVEss9XtB6b/dhUHR2FRH7O4u58F/7hjXd5mLQj8UtO14F4YMLiRSm
-         QgC1v1v8cU28IbImjyABaa/y49Bu5aa4UgayUqFZUcmWsmoylOZjaa3I0GNK4zAYIpqN
-         L40ZH881Le2d+132x0fxDdz+7OhSFnbNhfSexBdqRmb1DVe3ETvQPaERrH3XyHqGIPZ6
-         20X8YqTwVB9tS6pahqlq01z/Vp0OYsHBRIUliZ8k/6KQ1wMWXYkHQtFQdUZ1TCO8sz+N
-         kRaA==
+        b=aQ6VlP2zOQhcp3r9MiSfZF5pOPU8vbN5o6rNOGzj8X+4Xj7XaOcyMCvdOxNgHdMAd8
+         8noO6MEE4K6s4tGFd2C3elJY3f4fArRxNJEFDFskmpLB7ZSWdcpUvXjtcXb3w8jkEHId
+         MS4KA/knLeGqN6Q9hWQGTYg3Nw7gtqEWp4d9L5LCEavOHSpPJshO/kApBMuc+FGDXxZD
+         Ie1dFgsxX9Q0BedtOyqNBBsnFrnl+R8hUKhmQUUTMcZj/B3pgzysrX3BNLtCQZCjw3L9
+         7Vje2r2KiSVwVWKRsLyAkEBSDiQ1FkupriJecHrbFH352/4WmiSaEViEdNu1AjEETFIt
+         PEHw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=6l0i4NfoPjd3dy49dR5GfraE/UtvtCZLrPT1jjwn6yI=;
+        bh=CfApIHI972kWbSR3U0B1BpYQYv1HxE5zGDXKDQ24uLE=;
         fh=An29kc1fWHUbq+trOJowZZoCiDy+Kj7isCjoanY75Zw=;
-        b=HL6CrWt+tvHtPsytNOX0LRJ7MtmGUg6NXmZEx32EW/tKenqD4iv3bwD0ik8CHga47C
-         es/A53l4EzX+Ih1IgKkCoj7jvlzO+acuIsZXAeu31htqNQ5NtfMKPUTQsx5bFW5nZghu
-         BFxgcVEF03Zc4TWTZBKUYim3/D78V9xXVkPM+oKe42odnXPjBmWgTOXsm0fIK7W9Y2uV
-         P4uE4VOi/0H2BOVuBVSK5TQSFYjGsv7Xz88PfhBVD9aETnPaw5dkJ7I9pS6JRgc89TYm
-         aYGjxOaz8GDmc/9piXetrDN8sPh5PB+04b6B5GmAydA2eQfpqNlE4uZM9UMOnHxqwLHd
-         HuVA==;
+        b=UerDAmUO/OQPhLradw/ZULooOXfQemHvzD6b5aWzekJ2xn1ZorbhRPEGiBzfEy6OMq
+         QQIPG/p3v76sRaB8pR9WrKbW9rbDsuXj8zT43yrDYZs+7to7idKUcDl0XS3ebEQ+kX8n
+         91hgFKkws/knhidJ3LSCslX/lhBh1YtPpoCr+3p56aIikoLIJhkV+X+MEFFNtKfOVspz
+         dyR4huXyKgmAy8PFUgpO4sjj+6+5FGMuKK+FNyW/AY48R8siPJv3Lby9ESjFpTZg0mWV
+         P8vh5Y/H+eS7VcJT/DnEgE6CD/b0MVCLBMlU/q9zx3uE4JBwjIQL88P8fTuNs1MyayPl
+         3R4Q==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=i1IKT2zw;
-       spf=pass (google.com: domain of rppt@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=rppt@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=R6qffIlo;
+       spf=pass (google.com: domain of rppt@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=rppt@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-32330da89a7si36369a91.0.2025.08.14.00.15.41
+Received: from sea.source.kernel.org (sea.source.kernel.org. [2600:3c0a:e001:78e:0:1991:8:25])
+        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-76c626c5c3esi520834b3a.6.2025.08.14.00.26.49
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Aug 2025 00:15:41 -0700 (PDT)
-Received-SPF: pass (google.com: domain of rppt@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+        Thu, 14 Aug 2025 00:26:49 -0700 (PDT)
+Received-SPF: pass (google.com: domain of rppt@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) client-ip=2600:3c0a:e001:78e:0:1991:8:25;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 680755C6209;
-	Thu, 14 Aug 2025 07:15:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0A94C4CEEF;
-	Thu, 14 Aug 2025 07:15:13 +0000 (UTC)
-Date: Thu, 14 Aug 2025 10:15:09 +0300
+	by sea.source.kernel.org (Postfix) with ESMTP id 3F07043F72;
+	Thu, 14 Aug 2025 07:26:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3D17C4CEEF;
+	Thu, 14 Aug 2025 07:26:23 +0000 (UTC)
+Date: Thu, 14 Aug 2025 10:26:19 +0300
 From: "'Mike Rapoport' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 Cc: nathan@kernel.org, arnd@arndb.de, broonie@kernel.org,
@@ -145,21 +145,21 @@ Cc: nathan@kernel.org, arnd@arndb.de, broonie@kernel.org,
 	linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	x86@kernel.org, llvm@lists.linux.dev, kasan-dev@googlegroups.com,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 06/18] x86: Reset tag for virtual to physical address
- conversions
-Message-ID: <aJ2M_eKPvBluyLKJ@kernel.org>
+Subject: Re: [PATCH v4 07/18] mm: x86: Untag addresses in EXECMEM_ROX related
+ pointer arithmetic
+Message-ID: <aJ2Pm2XzcM3H4aTN@kernel.org>
 References: <cover.1755004923.git.maciej.wieczor-retman@intel.com>
- <01e62233dcc39aeb8d640eb3ee794f5da533f2a3.1755004923.git.maciej.wieczor-retman@intel.com>
+ <aa501a8133ee0f336dc9f905fdc3453d964109ed.1755004923.git.maciej.wieczor-retman@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <01e62233dcc39aeb8d640eb3ee794f5da533f2a3.1755004923.git.maciej.wieczor-retman@intel.com>
+In-Reply-To: <aa501a8133ee0f336dc9f905fdc3453d964109ed.1755004923.git.maciej.wieczor-retman@intel.com>
 X-Original-Sender: rppt@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=i1IKT2zw;       spf=pass
- (google.com: domain of rppt@kernel.org designates 139.178.84.217 as permitted
- sender) smtp.mailfrom=rppt@kernel.org;       dmarc=pass (p=QUARANTINE
- sp=QUARANTINE dis=NONE) header.from=kernel.org
+ header.i=@kernel.org header.s=k20201202 header.b=R6qffIlo;       spf=pass
+ (google.com: domain of rppt@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25
+ as permitted sender) smtp.mailfrom=rppt@kernel.org;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 X-Original-From: Mike Rapoport <rppt@kernel.org>
 Reply-To: Mike Rapoport <rppt@kernel.org>
 Precedence: list
@@ -174,100 +174,99 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Aug 12, 2025 at 03:23:42PM +0200, Maciej Wieczor-Retman wrote:
-> Any place where pointer arithmetic is used to convert a virtual address
-> into a physical one can raise errors if the virtual address is tagged.
+On Tue, Aug 12, 2025 at 03:23:43PM +0200, Maciej Wieczor-Retman wrote:
+> ARCH_HAS_EXECMEM_ROX was re-enabled in x86 at Linux 6.14 release.
+> Related code has multiple spots where page virtual addresses end up used
+> as arguments in arithmetic operations. Combined with enabled tag-based
+> KASAN it can result in pointers that don't point where they should or
+> logical operations not giving expected results.
 > 
-> Reset the pointer's tag by sign extending the tag bits in macros that do
-> pointer arithmetic in address conversions. There will be no change in
-> compiled code with KASAN disabled since the compiler will optimize the
-> __tag_reset() out.
+> vm_reset_perms() calculates range's start and end addresses using min()
+> and max() functions. To do that it compares pointers but some are not
+> tagged - addr variable is, start and end variables aren't.
+> 
+> within() and within_range() can receive tagged addresses which get
+> compared to untagged start and end variables.
+> 
+> Reset tags in addresses used as function arguments in min(), max(),
+> within() and within_range().
+> 
+> execmem_cache_add() adds tagged pointers to a maple tree structure,
+> which then are incorrectly compared when walking the tree. That results
+> in different pointers being returned later and page permission violation
+> errors panicking the kernel.
+> 
+> Reset tag of the address range inserted into the maple tree inside
+> execmem_cache_add().
 > 
 > Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 > ---
 > Changelog v4:
-> - Simplify page_to_virt() by removing pointless casts.
-> - Remove change in __is_canonical_address() because it's taken care of
->   in a later patch due to a LAM compatible definition of canonical.
+> - Add patch to the series.
 > 
->  arch/x86/include/asm/page.h    | 14 +++++++++++---
->  arch/x86/include/asm/page_64.h |  2 +-
->  arch/x86/mm/physaddr.c         |  1 +
->  3 files changed, 13 insertions(+), 4 deletions(-)
+>  arch/x86/mm/pat/set_memory.c | 1 +
+>  mm/execmem.c                 | 4 +++-
+>  mm/vmalloc.c                 | 4 ++--
+>  3 files changed, 6 insertions(+), 3 deletions(-)
 > 
-> diff --git a/arch/x86/include/asm/page.h b/arch/x86/include/asm/page.h
-> index 9265f2fca99a..15c95e96fd15 100644
-> --- a/arch/x86/include/asm/page.h
-> +++ b/arch/x86/include/asm/page.h
-> @@ -7,6 +7,7 @@
->  #ifdef __KERNEL__
+> diff --git a/arch/x86/mm/pat/set_memory.c b/arch/x86/mm/pat/set_memory.c
+> index 8834c76f91c9..1f14a1297db0 100644
+> --- a/arch/x86/mm/pat/set_memory.c
+> +++ b/arch/x86/mm/pat/set_memory.c
+> @@ -222,6 +222,7 @@ static inline void cpa_inc_lp_preserved(int level) { }
+>  static inline int
+>  within(unsigned long addr, unsigned long start, unsigned long end)
+>  {
+> +	addr = (unsigned long)kasan_reset_tag((void *)addr);
+>  	return addr >= start && addr < end;
+>  }
 >  
->  #include <asm/page_types.h>
-> +#include <asm/kasan.h>
+> diff --git a/mm/execmem.c b/mm/execmem.c
+> index 0822305413ec..743fa4a8c069 100644
+> --- a/mm/execmem.c
+> +++ b/mm/execmem.c
+> @@ -191,6 +191,8 @@ static int execmem_cache_add_locked(void *ptr, size_t size, gfp_t gfp_mask)
+>  	unsigned long lower, upper;
+>  	void *area = NULL;
 >  
->  #ifdef CONFIG_X86_64
->  #include <asm/page_64.h>
-> @@ -41,7 +42,7 @@ static inline void copy_user_page(void *to, void *from, unsigned long vaddr,
->  #define __pa(x)		__phys_addr((unsigned long)(x))
->  #endif
->  
-> -#define __pa_nodebug(x)	__phys_addr_nodebug((unsigned long)(x))
-> +#define __pa_nodebug(x)	__phys_addr_nodebug((unsigned long)(__tag_reset(x)))
+> +	addr = arch_kasan_reset_tag(addr);
 
-Why not reset the tag inside __phys_addr_nodebug() and __phys_addr()?
+Shouldn't this use kasan_reset_tag()?
+And the calls below as well?
 
->  /* __pa_symbol should be used for C visible symbols.
->     This seems to be the official gcc blessed way to do such arithmetic. */
->  /*
-> @@ -65,9 +66,16 @@ static inline void copy_user_page(void *to, void *from, unsigned long vaddr,
->   * virt_to_page(kaddr) returns a valid pointer if and only if
->   * virt_addr_valid(kaddr) returns true.
->   */
-> -#define virt_to_page(kaddr)	pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+Also this can be done when addr is initialized 
+
 > +
-> +#ifdef CONFIG_KASAN_SW_TAGS
-> +#define page_to_virt(x) ({							\
-> +	void *__addr = __va(page_to_pfn((struct page *)x) << PAGE_SHIFT);	\
-> +	__tag_set(__addr, page_kasan_tag(x));					\
-> +})
-> +#endif
-> +#define virt_to_page(kaddr)	pfn_to_page(__pa((void *)__tag_reset(kaddr)) >> PAGE_SHIFT)
-
-then virt_to_page() will remain the same, no?
-
->  extern bool __virt_addr_valid(unsigned long kaddr);
-> -#define virt_addr_valid(kaddr)	__virt_addr_valid((unsigned long) (kaddr))
-> +#define virt_addr_valid(kaddr)	__virt_addr_valid((unsigned long)(__tag_reset(kaddr)))
-
-The same here, I think tag_reset() should be inside __virt_addr_valid()
-  
->  static __always_inline void *pfn_to_kaddr(unsigned long pfn)
->  {
-> diff --git a/arch/x86/include/asm/page_64.h b/arch/x86/include/asm/page_64.h
-> index 015d23f3e01f..de68ac40dba2 100644
-> --- a/arch/x86/include/asm/page_64.h
-> +++ b/arch/x86/include/asm/page_64.h
-> @@ -33,7 +33,7 @@ static __always_inline unsigned long __phys_addr_nodebug(unsigned long x)
->  extern unsigned long __phys_addr(unsigned long);
->  extern unsigned long __phys_addr_symbol(unsigned long);
->  #else
-> -#define __phys_addr(x)		__phys_addr_nodebug(x)
-> +#define __phys_addr(x)		__phys_addr_nodebug(__tag_reset(x))
->  #define __phys_addr_symbol(x) \
->  	((unsigned long)(x) - __START_KERNEL_map + phys_base)
->  #endif
-> diff --git a/arch/x86/mm/physaddr.c b/arch/x86/mm/physaddr.c
-> index fc3f3d3e2ef2..7f2b11308245 100644
-> --- a/arch/x86/mm/physaddr.c
-> +++ b/arch/x86/mm/physaddr.c
-> @@ -14,6 +14,7 @@
->  #ifdef CONFIG_DEBUG_VIRTUAL
->  unsigned long __phys_addr(unsigned long x)
->  {
-> +	x = __tag_reset(x);
->  	unsigned long y = x - __START_KERNEL_map;
+>  	lower = addr;
+>  	upper = addr + size - 1;
 >  
->  	/* use the carry flag to determine if x was < __START_KERNEL_map */
+> @@ -216,7 +218,7 @@ static int execmem_cache_add(void *ptr, size_t size, gfp_t gfp_mask)
+>  static bool within_range(struct execmem_range *range, struct ma_state *mas,
+>  			 size_t size)
+>  {
+> -	unsigned long addr = mas->index;
+> +	unsigned long addr = arch_kasan_reset_tag(mas->index);
+
+AFAIU, we use plain address without the tag as an index in
+execmem_cache_add(), so here mas->index will be a plain address as well
+  
+>  	if (addr >= range->start && addr + size < range->end)
+>  		return true;
+> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+> index 6dbcdceecae1..83d666e4837a 100644
+> --- a/mm/vmalloc.c
+> +++ b/mm/vmalloc.c
+> @@ -3328,8 +3328,8 @@ static void vm_reset_perms(struct vm_struct *area)
+>  			unsigned long page_size;
+>  
+>  			page_size = PAGE_SIZE << page_order;
+> -			start = min(addr, start);
+> -			end = max(addr + page_size, end);
+> +			start = min((unsigned long)arch_kasan_reset_tag(addr), start);
+> +			end = max((unsigned long)arch_kasan_reset_tag(addr) + page_size, end);
+>  			flush_dmap = 1;
+>  		}
+>  	}
 > -- 
 > 2.50.1
 > 
@@ -279,4 +278,4 @@ Mike.
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aJ2M_eKPvBluyLKJ%40kernel.org.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aJ2Pm2XzcM3H4aTN%40kernel.org.
