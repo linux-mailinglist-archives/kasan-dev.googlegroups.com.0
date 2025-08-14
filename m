@@ -1,159 +1,151 @@
-Return-Path: <kasan-dev+bncBCQ2XPNX7EOBBH7Z67CAMGQEPLAKAQA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDHIHTVCYMHBBHEB7DCAMGQEBPSKF3Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43c.google.com (mail-wr1-x43c.google.com [IPv6:2a00:1450:4864:20::43c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36EF8B26A88
-	for <lists+kasan-dev@lfdr.de>; Thu, 14 Aug 2025 17:11:29 +0200 (CEST)
-Received: by mail-wr1-x43c.google.com with SMTP id ffacd0b85a97d-3b9dc5c288esf807065f8f.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 14 Aug 2025 08:11:29 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1755184288; cv=pass;
+Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D45B26AF2
+	for <lists+kasan-dev@lfdr.de>; Thu, 14 Aug 2025 17:28:30 +0200 (CEST)
+Received: by mail-wm1-x337.google.com with SMTP id 5b1f17b1804b1-45a1b0060bfsf5888865e9.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 14 Aug 2025 08:28:30 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1755185310; cv=pass;
         d=google.com; s=arc-20240605;
-        b=ggD3/RuoEw1GL7+EcALcp27MbL8HWcheU18HFzC7OGHwOljD24n9ph4uYcCJ3aCl6X
-         4LDwudR+EtLN9QoYxsZOYW3UgpskiCe0fabdi15UJuvAverzfCMBn/dmHBL/8Dn1OqQQ
-         EtsinEPWG5QPB9dultsIn7mwJlRIzu2UHDCvPS57o6QABhHkmcqgOnugcYHTNjcVq5P3
-         PSIpqzkR5I63yqNTVlL+P5dMSnUOTkq4qKMQ0hpl4uA/nNMd+6/X8MLLXLJvcg8nRxkS
-         QBNKNIM6FhhlL+p1vn/Jrco4/dx9yVLm6gTS72JxaAgVU0mnnpqsr3m5PCQ+u2dxgQ4J
-         OHRA==
+        b=FJsgtJ0dmTY9ZgJH+sBSiMHDNPcxgsrdo3sXQ5ccPAD/GMPZ3yNEwDLaPeNTCF/IXu
+         jY5I3pLn7Y4zhKr7HTEw8fRQgr/R80/5T2nl5Doibl2lI7+ZiYLNUnjYMAQI+DEiNOE/
+         HR0xwnO9i0YvjmpN8uV6eoNrIGPYiyru4x/IYvaEPXNAPRdv5YBHsQkVOkpg7iXyi33R
+         kDiDS+t+CsSbwbuuYmpp560AEPY3yOEsGQPoZkzxDfE9qPofOdZdb/W7nMl2GHIZj4K2
+         mXMSSOdSiKyu6SLddOSaDWPHYCQIzdgI2MhVwbNgS2+/PksCyrdGRlFkDiTpC8/5g6L1
+         kBVw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:message-id
-         :mime-version:subject:date:from:dkim-signature;
-        bh=rDW10ox0g59eZ5tINPFMv49rmui3ajjbq+C8kqA3Qac=;
-        fh=SEjGkLJEABUcXb8xJjWp/VPdnu5qjjWCaguNIEr9HgU=;
-        b=SHB5sFHK4kAKL10D9zAC43SweZpOSrDgH6+PIXQTXPwkElQpXk+geHZlC/1RBMOZsF
-         fW20bjHxs+BWrGqqTfKkQqBqmU8gWmcciCixmW+4Xwbba7tGeNNmsv85ajvRxNvZow7H
-         FmfobfT8cKljF+MFh8E6IM7z4vCmCT8URXc/Wig22LxmYnw4CZDGmKxarLLoRz7+j4Up
-         agpvUfyLnQdeISW6F1YDhDCn+XpGaUBNcJtCK/asqNBii02A6PimAd/ZWxNy+phx7iaD
-         RagLIZyNgOb4uwHTl/7liEtOJyKgJiPbHxedpTb87QhOCkEhvmihFrLR8z4zXuw0pNOV
-         w5NA==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=rOoCvKc4k+dV2d0tGm7LR2P0QL+lfHJ4ZLDc34lp2s4=;
+        fh=e2SpEqevgGJ/fw6/0ZlIcg2rYJ1Iogqfpe0b1nGZP7w=;
+        b=UY4NwBO7LAJiSNkqt0VYa0gJpFoaHQD3LKGygvdoXgRS7LZTel0e1+oQXPGdA43xcW
+         E+DacPww173SU1nnQkRRdJdbAjNBLxSJk/7/4T+L7Pja6xhojOEwgQK0BdHKZbj0ezPC
+         4KrG7SgHgtymVkWO5myiuYKWf/bv8airlyUUAi7QnyFkVJb/l3VOCHRE8hAYOxXmuy1j
+         0BRiXOD0WV7WQaPstAA0d9JREUrduyS+e9u6gW+CeUJ/ZRISD84pw2eSVK9a/943w4Tt
+         0zdWQgLbqUDW7FSps20zhBg7+jJsQShHx4avxzXx4THmgAM3e/zT6h5YHufCicm6lrBu
+         MSVA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=23FJDgZn;
-       spf=pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::32b as permitted sender) smtp.mailfrom=jannh@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@cloudflare.com header.s=google09082023 header.b="d2mt6W/a";
+       spf=pass (google.com: domain of ignat@cloudflare.com designates 2a00:1450:4864:20::130 as permitted sender) smtp.mailfrom=ignat@cloudflare.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cloudflare.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1755184288; x=1755789088; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1755185310; x=1755790110; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to
-         :message-id:mime-version:subject:date:from:from:to:cc:subject:date
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rDW10ox0g59eZ5tINPFMv49rmui3ajjbq+C8kqA3Qac=;
-        b=SeD2SyvmdhX8ksFegSHq/4HoM7u7NXccX3SM2MA6ahX7uqRb1eJ9g+4rLqsNlZR7Za
-         eTId3F3NjwSUZ1Jk2vx+XwQNIrqF8OLUK1AHq/4qpTdsbq2yExWbC6UlydKOtikH5rYE
-         3fbu0wyC17V3ZE8QQUF4M7oIUeiV6yMOpA7FyNBb6HgLw6eIjVspbfh2jEY4sbYb4egs
-         Dwjo+bEU9bHolLWu12Sd1dddHLlB3SwGVNDQmQQqGTVN0CKC2jAIkfVuOkfwPiC3n/Ih
-         S8H5aprsDfSCn6IaO8OGnpZmSdufu+apkfQtA9m1AyH1SByfOqGZh1ULRWXGZ22zsu3k
-         CM2A==
+        bh=rOoCvKc4k+dV2d0tGm7LR2P0QL+lfHJ4ZLDc34lp2s4=;
+        b=b1zyF8hv5gfIOcWih9RCX72gf/10rQjqtQPqYJT8kxiYlfkiSWxRazljbexF8vLC/h
+         dSr4qAPxztqYG5n3/29aRajzwDUTrbDoiTaxAW8d+olwDrjCxLuPtwSJd85p1B6XyRjb
+         QQiMhvAAbEmEFLNFNs+AphFl6loJeECaacijNWYTWP6+cLOkH0nKNK6FJc9Av/yBif27
+         Ncd762JZpOPyPDK4su+XGM8eb0lqskiOy5/kJ1EbuTJG4523TIh5AkR/vWOsRciSSfB2
+         2xDRCh6iG/d6LDwpW0KlaNE2rHpBfy1eW9IP6/vIP7/vHHw1Qw39yMCXjJo6UsiM53Th
+         ME9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755184288; x=1755789088;
+        d=1e100.net; s=20230601; t=1755185310; x=1755790110;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to
-         :message-id:mime-version:subject:date:from:x-beenthere
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rDW10ox0g59eZ5tINPFMv49rmui3ajjbq+C8kqA3Qac=;
-        b=fLNocdfshH1P0oWWZFMipadRYgZ2G+pdN73s03v3M+U8lkKqds3qpmsbyL59oD4O5L
-         HE/rzvh+lBjJ+DgnutytskgMYfykX1el0dqYzKAaJF8Iiozn3D41r6dxjHbyihg5ph2L
-         J5wSv7jUjiStFJ1ZiIF/XzrJIxPz4Lajfniij/v+b6dVJ7RAbFwWoaSDTgmKTm/IvfBs
-         7ibFr+Hjl+oP4zSsUfqOVfetHrgMyKpUc89I+csYSPMxI8xm4CP+oV2ZdF4GdagTTcnm
-         tU+PAMVFf2555nYNk8z/JBF/0eTsc7uka9OpYLXLq3uuasGWAYARtG2Kwcz4+IuHAPl2
-         LLtw==
-X-Forwarded-Encrypted: i=2; AJvYcCXK7N2heM/Q21CAfq8+U3T9qApaAGD0Uu83v4sLk7Khi2E9wWVf61K9ccVrLZ6FoOCOte4aiQ==@lfdr.de
-X-Gm-Message-State: AOJu0YxH4rwCJdtuwAKdZe9xXFyFu7faO9ejp0w1r4+gQMk6SExbPh2F
-	9xZdhOamlHu31Ex4YXJ5TU10r/kHU/3xmxkH/f7lowHKymzfKg9L68zm
-X-Google-Smtp-Source: AGHT+IFLXjX7AOvHZWxj0+uNV21e/Wk7qg1b34ESHx5WlV854tXb5SoEwxOH194//XuogkFs8LhXYA==
-X-Received: by 2002:a05:6000:2891:b0:3b8:f2f1:728c with SMTP id ffacd0b85a97d-3b9edf39836mr2866523f8f.34.1755184288374;
-        Thu, 14 Aug 2025 08:11:28 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZengeow5XMv9TOFRCHbCyRRFKWRPsleK8F9O0wjgOuZSQ==
-Received: by 2002:a5d:5f4d:0:b0:3b7:868d:435f with SMTP id ffacd0b85a97d-3b9bffd4a5cls572349f8f.1.-pod-prod-09-eu;
- Thu, 14 Aug 2025 08:11:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCX7lpfUiPExfgS0Xy2Usu0+Ss0nUK4JzX4ld9JJszzo+JB/QYqAbcNJb3YQMJH6tLPYiOJrg8e88YA=@googlegroups.com
-X-Received: by 2002:a05:6000:2209:b0:3b8:ebbe:1792 with SMTP id ffacd0b85a97d-3b9e415b796mr3285246f8f.10.1755184285307;
-        Thu, 14 Aug 2025 08:11:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1755184285; cv=none;
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rOoCvKc4k+dV2d0tGm7LR2P0QL+lfHJ4ZLDc34lp2s4=;
+        b=a+BHuDKyPq5O9CurDaezyVJNrLCptNoh2NT29IsE3RWKFTNf6i3RRNC3ng8E9eytC/
+         LZWth00qYoQ0CQS9dC4EYT844qx3igIP0mqhpiwFMpVP6plDRPazGbNwwlT4jkiFOnag
+         Id6zuQX5JexYTi1PqMWgitRGI+tVRO79DMunrBoAZFC4vGDfRPz1JySNvchaZicJ1+Tq
+         RxQRQqs3KaVsNiFFNfnNHz8iVHbAGki44GUTaxZN9sWVd1c4H0KuNiVZaNsF8CGz6N1m
+         WRjxiNykI3WkUUvcmjVtLKnP/aWL8iwqKQOdnz2XVgJxkq6EF5tamWh3UkYxgv6OMIzX
+         hKqw==
+X-Forwarded-Encrypted: i=2; AJvYcCVNlWQSNR7Z0jONJTDujZmcFLZilwHrpk+1pKwY2iFyd9OnFpyaTC8Yc2JjVQq5DoGsNVWj6w==@lfdr.de
+X-Gm-Message-State: AOJu0Yz+AxJQQj7E24PKsBUUGsCaQNpvwA78RGR7IFb0I5fxRIwF5AD+
+	vmcW7+GjRX9EeA4uyriPv9O9owPaSwG9U1HYJY7LW7CVkLax/3JSqRui
+X-Google-Smtp-Source: AGHT+IEcHpt3XQHVkovzdlD6Jemy7OeOl2Z7R0xX5NK9kgOybdHWehusGqBo4CgYiuFPJNa+LEHd8A==
+X-Received: by 2002:a05:600c:4450:b0:456:f9f:657 with SMTP id 5b1f17b1804b1-45a1b656260mr26356415e9.27.1755185309402;
+        Thu, 14 Aug 2025 08:28:29 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfWi0Bc8L4oD6JTIBnftCmDoeAkKtcob/50ga/74iU04w==
+Received: by 2002:a05:600c:1c12:b0:459:d42f:7dd5 with SMTP id
+ 5b1f17b1804b1-45a1af9b525ls4410355e9.0.-pod-prod-09-eu; Thu, 14 Aug 2025
+ 08:28:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXFbUPAnO4yzCJefCoP3BwbyC2fRNDHgHf0JtAd8ucuhzi4ir49Cd49JQXutuYWXPOASCUg6qG4+Aw=@googlegroups.com
+X-Received: by 2002:a05:600c:3509:b0:458:bd2a:496f with SMTP id 5b1f17b1804b1-45a1b646dc0mr26760405e9.21.1755185306545;
+        Thu, 14 Aug 2025 08:28:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1755185306; cv=none;
         d=google.com; s=arc-20240605;
-        b=IzBstJDKh16UNf10Gk/kis6O9hqvdcZGdhgo7T4qVtTI5S6+SJyCOLKobKs3/jjeha
-         RJqW0DtfWEk6ShDSS3HB+H3lBGUG62skatYObqEgRz+RDQt3vRV/1i/UsPUubmxq94j0
-         U/jrQXrWXkNYjr1K4W3MX1t/CGnIIx+wAOF/4S4nnRRwGscycycTXbgHa3fZAqsyeUJZ
-         lXjEHwYqrZlV7mrB1HVjLw6UOs34rjPuz2mIvu7OL/H6/rGoTEWIzPAWugWJbO5aoRPZ
-         rfFWIYYBAI7QmVGUHUKRVYly02n23KyuZXFPVTBASo2OjfjHd7d9CBZ/f8C7adywDOV9
-         Yx0g==
+        b=BU14IBQeeuuMYY61F6rQbNzXq28i2gnbJgF/GNw5e0qxz+4ZphJroSoZJ6aiZZaePC
+         CKkqhdlkb8VVP8hZan2c6n7titdw63Cojt+o81voB8Bqc8sMOBla2BJ5r4zYXlhl9h75
+         KusgnnozhOOjVgPmCCq/oh9mGM2hvUon9HeDlTS+Z7LTgprowE9V6BUvqSyVGFlx4K5+
+         xJ6YFa+BsebyVb41wPp9AszSWRIwjYcC4Bg7Fkh8z6wqRn8rAVCU7EhHa+yvx6EuXqjM
+         6om2A8Tsp1WEh0rIizPi2b+ocIb4gNZEReNA8h5DhVmls2S+26J7HK8b0b9CAwBgP1km
+         Y0nw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:dkim-signature;
-        bh=SskdpEkHcdWpBQfUP2UXfkwhjkYyC/FVECNBfHZs9y8=;
-        fh=k8hvLNV00Rq1nhkl1O8/OUmqmqP8Ver97f6ly6E6nck=;
-        b=Pc4qcgIMI+dmv3qJot1HOtJ+xEJv9bkx5L6iLvHfM5x/UwSPx/5PyQPalWKW5rRu0k
-         k3cwk8IDIT0O8OorciqmupXEYUGcmZDxdl/lSWtJNcLcHuNZTuCD7xlo2sPUswHbyovg
-         CIAf7OCBI0ldtXGeyUi/y+7aGVwqo4Aj1g6XT8VgEnEDljUR+qCpjorxmwKYQGqPlZYL
-         igBsnsCEmyBnGJJGyTDPtxFFQG+mtTEOkjgP7lpPsxFcUlqySVNSRvO6iiQnSyUoetfk
-         sflPcAJc3XJCXIegpqPqXXr7x115ezZkfMe3xs9r8R8TBFg/MExNz3rAse67PEq47b69
-         siHw==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=CNZq1Plf7qYhg3FaQgA7s7d5l7vZ/mBnFNpSg0zUHLI=;
+        fh=YMBqAbRcM5pI2w9JIlKyjFK0m9QK8mge/enxaAuo8DA=;
+        b=kExWJL92R381CFJG4A7t5snJ95ugJvpseJ9UjdnZ4XQ0rquyXcBKwD9WqEIcwlrcro
+         +BsZNRUjtKbLXafWGDcRvK8b99+rZqOLshp385VP9If9qYS/TxEOIba8BAV4W784KUS6
+         4Td0D30q3yluB9OHSzonsxCxAroH8PpM+25ni6phWZFPjzexl/mDkS3RUnj6IixeB8ys
+         X+UBOlJO0ST4vD0/cdMLImHmoAV7ZOrdA1TtzsmEjlOXIScdMnY2qOL3FYHseE+Sq7g0
+         KPfYfBGhBd1cwZhlNWRq58FjM5ZbpX2eoiWLzS0y2wFJdSZrfB9QimcwEe6IYoxr5ohR
+         O7Ow==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=23FJDgZn;
-       spf=pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::32b as permitted sender) smtp.mailfrom=jannh@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@cloudflare.com header.s=google09082023 header.b="d2mt6W/a";
+       spf=pass (google.com: domain of ignat@cloudflare.com designates 2a00:1450:4864:20::130 as permitted sender) smtp.mailfrom=ignat@cloudflare.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cloudflare.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com. [2a00:1450:4864:20::32b])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3b79d191683si181090f8f.4.2025.08.14.08.11.25
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com. [2a00:1450:4864:20::130])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3b79c339ca7si781358f8f.0.2025.08.14.08.28.26
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Aug 2025 08:11:25 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::32b as permitted sender) client-ip=2a00:1450:4864:20::32b;
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-459fbc92e69so77745e9.0
-        for <kasan-dev@googlegroups.com>; Thu, 14 Aug 2025 08:11:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXNbe7/w0x68wp6NjJLbJdTHHvXiYS1wCtvFEsPWmsUwvXxDvPBdpzQ7jSQNPAkh3nGDsCK2/5j6Fw=@googlegroups.com
-X-Gm-Gg: ASbGncs3ICikBVDBnL3KN85Cy+LkUDYFu3LJHJd57qLA5XYkLXX/O3v/7VayTDTE90g
-	bHwo7vsRWY0iusHEodqbjH7SsFuDoka5KOH8Tlid4A5FzzrMRBKhHLlD6QJrS7xYLjUCG65I4rO
-	smkJkztVlhdNOwFoNMZGP2t61CFFvVQ6IhZnH2ULUMk/kKgDpWc5UNF2MAOxjMpZLp32yUdSCq0
-	u6yIMzBCU4/lMMNkHQQ4XI6OgKqR5asuxaQug7KI85e1Exu1imjY6v2jDBXDJGyizVwp+Bw1gdd
-	OlSEYrrt4VGrPYpHJ8uLunggNaoCYkPRu7jWz7fi2Slzut+60YeEzr6uzWWNZAQITHVUW0tQtHz
-	f6SNMe3mp5Dm197i9
-X-Received: by 2002:a05:600c:c4a6:b0:439:8f59:2c56 with SMTP id 5b1f17b1804b1-45a1b177b3amr2085275e9.2.1755184284501;
-        Thu, 14 Aug 2025 08:11:24 -0700 (PDT)
-Received: from localhost ([2a00:79e0:9d:4:3dd3:b636:a51b:d0a4])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3ba54b6c93fsm1524246f8f.12.2025.08.14.08.11.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Aug 2025 08:11:23 -0700 (PDT)
-From: "'Jann Horn' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 14 Aug 2025 17:11:10 +0200
-Subject: [PATCH v3] kasan: add test for SLAB_TYPESAFE_BY_RCU quarantine
- skipping
+        Thu, 14 Aug 2025 08:28:26 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ignat@cloudflare.com designates 2a00:1450:4864:20::130 as permitted sender) client-ip=2a00:1450:4864:20::130;
+Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-55ce52ab898so1168612e87.3
+        for <kasan-dev@googlegroups.com>; Thu, 14 Aug 2025 08:28:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW6gb7HHdrQrn4t8bXdTDvBeZhnYSaRnO1lEWw0oFYjuK4196eus+Ij3zSe3OqW5Ew2S5NmYksO0SM=@googlegroups.com
+X-Gm-Gg: ASbGncu5x7FrlA3KWu1yL8Z4bd1ZVyhNncMEKSQBX6EAUXlpSzfalhDuN6GusIgKFGg
+	S/aWxNA+jKlTVbr1MqWlDIvdqKOUbsAQOn3eg1/C1Vrhsutv93kt1ofwlAclEteZXXjGuoAQcRL
+	ArF8EtKE2f3kAlwolRMsVCR9TR5LSOwuc/z/Zoz8qmPbjCN7ViJtHf0UiQhVtA06UADqFNBMrqN
+	wtEWF6UmRc9w6YuznOXzt1EOA==
+X-Received: by 2002:ac2:4e16:0:b0:55b:8540:da24 with SMTP id
+ 2adb3069b0e04-55ce50133c8mr1226637e87.20.1755185305657; Thu, 14 Aug 2025
+ 08:28:25 -0700 (PDT)
 MIME-Version: 1.0
+References: <20250813133812.926145-1-ethan.w.s.graham@gmail.com>
+ <20250813133812.926145-7-ethan.w.s.graham@gmail.com> <CANpmjNMXnXf879XZc-skhbv17sjppwzr0VGYPrrWokCejfOT1A@mail.gmail.com>
+In-Reply-To: <CANpmjNMXnXf879XZc-skhbv17sjppwzr0VGYPrrWokCejfOT1A@mail.gmail.com>
+From: "'Ignat Korchagin' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 14 Aug 2025 16:28:13 +0100
+X-Gm-Features: Ac12FXx9I9MrbtuwHaesyssft3AApB1lCQVaDorKwBHz1btfjTXbPnGjfwlVOBI
+Message-ID: <CALrw=nFKv9ORN=w26UZB1qEi904DP1V5oqDsQv7mt8QGVhPW1A@mail.gmail.com>
+Subject: Re: [PATCH v1 RFC 6/6] crypto: implement KFuzzTest targets for PKCS7
+ and RSA parsing
+To: Marco Elver <elver@google.com>, Ethan Graham <ethan.w.s.graham@gmail.com>, ethangraham@google.com
+Cc: glider@google.com, andreyknvl@gmail.com, brendan.higgins@linux.dev, 
+	davidgow@google.com, dvyukov@google.com, jannh@google.com, rmoar@google.com, 
+	shuah@kernel.org, tarasmadan@google.com, kasan-dev@googlegroups.com, 
+	kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	David Howells <dhowells@redhat.com>, Lukas Wunner <lukas@wunner.de>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
+	"open list:HARDWARE RANDOM NUMBER GENERATOR CORE" <linux-crypto@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Message-Id: <20250814-kasan-tsbrcu-noquarantine-test-v3-1-9e9110009b4e@google.com>
-X-B4-Tracking: v=1; b=H4sIAI38nWgC/4WPwRKCIBRFf8VhHQ1CarjqPxoXgC9lKkhApsbx3
- yN1pl0tz1ucc9+EPDgNHtXZhBxE7bU1CdguQ6oXpgOs28SIElqQih7xVXhhcPDSqREbO4zCCRO
- 0ARzAB1yoijJWVkCKEiXJw8FFP5fAuVnZwTCmTliP30ydbRH2IwKUVFJyToAe6pijj7PXPlj3W
- n6IdJFuJv5vbqQ4x21eypZzRrjip87a7gZ7Ze+omef5DVQWozEhAQAA
-X-Change-ID: 20250728-kasan-tsbrcu-noquarantine-test-5c723367e056
-To: Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
- Alexander Potapenko <glider@google.com>, 
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
- Vincenzo Frascino <vincenzo.frascino@arm.com>, 
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Vlastimil Babka <vbabka@suse.cz>, kasan-dev@googlegroups.com, 
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- Jann Horn <jannh@google.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755184280; l=2857;
- i=jannh@google.com; s=20240730; h=from:subject:message-id;
- bh=1jDJoKW+0uL8pCUw24xwM3FK0vdRrfgga7GPmYtrP6Q=;
- b=7eqsCi6f+oUTHibo06jMfimP7X6uftqxmyns3NemnHriDHDs4/42buGL0Ep6842p7TLguABrF
- 82V650jX80EB7QQQKwD0jNYibeGS0nG/peuF5xjkz/gf8dq6hlxxyc7
-X-Developer-Key: i=jannh@google.com; a=ed25519;
- pk=AljNtGOzXeF6khBXDJVVvwSEkVDGnnZZYqfWhP1V+C8=
-X-Original-Sender: jannh@google.com
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: ignat@cloudflare.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=23FJDgZn;       spf=pass
- (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::32b as
- permitted sender) smtp.mailfrom=jannh@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Jann Horn <jannh@google.com>
-Reply-To: Jann Horn <jannh@google.com>
+ header.i=@cloudflare.com header.s=google09082023 header.b="d2mt6W/a";
+       spf=pass (google.com: domain of ignat@cloudflare.com designates
+ 2a00:1450:4864:20::130 as permitted sender) smtp.mailfrom=ignat@cloudflare.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cloudflare.com;
+       dara=pass header.i=@googlegroups.com
+X-Original-From: Ignat Korchagin <ignat@cloudflare.com>
+Reply-To: Ignat Korchagin <ignat@cloudflare.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -166,95 +158,171 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Verify that KASAN does not quarantine objects in SLAB_TYPESAFE_BY_RCU slabs
-if CONFIG_SLUB_RCU_DEBUG is off.
+On Wed, Aug 13, 2025 at 7:14=E2=80=AFPM Marco Elver <elver@google.com> wrot=
+e:
+>
+> [+Cc crypto maintainers]
+>
+> On Wed, 13 Aug 2025 at 15:38, Ethan Graham <ethan.w.s.graham@gmail.com> w=
+rote:
+> >
+> > From: Ethan Graham <ethangraham@google.com>
+>
+> Should also Cc crypto maintainers, as they'll be the ones giving
 
-Acked-by: Vlastimil Babka <vbabka@suse.cz>
-Signed-off-by: Jann Horn <jannh@google.com>
----
-Changes in v3:
- - add vbabka's ack
- - make comment more verbose (andreyknvl)
- - Link to v2: https://lore.kernel.org/r/20250729-kasan-tsbrcu-noquarantine-test-v2-1-d16bd99309c9@google.com
-Changes in v2:
- - disable migration to ensure that all SLUB operations use the same
-   percpu state (vbabka)
- - use EXPECT instead of ASSERT for pointer equality check so that
-   expectation failure doesn't terminate the test with migration still
-   disabled
----
- mm/kasan/kasan_test_c.c | 40 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+Thanks Marco!
 
-diff --git a/mm/kasan/kasan_test_c.c b/mm/kasan/kasan_test_c.c
-index 5f922dd38ffa..0affadb201c2 100644
---- a/mm/kasan/kasan_test_c.c
-+++ b/mm/kasan/kasan_test_c.c
-@@ -1073,6 +1073,45 @@ static void kmem_cache_rcu_uaf(struct kunit *test)
- 	kmem_cache_destroy(cache);
- }
- 
-+/*
-+ * Check that SLAB_TYPESAFE_BY_RCU objects are immediately reused when
-+ * CONFIG_SLUB_RCU_DEBUG is off, and stay at the same address.
-+ * Without this, KASAN builds would be unable to trigger bugs caused by
-+ * SLAB_TYPESAFE_BY_RCU users handling reycled objects improperly.
-+ */
-+static void kmem_cache_rcu_reuse(struct kunit *test)
-+{
-+	char *p, *p2;
-+	struct kmem_cache *cache;
-+
-+	KASAN_TEST_NEEDS_CONFIG_OFF(test, CONFIG_SLUB_RCU_DEBUG);
-+
-+	cache = kmem_cache_create("test_cache", 16, 0, SLAB_TYPESAFE_BY_RCU,
-+				  NULL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, cache);
-+
-+	migrate_disable();
-+	p = kmem_cache_alloc(cache, GFP_KERNEL);
-+	if (!p) {
-+		kunit_err(test, "Allocation failed: %s\n", __func__);
-+		goto out;
-+	}
-+
-+	kmem_cache_free(cache, p);
-+	p2 = kmem_cache_alloc(cache, GFP_KERNEL);
-+	if (!p2) {
-+		kunit_err(test, "Allocation failed: %s\n", __func__);
-+		goto out;
-+	}
-+	KUNIT_EXPECT_PTR_EQ(test, p, p2);
-+
-+	kmem_cache_free(cache, p2);
-+
-+out:
-+	migrate_enable();
-+	kmem_cache_destroy(cache);
-+}
-+
- static void kmem_cache_double_destroy(struct kunit *test)
- {
- 	struct kmem_cache *cache;
-@@ -2098,6 +2137,7 @@ static struct kunit_case kasan_kunit_test_cases[] = {
- 	KUNIT_CASE(kmem_cache_double_free),
- 	KUNIT_CASE(kmem_cache_invalid_free),
- 	KUNIT_CASE(kmem_cache_rcu_uaf),
-+	KUNIT_CASE(kmem_cache_rcu_reuse),
- 	KUNIT_CASE(kmem_cache_double_destroy),
- 	KUNIT_CASE(kmem_cache_accounted),
- 	KUNIT_CASE(kmem_cache_bulk),
+> feedback on how interesting this is to them. Use
+> ./scripts/get_maintainer.pl for that in the next round, and either add
+> the Cc list below your Signed-off-by so that git send-email picks it
+> up only for this patch, or just for the whole series (normally
+> preferred, so maintainers get context of the full series).
+>
+> > Add KFuzzTest targets for pkcs7_parse_message, rsa_parse_pub_key, and
+> > rsa_parse_priv_key to serve as real-world examples of how the framework=
+ is used.
+> >
+> > These functions are ideal candidates for KFuzzTest as they perform comp=
+lex
+> > parsing of user-controlled data but are not directly exposed at the sys=
+call
+> > boundary. This makes them difficult to exercise with traditional fuzzin=
+g tools
+> > and showcases the primary strength of the KFuzzTest framework: providin=
+g an
+> > interface to fuzz internal, non-exported kernel functions.
+> >
+> > The targets are defined directly within the source files of the functio=
+ns they
+> > test, demonstrating how to colocate fuzz tests with the code under test=
+.
+> >
+> > Signed-off-by: Ethan Graham <ethangraham@google.com>
+> > ---
+> >  crypto/asymmetric_keys/pkcs7_parser.c | 15 ++++++++++++++
+> >  crypto/rsa_helper.c                   | 29 +++++++++++++++++++++++++++
+> >  2 files changed, 44 insertions(+)
+> >
+> > diff --git a/crypto/asymmetric_keys/pkcs7_parser.c b/crypto/asymmetric_=
+keys/pkcs7_parser.c
+> > index 423d13c47545..e8477f8b0eaf 100644
+> > --- a/crypto/asymmetric_keys/pkcs7_parser.c
+> > +++ b/crypto/asymmetric_keys/pkcs7_parser.c
+> > @@ -13,6 +13,7 @@
+> >  #include <linux/err.h>
+> >  #include <linux/oid_registry.h>
+> >  #include <crypto/public_key.h>
+> > +#include <linux/kfuzztest.h>
+> >  #include "pkcs7_parser.h"
+> >  #include "pkcs7.asn1.h"
+> >
+> > @@ -169,6 +170,20 @@ struct pkcs7_message *pkcs7_parse_message(const vo=
+id *data, size_t datalen)
+> >  }
+> >  EXPORT_SYMBOL_GPL(pkcs7_parse_message);
+> >
+> > +struct pkcs7_parse_message_arg {
+> > +       const void *data;
+> > +       size_t datalen;
+> > +};
+> > +
+> > +FUZZ_TEST(test_pkcs7_parse_message, struct pkcs7_parse_message_arg)
 
----
-base-commit: 0df7d6c9705b283d5b71ee0ae86ead05bd3a55a9
-change-id: 20250728-kasan-tsbrcu-noquarantine-test-5c723367e056
-prerequisite-change-id: 20250723-kasan-tsbrcu-noquarantine-e207bb990e24:v1
-prerequisite-patch-id: 4fab9d3a121bfcaacc32a40f606b7c04e0c6fdd0
+Not sure if it has been mentioned elsewhere, but one thing I already
+don't like about it is that these definitions "pollute" the actual
+source files. Might not be such a big deal here, but kernel source
+files for core subsystems tend to become quite large and complex
+already, so not a great idea to make them even larger and harder to
+follow with fuzz definitions.
 
--- 
-Jann Horn <jannh@google.com>
+As far as I'm aware, for the same reason KUnit [1] is not that popular
+(or at least less popular than other approaches, like selftests [2]).
+Is it possible to make it that these definitions live in separate
+files or even closer to selftests?
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250814-kasan-tsbrcu-noquarantine-test-v3-1-9e9110009b4e%40google.com.
+Ignat
+
+> > +{
+> > +       KFUZZTEST_EXPECT_NOT_NULL(pkcs7_parse_message_arg, data);
+> > +       KFUZZTEST_ANNOTATE_LEN(pkcs7_parse_message_arg, datalen, data);
+> > +       KFUZZTEST_EXPECT_LE(pkcs7_parse_message_arg, datalen, 16 * PAGE=
+_SIZE);
+> > +
+> > +       pkcs7_parse_message(arg->data, arg->datalen);
+> > +}
+> > +
+> >  /**
+> >   * pkcs7_get_content_data - Get access to the PKCS#7 content
+> >   * @pkcs7: The preparsed PKCS#7 message to access
+> > diff --git a/crypto/rsa_helper.c b/crypto/rsa_helper.c
+> > index 94266f29049c..79b7ddc7c48d 100644
+> > --- a/crypto/rsa_helper.c
+> > +++ b/crypto/rsa_helper.c
+> > @@ -9,6 +9,7 @@
+> >  #include <linux/export.h>
+> >  #include <linux/err.h>
+> >  #include <linux/fips.h>
+> > +#include <linux/kfuzztest.h>
+> >  #include <crypto/internal/rsa.h>
+> >  #include "rsapubkey.asn1.h"
+> >  #include "rsaprivkey.asn1.h"
+> > @@ -166,6 +167,20 @@ int rsa_parse_pub_key(struct rsa_key *rsa_key, con=
+st void *key,
+> >  }
+> >  EXPORT_SYMBOL_GPL(rsa_parse_pub_key);
+> >
+> > +struct rsa_parse_pub_key_arg {
+> > +       const void *key;
+> > +       size_t key_len;
+> > +};
+> > +
+> > +FUZZ_TEST(test_rsa_parse_pub_key, struct rsa_parse_pub_key_arg)
+> > +{
+> > +       KFUZZTEST_EXPECT_NOT_NULL(rsa_parse_pub_key_arg, key);
+> > +       KFUZZTEST_EXPECT_LE(rsa_parse_pub_key_arg, key_len, 16 * PAGE_S=
+IZE);
+> > +
+> > +       struct rsa_key out;
+> > +       rsa_parse_pub_key(&out, arg->key, arg->key_len);
+> > +}
+> > +
+> >  /**
+> >   * rsa_parse_priv_key() - decodes the BER encoded buffer and stores in=
+ the
+> >   *                        provided struct rsa_key, pointers to the raw=
+ key
+> > @@ -184,3 +199,17 @@ int rsa_parse_priv_key(struct rsa_key *rsa_key, co=
+nst void *key,
+> >         return asn1_ber_decoder(&rsaprivkey_decoder, rsa_key, key, key_=
+len);
+> >  }
+> >  EXPORT_SYMBOL_GPL(rsa_parse_priv_key);
+> > +
+> > +struct rsa_parse_priv_key_arg {
+> > +       const void *key;
+> > +       size_t key_len;
+> > +};
+> > +
+> > +FUZZ_TEST(test_rsa_parse_priv_key, struct rsa_parse_priv_key_arg)
+> > +{
+> > +       KFUZZTEST_EXPECT_NOT_NULL(rsa_parse_priv_key_arg, key);
+> > +       KFUZZTEST_EXPECT_LE(rsa_parse_priv_key_arg, key_len, 16 * PAGE_=
+SIZE);
+> > +
+> > +       struct rsa_key out;
+> > +       rsa_parse_priv_key(&out, arg->key, arg->key_len);
+> > +}
+> > --
+> > 2.51.0.rc0.205.g4a044479a3-goog
+> >
+
+[1]: https://docs.kernel.org/dev-tools/kunit/index.html
+[2]: https://docs.kernel.org/dev-tools/kselftest.html
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
+ALrw%3DnFKv9ORN%3Dw26UZB1qEi904DP1V5oqDsQv7mt8QGVhPW1A%40mail.gmail.com.
