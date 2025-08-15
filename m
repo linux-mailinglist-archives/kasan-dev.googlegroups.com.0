@@ -1,148 +1,302 @@
-Return-Path: <kasan-dev+bncBDPPVSUFVUPBBTMW7XCAMGQEC3KELRQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCD6ROMWZ4CBBLU47XCAMGQEBAS363A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83a.google.com (mail-qt1-x83a.google.com [IPv6:2607:f8b0:4864:20::83a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ACA1B28284
-	for <lists+kasan-dev@lfdr.de>; Fri, 15 Aug 2025 16:59:27 +0200 (CEST)
-Received: by mail-qt1-x83a.google.com with SMTP id d75a77b69052e-4b0fa8190d4sf79028801cf.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 15 Aug 2025 07:59:27 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1755269966; cv=pass;
+Received: from mail-oa1-x3d.google.com (mail-oa1-x3d.google.com [IPv6:2001:4860:4864:20::3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF71B282B6
+	for <lists+kasan-dev@lfdr.de>; Fri, 15 Aug 2025 17:11:43 +0200 (CEST)
+Received: by mail-oa1-x3d.google.com with SMTP id 586e51a60fabf-30ccea6baa0sf1809938fac.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 15 Aug 2025 08:11:43 -0700 (PDT)
+ARC-Seal: i=4; a=rsa-sha256; t=1755270702; cv=pass;
         d=google.com; s=arc-20240605;
-        b=K/hLdQfkWhTFLNRpyk/chuBysh+AuYMfbe378eihTsQfTCe6Ry669p3a+ohYrbyz8q
-         u57ui6Z5GO+AmImHTs69S3/x49tvwDEXz7rvZ3nXFewPW0Uw1BiusAf0pBaTrJSCnSY8
-         hBBpo+hqmnQ1EHDnYDMk+GUO04KbQglsZV9rH2tO0u4ZIGz+ymNeX4An7X9J3SWSw3P6
-         7MHlFMnP+buYAOA+BUoF6+DHyIrSquI0apvaYRne7afV+EB9cyAMlnJ+N62XycVBhJjo
-         1x9IxrT0jVmn56c/kMQfcluiLU3VEtunH3R/y4NNYo67Yya9RFZUWi3WkjacyzTGGBW0
-         sojA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        b=XkoAAcUm0y5In3mHS5HAyn71skXiy3ydUbKXK47q83XniXko6yWwZXqmOPEcaFbhUz
+         urwVpm7qNWIk5FvJgn73MVkS6TFTAJO8OoGxtd2UEWN+5v3NYb/nHkdty4/vNJqoolTE
+         wIuuiMQ6liuoeQIujtx+0LsQcftNS7kNyPi9zx7uxXRmYrYs5Ck6m7bKUfLh/oHHa4lf
+         pv/J4F2FfI7mwi7hLF0czAgurTPbjl3Npdym4XOgSH7dbi34zkI39//aou31/Fwy9ZMC
+         XPvQFBDi//nXDXbpDiOfFhRqWcJ9cGmPI5BaHSrNXOD/zFSdXM1IGckkmRcJrfQNDl2i
+         F1NQ==
+ARC-Message-Signature: i=4; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Ibz5LvVNJXtqR/cl/FLkeU2GEzcNSf0fgdY4l9ThDtA=;
-        fh=/GXfp2sDrvweGr7HivWIed/d4+p4P3a9PctC4kQwbCY=;
-        b=Yyopm/obtSYcxaT1y4HcSNma8Bv3Dik8z5hdGa3gzM+g6HU85RY0fcJO0RS/ZvVGIH
-         DIimH9B/U8ucjRBKzTd0l49t+5/swxulnKttdhdxoHergGTUgPnDB3GEcJHrwwi+Jq86
-         D24u3rWY5CYYMPx+VCQqVTXU5oUkXfWDtQDA7uxNySMY/2tC5Mk3IKqcHByoyL7qBxSt
-         86iXxwtQOILZVlMG+DYLKrxCwk6bc/+OHLd1iI2GULS49+uvlzy4QaJVB16HWPP4udH+
-         XxO8RIMQ8YbrwuNm6EdfGwWiYhGi0sMQhyI2g0aLK+UWckl97rzzL9Jb5jvDCpk4ZnKN
-         /PVA==;
+         :list-id:mailing-list:precedence:nodisclaimer:mime-version
+         :in-reply-to:content-transfer-encoding:content-disposition
+         :references:message-id:subject:cc:to:from:date
+         :authentication-results-original:sender:dkim-signature;
+        bh=Bm58dt0B+pALaRxFTaWfxdXh6MyxsLS1Qpt9/wCQ0qE=;
+        fh=P1E0t23FwXXijmX3KG5XCjEGZmMKif02OkCd7da4PgU=;
+        b=cY/5lL2nDejnR1blxif36jIAv1ria3M16PNuB3+knYl7jcbAm/TSU0BMqew/Vp7YO5
+         oGx9V8fzVpoWFeXshkqiXa6G3Q01eo38K0+TWoe/TP3IxPhPflivgXwo5mgQD2+bdre2
+         vGV/VrkQ/eyHSeYCBn2YGh6l/PtrH9CDCxXv/4zM3p2xnZKWV90z6zZeYg57ebWHIql8
+         lOHRDbXF1mpwlNmTSey+fiKBT+/RD2MHbhAEjWOs/YXEMQeq0+9CkeNctoYoxMVdtoh+
+         ddoGjbj1hg7V3mevWICmtK60xjk0qlELe+pTuGVqQe+otDrr+V28+1n7+NHEXA0stMqr
+         opdQ==;
         darn=lfdr.de
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=ReZT83WN;
-       spf=pass (google.com: domain of rmoar@google.com designates 2607:f8b0:4864:20::f34 as permitted sender) smtp.mailfrom=rmoar@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
+ARC-Authentication-Results: i=4; gmr-mx.google.com;
+       dkim=pass header.i=@arm.com header.s=selector1 header.b=FArBhRyR;
+       dkim=pass header.i=@arm.com header.s=selector1 header.b=FArBhRyR;
+       arc=pass (i=2 spf=pass spfdomain=arm.com dkim=pass dkdomain=arm.com dmarc=pass fromdomain=arm.com);
+       spf=pass (google.com: domain of yeoreum.yun@arm.com designates 2a01:111:f403:c20f::7 as permitted sender) smtp.mailfrom=YeoReum.Yun@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1755269966; x=1755874766; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1755270702; x=1755875502; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ibz5LvVNJXtqR/cl/FLkeU2GEzcNSf0fgdY4l9ThDtA=;
-        b=hprZGwJexMUot0BUnsrcYP6GVDt7lAIW/1tHO35G2PGEjIuXboeasPgxsWQW0yfHVo
-         JHU6TPlr9E8WAT53K8AsfD4xKBqJGIgJFz28xLGlJpfanRicZg0pICDjX/ia0TrinTXJ
-         2absBHEJDrkhE5zPCuYMKx0DM5bbq748QEyU07lFUTevQOJktTrg4eXPT6EPsqwNbeNJ
-         Mx8gC2YK4qPJlWno7TuQxxYZhGUjcMLy3g9QQOeOwVrrxou6O1OxhAqsPaIuoIN+ELoB
-         XTUP8awlrd7bqBaFz2P4+w8LOMO224fALXiSWneoGKhQLLd4Y+1cKSxA1E66akr7ZYGX
-         JuwQ==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:nodisclaimer:mime-version:in-reply-to
+         :content-transfer-encoding:content-disposition:references:message-id
+         :subject:cc:to:from:date:authentication-results-original:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Bm58dt0B+pALaRxFTaWfxdXh6MyxsLS1Qpt9/wCQ0qE=;
+        b=BMotBG1zZGnQTh2yeevOy0TuuRQJ4SeXF6ZT7xMK3zoXNKDEFnh2NyRVpAKRwJszM9
+         SM6a6CXp+UCICbDkd+mYRfQra2tvTZBeZB6LuGVAsp5/7+11c8qliLc7wDMvvsfPaAU8
+         EDn/ilfWXBrNBXBovUvoIwBnGYTX03rLBhK+4oHwkSZ7pharxIYUTLAKD6EvGeDf5ZDv
+         GG2w4jwNO+wC8Afwi4ed+85ehwvUPgtRS+anV+KEGVO0MqblCiqEim3FCPu9+Dxc1WFX
+         RFI2aPRqcXGFRsMahKyPyF3DzqDkjqzowHHI9GwcTn5bJZdE1OdOYnHTdk0TrdNZwOPx
+         5bqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755269966; x=1755874766;
+        d=1e100.net; s=20230601; t=1755270702; x=1755875502;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ibz5LvVNJXtqR/cl/FLkeU2GEzcNSf0fgdY4l9ThDtA=;
-        b=u0TEqi27yk5gG4Q59qQ0EtxV1FfmvuavVsmJoIH7CQSwS7XTqYHh0vFzVoY5Z/j0Jl
-         rQHxr0WLELY4Zm0BTU5FiOIJFVYUs47zBOOCmawRAUObUVVwHL3uUCZsHuDKiQbc0lTf
-         E94xwaGQeYEywWmApr+zkdWxPdi0VUmyxwyJstjvwdGJ8fm83j5+/ByhrRAuwwkZngvc
-         jWTptFT1u7zGK0rqwvUplhnXisEIC8sPUNr02dIZEHyY6j3QsD6adYfcLSIWMPYSpcIR
-         l0VRSIZ5r8qFp448JXrwx94vbWvcstPfFbndkC5hmmgICVPhyb+PzmaKf4pT20SG5SWi
-         TOgA==
-X-Forwarded-Encrypted: i=2; AJvYcCWOcLOoGBXens7YVeOZbWPOc5KA2GzaRHcSjXdBqMQ0pgTZAM7gQ9TatBIvWmJ4oUWhal+cRQ==@lfdr.de
-X-Gm-Message-State: AOJu0YxFjJsUJYKvKfz+0ezKJzjXdPCJ+VxluJRgu8A8NuFVKLkVafp/
-	zCtzMrJYLbttXBpaX1zY4Y108x5bj4fiwXcUtJ02dwLurU6TE/gXBHS5
-X-Google-Smtp-Source: AGHT+IF3pnZRz8QziBeuop2+dygfv30KJgp2frmEbbpp50XD9qutinB3lM1TdM0TbJRc1EXKqrTuUw==
-X-Received: by 2002:a05:622a:a15:b0:4ab:5d26:db8a with SMTP id d75a77b69052e-4b11d2dea99mr37956841cf.18.1755269965893;
-        Fri, 15 Aug 2025 07:59:25 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZeYzvgRkhasNFlQJFx7rFXUDMZ/NjEf+iNiGb+7yC1pEg==
-Received: by 2002:ac8:7d48:0:b0:4aa:fbf6:4242 with SMTP id d75a77b69052e-4b0fae0376dls26403251cf.1.-pod-prod-00-us-canary;
- Fri, 15 Aug 2025 07:59:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUU4PgJx0L7aNr+kH4PXaBgfBpChyPCyH1mnPQMkUT2cypJatVrED+OfbwEn3AaJ6S1P8oXudfnnzM=@googlegroups.com
-X-Received: by 2002:a05:620a:44d1:b0:7e8:a40:2cf9 with SMTP id af79cd13be357-7e8717a32e1mr811956385a.26.1755269964828;
-        Fri, 15 Aug 2025 07:59:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1755269964; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:nodisclaimer
+         :mime-version:in-reply-to:content-transfer-encoding
+         :content-disposition:references:message-id:subject:cc:to:from:date
+         :authentication-results-original:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bm58dt0B+pALaRxFTaWfxdXh6MyxsLS1Qpt9/wCQ0qE=;
+        b=SB++BoEuadh8PY+SNAMzOlv0ZluLvknJgiwUC3/cZUu4UPRlkqVmISGjwaP1wwWjgB
+         CNfydqzPoPaGkXa1NukPkd7RxyMAnWV7IDfa7k3TEDF+Qi1/3ikXBAXSfVc/KNSHIcEP
+         anm5GwRyhqmvU2VRz7HSdCqNZhzEa/ysPq17ZgpNO2lO3jPW2rZJXBhLmuTonAepJYyN
+         QaHoH4dMEEE2n8dMZveITjzzcbilDVGk1YLUwnySw/i3F6afWdW71riVRCGqyhwugK8N
+         FbTndUX5wCx8SB28YyWo0v6EQWw+mO87+Ws4kNfpvzZQ0p2swLRJdm6rq5SGd9KGha88
+         dqug==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=4; AJvYcCV46C7u9LnhthxUKEisBrsvW5N9pFs80442vqXrBC05wX0wOvbJmhnTX/8dONjrX98J1xQ5xQ==@lfdr.de
+X-Gm-Message-State: AOJu0YymuCuovqXswZ9tnBGRrUsoIYPHgnB451Bd2waesQ8KklfuN0U7
+	AhtresFh6EpZAXEdS0EKfz6ACGbXaAMGM682rsTHatvMilFnHvxObYVO
+X-Google-Smtp-Source: AGHT+IHVt3zVxFsMKeuRhorinSi9kWJCs+o3xyJe4PqjRIkuIq8oRUBpN0uJ5OyIO+imBIG1/vXg6A==
+X-Received: by 2002:a05:6871:3388:b0:2d5:1894:8c29 with SMTP id 586e51a60fabf-310aaf0fed5mr1432940fac.23.1755270702428;
+        Fri, 15 Aug 2025 08:11:42 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdxVP/8p9h2tFRZ9u47rFNkUT0ldbubcfB6vb3P+K+UCA==
+Received: by 2002:a05:6870:9e93:b0:30b:cb7c:ba90 with SMTP id
+ 586e51a60fabf-30ccebbda7dls919224fac.2.-pod-prod-02-us; Fri, 15 Aug 2025
+ 08:11:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=4; AJvYcCWgUBJLfXeBLSpweBVjZegaUheMl28R5xKjthfHC8Ji7EvQVkwH+jOaxKw4ytQlsNC+YriESAbJtvE=@googlegroups.com
+X-Received: by 2002:a05:6870:5593:b0:30b:aeb8:fa62 with SMTP id 586e51a60fabf-310aad4cee2mr1388317fac.16.1755270701527;
+        Fri, 15 Aug 2025 08:11:41 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1755270701; cv=pass;
         d=google.com; s=arc-20240605;
-        b=JPZoJ6rPcBK3wn+vJO8V3JOsHw8wxbPsmuRDFe6G88tngKlLhBgW6VaSNmpXW4XFqu
-         UaySQjttbkCqBrVFMk1oHPgEOMYlh9aH8OrS8nbgVX7c+xYc3nxetZwNDmvfrYHRvc+1
-         nf0ot4j3lnyVoBtji40SZc4gezYfGLBB5ylaewDkjRgo/foziTueeB76/taOAlmSXdcH
-         GNqYCanNTByt6oLlpUKC7URIsPfczsPYPvinYCjmPND3vY0+ibUPhHtlzrV/r7j54gkz
-         ijKi1n4I/8jTrE/TCd52/2WUUuhBL1U1l+dBfXmr7h9OlHIWMVvcqeY7DHFo74t6UIni
-         bgZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=50nh9ojpuXl09KZsM4s/5KZbwzDlcF/XYcNNU05X9hw=;
-        fh=rqp9ul1skRHgqrmMTIVuiIGC5YOqwSNq3Ns4+vwEk/o=;
-        b=GgYoyf76anTSB5Sn4uAOesAxoK1Q3+IT6F6kT6Rxu03tdgyY7I0/8l0RRvLQKbmy4C
-         MS3LX0VHxnguL4sqh9rTtiGNcsO+T98ldhRfOefeeGE8uA5xIpbxjdgcnneX2G08GR5N
-         YQ8r6eA4j8M4BFtuHQvhLTVBYGGedmGuOKNEwljsO2XlcGlbdWRwUg2AoKU/wGEkXIEu
-         nx3AzwOJzoGSjMQcxvd8T9dzK4zjm13iCvpshB0CmmKv+/XS/6wqkQscD+RxmvkZssJQ
-         sHm4+7RmqAJ2VycmIsZKW51jU+kHxJGCtf/rsnizrnADLDt6d1iVwCeI6UhuTHkPBJfp
-         cTHA==;
+        b=DsxUfjAjwq9Yxe35wuDELqg8yIAoco0xDL7JasUfzvzolMEoPWz/6DufxjEpISrLjT
+         YY/9pxVX+lTYYyTLebdUhjFVbcZbIJK5B+R1qa7VDq0z4zdCy+ohCu80ItuPqvGFOde7
+         bS/P6APXmTaw0pxqp9kotFueAIFgt+MOWwpBkRE3/eE9cP0jtg1OmahOlSpJJRnN1gkW
+         JHJP+dP9zNL4M1SRcupv0TDLEXzMGqCWB6RKsLaXLBw8EtgzfghJn/v7L1aUfupPqgTP
+         dEytHVtuhBlNGLhRVSmMxsvQzZ8EQOVu5OfIOGd+E9H+sbxPfzxnQIr2Y2ypeuJ2pCu9
+         Xq+A==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=nodisclaimer:mime-version:in-reply-to:content-transfer-encoding
+         :content-disposition:references:message-id:subject:cc:to:from:date
+         :authentication-results-original:dkim-signature:dkim-signature;
+        bh=9LyzwvjqH8zDyBmgBULVL1FOqczlPPa6/80Ho9a3qv8=;
+        fh=sy1/T+hZ0mz5g5/9lgWaTur7TgGZ2Tl7HUiVtGJX82k=;
+        b=OZq8HfMfbMUX6UrwOVpPCN9F1qQA4HmudJuPxohjzIVgYUNPGRocUQPlkyPOBu8qmp
+         IhXl1PwVRw9qxekikkG1EdAA79hsefA5X9mqfvonf6MVOy6sFzZ0ToWp4zb9v0WyWjsG
+         rQkVTiHNV335tJbp30klwyh0/CNvDfT44Z7NWFXv6D4/tCLGKRXTzJVl0gTfancIBheF
+         J1N0LJNtpT4yRyN0xT+KfExVZONvAP5OrTBjr4ta+skfmVFUPon4ocJifiB1BuZkSl9K
+         X9xWhCl8EqIn1w4UDTRZSMO1AiiRuu/AeSukJVOHpoMagO9tzhjxWKI+M8B0E4hdXlWC
+         vFMA==;
         dara=google.com
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=ReZT83WN;
-       spf=pass (google.com: domain of rmoar@google.com designates 2607:f8b0:4864:20::f34 as permitted sender) smtp.mailfrom=rmoar@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com. [2607:f8b0:4864:20::f34])
-        by gmr-mx.google.com with ESMTPS id af79cd13be357-7e87e1dcbe1si6472485a.5.2025.08.15.07.59.24
+ARC-Authentication-Results: i=3; gmr-mx.google.com;
+       dkim=pass header.i=@arm.com header.s=selector1 header.b=FArBhRyR;
+       dkim=pass header.i=@arm.com header.s=selector1 header.b=FArBhRyR;
+       arc=pass (i=2 spf=pass spfdomain=arm.com dkim=pass dkdomain=arm.com dmarc=pass fromdomain=arm.com);
+       spf=pass (google.com: domain of yeoreum.yun@arm.com designates 2a01:111:f403:c20f::7 as permitted sender) smtp.mailfrom=YeoReum.Yun@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazlp170130007.outbound.protection.outlook.com. [2a01:111:f403:c20f::7])
+        by gmr-mx.google.com with ESMTPS id 586e51a60fabf-310ab91bba3si66951fac.2.2025.08.15.08.11.40
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Aug 2025 07:59:24 -0700 (PDT)
-Received-SPF: pass (google.com: domain of rmoar@google.com designates 2607:f8b0:4864:20::f34 as permitted sender) client-ip=2607:f8b0:4864:20::f34;
-Received: by mail-qv1-xf34.google.com with SMTP id 6a1803df08f44-70a88ddb1a2so19171786d6.0
-        for <kasan-dev@googlegroups.com>; Fri, 15 Aug 2025 07:59:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXkTfo/gOEUevvPTeOW4foZXNertS0x4xbcJXopP+Yo4c1ZVl5fPbYRtT4zx3sZuKpOevdOQdD04As=@googlegroups.com
-X-Gm-Gg: ASbGncvrSqPNEwuMip8A50X0mHzHwHeCnfNY9pEabb27A79/nib2mg77A/ehWw6FhNI
-	ULNTCrd371rMZKr4CmV8bKgj55U0WSilf98t02G2NPpQDtLOtwAlQ4KnuIlHq7CMfXuFG4InpfK
-	VPADiKJWOzjQzPheTORI/gnJixk7sbkV2aVuP73xeC1xXRns4SEZliQ36sJJwrSBGJs9ULl0KU/
-	oEeKE+nhSolfVYDjUHVwgeYkz8q+XZS+w==
-X-Received: by 2002:a05:6214:2242:b0:704:a1c6:fff3 with SMTP id
- 6a1803df08f44-70b97e04d15mr95594636d6.15.1755269961267; Fri, 15 Aug 2025
- 07:59:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250815103604.3857930-1-marievic@google.com> <20250815103604.3857930-5-marievic@google.com>
-In-Reply-To: <20250815103604.3857930-5-marievic@google.com>
-From: "'Rae Moar' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 15 Aug 2025 10:59:10 -0400
-X-Gm-Features: Ac12FXwK-0tPDAQTbVtLDfpATZ41CarassR39o4F4FtdW7kdqfwXD7XBdOKQgaE
-Message-ID: <CA+GJov50Q81TAg8PUVNeg=tLUn+WLi8=Y+=FctC9hjs8TVh3mw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/7] kunit: Enable direct registration of parameter
- arrays to a KUnit test
-To: Marie Zhussupova <marievic@google.com>
-Cc: davidgow@google.com, shuah@kernel.org, brendan.higgins@linux.dev, 
-	mark.rutland@arm.com, elver@google.com, dvyukov@google.com, 
-	lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com, 
-	rodrigo.vivi@intel.com, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, kasan-dev@googlegroups.com, 
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Aug 2025 08:11:41 -0700 (PDT)
+Received-SPF: pass (google.com: domain of yeoreum.yun@arm.com designates 2a01:111:f403:c20f::7 as permitted sender) client-ip=2a01:111:f403:c20f::7;
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=uMSs2Rp97sHDj7k9n3a3i/nVvijwwiHuw7eyKaomiiJfCOuM4F+rTyFNzs97RwsE2jCrQ6NcTb+YsezjJh3gzcv2D4d9j8AcfU999GdLiVooP4TY1uA0PaW++mRs55h4Tvo1zv6SDOk1nG8iMIIaCjvLbn06LVTJ9QlIjgpEriPrUHcxEJnezICyzUB5zx6zZz4QFXSciesCREwWnfnm5tMPCDLSlUISJSVSDgrtJ0pTMTEBNXXBsn9Ae3VNbgxOjbP7rTqAl7/jgsKqhj4Xam//ny0ZDTQIFbz7WC4e/RXMv/v/iRxf0xirzQdOLVxWJJpP20qBomYyUgp73UCJEA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9LyzwvjqH8zDyBmgBULVL1FOqczlPPa6/80Ho9a3qv8=;
+ b=MsjTawyQ/qKON5F/KdWkQ/yugWdGhoNS84tMV4PJf2gsAB0QhbNuf45CnV5suu6rZ211kM8Q2lbN4QAF2JOepVyFTJ4zTMd9WBr9sjYNf9Pgqek2dm0JxBDp/sY6yj1MgLdOcZK7Qy/YTAM0leMNOuHL7FJwf0dELBYvQ+sn0e9WGCKAhPx2BAASQtK/sWUCkCNoHVLDHJjg8Qcy1D4whW9k0w03pOnoPIgJlMTojiyCECFXUe9MR4m0S66X9CCIKgnm9WJsn+bVl7rapgzjoY98V3HUfruRpEWE2IimuLLRSRWrRbCzXBIIMFKUrz/mjDy6uEhVX2xrNW8wWKR6Ow==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+Received: from AM0PR04CA0092.eurprd04.prod.outlook.com (2603:10a6:208:be::33)
+ by DB9PR08MB7675.eurprd08.prod.outlook.com (2603:10a6:10:37e::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.13; Fri, 15 Aug
+ 2025 15:11:37 +0000
+Received: from AM4PEPF00027A69.eurprd04.prod.outlook.com
+ (2603:10a6:208:be:cafe::b4) by AM0PR04CA0092.outlook.office365.com
+ (2603:10a6:208:be::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.18 via Frontend Transport; Fri,
+ 15 Aug 2025 15:11:37 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AM4PEPF00027A69.mail.protection.outlook.com (10.167.16.87) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.11
+ via Frontend Transport; Fri, 15 Aug 2025 15:11:36 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tWf7GIEX3Bk2CeYPCNzwpDIPmTOSvdMNaRhIzwCJ02TRyB1VT+gBPzA2s5gtt7S3wp5cQuSCR30ZxKY4Ie8ixGC85eE7qDAkEMzZrVLG8K7kSnw7xXG2fIwQhLKjrBYmh2vbmp6K9mB5QUguqRiOsPosgRhvSGXqq/ZgYCxARurl7axuMi4VZouyA8B3fNQzQGu1/RGm6uI1ScQ2ioYyoYHXL5GEb4tTCvbmBxrSe7yRxw+StyDxnHXcsn0a7fh09FA3HabaD6wSEEptg2gSljejJo+o8ZqbEd+708SmQoFXEigduAXWSQst+hv0gtRWgKwWxC4kHAEFcN8ZbhBWdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9LyzwvjqH8zDyBmgBULVL1FOqczlPPa6/80Ho9a3qv8=;
+ b=KKcqlo+iCE+pmOSGrJQG3HRw5J1KcA6FKpGf+kRyyO/aWzQQOnN/lR/biyEra7e6gL5OoYDWSrjvK9r+lkVuge1exw9dk2m9LLrJ5mGH0Q/GlEZXHJuMNQZB2FGs5Pr7/iYigyKiMLZdCTqiXQ7nLMPSwexWPWgBLGzV+bhYy8ylA+87gPLhbECj9WsC4Wc3Qi5aqe8JoWaI1aHrLL/1u50T3FkvgryuSBy+bgkg9h1yE9f5cjslEA/07yjdeCdUJfKw59QRJp4Sf4/HfW30+zxFRNC77H2112ris156tetPa5FxiAwE9dtryqc6CJR8eQkJJEI6AqtSNmRnMWOQRg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
+ (2603:10a6:150:163::20) by VI1PR08MB5423.eurprd08.prod.outlook.com
+ (2603:10a6:803:133::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.17; Fri, 15 Aug
+ 2025 15:11:03 +0000
+Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
+ ([fe80::d430:4ef9:b30b:c739]) by GV1PR08MB10521.eurprd08.prod.outlook.com
+ ([fe80::d430:4ef9:b30b:c739%7]) with mapi id 15.20.9031.014; Fri, 15 Aug 2025
+ 15:11:03 +0000
+Date: Fri, 15 Aug 2025 16:10:59 +0100
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
+	dvyukov@google.com, vincenzo.frascino@arm.com, corbet@lwn.net,
+	will@kernel.org, akpm@linux-foundation.org,
+	scott@os.amperecomputing.com, jhubbard@nvidia.com,
+	pankaj.gupta@amd.com, leitao@debian.org, kaleshsingh@google.com,
+	maz@kernel.org, broonie@kernel.org, oliver.upton@linux.dev,
+	james.morse@arm.com, ardb@kernel.org,
+	hardevsinh.palaniya@siliconsignals.io, david@redhat.com,
+	yang@os.amperecomputing.com, kasan-dev@googlegroups.com,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH v2 1/2] kasan/hw-tags: introduce kasan.store_only option
+Message-ID: <aJ9OA/cHk1iFUPyH@e129823.arm.com>
+References: <20250813175335.3980268-1-yeoreum.yun@arm.com>
+ <20250813175335.3980268-2-yeoreum.yun@arm.com>
+ <aJ8WTyRJVznC9v4K@arm.com>
+ <aJ87cZC3Cy3JJplT@e129823.arm.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: rmoar@google.com
+In-Reply-To: <aJ87cZC3Cy3JJplT@e129823.arm.com>
+X-ClientProxiedBy: LO2P265CA0374.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:a3::26) To GV1PR08MB10521.eurprd08.prod.outlook.com
+ (2603:10a6:150:163::20)
+MIME-Version: 1.0
+X-MS-TrafficTypeDiagnostic: GV1PR08MB10521:EE_|VI1PR08MB5423:EE_|AM4PEPF00027A69:EE_|DB9PR08MB7675:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7db7fe2f-280d-4677-c312-08dddc0e07b5
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info-Original: =?utf-8?B?SmhXaGhRVTdObVF0akRHc2psbWJ1OWpCVjlPZGV0ajloL3JmcEIxeHdKYVh0?=
+ =?utf-8?B?R3NGTkVxQXhzZitFZVM5d3E0eHBqMVhZa0wyVkM3bEZpKzRoQTVxM2hiZjM2?=
+ =?utf-8?B?ejhWRjVpQVZsTGcxaGRyVHV5M2NudmNIeUlLS3M0UVkxMEc5THpCMkdxMFBq?=
+ =?utf-8?B?ak5IZGZiTUlFWmFqQnAwUE1aZ2xlQ1pYaWJVZG1nMG5Sb0RLOG5LbkFvTjBO?=
+ =?utf-8?B?dlpKNCtYaHpQNnU3SFlqUFRWbEJWdEpBNngyQi9nWkNMZmtYelhBUU95VFFn?=
+ =?utf-8?B?L0xnZW03OEdsOXNpRlAzS2pzSFpGOVJhZ1dNZk9iNU16VzVSWmRyWVhCa3NJ?=
+ =?utf-8?B?aTlvZWNWVzQ2T0RmTDZ0WmVMMHZ3MDdkZ0c1bmRHSldEUENXdnNVMG1Eam1T?=
+ =?utf-8?B?SnVZZ1FCOTNJUzl5MFJVNVo2VEQ1K2N6UG8rOWxLN3VobDhNeGRxSnUwTnll?=
+ =?utf-8?B?ekFwcys2WlFUNkRkSnlVNFdvNzg2aUExQmVtRmxQWFhaYUJiUHNKODJ3L1Uz?=
+ =?utf-8?B?NUxLMDU4S1V4N0t3Y1VMYmhoMzBGMDgvQ1hKSkZMQWJOek1jbFpjWEhxcmxh?=
+ =?utf-8?B?U05JUENnby9TZyt4dWw2NWVjZHVhVFdIMkZOeUlyQUZJNXNzeEtZc0I1em9h?=
+ =?utf-8?B?Nm9RV1I5TWNrQTYwQ2ZydDhiNnNCVmpPcHVTOUlseWhKQUFZbUkvSTBKQkNX?=
+ =?utf-8?B?TEU1NkNZUVRNc28rSmRGOTREYmZ5VFFyeEFyRzlhaWlVMjVUS0IvYU41SEtU?=
+ =?utf-8?B?aDh5dGd3YlpGSGRZUjVZbTBMQXZKRWhGMGJhL1VWOGlEbTRROGluTEFUMmsr?=
+ =?utf-8?B?WHc2QVFzQktZRzUrV09ZNzBGb3Z3ajJFZE9YNnpzelJiWUFNRXl1cjdaNGNR?=
+ =?utf-8?B?NVk4NTdvYWNiTzQ1dER1WUNOYkVVVG5QUjArdWNaOTduWlR1ZUhjRTlMTmF2?=
+ =?utf-8?B?RVhZcjQ1NVQ2UzI4MEdSZmpJbVpDdzdWd3h3eHY0TFpuNU1uNGVuRG9ZTktL?=
+ =?utf-8?B?eFRULzhLWS9SZGlva3N5ekNXTHZ0bmV2bzZYc01xbFR2MWFBN2lHMDFmODZK?=
+ =?utf-8?B?OE9HTDZTTW9ISE9WdzQvajU1TGNjRDFGdStEenNucmZiOGc2cFdkcm56TkU4?=
+ =?utf-8?B?MkUrdXk4VUNta2ZkQS9JaDJmbDcxOVNJYXdmdEwra2VNbmtib20xdSsxTk9Q?=
+ =?utf-8?B?WTQxOGFaS0VrM2dMYXBDcWFWdE51WWFDOWwzZk9jMXgyc1lKRVRUNExpbzEr?=
+ =?utf-8?B?eDBIYkpWL1hCWmNWY0orQ2JNYUtvZmcvTENuWDhUSm9CbS9hdlVjLytDSEhB?=
+ =?utf-8?B?U3VzejJqd0hHaEpSYnFkcTZLTjhWSDJWVXVjVi9YSEU4eFpEeVRialpDZFRF?=
+ =?utf-8?B?UUI1ekdzYVpLdlJLQUhITnR1NXMvelZHa1VpaG9JY2xPdGxacjJpamoxTm5Y?=
+ =?utf-8?B?bG1yMllFbTFnQjRUUXQxN2N6cFpvYVkvdlpQb25xRFBqejJjSVg2Y25OaDFl?=
+ =?utf-8?B?aXp0WlpYT0VEQ2pIbi9wSDZmdkFQbzhnNkZvZWwvMVk5YXZmSFJ2NXlRRzFX?=
+ =?utf-8?B?M3RBQkMvNmFlWThvMTdkZ21rcUZ6bXBhUmc1Zlk1SWFNN2hBckx6MDd2VTBS?=
+ =?utf-8?B?Y09LemtzQkdTdFVTNlNKMmUyS2ZvMHppT2VhWWRoNHBTNkcyRDdFell1UHgw?=
+ =?utf-8?B?ci91NG84SlBHMlVtWCsxUisxeU43K0hpZEp0Yy9NUkxtVjdoelVOTjN6SzRP?=
+ =?utf-8?B?Y3kxb29SZURJNDltTmRrMkFpTUl5S2hoc1E4ZmcrT3AzUDVYYTRiZjF3WVN2?=
+ =?utf-8?B?YzJ3cFd3V0wwMWR6MFZhSjFCN2dQaHYzSEtycDZqdXBFVjVkNjVjOFE1U2My?=
+ =?utf-8?B?N0RJYVhSKzJ4T2hMcnJVZTVJRjM0a0t6Ymhjd0p6clhEN3NDY05mcmh5NE5W?=
+ =?utf-8?Q?pC9rMKmxgx0=3D?=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB10521.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB5423
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM4PEPF00027A69.eurprd04.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 3248e2de-d1a7-4b1b-5eb6-08dddc0df38e
+X-Microsoft-Antispam: BCL:0;ARA:13230040|14060799003|36860700013|1800799024|82310400026|7416014|376014|35042699022;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?enZsZ0FmZ2NkckVaNy9YcGVTWWo4R2xHb0d5TFhVUW5xaFJmbVExLzBBQndG?=
+ =?utf-8?B?V2N1anYvaTNZaDFJTEp1SVlZV05zdEFRMGQ2RWVvUUhUdVdRdnJKWWhIYjg0?=
+ =?utf-8?B?Tnh0MkJlS2R2T3JCb0Z5NmRXOUwva0lmVWdXdWszM2R5WkR2VlNEV0dGR0dP?=
+ =?utf-8?B?bUNCUEg2YzJtL0V2Njcwd2xwalFDWEozWFBFNjhOb1QvcEkwRjF6Wmh2YUNL?=
+ =?utf-8?B?L3NIVkt1dlRaK3E0bE5zNThVV1ViRjk5YnRjckVzeldLaG1BcUZxbnZTdFZp?=
+ =?utf-8?B?dkFKM1lvdDVuSzc0SHg0TUt2bUNjRDZCdG90aktwOE8vWUJrWE92WTc3RVhG?=
+ =?utf-8?B?VE1Hd2xWdFArb0xObm5yMndGd0ZoNXRtbDR3WFRDWVB2ZnpqMmdTenJxdEkx?=
+ =?utf-8?B?SnNNMFdnenpsNEFVNVpXa2FNV0N4MWUxYzc4czhOMXBERTdYc0M2SE1uMGFn?=
+ =?utf-8?B?SUgxaHl0RmdzbitrU2RwQkY0OG9COFJmcGJCNDRWaURTbWlMdmVCZlhzRDc2?=
+ =?utf-8?B?L0VqSVBydjd2ZVdPS2tUMURoaGcwTmg3eW0yYU1QZXRITlJQQmtEUW91ZmpG?=
+ =?utf-8?B?QUExUnByTkc0OU5mOHhicUJMM3VSTDZmTnRvclV4ZGM1UFV0cWxRSGpnMi9w?=
+ =?utf-8?B?NTVCR213VnhEWlUyalNUMW42S050MXdma1ZFUzJ1cHRCM2tjUDJobGw0K1ZS?=
+ =?utf-8?B?WUZ1UldKTHBsTXltOGpoUEtNOVlrVkNjNnFTOEZYSjBpZ0RRNFU2d0dxMHlF?=
+ =?utf-8?B?dFN2OWZGRjU0b052YWx1b3ZPU3ExUG5ENjZ6dEM0T3JEN2xhYmx4UFgwK3kx?=
+ =?utf-8?B?ZytQQXYrUm5rMktleDQyVjVxRXZ2cmxCamcyazU4VmVHbmlPQ2c2TDdoV1RZ?=
+ =?utf-8?B?SXIvK1czOG0ydS9COEx5RVBsV1NGZFMyTFN3UlN5M0xTWnRuTFovbjR4RUtC?=
+ =?utf-8?B?THpBTmEraUtSeGMxZFlscnZRTVVFa0w3UXdGOU5IRm9WVXNPdkszU2J1UVM5?=
+ =?utf-8?B?N25wOUxweVdkM2htRGNSc2VnTEt2Y1NSaVMwVXVBMndLaUhEYkM0dVBzaGZm?=
+ =?utf-8?B?NlI3TWZtcmlyNlVTTGxVMVlnbEJHeGNKdWxmMG83bHlSSythTW14aGs0V2d5?=
+ =?utf-8?B?RW5HdUxEcldhWURTcnNGVjRNaTV5TTJOUFRqRVRJVVByRC8rK2l1QzNvbU9j?=
+ =?utf-8?B?QlpCRHdES1laV213Z3Jhd2YwdXkwZTdvTldWc25NQ3BRcU9xaUdoSzd0bm9B?=
+ =?utf-8?B?RVF1cDY2N0VWNTFJTW9GVllUa2hKUXJMM0dwUWpJRGZmTEVsbjNxS0Q4L1JV?=
+ =?utf-8?B?dXVzdmMyd2pOSGx3NnBHWXJudEVZV2crRTFqSjU0VVNFN2piQzR4eStaTENo?=
+ =?utf-8?B?dWt3eDNqWFNZUjFhY1hVYzdWOTdINHdWMW5lWm1oM0NEd1AwdDZ2dVVucytF?=
+ =?utf-8?B?ek83NFpDRXRvZXdRU25kK3MreDRWVWw3YU9rL3NRMjlxY1BTL1Q1M0lGcVlT?=
+ =?utf-8?B?SlZvZ1I3MU56MVAzczU4SzNHLzc0VWg3VTF1cTJSL1FKQ3ZqczlOR3JDdkV2?=
+ =?utf-8?B?YkZHek05WmV2RTZMVnJOUnRKZHZxbmR5YndaNDJMTHhQYnhLVjRTZkNRNmpr?=
+ =?utf-8?B?M05jSnR5NFAycG5XcGUzMHV2VGJkYy9zTkJMOVBWTU9vY3NhYU9rbVFCMmVX?=
+ =?utf-8?B?M0xiaTNCT2xjWko0Yk9uWlMveHhTSWRhNW15VFRyeE5YbG9yUUJqZGhvYUFU?=
+ =?utf-8?B?VTBiT3Q4Vjc1YkRKQW1sYXE4VGhIalVBMzFHdFkwbDhseWY4Mm1ENFBTYWpt?=
+ =?utf-8?B?MTRJUkcrN1VNWEZlNnJKZ3dnY2JZbUw4c1BZSkRROVBpZXJxN042UEx3bGlE?=
+ =?utf-8?B?SGdhSUNOQzBRUG5GV0VpQUt2MFRQOTFMMFp0YU9oZzVmTGdQZkJabXRlbjFN?=
+ =?utf-8?B?dXR4WFZtdG1qSnZXNEJkdDcwVjNtdys4ejV6aHdoeHFvU01zY00vSGdaRk9x?=
+ =?utf-8?B?YzVqbWZ2MDdtajJPcG1jblgwN0RyZmppa2tkbU03RGVOZ0cxVW1LL1dYcTZ6?=
+ =?utf-8?Q?ZkDYew?=
+X-Forefront-Antispam-Report: CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(36860700013)(1800799024)(82310400026)(7416014)(376014)(35042699022);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2025 15:11:36.1249
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7db7fe2f-280d-4677-c312-08dddc0e07b5
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM4PEPF00027A69.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB7675
+X-Original-Sender: yeoreum.yun@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=ReZT83WN;       spf=pass
- (google.com: domain of rmoar@google.com designates 2607:f8b0:4864:20::f34 as
- permitted sender) smtp.mailfrom=rmoar@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Rae Moar <rmoar@google.com>
-Reply-To: Rae Moar <rmoar@google.com>
+ header.i=@arm.com header.s=selector1 header.b=FArBhRyR;       dkim=pass
+ header.i=@arm.com header.s=selector1 header.b=FArBhRyR;       arc=pass (i=2
+ spf=pass spfdomain=arm.com dkim=pass dkdomain=arm.com dmarc=pass
+ fromdomain=arm.com);       spf=pass (google.com: domain of
+ yeoreum.yun@arm.com designates 2a01:111:f403:c20f::7 as permitted sender)
+ smtp.mailfrom=YeoReum.Yun@arm.com;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -155,383 +309,74 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Aug 15, 2025 at 6:36=E2=80=AFAM Marie Zhussupova <marievic@google.c=
-om> wrote:
+[...]
+> >
+> > > + * Not marked as __init as a CPU can be hot-plugged after boot.
+> > > + */
+> > > +void kasan_late_init_hw_tags_cpu(void)
+> > > +{
+> > > +	/*
+> > > +	 * Enable stonly mode only when explicitly requested through the co=
+mmand line.
+> > > +	 * If system doesn't support, kasan checks all operation.
+> > > +	 */
+> > > +	kasan_enable_store_only();
+> > > +}
+> >
+> > There's nothing late about this. We have kasan_init_hw_tags_cpu()
+> > already and I'd rather have it all handled via this function. It's not
+> > that different from how we added asymmetric support, though store-only
+> > is complementary to the sync vs async checking.
+> >
+> > Like we do in mte_enable_kernel_asymm(), if the feature is not availabl=
+e
+> > just fall back to checking both reads and writes in the chosen
+> > async/sync/asymm way. You can add some pr_info() to inform the user of
+> > the chosen kasan mode. It's really mostly an performance choice.
 >
-> KUnit parameterized tests currently support two primary methods f
-> or getting parameters:
-> 1.  Defining custom logic within a generate_params() function.
-> 2.  Using the KUNIT_ARRAY_PARAM() and KUNIT_ARRAY_PARAM_DESC()
->     macros with a pre-defined static array and passing
->     the created *_gen_params() to KUNIT_CASE_PARAM().
+> But MTE_STORE_ONLY is defined as a SYSTEM_FEATURE.
+> This means that when it is called from kasan_init_hw_tags_cpu(),
+> the store_only mode is never set in system_capability,
+> so it cannot be checked using cpus_have_cap().
 >
-> These methods present limitations when dealing with dynamically
-> generated parameter arrays, or in scenarios where populating parameters
-> sequentially via generate_params() is inefficient or overly complex.
+> Although the MTE_STORE_ONLY capability is verified by
+> directly reading the ID register (seems ugly),
+> my concern is the potential for an inconsistent state across CPUs.
 >
-> This patch addresses these limitations by adding a new `params_array`
-> field to `struct kunit`, of the type `kunit_params`. The
-> `struct kunit_params` is designed to store the parameter array itself,
-> along with essential metadata including the parameter count, parameter
-> size, and a get_description() function for providing custom descriptions
-> for individual parameters.
+> For example, in the case of ASYMM, which is a BOOT_CPU_FEATURE,
+> all CPUs operate in the same mode =E2=80=94
+> if ASYMM is not supported, either
+> all CPUs run in synchronous mode, or all run in asymmetric mode.
 >
-> The `params_array` field can be populated by calling the new
-> kunit_register_params_array() macro from within a param_init() function.
-> This will register the array as part of the parameterized test context.
-> The user will then need to pass kunit_array_gen_params() to the
-> KUNIT_CASE_PARAM_WITH_INIT() macro as the generator function, if not
-> providing their own. kunit_array_gen_params() is a KUnit helper that will
-> use the registered array to generate parameters.
+> However, for MTE_STORE_ONLY, CPUs that support the feature will run in st=
+ore-only mode,
+> while those that do not will run with full checking for all operations.
 >
-> The arrays passed to KUNIT_ARRAY_PARAM(,DESC) will also be registered to
-> the parameterized test context for consistency as well as for higher
-> availability of the parameter count that will be used for outputting a KT=
-AP
-> test plan for a parameterized test.
->
-> This modification provides greater flexibility to the KUnit framework,
-> allowing  testers to easily register and utilize both dynamic and static
-> parameter arrays.
->
-> Reviewed-by: David Gow <davidgow@google.com>
-> Signed-off-by: Marie Zhussupova <marievic@google.com>
-
-Hello!
-
-This patch series is looking great! Happy to add this as an
-improvement to the KUnit framework.
-
-Reviewed-by: Rae Moar <rmoar@google.com>
-
-Thanks!
--Rae
-
-> ---
->
-> Changes in v3:
-> v2: https://lore.kernel.org/all/20250811221739.2694336-5-marievic@google.=
-com/
-> - Commit message formatting.
->
-> Changes in v2:
-> v1: https://lore.kernel.org/all/20250729193647.3410634-7-marievic@google.=
-com/
-> - If the parameter count is available for a parameterized test, the
->   kunit_run_tests() function will now output the KTAP test plan for it.
-> - The name of the struct kunit_params field in struct kunit was changed
->   from params_data to params_array. This name change better reflects its
->   purpose, which is to encapsulate both the parameter array and its
->   associated metadata.
-> - The name of `kunit_get_next_param_and_desc` was changed to
->   `kunit_array_gen_params` to make it simpler and to better fit its purpo=
-se
->   of being KUnit's built-in generator function that uses arrays to genera=
-te
->   parameters.
-> - The signature of get_description() in `struct params_array` was changed=
- to
->   accept the parameterized test context, as well. This way test users can
->   potentially use information available in the parameterized test context=
-,
->   such as the parameterized test name for setting the parameter descripti=
-ons.
-> - The type of `num_params` in `struct params_array` was changed from int =
-to
->   size_t for better handling of the array size.
-> - The name of __kunit_init_params() was changed to be kunit_init_params()=
-.
->   Logic that sets the get_description() function pointer to NULL was also
->   added in there.
-> - `kunit_array_gen_params` is now exported to make it available to use
->   with modules.
-> - Instead of allowing NULL to be passed in as the parameter generator
->   function in the KUNIT_CASE_PARAM_WITH_INIT macro, users will now be ask=
-ed
->   to provide `kunit_array_gen_params` as the generator function. This wil=
-l
->   ensure that a parameterized test remains defined by the existence of a
->   parameter generation function.
-> - KUNIT_ARRAY_PARAM(,DESC) will now additionally register the passed in a=
-rray
->   in struct kunit_params. This will make things more consistent i.e. if a
->   parameter array is available then the struct kunit_params field in pare=
-nt
->   struct kunit is populated. Additionally, this will increase the
->   availability of the KTAP test plan.
-> - The comments and the commit message were changed to reflect the
->   parameterized testing terminology. See the patch series cover letter
->   change log for the definitions.
->
-> ---
->  include/kunit/test.h | 65 ++++++++++++++++++++++++++++++++++++++++----
->  lib/kunit/test.c     | 30 ++++++++++++++++++++
->  2 files changed, 89 insertions(+), 6 deletions(-)
->
-> diff --git a/include/kunit/test.h b/include/kunit/test.h
-> index b527189d2d1c..8cc9614a88d5 100644
-> --- a/include/kunit/test.h
-> +++ b/include/kunit/test.h
-> @@ -234,9 +234,13 @@ static inline char *kunit_status_to_ok_not_ok(enum k=
-unit_status status)
->   * Provides the option to register param_init() and param_exit() functio=
-ns.
->   * param_init/exit will be passed the parameterized test context and run=
- once
->   * before and once after the parameterized test. The init function can b=
-e used
-> - * to add resources to share between parameter runs, and any other setup=
- logic.
-> - * The exit function can be used to clean up resources that were not man=
-aged by
-> - * the parameterized test, and any other teardown logic.
-> + * to add resources to share between parameter runs, pass parameter arra=
-ys,
-> + * and any other setup logic. The exit function can be used to clean up =
-resources
-> + * that were not managed by the parameterized test, and any other teardo=
-wn logic.
-> + *
-> + * Note: If you are registering a parameter array in param_init() with
-> + * kunit_register_param_array() then you need to pass kunit_array_gen_pa=
-rams()
-> + * to this as the generator function.
->   */
->  #define KUNIT_CASE_PARAM_WITH_INIT(test_name, gen_params, init, exit)   =
-       \
->                 { .run_case =3D test_name, .name =3D #test_name,         =
-           \
-> @@ -289,6 +293,20 @@ struct kunit_suite_set {
->         struct kunit_suite * const *end;
->  };
->
-> +/* Stores the pointer to the parameter array and its metadata. */
-> +struct kunit_params {
-> +       /*
-> +        * Reference to the parameter array for a parameterized test. Thi=
-s
-> +        * is NULL if a parameter array wasn't directly passed to the
-> +        * parameterized test context struct kunit via kunit_register_par=
-ams_array().
-> +        */
-> +       const void *params;
-> +       /* Reference to a function that gets the description of a paramet=
-er. */
-> +       void (*get_description)(struct kunit *test, const void *param, ch=
-ar *desc);
-> +       size_t num_params;
-> +       size_t elem_size;
-> +};
-> +
->  /**
->   * struct kunit - represents a running instance of a test.
->   *
-> @@ -296,16 +314,18 @@ struct kunit_suite_set {
->   *       created in the init function (see &struct kunit_suite).
->   * @parent: reference to the parent context of type struct kunit that ca=
-n
->   *         be used for storing shared resources.
-> + * @params_array: for storing the parameter array.
->   *
->   * Used to store information about the current context under which the t=
-est
->   * is running. Most of this data is private and should only be accessed
-> - * indirectly via public functions; the two exceptions are @priv and @pa=
-rent
-> - * which can be used by the test writer to store arbitrary data and acce=
-ss the
-> - * parent context, respectively.
-> + * indirectly via public functions; the exceptions are @priv, @parent an=
+> If we want to enable MTE_STORE_ONLY in kasan_init_hw_tags_cpu(),
+> I believe it should be reclassified as a BOOT_CPU_FEATURE.x
+> Otherwise, the cpu_enable_mte_store_only() function should still be calle=
 d
-> + * @params_array which can be used by the test writer to store arbitrary=
- data,
-> + * access the parent context, and to store the parameter array, respecti=
-vely.
->   */
->  struct kunit {
->         void *priv;
->         struct kunit *parent;
-> +       struct kunit_params params_array;
+> as the enable callback for the MTE_STORE_ONLY feature.
+> In that case, kasan_enable_store_only() should be invoked (remove late in=
+it),
+> and if it returns an error, stop_machine() should be called to disable
+> the STORE_ONLY feature on all other CPUs
+> if any CPU is found to lack support for MTE_STORE_ONLY.
 >
->         /* private: internal use only. */
->         const char *name; /* Read only after initialization! */
-> @@ -376,6 +396,8 @@ void kunit_exec_list_tests(struct kunit_suite_set *su=
-ite_set, bool include_attr)
->  struct kunit_suite_set kunit_merge_suite_sets(struct kunit_suite_set ini=
-t_suite_set,
->                 struct kunit_suite_set suite_set);
->
-> +const void *kunit_array_gen_params(struct kunit *test, const void *prev,=
- char *desc);
-> +
->  #if IS_BUILTIN(CONFIG_KUNIT)
->  int kunit_run_all_tests(void);
->  #else
-> @@ -1696,6 +1718,8 @@ do {                                               =
-                              \
->                                              const void *prev, char *desc=
-)                      \
->         {                                                                =
-                       \
->                 typeof((array)[0]) *__next =3D prev ? ((typeof(__next)) p=
-rev) + 1 : (array);      \
-> +               if (!prev)                                               =
-                       \
-> +                       kunit_register_params_array(test, array, ARRAY_SI=
-ZE(array), NULL);      \
->                 if (__next - (array) < ARRAY_SIZE((array))) {            =
-                       \
->                         void (*__get_desc)(typeof(__next), char *) =3D ge=
-t_desc;                  \
->                         if (__get_desc)                                  =
-                       \
-> @@ -1718,6 +1742,8 @@ do {                                               =
-                              \
->                                              const void *prev, char *desc=
-)                      \
->         {                                                                =
-                       \
->                 typeof((array)[0]) *__next =3D prev ? ((typeof(__next)) p=
-rev) + 1 : (array);      \
-> +               if (!prev)                                               =
-                       \
-> +                       kunit_register_params_array(test, array, ARRAY_SI=
-ZE(array), NULL);      \
->                 if (__next - (array) < ARRAY_SIZE((array))) {            =
-                       \
->                         strscpy(desc, __next->desc_member, KUNIT_PARAM_DE=
-SC_SIZE);              \
->                         return __next;                                   =
-                       \
-> @@ -1725,6 +1751,33 @@ do {                                              =
-                              \
->                 return NULL;                                             =
-                       \
->         }
->
-> +/**
-> + * kunit_register_params_array() - Register parameter array for a KUnit =
-test.
-> + * @test: The KUnit test structure to which parameters will be added.
-> + * @array: An array of test parameters.
-> + * @param_count: Number of parameters.
-> + * @get_desc: Function that generates a string description for a given p=
-arameter
-> + * element.
-> + *
-> + * This macro initializes the @test's parameter array data, storing info=
-rmation
-> + * including the parameter array, its count, the element size, and the p=
-arameter
-> + * description function within `test->params_array`.
-> + *
-> + * Note: If using this macro in param_init(), kunit_array_gen_params()
-> + * will then need to be manually provided as the parameter generator fun=
-ction to
-> + * KUNIT_CASE_PARAM_WITH_INIT(). kunit_array_gen_params() is a KUnit
-> + * function that uses the registered array to generate parameters
-> + */
-> +#define kunit_register_params_array(test, array, param_count, get_desc) =
-                               \
-> +       do {                                                             =
-                       \
-> +               struct kunit *_test =3D (test);                          =
-                         \
-> +               const typeof((array)[0]) * _params_ptr =3D &(array)[0];  =
-                         \
-> +               _test->params_array.params =3D _params_ptr;              =
-                         \
-> +               _test->params_array.num_params =3D (param_count);        =
-                         \
-> +               _test->params_array.elem_size =3D sizeof(*_params_ptr);  =
-                         \
-> +               _test->params_array.get_description =3D (get_desc);      =
-                         \
-> +       } while (0)
-> +
->  // TODO(dlatypov@google.com): consider eventually migrating users to exp=
-licitly
->  // include resource.h themselves if they need it.
->  #include <kunit/resource.h>
-> diff --git a/lib/kunit/test.c b/lib/kunit/test.c
-> index ac8fa8941a6a..ce4bb93f09f4 100644
-> --- a/lib/kunit/test.c
-> +++ b/lib/kunit/test.c
-> @@ -337,6 +337,14 @@ void __kunit_do_failed_assertion(struct kunit *test,
->  }
->  EXPORT_SYMBOL_GPL(__kunit_do_failed_assertion);
->
-> +static void kunit_init_params(struct kunit *test)
-> +{
-> +       test->params_array.params =3D NULL;
-> +       test->params_array.get_description =3D NULL;
-> +       test->params_array.num_params =3D 0;
-> +       test->params_array.elem_size =3D 0;
-> +}
-> +
->  void kunit_init_test(struct kunit *test, const char *name, struct string=
-_stream *log)
->  {
->         spin_lock_init(&test->lock);
-> @@ -347,6 +355,7 @@ void kunit_init_test(struct kunit *test, const char *=
-name, struct string_stream
->                 string_stream_clear(log);
->         test->status =3D KUNIT_SUCCESS;
->         test->status_comment[0] =3D '\0';
-> +       kunit_init_params(test);
->  }
->  EXPORT_SYMBOL_GPL(kunit_init_test);
->
-> @@ -641,6 +650,23 @@ static void kunit_accumulate_stats(struct kunit_resu=
-lt_stats *total,
->         total->total +=3D add.total;
->  }
->
-> +const void *kunit_array_gen_params(struct kunit *test, const void *prev,=
- char *desc)
-> +{
-> +       struct kunit_params *params_arr =3D &test->params_array;
-> +       const void *param;
-> +
-> +       if (test->param_index < params_arr->num_params) {
-> +               param =3D (char *)params_arr->params
-> +                       + test->param_index * params_arr->elem_size;
-> +
-> +               if (params_arr->get_description)
-> +                       params_arr->get_description(test, param, desc);
-> +               return param;
-> +       }
-> +       return NULL;
-> +}
-> +EXPORT_SYMBOL_GPL(kunit_array_gen_params);
-> +
->  static void kunit_init_parent_param_test(struct kunit_case *test_case, s=
-truct kunit *test)
->  {
->         if (test_case->param_init) {
-> @@ -706,6 +732,10 @@ int kunit_run_tests(struct kunit_suite *suite)
->                                   "KTAP version 1\n");
->                         kunit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT =
-KUNIT_SUBTEST_INDENT
->                                   "# Subtest: %s", test_case->name);
-> +                       if (test.params_array.params)
-> +                               kunit_log(KERN_INFO, &test, KUNIT_SUBTEST=
-_INDENT
-> +                                         KUNIT_SUBTEST_INDENT "1..%zd\n"=
-,
-> +                                         test.params_array.num_params);
->
->                         while (curr_param) {
->                                 struct kunit param_test =3D {
-> --
-> 2.51.0.rc1.167.g924127e9c0-goog
->
+> Am I missing something?
+
+So, IMHO like the ASYMM feature, it would be good to change
+MTE_STORE_ONLY as BOOT_CPU_FEATURE.
+That would makes everything as easiler and clear.
+
+--
+Sincerely,
+Yeoreum Yun
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-A%2BGJov50Q81TAg8PUVNeg%3DtLUn%2BWLi8%3DY%2B%3DFctC9hjs8TVh3mw%40mail.gmail=
-.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/a=
+J9OA/cHk1iFUPyH%40e129823.arm.com.
