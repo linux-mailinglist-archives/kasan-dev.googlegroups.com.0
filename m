@@ -1,154 +1,160 @@
-Return-Path: <kasan-dev+bncBCD6ROMWZ4CBBU6JQHCQMGQEPWFCCJA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKPFB7SXUERBTU6QXCQMGQEOO24OTY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63a.google.com (mail-pl1-x63a.google.com [IPv6:2607:f8b0:4864:20::63a])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1F5EB28D38
-	for <lists+kasan-dev@lfdr.de>; Sat, 16 Aug 2025 13:00:37 +0200 (CEST)
-Received: by mail-pl1-x63a.google.com with SMTP id d9443c01a7336-244581ce13asf51471895ad.2
-        for <lists+kasan-dev@lfdr.de>; Sat, 16 Aug 2025 04:00:37 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1755342036; cv=pass;
+Received: from mail-pf1-x43c.google.com (mail-pf1-x43c.google.com [IPv6:2607:f8b0:4864:20::43c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D024B2916E
+	for <lists+kasan-dev@lfdr.de>; Sun, 17 Aug 2025 05:41:05 +0200 (CEST)
+Received: by mail-pf1-x43c.google.com with SMTP id d2e1a72fcca58-76e2eb2b837sf2357912b3a.3
+        for <lists+kasan-dev@lfdr.de>; Sat, 16 Aug 2025 20:41:04 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1755402063; cv=pass;
         d=google.com; s=arc-20240605;
-        b=eFJySdz4MrVYZOPhrpBJ0jO1Ziu5N6sJCJKzwoUczTu2nkuo8/3t7no7PjLdeDSubo
-         xkZdc+ZpgwO6mxdAaLsoen+yluSLyjKqivViIS68yKLe/XEUGYFjn6dyxull0y6X52bA
-         2CHDzTaPWo9FsuUUtvIgvETOlrrN0smu2Q6MOOh4lXObjKPwSuNqW6nM9hoA/OYCVk8P
-         6tyPvC8aDfa87hiN0EaIyUtxHVYerwSkNPbc49A7TX8k2sNRTya2Jbq0rXwQfGPkqorj
-         hAmsD8AvftmCuylpo6ktCoeuiP/gq5fw9URZG2FGwF05QlXsrrrYl+zoXyVemPBPQr9g
-         cmpQ==
+        b=V1JnWlNKdqvItGQQX5P5Hwt3jF0Vy8V0t7G+AUNujY9IKI3E9WPS4coAykBuDwNPQN
+         PC7G6QW5SJC1IjISEvhdyw0rN+RCF12/ehAusmCNlE2KdH9ke5aPoIGlsosyTiPoVIb/
+         3yJ83giXcVlTN+BPEcjS+xWrFXLS3S0PHXSNER0PJ/CeJvuX8K38MV94R7wrptz1B9Pw
+         XzvNUFAHm2KaojXp+FU1jDcMqXK05wgPrOb0pL47MqzSEW8XY0sb4aOfqfWTf4EKtQ2S
+         tGErH6F0jGV/OYsenRt5TrxAizU0daskrNz9Vl+4OUBXK43koQOjBb4rPGodz2pzswrO
+         N3vw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=fmkzRfS7TBB7pbFhL2hR/nZnyY5GBgD32KiKjFans6Y=;
-        fh=Lbh1p45g4fY9u3pMeNKTMq0tB7u3j5uc7mx/9fXT3oE=;
-        b=c7hghGwlVLuYJcAnQaJxfOUwx9G298i84PA0OY+5MFQXx1/+PQGMLGdIhcznfx+ZXd
-         aPO7lA46cGOSqA004eJzgjtq1meJLqPP4aOPNac2H0W1FyqQ1gklkE5AoY+O2PujPi08
-         hIf3zVGho+NSaT/8Ek5u067K+W0fQeBbkuCcBHjst6GpJamjKlXVsclAHaaJ6BQJVHWb
-         pqIl8DgKXAmbkqdw5M8Wi7yrAQK0YVYobV7JDttkcBCrBGPPteZWwUp/avqNXjOtUCWE
-         YUtWRuAlxhwexL/f4rPsJwOwQAK9uIz3ykgp9pVzE3xr6IuZgZyL1o3RYaWdHf/+11/F
-         Nj/g==;
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=M1vn5kWAWP6MrDxf6bRjK0dGRGYEXBIa6U37aEPo+3k=;
+        fh=cl9sTeoZbr96/oocqVmy1yIHXcoSM/LcAni8HAYhfz4=;
+        b=NYOVXUUvZObUu6OODrxPCxByCj5lwrVzs3fRsysnmIB3TdSiEe1ASrzGQJOvF8ZfLY
+         VyvHuoltkq+uMoic0KyBWH8DJjYlCzMD4jQ62/02mZdW+fXF2soZ49MQ76fDPui6sYGV
+         WXB4N6NvVFPA9JtmaBFrNR/bMYihzYY/DwMXwXBreKKv5hO1cW/BwE2CWWJE82IgvhOD
+         nH3STQsGBYT/scuJTmgZhBGMZe0N1JgevVBNWB08cos4mh+nIVXhxCBbsOA07ZS5UmFd
+         Axq0WW29DgqyIp5weM2Xl8c6JJ41UcbotB4Th7q9HzKsbQLDcUWnmocwJgnF9MLs7t0c
+         Y+6A==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of yeoreum.yun@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=yeoreum.yun@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=bNMmqiVn;
+       spf=pass (google.com: domain of bhe@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1755342036; x=1755946836; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1755402063; x=1756006863; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fmkzRfS7TBB7pbFhL2hR/nZnyY5GBgD32KiKjFans6Y=;
-        b=VxclqU5PTIP+7ASKnzEe0d/JgwWHvrJAl/RglW1VYxalj3nL+zExBqJ35VLAM/Dhgj
-         rU/lR4G57gAVvyYcdWt5K5icYu22EetF+IGDy+LOBGDDt3FIFa3T80mu60Um2wiVACwO
-         SV4sFedlSW95yBVaM2cheAwoh5Q+/gDnQWhmRaxziof+2ZtIYCG7bj0fJKDXm/rdxUor
-         yB5zlphEWrFykyYwFAZ0ZkhPXzN3d5lgoX7qUmD8F26c0D96vZSJSCCQOyyv8yr3wxkK
-         SSi4QhVfYC54eKeHxHOk8E98wK5Ez6VeZNwPw0qTt6R3ihXJI8qMmLXk0ISxKDzk+jQG
-         +nkQ==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=M1vn5kWAWP6MrDxf6bRjK0dGRGYEXBIa6U37aEPo+3k=;
+        b=Kvyi3Imvl7qE1b6hjCdfMOSe6CWPaI2dDiOknVNPvCz07NarQMTwvzw7Tk1tYWehqB
+         gQrtnb4rzH8h5T34zfork+ovvLSzPrq9RVGzFOJ8Bs9YWQqTO3ZdUaEhAl4oOLY+37Lu
+         Ob9Ee4a3BdeGEAoTjsQSG7TcLVvwyXm+ynerokowWIdfYjQNkbBEl5bm/NHGaWexzFcz
+         G6FbmrM4wYIUq+gMEKdqYL9yDzbzUaW/umyBMaZtqUetfBSiOJEaCzfRqsHQZvV9VaiV
+         P2vFA8Y4OySI/ZX6gEErinAf4UyrkXhXjV6LQFXL7KGYuN1pNL1ffTT58TL4U3PItvy0
+         Slcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755342036; x=1755946836;
+        d=1e100.net; s=20230601; t=1755402063; x=1756006863;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fmkzRfS7TBB7pbFhL2hR/nZnyY5GBgD32KiKjFans6Y=;
-        b=c/iRomePSJ3u8T/xmQICC8UeBz9lxbcIVeBXiSPjpNb3wHVmKknWCqZpG8Y06ud5gh
-         oUpjQJoE2N5XP+lb9h0VI6tGT+y5NTpNTuTvRq+W2e3t97MemZN58XfBVlXLR6U2SMAO
-         CNlYhNRP7Eh21RPpvO5E8TBSFuOWnFunc+5u28tqfi/jodmTTiV/oothG1jOJTuP+uFO
-         3g++iCL2s61RpnhRzRnjZzhgEkNCDEU3aHHbbiSLWnwxekYMUiMCCCYVvoa5Mlqg1jMD
-         7yLoM0WA1l1ZZTkq7xHCJs2uJuTsksBWgwfEbD88vh0+LrkG89IqeMSQvMk45B8v8vYr
-         X6/A==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVcs6pt41l7lXl0nCXIANfcLpyDMpG6j4b57p6S6YPpW/RgVsdF7tN7FURUGqPdidt//u9E+w==@lfdr.de
-X-Gm-Message-State: AOJu0YzEFSUM/RXsq51+UYwpksAguHQ1M6MBJhLbPBdMvkvsnGdQz7nm
-	WWdWLeZIA4BV78sP+dYjvfh+fR6PvHNpsoSzrtLcMaoWK/B9YcAdJpz9
-X-Google-Smtp-Source: AGHT+IH4AUB59b0gTjgeBR6Cbu8K8EFZe1NAaZOYhvVJzwFFwvRnjPf4rRqYeRNwIF1E5XJ11OS4ew==
-X-Received: by 2002:a17:903:1a2c:b0:240:50ef:2f00 with SMTP id d9443c01a7336-2446d8f407emr77648905ad.26.1755342035472;
-        Sat, 16 Aug 2025 04:00:35 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcNt2AqaawteUutcm1i/sEd8j0BCz3TkTjXgUrbMknc8g==
-Received: by 2002:a17:902:ca91:b0:23f:d929:1689 with SMTP id
- d9443c01a7336-244574259c7ls15321785ad.0.-pod-prod-03-us; Sat, 16 Aug 2025
- 04:00:34 -0700 (PDT)
-X-Received: by 2002:a17:903:b07:b0:243:7cf:9bcf with SMTP id d9443c01a7336-2446d71ab96mr73476175ad.2.1755342033919;
-        Sat, 16 Aug 2025 04:00:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1755342033; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=M1vn5kWAWP6MrDxf6bRjK0dGRGYEXBIa6U37aEPo+3k=;
+        b=vGafO1wUyFhVpENYmGd+GG6R/f8HLEQexv/jycLJQbHIvUShc3KthCCLyZJaip8UYv
+         TK2HZxwQfXswZzH2c4fMtq+749ec6NbEarGes4sBhrcumE5ijnKzjB8k1oeUNESp5lgU
+         cNfu/brgN1sOKQeiGbZ/rhw49aPEBrcb/LZpNPxepKmpjZnLLvnCJC6ZktTmymCdASPr
+         1qv4+mAmCzvr1SL+UogDgGTvmHqThlBm382bbebZjTxMEDYuoiyK7mR8RfovPFt7j3CO
+         VSQZhQ9tAIriZ0azQwzaALtmx3aWZUoFchdWtdIPLURkyRjUY56ANZqxQr6AA/vzrK5I
+         f/6g==
+X-Forwarded-Encrypted: i=2; AJvYcCWNHFtONAbmshHCoxEDqeR0b2YWPpWmg9grnEH4eRe1oOPZs/Rs09ZB6wmwaUxVMMuFEqWz3A==@lfdr.de
+X-Gm-Message-State: AOJu0YyqtPbbaxtmKhOCsV/hoOa+sPf3qo8XPqRmc89DYRoQZL48XfoF
+	XAFFkm7Z+AmWakG8T/ZJxyyr2ceQNZER1x4g33dScwk2dj0GqIhDi+Jc
+X-Google-Smtp-Source: AGHT+IHXbTgw/5VYaqPyYHJdC45ahkW8JaOAi84Qu/8F2yjs+vJFGNLyjIuU2p3hkbhVyaWtDXAurw==
+X-Received: by 2002:a05:6a00:92a4:b0:76b:fcac:f2ad with SMTP id d2e1a72fcca58-76e44847105mr10929679b3a.20.1755402062753;
+        Sat, 16 Aug 2025 20:41:02 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZemYckhVNBC78MVoL1bp1G4ljNf6v2IrT0y19BcuPO4xA==
+Received: by 2002:a05:6a00:2141:b0:769:ebe1:e48c with SMTP id
+ d2e1a72fcca58-76e2ea794f0ls2380374b3a.1.-pod-prod-07-us; Sat, 16 Aug 2025
+ 20:41:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUNv14KbxuFlD7BPbnwqQjyZLOruNhBLhQDA25NZMtbMqgKV3XWeqpDurTxhXXgYHlTgDanwQN0QjY=@googlegroups.com
+X-Received: by 2002:a05:6a20:918c:b0:237:d013:8a78 with SMTP id adf61e73a8af0-240d2f219ffmr11761531637.37.1755402061075;
+        Sat, 16 Aug 2025 20:41:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1755402061; cv=none;
         d=google.com; s=arc-20240605;
-        b=d5PCulIVDAREJMmNlMGiv0pd6SXzd0cKfuydER4LJGkP0bPtfcnTQLlXZ32+sRaEJM
-         YR5FngHqVb7eHMgchNKwVZ651zZ+bDDr9KzRb3/vJjdOZtEHFR+ttExc30SDNp9fnXJz
-         S9HX9QBfbjt7FqOFkJpCuWEf/94tk9vXC/Yip3T5VvilBcADPGlUvJcWUJ2615ATKid5
-         yyhZWAM7VlNtFXK6ygDGi9AmaHlsFoR6aY3RMsFwhnAK3iyzE6F2kzi74NeFfwo0j9wX
-         /wcjwdxkGHZWb1v5tH02LqsKdAMYVQGQ6qKSrN1J99t3CuYQavE8KyMN7T4EXEkTTCg9
-         qbhw==
+        b=WekiLTu8EgduCF6QwxxQ6aq6atf6IfoOntzIYcCnk17ulG+suxKGkGBbPZFuwlCE0e
+         GQD6qjRshWW3fyiD4ATWIAlnTSFy4SHsEVAGhYEMHTzxgrFg+meCCfXXGuCeGBi2VXb2
+         BdUoiNVDHYdscLb27rQ0L9m+gQZwRp8ryTwiIc8YiJhSMkl3WgAXlQ7Vt5KvyB4G6X7t
+         AaUPrJZJgzWcna7IpRWNiAiYEgNW3iK10XpzJFJHQcLMLPkDNrhqwumkjDu2nHP5Aw72
+         HHSvXC2/e8atDL/so7KCEBVwnS3dSeL3XcL/eeMzi1E8ycNKFXPFUaPCszjq0LMuZoPV
+         DpWw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from;
-        bh=ezelX/y9SPEoWT7gYcfbjdqIP2k04P/KpA9M4KigIB0=;
-        fh=sO9hEm1jMmDS9TNxUqxXxXlVQts1wG4o/F/u/UhyUv4=;
-        b=Ixjpl/KkCuVBA44W2hvvF427/couvioMgYoGJJ5Eh5LCzPgCfJf0+yUrVVQ5xZOVtb
-         BYySav0gR9Hz0/Zl59VEMAp7mi3iud7uhUUxibuaJadS2REfJgor1lGGPZoNOVWPtivX
-         A4vW+jkeGK7/0vuvdYHJv6eKp/UaozUdNoxp75K3pogqufsLuTkrsQ9cRR9vENHTy4c8
-         eiTvZyoA+bgXlt56BFhNGQhubUgoTBzMqu2kUzvLS7HMPCilMLq3DBMu0GtZclPMNw2c
-         toBa7pmLFr45vq/ZF27JMO5giH7M4ykR5EP5Hna4D0zeUqf2nyQbzaNiQCy7a3t1Gc4a
-         FPjg==;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=3Y0oXgvbJlVAXUapKet03fj1MIE/RRaWOW5OiNzH2oU=;
+        fh=gOqAOsSLdoPOBJo0QozQvoXYivyuMTi1+Jbh8fKO3S4=;
+        b=K9r/i83ommGYf4rmkp5Di89DK6C5oobUnVT4Y4ymAru8ALhiJk7LbLbK+mKTTosWxd
+         OWSFfd+vfyaHpxT+sA2ljG44oVzQAl/+uwt2Wmuocy7f9wVqFjY1KPSNtFhyECKSBzbj
+         Ydq8AIs3XeUgPXjDH08z/EN+i0XAKbzEb4TrmDb0asGpE125yZOEzRtUzN32LiDEwmFZ
+         3TG7prOsNKBkrGk7NERzPMwLC4vFvlyPC1YvVz34D2bD8a9yKj9p3D4braGmrCQhIi2c
+         HQ+3JqoTuQMXaa7sYKb8zvef+ny1MIAsDfaoGyces2rzilOPNkucZJcNTBw89QpWLO4M
+         A/qw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of yeoreum.yun@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=yeoreum.yun@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id 98e67ed59e1d1-323436f117csi159571a91.1.2025.08.16.04.00.33
-        for <kasan-dev@googlegroups.com>;
-        Sat, 16 Aug 2025 04:00:33 -0700 (PDT)
-Received-SPF: pass (google.com: domain of yeoreum.yun@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D22CA1FC4;
-	Sat, 16 Aug 2025 04:00:24 -0700 (PDT)
-Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 08D4E3F5A1;
-	Sat, 16 Aug 2025 04:00:28 -0700 (PDT)
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: ryabinin.a.a@gmail.com,
-	glider@google.com,
-	andreyknvl@gmail.com,
-	dvyukov@google.com,
-	vincenzo.frascino@arm.com,
-	corbet@lwn.net,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	akpm@linux-foundation.org,
-	scott@os.amperecomputing.com,
-	jhubbard@nvidia.com,
-	pankaj.gupta@amd.com,
-	leitao@debian.org,
-	kaleshsingh@google.com,
-	maz@kernel.org,
-	broonie@kernel.org,
-	oliver.upton@linux.dev,
-	james.morse@arm.com,
-	ardb@kernel.org,
-	hardevsinh.palaniya@siliconsignals.io,
-	david@redhat.com,
-	yang@os.amperecomputing.com
-Cc: kasan-dev@googlegroups.com,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mm@kvack.org,
-	Yeoreum Yun <yeoreum.yun@arm.com>
-Subject: [PATCH v3 2/2] kasan: apply write-only mode in kasan kunit testcases
-Date: Sat, 16 Aug 2025 12:00:18 +0100
-Message-Id: <20250816110018.4055617-3-yeoreum.yun@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250816110018.4055617-1-yeoreum.yun@arm.com>
-References: <20250816110018.4055617-1-yeoreum.yun@arm.com>
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=bNMmqiVn;
+       spf=pass (google.com: domain of bhe@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
+        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-b472d21ae77si202814a12.0.2025.08.16.20.41.00
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Aug 2025 20:41:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bhe@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-80-PkT_4EHSPaqREfWT33cFVQ-1; Sat,
+ 16 Aug 2025 23:40:55 -0400
+X-MC-Unique: PkT_4EHSPaqREfWT33cFVQ-1
+X-Mimecast-MFC-AGG-ID: PkT_4EHSPaqREfWT33cFVQ_1755402053
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 544231800340;
+	Sun, 17 Aug 2025 03:40:53 +0000 (UTC)
+Received: from localhost (unknown [10.72.112.34])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E5A23180044F;
+	Sun, 17 Aug 2025 03:40:50 +0000 (UTC)
+Date: Sun, 17 Aug 2025 11:40:46 +0800
+From: "'Baoquan He' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: linux-mm@kvack.org, ryabinin.a.a@gmail.com, glider@google.com,
+	dvyukov@google.com, vincenzo.frascino@arm.com,
+	akpm@linux-foundation.org, kasan-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
+	sj@kernel.org, lorenzo.stoakes@oracle.com, elver@google.com,
+	snovitoll@gmail.com
+Subject: Re: [PATCH v2 00/12] mm/kasan: make kasan=on|off work for all three
+ modes
+Message-ID: <aKFPPi2sti7+3JZ9@MiWiFi-R3L-srv>
+References: <20250812124941.69508-1-bhe@redhat.com>
+ <CA+fCnZcAa62uXqnUwxFmDYh1xPqKBOQqOT55kU8iY_pgQg2+NA@mail.gmail.com>
+ <CA+fCnZdKy-AQr+L3w=gfaw9EnFvKd0Gz4LtAZciYDP_SiWrL2A@mail.gmail.com>
+ <aJxzehJYKez5Q1v2@MiWiFi-R3L-srv>
+ <CA+fCnZfv9sbHuRVy8G9QdbKaaeO-Vguf7b2Atc5WXEs+uJx0YQ@mail.gmail.com>
+ <aJ2kpEVB4Anyyo/K@MiWiFi-R3L-srv>
+ <CA+fCnZcdSDEZvRSxEnogBMCFg1f-PK7PKx0KB_1SA0saY6-21g@mail.gmail.com>
 MIME-Version: 1.0
-X-Original-Sender: yeoreum.yun@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of yeoreum.yun@arm.com designates 217.140.110.172 as
- permitted sender) smtp.mailfrom=yeoreum.yun@arm.com;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=arm.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CA+fCnZcdSDEZvRSxEnogBMCFg1f-PK7PKx0KB_1SA0saY6-21g@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Original-Sender: bhe@redhat.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@redhat.com header.s=mimecast20190719 header.b=bNMmqiVn;
+       spf=pass (google.com: domain of bhe@redhat.com designates
+ 170.10.133.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
+X-Original-From: Baoquan He <bhe@redhat.com>
+Reply-To: Baoquan He <bhe@redhat.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -161,549 +167,52 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-When KASAN is configured in write-only mode,
-fetch/load operations do not trigger tag check faults.
+On 08/16/25 at 06:50am, Andrey Konovalov wrote:
+> On Thu, Aug 14, 2025 at 10:56=E2=80=AFAM Baoquan He <bhe@redhat.com> wrot=
+e:
+> >
+> > Ah, I got what you mean. We probably are saying different things.
+> >
+> > In order to record memory content of a corrupted kernel, we need reserv=
+e
+> > a memory region during bootup of a normal kernel (usually called 1st
+> > kernel) via kernel parameter crashkernel=3DnMB in advance. Then load
+> > kernel into the crashkernel memory region, that means the region is not
+> > usable for 1st kernel. When 1st kernel collapsed, we stop the 1st kerne=
+l
+> > cpu/irq and warmly switch to the loaded kernel in the crashkernel memor=
+y
+> > region (usually called kdump kernel). In kdump kernel, it boots up and
+> > enable necessary features to read out the 1st kernel's memory content,
+> > we usually use user space tool like makeudmpfile to filter out unwanted
+> > memory content.
+> >
+> > So this patchset intends to disable KASAN to decrease the crashkernel
+> > meomry value because crashkernel is not usable for 1st kernel. As for
+> > shadow memory of 1st kernel, we need recognize it and filter it away
+> > in makedumpfile.
+>=20
+> Ah, I see, thank you for the explanation!
+>=20
+> So kdump kernel runs with the amount of RAM specified by crashkernel=3D.
+> And KASAN's shadow memory increases RAM usage, which means
+> crashkernel=3D needs to be set to a higher value for KASAN kernels. Is
+> my understanding of the problem correct?
 
-As a result, the outcome of some test cases may differ
-compared to when KASAN is configured without write-only mode.
+Yeah, you are quite right.
 
-Therefore, by modifying pre-exist testcases
-check the write only makes tag check fault (TCF) where
-writing is perform in "allocated memory" but tag is invalid
-(i.e) redzone write in atomic_set() testcases.
-Otherwise check the invalid fetch/read doesn't generate TCF.
+When I tested it, on x86_64 and arm64, usually I set crashkernel=3D256M
+and it's sufficient. However, when KASAN is enabled and generic mode is
+taken, I need set crashkernel=3D768M to make vmcore dumping succeed. In
+kdump kernel, read_vmcore() uses ioremap to map the old memory of
+collapsed kernel for reading out, those vmalloc-ed areas are lazily
+freed and cause more shadow memory than what we usually think shadow
+memory only costs 1/8 of physical RAM.
 
-Also, skip some testcases affected by initial value
-(i.e) atomic_cmpxchg() testcase maybe successd if
-it passes valid atomic_t address and invalid oldaval address.
-In this case, if invalid atomic_t doesn't have the same oldval,
-it won't trigger write operation so the test will pass.
-
-Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
----
- mm/kasan/kasan_test_c.c | 237 +++++++++++++++++++++++++++-------------
- 1 file changed, 162 insertions(+), 75 deletions(-)
-
-diff --git a/mm/kasan/kasan_test_c.c b/mm/kasan/kasan_test_c.c
-index 2aa12dfa427a..8cf93715fdac 100644
---- a/mm/kasan/kasan_test_c.c
-+++ b/mm/kasan/kasan_test_c.c
-@@ -94,11 +94,13 @@ static void kasan_test_exit(struct kunit *test)
- }
- 
- /**
-- * KUNIT_EXPECT_KASAN_FAIL - check that the executed expression produces a
-- * KASAN report; causes a KUnit test failure otherwise.
-+ * _KUNIT_EXPECT_KASAN_TEMPLATE - check that the executed expression produces
-+ * a KASAN report or not; a KUnit test failure when it's different from @produce.
-  *
-  * @test: Currently executing KUnit test.
-- * @expression: Expression that must produce a KASAN report.
-+ * @expr: Expression produce a KASAN report or not.
-+ * @expr_str: Expression string
-+ * @produce: expression should produce a KASAN report.
-  *
-  * For hardware tag-based KASAN, when a synchronous tag fault happens, tag
-  * checking is auto-disabled. When this happens, this test handler reenables
-@@ -110,25 +112,29 @@ static void kasan_test_exit(struct kunit *test)
-  * Use READ/WRITE_ONCE() for the accesses and compiler barriers around the
-  * expression to prevent that.
-  *
-- * In between KUNIT_EXPECT_KASAN_FAIL checks, test_status.report_found is kept
-+ * In between _KUNIT_EXPECT_KASAN_TEMPLATE checks, test_status.report_found is kept
-  * as false. This allows detecting KASAN reports that happen outside of the
-  * checks by asserting !test_status.report_found at the start of
-- * KUNIT_EXPECT_KASAN_FAIL and in kasan_test_exit.
-+ * _KUNIT_EXPECT_KASAN_TEMPLATE and in kasan_test_exit.
-  */
--#define KUNIT_EXPECT_KASAN_FAIL(test, expression) do {			\
-+#define _KUNIT_EXPECT_KASAN_TEMPLATE(test, expr, expr_str, produce)	\
-+do {									\
- 	if (IS_ENABLED(CONFIG_KASAN_HW_TAGS) &&				\
- 	    kasan_sync_fault_possible())				\
- 		migrate_disable();					\
- 	KUNIT_EXPECT_FALSE(test, READ_ONCE(test_status.report_found));	\
- 	barrier();							\
--	expression;							\
-+	expr;								\
- 	barrier();							\
- 	if (kasan_async_fault_possible())				\
- 		kasan_force_async_fault();				\
--	if (!READ_ONCE(test_status.report_found)) {			\
--		KUNIT_FAIL(test, KUNIT_SUBTEST_INDENT "KASAN failure "	\
--				"expected in \"" #expression		\
--				 "\", but none occurred");		\
-+	if (READ_ONCE(test_status.report_found) != produce) {		\
-+		KUNIT_FAIL(test, KUNIT_SUBTEST_INDENT "KASAN %s "	\
-+				"expected in \"" expr_str		\
-+				 "\", but %soccurred",			\
-+				(produce ? "failure" : "success"),	\
-+				(test_status.report_found ?		\
-+				 "" : "none "));			\
- 	}								\
- 	if (IS_ENABLED(CONFIG_KASAN_HW_TAGS) &&				\
- 	    kasan_sync_fault_possible()) {				\
-@@ -141,6 +147,29 @@ static void kasan_test_exit(struct kunit *test)
- 	WRITE_ONCE(test_status.async_fault, false);			\
- } while (0)
- 
-+/*
-+ * KUNIT_EXPECT_KASAN_FAIL - check that the executed expression produces a
-+ * KASAN report; causes a KUnit test failure otherwise.
-+ *
-+ * @test: Currently executing KUnit test.
-+ * @expr: Expression produce a KASAN report.
-+ */
-+#define KUNIT_EXPECT_KASAN_FAIL(test, expr)			\
-+	_KUNIT_EXPECT_KASAN_TEMPLATE(test, expr, #expr, true)
-+
-+/*
-+ * KUNIT_EXPECT_KASAN_FAIL_READ - check that the executed expression produces
-+ * a KASAN report for read access.
-+ * It causes a KUnit test failure. if KASAN report isn't produced for read access.
-+ * For write access, it cause a KUnit test failure if a KASAN report is produced
-+ *
-+ * @test: Currently executing KUnit test.
-+ * @expr: Expression doesn't produce a KASAN report.
-+ */
-+#define KUNIT_EXPECT_KASAN_FAIL_READ(test, expr)			\
-+	_KUNIT_EXPECT_KASAN_TEMPLATE(test, expr, #expr,			\
-+			!kasan_write_only_enabled())			\
-+
- #define KASAN_TEST_NEEDS_CONFIG_ON(test, config) do {			\
- 	if (!IS_ENABLED(config))					\
- 		kunit_skip((test), "Test requires " #config "=y");	\
-@@ -183,8 +212,8 @@ static void kmalloc_oob_right(struct kunit *test)
- 	KUNIT_EXPECT_KASAN_FAIL(test, ptr[size + 5] = 'y');
- 
- 	/* Out-of-bounds access past the aligned kmalloc object. */
--	KUNIT_EXPECT_KASAN_FAIL(test, ptr[0] =
--					ptr[size + KASAN_GRANULE_SIZE + 5]);
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, ptr[0] =
-+			ptr[size + KASAN_GRANULE_SIZE + 5]);
- 
- 	kfree(ptr);
- }
-@@ -198,7 +227,8 @@ static void kmalloc_oob_left(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
- 
- 	OPTIMIZER_HIDE_VAR(ptr);
--	KUNIT_EXPECT_KASAN_FAIL(test, *ptr = *(ptr - 1));
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, *ptr = *(ptr - 1));
-+
- 	kfree(ptr);
- }
- 
-@@ -211,7 +241,8 @@ static void kmalloc_node_oob_right(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
- 
- 	OPTIMIZER_HIDE_VAR(ptr);
--	KUNIT_EXPECT_KASAN_FAIL(test, ptr[0] = ptr[size]);
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, ptr[0] = ptr[size]);
-+
- 	kfree(ptr);
- }
- 
-@@ -291,7 +322,7 @@ static void kmalloc_large_uaf(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
- 	kfree(ptr);
- 
--	KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr)[0]);
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, ((volatile char *)ptr)[0]);
- }
- 
- static void kmalloc_large_invalid_free(struct kunit *test)
-@@ -323,7 +354,8 @@ static void page_alloc_oob_right(struct kunit *test)
- 	ptr = page_address(pages);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
- 
--	KUNIT_EXPECT_KASAN_FAIL(test, ptr[0] = ptr[size]);
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, ptr[0] = ptr[size]);
-+
- 	free_pages((unsigned long)ptr, order);
- }
- 
-@@ -338,7 +370,7 @@ static void page_alloc_uaf(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
- 	free_pages((unsigned long)ptr, order);
- 
--	KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr)[0]);
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, ((volatile char *)ptr)[0]);
- }
- 
- static void krealloc_more_oob_helper(struct kunit *test,
-@@ -455,10 +487,10 @@ static void krealloc_uaf(struct kunit *test)
- 	ptr1 = kmalloc(size1, GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
- 	kfree(ptr1);
--
- 	KUNIT_EXPECT_KASAN_FAIL(test, ptr2 = krealloc(ptr1, size2, GFP_KERNEL));
- 	KUNIT_ASSERT_NULL(test, ptr2);
--	KUNIT_EXPECT_KASAN_FAIL(test, *(volatile char *)ptr1);
-+
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, *(volatile char *)ptr1);
- }
- 
- static void kmalloc_oob_16(struct kunit *test)
-@@ -501,7 +533,8 @@ static void kmalloc_uaf_16(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
- 	kfree(ptr2);
- 
--	KUNIT_EXPECT_KASAN_FAIL(test, *ptr1 = *ptr2);
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, *ptr1 = *ptr2);
-+
- 	kfree(ptr1);
- }
- 
-@@ -640,8 +673,10 @@ static void kmalloc_memmove_invalid_size(struct kunit *test)
- 	memset((char *)ptr, 0, 64);
- 	OPTIMIZER_HIDE_VAR(ptr);
- 	OPTIMIZER_HIDE_VAR(invalid_size);
--	KUNIT_EXPECT_KASAN_FAIL(test,
--		memmove((char *)ptr, (char *)ptr + 4, invalid_size));
-+
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test,
-+			memmove((char *)ptr, (char *)ptr + 4, invalid_size));
-+
- 	kfree(ptr);
- }
- 
-@@ -654,7 +689,8 @@ static void kmalloc_uaf(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
- 
- 	kfree(ptr);
--	KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr)[8]);
-+
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, ((volatile char *)ptr)[8]);
- }
- 
- static void kmalloc_uaf_memset(struct kunit *test)
-@@ -701,7 +737,8 @@ static void kmalloc_uaf2(struct kunit *test)
- 		goto again;
- 	}
- 
--	KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr1)[40]);
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, ((volatile char *)ptr1)[40]);
-+
- 	KUNIT_EXPECT_PTR_NE(test, ptr1, ptr2);
- 
- 	kfree(ptr2);
-@@ -727,19 +764,19 @@ static void kmalloc_uaf3(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
- 	kfree(ptr2);
- 
--	KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr1)[8]);
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, ((volatile char *)ptr1)[8]);
- }
- 
- static void kasan_atomics_helper(struct kunit *test, void *unsafe, void *safe)
- {
- 	int *i_unsafe = unsafe;
- 
--	KUNIT_EXPECT_KASAN_FAIL(test, READ_ONCE(*i_unsafe));
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, READ_ONCE(*i_unsafe));
-+
- 	KUNIT_EXPECT_KASAN_FAIL(test, WRITE_ONCE(*i_unsafe, 42));
--	KUNIT_EXPECT_KASAN_FAIL(test, smp_load_acquire(i_unsafe));
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, smp_load_acquire(i_unsafe));
- 	KUNIT_EXPECT_KASAN_FAIL(test, smp_store_release(i_unsafe, 42));
--
--	KUNIT_EXPECT_KASAN_FAIL(test, atomic_read(unsafe));
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, atomic_read(unsafe));
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_set(unsafe, 42));
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_add(42, unsafe));
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_sub(42, unsafe));
-@@ -752,18 +789,35 @@ static void kasan_atomics_helper(struct kunit *test, void *unsafe, void *safe)
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_xchg(unsafe, 42));
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_cmpxchg(unsafe, 21, 42));
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_try_cmpxchg(unsafe, safe, 42));
--	KUNIT_EXPECT_KASAN_FAIL(test, atomic_try_cmpxchg(safe, unsafe, 42));
-+
-+	/*
-+	 * The result of the test below may vary due to garbage values of unsafe in
-+	 * store-only mode. Therefore, skip this test when KASAN is configured
-+	 * in store-only mode.
-+	 */
-+	if (!kasan_write_only_enabled())
-+		KUNIT_EXPECT_KASAN_FAIL(test, atomic_try_cmpxchg(safe, unsafe, 42));
-+
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_sub_and_test(42, unsafe));
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_dec_and_test(unsafe));
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_inc_and_test(unsafe));
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_add_negative(42, unsafe));
--	KUNIT_EXPECT_KASAN_FAIL(test, atomic_add_unless(unsafe, 21, 42));
--	KUNIT_EXPECT_KASAN_FAIL(test, atomic_inc_not_zero(unsafe));
--	KUNIT_EXPECT_KASAN_FAIL(test, atomic_inc_unless_negative(unsafe));
--	KUNIT_EXPECT_KASAN_FAIL(test, atomic_dec_unless_positive(unsafe));
--	KUNIT_EXPECT_KASAN_FAIL(test, atomic_dec_if_positive(unsafe));
- 
--	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_read(unsafe));
-+	/*
-+	 * The result of the test below may vary due to garbage values of unsafe in
-+	 * store-only mode. Therefore, skip this test when KASAN is configured
-+	 * in store-only mode.
-+	 */
-+	if (!kasan_write_only_enabled()) {
-+		KUNIT_EXPECT_KASAN_FAIL(test, atomic_add_unless(unsafe, 21, 42));
-+		KUNIT_EXPECT_KASAN_FAIL(test, atomic_inc_not_zero(unsafe));
-+		KUNIT_EXPECT_KASAN_FAIL(test, atomic_inc_unless_negative(unsafe));
-+		KUNIT_EXPECT_KASAN_FAIL(test, atomic_dec_unless_positive(unsafe));
-+		KUNIT_EXPECT_KASAN_FAIL(test, atomic_dec_if_positive(unsafe));
-+	}
-+
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, atomic_long_read(unsafe));
-+
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_set(unsafe, 42));
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_add(42, unsafe));
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_sub(42, unsafe));
-@@ -776,16 +830,32 @@ static void kasan_atomics_helper(struct kunit *test, void *unsafe, void *safe)
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_xchg(unsafe, 42));
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_cmpxchg(unsafe, 21, 42));
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_try_cmpxchg(unsafe, safe, 42));
--	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_try_cmpxchg(safe, unsafe, 42));
-+
-+	/*
-+	 * The result of the test below may vary due to garbage values in
-+	 * store-only mode. Therefore, skip this test when KASAN is configured
-+	 * in store-only mode.
-+	 */
-+	if (!kasan_write_only_enabled())
-+		KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_try_cmpxchg(safe, unsafe, 42));
-+
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_sub_and_test(42, unsafe));
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_dec_and_test(unsafe));
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_inc_and_test(unsafe));
- 	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_add_negative(42, unsafe));
--	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_add_unless(unsafe, 21, 42));
--	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_inc_not_zero(unsafe));
--	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_inc_unless_negative(unsafe));
--	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_dec_unless_positive(unsafe));
--	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_dec_if_positive(unsafe));
-+
-+	/*
-+	 * The result of the test below may vary due to garbage values in
-+	 * store-only mode. Therefore, skip this test when KASAN is configured
-+	 * in store-only mode.
-+	 */
-+	if (!kasan_write_only_enabled()) {
-+		KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_add_unless(unsafe, 21, 42));
-+		KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_inc_not_zero(unsafe));
-+		KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_inc_unless_negative(unsafe));
-+		KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_dec_unless_positive(unsafe));
-+		KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_dec_if_positive(unsafe));
-+	}
- }
- 
- static void kasan_atomics(struct kunit *test)
-@@ -842,8 +912,9 @@ static void ksize_unpoisons_memory(struct kunit *test)
- 	/* These must trigger a KASAN report. */
- 	if (IS_ENABLED(CONFIG_KASAN_GENERIC))
- 		KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr)[size]);
--	KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr)[size + 5]);
--	KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr)[real_size - 1]);
-+
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, ((volatile char *)ptr)[size + 5]);
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, ((volatile char *)ptr)[real_size - 1]);
- 
- 	kfree(ptr);
- }
-@@ -863,8 +934,8 @@ static void ksize_uaf(struct kunit *test)
- 
- 	OPTIMIZER_HIDE_VAR(ptr);
- 	KUNIT_EXPECT_KASAN_FAIL(test, ksize(ptr));
--	KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr)[0]);
--	KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr)[size]);
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, ((volatile char *)ptr)[0]);
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, ((volatile char *)ptr)[size]);
- }
- 
- /*
-@@ -886,6 +957,7 @@ static void rcu_uaf_reclaim(struct rcu_head *rp)
- 		container_of(rp, struct kasan_rcu_info, rcu);
- 
- 	kfree(fp);
-+
- 	((volatile struct kasan_rcu_info *)fp)->i;
- }
- 
-@@ -899,9 +971,9 @@ static void rcu_uaf(struct kunit *test)
- 	global_rcu_ptr = rcu_dereference_protected(
- 				(struct kasan_rcu_info __rcu *)ptr, NULL);
- 
--	KUNIT_EXPECT_KASAN_FAIL(test,
--		call_rcu(&global_rcu_ptr->rcu, rcu_uaf_reclaim);
--		rcu_barrier());
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test,
-+			call_rcu(&global_rcu_ptr->rcu, rcu_uaf_reclaim);
-+			rcu_barrier());
- }
- 
- static void workqueue_uaf_work(struct work_struct *work)
-@@ -924,8 +996,8 @@ static void workqueue_uaf(struct kunit *test)
- 	queue_work(workqueue, work);
- 	destroy_workqueue(workqueue);
- 
--	KUNIT_EXPECT_KASAN_FAIL(test,
--		((volatile struct work_struct *)work)->data);
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test,
-+			((volatile struct work_struct *)work)->data);
- }
- 
- static void kfree_via_page(struct kunit *test)
-@@ -972,7 +1044,7 @@ static void kmem_cache_oob(struct kunit *test)
- 		return;
- 	}
- 
--	KUNIT_EXPECT_KASAN_FAIL(test, *p = p[size + OOB_TAG_OFF]);
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, *p = p[size + OOB_TAG_OFF]);
- 
- 	kmem_cache_free(cache, p);
- 	kmem_cache_destroy(cache);
-@@ -1068,7 +1140,7 @@ static void kmem_cache_rcu_uaf(struct kunit *test)
- 	 */
- 	rcu_barrier();
- 
--	KUNIT_EXPECT_KASAN_FAIL(test, READ_ONCE(*p));
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, READ_ONCE(*p));
- 
- 	kmem_cache_destroy(cache);
- }
-@@ -1207,7 +1279,7 @@ static void mempool_oob_right_helper(struct kunit *test, mempool_t *pool, size_t
- 		KUNIT_EXPECT_KASAN_FAIL(test,
- 			((volatile char *)&elem[size])[0]);
- 	else
--		KUNIT_EXPECT_KASAN_FAIL(test,
-+		KUNIT_EXPECT_KASAN_FAIL_READ(test,
- 			((volatile char *)&elem[round_up(size, KASAN_GRANULE_SIZE)])[0]);
- 
- 	mempool_free(elem, pool);
-@@ -1273,7 +1345,8 @@ static void mempool_uaf_helper(struct kunit *test, mempool_t *pool, bool page)
- 	mempool_free(elem, pool);
- 
- 	ptr = page ? page_address((struct page *)elem) : elem;
--	KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr)[0]);
-+
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, ((volatile char *)ptr)[0]);
- }
- 
- static void mempool_kmalloc_uaf(struct kunit *test)
-@@ -1532,7 +1605,8 @@ static void kasan_memchr(struct kunit *test)
- 
- 	OPTIMIZER_HIDE_VAR(ptr);
- 	OPTIMIZER_HIDE_VAR(size);
--	KUNIT_EXPECT_KASAN_FAIL(test,
-+
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test,
- 		kasan_ptr_result = memchr(ptr, '1', size + 1));
- 
- 	kfree(ptr);
-@@ -1559,8 +1633,10 @@ static void kasan_memcmp(struct kunit *test)
- 
- 	OPTIMIZER_HIDE_VAR(ptr);
- 	OPTIMIZER_HIDE_VAR(size);
--	KUNIT_EXPECT_KASAN_FAIL(test,
-+
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test,
- 		kasan_int_result = memcmp(ptr, arr, size+1));
-+
- 	kfree(ptr);
- }
- 
-@@ -1594,7 +1670,7 @@ static void kasan_strings(struct kunit *test)
- 			strscpy(ptr, src + 1, KASAN_GRANULE_SIZE));
- 
- 	/* strscpy should fail if the first byte is unreadable. */
--	KUNIT_EXPECT_KASAN_FAIL(test, strscpy(ptr, src + KASAN_GRANULE_SIZE,
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, strscpy(ptr, src + KASAN_GRANULE_SIZE,
- 					      KASAN_GRANULE_SIZE));
- 
- 	kfree(src);
-@@ -1607,17 +1683,13 @@ static void kasan_strings(struct kunit *test)
- 	 * will likely point to zeroed byte.
- 	 */
- 	ptr += 16;
--	KUNIT_EXPECT_KASAN_FAIL(test, kasan_ptr_result = strchr(ptr, '1'));
- 
--	KUNIT_EXPECT_KASAN_FAIL(test, kasan_ptr_result = strrchr(ptr, '1'));
--
--	KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result = strcmp(ptr, "2"));
--
--	KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result = strncmp(ptr, "2", 1));
--
--	KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result = strlen(ptr));
--
--	KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result = strnlen(ptr, 1));
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, kasan_ptr_result = strchr(ptr, '1'));
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, kasan_ptr_result = strrchr(ptr, '1'));
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, kasan_int_result = strcmp(ptr, "2"));
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, kasan_int_result = strncmp(ptr, "2", 1));
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, kasan_int_result = strlen(ptr));
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, kasan_int_result = strnlen(ptr, 1));
- }
- 
- static void kasan_bitops_modify(struct kunit *test, int nr, void *addr)
-@@ -1636,12 +1708,22 @@ static void kasan_bitops_test_and_modify(struct kunit *test, int nr, void *addr)
- {
- 	KUNIT_EXPECT_KASAN_FAIL(test, test_and_set_bit(nr, addr));
- 	KUNIT_EXPECT_KASAN_FAIL(test, __test_and_set_bit(nr, addr));
--	KUNIT_EXPECT_KASAN_FAIL(test, test_and_set_bit_lock(nr, addr));
-+
-+	/*
-+	 * When KASAN is running in store-only mode,
-+	 * a fault won't occur when the bit is set.
-+	 * Therefore, skip the test_and_set_bit_lock test in store-only mode.
-+	 */
-+	if (!kasan_write_only_enabled())
-+		KUNIT_EXPECT_KASAN_FAIL(test, test_and_set_bit_lock(nr, addr));
-+
- 	KUNIT_EXPECT_KASAN_FAIL(test, test_and_clear_bit(nr, addr));
- 	KUNIT_EXPECT_KASAN_FAIL(test, __test_and_clear_bit(nr, addr));
- 	KUNIT_EXPECT_KASAN_FAIL(test, test_and_change_bit(nr, addr));
- 	KUNIT_EXPECT_KASAN_FAIL(test, __test_and_change_bit(nr, addr));
--	KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result = test_bit(nr, addr));
-+
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, kasan_int_result = test_bit(nr, addr));
-+
- 	if (nr < 7)
- 		KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result =
- 				xor_unlock_is_negative_byte(1 << nr, addr));
-@@ -1765,7 +1847,7 @@ static void vmalloc_oob(struct kunit *test)
- 		KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)v_ptr)[size]);
- 
- 	/* An aligned access into the first out-of-bounds granule. */
--	KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)v_ptr)[size + 5]);
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test, ((volatile char *)v_ptr)[size + 5]);
- 
- 	/* Check that in-bounds accesses to the physical page are valid. */
- 	page = vmalloc_to_page(v_ptr);
-@@ -2042,15 +2124,20 @@ static void copy_user_test_oob(struct kunit *test)
- 
- 	KUNIT_EXPECT_KASAN_FAIL(test,
- 		unused = copy_from_user(kmem, usermem, size + 1));
--	KUNIT_EXPECT_KASAN_FAIL(test,
-+
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test,
- 		unused = copy_to_user(usermem, kmem, size + 1));
-+
- 	KUNIT_EXPECT_KASAN_FAIL(test,
- 		unused = __copy_from_user(kmem, usermem, size + 1));
--	KUNIT_EXPECT_KASAN_FAIL(test,
-+
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test,
- 		unused = __copy_to_user(usermem, kmem, size + 1));
-+
- 	KUNIT_EXPECT_KASAN_FAIL(test,
- 		unused = __copy_from_user_inatomic(kmem, usermem, size + 1));
--	KUNIT_EXPECT_KASAN_FAIL(test,
-+
-+	KUNIT_EXPECT_KASAN_FAIL_READ(test,
- 		unused = __copy_to_user_inatomic(usermem, kmem, size + 1));
- 
- 	/*
--- 
-LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250816110018.4055617-3-yeoreum.yun%40arm.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/a=
+KFPPi2sti7%2B3JZ9%40MiWiFi-R3L-srv.
