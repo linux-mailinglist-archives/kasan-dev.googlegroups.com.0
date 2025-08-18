@@ -1,56 +1,56 @@
-Return-Path: <kasan-dev+bncBCD6ROMWZ4CBBG6NRTCQMGQEIE5KQDA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCD6ROMWZ4CBBKXBRTCQMGQE6SRD6OA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf37.google.com (mail-qv1-xf37.google.com [IPv6:2607:f8b0:4864:20::f37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FAE1B2A399
-	for <lists+kasan-dev@lfdr.de>; Mon, 18 Aug 2025 15:11:57 +0200 (CEST)
-Received: by mail-qv1-xf37.google.com with SMTP id 6a1803df08f44-70a928dc378sf102902786d6.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 18 Aug 2025 06:11:57 -0700 (PDT)
-ARC-Seal: i=4; a=rsa-sha256; t=1755522716; cv=pass;
+Received: from mail-pl1-x640.google.com (mail-pl1-x640.google.com [IPv6:2607:f8b0:4864:20::640])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CF69B2A798
+	for <lists+kasan-dev@lfdr.de>; Mon, 18 Aug 2025 15:55:11 +0200 (CEST)
+Received: by mail-pl1-x640.google.com with SMTP id d9443c01a7336-2445806b2besf104435855ad.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 18 Aug 2025 06:55:11 -0700 (PDT)
+ARC-Seal: i=4; a=rsa-sha256; t=1755525292; cv=pass;
         d=google.com; s=arc-20240605;
-        b=gQxaqZP8x1AkMfaOKpwJOMBAI1usYe+EJW9exWqiprigptcLm8Ob9qAD4kULMP/duq
-         nIFC2LbfuStPBpfCqJoCKzatPfLGyAoCKdnd90bT/AFkwFoeLWkRK9wMtYVkEaAFi+tz
-         2XJBpXdvwOCSPELYFJs+df6aSlWoHI0P8ncldAsyMZ+uypRekFByO+NkMVBL5Yp5rxm4
-         +4gcJb7frYb/k6O3l4SJbgwArbAPtUL/5KeOjIfAvendvKtvtHJjxV8ZQ4Z9soUoevBd
-         wNOeX7mUJydkLvpeIznCB8Dkuh4ajqPbCTNCFTBFU0Fmz19IZxwX2E0aEv6uoiBsZj0O
-         MK8g==
+        b=L3fhxgHgbm9V13VMtvE9mbL9fJ3nVXPh4fH5RaMC3HCDcSDS3jnmaGB7vPiVm6zcrR
+         RChcSdVs2kTY/4YAXTHrdVW6K/zGLk5YjvYFi1N1TS9TsLr4ste7DKVLNoSLBp1XHcED
+         lsKJx3bJCaUf2PjPyVA5eHQycB5clgKgv+/PdDRQR26In9Ez++gOjHL2BoQOT/PCFrvV
+         3KGQntIdjTQrdj/kuA8rOA1NqCMzTnwJh4FgjzGn+C4mH1z4j5B2A6H4tl6c9+yshWCO
+         Xga8NNNAoFvSZX7bE8huZ3TLPM1vgIgjqW8vQKzPWNnR7S9tfmRzmKtB4SehfjacMnGy
+         /9ow==
 ARC-Message-Signature: i=4; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:nodisclaimer:mime-version
          :in-reply-to:content-disposition:references:message-id:subject:cc:to
          :from:date:authentication-results-original:sender:dkim-signature;
-        bh=8XYcc0sdyM58r8ThIjeWA0Nysvq3+XnL+81y9PGFSrU=;
-        fh=q7GLy3XW0l8iZLTwij7CWQ6rVuaS5T8gewBwGWbvzYE=;
-        b=a+97NyMstYhk5S2Ky1jyZfCGY0/KVSdZMemj8k9Iq9vWQHCAipejhjbDg18Ee54h1L
-         +5qOQgmYd6TjpuEX9cI2qXI9GgeI5JghlYpPWKL2kk67tO7h2HCYoGvQYAcZ7paZiQ7i
-         xp4XmOcn1LfdXglgSXJdjGvNzVr9jEv3+HNRgc5BxuPBz6sBrD9IIqsEV0sYhCJKkV5T
-         7tJ+8zrNx/HLHI+eq7T1kBYyMBxueVxBMq078RZwyy+h1+DfXu53iOSPwN3EVTf+kG6+
-         QQvM/w/56RUfvTM2A7iqPennE5Nr+2WCt2JTdgCsDv8uaqVEKRatqKm4Lh3JpJBsWH8k
-         YrtQ==;
+        bh=xGM/ZkTIsGgs2+oLmQM88qwPt8Iifc/zSLr02yryg60=;
+        fh=dQm4zmNhvhre9W3thA6WQHpHpjtobatqbZm+lgRoI50=;
+        b=lZTaFy8aXIHbZOH3YhwUd1h/eL7+NrL6w2tnwZC1DNP+PfqsXFk+J1zS+hXs/B+ZJX
+         gKpgIJ/p9Ax+v3XaKrRYDxGYQQ2UvVXl3OqiRskOo+tHJimxupKxVqnMz8b9K5EU6Ezq
+         /k5rRDqSQK2/Q5cctsHp+7AY3UJwOawZWOLkXl/xbCjWGYl9RntEPO+xlgdrgxwpR9AF
+         semrB3Qgu6I8+mtSg/sWSEqM903Grg8U+vcfSEjij5vexIBNhq/sE5MAvTc0kMjIqQvk
+         saUbQk2gYPMF3ft9SHVlNy2clySdU0vKM/uC5M/jPP2ygaytmoWvaSTwOgAY/9Q9TGq/
+         5J4g==;
         darn=lfdr.de
 ARC-Authentication-Results: i=4; gmr-mx.google.com;
-       dkim=pass header.i=@arm.com header.s=selector1 header.b=XrBvsWWi;
-       dkim=pass header.i=@arm.com header.s=selector1 header.b=XrBvsWWi;
+       dkim=pass header.i=@arm.com header.s=selector1 header.b=eM0th1Je;
+       dkim=pass header.i=@arm.com header.s=selector1 header.b=eM0th1Je;
        arc=pass (i=2 spf=pass spfdomain=arm.com dkim=pass dkdomain=arm.com dmarc=pass fromdomain=arm.com);
-       spf=pass (google.com: domain of yeoreum.yun@arm.com designates 2a01:111:f403:c20f::7 as permitted sender) smtp.mailfrom=YeoReum.Yun@arm.com;
+       spf=pass (google.com: domain of yeoreum.yun@arm.com designates 2a01:111:f403:c207::3 as permitted sender) smtp.mailfrom=YeoReum.Yun@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1755522716; x=1756127516; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1755525292; x=1756130092; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:nodisclaimer:mime-version:in-reply-to
          :content-disposition:references:message-id:subject:cc:to:from:date
          :authentication-results-original:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8XYcc0sdyM58r8ThIjeWA0Nysvq3+XnL+81y9PGFSrU=;
-        b=QXvQKxxleAh/J1YdoSME1YnXCUYZCKGTInqqVKbDoO9vZ/Odgl/9p379edvuOnb+33
-         SBQwjqFoX7+vmfMxtEXc09NSc8pv2fj3GI5tAp7b280YwcG3N+0eRMjp1HzxCTC2UCPo
-         YU2raNoIS7DzWncY1zdOPUN7wALbEoM1EGB58cqRll8fKdvq//4nq+T8TdqbPDZq2TXk
-         dLOyEACMg3FDEpn0euKhtmcuhD0zL9Q5nU0y0qrpWPQOtjE6M8Cw5uSjDAgJH6Mhyn3i
-         k/+2us4WORRji1BaLy19rNBTHorDC5Q/i/NLGL07sDfjHqtBGPdNUsJesEEXywdPe57h
-         cXLg==
+        bh=xGM/ZkTIsGgs2+oLmQM88qwPt8Iifc/zSLr02yryg60=;
+        b=DgKYoGlKgkd4ZnlMUo5RnEbPLWkOKcAHPt1usiI2TWPBScWu3N47Ux70q2SsZ31UEp
+         e8ZsJE+LwKjR+2UMCHnO3U5f+TjmtuvOhJ6J2oM/wQYVYxX65WjRlGOfTNLAAI4/H9CL
+         U60Atbp8wKrko2MlJ3vtPx8HMPOn1+mBMH0cnkAJ2pl3d1/Jl9zrmWTHIVTaCdcThEf1
+         bPEoCpxhmIVBewOrS5ttPpsvfvoftG+WUXac5YzsLubijX5T33ylNbnmDt7AO+hM9JyD
+         8AVoFs9pvgfYdC2C781SDEBOj7o7EXbpnMrqMTISLPliNGMhARtI8R9a28gyguR6nV1M
+         pCsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755522716; x=1756127516;
+        d=1e100.net; s=20230601; t=1755525292; x=1756130092;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:nodisclaimer
@@ -58,83 +58,83 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :subject:cc:to:from:date:authentication-results-original:x-beenthere
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8XYcc0sdyM58r8ThIjeWA0Nysvq3+XnL+81y9PGFSrU=;
-        b=Nlwl0Dl+HrORcOD8QMT2p50JJzKMxdZMdyOzl1IuS+z85Bh32YtTfPCmCsp0jJOTsf
-         Y5jk7jgEj5zbflNwzuSj2vNUd/V/I3Dlevs+O9bedLpGI9th3YMaABYVp+p+x3+NBs1O
-         fjo9IMwSC3OM5Kfdt84b1uxyn8Gwa50hFauQit9ibUyitUrJKziCVttAwD7e4l09XuNv
-         wOLl+dIAOQ+6eaQcERFap5uyEpr3C2HNHMGFjnkYNo9J8dqUA5q4oNg4DAYPD9JvxnEw
-         s5nnNopyTgHH5nfmxpj665WZ7uUAj2LkssA1x8/f2jbJ7dSJ8Kmk6WAhiUhhHaq4+KgX
-         y/LA==
+        bh=xGM/ZkTIsGgs2+oLmQM88qwPt8Iifc/zSLr02yryg60=;
+        b=TF8r9zkyDXr0yPpsltDo5Ynz+y8pLDLzE5XgjoQzc6CUrga5DIfB6DzRXxNR6kpHlH
+         Ctro4Ifej1DKzRqQTeyCLMDwx6dIFOVy0wuC1K51mV5RpNSsaNtYUoHvebjX2ddnNLxZ
+         DlFEWQYbKSu+/PimZJamFNFNc0fXfScQho/GJ5XgfbkvrwF7CxR0meCgJ3EFKyH7bxfV
+         7bmHZcgBLZyl5/n8yiHHQ9a7wA7NY2qYRI6kReNqMqh/HcE56UAYRjw95/XCA6NhRC/S
+         CnPuuaaMe3qeIh/bLJm/YoLzNx3ECySai66u28Hb12MmL/gPglrocm/FU/jGrmKSp8Ne
+         3oyg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=4; AJvYcCWGpUEA+JkI1+avIYnkFnK3woZjCbJ8ij127od6cgKPBDvObDjkcr73bflrMtdv3o+OjIjfQQ==@lfdr.de
-X-Gm-Message-State: AOJu0YywBfRpo/XjZYcNydwGOCPZlk3vWnwGxaBmTO06fMmp0Stx+ZuR
-	AfeFaJYhbaiyiDC4G06o5e9yJT29ovqNahTOGvKM5GSXzgve/dsBY6jK
-X-Google-Smtp-Source: AGHT+IHVATzHSKflJZTMRrVkSWZOODhzHwTg03/9Io+yWYS8yW7CyvpGIdnMobOxC0MbID4DGx1uXQ==
-X-Received: by 2002:a05:6214:d45:b0:709:9ebe:7d0e with SMTP id 6a1803df08f44-70ba7c75695mr145289266d6.41.1755522715718;
-        Mon, 18 Aug 2025 06:11:55 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZecmFr1uyep+J8GHLGKXislHnhrOp03+IXXsI3NnoVWvQ==
-Received: by 2002:a05:6214:4c46:b0:70b:acc1:ba52 with SMTP id
- 6a1803df08f44-70bacc1c5a7ls33943716d6.2.-pod-prod-02-us; Mon, 18 Aug 2025
- 06:11:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=4; AJvYcCW5eKdlP95Tgry3SlpcKWmFWJgIt6D17hmwL0mrXhsg5xRlBXIt3nk8HT0Rwnvp/75vKk5Baq+uoeY=@googlegroups.com
-X-Received: by 2002:a0c:f084:0:20b0:70b:b65f:3997 with SMTP id 6a1803df08f44-70bb65f39c4mr38000746d6.37.1755522713442;
-        Mon, 18 Aug 2025 06:11:53 -0700 (PDT)
-ARC-Seal: i=3; a=rsa-sha256; t=1755522713; cv=pass;
+X-Forwarded-Encrypted: i=4; AJvYcCUz6WslSSTUeJlqV+cCeEf5c9c1jLXKGHvkjxP+zhVDA1teei4r9+E/YlKQnhGfahTNPNFDCg==@lfdr.de
+X-Gm-Message-State: AOJu0YwE58XNXFYNPAt5Tlqtm+Ay0nYTXvQDYCwDW3gqnuEZv/4gxTRF
+	J6OeZr09D1k4/qCq3hDLrILTIkQ8RieGrUrNaEgyqkhcBtipQi25v6uL
+X-Google-Smtp-Source: AGHT+IEL/C2oB7fSIpEFG6bwboHMAvIQmzG0vHcBYCh32Gl5ZHCGbzM9Y+Ykp90v9RuP8PLWqjI+Qg==
+X-Received: by 2002:a17:903:3546:b0:244:6b46:287b with SMTP id d9443c01a7336-2446d7a5b6fmr143084375ad.20.1755525291663;
+        Mon, 18 Aug 2025 06:54:51 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZd8B57JrgU1DaTz3YXSqZVJLOD0Vq0f0RR3jSvU19h8bQ==
+Received: by 2002:a17:902:ca91:b0:23f:d929:1689 with SMTP id
+ d9443c01a7336-244574259c7ls24343765ad.0.-pod-prod-03-us; Mon, 18 Aug 2025
+ 06:54:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=4; AJvYcCXBHDFSRUq7vRo17FzYjkwlZvM0X33mIK28xConR42WkPlnbY3JOrXoVncCxWh6EI5eM91CCecR28k=@googlegroups.com
+X-Received: by 2002:a17:902:cf04:b0:240:83af:e2e0 with SMTP id d9443c01a7336-2446d99bb80mr173091145ad.47.1755525289853;
+        Mon, 18 Aug 2025 06:54:49 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1755525289; cv=pass;
         d=google.com; s=arc-20240605;
-        b=VKQ8NpEFmGXD9xBNOCerPwkRSrQ7uDZ0ze6hqfcyKLhLJ7+mBSkfDLHEiLa9/mJ+/H
-         gVrfaARu8rBnBrL3FpD5Syd9KoAK6RzTstoy1SZCtjcDLWT3eyiD4Of1pMfleRPGxjFx
-         OhVC9mNxj3g6aSPI55B3L7I+zbn3c7Ciw0gp5JUHwcnME81UQrTVv13mjHdU2OS+qtYT
-         vTLpJ8SqNU9P00pEX26+J9IzyU3qcglxO2k89CSVCsvAUXTaEMGnTkXEQzcsY8Qc7v0j
-         EV1ZaVN5jUkne0rCQChVF0UiihIDNB/x/5ElOB238607irG4IdxvSV2BqMg1dKtVHEgu
-         H5Fg==
+        b=C+61XVcZqtag4QFAocPYb0W1GpnzpIBrD9Jn3wKtnDQjl2vF5dip3BEv2WkmrXjvLt
+         Jhe1Yj+aCBhpVJuiG/iO5cHmEXQcNWB76m7t2c2AfowEwyQsSbeYJ1mf0JrI09hNLBW+
+         Hd1dpz2krJXIt80Z5WFnCo28k3cMp2bIQCoZ7B7UHTcj/DMI+y0JfDbYZS16OD1/9NuT
+         /5Jy39cKIl8jlhlPYmQZlazTNeOMSRYb93hewQjby61C4MH0ouP5P+Cb9ltTHWK2OfX/
+         /x4AzTmfx27PQrCbKIWRJL3SNXI3RME5dTFeLWGMp4d7OsDmaO/ueU0KB/XdfC0JgBXk
+         A0AQ==
 ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=nodisclaimer:mime-version:in-reply-to:content-disposition
          :references:message-id:subject:cc:to:from:date
          :authentication-results-original:dkim-signature:dkim-signature;
-        bh=3yLSX+HNfkM3kyN+gL4jKSVpM1YNgfoLpyH8V67D8/Y=;
-        fh=ufqDvzVfba2dkpl8jTip/BMio/P94U1NAsuX93cABCQ=;
-        b=PnMIvmCe2FdZFGgWycZBIcZzZ572Nb5ZmD9a+c0ahGGylKhtxkastRgP38tpJKjJfk
-         fglz4K/NSVcQuPUN+grqSlDFyUSDbJhcAxmlhlyZpVV4qyHC0gxyHqHja5U77avEWC0q
-         nshPg2R2I0lu1kZz+jYd0giV7aMAXgKli/m6ml3BqduWk0/rGGJV2zN/9G1EaPB0kC9S
-         yVtaptHiCmomhclWA6SXItJi/ZORQYXudOIMkqyNJxZNd6Cnlr35vsMb+RxdQcSHzK4m
-         Zb9lEN0aYt8fwjEa6HhwtI8TW0E7R8qZwUSJbVmPFYJA5dTFipvxoy9CrsAwgbauTCGI
-         uifA==;
+        bh=Ps4Wxe6/gl/mNTxvkIqWiqZO66jtFZOy6oLUAb2eNLM=;
+        fh=+VLm3yRKhTyS+Qha+VS5WmFUkiIofdXO6pfYKFptxmU=;
+        b=T6ayXA1JRh8pinrhpWhV05amYXPQ6m2S26FOd22OldK/kwId3iQzZ3C8JX2YXESfrd
+         wUqrOMyFlBBM+gQlzElzB3NRbI4NN4HCB/5jYJUa4Rb9RBIFM/LAeMtuo/M7Rl2v6HBE
+         Wd39xa/F9UULNpdFqGUcJHC8kGHjJ17XLc20kPnwNF3wL+qHQjDGL02nOsAesBLfHYJ8
+         IENyTim9OLfXyAE0hQNbACy+ACSBEnKlKJXlOkieMtHTFc7KNnf3Ycm1PxPLYmgVz5uZ
+         hJJrLkqUZe+Hx3QzF9YGB81/JXH1gY1XehRdPpJUDlcVndcFIHeATN5o1Q3yHm+f/f9x
+         gfyw==;
         dara=google.com
 ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@arm.com header.s=selector1 header.b=XrBvsWWi;
-       dkim=pass header.i=@arm.com header.s=selector1 header.b=XrBvsWWi;
+       dkim=pass header.i=@arm.com header.s=selector1 header.b=eM0th1Je;
+       dkim=pass header.i=@arm.com header.s=selector1 header.b=eM0th1Je;
        arc=pass (i=2 spf=pass spfdomain=arm.com dkim=pass dkdomain=arm.com dmarc=pass fromdomain=arm.com);
-       spf=pass (google.com: domain of yeoreum.yun@arm.com designates 2a01:111:f403:c20f::7 as permitted sender) smtp.mailfrom=YeoReum.Yun@arm.com;
+       spf=pass (google.com: domain of yeoreum.yun@arm.com designates 2a01:111:f403:c207::3 as permitted sender) smtp.mailfrom=YeoReum.Yun@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazlp170130007.outbound.protection.outlook.com. [2a01:111:f403:c20f::7])
-        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-70ba920d568si3803526d6.6.2025.08.18.06.11.53
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazlp170110003.outbound.protection.outlook.com. [2a01:111:f403:c207::3])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-2446cb74e02si3339335ad.2.2025.08.18.06.54.49
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 06:11:53 -0700 (PDT)
-Received-SPF: pass (google.com: domain of yeoreum.yun@arm.com designates 2a01:111:f403:c20f::7 as permitted sender) client-ip=2a01:111:f403:c20f::7;
+        Mon, 18 Aug 2025 06:54:49 -0700 (PDT)
+Received-SPF: pass (google.com: domain of yeoreum.yun@arm.com designates 2a01:111:f403:c207::3 as permitted sender) client-ip=2a01:111:f403:c207::3;
 ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=aqQnWSZ4HdCWGIs4ftaZWo6ySkPgLvp7fVlKP2jx4uvpzDUHlM/DWhiWN9lnjJ+Qp2arsrXI8EvW6PMhIJDvC9Zt6v1EIyVEaAx79XFMVLURz1shd8lbja9PFoPkN3w9iZ5+341PEknQeTi7AESMAkdB9NjLVzpP6j829+CuIJCiis+AudNVy0zFBPrgB0LaR2H5XZgWaUDsiLEQ4g1NQ7e3TB3+Qj1lHBqqvUZHMwBv2sjbTmDYCybSj5vKfQL9Oa3icMl8lkKT93OVKDedXVtKDtZ1OxuIsg0VcYIat2capSMRkiKSNj3EebxFS9ub5gJQ7nS+D8uI6xxGBxsY4g==
+ b=k0OVZxlBI/JkMaRv9pZ8mPe7XBqUpKIDosLmXirAxtBrHYb+ly4SNCVl37nN+cYjcqnMcjGY6pjjbi5cXuq5caG5jFIN+0jI+riRtOto11FXEy5MhExuH/nl4CFyrJXQj7cu/1D7fdksc2oBFz0SlZnes2AxjlNAOv1vLbS4goYjv6psa9RWywKJNfZLB2JwRGRJEttyw8yZBLgDG8RDDp3hZqqrx7gl2zZIMuLw/j5y8JLo86o9SY8LAZay6LPmNhN/cXJ6LoJaB/uqFah983+FFv7YxaHJGovdeBzrm5+GTtMAPcNM0SF+lR/LBJnjupNZY9vIP53Z8lHWhXMEhg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3yLSX+HNfkM3kyN+gL4jKSVpM1YNgfoLpyH8V67D8/Y=;
- b=V6ramsYPNKdscnxwmV/9NUQZvzixIDfJ6iSzduzLcFerExE66ktqdlsmVtwYfkGLDNKWNxsANyMiqwB5rFo/6Io21OllfepMvI8NvsOvJqrR1S79/ZYaDjiXJ6yBL67RtF4HR7dw1MKKNPDLKBqLLCatWPDNyTXOmNjuSdBPIhvPFT32LlWAt+MH2O5MAvGGukI4hZTwzNoP9X9pAx1twYxRmGl8AZeh2El1oMcqnwp7xmcHzvkK+vsw7/HrShglR0iHBoHb0xucqCEA05vIrdOmaFr4n45o7XxGuC2iFofqcz8sBrNR/VJm/aFoSkmPFKzcLUU9A9d9mQIS5TWZyQ==
+ bh=Ps4Wxe6/gl/mNTxvkIqWiqZO66jtFZOy6oLUAb2eNLM=;
+ b=xZ0XcijDtcyIJUtdqg6F9QqwGDH5ljRcGXpHkvFRXIwslaegpT5lnHEVLj51lN4dxWFS/CXT+GdsTWXWFK+l1YyjLAByxuhXZ7tJ6S6LRtXxf/YMsJSQ5KKAx3XES2v7IxuFclDYkx0NxI52VyGjjo013XG2aGJsdG+4CtxDIg4S8ppOu1NxNlcFhlJJaBUC2NVDx+QdFOp1cBVoMTrI6ZpQXihXCtZuT2xwq41MjVqnpRxslWy9fCAy9xMDm2WZT5xw0EycNHk/V/Pps51DmlRkn04mo1cpEtscwzv+9hgmPzdqX5aQ3n7owjUmEXM9zmza+s2I7FSOk4OAGDaljA==
 ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
  (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
  (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
  spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
  dmarc=[1,1,header.from=arm.com])
-Received: from DUZPR01CA0078.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:46a::20) by PAWPR08MB8839.eurprd08.prod.outlook.com
- (2603:10a6:102:338::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Mon, 18 Aug
- 2025 13:11:48 +0000
-Received: from DU2PEPF00028D11.eurprd03.prod.outlook.com
- (2603:10a6:10:46a:cafe::16) by DUZPR01CA0078.outlook.office365.com
- (2603:10a6:10:46a::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.21 via Frontend Transport; Mon,
- 18 Aug 2025 13:11:50 +0000
+Received: from DU7P191CA0009.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:54e::13)
+ by DU0PR08MB7811.eurprd08.prod.outlook.com (2603:10a6:10:3b5::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.23; Mon, 18 Aug
+ 2025 13:54:45 +0000
+Received: from DU6PEPF0000B61B.eurprd02.prod.outlook.com
+ (2603:10a6:10:54e:cafe::7f) by DU7P191CA0009.outlook.office365.com
+ (2603:10a6:10:54e::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.20 via Frontend Transport; Mon,
+ 18 Aug 2025 13:54:45 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
  smtp.mailfrom=arm.com; dkim=pass (signature was verified)
  header.d=arm.com;dmarc=pass action=none header.from=arm.com;
@@ -142,36 +142,36 @@ Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
  4.158.2.129 as permitted sender) receiver=protection.outlook.com;
  client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
 Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DU2PEPF00028D11.mail.protection.outlook.com (10.167.242.25) with Microsoft
+ DU6PEPF0000B61B.mail.protection.outlook.com (10.167.8.132) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.8
- via Frontend Transport; Mon, 18 Aug 2025 13:11:47 +0000
+ via Frontend Transport; Mon, 18 Aug 2025 13:54:43 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HN+zCdMA4LfrULOsg/jqlkudWLIH8cG+QQvRMVUWdY2hUSickE1qPYMx/rC3FwWVW22hRYBzwPwxMm3sCVp5gQKrF4ORKS+0nqLoHaMHWtKXWYHGPGEupLmJk193XSP+vMD4crMUn1iV78/pGCj9Mp+A8b0n/s+0CDwCQ4W4gJn1L2XzOw82UQFrTBt7Ng79Gn0SCvyIWsOim4QV99P8rSpq4NWEOwFjdbfsz15ws6bZeBULqdH/yBkK/JfjpNeTScxa4qnapTZjENzHR9NjTg431D4Suf9RQA+zLmud5aPrway/GypS3pkSvLg19kJkSheWi3mGlo2iSD0LXkNF0g==
+ b=jluNFGYfxiELBAbCKqflR3HL/FoIs79njYw6ti59KznDYMnXVzqJJ3QFa0UYElz0r1ZnXtj8xYWhXy064eOLDZ8JaCQLbiuqNzlnIt8WGlkuG0c3RipB1FfXE2fqUDLrbHN1PniGP1Baa5xyUs11n7dWxzDer3PJ97as0DSNROsFyW5rzNEUnMy7rKboiSUEJpwq67VVkbTfdOME7aH3mjB92gHiO7W0ANlAi76IIXAXD0v5GfFeGrvRmVBIRyy0m3PAGIZp3U9Llfq5g4pCK0EfJFi6XBfsN4uhYH96j9zpIaF+4E7lxpHzoCTwZVOD87lxF8D5z1wh1lKBIQkzZg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3yLSX+HNfkM3kyN+gL4jKSVpM1YNgfoLpyH8V67D8/Y=;
- b=xcGNmjUI2DSOJHNMgclIUME7+lcB20T6IKVgsjN0V77FZUTSDcr3BrWAFDw56Ly6nXSDeHyy6SBEbPLSQOqtdEoXSwWFYwjjoSBLU61d28jBHmITvKL50WX7Nx5CfCSfOQMNcdBp4+mJjzzyiiGmhJ0oTCHIcr2IRJdWzYeUFIH1CTVTmGpXaUMPyAcZswY8rjj2O+Gq87NTjp2DucXR1unxF+P1mQUN3pqz9QIldFjm1QIGWeewUSk99TL2cphskfGlbKJ9bQdjWesdHp6aeNhENu/ilXBqVU49GMPsavbUT8Yx0MLAFklqklBgMMBH4KPMxes18UE0ki3HZLEVLA==
+ bh=Ps4Wxe6/gl/mNTxvkIqWiqZO66jtFZOy6oLUAb2eNLM=;
+ b=Xn5/jZat46LIfNzpS1hxU6u9tbjA6QwkxHeHKGwk76oB9TMPInBL5UgFqlCP8Mbp5jftRHJkJBpjSw4CHWqKoaUXaqtutw4S9tuB30+USQJ+gA6XNzLpOy2HRfH+pcBdTqeZdUOHd/yp3mXrF5BDjEb40scmMDMIOn9SfFRmkKY5j7ZdRtLDhFRopeAQ+i4LGxvwn87tWCZ55CFnMcvVMQ+4wFmDp70IAnCx5VvQzYyvG/vadauTMqlVHR963sUtYgho7XFnkFvzFN0ygT6IF4VXEwLQlVxHkfaNMMzoWo3V7tg1RrZYFX7F2ypn7FPQyh7sgmgKKWSPB7cUTR4GXw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
  header.d=arm.com; arc=none
 Authentication-Results-Original: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=arm.com;
 Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
- (2603:10a6:150:163::20) by AS8PR08MB10144.eurprd08.prod.outlook.com
- (2603:10a6:20b:630::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.22; Mon, 18 Aug
- 2025 13:11:15 +0000
+ (2603:10a6:150:163::20) by GV1PR08MB10977.eurprd08.prod.outlook.com
+ (2603:10a6:150:1f5::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Mon, 18 Aug
+ 2025 13:54:08 +0000
 Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
  ([fe80::d430:4ef9:b30b:c739]) by GV1PR08MB10521.eurprd08.prod.outlook.com
  ([fe80::d430:4ef9:b30b:c739%7]) with mapi id 15.20.9031.023; Mon, 18 Aug 2025
- 13:11:15 +0000
-Date: Mon, 18 Aug 2025 14:11:12 +0100
+ 13:54:08 +0000
+Date: Mon, 18 Aug 2025 14:54:05 +0100
 From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: ryabinin.a.a@gmail.com, glider@google.com, dvyukov@google.com,
-	vincenzo.frascino@arm.com, corbet@lwn.net, catalin.marinas@arm.com,
-	will@kernel.org, akpm@linux-foundation.org,
+To: Ben Horgan <ben.horgan@arm.com>
+Cc: ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
+	dvyukov@google.com, vincenzo.frascino@arm.com, corbet@lwn.net,
+	catalin.marinas@arm.com, will@kernel.org, akpm@linux-foundation.org,
 	scott@os.amperecomputing.com, jhubbard@nvidia.com,
 	pankaj.gupta@amd.com, leitao@debian.org, kaleshsingh@google.com,
 	maz@kernel.org, broonie@kernel.org, oliver.upton@linux.dev,
@@ -182,100 +182,100 @@ Cc: ryabinin.a.a@gmail.com, glider@google.com, dvyukov@google.com,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-mm@kvack.org
 Subject: Re: [PATCH v4 1/2] kasan/hw-tags: introduce kasan.write_only option
-Message-ID: <aKMmcPR8ordnn1AG@e129823.arm.com>
+Message-ID: <aKMwffDAbL76wwUx@e129823.arm.com>
 References: <20250818075051.996764-1-yeoreum.yun@arm.com>
  <20250818075051.996764-2-yeoreum.yun@arm.com>
- <CA+fCnZcce88Sj=oAe-cwydu7Ums=wk2Ps=JZkz0RwO-M_DjfVQ@mail.gmail.com>
+ <2736fe09-ef37-408c-ba53-a8e492dcc3e8@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <CA+fCnZcce88Sj=oAe-cwydu7Ums=wk2Ps=JZkz0RwO-M_DjfVQ@mail.gmail.com>
-X-ClientProxiedBy: LO2P123CA0094.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:139::9) To GV1PR08MB10521.eurprd08.prod.outlook.com
+In-Reply-To: <2736fe09-ef37-408c-ba53-a8e492dcc3e8@arm.com>
+X-ClientProxiedBy: LO4P123CA0116.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:192::13) To GV1PR08MB10521.eurprd08.prod.outlook.com
  (2603:10a6:150:163::20)
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: GV1PR08MB10521:EE_|AS8PR08MB10144:EE_|DU2PEPF00028D11:EE_|PAWPR08MB8839:EE_
-X-MS-Office365-Filtering-Correlation-Id: 70120f7c-81b2-42d3-3fb0-08ddde58c97f
+X-MS-TrafficTypeDiagnostic: GV1PR08MB10521:EE_|GV1PR08MB10977:EE_|DU6PEPF0000B61B:EE_|DU0PR08MB7811:EE_
+X-MS-Office365-Filtering-Correlation-Id: cb7ccfe1-9945-4172-e61f-08ddde5ec913
 x-checkrecipientrouted: true
 NoDisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?m2Kv/vpxgEyY6lYBTE0rYGKBcnsLcMt5+w3/OVSJ7MXomC46M5tlOpTtFpnT?=
- =?us-ascii?Q?LQC8lJGrwIi9aVfVn3XeJV+xGnHADbPpFWalP06h82pNjHilVRefLfv2E7Q2?=
- =?us-ascii?Q?OgVfBJx4Usy4W6CLGEHFEVHJwQW0GHSJ9U8lmFBDXFuSQmzUc/7sUcG7KnJO?=
- =?us-ascii?Q?qIVk5iBgTzejuMOvtbRjkvN/ObkhUzr4Tgk4dMEJCCznb9Z/ooarUaB9fkZX?=
- =?us-ascii?Q?iSYFMfkCwSmy+LGX1hXbBkCBAbal2Ya41mkBOlWgHHm/RVqCb7yil5qJ+mN4?=
- =?us-ascii?Q?8s5ayGW6tR+WB65ljpnSme7AzLe3G6PAr4nnYEyP9FROb3uQ9D2vq17+Rttk?=
- =?us-ascii?Q?MySqkIq1uQ6s47YHmMKsIcskrI6ELRjX0NcSK9oh/IcBcEhGSJFVv99UtVQL?=
- =?us-ascii?Q?y+dKHNNDXXBhufwlyYw+qWjJFGjppGHCMzT9qly3CAgTrTKGyGI5lFfymUEX?=
- =?us-ascii?Q?gIOjm/Ud9gUAjmTrDpwi0U2ju1ChYoCATBWT/T+soWmbXVHI5OcGA+vX97wm?=
- =?us-ascii?Q?lBSBxN7hP+ljAjNUFIH6+Sg1OW7MgLvoTH/JVJar3YUru9tpiQI/KEQHc3uY?=
- =?us-ascii?Q?GZH+zRNW/vdk8zsI4x38Olf8Ec5ikeCqyVkZl7whDvZaD/o9a9hXVa6KIx4c?=
- =?us-ascii?Q?Sg23j0XwtJS0Q2UzPAtDbH8Wgq+qR4m66T2oVZQXQ5mAi3H/ukBbMMtdzO3e?=
- =?us-ascii?Q?Fvkx9Z1Vi33wUBMFC8TLjBoJKDpNDvUJENG5Inns2sYA84IIpwsVSK4rO7/y?=
- =?us-ascii?Q?bn+O+fsIrYiq6fJXSRnqd4oD93I1YY5B6H+CFROc6NxmMXYDvHrOX4QtV4JD?=
- =?us-ascii?Q?WR/6nmSHR1jiJkfsYZquqFW446uKCPpGgwX48JCrUndll1BHcg34bybKEhPE?=
- =?us-ascii?Q?5RY6dbjHjmaqojhu3aMerpF/t5DZrduxhCXuck+Xqm76NjbNLIegbL6LGOwK?=
- =?us-ascii?Q?hx6ua1KY30zKaGk95FtdG5y1VGaELBY39Ho5XPNyeGskQRv6ftg0G7NBjdqp?=
- =?us-ascii?Q?S1PKdn2c84Lw5N/153I+t0sdvW278rBCtr9VpfcllkRiFYtueF0zebJxFjKN?=
- =?us-ascii?Q?16niBVfc9iOcn8+kbgrsAAwPlWCs5DoQ6wsgLkklAsnbTdTd2UHT/xIwHe3E?=
- =?us-ascii?Q?zxjot7FxBzJi55IV+OI95LJF0gKY978qvV2gKpLXxXLyexItz1kH7wtxmH01?=
- =?us-ascii?Q?N1R0XIE50isld0qfewTr38LE0DDiLGr/6Mo7ttQTU1NU53C7vnYWyXwrz1Ck?=
- =?us-ascii?Q?bqHuEA/wVjZ4YX+VcPGEyOPPHCOT+yx/Hl0PtlIBvLhvTTAPStDdUBUj+3yp?=
- =?us-ascii?Q?sxaLuZln4DUn4yuFqFwoLglPQUx7Q/rg6oW2WPWlF98rYnz0aGGSCwNkHCt7?=
- =?us-ascii?Q?yPIvLtsa4bH6Px/rg3fhZ4xz05rzKPBQ+azAjGU5cNlzBAP0IrGbtMao5/ck?=
- =?us-ascii?Q?p+XzZPPcVfM=3D?=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB10521.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB10144
+X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?7EOXn2ii+1tDYkieu+meS6MpGi++A8vJ+t5imAasOd3BBsRtAp5W1QAPdEuZ?=
+ =?us-ascii?Q?faKd9j/i2RDSvLGewuY5fbvMpWlDILMd3fMaGyyYt/8tBc7whoAKaDULcGwU?=
+ =?us-ascii?Q?UF4hLGlZhRk56MWw+AupdrEfksaakL7T0nPsvpkRMmXc1zKlOtjMnjkblkoM?=
+ =?us-ascii?Q?v3+lDxTStkzTMpeFms71JYiHKOMEVv5R8RSDh0bBK9xqSNrFi/p2MfbimDLr?=
+ =?us-ascii?Q?HGgJdXyObH6E35uBPPCLaEFpOOsuuc9dPZQ1KOT/rhdX7fMurIbqpbLMbL6m?=
+ =?us-ascii?Q?vJBtqjpbkcj+ILZg2aLrmg3HQCVf2CD7wkXL8rNRWlE1KQUlsw1EKbv6Oyvv?=
+ =?us-ascii?Q?BqLYFuEn/eUqh4/sIwh08hLsVKIJ5Ag2ySKpJRcv5PLpU+QnDRpkUoauj3Rr?=
+ =?us-ascii?Q?yW0lEYQvRehnf42McqSuBq5g2NSqUgWtt9sgO/OQ/JBW+eMLhWTqMUTFesQo?=
+ =?us-ascii?Q?so/m1aX26vYrzu3kQ5rESNvB2s3GDmg83Na2fIa8cBfb2k/JN9ZKdcAumBPF?=
+ =?us-ascii?Q?MVMqqxD3+3gviPrZ75rUBTkIdOI6bf/Q+EgkZbLro1BjgYXrf5vwBTDFWYac?=
+ =?us-ascii?Q?iQNxTX6lt3d3egHMgyEOKlabY/TezM3kBytKE1W3JtTaSraOcSp483xJmP2E?=
+ =?us-ascii?Q?eRn0Rs0RT+CkBrhqHYLYywXfHJRaPiyD32Es4SMTIBD4dagVEeLPgUzy2LCb?=
+ =?us-ascii?Q?xA0+FDi5iTdFaTeOMHAMjG/WxecZYcVhUa/T58289OQK4amMZ5Gh0tqT0L55?=
+ =?us-ascii?Q?cMZGuWI3QGWjo7LQUa5osndD2eVV8n2uQkiLuIfEn0MXzWYIVE08e55mp5tG?=
+ =?us-ascii?Q?oLbBycpz+oF0mBQfG5hJfad9Uvum6eXm/PxG60doiTD3lnssjFnrmSJxYEBL?=
+ =?us-ascii?Q?LSU+FPnniTKGoT6Hu6ZnfHLDcZwJbPfXOtdNQj/F4ZRrrM6PuMPJXjdjii5B?=
+ =?us-ascii?Q?KSFe1rAIl6+2m8zgwikClhswpns+8a3ymK51ISDNF0oJmGI4vJuvkAYHZ7pn?=
+ =?us-ascii?Q?i0D48RriH9lVQ+h+sF/W+k+UjlUCrrNWkUG39xkL1YO7CReoxC+X2mZ+JvAo?=
+ =?us-ascii?Q?1hMRWOv+Zdo0diVeT/qVkq534+TOGx7NtZeD5R29Ck6mbWvcCohYUQ0CTN03?=
+ =?us-ascii?Q?ybu47elruEQDRVAeXRGUlRNEacC5pGNLbVewKA4UJ31lp9pGGrwjvGT2kbsL?=
+ =?us-ascii?Q?0O04YVSaMN7pWEHmEyLMEoHB9jBApwqyVxyHsLVBpVp/vPyg4I2/hDuOrN9j?=
+ =?us-ascii?Q?TJU/6Ke1qbgZV9j7dgoTB9YjsHuIWEixeJnaf1GVbCGxQLzjCikhZA3RJttD?=
+ =?us-ascii?Q?V6m51o3MmOjxSnBIj4DARMzT8kgYCsE5C0eXeDK7ZTrPFEoLuSA6iH+3mc71?=
+ =?us-ascii?Q?9vsok/xwR6Aoxlz2YOrdER/dXKUQfM5+yYF09F4RMd8zK+U60umq3uNIP/WH?=
+ =?us-ascii?Q?kFHBqwe9oUE=3D?=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB10521.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB10977
 X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DU2PEPF00028D11.eurprd03.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DU6PEPF0000B61B.eurprd02.prod.outlook.com
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: da1a94ab-69fc-48e9-eeb0-08ddde58b648
-X-Microsoft-Antispam: BCL:0;ARA:13230040|82310400026|35042699022|7416014|376014|14060799003|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?IJoODDviXApvdPto/fdEIskiJtWYh/1NOR+zXe3+VfJiDVlXKGUKzx6cWsVT?=
- =?us-ascii?Q?qdZO2Iii49RWA/Pzfci65JdJAYTZOjGFFjwtUwQwevT3Cy/gwRe61XF39mAG?=
- =?us-ascii?Q?WEqDIDQ7KPC2qwMu/ACW/acSZc8b9nXo8ny6MTLCaXhnnbOZrGvs+7bYrzid?=
- =?us-ascii?Q?nDnLFTGIAILbuVB6Jdkr+O8LEwTlmaMXdNdh69Wr+lby2gFI1FCMZrCySlBl?=
- =?us-ascii?Q?Y9xAPgM+03ocT7xUEQfFX+3sOgHflrD0liOiwgtmNuBGudL39As87PWlBj8B?=
- =?us-ascii?Q?ev5lHPBnRHDzjMkt+tDsL2EWCt2yLcztPgGTothT0bpbvP2iYXb3ohGpz7JT?=
- =?us-ascii?Q?JwVUC0gWfccn51Xzp31vULZ+/nAnjHCmN9t7Vtu7lHumjJ0WbVVIqVXnPyQi?=
- =?us-ascii?Q?Q+GDCkuhQc4nI9MD8p3EV0/iD/hY+Z4aidfT4IPimc076sr230JMVAmTpBhC?=
- =?us-ascii?Q?0GADHCVJW2hL+MTsHJkt007k6wNRVeNvSZvTXC5pWWRABFrFav64QxzbJx92?=
- =?us-ascii?Q?jbCjhEz++/M9E0fI/GzSSpbGOyx/ipU8My0y1sulkon1JDR5YJxoF38iBc7x?=
- =?us-ascii?Q?YT47icyJf89ZKv/k29Y5VCodqHCLPNT6X4BvKtZ+hTzIBpXdFrGPGZ3NPr1W?=
- =?us-ascii?Q?H73sxaBEW0sMZNRJFxWfK0HRhA/vdhmYS2hCNjlQm0BCsezqPllBSjN7thqN?=
- =?us-ascii?Q?lBaCWTSb+bRyXPNIwRxGfBaLvWZ4BhxF4WyrusBuaY2fpt/ZtsShU3mC3QP9?=
- =?us-ascii?Q?0T6t9FVl+bcIXxZ+IW7oAboC8HADT/uDq6Re6c9mjMmt5KbhTS5v6SMn/xjq?=
- =?us-ascii?Q?xLTIRgW8WDBB0JZ2OeSCEiBZgJXuwQGs/5qrxycNBH1rp+VieDep4v9Hhmxz?=
- =?us-ascii?Q?cj8SUJzBpFzxU2HfrD1DMDpSuznxiBmyiOvhNius03ynzXo/EnkkzfIpmk2A?=
- =?us-ascii?Q?2I3AqY29sdaf2jt5nq6yWW0THN5MUf3aNbeahNcRYynAVNqEKfYy3WnH+pqc?=
- =?us-ascii?Q?tV+5L1vVTXoE8HdVdDdKd1wkTOWgBaMmaJHay0/sKL8qCepWumri5A8G3D8V?=
- =?us-ascii?Q?MHvYzYLRVqsE838wUWc4ex7KqY8KsorhRkl4l+SOD0/NTbHBWJc5aJPrBd0J?=
- =?us-ascii?Q?h/s/XLFqB0f2mrTzPofFNi/oi8zkn3AVlMkvD986vkOzbRX0qfLV/uKEDC5s?=
- =?us-ascii?Q?7KHcvA+u8MdW7GNKojINq3GeEeE5ByflhQwpv/F2IAPizys7xXI5pDMj806m?=
- =?us-ascii?Q?wOBapgEVf6Dq0un+Z3yUCkCMFl9V7u5ncDRGy5UQTZAFVWszbZou9UdIcYdg?=
- =?us-ascii?Q?qcX5EckXO/zL8rApWXJHUAzV+dRMJCCL7hsU9XIIEm1J3HGAM5m6rCZ/e/VX?=
- =?us-ascii?Q?+JmURH41sjFnmeBu98OFDZ5jAtR1lklvK1In5hcRcG0Rb8getkXb9QDI/PIq?=
- =?us-ascii?Q?pgtCOJSBHAWm7cr4rcdge3J2MgjZpT+tKxFVXt2itEHhMZnCge9KTj0Ex5C5?=
- =?us-ascii?Q?VncGdkvf0o/W/GZBQR+qE3+s2/fXAgNz3l8e?=
-X-Forefront-Antispam-Report: CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(35042699022)(7416014)(376014)(14060799003)(36860700013)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 76821c06-6816-4a63-3066-08ddde5eb3dd
+X-Microsoft-Antispam: BCL:0;ARA:13230040|35042699022|1800799024|36860700013|7416014|376014|82310400026|14060799003;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?B6GFFhXl26hB0aGFJM1P5E+IbdDHFpGxrPefSjVyDU2CFB/P0CRTWiE25t0y?=
+ =?us-ascii?Q?xbr3lDHIQ/TUSXEmUkpAUD/dk8OQIpIPFa21Vd7HB7wfdo6rl5uOQnNFfoBT?=
+ =?us-ascii?Q?QPELNPYI1kqS7TN4hU7B8KDgPPTSP/hxfYXSL1+Kre7EiM5GC3QGFdLQHsU1?=
+ =?us-ascii?Q?WiEMOeIVBYd3W/P+SxzKaKmBe2UURON5EnKZ6ZFLkEFwZvwE04noafTDYilE?=
+ =?us-ascii?Q?oVua5ylCthaW6dmPRM6Ye53aMgoKPlvuW2ez5ZsPjKpf+IDymx5L8LgrhQxh?=
+ =?us-ascii?Q?cIxFvAYgNsl3yQIg1WGNcPw+ojJBulPinftqzYBhSvJBNxlIx7jkekXxGZwH?=
+ =?us-ascii?Q?jCslB9/RdJQv3VAJbx18s+enZL7V6RHgFzmK6y6m9qqIyi35JrJETyoIYc4I?=
+ =?us-ascii?Q?m+VrjTd2hHS10MebbsfaQfn1Mrkrm2hIUkfsqhlvA6qfjlK8Wdo3VX4eFM25?=
+ =?us-ascii?Q?8JA9kVzXvXpJpew6dF75xupTAR3yOEe9aaPDl+X6MofOae92ZcJqrbZfIBQz?=
+ =?us-ascii?Q?iIvTXJC9G7seuRQB4g1JsgPMtlsX00S0jMp3qtuQJ3K9JFRJiDMnnn0QVjrK?=
+ =?us-ascii?Q?rbt/KD/BKA6z7UL5Zb3i43VgR04yobTLzPvzeRdFWhj8gyo9Ieto4+sVIeSY?=
+ =?us-ascii?Q?HKuINVPNzyf9zc8IHrSW4/Fn4QWBPqEu0Y7Qm9xJH6mx3X45Kv+JxvA3+snN?=
+ =?us-ascii?Q?wsXXJoPOLqNE4edhZX9+ecjOIZSuA9myOfQ5Gb/ykdQlSLZF6LNHit2QATKL?=
+ =?us-ascii?Q?IjTPumB2sywvSBBfpYVT/gPSfktjcw+DHQuStidBx9G2+PZ5e1cNEKRW/6Ro?=
+ =?us-ascii?Q?5bwLzL7rHbeVlM4MYlVd+DCsqdE6ToypE/HzjONp/8u7Ud46SKZsfw/HI4Tl?=
+ =?us-ascii?Q?oCWuP59gOKo4qRcOXV0Vs4RxYGTSRFKU9hRBAkP1LF+edLDp6dLXI+TLiSF1?=
+ =?us-ascii?Q?Z0im7BlKfJrGknMAiNTLxkR8kmp8b7zyzi1ow28YZoN303aJpHLDa5vNR8qs?=
+ =?us-ascii?Q?Xb7grYIHMbAz6fVXIXf7BrrpxTa20EJNE43HTGLVkNgButWh/ihrMkyBrlEg?=
+ =?us-ascii?Q?iVzahSoWqnRGrxUYmSBKvhvPAP2c8Re7mgetXyKszErq3KoLStwWveV3o9Ce?=
+ =?us-ascii?Q?ACwXmdKN5xt9wAEy+HKzvSC5SU9F4emUR3KOpJLeAyc4WeBMwsdSLTsGeA/n?=
+ =?us-ascii?Q?MCjfoOAgjqBaB5rYppi7BX1jDns40kK2aLRS5SyqLjaF5BQazYQUHdsMOS/4?=
+ =?us-ascii?Q?xEi+Kv4HiyUCv1VBoyw+e95jvYGby5lO0zEmGo8kWUfJ1vDGEMjBtk+OHarp?=
+ =?us-ascii?Q?dyN6c5WWLV5BNNJ3mghSqbJ3cLiXDwEDpuxekDKMtDYlADq9tpemYqCfoIgD?=
+ =?us-ascii?Q?CI6tuB/JuA4ibTr+JEO1mf1dYWQOU1rq0yqk1t1fEpwipoRrm+6XKV61X3C+?=
+ =?us-ascii?Q?n7ZZ+SmnEe8QJGTXqvYgMNe+H4Er4g0KrAeaDAOkl+wV0WcfjS6DESTTPlR5?=
+ =?us-ascii?Q?XlNRB5xF8N9wmvmC6caMN0FSwTHGJCd8eg55?=
+X-Forefront-Antispam-Report: CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(35042699022)(1800799024)(36860700013)(7416014)(376014)(82310400026)(14060799003);DIR:OUT;SFP:1101;
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2025 13:11:47.4373
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2025 13:54:43.7225
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70120f7c-81b2-42d3-3fb0-08ddde58c97f
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb7ccfe1-9945-4172-e61f-08ddde5ec913
 X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: DU2PEPF00028D11.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DU6PEPF0000B61B.eurprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB8839
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB7811
 X-Original-Sender: yeoreum.yun@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@arm.com header.s=selector1 header.b=XrBvsWWi;       dkim=pass
- header.i=@arm.com header.s=selector1 header.b=XrBvsWWi;       arc=pass (i=2
+ header.i=@arm.com header.s=selector1 header.b=eM0th1Je;       dkim=pass
+ header.i=@arm.com header.s=selector1 header.b=eM0th1Je;       arc=pass (i=2
  spf=pass spfdomain=arm.com dkim=pass dkdomain=arm.com dmarc=pass
  fromdomain=arm.com);       spf=pass (google.com: domain of
- yeoreum.yun@arm.com designates 2a01:111:f403:c20f::7 as permitted sender)
+ yeoreum.yun@arm.com designates 2a01:111:f403:c207::3 as permitted sender)
  smtp.mailfrom=YeoReum.Yun@arm.com;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -289,147 +289,209 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Andrey,
+Hi Ben,
 
-[...]
+[..]
 
-> >  static inline const char *kasan_mode_info(void)
-> >  {
-> >         if (kasan_mode == KASAN_MODE_ASYNC)
+> > --- a/arch/arm64/kernel/cpufeature.c
+> > +++ b/arch/arm64/kernel/cpufeature.c
+> > @@ -2920,7 +2920,7 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
+> >   	{
+> >   		.desc = "Store Only MTE Tag Check",
+> >   		.capability = ARM64_MTE_STORE_ONLY,
+> > -		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
+> > +		.type = ARM64_CPUCAP_BOOT_CPU_FEATURE,
+> >   		.matches = has_cpuid_feature,
+> >   		ARM64_CPUID_FIELDS(ID_AA64PFR2_EL1, MTESTOREONLY, IMP)
+> >   	},
+> > diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+> > index e5e773844889..cd5452eb7486 100644
+> > --- a/arch/arm64/kernel/mte.c
+> > +++ b/arch/arm64/kernel/mte.c
+> > @@ -157,6 +157,24 @@ void mte_enable_kernel_asymm(void)
+> >   		mte_enable_kernel_sync();
+> >   	}
+> >   }
+> > +
+> > +int mte_enable_kernel_store_only(void)
+> > +{
+> > +	/*
+> > +	 * If the CPU does not support MTE store only,
+> > +	 * the kernel checks all operations.
+> > +	 */
+> > +	if (!cpus_have_cap(ARM64_MTE_STORE_ONLY))
+> > +		return -EINVAL;
+
+> Would it be better to make this function return void
+
+This is the same point Catalin points out from patch v2.
+But for usage of kunit test, it need to keep return as int.
+
+> and add a static key in
+> the manner of mte_async_or_asymm_mode, perhaps mte_store_only_mode? This
+> information could then be used to help determine whether it is required to
+> enable and disable tco in __get_kernel_nofault() and
+> load_unaligned_zeropad().
+
+Yes. Since the mte_store_only enabled, it doesn't need to enable tco
+since load/fetch doesn't increase the TSFR.
+However This sounds like an over optimisation.
+I think it would be enough to check when mte_async_or_asymm_mode()
+otherwise in for __get_kernel_nofault() or load_unaligned_zeropad(),
+it should use like:
+  - __mte_enable_tco_async_and_store_only()
+  or
+  - __mte_enable_tco_async(op) // whether op is load or store (boolean or enum)
+
+But this seems ugly too.
+
+So I think it woule be better to remain as it is --
+without static_key for store only since there is no usage.
+
+>
+> > +
+> > +	sysreg_clear_set(sctlr_el1, SCTLR_EL1_TCSO_MASK,
+> > +			 SYS_FIELD_PREP(SCTLR_EL1, TCSO, 1));
+> > +	isb();
+> > +
+> > +	pr_info_once("MTE: enabled stonly mode at EL1\n");
+> nit: stonly can be expanded to store only
+
+Thanks. I'll change it.
+
+
+> > +
+> > +	return 0;
+> > +}
+> >   #endif
+> >   #ifdef CONFIG_KASAN_HW_TAGS
+> > diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
+> > index 9a6927394b54..df67b48739b4 100644
+> > --- a/mm/kasan/hw_tags.c
+> > +++ b/mm/kasan/hw_tags.c
+> > @@ -41,9 +41,16 @@ enum kasan_arg_vmalloc {
+> >   	KASAN_ARG_VMALLOC_ON,
+> >   };
+> > +enum kasan_arg_write_only {
+> > +	KASAN_ARG_WRITE_ONLY_DEFAULT,
+> > +	KASAN_ARG_WRITE_ONLY_OFF,
+> > +	KASAN_ARG_WRITE_ONLY_ON,
+> > +};
+> > +
+> >   static enum kasan_arg kasan_arg __ro_after_init;
+> >   static enum kasan_arg_mode kasan_arg_mode __ro_after_init;
+> >   static enum kasan_arg_vmalloc kasan_arg_vmalloc __initdata;
+> > +static enum kasan_arg_write_only kasan_arg_write_only __ro_after_init;
+> >   /*
+> >    * Whether KASAN is enabled at all.
+> > @@ -67,6 +74,8 @@ DEFINE_STATIC_KEY_FALSE(kasan_flag_vmalloc);
+> >   #endif
+> >   EXPORT_SYMBOL_GPL(kasan_flag_vmalloc);
+> > +static bool kasan_flag_write_only;
+> > +
+> >   #define PAGE_ALLOC_SAMPLE_DEFAULT	1
+> >   #define PAGE_ALLOC_SAMPLE_ORDER_DEFAULT	3
+> > @@ -141,6 +150,23 @@ static int __init early_kasan_flag_vmalloc(char *arg)
+> >   }
+> >   early_param("kasan.vmalloc", early_kasan_flag_vmalloc);
+> > +/* kasan.write_only=off/on */
+> > +static int __init early_kasan_flag_write_only(char *arg)
+> > +{
+> > +	if (!arg)
+> > +		return -EINVAL;
+> > +
+> > +	if (!strcmp(arg, "off"))
+> > +		kasan_arg_write_only = KASAN_ARG_WRITE_ONLY_OFF;
+> > +	else if (!strcmp(arg, "on"))
+> > +		kasan_arg_write_only = KASAN_ARG_WRITE_ONLY_ON;
+> > +	else
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +early_param("kasan.write_only", early_kasan_flag_write_only);
+> > +
+> >   static inline const char *kasan_mode_info(void)
+> >   {
+> >   	if (kasan_mode == KASAN_MODE_ASYNC)
 > > @@ -257,15 +283,26 @@ void __init kasan_init_hw_tags(void)
-> >                 break;
-> >         }
-> >
-> > +       switch (kasan_arg_write_only) {
-> > +       case KASAN_ARG_WRITE_ONLY_DEFAULT:
->
-> Let's keep this part similar to the other parameters for consistency:
->
-> /* Default is specified by kasan_flag_write_only definition. */
-> break;
-
-Okay.
-
-> > +       case KASAN_ARG_WRITE_ONLY_OFF:
-> > +               kasan_flag_write_only = false;
-> > +               break;
-> > +       case KASAN_ARG_WRITE_ONLY_ON:
-> > +               kasan_flag_write_only = true;
-> > +               break;
-> > +       }
+> >   		break;
+> >   	}
+> > +	switch (kasan_arg_write_only) {
+> > +	case KASAN_ARG_WRITE_ONLY_DEFAULT:
+> > +	case KASAN_ARG_WRITE_ONLY_OFF:
+> > +		kasan_flag_write_only = false;
+> > +		break;
+> > +	case KASAN_ARG_WRITE_ONLY_ON:
+> > +		kasan_flag_write_only = true;
+> > +		break;
+> > +	}
 > > +
-> >         kasan_init_tags();
-> >
-> >         /* KASAN is now initialized, enable it. */
-> >         static_branch_enable(&kasan_flag_enabled);
-> >
-> > -       pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, stacktrace=%s)\n",
-> > +       pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, stacktrace=%s, write_only=%s\n",
-> >                 kasan_mode_info(),
-> >                 str_on_off(kasan_vmalloc_enabled()),
-> > -               str_on_off(kasan_stack_collection_enabled()));
-> > +               str_on_off(kasan_stack_collection_enabled()),
-> > +               str_on_off(kasan_arg_write_only));
-> >  }
-> >
-> >  #ifdef CONFIG_KASAN_VMALLOC
+> >   	kasan_init_tags();
+> >   	/* KASAN is now initialized, enable it. */
+> >   	static_branch_enable(&kasan_flag_enabled);
+> > -	pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, stacktrace=%s)\n",
+> > +	pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, stacktrace=%s, write_only=%s\n",
+> >   		kasan_mode_info(),
+> >   		str_on_off(kasan_vmalloc_enabled()),
+> > -		str_on_off(kasan_stack_collection_enabled()));
+> > +		str_on_off(kasan_stack_collection_enabled()),
+> > +		str_on_off(kasan_arg_write_only));
+> >   }
+> >   #ifdef CONFIG_KASAN_VMALLOC
 > > @@ -392,6 +429,13 @@ void kasan_enable_hw_tags(void)
-> >                 hw_enable_tag_checks_asymm();
-> >         else
-> >                 hw_enable_tag_checks_sync();
+> >   		hw_enable_tag_checks_asymm();
+> >   	else
+> >   		hw_enable_tag_checks_sync();
 > > +
-> > +       if (kasan_arg_write_only == KASAN_ARG_WRITE_ONLY_ON &&
->
-> We already set kasan_flag_write_only by this point, right? Let's check
-> that one then.
-
-Yes. if user specifies the write_only == on.
->
-> > +           hw_enable_tag_checks_write_only()) {
-> > +               kasan_arg_write_only == KASAN_ARG_WRITE_ONLY_OFF;
->
-> Typo in == in the line above. But also I think we can just drop the
-> line: kasan_arg_write_only is KASAN_ARG_WRITE_ONLY_ON after all, it's
-> just not supported and thus kasan_flag_write_only is set to false to
-> reflect that.
-
-Sorry :\ I've missed this fix from patch 3... this should be == to =.
-
-However, we couldn't remove kasan_arg_write_only check in condition.
-If one of cpu get failed to hw_enable_tag_checks_write_only() then
-By changing this with KASAN_ARG_WRITE_ONLY_OFF, It prevent to call
-hw_eanble_tag_checks_write_only() in other cpu.
-
-As you said, kasan_flag_write_only reflects the state.
-But like other option, I keep the condition to call the hw_enable_xxx()
-by checking the "argments" and keep the "hw enable state" with
-kasan_flag_write_only.
-
-so let me change == to = only in here.
-
->
-> > +               kasan_flag_write_only = false;
-> > +               pr_warn_once("System doesn't support write-only option. Disable it\n");
->
-> Let's do pr_err like the rest of KASAN code. And:
->
-> pr_err_once("write-only mode is not supported and thus not enabled\n");
-
-Okay. Thanks for suggestion.
-
->
->
->
-> > +       }
-> >  }
-> >
-> >  #if IS_ENABLED(CONFIG_KASAN_KUNIT_TEST)
+> > +	if (kasan_arg_write_only == KASAN_ARG_WRITE_ONLY_ON &&
+> > +	    hw_enable_tag_checks_write_only()) {
+> > +		kasan_arg_write_only == KASAN_ARG_WRITE_ONLY_OFF;
+> > +		kasan_flag_write_only = false;
+> > +		pr_warn_once("System doesn't support write-only option. Disable it\n");
+> > +	}
+> >   }
+> >   #if IS_ENABLED(CONFIG_KASAN_KUNIT_TEST)
 > > @@ -404,4 +448,10 @@ VISIBLE_IF_KUNIT void kasan_force_async_fault(void)
-> >  }
-> >  EXPORT_SYMBOL_IF_KUNIT(kasan_force_async_fault);
-> >
+> >   }
+> >   EXPORT_SYMBOL_IF_KUNIT(kasan_force_async_fault);
 > > +VISIBLE_IF_KUNIT bool kasan_write_only_enabled(void)
 > > +{
-> > +       return kasan_flag_write_only;
+> > +	return kasan_flag_write_only;
 > > +}
 > > +EXPORT_SYMBOL_IF_KUNIT(kasan_write_only_enabled);
 > > +
-> >  #endif
+> >   #endif
 > > diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
 > > index 129178be5e64..c1490136c96b 100644
 > > --- a/mm/kasan/kasan.h
 > > +++ b/mm/kasan/kasan.h
 > > @@ -428,6 +428,7 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
-> >  #define hw_enable_tag_checks_sync()            arch_enable_tag_checks_sync()
-> >  #define hw_enable_tag_checks_async()           arch_enable_tag_checks_async()
-> >  #define hw_enable_tag_checks_asymm()           arch_enable_tag_checks_asymm()
-> > +#define hw_enable_tag_checks_write_only()      arch_enable_tag_checks_write_only()
-> >  #define hw_suppress_tag_checks_start()         arch_suppress_tag_checks_start()
-> >  #define hw_suppress_tag_checks_stop()          arch_suppress_tag_checks_stop()
-> >  #define hw_force_async_tag_fault()             arch_force_async_tag_fault()
+> >   #define hw_enable_tag_checks_sync()		arch_enable_tag_checks_sync()
+> >   #define hw_enable_tag_checks_async()		arch_enable_tag_checks_async()
+> >   #define hw_enable_tag_checks_asymm()		arch_enable_tag_checks_asymm()
+> > +#define hw_enable_tag_checks_write_only()	arch_enable_tag_checks_write_only()
+> >   #define hw_suppress_tag_checks_start()		arch_suppress_tag_checks_start()
+> >   #define hw_suppress_tag_checks_stop()		arch_suppress_tag_checks_stop()
+> >   #define hw_force_async_tag_fault()		arch_force_async_tag_fault()
 > > @@ -437,11 +438,17 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
-> >                         arch_set_mem_tag_range((addr), (size), (tag), (init))
-> >
-> >  void kasan_enable_hw_tags(void);
+> >   			arch_set_mem_tag_range((addr), (size), (tag), (init))
+> >   void kasan_enable_hw_tags(void);
 > > +bool kasan_write_only_enabled(void);
->
-> This should go next to kasan_force_async_fault().
->
-> >
-> >  #else /* CONFIG_KASAN_HW_TAGS */
-> >
-> >  static inline void kasan_enable_hw_tags(void) { }
-> >
+> >   #else /* CONFIG_KASAN_HW_TAGS */
+> >   static inline void kasan_enable_hw_tags(void) { }
 > > +static inline bool kasan_write_only_enabled(void)
 > > +{
-> > +       return false;
+> > +	return false;
 > > +}
+> > +
+> >   #endif /* CONFIG_KASAN_HW_TAGS */
+> >   #if defined(CONFIG_KASAN_SW_TAGS) || defined(CONFIG_KASAN_HW_TAGS)
 >
-> And this too.
-
-Right. I'll move them. Thanks!
-
-Thanks!
+> Thanks,
+>
+> Ben
+>
 
 --
 Sincerely,
@@ -438,4 +500,4 @@ Yeoreum Yun
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aKMmcPR8ordnn1AG%40e129823.arm.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aKMwffDAbL76wwUx%40e129823.arm.com.
