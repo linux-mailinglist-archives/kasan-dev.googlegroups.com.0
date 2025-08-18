@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBCVZXJXP4MDBBONORXCQMGQERJDRLGQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCVZXJXP4MDBBOFORXCQMGQEHCB4H5Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x540.google.com (mail-pg1-x540.google.com [IPv6:2607:f8b0:4864:20::540])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A552B2AE58
+Received: from mail-qk1-x73c.google.com (mail-qk1-x73c.google.com [IPv6:2607:f8b0:4864:20::73c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE4EB2AE57
 	for <lists+kasan-dev@lfdr.de>; Mon, 18 Aug 2025 18:39:23 +0200 (CEST)
-Received: by mail-pg1-x540.google.com with SMTP id 41be03b00d2f7-b471757dec5sf7885466a12.3
+Received: by mail-qk1-x73c.google.com with SMTP id af79cd13be357-7e8706c668csf1306017685a.3
         for <lists+kasan-dev@lfdr.de>; Mon, 18 Aug 2025 09:39:23 -0700 (PDT)
 ARC-Seal: i=2; a=rsa-sha256; t=1755535161; cv=pass;
         d=google.com; s=arc-20240605;
-        b=SWN/X1AXMpWfgr5O90UVjRi20YqE9FoYfF1TlFIOysOdNvxURjTbxwY49ClsBmkxGf
-         /2JwMhl25fxEBT/ookLs8AEvKe3QQt0NCGbDobqXEQIIFE9L4dljc3wGQtz+D4UrcQQ8
-         XU6pEFOgQ2H47ozRS1YcGaq19dOghLV+Kntw0+lA/caa61gRhKLGCfDxSYw3Xw1H+Fxv
-         Z7Xnx3s3BRQ6KN9um7W5P99/5FhmuiUsN++7/05XD4GB9wvy+TgUbIsvbUN1s9oiV7rB
-         RFpbAIlo1GuGV5N2IheKpRCexXeLp0BCa9cBligVHeBWdDZ8dZ4P5JC7bBpNbJKJqRSk
-         Ujbg==
+        b=SLJk8D2ZplJOAhmH4WPMHYhu63Xa4wQiTbe6+2r6xLjDtG+D8bbPKl9ktPHtRG9Phv
+         f8T8jzUd4Z1p1xW9JnFz+IbVljloipiTe24hBfbqYcvERLjJ6JklBI/R2UWuVED4je7f
+         ooGkOaIZV2YzpEdRGHvZ7p8VN/Kdj+ygLZ2WmTh+fowTCdG7dFGI9Cql1LubJkGvj40p
+         tEwVIU5wzrdsjEaZb8ZBTbde96yXfIn6DYwF3jw6Neljw77aeQdJrAJIgE254HGstJ5Y
+         pKeDS6n5r/Jl+jR3xh7bBfg1RLMlH8aNNwo9gHCQtVf19MskRB05dCA9RXC0CZc2DaEC
+         xwlA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=PnllT5JLKDBDhWj1Z3f5Unw2F3WS/wo92D7Lo3c/sj4=;
-        fh=i9zA6U2GZpmpBdLUHbInyUHTe8GQ+CERYAHOAg1lqkA=;
-        b=DRwuuR7mN9VJ8WHKKUpsXQDOHO9XrCRuliuURkQ8S17Jy3crSTurdM6NGLU5pMncHD
-         GuoTQ1pSw/NQRuc3i0l7mrLTlR/skQW5CELVweHrPTaL7els/8jEbMuM6XsKAvnwc2s2
-         ha6PxHujCXgO6Ji0UikHLKWpc7/Gvf6j+yl2kOXqceJ0ee7a6qp0oKFd87oS8p/NoA1j
-         6I/r1KXfSRFV9X5pFR3PqNtK5/AfLqOQvgaZGDP3zqBgvo2/yktBgRjHy0aRExxwScaH
-         s9qul2raZiLnT0vCySZE9xo/16j2PITnfUrfC0OuAfQurZwfPmwJWP7WI3NSUd0QWhKz
-         ZuoQ==;
+        bh=65qXbnfIESgWPxPjAAD6xhe2HVEezivuymSfk0OJqTM=;
+        fh=61IvABftyAkSahl/wHuLK+UdaVyn5FdpLO07kIoKYAo=;
+        b=T2PDirxtYq70uYh+J3JWbTcrVMJ/cK9b9uc5/+4QOVPj4Z1rQ9dmfH9mfNIqy+h+/N
+         vyvLD16b9hwFqxbQAK5+yCk5uhtOQ7Mla2xYankF4+gwU91eMjNpgFCAHWl7/vGSMq0R
+         HeqcydtAU2VNOrYJM3s8ZiQY48JEAIefRSFEgpIXhVGHe4nSldwOEsFMz8GGtOajwi6S
+         c8uO4S6s62g+egIg8H2eO49pWvniVy39hNN9ZkelAS8F/hSsfqSNUsljoTzXWcqKqeEU
+         PpP4iUq6LqDqrF0JBYTKtjxWD+o6kaZQ48wHW72rKB4SKvRSPAp8lntFQ8gdj5eXzjzW
+         62Pg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=rCfYREu5;
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=lxvmYFxk;
        spf=pass (google.com: domain of agordeev@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=agordeev@linux.ibm.com;
        dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -38,13 +38,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PnllT5JLKDBDhWj1Z3f5Unw2F3WS/wo92D7Lo3c/sj4=;
-        b=SYODrl/uxkp8IXCNEUa0Pn/o7wx3GvGsL6lZz6vIkMBGS2PCS1s7sK6jjOPQ9aiEVm
-         UQbSDGxCrN0YZAtE2S1AW5K6u3wI/PFfJkqf9heqwn9Qdg6QkV7lqhfr7liebjkPP1RD
-         lF0sJT/uSRG55OnmsCzhAcG3SdZzuW4q8fYuvvl/oJoCy5H+ttRs680Sl16XjRgiqOTE
-         D0a00zbHeGnaCIYf/2xfb9lv2LU28jQSb+EGVOVB/bltsxXGlsj80Ce9GDlxZ7S9wTlU
-         25wz1XzuMnPgSAwn3ulUMs9/I4dz5Q/2m1pR3crJ5fb5yIacwBouuj1ZDPbYmG6FtPUj
-         rjfQ==
+        bh=65qXbnfIESgWPxPjAAD6xhe2HVEezivuymSfk0OJqTM=;
+        b=ATl2xGyKI3JTw5bAtr5jkJEbazOpt4vVLJMyrx6qxeJtCUHb8Q7vicFWhZ0iMSJJ1Z
+         P4e87l5ESvyk51gD3wtMIPTc5LRR0hbxAYxqEacWhOSIRaLkK9vAFaOliFfU2KOVwfcI
+         WYHP9LR//q0WLJIb2HG8IXLbRsjcaSk/FvMDBwUo5Rc4PkTJz5ME2sfoecjdWaVMJ8rt
+         saQCL8vaUExKdUg1UI3cjAQXA3g4geLMaW6//oXG2TQcStfAxSLjAHZnHjj1DurESFch
+         xx3GGt4lfCDRkP0of0Yx7HSityoo98HXRD8obOPYHPhCng3hLPG8kJNjDKUgZ943BSZJ
+         lgHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1755535161; x=1756139961;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -53,130 +53,130 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PnllT5JLKDBDhWj1Z3f5Unw2F3WS/wo92D7Lo3c/sj4=;
-        b=OKwDSfGOQMv2oMtkvdFW68H/McwmWlG4sB4lxtsX8ANFiGD56iDIumhfyMSv4BUKGo
-         0us7ogsaR43Ok4YOtvVYQLoLBrJ98za2lbyX4MHxV6b1OLG1JYVAT4FtFcSQHN2k3+Aq
-         DISIxrCAnlfBbYmPqxjZZzFn5tC4iafG0pGlKA0ZRKoY/jgEEHjynHtHbfyuvn3j06Xi
-         VSk+iPKGyqUmB739in2F+Dr0/it1F7JSgUT2Yd6873NYsxMOwH9wXuGDHqvkk2MH/YXC
-         pCo+Iq7uxZhlx1HEtPXo7pN6TkKqhaCghlJHlAvQMk2ej+4L5gjoKEVwYd4wWJ3Pxbli
-         kt+g==
+        bh=65qXbnfIESgWPxPjAAD6xhe2HVEezivuymSfk0OJqTM=;
+        b=b1NLgOhpPAUT1SKGNXtTaiXvArvG0jxfwaTQhTnZ5WHq4nAhySvmYEIahxACiqSDfp
+         bNic3A28imhZNQlt1kdsHrEt4ch1tgceeCmbK53THZkEHxnCFCorD/hnMRoOlhitRDpN
+         uUL697+OKLDW7Qytp0x7DGODPFB+Ieu6LSIGA7Wskg2Wl3cjL+a+Q9xvtFFmeI1iVz9j
+         FSlyzkM4g1uEtfknUnB18NSQ4gbb1vPEPTqdPQ4Nee2Z5cY/2sDapBlKRIMvAT4iNBwe
+         wYIpRYeK0+IMA4EuwlEjPv11omKDe97IZ8kqJSK7YdsKmsv7K7oqxIozhSqan3CD+Kq0
+         E2NQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXYOPNAvq1pFSc/vELMjDDFbUHuJsLuETJviRmXncIQaKVN60ZyNuzbXC0OGDZjfKHK9Vy5lA==@lfdr.de
-X-Gm-Message-State: AOJu0Ywyy8DC0GNU6jU5937wD4Q4xLhafy+jWRCRcR6ImXQqJI47rAsq
-	4Iwh84SeGl5Ip+4816/lRaiFFZjQwZboYEyY6hyv+g5as/+ZJ/U4HOL6
-X-Google-Smtp-Source: AGHT+IE9rvGPhNvdgbiuiyrk/w/CyylaXeFnI+ng3iR1BrSFB4SJIPNI6AiImsHEBz+hSDmb540M7A==
-X-Received: by 2002:a17:902:e842:b0:235:ed01:18cd with SMTP id d9443c01a7336-2446d99e6acmr189324595ad.44.1755535161326;
-        Mon, 18 Aug 2025 09:39:21 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZeiTNDwGz9VHjrNB4ZyXyo7iRoacryNN2Lp0+52pUVJyg==
-Received: by 2002:a17:903:2301:b0:234:d1d3:ca2 with SMTP id
- d9443c01a7336-244575a7ff7ls49252375ad.1.-pod-prod-03-us; Mon, 18 Aug 2025
- 09:39:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVoWnCK73rsQP0wHQ2MBy/TaSTJLF3pMHJGV+uEK2vz1cMr4HBDNe2+SaGJNyuqwZ4fzzNuOzNt0dk=@googlegroups.com
-X-Received: by 2002:a17:902:d502:b0:244:5311:8ed4 with SMTP id d9443c01a7336-2446da05d99mr170099395ad.55.1755535160039;
+X-Forwarded-Encrypted: i=2; AJvYcCVkUNF/wwsSISSCJvACFhCJyNeezmlU3Wt4/r9skuyoLHhMCeAk6rGnncn3/i1eGPRZ7uEJFg==@lfdr.de
+X-Gm-Message-State: AOJu0YxiN9aDldPtp6I1kfUzlp/HGA88OmFoG9rBSW1951FKR00CMSMK
+	yrqW5GdIpmNy6CF/A3KpxIYrH97oVCQSOQIgIr1e8DsSQmoZ6yiGaOuf
+X-Google-Smtp-Source: AGHT+IHTAtFMRVe9st9/UVbO38yD0tsh+VOIFUN8y0aZqNHVUKLsFAq4C6N7yAHl7pwfdAwLVLvWgQ==
+X-Received: by 2002:a05:620a:4496:b0:7e6:5f0b:3264 with SMTP id af79cd13be357-7e87e138ae1mr1634938385a.64.1755535160960;
         Mon, 18 Aug 2025 09:39:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1755535160; cv=none;
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfIqAnhtjYE0R5WfXs/Mc/wesPx32X8IgHbxuw+qr9QAQ==
+Received: by 2002:a05:622a:189d:b0:4b0:7b07:8987 with SMTP id
+ d75a77b69052e-4b109b957eals82549911cf.2.-pod-prod-02-us; Mon, 18 Aug 2025
+ 09:39:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVokRYOkMqJF7ITfuJLm5bTfBMbYysXSW4X25iHhxHSlhnZHOwgj0moTfsHm08vBbYMXMhAMbx8S2o=@googlegroups.com
+X-Received: by 2002:a05:620a:4043:b0:7e6:2f6a:5bae with SMTP id af79cd13be357-7e87e137b50mr1906600685a.62.1755535159639;
+        Mon, 18 Aug 2025 09:39:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1755535159; cv=none;
         d=google.com; s=arc-20240605;
-        b=AbuprQFeMHxlUCZfctvQeKLK7YYnqJNpE1JjN7y1em3aaJC9D/EfDVgphon9QRmTMf
-         QVp8r0Ryv5RwutMwtlUcI9/bKCClh/iH3KvDLx0eCvIU98Lsl9P3AlqoQhBR1uoLJlH6
-         F2N5GuRjxR3LgyLPiERJAQZ4Pixz3jPYYtXz6a6XO4QRRuovtW0f7IovC7zGZKkYiWlY
-         T96eYAZglBP1hYZId+d4S17CIfZqxNmTRxMdpaXqDsiQ13tcHDsV1kIUZaCw10jekpDI
-         04SBV47gFccm5RpWioVyoT1oT8kkqcPRiPXiLPQqFY6SzlonOuKTEbC/tM6O1cvK8Chd
-         CZAA==
+        b=hsg9Hfce3bU+bSwkDFUgP9S5oRbayukZt9HYOVV5jSzp6ZotKD3t9rgBAr/sMiADXP
+         Le1f1yToNLXzzPX0qsV2yQgFP0tkHEZhbJ040BWOfeGQm0jbNusNc0QDZwVUlAwO4y3a
+         da37MCDUwAvoTvddEhJbw1s562MZIFxxMyZfCV0qY7/X0wkfMiHc925oOBmg8wtZUw+P
+         DQTPviAaUOG9JdQRdvtlpLDHM0aTzyUqAWGG6iyExzsC5xTaQmcahDVbzgwXiDPxzMFu
+         gJKVCYr2+OoISl/ZBFJREcjjSuXR9Kqyrk/y5EmFPxLE0+DW1uUQNQ290f/T2dwLgSoK
+         rGAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=X5mWAYTt3pdVk9QL7e2JJSoH8wb3/z8g6wJ8lfORUIs=;
+        bh=ygtR6f2nWYzlzt5fL2eFvz+eu0ybJnfHHIWv/65pn8g=;
         fh=LdYAWUXcdYrCqzsb33cHKMTwCaURP2yfAndH6C0pUuE=;
-        b=R7Wf0h9yeCCDBFR7Lkjo844tq7v2YSsDf1l46LF79psVYn5F7ERw6CTw/6EIHSZ/2r
-         aZa0Nu6Z1veC6b2uhCSyyTAYDKDoCKPsuGJxEdraEy66Z2WE/kPTEPLmDK8WzalwVoxp
-         fdZ9xQaIqHQOA1XHov8B3I57inrxPvVvsOQCv8QJjkJeHFLnd776GCLQ8dnymlpG98nq
-         igzhGFjtDcxRaZaWWvsahXWEJAoeKaIEaUJ0wRsbOZ0Hk0mMynnKusJslCrD4PRA2S20
-         DavVYk6mJW55sV1J3dhoghJIuubz4As76IsNpv+RtaOqhiExud67p3/O7K78mHyGEMgM
-         xIcw==;
+        b=a27IwI6069ppvUkizixcTQR2KljOXTXa73P8diHm91FNQEFs8h8HGW6e20p89VLMgL
+         3VxHuCi0g78TMQYHHN1cU/u8hD7euUsyE5A9bBr3A/1iKL1rRmJ3GQorr/EEg3SNWyON
+         EZFJPBKWBWTM8J3NYimvfIefWcPMA2myuZ5RXGe7FtkxQIXrNQSC4JL/0TZAHV48zZdN
+         s0xB+qrj7O+GtbU3JjgEWtaqqjWbOVpbYueSCdJxHM8SJo+gwcoNZ3bUtj6MZWAAf4wT
+         Nv+hZAPBIO1zLw29mv/ybz9pgr298SptEDW8cc52rMHdW58vlCBIcyQz1FF3zYHYL9Uf
+         8lIg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=rCfYREu5;
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=lxvmYFxk;
        spf=pass (google.com: domain of agordeev@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=agordeev@linux.ibm.com;
        dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
 Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com. [148.163.158.5])
-        by gmr-mx.google.com with ESMTPS id d9443c01a7336-2446d52471asi3284535ad.5.2025.08.18.09.39.19
+        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-70ba8a8ce87si3444526d6.0.2025.08.18.09.39.19
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Aug 2025 09:39:20 -0700 (PDT)
+        Mon, 18 Aug 2025 09:39:19 -0700 (PDT)
 Received-SPF: pass (google.com: domain of agordeev@linux.ibm.com designates 148.163.158.5 as permitted sender) client-ip=148.163.158.5;
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57IBDGFK004808;
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57ICrWD7016582;
 	Mon, 18 Aug 2025 16:39:16 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48jhn3t382-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48jfdrtd5f-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Mon, 18 Aug 2025 16:39:16 +0000 (GMT)
-Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 57IGdGXI014615;
+Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 57IGamgX027674;
 	Mon, 18 Aug 2025 16:39:16 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48jhn3t37y-1
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48jfdrtd5c-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Mon, 18 Aug 2025 16:39:16 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 57IDjfwK001479;
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 57IFRaAm002340;
 	Mon, 18 Aug 2025 16:39:15 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 48k4q0pry3-1
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 48k712xbum-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Mon, 18 Aug 2025 16:39:15 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 57IGdDWN59638234
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 57IGdDse31851050
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
 	Mon, 18 Aug 2025 16:39:13 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7A5E720043;
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7CAFA20043;
 	Mon, 18 Aug 2025 16:39:13 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6B30420040;
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6D70D20040;
 	Mon, 18 Aug 2025 16:39:13 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTPS;
 	Mon, 18 Aug 2025 16:39:13 +0000 (GMT)
 Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 55669)
-	id 41F13E0380; Mon, 18 Aug 2025 18:39:13 +0200 (CEST)
+	id 43E9DE138C; Mon, 18 Aug 2025 18:39:13 +0200 (CEST)
 From: Alexander Gordeev <agordeev@linux.ibm.com>
 To: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Daniel Axtens <dja@axtens.net>,
         Mark Rutland <mark.rutland@arm.com>,
         Ryan Roberts <ryan.roberts@arm.com>
 Cc: linux-mm@kvack.org, kasan-dev@googlegroups.com,
         linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org
-Subject: [PATCH 1/2] mm/kasan: fix vmalloc shadow memory (de-)population races
-Date: Mon, 18 Aug 2025 18:39:12 +0200
-Message-ID: <adb258634194593db294c0d1fb35646e894d6ead.1755528662.git.agordeev@linux.ibm.com>
+Subject: [PATCH 2/2] mm/kasan: avoid lazy MMU mode hazards
+Date: Mon, 18 Aug 2025 18:39:13 +0200
+Message-ID: <0d2efb7ddddbff6b288fbffeeb10166e90771718.1755528662.git.agordeev@linux.ibm.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <cover.1755528662.git.agordeev@linux.ibm.com>
 References: <cover.1755528662.git.agordeev@linux.ibm.com>
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: J4hpVGuQdfh190mNZ9y0Gf73Cqn-Cb1F
-X-Authority-Analysis: v=2.4 cv=L6wdQ/T8 c=1 sm=1 tr=0 ts=68a35734 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=2OwXVqhp2XgA:10 a=VnNF1IyMAAAA:8 a=dvgLwWEeUEcZKFo-wVQA:9
-X-Proofpoint-GUID: oXrSUozvY-lHD9pJTMR4C4i78JDGz4zb
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE2MDAyNyBTYWx0ZWRfX0s0pCD9PMBcw
- 9xad7hv3i/i2JIneQGgCajRHsmbtUh6aA7EKw5dA7vDqDl4aRNequOMVtoYfyewAz23njA7MkYT
- V2Z5RQ3cpgQPKLF3lIFz0wAaelOynRQ2tpr7F63lBayIJjAya5hv2gS5BRCodHBVheW3IrmqnWM
- oj9OxSvZ6JcoiKC0FJIebqTen3ZJNHnxsZ+b0C2zbal1mTJzJgb7LJZUy2QPU/s5Gr0CNohWZOY
- HuvKtCPwZVCZYRbhx7o4zuBSm7m67a3Aa/ymI3NrKcR4JZ7sZuwNYWQwI0hgio75S0zM0rqj65G
- 83zQFX6T3Isrg8d9s3/5jK5iR4imLOMy97gU1pGQzTri2xlKZxHcC5Do48Um7rwu6BdLX2boIRj
- RxfETVtZ
+X-Proofpoint-ORIG-GUID: v-pPmVsfYB8aWZ696MiUmjnkn_I1mE_A
+X-Proofpoint-GUID: qXQLAt8GvgBgB0va-hWWdqzwhhp2QqFk
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE2MDAwMSBTYWx0ZWRfX4fbSHZEHXORf
+ 8ZQ7fcfOW8VZI4tcwzj02pawPeHcEa4Wsit6guhDP78kZB8b1PMUyieogeS7DMT9nqm1ojizMID
+ 5V1YD9jjlOYPmZEKG1rrjVj/OS5Hcbhpx1ZDSH4MdVaN2qucNtqzMsWsfIBC622IfAYyp2l6W2l
+ L2Fr6YAvvxA1sKPXltEXgEPZpJ/uposFoosJb0bkYWF8JGsMQCncxUI3UhFheHAOn4zOjnY7TWQ
+ PejEMNGmAdUAiq/rjauWG0onl1GLvmJRVwATw+luOlKL94OFJdrm2LFy+XXyK4QcZlDQCqnAzZs
+ wHtElihoYSDX9vW602V+VHqu3Dj2/ndPM4kWyXT46UAUkLwNZsG7LvfjC2cpeY9QzfbRE6Dr4FF
+ Pxd/mqd2
+X-Authority-Analysis: v=2.4 cv=GotC+l1C c=1 sm=1 tr=0 ts=68a35734 cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=2OwXVqhp2XgA:10 a=VnNF1IyMAAAA:8 a=0CqGaNLKB4nZpUE_F0UA:9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-18_05,2025-08-14_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0 clxscore=1011 phishscore=0 suspectscore=0
- malwarescore=0 priorityscore=1501 bulkscore=0 impostorscore=0
+ impostorscore=0 spamscore=0 adultscore=0 suspectscore=0 clxscore=1011
+ priorityscore=1501 malwarescore=0 bulkscore=0 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508160027
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508160001
 X-Original-Sender: agordeev@linux.ibm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ibm.com header.s=pp1 header.b=rCfYREu5;       spf=pass (google.com:
+ header.i=@ibm.com header.s=pp1 header.b=lxvmYFxk;       spf=pass (google.com:
  domain of agordeev@linux.ibm.com designates 148.163.158.5 as permitted
  sender) smtp.mailfrom=agordeev@linux.ibm.com;       dmarc=pass (p=REJECT
  sp=NONE dis=NONE) header.from=ibm.com
@@ -193,67 +193,60 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-When vmalloc shadow memory is established the modification of the
-corresponding page tables is not protected by any locks. Instead,
-the locking is done per-PTE. This scheme however has defects.
+Functions __kasan_populate_vmalloc() and __kasan_depopulate_vmalloc()
+use apply_to_pte_range() function, which enters the lazy MMU mode. In
+that mode updating PTEs may not be observed until the mode is left.
 
-kasan_populate_vmalloc_pte() - while ptep_get() read is atomic the
-sequence pte_none(ptep_get()) is not. Doing that outside of the
-lock might lead to a concurrent PTE update and what could be
-seen as a shadow memory corruption as result.
+That may lead to a situation that otherwise correct reads and writes
+to a PTE using ptep_get(), set_pte(), pte_clear() and other access
+primitives bring wrong results when the vmalloc shadow memory is
+being (de-)populated.
 
-kasan_depopulate_vmalloc_pte() - by the time a page whose address
-was extracted from ptep_get() read and cached in a local variable
-outside of the lock is attempted to get free, could actually be
-freed already.
-
-To avoid these put ptep_get() itself and the code that manipulates
-the result of the read under lock. In addition, move freeing of the
-page out of the atomic context.
+To avoid these hazards leave the lazy MMU mode before and re-enter it
+after each PTE manipulation.
 
 Fixes: 3c5c3cfb9ef4 ("kasan: support backing vmalloc space with real shadow memory")
 Signed-off-by: Alexander Gordeev <agordeev@linux.ibm.com>
 ---
- mm/kasan/shadow.c | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+ mm/kasan/shadow.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
-index d2c70cd2afb1..4d846d146d02 100644
+index 4d846d146d02..e2ceebf737ef 100644
 --- a/mm/kasan/shadow.c
 +++ b/mm/kasan/shadow.c
-@@ -305,9 +305,6 @@ static int kasan_populate_vmalloc_pte(pte_t *ptep, unsigned long addr,
+@@ -305,6 +305,8 @@ static int kasan_populate_vmalloc_pte(pte_t *ptep, unsigned long addr,
  	pte_t pte;
  	int index;
  
--	if (likely(!pte_none(ptep_get(ptep))))
--		return 0;
--
++	arch_leave_lazy_mmu_mode();
++
  	index = PFN_DOWN(addr - data->start);
  	page = data->pages[index];
  	__memset(page_to_virt(page), KASAN_VMALLOC_INVALID, PAGE_SIZE);
-@@ -461,18 +458,19 @@ int kasan_populate_vmalloc(unsigned long addr, unsigned long size)
- static int kasan_depopulate_vmalloc_pte(pte_t *ptep, unsigned long addr,
- 					void *unused)
- {
--	unsigned long page;
--
--	page = (unsigned long)__va(pte_pfn(ptep_get(ptep)) << PAGE_SHIFT);
-+	pte_t pte;
-+	int none;
- 
- 	spin_lock(&init_mm.page_table_lock);
--
--	if (likely(!pte_none(ptep_get(ptep)))) {
-+	pte = ptep_get(ptep);
-+	none = pte_none(pte);
-+	if (likely(!none))
- 		pte_clear(&init_mm, addr, ptep);
--		free_page(page);
--	}
+@@ -317,6 +319,8 @@ static int kasan_populate_vmalloc_pte(pte_t *ptep, unsigned long addr,
+ 	}
  	spin_unlock(&init_mm.page_table_lock);
  
-+	if (likely(!none))
-+		__free_page(pfn_to_page(pte_pfn(pte)));
++	arch_enter_lazy_mmu_mode();
++
+ 	return 0;
+ }
+ 
+@@ -461,6 +465,8 @@ static int kasan_depopulate_vmalloc_pte(pte_t *ptep, unsigned long addr,
+ 	pte_t pte;
+ 	int none;
+ 
++	arch_leave_lazy_mmu_mode();
++
+ 	spin_lock(&init_mm.page_table_lock);
+ 	pte = ptep_get(ptep);
+ 	none = pte_none(pte);
+@@ -471,6 +477,8 @@ static int kasan_depopulate_vmalloc_pte(pte_t *ptep, unsigned long addr,
+ 	if (likely(!none))
+ 		__free_page(pfn_to_page(pte_pfn(pte)));
+ 
++	arch_enter_lazy_mmu_mode();
 +
  	return 0;
  }
@@ -264,4 +257,4 @@ index d2c70cd2afb1..4d846d146d02 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/adb258634194593db294c0d1fb35646e894d6ead.1755528662.git.agordeev%40linux.ibm.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/0d2efb7ddddbff6b288fbffeeb10166e90771718.1755528662.git.agordeev%40linux.ibm.com.
