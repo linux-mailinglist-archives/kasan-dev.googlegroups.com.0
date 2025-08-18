@@ -1,147 +1,158 @@
-Return-Path: <kasan-dev+bncBCLM76FUZ4IBB6PARXCQMGQEKNOYR5I@googlegroups.com>
+Return-Path: <kasan-dev+bncBD4NDKWHQYDRBN7PRXCQMGQEYHL7Y5A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13d.google.com (mail-il1-x13d.google.com [IPv6:2607:f8b0:4864:20::13d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC6EB2B046
-	for <lists+kasan-dev@lfdr.de>; Mon, 18 Aug 2025 20:27:07 +0200 (CEST)
-Received: by mail-il1-x13d.google.com with SMTP id e9e14a558f8ab-3e6670d5bafsf44606835ab.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 18 Aug 2025 11:27:07 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1755541626; cv=pass;
+Received: from mail-io1-xd3d.google.com (mail-io1-xd3d.google.com [IPv6:2607:f8b0:4864:20::d3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3357B2B0F2
+	for <lists+kasan-dev@lfdr.de>; Mon, 18 Aug 2025 20:58:00 +0200 (CEST)
+Received: by mail-io1-xd3d.google.com with SMTP id ca18e2360f4ac-88432e62d01sf604833439f.3
+        for <lists+kasan-dev@lfdr.de>; Mon, 18 Aug 2025 11:58:00 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1755543479; cv=pass;
         d=google.com; s=arc-20240605;
-        b=J+2n1qezxp4SEw22/VeWFVnQ/A7SMo6nPLWRdMAcJuqjL0t6d8yuw8TzgWErGv8wgP
-         mm7IOVe1FntDkkfdklKZyT8CVBPS14nIly36UBnm0MVQMc6O9M2iLgKApXsW6os7Zss4
-         je8CNLBkSj6krx6N+ILdC1KgoEEwn7Y70eyh2AKRHMUJzb3U9mmeOiVz780z3TfND6oC
-         jNmjQwnko3ii3H1TdnILw57GXEsVAAJjGCqoY7bDtsn0SMyQAfbp3nGT5Gx7ENYxjf31
-         Lkq8rqnJedgVyMxjF7Z0WbKXWH5dBgpYOHdzL33VmdB6olS2oPwIy1TnMJstC39MfFa6
-         wQ/g==
+        b=g8QEIklAHc464t+wx6F7rKra4hlxzDis7hDLgOnQQWQuqAGSxbZOY5mmwSW0Rkci9+
+         DKzgmdU+fFAbc00rKjJPdCKdVP5tm6WJ+oaai+7voNZHtkyjGAgZh+7Bab18J6udHjE9
+         hS5W76HJzGlabp85YDYIfBPC4d0ia+aMbYdNGNfKGf3zTiGrhNfeA7krxKqeoxOjw2VG
+         Mi3Stu/Pid8sUS6AgUtDA1Pqgx8HvfdIsQDBzP/pQgW/cL2KW89AYSXZLiuxJEotZi6c
+         d2RqfpfnGrJL7mmqwjGX9EqIwoD+V9qcKfWvAozOTnB4MbMynijd2mKU0FrTrIJAjT5U
+         SwiA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=9CMI3hA9cGj3n8ODPOCyko5aN0meMYbD11qyvDxT0uM=;
-        fh=RocGKZfmajkwkbj4gYXpWHI/c+bRPtU1lwBEhhRJQ24=;
-        b=SxOskgvdlOMdtq7BLrgHXdwZOKzui0cPMtsEptJohsZbvYekPOQ+miIsI8cLdwXmcB
-         UrS2yAk5mpenpyW21fDjpqeSxmYpV3FbkQaS9AIYon//bFubqjO8bkTSKKgeNHS5ptsB
-         hhO1lHvIUtpxSbT0idO2MiTpzdiJL3bniS7RhZvf2BxJZoYZHQsnZVgCOjuOWdE4Lpy0
-         ZloFYawFaiebqGgr2o7SKC80JtjE5TnJbP9z38tEVVQJ4UfWkxlAir1VznTGG9Ei/5Wz
-         c1DqsSdlgtAn2SGhYdHkHprGUgS7ZVr1nk5wb1zbjiiA0+i5ZFkEjJshHO6D3d1P6IzJ
-         Tp+g==;
+         :list-id:mailing-list:precedence:reply-to:cc:to:mime-version
+         :message-id:date:subject:from:dkim-signature;
+        bh=0FPCo/Ez1tTdctWanxUcVPXYwcXF/qdckMLmJaCckAw=;
+        fh=zWA/uzWh75/HX2KTJ9AJTvDsbnr2ItCtlP6WeZQkP00=;
+        b=JDbWMqJ09Gjg05HHGdItWLTrcEAlouOYrTmYJa8S4GdKBiJ33zK0H5aqqPCHEnt39R
+         7JxFEyYu4qnob9jTYdpiNN65ykRd65LKlmL9EHQTrP5qS4lBhiMHbB54LlgXsRgM/C3h
+         J3X33A8QMu/8WrkUiUosEj01CYYkvLVo0JX0lMzfh+inJTvh69+ViFaEcVBenRgY2OWj
+         NX8yg/ZBSfuT2HG9l7vc7YWnx+o6AtmJKXFbt5jSBWv26qdQz4OC+6kISM/IlHsll9ZX
+         2fMj8OClm4O/IKJKc7AsRObMLijVIkJzNNZFSItTZ0AODB+BoBx6YNcPYJKeluUdXTVA
+         2G2Q==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b="wUt7S/Nl";
-       spf=pass (google.com: domain of justinstitt@google.com designates 2607:f8b0:4864:20::d2e as permitted sender) smtp.mailfrom=justinstitt@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=TO8hGFu9;
+       spf=pass (google.com: domain of nathan@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=nathan@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1755541626; x=1756146426; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1755543479; x=1756148279; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9CMI3hA9cGj3n8ODPOCyko5aN0meMYbD11qyvDxT0uM=;
-        b=BNFAuv+ZzSIrzZucIdk/O28NJM5AgIfMj7dvlvJJY6ckvbllDA7RQZfwNF8G3W9r1G
-         X0seWdYyArqI/S08Up3j4kUtKKwB5pa9dC0D3QjXk4QGowIIm+tyDrjfCixJ5XHaOzzX
-         ca0P2m5kVne/cRHbZ+a86DCNEbOBYvI8mLqmES6o2wBgDxz7zd9SvhrgqPzwdEi41ehW
-         4an7v33NZv7bq2YZteWQhRemuBLzcmCZParw90eib7by3dquREKXXwXbPwY0sYX2Eu+P
-         Yb3c1Qezk5UXDlUW5VIA2DEM/CMumNRFipt2Gsjhav+WmiLv6jwEP4SKm6cFcGHkIz2X
-         qziA==
+         :x-original-authentication-results:x-original-sender:cc:to
+         :mime-version:message-id:date:subject:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0FPCo/Ez1tTdctWanxUcVPXYwcXF/qdckMLmJaCckAw=;
+        b=juiM8pKx4kjtmUZCZreXNQxEBGkuUkUbirhjdNJhbGWIsp7KQwVK+aJpVoXdqhhIzI
+         ib3Nwp949Duu/E5ptEXijDIAil/sFobV0G8vxoZssNPDDr+3B+vkQIHbVGtCJtNagcZY
+         Ng7nO+so+Yjp6zc6X0oDD6+vE/7hgr7MQSzi9ULOWwBYrdgU/CZ8ZMPFcERDf5DJkyoo
+         vGbDGPuQkaDUKqTZKxRb7cG8OoulYNJLBvPYjtThXI8PNT+3Z9NBcnmHSynKF2uBVw7J
+         IERw05lT53qlRcfTEfkY3G15jvSgxGPCKV6d0xoXDlbgPoZRNZP2FP9+VP4UrUn2Dzil
+         fdoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755541626; x=1756146426;
+        d=1e100.net; s=20230601; t=1755543479; x=1756148279;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9CMI3hA9cGj3n8ODPOCyko5aN0meMYbD11qyvDxT0uM=;
-        b=gKbziVCyC0gihIR5SGvtao6c+K3cgyzM7T//3rAyBEy8NZ26MEY5HL1Bty/EiMzMzc
-         EO1Ry12BiG5NIl+pAcYXfCjMA/dDGOroAG3PHtO6oB4Bdxd4I4FZqTG4CXuXVuMRG2+E
-         MeYQqGZAKWESu+cfrGUYUMjX8U6awPlcy7VA+U891Z5Cmsj1PoM74ZqyMVjZQT804mAI
-         YJrrcZV17kXe4S3uexNiBTJgrVoTOQZ5zuFcjugbfPvv2TN/q5w30US517moNW70d6BQ
-         VXxDM9/Hr5KPT2aRmsADZMQkEFaCuEiOlvWFlbM0Vt8toZQ1KyRrWfypF2zxbPzjf3e5
-         bL5w==
-X-Forwarded-Encrypted: i=2; AJvYcCXFrJtFdm/uIS7o1f+AEwao2lDNahz8wyTp/w4xUYk1TqKHfK9XsS8tPYiK++F1cCOL33HOew==@lfdr.de
-X-Gm-Message-State: AOJu0YzWTAtBEWAQTpF6kDNWKs1kBtuqYfFWSfI8RC3vuUk6VA8a+W88
-	0nXGYoA0AQ+pU2Bd2+Uwgd4FXTKsLd5vf15S6KciniLdRpsOHtjRaCSz
-X-Google-Smtp-Source: AGHT+IGtfC/2/Tik1nyyXzth2u3NIBGk13abMAtFDrw2NTFALaT9sq55l5pLJ0uc304KZuF/qEITFw==
-X-Received: by 2002:a05:6e02:1a0d:b0:3e5:4b2e:3b03 with SMTP id e9e14a558f8ab-3e5837cd1b4mr214578105ab.3.1755541625793;
-        Mon, 18 Aug 2025 11:27:05 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdpx7Pm5rvZPQsrppI8G0liiPwLxShhllz4PSmxEe4dXA==
-Received: by 2002:a05:6e02:4601:b0:3dd:b6c9:5f59 with SMTP id
- e9e14a558f8ab-3e56fb9b562ls47367855ab.1.-pod-prod-05-us; Mon, 18 Aug 2025
- 11:27:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUE86fEVb016VwOZcOqM6wz6opmpS5XgXTERVUi6OMtG7e+bZ/4KdoafAbi2aQ+Sh3dcPmSfo/S2Z4=@googlegroups.com
-X-Received: by 2002:a05:6e02:1a62:b0:3e5:5ac7:d8e2 with SMTP id e9e14a558f8ab-3e58390092fmr160603105ab.17.1755541624107;
-        Mon, 18 Aug 2025 11:27:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1755541624; cv=none;
+         :x-original-authentication-results:x-original-sender:cc:to
+         :mime-version:message-id:date:subject:from:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0FPCo/Ez1tTdctWanxUcVPXYwcXF/qdckMLmJaCckAw=;
+        b=T3Mu5JEzSE18WwuYB4lglPMO5MdCjHBnEm4b1AV60NQfTcLj6oSls1lyOvPRcFGGct
+         p5Wsh4g8aXAa1/UJBkKlrajLx1uWE4XVYgOW5Go9vh8ou3M8PYrudmXEIbglS9pxzkVW
+         s4mzdFo02f78oLKtVaE3eXv69QUXQ3A5tvDNQDQs7CRn9xVFiFmLXi36Lz2QOwLqU6Nl
+         Gmp2l+0xQh2uSo5j+CgWTwXn/T5rbpunDpnRKl7k1dgU7chK5K25lUnPepQn9dZs8xbT
+         V25QbuSOnmqK4/d9LV3ukpi57eH02oOgV0qOb0Kgm5MQB+6yDGjfP7BkBbclNu2SBD3Q
+         wcwQ==
+X-Forwarded-Encrypted: i=2; AJvYcCWk9IIuOhTzljK/KVUv+Mvo/RKI9VDcnxk2j4Zgbb7Z4swd875lLYPQOIW4uq5YMUY5CoiFiA==@lfdr.de
+X-Gm-Message-State: AOJu0Yy9DlqQ+Ebjb7plFGdqIXTjRxJZUFSQPb7S9pEK/9PqX8SM7nKs
+	jdrdvJI2jmHeFoE6EP+TBHr0oCeWhKG5fAl39Hm2QcE1KVUzGYJ/Vmlk
+X-Google-Smtp-Source: AGHT+IFWNPcZ59/LV/Ka3Nn4x1kefiYjMYXjEgwCSYgzdeXDrzQ64pPajaArUty4p5U3X9v4wiAvWQ==
+X-Received: by 2002:a05:6e02:190f:b0:3e5:4942:88dc with SMTP id e9e14a558f8ab-3e67532cdcemr6672745ab.9.1755543479344;
+        Mon, 18 Aug 2025 11:57:59 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZeQg0p9+9YESdOWw30eN1Nb+cauMa39klfpiDkqzOtajA==
+Received: by 2002:a05:6e02:481b:b0:3e5:5703:c19a with SMTP id
+ e9e14a558f8ab-3e56f8e9dcbls35861125ab.1.-pod-prod-09-us; Mon, 18 Aug 2025
+ 11:57:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCViMDVEHRnjmUt3Y6edsnhLNUO9Pg2Dqu3ST8TSYaEu5HHewRSRDCwhEfQ7QOm1/EJIKx06j0tlk2c=@googlegroups.com
+X-Received: by 2002:a05:6e02:1a63:b0:3e5:504b:420c with SMTP id e9e14a558f8ab-3e6753b225amr7250105ab.18.1755543478353;
+        Mon, 18 Aug 2025 11:57:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1755543478; cv=none;
         d=google.com; s=arc-20240605;
-        b=UfUb8GEmqgkXgeKArazEefWtzq5Z5gTf91HNLtHJY5noMYT5PXDRnn/nu3avYheoHy
-         7P+a9A8ycbKmp8nvAkfZT2yhnpP7oULrOFaJpi9STSvG7q+reckN3aEOF5xB3rQ7O1Cb
-         J4l1Q2/E3DI5oW/2osxIdm2pdAGaU7BPPQsvUZ41v+UhxF4DjFZroPaxbsTqeIENZ09U
-         M86P1oE4aL1JR1jbHG8Wjkys5DpgSCGynP7Tz/Hc3o38ERzGNIIj+FMAl8YuJoklgHmG
-         dtCDPZJVbzcXkqbuQ3rsOKcafwmEuhkz812yoCzmeWKgOwYjE+J/bNZghAqQX9rSr0tx
-         Vdpg==
+        b=M/yyKCpEgFfWYnt543JHLnhTC+nacsFjVrAG5imh57RnkLVaCo2fMZCEfutq/ftUaO
+         nwzzfBtxpTIIgWUmVJ8NTJ7zwpaslM6y7eeOyax532HJb6z2MPyyQFWfosWh1kMyuCku
+         +c7uir4kHIEE0lxKYTD6yEPx07DJNSKVxktFLsDh0YAEl9X5i7tVVULzGKYRKNMkV2eQ
+         RXnqoi2BsRENyeKIJk8PRtK1sLSV3Y5a1pvoDW3D8Xs88U4+LncPJmXj0OrQ9n0hpQiV
+         x0XFiueEEvtlZpJBb15OulUWTzUtkg6VH6N5lGM/42u15Hn93rsTr83f2MnhKuLEw3Ru
+         UtZQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=Xthx9ompS/Nj5CKJ3I4BXZ4xhbM39aiwRjdnUlZCUzI=;
-        fh=vCEjo6PCqqw56cHOSUWjxEFULNCAI95CaFQqw1EKRxU=;
-        b=WqcGaKETxBwLs7n/ln4TR/b9QqWPmsHUQCSFRIRI6mmWbn18eEt3D1Q/iOmZmlowef
-         yT1xfc8YMKCU3+SCL5qYLtkooTy+448XdQ3pTOY8lEujDJmjOxIaKJuol5cW4uMbXp6H
-         nQTxk0gor/fgDKnBwWOnJ7rUtuOBnIFoi3ZPlgqfdeGOaV70+qtontvEhH0aSc/uEEEF
-         IGyNOCjtrduPJ5Z9tudWfxILy575EpMZsWP4gCKlMGE9C8x7rJUZc2uj5jjp1vSHq1Qn
-         XoXUUMLdNA+kvVB/G1c3lp+98gyxIqRogK3AZEL+j94WXP7aEN0Lz1ZcH2Dd2nAoT855
-         4iVA==;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:dkim-signature;
+        bh=TBN15g8rAP23J96r4n28IjSBg+WDu3nayiyCti2V2i8=;
+        fh=95F30c+JRlV+mlMaeHFAqbV0iOFTop4NzcI0aw2wCxY=;
+        b=KEDsKRVu2l7TkPUUgOQIPPL6pxWda5Q3rG+xqW8eACvZYVVSpGSjpgBsOMoFJ4AbjF
+         bCtx4bSW7wcc49rYsbkDrnWgfStt/d8gJ/tBQAbJIgiEUmTUOngj0gQDSd2I6+2gMpik
+         tfnL0tB4KVbtE4G83hlM3HypdQA9z3V3oaISc6p3+/6DfH6PSnuV5SSvwFPpOPnTK7hJ
+         eB9sYvrbLu7BV6swUkVOrT7rkV4+Ta/ot6kfFeupkzWL9Jc0hDsXTJM+NgsiAheCUCxh
+         i8/M6n0miG7sYJ3/BN10WZLRgQkluZq7ae4txGI44aT9TzRlU9hNamvUB7u1EUUrh4Nn
+         sk2w==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b="wUt7S/Nl";
-       spf=pass (google.com: domain of justinstitt@google.com designates 2607:f8b0:4864:20::d2e as permitted sender) smtp.mailfrom=justinstitt@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com. [2607:f8b0:4864:20::d2e])
-        by gmr-mx.google.com with ESMTPS id e9e14a558f8ab-3e66b6a671asi1484445ab.2.2025.08.18.11.27.04
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=TO8hGFu9;
+       spf=pass (google.com: domain of nathan@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=nathan@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-50c94afae79si288257173.7.2025.08.18.11.57.58
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Aug 2025 11:27:04 -0700 (PDT)
-Received-SPF: pass (google.com: domain of justinstitt@google.com designates 2607:f8b0:4864:20::d2e as permitted sender) client-ip=2607:f8b0:4864:20::d2e;
-Received: by mail-io1-xd2e.google.com with SMTP id ca18e2360f4ac-88432e31114so311331939f.2
-        for <kasan-dev@googlegroups.com>; Mon, 18 Aug 2025 11:27:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVbB+2YNiuSw04Gk9IEzi+anPR2SlikHYPnSZ/FUBlRIHv30bwTPwNQKuB6BiZHTjgV9ydBVQWNWNs=@googlegroups.com
-X-Gm-Gg: ASbGnctEx0eiEIr2Fu57GR/2VOVsy1ypGwJQWRW6WtMwPEaTpFp8rj43k6ZirDtrJGe
-	lHq6QeoSHnr6UF6iyE/f8geZR8bau4CkFkx4Vb7TGaHWcfG7dLLPZEnU2afoF3sc3EGFqrLlyyo
-	eXo3h86U9ulzgfI0uH1DNiHa9LYI2BrIDM+0eiwPtw+zwlOlq3CE7YH7xs4o8UirhibLrn9pd5+
-	90fnuq5M6DHOcteLRK58SOoolzz+hsdFCIxdqIAO3Wl27juMChKUw3R+k0nLo+zDwS7h17YhepA
-	15GMkK14/mIko5HCjyJ3vLEW2hhChNQjm9etHuRc8xMnM13JysFxISUxrkKEQoXUtt5i+WLNQRx
-	K8TbLT+RRwRL4W5OZL5c4ENKzLCMlMTX6AgbG3msjc3D0gKKW8yFqvzbGb1Td5ktsTjfHQjSdJg
-	==
-X-Received: by 2002:a05:6602:6d06:b0:861:d8ca:3587 with SMTP id ca18e2360f4ac-884471192d0mr2123993939f.4.1755541623533;
-        Mon, 18 Aug 2025 11:27:03 -0700 (PDT)
-Received: from google.com (2.82.29.34.bc.googleusercontent.com. [34.29.82.2])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-8843f9c2cc7sm323121039f.18.2025.08.18.11.27.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 11:27:02 -0700 (PDT)
-Date: Mon, 18 Aug 2025 11:26:57 -0700
-From: "'Justin Stitt' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	linux-hardening@vger.kernel.org, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kcsan: test: Replace deprecated strcpy() with strscpy()
-Message-ID: <hqvjfoaw5ooucqp3mwswrjxletq6vdzztwvlaxvxf5a6bivdzf@7fcytrsqhz4y>
-References: <20250815213742.321911-3-thorsten.blum@linux.dev>
+        Mon, 18 Aug 2025 11:57:58 -0700 (PDT)
+Received-SPF: pass (google.com: domain of nathan@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id A05445C62C9;
+	Mon, 18 Aug 2025 18:57:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7007FC4CEEB;
+	Mon, 18 Aug 2025 18:57:39 +0000 (UTC)
+From: "'Nathan Chancellor' via kasan-dev" <kasan-dev@googlegroups.com>
+Subject: [PATCH 00/10] Bump minimum supported version of LLVM for building
+ the kernel to 15.0.0
+Date: Mon, 18 Aug 2025 11:57:16 -0700
+Message-Id: <20250818-bump-min-llvm-ver-15-v1-0-c8b1d0f955e0@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20250815213742.321911-3-thorsten.blum@linux.dev>
-X-Original-Sender: justinstitt@google.com
+X-B4-Tracking: v=1; b=H4sIAIx3o2gC/x3MwQoCIRCA4VeROe+AY0zRvkrsoa2xBtRESQLx3
+ Vc6fof/71ClqFRYTYciTat+0gQtBh7ve3oJ6nManHVsL2Rx/8aMUROG0CI2KUiMV3Yn8iT7mRl
+ mmot4/f23t22MA23HpyFmAAAA
+X-Change-ID: 20250710-bump-min-llvm-ver-15-95231f1eb655
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Kees Cook <kees@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev, patches@lists.linux.dev, 
+ Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org, 
+ linux-hardening@vger.kernel.org, Russell King <linux@armlinux.org.uk>, 
+ Ard Biesheuvel <ardb@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org, 
+ Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ linuxppc-dev@lists.ozlabs.org, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alexandre Ghiti <alex@ghiti.fr>, linux-riscv@lists.infradead.org, 
+ Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+ Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+ kasan-dev@googlegroups.com, Alexander Potapenko <glider@google.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3422; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=qBGPy4AI12NWfHAvs72tXhhLkggZ76cCh4aJ0zfhg4o=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDBmLyxfkKs9J3XvmTW/HPLXzb2LV/ble9105em3NlZSrK
+ rcn6luu7yhlYRDjYpAVU2Spfqx63NBwzlnGG6cmwcxhZQIZwsDFKQAT2WLNyLDcY1peR8tewSkT
+ F3NPCHvlGPr7vt3zpq/7/opaMwrfUPdmZDjG+/9Q5BeZLcKLVm0XPXCDawGDjEHkhrzAGu39rXt
+ Z47gA
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+X-Original-Sender: nathan@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b="wUt7S/Nl";       spf=pass
- (google.com: domain of justinstitt@google.com designates 2607:f8b0:4864:20::d2e
- as permitted sender) smtp.mailfrom=justinstitt@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Justin Stitt <justinstitt@google.com>
-Reply-To: Justin Stitt <justinstitt@google.com>
+ header.i=@kernel.org header.s=k20201202 header.b=TO8hGFu9;       spf=pass
+ (google.com: domain of nathan@kernel.org designates 139.178.84.217 as
+ permitted sender) smtp.mailfrom=nathan@kernel.org;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Nathan Chancellor <nathan@kernel.org>
+Reply-To: Nathan Chancellor <nathan@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -154,61 +165,76 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi,
+s390 and x86 have required LLVM 15 since
 
-On Fri, Aug 15, 2025 at 11:37:44PM +0200, Thorsten Blum wrote:
-> strcpy() is deprecated; use strscpy() instead.
-> 
-> Link: https://github.com/KSPP/linux/issues/88
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
-> ---
->  kernel/kcsan/kcsan_test.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/kernel/kcsan/kcsan_test.c b/kernel/kcsan/kcsan_test.c
-> index 49ab81faaed9..ea1cb4c8a894 100644
-> --- a/kernel/kcsan/kcsan_test.c
-> +++ b/kernel/kcsan/kcsan_test.c
-> @@ -125,7 +125,7 @@ static void probe_console(void *ignore, const char *buf, size_t len)
->  				goto out;
->  
->  			/* No second line of interest. */
-> -			strcpy(observed.lines[nlines++], "<none>");
-> +			strscpy(observed.lines[nlines++], "<none>");
+  30d17fac6aae ("scripts/min-tool-version.sh: raise minimum clang version to 15.0.0 for s390")
+  7861640aac52 ("x86/build: Raise the minimum LLVM version to 15.0.0")
 
-Looks good.
+respectively. This series bumps the rest of the kernel to 15.0.0 to
+match, which allows for a decent number of clean ups.
 
-Here's my checklist:
-1) strcpy() and strscpy() have differing return values, but we aren't using
-it.
-2) strscpy() can fail with -E2BIG if source is too big, but it isn't in
-this case.
-3) two-arg version of strscpy() is OK to use here as the source has a known
-size at compile time.
+On the distros front, we will only leave behind Debian Bookworm and
+Ubuntu Jammy. In both of those cases, builders / developers can either
+use the kernel.org toolchains or https://apt.llvm.org to get newer
+versions that will run on those distributions, if they cannot upgrade.
 
-Reviewed-by: Justin Stitt <justinstitt@google.com>
+  archlinux:latest              clang version 20.1.8
+  debian:oldoldstable-slim      Debian clang version 11.0.1-2
+  debian:oldstable-slim         Debian clang version 14.0.6
+  debian:stable-slim            Debian clang version 19.1.7 (3+b1)
+  debian:testing-slim           Debian clang version 19.1.7 (3+b1)
+  debian:unstable-slim          Debian clang version 19.1.7 (3+b2)
+  fedora:41                     clang version 19.1.7 (Fedora 19.1.7-4.fc41)
+  fedora:latest                 clang version 20.1.8 (Fedora 20.1.8-3.fc42)
+  fedora:rawhide                clang version 20.1.8 (Fedora 20.1.8-3.fc43)
+  opensuse/leap:latest          clang version 17.0.6
+  opensuse/tumbleweed:latest    clang version 20.1.8
+  ubuntu:focal                  clang version 10.0.0-4ubuntu1
+  ubuntu:jammy                  Ubuntu clang version 14.0.0-1ubuntu1.1
+  ubuntu:noble                  Ubuntu clang version 18.1.3 (1ubuntu1)
+  ubuntu:latest                 Ubuntu clang version 18.1.3 (1ubuntu1)
+  ubuntu:rolling                Ubuntu clang version 20.1.2 (0ubuntu1)
+  ubuntu:devel                  Ubuntu clang version 20.1.8 (0ubuntu1)
 
->  		}
->  	}
->  
-> @@ -231,7 +231,7 @@ static bool __report_matches(const struct expect_report *r)
->  
->  			if (!r->access[1].fn) {
->  				/* Dummy string if no second access is available. */
-> -				strcpy(cur, "<none>");
-> +				strscpy(expect[2], "<none>");
->  				break;
->  			}
->  		}
-> -- 
-> 2.50.1
-> 
->
+I think it makes sense for either Andrew to carry this via -mm on a
+nonmm branch or me to carry this via the Kbuild tree, with the
+appropriate acks.
 
-Thanks
-Justin
+---
+Nathan Chancellor (10):
+      kbuild: Bump minimum version of LLVM for building the kernel to 15.0.0
+      arch/Kconfig: Drop always true condition from RANDOMIZE_KSTACK_OFFSET
+      ARM: Clean up definition of ARM_HAS_GROUP_RELOCS
+      arm64: Remove tautological LLVM Kconfig conditions
+      mips: Unconditionally select ARCH_HAS_CURRENT_STACK_POINTER
+      powerpc: Drop unnecessary initializations in __copy_inst_from_kernel_nofault()
+      riscv: Remove version check for LTO_CLANG selects
+      lib/Kconfig.debug: Drop CLANG_VERSION check from DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+      objtool: Drop noinstr hack for KCSAN_WEAK_MEMORY
+      KMSAN: Remove tautological checks
+
+ Documentation/process/changes.rst |  2 +-
+ arch/Kconfig                      |  1 -
+ arch/arm/Kconfig                  | 11 ++++-------
+ arch/arm64/Kconfig                |  5 +----
+ arch/mips/Kconfig                 |  2 +-
+ arch/powerpc/include/asm/inst.h   |  4 ----
+ arch/riscv/Kconfig                |  5 ++---
+ lib/Kconfig.debug                 |  2 +-
+ lib/Kconfig.kcsan                 |  6 ------
+ lib/Kconfig.kmsan                 | 11 +----------
+ scripts/min-tool-version.sh       |  6 ++----
+ tools/objtool/check.c             | 10 ----------
+ 12 files changed, 13 insertions(+), 52 deletions(-)
+---
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+change-id: 20250710-bump-min-llvm-ver-15-95231f1eb655
+
+Best regards,
+--  
+Nathan Chancellor <nathan@kernel.org>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/hqvjfoaw5ooucqp3mwswrjxletq6vdzztwvlaxvxf5a6bivdzf%407fcytrsqhz4y.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250818-bump-min-llvm-ver-15-v1-0-c8b1d0f955e0%40kernel.org.
