@@ -1,156 +1,154 @@
-Return-Path: <kasan-dev+bncBDCPL7WX3MKBBA4XR7CQMGQEWCZKSKQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBLU2SHCQMGQEX24EOCQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3c.google.com (mail-qv1-xf3c.google.com [IPv6:2607:f8b0:4864:20::f3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDF6CB2B597
-	for <lists+kasan-dev@lfdr.de>; Tue, 19 Aug 2025 02:55:49 +0200 (CEST)
-Received: by mail-qv1-xf3c.google.com with SMTP id 6a1803df08f44-70a88de16c0sf111308226d6.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 18 Aug 2025 17:55:49 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1755564931; cv=pass;
+Received: from mail-ot1-x337.google.com (mail-ot1-x337.google.com [IPv6:2607:f8b0:4864:20::337])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2ABEB2BE82
+	for <lists+kasan-dev@lfdr.de>; Tue, 19 Aug 2025 12:08:47 +0200 (CEST)
+Received: by mail-ot1-x337.google.com with SMTP id 46e09a7af769-7438205f726sf11421562a34.3
+        for <lists+kasan-dev@lfdr.de>; Tue, 19 Aug 2025 03:08:47 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1755598126; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Vavdm8OsDqHLffkR9wozDQoGak3VGhSTt39nVS7EI9tXkt+X4+x0xLI7rbl2+DMEwv
-         rlDqJzXfHeePDG6EfqFas2dKnx7OxN1DomLQ7TTqSlUmwTlDnofWo6dpfr44cu3BDGOY
-         9a3pP6pzdyRlv/68+qBNKlTBK+NjIegx1eDkYrtnSr4Y6XQoSr3V6BHyVcwqsNnwWJfy
-         BDNV2RTXkdoXdMKjudADosMEGSMcCtG6udtz1Np1wdLj4h285iPIgp13Dusxk02TdmR1
-         qgwCtBD5WsejGvMCxJE+7PBV4gFGpELt1PY+nkps6+Tlf5OmG9eQ/+SKmhm4c8i0wx8N
-         /x2g==
+        b=QB9ydsT8A2PxzhFIk+R0sOjx96bGdxGZuwmXHM6dgya7MT3XyEjuFh3MLOfsDOmqry
+         cSQRSPIzMMkuYYibmX7zgqAFIyDhpJMZV1Avin4dg9Hntqaig/uPxEMOshmKeIk9TTIK
+         uiKd2aTShsy4Q/CPlybqcLz8fp/eTH4KSuATHoOKO3rROY7bnsOYgIOq1+Ryd473Zec0
+         NZta/1oU+pehP2Xy7d8f3NCqnkFI+C7zPUlrfrFV4V8yDyWFqxL6+00hoSyevxalRwl0
+         OamtV20jENzdGuYyxb/Y935k20KfoTYv3EYjDUyxGkxt6DJ9hR+2tYaNhlQV+kTEpjtg
+         emTA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=+vcXU+5csjt9CxFeMT8/oXdBcH7TOeN92wQFAcyEjJA=;
-        fh=qgMoo9MZtG5AGtHR8NpPmz2+4FFmvIG8pul9X/cAi70=;
-        b=KXJGsLB4pW240JPdiXWaMS5qyT5ZhOctZ9m5NJHqgRk/KEHb4LUTkmnQeHfPEfbeej
-         MsKeW+2vM/VC+NjhQLXYGv5WYXQxNwkSUvi1UtvSEUkL4ShqJSVdMNAiA4TMmjNR62aJ
-         I9kZPcwctzSfdrNSwqIADiX5GGc/GdcRQ8M0lpIO6w9KMTZ0es0vJe0cXdECP/YqQC2m
-         KEBO95OVj3ig/UEn22Rfx72jwr187vQIzdnfTTi4ZJIo+EmnV/BgzJR6hC8KqusaL3Wz
-         uy6yrF3PK18ac7ZhS/3g5OtEYSBXgqLXQPrKTtzB28ZUKX3naUVcYX34xY8wIstxj2Er
-         6Tig==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=nXCN7FIolIHOpXyvitfBN5YxG7a9ZQe8dLJfEEFBpws=;
+        fh=HpnAUkOX7Y8ovufb4eAsX/0s0DRmxJRux4TRPy9RnPE=;
+        b=Jn56+dsbTgyFhQVKNlmZJnl9qUARhLFhVd1HRmpnG+Va+V5arRK919suez5sQ0A5Dd
+         lTi4aOPimQtEYQeZTzLdMwBLq4VlztRsxyzPgtSxaBC/M8jOnWXX9t//x3YN1+M774ba
+         NkNDSlyXzr6ImVfxgBSXS8FoWa21CpzCwkz1nSkLRJ6AnEPQ4UcIEzpodn6xgffgiTpf
+         D9pFUH7XT2ahMJNv/MmxPg/u9YQ98HrePIyinUSTbiM1z8scAxgfGRtE2SYAgIzT47bo
+         o9eFjLO63++XwYi1JcK6siv3ffq1iKd1JpFEZRqv9muYZfLdc4mIzilrvG/pLM2fAdXw
+         ZBtQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Xf9fcNQg;
-       spf=pass (google.com: domain of kees@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=kees@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20230601 header.b=jzPqveIk;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::429 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1755564931; x=1756169731; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1755598126; x=1756202926; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+vcXU+5csjt9CxFeMT8/oXdBcH7TOeN92wQFAcyEjJA=;
-        b=wxWKcLZII4FFMGRgrO9gnSSqxy8G1iK6T6WiIjkYbuQeOt86YtPh+0Gpk6800BVKYS
-         oFTmDStJ/xUgwP27T1asaNTPmvWufvnNnlDQUQXLrevEHg8M3LW4K6Vam+YS1waCXO7b
-         L3kE5DpqbMhAuLCVoiObqOAzohEdGuJdrZBAT7s2f9wv8z8LMjtp8FyxH3rqCM05LJe7
-         f/t9W2x9B1iVo7zWHbmffD4N68eqLiEUkEqqWfDaqSG8QTxQAVWO7I6E5xYW7/9VXAUM
-         6YDpQgkhr9devSU9iHc5+kIEIHKHPtZ/b8X2ZMY2a/OziCBhALC97Rv/uthn32f2K84Y
-         JnsA==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nXCN7FIolIHOpXyvitfBN5YxG7a9ZQe8dLJfEEFBpws=;
+        b=n8JHLxMIiPjsWlTtzxTfxKbHozxXkeliGLBlOX+yGFpYIzHXlfFAjbh+psitm29XiO
+         cair1IVu+NGCjg5nRwfMMJJuBUzysvcsgANomLJx444RwXyvgrlBYVXs5rDZYIj4ThNk
+         Qsd31ME9C7AypA+jUbfFLzqnrVoVIAs98qLN8/+omHErNfIlJ/YtE2juCT9x2POHuV9U
+         XcaboelgAA7D607jmwK8ZMmb3pbQY3zo5Cu0eJcH19E6gaYRvvNA5IdMsSZhno3YZPYv
+         KFmEAxkBep/U7Q/JbgDYBhVgNtT1oPx7FOi3ffyxoxgiYyppZNivj9mGlcYiGGW8PwUn
+         konA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755564931; x=1756169731;
+        d=1e100.net; s=20230601; t=1755598126; x=1756202926;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+vcXU+5csjt9CxFeMT8/oXdBcH7TOeN92wQFAcyEjJA=;
-        b=tDkYz9fnVjjoJXOaxQ2Nqi6nU+TDUeWKuSoc+to1XFq9QgYTXqut9rxoJNXhGKkFuW
-         8ga/Y0smZbrgdWFkftiI9CJjKLUKiSOD+OV3e9wjFWmnrs58NjDlRiOCg/6BEgx2IBHf
-         4yw8ritQ5HRsYOTsAFMhBLOnkQOMAxEO8OYFqcGA5mkeMlSmfxFziaeejk6K2ulMvp+l
-         uN0w0gm/X3l5AJU679IReC2DbSv55I0JMP8tu+nvwi/r3+T2ke2IbWDc787EEZbZaVMe
-         oI5C5xZLK8BOUv9wBsdllFo43a2dMf3e0fzS1CXbXv8iZgIExeB8IC1b2eK0nXACebKw
-         uCEg==
-X-Forwarded-Encrypted: i=2; AJvYcCW+kGLi/Rg7KysnqEotKno8GVpPlQlmp+wGcWjQZjHEs4iszWgoZoQqsMdMh7AWGMIDUcz2UQ==@lfdr.de
-X-Gm-Message-State: AOJu0YzOoUluiNMueiqzm9pQuq/8QDAeHvyers9FusRpEeEIXmBUrP0D
-	bGlVUap+yHnlV2cj/qZNZAbtymUCdOp4UqS7njGlZdACOjveDQCJy4yK
-X-Google-Smtp-Source: AGHT+IFwI/rQZ7rrTzSCpESnxqluez8P0ypOwuGKzY8XlgK6An6d2ER2Ln78T6s4l1ewF715vdDsZQ==
-X-Received: by 2002:a05:6214:2242:b0:709:e4a2:bf54 with SMTP id 6a1803df08f44-70c35ca293fmr8522236d6.31.1755564931279;
-        Mon, 18 Aug 2025 17:55:31 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcMzM9KfLqX45HnxrkteFRfOaG+nLoILWue4UvZFs8XJw==
-Received: by 2002:ad4:5aad:0:b0:707:1972:6f43 with SMTP id 6a1803df08f44-70ab7b5944dls60891766d6.2.-pod-prod-05-us;
- Mon, 18 Aug 2025 17:55:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWAgMY7rfDGc4uyze/6uM6Jnf1303/9gx8/mYz5uwHtkqsUG+BEXfe2zeiWA7OxDxoE+OjVLA0YIpk=@googlegroups.com
-X-Received: by 2002:a05:6122:2090:b0:539:3bb5:e4b1 with SMTP id 71dfb90a1353d-53b5cf154abmr353928e0c.0.1755564930301;
-        Mon, 18 Aug 2025 17:55:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1755564930; cv=none;
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nXCN7FIolIHOpXyvitfBN5YxG7a9ZQe8dLJfEEFBpws=;
+        b=Rhtqb7PFTNCHBzHC3LfaqSRy5AagSUNcOnNiUyxE7ZCCIHQulZkp86Gws4m1CkMrTw
+         oyoQXyUyA+kDNz3KefVFDEZ4je4mlbpYnh+hmvlOSa6JKXagJN6Ypu8nHcw8bi6xOgyT
+         9z4fX3/Xsey7r/psprHswD49eWgtctABM9OJU2Jw5XMd/oiy6i35Hlkm/+/v7x4avoS/
+         rt4cQ+SZaxYm4Pzpg6xjKrjhhtu4NoBxPH26Ebvpl2SI7OyhpX+HB+/Wn8L/Y4lsj+oo
+         pC+kUQeSnPH911v/RrkOfnW0NoYnyYmybBPrzkHw/H7lf/hZ7SK34NqzU0BG59uSh5Sp
+         I6ew==
+X-Forwarded-Encrypted: i=2; AJvYcCWkG2kLmJyCOImi3TRtgXJ9/VRbvT6fPT6o2zKZflBixXF6L4FbVCqMgX4wWmzKBLdufWzVTg==@lfdr.de
+X-Gm-Message-State: AOJu0YwnVKu5s1ytIdwUxiIDEcoOrmiChl/z0dHDCgQC6lVtKsq3ttfs
+	L6PoiBL/JKXD0fgl73z3w/CIirso+rJz6/yFN58r8WvKAdEgG2XE+J9F
+X-Google-Smtp-Source: AGHT+IFsTjn9HiT6MODvlBvKE5WtCqk20Jg/6oXDfdT8Jqr07boXvIQbEepFrynXc7YYGALt/gBNXw==
+X-Received: by 2002:a05:6830:398b:b0:741:21b8:b24d with SMTP id 46e09a7af769-744e09dcbc5mr1291599a34.5.1755598126400;
+        Tue, 19 Aug 2025 03:08:46 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdHij0hiClyKb4p0EBklz+dqvJPeQmnW1SZ7IP5goZbRQ==
+Received: by 2002:a05:6870:15d6:b0:30b:c665:1d65 with SMTP id
+ 586e51a60fabf-30ccebf8997ls3017066fac.2.-pod-prod-05-us; Tue, 19 Aug 2025
+ 03:08:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVqXz4ylwCP4NhaZVZ1V7c53yT16EUEd1/B4aGDcuwq+wgulKQbbVrwoXYlZhKv76mKRc9mMcoX9Uo=@googlegroups.com
+X-Received: by 2002:a05:6808:690c:b0:435:80ec:5800 with SMTP id 5614622812f47-436da1d5cddmr1095812b6e.28.1755598125180;
+        Tue, 19 Aug 2025 03:08:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1755598125; cv=none;
         d=google.com; s=arc-20240605;
-        b=QEaHszxA0kOkZAADJ9sBp3rzkzfJy09bccdJq4hTNZtT97N1tjNmznSd6pNZMwhu7Q
-         hRUKkL4I/Shhq91zJqJRa5dPLySfW8zn2K3fi4u/mgOI5LwFANParfj3S83XYSdpvTdF
-         uL5jr4Fo7e6U5RKdKBLh8tzsMCCXyvtvR2Y2WBj8O8EV6lMaxKjjgV5UP2z4hJ1Qz0Y2
-         Zlg54kVVOCHXq11TphGNlWOgnCFeV7J7021lruZogk9vF7F3eDogRNc6X01aZ4eUcPVw
-         3jlxLC1ArRAbamPZdcuNhJqIRsEn+1w5jytR+MD87uG86FcWXjY5rN2S8p/QeJc/Ss5t
-         nLzw==
+        b=eN/zt9F74WnDqpTyyLaC1DVrGUVhZqFZT6ROBVbyq13qH8mhSey/DcCOVooRX6gRDW
+         sidOpvpDVlM6DhXdhgvF8tl0Z689CyCkNaKKK26wI7wqWJ8uUTN4fRyzejFbXZReybyS
+         hYJ41BEa3LQyMB7cRjB/+t8k9/814OR8fD+rLJe7gstMiIiDZWFZ1eMuevssrRuB0lXN
+         qRta1d09aG8R0aCar/woE4JPvPe0PXm4oRPKOVb1j/6ezD0CRZBCvmuKwGAWajw+zOCr
+         OTP5NEgU48H07W5u9om6dcc5PeiwITzg4Tc2GWGpOTfVuKdi5tsCJh3KWlVcZViQJf1d
+         ckxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=JzfTMaSWFx+xn7Q0qfVZdQJA3fiAtavglfDwO1hdcSA=;
-        fh=HUiUKQZF34vto+9XyPPQq5Yqr0sNiu4CMblUr/JqRIk=;
-        b=TmelZWCl3/R8HLUgN/3VcWUgrI0vsE65/pYHZeL0Rp6HjLryTeQAc075EgxD0o8TVu
-         YB1cEnRRp5VwTtpHFqjZwjaj//g1w/K+Z3205eT3umMSrSqFrsnyW/hizwxDXaFA/LHA
-         MkGmbq1vGcKqx+8NzjXcMiEcj34uUS76MDCYo1WkmHi1Ao/WkoltwGCYGrfiZwFN0hRz
-         yP7HGR4cnOiZjl/RaGp0Jw/EHpvCnpSQTItnhLm43AHeqe0+4J2PwhGSB67GmJCbrGCs
-         0Lupm/DFtMLmhIkZ6Qc8dQ7WBAeZEKsnffO6UAYFXZ2UccNdHuZyUmx0lLQq9n+awiwu
-         fAcQ==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=xtwFnGhPjZbaJZhKpnnfvoiBniYG8b/g2aN0jXq3ohM=;
+        fh=gOfhfd7HTvpoodKgOQuxRHbBzuRJmtcfeFvNtfcWKfQ=;
+        b=jU+kSrT18CacJ1wV/hMKPgmZQfKVFDdzGvsge/J8ME6CnBIgqmlImyXpHiYCHZyCfX
+         15LpnzS5ziPB7o5gI5kb/3ZcIbNso0kp6765bETx9KfpzlweaJdP/heiZXtGu2ARtdg4
+         BHmxHRTPGKFB8LhdV4//7SlsPTE4h/megAeVQLAXgbc+iw5LuMIicInkY65Bnc60bymw
+         9QuEHLMPa2Ho/hqj7aT0ZZP7QSokdD8XJDIVAetaPBbnwDv82WwUfC5AtubjdtdNBsKw
+         swltwdct3g3lFFXYdqfXt3ShmlGgJ27qUWqZa9RwCw0gK6g17KnayEi9+0iteIwX9uXs
+         3+rA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Xf9fcNQg;
-       spf=pass (google.com: domain of kees@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=kees@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id 71dfb90a1353d-53b2bf52835si397247e0c.4.2025.08.18.17.55.30
+       dkim=pass header.i=@google.com header.s=20230601 header.b=jzPqveIk;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::429 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com. [2607:f8b0:4864:20::429])
+        by gmr-mx.google.com with ESMTPS id 5614622812f47-435ed1496d7si474182b6e.2.2025.08.19.03.08.45
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 17:55:30 -0700 (PDT)
-Received-SPF: pass (google.com: domain of kees@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 896C55C57B0;
-	Tue, 19 Aug 2025 00:55:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0A33C4CEEB;
-	Tue, 19 Aug 2025 00:55:28 +0000 (UTC)
-Date: Mon, 18 Aug 2025 17:55:28 -0700
-From: "'Kees Cook' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, patches@lists.linux.dev,
-	linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org,
-	Russell King <linux@armlinux.org.uk>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	linux-mips@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	linuxppc-dev@lists.ozlabs.org, Palmer Dabbelt <palmer@dabbelt.com>,
-	Alexandre Ghiti <alex@ghiti.fr>, linux-riscv@lists.infradead.org,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	kasan-dev@googlegroups.com, Alexander Potapenko <glider@google.com>
-Subject: Re: [PATCH 00/10] Bump minimum supported version of LLVM for
- building the kernel to 15.0.0
-Message-ID: <202508181753.7204670E@keescook>
-References: <20250818-bump-min-llvm-ver-15-v1-0-c8b1d0f955e0@kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Aug 2025 03:08:45 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::429 as permitted sender) client-ip=2607:f8b0:4864:20::429;
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-76e39ec6f30so4029626b3a.2
+        for <kasan-dev@googlegroups.com>; Tue, 19 Aug 2025 03:08:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUvq5y9hBIC37J6dIjTLKjVkb8WxldG+C183rYFKS1rXjixiehDEAatXUhScBHmyU2z+QtpXKVqNTU=@googlegroups.com
+X-Gm-Gg: ASbGncvbsw7rgoAmr7aj5kx+JtLb1EJDYEejtbD7vx/boYhR486RBU4gpH7XdgyVvqN
+	zg9C9Xql6EAYtznIHZcdWD1CuSzmkEo1csvd6B/sYeo+gdZBBc7fusxcgjgzHpZUij+7om3iGTJ
+	f57+7eXinA3amq16pWV+ZbnoAXFBNud7lHJDvvrq86nBoiDo9s9qVClvuiVC0ybICMycJb39Ipq
+	yG5w6bJyElqtaqfaZfZw3zDbMFMtX3YFXLUqbBlsfcQdGTzZB+PW0K4
+X-Received: by 2002:a17:902:da92:b0:242:eb33:96a0 with SMTP id
+ d9443c01a7336-245e0328fc4mr25769245ad.25.1755598124032; Tue, 19 Aug 2025
+ 03:08:44 -0700 (PDT)
 MIME-Version: 1.0
+References: <20250813133812.926145-1-ethan.w.s.graham@gmail.com>
+ <20250813133812.926145-7-ethan.w.s.graham@gmail.com> <CANpmjNMXnXf879XZc-skhbv17sjppwzr0VGYPrrWokCejfOT1A@mail.gmail.com>
+ <CALrw=nFKv9ORN=w26UZB1qEi904DP1V5oqDsQv7mt8QGVhPW1A@mail.gmail.com>
+ <20250815011744.GB1302@sol> <CALrw=nHcpDNwOV6ROGsXq8TtaPNGC4kGf_5YDTfVs2U1+wjRhg@mail.gmail.com>
+In-Reply-To: <CALrw=nHcpDNwOV6ROGsXq8TtaPNGC4kGf_5YDTfVs2U1+wjRhg@mail.gmail.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 19 Aug 2025 12:08:07 +0200
+X-Gm-Features: Ac12FXytHPioqIN3_h6-8LrUsWB3kDPFRbJegFs6XnxZaSOjKS1ectEm86g1kAE
+Message-ID: <CANpmjNOdq9iwuS9u6NhCrZ+AsM+_pAfZXZsTmpXMPacjRjV80g@mail.gmail.com>
+Subject: Re: [PATCH v1 RFC 6/6] crypto: implement KFuzzTest targets for PKCS7
+ and RSA parsing
+To: Ignat Korchagin <ignat@cloudflare.com>
+Cc: Eric Biggers <ebiggers@kernel.org>, Ethan Graham <ethan.w.s.graham@gmail.com>, 
+	ethangraham@google.com, glider@google.com, andreyknvl@gmail.com, 
+	brendan.higgins@linux.dev, davidgow@google.com, dvyukov@google.com, 
+	jannh@google.com, rmoar@google.com, shuah@kernel.org, tarasmadan@google.com, 
+	kasan-dev@googlegroups.com, kunit-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	David Howells <dhowells@redhat.com>, Lukas Wunner <lukas@wunner.de>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
+	"open list:HARDWARE RANDOM NUMBER GENERATOR CORE" <linux-crypto@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20250818-bump-min-llvm-ver-15-v1-0-c8b1d0f955e0@kernel.org>
-X-Original-Sender: kees@kernel.org
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=Xf9fcNQg;       spf=pass
- (google.com: domain of kees@kernel.org designates 2604:1380:4641:c500::1 as
- permitted sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: Kees Cook <kees@kernel.org>
-Reply-To: Kees Cook <kees@kernel.org>
+ header.i=@google.com header.s=20230601 header.b=jzPqveIk;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::429 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -163,29 +161,60 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Aug 18, 2025 at 11:57:16AM -0700, Nathan Chancellor wrote:
-> s390 and x86 have required LLVM 15 since
+On Fri, 15 Aug 2025 at 15:00, Ignat Korchagin <ignat@cloudflare.com> wrote:
 >
->   30d17fac6aae ("scripts/min-tool-version.sh: raise minimum clang version to 15.0.0 for s390")
->   7861640aac52 ("x86/build: Raise the minimum LLVM version to 15.0.0")
+> On Fri, Aug 15, 2025 at 2:18=E2=80=AFAM Eric Biggers <ebiggers@kernel.org=
+> wrote:
+> >
+> > On Thu, Aug 14, 2025 at 04:28:13PM +0100, Ignat Korchagin wrote:
+> > > Not sure if it has been mentioned elsewhere, but one thing I already
+> > > don't like about it is that these definitions "pollute" the actual
+> > > source files. Might not be such a big deal here, but kernel source
+> > > files for core subsystems tend to become quite large and complex
+> > > already, so not a great idea to make them even larger and harder to
+> > > follow with fuzz definitions.
+> > >
+> > > As far as I'm aware, for the same reason KUnit [1] is not that popula=
+r
+> > > (or at least less popular than other approaches, like selftests [2]).
+> > > Is it possible to make it that these definitions live in separate
+> > > files or even closer to selftests?
+> >
+> > That's not the impression I get.  KUnit suites are normally defined in
+> > separate files, and KUnit seems to be increasing in popularity.
 >
-> respectively. This series bumps the rest of the kernel to 15.0.0 to
-> match, which allows for a decent number of clean ups.
+> Great! Either I was wrong from the start or it changed and I haven't
+> looked there recently.
+>
+> > KFuzzTest can use separate files too, it looks like?
+> >
+> > Would it make any sense for fuzz tests to be a special type of KUnit
+> > test, instead of a separate framework?
+>
+> I think so, if possible. There is always some hurdles adopting new
+> framework, but if it would be a new feature of an existing one (either
+> KUnit or selftests - whatever fits better semantically), the existing
+> users of that framework are more likely to pick it up.
 
-Looks good to me!
+The dependency would be in name only (i.e. "branding"). Right now it's
+possible to use KFuzzTest without the KUnit dependency. So there is
+technical merit to decouple.
 
-Reviewed-by: Kees Cook <kees@kernel.org>
+Would sufficient documentation, and perhaps suggesting separate files
+to be the canonical way of defining KFuzzTests, improve the situation?
 
-> I think it makes sense for either Andrew to carry this via -mm on a
-> nonmm branch or me to carry this via the Kbuild tree, with the
-> appropriate acks.
+For example something like:
+For subsystem foo.c, define a KFuzzTest in foo_kfuzz.c, and then in
+the Makfile add "obj-$(CONFIG_KFUZZTEST) +=3D foo_kfuzz.o".
+Alternatively, to test internal static functions, place the KFuzzTest
+harness in a file foo_kfuzz.h, and include at the bottom of foo.c.
 
-I vote you carry it with Kbuild. :)
+Alex, Ethan, and KUnit folks: What's your preference?
 
---
-Kees Cook
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/202508181753.7204670E%40keescook.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
+ANpmjNOdq9iwuS9u6NhCrZ%2BAsM%2B_pAfZXZsTmpXMPacjRjV80g%40mail.gmail.com.
