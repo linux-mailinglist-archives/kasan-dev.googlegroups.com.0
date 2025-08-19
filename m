@@ -1,114 +1,117 @@
-Return-Path: <kasan-dev+bncBC3ZLA5BYIFBBX7MSLCQMGQEQ2TO4VY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC3ZLA5BYIFBBWPMSLCQMGQEOKXUEAA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3b.google.com (mail-yb1-xb3b.google.com [IPv6:2607:f8b0:4864:20::b3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63131B2CAC6
-	for <lists+kasan-dev@lfdr.de>; Tue, 19 Aug 2025 19:37:37 +0200 (CEST)
-Received: by mail-yb1-xb3b.google.com with SMTP id 3f1490d57ef6-e931c30dc0esf214993276.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 19 Aug 2025 10:37:37 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1755625056; cv=pass;
+Received: from mail-qt1-x839.google.com (mail-qt1-x839.google.com [IPv6:2607:f8b0:4864:20::839])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2750B2CAC2
+	for <lists+kasan-dev@lfdr.de>; Tue, 19 Aug 2025 19:37:31 +0200 (CEST)
+Received: by mail-qt1-x839.google.com with SMTP id d75a77b69052e-4b109acac47sf163633061cf.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 19 Aug 2025 10:37:31 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1755625050; cv=pass;
         d=google.com; s=arc-20240605;
-        b=TfuhTdVOfRHC5WNat0Hpqft11VoDyvYFGvhwIwZolTTRAzO70/smPlctlJ2HIIvyk8
-         mxv1JnAH746yMwMRSjZP5bgJLv3rX3z0rr+VuvN+j5MiiwrKjx1Mhbb1Ad4rV8mw3jhw
-         w1ngNCAGricIM8bjNMDvJIyOI5lel2/8aevnpZ1q0B+uwXmqb92YhzzmXhbkLTjsve9t
-         gJDAVq+bEWLdZuObi7IdfdM0JAIt/K5RRWV5XRRqQI39hNUcTSoxb1U0bTYFNTB+Xj7r
-         ztk9k+A8OvpRixZF2928zSFvRNvjSNmbrm3Dib2EuAnaC6e9jf3R+QI+6RpurRpXZdiH
-         TDCw==
+        b=ZB+vO4gEw4gkpkRjY+4G1vX9wqKO4qJ6khouIhq66ovdf5FpkhQ3nbXEdBEuzHPkXm
+         rPHex1bUuSX7+PCHP1XOzI05dSCFnogREugf3Tg4ZaKp6FAJRdW7qtI3DJAeW2PCyHTh
+         1kXzGBqm/OIceNyEmC/JyHFILFWtBAZyPQiFS64rpQU7Lv7cdOju4DWdc96ywuPTIKR0
+         2s3/MEVwlceDshirZMFBtR97uM4IZxNc0Q8y4+vW5CZ3g1CZVaOgHVBzu0lC8MRBjrUo
+         N3k/io6/RaoKngf4RZb5OBPcI7LnlM3+XFqqWgqE/emKFDLjV1z6YMB9Onm1rsQzyppw
+         vonw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
-         :date:subject:cc:to:from:dkim-signature;
-        bh=PIs64xa32ojZe5skOQ1jaTf0pHWdBSLpctvpfYVD1wE=;
-        fh=GoTonKwv6QMAAYX/S+5J5YCxk6C9RsS/zboY5502L44=;
-        b=hG8lgDPH/mAIuKmHqPQcea8Oc4aNZW3G1+4ddMNNoJOoNU7zyFAQ+HE0qlf8oH04RR
-         2qE4mWYw506DkbLfDBX1bYOtG2GPnsW4dsSeKl3QCady071a9JqReZRvEdenboozlKju
-         T0gUom5gemHFpTKnBD+tE2TFMsU19a/KWXfpcmRS+9lHJMA+XrUwpNH0c9v4y+wrvP2S
-         7Oj4gXRAZXw493bc6jd63MqUrm8lHLSOZ6Zz6FEsmeqvDV77RGlilREjuqcPMCuq83i2
-         JbJYyeAGU+ypY0UtIGs01EnvHtiMQMMDVLDyIaLYkJepnlgRawV8aoaGTYhkPxf5yZcg
-         Kchg==;
+         :list-id:mailing-list:precedence:reply-to:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=+yuNSDi5mVzBS3u2tCADq/hIWPN7NyKlAD6A7ugehYk=;
+        fh=jaVdpC0rSxDoxn5ihfTVI2sFvqOh6SSFKk6giD6y7Es=;
+        b=ANz8v2feMNtbqcz61hcv1iRa8ztpa1p+9SMlKgVyfJot3WBIFMp+X7E30Sqkdb+A1f
+         JqVcmfPEeWFz+WXHMD5fNwYRYiTdn+oUEIsp7FktEvbCjt5ur7/8GLaD5CLG4zdrvyjR
+         8ufJMmAM4JVcL17s3XP1ecISWroelBJdQEXRwGS1/vs2f+1wCMCfj5D5GFCZsgQ+lXAD
+         7hePhG1QT/WvW5XK4RalJfbuuawYDTSL+Y6IKckux2gUZU3BeKu4Q9kmY00bBGwjj+hp
+         JPj+TKwTPaqexEeh5XsRbNTfGUptPp4D493obxw+6gmLs2L66s0f71qnAU1xzBaok+KD
+         t4ng==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=nt8pdRow;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=kgbi4w2Q;
        spf=pass (google.com: domain of leon@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=leon@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1755625056; x=1756229856; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1755625050; x=1756229850; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PIs64xa32ojZe5skOQ1jaTf0pHWdBSLpctvpfYVD1wE=;
-        b=sPYfjCdhqs/FbE8sqAqg5RJoSEXtdS96oyW9aUOplVx0nzbQssa0/HgCWCQ82vg5Yz
-         iLZaOWclkrx25kExj4o9oSHuvPtf1CSxKwU6NlVVSj5Djvuu4yWWOT4etsR+E+yHZ0Do
-         VRPiP6vOyHz1+XQR1/7Mw6VK0uEkgzqQupyAdFlMxNtYi5Abm381G9Ltx5thZHmfdz7H
-         cazJIi6A4bb8eBQmWPjWgJvoWKAmwSEZwdWFrvVQ2hCVDb6WM90o7PCNwaKym2IxCZuu
-         mmA1IM/YKFc5IryZ+TVhBCBexLyxDOD8Sf56kPn36dW2JgbiemN0ZUFM7O2aa9dfI6/r
-         V74Q==
+         :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+yuNSDi5mVzBS3u2tCADq/hIWPN7NyKlAD6A7ugehYk=;
+        b=P679Nqf4gj4jxqcCiYX4+lk8sCPd5E06VAU9Zk2PyGX8a71YBYWV1EsC6+mhgf/3uK
+         aa4IzxRfwnFwEXlrwY9+AyhAjKD/zEQoYURzHUBmBSStMjkHDq3FL7f6XrHPWUA8NcIH
+         cAd1uFzybVonTI/OZ52r4vlt7oxPVIbZCQHTHS24W4IoP/WBm1Mru+aMktaY5v8LsnkU
+         7tnY8zaTclk/8/ricSBOlMk05BXCRnGukbuT0Dk0BTUpRQ12XYz1A0IGJwH/ddlRMnqF
+         iUp/IJdL9ns3xqJEzA3Ufs2HUfjhhyLx4+JdtRugcKyrYrkEkGojh3vEAGCczIA3Nsx3
+         PQyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755625056; x=1756229856;
+        d=1e100.net; s=20230601; t=1755625050; x=1756229850;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PIs64xa32ojZe5skOQ1jaTf0pHWdBSLpctvpfYVD1wE=;
-        b=iDVW7wuvVGnNrwJVo/GqxMLdVkg/kdYDGzd2+b4QoDAwk1DIS2YDbVcJidlCB/A/ge
-         Pk3TUf6A6oHMPLP8RCkuFb5IbjJO3s4n/6j2zPQGOPj4bbJ1LN0cSYLLF4t8+c9qLwxM
-         HwiK9KA14Q3nQLhwfJzNoT6/pgPwNoXLag06MMKrhJ51e7amV8AWQJfi+VcDMWWIgd1D
-         7vv7XIIlDauHzwz1YjgcxQ805IPtdhrjiz83KXsnShQ29g5O++ZiRH7kBgy3CWFQXCA/
-         I25YCiryRFfqkK/2lkyUboPn2lzK8lFoQf5oTm/HjM2YVNFLaFaP7HcdlM4pjhJ3sfzX
-         Ahmw==
-X-Forwarded-Encrypted: i=2; AJvYcCUN4rYFrW1ges0PCkSak84ARSMx3DyyPaL3A5sD+KegZ/5fV5EObhv0V/tU9AbHh/ApMuDbwA==@lfdr.de
-X-Gm-Message-State: AOJu0YyYJS80B8mk7eXBWcajx2ziyyTiPIXqn+NtYt2bNHeOgaquAnsY
-	Y7TUSkWneB/nxMPRB8ImKGIKp6LjowegNGqBRv8PPkIkX5/ccnqsffyt
-X-Google-Smtp-Source: AGHT+IE+qcRY6CUUdGCR5IBtnGicWwoHaxvK2yNmUchSJQpu6KN8YgxiyHzAnCiL+IQzMqJ01XFwmg==
-X-Received: by 2002:a05:6902:2405:b0:e93:3b23:af31 with SMTP id 3f1490d57ef6-e94f58b1b01mr240092276.10.1755625055880;
-        Tue, 19 Aug 2025 10:37:35 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfunLxyhGmTz1xLi0FHpxyiZjiHPqcj3Lhgmz52goGXSw==
-Received: by 2002:a25:ddc6:0:b0:e93:4930:85e9 with SMTP id 3f1490d57ef6-e94f526a63fls59516276.2.-pod-prod-00-us;
- Tue, 19 Aug 2025 10:37:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVzzfI4T6/rS8lPpxNpz/GbsriFOs4LTM2Xki6vKBtk1dR7ESfTOTtKBVL6HiJepFRHNvsSWAkSjcA=@googlegroups.com
-X-Received: by 2002:a05:690c:a00e:b0:71f:9a36:d333 with SMTP id 00721157ae682-71f9e595310mr29948647b3.22.1755625054546;
-        Tue, 19 Aug 2025 10:37:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1755625054; cv=none;
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+yuNSDi5mVzBS3u2tCADq/hIWPN7NyKlAD6A7ugehYk=;
+        b=Ejl8vTR3jf9Mfz64WQRZo5cKrw2I+e+jQvNnytmILAggnaWR+uMLHS07cz+3x+4Y2e
+         UMUHMfP8MpZqP+1DOjd8F9h5PYRSfc4Nw0n1Fk4zAOQrithom9GcTEW6t16Y1jwaH7vA
+         XhetewJ03k3s6KASUZFcApFVSvEC6Sz3gRLOpEEFMr7JkMz0SmfilBve1tP3K1HMYHH+
+         lK+5kobEVd2ZKvZDGpCNiIO1wIBzb7hULLQuuMbrb0MBbTzOHer0tyCUk3laSH3hOUGO
+         vAcAeyi8yShGCNbZE9m5xBbk1uPnWlcBlg/FGCR2av5Qx9AezwRVRT+3SOg9Ae7cSNmG
+         Nsaw==
+X-Forwarded-Encrypted: i=2; AJvYcCXbcS22DcgZPMO+SEFG+evf42VGR45Qvnc28Q1coq4he+iPRGeVShe6HeOFxdWEddOnGZho3A==@lfdr.de
+X-Gm-Message-State: AOJu0Ywd3e6pG/ofWlaNLnDapnraD8ZhvJe2UnKTGBjhyzUBr8yA7Riu
+	M7FAIgi2JPSxbWmNzG88HX7oOiWRkDV3i6GzZvEr/xDL1aH+iRL5YTra
+X-Google-Smtp-Source: AGHT+IFN506OnPjlmkvdtAIEtPXSXoiTodR54cAtSB4qYOXo6lxT7ks6eulfiwI2dRzFYwh8x6UFjw==
+X-Received: by 2002:ac8:7fc1:0:b0:4b0:6836:6efa with SMTP id d75a77b69052e-4b286c6d43cmr37420631cf.17.1755625050333;
+        Tue, 19 Aug 2025 10:37:30 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcZUXMfoGUJzY8W2S3awdlyV8WWFHZiE2a5N85a/5Vagw==
+Received: by 2002:a05:622a:1a16:b0:4ab:825d:60e7 with SMTP id
+ d75a77b69052e-4b109c35fa1ls93935221cf.2.-pod-prod-01-us; Tue, 19 Aug 2025
+ 10:37:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCV+zMJgT2r42g3YuCBtZUbEmTKYa0dkQgYa1UJdEk9WanSw1U+y4fy2AJaLfGqVJLLsTzEGIRyh/iM=@googlegroups.com
+X-Received: by 2002:ac8:5f8b:0:b0:4ae:fcf0:be94 with SMTP id d75a77b69052e-4b286c6e95amr39295971cf.24.1755625049165;
+        Tue, 19 Aug 2025 10:37:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1755625049; cv=none;
         d=google.com; s=arc-20240605;
-        b=NyZypdAdM9RMsO27OSXB8N1Ef1CI7suHzuNatBTs0PdcC6yr/uHt4wRQDF06DZvAHL
-         Z8fSkxkz64V9GsWeWP0MQBA0aJR3a7yquxsmf/xcPa/5blcu9r+nSb9Wa2p4I0L6v7fw
-         7wZA57RAscRZzCW8BUT796vHfth1oY5h2RagfSL51/csnoCDuZDx8GSOTMrlvMtOlszp
-         FQPKbphFLWq6k/Fy60stWOgM/0iPbMJZ7Qplte30Ar+60m2DePz2GRd1cTBFoRU9Cuan
-         TzVPmV0yRl95r6qzMVt9+fj6zSXZEsyEyVkbeeQ9r0pdl6tNFmMXuQrnZTjjhHOsVB2p
-         FapA==
+        b=UsLcWBOzIJicKjA57F7gIf1YEV6Ec1QGrJ8J2p0UET1F3pSBV2emag79OdTSsqcDLe
+         xITwbYziw7q8/dHw20ezLi1HUOwclINs506dqApM3aWwWqOllBJp3IZ/4nZlCkWfYAv+
+         jXHE0zYwpvqUY3V80VYXniCsf1egB27aYSrut1IHAZHnOXuIu3hZYzpmR/txXNNFsF67
+         J+mdcjcSkZMjase9aljs/zcFm04q5Pq9D3pX+Z/oOmKJdzNGrtmtFnLvr3Rp12fXh1ue
+         h0cvsVMoesDSkrtkBXiLxwVkR5BgTQ8FEHpTYuFiRfynySnIAltjbWX9vEf8WmEb01sn
+         MA0Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=V7lyGHPVpToHBO4xk7veSlctoonDh3C6qltAZuVkH4M=;
-        fh=iu7vSg1EzzlrRbrwbQPzfF0RoV1Uw6GXAom/pnqIJaQ=;
-        b=Cq5NEc2bP/av3IQNpfibNwHAXUQ7gRy0WOE+Z0NcsSBQB3wGD0KkYPWOU5y0GONhpB
-         PSVTJEWnS64kPwyYJd7/pODso3bwapqIADk8wQ7p+U93JOZUCs2asnN5oxGmP8HtI66C
-         Dj5+fWIIBRhvoTSwhgEA2pEF4z/8Hy8Lzg9DSRTc70h6CX14N9zeo+ZGdNhj6Ij1S3uS
-         8T513Zo29cIeY9XVSyONnq/uNeHvZxtCrZqw6e9FPE6yHt/Z0B2BXZNEm48a2H9/NLg+
-         Sr8dm9MIcch1w1xdcuT+Oo2/o1MWVgXRaJ7L+bxD/pCONt7VMLJ1ABCg1GzhVTI0RU1p
-         7F0w==;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=sZJR9LA3kgzyZhuFGCo8URPbUfbHRYhrLJioDHKhIRA=;
+        fh=7V/4mfmIBPVtH5Gsq5s7pcGHGm3ouCqKnRMFyJrAs8U=;
+        b=gVO5GNZZxLUyiHDJTRBuirwIbQWY0TaxMl5Mi+pz9HkdIQ19Jp95/B7I8eprMagnZi
+         wrj2OQcfCs/Hq4BUDwRvJ6pMPwQZFId1zqC4laZCFxS8B+canlQuN6bueCt1eMjoZfIf
+         DMYT3KzvPkxjKKCoZvfbW7wVYiQ03FXhRdaJWf9x3CvyfVn5gi1GR+3/daZUVRJIef6/
+         K3+9G2Aze/tC7Bu/wEGxwv2LTL2tFWamdn3/0C1w1tdROUQQ2Co0EbwnPD4GzglUfimD
+         ACI0zfYbWnC+tvtw6jhxZ8+Ejw3PNnTAsyt/wPdBmqAVjPlftmTs+TJjY+a2+XsDcnFG
+         47SQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=nt8pdRow;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=kgbi4w2Q;
        spf=pass (google.com: domain of leon@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=leon@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id 00721157ae682-71fa513c048si595697b3.0.2025.08.19.10.37.34
+        by gmr-mx.google.com with ESMTPS id d75a77b69052e-4b11dc83781si4225471cf.2.2025.08.19.10.37.29
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 10:37:34 -0700 (PDT)
+        Tue, 19 Aug 2025 10:37:29 -0700 (PDT)
 Received-SPF: pass (google.com: domain of leon@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 176855C64A7;
-	Tue, 19 Aug 2025 17:37:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C7B6C113D0;
-	Tue, 19 Aug 2025 17:37:21 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 85E345C6338;
+	Tue, 19 Aug 2025 17:37:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24115C4CEF4;
+	Tue, 19 Aug 2025 17:37:27 +0000 (UTC)
 From: "'Leon Romanovsky' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>,
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
 	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
 	Alexander Potapenko <glider@google.com>,
 	Alex Gaynor <alex.gaynor@gmail.com>,
@@ -143,14 +146,16 @@ Cc: Jason Gunthorpe <jgg@nvidia.com>,
 	virtualization@lists.linux.dev,
 	Will Deacon <will@kernel.org>,
 	xen-devel@lists.xenproject.org
-Subject: [PATCH v4 00/16] dma-mapping: migrate to physical address-based API
-Date: Tue, 19 Aug 2025 20:36:44 +0300
-Message-ID: <cover.1755624249.git.leon@kernel.org>
+Subject: [PATCH v4 01/16] dma-mapping: introduce new DMA attribute to indicate MMIO memory
+Date: Tue, 19 Aug 2025 20:36:45 +0300
+Message-ID: <08e044a00a872932e106f7e27449a8eab2690dbc.1755624249.git.leon@kernel.org>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <cover.1755624249.git.leon@kernel.org>
+References: <cover.1755624249.git.leon@kernel.org>
 MIME-Version: 1.0
 X-Original-Sender: leon@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=nt8pdRow;       spf=pass
+ header.i=@kernel.org header.s=k20201202 header.b=kgbi4w2Q;       spf=pass
  (google.com: domain of leon@kernel.org designates 2604:1380:4641:c500::1 as
  permitted sender) smtp.mailfrom=leon@kernel.org;       dmarc=pass
  (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
@@ -169,144 +174,118 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Changelog:
-v4:
- * Fixed kbuild error with mismatch in kmsan function declaration due to
-   rebase error.
-v3: https://lore.kernel.org/all/cover.1755193625.git.leon@kernel.org
- * Fixed typo in "cacheable" word
- * Simplified kmsan patch a lot to be simple argument refactoring
-v2: https://lore.kernel.org/all/cover.1755153054.git.leon@kernel.org
- * Used commit messages and cover letter from Jason
- * Moved setting IOMMU_MMIO flag to dma_info_to_prot function
- * Micro-optimized the code
- * Rebased code on v6.17-rc1
-v1: https://lore.kernel.org/all/cover.1754292567.git.leon@kernel.org
- * Added new DMA_ATTR_MMIO attribute to indicate
-   PCI_P2PDMA_MAP_THRU_HOST_BRIDGE path.
- * Rewrote dma_map_* functions to use thus new attribute
-v0: https://lore.kernel.org/all/cover.1750854543.git.leon@kernel.org/
-------------------------------------------------------------------------
+From: Leon Romanovsky <leonro@nvidia.com>
 
-This series refactors the DMA mapping to use physical addresses
-as the primary interface instead of page+offset parameters. This
-change aligns the DMA API with the underlying hardware reality where
-DMA operations work with physical addresses, not page structures.
+This patch introduces the DMA_ATTR_MMIO attribute to mark DMA buffers
+that reside in memory-mapped I/O (MMIO) regions, such as device BARs
+exposed through the host bridge, which are accessible for peer-to-peer
+(P2P) DMA.
 
-The series maintains export symbol backward compatibility by keeping
-the old page-based API as wrapper functions around the new physical
-address-based implementations.
+This attribute is especially useful for exporting device memory to other
+devices for DMA without CPU involvement, and avoids unnecessary or
+potentially detrimental CPU cache maintenance calls.
 
-This series refactors the DMA mapping API to provide a phys_addr_t
-based, and struct-page free, external API that can handle all the
-mapping cases we want in modern systems:
+DMA_ATTR_MMIO is supposed to provide dma_map_resource() functionality
+without need to call to special function and perform branching by
+the callers.
 
- - struct page based cachable DRAM
- - struct page MEMORY_DEVICE_PCI_P2PDMA PCI peer to peer non-cachable
-   MMIO
- - struct page-less PCI peer to peer non-cachable MMIO
- - struct page-less "resource" MMIO
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+ Documentation/core-api/dma-attributes.rst | 18 ++++++++++++++++++
+ include/linux/dma-mapping.h               | 20 ++++++++++++++++++++
+ include/trace/events/dma.h                |  3 ++-
+ rust/kernel/dma.rs                        |  3 +++
+ 4 files changed, 43 insertions(+), 1 deletion(-)
 
-Overall this gets much closer to Matthew's long term wish for
-struct-pageless IO to cachable DRAM. The remaining primary work would
-be in the mm side to allow kmap_local_pfn()/phys_to_virt() to work on
-phys_addr_t without a struct page.
-
-The general design is to remove struct page usage entirely from the
-DMA API inner layers. For flows that need to have a KVA for the
-physical address they can use kmap_local_pfn() or phys_to_virt(). This
-isolates the struct page requirements to MM code only. Long term all
-removals of struct page usage are supporting Matthew's memdesc
-project which seeks to substantially transform how struct page works.
-
-Instead make the DMA API internals work on phys_addr_t. Internally
-there are still dedicated 'page' and 'resource' flows, except they are
-now distinguished by a new DMA_ATTR_MMIO instead of by callchain. Both
-flows use the same phys_addr_t.
-
-When DMA_ATTR_MMIO is specified things work similar to the existing
-'resource' flow. kmap_local_pfn(), phys_to_virt(), phys_to_page(),
-pfn_valid(), etc are never called on the phys_addr_t. This requires
-rejecting any configuration that would need swiotlb. CPU cache
-flushing is not required, and avoided, as ATTR_MMIO also indicates the
-address have no cachable mappings. This effectively removes any
-DMA API side requirement to have struct page when DMA_ATTR_MMIO is
-used.
-
-In the !DMA_ATTR_MMIO mode things work similarly to the 'page' flow,
-except on the common path of no cache flush, no swiotlb it never
-touches a struct page. When cache flushing or swiotlb copying
-kmap_local_pfn()/phys_to_virt() are used to get a KVA for CPU
-usage. This was already the case on the unmap side, now the map side
-is symmetric.
-
-Callers are adjusted to set DMA_ATTR_MMIO. Existing 'resource' users
-must set it. The existing struct page based MEMORY_DEVICE_PCI_P2PDMA
-path must also set it. This corrects some existing bugs where iommu
-mappings for P2P MMIO were improperly marked IOMMU_CACHE.
-
-Since ATTR_MMIO is made to work with all the existing DMA map entry
-points, particularly dma_iova_link(), this finally allows a way to use
-the new DMA API to map PCI P2P MMIO without creating struct page. The
-VFIO DMABUF series demonstrates how this works. This is intended to
-replace the incorrect driver use of dma_map_resource() on PCI BAR
-addresses.
-
-This series does the core code and modern flows. A followup series
-will give the same treatment to the legacy dma_ops implementation.
-
-Thanks
-
-Leon Romanovsky (16):
-  dma-mapping: introduce new DMA attribute to indicate MMIO memory
-  iommu/dma: implement DMA_ATTR_MMIO for dma_iova_link().
-  dma-debug: refactor to use physical addresses for page mapping
-  dma-mapping: rename trace_dma_*map_page to trace_dma_*map_phys
-  iommu/dma: rename iommu_dma_*map_page to iommu_dma_*map_phys
-  iommu/dma: extend iommu_dma_*map_phys API to handle MMIO memory
-  dma-mapping: convert dma_direct_*map_page to be phys_addr_t based
-  kmsan: convert kmsan_handle_dma to use physical addresses
-  dma-mapping: handle MMIO flow in dma_map|unmap_page
-  xen: swiotlb: Open code map_resource callback
-  dma-mapping: export new dma_*map_phys() interface
-  mm/hmm: migrate to physical address-based DMA mapping API
-  mm/hmm: properly take MMIO path
-  block-dma: migrate to dma_map_phys instead of map_page
-  block-dma: properly take MMIO path
-  nvme-pci: unmap MMIO pages with appropriate interface
-
- Documentation/core-api/dma-api.rst        |   4 +-
- Documentation/core-api/dma-attributes.rst |  18 ++++
- arch/powerpc/kernel/dma-iommu.c           |   4 +-
- block/blk-mq-dma.c                        |  15 ++-
- drivers/iommu/dma-iommu.c                 |  61 +++++------
- drivers/nvme/host/pci.c                   |  18 +++-
- drivers/virtio/virtio_ring.c              |   4 +-
- drivers/xen/swiotlb-xen.c                 |  21 +++-
- include/linux/blk-mq-dma.h                |   6 +-
- include/linux/blk_types.h                 |   2 +
- include/linux/dma-direct.h                |   2 -
- include/linux/dma-map-ops.h               |   8 +-
- include/linux/dma-mapping.h               |  33 ++++++
- include/linux/iommu-dma.h                 |  11 +-
- include/linux/kmsan.h                     |   9 +-
- include/trace/events/dma.h                |   9 +-
- kernel/dma/debug.c                        |  71 ++++---------
- kernel/dma/debug.h                        |  37 ++-----
- kernel/dma/direct.c                       |  22 +---
- kernel/dma/direct.h                       |  52 ++++++----
- kernel/dma/mapping.c                      | 117 +++++++++++++---------
- kernel/dma/ops_helpers.c                  |   6 +-
- mm/hmm.c                                  |  19 ++--
- mm/kmsan/hooks.c                          |   5 +-
- rust/kernel/dma.rs                        |   3 +
- tools/virtio/linux/kmsan.h                |   2 +-
- 26 files changed, 305 insertions(+), 254 deletions(-)
-
+diff --git a/Documentation/core-api/dma-attributes.rst b/Documentation/core-api/dma-attributes.rst
+index 1887d92e8e92..0bdc2be65e57 100644
+--- a/Documentation/core-api/dma-attributes.rst
++++ b/Documentation/core-api/dma-attributes.rst
+@@ -130,3 +130,21 @@ accesses to DMA buffers in both privileged "supervisor" and unprivileged
+ subsystem that the buffer is fully accessible at the elevated privilege
+ level (and ideally inaccessible or at least read-only at the
+ lesser-privileged levels).
++
++DMA_ATTR_MMIO
++-------------
++
++This attribute indicates the physical address is not normal system
++memory. It may not be used with kmap*()/phys_to_virt()/phys_to_page()
++functions, it may not be cacheable, and access using CPU load/store
++instructions may not be allowed.
++
++Usually this will be used to describe MMIO addresses, or other non-cacheable
++register addresses. When DMA mapping this sort of address we call
++the operation Peer to Peer as a one device is DMA'ing to another device.
++For PCI devices the p2pdma APIs must be used to determine if
++DMA_ATTR_MMIO is appropriate.
++
++For architectures that require cache flushing for DMA coherence
++DMA_ATTR_MMIO will not perform any cache flushing. The address
++provided must never be mapped cacheable into the CPU.
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index 55c03e5fe8cb..4254fd9bdf5d 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -58,6 +58,26 @@
+  */
+ #define DMA_ATTR_PRIVILEGED		(1UL << 9)
+ 
++/*
++ * DMA_ATTR_MMIO - Indicates memory-mapped I/O (MMIO) region for DMA mapping
++ *
++ * This attribute indicates the physical address is not normal system
++ * memory. It may not be used with kmap*()/phys_to_virt()/phys_to_page()
++ * functions, it may not be cacheable, and access using CPU load/store
++ * instructions may not be allowed.
++ *
++ * Usually this will be used to describe MMIO addresses, or other non-cacheable
++ * register addresses. When DMA mapping this sort of address we call
++ * the operation Peer to Peer as a one device is DMA'ing to another device.
++ * For PCI devices the p2pdma APIs must be used to determine if DMA_ATTR_MMIO
++ * is appropriate.
++ *
++ * For architectures that require cache flushing for DMA coherence
++ * DMA_ATTR_MMIO will not perform any cache flushing. The address
++ * provided must never be mapped cacheable into the CPU.
++ */
++#define DMA_ATTR_MMIO		(1UL << 10)
++
+ /*
+  * A dma_addr_t can hold any valid DMA or bus address for the platform.  It can
+  * be given to a device to use as a DMA source or target.  It is specific to a
+diff --git a/include/trace/events/dma.h b/include/trace/events/dma.h
+index d8ddc27b6a7c..ee90d6f1dcf3 100644
+--- a/include/trace/events/dma.h
++++ b/include/trace/events/dma.h
+@@ -31,7 +31,8 @@ TRACE_DEFINE_ENUM(DMA_NONE);
+ 		{ DMA_ATTR_FORCE_CONTIGUOUS, "FORCE_CONTIGUOUS" }, \
+ 		{ DMA_ATTR_ALLOC_SINGLE_PAGES, "ALLOC_SINGLE_PAGES" }, \
+ 		{ DMA_ATTR_NO_WARN, "NO_WARN" }, \
+-		{ DMA_ATTR_PRIVILEGED, "PRIVILEGED" })
++		{ DMA_ATTR_PRIVILEGED, "PRIVILEGED" }, \
++		{ DMA_ATTR_MMIO, "MMIO" })
+ 
+ DECLARE_EVENT_CLASS(dma_map,
+ 	TP_PROTO(struct device *dev, phys_addr_t phys_addr, dma_addr_t dma_addr,
+diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
+index 2bc8ab51ec28..61d9eed7a786 100644
+--- a/rust/kernel/dma.rs
++++ b/rust/kernel/dma.rs
+@@ -242,6 +242,9 @@ pub mod attrs {
+     /// Indicates that the buffer is fully accessible at an elevated privilege level (and
+     /// ideally inaccessible or at least read-only at lesser-privileged levels).
+     pub const DMA_ATTR_PRIVILEGED: Attrs = Attrs(bindings::DMA_ATTR_PRIVILEGED);
++
++    /// Indicates that the buffer is MMIO memory.
++    pub const DMA_ATTR_MMIO: Attrs = Attrs(bindings::DMA_ATTR_MMIO);
+ }
+ 
+ /// An abstraction of the `dma_alloc_coherent` API.
 -- 
 2.50.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/cover.1755624249.git.leon%40kernel.org.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/08e044a00a872932e106f7e27449a8eab2690dbc.1755624249.git.leon%40kernel.org.
