@@ -1,135 +1,134 @@
-Return-Path: <kasan-dev+bncBC32535MUICBBPXZTXCQMGQEDLKRNUI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC32535MUICBBKXZTXCQMGQE4CRNQIY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33d.google.com (mail-ot1-x33d.google.com [IPv6:2607:f8b0:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE82B303BB
-	for <lists+kasan-dev@lfdr.de>; Thu, 21 Aug 2025 22:08:32 +0200 (CEST)
-Received: by mail-ot1-x33d.google.com with SMTP id 46e09a7af769-74381e06d51sf2718765a34.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 21 Aug 2025 13:08:32 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1755806911; cv=pass;
+Received: from mail-qv1-xf40.google.com (mail-qv1-xf40.google.com [IPv6:2607:f8b0:4864:20::f40])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9BD7B3039E
+	for <lists+kasan-dev@lfdr.de>; Thu, 21 Aug 2025 22:08:11 +0200 (CEST)
+Received: by mail-qv1-xf40.google.com with SMTP id 6a1803df08f44-70a928da763sf29445626d6.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 21 Aug 2025 13:08:11 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1755806891; cv=pass;
         d=google.com; s=arc-20240605;
-        b=hr4NTwYI7hLqJzmCsbdIsmYhb00PQNV0NiRNf/SH1Yw7wJtyzt79il9ysSn96AfW1c
-         GY+NAFUkeM4mT/qHAslyQe+rgUvECn0Ur19jDbqDCge9yLrfGecZ/WblCiVBpghvrEAq
-         g1/voxMEkrR6b39nqvtzAeGH05opudp7oATKHJRwTf6YDyqgrsMQdP5WlYaX4xv6khmm
-         5bTU23287KiCfA+DyQKcxDYJ3uhAQAucEAqz+SiLmYCLO5rdJIXAlHttE/Tqsfu3juXO
-         jhpKH2eafrQ/mDjxMfAVvb36WWh7aKNquWTLvv2/BtszvGrdZ1lW8nqL3BL1+/Sdz+Lk
-         2BbQ==
+        b=UOEIRKM1oNOuttTD4TTmGkswwWU4qVQ0JK8vzy4ZvxyVkcf8Evi63dANODOtsCnRXk
+         UC9ZWek0l1xPF4QcdDwANDm1nkTIKfpPbuiE6dWLsr7NGL3QTVzRsJtmKoo30dNMswCU
+         rXtHqtk5rXQTZaVTgV43DPp5h4RmYYbALsJu0g7ivvYXXZm0CAv/ivio5xkKcrL1cvR+
+         0RfyzbC+gPoifEfAS8OV4DSQYPYcmwXIHOqxTEAHbYUTKcZ6Yw9I2vsOtK4h+lq2yZNG
+         D6IvNeb34XloP4XYf7q0nu5z0V1dN1vfgSK2aBIEfKCeHuSDwthUJ+wqBTXceh4Hy+Rz
+         hyUA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=qkiqfYLP9kwVYnlPr+gusgB3Ovek/73CP5v8OWI+8Ig=;
-        fh=3enp07H4S6r0l+6pFPFrfi4On93Tnn+zVOyE9ufwgtw=;
-        b=RLAJQi2ha7OXkpNpbNCyJPvXt43JeE7QBMPfUaIARzbg2tYm4TShFVYrBHTnSp8gsk
-         Mirzq7osBwPDQZfnk6aAx0RfAcKtEiZ9FljsTVPFEgiyki9VhD8Anfam3rZaKNqmAUNe
-         X/jiDSN0vSf2hoLPWgDXUXecMR2JSlEt7A3aXA/XKx9Cex7XUKVmmXIZf16L5+F/OAQX
-         j0Ih1JiLVjFMtamfPhzYBGQBNSH0Mz1G/3NlZbjV2MhzM2rKK9f6Mu+nc7fjO8zRju0Y
-         nDnzcusgX30wLvRAy5EAjy7IdakSR6KZRdnqZTR5kR1LJVq+eGVf6Ew1hw8ZEzZ1cSlT
-         vtOA==;
+        bh=5jIdbJqyRzpk8XxPob5EqIGbeGOmKrDVXSEABdwXhoY=;
+        fh=tkyRfPsGvKdPMUixEnlx+H5z+sGoRgENe7jzbtDhu0s=;
+        b=gOK9n1LjMlyqoJmw33oOcTmwMts2wPUmOYx50LblRMO4QMYGFD2lBpXiOfmnJwLFzG
+         xsJcJeAaZgFVQiTfUoTaXyoEuS+7IYxrBzf8+9viWOGACWAQmNToyjlxIpypvMNIaTVP
+         5ym7g53O+1JewEWz2Q9qj0jK4FJNf28eKq46LI5vLNBBCcPwkocA8mWFh98RUiqnsmP3
+         MEkOiLRTIJrdy1CSclubOWHAuguOcSXMlfXJ69rL61g0CqdCi1W0ml8kGS1bslKp00kA
+         VKk7lULkABXzVtRHeV+1eP4U2yHY8B4Sk6CRcR6Hf+4H5DzN+bWgTivAWWLUT+Y1uuA3
+         mj6Q==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=Gwa3d17M;
-       spf=pass (google.com: domain of dhildenb@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=dhildenb@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=AGznkjss;
+       spf=pass (google.com: domain of dhildenb@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=dhildenb@redhat.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1755806911; x=1756411711; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1755806891; x=1756411691; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=qkiqfYLP9kwVYnlPr+gusgB3Ovek/73CP5v8OWI+8Ig=;
-        b=ukztKc9HG9qfgl9eAYRpGb9CRW9pElQfiCKOC6vz+tjpwqZpD50ZjeKxBPHNMTaCrw
-         CwBUPM15EQ+XEHh5P78Wj3C9YqyuyhmZaIFBjlpiUVg5r696OpyYG4Uv3M382A7E7iUM
-         28mLU3K9iRjmXm8ad+TUtiqc7rc/11poMDVLGn/g/ZNi5LnhzknRs/dculGKUXMrFGNr
-         InzVY47DfVsVxjxT0osleVQOQg9GMhOYTLBQR/Waa8IujrgJngjnwrJzEggU1Tf4KD6m
-         7VCWsQjR+a2VRSqgETCYHSq0vSnnDdJkvIO8vBKZKT0VaBKZwGPITNEw/Ip6hrSvBZe5
-         GGDQ==
+        bh=5jIdbJqyRzpk8XxPob5EqIGbeGOmKrDVXSEABdwXhoY=;
+        b=Di4a9JSGCHt2tBtV6dR6YvjSyJdSnDjQAjjJ/GANsSvoKSUglbCHhVEmBOb8hg9K/R
+         gnsg8AvOqV10HQcVJB1KuYuNuxR0tMgwdvEShl8jQG5XCTkz5FJ07NsIT1JETzMEFd1+
+         IDZHROB4Tl91ai40ljTHMKTsvmIKIFGd1jnP+bAp6VW26ZTalHzws/KHOwO4Xc2pj1T7
+         3ol1oJnRqGTjhVY99C8+xty+HaABnPcx287QBkt+1rc0baOIEV9DE09FuOPmg6kEXwpd
+         FCz3/OABpJ0HnW1XLM0yRXOs+mM56grVJpacR3YGQ7hBXSG/FSszmLR/ggmsnrP0Inwi
+         lCKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755806911; x=1756411711;
+        d=1e100.net; s=20230601; t=1755806891; x=1756411691;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qkiqfYLP9kwVYnlPr+gusgB3Ovek/73CP5v8OWI+8Ig=;
-        b=IJocfWsw7J3RAbFu/3gCZWh9huEGZ/o5/jAWTiP2uc/XruTmEbehupTCdAxGivgiNa
-         R57PCxoshff+fcODZ+124xllAgCHRSaUfolk6oKY74zH69zb2pTs6kpWHwEoP3y8/sBh
-         NUlZ5WHwcPwnJwAHWTogDNca3Ic/YaE8IOowvCkncunonhhNyv4MZpuVcvPddtlvsbGW
-         nVYrOoctR/gXJRe572F+7XxZh2qoPAEmxnD4mZHuqmGMGBzs04ZsmlqHCOn5Uwv/4QL4
-         dvmgZfgkXVuF5oGfxAJpkz0XsrIVpDGfnZvvZxsiDuUBtA1Rh/TiAF51HDTlOljp9gIv
-         YALA==
-X-Forwarded-Encrypted: i=2; AJvYcCUZkRMxQdFNXXO3iSmlhzhUAhWMSsNsn5f/khQtJf9vW+33+4674yt4sBqi92XV6f+QHWkc+g==@lfdr.de
-X-Gm-Message-State: AOJu0YxWFgTVIzWSFenBrkiVV21AmmzB5qy9sKfToy291UNA2ZcuE3A6
-	mw9/6qnZhS0iZAo2kFlNOObuD3gYW9vyxMWjbJqYEdNJ0e7hpwqltX19
-X-Google-Smtp-Source: AGHT+IHvsHPM5un3+0p9bytTTSfk6JL1LsXFjeLj60PQFzZeNlTRUioChCSHVjrPAlZrWD+mOKDheg==
-X-Received: by 2002:a05:6830:6086:b0:741:b8fb:539e with SMTP id 46e09a7af769-745004d3c0fmr514939a34.0.1755806911010;
-        Thu, 21 Aug 2025 13:08:31 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZeXrf+mT9OjJPQ8mULATIdwfyU4GdRF1MIV23ldgX7H4Q==
-Received: by 2002:a05:6820:4006:b0:61b:a7e2:c7a6 with SMTP id
- 006d021491bc7-61da8c8502cls662422eaf.2.-pod-prod-01-us; Thu, 21 Aug 2025
- 13:08:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUPumbJCuXrPQXKlyt+QGsEBa6hpB4f7iptwHAjAEfAJk832+L5HUffrJ3GxjENgV6PhlWEVKNQy2Y=@googlegroups.com
-X-Received: by 2002:a05:6830:2805:b0:73e:aade:aa28 with SMTP id 46e09a7af769-7450094630emr440745a34.10.1755806910189;
-        Thu, 21 Aug 2025 13:08:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1755806910; cv=none;
+        bh=5jIdbJqyRzpk8XxPob5EqIGbeGOmKrDVXSEABdwXhoY=;
+        b=c8qxEfWdrnQFiD0n0ZP3oD175uqC9j6lB/UWz+upz4bjFYnK9hs7gyqlgBLOKBPaWa
+         g6OB7l4h4anEeHSO1ZrMjjkj4ZH4Tqtat11FSW87UmQNwENz7Oat8giyto0ev8yr+4BZ
+         TF0BPEbnGxWgpPxeQHVaGcAOrkpersSZ9RRTSNeVGsT6SXgMVbBsB1zQjAMkdo4J37pQ
+         8WS6V3mWhHC3q2LQbKgmAqcvBHykaYgUGpXrhaqPtfLKeJi1hWJuHLgKTBcQUtUZMbVe
+         cjHS2EVus9xEaQTeZroUaNN9wbzxS54z+706X/xoeSwW3iYOx92/myqglR+23EBECy56
+         aa7A==
+X-Forwarded-Encrypted: i=2; AJvYcCWYao6Ezw4mWDsyGy/WGyMPGLS83tmwiEo4uLCcnBrjlhgT6wXZpQKgeVJ6ih/5t8cWW+uWKg==@lfdr.de
+X-Gm-Message-State: AOJu0YxLXYsV4+45TNOJyfLeez7kfXVJ9Tbp2wYOqR13xOiOv5f7BhyJ
+	ZV5JLYRpw8WsiL2CdfeETG5C1PdhfDggd9vU50RSttwll8DRaSXNg+Qs
+X-Google-Smtp-Source: AGHT+IFcU/Z7uHngpQUlom901bbOQqdd8UekYn8folMqWCeWI+33W/JWxPWxJzzN7AErODh+8t1GWA==
+X-Received: by 2002:a05:6214:2587:b0:70d:8715:2875 with SMTP id 6a1803df08f44-70d971f271bmr8523126d6.40.1755806890749;
+        Thu, 21 Aug 2025 13:08:10 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZe4QAk4B6GkbuLmLJq2/WSIHJKNLHBc5DXe0SSmBQPlFA==
+Received: by 2002:a05:6214:d66:b0:709:289d:3157 with SMTP id
+ 6a1803df08f44-70d85939c75ls20265176d6.0.-pod-prod-07-us; Thu, 21 Aug 2025
+ 13:08:09 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWpv+Q+VsZYa1S0WriGwlH6FToPslCFAO8vO/HsJ6R5dueR/z8lNSYP8n2xvDY+nnLygIHOC67SseQ=@googlegroups.com
+X-Received: by 2002:a05:6122:20ab:b0:53c:6d68:1e8f with SMTP id 71dfb90a1353d-53c8a440fa2mr227863e0c.14.1755806889156;
+        Thu, 21 Aug 2025 13:08:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1755806889; cv=none;
         d=google.com; s=arc-20240605;
-        b=MdeWmSWPXuPvdzCM0AWOwoFthRHM6xaemWkRhumECJfxjLTYFuFzWBlHhLNt+xkUnn
-         OgGotIqHkLETaIsTo62IkE7ulA5aW91h4p8gC74w0z97lzaBWr6HNF27rKrmdj9HQdHo
-         FFqMEzAOBrmf/MBBV59tYuORustVvrRIKYgNh2nvzf1N5KZx0R671Mltco5+hcdpBfyS
-         NPBQV4Msz0oxT3C56+6gylSSUyu72VnhUu5lS4TXpJ+hJD66DP4SzYkyDS3VxBKzRv9e
-         Q0sc1YIZIS+wvl3fWhpbC+aysX2a11GSr3mRznhnvvaHndmEW5/yVoPEsIL+Y74nXXGl
-         J4VA==
+        b=CzNrRaZBe7h89RdQv+nAo8IdUZWUJ+8HYoIVaMdgZpIylsTwB0ne/V+z2AZTgfye05
+         dWQB4HLgIvfM755hBcLG9e07Cn5+vrTmjALgUc/BeJoo+e1JzroRByaKbG6cBU4pI432
+         JIq9m//xcWVPn6Wq5Lf5Wrvd5nxu6NbXP2Z40WXFspOiaUCGeSLCpo/7di/B3vzBT4tG
+         Rv5ZcNozLvJmhz94IGWbi6PMPSj/Rn6k+JU+A168i40GUESeBg72pzQ/mcHSLfVkwG5N
+         AjMkksCcwEWz2aRUulpdvrXEmPKnxu6cEfloK+N/7LY7mUXT+SteGhgLlj8MZjBNJqf9
+         TABQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=jaRFM4K4Pg6WYlxhcM2k1BGbQ/DW6XfjnDsCttbmjXY=;
-        fh=Kn/mGLlzXk+9GkV3uqJg73Fc0ywyK7B/mzpR5tflr3I=;
-        b=URCRiSzKzxl9tbZUW941DOiecGHk1rBLaHumAE4vWJz+NkFK1hwfBp4vizPKZOjwM/
-         xH42qCkVXsjWriBrFk8oWOCVkQL1r79fWXayGuuwnkeJ1MMMfurFWvl4uSeUyFHO4woO
-         ZsWRWbGX+HalEqw/Y76i8JOCsw63JVAGLiuqHy8Cwq0cn+GEdMxa3jvBzAN0wICoA+/h
-         B2rpLHxkYXK2sAc7ic6U7BYOxOxdzi2NSw4w96YvXVUoXxFQs1xxuhxJajBzjtFBu4HD
-         eMBU5zpOwOwseXvSMCc8Wx4csuGi9xd3cLnWM0dkj4wr4qRfwfyFK6VtOd+rEOTDiaKt
-         Ljng==;
+        bh=OlD9YGSFbsAaeSHrs+lmfmp3eNVZAqkWDWaUN3GbxpI=;
+        fh=0/vSla1cSauH8q3Jgy4S3Wf8lhvtGChU4GWn/cL/jcQ=;
+        b=AT06ePytd+OT8kyX2S/EMCZSSwUsfqP5veR4w56TBxATNYOSgpr3LEsjoxtJc8y71n
+         dsiQYu5hcuJY2gcbvZZGfmdAkTPYLLegWMqufWbvRyq8PYhiURzG03EpZ458JwuvS6yo
+         zO+FbwNb1yyq6wQr0QZP00cX+Z/souC1GNbf5msgbTTBF3zJ27wR7hcWD5JCxKeC9Vle
+         gOlW/BnGLyn4sEnMb6+DrY6rIlTYtKPbq60+HuZHdKjWTkDyk6RAOtufM2uRmXOk2prO
+         xgbTRJshdNznYtQupBNJyt01Y16PTZmmhnWol1fVItwb2YxBdnNzteUWdHQjFk7/+ROP
+         pyxQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=Gwa3d17M;
-       spf=pass (google.com: domain of dhildenb@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=dhildenb@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=AGznkjss;
+       spf=pass (google.com: domain of dhildenb@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=dhildenb@redhat.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
-        by gmr-mx.google.com with ESMTPS id 46e09a7af769-74392039539si233250a34.4.2025.08.21.13.08.27
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
+        by gmr-mx.google.com with ESMTPS id 71dfb90a1353d-53b2bb63059si715268e0c.0.2025.08.21.13.08.09
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 13:08:30 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dhildenb@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        Thu, 21 Aug 2025 13:08:09 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dhildenb@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-428-PPIaUwjgPlCMqHdrAfCMRA-1; Thu, 21 Aug 2025 16:08:06 -0400
-X-MC-Unique: PPIaUwjgPlCMqHdrAfCMRA-1
-X-Mimecast-MFC-AGG-ID: PPIaUwjgPlCMqHdrAfCMRA_1755806883
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-45a1b0cc989so8653065e9.3
-        for <kasan-dev@googlegroups.com>; Thu, 21 Aug 2025 13:08:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU1XkoHCZKuiwwvQ9Uv0nYB+rQgHNcxgi9QY/DNwYNQNPYstgNYPh+C8mWB06oSIBQl3FVi5LujAq4=@googlegroups.com
-X-Gm-Gg: ASbGncsYLBYN8MIG7PhFNST6n77r0ORfxugL/Q+Gx58RRikf53Y9tqGk7H/IkXu4YzQ
-	5mukZK2y4llLDkjyxK1Cuzu1VLIsxVTUQTEsvNLxb7cv05R14iV/TUyGFBLCWNO8u/ovqOxUQ57
-	uBCcJEUgUacRTVrLxOwg6wAzDRrYnuLHfC2i2aKRirXtFOA1inTvi7nl4w50fwK2XgzQiwRYuHo
-	QBCuhlgiNzSFyAYCA+GlQDoBe5DL/WNp5Yk+zE+5dV2ll1r4yGeYmeDL4GmY3SQJPMVj5qdRDpY
-	iuab1CK9G2wNwCECETZ/yeSj/QGAXU+BF6xWDQAw5Le7NZbt7KvKX/D0V8NIu+xb7yu3KJsNxqG
-	hjd1uRK5qNTeot3DhBc23xg==
-X-Received: by 2002:a05:6000:2012:b0:3b7:dd87:d741 with SMTP id ffacd0b85a97d-3c5dcc095c3mr196216f8f.42.1755806882820;
-        Thu, 21 Aug 2025 13:08:02 -0700 (PDT)
-X-Received: by 2002:a05:6000:2012:b0:3b7:dd87:d741 with SMTP id ffacd0b85a97d-3c5dcc095c3mr196155f8f.42.1755806882316;
-        Thu, 21 Aug 2025 13:08:02 -0700 (PDT)
+ us-mta-169-L1fKODk6M6Cernc04X1ZRg-1; Thu, 21 Aug 2025 16:08:07 -0400
+X-MC-Unique: L1fKODk6M6Cernc04X1ZRg-1
+X-Mimecast-MFC-AGG-ID: L1fKODk6M6Cernc04X1ZRg_1755806886
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3b9d41bd50aso995793f8f.0
+        for <kasan-dev@googlegroups.com>; Thu, 21 Aug 2025 13:08:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUhVVB1hF8pmH/JjxBHH18MixrYTR+ehtCU7BT8KELjhIfXXySy5+aAZxmb3p5Arm3ZSkUVxxvxMkk=@googlegroups.com
+X-Gm-Gg: ASbGncu0FDnVdzDdQG4Q2uFyEuM6l8pkHDDgLeeohxBd71+UI1sXfwNGYg7/+HEAWEo
+	lI8qd+2kusaLSAzwQ7aurrf438dYGP7OZNJSXnDko7383L/bEI9nkDhOpPX4uGaDRxUtYazmz4A
+	fPDqgiH63IEKPkm6OzR/aU6T80LGFwn6PB8b10Bjy7e7BRlJSMIy3vFTekSgwdRAzBdgZRNjLgn
+	kzPaJU9ZXaqyP+7G0rJtP9GfiYvt0gOspZmHHVlGP0V35EGqzVIQFGH6bS3YwUhf1Q1d36/1EXa
+	iMIIFiasBEAEboWZ491eHEF3+gHQ8d1X609FSuxpYj8pRz/+vYWoTAKDC/05VSVxLx56O1TJ3Sl
+	zNwZn2RDUynEfgioiROenHA==
+X-Received: by 2002:a5d:5849:0:b0:3b7:94c6:7c9 with SMTP id ffacd0b85a97d-3c5db4ca226mr187830f8f.27.1755806886218;
+        Thu, 21 Aug 2025 13:08:06 -0700 (PDT)
+X-Received: by 2002:a5d:5849:0:b0:3b7:94c6:7c9 with SMTP id ffacd0b85a97d-3c5db4ca226mr187788f8f.27.1755806885705;
+        Thu, 21 Aug 2025 13:08:05 -0700 (PDT)
 Received: from localhost (p200300d82f26ba0008036ec5991806fd.dip0.t-ipconnect.de. [2003:d8:2f26:ba00:803:6ec5:9918:6fd])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b50e0b299sm8957945e9.22.2025.08.21.13.08.00
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3c077789d1dsm12697993f8f.49.2025.08.21.13.08.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Aug 2025 13:08:01 -0700 (PDT)
+        Thu, 21 Aug 2025 13:08:05 -0700 (PDT)
 From: "'David Hildenbrand' via kasan-dev" <kasan-dev@googlegroups.com>
 To: linux-kernel@vger.kernel.org
 Cc: David Hildenbrand <david@redhat.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
 	Alexander Potapenko <glider@google.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Brendan Jackman <jackmanb@google.com>,
@@ -176,22 +175,22 @@ Cc: David Hildenbrand <david@redhat.com>,
 	wireguard@lists.zx2c4.com,
 	x86@kernel.org,
 	Zi Yan <ziy@nvidia.com>
-Subject: [PATCH RFC 20/35] mips: mm: convert __flush_dcache_pages() to __flush_dcache_folio_pages()
-Date: Thu, 21 Aug 2025 22:06:46 +0200
-Message-ID: <20250821200701.1329277-21-david@redhat.com>
+Subject: [PATCH RFC 21/35] mm/cma: refuse handing out non-contiguous page ranges
+Date: Thu, 21 Aug 2025 22:06:47 +0200
+Message-ID: <20250821200701.1329277-22-david@redhat.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250821200701.1329277-1-david@redhat.com>
 References: <20250821200701.1329277-1-david@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: njvltaSmnbSzRssBfwmmi93uj1Jx2Wypk0hCk0CyaM4_1755806883
+X-Mimecast-MFC-PROC-ID: TPWx-35IA-foEokILe69dwrwXbfzlqTLLiCYv-TMH4U_1755806886
 X-Mimecast-Originator: redhat.com
 content-type: text/plain; charset="UTF-8"; x-default=true
 X-Original-Sender: david@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=Gwa3d17M;
+ header.i=@redhat.com header.s=mimecast20190719 header.b=AGznkjss;
        spf=pass (google.com: domain of dhildenb@redhat.com designates
- 170.10.133.124 as permitted sender) smtp.mailfrom=dhildenb@redhat.com;
+ 170.10.129.124 as permitted sender) smtp.mailfrom=dhildenb@redhat.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
 X-Original-From: David Hildenbrand <david@redhat.com>
 Reply-To: David Hildenbrand <david@redhat.com>
@@ -207,90 +206,183 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Let's make it clearer that we are operating within a single folio by
-providing both the folio and the page.
+Let's disallow handing out PFN ranges with non-contiguous pages, so we
+can remove the nth-page usage in __cma_alloc(), and so any callers don't
+have to worry about that either when wanting to blindly iterate pages.
 
-This implies that for flush_dcache_folio() we'll now avoid one more
-page->folio lookup, and that we can safely drop the "nth_page" usage.
+This is really only a problem in configs with SPARSEMEM but without
+SPARSEMEM_VMEMMAP, and only when we would cross memory sections in some
+cases.
 
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Will this cause harm? Probably not, because it's mostly 32bit that does
+not support SPARSEMEM_VMEMMAP. If this ever becomes a problem we could
+look into allocating the memmap for the memory sections spanned by a
+single CMA region in one go from memblock.
+
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- arch/mips/include/asm/cacheflush.h | 11 +++++++----
- arch/mips/mm/cache.c               |  8 ++++----
- 2 files changed, 11 insertions(+), 8 deletions(-)
+ include/linux/mm.h |  6 ++++++
+ mm/cma.c           | 36 +++++++++++++++++++++++-------------
+ mm/util.c          | 33 +++++++++++++++++++++++++++++++++
+ 3 files changed, 62 insertions(+), 13 deletions(-)
 
-diff --git a/arch/mips/include/asm/cacheflush.h b/arch/mips/include/asm/cacheflush.h
-index 1f14132b3fc98..8a2de28936e07 100644
---- a/arch/mips/include/asm/cacheflush.h
-+++ b/arch/mips/include/asm/cacheflush.h
-@@ -50,13 +50,14 @@ extern void (*flush_cache_mm)(struct mm_struct *mm);
- extern void (*flush_cache_range)(struct vm_area_struct *vma,
- 	unsigned long start, unsigned long end);
- extern void (*flush_cache_page)(struct vm_area_struct *vma, unsigned long page, unsigned long pfn);
--extern void __flush_dcache_pages(struct page *page, unsigned int nr);
-+extern void __flush_dcache_folio_pages(struct folio *folio, struct page *page, unsigned int nr);
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index ef360b72cb05c..f59ad1f9fc792 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -209,9 +209,15 @@ extern unsigned long sysctl_user_reserve_kbytes;
+ extern unsigned long sysctl_admin_reserve_kbytes;
  
- #define ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE 1
- static inline void flush_dcache_folio(struct folio *folio)
- {
- 	if (cpu_has_dc_aliases)
--		__flush_dcache_pages(&folio->page, folio_nr_pages(folio));
-+		__flush_dcache_folio_pages(folio, folio_page(folio, 0),
-+					   folio_nr_pages(folio));
- 	else if (!cpu_has_ic_fills_f_dc)
- 		folio_set_dcache_dirty(folio);
- }
-@@ -64,10 +65,12 @@ static inline void flush_dcache_folio(struct folio *folio)
+ #if defined(CONFIG_SPARSEMEM) && !defined(CONFIG_SPARSEMEM_VMEMMAP)
++bool page_range_contiguous(const struct page *page, unsigned long nr_pages);
+ #define nth_page(page,n) pfn_to_page(page_to_pfn((page)) + (n))
+ #else
+ #define nth_page(page,n) ((page) + (n))
++static inline bool page_range_contiguous(const struct page *page,
++		unsigned long nr_pages)
++{
++	return true;
++}
+ #endif
  
- static inline void flush_dcache_page(struct page *page)
+ /* to align the pointer to the (next) page boundary */
+diff --git a/mm/cma.c b/mm/cma.c
+index 2ffa4befb99ab..1119fa2830008 100644
+--- a/mm/cma.c
++++ b/mm/cma.c
+@@ -780,10 +780,8 @@ static int cma_range_alloc(struct cma *cma, struct cma_memrange *cmr,
+ 				unsigned long count, unsigned int align,
+ 				struct page **pagep, gfp_t gfp)
  {
-+	struct folio *folio = page_folio(page);
+-	unsigned long mask, offset;
+-	unsigned long pfn = -1;
+-	unsigned long start = 0;
+ 	unsigned long bitmap_maxno, bitmap_no, bitmap_count;
++	unsigned long start, pfn, mask, offset;
+ 	int ret = -EBUSY;
+ 	struct page *page = NULL;
+ 
+@@ -795,7 +793,7 @@ static int cma_range_alloc(struct cma *cma, struct cma_memrange *cmr,
+ 	if (bitmap_count > bitmap_maxno)
+ 		goto out;
+ 
+-	for (;;) {
++	for (start = 0; ; start = bitmap_no + mask + 1) {
+ 		spin_lock_irq(&cma->lock);
+ 		/*
+ 		 * If the request is larger than the available number
+@@ -812,6 +810,22 @@ static int cma_range_alloc(struct cma *cma, struct cma_memrange *cmr,
+ 			spin_unlock_irq(&cma->lock);
+ 			break;
+ 		}
 +
- 	if (cpu_has_dc_aliases)
--		__flush_dcache_pages(page, 1);
-+		__flush_dcache_folio_pages(folio, page, folio_nr_pages(folio));
- 	else if (!cpu_has_ic_fills_f_dc)
--		folio_set_dcache_dirty(page_folio(page));
-+		folio_set_dcache_dirty(folio);
- }
++		pfn = cmr->base_pfn + (bitmap_no << cma->order_per_bit);
++		page = pfn_to_page(pfn);
++
++		/*
++		 * Do not hand out page ranges that are not contiguous, so
++		 * callers can just iterate the pages without having to worry
++		 * about these corner cases.
++		 */
++		if (!page_range_contiguous(page, count)) {
++			spin_unlock_irq(&cma->lock);
++			pr_warn_ratelimited("%s: %s: skipping incompatible area [0x%lx-0x%lx]",
++					    __func__, cma->name, pfn, pfn + count - 1);
++			continue;
++		}
++
+ 		bitmap_set(cmr->bitmap, bitmap_no, bitmap_count);
+ 		cma->available_count -= count;
+ 		/*
+@@ -821,29 +835,25 @@ static int cma_range_alloc(struct cma *cma, struct cma_memrange *cmr,
+ 		 */
+ 		spin_unlock_irq(&cma->lock);
  
- #define flush_dcache_mmap_lock(mapping)		do { } while (0)
-diff --git a/arch/mips/mm/cache.c b/arch/mips/mm/cache.c
-index bf9a37c60e9f0..e3b4224c9a406 100644
---- a/arch/mips/mm/cache.c
-+++ b/arch/mips/mm/cache.c
-@@ -99,9 +99,9 @@ SYSCALL_DEFINE3(cacheflush, unsigned long, addr, unsigned long, bytes,
- 	return 0;
- }
+-		pfn = cmr->base_pfn + (bitmap_no << cma->order_per_bit);
+ 		mutex_lock(&cma->alloc_mutex);
+ 		ret = alloc_contig_range(pfn, pfn + count, ACR_FLAGS_CMA, gfp);
+ 		mutex_unlock(&cma->alloc_mutex);
+-		if (ret == 0) {
+-			page = pfn_to_page(pfn);
++		if (!ret)
+ 			break;
+-		}
  
--void __flush_dcache_pages(struct page *page, unsigned int nr)
-+void __flush_dcache_folio_pages(struct folio *folio, struct page *page,
-+		unsigned int nr)
- {
--	struct folio *folio = page_folio(page);
- 	struct address_space *mapping = folio_flush_mapping(folio);
- 	unsigned long addr;
- 	unsigned int i;
-@@ -117,12 +117,12 @@ void __flush_dcache_pages(struct page *page, unsigned int nr)
- 	 * get faulted into the tlb (and thus flushed) anyways.
- 	 */
- 	for (i = 0; i < nr; i++) {
--		addr = (unsigned long)kmap_local_page(nth_page(page, i));
-+		addr = (unsigned long)kmap_local_page(page + i);
- 		flush_data_cache_page(addr);
- 		kunmap_local((void *)addr);
+ 		cma_clear_bitmap(cma, cmr, pfn, count);
+ 		if (ret != -EBUSY)
+ 			break;
+ 
+ 		pr_debug("%s(): memory range at pfn 0x%lx %p is busy, retrying\n",
+-			 __func__, pfn, pfn_to_page(pfn));
++			 __func__, pfn, page);
+ 
+ 		trace_cma_alloc_busy_retry(cma->name, pfn, pfn_to_page(pfn),
+ 					   count, align);
+-		/* try again with a bit different memory target */
+-		start = bitmap_no + mask + 1;
  	}
+ out:
+-	*pagep = page;
++	if (!ret)
++		*pagep = page;
+ 	return ret;
  }
--EXPORT_SYMBOL(__flush_dcache_pages);
-+EXPORT_SYMBOL(__flush_dcache_folio_pages);
  
- void __flush_anon_page(struct page *page, unsigned long vmaddr)
+@@ -882,7 +892,7 @@ static struct page *__cma_alloc(struct cma *cma, unsigned long count,
+ 	 */
+ 	if (page) {
+ 		for (i = 0; i < count; i++)
+-			page_kasan_tag_reset(nth_page(page, i));
++			page_kasan_tag_reset(page + i);
+ 	}
+ 
+ 	if (ret && !(gfp & __GFP_NOWARN)) {
+diff --git a/mm/util.c b/mm/util.c
+index d235b74f7aff7..0bf349b19b652 100644
+--- a/mm/util.c
++++ b/mm/util.c
+@@ -1280,4 +1280,37 @@ unsigned int folio_pte_batch(struct folio *folio, pte_t *ptep, pte_t pte,
  {
+ 	return folio_pte_batch_flags(folio, NULL, ptep, &pte, max_nr, 0);
+ }
++
++#if defined(CONFIG_SPARSEMEM) && !defined(CONFIG_SPARSEMEM_VMEMMAP)
++/**
++ * page_range_contiguous - test whether the page range is contiguous
++ * @page: the start of the page range.
++ * @nr_pages: the number of pages in the range.
++ *
++ * Test whether the page range is contiguous, such that they can be iterated
++ * naively, corresponding to iterating a contiguous PFN range.
++ *
++ * This function should primarily only be used for debug checks, or when
++ * working with page ranges that are not naturally contiguous (e.g., pages
++ * within a folio are).
++ *
++ * Returns true if contiguous, otherwise false.
++ */
++bool page_range_contiguous(const struct page *page, unsigned long nr_pages)
++{
++	const unsigned long start_pfn = page_to_pfn(page);
++	const unsigned long end_pfn = start_pfn + nr_pages;
++	unsigned long pfn;
++
++	/*
++	 * The memmap is allocated per memory section. We need to check
++	 * each involved memory section once.
++	 */
++	for (pfn = ALIGN(start_pfn, PAGES_PER_SECTION);
++	     pfn < end_pfn; pfn += PAGES_PER_SECTION)
++		if (unlikely(page + (pfn - start_pfn) != pfn_to_page(pfn)))
++			return false;
++	return true;
++}
++#endif
+ #endif /* CONFIG_MMU */
 -- 
 2.50.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250821200701.1329277-21-david%40redhat.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250821200701.1329277-22-david%40redhat.com.
