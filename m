@@ -1,247 +1,158 @@
-Return-Path: <kasan-dev+bncBDWMT3UBYINRB24GT3CQMGQEV35FG6A@googlegroups.com>
+Return-Path: <kasan-dev+bncBC3ZPIWN3EFBBPEIT3CQMGQEXPE46MQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x340.google.com (mail-ot1-x340.google.com [IPv6:2607:f8b0:4864:20::340])
-	by mail.lfdr.de (Postfix) with ESMTPS id 795B0B305CF
-	for <lists+kasan-dev@lfdr.de>; Thu, 21 Aug 2025 22:37:01 +0200 (CEST)
-Received: by mail-ot1-x340.google.com with SMTP id 46e09a7af769-74381df95a6sf518576a34.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 21 Aug 2025 13:37:01 -0700 (PDT)
-ARC-Seal: i=3; a=rsa-sha256; t=1755808620; cv=pass;
+Received: from mail-pj1-x1040.google.com (mail-pj1-x1040.google.com [IPv6:2607:f8b0:4864:20::1040])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8097B305FC
+	for <lists+kasan-dev@lfdr.de>; Thu, 21 Aug 2025 22:40:30 +0200 (CEST)
+Received: by mail-pj1-x1040.google.com with SMTP id 98e67ed59e1d1-32505dbe23fsf537474a91.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 21 Aug 2025 13:40:30 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1755808829; cv=pass;
         d=google.com; s=arc-20240605;
-        b=eG6l2mDtvZka2kNf/9zHAqCyuxErAywkGhEG7bEmyoiHHsUIMgK+2EcbaFVECcJua7
-         3Q4DILSVii/OzBvdSIraZMA9qa908hw0WEehzRy58nMIVgnGHMNGTL46kMJ6xEZ/EtOy
-         OUq3wkeUN/TyRASldgMq3A5+z+DU1JtMLlwFbGHxHUorqSCSmibADlHf4KW8xt6GDHUV
-         oGWD86C4pbToNJKXubBL8yDgE2oCujkwsRKoIpWATJbI45znVDgvbzNV1ybJ1MBTBoAn
-         Jqa30LlcUwEesQipNi1NOjf0d8PmHzDXvyKY2R5S5X6QafDXUCI5XqENczxcpuBx5S4A
-         yQ4w==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=umXwUXK/RQ3oL/ukuP6yIlOP8X8ygxp8DLEC6dT4GFQ=;
-        fh=EU2RTePUaMA615yCSFovyKnZWvxJzWmMwmQmapNS20I=;
-        b=D69P18MqiUFdyUSZXNPrs2qhV90JRQSPiEStGKlRIrBiW242boGpONBvaUliU2aYNZ
-         qFt2p36cxf0XnAMu9C0zfx5HphsCM9h+daIKxf4oMJMUTOz8VjnIf20jCLTECwBbGrY0
-         387mq8ysloYSCoE3HQK9nopqLRmFlkXCXXxyAMpPPNbfG/F37bOSKGz1t+2IKAMkIPmB
-         GudwpWdn8tqIcn/PnoyLSJdd+8lOdRqxKXKS6E1VMI3NE8nf3F7MQKPL9mS4HWMWUmmJ
-         1vac0KTKVTwvAj7AgkULGrk5rl1HW5PI8xX4cgLVtgO7CK8u/TA3BNsRgtq9HW9VJgJl
-         QBUA==;
-        darn=lfdr.de
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@Nvidia.com header.s=selector2 header.b="rcCjS/R+";
-       arc=pass (i=1 spf=pass spfdomain=nvidia.com dkim=pass dkdomain=nvidia.com dmarc=pass fromdomain=nvidia.com);
-       spf=pass (google.com: domain of ziy@nvidia.com designates 2a01:111:f403:2406::613 as permitted sender) smtp.mailfrom=ziy@nvidia.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=nvidia.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1755808620; x=1756413420; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=umXwUXK/RQ3oL/ukuP6yIlOP8X8ygxp8DLEC6dT4GFQ=;
-        b=T6/0CcfwXFzuwzynaeMU/8DI9XnQpn912f774eHPRhhICffx/4wDRXnhX5N0QDvOUI
-         4bcfArH30M8NWmIZvs0fVyT3cAE0lre16ECq4s9Ore3xwg5+K5WvvJBjogpOygyvptk5
-         uCGGl+QXO4m9Zf6xcjuTCXekgIwBQXc7MhL7Nbr1Xro8pj0HTSdWI138Q73FHfx5GHDb
-         YY1dRoEQjVDFAjHt27Doe88pjdeT8/dMBVoJ9zB9GoQaNq6ql5lq6lwFeMGAqF8gm92+
-         HTKPSIsFoIJaYmzlMDfcj3/srIeYA8d+8SOp8nlGfvYJ6xQ3pRv4AvWr6fVKU9Ic2ZzH
-         dRQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755808620; x=1756413420;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=umXwUXK/RQ3oL/ukuP6yIlOP8X8ygxp8DLEC6dT4GFQ=;
-        b=uQMN42mMT+LGG/r8JdsdIV0+i/khLaEhK8KaPhUa4QLrk8jHYVRJs+c38Qk6g2TGiV
-         B4jSURLnSVqxLvJWTRDBuI+p+Sbw6LYqm8u9kyvWfph4l5t2nzbs5grvOWYZRKy8/j0F
-         I6+2KQoROqsa523/1r6E+mDQDLhisnXmSTCrXEmkF/sBAEgxUGCnlEErOljmD4VmBpt8
-         68Jd8r+CvzTpv40DyYS+GiJxCUmzItO4IcIQkxfqWRGmUeGUcz0y4Gb7v3xvF3ZgL+rW
-         kv94r1afTRcm/EJg1RAR4JJuyG8/sphifLaMgyT02xCn8SykTDGeuGJfOHo2XSRpkHOL
-         8fjw==
-X-Forwarded-Encrypted: i=3; AJvYcCWVg7dgF7AWgD7PwU9VPA6PCHxR41QTU5qxPQgIBrkiP7l67e9CF1RsgSA98lwcEjMEgjZTWw==@lfdr.de
-X-Gm-Message-State: AOJu0YxG6qBdFDii7mM8KKUWj1ZBaJuUWrF32ijqHSNjGSpxLZ0VKrWY
-	nb509vP79N+MnzxeO/JfM4kEelmAH0D8YcnNraXXD9U99ZB2k95+hlRC
-X-Google-Smtp-Source: AGHT+IEGTgbJzrcxRyUzBIAa8+C0o6zchvP+gMxsNaXoljxHfzYARWPhXChXehg/BPBJf718sqE2Hw==
-X-Received: by 2002:a05:6820:1609:b0:61d:a31f:47cb with SMTP id 006d021491bc7-61db9b6cfd6mr291306eaf.3.1755808619838;
-        Thu, 21 Aug 2025 13:36:59 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZew4BV6i3blAwVUQv5D0UKq3I4MnXlnFqDwVV47Ye59Xg==
-Received: by 2002:a05:6820:1c90:b0:61b:d6ec:565 with SMTP id
- 006d021491bc7-61da8d11e28ls348738eaf.1.-pod-prod-06-us; Thu, 21 Aug 2025
- 13:36:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=3; AJvYcCUm6rsBzWh9gNzp74DSo8BBag5mZ/y6MPCUsz8oqhU3w966+Nt8+E3uurtH/5WXYMnW7lh3gHEkPIw=@googlegroups.com
-X-Received: by 2002:a05:6808:23d2:b0:40b:2b2e:89c9 with SMTP id 5614622812f47-43785282856mr337454b6e.16.1755808618887;
-        Thu, 21 Aug 2025 13:36:58 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1755808618; cv=pass;
-        d=google.com; s=arc-20240605;
-        b=OrWPToNZ4tueJaAl7bJaRYi8QJ1FjHp67QOYYEtWWXcJSHu9YoxVkL07EU0+hnqNgh
-         LbpFddNjDWVkltavFybQn8kMytvvQ/8Xp7b5XtTVdxH9ErZj53g9b4kWM7HVUe7dzEhH
-         j4bJ8HwmxtMJM2CJtfFe7VQ3wRwrLPHJfudAzniCtTCPElf/ImFLIRIx/c38Q4yrx4LY
-         gkES+EZuqRm+nZ0zFh+GfV07L8D+b6NJbs6fxr4frt3MZPLrDnZ5Nr0edzwp7X6WyOaW
-         eG4z9fQi1o2J8BaQusBLYPAnTZ5Fs9I2yEAfq600Rqhi5fJummfOQlk866gArfsdLk9z
-         peNg==
+        b=RLeM78z9oimtD0Hdz6jeDFZanwjt+WIyEkNW+aYToVKrVvwtOrdUMX2nSqjwhfD1Ij
+         p7qGnc+64b8DMh4q+/wrIXA4ZVox8xqoq4XsJ6d3QORxlJBwtNgwztssUKFZPfByWkaZ
+         4AgJC+zD6c8X/uGAUIZPX1YdFqewxQ7f4Vm/VBKuQwyM2PZ1vXF4Q8KppO/ZdR0aW/7L
+         HocSoDQD5bbwmEf3XPNTbsflUCNyb5kjjfQHZGLdGfvxaBpRXrYA2V5au3lhoZx1G0DR
+         ZBgnYczJuW9hWDCEufQzmW//RHAIVyQ9n2MVIfJVPl9IOU8YNRQSPfagi2H4aUMhX9s4
+         OJbg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:dkim-signature;
-        bh=koxUl9Bhb6pOKk6qTtolc4aNI2RYQiUs0Al/jCKT/zU=;
-        fh=mkkYPuurUY7GUu5MdEwXZN672Dpu8wx5Bk7gstqa7/Y=;
-        b=J0hFAMUQakBgNlSmKcaSHA7pjsTOxKzgNsDhsPVTj55Ibtoi7zZSMGvxhqTy8xp4Ds
-         EMJZvmZW/N5RzTJ2h2DfLpXmHe9EMHrIHa0ved17Bs7hlHtBJaGIo8udNsFDP9LoGEwc
-         bAiHMntIhDahdIjpcjL/RHBqRRyq7XhtEyvshUxODRDGHBCjqNSei9kSnlJmt8FaziU4
-         3EGUGsAdNuF3zQVQGugu8K8BZPd/4ZHZr0o3xVLfIFmzbx1NAKVTB0xM42IJ2VZeZedi
-         BRg11oymXwgRGIsicGmnU8ivleaLd1nbUacSfn9UuTstgwNQNa1Onv2AOim65LNnZR/i
-         Yigg==;
-        dara=google.com
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature;
+        bh=dNnMK9YP5c1s2PI1JtXiO6rMv5zpfre1KIjxRvokvrg=;
+        fh=T7evRhMxZknVE5Ty/X8FkGaZf2yfB36RWAq/Z35X2aU=;
+        b=QgEkuDp9yRWvtUYx5FbkcOY29tUFUkWaC7UQM2yf6BZ14aogJORYNd8os9dauL113+
+         jDpAh20KdNt9deX8QLn5NCCzc0n7lcYAZj/r7CuRsjzb0mBDHTA+jMFLeGMSk+jZQ5lJ
+         6kYtLIynLOsiKJGBTUCSAbf6b+Q1Eya8yTxyFaw0Rqy0EpjVypvpk+QfXAHR1+Iws1+L
+         TaXwcdS/awIIm5Go4MXhNbunEFbHG7m/ati42gpjhB2jqNbJiTqdiaDkdn2alScSdHjn
+         gUVTNTu47VdXqcRtViUCxdCh7bP9EUvaXPaXA1Z1GQ6gF4VkkTwHSCI8KyRY3oZTZvOH
+         2v5Q==;
+        darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@Nvidia.com header.s=selector2 header.b="rcCjS/R+";
-       arc=pass (i=1 spf=pass spfdomain=nvidia.com dkim=pass dkdomain=nvidia.com dmarc=pass fromdomain=nvidia.com);
-       spf=pass (google.com: domain of ziy@nvidia.com designates 2a01:111:f403:2406::613 as permitted sender) smtp.mailfrom=ziy@nvidia.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=nvidia.com
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on20613.outbound.protection.outlook.com. [2a01:111:f403:2406::613])
-        by gmr-mx.google.com with ESMTPS id 5614622812f47-435ed1496d8si26929b6e.2.2025.08.21.13.36.58
+       dkim=pass header.i=@linux-foundation.org header.s=google header.b=h8GyEnDu;
+       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2607:f8b0:4864:20::b35 as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org;
+       dara=pass header.i=@googlegroups.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlegroups.com; s=20230601; t=1755808829; x=1756413629; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dNnMK9YP5c1s2PI1JtXiO6rMv5zpfre1KIjxRvokvrg=;
+        b=n5DOza3Hf50GASBwiPAZP1iEUer3BnoYIdUH96Pi3Np4vuQ4JwBk9JtKXKhV65VQcd
+         R3idPnddQkwyE2LqHeWIb23pf5l/nSpTulEEzemVHCgcTBpAe2a/+DMoe02DlRIRHuo8
+         kHdVUeEsbkGVODdl35wIsVPQIbgiPJIkHr0Oxl4H7z8/kRByB1lvsPWSgOYbR/Ksu9j8
+         BA1UnH/IXqqopxnDu8naHAguHf6Vvgipp2LaLyQ+NnFh4NM9nKmHK2QayYggYjKf69jB
+         QXG70SwN1Iq5T+1RplOsW3CoU0eGZDvFQRGPPOEcNdNi0Eobl0900KIq/ikf1SqM1pL9
+         HDew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755808829; x=1756413629;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=dNnMK9YP5c1s2PI1JtXiO6rMv5zpfre1KIjxRvokvrg=;
+        b=B3nDOA17sPWpUKPTMI7X3gMV8WFGV36sMcuS5m5oIeTSXddjod/WDiHNHq37NQRI1d
+         Hg5fkZgb82s4vmyzCeeB+E8xxCzxt0O/+ql4/e3ACA3qbCAUEpNFS0fFfEMgi4r6nHwv
+         YBZmS4hV/8LYvTA5DhUfLNuB7Ows2ey7U1xz9bqmrp6pcXfn3ItTHXIyS9U3et15KHhh
+         Z56OMnWp/EGruBmfnCq+zokaSEVjd0yGj4PZafwzZgWlryNqbetFA6c8IfNBFcuqUEux
+         uPFYJ+hccqY2M4Nu6dX+t2XQLwsGjv2XVD/KrgUJ8NIKeTFzvOgkQVsK87X7eyJ9LhE9
+         ylvQ==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCUE7j1S+lvkR2zxUSXL7b9b7k4/Tgqs48fWMk2T1SARh4HyARDRwozF9695bkqMet9IGz9zkg==@lfdr.de
+X-Gm-Message-State: AOJu0YzmOmjiyYHE9ROSfClz8U65QJzlRHwmDqzQkV7uiOLqjp679N9S
+	5uhwC4RN7wtsO5iGgGtI3Z9/e+bhwEG4C81HALJ45y/MApkai6Jc2tW6
+X-Google-Smtp-Source: AGHT+IEu4fO/rhj3Kg3mrU6c7OlxT0/LsAkVnlH8OXh3v4LzgKOgh/59N8/riy5vIOJokQiNj/JJ4g==
+X-Received: by 2002:a17:90b:554f:b0:321:27d5:623e with SMTP id 98e67ed59e1d1-3251744bd6fmr1049957a91.23.1755808829239;
+        Thu, 21 Aug 2025 13:40:29 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdA7KVQ1QrWaZ6JC1nTfL7Zvauy8SJpG1wfoks9xvvvtA==
+Received: by 2002:a17:90a:fc46:b0:31e:f3b4:707e with SMTP id
+ 98e67ed59e1d1-324eb6ed4cfls1319895a91.0.-pod-prod-02-us; Thu, 21 Aug 2025
+ 13:40:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWkRV0HyFUolLq7WqfQz56M8hHJGXmwwgDH8+/3sI8E8mzX19gTJQfK2eB4vCSQzYnET8Fmsv/Q5K8=@googlegroups.com
+X-Received: by 2002:a17:902:f543:b0:240:3584:6174 with SMTP id d9443c01a7336-2462ee4a523mr9650895ad.21.1755808827408;
+        Thu, 21 Aug 2025 13:40:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1755808827; cv=none;
+        d=google.com; s=arc-20240605;
+        b=X8T3v4LBsm3stAGe8aTDIXjSrBBErvkd+B5eMeN3crAVoeBhOTrg/S28OVWC4oT2GA
+         dVCoRfi5Y3z/GQX73ThB3ZY1FbcIENXayUop5ZMoU7Ib5GoI+2qgWnPbab6sgRuViLaL
+         ZvDOz52HUEH6D6YkzhHMrgE9amaeVcxIm6utQnQEvM9RnQ3xgDDibAYnkpdWds9fR7XC
+         9HIiU+ChX/NAnKlbXpZQ+ecBByTUvijwoJDniJ2mEtxNc44fy/sRn/0fUN94kJroMlCQ
+         hvOpg53rKditBB+kHA7lMhs7AUNevB8wphiUCyQqd87uVxRBgrSD0dG5pcZHc0F2fX3N
+         dm8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=lHa4LrampbSXQx1Wyi9Bh9OjrywcR0PvG9lus2xsnNw=;
+        fh=QkhS5EwCkhmqqHFawZeVgbsF6OUwGoaGwMcbVxqguHU=;
+        b=OVoT5ySecz2YeIcC/lowRhY7t6IGGP+Lz7IWxxM5NnxYg/+CJNT1XOtcojmiWi8ww5
+         sy+3mvmAdp3e1vSeEu7P+K2G6O+Xu2/A2BX6QhnrnFgdY+biUMWIsXEkO8dM51jYD7Hb
+         AtwSuysfSJ9u2355+jMWMVeO5td2LVD8H2sOu+NQT49MT4sjBB0A4fZhrslld5H7EPUQ
+         z8Ot97WrQJ14xZAoo6WtjQQwAD1PDCEtLS0rdZ25c22R33DEkN01GH5LLMYuG1xwyg+H
+         I7MXKhAnmqA7QjWDnQG3Y7wNjnRb+8AjD2LE2FqE281g1oz9VYnXAqZOKxfRcdfILsGF
+         ITqw==;
+        dara=google.com
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@linux-foundation.org header.s=google header.b=h8GyEnDu;
+       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2607:f8b0:4864:20::b35 as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com. [2607:f8b0:4864:20::b35])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-245ed4261besi2848135ad.7.2025.08.21.13.40.27
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 21 Aug 2025 13:36:58 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ziy@nvidia.com designates 2a01:111:f403:2406::613 as permitted sender) client-ip=2a01:111:f403:2406::613;
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BY7LS5y3JQenbmDByqzihvByyrkH1pN9soIW0P9fMXbW8+WpzopxmLSDm26mfFPN9oLmxBqOEFnaNIl+cSgDJv8Chn7ihmyNM9elDFFJTu+8zJ9LY0KbWuVBW/MrUrQtJcd1mwouOLjErg/B9nY61f8s4zLAmm1OG3RUX/8vGfQAOBv+Yw9ERGvXDqPLoM1Sk3IGIn9nXeunHnJywjlgJRh7WyYfeGWfvbGGslVtlxiCVLw34ma1f2fOQy9X+V7R/nkiyGR/L8rltTOKs1fzyJPWP1CFBWjXTtDNe3ICTRIJfUJpQ3zSuvSfSylPYnuwr5O2y8mn/RX4u9gBFsillg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=koxUl9Bhb6pOKk6qTtolc4aNI2RYQiUs0Al/jCKT/zU=;
- b=qI70dwEuPwA0XcKralhUMn9j/7sGA/Wtj5TxNEeIpTBuemix5hp5yFVdULQr30Huzn58n4HXilwaCY/L1H+3nH1VHriNhV8mssgAO/2RNKRTP3BvXLK3o8p0g+BNluIWNSV43R4RmDTrJJXgOBkTwNqRsM0VMzZOEPOI+vV/rFmHHDo8sn/vtwWYcezJ5/Pj9IzdbFq5SiXxexvs1GYmrTKUBD3I2Km5Q4kJ/qglzH+1xAruQbj16eO97BBvEN25bSaIqar9tyIgUFrdA/iPYTMD1TyEBvCKt03ZanadFeWDrXa8heVKDB34alCLTgpTNccsv821ElRuS6pKM8zV5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- LV2PR12MB5967.namprd12.prod.outlook.com (2603:10b6:408:170::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.16; Thu, 21 Aug
- 2025 20:36:55 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a%6]) with mapi id 15.20.9052.013; Thu, 21 Aug 2025
- 20:36:55 +0000
-From: "'Zi Yan' via kasan-dev" <kasan-dev@googlegroups.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
- Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- iommu@lists.linux.dev, io-uring@vger.kernel.org,
- Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
- Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
- kasan-dev@googlegroups.com, kvm@vger.kernel.org,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
- linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Marco Elver <elver@google.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
- Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
- Robin Murphy <robin.murphy@arm.com>, Suren Baghdasaryan <surenb@google.com>,
- Tejun Heo <tj@kernel.org>, virtualization@lists.linux.dev,
- Vlastimil Babka <vbabka@suse.cz>, wireguard@lists.zx2c4.com, x86@kernel.org
-Subject: Re: [PATCH RFC 11/35] mm: sanity-check maximum folio size in
- folio_set_order()
-Date: Thu, 21 Aug 2025 16:36:49 -0400
-X-Mailer: MailMate (2.0r6272)
-Message-ID: <5566D681-ED92-41A8-AF46-216AC8F62174@nvidia.com>
-In-Reply-To: <20250821200701.1329277-12-david@redhat.com>
-References: <20250821200701.1329277-1-david@redhat.com>
- <20250821200701.1329277-12-david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-ClientProxiedBy: BN9PR03CA0501.namprd03.prod.outlook.com
- (2603:10b6:408:130::26) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Aug 2025 13:40:27 -0700 (PDT)
+Received-SPF: pass (google.com: domain of torvalds@linuxfoundation.org designates 2607:f8b0:4864:20::b35 as permitted sender) client-ip=2607:f8b0:4864:20::b35;
+Received: by mail-yb1-xb35.google.com with SMTP id 3f1490d57ef6-e94d678e116so1459989276.2
+        for <kasan-dev@googlegroups.com>; Thu, 21 Aug 2025 13:40:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCURxhOTvlqkrr1nTWUlMFbM9vKCl1++a4k6EjNi+lPq4D56edrIrsfGvvgORVMXmYQG0l99Gu0hPcI=@googlegroups.com
+X-Gm-Gg: ASbGncvgWegBpnicuqit6XihLd4Al1YWeGhv1jnL4BAAGSi26Pg0vf7gBj4bhXxmF8f
+	yL3iOnSWs4ec/zfuXpMm4KnRwt+8eNePfUG70nbuUCsCh3eU6FfF25uYODla2JbgQ2dmEUqxh27
+	HzOKAvJxM8huuvIESECnJbZKY5S4QOyHxEDA0GjrsO7fy9o19UOcc6F30Q17GJ4Qidu0OxZqDeB
+	6yDtFzSHfsF9u3o
+X-Received: by 2002:a05:6902:c12:b0:e93:457a:37b0 with SMTP id
+ 3f1490d57ef6-e951c33ee1bmr998901276.20.1755808826442; Thu, 21 Aug 2025
+ 13:40:26 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|LV2PR12MB5967:EE_
-X-MS-Office365-Filtering-Correlation-Id: 03b70a1a-d4c1-4d7a-4988-08dde0f277cf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?oPSl07THh7u3O1EO6lVPOnLiqj1qdmDxNG48EQlXY/Z1DBgjMvRNhbBgVbP+?=
- =?us-ascii?Q?5c8IQn+YeAvMft2RN5YpsUx8tf7odVvPJN4YsNBfkrUtQFeaKBqc4anI4Lft?=
- =?us-ascii?Q?2pgj/DQv9voztvCeamHV0GoZ61QF75TomBVTq8uIpMlq4e0fnAG4Ay7GMBh1?=
- =?us-ascii?Q?pCWRdRTdUvwxF/o5xGQBb13ydF743QdzOa1614X2B+YO3+Z0HqXfkLt7smRQ?=
- =?us-ascii?Q?4SfsJMu3bj/9F3eYDHXtJM6PlXI3E8eYROWE7p9eJdwe6VlSIrOfeJ8I8Q8/?=
- =?us-ascii?Q?Rz/xwL6c7gOIFa+67+vyemz82fJCPQPDnXPMffcFlCsoCh78RAHGAZ7eqsUY?=
- =?us-ascii?Q?U5DueMcDmQY/0WL9EL1VN3VoMtzpIzf5opEIqUAWlRego7b7t59QxZUCbNLB?=
- =?us-ascii?Q?i6xuaTLhjzpSeYqp4zLzndjf5znIIqx8l8HSmWL2wYQCKA0Ax581aGlWkniL?=
- =?us-ascii?Q?rZoCCMLJcd+iNc/OuEpqoZng3XANzftlFqHqKNBSoDwgfkAiNzURHOpp0LAv?=
- =?us-ascii?Q?vDFBXequetCV9I/J9wcP9mSVTKRS5WPFrg/KjKOQsP+wNJZlwJ4lkBVu/Ry9?=
- =?us-ascii?Q?v4VnzKccbctS66ESBJC/2Cyxu2BuWhNhXg8aR8spFpD09PmJ93YbcRMJ7nAP?=
- =?us-ascii?Q?wEEWF99o0SJQ4eVr6eoqT1Vgb3oYiJoFkrf90NaeIpG41NDyY+IJc0u1INe3?=
- =?us-ascii?Q?eNJPHuJxJCkDQeoxEGzxgQoLRq0Yi9wVFV4J0tDBho0O0ghbEV0+/0wFydA3?=
- =?us-ascii?Q?RoXClFOHshIO2weAkXu83wuil3VdSkCQuohwC0fgeA6NM9S/jDqSN5jVZBfB?=
- =?us-ascii?Q?IIB7xtpz0QTCHp7cY+PCom1oxGOIX0ikbtpROouo3eC/lVDrrmAvy/sDbFwk?=
- =?us-ascii?Q?BVOg6L9DTE/l2qX+9qy3PR4608Cp9NeoxlOxXYzC4wd1R2v+4oWPy1XN+8li?=
- =?us-ascii?Q?9jQlN0LlQCYZAXJX2/lbP+V9fQFpOAZ1T73uV4orqvUZJB4nG0/uVfWiJaC3?=
- =?us-ascii?Q?a5EWMnFOh2bKUYS3NHOoodPSJTUs8VDFOihMRMxB3vUO77EuPr+Jd5jXu1m3?=
- =?us-ascii?Q?QPi/qZKvK1EUNjrc3G3ULcYr6/+j0orXdCpAs9xIKwqkRaNdWoMR0mbCbMmE?=
- =?us-ascii?Q?eA/BmX9E1pZeUXaoNyHxs2lzfWkNqG1+Kx7zPxrs9eBfXR5uLR2aL5i/4pWr?=
- =?us-ascii?Q?3ae5JVIJZQtvXFx6iC4i6+ANoAYbp6gu1rlZKug7Wy/HVzNoqSZQoZKzsOZe?=
- =?us-ascii?Q?OuEd27ahWJDBRK9uNsAnnYlij7711+fpEEf4dhP9fzhjrsmT3Me62283SHcO?=
- =?us-ascii?Q?6BIqDqYhGC9bi3DgYmxLLk2l5fnCb8hBUdMbs0ogqaFyOCYrbKn6Z+MZM6Sz?=
- =?us-ascii?Q?6wNqb8DmcE3LSjlPzQ1Q2mB2TaE+9Hy0t6HxFW4pIyT0KkI9aD9MfqWGvGqg?=
- =?us-ascii?Q?kqKS6IGegl0=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NCxgrQAmFjVQiLWTEgbWaY1DWfNMsLBr5j4o7FqESo567f8Zsbf6o9O2Jxk/?=
- =?us-ascii?Q?ByZkiveTXAXeSQZglx3TtNeqj9M0134y2uBhq405H0h7FO+B+VtL6xci2Eio?=
- =?us-ascii?Q?TfittsCGQkzFdQj5e6dCcd0tOWGjvpz2ccs41HYAfeXvnFlCfnjGrhpaYeDY?=
- =?us-ascii?Q?2V9xnAM+/TSc4HfNgbeQQTo87KaKBGCUo1d10iVinUnReSxT1iRjp6U/rAY9?=
- =?us-ascii?Q?lwgZSPu6DXNpzvFanA/fAKzt0VjT+9r9PxJMr3hhC2D9gXe3v7qaQFtRMwNm?=
- =?us-ascii?Q?bTyxMuvGH9vxWcEaNSqo+nWDGgLANM39pacn/xTHeQf8RQTIJq0i/xKwKv4b?=
- =?us-ascii?Q?X6E5zUafF3q2r/9SCLgY0pgIwtVMaeBYd3c1wX4kJgXUHr9oYuegtOd3Bcsz?=
- =?us-ascii?Q?7k86wy/Jsh46mBqrUmq0hI1lXzQR8iTyBUTkB93aTsz/TveLLVQtvHS40+ZV?=
- =?us-ascii?Q?+pgXPV5MqpzfQAB+UKWTg4cQGuiIyJ70P3kRQoXTxgqm4emTtWCzcGL/RMjl?=
- =?us-ascii?Q?Qby52xm1T004O7RgxffycpNwHIR+Zu7am1RyOl3Rs4ZcNQW7LJrioi85KPVU?=
- =?us-ascii?Q?V9BDEp574hHu8HvH80fyi1LheAiX2kOWPKzi8LxhjaWuzYWsZ0Zx/ZRLXgqh?=
- =?us-ascii?Q?k8gWefQxOTmuKeH9URI6a22pkabpy2E9iToh0AEXVFi0K7qRMIgbOW/9LESZ?=
- =?us-ascii?Q?dSGLV/CXKjBWvYrDSsh1I97IUvpqi+LsmuuJLjvjOSFx3SOIkcQIj/KCrBaV?=
- =?us-ascii?Q?w8PJsAEYr+A5NYX3+ahuCPLIlKWOLt3vRpgdHqbiMJtty7BG7IPGy+r5i8jj?=
- =?us-ascii?Q?hM2fcLktkFLJycL+FBqgJcWyLEkgPh4zy4/cymAv6FKdFp+GMCIV2DhgpJUR?=
- =?us-ascii?Q?W5PDB3LhDArixTSi62DrDJ6pegFsaDX5UgaF5nWcdUecW3FrnbbggGL8LxjT?=
- =?us-ascii?Q?IoKBdKemFTdoYQZNG9sLHzV67Z/EttdA8gWbOCbedjzfS6aeEGjOLFxt3TdE?=
- =?us-ascii?Q?15aHpR532HIFMTzkWO9mZTMqKeWybAyu/4QD2Dc/yS3wy0DTqe8HVvSwevuA?=
- =?us-ascii?Q?wOArp8D0/x3FOncrLjj2Hm/c9TS5K5IS1S9c5+0ONdpv7v0cjnFwdgFElOkL?=
- =?us-ascii?Q?w5CrIQ1oHYf4/BIavrQ84/rxhpUsdrGW4wHwiw4lapCAS6FafCdRTMaojS7V?=
- =?us-ascii?Q?J3EGXKj5RwGfGCpcHeVrZVT/hVPbPeBZk2DPxjm2gABpKOwzGIT9UqrGKkQN?=
- =?us-ascii?Q?0S5xWs2IPJT7wsM1qgS98Q/PbRix8XxVKziCntzYXlQ/GVJWywgRUopWEnG1?=
- =?us-ascii?Q?tEsGzTPn3BBtKKVYmWGEla1rLgERpkS0gnrcIkp+a8Qzcj7tQA1L1qbEHFOs?=
- =?us-ascii?Q?5Adq83nn4i3xhRoMtRa8h9eQfDOtKYEWgCUy3sVr+iAmqHY1TC+tE/UOrVq0?=
- =?us-ascii?Q?sYvDPO9P40i2BIVEJTfsuhU/VfEqRWvyxQFCFaj77ZqGi8CUZ9msrA+dFj3E?=
- =?us-ascii?Q?wtG6Nrl3LDege89oYWCgeU+cOHtCdkJkKaZgjx3QNTqlG+4UNMHexFMs4F6L?=
- =?us-ascii?Q?ZjP+GY5NuKmstmha0QkelsVjJ3ERyasWtxek21yV?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 03b70a1a-d4c1-4d7a-4988-08dde0f277cf
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2025 20:36:55.4394
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1C2xVTmQxGlMPGE216NMJWrvZ0hUQ0fdjv+vn5C3E0IEGdPCLRnd2ChnSJgmZQ4Y
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5967
-X-Original-Sender: ziy@nvidia.com
+References: <20250821200701.1329277-1-david@redhat.com> <20250821200701.1329277-32-david@redhat.com>
+ <CAHk-=wjGzyGPgqKDNXM6_2Puf7OJ+DQAXMg5NgtSASN8De1roQ@mail.gmail.com> <2926d7d9-b44e-40c0-b05d-8c42e99c511d@redhat.com>
+In-Reply-To: <2926d7d9-b44e-40c0-b05d-8c42e99c511d@redhat.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 21 Aug 2025 16:40:13 -0400
+X-Gm-Features: Ac12FXw_AatpwCNNPCEiMwiwdQxQbayKDzVf5K7yc3iQ5tLY7APrv3zl2U8Z_SA
+Message-ID: <CAADWXX_5AJxTsk5m_RvP58d=quRMqT4-XbnQQx=obBTKjHr1Og@mail.gmail.com>
+Subject: Re: [PATCH RFC 31/35] crypto: remove nth_page() usage within SG entry
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"David S. Miller" <davem@davemloft.net>, Alexander Potapenko <glider@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Brendan Jackman <jackmanb@google.com>, 
+	Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, 
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+	iommu@lists.linux.dev, io-uring@vger.kernel.org, 
+	Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>, 
+	John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com, kvm@vger.kernel.org, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, linux-arm-kernel@axis.com, 
+	linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org, 
+	linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Marco Elver <elver@google.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>, 
+	Robin Murphy <robin.murphy@arm.com>, Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>, 
+	virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>, wireguard@lists.zx2c4.com, 
+	x86@kernel.org, Zi Yan <ziy@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: torvalds@linux-foundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@Nvidia.com header.s=selector2 header.b="rcCjS/R+";       arc=pass
- (i=1 spf=pass spfdomain=nvidia.com dkim=pass dkdomain=nvidia.com dmarc=pass
- fromdomain=nvidia.com);       spf=pass (google.com: domain of ziy@nvidia.com
- designates 2a01:111:f403:2406::613 as permitted sender) smtp.mailfrom=ziy@nvidia.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=nvidia.com
-X-Original-From: Zi Yan <ziy@nvidia.com>
-Reply-To: Zi Yan <ziy@nvidia.com>
+ header.i=@linux-foundation.org header.s=google header.b=h8GyEnDu;
+       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates
+ 2607:f8b0:4864:20::b35 as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org;
+       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -254,26 +165,44 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 21 Aug 2025, at 16:06, David Hildenbrand wrote:
-
-> Let's sanity-check in folio_set_order() whether we would be trying to
-> create a folio with an order that would make it exceed MAX_FOLIO_ORDER.
+On Thu, Aug 21, 2025 at 4:29=E2=80=AFPM David Hildenbrand <david@redhat.com=
+> wrote:
+> > Because doing a 64-bit shift on x86-32 is like three cycles. Doing a
+> > 64-bit signed division by a simple constant is something like ten
+> > strange instructions even if the end result is only 32-bit.
 >
-> This will enable the check whenever a folio/compound page is initialized
-> through prepare_compound_head() / prepare_compound_page().
->
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  mm/internal.h | 1 +
->  1 file changed, 1 insertion(+)
->
+> I would have thought that the compiler is smart enough to optimize that?
+> PAGE_SIZE is a constant.
 
-Reviewed-by: Zi Yan <ziy@nvidia.com>
+Oh, the compiler optimizes things. But dividing a 64-bit signed value
+with a constant is still quite complicated.
 
-Best Regards,
-Yan, Zi
+It doesn't generate a 'div' instruction, but it generates something like th=
+is:
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/5566D681-ED92-41A8-AF46-216AC8F62174%40nvidia.com.
+    movl %ebx, %edx
+    sarl $31, %edx
+    movl %edx, %eax
+    xorl %edx, %edx
+    andl $4095, %eax
+    addl %ecx, %eax
+    adcl %ebx, %edx
+
+and that's certainly a lot faster than an actual 64-bit divide would be.
+
+An unsigned divide - or a shift - results in just
+
+    shrdl $12, %ecx, %eax
+
+which is still not the fastest instruction (I think shrld gets split
+into two uops), but it's certainly simpler and easier to read.
+
+           Linus
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
+AADWXX_5AJxTsk5m_RvP58d%3DquRMqT4-XbnQQx%3DobBTKjHr1Og%40mail.gmail.com.
