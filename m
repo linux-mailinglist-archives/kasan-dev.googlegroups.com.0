@@ -1,149 +1,140 @@
-Return-Path: <kasan-dev+bncBC6OLHHDVUOBBHHCUDCQMGQEAZNWI5A@googlegroups.com>
+Return-Path: <kasan-dev+bncBC6OLHHDVUOBBJHCUDCQMGQEWQI5CFA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63f.google.com (mail-pl1-x63f.google.com [IPv6:2607:f8b0:4864:20::63f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E9ACB31268
-	for <lists+kasan-dev@lfdr.de>; Fri, 22 Aug 2025 10:58:06 +0200 (CEST)
-Received: by mail-pl1-x63f.google.com with SMTP id d9443c01a7336-24458264c5asf22168375ad.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 22 Aug 2025 01:58:06 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1755853085; cv=pass;
+Received: from mail-qv1-xf37.google.com (mail-qv1-xf37.google.com [IPv6:2607:f8b0:4864:20::f37])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48B47B3126A
+	for <lists+kasan-dev@lfdr.de>; Fri, 22 Aug 2025 10:58:14 +0200 (CEST)
+Received: by mail-qv1-xf37.google.com with SMTP id 6a1803df08f44-70d93f579a1sf11263866d6.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 22 Aug 2025 01:58:14 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1755853093; cv=pass;
         d=google.com; s=arc-20240605;
-        b=PA98qh9SFlcCQbHh0udgS2C/aXF94PffIh+1uQrEuyhM8z/lH0y97YG31HbAQFcOyK
-         2cQWEfr3yLD/CAPf5mufCsgCGLkJdXribECPd+aesq24B/1mmE3slIkX1JYjwKtm89+A
-         OUyToYkXGABpgbz4fgZPL+sz1CwUOB6yREJuGblw9rYIoR9KiAPISRTI/UhxU+mSrImX
-         0PyUtx+Uqd/nCx3yURN0WYXigXXwOnbAbrYaBV5o6bld+q0Zwf0zdtf+k9rppetriGA8
-         VXJnSfhaPOVYy4aOI7EmKwaDuLY6ycoJaxhkCfIaEeti6LoeuxDR2cHql1Pz/2M/HxFD
-         IWaA==
+        b=kLxEr2SPzDQ6lXJq9Jb8088yyElGRZ/gWbnWhZ6sPgRD9C2Xz6wXKOdKJENq8t0Il1
+         Vn6XfoxDeZxzDdmSRnEiq6JzlDGgaUUfUpfsmQozuHn5jxopXZ4kkYuUlss8gH8C8T/s
+         utv09kXoygTcuja2+q8SHDsEKQUPfugcDYMUdAkqsKMlRDgUJyXNDvqn51A5YZjeQ6Zb
+         AED8ZIPfeg2thKNLIVCBnSOhte77E+P2npWi/Gxk1HwNVYkT3wxA9L3GlFflyJlFKLf0
+         ko+jqCjO/13yIOvjB9EqvKm08rPYGJRR2wRoL6AgdnhmJmceeyYDO2e0AFmF+L5Ps0h6
+         0flw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=ZMuRcMzvUv/d+B7/e16yOBXt8rg570SptM7ABhOoSso=;
-        fh=0CR/q70phrIuuQu1enm0BkOSQvMuzBajr3978pIBw3I=;
-        b=JITyRkIdYCTfJfDYCWjqq8t3eAuJPVT1qlXjyEgQrKOkE0/2WuSCuojpDFGEEuxuDX
-         eadVdopDB1XUww/PbuQtafKD8Pq2RoxMfpo1Ljnmn45NTbhSeYYkv5Yif2O3HMIxWUCR
-         Ew422jVv67DcSGRA7PAgbGQyukrjuqMrRsvxxkVRShPNPOq5pOLv5ONeX0HW6VfNKwIm
-         jaVX0AZfqgjmUBLr4XWq3mmJdOFbkcyIN0FEKnnlxfYMc+M8Y/TkqyOgnZbeQ9oQ0JDr
-         cRaThEWaBOQDfnPQokBxFrlFMgrgTZzOxCJQVTQOHu5qCXEHFKPhjw58LtjhfCfHE9z8
-         K9HA==;
+        bh=lS0i6mVnH8/IaCpuXhZZuY6zrlnl2hpdEUR/maGfl1I=;
+        fh=mhqlRtUX3575aWPs6u1yh+YW3RlTwmvuqItyak1LDIg=;
+        b=iTt0cIPJ3dpui53cXQ7HJVujcPZGBuH7GXcDsGKTLZCv0vgF0UnILJyKlgPRTwGYWS
+         ehGl5Y2RtXF3iGozJd8pj9e24ZHZwGbYZJu68InDs/Bia69m//+9xT0yAWAAhE91kZLE
+         CSuEnp8bSR1IfMPi9DalomZvSDiou1lYTcvK41qS7qJBzwAo3lvA1G9eNStlJJF/gLWK
+         /rxTe0w5jEhwtetdDRPWgk6YyOt45wWNJiZstS//lqq4a49A/Vp35+Y8XmxU3BCU7BYQ
+         AsIJ6PsrzTZ/Z6vhgkQtLdV/Po/I/UEcN1akF9RC1N5gygOl6Q8LojflzYdGd2wasxOD
+         rW5w==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=sHoZe2JU;
-       spf=pass (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::72d as permitted sender) smtp.mailfrom=davidgow@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=QEqJrAIo;
+       spf=pass (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::830 as permitted sender) smtp.mailfrom=davidgow@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1755853085; x=1756457885; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1755853093; x=1756457893; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZMuRcMzvUv/d+B7/e16yOBXt8rg570SptM7ABhOoSso=;
-        b=Jy0te0SbNj9svEvBr0SF0vwp+JKk2mDz4HpmRBluknfpwURX5f6oHoNMjqpRybDLuB
-         YQCCsGq99R5fyHFbkRSEBPglwNvm8wiq45WvjWC/7543iLP8N/PslmsXVC9I5o6t5UXG
-         LElkZGkDXnzCqVfZek60QFUA+wKkcewg8sv+nHu6ByX3vh30gQSvbT+Gtw+EpGr86qc5
-         No9Es8mXnaddnsCClis4FEB0pxmSF8iZ+SZICq1LU3I6qiHBKjaR9nCgne9CGi2w7ELq
-         i91zpI38XSzGzIHTNrUsuVCKOlC9Lexn/aqFLRkwdA6S1yJ8qWI6opX3q1pI7iLSVLa3
-         ePjQ==
+        bh=lS0i6mVnH8/IaCpuXhZZuY6zrlnl2hpdEUR/maGfl1I=;
+        b=onR4LXatA+RIS8KQU2CSmYDlAzEd0NCFotn5lNf9t632zpHspbGXG/gE/mbHaRkx7+
+         RnkOHv0fcry7zMpC1rdpr20wCa1ir00EZXWajASe+f9gO/K377RpOQITywSx+sKJ9rv6
+         VuC7iWNj78RX3ZCAKF5D+MbUYYJBGjzLm9SEd62TkNE0Kw7DOfrjvwLZ7fZG/z3ynYf0
+         pr6eqrJCvZieJMWB0EstiwjPrTunUwNGNscQWZT5poSNVcp7BTTSA4i2PxO1VLssZLtL
+         nSQhiwS7WmVeQeZknnE3mqlmJFw+pdWxjzXIbn2JM9pFmWO9Ft0tx8E7BIpx5HgAOm3f
+         b9jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755853085; x=1756457885;
+        d=1e100.net; s=20230601; t=1755853093; x=1756457893;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZMuRcMzvUv/d+B7/e16yOBXt8rg570SptM7ABhOoSso=;
-        b=I+PTbbmm4paLA2HHmiwnJAq5T+Mf2tWZ+klBPbnscJhCXk7Wabd3LbOFE2KC9G9RyM
-         0hoEqZPwNjzPMByLf3VmUF7Omf6hxK2eD/cLcKnKAfiW96TlhqU0ZV4/tuVJdj8+XGIa
-         7ojtY3mtMIZGBegmAascvIimK0bThOU+kiqvpqbsgozaHuLtdpLFaQZrW7eC8eq/QgvX
-         0S8Vkg6mmP+OKV4kmMqRhw04Srwn62mLsNTKMhwaz2v/iNxUiTxPeSFY8DJ3s5sXNC3n
-         Q88RfjHR+d/h4Knr7Wln6ZqeuH5KKSOniwVSaGL4z2cgeEpWRYgWMq43sVAF35UhUny4
-         pqyQ==
-X-Forwarded-Encrypted: i=2; AJvYcCUUU/PpbZkQ/Lzvzqrtc4GMWAZVRoDXDSrB3aoxZhO5xsJrkzrs8Jq5DH7ORgFKQvVEW4xlWQ==@lfdr.de
-X-Gm-Message-State: AOJu0Yy4XpFCoZ68j71wcNnMgWdxi+I1DaYxUkqMWXAm//s7JtC5m14t
-	BP3xdXZGvYSplQ7ilwaHNHH/IHQoSg5jIOfBmWyuem3I+W1ul3mcIkEl
-X-Google-Smtp-Source: AGHT+IFHk20roHfR+pS1O5R33Nv27394ztx1Ccfysj3ib/riRNRfmh4nAQrsygaoE76FfsL/BZkGmQ==
-X-Received: by 2002:a17:903:19c8:b0:242:c66f:9f87 with SMTP id d9443c01a7336-2462ef9e426mr27920035ad.51.1755853084831;
-        Fri, 22 Aug 2025 01:58:04 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcTjz5zL1ZIO7hVpKXrHvfSIe72hVOAASSolKzv7l0pbA==
-Received: by 2002:a17:902:e147:b0:246:3d6a:c47f with SMTP id
- d9443c01a7336-2463d6ac985ls4354655ad.0.-pod-prod-02-us; Fri, 22 Aug 2025
- 01:58:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWuUI0MshJvDnjEsSRWR5V/6NGp/ukvC+l0Q3vMRH6BMf4GrmujnSzf0ncPDTLOjp7aYX5E3SdP99k=@googlegroups.com
-X-Received: by 2002:a17:903:19ce:b0:235:eb8d:7fff with SMTP id d9443c01a7336-2462ef1f70amr29584675ad.28.1755853083297;
-        Fri, 22 Aug 2025 01:58:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1755853083; cv=none;
+        bh=lS0i6mVnH8/IaCpuXhZZuY6zrlnl2hpdEUR/maGfl1I=;
+        b=RyNvJjRrrXgcVsTJcdUF2AOBH2Njyc1R95+p/zRAJGtQJZAFJEdjZS3cRhlfSH6uJK
+         PUZGecZjlcHMtRXv4xxEi9REVKgR19/qaZ8JepVZTY5qQklXh5p734dFKLn7XtB9XkSk
+         n+EL6/wyi3eHqiWZ7vv0fk0EL9MZi3N6g9i2I7ORzQhuGvNoqEy7szmpoBVCb9cIl6da
+         uRGrabgNBK/ksXq/LhI1NFSLGnr+5EdU7+z2bMPDngenjAKXrjKoi7rJKKUk95UDMGrp
+         hbHxddqGGW2cTPs4QXpEdqJunB8mtm79EV7sdnV6sw+lV/yw+nIPz1ZgcnA9BV+zB/AB
+         EdBg==
+X-Forwarded-Encrypted: i=2; AJvYcCXLjZULjJU8kBI7TJM5tl9opxJHLsE9LjuwWOuqUojh63Ho5XSrvn6ON3jZIe7F1l+GOGsjUQ==@lfdr.de
+X-Gm-Message-State: AOJu0Ywu5Sd5HV/g4HahKCdKk9XNrjAq1Kxtr3TQwxrAP5+aeVt00Wry
+	GS76m433Qi34GYQwjZzFr/UlFN2gwSTQT3GejjfMBIgD9Cb9oxPmEf6N
+X-Google-Smtp-Source: AGHT+IFfbsWlwx49xXHgrN/e8Arr0uOqJYhl40qfeBAcqrXux1zbFhdyLDHc7/Ea3+ENUVueAJ7yMg==
+X-Received: by 2002:ad4:5c8d:0:b0:707:6161:5988 with SMTP id 6a1803df08f44-70d97264a5dmr25774016d6.7.1755853092940;
+        Fri, 22 Aug 2025 01:58:12 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdNByU/oqD/fak/GL9BHUOsb5nF0jHjbU4mBfdzAoNjDQ==
+Received: by 2002:a05:6214:1c4b:b0:70d:9340:3384 with SMTP id
+ 6a1803df08f44-70d93403cafls14697166d6.2.-pod-prod-08-us; Fri, 22 Aug 2025
+ 01:58:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWXxX4NkoTOGMGkoP8pS7Mt+UtUcprAzQQlv5v4jDKc4dr5hQ2FEaQIEb1gh0ZLj6uFveDWvWM9MYc=@googlegroups.com
+X-Received: by 2002:a67:e718:0:b0:518:9c6a:2c03 with SMTP id ada2fe7eead31-51d0f809f89mr579808137.30.1755853092069;
+        Fri, 22 Aug 2025 01:58:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1755853092; cv=none;
         d=google.com; s=arc-20240605;
-        b=Fnebs65Fdz99ETgSt7GVDtSp7BP+J1OcAdupyW4n7Bl7st+7MAFLALrGlru4gxlnVM
-         tSL+v6synU7z1ECFiRVgw3cWOHHpc389pkPGDOImvFm41f8SfoBYpe+szqyfGdBVbknY
-         NQJf815IHMeU4nw1SO54Qfdzm5O4qmEa9ZiaN+avF4BW9d84Nsm1hGj4CLux4G+C9D43
-         H8JJ4MrODfMP+90opcApVawAg9yRYoBApgRlf0wDW5PE7dpFxBWXg6mkpqlmZ7SHDBH8
-         EiSNCRParUVOpo3s04kqtTLoETa1Dq6PbkcJcGwFwMbiiJoRhRWtoL3uVGw6HsgYuCbL
-         +oCg==
+        b=UgwriZaF5xQT8Nqp+kfxXZed9Pt1Q25UBd0aFcwWKH1Ioy3eMshpzVdYPm8ES4+1ev
+         lkKLZRX6shStwkQeot/83DtORcWv2iqcWr6EOZUSqWIKS0TNaFH2mPpHhdYhCrzOztqW
+         8p32/Nt7Q2OLLIr9z7FqDJKL1F69gKw/q63pjhpL07Ue0lFVHUgBpxGUrWdD9et1whRe
+         FLHQMRFhEnibHVejEB2ROoRqjuHOetclJA64NSZ+ZDWquI5A0CPFowOzwnGmTDZheyDI
+         AD1nBeEZvUK0QZhLFU9ckns81+FaxjI7pESN7eRxnmnlmon1TSngl0kAKd8b3LdpVdFh
+         oiuQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=dTQDEhl+zU8sGbrztMpHfV2rA+L2yHpn1TCYEcHcTJ8=;
-        fh=jJyBNeb7j4ENM9x2Tl7i0aiWKOZbaKKmnfJLpCoQmk8=;
-        b=dUziSpjGqjEkYCOFGwuFkuXSlrcRvIGiXMMWjVFC25+/aP3IQHz5YIRA6iBu0FFvRS
-         2xldMqFYgAeY1I947aBFdp6v7s5qxmc/ICpHe5qczSMv404OXfNsP4BC4b8clIqY8fpB
-         fjRYlm7pEl1x4KTRe98k7J6u4nWCwaZGxF7eMdkhXz30ebCNxycgsyRjX9aaccG/775H
-         RIyj8hAfSbrEneBcCWL7rlyQ5S4dxmvAm2ozblvzFvsA5vcLm1tOYwNKm55QXGPi6CE5
-         iWFzQNTdVgjwox0sFTKMfJ2/fFO0fQsk4Bws/fHz/9gJ2z0Q08/1GJU44RyF0EAMPupG
-         NfqA==;
+        bh=4BUq8ePjO8MLOcoRMjjf391LxFakZT3TZzmzqS+PcQM=;
+        fh=mAM2IPW50RD/str6anBqh7x6OrwznIIn6Gcj8yp7g38=;
+        b=kOBsj6VMuTrDL1pG8y0tUNAZMnF/NGgSjT/H2ATyEakAA3lA2Nb36T+LDNqlns04hB
+         n75Mrp5awfWqiPLKWR1Hdtvij5bPHWgjE2RqcUOiRyRe5jMmXXJ6lH33quwxqtky3fbx
+         FWlTF3dnc3k4KS8XNuHdDcIIxPCVNtYdT2ochHy8GhID9I7CII1lxFKDVgYBgQLg3DvS
+         h0PJu8l4bmlTjJUyJ987xKw39bua64zmr0fWhcM0Go9mAWIhMQFlx4FhqNFtcC4wGbBe
+         Mik+p4hujCuyOpQu8D/uuvqjQ4pA7MGKIFCneAWckq2030/IneeG4h2g0uogBu6jYPL7
+         KMQQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=sHoZe2JU;
-       spf=pass (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::72d as permitted sender) smtp.mailfrom=davidgow@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=QEqJrAIo;
+       spf=pass (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::830 as permitted sender) smtp.mailfrom=davidgow@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com. [2607:f8b0:4864:20::72d])
-        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-325266a70e5si47090a91.0.2025.08.22.01.58.03
+Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com. [2607:f8b0:4864:20::830])
+        by gmr-mx.google.com with ESMTPS id ada2fe7eead31-5127a319079si891611137.0.2025.08.22.01.58.12
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Aug 2025 01:58:03 -0700 (PDT)
-Received-SPF: pass (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::72d as permitted sender) client-ip=2607:f8b0:4864:20::72d;
-Received: by mail-qk1-x72d.google.com with SMTP id af79cd13be357-7e8704e9687so199013985a.1
-        for <kasan-dev@googlegroups.com>; Fri, 22 Aug 2025 01:58:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWJoLKRjJ7a4YpqaovXQoQTMpqdDsJOU7vT48YXU9WscwJEnLVfLSlUmWsjQdQKe6KauA6OqsQsOME=@googlegroups.com
-X-Gm-Gg: ASbGncvGmBPLQ5qrWsnYcXpZWO0eXO/gusFTRS1egma/sqRJZLpSyQMKGpNvhXmhXgW
-	jABdofkF148eNbzqPIWCk0pmNDCNKyWcir52mRuIKloc5pVTopYyaM/jI9sI9wA1KFRrq6YfWMX
-	VDWoEYHvmUpXcvZYygKm3W3oRnFODKedBwHiUaaFyshoQpNrPzIXIJUyrkfg0MXH8Ut1yOoS65i
-	7E8AQvU5dxO
-X-Received: by 2002:ad4:5bab:0:b0:707:55d3:9984 with SMTP id
- 6a1803df08f44-70d97325aeamr29917046d6.45.1755853082204; Fri, 22 Aug 2025
- 01:58:02 -0700 (PDT)
+        Fri, 22 Aug 2025 01:58:12 -0700 (PDT)
+Received-SPF: pass (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::830 as permitted sender) client-ip=2607:f8b0:4864:20::830;
+Received: by mail-qt1-x830.google.com with SMTP id d75a77b69052e-4b1098f9ed9so14450581cf.0
+        for <kasan-dev@googlegroups.com>; Fri, 22 Aug 2025 01:58:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUmt0F7nUO2MafFE3PGE1q/nKXUQo3SNPGwOr4euBV3oNe1Gv+XRxye/QNXJttY0CxlLtIBOE9Y/4w=@googlegroups.com
+X-Gm-Gg: ASbGnct8fm0vktLz9AfLAwDT8ykbuFfS5wonpGHH7bAxPTLWir8oR7WWr8RSwudtccA
+	NURnawyZJfH83paaaTUa6tuwnW6+GbjwfEoFHcYg7v+5++pbW6FcRF5ZV6nOoM8OLll/aSAusoN
+	h189AY2XKW0Ic1edeXbj9FOrDyniPycCZdiKo18YijaVxVZTP6wgEKY+4qWsN5B4Qr2mYL78Xi3
+	FCLqsPwhidC
+X-Received: by 2002:ac8:5e10:0:b0:4b0:b7d2:763f with SMTP id
+ d75a77b69052e-4b2aab20bb8mr24115191cf.47.1755853091220; Fri, 22 Aug 2025
+ 01:58:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250813133812.926145-1-ethan.w.s.graham@gmail.com>
- <20250813133812.926145-7-ethan.w.s.graham@gmail.com> <CANpmjNMXnXf879XZc-skhbv17sjppwzr0VGYPrrWokCejfOT1A@mail.gmail.com>
- <CALrw=nFKv9ORN=w26UZB1qEi904DP1V5oqDsQv7mt8QGVhPW1A@mail.gmail.com>
- <20250815011744.GB1302@sol> <CALrw=nHcpDNwOV6ROGsXq8TtaPNGC4kGf_5YDTfVs2U1+wjRhg@mail.gmail.com>
- <CANpmjNOdq9iwuS9u6NhCrZ+AsM+_pAfZXZsTmpXMPacjRjV80g@mail.gmail.com>
-In-Reply-To: <CANpmjNOdq9iwuS9u6NhCrZ+AsM+_pAfZXZsTmpXMPacjRjV80g@mail.gmail.com>
+References: <20250813133812.926145-1-ethan.w.s.graham@gmail.com> <20250813133812.926145-4-ethan.w.s.graham@gmail.com>
+In-Reply-To: <20250813133812.926145-4-ethan.w.s.graham@gmail.com>
 From: "'David Gow' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 22 Aug 2025 16:57:49 +0800
-X-Gm-Features: Ac12FXzJsp2vCYslm6ERlK05gi4KeqjE3YdvQXHbGJxUAQ-w3a_LzfiA2QZcy44
-Message-ID: <CABVgOS=7wrxywmgn8YRW4o_sUN=wOxa4k7NbTObAxA5okmr+CQ@mail.gmail.com>
-Subject: Re: [PATCH v1 RFC 6/6] crypto: implement KFuzzTest targets for PKCS7
- and RSA parsing
-To: Marco Elver <elver@google.com>
-Cc: Ignat Korchagin <ignat@cloudflare.com>, Eric Biggers <ebiggers@kernel.org>, 
-	Ethan Graham <ethan.w.s.graham@gmail.com>, ethangraham@google.com, glider@google.com, 
-	andreyknvl@gmail.com, brendan.higgins@linux.dev, dvyukov@google.com, 
-	jannh@google.com, rmoar@google.com, shuah@kernel.org, tarasmadan@google.com, 
+Date: Fri, 22 Aug 2025 16:57:59 +0800
+X-Gm-Features: Ac12FXzU8xu8PyzsDwHHn4kmmXyplfDG-OPyeaz3YpQBir8tDT1g8D3RnS31l3M
+Message-ID: <CABVgOSkrbAxBUqvSWQ2ME5Vx0SXpCRmN3F-i6qJj=0BEZg_2dg@mail.gmail.com>
+Subject: Re: [PATCH v1 RFC 3/6] kfuzztest: implement core module and input processing
+To: Ethan Graham <ethan.w.s.graham@gmail.com>
+Cc: ethangraham@google.com, glider@google.com, andreyknvl@gmail.com, 
+	brendan.higgins@linux.dev, dvyukov@google.com, jannh@google.com, 
+	elver@google.com, rmoar@google.com, shuah@kernel.org, tarasmadan@google.com, 
 	kasan-dev@googlegroups.com, kunit-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	David Howells <dhowells@redhat.com>, Lukas Wunner <lukas@wunner.de>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
-	"open list:HARDWARE RANDOM NUMBER GENERATOR CORE" <linux-crypto@vger.kernel.org>
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000004ca7d8063cf067ac"
+	boundary="000000000000d31790063cf0678e"
 X-Original-Sender: davidgow@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=sHoZe2JU;       spf=pass
- (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::72d
+ header.i=@google.com header.s=20230601 header.b=QEqJrAIo;       spf=pass
+ (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::830
  as permitted sender) smtp.mailfrom=davidgow@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
 X-Original-From: David Gow <davidgow@google.com>
@@ -160,140 +151,463 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---0000000000004ca7d8063cf067ac
+--000000000000d31790063cf0678e
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, 19 Aug 2025 at 18:08, Marco Elver <elver@google.com> wrote:
+On Wed, 13 Aug 2025 at 21:38, Ethan Graham <ethan.w.s.graham@gmail.com> wrote:
 >
-> On Fri, 15 Aug 2025 at 15:00, Ignat Korchagin <ignat@cloudflare.com> wrot=
-e:
-> >
-> > On Fri, Aug 15, 2025 at 2:18=E2=80=AFAM Eric Biggers <ebiggers@kernel.o=
-rg> wrote:
-> > >
-> > > On Thu, Aug 14, 2025 at 04:28:13PM +0100, Ignat Korchagin wrote:
-> > > > Not sure if it has been mentioned elsewhere, but one thing I alread=
-y
-> > > > don't like about it is that these definitions "pollute" the actual
-> > > > source files. Might not be such a big deal here, but kernel source
-> > > > files for core subsystems tend to become quite large and complex
-> > > > already, so not a great idea to make them even larger and harder to
-> > > > follow with fuzz definitions.
-> > > >
-> > > > As far as I'm aware, for the same reason KUnit [1] is not that popu=
-lar
-> > > > (or at least less popular than other approaches, like selftests [2]=
-).
-> > > > Is it possible to make it that these definitions live in separate
-> > > > files or even closer to selftests?
-> > >
-> > > That's not the impression I get.  KUnit suites are normally defined i=
-n
-> > > separate files, and KUnit seems to be increasing in popularity.
-> >
-> > Great! Either I was wrong from the start or it changed and I haven't
-> > looked there recently.
-> >
-> > > KFuzzTest can use separate files too, it looks like?
-> > >
-> > > Would it make any sense for fuzz tests to be a special type of KUnit
-> > > test, instead of a separate framework?
-> >
-> > I think so, if possible. There is always some hurdles adopting new
-> > framework, but if it would be a new feature of an existing one (either
-> > KUnit or selftests - whatever fits better semantically), the existing
-> > users of that framework are more likely to pick it up.
+> From: Ethan Graham <ethangraham@google.com>
 >
-> The dependency would be in name only (i.e. "branding"). Right now it's
-> possible to use KFuzzTest without the KUnit dependency. So there is
-> technical merit to decouple.
+> Add the core runtime implementation for KFuzzTest. This includes the
+> module initialization, and the logic for receiving and processing
+> user-provided inputs through debugfs.
 >
-
-There's definitely some overlap between KFuzzTest and KUnit, from the
-relatively superficial API similarities: both having similar
-ASSERT/EXPECT macros; to the more specific: KUnit parameterised tests
-allow running the same 'test' code against several different pieces of
-input data.
-
-Then again, there are definitely some differences, too: KUnit doesn't
-have a way of describing complex binary data (though it's definitely a
-feature we'd like one day), and the purpose of KUnit tests, while
-having some overlap, is different than exposing fuzz targets.
-
-If there's a bit of KUnit functionality you can reasonably re-use or
-otherwise take advantage of, I'd not discourage you from doing so.
-There's a balance to be struck between taking the extra dependency and
-ending up with duplicate implementations of the same thing.
-
-I also think that what Ignat says below around simply ensuring that
-the API is familiar (i.e., not deviating from what KUnit or other
-frameworks do without a good reason) is a good middle ground here.
-
-So my gut feeling is that you could end up with one of three things:
-- Make KFuzzTests a special case of (parameterised) KUnit tests. This
-would probably involve adding a way to run the tests with a parameter
-from debugfs or a kernel command-line argument using the metadata
-format, and teaching the fuzzer to run KUnit tests. KUnit already has
-an attributes mechanism that could be used to note which tests are
-fuzz targets, and maybe even providing some of the annotation, but
-there'd be some work needed to improve it. The big advantage here is
-that you'd automatically gain the ability to use KUnit helpers to set
-up things like memory regions, fake devices, etc.
-- Share some of the implementation details between KUnit and
-KFuzzTest, but keep them as separate things. We already have a bunch
-of, e.g., work on assertions, logging, etc, which could possibly be
-helpful. This could be done by depending on CONFIG_KUNIT or by
-splitting those out into a shared test library.
-- Keep them separate, but be careful to make the APIs similar enough
-to be familiar. KFuzzTest already looks pretty similar to me, so I
-think we're already in a good place here.
-
-Personally, I'd quite like for there to be a bit more overlap/code
-sharing -- at least eventually -- as I could see some benefits to
-"borrowing" some KFuzzTest code to allow, e.g., providing custom
-inputs/outputs for tests.
-
-> Would sufficient documentation, and perhaps suggesting separate files
-> to be the canonical way of defining KFuzzTests, improve the situation?
+> On module load, the framework discovers all test targets by iterating
+> over the .kfuzztest_target section, creating a corresponding debugfs
+> directory with a write-only 'input' file for each of them.
 >
-> For example something like:
-> For subsystem foo.c, define a KFuzzTest in foo_kfuzz.c, and then in
-> the Makfile add "obj-$(CONFIG_KFUZZTEST) +=3D foo_kfuzz.o".
-> Alternatively, to test internal static functions, place the KFuzzTest
-> harness in a file foo_kfuzz.h, and include at the bottom of foo.c.
+> Writing to an 'input' file triggers the main fuzzing sequence:
+> 1. The serialized input is copied from userspace into a kernel buffer.
+> 2. The buffer is parsed to validate the region array and relocation
+>    table.
+> 3. Pointers are patched based on the relocation entries, and in KASAN
+>    builds the inter-region padding is poisoned.
+> 4. The resulting struct is passed to the user-defined test logic.
 >
-> Alex, Ethan, and KUnit folks: What's your preference?
+> Signed-off-by: Ethan Graham <ethangraham@google.com>
+> ---
 
-I think that keeping tests in separate files by default is the right
-way to go, but obviously either #including them or using a whole bunch
-of conditional symbol exports (either with symbol namespaces or
-something like EXPORT_SYMBOL_IF_KUNIT) will be necessary in some cases
-to get coverage of internal functions.
-
-I'd suggest being a little careful with the naming scheme, as Linus
-was not happy with the foo_test.c names we were using as they make tab
-completion more annoying; we ended up putting tests in a 'tests/'
-subdirectory where appropriate:
-https://docs.kernel.org/dev-tools/kunit/style.html
-
-But ultimately, I think this is a style decision, not a critically
-important technical one: provide some good practices to follow -- and
-encourage people to be consistent -- but understand that occasionally
-a maintainer will override it (sometimes even for good reason).
+I haven't had a chance to look over this in detail yet (though I
+definitely love some of the ideas here), but I'd strongly encourage
+you to taint the kernel (with TAINT_TEST) if this is enabled/used.
 
 Cheers,
 -- David
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-ABVgOS%3D7wrxywmgn8YRW4o_sUN%3DwOxa4k7NbTObAxA5okmr%2BCQ%40mail.gmail.com.
 
---0000000000004ca7d8063cf067ac
+>  lib/Makefile           |   2 +
+>  lib/kfuzztest/Makefile |   4 +
+>  lib/kfuzztest/main.c   | 161 +++++++++++++++++++++++++++++++
+>  lib/kfuzztest/parse.c  | 208 +++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 375 insertions(+)
+>  create mode 100644 lib/kfuzztest/Makefile
+>  create mode 100644 lib/kfuzztest/main.c
+>  create mode 100644 lib/kfuzztest/parse.c
+>
+> diff --git a/lib/Makefile b/lib/Makefile
+> index c38582f187dd..511c44ef4b19 100644
+> --- a/lib/Makefile
+> +++ b/lib/Makefile
+> @@ -354,6 +354,8 @@ obj-$(CONFIG_GENERIC_LIB_CMPDI2) += cmpdi2.o
+>  obj-$(CONFIG_GENERIC_LIB_UCMPDI2) += ucmpdi2.o
+>  obj-$(CONFIG_OBJAGG) += objagg.o
+>
+> +obj-$(CONFIG_KFUZZTEST) += kfuzztest/
+> +
+>  # pldmfw library
+>  obj-$(CONFIG_PLDMFW) += pldmfw/
+>
+> diff --git a/lib/kfuzztest/Makefile b/lib/kfuzztest/Makefile
+> new file mode 100644
+> index 000000000000..142d16007eea
+> --- /dev/null
+> +++ b/lib/kfuzztest/Makefile
+> @@ -0,0 +1,4 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +obj-$(CONFIG_KFUZZTEST) += kfuzztest.o
+> +kfuzztest-objs := main.o parse.o
+> diff --git a/lib/kfuzztest/main.c b/lib/kfuzztest/main.c
+> new file mode 100644
+> index 000000000000..fccda1319fb0
+> --- /dev/null
+> +++ b/lib/kfuzztest/main.c
+> @@ -0,0 +1,161 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * KFuzzTest core module initialization and debugfs interface.
+> + *
+> + * Copyright 2025 Google LLC
+> + */
+> +#include <linux/debugfs.h>
+> +#include <linux/fs.h>
+> +#include <linux/kfuzztest.h>
+> +#include <linux/module.h>
+> +#include <linux/printk.h>
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("Ethan Graham <ethangraham@google.com>");
+> +MODULE_DESCRIPTION("Kernel Fuzz Testing Framework (KFuzzTest)");
+> +
+> +extern const struct kfuzztest_target __kfuzztest_targets_start[];
+> +extern const struct kfuzztest_target __kfuzztest_targets_end[];
+> +
+> +/**
+> + * struct kfuzztest_dentry - A container for a debugfs dentry and its fops.
+> + * @dentry: Pointer to the created debugfs dentry.
+> + * @fops: The file_operations struct associated with this dentry.
+> + *
+> + * This simplifies state management by keeping a file's dentry and its
+> + * operations bundled together.
+> + */
+> +struct kfuzztest_dentry {
+> +       struct dentry *dentry;
+> +       struct file_operations fops;
+> +};
+> +
+> +/**
+> + * struct kfuzztest_debugfs_state - Per-test-case debugfs state.
+> + * @test_dir: The top-level debugfs directory for a single test case, e.g.,
+> + * /sys/kernel/debug/kfuzztest/<test-name>/.
+> + * @input_dentry: The state for the "input" file, which is write-only.
+> + *
+> + * Wraps all debugfs components created for a single test case.
+> + */
+> +struct kfuzztest_debugfs_state {
+> +       struct dentry *target_dir;
+> +       struct kfuzztest_dentry input_dentry;
+> +};
+> +
+> +/**
+> + * struct kfuzztest_simple_fuzzer_state - Global state for the KFTF module.
+> + * @kfuzztest_dir: The root debugfs directory, /sys/kernel/debug/kfuzztest/.
+> + * @debugfs_state: A statically sized array holding the state for each
+> + *     registered test case.
+> + */
+> +struct kfuzztest_state {
+> +       struct file_operations fops;
+> +       struct dentry *kfuzztest_dir;
+> +       struct kfuzztest_debugfs_state *debugfs_state;
+> +};
+> +
+> +/* Global static variable to hold all state for the module. */
+> +static struct kfuzztest_state state;
+> +
+> +const umode_t KFUZZTEST_INPUT_PERMS = 0222;
+> +
+> +/**
+> + * kfuzztest_init - Initializes the debug filesystem for KFuzzTest.
+> + *
+> + * Each registered test in the ".kfuzztest" section gets its own subdirectory
+> + * under "/sys/kernel/debug/kfuzztest/<test-name>" with one files:
+> + *     - input: write-only file to send input to the fuzz driver
+> + *
+> + * Returns:
+> + *     0 on success.
+> + *     -ENODEV or other error codes if debugfs creation fails.
+> + */
+> +static int __init kfuzztest_init(void)
+> +{
+> +       const struct kfuzztest_target *targ;
+> +       int ret = 0;
+> +       int i = 0;
+> +       size_t num_test_cases;
+> +
+> +       num_test_cases = __kfuzztest_targets_end - __kfuzztest_targets_start;
+> +
+> +       state.debugfs_state =
+> +               kzalloc(num_test_cases * sizeof(struct kfuzztest_debugfs_state),
+> +                       GFP_KERNEL);
+> +       if (!state.debugfs_state)
+> +               return -ENOMEM;
+> +
+> +       /* Create the main "kfuzztest" directory in /sys/kernel/debug. */
+> +       state.kfuzztest_dir = debugfs_create_dir("kfuzztest", NULL);
+> +       if (!state.kfuzztest_dir) {
+> +               pr_warn("KFuzzTest: could not create debugfs");
+> +               return -ENODEV;
+> +       }
+> +
+> +       if (IS_ERR(state.kfuzztest_dir)) {
+> +               state.kfuzztest_dir = NULL;
+> +               return PTR_ERR(state.kfuzztest_dir);
+> +       }
+> +
+> +       for (targ = __kfuzztest_targets_start; targ < __kfuzztest_targets_end;
+> +            targ++, i++) {
+> +               /* Create debugfs directory for the target. */
+> +               state.debugfs_state[i].target_dir =
+> +                       debugfs_create_dir(targ->name, state.kfuzztest_dir);
+> +
+> +               if (!state.debugfs_state[i].target_dir) {
+> +                       ret = -ENOMEM;
+> +                       goto cleanup_failure;
+> +               } else if (IS_ERR(state.debugfs_state[i].target_dir)) {
+> +                       ret = PTR_ERR(state.debugfs_state[i].target_dir);
+> +                       goto cleanup_failure;
+> +               }
+> +
+> +               /* Create an input file under the target's directory. */
+> +               state.debugfs_state[i].input_dentry.fops =
+> +                       (struct file_operations){
+> +                               .owner = THIS_MODULE,
+> +                               .write = targ->write_input_cb,
+> +                       };
+> +               state.debugfs_state[i].input_dentry.dentry =
+> +                       debugfs_create_file(
+> +                               "input", KFUZZTEST_INPUT_PERMS,
+> +                               state.debugfs_state[i].target_dir, NULL,
+> +                               &state.debugfs_state[i].input_dentry.fops);
+> +               if (!state.debugfs_state[i].input_dentry.dentry) {
+> +                       ret = -ENOMEM;
+> +                       goto cleanup_failure;
+> +               } else if (IS_ERR(state.debugfs_state[i].input_dentry.dentry)) {
+> +                       ret = PTR_ERR(
+> +                               state.debugfs_state[i].input_dentry.dentry);
+> +                       goto cleanup_failure;
+> +               }
+> +
+> +               pr_info("KFuzzTest: registered target %s", targ->name);
+> +       }
+> +
+> +       return 0;
+> +
+> +cleanup_failure:
+> +       debugfs_remove_recursive(state.kfuzztest_dir);
+> +       return ret;
+> +}
+> +
+> +static void __exit kfuzztest_exit(void)
+> +{
+> +       pr_info("KFuzzTest: exiting");
+> +       if (!state.kfuzztest_dir)
+> +               return;
+> +
+> +       debugfs_remove_recursive(state.kfuzztest_dir);
+> +       state.kfuzztest_dir = NULL;
+> +
+> +       if (state.debugfs_state) {
+> +               kfree(state.debugfs_state);
+> +               state.debugfs_state = NULL;
+> +       }
+> +}
+> +
+> +module_init(kfuzztest_init);
+> +module_exit(kfuzztest_exit);
+> diff --git a/lib/kfuzztest/parse.c b/lib/kfuzztest/parse.c
+> new file mode 100644
+> index 000000000000..6010171190ad
+> --- /dev/null
+> +++ b/lib/kfuzztest/parse.c
+> @@ -0,0 +1,208 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * KFuzzTest input parsing and validation.
+> + *
+> + * Copyright 2025 Google LLC
+> + */
+> +#include <linux/kfuzztest.h>
+> +#include <linux/kasan.h>
+> +
+> +/*
+> + * Enforce a fixed struct size to ensure a consistent stride when iterating over
+> + * the array of these structs in the dedicated ELF section.
+> + */
+> +static_assert(sizeof(struct kfuzztest_target) == 32, "struct kfuzztest_target should have size 32");
+> +static_assert(sizeof(struct kfuzztest_constraint) == 64, "struct kfuzztest_constraint should have size 64");
+> +static_assert(sizeof(struct kfuzztest_annotation) == 32, "struct kfuzztest_annotation should have size 32");
+> +
+> +static int kfuzztest_relocate_v0(struct reloc_region_array *regions, struct reloc_table *rt, void *payload_start,
+> +                                void *payload_end)
+> +{
+> +       struct reloc_region reg, src, dst;
+> +       void *poison_start, *poison_end;
+> +       uintptr_t *ptr_location;
+> +       struct reloc_entry re;
+> +       size_t i;
+> +
+> +       /* Patch pointers. */
+> +       for (i = 0; i < rt->num_entries; i++) {
+> +               re = rt->entries[i];
+> +               src = regions->regions[re.region_id];
+> +               ptr_location = (uintptr_t *)((char *)payload_start + src.offset + re.region_offset);
+> +               if (re.value == KFUZZTEST_REGIONID_NULL)
+> +                       *ptr_location = (uintptr_t)NULL;
+> +               else if (re.value < regions->num_regions) {
+> +                       dst = regions->regions[re.value];
+> +                       *ptr_location = (uintptr_t)((char *)payload_start + dst.offset);
+> +               } else
+> +                       return -EINVAL;
+> +       }
+> +
+> +       /* Poison the padding between regions. */
+> +       for (i = 0; i < regions->num_regions; i++) {
+> +               reg = regions->regions[i];
+> +
+> +               /* Points to the beginning of the inter-region padding */
+> +               poison_start = payload_start + reg.offset + reg.size;
+> +               if (i < regions->num_regions - 1)
+> +                       poison_end = payload_start + regions->regions[i + 1].offset;
+> +               else
+> +                       poison_end = payload_end;
+> +
+> +               if ((char *)poison_end > (char *)payload_end)
+> +                       return -EINVAL;
+> +
+> +               kasan_poison_range(poison_start, poison_end - poison_start);
+> +       }
+> +
+> +       /* Poison the padded area preceding the payload. */
+> +       kasan_poison_range((char *)payload_start - rt->padding_size, rt->padding_size);
+> +       return 0;
+> +}
+> +
+> +static bool kfuzztest_input_is_valid(struct reloc_region_array *regions, struct reloc_table *rt, void *payload_start,
+> +                                    void *payload_end)
+> +{
+> +       size_t payload_size = (char *)payload_end - (char *)payload_start;
+> +       struct reloc_region reg, next_reg;
+> +       size_t usable_payload_size;
+> +       uint32_t region_end_offset;
+> +       struct reloc_entry reloc;
+> +       uint32_t i;
+> +
+> +       if ((char *)payload_start > (char *)payload_end)
+> +               return false;
+> +       if (payload_size < KFUZZTEST_POISON_SIZE)
+> +               return false;
+> +       usable_payload_size = payload_size - KFUZZTEST_POISON_SIZE;
+> +
+> +       for (i = 0; i < regions->num_regions; i++) {
+> +               reg = regions->regions[i];
+> +               if (check_add_overflow(reg.offset, reg.size, &region_end_offset))
+> +                       return false;
+> +               if ((size_t)region_end_offset > usable_payload_size)
+> +                       return false;
+> +
+> +               if (i < regions->num_regions - 1) {
+> +                       next_reg = regions->regions[i + 1];
+> +                       if (reg.offset > next_reg.offset)
+> +                               return false;
+> +                       /*
+> +                        * Enforce the minimum poisonable gap between
+> +                        * consecutive regions.
+> +                        */
+> +                       if (reg.offset + reg.size + KFUZZTEST_POISON_SIZE > next_reg.offset)
+> +                               return false;
+> +               }
+> +       }
+> +
+> +       if (rt->padding_size < KFUZZTEST_POISON_SIZE) {
+> +               pr_info("validation failed because rt->padding_size = %u", rt->padding_size);
+> +               return false;
+> +       }
+> +
+> +       for (i = 0; i < rt->num_entries; i++) {
+> +               reloc = rt->entries[i];
+> +               if (reloc.region_id >= regions->num_regions)
+> +                       return false;
+> +               if (reloc.value != KFUZZTEST_REGIONID_NULL && reloc.value >= regions->num_regions)
+> +                       return false;
+> +
+> +               reg = regions->regions[reloc.region_id];
+> +               if (reloc.region_offset % (sizeof(uintptr_t)) || reloc.region_offset + sizeof(uintptr_t) > reg.size)
+> +                       return false;
+> +       }
+> +
+> +       return true;
+> +}
+> +
+> +static int kfuzztest_parse_input_v0(void *input, size_t input_size, struct reloc_region_array **ret_regions,
+> +                                   struct reloc_table **ret_reloc_table, void **ret_payload_start,
+> +                                   void **ret_payload_end)
+> +{
+> +       size_t reloc_entries_size, reloc_regions_size;
+> +       size_t reloc_table_size, regions_size;
+> +       struct reloc_region_array *regions;
+> +       void *payload_end, *payload_start;
+> +       struct reloc_table *rt;
+> +       size_t curr_offset = 0;
+> +
+> +       if (input_size < sizeof(struct reloc_region_array) + sizeof(struct reloc_table))
+> +               return -EINVAL;
+> +
+> +       regions = input;
+> +       if (check_mul_overflow(regions->num_regions, sizeof(struct reloc_region), &reloc_regions_size))
+> +               return -EINVAL;
+> +       if (check_add_overflow(sizeof(*regions), reloc_regions_size, &regions_size))
+> +               return -EINVAL;
+> +
+> +       curr_offset = regions_size;
+> +       if (curr_offset > input_size)
+> +               return -EINVAL;
+> +       if (input_size - curr_offset < sizeof(struct reloc_table))
+> +               return -EINVAL;
+> +
+> +       rt = (struct reloc_table *)((char *)input + curr_offset);
+> +
+> +       if (check_mul_overflow((size_t)rt->num_entries, sizeof(struct reloc_entry), &reloc_entries_size))
+> +               return -EINVAL;
+> +       if (check_add_overflow(sizeof(*rt), reloc_entries_size, &reloc_table_size))
+> +               return -EINVAL;
+> +       if (check_add_overflow(reloc_table_size, rt->padding_size, &reloc_table_size))
+> +               return -EINVAL;
+> +
+> +       if (check_add_overflow(curr_offset, reloc_table_size, &curr_offset))
+> +               return -EINVAL;
+> +       if (curr_offset > input_size)
+> +               return -EINVAL;
+> +
+> +       payload_start = (char *)input + curr_offset;
+> +       payload_end = (char *)input + input_size;
+> +
+> +       if (!kfuzztest_input_is_valid(regions, rt, payload_start, payload_end))
+> +               return -EINVAL;
+> +
+> +       *ret_regions = regions;
+> +       *ret_reloc_table = rt;
+> +       *ret_payload_start = payload_start;
+> +       *ret_payload_end = payload_end;
+> +       return 0;
+> +}
+> +
+> +static int kfuzztest_parse_and_relocate_v0(void *input, size_t input_size, void **arg_ret)
+> +{
+> +       struct reloc_region_array *regions;
+> +       void *payload_start, *payload_end;
+> +       struct reloc_table *reloc_table;
+> +       int ret;
+> +
+> +       ret = kfuzztest_parse_input_v0(input, input_size, &regions, &reloc_table, &payload_start, &payload_end);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       ret = kfuzztest_relocate_v0(regions, reloc_table, payload_start, payload_end);
+> +       if (ret < 0)
+> +               return ret;
+> +       *arg_ret = payload_start;
+> +       return 0;
+> +}
+> +
+> +int kfuzztest_parse_and_relocate(void *input, size_t input_size, void **arg_ret)
+> +{
+> +       u32 version, magic;
+> +
+> +       if (input_size < sizeof(u32) + sizeof(u32))
+> +               return -EINVAL;
+> +
+> +       magic = *(u32 *)input;
+> +       if (magic != KFUZZTEST_HEADER_MAGIC)
+> +               return -EINVAL;
+> +
+> +       version = *(u32 *)((char *)input + sizeof(u32));
+> +       switch (version) {
+> +       case KFUZZTEST_V0:
+> +               return kfuzztest_parse_and_relocate_v0(input + sizeof(u64), input_size - sizeof(u64), arg_ret);
+> +       }
+> +
+> +       return -EINVAL;
+> +}
+> --
+> 2.51.0.rc0.205.g4a044479a3-goog
+>
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CABVgOSkrbAxBUqvSWQ2ME5Vx0SXpCRmN3F-i6qJj%3D0BEZg_2dg%40mail.gmail.com.
+
+--000000000000d31790063cf0678e
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -383,13 +697,13 @@ Vumvw5QTHe29TYxSiusovM6OD5y0I+4zaIaYDx/AtF0mMOFXb1MDyynf1CDxhtkgnrBUseHSOU2e
 MYs7IqzRap5xsgpJS+t7cp/P8fdlCNvsXss9zZa279tKwaxR0U2IzGxRGsWKGxDysn1HT6pqMDGC
 Al0wggJZAgEBMGgwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKjAo
 BgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMwIQAUXA7LnOuRz2DvkWTeMc
-0TANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQg9H0TO/qid64EtuSTX99+cSgt7eo0
-VC+zREg+oYNxnT4wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
-ODIyMDg1ODAzWjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
+0TANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQgFacMd25Haozy8Dbg6EJAtvfsW9wo
+SnPlSrB25d/HNGMwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
+ODIyMDg1ODExWjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
 YIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcN
-AQEBBQAEggEAH5FxfGzMR9w2OCmWaVMafGBbv4Qguo1JgOQbNeS2a4bIuN9GrZEM9hu4pgF+OKQP
-cR6eMy7Ac7IUZk0H0oWcNqxbVPFgtoqynW9/FhZa4iLA7P2j38xNJa/5PJVt/rxXqWYJ+W6Rnmyh
-FsiFNn9ZjDTD7/CsvVpmmd1Gu/kFadQRcxby4chuBRHxTO1pV3ml7XN3hNzoyxmtEyJnh9NoZgiM
-e3z/CR5MvdRnOB8CxVDIg/TpinvTbGBbQnEMDbpIF2TzL3nkUqYbhLISvKOPAVADMa9dsBG8wiSC
-+oqZYUCZ0y2TRXLHvED/0mrTygSNSzPvxs+QCLCijyJ89lmfaA==
---0000000000004ca7d8063cf067ac--
+AQEBBQAEggEAc1yOwJQc/F49KkfD/RGR6+pgJDNaVi966norWXgjpAbryQNYssi5Uvv42jag9zFV
+4k86oHmG9jItTPZpIPhv4W5zFVN1pUmPik1/xZENW65BCDV4EoRQujvLowM4DaQJqjZ3+PQdQ0us
+I8gFBN1Voo7xLZOhkzCpVsctVVjeqTJl1k/wQlmaURNaZlYo9XzIle8CPBgyxAQWK70LF4UZSit9
+tCeV8hjmu0ePdHhNQwbh69Bg88fjwnKxYW1vz83UBs6+xt+z5GYjQfASs3GQGaWK8o4mg4XK70SS
+bEr23jTnj9sDYxq4EUlC2d5q9BRI9YITrSnMqbtI3CteYWM0Gg==
+--000000000000d31790063cf0678e--
