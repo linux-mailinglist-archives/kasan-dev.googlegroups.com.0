@@ -1,166 +1,163 @@
-Return-Path: <kasan-dev+bncBDZMFEH3WYFBBGMGU3CQMGQELG3JYQA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDK7LR5URMGRBUEWU3CQMGQEQI2ZD2A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73f.google.com (mail-qk1-x73f.google.com [IPv6:2607:f8b0:4864:20::73f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78545B327CB
-	for <lists+kasan-dev@lfdr.de>; Sat, 23 Aug 2025 11:00:11 +0200 (CEST)
-Received: by mail-qk1-x73f.google.com with SMTP id af79cd13be357-7e9fa5f80e7sf683821685a.0
-        for <lists+kasan-dev@lfdr.de>; Sat, 23 Aug 2025 02:00:11 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1755939610; cv=pass;
+Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8E23B327F3
+	for <lists+kasan-dev@lfdr.de>; Sat, 23 Aug 2025 11:35:14 +0200 (CEST)
+Received: by mail-lf1-x13c.google.com with SMTP id 2adb3069b0e04-55f3ebcce78sf25617e87.1
+        for <lists+kasan-dev@lfdr.de>; Sat, 23 Aug 2025 02:35:14 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1755941714; cv=pass;
         d=google.com; s=arc-20240605;
-        b=fEmC4npe+g4l3BXe/q9WwhKy2xLxMq4fAH03HAeCJpsnMRdhbtrUy0GF7hRPx95kq6
-         jXI3zLv5jOcAjQm2ahzOqfygDUtUNy8HnYepwCZ01+WCyP4AXEo7M+Y8exxwODU140pa
-         o6ScdU1rn94E64ibweLnXtrC6e7EfkC+SERCnZkJow1ayfB8aq4PeFILe5LCq8/UupLR
-         eufaT7N92mDQkpX+vOYrpRrHnVj1g1fdM8D6X/PWE1v2dCLh0D0Jn1rDBq1TVSI4Rd7v
-         CNI8X5mk6Vf3Fp6DFRkFWHgL13aYzHlzUEDuNueXmA+XtSmGygZ+Lv8ggMTfUpLNcAOt
-         zcnA==
+        b=NHd+rC/VOkUwXvy/+eIz5YZOddDSDFgNGoOnuiJ2ZRaiDBuD3/FNmTd8O7zVAxpyki
+         4RNaMC51ed/mNElx0+1x5+EKUtUnMzrIO3woJRi1uHCtFSD8qpJca/3KOhvkzcN+eqqx
+         ja3TtTRsLdJCfpq9wHrBltMVntL1AidrtRANgH5PvAgWw4mMnnGzYsYKiVHYlHnczMXb
+         4oibECmXDhWPSlg+UUHN/NBbFkTXeSAb3VryZsEYkP1gd59JdSRH46UuSVlBukAcr9bH
+         WZuxSuubRrqs9Wg3tvuGKsuVMtCzxSelGHWpJ6D9/g53RGYuyGWmjuwLSNT3wDCXLyej
+         oxmg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=yA6rXPiQEiylox1M23IDOcq7Ig3hYFsfoXiYfhMi6iE=;
-        fh=ADuDiFADpowAHzgcGxU1uLGOzPwYSKAC2kwCNx+Kv5k=;
-        b=g2QXtTLH/sHJSrtj2BOrBLzrNWQrajUGnGj6eObVJnE/ox7oaF2j6+CGkx/xx/LeXT
-         hk5OHnijj0Q2pGyu6kj4dOQ2NF97A3BnryR+cy5147FUx6N3ayYmnF13MN1Fq+vjJbcE
-         WaKN3uIUeZExSStq4/odV8g/NjJpYcDR0ouQdBi/dpRMUX/Q9eCGO32Fq/RiKy5SQeK2
-         bBbMczK9WnEDI+L3JCdxMVewsWa94vTt6Bu1oQtENaT2A1C6GBwHX1XiQ41z3ZPYP0X2
-         uQP9K9tzBpwcdyC4WGeF78qqOB1bjjpHF0FMNOJ8x+DZMXFjs9HOrWwxFJR3ZA98O5VZ
-         oNmw==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:sender
+         :dkim-signature:dkim-signature;
+        bh=e19Ck6tg44sbOTKQ5FsOGipZm8f5RiMV6K4q5+/v2r0=;
+        fh=phGM1W6QbfDa2n2z0p85m3LxuRisABo0JkrvWoxjmM8=;
+        b=lFRfy1t5gyTaL1TqxiLbECGklzfqvCXP2foggnvFlxWuEKWoIZtOn3vCgYBYnWSvhC
+         KUnzgFeyHS3p+F2oEw0cGp0UHZWSyb8EuPQfHkllmtEqqdpiz736fftMJvgLUr8ezQru
+         7+hWDZx7FH4ip+U71LwPXIGhD/rINnE5zdaN50mV8o+I5mmBEOxYTw15Is+0QxGKDo8V
+         XYVNNZrOLKgppZexp+GKPFjdwpvqeDGANpdyW9p8E/2bozzY7gSPVVMU6i4NyEajX/73
+         3LxcCUiX5w6lFfKYEQAoYE7hvwzRU2Jc5ATNFWDanWjYV0iJRShjGZP6YfoJBFxbc3Tb
+         bm5w==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=rOGkWtsU;
-       spf=pass (google.com: domain of rppt@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=rppt@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=iJGSoecj;
+       spf=pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::12f as permitted sender) smtp.mailfrom=urezki@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1755939610; x=1756544410; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1755941714; x=1756546514; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:date:from:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=e19Ck6tg44sbOTKQ5FsOGipZm8f5RiMV6K4q5+/v2r0=;
+        b=SD3lCnROkXdo8YT5YyoTDl515Ed9ZiArCVFUyltl/o2fJRMg1RN/0ilDHVbtlcv90J
+         QoHlS8RAwZ/amJAupTSUxP9mSdipgtSbYwOM4RhNFeZTF2cMifBtAlczu9JVXPvYmjyL
+         oF4rZBgHaX0IDVm75MB7ejxEA/aKvlAQ9QL0GV8S9FtSvMdHKf6LWrGiiYGsjv+SdwcQ
+         2Gu4cyKbY/j+IZ8J9Qt/xiYU6AF1O9P6mIso6dqS74eGxH2Ftq//CZ3UWtiRxrnmd6qH
+         vMJPk7rLktzIGTvHPbWinb+eiUMhxWtIrLCCqApYQp9CNSvFAFTMr0r37JEg2RShlOVr
+         +EpA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755941714; x=1756546514; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:date:from:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=yA6rXPiQEiylox1M23IDOcq7Ig3hYFsfoXiYfhMi6iE=;
-        b=Zmhd4UeCnwwvSDnKmCVJcPGhDeo8Me+/PPZYhW5eA6A/LSekflvM5DeUoyzrblIyMk
-         l4uDKkdiy8y1qB8nxFxKSJmOCIEDlikTZOWpjqMUdDIPYgJuOaEhqHON+raYrJyZIGX0
-         1D1VqOuN/H/AngziQvfLqe4HdGGlLuT/FWy9YFPaFCehd11tu0NySgAwcLDK4qqivkA6
-         JoQAMaU4ahkduS798rabgV0wQ0sUmri/hW58NWtB8LTXL4P0xc3SXM0w8uDdX6R+n0dO
-         /D3rKTQfJ2bvcnfZsjdZIBIMn30rYUA350G7Ni08Kxj4Vna8sw8iOoqWcxfUqtCD3ELl
-         T5XQ==
+        bh=e19Ck6tg44sbOTKQ5FsOGipZm8f5RiMV6K4q5+/v2r0=;
+        b=lFfidh/XsYFxUd2PbxJYQ7nBXGdFDnNTQEv1tuwDim6XukH6nfktW3CwvEraSQ27qv
+         9X7Uk6Nm/eyRy1HuadLMcoC0DPDBc8gwdTOI2VjN+MXliD+n1G9CDDSF0SD11GQNR81N
+         bGJd1bqy5Xfmy0mCEU5yqoNjkM1okScgqIFggPra0qWqf1GmENu8gEbQv4LXlLe1PxV1
+         aBwT0lAPruQUeJctvpk7YQOr5jSkfby1UxSO5ZhB87h3oc76hQQacBr3anjlMWCYg6Q+
+         rjC765ThA7sPyQU7wndxFjw9tGpRf4IH93SloiGfLHnn6+BpRZBytEsqtg+6yfM2iFF5
+         zMDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755939610; x=1756544410;
+        d=1e100.net; s=20230601; t=1755941714; x=1756546514;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:x-beenthere
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yA6rXPiQEiylox1M23IDOcq7Ig3hYFsfoXiYfhMi6iE=;
-        b=C4ALx7tJWHWOem04pmdazddFU1FTFxhf3QvqvqAAdKP4GvEROZV1ClgGJTKcuVNimA
-         yxiS9VfvfWtm2odVcyIyKusrZcrbR5VeSByXUDAk7GOQBmz92xd8Cq+7Zw9aHnFNCiCp
-         f0FMnABkh/O12pIB0hKPbyU0XZRIDdBxEBqtMZCdQQ7Bu1b8VWQD7OVrH9auLvC9zAIw
-         jH9mUw8YQlkiabVUlBJ8dANRf0IulSn3KXf+UZJZWvi3JQdH4pzF0b748DcA2un6cgG+
-         ParkyYdv7YAy+fpJcOtREBA75dUNTn4w9Lw3NkBz8zDRE7Zo5UqhVmehrLAYdnpM3QK2
-         hK8w==
-X-Forwarded-Encrypted: i=2; AJvYcCVnXi+getFEQM1TvqfJBacd884PlCHckFsSQYfKF8seL1If5IJH+En3SzXlYwys2RkFA3DY9A==@lfdr.de
-X-Gm-Message-State: AOJu0YxQshp5pgMXKYCnNW90kPqMfBlJavmulbwOl6hah43cusJuENk3
-	jk2i+7qsas1FbVhOPDqmfOmEv9QBmUZFWHdwxtBxWs/M+tkGbSXnqh70
-X-Google-Smtp-Source: AGHT+IFoBYpj8V4F2/XaEVnwBUXCWgqDgkwJFIPO+SYNTgZOVHYmLdmQ0pCYlnk1DzOl2AWZDElcdQ==
-X-Received: by 2002:a05:620a:371d:b0:7ea:684:9dcc with SMTP id af79cd13be357-7ea10f88cb9mr661748385a.34.1755939609978;
-        Sat, 23 Aug 2025 02:00:09 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcLvkYi/YpQiRuoTHevHnQfydjkv03wpnPLUngC01K7ZQ==
-Received: by 2002:ac8:58d6:0:b0:4b0:7930:aefa with SMTP id d75a77b69052e-4b2c42c3a20ls447941cf.2.-pod-prod-05-us;
- Sat, 23 Aug 2025 02:00:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUCkPdNn87CSZR6TDSzmgTfI52/Vu9VgKKmTh/u65fM2AFkp+fE8EnkiCO4x9Go+obfdJ636OU01p8=@googlegroups.com
-X-Received: by 2002:a05:622a:24a:b0:4b0:7e8c:64cd with SMTP id d75a77b69052e-4b2aaa57eabmr75324051cf.4.1755939608887;
-        Sat, 23 Aug 2025 02:00:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1755939608; cv=none;
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:date:from:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=e19Ck6tg44sbOTKQ5FsOGipZm8f5RiMV6K4q5+/v2r0=;
+        b=ttrmhnVMPnkCXjApXmRQUzALZxa0rpIN6XYU4WLJdjZ6cIm13xb12ebQWcVJxSqHbw
+         SxcJ8UANNPH/WSvA7Jdg4X9U/lPZQRYsi3hRKbHtlTs7lBA2YlmOJyrCiX4qCdSIP18B
+         pw3m84SugcWudLAfNnM6A+by0X0D7UjIjWOy7XzQpQm6VxCtEDtEwlR2WsU4Zr7trmHo
+         BeOxNY59bvgz9fk5wH6LcgrPOnGXXtANeC0+KghO9SJKZSucD41yMZaU9Wt9qK6ZyBlx
+         pQysxIuo55wJ+7jXyrtfVDAXxvco17AKdf3k14SB1eTYcy/YSJ3KbYhfm3lOM98eDNf4
+         JbmQ==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCX4/PA/xTWkb1lwycTfYJ7eq0mdIm6xLq4bbDGa2wyoafP7Gpmr2fQO/bZAqlhCwRipLF57YQ==@lfdr.de
+X-Gm-Message-State: AOJu0YxRXY9V/gOsMwFp9VGGg5yPM4QBZQLLacRf//kXIfMar30ndUaO
+	2gBQFmReHgLe+AfBujqTTzi434SCNvkS6DtEZd37uG37ihhlmWa0f6Ts
+X-Google-Smtp-Source: AGHT+IHFUtq6nCN53+H2LGim7feE/cQ3N5SDCo89NnwDYybDSXaU0GKUHRN0dldd5fywfC+SVV7NNQ==
+X-Received: by 2002:a05:651c:2113:b0:333:ac42:8d7b with SMTP id 38308e7fff4ca-33650fc86acmr17861291fa.23.1755941713396;
+        Sat, 23 Aug 2025 02:35:13 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdopv6R3xhSenSsAk5Nb6NsOBXNXSnuQ1Nf2jH3lrclaw==
+Received: by 2002:a05:651c:31c:b0:333:924b:baa3 with SMTP id
+ 38308e7fff4ca-33546b0ce46ls6026231fa.2.-pod-prod-06-eu; Sat, 23 Aug 2025
+ 02:35:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWZnEU5uY+STlzzUg059VaAA/cQ3Dhp9abxj7MWMqYDBTBQKASjGb/FNFAdn0ujqwMWvgXd64pZKxs=@googlegroups.com
+X-Received: by 2002:a2e:a581:0:b0:332:4381:246b with SMTP id 38308e7fff4ca-336510432f7mr16363081fa.40.1755941710462;
+        Sat, 23 Aug 2025 02:35:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1755941710; cv=none;
         d=google.com; s=arc-20240605;
-        b=DmVpVds0y9y2Wn9gzfPUeZfcmcfbuNkpUE9Eva8jzx6YIR727SGPnsuvGl3mad6zkj
-         jWho5T6/ROXW6QRiLw8Whx9ZN5I3f3PQKoqm7TUM1gJxnQsZJhDk1N3x6HjgcLrknIRd
-         fJY+cT8x08E0igMdNQepOBbj1RPSRLOF+3Xbk6qd/5L3gR/FAP9BLDQz+1dnl+27hBYk
-         PrWJJxY/DikU8OPRwwMQ6pgFmjtyt9KGzl9ziPYiqfvBZlQnqISO0vzMwcbTwImbHS/O
-         /JglpmZj2nh4kLM02aL/1oId5Hkb7QlV+D/+xiAeGv/7hat8bhBZiIL1LwgC6bTw7Ema
-         bxtQ==
+        b=hmn9Ny4dC7uJ3rY+UGu01E9Ifi52BRrvoySO1IVtGtzKCQx9cI+0U0zU1tBms/0rzQ
+         t7qcKvSQ7uTrcsOOMJ62/569d+O4SAJ7jsRiz7XF0W+sPmCtN5kh9ZWJdYE+knYmOwG+
+         YZ8WVnJM5PiVoV0V9LX2I5bBR1mhkIQco/hvHhYxQsz3pttXpIjWL9DnUDsW1f4J6hVa
+         TPlS5LFg10wA7a5ueXXDQgIKlR+0lYZ9leXo1tYWtOW6PZS8MAElNTT16Ot7abtC7Ik3
+         G7igmCUNsj3NGF3IZKks5rfCV/pKhgL1OK4/Ov/aDwBYqMgirZN2umBeXIGko9ABsZcR
+         o46g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=A3yFDc62nC30c8ipPORCXl1/TYX9qFzVOp/OlRE3m6M=;
-        fh=SnWEHMnw6q5A1i5gHssHZhjXePV2/MD17aPBvTeFLno=;
-        b=PdXHCIL5FARfay7I0gar3W2HDPxGElJXvuHEhXETw6CQash8aOnei8I06LeXElR2oA
-         5XtvAiKjOM8HJG7YuT65gKHLH0xDQfzywoUUztAbEPZ9yGXcOSOaDVEXZAxvfB58m6Dw
-         UywJKnnjfitVjcWFvYfOkYdUJ0pHrAocPKurD+nikhDP147mhplo6e1gi4uHJ3bT+3cb
-         shQWPazHSPymrNJlnBU0T3+yxBm+YoHhlRbTBmO9Aj9IdNGsmXw44BUl6DI/+loZ/fHz
-         +kCw2Plwz0dZ4NQGmhLu5jsumQnlwguyDXNj/XjH8MA5QDx9fcYRHRGiKqeCfPvw25B2
-         vPQA==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:dkim-signature;
+        bh=A92qUKVVscD1iUAIIcRKA9oYRSCgvP30+tdPO7B2xVE=;
+        fh=LsW5d2HxraAhBZ2MZXN5gpKvnl9dsk4x+8ZrkRPtVhw=;
+        b=BcnX7qI7V7N5+tjboFrOLgzqbUZWhfzB7TIVWWEBbMCRezrZPAu7NJ81vVpb9MfxmJ
+         1Ugh3meOPD+trbQrT3MCv1XursdvNVjLuXeL1ncGGmh3i8Jl0YgCEgMjuEQlmH444vfX
+         n1acAtHEY9lySKxH+hEGPeFmJfzd3gYObz0c4+CixV8sH+xTB66vl2Fsv0pxmeqpBN7K
+         s4ltZ5BeV7vn9DrzTJoE6u/mNqRe+uemMKxq9PWvVui44fS0/FMOjLfSZKzi60xVc+q3
+         ttxvp69BaIE2B9O1DQarcQiX1tOIWX+8xuncPtx326bmMHG2fPI41ztqQmixhLZjT1ey
+         rQsw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=rOGkWtsU;
-       spf=pass (google.com: domain of rppt@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=rppt@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id af79cd13be357-7ebf03c4a9csi8616385a.4.2025.08.23.02.00.08
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=iJGSoecj;
+       spf=pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::12f as permitted sender) smtp.mailfrom=urezki@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com. [2a00:1450:4864:20::12f])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-3365e5d1fd2si316441fa.8.2025.08.23.02.35.10
         for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 23 Aug 2025 02:35:10 -0700 (PDT)
+Received-SPF: pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::12f as permitted sender) client-ip=2a00:1450:4864:20::12f;
+Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-55f39c0a22dso525741e87.1
+        for <kasan-dev@googlegroups.com>; Sat, 23 Aug 2025 02:35:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXswdgelBrbxWkBhYdQBIwWhbYvukmh//Oxf0CQbJ4UowAOdagkPQtaeoyWIenVCIsoA66P/wj1h/k=@googlegroups.com
+X-Gm-Gg: ASbGnctBgRVE0FhqBm6IuP9VF+pEPpEETLV0YIfjuWhi9jA8/I/88HA/+tSbYtmyEfV
+	M1YjQ8BJ6u6vChEqLlN5tWVQB+pgfCA8abOXMlTI3dq/uCdp9JK7GoRgoZdm19GwfD2sW/mBkeO
+	ehOAEHmhP1Fm+Izptgv6Qxi22kJHdwM7I/IhRlyDSF83qIprbc033Ju4ckov0bYNabZebi1d/us
+	VYBY3tFQvgO8trtv4IOiYf+pFJYyUQK4u1HWa0DRNQDJAxbyDfK4iRmRJZh0mQHyGsfyl2NSe1m
+	RsE8wAXAL0trAOOEgCBvdmVjTBXiKrVgkyhduPIye3Ke0qW/erz9tD1bN0FZOktO
+X-Received: by 2002:a05:6512:4048:20b0:55f:34e8:b1b8 with SMTP id 2adb3069b0e04-55f34e8ca2fmr503948e87.55.1755941709652;
+        Sat, 23 Aug 2025 02:35:09 -0700 (PDT)
+Received: from pc636 ([2001:9b1:d5a0:a500::800])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55f35c9a0bbsm402584e87.121.2025.08.23.02.35.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Aug 2025 02:00:08 -0700 (PDT)
-Received-SPF: pass (google.com: domain of rppt@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 6ABA25C0FCC;
-	Sat, 23 Aug 2025 09:00:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F35E6C113D0;
-	Sat, 23 Aug 2025 08:59:53 +0000 (UTC)
-Date: Sat, 23 Aug 2025 11:59:50 +0300
-From: "'Mike Rapoport' via kasan-dev" <kasan-dev@googlegroups.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
-	linux-kernel@vger.kernel.org,
-	Alexander Potapenko <glider@google.com>,
+        Sat, 23 Aug 2025 02:35:09 -0700 (PDT)
+From: Uladzislau Rezki <urezki@gmail.com>
+Date: Sat, 23 Aug 2025 11:35:07 +0200
+To: Alexander Potapenko <glider@google.com>
+Cc: Marco Elver <elver@google.com>, linux-mm@kvack.org,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Brendan Jackman <jackmanb@google.com>,
-	Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>,
-	Dmitry Vyukov <dvyukov@google.com>, dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org, iommu@lists.linux.dev,
-	io-uring@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>,
-	Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
-	John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
-	kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
-	linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-mmc@vger.kernel.org, linux-mm@kvack.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Marco Elver <elver@google.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
-	netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
-	Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
-	Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
-	virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
-	wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-Subject: Re: [PATCH RFC 10/35] mm/hugetlb: cleanup
- hugetlb_folio_init_tail_vmemmap()
-Message-ID: <aKmDBobyvEX7ZUWL@kernel.org>
-References: <20250821200701.1329277-1-david@redhat.com>
- <20250821200701.1329277-11-david@redhat.com>
- <9156d191-9ec4-4422-bae9-2e8ce66f9d5e@redhat.com>
- <7077e09f-6ce9-43ba-8f87-47a290680141@redhat.com>
+	Vlastimil Babka <vbabka@suse.cz>, Michal Hocko <mhocko@kernel.org>,
+	Baoquan He <bhe@redhat.com>, LKML <linux-kernel@vger.kernel.org>,
+	Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com
+Subject: Re: [PATCH 0/8] __vmalloc() and no-block support
+Message-ID: <aKmLS0sLG5-ILTGR@pc636>
+References: <20250807075810.358714-1-urezki@gmail.com>
+ <aJSHbFviIiB2oN5G@elver.google.com>
+ <aJW520nQ78NrhXWX@pc636>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <7077e09f-6ce9-43ba-8f87-47a290680141@redhat.com>
-X-Original-Sender: rppt@kernel.org
+In-Reply-To: <aJW520nQ78NrhXWX@pc636>
+X-Original-Sender: Urezki@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=rOGkWtsU;       spf=pass
- (google.com: domain of rppt@kernel.org designates 139.178.84.217 as permitted
- sender) smtp.mailfrom=rppt@kernel.org;       dmarc=pass (p=QUARANTINE
- sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: Mike Rapoport <rppt@kernel.org>
-Reply-To: Mike Rapoport <rppt@kernel.org>
+ header.i=@gmail.com header.s=20230601 header.b=iJGSoecj;       spf=pass
+ (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::12f as
+ permitted sender) smtp.mailfrom=urezki@gmail.com;       dmarc=pass (p=NONE
+ sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -173,89 +170,188 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Aug 22, 2025 at 08:24:31AM +0200, David Hildenbrand wrote:
-> On 22.08.25 06:09, Mika Penttil=C3=A4 wrote:
-> >=20
-> > On 8/21/25 23:06, David Hildenbrand wrote:
-> >=20
-> > > All pages were already initialized and set to PageReserved() with a
-> > > refcount of 1 by MM init code.
-> >=20
-> > Just to be sure, how is this working with MEMBLOCK_RSRV_NOINIT, where M=
-M is supposed not to
-> > initialize struct pages?
->=20
-> Excellent point, I did not know about that one.
->=20
-> Spotting that we don't do the same for the head page made me assume that
-> it's just a misuse of __init_single_page().
->=20
-> But the nasty thing is that we use memblock_reserved_mark_noinit() to onl=
-y
-> mark the tail pages ...
+Hello, Alexander!
 
-And even nastier thing is that when CONFIG_DEFERRED_STRUCT_PAGE_INIT is
-disabled struct pages are initialized regardless of
-memblock_reserved_mark_noinit().
+I am working on making vmalloc to support extra non-blocking flags.
+Currently i see one more place that i need to address:
 
-I think this patch should go in before your updates:
+kmsan_vmap_pages_range_noflush() function which uses hard-coded GFP_KERNEL
+flags for allocation of two arrays for its internal use only.
 
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 753f99b4c718..1c51788339a5 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -3230,6 +3230,22 @@ int __alloc_bootmem_huge_page(struct hstate *h, int =
-nid)
- 	return 1;
+I have a question to you, can we just get rid of those two allocations?
+It is the easiest way, if possible. Otherwise i can add "gfp_t gfp_mask"
+extra parameter and pass there a corresponding gfp_mask flag. See below:
+
+<snip>
+diff --git a/include/linux/kmsan.h b/include/linux/kmsan.h
+index 2b1432cc16d5..e4b34e7a3b11 100644
+--- a/include/linux/kmsan.h
++++ b/include/linux/kmsan.h
+@@ -133,6 +133,7 @@ void kmsan_kfree_large(const void *ptr);
+  * @prot:      page protection flags used for vmap.
+  * @pages:     array of pages.
+  * @page_shift:        page_shift passed to vmap_range_noflush().
++ * @gfp_mask:  gfp_mask to use internally.
+  *
+  * KMSAN maps shadow and origin pages of @pages into contiguous ranges in
+  * vmalloc metadata address range. Returns 0 on success, callers must check
+@@ -142,7 +143,8 @@ int __must_check kmsan_vmap_pages_range_noflush(unsigned long start,
+                                                unsigned long end,
+                                                pgprot_t prot,
+                                                struct page **pages,
+-                                               unsigned int page_shift);
++                                               unsigned int page_shift,
++                                               gfp_t gfp_mask);
+
+ /**
+  * kmsan_vunmap_kernel_range_noflush() - Notify KMSAN about a vunmap.
+@@ -348,7 +350,7 @@ static inline void kmsan_kfree_large(const void *ptr)
+
+ static inline int __must_check kmsan_vmap_pages_range_noflush(
+        unsigned long start, unsigned long end, pgprot_t prot,
+-       struct page **pages, unsigned int page_shift)
++       struct page **pages, unsigned int page_shift, gfp_t gfp_mask)
+ {
+        return 0;
  }
-=20
-+/*
-+ * Tail pages in a huge folio allocated from memblock are marked as 'noini=
-t',
-+ * which means that when CONFIG_DEFERRED_STRUCT_PAGE_INIT is enabled their
-+ * struct page won't be initialized
-+ */
-+#ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
-+static void __init hugetlb_init_tail_page(struct page *page, unsigned long=
- pfn,
-+					enum zone_type zone, int nid)
+diff --git a/mm/internal.h b/mm/internal.h
+index 45b725c3dc03..6a13b8ee1e6c 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -1359,7 +1359,7 @@ size_t splice_folio_into_pipe(struct pipe_inode_info *pipe,
+ #ifdef CONFIG_MMU
+ void __init vmalloc_init(void);
+ int __must_check vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+-                pgprot_t prot, struct page **pages, unsigned int page_shift);
++               pgprot_t prot, struct page **pages, unsigned int page_shift, gfp_t gfp_mask);
+ unsigned int get_vm_area_page_order(struct vm_struct *vm);
+ #else
+ static inline void vmalloc_init(void)
+@@ -1368,7 +1368,7 @@ static inline void vmalloc_init(void)
+
+ static inline
+ int __must_check vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+-                pgprot_t prot, struct page **pages, unsigned int page_shift)
++               pgprot_t prot, struct page **pages, unsigned int page_shift, gfp_t gfp_mask)
+ {
+        return -EINVAL;
+ }
+diff --git a/mm/kmsan/init.c b/mm/kmsan/init.c
+index b14ce3417e65..5b74d6dbf0b8 100644
+--- a/mm/kmsan/init.c
++++ b/mm/kmsan/init.c
+@@ -233,5 +233,6 @@ void __init kmsan_init_runtime(void)
+        kmsan_memblock_discard();
+        pr_info("Starting KernelMemorySanitizer\n");
+        pr_info("ATTENTION: KMSAN is a debugging tool! Do not use it on production machines!\n");
+-       kmsan_enabled = true;
++       /* kmsan_enabled = true; */
++       kmsan_enabled = false;
+ }
+diff --git a/mm/kmsan/shadow.c b/mm/kmsan/shadow.c
+index 54f3c3c962f0..3cd733663100 100644
+--- a/mm/kmsan/shadow.c
++++ b/mm/kmsan/shadow.c
+@@ -215,7 +215,7 @@ void kmsan_free_page(struct page *page, unsigned int order)
+
+ int kmsan_vmap_pages_range_noflush(unsigned long start, unsigned long end,
+                                   pgprot_t prot, struct page **pages,
+-                                  unsigned int page_shift)
++                                  unsigned int page_shift, gfp_t gfp_mask)
+ {
+        unsigned long shadow_start, origin_start, shadow_end, origin_end;
+        struct page **s_pages, **o_pages;
+@@ -230,8 +230,8 @@ int kmsan_vmap_pages_range_noflush(unsigned long start, unsigned long end,
+                return 0;
+
+        nr = (end - start) / PAGE_SIZE;
+-       s_pages = kcalloc(nr, sizeof(*s_pages), GFP_KERNEL);
+-       o_pages = kcalloc(nr, sizeof(*o_pages), GFP_KERNEL);
++       s_pages = kcalloc(nr, sizeof(*s_pages), gfp_mask);
++       o_pages = kcalloc(nr, sizeof(*o_pages), gfp_mask);
+        if (!s_pages || !o_pages) {
+                err = -ENOMEM;
+                goto ret;
+diff --git a/mm/percpu-vm.c b/mm/percpu-vm.c
+index cd69caf6aa8d..4f5937090590 100644
+--- a/mm/percpu-vm.c
++++ b/mm/percpu-vm.c
+@@ -194,7 +194,7 @@ static int __pcpu_map_pages(unsigned long addr, struct page **pages,
+                            int nr_pages)
+ {
+        return vmap_pages_range_noflush(addr, addr + (nr_pages << PAGE_SHIFT),
+-                                       PAGE_KERNEL, pages, PAGE_SHIFT);
++                       PAGE_KERNEL, pages, PAGE_SHIFT, GFP_KERNEL);
+ }
+
+ /**
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index ee197f5b8cf0..9be01dcca690 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -671,16 +671,28 @@ int __vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+ }
+
+ int vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+-               pgprot_t prot, struct page **pages, unsigned int page_shift)
++               pgprot_t prot, struct page **pages, unsigned int page_shift,
++               gfp_t gfp_mask)
+ {
+        int ret = kmsan_vmap_pages_range_noflush(addr, end, prot, pages,
+-                                                page_shift);
++                                               page_shift, gfp_mask);
+
+        if (ret)
+                return ret;
+        return __vmap_pages_range_noflush(addr, end, prot, pages, page_shift);
+ }
+
++static int __vmap_pages_range(unsigned long addr, unsigned long end,
++               pgprot_t prot, struct page **pages, unsigned int page_shift,
++               gfp_t gfp_mask)
 +{
-+	__init_single_page(page, pfn, zone, nid);
-+}
-+#else
-+static inline void hugetlb_init_tail_page(struct page *page, unsigned long=
- pfn,
-+					enum zone_type zone, int nid) {}
-+#endif
++       int err;
 +
- /* Initialize [start_page:end_page_number] tail struct pages of a hugepage=
- */
- static void __init hugetlb_folio_init_tail_vmemmap(struct folio *folio,
- 					unsigned long start_page_number,
-@@ -3244,7 +3260,7 @@ static void __init hugetlb_folio_init_tail_vmemmap(st=
-ruct folio *folio,
- 	for (pfn =3D head_pfn + start_page_number; pfn < end_pfn; pfn++) {
- 		struct page *page =3D pfn_to_page(pfn);
-=20
--		__init_single_page(page, pfn, zone, nid);
-+		hugetlb_init_tail_page(page, pfn, zone, nid);
- 		prep_compound_tail((struct page *)folio, pfn - head_pfn);
- 		ret =3D page_ref_freeze(page, 1);
- 		VM_BUG_ON(!ret);
-=20
-> Let me revert back to __init_single_page() and add a big fat comment why
-> this is required.
->=20
-> Thanks!
++       err = vmap_pages_range_noflush(addr, end, prot, pages, page_shift, gfp_mask);
++       flush_cache_vmap(addr, end);
++       return err;
++}
++
+ /**
+  * vmap_pages_range - map pages to a kernel virtual address
+  * @addr: start of the VM area to map
+@@ -696,11 +708,7 @@ int vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+ int vmap_pages_range(unsigned long addr, unsigned long end,
+                pgprot_t prot, struct page **pages, unsigned int page_shift)
+ {
+-       int err;
+-
+-       err = vmap_pages_range_noflush(addr, end, prot, pages, page_shift);
+-       flush_cache_vmap(addr, end);
+-       return err;
++       return __vmap_pages_range(addr, end, prot, pages, page_shift, GFP_KERNEL);
+ }
 
---=20
-Sincerely yours,
-Mike.
+ static int check_sparse_vm_area(struct vm_struct *area, unsigned long start,
+@@ -3804,8 +3812,8 @@ static void *__vmalloc_area_node(struct vm_struct *area, gfp_t gfp_mask,
+                flags = memalloc_noio_save();
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/a=
-KmDBobyvEX7ZUWL%40kernel.org.
+        do {
+-               ret = vmap_pages_range(addr, addr + size, prot, area->pages,
+-                       page_shift);
++               ret = __vmap_pages_range(addr, addr + size, prot, area->pages,
++                               page_shift, gfp_mask);
+                if (nofail && (ret < 0))
+                        schedule_timeout_uninterruptible(1);
+        } while (nofail && (ret < 0));
+<snip>
+
+Thanks!
+
+--
+Uladzislau Rezki
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aKmLS0sLG5-ILTGR%40pc636.
