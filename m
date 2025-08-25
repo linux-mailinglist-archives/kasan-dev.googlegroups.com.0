@@ -1,142 +1,273 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBFUKWLCQMGQEWPG6EJI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC37BC7E2QERBOMSWLCQMGQEFBG3YOA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53a.google.com (mail-ed1-x53a.google.com [IPv6:2a00:1450:4864:20::53a])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4618B34631
-	for <lists+kasan-dev@lfdr.de>; Mon, 25 Aug 2025 17:45:27 +0200 (CEST)
-Received: by mail-ed1-x53a.google.com with SMTP id 4fb4d7f45d1cf-61c35ffef1dsf1717666a12.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 25 Aug 2025 08:45:27 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1756136727; cv=pass;
-        d=google.com; s=arc-20240605;
-        b=YOTOAFpncfYPjDzzkMAc1G3sc0NUBEbzoY0J11oWIwnaue/AgYYmy0S1JhBwPlUkTx
-         rIseyoyNBWVYSnSJ1xbmv4MmsB+TBJycFliTbs77lDws+E94sXrUPuxZ0iOgSEa0rK9Z
-         HydZzljXTvoRY9VEDwfR8XG/gN/nAYH9sJ5opFQtVFe3xkyKU6Sv/dgbV6oAIHhB5Ybn
-         wS8AhwNxLiX4z2q7OL7NodZdfkrnXAfPSPzyoyRv4K1IEigdjGocfcyfW5aVwnszU9kE
-         /3iM61qQeyqvGYwOOL4Jr8sPxD1B1ijiDEZ62Ki7P68WtGWhKwS9OI440gFa26QUTbQ+
-         Yd7A==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :message-id:mime-version:date:dkim-signature;
-        bh=O3X7p6g9NFdmudlKCrCPexy9d5bXyPA8Kl8Xd0NCsgI=;
-        fh=ROErFAWLIbl4mFzO/hMYT5S4D04emror45A1QHIjpMY=;
-        b=Xqw30dOoVixXCMWSg+le2/1YwwvWUsZ74WT7L5fAK4oT30nfUdl8DXtOQGw4pbfwnO
-         RBTmEeQEPHYo9eWVIHNep1gE7upSVtlNyu65bFj6dIxF23U02fNCVWsxgGKgNiUEEhOA
-         a+nNSbfThS8VwCs3MzunrDphwfRDADSK0S8AIm//xuwe+7ZaUahd8bDaFTQRQ5FHE9YK
-         77WZUsO7KWcRNbj8RrrMXca7nuxHhEe83Lwx2Yf1rZI0NLXmFDAAIFk5RD9y23Mvcz7X
-         qYsnx5I6JufTRJDQAXLfkW0wtP35bTcJOKqf3SeXcU4wHRTKy1jlvvE58S9+f2oXPqpx
-         sVNg==;
-        darn=lfdr.de
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=v4ZnYEZM;
-       spf=pass (google.com: domain of 3eywsaaukcro4bl4h6ee6b4.2eca0i0d-34l6ee6b46hekfi.2ec@flex--elver.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3EYWsaAUKCRo4BL4H6EE6B4.2ECA0I0D-34L6EE6B46HEKFI.2EC@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
+Received: from mail-oo1-xc37.google.com (mail-oo1-xc37.google.com [IPv6:2607:f8b0:4864:20::c37])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D101B346A1
+	for <lists+kasan-dev@lfdr.de>; Mon, 25 Aug 2025 18:03:07 +0200 (CEST)
+Received: by mail-oo1-xc37.google.com with SMTP id 006d021491bc7-61da04d1238sf4282031eaf.3
+        for <lists+kasan-dev@lfdr.de>; Mon, 25 Aug 2025 09:03:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1756136727; x=1756741527; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1756137786; x=1756742586; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O3X7p6g9NFdmudlKCrCPexy9d5bXyPA8Kl8Xd0NCsgI=;
-        b=qHIvw1+LpnpVAJ+lCFiWzAtRa9SlVvPJ9k+aXjV1IigTqsh06/6y5Lbat1HOAKF2xk
-         1aQUPjdfRlVP+D15OHSxgS/N6aG+qs1Hh6MQ27WLHpgBPq4IV0tov8aSxRNGsFrwHBHo
-         g84RbRl5lVNBvhduVZzyKEKLwLLbkiS6kriNwd+ZOQ92ej5ly7LK8occP5cDDD9GSebj
-         kalCZ19UrLdBPgjrbrxFrE/sgCB5ufM2qhvrTKnkANge6jeE7GYAV12SCuhojcLtXtas
-         OG/AHxExVG4P0WFxBkycUDNotiV4blwFlpkDmr0V/zbpqScoyDxVXOzSGre/Yb/aabIn
-         W69A==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :in-reply-to:content-transfer-encoding:content-disposition
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=xg1cwEDBQWV0S8QzBLuP1WwLbkvs0PW0usnr38rjL2E=;
+        b=jUH/rkeFkVnD7khLcrpLvJL46xmI5HLXUJMNQJosLdLabBCc+NOGZX5EhwRgJByuIE
+         +Xs+nS2O4RWph86hdSVxU2hToKjO3SVsNX3b7oj/6f/EBLzGYEDph04sG3OFpUmB2SZK
+         3M0gVQ0HVt9BdbnzlPVtUNYLUkfVaIPmbpjdOYyzabcP5tgsbfyk63hTBPsIMY+t0f9a
+         699/DSdyRNUpENSSrLuApvQXlJS2YwHuAvWxWyLconoaIYiVQcm9RukxkZoDZvXLPlXe
+         JznbaZsK8axilFIn1Wb48nzfv0F+AuQh+NTdjfH835x+pk+Xe3hD6XycgFWmVVbjxUBh
+         gq2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756136727; x=1756741527;
+        d=1e100.net; s=20230601; t=1756137786; x=1756742586;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=O3X7p6g9NFdmudlKCrCPexy9d5bXyPA8Kl8Xd0NCsgI=;
-        b=NM7pxE5Un4n56uz9II6oFvKpaJI3YyF7nAhXUKGmLhcu9+ZQvqXSlMl9Gecra8hRYG
-         YRqCz988V3O3wBTp9zm4L+3tXDAdtDVpeP1DT1b61rb05JH2Y1Z3uv3B0pXX8B4QCm97
-         ALgP8VwSjsYutFnHjfctsa50tD4t9SodQ0Ej8itkB0ytvwdRk369mCxUj5A6QlxBPPKq
-         NgXWfdrg3FgQkfUoVDAsafcug6a3LDfH2eFsJFNXV9f0qHlrf8dWL3NcmdSRVVl+1bDW
-         kC//2D064+5JNEU+cgcPOXwt3MGElQh+5uPeR3zgNQnxWxOWHSlxP1/0xY83xEl/0zzS
-         R3ig==
-X-Forwarded-Encrypted: i=2; AJvYcCU1DGyy/ueYFtgyv84Ipye3KRvjkZdawqD8AIYTU1gFgIT1cgjiyyCM6ymiyaebes5rOK450g==@lfdr.de
-X-Gm-Message-State: AOJu0YxZcuV2sCqzEQ2A4C4KdrXqJKw1U1A4Ma+ukPW4fmCwdhK+f2MS
-	E1exTNFs8VnbK1W/jaOrIKxSaqtgObJ8vZ52SpTAOHFRyebCBvQW6Q9P
-X-Google-Smtp-Source: AGHT+IEaaLTVA3wVe6P7ab/zKm8QMI+76uMCmbJ8ys1YbAsY1xaUrgKrtBCkq+kRHHU+oZ3eJEdNSQ==
-X-Received: by 2002:a05:6402:4310:b0:61c:6fe4:445e with SMTP id 4fb4d7f45d1cf-61c8d0c8ef6mr53028a12.10.1756136727176;
-        Mon, 25 Aug 2025 08:45:27 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZeJsJIZDhLDBP8LHeA5NgH5HsSq5MC7+/7w0v+AwgU76Q==
-Received: by 2002:aa7:d492:0:b0:61c:21f1:52b9 with SMTP id 4fb4d7f45d1cf-61c21f15640ls1127245a12.1.-pod-prod-00-eu-canary;
- Mon, 25 Aug 2025 08:45:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCW3H4RoQxQdGWKNVFFioNETImShSIkWJwN6955YGom/4PKgrX/FT0HepL/dFRsQXliVCAPnGxzvk1A=@googlegroups.com
-X-Received: by 2002:a17:906:794a:b0:afc:aac3:6d2 with SMTP id a640c23a62f3a-afe9cb66a21mr8092766b.2.1756136722048;
-        Mon, 25 Aug 2025 08:45:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1756136722; cv=none;
+         :x-original-authentication-results:x-original-sender:mime-version
+         :in-reply-to:content-transfer-encoding:content-disposition
+         :references:message-id:subject:cc:to:from:date:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xg1cwEDBQWV0S8QzBLuP1WwLbkvs0PW0usnr38rjL2E=;
+        b=OCNhV8vBx9KAoaKtF63FSTZkV0fyUjr9ruAO5dQ0qX68GH0a4ay8jv20NjTU2YugxZ
+         C0b6y9L35upBThKuY2/up/5riV2kpbD/9tlxfAJXlyMFGmiVgzQgAZ4k1zILZ8LDPRyF
+         J7FmQnZS9lnO6viHO7mawMgLYYIFnfzWsqbVSzfn3kgNBnyoZokErHaCQjKgktgRuHpD
+         W17s7kRDs0tEH4D6JkLcicJAgRbdeN6ITnmlRvmEmhf90mLDzff5cO53gFj9b8ydrI6p
+         LOUKZ2BGuwTU72OKgZOFqSOH1ygh6Z0HfP1S+hi0f+PvEfwf4h2TGww8J5FzZa36rZNG
+         Lb+Q==
+X-Forwarded-Encrypted: i=3; AJvYcCU4nbIAnYBxxl/iGgzzohyWhhKlcvngg1lK1M35iPX5PhiNRPJBd7Xb5nO7ZYNlfnQHjlAXuA==@lfdr.de
+X-Gm-Message-State: AOJu0YwO5FodaddH6U0KSyKAjG9NL7p4Z1nRPDCqRysutnKKw4usw2TG
+	Ga/ZUAD92UujuYP5cFaR2CJ+4DiFILW1+8CbYHjFhFsQO36MQCPK7fES
+X-Google-Smtp-Source: AGHT+IF14UMnOQfg8liNEXJEHMJh1cQ512zneC1q2G1eGGW76TD9Agg9TCkYidYSbhAPkec0aAIkQw==
+X-Received: by 2002:a05:6870:e416:b0:2ff:8c8e:c222 with SMTP id 586e51a60fabf-314dcb56717mr6931261fac.14.1756137785817;
+        Mon, 25 Aug 2025 09:03:05 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdR9I/U2DFtH+zjAw8UQzqPxt+79P0bEgQ+911E0WKGDw==
+Received: by 2002:a05:6870:55ce:b0:2eb:b30a:f5e0 with SMTP id
+ 586e51a60fabf-314c2285a1als1689231fac.1.-pod-prod-03-us; Mon, 25 Aug 2025
+ 09:03:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=3; AJvYcCV3cOyK3MPFZRPN5801lCedlyn5MXgZqtOoDAVpvgY9PZvRGCK51Mq4/MtoQrBa9Y+7yNlx31jy+t4=@googlegroups.com
+X-Received: by 2002:a05:6870:65a2:b0:314:b6a6:6895 with SMTP id 586e51a60fabf-314dcdd52d9mr6538740fac.41.1756137783091;
+        Mon, 25 Aug 2025 09:03:03 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1756137783; cv=fail;
         d=google.com; s=arc-20240605;
-        b=DfiMXSkLd2P5B8xdC35faFyrdo9w51DMcFab+r3Z8UrhnAGBvn0bPMWNY3SVAdOQ+X
-         qNQ7T3JZxkr627pKk84PgY64Nd7t0egAOYFOnE9S6338rNRGWv4ngYg4Zrngh9nwvRwm
-         HJIDG5VKpROsYCP7VSdreuO+/i57pj7t3W7OuL4AUs+NkykllTwYt5Y7t3575H9QYrWu
-         YceA1+GfZeRgHwJducZeAkHU72cjrQ+a9eFFuljIa0NaVsanFdADGPZcLluC40lbeiKI
-         psYpyZqOwwxpLpD3I117urII4a8TfoMqfpoukhzcMBiP0lZZ4XQNY0Bg3bM4JyxjNPlN
-         uh6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
-        bh=xe3ZI6MnUgwFYgdlik+eGR2/g7UExZaNNrV7DLC0Hwk=;
-        fh=P0mBkZYxkGlhvDgYfMBMiolzCzKgjE0MvttHynC6c34=;
-        b=ffYlf2NVuRnyrCkg/meNL34/drlsUPm8OG/F/zdO65Qd1CB9cfo6jJG/HcUOfFm1Ov
-         tOZC9Frg0v9OJnwVYXZEkWiRI3ycGSORO/RlYU9iRduzPDqsCP3bNu4otuLlZLHoG3N8
-         N7bvl+p4zLud3bnLRQxrAjQX6mz4OuDl6LK/rVK94JtlJREIZWn/rmZ24O4LTZcCV52i
-         MIveiSNoEzsZlu9TuybgiplpH/KOto1eipuK0Ddy2suAvF9F4inFDZ8jqZuXhhqJ1lSf
-         Txry27NNHagDw9hUufuD2AD6rHfxPCJ7kWQpY+IsBeRn4UNenKOLyzb41dhki+B6SIin
-         ek6A==;
+        b=Ox0JMfk3+7v5rYwKpxRipAhbmGAsXi8erCrJn45abMqcb96Dv0yhdvnvDV5uCIqRWJ
+         Bj9lP0JAfKVnzC0WE9l03vvMn96XIUgdpt0WRMOuUEjmosP7IKwDKEThenlIqONczr0h
+         xAgOeGZu0x0HKr6dmdOfAPSHvkX6LJYGKqBRtZZ7pJonLoACKVzNqdFOo7UZaak0+S4K
+         eh1Kwc+k4+wrfCB7E/UEWuErGPMFz0+sEOIrUUzMNj+FuazZky/owJM6TkOS76uJkJ/q
+         d/FZg8aTXpmHQpHktC79w1MDu7I1eMOKwO5UFMm8b/yWr7sknMs7jS/1RZPR9ihsqDYO
+         CEUg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=mime-version:in-reply-to:content-transfer-encoding
+         :content-disposition:references:message-id:subject:cc:to:from:date
+         :dkim-signature:dkim-signature;
+        bh=yvL6M5j4mPen5RcKYMs+Q3Sw0xLty6CObCpwStUhw50=;
+        fh=mVq8/LUtmTkC35c+6yj53NxafDpIEbaC5M/bwYx/asI=;
+        b=ZftmQlb91AUaaMs7HC1KhFsoJVxMPhuz5YEYGM6MT2jMjiohP4N5klhdeQXzICft3P
+         qmyuQjmBFIFm+a2YguHkCN8cIUMW3A/QAfyRTiGDkQq0ANMToA+o46i4BNnqsFUdlmIr
+         hySpmTOovBYSA+LiwmBkpqRJm6d7gW0XzsOcIiX7FP1B7919qSD3JsCbfLcN/jlxtCqq
+         3cqKJaj7aUm9eZUCqupF61rqr5u44CXF0OJc2FzV/lRhS1el7lGqX2hVAgNjQz0d6NYT
+         3Igje9XXalOyozYYSy/8hEpVGwRUTfVP6zsvkjqFepYZX7eSQtyeeWpSde8q0GCTi85Z
+         k9mQ==;
         dara=google.com
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=v4ZnYEZM;
-       spf=pass (google.com: domain of 3eywsaaukcro4bl4h6ee6b4.2eca0i0d-34l6ee6b46hekfi.2ec@flex--elver.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3EYWsaAUKCRo4BL4H6EE6B4.2ECA0I0D-34L6EE6B46HEKFI.2EC@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com. [2a00:1450:4864:20::54a])
-        by gmr-mx.google.com with ESMTPS id a640c23a62f3a-afe4901fbd4si13776666b.2.2025.08.25.08.45.22
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@oracle.com header.s=corp-2025-04-25 header.b="onb/x+8o";
+       dkim=neutral (body hash did not verify) header.i=@oracle.onmicrosoft.com header.s=selector2-oracle-onmicrosoft-com header.b=pQ6ucEVO;
+       arc=fail (body hash mismatch);
+       spf=pass (google.com: domain of harry.yoo@oracle.com designates 205.220.177.32 as permitted sender) smtp.mailfrom=harry.yoo@oracle.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=oracle.com
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com. [205.220.177.32])
+        by gmr-mx.google.com with ESMTPS id 46e09a7af769-7450e26e811si338323a34.1.2025.08.25.09.03.02
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Aug 2025 08:45:22 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3eywsaaukcro4bl4h6ee6b4.2eca0i0d-34l6ee6b46hekfi.2ec@flex--elver.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) client-ip=2a00:1450:4864:20::54a;
-Received: by mail-ed1-x54a.google.com with SMTP id 4fb4d7f45d1cf-61c6d735f2aso859475a12.0
-        for <kasan-dev@googlegroups.com>; Mon, 25 Aug 2025 08:45:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVlhv9U93vRTVbAm+z5hm4WVhMEIcXt+xOuHpc2Bzw9sxGpl2Ewj8csNEskDOxfGzr+xw02t9Z/VGY=@googlegroups.com
-X-Received: from edaa12.prod.google.com ([2002:a05:6402:24cc:b0:61c:5f40:a3ff])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6402:21c8:b0:61b:fd1c:a2d6
- with SMTP id 4fb4d7f45d1cf-61c1b49e8f3mr11045108a12.15.1756136721629; Mon, 25
- Aug 2025 08:45:21 -0700 (PDT)
-Date: Mon, 25 Aug 2025 17:44:40 +0200
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.51.0.rc2.233.g662b1ed5c5-goog
-Message-ID: <20250825154505.1558444-1-elver@google.com>
-Subject: [PATCH RFC] slab: support for compiler-assisted type-based slab cache partitioning
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com
-Cc: linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Alexander Potapenko <glider@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, David Hildenbrand <david@redhat.com>, 
-	David Rientjes <rientjes@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Florent Revest <revest@google.com>, GONG Ruiqi <gongruiqi@huaweicloud.com>, 
-	Harry Yoo <harry.yoo@oracle.com>, Jann Horn <jannh@google.com>, Kees Cook <kees@kernel.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Matteo Rizzo <matteorizzo@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Suren Baghdasaryan <surenb@google.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, linux-hardening@vger.kernel.org, linux-mm@kvack.org
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 25 Aug 2025 09:03:02 -0700 (PDT)
+Received-SPF: pass (google.com: domain of harry.yoo@oracle.com designates 205.220.177.32 as permitted sender) client-ip=205.220.177.32;
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57PFfv3p012690;
+	Mon, 25 Aug 2025 16:02:41 GMT
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48q4e22n84-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 25 Aug 2025 16:02:41 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 57PFBSan005028;
+	Mon, 25 Aug 2025 16:02:40 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10on2067.outbound.protection.outlook.com [40.107.92.67])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 48qj88ne74-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 25 Aug 2025 16:02:40 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BXpPP23nfrz50NxWbGGPPbSjVAIXbyaR+S4pRCd9gUMJ7asbFYZ6BUlqZNk0fF7Zj3IjcxS5F9xyrjswUCXvykakaC8LU2hnvoweNsIb6ox9ewk1J2l3dCs0P9gQCjia1BipBnRNutbZLBEDRJqM5vnTxKJl0PBho/9cXNMCeKrm7GOdjykdZJybF5kRSG6x5SSDkkP3HH0eUNBhfTEz5e4aSW8IJW8aQlKdEWLbET0G685bslbQlX5IZRj8X3dJFdzCx5eOy3TMD9b7bDjF4AlZmhb6RA8+C139BuoNVHZgA9WhL4RdlvT0Da13uM01LyN9s/Mhx+APbTLy4sf5zg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5rM7zJBqy7JZfT5ozsR6vQZpIBSGhID3PDQQw+swsaw=;
+ b=RJxD77NtcPDXBAlLjqSGAa8/cCq9D6tqKG8HKXiKYaAcI/kijIwxIXiE6VGzhcZGFZMrLLhompYeHhpyLbj8EAp6NrdqNqGGkeucZX/Pg5XkAxBTg8yqw7jMV2StiqI+KCFrf5Cm4BhLLNKlVR9L5rh0IvrisanCXRM2cIFNgdb1bQCZZKLwSJBtpcdQmWhHqPqjgCMIluywraEGRWaQS9cKZBwgMUpuzrZTWE2C5f2WB1pCC+v+k+ODP80wHFRV53dQAmQpGg20EOJwnek/b4VRQs4sTbxcZ92rWV76WhVD5H4STM+MSxdAKtK8spFCLQ0SyCM7d1d1/XnbOm2RBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+Received: from CH3PR10MB7329.namprd10.prod.outlook.com (2603:10b6:610:12c::16)
+ by SJ0PR10MB4607.namprd10.prod.outlook.com (2603:10b6:a03:2dc::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.21; Mon, 25 Aug
+ 2025 16:02:37 +0000
+Received: from CH3PR10MB7329.namprd10.prod.outlook.com
+ ([fe80::f238:6143:104c:da23]) by CH3PR10MB7329.namprd10.prod.outlook.com
+ ([fe80::f238:6143:104c:da23%7]) with mapi id 15.20.9052.019; Mon, 25 Aug 2025
+ 16:02:36 +0000
+Date: Tue, 26 Aug 2025 01:02:18 +0900
+From: "'Harry Yoo' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Dennis Zhou <dennis@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>, x86@kernel.org,
+        Borislav Petkov <bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+        Tejun Heo <tj@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Christoph Lameter <cl@gentwo.org>,
+        David Hildenbrand <david@redhat.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, kasan-dev@googlegroups.com,
+        Mike Rapoport <rppt@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+        linux-kernel@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>,
+        Alexander Potapenko <glider@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Suren Baghdasaryan <surenb@google.com>, Thomas Huth <thuth@redhat.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+        Michal Hocko <mhocko@suse.com>,
+        "Liam R. Howlett" <Liam.Howlett@oracle.com>, linux-mm@kvack.org,
+        "Kirill A. Shutemov" <kas@kernel.org>,
+        Oscar Salvador <osalvador@suse.de>, Jane Chu <jane.chu@oracle.com>,
+        Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
+        Joerg Roedel <joro@8bytes.org>, Alistair Popple <apopple@nvidia.com>,
+        Joao Martins <joao.m.martins@oracle.com>, linux-arch@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: Re: [PATCH V4 mm-hotfixes 2/3] mm: introduce and use
+ {pgd,p4d}_populate_kernel()
+Message-ID: <aKyJCsXC5dL3Olpq@hyeyoo>
+References: <20250811053420.10721-1-harry.yoo@oracle.com>
+ <20250811053420.10721-3-harry.yoo@oracle.com>
+ <26796993-5a17-487e-a32e-d9f7577216c3@csgroup.eu>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <26796993-5a17-487e-a32e-d9f7577216c3@csgroup.eu>
+X-ClientProxiedBy: SEWP216CA0016.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2b6::10) To CH3PR10MB7329.namprd10.prod.outlook.com
+ (2603:10b6:610:12c::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR10MB7329:EE_|SJ0PR10MB4607:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9a9c0387-7e1c-4aa0-c4a8-08dde3f0ceaa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?4slTHjk9SvjaYPkCsX5PB90gVyOaa33YVza7tQlUKi6i2tnLDHgauaNbUU?=
+ =?iso-8859-1?Q?cS2bMrt+gO16IYP5r9IqkV7M4KYiF2escMItoMldUrVEKFU2EEnTpVgwrk?=
+ =?iso-8859-1?Q?tUpZ9WH9v2OGp471gM33aLEHWsKyYZAvhfb6zDPbLvnqgRX5tU0Zj6MLKK?=
+ =?iso-8859-1?Q?I59ROElCNt4pIbZSWq+z5af8Y/PvFxwFU9EDHqzTK3qtZP5jMxTAHw+lLo?=
+ =?iso-8859-1?Q?HYtoZYPIVdYlLrcM7ysktbz65FgKk11JqmLDqLXVnu8ljnZLMfQ0T3gRMt?=
+ =?iso-8859-1?Q?mVqOVYJyKxAN2dsWZCC6iCy3jhYZ6zXEc5dhuygNoDVEnrdHpFh1oh9Mt9?=
+ =?iso-8859-1?Q?hvrc0FNZrkIeTzNberwXEjS7YTfXDtHroLHetGPecOE3FZd5dO+CmNDG7Y?=
+ =?iso-8859-1?Q?PmKVaXHxDSDQX33Vgq65SJz3DV6vUJpewni0ZJG7Zy235qvaEu+W+RTc1Y?=
+ =?iso-8859-1?Q?1NI39HoyNEe150xrzmm7WBXwhpKEqyt3Jh1fidLwNrpy3LmCSmxrGfyP8W?=
+ =?iso-8859-1?Q?8U9VLZTnAm3NG5lzFGLe6KqcDqpGuwiRFMNyroYa7MACIuJ81Yckkq00bm?=
+ =?iso-8859-1?Q?vwKELpgewk3oqYORKKO74RTt4xJAQSjPqGwBIiV7Gz/3eeRrv/cfCaW4om?=
+ =?iso-8859-1?Q?R10J1zGajGnQw771Uh3GaJxxC1sLoxNK9FdDCt5J0Y+/smBn8eH7GWSNRj?=
+ =?iso-8859-1?Q?eU3r5JtfEjqev0/hYYYVGIeJIobxeANoaMFxVvD8Rxl4plCWSZ3GeY/xF/?=
+ =?iso-8859-1?Q?LNGhD5jvdnhdyV3YieNB1mBu3lFce85vR2OqKeCvd5bgcwBvBEWU3uojzO?=
+ =?iso-8859-1?Q?ZnrGaGXLKcF6be6Ed6xaacN2JEro2ag2p4wp3kjxAlBnOjr75cgu5IXcGO?=
+ =?iso-8859-1?Q?u95tEgN7i2LxgP43AghYxnbqfc8FUH0wXqK07crhUQYRB5n5OVf6hC2stu?=
+ =?iso-8859-1?Q?60tuPoSUomEwpOBNkO5J1iAJFwMNshli2fwngDeEb39RyXPC7idAObofFh?=
+ =?iso-8859-1?Q?7GgeumpHRi8G9t5X0cCocEf6XLgxH6bfBGTGUkVFMUjsPDZOLSWZkntJMs?=
+ =?iso-8859-1?Q?komXwc+ggGEdjy6V/2xefobarIpeT+N1QyARsKCh0j4F0c/cMIprnYqDX6?=
+ =?iso-8859-1?Q?zcNRqttURz9YiXi6CExmSp/YJU6C2kn4AQ6YWRiyfXdeH0d9wGkS/ei3F2?=
+ =?iso-8859-1?Q?IEn+m+xwf/CGIbENXk9N4uiL2rtpbtyC5whiK+D/lRJc/jMNu2OA7cNjCB?=
+ =?iso-8859-1?Q?T1frHBOrok4NFOU8yapmkjqRwWFNZ2RZdwjh1YGRr7srwIDcXAyIDuoLho?=
+ =?iso-8859-1?Q?NWWlKz4SG0ZNi9qIdBxDymSXv3jXXFOCl91o7ViM9Z2OMLlz15QmEhpf1i?=
+ =?iso-8859-1?Q?/WsswW0DRRARWErjXbu1VAkDiZusQOnnSAqfuaitYaGWxXAAeiw/ewCPS/?=
+ =?iso-8859-1?Q?cG9M+S8fKrhCyd80beWtJrEusZPJRkS6ABFMbQ=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR10MB7329.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?hsymHHMkUVI/W6MC/qQj3I4JXW7qEH5IXncZSkZaB2E+LKPGG4Tf7RohNH?=
+ =?iso-8859-1?Q?8hF22qjxQp5P6tsVWssvuXqhE30O45DsBu3SRA7n2ewlnz2Gb0Yec6ZPUJ?=
+ =?iso-8859-1?Q?f9rrA3riLpGF8u0PGR+E5HfTav0ZHZvG9chbo8YP1GkuZFZumNfRotFOXn?=
+ =?iso-8859-1?Q?JgPFCrXBRQNPL5cZikKuVurvUwBwIAxDQaxq9EMBzJuG5xj9vEK+80XV8Q?=
+ =?iso-8859-1?Q?GjjDzemSIJ4TBNoOtcrH7GHAoQ6xTj/3n8qm3DHbU7te76cRSJHUtutMSV?=
+ =?iso-8859-1?Q?UvTqLXZe6pAnhoH5sFPGZnFU0HuDuEwPvRced9U0urW1T+lE7bryS6SdJk?=
+ =?iso-8859-1?Q?lzQX2U0njUkve6V7Zlj1YdBY+KiPMSKVPlJPEeDsY5i5X19E5uA7/fhQ8S?=
+ =?iso-8859-1?Q?5O2USadx+4+8+ZWvoW1MX7dhb4ySaE/Fc2v+MOZwJm59+IDUhlQ8felaNi?=
+ =?iso-8859-1?Q?a4lDSBfp8g7KzCJnvJBMbuISs5FBFsFOQbvgwwImWvNi9vu4Y0Bm6qx6LH?=
+ =?iso-8859-1?Q?Imd2zDsM22+AxkgvedfpncHrTDDtDGKrhQRIICsp3uWnPWgTERY+3qM53p?=
+ =?iso-8859-1?Q?AMZMLRAQwgZHyjOAvTEIfrwUIPvRKfSLpa6qC2QMZcHHByYFg0wVZq9gGU?=
+ =?iso-8859-1?Q?3oZSLF76uP/GSMQGDf24EtDdMuorNQ+4Vi6FVKVe0xTNzuv2IO5O7xUmVC?=
+ =?iso-8859-1?Q?unqrzydsrJTrxmNodcHFFoNWgNkwtHvbkm7mk8Zl+CYgWMum7rLh5xMett?=
+ =?iso-8859-1?Q?psD0dujPHO6GXs3mk7BoPtv80X9C/evYeV1MaDbfIZ2n+cQI01WZYBKyhO?=
+ =?iso-8859-1?Q?1sjHBQ4FH6XRJr6VZ3uFWjjqy4+0RvTfmw/ukCQbYLByiapYsCUnHJg6u2?=
+ =?iso-8859-1?Q?2O6lehCCH96WBeTy+ygoNBVeLeszXfvP1/ro6dhgDIYrSd1qZIb9nux80y?=
+ =?iso-8859-1?Q?6qDGY+d2cdbi7yVE/vFae/gAmTYdXy85lN2mQyDxw5EWYYaqXto6MxMn29?=
+ =?iso-8859-1?Q?i8RorrKPFYXww/tB6CmJpKFcq8NfgVP5B09jK4P5GUlJ8S0+ouBSyXMXUN?=
+ =?iso-8859-1?Q?vYnuZGGDEH1JWqBfdmuH+8/wUaChIB2H+sQR7l630oT9vbptSZ3Rj18kqB?=
+ =?iso-8859-1?Q?iOxlhcvik2obtCCZr0F8leZk6KJHryjoTTBh6255sUs4kGRw0Vo+lIBJBb?=
+ =?iso-8859-1?Q?1gQM6zJTikEFAhmP69jPOOsYyajwlYi0rSQ2eo1jsVzia1w7mankryCYPQ?=
+ =?iso-8859-1?Q?+qjVuPEOBNJxkzG7RsVWycKlpb8XGoenOkfeJ5NV0eInptmPffS1cL/Sog?=
+ =?iso-8859-1?Q?HPovCWMyoI5E2jff3bY9PKBPWTIDKRg/vZKIiglgCtNwsKBbazC17vkdF2?=
+ =?iso-8859-1?Q?cUI1Y6bSnmZG1NCAOiPZ0v9Vm+LQGCIq4OuAZrF5lPd4w+5pQnVBJyHBdF?=
+ =?iso-8859-1?Q?O0t+JB7d4U+cbvok6CF3XOPjL+fyiMUW9A67TmT5n90+2nrqt2qkHNJLVy?=
+ =?iso-8859-1?Q?fZqPiQFG1lrWzG/OvmylsS1AmMh8ju3uzF54cV1Tbgp8haAOz67FA95rWq?=
+ =?iso-8859-1?Q?uIIiNfxhUJykOkWYIAHCo87LxWwfNpjx/bjURLp3AhaNQRbNJF0AVYtoOU?=
+ =?iso-8859-1?Q?/P++0vkCY0WHAS1BoNx5Dre3Ju5dyfqe6T?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: U3EdGh1NRN084yHAmx4KjuEnU2ZInNqv2kxqKfgzEngB6YOk57dbARIkzc8hrfaf5N3g5QTmDurOP3TYXNu2+68i8ESeaxHdlRy/sIGXGcsd+xggaoBfv8cbANeIZBiCqIIx6ivLcEwSFpz9wK9+sAC7l3Opxd+eh4IAxy/gqUOsIDd4/ROKD5gvOymW3XNJFDAq/nvsxb/pEx42s/Iz8cYEF/L1c6ugodquUsb66oEJGniTqADPz9iheVKpGmKnUIyuByPmzrfsv/vx04wqoRAY3oIhPrO8ubex7AIshMlG2AC6ilA/dgWThajBzB6C8aSMRDFQmTlQBiGdXCrd2CmJq20bODtEaV6wkaqtNwWGfcPmFued2YnN/g+GAqDbxUlF6lkhCkuXq7jE0zyfO1R6H+Q25T44PgpT58n4g64ZutG+8nB8DU/OrAkmNPsSDVwXTwlh4/88SfaUFVEZqHxNmfY81UzduEaQTmMqWz6B8tAsdygglbu4PgBN1QWpbNyuzxfBKOi1Ut1OTubKk9Qu0+z9RRCVfpuvAwHhAaGaLGospeWBsu/3jnv2NSUTRw+2n9lq3aybs5CCfW6GJeWbcA6PFiI8HmdGVcBuWfg=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a9c0387-7e1c-4aa0-c4a8-08dde3f0ceaa
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR10MB7329.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2025 16:02:35.9474
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: psWQrwHhFkvmYmZ6scIsUGr+sxALQ4w2Vg2pD3amgYPEyDtoX+q2zFS6+/svAHIoUcRckvCILgTvh1htPJpIAA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4607
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-25_07,2025-08-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 suspectscore=0 spamscore=0
+ phishscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
+ definitions=main-2508250144
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAxNyBTYWx0ZWRfX6pR0U+2O/SOQ
+ mQY9tgh14sjBKCqmzGUzXLOXW0p0LJFK45dbtAMTFHZvmq8NFl0bwXEvX3bu4TeELXCazYvu5Qj
+ epVbf/5t3WAbYvjANQrGKx8qSjb1LzRbeu7P+j9tYu1BPqA3eGlYaAKKTGmQ7dhxHuA/XpBj1Hj
+ iqhECk6QQfpMUqxcckUXtf4tGBDdi4MPXDfhsV5aujEQjZznekyUThWxgd162HbIZXjZUu35aJe
+ MmDy8jxPt9qCy5IUthhDVpEgf4KGCR4ADe0WHK2/atJ4SpCKUJ1xOraYOn1g0cUUzp4yBkoylrH
+ 2sOyvyR2PGCDPzaJQpbnGU6Tl+xf71G1i69d8wFuSpj1O1VGeem23g1Egb9YBsQ9I952dbFmeTG
+ BwH+eg/xq89shu55EkDXNm/NbpZuhg==
+X-Proofpoint-ORIG-GUID: dm-hYueEENp1RGfnegDKRoGjRSpae4Nu
+X-Proofpoint-GUID: dm-hYueEENp1RGfnegDKRoGjRSpae4Nu
+X-Authority-Analysis: v=2.4 cv=IauHWXqa c=1 sm=1 tr=0 ts=68ac8921 b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=2OwXVqhp2XgA:10 a=GoEa3M9JfhUA:10 a=VwQbUJbxAAAA:8 a=cI9SBmEsuJOggFUlpjAA:9
+ a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10 cc=ntf awl=host:12069
+X-Original-Sender: harry.yoo@oracle.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=v4ZnYEZM;       spf=pass
- (google.com: domain of 3eywsaaukcro4bl4h6ee6b4.2eca0i0d-34l6ee6b46hekfi.2ec@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3EYWsaAUKCRo4BL4H6EE6B4.2ECA0I0D-34L6EE6B46HEKFI.2EC@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@oracle.com header.s=corp-2025-04-25 header.b="onb/x+8o";
+       dkim=neutral (body hash did not verify) header.i=@oracle.onmicrosoft.com
+ header.s=selector2-oracle-onmicrosoft-com header.b=pQ6ucEVO;       arc=fail
+ (body hash mismatch);       spf=pass (google.com: domain of
+ harry.yoo@oracle.com designates 205.220.177.32 as permitted sender)
+ smtp.mailfrom=harry.yoo@oracle.com;       dmarc=pass (p=REJECT sp=REJECT
+ dis=NONE) header.from=oracle.com
+X-Original-From: Harry Yoo <harry.yoo@oracle.com>
+Reply-To: Harry Yoo <harry.yoo@oracle.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,619 +280,110 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-[ Beware, this an early RFC for an in-development Clang feature, and
-  requires the following Clang/LLVM development tree:
-   https://github.com/melver/llvm-project/tree/alloc-token
-  The corresponding LLVM RFC and discussion can be found here:
-   https://discourse.llvm.org/t/rfc-a-framework-for-allocator-partitioning-hints/87434 ]
+On Mon, Aug 25, 2025 at 01:27:20PM +0200, Christophe Leroy wrote:
+>=20
+>=20
+> Le 11/08/2025 =C3=A0 07:34, Harry Yoo a =C3=A9crit=C2=A0:
+> > Introduce and use {pgd,p4d}_populate_kernel() in core MM code when
+> > populating PGD and P4D entries for the kernel address space.
+> > These helpers ensure proper synchronization of page tables when
+> > updating the kernel portion of top-level page tables.
+> >=20
+> > Until now, the kernel has relied on each architecture to handle
+> > synchronization of top-level page tables in an ad-hoc manner.
+> > For example, see commit 9b861528a801 ("x86-64, mem: Update all PGDs for
+> > direct mapping and vmemmap mapping changes").
+> >=20
+> > However, this approach has proven fragile for following reasons:
+> >=20
+> >    1) It is easy to forget to perform the necessary page table
+> >       synchronization when introducing new changes.
+> >       For instance, commit 4917f55b4ef9 ("mm/sparse-vmemmap: improve me=
+mory
+> >       savings for compound devmaps") overlooked the need to synchronize
+> >       page tables for the vmemmap area.
+> >=20
+> >    2) It is also easy to overlook that the vmemmap and direct mapping a=
+reas
+> >       must not be accessed before explicit page table synchronization.
+> >       For example, commit 8d400913c231 ("x86/vmemmap: handle unpopulate=
+d
+> >       sub-pmd ranges")) caused crashes by accessing the vmemmap area
+> >       before calling sync_global_pgds().
+> >=20
+> > To address this, as suggested by Dave Hansen, introduce _kernel() varia=
+nts
+> > of the page table population helpers, which invoke architecture-specifi=
+c
+> > hooks to properly synchronize page tables. These are introduced in a ne=
+w
+> > header file, include/linux/pgalloc.h, so they can be called from common=
+ code.
+> >=20
+> > They reuse existing infrastructure for vmalloc and ioremap.
+> > Synchronization requirements are determined by ARCH_PAGE_TABLE_SYNC_MAS=
+K,
+> > and the actual synchronization is performed by arch_sync_kernel_mapping=
+s().
+> >=20
+> > This change currently targets only x86_64, so only PGD and P4D level
+> > helpers are introduced. In theory, PUD and PMD level helpers can be add=
+ed
+> > later if needed by other architectures.
+>=20
+> AFAIK pmd_populate_kernel() already exist on all architectures, and I'm n=
+ot
+> sure it does what you expect. Or am I missing something ?
 
-Rework the general infrastructure around RANDOM_KMALLOC_CACHES into more
-flexible PARTITION_KMALLOC_CACHES, with the former being a partitioning
-mode of the latter.
+It does not do what I expect.
 
-Introduce a new mode, TYPED_KMALLOC_CACHES, which leverages Clang's
-"allocation tokens" via __builtin_alloc_token_infer [1].
+Yes, if someone is going to introduce a PMD level helper, existing
+pmd_populate_kernel() should be renamed or removed.
 
-This mechanism allows the compiler to pass a token ID derived from the
-allocation's type to the allocator. The compiler performs best-effort
-type inference, and recognizes idioms such as kmalloc(sizeof(T), ...).
-Unlike RANDOM_KMALLOC_CACHES, this mode deterministically assigns a slab
-cache to an allocation of type T, regardless of allocation site.
+To be honest I'm not really sure why we need both pmd_populate() and
+pmd_populate_kernel(). It is introduced by historical commit
+3a0b82c08a0e8668 ("adds simple support for atomically-mapped PTEs.
+On highmem systems this enables the allocation of the pagetables in
+highmem.") [1], but as there's no explanation or comment so I can only
+speculate.
 
-Clang's default token ID calculation is described as [1]:
+Key differences I recognize is 1) the type of the last parameter is
+pgtable_t (which can be either struct page * or pte_t * depending on
+architecture) in pmd_populate() and pte_t * in pmd_populate_kernel(),
+and 2) some architectures treat user and kernel page tables differently.
 
-   TypeHashPointerSplit: This mode assigns a token ID based on the hash
-   of the allocated type's name, where the top half ID-space is reserved
-   for types that contain pointers and the bottom half for types that do
-   not contain pointers.
+Regarding 1), I think a reasonable experience is that pmd_populate()
+should take struct page * in some architectures because
+with CONFIG_HIGHPTE=3Dy pte_t * might not be accessible, but kernel
+page tables are not allocated from highmem even with CONFIG_HIGHPTE=3Dy
+so pmd_populate_kernel() can take pte_t *, and that can save a few
+instructions.
 
-Separating pointer-containing objects from pointerless objects and data
-allocations can help mitigate certain classes of memory corruption
-exploits [2]: attackers who gains a buffer overflow on a primitive
-buffer cannot use it to directly corrupt pointers or other critical
-metadata in an object residing in a different, isolated heap region.
+And some architectures (that does not support HIGHPTE?) define pgtable_t
+as pte_t * to support sub-page page tables (Commit 2f569afd9ced
+("CONFIG_HIGHPTE vs. sub-page page tables.")).
 
-It is important to note that heap isolation strategies offer a
-best-effort approach, and do not provide a 100% security guarantee,
-albeit achievable at relatively low performance cost. Note that this
-also does not prevent cross-cache attacks, and SLAB_VIRTUAL [3] should
-be used as a complementary mitigation.
+Maybe things to clean up in the future:
 
-With all that, my kernel (x86 defconfig) shows me a histogram of slab
-cache object distribution per /proc/slabinfo (after boot):
+1) Once CONFIG_HIGHPTE is completely dropped (is that ever going to
+   happen?), pte_t * can be used instead of struct page *.=20
 
-  <slab cache>      <objs> <hist>
-  kmalloc-part-15     619  ++++++
-  kmalloc-part-14    1412  ++++++++++++++
-  kmalloc-part-13    1063  ++++++++++
-  kmalloc-part-12    1745  +++++++++++++++++
-  kmalloc-part-11     891  ++++++++
-  kmalloc-part-10     610  ++++++
-  kmalloc-part-09     792  +++++++
-  kmalloc-part-08    3054  ++++++++++++++++++++++++++++++
-  kmalloc-part-07     245  ++
-  kmalloc-part-06     182  +
-  kmalloc-part-05     122  +
-  kmalloc-part-04     295  ++
-  kmalloc-part-03     241  ++
-  kmalloc-part-02     107  +
-  kmalloc-part-01     124  +
-  kmalloc            6231  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2) Convert users of pmd_populate_kernel() to use pmd_populate().
+   But some architectures treat user and kernel page tables differently
+   and that will be handled in pmd_populate()  (depending on
+   (mm =3D=3D &init_mm))
 
-The above /proc/slabinfo snapshot shows me there are 7547 allocated
-objects (slabs 00 - 07) that the compiler claims contain no pointers or
-it was unable to infer the type of, and 10186 objects that contain
-pointers (slabs 08 - 15). On a whole, this looks relatively sane.
+[1] https://web.git.kernel.org/pub/scm/linux/kernel/git/tglx/history.git/co=
+mmit/?id=3D3a0b82c08a0e86683783c30d7fec9d1b06c2fe20
 
-Additionally, when I compile my kernel with -Rpass=alloc-token, which
-provides diagnostics where (after dead-code elimination) type inference
-failed, I see 966 allocation sites where the compiler failed to identify
-a type. Some initial review confirms these are mostly variable sized
-buffers, but also include structs with trailing flexible length arrays
-(the latter could be recognized by the compiler by teaching it to look
-more deeply into complex expressions such as those generated by
-struct_size).
+--=20
+Cheers,
+Harry / Hyeonggon
 
-Link: https://github.com/melver/llvm-project/blob/alloc-token/clang/docs/AllocToken.rst [1]
-Link: https://blog.dfsec.com/ios/2025/05/30/blasting-past-ios-18/ [2]
-Link: https://lwn.net/Articles/944647/ [3]
-Signed-off-by: Marco Elver <elver@google.com>
----
- Makefile                        |  5 ++
- include/linux/percpu.h          |  2 +-
- include/linux/slab.h            | 88 ++++++++++++++++++++-------------
- kernel/configs/hardening.config |  2 +-
- mm/Kconfig                      | 43 ++++++++++++----
- mm/kfence/kfence_test.c         |  4 +-
- mm/slab.h                       |  4 +-
- mm/slab_common.c                | 48 +++++++++---------
- mm/slub.c                       | 20 ++++----
- 9 files changed, 131 insertions(+), 85 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index d1adb78c3596..cc761267fc75 100644
---- a/Makefile
-+++ b/Makefile
-@@ -936,6 +936,11 @@ KBUILD_CFLAGS	+= $(CC_AUTO_VAR_INIT_ZERO_ENABLER)
- endif
- endif
- 
-+ifdef CONFIG_TYPED_KMALLOC_CACHES
-+# PARTITION_KMALLOC_CACHES_NR + 1
-+KBUILD_CFLAGS	+= -falloc-token-max=16
-+endif
-+
- # Explicitly clear padding bits during variable initialization
- KBUILD_CFLAGS += $(call cc-option,-fzero-init-padding-bits=all)
- 
-diff --git a/include/linux/percpu.h b/include/linux/percpu.h
-index 85bf8dd9f087..271b41be314d 100644
---- a/include/linux/percpu.h
-+++ b/include/linux/percpu.h
-@@ -36,7 +36,7 @@
- #define PCPU_BITMAP_BLOCK_BITS		(PCPU_BITMAP_BLOCK_SIZE >>	\
- 					 PCPU_MIN_ALLOC_SHIFT)
- 
--#ifdef CONFIG_RANDOM_KMALLOC_CACHES
-+#ifdef CONFIG_PARTITION_KMALLOC_CACHES
- # if defined(CONFIG_LOCKDEP) && !defined(CONFIG_PAGE_SIZE_4KB)
- # define PERCPU_DYNAMIC_SIZE_SHIFT      13
- # else
-diff --git a/include/linux/slab.h b/include/linux/slab.h
-index d5a8ab98035c..4ace54744b54 100644
---- a/include/linux/slab.h
-+++ b/include/linux/slab.h
-@@ -583,10 +583,10 @@ static inline unsigned int arch_slab_minalign(void)
- #define SLAB_OBJ_MIN_SIZE      (KMALLOC_MIN_SIZE < 16 ? \
-                                (KMALLOC_MIN_SIZE) : 16)
- 
--#ifdef CONFIG_RANDOM_KMALLOC_CACHES
--#define RANDOM_KMALLOC_CACHES_NR	15 // # of cache copies
-+#ifdef CONFIG_PARTITION_KMALLOC_CACHES
-+#define PARTITION_KMALLOC_CACHES_NR	15 // # of cache copies
- #else
--#define RANDOM_KMALLOC_CACHES_NR	0
-+#define PARTITION_KMALLOC_CACHES_NR	0
- #endif
- 
- /*
-@@ -605,8 +605,8 @@ enum kmalloc_cache_type {
- #ifndef CONFIG_MEMCG
- 	KMALLOC_CGROUP = KMALLOC_NORMAL,
- #endif
--	KMALLOC_RANDOM_START = KMALLOC_NORMAL,
--	KMALLOC_RANDOM_END = KMALLOC_RANDOM_START + RANDOM_KMALLOC_CACHES_NR,
-+	KMALLOC_PARTITION_START = KMALLOC_NORMAL,
-+	KMALLOC_PARTITION_END = KMALLOC_PARTITION_START + PARTITION_KMALLOC_CACHES_NR,
- #ifdef CONFIG_SLUB_TINY
- 	KMALLOC_RECLAIM = KMALLOC_NORMAL,
- #else
-@@ -633,9 +633,20 @@ extern kmem_buckets kmalloc_caches[NR_KMALLOC_TYPES];
- 	(IS_ENABLED(CONFIG_ZONE_DMA)   ? __GFP_DMA : 0) |	\
- 	(IS_ENABLED(CONFIG_MEMCG) ? __GFP_ACCOUNT : 0))
- 
-+#ifdef CONFIG_RANDOM_KMALLOC_CACHES
- extern unsigned long random_kmalloc_seed;
-+typedef struct { unsigned long ip; } kmalloc_token_t;
-+#define __kmalloc_token(...) ((kmalloc_token_t) { .ip = _RET_IP_ })
-+#elif defined(CONFIG_TYPED_KMALLOC_CACHES)
-+typedef struct { unsigned long v; } kmalloc_token_t;
-+#define __kmalloc_token(...) ((kmalloc_token_t){ .v = __builtin_alloc_token_infer(__VA_ARGS__) })
-+#else
-+/* no-op */
-+typedef struct {} kmalloc_token_t;
-+#define __kmalloc_token(...) ((kmalloc_token_t){})
-+#endif
- 
--static __always_inline enum kmalloc_cache_type kmalloc_type(gfp_t flags, unsigned long caller)
-+static __always_inline enum kmalloc_cache_type kmalloc_type(gfp_t flags, kmalloc_token_t token)
- {
- 	/*
- 	 * The most common case is KMALLOC_NORMAL, so test for it
-@@ -643,9 +654,11 @@ static __always_inline enum kmalloc_cache_type kmalloc_type(gfp_t flags, unsigne
- 	 */
- 	if (likely((flags & KMALLOC_NOT_NORMAL_BITS) == 0))
- #ifdef CONFIG_RANDOM_KMALLOC_CACHES
--		/* RANDOM_KMALLOC_CACHES_NR (=15) copies + the KMALLOC_NORMAL */
--		return KMALLOC_RANDOM_START + hash_64(caller ^ random_kmalloc_seed,
--						      ilog2(RANDOM_KMALLOC_CACHES_NR + 1));
-+		/* PARTITION_KMALLOC_CACHES_NR (=15) copies + the KMALLOC_NORMAL */
-+		return KMALLOC_PARTITION_START + hash_64(token.ip ^ random_kmalloc_seed,
-+							 ilog2(PARTITION_KMALLOC_CACHES_NR + 1));
-+#elif defined(CONFIG_TYPED_KMALLOC_CACHES)
-+		return KMALLOC_PARTITION_START + token.v;
- #else
- 		return KMALLOC_NORMAL;
- #endif
-@@ -819,10 +832,10 @@ void *kmem_cache_alloc_node_noprof(struct kmem_cache *s, gfp_t flags,
-  * with the exception of kunit tests
-  */
- 
--void *__kmalloc_noprof(size_t size, gfp_t flags)
-+void *__kmalloc_noprof(size_t size, gfp_t flags, kmalloc_token_t token)
- 				__assume_kmalloc_alignment __alloc_size(1);
- 
--void *__kmalloc_node_noprof(DECL_BUCKET_PARAMS(size, b), gfp_t flags, int node)
-+void *__kmalloc_node_noprof(DECL_BUCKET_PARAMS(size, b), gfp_t flags, int node, kmalloc_token_t token)
- 				__assume_kmalloc_alignment __alloc_size(1);
- 
- void *__kmalloc_cache_noprof(struct kmem_cache *s, gfp_t flags, size_t size)
-@@ -893,7 +906,7 @@ void *__kmalloc_large_node_noprof(size_t size, gfp_t flags, int node)
-  *	Try really hard to succeed the allocation but fail
-  *	eventually.
-  */
--static __always_inline __alloc_size(1) void *kmalloc_noprof(size_t size, gfp_t flags)
-+static __always_inline __alloc_size(1) void *_kmalloc_noprof(size_t size, gfp_t flags, kmalloc_token_t token)
- {
- 	if (__builtin_constant_p(size) && size) {
- 		unsigned int index;
-@@ -903,20 +916,21 @@ static __always_inline __alloc_size(1) void *kmalloc_noprof(size_t size, gfp_t f
- 
- 		index = kmalloc_index(size);
- 		return __kmalloc_cache_noprof(
--				kmalloc_caches[kmalloc_type(flags, _RET_IP_)][index],
-+				kmalloc_caches[kmalloc_type(flags, token)][index],
- 				flags, size);
- 	}
--	return __kmalloc_noprof(size, flags);
-+	return __kmalloc_noprof(size, flags, token);
- }
-+#define kmalloc_noprof(...)			_kmalloc_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
- #define kmalloc(...)				alloc_hooks(kmalloc_noprof(__VA_ARGS__))
- 
- #define kmem_buckets_alloc(_b, _size, _flags)	\
--	alloc_hooks(__kmalloc_node_noprof(PASS_BUCKET_PARAMS(_size, _b), _flags, NUMA_NO_NODE))
-+	alloc_hooks(__kmalloc_node_noprof(PASS_BUCKET_PARAMS(_size, _b), _flags, NUMA_NO_NODE, __kmalloc_token(_size)))
- 
- #define kmem_buckets_alloc_track_caller(_b, _size, _flags)	\
--	alloc_hooks(__kmalloc_node_track_caller_noprof(PASS_BUCKET_PARAMS(_size, _b), _flags, NUMA_NO_NODE, _RET_IP_))
-+	alloc_hooks(__kmalloc_node_track_caller_noprof(PASS_BUCKET_PARAMS(_size, _b), _flags, NUMA_NO_NODE, _RET_IP_, __kmalloc_token(_size)))
- 
--static __always_inline __alloc_size(1) void *kmalloc_node_noprof(size_t size, gfp_t flags, int node)
-+static __always_inline __alloc_size(1) void *_kmalloc_node_noprof(size_t size, gfp_t flags, int node, kmalloc_token_t token)
- {
- 	if (__builtin_constant_p(size) && size) {
- 		unsigned int index;
-@@ -926,11 +940,12 @@ static __always_inline __alloc_size(1) void *kmalloc_node_noprof(size_t size, gf
- 
- 		index = kmalloc_index(size);
- 		return __kmalloc_cache_node_noprof(
--				kmalloc_caches[kmalloc_type(flags, _RET_IP_)][index],
-+				kmalloc_caches[kmalloc_type(flags, token)][index],
- 				flags, node, size);
- 	}
--	return __kmalloc_node_noprof(PASS_BUCKET_PARAMS(size, NULL), flags, node);
-+	return __kmalloc_node_noprof(PASS_BUCKET_PARAMS(size, NULL), flags, node, token);
- }
-+#define kmalloc_node_noprof(...)		_kmalloc_node_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
- #define kmalloc_node(...)			alloc_hooks(kmalloc_node_noprof(__VA_ARGS__))
- 
- /**
-@@ -939,14 +954,15 @@ static __always_inline __alloc_size(1) void *kmalloc_node_noprof(size_t size, gf
-  * @size: element size.
-  * @flags: the type of memory to allocate (see kmalloc).
-  */
--static inline __alloc_size(1, 2) void *kmalloc_array_noprof(size_t n, size_t size, gfp_t flags)
-+static inline __alloc_size(1, 2) void *_kmalloc_array_noprof(size_t n, size_t size, gfp_t flags, kmalloc_token_t token)
- {
- 	size_t bytes;
- 
- 	if (unlikely(check_mul_overflow(n, size, &bytes)))
- 		return NULL;
--	return kmalloc_noprof(bytes, flags);
-+	return _kmalloc_noprof(bytes, flags, token);
- }
-+#define kmalloc_array_noprof(...)		_kmalloc_array_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
- #define kmalloc_array(...)			alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
- 
- /**
-@@ -989,9 +1005,9 @@ static inline __realloc_size(2, 3) void * __must_check krealloc_array_noprof(voi
- #define kcalloc(n, size, flags)		kmalloc_array(n, size, (flags) | __GFP_ZERO)
- 
- void *__kmalloc_node_track_caller_noprof(DECL_BUCKET_PARAMS(size, b), gfp_t flags, int node,
--					 unsigned long caller) __alloc_size(1);
-+					 unsigned long caller, kmalloc_token_t token) __alloc_size(1);
- #define kmalloc_node_track_caller_noprof(size, flags, node, caller) \
--	__kmalloc_node_track_caller_noprof(PASS_BUCKET_PARAMS(size, NULL), flags, node, caller)
-+	__kmalloc_node_track_caller_noprof(PASS_BUCKET_PARAMS(size, NULL), flags, node, caller, __kmalloc_token(size))
- #define kmalloc_node_track_caller(...)		\
- 	alloc_hooks(kmalloc_node_track_caller_noprof(__VA_ARGS__, _RET_IP_))
- 
-@@ -1008,17 +1024,18 @@ void *__kmalloc_node_track_caller_noprof(DECL_BUCKET_PARAMS(size, b), gfp_t flag
- #define kmalloc_track_caller_noprof(...)	\
- 		kmalloc_node_track_caller_noprof(__VA_ARGS__, NUMA_NO_NODE, _RET_IP_)
- 
--static inline __alloc_size(1, 2) void *kmalloc_array_node_noprof(size_t n, size_t size, gfp_t flags,
--							  int node)
-+static inline __alloc_size(1, 2) void *_kmalloc_array_node_noprof(size_t n, size_t size, gfp_t flags,
-+								  int node, kmalloc_token_t token)
- {
- 	size_t bytes;
- 
- 	if (unlikely(check_mul_overflow(n, size, &bytes)))
- 		return NULL;
- 	if (__builtin_constant_p(n) && __builtin_constant_p(size))
--		return kmalloc_node_noprof(bytes, flags, node);
--	return __kmalloc_node_noprof(PASS_BUCKET_PARAMS(bytes, NULL), flags, node);
-+		return _kmalloc_node_noprof(bytes, flags, node, token);
-+	return __kmalloc_node_noprof(PASS_BUCKET_PARAMS(bytes, NULL), flags, node, token);
- }
-+#define kmalloc_array_node_noprof(...)		_kmalloc_array_node_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
- #define kmalloc_array_node(...)			alloc_hooks(kmalloc_array_node_noprof(__VA_ARGS__))
- 
- #define kcalloc_node(_n, _size, _flags, _node)	\
-@@ -1034,16 +1051,17 @@ static inline __alloc_size(1, 2) void *kmalloc_array_node_noprof(size_t n, size_
-  * @size: how many bytes of memory are required.
-  * @flags: the type of memory to allocate (see kmalloc).
-  */
--static inline __alloc_size(1) void *kzalloc_noprof(size_t size, gfp_t flags)
-+static inline __alloc_size(1) void *_kzalloc_noprof(size_t size, gfp_t flags, kmalloc_token_t token)
- {
--	return kmalloc_noprof(size, flags | __GFP_ZERO);
-+	return _kmalloc_noprof(size, flags | __GFP_ZERO, token);
- }
-+#define kzalloc_noprof(...)			_kzalloc_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
- #define kzalloc(...)				alloc_hooks(kzalloc_noprof(__VA_ARGS__))
- #define kzalloc_node(_size, _flags, _node)	kmalloc_node(_size, (_flags)|__GFP_ZERO, _node)
- 
--void *__kvmalloc_node_noprof(DECL_BUCKET_PARAMS(size, b), gfp_t flags, int node) __alloc_size(1);
-+void *__kvmalloc_node_noprof(DECL_BUCKET_PARAMS(size, b), gfp_t flags, int node, kmalloc_token_t token) __alloc_size(1);
- #define kvmalloc_node_noprof(size, flags, node)	\
--	__kvmalloc_node_noprof(PASS_BUCKET_PARAMS(size, NULL), flags, node)
-+	__kvmalloc_node_noprof(PASS_BUCKET_PARAMS(size, NULL), flags, node, __kmalloc_token(size))
- #define kvmalloc_node(...)			alloc_hooks(kvmalloc_node_noprof(__VA_ARGS__))
- 
- #define kvmalloc(_size, _flags)			kvmalloc_node(_size, _flags, NUMA_NO_NODE)
-@@ -1052,19 +1070,19 @@ void *__kvmalloc_node_noprof(DECL_BUCKET_PARAMS(size, b), gfp_t flags, int node)
- 
- #define kvzalloc_node(_size, _flags, _node)	kvmalloc_node(_size, (_flags)|__GFP_ZERO, _node)
- #define kmem_buckets_valloc(_b, _size, _flags)	\
--	alloc_hooks(__kvmalloc_node_noprof(PASS_BUCKET_PARAMS(_size, _b), _flags, NUMA_NO_NODE))
-+	alloc_hooks(__kvmalloc_node_noprof(PASS_BUCKET_PARAMS(_size, _b), _flags, NUMA_NO_NODE, __kmalloc_token(_size)))
- 
- static inline __alloc_size(1, 2) void *
--kvmalloc_array_node_noprof(size_t n, size_t size, gfp_t flags, int node)
-+_kvmalloc_array_node_noprof(size_t n, size_t size, gfp_t flags, int node, kmalloc_token_t token)
- {
- 	size_t bytes;
- 
- 	if (unlikely(check_mul_overflow(n, size, &bytes)))
- 		return NULL;
- 
--	return kvmalloc_node_noprof(bytes, flags, node);
-+	return __kvmalloc_node_noprof(PASS_BUCKET_PARAMS(bytes, NULL), flags, node, token);
- }
--
-+#define kvmalloc_array_node_noprof(...)		_kvmalloc_array_node_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
- #define kvmalloc_array_noprof(...)		kvmalloc_array_node_noprof(__VA_ARGS__, NUMA_NO_NODE)
- #define kvcalloc_node_noprof(_n,_s,_f,_node)	kvmalloc_array_node_noprof(_n,_s,(_f)|__GFP_ZERO,_node)
- #define kvcalloc_noprof(...)			kvcalloc_node_noprof(__VA_ARGS__, NUMA_NO_NODE)
-diff --git a/kernel/configs/hardening.config b/kernel/configs/hardening.config
-index 64caaf997fc0..df4fba56a3fd 100644
---- a/kernel/configs/hardening.config
-+++ b/kernel/configs/hardening.config
-@@ -22,7 +22,7 @@ CONFIG_SLAB_FREELIST_RANDOM=y
- CONFIG_SLAB_FREELIST_HARDENED=y
- CONFIG_SLAB_BUCKETS=y
- CONFIG_SHUFFLE_PAGE_ALLOCATOR=y
--CONFIG_RANDOM_KMALLOC_CACHES=y
-+CONFIG_PARTITION_KMALLOC_CACHES=y
- 
- # Sanity check userspace page table mappings.
- CONFIG_PAGE_TABLE_CHECK=y
-diff --git a/mm/Kconfig b/mm/Kconfig
-index e443fe8cd6cf..f194ead443d4 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -284,22 +284,45 @@ config SLUB_CPU_PARTIAL
- 	  which requires the taking of locks that may cause latency spikes.
- 	  Typically one would choose no for a realtime system.
- 
--config RANDOM_KMALLOC_CACHES
--	default n
-+config PARTITION_KMALLOC_CACHES
- 	depends on !SLUB_TINY
--	bool "Randomize slab caches for normal kmalloc"
-+	bool "Partitioned slab caches for normal kmalloc"
- 	help
--	  A hardening feature that creates multiple copies of slab caches for
--	  normal kmalloc allocation and makes kmalloc randomly pick one based
--	  on code address, which makes the attackers more difficult to spray
--	  vulnerable memory objects on the heap for the purpose of exploiting
--	  memory vulnerabilities.
-+	  A hardening feature that creates multiple isolated copies of slab
-+	  caches for normal kmalloc allocations. This makes it more difficult
-+	  to exploit memory-safety vulnerabilities by attacking vulnerable
-+	  co-located memory objects. Several modes are provided.
- 
- 	  Currently the number of copies is set to 16, a reasonably large value
- 	  that effectively diverges the memory objects allocated for different
- 	  subsystems or modules into different caches, at the expense of a
--	  limited degree of memory and CPU overhead that relates to hardware and
--	  system workload.
-+	  limited degree of memory and CPU overhead that relates to hardware
-+	  and system workload.
-+
-+choice
-+	prompt "Partitioned slab cache mode"
-+	depends on PARTITION_KMALLOC_CACHES
-+	default TYPED_KMALLOC_CACHES
-+	help
-+	  Selects the slab cache partitioning mode.
-+
-+config RANDOM_KMALLOC_CACHES
-+	bool "Randomize slab caches for normal kmalloc"
-+	help
-+	  Randomly pick a slab cache based on code address.
-+
-+config TYPED_KMALLOC_CACHES
-+	bool "Type based slab cache selection for normal kmalloc"
-+	depends on $(cc-option,-falloc-token-max=123)
-+	help
-+	  Rely on Clang's allocation tokens to choose a slab cache, where token
-+	  IDs are derived from the allocated type.
-+
-+	  The current effectiveness of Clang's type inference can be judged by
-+	  -Rpass=alloc-token, which provides diagnostics where (after dead-code
-+	  elimination) type inference failed.
-+
-+endchoice
- 
- endmenu # Slab allocator options
- 
-diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
-index 00034e37bc9f..76111257bbcc 100644
---- a/mm/kfence/kfence_test.c
-+++ b/mm/kfence/kfence_test.c
-@@ -214,7 +214,7 @@ static void test_cache_destroy(void)
- static inline size_t kmalloc_cache_alignment(size_t size)
- {
- 	/* just to get ->align so no need to pass in the real caller */
--	enum kmalloc_cache_type type = kmalloc_type(GFP_KERNEL, 0);
-+	enum kmalloc_cache_type type = kmalloc_type(GFP_KERNEL, __kmalloc_token(0));
- 	return kmalloc_caches[type][__kmalloc_index(size, false)]->align;
- }
- 
-@@ -285,7 +285,7 @@ static void *test_alloc(struct kunit *test, size_t size, gfp_t gfp, enum allocat
- 
- 		if (is_kfence_address(alloc)) {
- 			struct slab *slab = virt_to_slab(alloc);
--			enum kmalloc_cache_type type = kmalloc_type(GFP_KERNEL, _RET_IP_);
-+			enum kmalloc_cache_type type = kmalloc_type(GFP_KERNEL, __kmalloc_token(size));
- 			struct kmem_cache *s = test_cache ?:
- 					kmalloc_caches[type][__kmalloc_index(size, false)];
- 
-diff --git a/mm/slab.h b/mm/slab.h
-index 248b34c839b7..e956b59e0bd8 100644
---- a/mm/slab.h
-+++ b/mm/slab.h
-@@ -386,12 +386,12 @@ static inline unsigned int size_index_elem(unsigned int bytes)
-  * KMALLOC_MAX_CACHE_SIZE and the caller must check that.
-  */
- static inline struct kmem_cache *
--kmalloc_slab(size_t size, kmem_buckets *b, gfp_t flags, unsigned long caller)
-+kmalloc_slab(size_t size, kmem_buckets *b, gfp_t flags, kmalloc_token_t token)
- {
- 	unsigned int index;
- 
- 	if (!b)
--		b = &kmalloc_caches[kmalloc_type(flags, caller)];
-+		b = &kmalloc_caches[kmalloc_type(flags, token)];
- 	if (size <= 192)
- 		index = kmalloc_size_index[size_index_elem(size)];
- 	else
-diff --git a/mm/slab_common.c b/mm/slab_common.c
-index bfe7c40eeee1..6c826d50c819 100644
---- a/mm/slab_common.c
-+++ b/mm/slab_common.c
-@@ -741,7 +741,7 @@ size_t kmalloc_size_roundup(size_t size)
- 		 * The flags don't matter since size_index is common to all.
- 		 * Neither does the caller for just getting ->object_size.
- 		 */
--		return kmalloc_slab(size, NULL, GFP_KERNEL, 0)->object_size;
-+		return kmalloc_slab(size, NULL, GFP_KERNEL, __kmalloc_token(0))->object_size;
- 	}
- 
- 	/* Above the smaller buckets, size is a multiple of page size. */
-@@ -775,26 +775,26 @@ EXPORT_SYMBOL(kmalloc_size_roundup);
- #define KMALLOC_RCL_NAME(sz)
- #endif
- 
--#ifdef CONFIG_RANDOM_KMALLOC_CACHES
--#define __KMALLOC_RANDOM_CONCAT(a, b) a ## b
--#define KMALLOC_RANDOM_NAME(N, sz) __KMALLOC_RANDOM_CONCAT(KMA_RAND_, N)(sz)
--#define KMA_RAND_1(sz)                  .name[KMALLOC_RANDOM_START +  1] = "kmalloc-rnd-01-" #sz,
--#define KMA_RAND_2(sz)  KMA_RAND_1(sz)  .name[KMALLOC_RANDOM_START +  2] = "kmalloc-rnd-02-" #sz,
--#define KMA_RAND_3(sz)  KMA_RAND_2(sz)  .name[KMALLOC_RANDOM_START +  3] = "kmalloc-rnd-03-" #sz,
--#define KMA_RAND_4(sz)  KMA_RAND_3(sz)  .name[KMALLOC_RANDOM_START +  4] = "kmalloc-rnd-04-" #sz,
--#define KMA_RAND_5(sz)  KMA_RAND_4(sz)  .name[KMALLOC_RANDOM_START +  5] = "kmalloc-rnd-05-" #sz,
--#define KMA_RAND_6(sz)  KMA_RAND_5(sz)  .name[KMALLOC_RANDOM_START +  6] = "kmalloc-rnd-06-" #sz,
--#define KMA_RAND_7(sz)  KMA_RAND_6(sz)  .name[KMALLOC_RANDOM_START +  7] = "kmalloc-rnd-07-" #sz,
--#define KMA_RAND_8(sz)  KMA_RAND_7(sz)  .name[KMALLOC_RANDOM_START +  8] = "kmalloc-rnd-08-" #sz,
--#define KMA_RAND_9(sz)  KMA_RAND_8(sz)  .name[KMALLOC_RANDOM_START +  9] = "kmalloc-rnd-09-" #sz,
--#define KMA_RAND_10(sz) KMA_RAND_9(sz)  .name[KMALLOC_RANDOM_START + 10] = "kmalloc-rnd-10-" #sz,
--#define KMA_RAND_11(sz) KMA_RAND_10(sz) .name[KMALLOC_RANDOM_START + 11] = "kmalloc-rnd-11-" #sz,
--#define KMA_RAND_12(sz) KMA_RAND_11(sz) .name[KMALLOC_RANDOM_START + 12] = "kmalloc-rnd-12-" #sz,
--#define KMA_RAND_13(sz) KMA_RAND_12(sz) .name[KMALLOC_RANDOM_START + 13] = "kmalloc-rnd-13-" #sz,
--#define KMA_RAND_14(sz) KMA_RAND_13(sz) .name[KMALLOC_RANDOM_START + 14] = "kmalloc-rnd-14-" #sz,
--#define KMA_RAND_15(sz) KMA_RAND_14(sz) .name[KMALLOC_RANDOM_START + 15] = "kmalloc-rnd-15-" #sz,
--#else // CONFIG_RANDOM_KMALLOC_CACHES
--#define KMALLOC_RANDOM_NAME(N, sz)
-+#ifdef CONFIG_PARTITION_KMALLOC_CACHES
-+#define __KMALLOC_PARTITION_CONCAT(a, b) a ## b
-+#define KMALLOC_PARTITION_NAME(N, sz) __KMALLOC_PARTITION_CONCAT(KMA_PART_, N)(sz)
-+#define KMA_PART_1(sz)                  .name[KMALLOC_PARTITION_START +  1] = "kmalloc-part-01-" #sz,
-+#define KMA_PART_2(sz)  KMA_PART_1(sz)  .name[KMALLOC_PARTITION_START +  2] = "kmalloc-part-02-" #sz,
-+#define KMA_PART_3(sz)  KMA_PART_2(sz)  .name[KMALLOC_PARTITION_START +  3] = "kmalloc-part-03-" #sz,
-+#define KMA_PART_4(sz)  KMA_PART_3(sz)  .name[KMALLOC_PARTITION_START +  4] = "kmalloc-part-04-" #sz,
-+#define KMA_PART_5(sz)  KMA_PART_4(sz)  .name[KMALLOC_PARTITION_START +  5] = "kmalloc-part-05-" #sz,
-+#define KMA_PART_6(sz)  KMA_PART_5(sz)  .name[KMALLOC_PARTITION_START +  6] = "kmalloc-part-06-" #sz,
-+#define KMA_PART_7(sz)  KMA_PART_6(sz)  .name[KMALLOC_PARTITION_START +  7] = "kmalloc-part-07-" #sz,
-+#define KMA_PART_8(sz)  KMA_PART_7(sz)  .name[KMALLOC_PARTITION_START +  8] = "kmalloc-part-08-" #sz,
-+#define KMA_PART_9(sz)  KMA_PART_8(sz)  .name[KMALLOC_PARTITION_START +  9] = "kmalloc-part-09-" #sz,
-+#define KMA_PART_10(sz) KMA_PART_9(sz)  .name[KMALLOC_PARTITION_START + 10] = "kmalloc-part-10-" #sz,
-+#define KMA_PART_11(sz) KMA_PART_10(sz) .name[KMALLOC_PARTITION_START + 11] = "kmalloc-part-11-" #sz,
-+#define KMA_PART_12(sz) KMA_PART_11(sz) .name[KMALLOC_PARTITION_START + 12] = "kmalloc-part-12-" #sz,
-+#define KMA_PART_13(sz) KMA_PART_12(sz) .name[KMALLOC_PARTITION_START + 13] = "kmalloc-part-13-" #sz,
-+#define KMA_PART_14(sz) KMA_PART_13(sz) .name[KMALLOC_PARTITION_START + 14] = "kmalloc-part-14-" #sz,
-+#define KMA_PART_15(sz) KMA_PART_14(sz) .name[KMALLOC_PARTITION_START + 15] = "kmalloc-part-15-" #sz,
-+#else // CONFIG_PARTITION_KMALLOC_CACHES
-+#define KMALLOC_PARTITION_NAME(N, sz)
- #endif
- 
- #define INIT_KMALLOC_INFO(__size, __short_size)			\
-@@ -803,7 +803,7 @@ EXPORT_SYMBOL(kmalloc_size_roundup);
- 	KMALLOC_RCL_NAME(__short_size)				\
- 	KMALLOC_CGROUP_NAME(__short_size)			\
- 	KMALLOC_DMA_NAME(__short_size)				\
--	KMALLOC_RANDOM_NAME(RANDOM_KMALLOC_CACHES_NR, __short_size)	\
-+	KMALLOC_PARTITION_NAME(PARTITION_KMALLOC_CACHES_NR, __short_size)	\
- 	.size = __size,						\
- }
- 
-@@ -915,8 +915,8 @@ new_kmalloc_cache(int idx, enum kmalloc_cache_type type)
- 		flags |= SLAB_CACHE_DMA;
- 	}
- 
--#ifdef CONFIG_RANDOM_KMALLOC_CACHES
--	if (type >= KMALLOC_RANDOM_START && type <= KMALLOC_RANDOM_END)
-+#ifdef CONFIG_PARTITION_KMALLOC_CACHES
-+	if (type >= KMALLOC_PARTITION_START && type <= KMALLOC_PARTITION_END)
- 		flags |= SLAB_NO_MERGE;
- #endif
- 
-diff --git a/mm/slub.c b/mm/slub.c
-index 30003763d224..d3c2beab0ea2 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -4344,7 +4344,7 @@ EXPORT_SYMBOL(__kmalloc_large_node_noprof);
- 
- static __always_inline
- void *__do_kmalloc_node(size_t size, kmem_buckets *b, gfp_t flags, int node,
--			unsigned long caller)
-+			unsigned long caller, kmalloc_token_t token)
- {
- 	struct kmem_cache *s;
- 	void *ret;
-@@ -4359,29 +4359,29 @@ void *__do_kmalloc_node(size_t size, kmem_buckets *b, gfp_t flags, int node,
- 	if (unlikely(!size))
- 		return ZERO_SIZE_PTR;
- 
--	s = kmalloc_slab(size, b, flags, caller);
-+	s = kmalloc_slab(size, b, flags, token);
- 
- 	ret = slab_alloc_node(s, NULL, flags, node, caller, size);
- 	ret = kasan_kmalloc(s, ret, size, flags);
- 	trace_kmalloc(caller, ret, size, s->size, flags, node);
- 	return ret;
- }
--void *__kmalloc_node_noprof(DECL_BUCKET_PARAMS(size, b), gfp_t flags, int node)
-+void *__kmalloc_node_noprof(DECL_BUCKET_PARAMS(size, b), gfp_t flags, int node, kmalloc_token_t token)
- {
--	return __do_kmalloc_node(size, PASS_BUCKET_PARAM(b), flags, node, _RET_IP_);
-+	return __do_kmalloc_node(size, PASS_BUCKET_PARAM(b), flags, node, _RET_IP_, token);
- }
- EXPORT_SYMBOL(__kmalloc_node_noprof);
- 
--void *__kmalloc_noprof(size_t size, gfp_t flags)
-+void *__kmalloc_noprof(size_t size, gfp_t flags, kmalloc_token_t token)
- {
--	return __do_kmalloc_node(size, NULL, flags, NUMA_NO_NODE, _RET_IP_);
-+	return __do_kmalloc_node(size, NULL, flags, NUMA_NO_NODE, _RET_IP_, token);
- }
- EXPORT_SYMBOL(__kmalloc_noprof);
- 
- void *__kmalloc_node_track_caller_noprof(DECL_BUCKET_PARAMS(size, b), gfp_t flags,
--					 int node, unsigned long caller)
-+					 int node, unsigned long caller, kmalloc_token_t token)
- {
--	return __do_kmalloc_node(size, PASS_BUCKET_PARAM(b), flags, node, caller);
-+	return __do_kmalloc_node(size, PASS_BUCKET_PARAM(b), flags, node, caller, token);
- 
- }
- EXPORT_SYMBOL(__kmalloc_node_track_caller_noprof);
-@@ -5041,7 +5041,7 @@ static gfp_t kmalloc_gfp_adjust(gfp_t flags, size_t size)
-  *
-  * Return: pointer to the allocated memory of %NULL in case of failure
-  */
--void *__kvmalloc_node_noprof(DECL_BUCKET_PARAMS(size, b), gfp_t flags, int node)
-+void *__kvmalloc_node_noprof(DECL_BUCKET_PARAMS(size, b), gfp_t flags, int node, kmalloc_token_t token)
- {
- 	void *ret;
- 
-@@ -5051,7 +5051,7 @@ void *__kvmalloc_node_noprof(DECL_BUCKET_PARAMS(size, b), gfp_t flags, int node)
- 	 */
- 	ret = __do_kmalloc_node(size, PASS_BUCKET_PARAM(b),
- 				kmalloc_gfp_adjust(flags, size),
--				node, _RET_IP_);
-+				node, _RET_IP_, token);
- 	if (ret || size <= PAGE_SIZE)
- 		return ret;
- 
--- 
-2.51.0.rc2.233.g662b1ed5c5-goog
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250825154505.1558444-1-elver%40google.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/a=
+KyJCsXC5dL3Olpq%40hyeyoo.
