@@ -1,76 +1,76 @@
-Return-Path: <kasan-dev+bncBDYPL74CXAOBBZUFWHCQMGQEMQ4OSUA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDYPL74CXAOBBDEGWHCQMGQEJGK7P5A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23f.google.com (mail-oi1-x23f.google.com [IPv6:2607:f8b0:4864:20::23f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94971B33D7E
-	for <lists+kasan-dev@lfdr.de>; Mon, 25 Aug 2025 13:03:04 +0200 (CEST)
-Received: by mail-oi1-x23f.google.com with SMTP id 5614622812f47-435de5668b8sf5553797b6e.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 25 Aug 2025 04:03:04 -0700 (PDT)
+Received: from mail-ot1-x339.google.com (mail-ot1-x339.google.com [IPv6:2607:f8b0:4864:20::339])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0D29B33D9C
+	for <lists+kasan-dev@lfdr.de>; Mon, 25 Aug 2025 13:03:42 +0200 (CEST)
+Received: by mail-ot1-x339.google.com with SMTP id 46e09a7af769-74381e1e0casf6787204a34.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 25 Aug 2025 04:03:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1756119783; x=1756724583; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1756119821; x=1756724621; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-sender:mime-version
          :subject:message-id:to:from:date:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kGUBLiPqhmxgDqTrqT4EucK10hXTLXlDlKVurWvZXPE=;
-        b=ldOCkuNj52zfpot8LEw69ygucwZ/SZrw/i5InZidQ7zbnh4A3Z8ZLCT/OgqinoNyzS
-         ioitx8TjdcrH6HoZlHKlMD1cF1PkQDJtP9yfLdnLpARzZkCS8hk526nVni0y29n4wJNz
-         /iPNB+KTaRZwoXGJmWz4ZVrOWKLKFH9j06EeErNlor4SPDvg9QhXsr8etukNNXpkACJs
-         /ZUBpq1+hVC5oCKDP5lvJu+lZvScEHryaQt+iMeplE83FtRlFzvMYPQEt85aN9Vv2pss
-         xBIWmNw+F/ZMI0kr1X0QuBKKDiXt5IhoQ6fENcR5zJq5GE/kAb5x+CSKBpMZSo6Wkie3
-         4k1w==
+        bh=I+xXgT1Y4xVJoTfmdaCetij93emf8AKbSswCPnX0h3Y=;
+        b=schftN9JjXvnz0iLFy2ZI3jotbRj+LpsbSwKDJxRNqPysiqDePS9/aTAi7f3Ev3koz
+         0mKHVoTKcpGzeu2yL44+SXo2wBT9c08UgKLCgi/I9cvGSb8KOiU7IJMZSf5b/3exO1yu
+         zbivBcQ082zFaP0HfH+JMlaKU289nWTr2nP1uLFsPOI54wg4fF8l5jtCSN3puGJfILi9
+         GPwVn7HTT6YuNYehrsPEVwkkCxaJNyz/nvertWiap4MMDKpTCcSI2BaoeD120R/XDHi/
+         vdQ3ASL8rBk87PQXTuZejvsu3Z1K5tJPohccuew/yg+MSUSUUFF84snswWLX7jb5fNiG
+         TI7g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756119783; x=1756724583; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1756119821; x=1756724621; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-sender:mime-version
          :subject:message-id:to:from:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kGUBLiPqhmxgDqTrqT4EucK10hXTLXlDlKVurWvZXPE=;
-        b=UYqLUA+X1UpdqGaSfbBokNdJDUcg8kVLvyRqAIVKHjZ2CH1v7IQDBcGokQokVJni2S
-         ukiZq6gRgvdgfOpq0U936D6CqeFUXufsp2LAzvlcBMxvk6Q9/4WOQjh0Dd0CbV+sWVgv
-         OTLFmYeOOL7jAveS4hoTUxCFFvfDujWte3MbutYtYdFopY2alsmcoHr+qoiP18YBeIB3
-         5/geK9toZbeXdby4/l0xpMOvGZeWRGnOz6uOV5D6Lxd/tIOZofX9OPZ5g+DbwpPIX3rW
-         4R1Aw/Z5KT9L8aQe2uAW57ZmtcgWEPde18TCrX48TfM7kL322sulsWKE65bC9P74dwrx
-         9JZw==
+        bh=I+xXgT1Y4xVJoTfmdaCetij93emf8AKbSswCPnX0h3Y=;
+        b=QZ9qU0UfuYI7pWk02q36ILbSwA2H/pAtq9fA6q/cZTDqM5AXjKYwUHzv1HRTpQ0Z2e
+         NBkBncfqu9NUd6ZRG14YLdI9XtRiwIyVjSaXYc3HFJsMOrpGPIDYw5caHAxP+VMbYLWm
+         8ZOoW5zjVZ4fUDyke6j6M/Q0E6iWPSUcKRbkvDpeQoIt455FJk4mQkpu+Ld56qfalDuZ
+         YlOcpZyNF1RZfaZNN8/ltQGGKlmPGE08IU2A1KI7MZOY+xTCY556yWosmmIqKtymvrVQ
+         /YC5/GFiFg7dDuSlTQg21ZW3vfsU/M+4T+5PvbLMEFYrzLmIAdiScZ+DOxry2WrsIbn8
+         cHqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756119783; x=1756724583;
+        d=1e100.net; s=20230601; t=1756119821; x=1756724621;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-sender:mime-version:subject:message-id:to:from:date
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kGUBLiPqhmxgDqTrqT4EucK10hXTLXlDlKVurWvZXPE=;
-        b=e78jO+gb3mlkFYo2lDDFUwJxuNUvcXM9qF7DgDIwmnO7Ew0axmYodBjA5OFuNM19oO
-         ai3LQy/MpKppVKlzsBIfFv5UVE0jSM8O8jvIuJdeQNqacMaMon8amOKKN53vf0KXPmwT
-         enBtv+zn71BjN9qnu5sKsXfGUaumhWQ8ABjUZ/YwTeK0lriQsdP0W8Z738I7Yd1UmkPU
-         aFr2cjQjJx8au/yh02ORqdqtmdRyOjU/Wd86v7U5a5i4vH/AQwS6/K/Gov1ljTp2ObY9
-         roaXDv6tMrmWfPDDGC3CgGX+ea6Hqd3YCDJOO1r1WjQ7ZPWvSXUmJDcTwsd//h39fIrv
-         Cg+w==
+        bh=I+xXgT1Y4xVJoTfmdaCetij93emf8AKbSswCPnX0h3Y=;
+        b=II+hCpPIZPdB83MmHBtjPI4p1gft90mhv0H+WmSQu7WFpOxiHwCsedy+2ulnfeP0kS
+         o5m9MDztsvi9mlEohn0VJ70iGHwSjqK8CxWZFI92WhmsDBFUnIbP/rrLclehTnDK1id/
+         TZDXzaAYZNVVUgbRs1bdeO1v8i2Y0BNp+BQZ5FKZv+zpnbZC15gZPaPBTVh1GyvlBrdJ
+         NqJOMy49iUCJB17lx2QnpZO7jewJ4BbbUaEAV1AuSJv2UixftfTwNVqBcms6lrZtxqec
+         w2nyVYzOTW+V9spoMYKJRumB8WE/m9GbDti+lPC8gvf+flXdlMEm4OP2GKDfz9vtInOz
+         cCbg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=1; AJvYcCXvMm1ibBAnOiAwrhmNLO2QClt9YeTX3/YDptVRoCuirkiFZw82sZiQaJZ/9mpx9btiIR+bgw==@lfdr.de
-X-Gm-Message-State: AOJu0YzYgc4dvUeE7G7eyRsw+UGZmBMiXs3KNV5wtEdc7GbUJzqcgUrq
-	J8ribDpAQKWIJ+kYT/iRMt4L0zlxEdKzCXA4zbqXHFkqm4FLLIbFmPjN
-X-Google-Smtp-Source: AGHT+IGfqp6F8lc/KLMSaXxWjiJHsXBbtZYG8Gl76TbDeLx8xKvvRWu/35oYlksUV76n+od2KFF+ng==
-X-Received: by 2002:a05:6808:f16:b0:434:2d4:f198 with SMTP id 5614622812f47-4378524c0fcmr5553140b6e.31.1756119782904;
-        Mon, 25 Aug 2025 04:03:02 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZds8VtElU2txnAMdKNPnyJqVwgG64kbwVcd6fQzCIfiQw==
-Received: by 2002:a05:6871:515:b0:30b:9194:579 with SMTP id
- 586e51a60fabf-314c2286081ls158556fac.2.-pod-delta-00-us; Mon, 25 Aug 2025
- 04:03:00 -0700 (PDT)
-X-Received: by 2002:a05:6808:179e:b0:435:8506:1b68 with SMTP id 5614622812f47-43785154e95mr2370366b6e.2.1756119780702;
-        Mon, 25 Aug 2025 04:03:00 -0700 (PDT)
-Date: Mon, 25 Aug 2025 04:03:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX8v95KkEhSGDQ5r2S3K24e6HD0U38kbZSewJcD9/anQA0i7Hd2CJme7tx0AUJiVDlzb7GAEg==@lfdr.de
+X-Gm-Message-State: AOJu0YxwGdhdHu5I51fpDhD02nvmHrIcmExbUzFkyZsTsH4Q6MqbNIeY
+	bewsivve1+9uHZLc2mr5EFDjc2D9Y+lQAik12N4pzR8m7lUkfaslSR7O
+X-Google-Smtp-Source: AGHT+IGrVJ1CDRWUnMktAyRhIrH5D6FsKhZzUCIzWmCGnLEdRufdSc/LanM9YDzep+VenMezkdn/rw==
+X-Received: by 2002:a05:6830:660d:b0:745:2822:6b69 with SMTP id 46e09a7af769-74528229d57mr943452a34.27.1756119821166;
+        Mon, 25 Aug 2025 04:03:41 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZe5xJ7u4G53heJCviehc7B5gS4ik5TOCOfJGVKTo6zxbA==
+Received: by 2002:a05:6820:c091:b0:61d:947b:f708 with SMTP id
+ 006d021491bc7-61da8a87b4bls83166eaf.0.-pod-delta-02-us; Mon, 25 Aug 2025
+ 04:03:40 -0700 (PDT)
+X-Received: by 2002:a05:6808:1925:b0:404:d8fb:b9a7 with SMTP id 5614622812f47-43785248a7bmr2527259b6e.2.1756119820080;
+        Mon, 25 Aug 2025 04:03:40 -0700 (PDT)
+Date: Mon, 25 Aug 2025 04:03:39 -0700 (PDT)
 From: =?UTF-8?B?2LPYp9mK2KrZiNiq2YMg2KfZhNiz2LnZiNiv2YrZhw==?=
  =?UTF-8?B?INiz2KfZitiq2YjYqtmDINio2K7YtdmFIDIwJQ==?=
  <mnalmagtereb@gmail.com>
 To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <b282a1f0-44f5-46c6-ae51-e47133825b57n@googlegroups.com>
-Subject: =?UTF-8?B?2K/Zg9iq2YjYsdipINin2KzZh9in2LYg2YE=?=
- =?UTF-8?B?2Yog2KfZhNiz2LnZiNiv2YrZhyB8IDA=?=
- =?UTF-8?B?MDk2NjUzODE1OTc0NyB82LnZitin2K/YqSDYs9in2YrYqtmI2KrZgyA=?=
+Message-Id: <82ff5fe0-f77c-409c-8c44-780235f03404n@googlegroups.com>
+Subject: =?UTF-8?Q?_=D8=AD=D8=A8=D9=88=D8=A8_=D8=B3=D8=A7=D9=8A=D8=AA=D9=88?=
+ =?UTF-8?Q?=D8=AA=D9=83_|_009665?= =?UTF-8?Q?38159747__|?=
+ =?UTF-8?Q?_=D9=81=D9=8A_=D8=A7=D9=84=D8=B3=D8=B9=D9=88=D8=AF=D9=8A=D8=A9?=
 MIME-Version: 1.0
 Content-Type: multipart/mixed; 
-	boundary="----=_Part_511092_2036804271.1756119780003"
+	boundary="----=_Part_511116_1301715377.1756119819196"
 X-Original-Sender: mnalmagtereb@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -84,11 +84,11 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_511092_2036804271.1756119780003
+------=_Part_511116_1301715377.1756119819196
 Content-Type: multipart/alternative; 
-	boundary="----=_Part_511093_1189419443.1756119780003"
+	boundary="----=_Part_511117_1676216054.1756119819196"
 
-------=_Part_511093_1189419443.1756119780003
+------=_Part_511117_1676216054.1756119819196
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: base64
 
@@ -234,9 +234,9 @@ cyBtZXNzYWdlIGJlY2F1c2UgeW91IGFyZSBzdWJzY3JpYmVkIHRvIHRoZSBHb29nbGUgR3JvdXBz
 ICJrYXNhbi1kZXYiIGdyb3VwLgpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgZ3JvdXAgYW5kIHN0
 b3AgcmVjZWl2aW5nIGVtYWlscyBmcm9tIGl0LCBzZW5kIGFuIGVtYWlsIHRvIGthc2FuLWRldit1
 bnN1YnNjcmliZUBnb29nbGVncm91cHMuY29tLgpUbyB2aWV3IHRoaXMgZGlzY3Vzc2lvbiB2aXNp
-dCBodHRwczovL2dyb3Vwcy5nb29nbGUuY29tL2QvbXNnaWQva2FzYW4tZGV2L2IyODJhMWYwLTQ0
-ZjUtNDZjNi1hZTUxLWU0NzEzMzgyNWI1N24lNDBnb29nbGVncm91cHMuY29tLgo=
-------=_Part_511093_1189419443.1756119780003
+dCBodHRwczovL2dyb3Vwcy5nb29nbGUuY29tL2QvbXNnaWQva2FzYW4tZGV2LzgyZmY1ZmUwLWY3
+N2MtNDA5Yy04YzQ0LTc4MDIzNWYwMzQwNG4lNDBnb29nbGVncm91cHMuY29tLgo=
+------=_Part_511117_1676216054.1756119819196
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -486,9 +486,9 @@ e: disc; font-size: 11.5pt; font-family: Arial, sans-serif; color: rgb(73, =
 80, 87); background-color: transparent; font-weight: 700; font-variant-nume=
 ric: normal; font-variant-east-asian: normal; font-variant-alternates: norm=
 al; font-variant-position: normal; font-variant-emoji: normal; vertical-ali=
-gn: baseline; white-space: pre;"><p dir=3D"rtl" style=3D"line-height: 1.38;=
- text-align: right; margin-top: 0pt; margin-bottom: 0pt;" role=3D"presentat=
-ion"><span style=3D"font-size: 11.5pt; background-color: transparent; font-=
+gn: baseline; white-space: pre;"><p dir=3D"rtl" role=3D"presentation" style=
+=3D"line-height: 1.38; text-align: right; margin-top: 0pt; margin-bottom: 0=
+pt;"><span style=3D"font-size: 11.5pt; background-color: transparent; font-=
 variant-numeric: normal; font-variant-east-asian: normal; font-variant-alte=
 rnates: normal; font-variant-position: normal; font-variant-emoji: normal; =
 vertical-align: baseline; text-wrap-mode: wrap;">=D8=A7=D9=84=D8=A5=D8=AC=
@@ -503,8 +503,8 @@ ze: 11.5pt; font-family: Arial, sans-serif; color: rgb(73, 80, 87); backgro=
 und-color: transparent; font-weight: 700; font-variant-numeric: normal; fon=
 t-variant-east-asian: normal; font-variant-alternates: normal; font-variant=
 -position: normal; font-variant-emoji: normal; vertical-align: baseline; wh=
-ite-space: pre;"><p dir=3D"rtl" style=3D"line-height: 1.38; text-align: rig=
-ht; margin-top: 0pt; margin-bottom: 0pt;" role=3D"presentation"><span style=
+ite-space: pre;"><p dir=3D"rtl" role=3D"presentation" style=3D"line-height:=
+ 1.38; text-align: right; margin-top: 0pt; margin-bottom: 0pt;"><span style=
 =3D"font-size: 11.5pt; background-color: transparent; font-variant-numeric:=
  normal; font-variant-east-asian: normal; font-variant-alternates: normal; =
 font-variant-position: normal; font-variant-emoji: normal; vertical-align: =
@@ -519,9 +519,9 @@ type: disc; font-size: 11.5pt; font-family: Arial, sans-serif; color: rgb(7=
 3, 80, 87); background-color: transparent; font-weight: 700; font-variant-n=
 umeric: normal; font-variant-east-asian: normal; font-variant-alternates: n=
 ormal; font-variant-position: normal; font-variant-emoji: normal; vertical-=
-align: baseline; white-space: pre;"><p dir=3D"rtl" style=3D"line-height: 1.=
-38; text-align: right; margin-top: 0pt; margin-bottom: 0pt;" role=3D"presen=
-tation"><span style=3D"font-size: 11.5pt; background-color: transparent; fo=
+align: baseline; white-space: pre;"><p dir=3D"rtl" role=3D"presentation" st=
+yle=3D"line-height: 1.38; text-align: right; margin-top: 0pt; margin-bottom=
+: 0pt;"><span style=3D"font-size: 11.5pt; background-color: transparent; fo=
 nt-variant-numeric: normal; font-variant-east-asian: normal; font-variant-a=
 lternates: normal; font-variant-position: normal; font-variant-emoji: norma=
 l; vertical-align: baseline; text-wrap-mode: wrap;">=D9=81=D9=8A =D8=AD=D8=
@@ -536,8 +536,8 @@ Arial, sans-serif; color: rgb(73, 80, 87); background-color: transparent; f=
 ont-weight: 700; font-variant-numeric: normal; font-variant-east-asian: nor=
 mal; font-variant-alternates: normal; font-variant-position: normal; font-v=
 ariant-emoji: normal; vertical-align: baseline; white-space: pre;"><p dir=
-=3D"rtl" style=3D"line-height: 1.38; text-align: right; margin-top: 0pt; ma=
-rgin-bottom: 12pt;" role=3D"presentation"><span style=3D"font-size: 11.5pt;=
+=3D"rtl" role=3D"presentation" style=3D"line-height: 1.38; text-align: righ=
+t; margin-top: 0pt; margin-bottom: 12pt;"><span style=3D"font-size: 11.5pt;=
  background-color: transparent; font-variant-numeric: normal; font-variant-=
 east-asian: normal; font-variant-alternates: normal; font-variant-position:=
  normal; font-variant-emoji: normal; vertical-align: baseline; text-wrap-mo=
@@ -585,8 +585,8 @@ l" style=3D"list-style-type: decimal; font-size: 11.5pt; font-family: Arial=
 eight: 700; font-variant-numeric: normal; font-variant-east-asian: normal; =
 font-variant-alternates: normal; font-variant-position: normal; font-varian=
 t-emoji: normal; vertical-align: baseline; white-space: pre;"><p dir=3D"rtl=
-" style=3D"line-height: 1.38; text-align: right; margin-top: 0pt; margin-bo=
-ttom: 0pt;" role=3D"presentation"><span style=3D"font-size: 11.5pt; backgro=
+" role=3D"presentation" style=3D"line-height: 1.38; text-align: right; marg=
+in-top: 0pt; margin-bottom: 0pt;"><span style=3D"font-size: 11.5pt; backgro=
 und-color: transparent; font-variant-numeric: normal; font-variant-east-asi=
 an: normal; font-variant-alternates: normal; font-variant-position: normal;=
  font-variant-emoji: normal; vertical-align: baseline; text-wrap-mode: wrap=
@@ -604,8 +604,8 @@ al, sans-serif; color: rgb(73, 80, 87); background-color: transparent; font=
 -weight: 700; font-variant-numeric: normal; font-variant-east-asian: normal=
 ; font-variant-alternates: normal; font-variant-position: normal; font-vari=
 ant-emoji: normal; vertical-align: baseline; white-space: pre;"><p dir=3D"r=
-tl" style=3D"line-height: 1.38; text-align: right; margin-top: 0pt; margin-=
-bottom: 0pt;" role=3D"presentation"><span style=3D"font-size: 11.5pt; backg=
+tl" role=3D"presentation" style=3D"line-height: 1.38; text-align: right; ma=
+rgin-top: 0pt; margin-bottom: 0pt;"><span style=3D"font-size: 11.5pt; backg=
 round-color: transparent; font-variant-numeric: normal; font-variant-east-a=
 sian: normal; font-variant-alternates: normal; font-variant-position: norma=
 l; font-variant-emoji: normal; vertical-align: baseline; text-wrap-mode: wr=
@@ -621,9 +621,9 @@ le-type: decimal; font-size: 11.5pt; font-family: Arial, sans-serif; color:=
  rgb(73, 80, 87); background-color: transparent; font-weight: 700; font-var=
 iant-numeric: normal; font-variant-east-asian: normal; font-variant-alterna=
 tes: normal; font-variant-position: normal; font-variant-emoji: normal; ver=
-tical-align: baseline; white-space: pre;"><p dir=3D"rtl" style=3D"line-heig=
-ht: 1.38; text-align: right; margin-top: 0pt; margin-bottom: 12pt;" role=3D=
-"presentation"><span style=3D"font-size: 11.5pt; background-color: transpar=
+tical-align: baseline; white-space: pre;"><p dir=3D"rtl" role=3D"presentati=
+on" style=3D"line-height: 1.38; text-align: right; margin-top: 0pt; margin-=
+bottom: 12pt;"><span style=3D"font-size: 11.5pt; background-color: transpar=
 ent; font-variant-numeric: normal; font-variant-east-asian: normal; font-va=
 riant-alternates: normal; font-variant-position: normal; font-variant-emoji=
 : normal; vertical-align: baseline; text-wrap-mode: wrap;">=D8=A7=D9=84=D9=
@@ -651,8 +651,8 @@ t; font-family: Arial, sans-serif; color: rgb(73, 80, 87); background-color=
 : transparent; font-weight: 700; font-variant-numeric: normal; font-variant=
 -east-asian: normal; font-variant-alternates: normal; font-variant-position=
 : normal; font-variant-emoji: normal; vertical-align: baseline; white-space=
-: pre;"><p dir=3D"rtl" style=3D"line-height: 1.38; text-align: right; margi=
-n-top: 0pt; margin-bottom: 0pt;" role=3D"presentation"><span style=3D"font-=
+: pre;"><p dir=3D"rtl" role=3D"presentation" style=3D"line-height: 1.38; te=
+xt-align: right; margin-top: 0pt; margin-bottom: 0pt;"><span style=3D"font-=
 size: 11.5pt; background-color: transparent; font-variant-numeric: normal; =
 font-variant-east-asian: normal; font-variant-alternates: normal; font-vari=
 ant-position: normal; font-variant-emoji: normal; vertical-align: baseline;=
@@ -668,43 +668,43 @@ wrap;"><br /><br /></span></p></li><li dir=3D"rtl" style=3D"list-style-type=
 0, 87); background-color: transparent; font-weight: 700; font-variant-numer=
 ic: normal; font-variant-east-asian: normal; font-variant-alternates: norma=
 l; font-variant-position: normal; font-variant-emoji: normal; vertical-alig=
-n: baseline; white-space: pre;"><p dir=3D"rtl" style=3D"line-height: 1.38; =
-text-align: right; margin-top: 0pt; margin-bottom: 0pt;" role=3D"presentati=
-on"><span style=3D"font-size: 11.5pt; background-color: transparent; font-v=
-ariant-numeric: normal; font-variant-east-asian: normal; font-variant-alter=
-nates: normal; font-variant-position: normal; font-variant-emoji: normal; v=
-ertical-align: baseline; text-wrap-mode: wrap;">=D8=AA=D8=B4=D9=86=D8=AC=D8=
-=A7=D8=AA =D9=88=D8=A2=D9=84=D8=A7=D9=85 =D9=81=D9=8A =D8=A3=D8=B3=D9=81=D9=
-=84 =D8=A7=D9=84=D8=A8=D8=B7=D9=86.</span><span style=3D"font-size: 11.5pt;=
- background-color: transparent; font-variant-numeric: normal; font-variant-=
-east-asian: normal; font-variant-alternates: normal; font-variant-position:=
- normal; font-variant-emoji: normal; vertical-align: baseline; text-wrap-mo=
-de: wrap;"><br /><br /></span></p></li><li dir=3D"rtl" style=3D"list-style-=
-type: disc; font-size: 11.5pt; font-family: Arial, sans-serif; color: rgb(7=
-3, 80, 87); background-color: transparent; font-weight: 700; font-variant-n=
-umeric: normal; font-variant-east-asian: normal; font-variant-alternates: n=
-ormal; font-variant-position: normal; font-variant-emoji: normal; vertical-=
-align: baseline; white-space: pre;"><p dir=3D"rtl" style=3D"line-height: 1.=
-38; text-align: right; margin-top: 0pt; margin-bottom: 0pt;" role=3D"presen=
-tation"><span style=3D"font-size: 11.5pt; background-color: transparent; fo=
-nt-variant-numeric: normal; font-variant-east-asian: normal; font-variant-a=
-lternates: normal; font-variant-position: normal; font-variant-emoji: norma=
-l; vertical-align: baseline; text-wrap-mode: wrap;">=D8=BA=D8=AB=D9=8A=D8=
-=A7=D9=86 =D8=A3=D9=88 =D9=82=D9=8A=D8=A1.</span><span style=3D"font-size: =
-11.5pt; background-color: transparent; font-variant-numeric: normal; font-v=
-ariant-east-asian: normal; font-variant-alternates: normal; font-variant-po=
-sition: normal; font-variant-emoji: normal; vertical-align: baseline; text-=
-wrap-mode: wrap;"><br /><br /></span></p></li><li dir=3D"rtl" style=3D"list=
--style-type: disc; font-size: 11.5pt; font-family: Arial, sans-serif; color=
-: rgb(73, 80, 87); background-color: transparent; font-weight: 700; font-va=
-riant-numeric: normal; font-variant-east-asian: normal; font-variant-altern=
-ates: normal; font-variant-position: normal; font-variant-emoji: normal; ve=
-rtical-align: baseline; white-space: pre;"><p dir=3D"rtl" style=3D"line-hei=
-ght: 1.38; text-align: right; margin-top: 0pt; margin-bottom: 12pt;" role=
-=3D"presentation"><span style=3D"font-size: 11.5pt; background-color: trans=
-parent; font-variant-numeric: normal; font-variant-east-asian: normal; font=
--variant-alternates: normal; font-variant-position: normal; font-variant-em=
-oji: normal; vertical-align: baseline; text-wrap-mode: wrap;">=D8=A5=D8=B3=
+n: baseline; white-space: pre;"><p dir=3D"rtl" role=3D"presentation" style=
+=3D"line-height: 1.38; text-align: right; margin-top: 0pt; margin-bottom: 0=
+pt;"><span style=3D"font-size: 11.5pt; background-color: transparent; font-=
+variant-numeric: normal; font-variant-east-asian: normal; font-variant-alte=
+rnates: normal; font-variant-position: normal; font-variant-emoji: normal; =
+vertical-align: baseline; text-wrap-mode: wrap;">=D8=AA=D8=B4=D9=86=D8=AC=
+=D8=A7=D8=AA =D9=88=D8=A2=D9=84=D8=A7=D9=85 =D9=81=D9=8A =D8=A3=D8=B3=D9=81=
+=D9=84 =D8=A7=D9=84=D8=A8=D8=B7=D9=86.</span><span style=3D"font-size: 11.5=
+pt; background-color: transparent; font-variant-numeric: normal; font-varia=
+nt-east-asian: normal; font-variant-alternates: normal; font-variant-positi=
+on: normal; font-variant-emoji: normal; vertical-align: baseline; text-wrap=
+-mode: wrap;"><br /><br /></span></p></li><li dir=3D"rtl" style=3D"list-sty=
+le-type: disc; font-size: 11.5pt; font-family: Arial, sans-serif; color: rg=
+b(73, 80, 87); background-color: transparent; font-weight: 700; font-varian=
+t-numeric: normal; font-variant-east-asian: normal; font-variant-alternates=
+: normal; font-variant-position: normal; font-variant-emoji: normal; vertic=
+al-align: baseline; white-space: pre;"><p dir=3D"rtl" role=3D"presentation"=
+ style=3D"line-height: 1.38; text-align: right; margin-top: 0pt; margin-bot=
+tom: 0pt;"><span style=3D"font-size: 11.5pt; background-color: transparent;=
+ font-variant-numeric: normal; font-variant-east-asian: normal; font-varian=
+t-alternates: normal; font-variant-position: normal; font-variant-emoji: no=
+rmal; vertical-align: baseline; text-wrap-mode: wrap;">=D8=BA=D8=AB=D9=8A=
+=D8=A7=D9=86 =D8=A3=D9=88 =D9=82=D9=8A=D8=A1.</span><span style=3D"font-siz=
+e: 11.5pt; background-color: transparent; font-variant-numeric: normal; fon=
+t-variant-east-asian: normal; font-variant-alternates: normal; font-variant=
+-position: normal; font-variant-emoji: normal; vertical-align: baseline; te=
+xt-wrap-mode: wrap;"><br /><br /></span></p></li><li dir=3D"rtl" style=3D"l=
+ist-style-type: disc; font-size: 11.5pt; font-family: Arial, sans-serif; co=
+lor: rgb(73, 80, 87); background-color: transparent; font-weight: 700; font=
+-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alt=
+ernates: normal; font-variant-position: normal; font-variant-emoji: normal;=
+ vertical-align: baseline; white-space: pre;"><p dir=3D"rtl" role=3D"presen=
+tation" style=3D"line-height: 1.38; text-align: right; margin-top: 0pt; mar=
+gin-bottom: 12pt;"><span style=3D"font-size: 11.5pt; background-color: tran=
+sparent; font-variant-numeric: normal; font-variant-east-asian: normal; fon=
+t-variant-alternates: normal; font-variant-position: normal; font-variant-e=
+moji: normal; vertical-align: baseline; text-wrap-mode: wrap;">=D8=A5=D8=B3=
 =D9=87=D8=A7=D9=84 =D8=AE=D9=81=D9=8A=D9=81.</span><span style=3D"font-size=
 : 11.5pt; background-color: transparent; font-variant-numeric: normal; font=
 -variant-east-asian: normal; font-variant-alternates: normal; font-variant-=
@@ -758,8 +758,8 @@ sans-serif; color: rgb(73, 80, 87); background-color: transparent; font-wei=
 ght: 700; font-variant-numeric: normal; font-variant-east-asian: normal; fo=
 nt-variant-alternates: normal; font-variant-position: normal; font-variant-=
 emoji: normal; vertical-align: baseline; white-space: pre;"><p dir=3D"rtl" =
-style=3D"line-height: 1.38; text-align: right; margin-top: 0pt; margin-bott=
-om: 0pt;" role=3D"presentation"><span style=3D"font-size: 11.5pt; backgroun=
+role=3D"presentation" style=3D"line-height: 1.38; text-align: right; margin=
+-top: 0pt; margin-bottom: 0pt;"><span style=3D"font-size: 11.5pt; backgroun=
 d-color: transparent; font-variant-numeric: normal; font-variant-east-asian=
 : normal; font-variant-alternates: normal; font-variant-position: normal; f=
 ont-variant-emoji: normal; vertical-align: baseline; text-wrap-mode: wrap;"=
@@ -776,8 +776,8 @@ rial, sans-serif; color: rgb(73, 80, 87); background-color: transparent; fo=
 nt-weight: 700; font-variant-numeric: normal; font-variant-east-asian: norm=
 al; font-variant-alternates: normal; font-variant-position: normal; font-va=
 riant-emoji: normal; vertical-align: baseline; white-space: pre;"><p dir=3D=
-"rtl" style=3D"line-height: 1.38; text-align: right; margin-top: 0pt; margi=
-n-bottom: 0pt;" role=3D"presentation"><span style=3D"font-size: 11.5pt; bac=
+"rtl" role=3D"presentation" style=3D"line-height: 1.38; text-align: right; =
+margin-top: 0pt; margin-bottom: 0pt;"><span style=3D"font-size: 11.5pt; bac=
 kground-color: transparent; font-variant-numeric: normal; font-variant-east=
 -asian: normal; font-variant-alternates: normal; font-variant-position: nor=
 mal; font-variant-emoji: normal; vertical-align: baseline; text-wrap-mode: =
@@ -792,9 +792,9 @@ style-type: disc; font-size: 11.5pt; font-family: Arial, sans-serif; color:=
  rgb(73, 80, 87); background-color: transparent; font-weight: 700; font-var=
 iant-numeric: normal; font-variant-east-asian: normal; font-variant-alterna=
 tes: normal; font-variant-position: normal; font-variant-emoji: normal; ver=
-tical-align: baseline; white-space: pre;"><p dir=3D"rtl" style=3D"line-heig=
-ht: 1.38; text-align: right; margin-top: 0pt; margin-bottom: 0pt;" role=3D"=
-presentation"><span style=3D"font-size: 11.5pt; background-color: transpare=
+tical-align: baseline; white-space: pre;"><p dir=3D"rtl" role=3D"presentati=
+on" style=3D"line-height: 1.38; text-align: right; margin-top: 0pt; margin-=
+bottom: 0pt;"><span style=3D"font-size: 11.5pt; background-color: transpare=
 nt; font-variant-numeric: normal; font-variant-east-asian: normal; font-var=
 iant-alternates: normal; font-variant-position: normal; font-variant-emoji:=
  normal; vertical-align: baseline; text-wrap-mode: wrap;">=D9=85=D9=83=D8=
@@ -810,9 +810,9 @@ baseline; text-wrap-mode: wrap;"><br /><br /></span></p></li><li dir=3D"rtl=
 ns-serif; color: rgb(73, 80, 87); background-color: transparent; font-weigh=
 t: 700; font-variant-numeric: normal; font-variant-east-asian: normal; font=
 -variant-alternates: normal; font-variant-position: normal; font-variant-em=
-oji: normal; vertical-align: baseline; white-space: pre;"><p dir=3D"rtl" st=
-yle=3D"line-height: 1.38; text-align: right; margin-top: 0pt; margin-bottom=
-: 0pt;" role=3D"presentation"><span style=3D"font-size: 11.5pt; background-=
+oji: normal; vertical-align: baseline; white-space: pre;"><p dir=3D"rtl" ro=
+le=3D"presentation" style=3D"line-height: 1.38; text-align: right; margin-t=
+op: 0pt; margin-bottom: 0pt;"><span style=3D"font-size: 11.5pt; background-=
 color: transparent; font-variant-numeric: normal; font-variant-east-asian: =
 normal; font-variant-alternates: normal; font-variant-position: normal; fon=
 t-variant-emoji: normal; vertical-align: baseline; text-wrap-mode: wrap;">=
@@ -827,9 +827,9 @@ e; text-wrap-mode: wrap;"><br /><br /></span></p></li><li dir=3D"rtl" style=
 f; color: rgb(73, 80, 87); background-color: transparent; font-weight: 700;=
  font-variant-numeric: normal; font-variant-east-asian: normal; font-varian=
 t-alternates: normal; font-variant-position: normal; font-variant-emoji: no=
-rmal; vertical-align: baseline; white-space: pre;"><p dir=3D"rtl" style=3D"=
-line-height: 1.38; text-align: right; margin-top: 0pt; margin-bottom: 0pt;"=
- role=3D"presentation"><span style=3D"font-size: 11.5pt; background-color: =
+rmal; vertical-align: baseline; white-space: pre;"><p dir=3D"rtl" role=3D"p=
+resentation" style=3D"line-height: 1.38; text-align: right; margin-top: 0pt=
+; margin-bottom: 0pt;"><span style=3D"font-size: 11.5pt; background-color: =
 transparent; font-variant-numeric: normal; font-variant-east-asian: normal;=
  font-variant-alternates: normal; font-variant-position: normal; font-varia=
 nt-emoji: normal; vertical-align: baseline; text-wrap-mode: wrap;">=D8=AE=
@@ -845,8 +845,8 @@ t; font-family: Arial, sans-serif; color: rgb(73, 80, 87); background-color=
 : transparent; font-weight: 700; font-variant-numeric: normal; font-variant=
 -east-asian: normal; font-variant-alternates: normal; font-variant-position=
 : normal; font-variant-emoji: normal; vertical-align: baseline; white-space=
-: pre;"><p dir=3D"rtl" style=3D"line-height: 1.38; text-align: right; margi=
-n-top: 0pt; margin-bottom: 12pt;" role=3D"presentation"><span style=3D"font=
+: pre;"><p dir=3D"rtl" role=3D"presentation" style=3D"line-height: 1.38; te=
+xt-align: right; margin-top: 0pt; margin-bottom: 12pt;"><span style=3D"font=
 -size: 11.5pt; background-color: transparent; font-variant-numeric: normal;=
  font-variant-east-asian: normal; font-variant-alternates: normal; font-var=
 iant-position: normal; font-variant-emoji: normal; vertical-align: baseline=
@@ -886,8 +886,8 @@ tart: 48px;"><li dir=3D"rtl" style=3D"list-style-type: disc; font-size: 11.=
 or: transparent; font-weight: 700; font-variant-numeric: normal; font-varia=
 nt-east-asian: normal; font-variant-alternates: normal; font-variant-positi=
 on: normal; font-variant-emoji: normal; vertical-align: baseline; white-spa=
-ce: pre;"><p dir=3D"rtl" style=3D"line-height: 1.38; text-align: right; mar=
-gin-top: 0pt; margin-bottom: 0pt;" role=3D"presentation"><span style=3D"fon=
+ce: pre;"><p dir=3D"rtl" role=3D"presentation" style=3D"line-height: 1.38; =
+text-align: right; margin-top: 0pt; margin-bottom: 0pt;"><span style=3D"fon=
 t-size: 11.5pt; background-color: transparent; font-variant-numeric: normal=
 ; font-variant-east-asian: normal; font-variant-alternates: normal; font-va=
 riant-position: normal; font-variant-emoji: normal; vertical-align: baselin=
@@ -902,9 +902,9 @@ e; text-wrap-mode: wrap;"><br /><br /></span></p></li><li dir=3D"rtl" style=
 f; color: rgb(73, 80, 87); background-color: transparent; font-weight: 700;=
  font-variant-numeric: normal; font-variant-east-asian: normal; font-varian=
 t-alternates: normal; font-variant-position: normal; font-variant-emoji: no=
-rmal; vertical-align: baseline; white-space: pre;"><p dir=3D"rtl" style=3D"=
-line-height: 1.38; text-align: right; margin-top: 0pt; margin-bottom: 0pt;"=
- role=3D"presentation"><span style=3D"font-size: 11.5pt; background-color: =
+rmal; vertical-align: baseline; white-space: pre;"><p dir=3D"rtl" role=3D"p=
+resentation" style=3D"line-height: 1.38; text-align: right; margin-top: 0pt=
+; margin-bottom: 0pt;"><span style=3D"font-size: 11.5pt; background-color: =
 transparent; font-variant-numeric: normal; font-variant-east-asian: normal;=
  font-variant-alternates: normal; font-variant-position: normal; font-varia=
 nt-emoji: normal; vertical-align: baseline; text-wrap-mode: wrap;">=D8=AA=
@@ -918,9 +918,9 @@ baseline; text-wrap-mode: wrap;"><br /><br /></span></p></li><li dir=3D"rtl=
 ns-serif; color: rgb(73, 80, 87); background-color: transparent; font-weigh=
 t: 700; font-variant-numeric: normal; font-variant-east-asian: normal; font=
 -variant-alternates: normal; font-variant-position: normal; font-variant-em=
-oji: normal; vertical-align: baseline; white-space: pre;"><p dir=3D"rtl" st=
-yle=3D"line-height: 1.38; text-align: right; margin-top: 0pt; margin-bottom=
-: 0pt;" role=3D"presentation"><span style=3D"font-size: 11.5pt; background-=
+oji: normal; vertical-align: baseline; white-space: pre;"><p dir=3D"rtl" ro=
+le=3D"presentation" style=3D"line-height: 1.38; text-align: right; margin-t=
+op: 0pt; margin-bottom: 0pt;"><span style=3D"font-size: 11.5pt; background-=
 color: transparent; font-variant-numeric: normal; font-variant-east-asian: =
 normal; font-variant-alternates: normal; font-variant-position: normal; fon=
 t-variant-emoji: normal; vertical-align: baseline; text-wrap-mode: wrap;">=
@@ -936,8 +936,8 @@ ternates: normal; font-variant-position: normal; font-variant-emoji: normal=
 parent; font-weight: 700; font-variant-numeric: normal; font-variant-east-a=
 sian: normal; font-variant-alternates: normal; font-variant-position: norma=
 l; font-variant-emoji: normal; vertical-align: baseline; white-space: pre;"=
-><p dir=3D"rtl" style=3D"line-height: 1.38; text-align: right; margin-top: =
-0pt; margin-bottom: 12pt;" role=3D"presentation"><span style=3D"font-size: =
+><p dir=3D"rtl" role=3D"presentation" style=3D"line-height: 1.38; text-alig=
+n: right; margin-top: 0pt; margin-bottom: 12pt;"><span style=3D"font-size: =
 11.5pt; background-color: transparent; font-variant-numeric: normal; font-v=
 ariant-east-asian: normal; font-variant-alternates: normal; font-variant-po=
 sition: normal; font-variant-emoji: normal; vertical-align: baseline; text-=
@@ -969,61 +969,61 @@ t-style-type: disc; font-size: 11.5pt; font-family: Arial, sans-serif; colo=
 r: rgb(73, 80, 87); background-color: transparent; font-weight: 700; font-v=
 ariant-numeric: normal; font-variant-east-asian: normal; font-variant-alter=
 nates: normal; font-variant-position: normal; font-variant-emoji: normal; v=
-ertical-align: baseline; white-space: pre;"><p dir=3D"rtl" style=3D"line-he=
-ight: 1.38; text-align: right; margin-top: 0pt; margin-bottom: 0pt;" role=
-=3D"presentation"><span style=3D"font-size: 11.5pt; background-color: trans=
-parent; font-variant-numeric: normal; font-variant-east-asian: normal; font=
--variant-alternates: normal; font-variant-position: normal; font-variant-em=
-oji: normal; vertical-align: baseline; text-wrap-mode: wrap;">=D8=A7=D9=84=
-=D8=AA=D9=88=D8=B3=D9=8A=D8=B9 =D9=88=D8=A7=D9=84=D9=83=D8=AD=D8=AA =D8=A7=
-=D9=84=D8=AC=D8=B1=D8=A7=D8=AD=D9=8A (D&amp;C).</span><span style=3D"font-s=
-ize: 11.5pt; background-color: transparent; font-variant-numeric: normal; f=
-ont-variant-east-asian: normal; font-variant-alternates: normal; font-varia=
-nt-position: normal; font-variant-emoji: normal; vertical-align: baseline; =
-text-wrap-mode: wrap;"><br /><br /></span></p></li><li dir=3D"rtl" style=3D=
-"list-style-type: disc; font-size: 11.5pt; font-family: Arial, sans-serif; =
-color: rgb(73, 80, 87); background-color: transparent; font-weight: 700; fo=
-nt-variant-numeric: normal; font-variant-east-asian: normal; font-variant-a=
-lternates: normal; font-variant-position: normal; font-variant-emoji: norma=
-l; vertical-align: baseline; white-space: pre;"><p dir=3D"rtl" style=3D"lin=
-e-height: 1.38; text-align: right; margin-top: 0pt; margin-bottom: 0pt;" ro=
-le=3D"presentation"><span style=3D"font-size: 11.5pt; background-color: tra=
-nsparent; font-variant-numeric: normal; font-variant-east-asian: normal; fo=
-nt-variant-alternates: normal; font-variant-position: normal; font-variant-=
-emoji: normal; vertical-align: baseline; text-wrap-mode: wrap;">=D8=A3=D8=
-=AF=D9=88=D9=8A=D8=A9 =D8=AA=D8=AD=D8=AA=D9=88=D9=8A =D8=B9=D9=84=D9=89 =D9=
-=85=D9=8A=D9=81=D9=8A=D8=A8=D8=B1=D9=8A=D8=B3=D8=AA=D9=88=D9=86 =D9=85=D8=
-=B9 =D9=85=D9=8A=D8=B2=D9=88=D8=A8=D8=B1=D9=88=D8=B3=D8=AA=D9=88=D9=84.</sp=
-an><span style=3D"font-size: 11.5pt; background-color: transparent; font-va=
+ertical-align: baseline; white-space: pre;"><p dir=3D"rtl" role=3D"presenta=
+tion" style=3D"line-height: 1.38; text-align: right; margin-top: 0pt; margi=
+n-bottom: 0pt;"><span style=3D"font-size: 11.5pt; background-color: transpa=
+rent; font-variant-numeric: normal; font-variant-east-asian: normal; font-v=
+ariant-alternates: normal; font-variant-position: normal; font-variant-emoj=
+i: normal; vertical-align: baseline; text-wrap-mode: wrap;">=D8=A7=D9=84=D8=
+=AA=D9=88=D8=B3=D9=8A=D8=B9 =D9=88=D8=A7=D9=84=D9=83=D8=AD=D8=AA =D8=A7=D9=
+=84=D8=AC=D8=B1=D8=A7=D8=AD=D9=8A (D&amp;C).</span><span style=3D"font-size=
+: 11.5pt; background-color: transparent; font-variant-numeric: normal; font=
+-variant-east-asian: normal; font-variant-alternates: normal; font-variant-=
+position: normal; font-variant-emoji: normal; vertical-align: baseline; tex=
+t-wrap-mode: wrap;"><br /><br /></span></p></li><li dir=3D"rtl" style=3D"li=
+st-style-type: disc; font-size: 11.5pt; font-family: Arial, sans-serif; col=
+or: rgb(73, 80, 87); background-color: transparent; font-weight: 700; font-=
+variant-numeric: normal; font-variant-east-asian: normal; font-variant-alte=
+rnates: normal; font-variant-position: normal; font-variant-emoji: normal; =
+vertical-align: baseline; white-space: pre;"><p dir=3D"rtl" role=3D"present=
+ation" style=3D"line-height: 1.38; text-align: right; margin-top: 0pt; marg=
+in-bottom: 0pt;"><span style=3D"font-size: 11.5pt; background-color: transp=
+arent; font-variant-numeric: normal; font-variant-east-asian: normal; font-=
+variant-alternates: normal; font-variant-position: normal; font-variant-emo=
+ji: normal; vertical-align: baseline; text-wrap-mode: wrap;">=D8=A3=D8=AF=
+=D9=88=D9=8A=D8=A9 =D8=AA=D8=AD=D8=AA=D9=88=D9=8A =D8=B9=D9=84=D9=89 =D9=85=
+=D9=8A=D9=81=D9=8A=D8=A8=D8=B1=D9=8A=D8=B3=D8=AA=D9=88=D9=86 =D9=85=D8=B9 =
+=D9=85=D9=8A=D8=B2=D9=88=D8=A8=D8=B1=D9=88=D8=B3=D8=AA=D9=88=D9=84.</span><=
+span style=3D"font-size: 11.5pt; background-color: transparent; font-varian=
+t-numeric: normal; font-variant-east-asian: normal; font-variant-alternates=
+: normal; font-variant-position: normal; font-variant-emoji: normal; vertic=
+al-align: baseline; text-wrap-mode: wrap;"><br /><br /></span></p></li><li =
+dir=3D"rtl" style=3D"list-style-type: disc; font-size: 11.5pt; font-family:=
+ Arial, sans-serif; color: rgb(73, 80, 87); background-color: transparent; =
+font-weight: 700; font-variant-numeric: normal; font-variant-east-asian: no=
+rmal; font-variant-alternates: normal; font-variant-position: normal; font-=
+variant-emoji: normal; vertical-align: baseline; white-space: pre;"><p dir=
+=3D"rtl" role=3D"presentation" style=3D"line-height: 1.38; text-align: righ=
+t; margin-top: 0pt; margin-bottom: 12pt;"><span style=3D"font-size: 11.5pt;=
+ background-color: transparent; font-variant-numeric: normal; font-variant-=
+east-asian: normal; font-variant-alternates: normal; font-variant-position:=
+ normal; font-variant-emoji: normal; vertical-align: baseline; text-wrap-mo=
+de: wrap;">=D8=A7=D9=84=D8=A5=D8=AC=D9=87=D8=A7=D8=B6 =D8=A7=D9=84=D8=AC=D8=
+=B1=D8=A7=D8=AD=D9=8A =D8=A7=D9=84=D9=85=D8=A8=D8=A7=D8=B4=D8=B1.</span></p=
+></li></ul><span dir=3D"rtl" style=3D"line-height: 1.44; margin-top: 0pt; m=
+argin-bottom: 4pt;"><span style=3D"font-size: 17pt; font-family: Arial, san=
+s-serif; color: rgb(73, 80, 87); background-color: transparent; font-weight=
+: 700; font-variant-numeric: normal; font-variant-east-asian: normal; font-=
+variant-alternates: normal; font-variant-position: normal; font-variant-emo=
+ji: normal; vertical-align: baseline; white-space-collapse: preserve;">=D8=
+=A3=D8=B3=D8=A6=D9=84=D8=A9 =D8=B4=D8=A7=D8=A6=D8=B9=D8=A9</span></span><p =
+dir=3D"rtl" style=3D"line-height: 1.38; margin-top: 0pt; margin-bottom: 12p=
+t;"><span style=3D"font-size: 11.5pt; font-family: Arial, sans-serif; color=
+: rgb(73, 80, 87); background-color: transparent; font-weight: 700; font-va=
 riant-numeric: normal; font-variant-east-asian: normal; font-variant-altern=
 ates: normal; font-variant-position: normal; font-variant-emoji: normal; ve=
-rtical-align: baseline; text-wrap-mode: wrap;"><br /><br /></span></p></li>=
-<li dir=3D"rtl" style=3D"list-style-type: disc; font-size: 11.5pt; font-fam=
-ily: Arial, sans-serif; color: rgb(73, 80, 87); background-color: transpare=
-nt; font-weight: 700; font-variant-numeric: normal; font-variant-east-asian=
-: normal; font-variant-alternates: normal; font-variant-position: normal; f=
-ont-variant-emoji: normal; vertical-align: baseline; white-space: pre;"><p =
-dir=3D"rtl" style=3D"line-height: 1.38; text-align: right; margin-top: 0pt;=
- margin-bottom: 12pt;" role=3D"presentation"><span style=3D"font-size: 11.5=
-pt; background-color: transparent; font-variant-numeric: normal; font-varia=
-nt-east-asian: normal; font-variant-alternates: normal; font-variant-positi=
-on: normal; font-variant-emoji: normal; vertical-align: baseline; text-wrap=
--mode: wrap;">=D8=A7=D9=84=D8=A5=D8=AC=D9=87=D8=A7=D8=B6 =D8=A7=D9=84=D8=AC=
-=D8=B1=D8=A7=D8=AD=D9=8A =D8=A7=D9=84=D9=85=D8=A8=D8=A7=D8=B4=D8=B1.</span>=
-</p></li></ul><span dir=3D"rtl" style=3D"line-height: 1.44; margin-top: 0pt=
-; margin-bottom: 4pt;"><span style=3D"font-size: 17pt; font-family: Arial, =
-sans-serif; color: rgb(73, 80, 87); background-color: transparent; font-wei=
-ght: 700; font-variant-numeric: normal; font-variant-east-asian: normal; fo=
-nt-variant-alternates: normal; font-variant-position: normal; font-variant-=
-emoji: normal; vertical-align: baseline; white-space-collapse: preserve;">=
-=D8=A3=D8=B3=D8=A6=D9=84=D8=A9 =D8=B4=D8=A7=D8=A6=D8=B9=D8=A9</span></span>=
-<p dir=3D"rtl" style=3D"line-height: 1.38; margin-top: 0pt; margin-bottom: =
-12pt;"><span style=3D"font-size: 11.5pt; font-family: Arial, sans-serif; co=
-lor: rgb(73, 80, 87); background-color: transparent; font-weight: 700; font=
--variant-numeric: normal; font-variant-east-asian: normal; font-variant-alt=
-ernates: normal; font-variant-position: normal; font-variant-emoji: normal;=
- vertical-align: baseline; white-space-collapse: preserve;">1. =D9=87=D9=84=
- =D9=8A=D9=85=D9=83=D9=86 =D8=B4=D8=B1=D8=A7=D8=A1 =D8=B3=D8=A7=D9=8A=D8=AA=
+rtical-align: baseline; white-space-collapse: preserve;">1. =D9=87=D9=84 =
+=D9=8A=D9=85=D9=83=D9=86 =D8=B4=D8=B1=D8=A7=D8=A1 =D8=B3=D8=A7=D9=8A=D8=AA=
 =D9=88=D8=AA=D9=83 =D8=A8=D8=AF=D9=88=D9=86 =D9=88=D8=B5=D9=81=D8=A9 =D9=81=
 =D9=8A =D8=A7=D9=84=D8=B3=D8=B9=D9=88=D8=AF=D9=8A=D8=A9=D8=9F</span><span s=
 tyle=3D"font-size: 11.5pt; font-family: Arial, sans-serif; color: rgb(73, 8=
@@ -1367,10 +1367,10 @@ To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
 +unsubscribe@googlegroups.com</a>.<br />
 To view this discussion visit <a href=3D"https://groups.google.com/d/msgid/=
-kasan-dev/b282a1f0-44f5-46c6-ae51-e47133825b57n%40googlegroups.com?utm_medi=
+kasan-dev/82ff5fe0-f77c-409c-8c44-780235f03404n%40googlegroups.com?utm_medi=
 um=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid/kasan-dev=
-/b282a1f0-44f5-46c6-ae51-e47133825b57n%40googlegroups.com</a>.<br />
+/82ff5fe0-f77c-409c-8c44-780235f03404n%40googlegroups.com</a>.<br />
 
-------=_Part_511093_1189419443.1756119780003--
+------=_Part_511117_1676216054.1756119819196--
 
-------=_Part_511092_2036804271.1756119780003--
+------=_Part_511116_1301715377.1756119819196--
