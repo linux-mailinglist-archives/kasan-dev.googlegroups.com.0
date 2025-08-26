@@ -1,153 +1,159 @@
-Return-Path: <kasan-dev+bncBDRLRRU6WEBBBN5WW3CQMGQE6X2SZGQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDK6PCW6XEBBBIHBW3CQMGQECGONX3Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3d.google.com (mail-yb1-xb3d.google.com [IPv6:2607:f8b0:4864:20::b3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1704B35C29
-	for <lists+kasan-dev@lfdr.de>; Tue, 26 Aug 2025 13:32:09 +0200 (CEST)
-Received: by mail-yb1-xb3d.google.com with SMTP id 3f1490d57ef6-e95388e15e3sf3594666276.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 26 Aug 2025 04:32:09 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1756207928; cv=pass;
+Received: from mail-io1-xd3b.google.com (mail-io1-xd3b.google.com [IPv6:2607:f8b0:4864:20::d3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E601B360B8
+	for <lists+kasan-dev@lfdr.de>; Tue, 26 Aug 2025 15:03:30 +0200 (CEST)
+Received: by mail-io1-xd3b.google.com with SMTP id ca18e2360f4ac-886e3babe16sf401281139f.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 26 Aug 2025 06:03:30 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1756213408; cv=pass;
         d=google.com; s=arc-20240605;
-        b=dqILf9Olpdu56zofccDrcIiPdkMuDo5NRMNkz/4vz/WjKt4nr970uv4BXaawgARnYH
-         wYuuzZjGSCaoVzHmCVR7khKtHxwrVx1xub2SKme4/pmd3l9ap7QYyMZc5aMBRR2b9toL
-         gqeXUwgvCHT2ytK8vCJxQIhCV+Nbu12x8CvQ3s8GUzOHXmUzZxLbwP0oH/bPH2E6PpRU
-         /YnYj8nUO9/BHHbYHEJevJjgBSuMi42mRz4L/KczeVi4KxDT7xaMHz6J1PGZHvjksS/C
-         GhmC2VafDlSvagR9AJBsn0NFjifUox9mfxn07ghjIH63uQrhl3b4ijJXwy8CX0/RXGC/
-         4CPQ==
+        b=ROdnxIbI6fm4CsOWr98FRQC9K2/2rBQPpkZ5k49jOStT67PO91EYqsJI5IQa5B4QuS
+         QkZ2XsAUt7lsEPwNZr1tdLGPQlF292K9LNkvMPxzt2QqcLtdE2f0Q7uh4tJEBF5gbf1K
+         moYTXjFwWhRc0947E+pMe1/zjX4+cRsgPnhG/EUUZDrfeT0xzQUS/YJTGXkj9vm3yDJq
+         ClR/xbSELsjU6CagkE5DS1qPaMveAj9UFNEjpUN2SZfptl2DkbwaUT5RfB4siifqf8m5
+         xpZYykaEpUuRPqTD0Ip2Kce8QJWv7e1IndDK8oU/eKhfVr4zZY5LBCSFHCaGPBUP132W
+         Zvtg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ytpHi57qfGWEOG5ayrjuOWg6HBJTOugDhMH50mD9JM4=;
-        fh=RMVm8Nti4+xx16Dz1l+W4S0hj+mbOPVPODxLoavffYU=;
-        b=Mm6OI80dg5lmJS8saJnfRtYy6XTeZWEvVSvqB0Il+Omacgi/eyOisd0yTTjmqf5Wx+
-         SS8v8xzIuzZDt7KZCo4PivPg6PV0EFdcsEpir202wDvV6hI5JZeIW/hA7Ici6F/pM3bU
-         +FcU5u0YVzGfFA7mDlQ300thyTOA+jyoYlUb4ylfnLzM2sMJ3WgU7e2hNR3u+xTPU2aS
-         cuJsl3WVbEYNJ0Fz62ODC+REf5P9kp/snPSJvXfvVVninp2lhZ4Ge+SlCBaUG3io8dSF
-         3m5YKvuokQklleZE/0fhGgKljqrrbxXbqWi9hQceTngiXPyvlQJ0KoiqyjQhq4gk62fJ
-         ZAbQ==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=pVz8oOfJVytkkoz7BiX1pYbSqbMWJ30wJ/be6SdvMg0=;
+        fh=EMuKKNdo8Ztgmmw4YNmDkGXNdB+864znsyNIXegIstw=;
+        b=cV/qNP7LGsr7MgABFi2DSn4qE07f8TomHFTlBudFhKGiBBHj2lC+glkVcboEv79XA5
+         upZn/vRJ0SKwFpoeFroykOiosuokBNosngzfNLHk0z1klV8u7VvqEreMI7dinwprvf7z
+         SD6dj6tKv5KftVkXq3Uw3X1ODeggyfTTGLmLxIr+g1qY6Tcn3joqoyUaZAGw0Oc2pF1L
+         014di1Br4wuTDHeuTIgmPmS25IrYQN2t8AFmwc+nZuafHVBYBQFWZ6Bdy0WmIqmZIHh7
+         p5jyPgDYCfomrA2+AjToJmnP+SdCXmHFmZVR19yDlYLPXsMZOgS7r2SIgfhJKRla80z3
+         H2QA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b="Cp/nrf2y";
-       spf=pass (google.com: domain of revest@google.com designates 2607:f8b0:4864:20::82d as permitted sender) smtp.mailfrom=revest@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
+       spf=pass (google.com: domain of alexandru.elisei@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=alexandru.elisei@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1756207928; x=1756812728; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1756213408; x=1756818208; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ytpHi57qfGWEOG5ayrjuOWg6HBJTOugDhMH50mD9JM4=;
-        b=ZOnIlpEYi2rZKV4XXyAsF9PcAUkdoeAuyOL+ZwU4J3clAiVQFpppht12zMfEiWiZfd
-         VHQNMmVHLPZGgsrQ29uUNOawrJeUcnOpTWa/fOdTj0h5XV7xRK29VzrFHD+2Es3dZkvR
-         a5v/L1Uj2CoXfECPAkWITaXfQHhRVZFmG6HC040nLBx/STvZyMIA0lp93dcugtPIdPQK
-         bTzjy9J8ZBMgsvK+3S6Wo3rRWr7jVwZq0NG3IDUQ7Gln0n/FCqnadoDsqKVQqp6s+Dzw
-         ekjlQxlXln8xnNLrOYNTWqrJSBSNR4h3wT/XcghijW9Jekz2W+t0Oo6XtcSuTtwLcaIF
-         AqRg==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pVz8oOfJVytkkoz7BiX1pYbSqbMWJ30wJ/be6SdvMg0=;
+        b=fsDLVk1Svvp0U2WMCuYPxwu6xn4c+v/OaD95lbvbuHjaeaGO22wW7Y8wMKme0bPLTd
+         47HLq4KE+ZGypyWWs9s2zSS6BwpHQkf/tvLsgDA0XELeQ6EsZcsVfgpwctbw4KVsfUIw
+         9vczQ6IImFmB6OiXL2eUjFhmdxySKbbJwGxuLMTWnAKDAMRglM+1bF3dboKqcUDlwchH
+         vJ4ts0+Ls0MY8F2vhUz7pQn6q4FKnBHFncEuSZG1T167i2AZyJCqxAxcGMBdGbFxA4Ak
+         1Z8Dy351LwTjCRBP9Of+GWZnwFV5zMHoQRDlZUij9qFtIR4yEJee/c6PcxNrWXXUbNAX
+         bHJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756207928; x=1756812728;
+        d=1e100.net; s=20230601; t=1756213408; x=1756818208;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ytpHi57qfGWEOG5ayrjuOWg6HBJTOugDhMH50mD9JM4=;
-        b=DEYlw4UO7kbeSHTXv/rnw1FnLTKnxQW93F1Ow3Lu2hmHn2SyyW9eBqzuqWux5uiMwF
-         RXQ9Xg53bkSOzj9k0NhWGN3DGJls0YbQsICmIoRCXYVcjleIVVW52WOBaYfUHPmHzIcP
-         kmVlJ45pL117MN7/egdyow4VQ1llTNYsGz7hPcoz8Hl6No0rK2rtveQ5owq1h3oqghot
-         83oO8tZvpjy/1P167SFsA6nkgrKwwzEqXibh6Wy0MiCctnDuwbu4MoWWlTT3eX344OSH
-         BTGrorX9MQUqMFZ3UoSyb0Sm+750hY5HPHd4ZYBflBZ5nY+ICrWQVtV3qxZYnVOa6UeN
-         z2mg==
-X-Forwarded-Encrypted: i=2; AJvYcCWW0STeTaSz+WulHuP9lLfyhkzjmTwAucPnTwd6nDLuIlzFwX7I2jHUoRK9kWIY4Zg3qoDiEw==@lfdr.de
-X-Gm-Message-State: AOJu0YzLLHUWCJMSvlIZ56G39L/o8y4V/ahU4J5qVtZ+vVtQ+GBhAk1L
-	40XjXPHIA7qQsxXFw/ci2j4E2ks3AX0J6Cl0mnFwzl/6dgygTDnfRkdh
-X-Google-Smtp-Source: AGHT+IFD/EBwsyVZV3dOR03ysa1GYypzxM7Yk1dG44vvnxbiYrNXPztwRSLClM2W5Des1gT+sl0pTA==
-X-Received: by 2002:a05:6902:3103:b0:e85:e81d:9e20 with SMTP id 3f1490d57ef6-e951c2c8547mr13846482276.8.1756207927959;
-        Tue, 26 Aug 2025 04:32:07 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfc9NsJ2BRY+MC/1y2IXrArTM6wn/HrU8XLWpdwekKpaw==
-Received: by 2002:a25:1f46:0:b0:e93:349e:511f with SMTP id 3f1490d57ef6-e96d52de903ls1310705276.1.-pod-prod-05-us;
- Tue, 26 Aug 2025 04:32:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVAfsIgykk5Zv9p2DNp2fAY4jkm/2O3oUgmzCcDf0NeRnWgYOv8BC1XF5XQqj/A07IihXsBI55uoac=@googlegroups.com
-X-Received: by 2002:a05:690c:3345:b0:71f:b944:104f with SMTP id 00721157ae682-71fdc568115mr173417897b3.50.1756207926911;
-        Tue, 26 Aug 2025 04:32:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1756207926; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pVz8oOfJVytkkoz7BiX1pYbSqbMWJ30wJ/be6SdvMg0=;
+        b=Whk9qwlcsh6eTsBI+bMHFVWuB6KY8f9pdBzQAzzPrp9wR2Zti4QihuTiZkRKBf18Dj
+         ZNFdagOkXXBhhGwRbsXP1ckWdhRRVendw4xThOZBwCOl7kAOVN8UgGifdKTE2XJmOIsI
+         c6e/sb6UvRV0er4ARfp82csP3k3gROy2shReF/yeF77+kySG1pgoQlrRXqi8cz+4klLt
+         WJ03Np5O31XUVT2Q7aVcA1gJaHiW7QxpxIoeJIO8MI6B29RG+yfAtjzVYtD3WnHELHjX
+         /PXn5b5kv2Iwf7zofkHbQFSpq+YPoRdgPi86VybkCPjRdNhSC0XX3T1uZmJY9e74xyEj
+         hnhw==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCURK8KKmUAyXKspFYmSr6ButKj8RaDlUC0prnRRuN1yWbIs5l9UcHikVVt7zhxHplHlUNk9/g==@lfdr.de
+X-Gm-Message-State: AOJu0YzORg0UuFLOjSxtd8A6ZA0/w+0EYI8cgbf1PZROop7WsefD62BF
+	ZlU1YCxpyXB/nEsbw3OXizDgg+Rrjp4xs3H3TelQfjHdPql35Jtt44EZ
+X-Google-Smtp-Source: AGHT+IHwJgKMF4kfIVuzEi56pSXrtqkYoCPIY95k0rY4Y0ypi3UVSoapBdDENpo11vxshVrdZ2nntw==
+X-Received: by 2002:a05:6e02:1749:b0:3ee:3ac4:defc with SMTP id e9e14a558f8ab-3ee3ac4e010mr51964235ab.16.1756213408338;
+        Tue, 26 Aug 2025 06:03:28 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZc4GZuEfluIciQ3JZ5V/VjTqWecmuQpxIZGpLIi9EoAhg==
+Received: by 2002:a05:6e02:4811:b0:3df:1573:75d5 with SMTP id
+ e9e14a558f8ab-3e6835fdcfals58457715ab.2.-pod-prod-02-us; Tue, 26 Aug 2025
+ 06:03:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCV/S76oZBRzJmrmKueViCng8p+BhOAjK4ePFpW50vDiDdxLd0A9qC0SC1U5colNsGZuSC/1dYLjPBQ=@googlegroups.com
+X-Received: by 2002:a6b:5908:0:b0:883:2cef:b95e with SMTP id ca18e2360f4ac-886bd1d2838mr1625573039f.10.1756213407005;
+        Tue, 26 Aug 2025 06:03:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1756213406; cv=none;
         d=google.com; s=arc-20240605;
-        b=NrRSli8cBGUELMksAwIv5UwruOX6B8RhNoUuzTqQ4ALrzpygEYuqFv+AHq82QOxlhE
-         aLt7+URErmZxL/PGjYZDeJ55x+3/88ZPT7gLuirVZvNiHF1dnLntsXb2aQRc+gKJ6GS8
-         gIuofRJ/JefFdfFZ6ORt4pJLyJ8zO3td5+Jq+e9hWP6/slmz4zaJcBst5aqitgFZJ1T6
-         7aQeZQrHbCR6dpBcWsOj9lLinS8opf9mV2u5O1H7xkMCVSgcapoIS/xfbHKeGxwMpa7V
-         nF4446vtLZdXnoJU4T5X1zsSmKSY6tw0FruY0rwI8BZzyhXndmGceBYAASpJMAQnPLn6
-         /pZA==
+        b=B7bG28Db2BBnEJpvGhw8wA0hl9HJ6Dv+aCCgaW5GqqQXAkQ2936lL2WFAdJZDMHftU
+         0cJ4+RZrtMgnDatWaHR8GaE/wrMaMAEm8nrFxWi0dvcbZIe/zjtCLUtMgpvyGGmFNaBw
+         T1nLhe1Yfi3eN7sbRjg4YI+BwU3PfQNXxPN/BcPiYrAXM8GuuBu5oukojppk5dVJ6iTl
+         vpZSIKNV09vOaLhfr3bwvI1EGmTxTmdB6cP6xIX+x4b29cHXy17i5FHRI76cq9HADai5
+         Hyxh9flmq7npRaryKMkm73RSuORTvVv3ib7F7+xcdrDTfHruyT86UOCtAZiPAADFdLiI
+         0+Pg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=bgjl982rkJtQB6+NNyAU1pdVTWqd4G+6D2+THSotuPo=;
-        fh=gw2ErfdPvitI2WIwxRz5zAVSXl3XSV7c1lxL50dYbnY=;
-        b=HTB+z7m1OngnXatr4/Z0QWXWOsO9Ypf3lE7zyTQVvPnqh9qUpss8aCW8QXjGYmbd0g
-         3zqbP6tWqwTy5yiEAnYixaK2ddOHuVWlY04y5WuIICtlnvdNNltNnnHS0BYulCiEWItz
-         Tfo7qKmMPOEaxBIbm5VK6RmLqYGSh5i6Fx92lurLgbWG+B3amaFG8hJwPq0+7nq3VD3r
-         0PraCTIEepZxdAPQqR2GL1pHnt8hvqeQyD8mbw3MNrLdUtkLSDWbO4DNm7pYR+JvTltD
-         weRlBpsMBCNM6mIjSuz2qTwo/xOkJ8ytXNj9cnWzDGdbom3sOyQ/8rt3Yg8ZweRS5HXe
-         pvsA==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date;
+        bh=1O/zM1zKzZOQIR19miejrCk4D8ib53PTjy+21WtrmDk=;
+        fh=vX6gO3pliJpm/AGrWIy9cYz9F3J0yH3JYHwS9n457z8=;
+        b=a3p5L1T5oVM3Iz9QNiLaUzT6Ok+9SO7H1Rw32OvAUpiBWWzJyt2Xcudq1WGFxWex8V
+         1KNphg/bXESvIEw1vQ8vdX2Pbkns8/21kbSeByQv8R92aN8kxn/7axwA2kaQuewkxyFB
+         SsyIb/XWe3rdJvBNLgMrOS5s5KvHxvlNA2RPD8PaPua5AEqb/JQdHjATfzCU5WWuOATE
+         YG9CYWc326eSkfTpWPE1NcwaQFTKARVKJF2xAEEFX3pm/e3iqg12gF59UDG4n6zxjEtJ
+         K796jKUgcNCCV+7ge902GHayJQ1/2q3dVw0wHKoOnjcwoUr/QwIzTo0G89pRwmalmjIe
+         lFbA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b="Cp/nrf2y";
-       spf=pass (google.com: domain of revest@google.com designates 2607:f8b0:4864:20::82d as permitted sender) smtp.mailfrom=revest@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com. [2607:f8b0:4864:20::82d])
-        by gmr-mx.google.com with ESMTPS id 00721157ae682-7212cb27f01si655947b3.4.2025.08.26.04.32.06
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Aug 2025 04:32:06 -0700 (PDT)
-Received-SPF: pass (google.com: domain of revest@google.com designates 2607:f8b0:4864:20::82d as permitted sender) client-ip=2607:f8b0:4864:20::82d;
-Received: by mail-qt1-x82d.google.com with SMTP id d75a77b69052e-4b12b123e48so286581cf.0
-        for <kasan-dev@googlegroups.com>; Tue, 26 Aug 2025 04:32:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW3ptqASkLM8u7cR0I5bf76R0Xr8mWy1xZH0du65h8UAN5n9/I/qAMk3Bpc7At/dqFljZ2rzs+mIJk=@googlegroups.com
-X-Gm-Gg: ASbGncuvhvcP3MGryE1W3ujmnaUwIGQhrmFM031J+MMrMp7Z7ZAjpF8u3NMwRPqGzOv
-	RJTa0uNgwWDj6QE4KT6fsEBHqPDBskB8NaUkjUbeyiG1u1mTQ3+S5o6ESmOiyjy0Us3GJU3Ae1W
-	bikRFDFPm8P+mG/2etLeWXdIdR3PToosX3XvrfyB0dgKrQppuDRJ+WRRHmQPIIramlW27CGDObY
-	314fM+QQ61fCr3pzeQCoY9tclSsnUK7VWzihvDSnmpjq+V21Uf4
-X-Received: by 2002:a05:622a:148b:b0:4a9:a4ef:35d3 with SMTP id
- d75a77b69052e-4b2e2c1e0cdmr4401241cf.7.1756207925975; Tue, 26 Aug 2025
- 04:32:05 -0700 (PDT)
+       spf=pass (google.com: domain of alexandru.elisei@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=alexandru.elisei@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id ca18e2360f4ac-886c8f6a8c8si38218839f.2.2025.08.26.06.03.26
+        for <kasan-dev@googlegroups.com>;
+        Tue, 26 Aug 2025 06:03:26 -0700 (PDT)
+Received-SPF: pass (google.com: domain of alexandru.elisei@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 025E02C23;
+	Tue, 26 Aug 2025 06:03:18 -0700 (PDT)
+Received: from raptor (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A5B423F63F;
+	Tue, 26 Aug 2025 06:03:19 -0700 (PDT)
+Date: Tue, 26 Aug 2025 14:03:16 +0100
+From: Alexandru Elisei <alexandru.elisei@arm.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Brendan Jackman <jackmanb@google.com>,
+	Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>,
+	Dmitry Vyukov <dvyukov@google.com>, dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org, iommu@lists.linux.dev,
+	io-uring@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>,
+	Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
+	John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
+	kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
+	linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Marco Elver <elver@google.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+	Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
+	Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+	virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+	wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH RFC 21/35] mm/cma: refuse handing out non-contiguous page
+ ranges
+Message-ID: <aK2wlGYvCaFQXzBm@raptor>
+References: <20250821200701.1329277-1-david@redhat.com>
+ <20250821200701.1329277-22-david@redhat.com>
+ <aK2QZnzS1ErHK5tP@raptor>
+ <ad521f4f-47aa-4728-916f-3704bf01f770@redhat.com>
 MIME-Version: 1.0
-References: <20250825154505.1558444-1-elver@google.com> <97dca868-dc8a-422a-aa47-ce2bb739e640@huawei.com>
- <CANpmjNMkU1gaKEa_QAb0Zc+h3P=Yviwr7j0vSuZgv8NHfDbw_A@mail.gmail.com>
-In-Reply-To: <CANpmjNMkU1gaKEa_QAb0Zc+h3P=Yviwr7j0vSuZgv8NHfDbw_A@mail.gmail.com>
-From: "'Florent Revest' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 26 Aug 2025 13:31:54 +0200
-X-Gm-Features: Ac12FXzALeR2tDEEna1F4OrekZEDGHVi9TgPcdxl6W-rTLz9deGbqXZWqVvOe9c
-Message-ID: <CALGbS4U6fox7SwmdHfDuawmOWfQeQsxtA1X_VqRxTHpSs-sBYw@mail.gmail.com>
-Subject: Re: [PATCH RFC] slab: support for compiler-assisted type-based slab
- cache partitioning
-To: Marco Elver <elver@google.com>
-Cc: GONG Ruiqi <gongruiqi1@huawei.com>, linux-kernel@vger.kernel.org, 
-	kasan-dev@googlegroups.com, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Alexander Potapenko <glider@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	David Hildenbrand <david@redhat.com>, David Rientjes <rientjes@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Harry Yoo <harry.yoo@oracle.com>, Jann Horn <jannh@google.com>, 
-	Kees Cook <kees@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Matteo Rizzo <matteorizzo@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Mike Rapoport <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Suren Baghdasaryan <surenb@google.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, linux-hardening@vger.kernel.org, linux-mm@kvack.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: revest@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b="Cp/nrf2y";       spf=pass
- (google.com: domain of revest@google.com designates 2607:f8b0:4864:20::82d as
- permitted sender) smtp.mailfrom=revest@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Florent Revest <revest@google.com>
-Reply-To: Florent Revest <revest@google.com>
+Content-Disposition: inline
+In-Reply-To: <ad521f4f-47aa-4728-916f-3704bf01f770@redhat.com>
+X-Original-Sender: alexandru.elisei@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of alexandru.elisei@arm.com designates 217.140.110.172 as
+ permitted sender) smtp.mailfrom=alexandru.elisei@arm.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -160,89 +166,39 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Aug 26, 2025 at 1:01=E2=80=AFPM Marco Elver <elver@google.com> wrot=
-e:
->
-> On Tue, 26 Aug 2025 at 06:59, GONG Ruiqi <gongruiqi1@huawei.com> wrote:
-> > On 8/25/2025 11:44 PM, Marco Elver wrote:
-> > > ...
-> > >
-> > > Introduce a new mode, TYPED_KMALLOC_CACHES, which leverages Clang's
-> > > "allocation tokens" via __builtin_alloc_token_infer [1].
-> > >
-> > > This mechanism allows the compiler to pass a token ID derived from th=
-e
-> > > allocation's type to the allocator. The compiler performs best-effort
-> > > type inference, and recognizes idioms such as kmalloc(sizeof(T), ...)=
-.
-> > > Unlike RANDOM_KMALLOC_CACHES, this mode deterministically assigns a s=
-lab
-> > > cache to an allocation of type T, regardless of allocation site.
-> > >
-> > > Clang's default token ID calculation is described as [1]:
-> > >
-> > >    TypeHashPointerSplit: This mode assigns a token ID based on the ha=
-sh
-> > >    of the allocated type's name, where the top half ID-space is reser=
-ved
-> > >    for types that contain pointers and the bottom half for types that=
- do
-> > >    not contain pointers.
-> >
-> > Is a type's token id always the same across different builds? Or someho=
-w
-> > predictable? If so, the attacker could probably find out all types that
-> > end up with the same id, and use some of them to exploit the buggy one.
->
-> Yes, it's meant to be deterministic and predictable. I guess this is
-> the same question regarding randomness, for which it's unclear if it
-> strengthens or weakens the mitigation. As I wrote elsewhere:
->
-> > Irrespective of the top/bottom split, one of the key properties to
-> > retain is that allocations of type T are predictably assigned a slab
-> > cache. This means that even if a pointer-containing object of type T
-> > is vulnerable, yet the pointer within T is useless for exploitation,
-> > the difficulty of getting to a sensitive object S is still increased
-> > by the fact that S is unlikely to be co-located. If we were to
-> > introduce more randomness, we increase the probability that S will be
-> > co-located with T, which is counter-intuitive to me.
->
-> I think we can reason either way, and I grant you this is rather ambiguou=
-s.
->
-> But the definitive point that was made to me from various security
-> researchers that inspired this technique is that the most useful thing
-> we can do is separate pointer-containing objects from
-> non-pointer-containing objects (in absence of slab per type, which is
-> likely too costly in the common case).
+Hi David,
 
-One more perspective on this: in a data center environment, attackers
-typically get a first foothold by compromising a userspace network
-service. If they can do that once, they can do that a bunch of times,
-and gain code execution on different machines every time.
+On Tue, Aug 26, 2025 at 01:04:33PM +0200, David Hildenbrand wrote:
+..
+> > Just so I can better understand the problem being fixed, I guess you can have
+> > two consecutive pfns with non-consecutive associated struct page if you have two
+> > adjacent memory sections spanning the same physical memory region, is that
+> > correct?
+> 
+> Exactly. Essentially on SPARSEMEM without SPARSEMEM_VMEMMAP it is not
+> guaranteed that
+> 
+> 	pfn_to_page(pfn + 1) == pfn_to_page(pfn) + 1
+> 
+> when we cross memory section boundaries.
+> 
+> It can be the case for early boot memory if we allocated consecutive areas
+> from memblock when allocating the memmap (struct pages) per memory section,
+> but it's not guaranteed.
 
-Before trying to exploit a kernel memory corruption to elevate
-privileges on a machine, they can test the SLAB properties of the
-running kernel to make sure it's as they wish (eg: with timing side
-channels like in the SLUBStick paper). So with RANDOM_KMALLOC_CACHES,
-attackers can just keep retrying their attacks until they land on a
-machine where the types T and S are collocated and only then proceed
-with their exploit.
+Thank you for the explanation, but I'm a bit confused by the last paragraph. I
+think what you're saying is that we can also have the reverse problem, where
+consecutive struct page * represent non-consecutive pfns, because memmap
+allocations happened to return consecutive virtual addresses, is that right?
 
-With TYPED_KMALLOC_CACHES (and with SLAB_VIRTUAL hopefully someday),
-they are simply never able to cross the "objects without pointers" to
-"objects with pointers" boundary which really gets in the way of many
-exploitation techniques and feels at least to me like a much stronger
-security boundary.
+If that's correct, I don't think that's the case for CMA, which deals out
+contiguous physical memory. Or were you just trying to explain the other side of
+the problem, and I'm just overthinking it?
 
-This limit of RANDOM_KMALLOC_CACHES may not be as relevant in other
-deployments (eg: on a smartphone) but it makes me strongly prefer
-TYPED_KMALLOC_CACHES for server use cases at least.
+Thanks,
+Alex
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-ALGbS4U6fox7SwmdHfDuawmOWfQeQsxtA1X_VqRxTHpSs-sBYw%40mail.gmail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aK2wlGYvCaFQXzBm%40raptor.
