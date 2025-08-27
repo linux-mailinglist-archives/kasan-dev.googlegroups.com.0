@@ -1,189 +1,241 @@
-Return-Path: <kasan-dev+bncBCX7HX6VTEARBEVGXPCQMGQE7YCYUPA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC32535MUICBB5MAX3CQMGQEBTF6BUA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC13BB37F0E
-	for <lists+kasan-dev@lfdr.de>; Wed, 27 Aug 2025 11:42:44 +0200 (CEST)
-Received: by mail-lf1-x13c.google.com with SMTP id 2adb3069b0e04-55f3b9e66fdsf1523687e87.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 27 Aug 2025 02:42:44 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1756287764; cv=pass;
+Received: from mail-yb1-xb39.google.com (mail-yb1-xb39.google.com [IPv6:2607:f8b0:4864:20::b39])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA81CB38BEC
+	for <lists+kasan-dev@lfdr.de>; Thu, 28 Aug 2025 00:02:31 +0200 (CEST)
+Received: by mail-yb1-xb39.google.com with SMTP id 3f1490d57ef6-e96dc23e87asf364322276.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 27 Aug 2025 15:02:31 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1756332150; cv=pass;
         d=google.com; s=arc-20240605;
-        b=WLlmxDaKyHTmZ2VLQ2IkvfvuVZ7br5Oze5rP9u27+gzWuN/dYTWpfLTPaWdB1nJJ0C
-         ND60FIG/BwzdLDJiGUyfb0gxWDIX2h6Yu/oseZwhNVD2Z58xHi9yRyDgZJg5zOWlaK9A
-         UDsM4+laz1sJiX6dUy0DggAKc/TD3cN5y7jbyzRSKrrOsy4uOTKE7/a4XzY2b/iqzdfm
-         MURUBcIX1bK7RzPa6LDY1Y7uAvKhJj1G4NYnGpC2X10PyaYixi2qFwd90RAB2nCMdA/N
-         UL00IiPHq5bbGRZ0kXSTLDyPlDV+QcP8djMcxzZDRNXhS9BiHk5qZhdSKbILIWdj7K68
-         V4bg==
+        b=hP9DfcO7yPej26+ixPez5TzQRJdnFwJntWEd0eJtk77i8eshFz3ClnarX68hU7Mzo2
+         YmAIFNT6I07VGf3LAUKUGVwdcOeiumgD98HSfBzcDpuWxPh6dtw4LVYieZ3eBO0CKiup
+         32lZhNDSMwpb+8qDDRZhiVPQNR1KykMeBKlE6lKbQ4C2sz6UElWabYJhTGgk1Sr0dZKI
+         VjJcPG25zFUggPAx3X7nTRwKRHfFbv/yLdpJNpctmHxqQHNaKhmBBE0VEbT47RD/udBI
+         owK17ys0+rhwpF0cSQbRe1YrlbUb9ELBkXTIQ8s4SBe950VAzWV2fPexL/6Vk0a/nzwI
+         V0tw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:sender:dkim-signature
-         :dkim-signature;
-        bh=BpvAIiHW6Ibl2uxJeyEcs437fRUXPi46GCPvA5KHvm8=;
-        fh=9CIaU6UkpOm1GG1tEF1k/ln5f4RSWB1wgIdpUwdyAEY=;
-        b=FmOl97lLN1K31iVQFgRnjlme0I9s6CLtPD/q+s/WbjgqfIDGcy4gpkbh4S6j2LQ3Ig
-         wwvMu+giviNLzxkARM197de8ojJVUVcZVsgRaR0+1O+biyb5THHUWlsBM5WX5kHqFknH
-         ZQZ/o+til2eS0Q7HMR28DG7cl+VQhlN1VZb8TKPYz6LuD3c8NwD4aJn+WnEXdi3ww8VQ
-         00Jau1/oV6dutdYSai668+rwVJ3R6PcIZshkYUyGsm+ZnR90ilZT3eeM+y/x3karWvD3
-         0ULY0ZR9F+3PcpYC0KYK3/cFXa9V54ScLASYL8ptl0Sc4Cn45QgvFSt6F5O4tzMDQexM
-         RR0w==;
+         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
+         :date:subject:cc:to:from:dkim-signature;
+        bh=MtIUg//lT+qXoIDLK+mnSneBYF5gEK1bOWcdoU1EcSY=;
+        fh=LrAlDBrcYbtpVU2NQikZoj0HUBXCPDFLB4jVU742R/Q=;
+        b=JErxBoKrKW8pr8UbjWox6HAviuVscek2AJ5R45sbUrECDmRhCWoZCoiakFCRD+qvXb
+         jrD//GgfqC1S0wzMWGRmo4tyvpB1W2fcqJQhvt9BMzWfhku8qLR0EmL7CHDosM2X+G0q
+         +OcGaGpRzVytu05m+n+u+HcMO1rL6qxr6JkLNJ6dPDb0d/7Fen6MynTvy4sjveZiFXFf
+         +y9YNo9JiXr/ZSH2N/yKmpDtyXC62NGsQOpLtVcbiLBvsw/FTWB1YzWcI3O27DKLf4gU
+         bv8zBebzGXOrPsMzWsaiN3CDQfMg36Hs+VviGHidy9JEUpEN3N1VZKRpArkaMCLCyW8T
+         7exA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=D36NEOp6;
-       spf=pass (google.com: domain of asml.silence@gmail.com designates 2a00:1450:4864:20::431 as permitted sender) smtp.mailfrom=asml.silence@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=RVIHKJtP;
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1756287764; x=1756892564; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1756332150; x=1756936950; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=BpvAIiHW6Ibl2uxJeyEcs437fRUXPi46GCPvA5KHvm8=;
-        b=cTLkyl5XlIEj/ljzE5q/m/TxB0j6eUIFyyQL/80tXFvbvo+8+ztHRg92Pjzb1TwXbe
-         OfjLwj61sfpZFfLuRlWMEiynLnC8ntqyCV+gVfclsWx/lYJ6pK8cUh+lhNKKXcIUIciK
-         N2DEerI5wO+crUjdMqRTnkjV4/HKTF7z0+RpuuGJ1s54jQkQYeFIrbD0fCSVgPWPUPnI
-         bInRWApkB1Qwt9aJcHLoODb+gM+gTKGUfgGXjWaKJnmr5PJIG0QROQErxuLzxb5NCXso
-         Ef0sboLKYeC//s7zjoPJaSnUZiE3IE4h7R/BW99jGA67fEQAkwKNNSJp0wA1oBayzk4w
-         AoWw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756287764; x=1756892564; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=BpvAIiHW6Ibl2uxJeyEcs437fRUXPi46GCPvA5KHvm8=;
-        b=A0ofyU/3JYQ9l0YM4DvTIiiNNeZxxEEzszaDIl6Wu5pyJxgWsOpYZ/EFhkO9Zoicpj
-         pU4HoXRIWo/ApYcMEKuYBFUveL3E4vbuA1yTUChBURK0S2LqjBJZYs9OjExsg7kiPZ8n
-         GG0NYN37Gr6RUvL94DhJcug1DENDbf3Eyhmg2N7YHwVud38DmBzLwvlBeU5Ojqz/1G6F
-         zWtjYcdSt1/2o+rkT1u9rFlRuXm+ry3A9IB/znS1ysJY3pUUH/Q1eqI5ryiXGHJQaTKo
-         1HY7mDSzChu4jac2rAUZN4+qDDdAhm4wMQ6YoyAmE0qqujLAY6PM0hWYeU3Icmo5lBOw
-         yC8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756287764; x=1756892564;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BpvAIiHW6Ibl2uxJeyEcs437fRUXPi46GCPvA5KHvm8=;
-        b=r/CbdLdYSeYNWyibjgZhdKBG8Ww3riHXJvCF10EpWRl5eK/DsCm8n2uhO8TnN8OW65
-         YyaYVYCJfN1iFU3JqsW8Kjv4FCSZQpr5SmBQ5NFHVX1r44vxVjvxPafKnhX4pIzUdKVh
-         mDzrI8kldlTxOHyvVOZJJxhzz/ZZ97JgrcpQw7ZiGJn5auTQmmb0MrHoeuAHZZYqvKN3
-         vYqtdG475HCMfYKYRjrDAzS1/d8Chnb6ec3hpnbMwUwvZNg7x05SJ4QtjUdQoPJOhdzV
-         ZRhfjpuF7nBzlrrBJn3/SRG+KBvOkNKMPEwR8tDmwhrU54rmvmM6cbYxRey9RccyyUSG
-         4fNg==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCX9OXmGRjG8PPnYilbpC5rEibbNULoB/7Ybzr2Un93I5ky0NlXTANZFca6md1vq0w7AI+XQ6w==@lfdr.de
-X-Gm-Message-State: AOJu0YyYyRdfgPAQ7eo4o+osDdAGVQAYsUk3NEdrn8X8dNZOz5+1reDe
-	PkpEOUs2CUGRoYoFVYmu0osrQdpRkq/qxN+maO2idtjGuBSZnY1hBKlp
-X-Google-Smtp-Source: AGHT+IGwopUlTbhi6T49zLFYM57hVkdxmo26y5qlpBezDksMpW2xoiO1QWgThJlN+n7/Wts8v9XPpg==
-X-Received: by 2002:a05:6512:ac9:b0:55f:5685:b5e9 with SMTP id 2adb3069b0e04-55f5685b722mr394109e87.8.1756287763404;
-        Wed, 27 Aug 2025 02:42:43 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZe5CP1S4DBMqvXiiH/ot3Xy9XfGCJXcWviRd74Vh9Q8fw==
-Received: by 2002:a05:651c:1112:b0:333:cb55:f585 with SMTP id
- 38308e7fff4ca-33546c78948ls11975691fa.1.-pod-prod-02-eu; Wed, 27 Aug 2025
- 02:42:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXY3mb4YZarzNi5/LwDlKVvf3bj4w6FOb8xAWt7DDwLq9iCPE1bfRo/G0og7R3//tjhoNkVfowj3ug=@googlegroups.com
-X-Received: by 2002:a05:651c:23c6:20b0:32a:7826:4d42 with SMTP id 38308e7fff4ca-33650fa8fd0mr34926581fa.31.1756287760173;
-        Wed, 27 Aug 2025 02:42:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1756287760; cv=none;
+        bh=MtIUg//lT+qXoIDLK+mnSneBYF5gEK1bOWcdoU1EcSY=;
+        b=Cf7L9YVz4tIbZVLVfOTzBGEXC49W4N/jD6BwpwOGL0rKB4+LzQqamwR6Ur8DJluKvn
+         HJRhBN59dtxdHJZvmRdLTa7c389ZCyilSdKybIYZPE4Q/91Z9WDwzz3GfExNESIZgEbP
+         i5IfiMmAjQFacalmOa4CB/ECJb9zH3k4ypALgJ/NAEGnkNIP1aSvm69/Q6dUNP42mLST
+         jQn4lT/M5NvWyTMwLQS7eIuAcGdhRnp7JHkybiYtC8wWQOkQcIXf+Sogee62ej6IpUtJ
+         3GzKXEeExcMVsoB1yL6xsphCFwsbti0E0q5ZynWC2eX2KG9gfO5BReoi7mmlcZtEPSYs
+         p/rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756332150; x=1756936950;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MtIUg//lT+qXoIDLK+mnSneBYF5gEK1bOWcdoU1EcSY=;
+        b=O61RnBQlgDapeUAC3qB5yJGy8kge9zifB7QP57IeSII5OlbRFhfehQjK7l/9AUzBNK
+         Si4Cd5NE7yYfrivfVYh4beHHc2ZSA7Q5eTw0lWXh8XZyDe18pfgGJyPbNXOcUtlSyTRh
+         VTkp8hT8SBG5YspyxpCnjXsFpyIC2jIsEBY+oR8/3QcSaTcrYP4fs2vdt3PAejWWVuD3
+         OvWjylkLlIlUAZsZ9FseBcE0rpv33v5Dk4QhFuqb4EUK8hhxarApEih1NpnuoUjXtSVy
+         ItvTh3lH9H1wy1MX4M3xnJQm0gCRNIAzmO1jZ616b+16VFGsJ95NScsBVYzz7rkE3FL9
+         c0rw==
+X-Forwarded-Encrypted: i=2; AJvYcCXaKbMbbo2ov7aqzEI21jZEOc12nHVMpqU0fnquMvUYMjFQKdEOwHTUKh0eYBAkeTeCD4cS1Q==@lfdr.de
+X-Gm-Message-State: AOJu0Yw6sxn8HrgAkay4/EGbNE0/Vk1r8Hs6VtQkHKG8Z3+Vhn9GoQrY
+	3Va6DceyTUq7NW4+Mz/6bKh/dAusAvhfIKnDIg/P08WQU1JBBtrzEnyo
+X-Google-Smtp-Source: AGHT+IGHqooUitKo5Hf8pLcdDtCf4StvBSgy0DuBBdeIhsTYmM40mHDhGtB9y4g3WN9IX/9fnz/qKA==
+X-Received: by 2002:a05:6902:6285:b0:e97:258:a12d with SMTP id 3f1490d57ef6-e970258a6eamr289693276.16.1756332150244;
+        Wed, 27 Aug 2025 15:02:30 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZf0aTVvo/AZEZx3EHFLCD9j006Wi8EMSBVLS6D3V1shCQ==
+Received: by 2002:a25:b1a6:0:b0:e95:3946:b54 with SMTP id 3f1490d57ef6-e9700f4df2fls156499276.2.-pod-prod-04-us;
+ Wed, 27 Aug 2025 15:02:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVbJEIUxIW6cyuPu5dC+J5WHomZ0z4jX+9rtjFqTPirkCXVUfJAdK+iJWWNQ0bAjr2Ac+K7OWA6oNI=@googlegroups.com
+X-Received: by 2002:a05:690c:940a:10b0:71f:f48c:adf5 with SMTP id 00721157ae682-71ff48caeadmr161604037b3.27.1756332148983;
+        Wed, 27 Aug 2025 15:02:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1756332148; cv=none;
         d=google.com; s=arc-20240605;
-        b=KFhSoYiFaB8adCb7xd/uuy50SQLT0+0m7RRk7XTu9ei40ORRac4qMxQhXEZbMs9MjM
-         52i+4INDatHK5viT06NggigZi5Sne/PQb1mUlnGjqQkpgaxZuosopNhBe/ql19EoDWPO
-         z+wT5Rfe6Q+F3bC7w41rEzduUw9LFau1O+P67ZxQebyYwEUVA0OlC0fvJciQL+yGMGpK
-         LO7JnU4D68swM7DU16KhGMuWvmtS+ISQkM/XaUjzjONAZH7siVZsNWwTS+/cHboHlUU5
-         2wYFogSRZ9Cf2GuFqIyq7aw1P9Hd2gWd1bgNR7eYSgGpQoE4KNcM8DfYFe3uZ9LkmMLM
-         mW1g==
+        b=HBPaSEkMhmuTz6QwtJDPyoiffZbteyKuufdqDzkrLFk8DBH1K3X/yZXUEpn7Mcjn7T
+         URQpqX1hUOmfxfwTP6RRCiUv3bxgbtnJJ6FMq3bApqjk4EYuZTf8lh7CBfs5FLrYWniv
+         MvMUWlgBkQHr5Ugl9xyylVg+vyM9N3/HuTFxlDgGWqvUFYHYwGBcr/kMuTmh0IuRMdBV
+         8rAnaPAM13N1HoZJ8jExG8WxEooK6P1w8Oa7nynb/KTwSxgYNvGKgvV3NC2ozlyb5DCw
+         TVpa+akh2mISxLEc6MJF9zxOkc9StlRlil3MW7Xmkh8wSlJ9SmcLZqN4j0pXXUKszbhS
+         tTpQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :dkim-signature;
-        bh=s4gNirUawo/2N73RGh/VZFmiZovBEw6Zvsz5pkyBSog=;
-        fh=k75ZiQeZcUG48nYkAr5GN53TZlXSKvfxW0yGMSBDESU=;
-        b=V2Jwndt0EhkXmXLgf3f4ltcvI3G2XpK4/tZawzsFzWC1S0rrhXUpcuYLsdXUCPCqGH
-         Gg6G0/QiudDEhRKb0q8ccOWTxEd3OWXtKS69KDlFhQY5nXS8JNmqsc1f8slWqUDtIs4g
-         Qqnk2gFs5AnyeHAZmg47nvL0Ewx5/VB9YzJV3bedoD3XCXoWn2UE5Gtq/3Z2oBD4v0yO
-         xmJZSDpuJ8r3JvZWiPPAI+Gm2qSL57slnO0vy9hzoH1FVN1HT3wSfIO4MEUPIc3L35YG
-         cf62ntIR/Klu8ex8IuF1C25166z5EUWUvG4P4CSVghnOoCb6t0qxuprMSvhh9XyFIxDD
-         5fEA==;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=f98zaxrJvycSnAQcu/39hCOw4ptNGiOoTMWM+eDqoaw=;
+        fh=cz9Xgd0iYyy9wddevnKV8if1jS3PHdenCWq2eyS3z7w=;
+        b=eIfhY1qcoH1e0Cunp5trCTbdjvyXybEHVYEOM6PEEaIVtZwgjUYlneZNzZj2/haR57
+         E3Kfwm3QWvNCG2ODOn5p4Pvgw1lzDp6JXMd6MAAlv7DNPYb9CIWfsxMg8wVTzuNrLRNo
+         b7wlBqjW6n4wYobJ9l2HluU/o61s2Fz9GmlbTwLiPd714nvr2Vn4Q7OIov9dKXR3ymuq
+         fLhFLGsmkul/Hbfr55A+ZEsWfe705JwZFLi7yRjQQHWLkpuCFbVPa2BfhKM4YCtgq7k9
+         eedEFGNCTe/2tyTc/zn7R4t2jSXvWWACOcmTLdvi1wrgjC23YB73+fcRZtpA9hghdTnA
+         g3dQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=D36NEOp6;
-       spf=pass (google.com: domain of asml.silence@gmail.com designates 2a00:1450:4864:20::431 as permitted sender) smtp.mailfrom=asml.silence@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com. [2a00:1450:4864:20::431])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-3365e20f42asi2528171fa.1.2025.08.27.02.42.40
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=RVIHKJtP;
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
+        by gmr-mx.google.com with ESMTPS id 956f58d0204a3-5f65871932bsi504724d50.1.2025.08.27.15.02.28
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Aug 2025 02:42:40 -0700 (PDT)
-Received-SPF: pass (google.com: domain of asml.silence@gmail.com designates 2a00:1450:4864:20::431 as permitted sender) client-ip=2a00:1450:4864:20::431;
-Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-3c84925055aso2676477f8f.2
-        for <kasan-dev@googlegroups.com>; Wed, 27 Aug 2025 02:42:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVWUE9Lzn4f3I4wj1WdR5pbWr0O4yXMh47ohrpngW9BnQKXsf26qWiyfR4ycLbA2m8vjav2+O8H/Oc=@googlegroups.com
-X-Gm-Gg: ASbGncumwyhZIuAaoWV/QTgkkT4UxEpfVbFTQabUElEIXKnDjdZhisS+/9OygOwUJr+
-	JfmVa71VBGbx3MtUeqt1W+hVM5IS4Og2t5b67X/Kcu7F3fEC5OY54iTOqvAbTxyGXjz/BCjE2Ez
-	zqbzfPgQ8e8P5qDthQYO1h5XSoiJm2s8awl8oed+UypU0athkkUX+gfyFTk8xHJGjBOv2gBOFkX
-	mYWqg9rqBoIZLY8zJzH6uYIsT8FtZxtrQBjslsBXS9Ql1ymygdOmyp8NOsAzaqaUYOjxrXkHoQg
-	wWjsVaWPjMFEIBUOiqZbkecq0oWg2AvOsHHqPSZh1Il4YaUYiEc/qmOTP2KP7pGSZyL3INH3Lhr
-	dh6VxOJmanc33FeeyK+QEM3uPnJ5ml6N0SdjzcyjIc60bvgGCcbKBeCduhbBVKtSc1w==
-X-Received: by 2002:a05:6000:3105:b0:3b8:d672:3cf8 with SMTP id ffacd0b85a97d-3c5dcb10b6amr14770182f8f.43.1756287759105;
-        Wed, 27 Aug 2025 02:42:39 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:4a1a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3cc4b102889sm3363615f8f.51.2025.08.27.02.42.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Aug 2025 02:42:38 -0700 (PDT)
-Message-ID: <46d09557-1873-4d97-b073-ce0c7296b954@gmail.com>
-Date: Wed, 27 Aug 2025 10:43:59 +0100
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Aug 2025 15:02:28 -0700 (PDT)
+Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-652-4tIPN8FiOvyy6eG037Xd4A-1; Wed,
+ 27 Aug 2025 18:02:26 -0400
+X-MC-Unique: 4tIPN8FiOvyy6eG037Xd4A-1
+X-Mimecast-MFC-AGG-ID: 4tIPN8FiOvyy6eG037Xd4A_1756332141
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 65CEE19541AC;
+	Wed, 27 Aug 2025 22:02:18 +0000 (UTC)
+Received: from t14s.redhat.com (unknown [10.22.80.195])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E90FC30001A5;
+	Wed, 27 Aug 2025 22:01:42 +0000 (UTC)
+From: "'David Hildenbrand' via kasan-dev" <kasan-dev@googlegroups.com>
+To: linux-kernel@vger.kernel.org
+Cc: David Hildenbrand <david@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Peter Xu <peterx@redhat.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Brendan Jackman <jackmanb@google.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Zi Yan <ziy@nvidia.com>,
+	Dennis Zhou <dennis@kernel.org>,
+	Tejun Heo <tj@kernel.org>,
+	Christoph Lameter <cl@gentwo.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	x86@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mips@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	linux-ide@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-mmc@vger.kernel.org,
+	linux-arm-kernel@axis.com,
+	linux-scsi@vger.kernel.org,
+	kvm@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	linux-mm@kvack.org,
+	io-uring@vger.kernel.org,
+	iommu@lists.linux.dev,
+	kasan-dev@googlegroups.com,
+	wireguard@lists.zx2c4.com,
+	netdev@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	Alex Dubov <oakad@yahoo.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Brett Creeley <brett.creeley@amd.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Airlie <airlied@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Doug Gilbert <dgilbert@interlog.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Jesper Nilsson <jesper.nilsson@axis.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Lars Persson <lars.persson@axis.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Maxim Levitsky <maximlevitsky@gmail.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Niklas Cassel <cassel@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	SeongJae Park <sj@kernel.org>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Simona Vetter <simona@ffwll.ch>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Will Deacon <will@kernel.org>,
+	Yishai Hadas <yishaih@nvidia.com>
+Subject: [PATCH v1 00/36] mm: remove nth_page()
+Date: Thu, 28 Aug 2025 00:01:04 +0200
+Message-ID: <20250827220141.262669-1-david@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 18/35] io_uring/zcrx: remove "struct io_copy_cache"
- and one nth_page() usage
-To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
-Cc: Jens Axboe <axboe@kernel.dk>, Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
- Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- iommu@lists.linux.dev, io-uring@vger.kernel.org,
- Jason Gunthorpe <jgg@nvidia.com>, Johannes Weiner <hannes@cmpxchg.org>,
- John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
- kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
- linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Marco Elver <elver@google.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
- Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
- Robin Murphy <robin.murphy@arm.com>, Suren Baghdasaryan <surenb@google.com>,
- Tejun Heo <tj@kernel.org>, virtualization@lists.linux.dev,
- Vlastimil Babka <vbabka@suse.cz>, wireguard@lists.zx2c4.com, x86@kernel.org,
- Zi Yan <ziy@nvidia.com>
-References: <20250821200701.1329277-1-david@redhat.com>
- <20250821200701.1329277-19-david@redhat.com>
- <b5b08ad3-d8cd-45ff-9767-7cf1b22b5e03@gmail.com>
- <473f3576-ddf3-4388-aeec-d486f639950a@redhat.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <473f3576-ddf3-4388-aeec-d486f639950a@redhat.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: asml.Silence@gmail.com
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: o_5DjoFKV_AMTvhjGEpxSJjWN5D7Qnc16Ozg3x3GGQ8_1756332141
+X-Mimecast-Originator: redhat.com
+content-type: text/plain; charset="UTF-8"; x-default=true
+X-Original-Sender: david@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=D36NEOp6;       spf=pass
- (google.com: domain of asml.silence@gmail.com designates 2a00:1450:4864:20::431
- as permitted sender) smtp.mailfrom=asml.silence@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+ header.i=@redhat.com header.s=mimecast20190719 header.b=RVIHKJtP;
+       spf=pass (google.com: domain of david@redhat.com designates
+ 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
+X-Original-From: David Hildenbrand <david@redhat.com>
+Reply-To: David Hildenbrand <david@redhat.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -196,64 +248,237 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 8/22/25 14:59, David Hildenbrand wrote:
-> On 22.08.25 13:32, Pavel Begunkov wrote:
->> On 8/21/25 21:06, David Hildenbrand wrote:
->>> We always provide a single dst page, it's unclear why the io_copy_cache
->>> complexity is required.
->>
->> Because it'll need to be pulled outside the loop to reuse the page for
->> multiple copies, i.e. packing multiple fragments of the same skb into
->> it. Not finished, and currently it's wasting memory.
->=20
-> Okay, so what you're saying is that there will be follow-up work that wil=
-l actually make this structure useful.
+This is based on mm-unstable.
 
-Exactly
+I will only CC non-MM folks on the cover letter and the respective patch
+to not flood too many inboxes (the lists receive all patches).
 
->> Why not do as below? Pages there never cross boundaries of their folios.=
- > Do you want it to be taken into the io_uring tree?
->=20
-> This should better all go through the MM tree where we actually guarantee=
- contiguous pages within a folio. (see the cover letter)
+--
 
-Makes sense. No objection, hopefully it won't cause too many conflicts.
+As discussed recently with Linus, nth_page() is just nasty and we would
+like to remove it.
 
->> diff --git a/io_uring/zcrx.c b/io_uring/zcrx.c
->> index e5ff49f3425e..18c12f4b56b6 100644
->> --- a/io_uring/zcrx.c
->> +++ b/io_uring/zcrx.c
->> @@ -975,9 +975,9 @@ static ssize_t io_copy_page(struct io_copy_cache *cc=
-, struct page *src_page,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (folio_t=
-est_partial_kmap(page_folio(dst_page)) ||
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 folio_test_partial_kmap(page_folio(src_page))) {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dst_=
-page =3D nth_page(dst_page, dst_offset / PAGE_SIZE);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dst_=
-page +=3D dst_offset / PAGE_SIZE;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 dst_offset =3D offset_in_page(dst_offset);
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 src_=
-page =3D nth_page(src_page, src_offset / PAGE_SIZE);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 src_=
-page +=3D src_offset / PAGE_SIZE;
->=20
-> Yeah, I can do that in the next version given that you have plans on exte=
-nding that code soon.
+To recap, the reason we currently need nth_page() within a folio is because
+on some kernel configs (SPARSEMEM without SPARSEMEM_VMEMMAP), the
+memmap is allocated per memory section.
 
-If we go with this version:
+While buddy allocations cannot cross memory section boundaries, hugetlb
+and dax folios can.
 
-Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
+So crossing a memory section means that "page++" could do the wrong thing.
+Instead, nth_page() on these problematic configs always goes from
+page->pfn, to the go from (++pfn)->page, which is rather nasty.
 
---=20
-Pavel Begunkov
+Likely, many people have no idea when nth_page() is required and when
+it might be dropped.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/4=
-6d09557-1873-4d97-b073-ce0c7296b954%40gmail.com.
+We refer to such problematic PFN ranges and "non-contiguous pages".
+If we only deal with "contiguous pages", there is not need for nth_page().
+
+Besides that "obvious" folio case, we might end up using nth_page()
+within CMA allocations (again, could span memory sections), and in
+one corner case (kfence) when processing memblock allocations (again,
+could span memory sections).
+
+So let's handle all that, add sanity checks, and remove nth_page().
+
+Patch #1 -> #5   : stop making SPARSEMEM_VMEMMAP user-selectable + cleanups
+Patch #6 -> #13  : disallow folios to have non-contiguous pages
+Patch #14 -> #20 : remove nth_page() usage within folios
+Patch #21        : disallow CMA allocations of non-contiguous pages
+Patch #22 -> #32 : sanity+check + remove nth_page() usage within SG entry
+Patch #33        : sanity-check + remove nth_page() usage in
+                   unpin_user_page_range_dirty_lock()
+Patch #34        : remove nth_page() in kfence
+Patch #35        : adjust stale comment regarding nth_page
+Patch #36        : mm: remove nth_page()
+
+A lot of this is inspired from the discussion at [1] between Linus, Jason
+and me, so cudos to them.
+
+[1] https://lore.kernel.org/all/CAHk-=wiCYfNp4AJLBORU-c7ZyRBUp66W2-Et6cdQ4REx-GyQ_A@mail.gmail.com/T/#u
+
+RFC -> v1:
+* "wireguard: selftests: remove CONFIG_SPARSEMEM_VMEMMAP=y from qemu kernel
+   config"
+ -> Mention that it was never really relevant for the test
+* "mm/mm_init: make memmap_init_compound() look more like
+   prep_compound_page()"
+ -> Mention the setup of page links
+* "mm: limit folio/compound page sizes in problematic kernel configs"
+ -> Improve comment for PUD handling, mentioning hugetlb and dax
+* "mm: simplify folio_page() and folio_page_idx()"
+ -> Call variable "n"
+* "mm/hugetlb: cleanup hugetlb_folio_init_tail_vmemmap()"
+ -> Keep __init_single_page() and refer to the usage of
+    memblock_reserved_mark_noinit()
+* "fs: hugetlbfs: cleanup folio in adjust_range_hwpoison()"
+* "fs: hugetlbfs: remove nth_page() usage within folio in
+   adjust_range_hwpoison()"
+ -> Separate nth_page() removal from cleanups
+ -> Further improve cleanups
+* "io_uring/zcrx: remove nth_page() usage within folio"
+ -> Keep the io_copy_cache for now and limit to nth_page() removal
+* "mm/gup: drop nth_page() usage within folio when recording subpages"
+ -> Cleanup record_subpages as bit
+* "mm/cma: refuse handing out non-contiguous page ranges"
+ -> Replace another instance of "pfn_to_page(pfn)" where we already have
+    the page
+* "scatterlist: disallow non-contigous page ranges in a single SG entry"
+ -> We have to EXPORT the symbol. I thought about moving it to mm_inline.h,
+    but I really don't want to include that in include/linux/scatterlist.h
+* "ata: libata-eh: drop nth_page() usage within SG entry"
+* "mspro_block: drop nth_page() usage within SG entry"
+* "memstick: drop nth_page() usage within SG entry"
+* "mmc: drop nth_page() usage within SG entry"
+ -> Keep PAGE_SHIFT
+* "scsi: scsi_lib: drop nth_page() usage within SG entry"
+* "scsi: sg: drop nth_page() usage within SG entry"
+ -> Split patches, Keep PAGE_SHIFT
+* "crypto: remove nth_page() usage within SG entry"
+ -> Keep PAGE_SHIFT
+* "kfence: drop nth_page() usage"
+ -> Keep modifying i and use "start_pfn" only instead
+
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: John Hubbard <jhubbard@nvidia.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Marco Elver <elver@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Brendan Jackman <jackmanb@google.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Zi Yan <ziy@nvidia.com>
+Cc: Dennis Zhou <dennis@kernel.org>
+Cc: Tejun Heo <tj@kernel.org>
+Cc: Christoph Lameter <cl@gentwo.org>
+Cc: Muchun Song <muchun.song@linux.dev>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: x86@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-s390@vger.kernel.org
+Cc: linux-crypto@vger.kernel.org
+Cc: linux-ide@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-mmc@vger.kernel.org
+Cc: linux-arm-kernel@axis.com
+Cc: linux-scsi@vger.kernel.org
+Cc: kvm@vger.kernel.org
+Cc: virtualization@lists.linux.dev
+Cc: linux-mm@kvack.org
+Cc: io-uring@vger.kernel.org
+Cc: iommu@lists.linux.dev
+Cc: kasan-dev@googlegroups.com
+Cc: wireguard@lists.zx2c4.com
+Cc: netdev@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org
+Cc: linux-riscv@lists.infradead.org
+
+David Hildenbrand (36):
+  mm: stop making SPARSEMEM_VMEMMAP user-selectable
+  arm64: Kconfig: drop superfluous "select SPARSEMEM_VMEMMAP"
+  s390/Kconfig: drop superfluous "select SPARSEMEM_VMEMMAP"
+  x86/Kconfig: drop superfluous "select SPARSEMEM_VMEMMAP"
+  wireguard: selftests: remove CONFIG_SPARSEMEM_VMEMMAP=y from qemu
+    kernel config
+  mm/page_alloc: reject unreasonable folio/compound page sizes in
+    alloc_contig_range_noprof()
+  mm/memremap: reject unreasonable folio/compound page sizes in
+    memremap_pages()
+  mm/hugetlb: check for unreasonable folio sizes when registering hstate
+  mm/mm_init: make memmap_init_compound() look more like
+    prep_compound_page()
+  mm: sanity-check maximum folio size in folio_set_order()
+  mm: limit folio/compound page sizes in problematic kernel configs
+  mm: simplify folio_page() and folio_page_idx()
+  mm/hugetlb: cleanup hugetlb_folio_init_tail_vmemmap()
+  mm/mm/percpu-km: drop nth_page() usage within single allocation
+  fs: hugetlbfs: remove nth_page() usage within folio in
+    adjust_range_hwpoison()
+  fs: hugetlbfs: cleanup folio in adjust_range_hwpoison()
+  mm/pagewalk: drop nth_page() usage within folio in folio_walk_start()
+  mm/gup: drop nth_page() usage within folio when recording subpages
+  io_uring/zcrx: remove nth_page() usage within folio
+  mips: mm: convert __flush_dcache_pages() to
+    __flush_dcache_folio_pages()
+  mm/cma: refuse handing out non-contiguous page ranges
+  dma-remap: drop nth_page() in dma_common_contiguous_remap()
+  scatterlist: disallow non-contigous page ranges in a single SG entry
+  ata: libata-eh: drop nth_page() usage within SG entry
+  drm/i915/gem: drop nth_page() usage within SG entry
+  mspro_block: drop nth_page() usage within SG entry
+  memstick: drop nth_page() usage within SG entry
+  mmc: drop nth_page() usage within SG entry
+  scsi: scsi_lib: drop nth_page() usage within SG entry
+  scsi: sg: drop nth_page() usage within SG entry
+  vfio/pci: drop nth_page() usage within SG entry
+  crypto: remove nth_page() usage within SG entry
+  mm/gup: drop nth_page() usage in unpin_user_page_range_dirty_lock()
+  kfence: drop nth_page() usage
+  block: update comment of "struct bio_vec" regarding nth_page()
+  mm: remove nth_page()
+
+ arch/arm64/Kconfig                            |  1 -
+ arch/mips/include/asm/cacheflush.h            | 11 +++--
+ arch/mips/mm/cache.c                          |  8 ++--
+ arch/s390/Kconfig                             |  1 -
+ arch/x86/Kconfig                              |  1 -
+ crypto/ahash.c                                |  4 +-
+ crypto/scompress.c                            |  8 ++--
+ drivers/ata/libata-sff.c                      |  6 +--
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  2 +-
+ drivers/memstick/core/mspro_block.c           |  3 +-
+ drivers/memstick/host/jmb38x_ms.c             |  3 +-
+ drivers/memstick/host/tifm_ms.c               |  3 +-
+ drivers/mmc/host/tifm_sd.c                    |  4 +-
+ drivers/mmc/host/usdhi6rol0.c                 |  4 +-
+ drivers/scsi/scsi_lib.c                       |  3 +-
+ drivers/scsi/sg.c                             |  3 +-
+ drivers/vfio/pci/pds/lm.c                     |  3 +-
+ drivers/vfio/pci/virtio/migrate.c             |  3 +-
+ fs/hugetlbfs/inode.c                          | 33 +++++--------
+ include/crypto/scatterwalk.h                  |  4 +-
+ include/linux/bvec.h                          |  7 +--
+ include/linux/mm.h                            | 48 +++++++++++++++----
+ include/linux/page-flags.h                    |  5 +-
+ include/linux/scatterlist.h                   |  3 +-
+ io_uring/zcrx.c                               |  4 +-
+ kernel/dma/remap.c                            |  2 +-
+ mm/Kconfig                                    |  3 +-
+ mm/cma.c                                      | 39 +++++++++------
+ mm/gup.c                                      | 14 ++++--
+ mm/hugetlb.c                                  | 22 +++++----
+ mm/internal.h                                 |  1 +
+ mm/kfence/core.c                              | 12 +++--
+ mm/memremap.c                                 |  3 ++
+ mm/mm_init.c                                  | 15 +++---
+ mm/page_alloc.c                               |  5 +-
+ mm/pagewalk.c                                 |  2 +-
+ mm/percpu-km.c                                |  2 +-
+ mm/util.c                                     | 34 +++++++++++++
+ tools/testing/scatterlist/linux/mm.h          |  1 -
+ .../selftests/wireguard/qemu/kernel.config    |  1 -
+ 40 files changed, 202 insertions(+), 129 deletions(-)
+
+
+base-commit: efa7612003b44c220551fd02466bfbad5180fc83
+-- 
+2.50.1
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250827220141.262669-1-david%40redhat.com.
