@@ -1,158 +1,136 @@
-Return-Path: <kasan-dev+bncBC3ZLA5BYIFBBSUTYLCQMGQEKSR5AJI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV37XP3XYDRBSEUYLCQMGQEONNFODI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x837.google.com (mail-qt1-x837.google.com [IPv6:2607:f8b0:4864:20::837])
-	by mail.lfdr.de (Postfix) with ESMTPS id E775CB3A6FD
-	for <lists+kasan-dev@lfdr.de>; Thu, 28 Aug 2025 18:54:35 +0200 (CEST)
-Received: by mail-qt1-x837.google.com with SMTP id d75a77b69052e-4b302991b39sf14490391cf.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 28 Aug 2025 09:54:35 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1756400075; cv=pass;
+Received: from mail-oa1-x40.google.com (mail-oa1-x40.google.com [IPv6:2001:4860:4864:20::40])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94DB3B3A708
+	for <lists+kasan-dev@lfdr.de>; Thu, 28 Aug 2025 18:56:41 +0200 (CEST)
+Received: by mail-oa1-x40.google.com with SMTP id 586e51a60fabf-30cce8f9e59sf1449241fac.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 28 Aug 2025 09:56:41 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1756400200; cv=pass;
         d=google.com; s=arc-20240605;
-        b=e1YfnMefPMDke6911GOOYQSNO/NNWhkiR1IgzhxDp1bHflJ61244r0ArBXMT8vsFDt
-         tv0/PVHjxH5pTnyqpKEgQW7hhMuIPMYc5FOjnSHdWNP8kIqWtFFlFJ6PC3G6h/8fRaN5
-         AEBd7Rz/7fJZHGtyunK6AOG8I1//kqHw1K31iCxIUg4evW6yDAOooqNNVQa6xiSkyTub
-         mRTlu9YlAEjfW/Fd0JODyjmZJtVcknKs2fg7TnC0pJj6pThxiac8BAQPnoLR+Er2vSGX
-         lzKFuHIvfzt6UtfL7DoHLndtSjkTHlHor5yMKRjiYAcKP7DPlLJdlP0lWVQEN05g2k6K
-         b/nA==
+        b=PW6nKDdzh8TIYuisG4O2/Wr58GoJbvijfSOkPHqrOYE41REMjDeaKg3zdz/WoWijSG
+         zWd5G7OpW1teck6a6Cr4hmeJiZ1PiowqPcE4R8CU5xiPT7321oirunq4YLAq9PvaQ+7v
+         9VRAlC+Wf8Jy4yWrXuDgxZ/U5MrMT2hmg2jbZyNEU6ps0e8Uij/giLd3KiikmAs3bmPH
+         JEmz+siHbQ9tic9mWcSGc2fE9pne4on9HdcswXQnmnQxKTu2Vci2l96Ya/PPNKWrK5lk
+         N9nMHdo5tPGQbnSC0zdlOyDUgs6m3MSFjbO7gnz1JEDYCTvRM5dIMG3vk8xBba7IDDAO
+         E1hA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=kKC3n/l7vUZ0w6A1tO9u46g5ds0KNyipPvWpMzl/IqE=;
-        fh=cOKyZuug3QljqaEGQaV6h8+sPhnHpWCxfcuLILdXuRg=;
-        b=Fc6fvkEkJDaB6qfJvd3Xqyl9oPdw/K0CSFhvLCZ6nBOg3rSa8ItBwCR7ggMawp4bwK
-         4d6HG237LD0DBQCSK7WKLjQC9b+LLKZvYjbzjM03wbp9s/KFqbHOJ44fzRKrQiIiOwWn
-         0fUkksldCzd3OrRQVVzrQ4oW8bG7xckAsLDj5MeOG3wFT0yQNuRUKhmlodypEXzMbuJ1
-         8dvGgzMYg95/iC1LOnFxVPdnky3x1p2hmYnM8FQYD9oLgM/t1z2PSAvSNIKtCwndmCvA
-         iPoqrqJz0SpnlVowWR79u2ekRwP9PbEEGUpD8YyZECYXvIjG0VG0VLS5daSo1wcHXPZO
-         Yh/g==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=S8JVJluuMFM0gIksx/HvkHpdxaA4mEsMXdE2UzIyDw4=;
+        fh=wJfLag51a28Va68iKeHfMkbeC+fgY5tiEd82HTVi1Sw=;
+        b=SyZE5RizxupZp7CL5AmL9rQ5opKSorqNdRseYvTyA2YbbS5cJPlwmN+iU9018XTNf7
+         u6x5gJ9d+bVHYKKxFDCXx0/ttboIUi0dI5tuHMw0WKDnN+QyitjsXsdJx0otxvvxPhas
+         LKhXZGykou/K1CyfTM33NQiHSfigxWFP0v/YAYqWxLKGEIjUFMKeuMZIgTM1UXAPzSiZ
+         zU7ktilIkukc6W2w7T97lGbpkt3PApU0Y2YdWO5kFvntmIsU/Jd76XmU0U07XAe6X4zK
+         MZj1CVztfnCMdnoR5RZZ5DkKrgqn7wSfxqLjbbHHGgbAL8chQDp0wctBdJ/0DFrICRNH
+         jZRg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Utug3C4q;
-       spf=pass (google.com: domain of leon@kernel.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=leon@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1756400075; x=1757004875; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1756400200; x=1757005000; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kKC3n/l7vUZ0w6A1tO9u46g5ds0KNyipPvWpMzl/IqE=;
-        b=nCL/9D76d3rcccuWPwr/yNBWTwb2LQWUaMvfjABX1KPBrn0g0MjoOrxuYIAVYUyfun
-         hgkULreAKfO7CB3TtlTXQoJuGMbMxtmXscTNkdFVmCWKb/qasP/4ewxEqGZgq/aqjhZ2
-         NvJoYMx0HKc5ndj085hncnzxkxQqQ+qV2KVT/Vy7Oxig2jZ2N3sENKcxzj9TowESjcAi
-         Vq7jJKF+kVhMUeRx/SAobj3QrhYoqtZ9ePByeuQcioSyYYn3qYGJssZ9QMlsrzrNB0e5
-         y1teCifaTXvry0JfMeJCpTfGXLMMg2d9cFZf4N4+Dql9EzuC5jZZUQ4E1piruw4WG9+W
-         zwCg==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=S8JVJluuMFM0gIksx/HvkHpdxaA4mEsMXdE2UzIyDw4=;
+        b=vuqIGkKC8FVOu0jyApvrJ00pV6mJvpcGya2yOYCL8at8R5358Q2s41vfyeXLT4ldVx
+         IVUd06lebezurrQG0+5T9iKZTi25AuLIdTfXIaQY7koarvBMnQh6Hfa3FnSIVKj5WeYr
+         Y6eE+0JS1pn4BUvUCYBT7wXi+o7r0lFOKFusq1LF/gD5lxg+SkISGxqkqx87SpCefa74
+         2WFBVdiQ8xPdEpbR8WPH2wuTh7u2OGfZ3/Uvc/nc4k8dmMC3fSS/usILrcqwFPYo2FJL
+         dtgDzYGWe/3GSzxYOseU+Z9gzlX7vwAM6xbfAFA2S8/x4/akcsyT7Dyf5aVsum/WVSLR
+         DRog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756400075; x=1757004875;
+        d=1e100.net; s=20230601; t=1756400200; x=1757005000;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kKC3n/l7vUZ0w6A1tO9u46g5ds0KNyipPvWpMzl/IqE=;
-        b=C/6WIxW0ATb0EAWUp1+6a9dFodOtPj4tqMP9BHVvaCSg2lMAK9gLvls2vk5fYUSwHg
-         m0Ix+HfohKBEm3JRsOqXksBP8Bh3gMKMp9BAebWZbi/7tTNdw4aH+VSXR94qVGKiWvXO
-         ex+yIc90OwhAnfrJ4MN/ngJmLsxf5X8dopmf5bpVnpG2v/SmF06XFtD4eMoIoYzUhYO6
-         Jiq0gOsGWBWr+hv3TAeGRfee9mHlISr+YNO2zLi3RLfkta5VT3QdRlIKxin7XsD6NQFZ
-         Rlf8PU+ilYCvhzfQ8Mzx3KciCAtCdxKD+kZrU2UbVhqcs4+03BI3DFh6JrQ/l+ynh1VH
-         jhbQ==
-X-Forwarded-Encrypted: i=2; AJvYcCW1X2Jl9j65jiXjEYlPjkqcuovyLTTO5E+vNUSNzxx+rHNRYXOWLncgJUH7+L71URbLNBHUJg==@lfdr.de
-X-Gm-Message-State: AOJu0YxwFj34Akf/HZCdSI5tRBwuYGsd43zh/f5LIHK2coItYC6bg2oY
-	ypdm4Z0q05TEKQnJHtmq54s9EOOgfjktdd3lwYJdvKAZtz1BcYELySou
-X-Google-Smtp-Source: AGHT+IG7Pkw2HKGDHCj6SsBWCxDR+GkqYmRe0VCQpJ1043mdGSIESf4WQc3JbO9Sc3XxDzwowC9tVw==
-X-Received: by 2002:a05:622a:540b:b0:4b3:27e:72d8 with SMTP id d75a77b69052e-4b3027e7eebmr30998291cf.40.1756400074849;
-        Thu, 28 Aug 2025 09:54:34 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfaxS1qgbwq/8wi8bwqK3/M7wUjoIC0gw4ye7Ibd0lSnw==
-Received: by 2002:ac8:590e:0:b0:4b2:deda:ce94 with SMTP id d75a77b69052e-4b2fe8da446ls15984661cf.2.-pod-prod-02-us;
- Thu, 28 Aug 2025 09:54:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCW7nHqIlrmue3xb3j/FeqEB54q4cekKS2f1dKguo9EOQled5Sxhw3x6X6iKbCVaF8bmUG578X0xzOM=@googlegroups.com
-X-Received: by 2002:ac8:57c3:0:b0:4b2:d3d8:9a16 with SMTP id d75a77b69052e-4b2d3d8a152mr207200661cf.79.1756400074008;
-        Thu, 28 Aug 2025 09:54:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1756400073; cv=none;
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=S8JVJluuMFM0gIksx/HvkHpdxaA4mEsMXdE2UzIyDw4=;
+        b=V99G2iyHQoDLIynoWuza7HarYtoF4YMa/MHpbtBC35HNfeln+9J+UQuIp/WbgQulkH
+         NtE/pX/dmfRsOgJSSJy57n6l1xzUvzAzwNilrS8nFLRVXDeRyFHGa3CHz2oatYKzscvh
+         gc/+SH9kWEkSN+/mwzeYIKRKCxAJtQBcQFhE7UYmLoaZLpw5THAgLP0boCLMbUKmqjNo
+         0yt/lV5nzIPK5fmOwKFICUcsnXBGywsQVsME9e/Xy6CuGJ0Z2SfEvHwfl/eoZNpsZ2gc
+         vKme9EbaaXcJk+e6ccQQWE64cyLeqUa6mb+LGp7Ehy5z3AHvNcaq+MA0e0KptzbYUl+o
+         yBZA==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCWLebmwY5krKd1UAHEoGtyuIgEQ0jV/JgTYwhVl0EjS3ug4kmM2Fpe0Nz5/1WgbySKcASwBWg==@lfdr.de
+X-Gm-Message-State: AOJu0YxruQhkJ+/UI3HW88Ijg9VzZDMWIdaKJ0v4Gd04+aQ8HmZW2OLl
+	5w8U9mbB/kG4vn/3F8elFrSyyug0vDpEYsZqAeE4SGsxqUCQyQ/Rb1qc
+X-Google-Smtp-Source: AGHT+IHG+TWuKIqxpbWpGY9e5IDMQSPmac8Cg5HWSxnIDEhicqYBM/kz7uJZxxhZ3da+adLE+W7Uug==
+X-Received: by 2002:a05:6870:8e17:b0:314:9684:fe0e with SMTP id 586e51a60fabf-314dcee1f22mr14169486fac.41.1756400200286;
+        Thu, 28 Aug 2025 09:56:40 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZeOw61VS73LRi7zvooHRS67ZbIdHb/tn+Ym6FP/KEHJMg==
+Received: by 2002:a05:6871:4396:b0:30b:8494:7c57 with SMTP id
+ 586e51a60fabf-3159603da1els512321fac.2.-pod-prod-09-us; Thu, 28 Aug 2025
+ 09:56:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCU2wrtM8fdRflfJbWkuVLeal9GvQ2nXybo5xpzV1SuKFShNldccS7o3nNzD5iZRkU4thcOWH1fYFi8=@googlegroups.com
+X-Received: by 2002:a05:6871:bb13:b0:315:2a49:7e5c with SMTP id 586e51a60fabf-3152a498f53mr8193958fac.20.1756400199079;
+        Thu, 28 Aug 2025 09:56:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1756400199; cv=none;
         d=google.com; s=arc-20240605;
-        b=eWMGjM96IugU8UDvIanhokh8q88C7yK6GEfauW1kfXaojMphfYol+iVh32JMkdfAb2
-         6kUsSiu+szhO/CTx2wjExpq2E4v3YGjz7nivcenyEd1BTXuuvEb7hD6WXwUVi0IPNAPq
-         1sx/yrzT+aN9euyagvxlY+PYO6RAXEYj+O6syMbfz40ncDJbquSAznlVhXh5JwOZQQLW
-         bFRmf1VqR08wp+zQTR39v27akXb6RBsvtXyEgkR8fgBdrzFfsyqCrvpyildazdeXbDTt
-         hoxBI5vOqlt+L4GflU34cMwN79sQO/k6HFStxWDFuMbMYW/q/q/a4Q9WSbGXZvKm8SKy
-         A6qw==
+        b=j2CmZf2YSoy8co8OmhEM5ztcjW9Bkes9aX9ODm9LTMCnF6BykRzqZUCl7OHNNlbIzw
+         6eIRSWHT/4Cr9IRFn5JqkzQU2Yyfr+/J3FDuLivYGwuOQarlLr8d8J5H78qIp5aEidNH
+         BETwY8f6mX95xzMehmnsEOOzonliWYtGF8jYVmdg1ZOhHV6MuLEity916m+au3XVQuGC
+         GrqRhNHGvc6XsGHGaL77gT94AHkZXs748yeR7aYonXtjdgt2J9d7NNnjTaUTt7Nf/krX
+         6WONqNb6lIySaMmpyM32VU1pAskAPae3ocPR45TYsNgLMVaZPEfeuq+Yh6SyAYTZNxLN
+         ptfA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=nk21NoeFbSZuqbZYbv31DbqcJk0/VzI2uLLcHSo6RQc=;
-        fh=cvJqwa9D6klxr9M/R2BFyGQs+0bGOcmoFa28xPnkBT0=;
-        b=X/uw6h8nkK2iGVIsALrjj5l9Fo86PaXRTxaxKOG9cPJvc8SBqP4pnHJ/ur7DVIm3LB
-         CE/4NwQtnIx3uRuRWm7jAv+uEe4FwGmvDsQ1eb+mqlIDohQ3ZhaKcEo5iYIuJ18TiKlm
-         gl1i/I6IeMLL57RL+jNx2FtJPImULCERVVy6k9HMxhvQ8na28OfjJers0Z+o7X5JJqB6
-         pHjhaoUSlEJGxoKewlzLtDQiqzC+e9f5Uem1Sr25IPsHwLaIgf/NvL3g8XRCuO3T5Gxv
-         67bIBGtsI7CAlE9AuCpkLxPsTIxJiKf7/3zKBVpm2eyvDw2nLllfgTk0xXS5VIRdeWur
-         qIQw==;
+         :subject:cc:to:from:date;
+        bh=+gl4DEZL9r5wfJ+Kye0Nn5LJQn0rT0WD0H1sEBOTbu4=;
+        fh=CYC8GMfZK2Maa0e+XtHH3hYis3l25ddatN3NS0cHm/o=;
+        b=BcohxVauW1XDtrdYGK6fpYlmn8WGDhheJ8uKE8ImSlaU+WADaJq8li57rvS1LOKGCW
+         TFr24ME8qGD9s2qfdR49RfJBY4lGh7hLJ6AdH86KbU3C/6QLgfZMZYawDcgwujvwTN1E
+         zm7Ra3/v4LmdVZve0fUj3zVDnL6k9l/OWMqU2pVErW9u582fHuyYtoztGevlhm/HlhY3
+         a03Kl1vmXoJlOLFfBi1vKnP0Q7nMgHPFlhjfDxS+/+IcjHd52ItQp8oBzf9ZF0MPjZtI
+         1qiweeHzq0da080KEzPqjtLk2I4rHZipiwDh+MiP6LtEDHXKvz3YkZTS8Zn+LU3Ag01A
+         pGIA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Utug3C4q;
-       spf=pass (google.com: domain of leon@kernel.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=leon@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from sea.source.kernel.org (sea.source.kernel.org. [172.234.252.31])
-        by gmr-mx.google.com with ESMTPS id d75a77b69052e-4b30b3e0756si63821cf.0.2025.08.28.09.54.33
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Aug 2025 09:54:33 -0700 (PDT)
-Received-SPF: pass (google.com: domain of leon@kernel.org designates 172.234.252.31 as permitted sender) client-ip=172.234.252.31;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 0F66D45196;
-	Thu, 28 Aug 2025 16:54:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6C34C4CEED;
-	Thu, 28 Aug 2025 16:54:31 +0000 (UTC)
-Date: Thu, 28 Aug 2025 19:54:27 +0300
-From: "'Leon Romanovsky' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
-	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
-	kasan-dev@googlegroups.com, linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-nvme@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v4 15/16] block-dma: properly take MMIO path
-Message-ID: <20250828165427.GB10073@unreal>
-References: <cover.1755624249.git.leon@kernel.org>
- <642dbeb7aa94257eaea71ec63c06e3f939270023.1755624249.git.leon@kernel.org>
- <aLBzeMNT3WOrjprC@kbusch-mbp>
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id 586e51a60fabf-315afb716f7si21936fac.1.2025.08.28.09.56.38;
+        Thu, 28 Aug 2025 09:56:38 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 269EB1688;
+	Thu, 28 Aug 2025 09:56:30 -0700 (PDT)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D576C3F738;
+	Thu, 28 Aug 2025 09:56:35 -0700 (PDT)
+Date: Thu, 28 Aug 2025 17:56:30 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: David Gow <davidgow@google.com>
+Cc: Marie Zhussupova <marievic@google.com>, marievictoria875@gmail.com,
+	rmoar@google.com, shuah@kernel.org, brendan.higgins@linux.dev,
+	elver@google.com, dvyukov@google.com, lucas.demarchi@intel.com,
+	thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	kasan-dev@googlegroups.com, intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH v4 0/7] kunit: Refactor and extend KUnit's parameterized
+ testing framework
+Message-ID: <aLCKPieOlM8dD858@J2N7QTR9R3>
+References: <20250826091341.1427123-1-davidgow@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <aLBzeMNT3WOrjprC@kbusch-mbp>
-X-Original-Sender: leon@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=Utug3C4q;       spf=pass
- (google.com: domain of leon@kernel.org designates 172.234.252.31 as permitted
- sender) smtp.mailfrom=leon@kernel.org;       dmarc=pass (p=QUARANTINE
- sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: Leon Romanovsky <leon@kernel.org>
-Reply-To: Leon Romanovsky <leon@kernel.org>
+In-Reply-To: <20250826091341.1427123-1-davidgow@google.com>
+X-Original-Sender: mark.rutland@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
+ permitted sender) smtp.mailfrom=mark.rutland@arm.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -165,42 +143,194 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Aug 28, 2025 at 09:19:20AM -0600, Keith Busch wrote:
-> On Tue, Aug 19, 2025 at 08:36:59PM +0300, Leon Romanovsky wrote:
-> > diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-> > index 09b99d52fd36..283058bcb5b1 100644
-> > --- a/include/linux/blk_types.h
-> > +++ b/include/linux/blk_types.h
-> > @@ -387,6 +387,7 @@ enum req_flag_bits {
-> >  	__REQ_FS_PRIVATE,	/* for file system (submitter) use */
-> >  	__REQ_ATOMIC,		/* for atomic write operations */
-> >  	__REQ_P2PDMA,		/* contains P2P DMA pages */
-> > +	__REQ_MMIO,		/* contains MMIO memory */
-> >  	/*
-> >  	 * Command specific flags, keep last:
-> >  	 */
-> > @@ -420,6 +421,7 @@ enum req_flag_bits {
-> >  #define REQ_FS_PRIVATE	(__force blk_opf_t)(1ULL << __REQ_FS_PRIVATE)
-> >  #define REQ_ATOMIC	(__force blk_opf_t)(1ULL << __REQ_ATOMIC)
-> >  #define REQ_P2PDMA	(__force blk_opf_t)(1ULL << __REQ_P2PDMA)
-> > +#define REQ_MMIO	(__force blk_opf_t)(1ULL << __REQ_MMIO)
+On Tue, Aug 26, 2025 at 05:13:30PM +0800, David Gow wrote:
+> Hi all,
 > 
-> Now that my integrity metadata DMA series is staged, I don't think we
-> can use REQ flags like this because data and metadata may have different
-> mapping types. I think we should add a flags field to the dma_iova_state
-> instead.
+> This is a new version of Marie's patch series, with a couple of extra
+> fixes squashed in, notably:
+> - drm/xe/tests: Fix some additional gen_params signatures
+> https://lore.kernel.org/linux-kselftest/20250821135447.1618942-1-davidgow@google.com/
+> - kunit: Only output a test plan if we're using kunit_array_gen_params
+> https://lore.kernel.org/linux-kselftest/20250821135447.1618942-2-davidgow@google.com/
+> 
+> These should fix the issues found in linux-next here:
+> https://lore.kernel.org/linux-next/20250818120846.347d64b1@canb.auug.org.au/
+> 
+> These changes only affect patches 3 and 4 of the series, the others are
+> unchanged from v3.
+> 
+> Thanks, everyone, and sorry for the inconvenience!
 
-Before integrity metadata code was merged, the assumption was that request is
-only one type or p2p or host. Is it still holding now?
+Thanks for this!
 
-And we can't store in dma_iova_state() as HMM/RDMA code works in page-based
-granularity and one dma_iova_state() can mix different types.
+I had a go at converting some of my aarch64 instruction encoding tests
+over to this, and having the ability to dynamically generate the params
+array before iterating over the case makes that much easier to handle.
 
-Thanks
+FWIW, for the series:
 
+Acked-by: Mark Rutland <mark.rutland@arm.com>
+
+I'll see about getting those converted over and posted once this is in.
+
+Mark.
+
+> 
+> Cheers,
+> -- David
+> 
+> ---
+> 
+> Hello!
+> 
+> KUnit offers a parameterized testing framework, where tests can be
+> run multiple times with different inputs. However, the current
+> implementation uses the same `struct kunit` for each parameter run.
+> After each run, the test context gets cleaned up, which creates
+> the following limitations:
+> 
+> a. There is no way to store resources that are accessible across
+>    the individual parameter runs.
+> b. It's not possible to pass additional context, besides the previous
+>    parameter (and potentially anything else that is stored in the current
+>    test context), to the parameter generator function.
+> c. Test users are restricted to using pre-defined static arrays
+>    of parameter objects or generate_params() to define their
+>    parameters. There is no flexibility to make a custom dynamic
+>    array without using generate_params(), which can be complex if
+>    generating the next parameter depends on more than just the single
+>    previous parameter.
+> 
+> This patch series resolves these limitations by:
+> 
+> 1. [P 1] Giving each parameterized run its own `struct kunit`. It will
+>    remove the need to manage state, such as resetting the `test->priv`
+>    field or the `test->status_comment` after every parameter run.
+> 
+> 2. [P 1] Introducing parameterized test context available to all
+>    parameter runs through the parent pointer of type `struct kunit`.
+>    This context won't be used to execute any test logic, but will
+>    instead be used for storing shared resources. Each parameter run
+>    context will have a reference to that parent instance and thus,
+>    have access to those resources.
+> 
+> 3. [P 2] Introducing param_init() and param_exit() functions that can
+>    initialize and exit the parameterized test context. They will run once
+>    before and after the parameterized test. param_init() can be used to add
+>    resources to share between parameter runs, pass parameter arrays, and
+>    any other setup logic. While param_exit() can be used to clean up
+>    resources that were not managed by the parameterized test, and
+>    any other teardown logic.
+> 
+> 4. [P 3] Passing the parameterized test context as an additional argument
+>    to generate_params(). This provides generate_params() with more context,
+>    making parameter generation much more flexible. The generate_params()
+>    implementations in the KCSAN and drm/xe tests have been adapted to match
+>    the new function pointer signature.
+> 
+> 5. [P 4] Introducing a `params_array` field in `struct kunit`. This will
+>    allow the parameterized test context to have direct storage of the
+>    parameter array, enabling features like using dynamic parameter arrays
+>    or using context beyond just the previous parameter. This will also
+>    enable outputting the KTAP test plan for a parameterized test when the
+>    parameter count is available.
+> 
+> Patches 5 and 6 add examples tests to lib/kunit/kunit-example-test.c to
+> showcase the new features and patch 7 updates the KUnit documentation
+> to reflect all the framework changes.
+> 
+> Thank you!
+> -Marie
+> 
+> ---
+> 
+> Changes in v4:
+> 
+> Link to v3 of this patch series:
+> https://lore.kernel.org/linux-kselftest/20250815103604.3857930-1-marievic@google.com/
+> 
+> - Fixup the signatures of some more gen_params functions in the drm/xe
+>   driver.
+> - Only print a KTAP test plan if a parameterised test is using the
+>   built-in kunit_array_gen_params generating function, fixing the issues
+>   with generator functions which skip array elements.
+> 
+> Changes in v3:
+> 
+> Link to v2 of this patch series:
+> https://lore.kernel.org/all/20250811221739.2694336-1-marievic@google.com/
+> 
+> - Added logic for skipping the parameter runs and updating the test statistics
+>   when parameterized test initialization fails.
+> - Minor changes to the documentation.
+> - Commit message formatting.
+> 
+> Changes in v2:
+> 
+> Link to v1 of this patch series:
+> https://lore.kernel.org/all/20250729193647.3410634-1-marievic@google.com/
+> 
+> - Establish parameterized testing terminology:
+>    - "parameterized test" will refer to the group of all runs of a single test
+>      function with different parameters.
+>    - "parameter run" will refer to the execution of the test case function with
+>      a single parameter.
+>    - "parameterized test context" is the `struct kunit` that holds the context
+>      for the entire parameterized test.
+>    - "parameter run context" is the `struct kunit` that holds the context of the
+>      individual parameter run.
+>    - A test is defined to be a parameterized tests if it was registered with a
+>      generator function.
+> - Make comment edits to reflect the established terminology.
+> - Require users to manually pass kunit_array_gen_params() to
+>   KUNIT_CASE_PARAM_WITH_INIT() as the generator function, unless they want to
+>   provide their own generator function, if the parameter array was registered
+>   in param_init(). This is to be consistent with the definition of a
+>   parameterized test, i.e. generate_params() is never NULL if it's
+>   a parameterized test.
+> - Change name of kunit_get_next_param_and_desc() to
+>   kunit_array_gen_params().
+> - Other minor function name changes such as removing the "__" prefix in front
+>   of internal functions.
+> - Change signature of get_description() in `struct params_array` to accept
+>   the parameterized test context, as well.
+> - Output the KTAP test plan for a parameterized test when the parameter count
+>   is available.
+> - Cover letter was made more concise.
+> - Edits to the example tests.
+> - Fix bug of parameterized test init/exit logic being done outside of the
+>   parameterized test check.
+> - Fix bugs identified by the kernel test robot.
+> 
+> ---
+> 
+> Marie Zhussupova (7):
+>   kunit: Add parent kunit for parameterized test context
+>   kunit: Introduce param_init/exit for parameterized test context
+>     management
+>   kunit: Pass parameterized test context to generate_params()
+>   kunit: Enable direct registration of parameter arrays to a KUnit test
+>   kunit: Add example parameterized test with shared resource management
+>     using the Resource API
+>   kunit: Add example parameterized test with direct dynamic parameter
+>     array setup
+>   Documentation: kunit: Document new parameterized test features
+> 
+>  Documentation/dev-tools/kunit/usage.rst | 342 +++++++++++++++++++++++-
+>  drivers/gpu/drm/xe/tests/xe_pci.c       |  14 +-
+>  drivers/gpu/drm/xe/tests/xe_pci_test.h  |   9 +-
+>  include/kunit/test.h                    |  95 ++++++-
+>  kernel/kcsan/kcsan_test.c               |   2 +-
+>  lib/kunit/kunit-example-test.c          | 217 +++++++++++++++
+>  lib/kunit/test.c                        |  94 +++++--
+>  rust/kernel/kunit.rs                    |   4 +
+>  8 files changed, 740 insertions(+), 37 deletions(-)
+> 
+> -- 
+> 2.51.0.261.g7ce5a0a67e-goog
 > 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250828165427.GB10073%40unreal.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aLCKPieOlM8dD858%40J2N7QTR9R3.
