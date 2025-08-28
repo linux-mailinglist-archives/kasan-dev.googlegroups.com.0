@@ -1,163 +1,159 @@
-Return-Path: <kasan-dev+bncBDZMFEH3WYFBB6GMYDCQMGQEZDCQI3A@googlegroups.com>
+Return-Path: <kasan-dev+bncBDDL3KWR4EBRBZHFYDCQMGQEPPRUMXQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83b.google.com (mail-qt1-x83b.google.com [IPv6:2607:f8b0:4864:20::83b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ABD4B398C0
-	for <lists+kasan-dev@lfdr.de>; Thu, 28 Aug 2025 11:50:50 +0200 (CEST)
-Received: by mail-qt1-x83b.google.com with SMTP id d75a77b69052e-4b109affec8sf19274841cf.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 28 Aug 2025 02:50:50 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1756374649; cv=pass;
+Received: from mail-qv1-xf39.google.com (mail-qv1-xf39.google.com [IPv6:2607:f8b0:4864:20::f39])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAE69B39A7E
+	for <lists+kasan-dev@lfdr.de>; Thu, 28 Aug 2025 12:43:49 +0200 (CEST)
+Received: by mail-qv1-xf39.google.com with SMTP id 6a1803df08f44-70ba7aa13c3sf26565356d6.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 28 Aug 2025 03:43:49 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1756377828; cv=pass;
         d=google.com; s=arc-20240605;
-        b=XHkbJUQc44Bat2VvvsEqmZMwh+vWd6eIDF0RVESo3a6Pkc9o1HsvPSU1qOwrCw7rAD
-         y3ayu0T4VyWnWeEsSFnXqkKkav5zLu1fCP8ys+yylxQNWzNpwUvG6hgeJlwCSVL/M1yp
-         mb8ZALkwhhQszEnioGlYq9lL2h3T0spYctDit6iOcUhhPJI4pob7lUhoCHqDaa/FyY77
-         7pOGjcisxNsnLEr3tNP6TNlxyF/vQqBRSPrb4vbF6U7i+oK8/1VPBJRqldtNxXVtnyfy
-         mv06JcKq8O3wqFyRPrfKrqaxcBrp2TrB0+Z+SvNch2Abqp1gkHzmJH4InQVg5ywIc6+t
-         3Mvw==
+        b=TKAiV4VuB04RtYFX2GVxbly3HfDpi8I2dpTMyY9grYYV+b7uLE6VLvNiMgNeG7NDmz
+         RvLdSYIN0DOI7JoFGDgo0mRfI9uKfU2Qt2g77kXGogvtvw+CzFDC/FHteroammbMdryp
+         R6ANNmFCuyv1odTqrGitlDYIKTiqWXT5ZdDW6G5QJav7TaGpCj6cROpqe84mRUscowTD
+         lY2KfBAI0Aet4g1k1vetXncQR17DCDFiA8rnw6XcKzVAREXNDkyISEDPAWRCxOyG9I+I
+         TDWpYklxNuaPru+vQPz28GWbmFXf0HwPlvRWZz+eRAaBruMUStre5PwrFOvXls6VRWeG
+         T5wQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=wXCKmd+58VOWwA79QLL9zg4babbeQLjF7WY2kTKL6uk=;
-        fh=DFY6177O+Vf6S/KAMJ9N3xs6vLMBA4SQCT+qA8qXTFQ=;
-        b=hAgwJEUtospXf1LXUpMxsJyrZaOuXF9EZImz6BWVBd0YLT3un+E3bQ2fsJff01C+qq
-         9QX6mrbPV2ip5V2BxPdaWmOyR5xoxJdC6IWfVqzTT80aYBwE3Qx1Ce2+orZ/JT5aFIYb
-         1/lXbVj4Z6IIvd4voioKl9C0LeETBHha8Jb7hOUrrAjUn3by5yHWEuV2D+CyvXy+JZla
-         z0EwYJvakM2VNC4aropysKnX4Ngi6ipYZQzbuw943e4QfJC/CUq64EBBf+rD4+8PBG8o
-         3KkCPjhXb9t0LYCoE1ZlanROMGp+ohyTUKqzUGNs4/5TcMCkQMKfcmdEcMfsXOJAFxlD
-         9sUg==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=bYUbMLPX/Pq76+ev/nUlnTn4eWoXDHBkyhlIWIDi9VM=;
+        fh=j82AFhzW9wZ61Flz373v5Smv1Gdow5VHlHALKJdjy7A=;
+        b=Ul1zfnE99dDTbTCSxbgbMh78kXAkeg1peZuziqicGAvqb2pFFasSbV2aWqDJtFTMHO
+         9+MEB2oJhM46r2zUZHjSm+mgP83V1tmbSH+NxeqqXxn5wByJ+CHz9hF8bBfHSHTWRrqr
+         U2LbS8JvLtKX0oeZXtcEi+bvSTVhMgEXI30N198Nnu/13c3Ht0NzT4iPf/MXbML4DdwZ
+         jmZ2XQP/72wYb2nY4fKHNhs/bhFporXw1UcDjKWsfV7l3zaSEV3TTpwVnA9/08jF0fB4
+         hMA9gfZkAZvTxySZ/Filasm+E+FaXvVW+tplXLfBiCP4q88fV6hQ0X0tkW8MBpR5c+cb
+         6oFA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=VtsLfDMM;
-       spf=pass (google.com: domain of rppt@kernel.org designates 172.105.4.254 as permitted sender) smtp.mailfrom=rppt@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1756374649; x=1756979449; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1756377828; x=1756982628; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wXCKmd+58VOWwA79QLL9zg4babbeQLjF7WY2kTKL6uk=;
-        b=Pv3pht2tAYcGOr+xkLx4XMK14enKVe6HDbdelN6gDEelEpCD/kolJcVx6fmFrLcSgi
-         2dOcNYwkMJqhfc+YcvqXF1Ka5wF6E+nxNFJnkoxvRv4IhAVfb7g/HyHbUBp9NhgvsAbv
-         mdgoKpcCHLGnuywMzz7T4xw1z5LC9jttofUYjR6nL9duCUbjphB+JAZvMQtT9hq3jNXr
-         mEdcYUpo48RyV2CqgdOH2ROnsEYPyOQhpFupRhO7jDNTAETJcgdlBbGcM2+t66tCuan5
-         hEzlbsewrHrVU9RfWdqJCz2hfRvTMv4iWqAfKpgxSo+afqcDyxSQUoe9UCJdkfoRcWp3
-         ehLA==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bYUbMLPX/Pq76+ev/nUlnTn4eWoXDHBkyhlIWIDi9VM=;
+        b=PRMkxYDtdqGV1aGtJl9baKpPuo9yAezvt5NhvzOvqO7zNO/g6TUdXjYrznHUlRXic/
+         YCaD0aFZLlRfx53ChjD1g1UcPX1iJD7v2mKXFS56ebAXlIBXxvawSbsRnNMfzKQsIGwO
+         QvIti74DlyK58tObFX9pEq8szShT0rCcCIS46IFRI5StVlp+6ZwdB2BQFY9T7FGEA/n9
+         B1aY5OPFKCVPhkE4+H9n6NPCgVpYH2+3x53SrOps59LL/sJgZv0A8nVG7bfsr/esasMp
+         CzHvkJeyfY0FQisSlYJN5yYwbpPZauARCwTRf/RF0ewl3VrTgxWNaKRkI6YhrhZJz86X
+         nooA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756374649; x=1756979449;
+        d=1e100.net; s=20230601; t=1756377828; x=1756982628;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wXCKmd+58VOWwA79QLL9zg4babbeQLjF7WY2kTKL6uk=;
-        b=vbxABRKm3nM/dJfDteF7oLwb6n5WKeqQTD+Btt6qq6bJkPX6EjxWXzezMWvGgMywF6
-         gpqBqfmU/iz62VpsKmlsb70XRRNx9j5G87Gd+OEqriI/3ImY7Nh3zGgIesfBCnFs2SBr
-         oQ9Mr07T7GvSHcjJxNfrfAhzxFv8fSFgUFwsdgFW9+bZG774hZHrpJXaPP6vNRUv3Ibs
-         ZPGEJ8HMGhfF3oNej1yMSt4b9pRpQ2QBmaH6UrERMEamUevRmuMRqntstuoHCHTvgetz
-         JbvmzTCnjzPK5rMh7rQL5sODvoxe4x2rMRwBFehYEE3H3E2IV+hUzrpFSyqJh3elLeqg
-         kOyQ==
-X-Forwarded-Encrypted: i=2; AJvYcCV95gsapLfxZyh4kXyQRJSQzTxhnST6l35yVVQW+Jv9swHklK70hKXVriHNI8vh7p9uhVhoTQ==@lfdr.de
-X-Gm-Message-State: AOJu0YyVa4LYTCFnq4Lynob0M4wfPii/jyV0gdtPycAvtbraJzxsA+RC
-	6mK9/6KV1frWDkGQWez1GYV4s208oAIR2azmy3euTsWPp72StnVhafHb
-X-Google-Smtp-Source: AGHT+IGhim+MYSsyRfTU6Wgm4nbvp37JttYYVES48iLt1jB8wwDUxc/zbrYaTv2XWrCUT8ScZ0zbJg==
-X-Received: by 2002:a05:622a:1b0f:b0:4b0:82d9:7cb5 with SMTP id d75a77b69052e-4b2aaa2d0f1mr263565871cf.26.1756374648921;
-        Thu, 28 Aug 2025 02:50:48 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfVMAJawj3795AlAhdAa8bKlcxL/Zosi1swwnbUJ4bcXg==
-Received: by 2002:ac8:590e:0:b0:4b2:deda:ce94 with SMTP id d75a77b69052e-4b2fe8da446ls8432541cf.2.-pod-prod-02-us;
- Thu, 28 Aug 2025 02:50:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWcL5CeQRf2ZybqqAtYirK9pZnw5Sin+zN1baITRprpIHJ1dHbXpjyr1XsNC23ZhpQG/5UiscKxyFQ=@googlegroups.com
-X-Received: by 2002:a05:622a:540b:b0:4b3:27e:72d8 with SMTP id d75a77b69052e-4b3027e7eebmr12333871cf.40.1756374647688;
-        Thu, 28 Aug 2025 02:50:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1756374647; cv=none;
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bYUbMLPX/Pq76+ev/nUlnTn4eWoXDHBkyhlIWIDi9VM=;
+        b=SqB0g5FnmahYlHBR2jTEfcH8JXZhMvh326K8hRy7m+wahLU/JKH9Ct+rxj/P0fhmil
+         4+HJOHqovZ00mHyLWVyu77GS+W/6aX6BM+dYMEpM47NDnVnu5MxcT5i3zcstJQgkQ7Tk
+         GgOpJ3Cg+PUE0W/6H9lxsGLY2lGHHgXVXOau6Ax/DSssfF3xNDWY1OO4BYjbF5rXR5V7
+         WSV4TdxUhA3aF8iIFdUOd6WwdadfZnXwsCedndOgVnQ+pwxYKOtIJLUVyVSdrLyJ9BhO
+         SJXp8q1b3NjBnVJ3yDNotKutfAwvLLVPYLtoGSAeu/3pt6iBP1KrCEcMLDYqDuJ5uerF
+         b+ug==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCVTNHUFSEYiWcyimSfGOTZo8BeUkTs4Ui9DCpfh3xbySJvSaQGhEYURFrqDr8R9ozzyaevsbg==@lfdr.de
+X-Gm-Message-State: AOJu0Yx9sYeAI4+u98Oe8b9+PK8UJrdm/PaUyugDMm0iTwiJkv7dd7ps
+	rmJ4elWaVsMOMqxM+MFx2znotgirbcvXvIbzTAW+p73dA/YD9ePdzhio
+X-Google-Smtp-Source: AGHT+IHCcRxsep5hz3UbUkTU4AdjQHIukNOFiFaDxSnNF0xeMMGvmcS+c64rgq0IkMtS4PkXrSSlLA==
+X-Received: by 2002:a05:6214:e69:b0:70d:afde:8784 with SMTP id 6a1803df08f44-70dafde8dc9mr183764266d6.26.1756377828638;
+        Thu, 28 Aug 2025 03:43:48 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfk1X9oyfOjjifmwUof8uZ/8zIAwJT7+mHS7+CEEkwu7w==
+Received: by 2002:a05:6214:3016:b0:709:f373:9f9e with SMTP id
+ 6a1803df08f44-70df009ec34ls9348966d6.0.-pod-prod-04-us; Thu, 28 Aug 2025
+ 03:43:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCU1+5URP3iqBij2P0TT9pCkiJZmCVw5YXC2QgtUaScxn6VQ63LvBQytTIB/NcAJ+RSSS2p+nPejmq4=@googlegroups.com
+X-Received: by 2002:a05:6102:c08:b0:521:f809:9969 with SMTP id ada2fe7eead31-521f8099cb2mr5109043137.8.1756377827759;
+        Thu, 28 Aug 2025 03:43:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1756377827; cv=none;
         d=google.com; s=arc-20240605;
-        b=QpdMiU2dpHCQO4pIJQJhdpfBwHXpBJK9Pqjhe8jdLQPgJiSrbaCTRiUBCzG0bPgBsC
-         VKq0x8ci7cgSZkfO3158sR47nEZrXxfERkk/lYLOw0F71kg6LUMxRWywyU2yi9ovkK18
-         9sl64PUEtsYyj2U+mUIei71QwnJYMmyR08DsE6+NxZWXxT+i/GPadUFQYgPtIRDCOxhP
-         QeF8Q0nHai3Vr9kfmm2M4FuEj7fST7RbRyNoJxFH9tjL7xq8Des1Xwq4ygF0H2y3GPQG
-         NCgkyQeCDwUldRoBWK16zlcXhja3LTz5nwCKIC9r5wZNtORw4+WZP9qT6Ir3+QR7xYWS
-         uLQg==
+        b=Yuz+wzjl1rnsI2e7+NROxJZUVAVaeY0Tphj/+HH0dvIhbns93sR1SOm5qSAQJFXjBJ
+         yR2NQ7ZMV0yqZZEx6NWZ4aoQ8GXZ0N/doTCbArl2Sn6CVN8w3nQoxOdhZDgb+LFxwom4
+         /OzmMALBqwlIV7K4dJ5kEV9WU2N/26r0iQVhCms8HPurzbpHroJIJMyyxQNp2kkq9n2G
+         5bZAmWLPG39Ewpe+h4I8IaRpACVUD+w/nHXp2hl7zk6KfTYKkbmZKyrFA6I6iKn9IGZa
+         ZHgG05DJUwKPEmktI14gbJ9wwSDxSoP4qsTeJ5rhzsZ6FB1GFikMxCEQmTPMGNIdli+m
+         UQaA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=OWMmShU4ImOjLSMeztpkWV2T1IIAbIIXzuHR+ONfz1E=;
-        fh=at7K52t9JiAlP81txEpmPy6YN/OwkiVzI8mnb2CenhY=;
-        b=EQlT9+jtAfQGcmEcXCsVLaCrXK2v89MKmMYRewK71rLa9MIyfHhHaejWnX57Ws1TsD
-         zlZE+IYwuwV8fAEZnj2Fj/VdidhetYBT7HYikFL3YhZn0zmRJzZLWrtzuQdrkdDlhriz
-         Q6kLQX8b1uHGDMrLXmSf6NSUYt8rwvgIRLAY9Yu5wNtWRqxg0+z6VflJOIRDEtMIimiX
-         SVAQWqFA+noJ7fNni3TkjeCd8kdvZk+5FgbJBM0F9ky6NPmqdJnsK5W1P+VT3h+ByEFh
-         Zs25+WtvNZf015SVoysd3Rj7LxZ+4dPlAmblJMcdidKDeBOB/9KjxzQK4jYYExSE71oj
-         cabg==;
+         :subject:cc:to:from:date;
+        bh=OsWKyS8lqER0Tz1n2hSl101cY0gnWMD3HdL+I/Wazi8=;
+        fh=ywTX4AlbiVxu+MU4mcxpyWFYl1ZLGQDdyYHPei8QJzA=;
+        b=TB/tIM4BIYePaV5sHvWCF1Pbt2IbAKcdrEKWeBlQikNFXqZLYhnfotIyn+F10SC9P1
+         hiawRfZKRSlqkUkRcAFdGDduTIVzUo+2ftkAFm0t32J3u7gYJlmc32mtRde1OBormqzT
+         0tk3gf63kjCdlxYjlBaj/xggb2z/8CHxIXVCVtFpRMBGSBe+9KVB4uKcCvkI8yPh/9ym
+         2LHvaOktnUF84RMAM9t/Duv9Jh1pPUbrcAOHiLweJ6RNj5QusQz2v9BnPU17T7rj7tx4
+         SkTV8VbZeHodofu4Sds+8XP4cvqDWWHlrNUJyrKYW6RKYWp5bZOdpOpLs8PpbPQbjfqs
+         9YNw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=VtsLfDMM;
-       spf=pass (google.com: domain of rppt@kernel.org designates 172.105.4.254 as permitted sender) smtp.mailfrom=rppt@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from tor.source.kernel.org (tor.source.kernel.org. [172.105.4.254])
-        by gmr-mx.google.com with ESMTPS id af79cd13be357-7fad4ebd372si2125985a.2.2025.08.28.02.50.47
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from sea.source.kernel.org (sea.source.kernel.org. [172.234.252.31])
+        by gmr-mx.google.com with ESMTPS id a1e0cc1a2514c-8943398312csi14573241.1.2025.08.28.03.43.47
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Aug 2025 02:50:47 -0700 (PDT)
-Received-SPF: pass (google.com: domain of rppt@kernel.org designates 172.105.4.254 as permitted sender) client-ip=172.105.4.254;
+        Thu, 28 Aug 2025 03:43:47 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 172.234.252.31 as permitted sender) client-ip=172.234.252.31;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id C9D12602CD;
-	Thu, 28 Aug 2025 09:50:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2032C4CEEB;
-	Thu, 28 Aug 2025 09:50:22 +0000 (UTC)
-Date: Thu, 28 Aug 2025 12:50:19 +0300
-From: "'Mike Rapoport' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-Cc: sohil.mehta@intel.com, baohua@kernel.org, david@redhat.com,
-	kbingham@kernel.org, weixugc@google.com, Liam.Howlett@oracle.com,
-	alexandre.chartre@oracle.com, kas@kernel.org, mark.rutland@arm.com,
-	trintaeoitogc@gmail.com, axelrasmussen@google.com,
-	yuanchu@google.com, joey.gouly@arm.com, samitolvanen@google.com,
-	joel.granados@kernel.org, graf@amazon.com,
-	vincenzo.frascino@arm.com, kees@kernel.org, ardb@kernel.org,
-	thiago.bauermann@linaro.org, glider@google.com, thuth@redhat.com,
-	kuan-ying.lee@canonical.com, pasha.tatashin@soleen.com,
-	nick.desaulniers+lkml@gmail.com, vbabka@suse.cz,
-	kaleshsingh@google.com, justinstitt@google.com,
-	catalin.marinas@arm.com, alexander.shishkin@linux.intel.com,
-	samuel.holland@sifive.com, dave.hansen@linux.intel.com,
-	corbet@lwn.net, xin@zytor.com, dvyukov@google.com,
-	tglx@linutronix.de, scott@os.amperecomputing.com,
-	jason.andryuk@amd.com, morbo@google.com, nathan@kernel.org,
-	lorenzo.stoakes@oracle.com, mingo@redhat.com, brgerst@gmail.com,
-	kristina.martsenko@arm.com, bigeasy@linutronix.de, luto@kernel.org,
-	jgross@suse.com, jpoimboe@kernel.org, urezki@gmail.com,
-	mhocko@suse.com, ada.coupriediaz@arm.com, hpa@zytor.com,
-	leitao@debian.org, peterz@infradead.org, wangkefeng.wang@huawei.com,
-	surenb@google.com, ziy@nvidia.com, smostafa@google.com,
-	ryabinin.a.a@gmail.com, ubizjak@gmail.com, jbohac@suse.cz,
-	broonie@kernel.org, akpm@linux-foundation.org,
-	guoweikang.kernel@gmail.com, pcc@google.com, jan.kiszka@siemens.com,
-	nicolas.schier@linux.dev, will@kernel.org, andreyknvl@gmail.com,
-	jhubbard@nvidia.com, bp@alien8.de, x86@kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
-	linux-kbuild@vger.kernel.org, kasan-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 07/19] mm: x86: Untag addresses in EXECMEM_ROX related
- pointer arithmetic
-Message-ID: <aLAmW-UV6hv9k1LT@kernel.org>
-References: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
- <c773559ea60801f3a5ca01171ea2ac0f9b0da56a.1756151769.git.maciej.wieczor-retman@intel.com>
+	by sea.source.kernel.org (Postfix) with ESMTP id B18064361B;
+	Thu, 28 Aug 2025 10:43:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E7A7C4CEEB;
+	Thu, 28 Aug 2025 10:43:39 +0000 (UTC)
+Date: Thu, 28 Aug 2025 11:43:36 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org,
+	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Brendan Jackman <jackmanb@google.com>,
+	Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>,
+	Dmitry Vyukov <dvyukov@google.com>, dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org, iommu@lists.linux.dev,
+	io-uring@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>,
+	Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
+	John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
+	kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
+	linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Marco Elver <elver@google.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+	netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
+	Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
+	Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+	virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+	wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH v1 02/36] arm64: Kconfig: drop superfluous "select
+ SPARSEMEM_VMEMMAP"
+Message-ID: <aLAy2GJ9YuNgvxCd@arm.com>
+References: <20250827220141.262669-1-david@redhat.com>
+ <20250827220141.262669-3-david@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <c773559ea60801f3a5ca01171ea2ac0f9b0da56a.1756151769.git.maciej.wieczor-retman@intel.com>
-X-Original-Sender: rppt@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=VtsLfDMM;       spf=pass
- (google.com: domain of rppt@kernel.org designates 172.105.4.254 as permitted
- sender) smtp.mailfrom=rppt@kernel.org;       dmarc=pass (p=QUARANTINE
- sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: Mike Rapoport <rppt@kernel.org>
-Reply-To: Mike Rapoport <rppt@kernel.org>
+In-Reply-To: <20250827220141.262669-3-david@redhat.com>
+X-Original-Sender: catalin.marinas@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of cmarinas@kernel.org designates 172.234.252.31 as
+ permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail (p=NONE
+ sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -170,94 +166,18 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Aug 25, 2025 at 10:24:32PM +0200, Maciej Wieczor-Retman wrote:
-> ARCH_HAS_EXECMEM_ROX was re-enabled in x86 at Linux 6.14 release.
-> Related code has multiple spots where page virtual addresses end up used
-> as arguments in arithmetic operations. Combined with enabled tag-based
-> KASAN it can result in pointers that don't point where they should or
-> logical operations not giving expected results.
+On Thu, Aug 28, 2025 at 12:01:06AM +0200, David Hildenbrand wrote:
+> Now handled by the core automatically once SPARSEMEM_VMEMMAP_ENABLE
+> is selected.
 > 
-> vm_reset_perms() calculates range's start and end addresses using min()
-> and max() functions. To do that it compares pointers but some are not
-> tagged - addr variable is, start and end variables aren't.
-> 
-> within() and within_range() can receive tagged addresses which get
-> compared to untagged start and end variables.
-> 
-> Reset tags in addresses used as function arguments in min(), max(),
-> within().
-> 
-> execmem_cache_add() adds tagged pointers to a maple tree structure,
-> which then are incorrectly compared when walking the tree. That results
-> in different pointers being returned later and page permission violation
-> errors panicking the kernel.
-> 
-> Reset tag of the address range inserted into the maple tree inside
-> execmem_cache_add().
-> 
-> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-> ---
-> Changelog v5:
-> - Remove the within_range() change.
-> - arch_kasan_reset_tag -> kasan_reset_tag.
-> 
-> Changelog v4:
-> - Add patch to the series.
-> 
->  mm/execmem.c | 2 +-
->  mm/vmalloc.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/mm/execmem.c b/mm/execmem.c
-> index 0822305413ec..f7b7bdacaec5 100644
-> --- a/mm/execmem.c
-> +++ b/mm/execmem.c
-> @@ -186,7 +186,7 @@ static DECLARE_WORK(execmem_cache_clean_work, execmem_cache_clean);
->  static int execmem_cache_add_locked(void *ptr, size_t size, gfp_t gfp_mask)
->  {
->  	struct maple_tree *free_areas = &execmem_cache.free_areas;
-> -	unsigned long addr = (unsigned long)ptr;
-> +	unsigned long addr = (unsigned long)kasan_reset_tag(ptr);
+> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Thinking more about it, we anyway reset tag in execmem_alloc() and return
-untagged pointer to the caller. Let's just move kasan_reset_tag() to
-execmem_vmalloc() so that we always use untagged pointers. Seems more
-robust to me.
-
->  	MA_STATE(mas, free_areas, addr - 1, addr + 1);
->  	unsigned long lower, upper;
->  	void *area = NULL;
-> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-> index 6dbcdceecae1..c93893fb8dd4 100644
-> --- a/mm/vmalloc.c
-> +++ b/mm/vmalloc.c
-> @@ -3322,7 +3322,7 @@ static void vm_reset_perms(struct vm_struct *area)
->  	 * the vm_unmap_aliases() flush includes the direct map.
->  	 */
->  	for (i = 0; i < area->nr_pages; i += 1U << page_order) {
-> -		unsigned long addr = (unsigned long)page_address(area->pages[i]);
-> +		unsigned long addr = (unsigned long)kasan_reset_tag(page_address(area->pages[i]));
-
-This is not strictly related to execemem, there may other users of
-VM_FLUSH_RESET_PERMS.
-
-Regardless, I wonder how this works on arm64 with tags enabled?
-
-Also, it's not the only place in the kernel that does (unsigned
-long)page_address(page). Do other sites need to reset the tag as well?
-
->  
->  		if (addr) {
->  			unsigned long page_size;
-> -- 
-> 2.50.1
-> 
-
--- 
-Sincerely yours,
-Mike.
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aLAmW-UV6hv9k1LT%40kernel.org.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aLAy2GJ9YuNgvxCd%40arm.com.
