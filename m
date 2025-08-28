@@ -1,230 +1,256 @@
-Return-Path: <kasan-dev+bncBCP6VKGCU4PBB5FLYPCQMGQE4X7C5VQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCN77QHK3UIBBLOUYPCQMGQEHDS57EY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf37.google.com (mail-qv1-xf37.google.com [IPv6:2607:f8b0:4864:20::f37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7379DB3AD61
-	for <lists+kasan-dev@lfdr.de>; Fri, 29 Aug 2025 00:19:33 +0200 (CEST)
-Received: by mail-qv1-xf37.google.com with SMTP id 6a1803df08f44-70de169afa2sf34748176d6.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 28 Aug 2025 15:19:33 -0700 (PDT)
+Received: from mail-yw1-x1140.google.com (mail-yw1-x1140.google.com [IPv6:2607:f8b0:4864:20::1140])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C4FBB3AE84
+	for <lists+kasan-dev@lfdr.de>; Fri, 29 Aug 2025 01:45:51 +0200 (CEST)
+Received: by mail-yw1-x1140.google.com with SMTP id 00721157ae682-71fea0dac4fsf20481227b3.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 28 Aug 2025 16:45:51 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1756424750; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=bn1ItMqagGIkMpMSUuHsy+urKklw6fisMWse3Ecq53rlCfH7+k5lBgxTgf8Pc7wdvo
+         fvBGHSPjdZ8lT02BqTW4EvuT3AwET/CqIJ8WZ1aunYct+QMWkamrhg6bWq/ckN4lJ5np
+         ZSFBqL2CXF4jRBrPrDi1G5MzK1dYpeBoQNlc/z+ZkUh3dAfZFfEkk1Ltc+96pNq1J5RP
+         t6HXy3zbE3VTbZc0KQU1NSTmNojzqqbZF9GS/bG0pP15asgWi5ncVLb+Fz3AVxBo+mJS
+         Mk79im/RSwzQFlo3dmLottMmN6tUhPuZUrpfSmW+JGRnJGLvcax09Op6UDrz4QLAdIGw
+         u1lQ==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:reply-to:mime-version:in-reply-to
+         :content-disposition:references:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=SOvmDv8jg/DLUQp2mGxUkgv7q1pEwaQc0nJF55hOmho=;
+        fh=OPfDQJpYWxAjUoDhwXFKCvX5y5vdGrRY6WzHi72zx3U=;
+        b=O40d8Wb/dynCv/TJM1QdFZyixTMRLB9wfmKJhU5bWtqBEE99fpn1RRlj3+P3xh2MJM
+         K91v/DgTFL5ESbdPUZ1OCBeakBXg01ulm7a2F2Xg8lpGsKQRKNW/nXERsTJJvp4jxAGA
+         EX66kEZqkNpOmiA249fW2wdvsxs5PXOw+sbQ8pFH4OJOOC/XzgVwZeaQXvyCK8k8EGiK
+         vBjwRq2lZvz6cwXOI9VjzaXNXNOCAiW/TI7DmIldBkKg+aFE3rgnZSuUKnpFSGkAl0Gb
+         0Ib+LaW/1kOi+csH9XcoGARHtTw+8b0LW+YH96hdHSKtILkXwwF6HOeNij47P3oF5Nue
+         XaWg==;
+        darn=lfdr.de
+ARC-Authentication-Results: i=3; gmr-mx.google.com;
+       dkim=pass header.i=@Nvidia.com header.s=selector2 header.b=VxRX8y7v;
+       arc=pass (i=1 spf=pass spfdomain=nvidia.com dkim=pass dkdomain=nvidia.com dmarc=pass fromdomain=nvidia.com);
+       spf=pass (google.com: domain of jgg@nvidia.com designates 2a01:111:f403:2417::60f as permitted sender) smtp.mailfrom=jgg@nvidia.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=nvidia.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1756419572; x=1757024372; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1756424750; x=1757029550; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:in-reply-to:content-disposition
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=40is4+qwC9Lvr5BKvRqbdWzn4InLVed9TgD4huS7+B4=;
-        b=Pr5GWRxs/cMrz1kkNMjjhWRHYnW45PiOqu5CRbrYGMDSxXe3z/M6Z/VTor+Xmhvsak
-         y3VVEIjR1gOmWuPqWiIS8Lw011t92Q1zB3pQ9K+Vd5ZEvWnH6pt7ddvQah3maieQJvgx
-         EugI6WGPS3R56FiMTD+2dQFiNzBejNPltjAaK+Wb7sJmiwIZfZGbwD83YT339aGEUvOF
-         fPhLMwKMImMG6JvUIepNEsdFealb3IxC1jD9izHAmKF91fmv2s/FsPGpNIMwJgdtIEO1
-         xlmgzbKKn513yNjK4egQPrKPHxEQo18EPw/7bG5lqxpUUQ7D6ChLGij+Bx+/xfPHN1ST
-         hb6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756419572; x=1757024372;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :in-reply-to:content-disposition:references:message-id:subject:cc:to
-         :from:date:x-beenthere:x-gm-message-state:sender:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=40is4+qwC9Lvr5BKvRqbdWzn4InLVed9TgD4huS7+B4=;
-        b=Gs1p6ZhX9aGEzFRoyAMBpO9AMtKXF83MgPQD9Cx8GQbj+QaDnUzR3v3oyGWymE/BAc
-         ki/9x0HpH+LhQChbtPhpq8nTBjlsn8Ki5+fLzJVZT5rZBwXFhB3WG0IQjbiwa7XwQ+oi
-         CXNUE7H1hvdTNudTaONUG8PhtIupNQMjxKmGh0qshUieC+JpYtCFmbiGS2qhdInZsgMt
-         BFHwlCLWBz9kcNMUiMxY3Hx9/YsG4ARpdhqTx8NKAYWGZCUIoNpbDyIY4elL9Snrf38j
-         ANV1Jl7901SMD9MX56dfoKoIiKGoNNGFkgTEPgzPiTMwkLEuaJM3mktDCt3h659YyDFX
-         RwRw==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=3; AJvYcCXKIxnc7Jq0bKo+Us/7jKCaIGdiepykix8nvHG/NSjMRsxixoy6jozCskKcJFU+g2323qgrGw==@lfdr.de
-X-Gm-Message-State: AOJu0YzbKkK9Zu0QoND+t4halUlTjGXmmubm7j2FyAsC2pi0IJbEmIDt
-	15UWl15ztxel1kkQ4xFTNCy+1GBS3pKrz6QLVMg0E1CYHsTVCUBE4UgR
-X-Google-Smtp-Source: AGHT+IECLmP6JBsH4YflhqClvPzf38rqigEfq6XVTphoCnZRSCtQ8s1wPpqh+TKeYLdzhZHFXPuneA==
-X-Received: by 2002:a05:6214:f67:b0:70d:feb0:1dc8 with SMTP id 6a1803df08f44-70dfeb02475mr21941256d6.26.1756419572196;
-        Thu, 28 Aug 2025 15:19:32 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZf96G2N5HBDydC1AkDLCcLvziPOaBAimeiZ8ahozWYpqw==
-Received: by 2002:a05:6214:19e6:b0:70b:acc1:ba52 with SMTP id
- 6a1803df08f44-70df041b4b3ls22860536d6.2.-pod-prod-02-us; Thu, 28 Aug 2025
- 15:19:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=3; AJvYcCVAioszi3Iyr67Ou2OdHZsz0HwxGJupTNEoGENqiHnnGPShNwqlH2uyPQQT5aRL5AHqq8n6fCOG0lA=@googlegroups.com
-X-Received: by 2002:a05:6214:5191:b0:70d:6de2:50c5 with SMTP id 6a1803df08f44-70d9737373emr291898896d6.66.1756419571388;
-        Thu, 28 Aug 2025 15:19:31 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1756419571; cv=fail;
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SOvmDv8jg/DLUQp2mGxUkgv7q1pEwaQc0nJF55hOmho=;
+        b=JQ6VAtekiMFRPGY+N7Jxr9pH8kIyyzZV6kLH0t6QB3xLiGTNzNBa+SM6/40GoLCBXz
+         NL9eLBG/QdUp6L+BmJ6a7W/g0+mRf4EfFdJ7rcc6y16SHIkzMKwRd4B6sV823JZkh7e7
+         Ywqn0BmfmndoOHpG9VITQydn9pq+Bz8k/F9p4kOFE/jiscFJhOmHD9nj3hUi42abRN6T
+         +gK37bOtKmYuNv5W7TZD/2t0ggeBqXPz+5vNAoddSbCHECIYGFO+13E5NeUI6UI6cl7/
+         MZjwg40YzHNzs27wIN0X9jug/0/xhdq9AUp3NrRya8eRBeBQevh526moujbHkDTegLhk
+         sRxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756424750; x=1757029550;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :in-reply-to:content-disposition:references:message-id:subject:cc:to
+         :from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SOvmDv8jg/DLUQp2mGxUkgv7q1pEwaQc0nJF55hOmho=;
+        b=W0nx/TFNhCMCVcA6D3kx0jH8OeqQpxZtufZ9aeHds7ZYrkaHZTBRWYA7eSYlqLVguw
+         2LsBK974XsP3ohce5KDKR/+3n3FNso/9UsMgPAuNQImTJloEPUapO9G4pd3m1PtEeeXB
+         8R98eWZ47upas8Zllcj/nE05MXzUIg13ysV0Z9XeD8HbK4THwwjMSej3tjqd+1ya7pLv
+         yIq0RkaPjOX5PRQYWHdKukPDeQ9FrbYdNOsl9f+CSjG3DdLowHXGPM9AW/XnnZRPgmnp
+         d2Suj1uXFRdPZ21Os3D2lUsbamvtUS9HgfUT9kFL+2ICjrb70Wem/5kXqnEbjbOgoKDk
+         UBoA==
+X-Forwarded-Encrypted: i=3; AJvYcCUt7JnLrlYwhEV9UdT/T53pPC6NRL2ATl3W65FGBLZ4VjgEkNG86EOAj65TsYGRlMkGu2npuw==@lfdr.de
+X-Gm-Message-State: AOJu0YzxW+u3Hk9qpCbNO8dFkPBwGitKSm1B132GLXLET+BrgHUJA0A0
+	lpfTGV+Suuwhq/S0prcvS21l7pYh7Vw6jT1b+l7nu5SsjQ+6aZOuM6a4
+X-Google-Smtp-Source: AGHT+IHajh9COoyVRN/LFhsA2jFhVl6IBQOHhBHUEaErDAZqR+q9+OPeuJi4+ic3R0ayNEVqh1wIAg==
+X-Received: by 2002:a05:6902:2d08:b0:e8f:db21:9544 with SMTP id 3f1490d57ef6-e951c23996amr30872576276.20.1756424749925;
+        Thu, 28 Aug 2025 16:45:49 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZe+PoFivDjL6XUzlav+Av626cqxNkxtIaZSVLnttc3wLQ==
+Received: by 2002:a05:6902:a06:b0:e93:3a67:babd with SMTP id
+ 3f1490d57ef6-e9700f4e59bls1232956276.2.-pod-prod-07-us; Thu, 28 Aug 2025
+ 16:45:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=3; AJvYcCV3fG0f4Gvlo/x6oAwNrp5z12SJcgXQLmC0x1q+LBNpYXTcwcyI1xvCiNEUjIzgTpQ3QTSgjhadMBQ=@googlegroups.com
+X-Received: by 2002:a05:6902:2b07:b0:e95:5f4:c88b with SMTP id 3f1490d57ef6-e951c2a54c6mr30498946276.27.1756424749036;
+        Thu, 28 Aug 2025 16:45:49 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1756424749; cv=pass;
         d=google.com; s=arc-20240605;
-        b=R2YZhi4Mx9W9i1WHfj+HM9vSntlmlv3bfxaORNkOf3UgpMqtXR6phNnMnJ9a6ZF6Ff
-         2IQYbreTVs7znbz8lrKtP0DnNkiaMv3cceHt62DBl6i7BxH3Sq22AURbWZhRbe7lvkYJ
-         tMLyMGvVzMYhNBRTGQU77OpSEOpdTGdB0QvqXRbod7ZzpjUwrNnGaZjzRMkeRQN5sclU
-         pK+yAJqYvDPPtU2LhZQqFd2cH9dd98LGZ1AbqmAuOBxPQsFM9cgAvZMy6YdwzGxLO8UT
-         bpmRncKnCKyR5dpOXll2uafy+f40OUnmHz+uNxasMUYkqpnnovxtmvyL2cw8bavNJmMu
-         LOPg==
+        b=HQ4f4oYu7yLMxLhJTMyaXJ1JcZWYc+mx8F0UWw+i4bZv84Tf+TTUOwDGk3ZCi/fuay
+         4qp+xgQmRk8nQijdaN8Y366ZybOFxDHkfYURuc9wave1Ur+5j3+ThquKLl5SHfx7fDmB
+         4+H/qpKRMyzkvLwOI5LOCgIYknks0plYJPRo6PL65ORg/UIVsAyijJ8p0z4VsIZizFOW
+         J53WipO12XKmT1VbdNdFUXTtYZdBKeChiEENPgqRWm4kKPF1Ba37He/MTbJTC3y+K8GX
+         VxQ2XGgIGbrvUeJFznP7vUzO3hPwzH6VBpfr8WrfK/Jd2dDBp6SSDEJFPQWy5D6t0YpA
+         yYLg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=mime-version:in-reply-to:content-disposition:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=xQL9EQEUUYdfAZ8wX7X8kP9E7X0HxSr6dojoF/DVgtc=;
-        fh=WmYXq07c7xEHK1BGmmwuGcqFPfMY90JbyIvD29r9YIE=;
-        b=f7JDqJAp4o2vGVNeHifMS8DvWCOGt775gnKPU/8Krh2oliRlbkiuRKszxwIggAAHMV
-         YxZ+TANoQx/8AV50/IsyA28fyP7pHnneigF2JO7tKIRefsNs0dcCh07x6HXEcRjZzhCC
-         a6RCDAkGbweinluUH06unT/skWYJXfLwMHJkl91wTp9hqKllhY0//lS31iBHBo69n8+F
-         7OldOcXzMIPpRbXWf2vptNlTqGUtaXAxGg3rYWE9mfjpJcOPPGcuuLzIZsc3NUQKdVDc
-         YUGpoelI9NN7ymWjlKeHp2Mn+izKO1p39/ysM5yOolsbBIgxbyvkY9uRWNd/9HdXXfFM
-         wlww==;
+        bh=1JzfVyfbWEkwcvRy5E87In4bJJ84qEkwC/j9O+RskB0=;
+        fh=KNrcxmkEXOCGvlInKu/iFbEeiPtFjj53/K2rpPyAzag=;
+        b=htOjmXFEIITDYwLcu9KHXwSynWF4gArqEo+sB46hl8R/oLZ1794OB5eJh4TKZATbkF
+         bvF1tyiEEWDQtjgxtTA12RNeEHAdK+9csFdTwaeKCEXnpqjeq5JiuZItiR76N9yaR4Ur
+         2gsxSM/07vH/4LMuI9AgQQD9n8E0YjQBcJASE1QESPAIT32acrZtR1FgtbOeHCh7VYpH
+         eNYwDgYA4YsqMFTO3TQtfAsfZqNG0RfLhzFvsiwvLAFnAXwqyp/ch9YOJkON23dTVWaZ
+         nje+Gi3LK2cStS9Zh7nAk9BF+nSjtuDbPlhNxbq/mrG4NS8Tm+ZbC0dCwPnczie2Chwg
+         9WrA==;
         dara=google.com
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=NJtyV0VT;
-       arc=fail (signature failed);
-       spf=pass (google.com: domain of lucas.demarchi@intel.com designates 192.198.163.9 as permitted sender) smtp.mailfrom=lucas.demarchi@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mgamail.intel.com (mgamail.intel.com. [192.198.163.9])
-        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-70e57e1674esi229166d6.2.2025.08.28.15.19.30
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 28 Aug 2025 15:19:31 -0700 (PDT)
-Received-SPF: pass (google.com: domain of lucas.demarchi@intel.com designates 192.198.163.9 as permitted sender) client-ip=192.198.163.9;
-X-CSE-ConnectionGUID: zHJdulCcShK5pJOI5Y1HnA==
-X-CSE-MsgGUID: AC+BsVjmQtuBbKPTbSOPmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11536"; a="69413139"
-X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="69413139"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2025 15:19:30 -0700
-X-CSE-ConnectionGUID: e8uTlS/MRCWblVdkWJtlng==
-X-CSE-MsgGUID: 4phzg57SSvedcZHohshQNw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="169526984"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2025 15:19:30 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 28 Aug 2025 15:19:29 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Thu, 28 Aug 2025 15:19:29 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (40.107.237.62)
- by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 28 Aug 2025 15:19:29 -0700
+       dkim=pass header.i=@Nvidia.com header.s=selector2 header.b=VxRX8y7v;
+       arc=pass (i=1 spf=pass spfdomain=nvidia.com dkim=pass dkdomain=nvidia.com dmarc=pass fromdomain=nvidia.com);
+       spf=pass (google.com: domain of jgg@nvidia.com designates 2a01:111:f403:2417::60f as permitted sender) smtp.mailfrom=jgg@nvidia.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=nvidia.com
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2060f.outbound.protection.outlook.com. [2a01:111:f403:2417::60f])
+        by gmr-mx.google.com with ESMTPS id 3f1490d57ef6-e9847d3aac7si27799276.1.2025.08.28.16.45.48
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Aug 2025 16:45:48 -0700 (PDT)
+Received-SPF: pass (google.com: domain of jgg@nvidia.com designates 2a01:111:f403:2417::60f as permitted sender) client-ip=2a01:111:f403:2417::60f;
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=blFcmyOHMIegT+P7maNM92yyd+JpV2YYSLDtPcqPcwH5bXDIW4zXAjcVHF0oXsvhDXPnoKBbGgDNSdRweDSWXkEQWJtLtmgXNgXZTLcg+VmHM158Jjdw7jEvq2PaAmFDgndju+JQETaPxSq8motTdqrcPE241HNcoYta2PLtMUz4z/j/Wr40Q6JYS1dFY8P43ztNY23uQlo3EbnEQQZ3uRuRM4fw19E4gRsbt7Ho16acLqpuk0R6jrOavfRuIDg5CjoVSEuGfmKZEIN+xf3Q9D4z9Z+IFyG7n4xPizlhdQ+vGbroARoGKER+4ft3x143BGhXVY2OA4MPc5yLXhOMbg==
+ b=BC0j4lwL4dAZkVK7ch7LF2nEtfdyfLuAA9ArPob3ntYclDYP9WUWF4lzLgBjVEWhKD5fzKCHCvGY5+ndBoRrUZwm7waYZhpSqAahKYwgQ4pjljsudSoVim6I1hb9ly7jMQqHnr44z2LJClAFi82An2v/KrYyR5ZeA70EU+uCXT/rleKxZWx+PAzM297baujTy8UZVntNmF6p7b2TJOYuME78pNxz1HsfZpzErVOVNYl6GiqZ5yRWCRCzttx+jBI51JngDmXcWelvtfVyFMvxw+62K7k2qBxCZ8Fc4e37K8Q+jGpjWdeifbVUhI00fggE7wEQP4jyhOoXizMoJ8tVEQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xQL9EQEUUYdfAZ8wX7X8kP9E7X0HxSr6dojoF/DVgtc=;
- b=Uvte1YSVBwUiyzOgu8+ihmolJYiHz1aEntAvch0LKPCnTm5YhKam8FzKTS5NuQE9Pv7kvwao67DiRgddkq5Hv/SMIEwH36bixoc/cYhgsBW9BpXD8dzN+lL3yj4ntD2knBwnwHleLjXIkpBuKB6b80x+xW0vWOUBSvCeh93pl80crieJCpgYopPvtnzmDWN7dS6w0/xJ+L0w0pMCmBbi4TvJaLZzOy1kxUAWezcN43dOebwLVP9ZWKvCuy9F+0UTp17Pgj9QaPnc88cAFRjckWLhQVEaDvClJtahmV1YlBkfuCeGXOWFNzNDF0CpcS3NKZTj9oCz7zJjXPnneRcr1A==
+ bh=1JzfVyfbWEkwcvRy5E87In4bJJ84qEkwC/j9O+RskB0=;
+ b=OuXuVM34IS1TM0+6lpGfRyQyiWbMArhtJHiPyAgIiz4AlR2A9iMHh2iJjDR5UK+PYaynzoJXM12KvSYb+IA2KB2fmTlbiAUz1r2mUfUeZHRKqxSwV0LmV2GkOPmgSzQ5MYzn1hZJFRWDqoYgBFtMNGuMPDBJVb8P/9jqwjbguKt+hkYnD+ht+QDLJRox2+wePM3TpqbrBPHyqOTkdOJZycEjFRPmJuUNApFbfzhw1d53g2o7cqRI0vZ+VJTqLbGS1YEEO/x5afwsJ/CT40bHaWRqBIKvugAMF2pDdPIOcs4D6WdXb0OSJy8SlnmEMFsA7TmpWwIyN/tzZN7HLbt84g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by IA1PR11MB7823.namprd11.prod.outlook.com (2603:10b6:208:3f3::14) with
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by SA1PR12MB6776.namprd12.prod.outlook.com (2603:10b6:806:25b::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.17; Thu, 28 Aug
- 2025 22:19:22 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44%6]) with mapi id 15.20.9073.010; Thu, 28 Aug 2025
- 22:19:22 +0000
-Date: Thu, 28 Aug 2025 17:19:19 -0500
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: David Gow <davidgow@google.com>
-CC: Marie Zhussupova <marievic@google.com>, <marievictoria875@gmail.com>,
-	<rmoar@google.com>, <shuah@kernel.org>, <brendan.higgins@linux.dev>,
-	<mark.rutland@arm.com>, <elver@google.com>, <dvyukov@google.com>,
-	<thomas.hellstrom@linux.intel.com>, <rodrigo.vivi@intel.com>,
-	<linux-kselftest@vger.kernel.org>, <kunit-dev@googlegroups.com>,
-	<kasan-dev@googlegroups.com>, <intel-xe@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Stephen
- Rothwell" <sfr@canb.auug.org.au>
-Subject: Re: [PATCH v4 3/7] kunit: Pass parameterized test context to
- generate_params()
-Message-ID: <lfplzm3dmmkployo2bw2oyhbzwhev4hriamd64th6my2xpsrkv@obol3k6z4u2z>
-References: <20250826091341.1427123-1-davidgow@google.com>
- <20250826091341.1427123-4-davidgow@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.13; Thu, 28 Aug
+ 2025 23:45:44 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.9073.010; Thu, 28 Aug 2025
+ 23:45:44 +0000
+Date: Thu, 28 Aug 2025 20:45:42 -0300
+From: "'Jason Gunthorpe' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Leon Romanovsky <leon@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com, linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-nvme@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v4 15/16] block-dma: properly take MMIO path
+Message-ID: <20250828234542.GK7333@nvidia.com>
+References: <cover.1755624249.git.leon@kernel.org>
+ <642dbeb7aa94257eaea71ec63c06e3f939270023.1755624249.git.leon@kernel.org>
+ <aLBzeMNT3WOrjprC@kbusch-mbp>
+ <20250828165427.GB10073@unreal>
+ <aLCOqIaoaKUEOdeh@kbusch-mbp>
+ <20250828184115.GE7333@nvidia.com>
+ <aLCpqI-VQ7KeB6DL@kbusch-mbp>
+ <20250828191820.GH7333@nvidia.com>
+ <aLDCC4rXcIKF8sRg@kbusch-mbp>
+Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20250826091341.1427123-4-davidgow@google.com>
-X-ClientProxiedBy: SJ0PR05CA0077.namprd05.prod.outlook.com
- (2603:10b6:a03:332::22) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+In-Reply-To: <aLDCC4rXcIKF8sRg@kbusch-mbp>
+X-ClientProxiedBy: PH7PR13CA0003.namprd13.prod.outlook.com
+ (2603:10b6:510:174::14) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|IA1PR11MB7823:EE_
-X-MS-Office365-Filtering-Correlation-Id: 73269f2f-084a-4676-fcca-08dde680f04a
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|SA1PR12MB6776:EE_
+X-MS-Office365-Filtering-Correlation-Id: 753e419c-5ee5-49ef-69cc-08dde68d017e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?td12V4NaoWwqlpzbmfjb+KSkCPJrHnEoVXM4lPmcNQKSqJG1wnrwD91Ha5+U?=
- =?us-ascii?Q?CAlKO8xRUZUMba2m0cGslDnd5xIzWfxJlq+9pf+hUB5OI9XAZGI2qQ8ddv11?=
- =?us-ascii?Q?HCjke/C3mFXdnLSlxQYIhy+v7PErTKD0NSG3p+wzyma3RzuC199HcZlschrP?=
- =?us-ascii?Q?MGfnKxoQrTwNi+l/7zY/UoAYecGAeCzQebWo8r/Zj+OKnaGJL4x3fkAlejsK?=
- =?us-ascii?Q?4CjDrACjnk6SVs1K3OYB9CGhmcqztr5h1Rn+j6IKOgfjyTqN/OCrZjjDlDDZ?=
- =?us-ascii?Q?Dfcd8E2U0Yx6YQb0cAsOkGnbCp/zG/NWMhotKsBCBRlszb4YKlM7u8btnbUc?=
- =?us-ascii?Q?v6bQxrcE9HPoCPQlfJfs1js6EmtiRwbRZkvHjB6gNXhohONfzjKRs2e0edN1?=
- =?us-ascii?Q?1Wxw+Pc65fue55oWUCVXwlQfJ29PGgn/CXA3ZY2SpgQ2Mjb7rMPg1ukXTb7L?=
- =?us-ascii?Q?SGiz4eCCz7DYo7cQSWx86a33zeGzeTn9ddKX6FxTHCO9IotqJc3+DyXgmakx?=
- =?us-ascii?Q?xffAkPMRB+i+U2n3MpQiFVCZky/v5BB+zO9Ps3Rlnf33zv/TyYaLeop7oRhy?=
- =?us-ascii?Q?XWbY4qjyfmhdhLpgfE/DuYLDCwrog85IN2ttY0fLtcsuCuVQyuMqGv0aAr1Y?=
- =?us-ascii?Q?YB7Nr5k2h2PF/Pf3IpxWGkVEvBuLXtC0m3Xia9+vsQ3xpJNQZv8SMf3sb0Qk?=
- =?us-ascii?Q?F7SdsIljk/B49demKOXb+Qyqu9jn87v6wO+5mMHEoAlkfiptwMG07tNSnnkl?=
- =?us-ascii?Q?AurNYJvuInzm/cXM12Q9yjQhWOGyvqzF9/pCXulMhWo3AJjZg6mYvpXzG0Mc?=
- =?us-ascii?Q?VXO23U1FAgcgPX4FQKq7fdzJonF8Kw6qoEwoAfOYMEFPKbS93BqmwRZAu4x2?=
- =?us-ascii?Q?kzACIMKSGmAm/kkW/aF/cNLhBkwfwMPQULj0jr+SUV0T6QOY6MUAECfJ/3cZ?=
- =?us-ascii?Q?o77XjaEt8KFs22U6nHd6ccSmQZF3AZ96D+PbSIdBLWwHhVmj8fGLEx1S88ZB?=
- =?us-ascii?Q?OzBAzHl+6JJbagnX9XQwMC1Miyrij8/YWL0PNw6s+h/lz+vHGmqKWEzI8sV6?=
- =?us-ascii?Q?4f+yKma+O8Df6H5PCEujH3cyhSBr6MjscDP78ro3RYwNrFCXwglZRrFiDraK?=
- =?us-ascii?Q?KMlDXUIw+xAMtpyyWQKEew6ptqG9D4R02CWlb4XbxPbg1qKurzNTmtzKUSUr?=
- =?us-ascii?Q?yAluxko37vpTAU8RjwiBFfpaaYd9mfZEaQiGMYRj0Xc6bfJjtpx8VaH/hko/?=
- =?us-ascii?Q?lhWdJCrzCK1fLmPi4+UF8EWUfj7/95mybHMgkPUa5m1h8r5m5kbTuYi6S0Po?=
- =?us-ascii?Q?/LOHgYN5/KSclUUbOqSXJBPPJ35b08zXFvCFgKy+kj0YDWAqpUXIaMyOAZvG?=
- =?us-ascii?Q?xA4vJiEzHytBNGCuTxoFRcGCnU0fgIpUpS2l142ocsQXuGQ8CtOYD5v8eAZb?=
- =?us-ascii?Q?g8UmadlqpHc=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6139.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7416014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?BRmB+3sKM17VmapuvDAanENDABDoL5Vpjr28rLgku94+uoeQ47+jUimtSCp1?=
+ =?us-ascii?Q?u0ol1dYjEgBvhO+ruK3iz1KEP/hZe25IXKS3DBr3YL9i7oeUIybZm61bc1EK?=
+ =?us-ascii?Q?ySVKFefar6hxK0//rT6Je0GyXftJ2+WIKk+gQVSVNjs+Bkungz+C7gvV7FE9?=
+ =?us-ascii?Q?JWTCKInSOrbbaQQHrNsl6Z5VBvqOljwWpgr3qXQvyL+Pg+MscLmm6SArQcxY?=
+ =?us-ascii?Q?DhRw9/ZD8E7yHpahJ58uR5uiRAi4+XlAVS2evL/9AMATYhX1mkLmURS/z3jc?=
+ =?us-ascii?Q?1V8fE7B86lb2Ht8o66gydqV81PLbS1K7px3v2ku7KKgIc9spCDxux52V1e9X?=
+ =?us-ascii?Q?2498Hip1BaWsm1qRiLue87NQN9Z8AJishXg/2l29DTeQIEgx8BvWPqqlHtMI?=
+ =?us-ascii?Q?LZrzHSOQwD82enU0XZ4QvLY+EpJrrsG0aR8cPF6lU48eUz2Bwk19vFp5xmob?=
+ =?us-ascii?Q?FBLQcOaGyTp3p1DF5P/fDKAKIx3KFyk25UzYulT6OPKOJ8/nAaUAfoELdNwt?=
+ =?us-ascii?Q?gJJsBFxQ7TZfd+e5TwigthbjSdVMfwZu4ntQ3hbIPzZ3X8i+//nTBmsBv2P/?=
+ =?us-ascii?Q?9JHw7gf5BC5M7B79SHTbr3VxCjAxyblS+ecONyQ7+pV0UZdx4ZkJaEYtITXK?=
+ =?us-ascii?Q?/Ud/XTouTFMXZ5sLYqFF7qM81eEraAf2qP9fHpukUza4yBXVwCBf3mZem0Vf?=
+ =?us-ascii?Q?OJRavtRWTGaJ+pLqvA6Ou8HUKqW+yoROq9n9FY6r9a2ShUiGDeBHELGNMS9I?=
+ =?us-ascii?Q?dL7jH7kqZnUOoBBf3mGbE+UqUXxdaXpDchRzCfuEK4FnZ7zr4gN9ep/+4aJM?=
+ =?us-ascii?Q?sw6wi+XaEogKqqzViWPfuAemHi05HSfMS4MdRfkPchzCEfzJFlwSv+GLxzlD?=
+ =?us-ascii?Q?HCWlPg4s9cg/K3ly9v7KncbEKuyZo2TZaLSvdiK6wXEvmt5LLMxwqXZIWgFn?=
+ =?us-ascii?Q?xWdsfLj+2G7UfQCHxukuX2UQYJuI1WLdvSDOw0AGKcw+99YC77IRY+OL92/D?=
+ =?us-ascii?Q?21dNzr7nLqsmiYEFtY1EJio4JyFTMe3ec10oPKTUrkcsGkjr1/ks+6KSCtvn?=
+ =?us-ascii?Q?HA0+NJPHPPjzq4wQhCZDNTDtkDziamYMNAFgr0N+PteMCcAxrxhNkG5ZyPDo?=
+ =?us-ascii?Q?Ua1raoxaJ5NswslbugvyjHR0iXjibH3cEoK59tkDZ1f/uLlg+VQy3QNMGn7n?=
+ =?us-ascii?Q?HCK6PdEXVn7LemiRnfbB5fcOxtdaUEPFW5lJjVHBVf8vHD2B4Bo1bM3mIXwL?=
+ =?us-ascii?Q?I9Jn/tVJuGDOr+/G4UBoCVpEef7zxZjVhIs5r53tho0Sm441MIodgr3hTnDX?=
+ =?us-ascii?Q?65dDh/vJRvQ25+EgjhJh4yNobd1W8xoCF1IhGxQbiNrO49hN+w8dOg6USblN?=
+ =?us-ascii?Q?ZdfJit9b8mGe+lxErrCIkoNOdCD3aQ01k1hLoZQAmRwv/zUPd+uDvm7rBHth?=
+ =?us-ascii?Q?Cvvs6vcbnBU=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7416014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4ws5s9AbzGmXvHrHVO18r1j4H3in/9gmbm3Dfzfm1qUrDU7n+YuTSdcY4UEi?=
- =?us-ascii?Q?Gj/0og/L0xYC2PO9GYtC7MoZ/hD9X4H8NttgMUbpDMmF4+SImhGqSYL0U3qm?=
- =?us-ascii?Q?LfHVmPHlKaOSBk3cBcBoIrTdeEGjIkUPY6FiSk2A3J5hXvWivv5ciACTVfYJ?=
- =?us-ascii?Q?WV3dSwqThdMwG1HwDnj/jQHwUz5WQBBbVHnCzj1RxzrsDNNO7a+ssDEecfBK?=
- =?us-ascii?Q?bMce0FTDXcvziReQIrTsXhBBuLIuCJX4x9pvD5MxBzk9Jqj+/Iqyyabp0fSG?=
- =?us-ascii?Q?T8aJQmrKKZLF1IJlBnN55c4Hfbq1DmFFDsSEi32+6CS0Gnck2MviGltfaDxf?=
- =?us-ascii?Q?q090Pjlghd8eoN0kcjrNhAEkao8zou7FREh68HUaB9GJvaWVjtY9NAnJJkSd?=
- =?us-ascii?Q?YcJMaEWJ/K+X/7e0NBhYUFv61HqyNZGYqo2/OVVPoGNDlKu5R/yPuwboHZw/?=
- =?us-ascii?Q?uVRhI3UMNo9E6qz8u1hj9u4KDZLDjSE0TTiADYbUhqhmdM+xLd70wf3ELOC7?=
- =?us-ascii?Q?YYAVbtQgOmCipcbtnV5zph1PfC1o9NwScU0gJDPH/6vwY+J7g8pqTLGi/P1T?=
- =?us-ascii?Q?yxr5/D49ckhCm4K3zdwU8U0tTPKTyOFpzYcScxdxbHvWfQ24lPDNpOyR3gcK?=
- =?us-ascii?Q?C2lF9cLErPFXJGHsfXXowLrvY4piuv4iv/MwD5Qrqz/pZqMfc0TJ4XoxqlYm?=
- =?us-ascii?Q?GR97bMEOBvKrJQLwfnYE/705xMECM85HiHamBdPbxGeWL4SJItGtjOECPZZ6?=
- =?us-ascii?Q?0M+xL56g1ab3BK8N7j6pwbCvW70jm+XTlbPr19woGIo165ydyGDxjpgLXdv9?=
- =?us-ascii?Q?JnswTJE7hxFmbdixgQ74EQQmwevHEKbwaRtrtr/viJlJ8X642GBZyLIrArK3?=
- =?us-ascii?Q?7QpAIyeNnH85M5aDtCm7/LhWJR24RiBRrwG2+imnIs9iLAKTmnqFZnEfKczK?=
- =?us-ascii?Q?fpdF6uucE6ZP0qIuWfgNs0cQA6ynX2Gqo+hRjtLbdAQSPpUsbx6piBMhfhxI?=
- =?us-ascii?Q?k4m6pV3HK2JHQTdvkw08shiEdL1LGd36JdRIFo6NQWPKB2/40lpn4HJdHf6l?=
- =?us-ascii?Q?bP6ji9vEXX9Fknqbh3OKpRxnIocUete3Liy4W9ucRPmQUq9JPBcDWpUwgmSP?=
- =?us-ascii?Q?nSODT0ALhJ9YJUBZlf+2FDtDY6471zkcnO08+QLfysLmu97cZH8ZVS1+i2Me?=
- =?us-ascii?Q?SYbWsLp+wia8ZjeKFSR9EtGUoWLect3U6VP0wjosAcNRyFb3+dKO+dUejSbG?=
- =?us-ascii?Q?Coi9nVU6I58Bd23RNZIAB7bp3vADyvL0tUlew6rXGlVNe9qsFG57AkUeXWVh?=
- =?us-ascii?Q?QWM5eXdhyh6awzOqXPpv9y+Wpx2zgh67f/lZtk441Vre44mI28rmafWXPtVs?=
- =?us-ascii?Q?EIOhOasPSE6p8dhpSS7WdQ2mMNhSaLiS6GI1PPqnizpIh3L3oGFOt/vL7Sdh?=
- =?us-ascii?Q?ZEavgd/A2fFGpwUaSsc0EMP6R/52q3Pu3+977BQD0nb++Xfqvm+JdPytzUg8?=
- =?us-ascii?Q?EFYt8NYC1U5AnfiAqyISmFiOmmw7dy2wGomB7CPnUS382MvSFvye6KrD/jWI?=
- =?us-ascii?Q?RNyfArY4r2rU94M7n6aDPyOQn9L+cOhs8o7hNtgY/PeZjhdphsz1earz1ME4?=
- =?us-ascii?Q?xA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 73269f2f-084a-4676-fcca-08dde680f04a
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Guohg76/pkR5ZgCdXgoXw1W3mQ00oIzJR+SdpQh5sfjJMXbMJ6diFn7nFxpV?=
+ =?us-ascii?Q?idifmlCDn6s8kevNE8Sf4gg9m8QK3+NtR2NSUeO9qNsfGDtGDFWFwjrJ5I5k?=
+ =?us-ascii?Q?Ox4PeX8sLOraVXU+a9YyVUbixgamtzWXtFVqTFjAYxe7tJjQRhfS2cBo+fi5?=
+ =?us-ascii?Q?kVVvQnY8kZ3FnBMRjUQZFrfMSc7Mi3mxfiW8w7B7GKRGTOIBn3rkqXeyvfl9?=
+ =?us-ascii?Q?D1Q7+0cmtHVDvXMJiug98HJ17TCVxynsb1SEjZxEdfB/d5l5f17QzUwpPnVN?=
+ =?us-ascii?Q?Gplf3AcoLO1AIGH+gwg6UqRp0s6sMkSKs0xwRZigys9wH5XBl9W2216ei6tY?=
+ =?us-ascii?Q?vvR5O4PxY3fkdAsxQQKZfY3GGooMAF5guVzbOllo+zUmGHGYzSN6di40Xba+?=
+ =?us-ascii?Q?ngFmkM1zsb8jSY87arByWlr7nB8uWwkhGYuLFNV0c8xY/D6x46jEvCrDrLzN?=
+ =?us-ascii?Q?QdaBljNNtZJQpa7uhXrdwcbQHLktyV87FIGiljAjlhL2tDE8GgdWmjQ9I07Q?=
+ =?us-ascii?Q?cpe0ZtsvokBQR0zYqw6t8PkI1eqMRH+E8s7b2oIPX61W4gxJPmeMgjkokkN4?=
+ =?us-ascii?Q?BePhnvjrhX+JARM1FdSryWeoCtJ3m77i7OSY+ZS+AyHeOn2IUYgxh0ArUlvq?=
+ =?us-ascii?Q?BvNDMGcSBFWJu4hdNZztzTi+5uLEGmsdU2p+6i9UE/XqPfDiTD88psrco+fb?=
+ =?us-ascii?Q?fY/xzqHaiCEj1rxu6vxJXwfiTL+iTcSA52Gl7mFQGOMgADdAjDbHTUSLIaQw?=
+ =?us-ascii?Q?cAixtwK5ed5SN/lVyfz4rS2BpfHcflIlkrhPN1NLFiXEJogyMcgIUlslIWfc?=
+ =?us-ascii?Q?N4SxOFYJprB/AeCcdUG9CkiCGanv1lbz4sFatvqfIBj/Cz07Fs7w5EHoVrsl?=
+ =?us-ascii?Q?BkitYeS6X6zNKItXzPlD0uehnMerAtpbspMmXMkfgDTxVQqDMRprgWSEZTs4?=
+ =?us-ascii?Q?3ceZRuolwKKM2lcKQL+tawp818fSy1l2N5KTgPhJGK3DAjHmnUPP+DExWgQ8?=
+ =?us-ascii?Q?62AcQmC0vE3imo5f6Axz3FQHoBp3zbuYc7CfhCuDOe+6hSguUTMHfZfnZyII?=
+ =?us-ascii?Q?7fnKE8QhQ6zMbXSZMUPCXIEWZRaSfB/x954fCwGQFhgCqxiCxkE4w5HzBMOh?=
+ =?us-ascii?Q?dLeCGlEaAsHoOcFROZCGOdisGP9Zlit0/k6rVQ+J9tO3D6iXu8tp/2c3Wk/L?=
+ =?us-ascii?Q?euhoY/rX47hr8ctR5Cp1zPCIL7Hk1EtfflIpOZwE4I88A1Tpiw/JVGWBpoK/?=
+ =?us-ascii?Q?wQGvzOztsizk77wdlm2KI4QYnPVWD3gZHYmFEVNhuf/cdumvV6iho52kDZbC?=
+ =?us-ascii?Q?urbjXb+V0k3ksRa5Yl6SkXgRGvaBvJVo8pShoQITY792C177/Qu1Kzp8TIGs?=
+ =?us-ascii?Q?jaby0wxn228VgUWgqaGu01nkxL96Q5xrnXO7hbCRmfyOPPyasuMfwZLX4EHU?=
+ =?us-ascii?Q?e9ljeB3zqOhiHYAVmIosgGuhi1Wif+QzpP/frMqCpXzb0vpi6c19NhWE3vG0?=
+ =?us-ascii?Q?wdimmMQp2Hr+zsdLF43kjsQZlHnbRGTNKGJW5xxYHTTjqo4bwYiXSm+YG9UX?=
+ =?us-ascii?Q?+1fyZ2DaYg9/ErkWntpBMRbOiJM/hdBX7nHaA03A?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 753e419c-5ee5-49ef-69cc-08dde68d017e
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2025 22:19:22.2649
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2025 23:45:44.7681
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WYJ1PVKhOlrArAZnTo9K+s8RwRjm7dRdFWW7FO22bpw/k6QkX7L9rrqGjur0jN4M7eEcVSvtTmuaFvs/Dg7bktYm/TLjU5ZXukz5NJ5xfro=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7823
-X-OriginatorOrg: intel.com
-X-Original-Sender: lucas.demarchi@intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: stKDrPdUYg+cKM6Zaii6EJX1iDXReQlwcCRvIIs2DW0PSsQcsndv+JR8Lnf1GfOk
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6776
+X-Original-Sender: jgg@nvidia.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=NJtyV0VT;       arc=fail
- (signature failed);       spf=pass (google.com: domain of lucas.demarchi@intel.com
- designates 192.198.163.9 as permitted sender) smtp.mailfrom=lucas.demarchi@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+ header.i=@Nvidia.com header.s=selector2 header.b=VxRX8y7v;       arc=pass
+ (i=1 spf=pass spfdomain=nvidia.com dkim=pass dkdomain=nvidia.com dmarc=pass
+ fromdomain=nvidia.com);       spf=pass (google.com: domain of jgg@nvidia.com
+ designates 2a01:111:f403:2417::60f as permitted sender) smtp.mailfrom=jgg@nvidia.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=nvidia.com
+X-Original-From: Jason Gunthorpe <jgg@nvidia.com>
+Reply-To: Jason Gunthorpe <jgg@nvidia.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -237,220 +263,25 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Aug 26, 2025 at 05:13:33PM +0800, David Gow wrote:
->From: Marie Zhussupova <marievic@google.com>
->
->To enable more complex parameterized testing scenarios, the
->generate_params() function needs additional context beyond just
->the previously generated parameter. This patch modifies the
->generate_params() function signature to include an extra
->`struct kunit *test` argument, giving test users access to the
->parameterized test context when generating parameters.
->
->The `struct kunit *test` argument was added as the first parameter
->to the function signature as it aligns with the convention of other
->KUnit functions that accept `struct kunit *test` first. This also
->mirrors the "this" or "self" reference found in object-oriented
->programming languages.
->
->This patch also modifies xe_pci_live_device_gen_param() in xe_pci.c
->and nthreads_gen_params() in kcsan_test.c to reflect this signature
->change.
->
->Reviewed-by: David Gow <davidgow@google.com>
->Reviewed-by: Rae Moar <rmoar@google.com>
->Acked-by: Marco Elver <elver@google.com>
->Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
->Signed-off-by: Marie Zhussupova <marievic@google.com>
->[Catch some additional gen_params signatures in drm/xe/tests --David]
->Signed-off-by: David Gow <davidgow@google.com>
->---
->
->Changes in v4:
->v3: https://lore.kernel.org/linux-kselftest/20250815103604.3857930-4-marievic@google.com/
->- Fixup some additional generate_params signature changes in xe_pci.
->- These are also available as a separate patch here:
->  https://lore.kernel.org/linux-kselftest/20250821135447.1618942-1-davidgow@google.com/
->
->Changes in v3:
->v2: https://lore.kernel.org/all/20250811221739.2694336-4-marievic@google.com/
->- Commit message formatting.
->
->Changes in v2:
->v1: https://lore.kernel.org/all/20250729193647.3410634-4-marievic@google.com/
->    https://lore.kernel.org/all/20250729193647.3410634-5-marievic@google.com/
->    https://lore.kernel.org/all/20250729193647.3410634-6-marievic@google.com/
->- generate_params signature changes in xe_pci.c and kcsan_test.c were
->  squashed into a single patch to avoid in-between breakages in the series.
->- The comments and the commit message were changed to reflect the
->  parameterized testing terminology. See the patch series cover letter
->  change log for the definitions.
->
->---
-> drivers/gpu/drm/xe/tests/xe_pci.c      | 14 +++++++-------
-> drivers/gpu/drm/xe/tests/xe_pci_test.h |  9 +++++----
+On Thu, Aug 28, 2025 at 02:54:35PM -0600, Keith Busch wrote:
 
+> In truth though, I hadn't tried p2p metadata before today, and it looks
+> like bio_integrity_map_user() is missing the P2P extraction flags to
+> make that work. Just added this patch below, now I can set p2p or host
+> memory independently for data and integrity payloads:
 
-Acked-by: Lucas De Marchi <lucas.demarchi@intel.com>
+I think it is a bit more than that, you have to make sure all the meta
+data is the same, either all p2p or all cpu and then record this
+somehow so the DMA mapping knows what kind it is.
 
-thanks
-Lucas De Marchi
+Once that is all done then the above should still be OK, the dma unmap
+of the data can follow Leon's new flag and the dma unmap of the
+integrity can follow however integrity kept track (in the
+bio_integrity_payload perhaps?) ??
 
-> include/kunit/test.h                   |  9 ++++++---
-> kernel/kcsan/kcsan_test.c              |  2 +-
-> lib/kunit/test.c                       |  5 +++--
-> 5 files changed, 22 insertions(+), 17 deletions(-)
->
->diff --git a/drivers/gpu/drm/xe/tests/xe_pci.c b/drivers/gpu/drm/xe/tests/xe_pci.c
->index 9c715e59f030..f707e0a54295 100644
->--- a/drivers/gpu/drm/xe/tests/xe_pci.c
->+++ b/drivers/gpu/drm/xe/tests/xe_pci.c
->@@ -44,9 +44,9 @@ KUNIT_ARRAY_PARAM(pci_id, pciidlist, xe_pci_id_kunit_desc);
->  *
->  * Return: pointer to the next parameter or NULL if no more parameters
->  */
->-const void *xe_pci_graphics_ip_gen_param(const void *prev, char *desc)
->+const void *xe_pci_graphics_ip_gen_param(struct kunit *test, const void *prev, char *desc)
-> {
->-	return graphics_ip_gen_params(prev, desc);
->+	return graphics_ip_gen_params(test, prev, desc);
-> }
-> EXPORT_SYMBOL_IF_KUNIT(xe_pci_graphics_ip_gen_param);
->
->@@ -61,9 +61,9 @@ EXPORT_SYMBOL_IF_KUNIT(xe_pci_graphics_ip_gen_param);
->  *
->  * Return: pointer to the next parameter or NULL if no more parameters
->  */
->-const void *xe_pci_media_ip_gen_param(const void *prev, char *desc)
->+const void *xe_pci_media_ip_gen_param(struct kunit *test, const void *prev, char *desc)
-> {
->-	return media_ip_gen_params(prev, desc);
->+	return media_ip_gen_params(test, prev, desc);
-> }
-> EXPORT_SYMBOL_IF_KUNIT(xe_pci_media_ip_gen_param);
->
->@@ -78,9 +78,9 @@ EXPORT_SYMBOL_IF_KUNIT(xe_pci_media_ip_gen_param);
->  *
->  * Return: pointer to the next parameter or NULL if no more parameters
->  */
->-const void *xe_pci_id_gen_param(const void *prev, char *desc)
->+const void *xe_pci_id_gen_param(struct kunit *test, const void *prev, char *desc)
-> {
->-	const struct pci_device_id *pci = pci_id_gen_params(prev, desc);
->+	const struct pci_device_id *pci = pci_id_gen_params(test, prev, desc);
->
-> 	return pci->driver_data ? pci : NULL;
-> }
->@@ -159,7 +159,7 @@ EXPORT_SYMBOL_IF_KUNIT(xe_pci_fake_device_init);
->  * Return: pointer to the next &struct xe_device ready to be used as a parameter
->  *         or NULL if there are no more Xe devices on the system.
->  */
->-const void *xe_pci_live_device_gen_param(const void *prev, char *desc)
->+const void *xe_pci_live_device_gen_param(struct kunit *test, const void *prev, char *desc)
-> {
-> 	const struct xe_device *xe = prev;
-> 	struct device *dev = xe ? xe->drm.dev : NULL;
->diff --git a/drivers/gpu/drm/xe/tests/xe_pci_test.h b/drivers/gpu/drm/xe/tests/xe_pci_test.h
->index ce4d2b86b778..6d8bc56f7bde 100644
->--- a/drivers/gpu/drm/xe/tests/xe_pci_test.h
->+++ b/drivers/gpu/drm/xe/tests/xe_pci_test.h
->@@ -7,6 +7,7 @@
-> #define _XE_PCI_TEST_H_
->
-> #include <linux/types.h>
->+#include <kunit/test.h>
->
-> #include "xe_platform_types.h"
-> #include "xe_sriov_types.h"
->@@ -25,9 +26,9 @@ struct xe_pci_fake_data {
->
-> int xe_pci_fake_device_init(struct xe_device *xe);
->
->-const void *xe_pci_graphics_ip_gen_param(const void *prev, char *desc);
->-const void *xe_pci_media_ip_gen_param(const void *prev, char *desc);
->-const void *xe_pci_id_gen_param(const void *prev, char *desc);
->-const void *xe_pci_live_device_gen_param(const void *prev, char *desc);
->+const void *xe_pci_graphics_ip_gen_param(struct kunit *test, const void *prev, char *desc);
->+const void *xe_pci_media_ip_gen_param(struct kunit *test, const void *prev, char *desc);
->+const void *xe_pci_id_gen_param(struct kunit *test, const void *prev, char *desc);
->+const void *xe_pci_live_device_gen_param(struct kunit *test, const void *prev, char *desc);
->
-> #endif
->diff --git a/include/kunit/test.h b/include/kunit/test.h
->index fc8fd55b2dfb..8eba1b03c3e3 100644
->--- a/include/kunit/test.h
->+++ b/include/kunit/test.h
->@@ -128,7 +128,8 @@ struct kunit_attributes {
-> struct kunit_case {
-> 	void (*run_case)(struct kunit *test);
-> 	const char *name;
->-	const void* (*generate_params)(const void *prev, char *desc);
->+	const void* (*generate_params)(struct kunit *test,
->+				       const void *prev, char *desc);
-> 	struct kunit_attributes attr;
-> 	int (*param_init)(struct kunit *test);
-> 	void (*param_exit)(struct kunit *test);
->@@ -1703,7 +1704,8 @@ do {									       \
->  * Define function @name_gen_params which uses @array to generate parameters.
->  */
-> #define KUNIT_ARRAY_PARAM(name, array, get_desc)						\
->-	static const void *name##_gen_params(const void *prev, char *desc)			\
->+	static const void *name##_gen_params(struct kunit *test,				\
->+					     const void *prev, char *desc)			\
-> 	{											\
-> 		typeof((array)[0]) *__next = prev ? ((typeof(__next)) prev) + 1 : (array);	\
-> 		if (__next - (array) < ARRAY_SIZE((array))) {					\
->@@ -1724,7 +1726,8 @@ do {									       \
->  * Define function @name_gen_params which uses @array to generate parameters.
->  */
-> #define KUNIT_ARRAY_PARAM_DESC(name, array, desc_member)					\
->-	static const void *name##_gen_params(const void *prev, char *desc)			\
->+	static const void *name##_gen_params(struct kunit *test,				\
->+					     const void *prev, char *desc)			\
-> 	{											\
-> 		typeof((array)[0]) *__next = prev ? ((typeof(__next)) prev) + 1 : (array);	\
-> 		if (__next - (array) < ARRAY_SIZE((array))) {					\
->diff --git a/kernel/kcsan/kcsan_test.c b/kernel/kcsan/kcsan_test.c
->index 49ab81faaed9..a13a090bb2a7 100644
->--- a/kernel/kcsan/kcsan_test.c
->+++ b/kernel/kcsan/kcsan_test.c
->@@ -1383,7 +1383,7 @@ static void test_atomic_builtins_missing_barrier(struct kunit *test)
->  * The thread counts are chosen to cover potentially interesting boundaries and
->  * corner cases (2 to 5), and then stress the system with larger counts.
->  */
->-static const void *nthreads_gen_params(const void *prev, char *desc)
->+static const void *nthreads_gen_params(struct kunit *test, const void *prev, char *desc)
-> {
-> 	long nthreads = (long)prev;
->
->diff --git a/lib/kunit/test.c b/lib/kunit/test.c
->index 0fe61dec5a96..50705248abad 100644
->--- a/lib/kunit/test.c
->+++ b/lib/kunit/test.c
->@@ -700,7 +700,7 @@ int kunit_run_tests(struct kunit_suite *suite)
-> 			/* Get initial param. */
-> 			param_desc[0] = '\0';
-> 			/* TODO: Make generate_params try-catch */
->-			curr_param = test_case->generate_params(NULL, param_desc);
->+			curr_param = test_case->generate_params(&test, NULL, param_desc);
-> 			test_case->status = KUNIT_SKIPPED;
-> 			kunit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT KUNIT_SUBTEST_INDENT
-> 				  "KTAP version 1\n");
->@@ -731,7 +731,8 @@ int kunit_run_tests(struct kunit_suite *suite)
->
-> 				/* Get next param. */
-> 				param_desc[0] = '\0';
->-				curr_param = test_case->generate_params(curr_param, param_desc);
->+				curr_param = test_case->generate_params(&test, curr_param,
->+									param_desc);
-> 			}
-> 			/*
-> 			 * TODO: Put into a try catch. Since we don't need suite->exit
->-- 
->2.51.0.261.g7ce5a0a67e-goog
->
+Jason
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/lfplzm3dmmkployo2bw2oyhbzwhev4hriamd64th6my2xpsrkv%40obol3k6z4u2z.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250828234542.GK7333%40nvidia.com.
