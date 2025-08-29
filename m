@@ -1,36 +1,36 @@
-Return-Path: <kasan-dev+bncBCJ455VFUALBBM55YXCQMGQEWUK63YY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCJ455VFUALBBNF5YXCQMGQE7P6UAZA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3a.google.com (mail-oo1-xc3a.google.com [IPv6:2607:f8b0:4864:20::c3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDCFBB3B54D
+Received: from mail-il1-x138.google.com (mail-il1-x138.google.com [IPv6:2607:f8b0:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8CAAB3B54B
 	for <lists+kasan-dev@lfdr.de>; Fri, 29 Aug 2025 10:03:01 +0200 (CEST)
-Received: by mail-oo1-xc3a.google.com with SMTP id 006d021491bc7-61e1f76edb3sf647154eaf.3
+Received: by mail-il1-x138.google.com with SMTP id e9e14a558f8ab-3f0d4ad1c3asf25051715ab.2
         for <lists+kasan-dev@lfdr.de>; Fri, 29 Aug 2025 01:03:01 -0700 (PDT)
 ARC-Seal: i=2; a=rsa-sha256; t=1756454580; cv=pass;
         d=google.com; s=arc-20240605;
-        b=GTvnisnldZ5wIV9nP4JKMfKl4vf5k9ufgKo0bjQBkJa9DSoBzsIXqD0jI/MJ2WUtdW
-         gP6xBe9kp7fZEum+jCNuna0zszK/KT+3R7NK+KeR5T5a3dusF06UkAWyh3KAhNHUaj3I
-         o3AGmNQ4ZA/VvAG0Q+RuLTYL0oprJROQ19M0NYbpcSQNxvhgpbx5Lw5B3eic5d4l3xff
-         HxVojDgL6VCuXL+zbLL12NSzRbhS8pFDvyFqw4E9lb7c1zKOIFjKesAHBN30bxyr4U9E
-         3IGyRIy06lvTgLQ8K8/21L02K8VeuKyUqcT4j9SvZOCEsejYZkQy8J//iV9bPgeyQ8Kh
-         x52g==
+        b=i7lwDubV3pkyTyqWLdbHClfS0Asqn0l8CeH8xrZi1Dfcz9eDAHp2K8o+PUhpxrHK8Q
+         xxMwsk4q7wi6NlkJRryVdnkU3r3lDXjqocaitwLCTqSMecfoSngrXwNzzzLUkkm7/JfI
+         7zdfz1yvYWTIIUS++zfhfKJb9Mru5LO7OHmVkomXPmIffTuFUDraAMmSZquvOuADNkjr
+         6z/n2HGj/SaPWcX/ksrtY1ctwAN84P+hZLT3sW4EDWPLS6KQgSqBt5Emhf5Byli6L8yr
+         jC3Lu/G6TvsQ0MKHiQRFuxdILWLbNIBg6/U0gxZgVkNgs4MuJJkIq5A6JCaJhF7QJnQQ
+         M98A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature
          :dkim-signature;
-        bh=Ynvg9i5E/Eu3T0yuOSKaPhMSI9VX3hQ6sSx3ZGl5pKo=;
-        fh=huTmL2iS+xo18NlIrAWQnASWRXDnsU4JCt+Yk886DxU=;
-        b=IVlUPFX2cN+2fhzLrtWWq/UdGTLoCuULl8DnQS5XU8901MLK5r5yrsUbSi/bCqJUWg
-         4GO5Ev0a3AdoiEIFgAXwnk64x+lrXj25QyXrYcwck4QU5RH+L3mllj39ozAeEjoPjymY
-         JB2mQ/JaMBpN/VEXtSdC3uFKuo6AP6uDJHiBd7rHE+/MJOOEm0uQxxrFu0IzsHkhjsMs
-         4q0JBvYLQDPppQ5Xl8QNDWvuO/dLDOI6aEHk3yYmNd1GDPcyZJq4jvxfzqkNlMiH/R2l
-         z6j1wg/eYNlCfjd6eqT73QhTOOew9JLDrdLvkrDXStaQz7+JVW6vGLy8nFOe+6Ftd2Tx
-         bKYQ==;
+        bh=qMmYfcnu5pPLYD/gMpp7nXfS41JIFxX6fx1cVeXdfmI=;
+        fh=lQgua3t25FIWgWMb9dBSqHcFbaS1cIyd0tRNZN/liVs=;
+        b=eBgzKVQ06UIawSjkpzZJg/4kdOlu9a+guARIkvxkJWSP8YhRKbBMNmGdoaMNXxDv4s
+         erwHJbWZyVDOGTcKiJvyGpO8TCtNbl3g9CQCkkGM0HV9AJGFWFCXlvSWbaG6EoFNo/9M
+         wNeq+i3zU3IezP+OsLPMu0eRdnA5vbqiRUZtiOdMSJS4AsPYfAorjxQjfWKnZoaXoElt
+         47k6LSi2SzbdoPhUOVZ4OQ08IFJF3in2aBQvBvBqaf4X1EXy/JTu6quUr0GoAvyteuhx
+         v658XbE9kFlIsIxLm8AzcIo7K5lxaGn/6mnePFjXp0lB7jiLdX0Qkk88hnmGj8F1tIe1
+         SlcQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=OsBgdp2p;
-       spf=pass (google.com: domain of bagasdotme@gmail.com designates 2607:f8b0:4864:20::62b as permitted sender) smtp.mailfrom=bagasdotme@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=HFhUGww5;
+       spf=pass (google.com: domain of bagasdotme@gmail.com designates 2607:f8b0:4864:20::1032 as permitted sender) smtp.mailfrom=bagasdotme@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -40,26 +40,26 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Ynvg9i5E/Eu3T0yuOSKaPhMSI9VX3hQ6sSx3ZGl5pKo=;
-        b=rl7CbilLg3f1/RZlEfq03UFT6LBN+9jKHuq0W4+m/b0hQW75qDPm8mbjUqIDfiVJtk
-         4x2Km2tlXzXM95pAjIFd5raEjDS9j77ggPwhS0cFGNHMG+mo5HOA05R4lDV3KOODUg28
-         eYHebzAwXLl4RW/v0Yn2/G+F5CyMFDzl6nopA6zqId3GQEvjE2v9AeDKa6IXnyVVhNjC
-         mCn+XEZdqGp1R+njFZQrMoK8Cc8RuB0ADNEcEtolNY1JtLk9EyxNY6B0hD/yYx/5l014
-         f0WiT6ZWXAs5gaE4BMctvKJT9bc7u8Qkzrm9x564D0jC0jAgwXbOculup5A1eeqlM/aL
-         RUQg==
+        bh=qMmYfcnu5pPLYD/gMpp7nXfS41JIFxX6fx1cVeXdfmI=;
+        b=RmohgDV3FZJJywhsLIst4i2dThthsGb6y1RagSh+ZmM2AZZXuDxbjcuyTumlwzlMh5
+         8Dvcp6PA7z4lcq3PB+mpzNJQ+hz/MCp8g7MHqSYh3NKujQGO6mTupRknGFmWqjcDgJ0E
+         aSn9qyLB503LSbnkKZDuVJegeU9GWqpx1ulQMe2KNIpXHDUplhUfjep3KEPM+uCMntkH
+         y/kGRY9KjcYKwauNMX4Txw3G1pSgTNHPgpxf1hf2MehRCOhDhpS2/WHi4szS7cyw4/Eu
+         VBsj5IAa14oTWpXWtGOIDMRFplfBkPpn3q32mxCreRkkzz4KU8/741w9lWqA2N71xctc
+         /57Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1756454580; x=1757059380; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ynvg9i5E/Eu3T0yuOSKaPhMSI9VX3hQ6sSx3ZGl5pKo=;
-        b=HAVvZeMRT8wgpAocEXDrJr0jQFrqnS7eIQ456cdhv0aLjGtKiWwD7xOXEUEFwd3+LZ
-         2ZACFYFa8fDaBf7RHaGS2Bw7A9M7odjuFCWLlWB3U5l88eI55TwkmPS1z2dBho90n6bp
-         +CDCg1cN6P9wzpNsmOff5nPcxiGKdk01Q6PmqtZigOphUG+yhba/87itZcr5RmC/ERE8
-         fS0StmPOprpM2bcSG2m1x1bzgBSVNfbdLF0tEX8dem4PIkbJ54qHAslSINpogLVQeUA+
-         IehzzBSteeVgcei2B9pg/M1ZinBHqc+VTCHFWPpci3QOYQeEDWr0Z8FAHM+TpJQP8G6v
-         y3zQ==
+        bh=qMmYfcnu5pPLYD/gMpp7nXfS41JIFxX6fx1cVeXdfmI=;
+        b=nRYFqhysfVfHHMezPjvpeCSUMP9XWRpMcQlui5ILpm0DrcdiwWN6rtkK5AWfBqY/O3
+         7nvwa+fDIQWTCxLMv1QGtqf+zM5cotAdO8mi03JN6PIcfNbli0b7xU4OttxhyOccleUq
+         ZDol/bU6Qo+8yf93mRfr1jgyV8qb9Ip3A+wfA4kftsqUp2k80lANAC9SfglmIZnQYJ+5
+         iWNvycYpHCiLHa2Hx8uCKG0qVeD4Rf7uML01XyAUB5ztfm4pNh6iyCKTFYUFKgMfhQkk
+         /2Z3TPpXVUsDbVhUIIxCFigoRKpDT82/BfZAOP9taKr3EqKoaa9IDTalaf+aIMR+KXjR
+         kPNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1756454580; x=1757059380;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -68,75 +68,75 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ynvg9i5E/Eu3T0yuOSKaPhMSI9VX3hQ6sSx3ZGl5pKo=;
-        b=DBzVZ3dtxhHUPaRPl1AMaSAK5hpePgtfSTHAWnQkmom5S8KUxoj/gkGsAvrMhymkWv
-         QkYG0DNstv3nOPd/5gqDGTt599HQ9XMjFKozUY9cPo1E0vqA8kCqXuAgfVLHX8hRRfak
-         zQeyHUHejzAij+RN3lTEbOK0EgwWDSz+DWHQZudNh/eRuFN2vJ8tYNPWP0kCt3WyPaX8
-         8UEQw0BpSnXSmVyB1BIj6a6GjVCbGjpLG+7sY84c0cdXWIIVkvHYpMbj681U5UdFpr/U
-         E24T4Ldf/2pVwwRGNqcFFRZdiC8A9N833sBoN2+Wx0lXM3L7h7YJNOis163wxgFcChph
-         vdog==
+        bh=qMmYfcnu5pPLYD/gMpp7nXfS41JIFxX6fx1cVeXdfmI=;
+        b=Sh1U3C8aDDIHbXyJcffxiRuORm8ZG2AL0r3rhrPQsdUYhcSY3p8rPoXNe2SQDkI73T
+         vCRaLWPs95eBQLyLog1FAyw2SjvGMka6U+BaGJ5OxchRKovHMHbg+1A0mCJ6oT9a+DiX
+         8spRsFHZeVaJG+KTW3u/sUTMyBQdGDN90WTDOID4O7vCzltaSE/O+42980GiM2tyEkPY
+         R8MUZBtDfnWoZVP+lhp0bFjjB7UBoxrq6NaNapunQ6uizQSNxG8BPFfpw92a4e245d9w
+         3cyQoAa1lwOM6Zp00X7Qlywbkaz7YB24Wb/ti1aN1eDXluOzEmMK61Wlxz1wEOf7xIqA
+         Y0/A==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCX/PiVmnane3BH7H2Wj5Cl0T1Hg49RiFrRVJYA/qvqv2B+6FJLGlRH7f/at2AiTQyvhhax7ww==@lfdr.de
-X-Gm-Message-State: AOJu0Yw5w6HYSMazn4QbmmYW0K+LY9JzAuTuggMYjDZ3vDjRWRdgnTS6
-	4JaY+ka7Kl3JisuX/JI6zuHjaPqppzXfd7xeaOG75fMKSmKGGx4exa2n
-X-Google-Smtp-Source: AGHT+IHx/P+n5Dzj4ntN2mPFWmwVFDc4iVSui8EmpM8Fjs5B1d65aoQamkzxVG9mwi1Z6iuvFEsBzA==
-X-Received: by 2002:a05:6870:9f88:b0:315:c161:f175 with SMTP id 586e51a60fabf-315c161f3b7mr83524fac.12.1756454580045;
+X-Forwarded-Encrypted: i=2; AJvYcCVc2Ex+KilzY3v2RhN4oweUkV66jJXftSYicPTilSBKecZIR8SIDHAvWmAG43kJ6EdsdlqVzA==@lfdr.de
+X-Gm-Message-State: AOJu0YzZW4hFOAKH/pLOjaGSc8XhYMNUexldqBJ/CmVWP+P9afo1S9oO
+	BQ+9jpPpOeLMXuQ0MXCTvlj7N1poiDB/fi/hH+dWhWs0lNB9BneZFL4B
+X-Google-Smtp-Source: AGHT+IFm4027CvJkI4DikCj1OpOOBAD8wVYitgo40ZjiXbwPX37qeKKj1MY63EPPit7cLtq/N5l62Q==
+X-Received: by 2002:a05:6e02:188d:b0:3ef:969c:c91 with SMTP id e9e14a558f8ab-3ef969c0caamr187642185ab.6.1756454580467;
         Fri, 29 Aug 2025 01:03:00 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcSVMjCbqvmc6bw+XoBiT0E+19MrTrLtPieKC3Gz1v09A==
-Received: by 2002:a05:6871:4396:b0:30b:8494:7c57 with SMTP id
- 586e51a60fabf-3159603da1els840349fac.2.-pod-prod-09-us; Fri, 29 Aug 2025
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfv7i9w/1sQ/EQICYPCE4tW4F6kfxdqMMYeU/86pqlUPg==
+Received: by 2002:a05:6e02:12c2:b0:3e3:cbfe:cd96 with SMTP id
+ e9e14a558f8ab-3f13bb1d7f1ls13848905ab.2.-pod-prod-04-us; Fri, 29 Aug 2025
  01:02:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCU3SimwBMGHw1EYZglIP6PxWdYm9iKTJf1wLsIv6eSnrqvnx1torNPN3J45tMhgf0bAzfZBuBYWPmk=@googlegroups.com
-X-Received: by 2002:a05:6870:aa08:b0:30b:ca29:cf8d with SMTP id 586e51a60fabf-314dced5eacmr13432726fac.35.1756454579228;
+X-Forwarded-Encrypted: i=2; AJvYcCWIAlqwneeQ2ciZ1T+HjwmrCK4Dn4yUN0I1NicGnNQfm4Q4kIs5FqVCk9W5ve8HxBZ3ExWQIEpo4Q0=@googlegroups.com
+X-Received: by 2002:a05:6e02:194d:b0:3ec:e669:7d76 with SMTP id e9e14a558f8ab-3ece669823emr231690775ab.14.1756454579667;
         Fri, 29 Aug 2025 01:02:59 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1756454579; cv=none;
         d=google.com; s=arc-20240605;
-        b=lxWmjG32+YK+gzXKGYRVSrYWxmLyezIpMQotG8geC7C6uek/ACJKf8A9fPkeXki+8A
-         WBbYCHzQWCC6vd8x9s5evCSEc6ij4nTqf+RzgHLPgP2sXxJ61qmMYsl/Ow7YjW6w2Odb
-         3bElw5pvullUrYeSKIWxn257f3zMnRXyBzKhoIvXRgV/u+fuVpOlT19w7TsQSNBpExGo
-         YAvzNWXjB2MHHN2bD3EkAD2t93ndC0C0HHpQE0SrCKBWkbb14eUxvVeGuWrypvV7H/Qr
-         kpq+iVxoM/KNtAdKQTvTh0o9RXYz66FYMCkoeUdFU4A/Muuucjgw9cg2g2sXf7+fGbsP
-         LnEw==
+        b=btFFnHdljXrIxqWDc9cYLCGBza3otP7elh0DQXsEuqWLaWaVZA5Yhi55jvqs6u7Haa
+         h1S8S9h78diLobj7Djlzz7Gp9Ls1K9PjUmQbPNnq38eVawKj3aqBT6+uzNTFOOJXPV6y
+         Cey6h9gm6F50yzxZuvTJ/JrZmdTZIJsglQ4qpVl0Dvs4B7vAuWSK63LWTetUlBV9e6yM
+         xuqp/bIeBb2FgYV+wn3fBsu23hpkRHqNn0k7RLnC91pVhlPK+95MMwKOExIL72DV9gTB
+         gJVzxvMtM5MByOxb9nKmBuCDmZkt9du1L5cvOz2G41tUWQFEDaM9gnYLVmwhWxyIuyM6
+         r6GQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=0AfZlK+2PpvnkbeUUWLESRnsPEd9fz1tduXIyE8HjWg=;
-        fh=opnY9W5yggZGizutBbVNLRNTCLBfnaj1gO+bGEbi9OY=;
-        b=UDDPBKwyqTRXhRyGO9yf/8PP6Qm0UzBJIWOmVxaQ5KsM2SgEgSCzPw0uyxEXQSyZmF
-         4c90GxWH0TuwVj5fgmoeeXVCm1BkXS2V/3D23dTPYkSNv2toTHfor3rRAFv0684zGVza
-         NRUd+0Tl9cTqT0IYvFSQQKxPtsWFMaMQ0L4UIYxOOnhqIjzzsQ6b+ZeMSr4UP6ZVM7gF
-         T0FxpWXxfE8P3c7iAeFpbFG3qh+W+8QBEJGogt7G5DKOp+RBybkY9JOiL89zKNpXO1Nh
-         vfPAIH6G9Hc9aubOfrjDsxcY1GgZ8DfzmxG+i75phU7AnGkVySnzY7OsfidPFLaLUK33
-         23Fg==;
+        bh=Ji3KkW3qUsiM430Q8CaZBzXxSVywrfxa2oAywWyFSjA=;
+        fh=HFN4IqVy0jo5QBzGfd/BcAZH1nUhQv+Y60prIDgE0PI=;
+        b=OeryKzvqDi3a3AQjSQbuZXUucQp2MPjmUt4kixO3yr4FztWrKN+zNiDRtsdPQHHiBn
+         KB2vfm0CZrobhdrF/w7c6V/ULrJk4bPjZj8cYP8B5TfRAeMvs2j02g+ORv7hDkcObeUy
+         8wpS+VdvWk5uYibaQMzonIFbXuuuwjZfSaCfjVfnwa/pt3BSGZ3r/gJ0HtoJPhU2yT0J
+         NDcyjuel45Bj0hHjY1fqYdpwdSmAHg01upK1+ZdIhkxbxL/pC0xZjLRUsLG+CerBF/M3
+         UEoNUsxSTRLw6Oygdwswg2ssaFekAx4M/F16VmzJc3fhL9Q0S2Ip6I0UQi0srImGHq0o
+         QcAA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=OsBgdp2p;
-       spf=pass (google.com: domain of bagasdotme@gmail.com designates 2607:f8b0:4864:20::62b as permitted sender) smtp.mailfrom=bagasdotme@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=HFhUGww5;
+       spf=pass (google.com: domain of bagasdotme@gmail.com designates 2607:f8b0:4864:20::1032 as permitted sender) smtp.mailfrom=bagasdotme@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com. [2607:f8b0:4864:20::62b])
-        by gmr-mx.google.com with ESMTPS id 46e09a7af769-745582b708dsi68894a34.1.2025.08.29.01.02.59
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com. [2607:f8b0:4864:20::1032])
+        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-50d7bc5bb24si61968173.0.2025.08.29.01.02.59
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
         Fri, 29 Aug 2025 01:02:59 -0700 (PDT)
-Received-SPF: pass (google.com: domain of bagasdotme@gmail.com designates 2607:f8b0:4864:20::62b as permitted sender) client-ip=2607:f8b0:4864:20::62b;
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-24457fe9704so19526055ad.0
+Received-SPF: pass (google.com: domain of bagasdotme@gmail.com designates 2607:f8b0:4864:20::1032 as permitted sender) client-ip=2607:f8b0:4864:20::1032;
+Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-327d47a0e3eso802056a91.3
         for <kasan-dev@googlegroups.com>; Fri, 29 Aug 2025 01:02:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUxAleYU2ETqd0Akb0t3AvzFVgL99vyQ/nR9QNUkXSZYtrvR6JM84rhJ5XrbPaVroAJJKwMwW7hNJY=@googlegroups.com
-X-Gm-Gg: ASbGncss6rhyMJ2wiEXhM2kygbb8DRUsQJ17AhqrPYET2QBHx0ySVUfev+1aaNyCW85
-	B9+VJdSl7XG+uKAU8rINr8BUkoOFjEmCG3z4MdxMTdqtBdjuJsDuV5EsL65PMgXmurOQjjfwLfM
-	XYDJx8Ye5sxJhCamcjKCd3pxynsn97D0VmNoWy89ZmkjPCvQxNK5a1wlllSll9RRwnKOdLa0oUo
-	ZAysxX8BCOFI+gRKX9ULuuL77mSpbrRK7UmGH8I6GUm23NTaCHomJswrOqRgB6qT5BQ8hu6fWFm
-	S7VCenq1ZzE1aWMcy+2vJNQ7/LdBjvK3f1L8kjoS/p6HcFYyxIVt6LuKNWE21Gk5b1tIsJ1ULSK
-	jgJUyeJlOS67CPKSB05pmM2iGWMZ16HgiwDIP
-X-Received: by 2002:a17:903:38cd:b0:240:3c0e:e8c3 with SMTP id d9443c01a7336-2462ef8580emr326320245ad.51.1756454578299;
+X-Forwarded-Encrypted: i=1; AJvYcCXXc0WNx3KN2nGmHebjs7HgnJrmFvmSI0mRLqJzNepzYJS07syFEWMiZp1u6t+q3jMFl02Ayzdg2Ww=@googlegroups.com
+X-Gm-Gg: ASbGnculo55oFSaRKRGntvsXCcVKOHvM8KXszN1Yr5fyv/KgpEfzSBMou81LEetPJ0O
+	LnsmilU60A+OwN/XlYMGehJqHmDPujkYEvy0z0tD9P2Ft9t6qFGysyxr9H36pre3DMsbaw1scmE
+	gGmpZdWAeMMzcSywMNq5S6X/nUSN+uoKws5ccptipG+Zqevg3pS8ViXaNX2WKO2a5YbQUPCE17Z
+	CzhImzlrp+vcPR6WTDiz/GGO56pgApN25wosHgQvAITHCdCu8L4bPmXHYRVkYF4JXVLXeCD/rol
+	ozwL5ZvGs/Rao4FEMsvNF5XY1qRb1j2UarAG286W4Av0owOl0+vGGzKpOSgcZtuPwfEcjafhalr
+	bmIAmK9KawfO1ao7iYKuWjUlQog==
+X-Received: by 2002:a17:90b:2f87:b0:321:b953:85ad with SMTP id 98e67ed59e1d1-325177447c5mr33608858a91.30.1756454578801;
         Fri, 29 Aug 2025 01:02:58 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-249067d9a42sm16769725ad.147.2025.08.29.01.02.57
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b4cd366f95asm1461795a12.51.2025.08.29.01.02.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 29 Aug 2025 01:02:57 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 08D794489F50; Fri, 29 Aug 2025 14:55:28 +0700 (WIB)
+	id 1E9654489F51; Fri, 29 Aug 2025 14:55:28 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
@@ -238,19 +238,19 @@ Cc: Thomas Gleixner <tglx@linutronix.de>,
 	Bart Van Assche <bvanassche@acm.org>,
 	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
 	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 11/14] Documentation: net: Convert external kernel networking docs
-Date: Fri, 29 Aug 2025 14:55:21 +0700
-Message-ID: <20250829075524.45635-12-bagasdotme@gmail.com>
+Subject: [PATCH 12/14] ASoC: doc: Internally link to Writing an ALSA Driver docs
+Date: Fri, 29 Aug 2025 14:55:22 +0700
+Message-ID: <20250829075524.45635-13-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250829075524.45635-1-bagasdotme@gmail.com>
 References: <20250829075524.45635-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4099; i=bagasdotme@gmail.com; h=from:subject; bh=eMX/Qh24hdl/D8upWlphNzasCNRD/YCgXxsSIbz5MxY=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkbY16d1mKOz99m1qX25ldgn5beybqta3f6vFwaVK3P9 qU9Ts6io5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABP5Y8vIsLj5nquL3YaGH+H5 K1M/GSvVfagoWJf+Wf//FmmeVbsWnGJk2HnZqfzd057r3t1TvvSsKTBp/5q8NJD5d+PrUJ8N/JZ PmQE=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1684; i=bagasdotme@gmail.com; h=from:subject; bh=QIAPxg2EoM7XBiBH/OfCd9SfIrsCdhbBl57WJdF7gOo=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkbY14FftK8Ic/EqPdDdzlDXfSrtOCCiCo1tq0af6f2T rxS2nS/o5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABP5M42RYQe/RHjLfYX8tv8L 9vQt6eKUm/OnRm/3gUlFq/44pi2Xf8HI0BjxjsH0R+yFD+urVrRxaVu1SiT8M9vxwkWu7L/ecZP DfAA=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 X-Original-Sender: bagasdotme@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=OsBgdp2p;       spf=pass
- (google.com: domain of bagasdotme@gmail.com designates 2607:f8b0:4864:20::62b
+ header.i=@gmail.com header.s=20230601 header.b=HFhUGww5;       spf=pass
+ (google.com: domain of bagasdotme@gmail.com designates 2607:f8b0:4864:20::1032
  as permitted sender) smtp.mailfrom=bagasdotme@gmail.com;       dmarc=pass
  (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
@@ -266,83 +266,45 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Convert cross-references to kernel networking docs that use external
-links into internal ones.
+ASoC codec and platform driver docs contain reference to writing ALSA
+driver docs, as an external link. Use :doc: directive for the job
+instead.
 
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- .../device_drivers/can/ctu/ctucanfd-driver.rst       |  3 +--
- .../device_drivers/ethernet/amazon/ena.rst           |  4 ++--
- Documentation/networking/ethtool-netlink.rst         |  3 +--
- Documentation/networking/snmp_counter.rst            | 12 +++++-------
- 4 files changed, 9 insertions(+), 13 deletions(-)
+ Documentation/sound/soc/codec.rst    | 4 ++--
+ Documentation/sound/soc/platform.rst | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
-index 1661d13174d5b8..4f9f36414333fd 100644
---- a/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
-+++ b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
-@@ -40,8 +40,7 @@ About SocketCAN
- SocketCAN is a standard common interface for CAN devices in the Linux
- kernel. As the name suggests, the bus is accessed via sockets, similarly
- to common network devices. The reasoning behind this is in depth
--described in `Linux SocketCAN <https://www.kernel.org/doc/html/latest/networking/can.html>`_.
--In short, it offers a
-+described in Documentation/networking/can.rst. In short, it offers a
- natural way to implement and work with higher layer protocols over CAN,
- in the same way as, e.g., UDP/IP over Ethernet.
+diff --git a/Documentation/sound/soc/codec.rst b/Documentation/sound/soc/codec.rst
+index af973c4cac9309..b9d87a4f929b5d 100644
+--- a/Documentation/sound/soc/codec.rst
++++ b/Documentation/sound/soc/codec.rst
+@@ -131,8 +131,8 @@ The codec driver also supports the following ALSA PCM operations:-
+ 	int (*prepare)(struct snd_pcm_substream *);
+   };
  
-diff --git a/Documentation/networking/device_drivers/ethernet/amazon/ena.rst b/Documentation/networking/device_drivers/ethernet/amazon/ena.rst
-index 14784a0a6a8a10..b7b314de857b01 100644
---- a/Documentation/networking/device_drivers/ethernet/amazon/ena.rst
-+++ b/Documentation/networking/device_drivers/ethernet/amazon/ena.rst
-@@ -366,9 +366,9 @@ RSS
+-Please refer to the ALSA driver PCM documentation for details.
+-https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
++Please refer to the :doc:`ALSA driver PCM documentation
++<../kernel-api/writing-an-alsa-driver>` for details.
  
- DEVLINK SUPPORT
- ===============
--.. _`devlink`: https://www.kernel.org/doc/html/latest/networking/devlink/index.html
  
--`devlink`_ supports reloading the driver and initiating re-negotiation with the ENA device
-+:doc:`devlink </networking/devlink/index>` supports reloading the driver and
-+initiating re-negotiation with the ENA device
+ DAPM description
+diff --git a/Documentation/sound/soc/platform.rst b/Documentation/sound/soc/platform.rst
+index 7036630eaf016c..bd21d0a4dd9b0b 100644
+--- a/Documentation/sound/soc/platform.rst
++++ b/Documentation/sound/soc/platform.rst
+@@ -45,8 +45,8 @@ snd_soc_component_driver:-
+ 	...
+   };
  
- .. code-block:: shell
+-Please refer to the ALSA driver documentation for details of audio DMA.
+-https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
++Please refer to the :doc:`ALSA driver documentation
++<../kernel-api/writing-an-alsa-driver>` for details of audio DMA.
  
-diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
-index ab20c644af2485..3445b575cb5d39 100644
---- a/Documentation/networking/ethtool-netlink.rst
-+++ b/Documentation/networking/ethtool-netlink.rst
-@@ -1100,8 +1100,7 @@ This feature is mainly of interest for specific USB devices which does not cope
- well with frequent small-sized URBs transmissions.
- 
- ``ETHTOOL_A_COALESCE_RX_PROFILE`` and ``ETHTOOL_A_COALESCE_TX_PROFILE`` refer
--to DIM parameters, see `Generic Network Dynamic Interrupt Moderation (Net DIM)
--<https://www.kernel.org/doc/Documentation/networking/net_dim.rst>`_.
-+to DIM parameters, see Documentation/networking/net_dim.rst.
- 
- COALESCE_SET
- ============
-diff --git a/Documentation/networking/snmp_counter.rst b/Documentation/networking/snmp_counter.rst
-index ff1e6a8ffe2164..c51d6ca9eff2c7 100644
---- a/Documentation/networking/snmp_counter.rst
-+++ b/Documentation/networking/snmp_counter.rst
-@@ -782,13 +782,11 @@ TCP ACK skip
- ============
- In some scenarios, kernel would avoid sending duplicate ACKs too
- frequently. Please find more details in the tcp_invalid_ratelimit
--section of the `sysctl document`_. When kernel decides to skip an ACK
--due to tcp_invalid_ratelimit, kernel would update one of below
--counters to indicate the ACK is skipped in which scenario. The ACK
--would only be skipped if the received packet is either a SYN packet or
--it has no data.
--
--.. _sysctl document: https://www.kernel.org/doc/Documentation/networking/ip-sysctl.rst
-+section of the Documentation/networking/ip-sysctl.rst. When kernel
-+decides to skip an ACK due to tcp_invalid_ratelimit, kernel would
-+update one of below counters to indicate the ACK is skipped in
-+which scenario. The ACK would only be skipped if the received
-+packet is either a SYN packet or it has no data.
- 
- * TcpExtTCPACKSkippedSynRecv
+ An example DMA driver is soc/pxa/pxa2xx-pcm.c
  
 -- 
 An old man doll... just what I always wanted! - Clara
@@ -350,4 +312,4 @@ An old man doll... just what I always wanted! - Clara
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250829075524.45635-12-bagasdotme%40gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250829075524.45635-13-bagasdotme%40gmail.com.
