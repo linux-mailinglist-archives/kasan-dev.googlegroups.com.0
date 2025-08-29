@@ -1,229 +1,283 @@
-Return-Path: <kasan-dev+bncBC32535MUICBB4FMY3CQMGQEGRNVRCA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDNJH7PUREDRB6FMY3CQMGQE545UQYA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf37.google.com (mail-qv1-xf37.google.com [IPv6:2607:f8b0:4864:20::f37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38C47B3BA82
-	for <lists+kasan-dev@lfdr.de>; Fri, 29 Aug 2025 14:00:50 +0200 (CEST)
-Received: by mail-qv1-xf37.google.com with SMTP id 6a1803df08f44-70dd6d25609sf49267886d6.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 29 Aug 2025 05:00:50 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1756468849; cv=pass;
+Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3E2B3BA83
+	for <lists+kasan-dev@lfdr.de>; Fri, 29 Aug 2025 14:00:58 +0200 (CEST)
+Received: by mail-wm1-x33a.google.com with SMTP id 5b1f17b1804b1-45b7a0d1a71sf13052325e9.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 29 Aug 2025 05:00:58 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1756468858; cv=pass;
         d=google.com; s=arc-20240605;
-        b=genqbW/LsWpCWHrnwmGDAVL74kiZyxMsZwowz+4Zc3wky6iqZFEHUZeVYX/0zZb0W3
-         lZyOiQss72+d5vHy3j+BvoIIUTp8s1APYVJMRI0Czi3OyGgNq8/J/q02uD/FZVGZ5QPF
-         l0639axhSZkPNlE047Waoquv907Mf5/Iz3itY5CRt8AOMPN9EIkLxoi0qxTZ75Fc4clS
-         8629NKHMzX3jfX+bSNrI07HFbGcuXU/rRqBFUgoFjpzucczSrEZxIyzgXcDG+PAdwEOv
-         l7qrRTOUxg/xLFdfRIYcAKb4gvjIExa8jOHrd6RHeIiFj09a2U/qG7mr323InKIa9K/v
-         N6GQ==
+        b=jLOUqKULk3DnbtpawBZmumvCEVbtj1U2kTw8BZnlukBslbrBC2wVeNMGsmMSfccoUj
+         duXknoV1bgq5mRD6GkbDmlssT8NHJXq10ZuAagtq7Sqn1afaWs/J3RAP+GkpHEolmDBC
+         EGFjG1xW8HoBeVB+FKrBCyns0e2orPqnMxOC6Mc2metvZ+wXjYdeRZYtyvJiTlcroMjT
+         d/oXIGM+YG2JHyL/R0+uKRqoQjIF3vSRiKt5R3glgRe9VupaEjwtUxcBwp89dTg3Q07f
+         31tYT4wQy8nd8LiPYbQONRtQnIzjsvspshzUvCbuQEMQDre7D4c9L2AwDO5hXAz32ud7
+         C65w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-language
-         :in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:dkim-signature;
-        bh=6lCEpK9ZQHxpCdMQSOJkrtCSKKlKaZTFjTO2xY5W7J4=;
-        fh=e1P26UhqcM10PDO32uNcFsIi5BvsQrsYZpZYW75OXBM=;
-        b=XkBgNqNuH4fxb5S3FpDSvTJ1c/Hk21ZRxQqx6+axZjTr4OSo72+DxsMCDfoC2Kwpc+
-         YMAFlecOdC4aWOB/sdBi1C0wmgvm2yrU42UwLkANc/mvPZXW1kLkEUfOXxcmsQBptV/t
-         FGS8so5W5EO3dOJ9Sxv9jcf9Xn6byTYStJbb6A1rq6/qkFR5BvnVZIaa76fu6/4dN/+1
-         7ARi3vjzZVHCz6ppJYRALi89SU3ywBX4O2GXEVGfLRllH8uque6uzKraMBRFugDSBMgP
-         LH/vkKlJUke3GkeCG4+xQnQbbm18lkC45RT4RUbCSnwP2IhQ6lBt3HJV7ChHqczaZ9KO
-         z51A==;
+         :list-id:mailing-list:precedence:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:dkim-signature;
+        bh=5cgFPs8RHT3rZcV18+ksBbK2KK64IEjwEAriZWagCG4=;
+        fh=1TVRQ0AmCTlo+zsIZ5HCP7g0G1PGLfKWg6a/PPUF8Jo=;
+        b=JFWMtsOPITCcilyLauiNfZ39hD5Gvx0th2stuPAKKDCkkVHLKmSfKWsQSgjyaRIpOS
+         V0oG0KpLIvpLM4UpCPxcJZ10jJ7PQbtmtQeAiatlYmrkmv/DGEoc1j0RY98pO6BBtMt0
+         cJO4VFwJv8ONkQ4YK4/faVp/k8HT2Y16G+gXaxttNQYoTrRUZvMI4W8bSXtzcn/Oa2dV
+         756FVhn93eaTpwPJlk6RLO6ArmrQmh+AQRFeXxrChj+fTYv1zJJrgBsqjWS9squDQD/M
+         8rQUlzArkfo3NlKbMmsYmcDDnOx2NTCMo7AD1fPYbqTe4hx8g5BS4GKfwazKW3mzVvTF
+         YCNQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=flnilzGt;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=EZXX5o4h;
+       dkim=neutral (no key) header.i=@suse.de;
+       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b="OPBU/lqB";
+       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
+       spf=pass (google.com: domain of tzimmermann@suse.de designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=tzimmermann@suse.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1756468849; x=1757073649; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1756468858; x=1757073658; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-language:in-reply-to:autocrypt:from:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=6lCEpK9ZQHxpCdMQSOJkrtCSKKlKaZTFjTO2xY5W7J4=;
-        b=j66aoafuieg9IKs3Jb+OtkcsJIj5AyBCtRj83weNR4M3gmHyjdLkKFcrSCTR9LMdSh
-         Do7uWyv7/LPJqVrqf/5CyiLLK+TVb24pgaiXhJFj2TX2Iys6CdtCItDFN/pyNH9t1Zl6
-         h3g4d+x67QgOksT/lJvy1xhiRUApoEN59OtNrk8Nz6cr3agloZ1F9J3E5vy2hcRU3MAU
-         oFP5Z/8hNJO+QguMIJxpsonCspb+p6oSAFI/rWKFgnoR0bJbBcCk9/0cpVfa9DaK2u6t
-         OOOqmv23CIWOP2HGqM5h8WdZxZhNOZyyqt38Qrh76Ocuqj3QACnIaiwDIpZXYOpVk3AL
-         RK1g==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:autocrypt:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=5cgFPs8RHT3rZcV18+ksBbK2KK64IEjwEAriZWagCG4=;
+        b=MgST77Zj8CwZjVeG/SH2Jf2zP+FHP9YRT9nurlMif5EzHv4MmNmrvEyDrFYpS/CsaN
+         sK7WraruXhLDbamtmI3SLovdNNuhLb2fKU40TcffXQAYr72WNruSqRetIHxxGKB6PsUm
+         VQiWR5nPtMvGSmhf2GB5F+bvBbKPrivw6YhZRmqlONHlwl/5vgin+ynh4oXVfbh4VEFQ
+         Mn+CBmScSVC7ojSBJhkiVpMUdqr/ddcw/ANuLGMNNl9kCPYkFRISQiFiL4Wcyib+IkV5
+         RmnGEwn9NBx4ZEOmBKSNZgkr/U56cf9H+Qw7X2Hp0iwRfvqFObaC4rTfILhvth5mzYMh
+         4u7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756468849; x=1757073649;
+        d=1e100.net; s=20230601; t=1756468858; x=1757073658;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-language:in-reply-to:autocrypt:from:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:x-beenthere
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6lCEpK9ZQHxpCdMQSOJkrtCSKKlKaZTFjTO2xY5W7J4=;
-        b=Rbmh0kv3VnbRXtnCIXp2v/02C78eBZ+u88jwmHgOZntINi76hq29r/3LsPY6jV9aWM
-         nIV74Pk4unBxZPSbt+zHyDVZCrZIYAHmlpPB3Qj1WySnNGuyfvJthIUOXfNI3AbvYMJN
-         h+24Rjl6yrns6YYI36MDFBmDi5zWVlqs4SCDmLV2plbpV/nXywYDuQgoWnCF7o/FSXfO
-         ckN11282aasKCkDuRie4ECYQYWFFQaljSwKn79TeTQXIK7O1dnw1hg+zU99HB/A/3uM7
-         JSxMzs8q/1D1XQ6sq6ehqfv3b+w2Oo/V3fTeqaBgrkaA6J0Yt7ymOD3dER1wr/MwX1U8
-         VafQ==
-X-Forwarded-Encrypted: i=2; AJvYcCVFs1lm6IPo14H4EzFjeBG8PMEPBC239CKPNfQ3WV+T44cHL16h4HbJB/0REYhiwGAVAMC/ZQ==@lfdr.de
-X-Gm-Message-State: AOJu0YwKQ+sZ4RN5vppyCS2msC8bwYGAIyTNDH45sNIv4GkiWL0tsd0I
-	xxWnWivneKBYnemBxQ4ryYDshbnyIeZOIvwK4OBb2gUw/JZ4eH0hqsyS
-X-Google-Smtp-Source: AGHT+IE5UdETD1hT5UPv2ZcpLAPxQI7zhvTpN+Z2SxWVIqT9ujdQgqaHwklqN2gUMB+snyAecgY5ZQ==
-X-Received: by 2002:a05:6214:20e3:b0:70d:f74a:8f5b with SMTP id 6a1803df08f44-70df74a95f5mr55387106d6.20.1756468848736;
-        Fri, 29 Aug 2025 05:00:48 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZe/qRAeB8FJtEsuPuNjPiHw2rpzJ6xp46x9VKuxzXP3zw==
-Received: by 2002:a05:6214:5091:b0:70d:9340:2d97 with SMTP id
- 6a1803df08f44-70df0355992ls25082206d6.1.-pod-prod-03-us; Fri, 29 Aug 2025
- 05:00:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUrAF5yJcORr9a5MKpsw3o5xRBajd/H1JyLZhx221Qeos5mlTdOJAyO6kkSQ/UJXpTp548/78ShD/M=@googlegroups.com
-X-Received: by 2002:a05:6122:6112:b0:53f:7828:16c7 with SMTP id 71dfb90a1353d-53f78281ac6mr5899221e0c.15.1756468847034;
-        Fri, 29 Aug 2025 05:00:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1756468847; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :autocrypt:from:content-language:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5cgFPs8RHT3rZcV18+ksBbK2KK64IEjwEAriZWagCG4=;
+        b=FDsaENutDmzjD8vTvHpGNEkPWoFOf0cOz+HXy33Arq5tgoK4iGQHALjJN1x84Wx5Ty
+         otfA6P7FePVvE4iodcsJHh7K71XUEdIWJKA4jSzBqGk8b+5wJEkq+hH08J6ZBi0r6Nio
+         9I00DtPi4eYJArqF7z/eVjhQmlmRuBZWROe/5P24OwP7lBwvl2AwsgdkCdxojIXm69Wu
+         j0G62166pypglKWpowKfdYgguNJ+4HVX2O4LBOaCSLX4634ozlw9+eh868WDDRLkXgnO
+         FQVBaQGk7Ie6puaxN8N+mnjs0TxWXwbDfczIrqKDRPPoHWr9zZhDk7TdFp0O4Ls5iIDI
+         nyGQ==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCXre9dNpzL4kJXc7jnki/W25Dhw2crsP76egq3AdgUZg3gsdeyd85XDlVGuOp4ViVq3PVpQsQ==@lfdr.de
+X-Gm-Message-State: AOJu0Yw7LCcWcW/3+19ZHmhXM9Q6xvOYoPSyPw7xRK/DmPoDFxPx+cMA
+	B/OuQCSvAR+L1GBDmFvVDkq7atNm7NwY6zgF8/sZisZTvTO4Vcyo2ReX
+X-Google-Smtp-Source: AGHT+IHw16aml+VSOolyNJkx4VvkLQw/cfiZV+Zltd3uZq7a+FvXhUhZGFvcekW5K062jG98dob0Cw==
+X-Received: by 2002:a05:600c:1c0c:b0:458:bda4:43df with SMTP id 5b1f17b1804b1-45b727a2c43mr87049375e9.17.1756468857462;
+        Fri, 29 Aug 2025 05:00:57 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfqC5A1QEfPvTyPoljiowM4GnkUtIEeCd1LUljZ0jz1GA==
+Received: by 2002:a05:600c:1993:b0:459:d42f:7dd5 with SMTP id
+ 5b1f17b1804b1-45b78796496ls8668245e9.0.-pod-prod-09-eu; Fri, 29 Aug 2025
+ 05:00:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUZqV79CuDcu6azIJ0iF3jj+cMRbT27wihhu2hcsIes8LVnpf32sixrn9ilOPPt1uPptyfS14e1Vvw=@googlegroups.com
+X-Received: by 2002:a05:6000:2306:b0:3c8:ffcf:e01d with SMTP id ffacd0b85a97d-3c8ffcfe6bbmr14121532f8f.55.1756468854814;
+        Fri, 29 Aug 2025 05:00:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1756468854; cv=none;
         d=google.com; s=arc-20240605;
-        b=Iw9IJ49As55xl7gdY9FMfiVbqNEv0RXw1xSz962lDki8JvtdJeKR33NfV0+9e7jOJ+
-         cbJ+Nsx5+GXu53jrQnAxoBMJCBH65Tl6nCcBoUm876rokBCGGfd6By95fDTHQST6uEi2
-         D/rh7LoS5+DishO55zMe7yoH5g3+JXeqyCx2GRImJVW/1yUq4INUl/gebo2G5M5k1Jw4
-         0JhhtLAMyl5r3wHto65zMpE2ClsFyQqkpvEG37P/nUNUtoTx5hlZrqnJYfr7/FlXjBBa
-         G4+9bWWc27/kEH4OXjNrEWFcAHj2NR9sME6uYdVW3PJVBLRZq3hZGa0xY3FIMssQco6K
-         /N/A==
+        b=Lz+MGpAxJStH++gbA+/tWBHJvKEMLMOIH9Ud8ytb3JngpXC+2Ussdspaz2yJKId0lj
+         XRL9BG8nkdgbvr8v2HU6ZCNeqL7gYlHE4GaStu2dBShHRfWj0NMoZCz7w2zrYTpQScn3
+         uXLOR0weE+IBBOdlgP5sYT8Od+QIQiOG8HpjTui3DCmAe1eijUOjrpLb4vuXHcb+rjS6
+         MhfcYMb18HdGMn1MocDR8Pgcr/LiSCEkjgBw7tEUbakxGXiR/0n5MRIC4P+dL5hd9jjM
+         Yn7vALaAsF8PtIkKcnmtaiaLu/YhN4oHLbiBxiJrlL/SJBC1h3aVV5fpvmfONglnwVwq
+         IjOw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:content-language:in-reply-to:autocrypt
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:dkim-signature;
-        bh=WRODc3MDTNqLHIXQzOQ9QRmb2QGRyzsJAWu0HJ+lHgE=;
-        fh=3BNnNpp4VHKIz5kMjUuS0sEWLZwNaO/R40jkBx0F7TY=;
-        b=YdHEYG2sx+e9xLlzMSn8xl4UCQJ9MfwtlxdJNguN9yovG/Q6dyTCFwPSO37JK9Z0OQ
-         hLvXsYS0T9HXICH9RJoa/NfDm6b+ROgP5iEmoPrpiGeisaitJVSwHRz5T2qc+SMGLdbg
-         AM8R5ZEFfo6/f1Uz+jh5kOXvRL8PuoaOut+Qw1VVvu6Hprkc37rn7NK4nxcls1O3Ni6Y
-         gH6495Lr53ENZpzbVYYJ3hs+zEjb+Xe7bXvfzynDTLJghcvjjPe7nfZJkiypQk09Qn2a
-         IXgTBXgMPqw6xLJf0cFHrO49bBkUh+IiL/i/JgIJfwwIDGRnZokkETUPQUB2RaauDC77
-         GnbQ==;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:dkim-signature:dkim-signature:dkim-signature
+         :dkim-signature;
+        bh=iaUzxmwBsmTBCo2WBOyDflFvUI/88ipptA2vlawnwBU=;
+        fh=h4pDr/7ncy9ff4xLhywP/VTiPAnrfqt6GLksfh8qsz0=;
+        b=NQUKPXHRWYmtUVPXjaKS29yI6zaevhpL2MlXmeOti4tiOmos4LCER/Qv7VSHrBTbQd
+         UWOnUjhgGbmoz8jexcN2XYa2hzZZZij16Brq9yqCMjBIYvs1cuZpXaV9Ju57bmqIK6li
+         xM155NPmixIpJ43dV/OcmIEQKQA4/Xb6jmHTWpcLf2LFgfMw+YmSdp6LXzsefdrLZn8o
+         RKY9GgG/x/iQ+8lJMK902eLO156TBqu50yi0XIPJ8B7xhg7XRouVLpP4CcSDrXj3dH8D
+         kKw7nWMFdgOobo6T+6Lljh9rOhdCn6upYoxGvgt59UQhzDTsSc4w9jlvaIaq6uGkoZjW
+         5FoA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=flnilzGt;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
-        by gmr-mx.google.com with ESMTPS id 71dfb90a1353d-544912d3088si62252e0c.1.2025.08.29.05.00.46
+       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=EZXX5o4h;
+       dkim=neutral (no key) header.i=@suse.de;
+       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b="OPBU/lqB";
+       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
+       spf=pass (google.com: domain of tzimmermann@suse.de designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=tzimmermann@suse.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
+Received: from smtp-out1.suse.de (smtp-out1.suse.de. [2a07:de40:b251:101:10:150:64:1])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3cf2883c8f2si38227f8f.4.2025.08.29.05.00.54
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Aug 2025 05:00:46 -0700 (PDT)
-Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-392-Bho9coPGMMGwGtAfhtzM-w-1; Fri, 29 Aug 2025 08:00:44 -0400
-X-MC-Unique: Bho9coPGMMGwGtAfhtzM-w-1
-X-Mimecast-MFC-AGG-ID: Bho9coPGMMGwGtAfhtzM-w_1756468843
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3ccfd9063a0so687587f8f.0
-        for <kasan-dev@googlegroups.com>; Fri, 29 Aug 2025 05:00:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXUhAd/cp0890gEN2DMVj9ubmU1+JMSoeHmjlYQihPimN1lCShi9LNXDm+yOIEp1K3SndKO5A2EtZw=@googlegroups.com
-X-Gm-Gg: ASbGncu2sUBGDaSSFTwyMxKI77FHzQVpZZNXZ/Xp57ztXH6/HQAhZNMOmY65xP3LKqm
-	v4NscqFDzrfZgdf+Heg1fiF3AOujw+cm6PVcJAo0wjGsvrxDGwj/gd1WEgnlklOiJqdVyYTq6fY
-	ZGfeNkMznypB5gCLqJOBUQREcMS60IctRcfrfKXSMVd8HTW4RguUV5cFeIBe9Hlf7RSd6krR4e/
-	XdHrCVZ0A/86F987FnLaSqSGQNknz9OOCJBd7w1CGM0VtzY4UNn6kM1LxAk+qmB52Gq4v6zg+yp
-	UNXbjXN/abS+MBScjmUvRR90jParZqYuQCsNiYpPCZO/97sQN+BVryymijSvH1FENemEMbezKi7
-	Mzw2Na3L4rDOh2CA3kFR9uVIlRunw4wFPcWWQaowFYM3xhB6WQT3vc8dsb0QLS0c=
-X-Received: by 2002:a05:6000:4382:b0:3c8:89e9:6ac0 with SMTP id ffacd0b85a97d-3c889e96e1dmr12052193f8f.3.1756468842727;
-        Fri, 29 Aug 2025 05:00:42 -0700 (PDT)
-X-Received: by 2002:a05:6000:4382:b0:3c8:89e9:6ac0 with SMTP id ffacd0b85a97d-3c889e96e1dmr12052085f8f.3.1756468841352;
-        Fri, 29 Aug 2025 05:00:41 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f1d:100:4f8e:bb13:c3c7:f854? (p200300d82f1d01004f8ebb13c3c7f854.dip0.t-ipconnect.de. [2003:d8:2f1d:100:4f8e:bb13:c3c7:f854])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3cf270fc0a8sm3118235f8f.7.2025.08.29.05.00.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Aug 2025 05:00:39 -0700 (PDT)
-Message-ID: <d0b06885-9f04-483f-a7e1-f197c8431491@redhat.com>
-Date: Fri, 29 Aug 2025 14:00:37 +0200
+        Fri, 29 Aug 2025 05:00:54 -0700 (PDT)
+Received-SPF: pass (google.com: domain of tzimmermann@suse.de designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:1;
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DE57F33DB5;
+	Fri, 29 Aug 2025 12:00:53 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9D2EC13A72;
+	Fri, 29 Aug 2025 12:00:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id l3olJXOWsWgSYwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Fri, 29 Aug 2025 12:00:51 +0000
+Message-ID: <871b2113-5482-4f3c-b58b-573d6cbeebe0@suse.de>
+Date: Fri, 29 Aug 2025 14:00:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 13/36] mm/hugetlb: cleanup
- hugetlb_folio_init_tail_vmemmap()
-To: Mike Rapoport <rppt@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
+Subject: Re: [PATCH 08/14] Documentation: gpu: Use internal link to kunit
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux DAMON <damon@lists.linux.dev>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Linux Power Management <linux-pm@vger.kernel.org>,
+ Linux Block Devices <linux-block@vger.kernel.org>,
+ Linux BPF <bpf@vger.kernel.org>,
+ Linux Kernel Workflows <workflows@vger.kernel.org>,
+ Linux KASAN <kasan-dev@googlegroups.com>,
+ Linux Devicetree <devicetree@vger.kernel.org>,
+ Linux fsverity <fsverity@lists.linux.dev>,
+ Linux MTD <linux-mtd@lists.infradead.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Build System <linux-lbuild@vger.kernel.org>,
+ Linux Networking <netdev@vger.kernel.org>,
+ Linux Sound <linux-sound@vger.kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
+ Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, SeongJae Park <sj@kernel.org>,
  Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
- Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- iommu@lists.linux.dev, io-uring@vger.kernel.org,
- Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
- Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
- kasan-dev@googlegroups.com, kvm@vger.kernel.org,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
- linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Marco Elver <elver@google.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
- netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
- Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
- Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
- virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
- wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-References: <20250827220141.262669-1-david@redhat.com>
- <20250827220141.262669-14-david@redhat.com> <aLADXP89cp6hAq0q@kernel.org>
- <377449bd-3c06-4a09-8647-e41354e64b30@redhat.com>
- <aLAN7xS4WQsN6Hpm@kernel.org>
- <6880f125-803d-4eea-88ac-b67fdcc5995d@redhat.com>
- <aLAVUePBQuz9D89T@kernel.org>
-From: "'David Hildenbrand' via kasan-dev" <kasan-dev@googlegroups.com>
-Autocrypt: addr=david@redhat.com; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
- ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZoEEwEIAEQCGwMCF4ACGQEFCwkIBwICIgIG
- FQoJCAsCBBYCAwECHgcWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaJzangUJJlgIpAAKCRBN
- 3hD3AP+DWhAxD/9wcL0A+2rtaAmutaKTfxhTP0b4AAp1r/eLxjrbfbCCmh4pqzBhmSX/4z11
- opn2KqcOsueRF1t2ENLOWzQu3Roiny2HOU7DajqB4dm1BVMaXQya5ae2ghzlJN9SIoopTWlR
- 0Af3hPj5E2PYvQhlcqeoehKlBo9rROJv/rjmr2x0yOM8qeTroH/ZzNlCtJ56AsE6Tvl+r7cW
- 3x7/Jq5WvWeudKrhFh7/yQ7eRvHCjd9bBrZTlgAfiHmX9AnCCPRPpNGNedV9Yty2Jnxhfmbv
- Pw37LA/jef8zlCDyUh2KCU1xVEOWqg15o1RtTyGV1nXV2O/mfuQJud5vIgzBvHhypc3p6VZJ
- lEf8YmT+Ol5P7SfCs5/uGdWUYQEMqOlg6w9R4Pe8d+mk8KGvfE9/zTwGg0nRgKqlQXrWRERv
- cuEwQbridlPAoQHrFWtwpgYMXx2TaZ3sihcIPo9uU5eBs0rf4mOERY75SK+Ekayv2ucTfjxr
- Kf014py2aoRJHuvy85ee/zIyLmve5hngZTTe3Wg3TInT9UTFzTPhItam6dZ1xqdTGHZYGU0O
- otRHcwLGt470grdiob6PfVTXoHlBvkWRadMhSuG4RORCDpq89vu5QralFNIf3EysNohoFy2A
- LYg2/D53xbU/aa4DDzBb5b1Rkg/udO1gZocVQWrDh6I2K3+cCs7BTQRVy5+RARAA59fefSDR
- 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
- VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
- /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
- iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
- 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
- zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
- azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
- FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
- sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
- 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
- EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
- IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
- 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
- Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
- sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
- yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
- 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
- r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
- 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
- CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
- qIws/H2t
-In-Reply-To: <aLAVUePBQuz9D89T@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: TvEaVwiLaNSLsRFeW8NHR-0ufqn0yAqXNWI_z-cBArQ_1756468843
-X-Mimecast-Originator: redhat.com
+ David Hildenbrand <david@redhat.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Huang Rui <ray.huang@amd.com>, "Gautham R. Shenoy" <gautham.shenoy@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Perry Yuan <perry.yuan@amd.com>, Jens Axboe <axboe@kernel.dk>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
+ Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
+ tytso@mit.edu, Richard Weinberger <richard@nod.at>,
+ Zhihao Cheng <chengzhihao1@huawei.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Waiman Long <longman@redhat.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Shay Agroskin <shayagr@amazon.com>, Arthur Kiyanovski <akiyano@amazon.com>,
+ David Arinzon <darinzon@amazon.com>, Saeed Bishara <saeedb@amazon.com>,
+ Andrew Lunn <andrew@lunn.ch>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Alexandru Ciobotaru <alcioa@amazon.com>,
+ The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Steve French <stfrench@microsoft.com>,
+ Meetakshi Setiya <msetiya@microsoft.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Bart Van Assche <bvanassche@acm.org>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?=
+ <linux@weissschuh.net>, Masahiro Yamada <masahiroy@kernel.org>
+References: <20250829075524.45635-1-bagasdotme@gmail.com>
+ <20250829075524.45635-9-bagasdotme@gmail.com>
 Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250829075524.45635-9-bagasdotme@gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Original-Sender: david@redhat.com
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,lists.linux.dev,kvack.org,googlegroups.com,lists.infradead.org,lists.freedesktop.org];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[linutronix.de,alien8.de,infradead.org,kernel.org,linux.intel.com,lwn.net,linux-foundation.org,redhat.com,oracle.com,suse.cz,google.com,suse.com,amd.com,kernel.dk,iogearbox.net,linux.dev,gmail.com,fomichev.me,perches.com,arm.com,mit.edu,nod.at,huawei.com,ffwll.ch,davemloft.net,amazon.com,lunn.ch,perex.cz,ideasonboard.com,microsoft.com,linuxfoundation.org,acm.org,weissschuh.net];
+	DKIM_TRACE(0.00)[suse.de:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[99];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	R_RATELIMIT(0.00)[to_ip_from(RLunxtm633ak3os5q1rit88byp)];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: DE57F33DB5
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
+X-Original-Sender: tzimmermann@suse.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=flnilzGt;
-       spf=pass (google.com: domain of david@redhat.com designates
- 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
-X-Original-From: David Hildenbrand <david@redhat.com>
-Reply-To: David Hildenbrand <david@redhat.com>
+ header.i=@suse.de header.s=susede2_rsa header.b=EZXX5o4h;       dkim=neutral
+ (no key) header.i=@suse.de;       dkim=pass header.i=@suse.de
+ header.s=susede2_rsa header.b="OPBU/lqB";       dkim=neutral (no key)
+ header.i=@suse.de header.s=susede2_ed25519;       spf=pass (google.com:
+ domain of tzimmermann@suse.de designates 2a07:de40:b251:101:10:150:64:1 as
+ permitted sender) smtp.mailfrom=tzimmermann@suse.de;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=suse.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -236,46 +290,53 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 28.08.25 10:37, Mike Rapoport wrote:
-> On Thu, Aug 28, 2025 at 10:18:23AM +0200, David Hildenbrand wrote:
->> On 28.08.25 10:06, Mike Rapoport wrote:
->>> On Thu, Aug 28, 2025 at 09:44:27AM +0200, David Hildenbrand wrote:
->>>> On 28.08.25 09:21, Mike Rapoport wrote:
->>>>> On Thu, Aug 28, 2025 at 12:01:17AM +0200, David Hildenbrand wrote:
->>>>>> +	/*
->>>>>> +	 * We mark all tail pages with memblock_reserved_mark_noinit(),
->>>>>> +	 * so these pages are completely uninitialized.
->>>>>
->>>>>                                 ^ not? ;-)
->>>>
->>>> Can you elaborate?
->>>
->>> Oh, sorry, I misread "uninitialized".
->>> Still, I'd phrase it as
->>>
->>> 	/*
->>> 	 * We marked all tail pages with memblock_reserved_mark_noinit(),
->>> 	 * so we must initialize them here.
->>> 	 */
->>
->> I prefer what I currently have, but thanks for the review.
-> 
-> No strong feelings, feel free to add
-> 
-> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> 
 
-I now have
 
-"As we marked all tail pages with memblock_reserved_mark_noinit(), we 
-must initialize them ourselves here."
+Am 29.08.25 um 09:55 schrieb Bagas Sanjaya:
+> Use internal linking to kunit documentation.
+>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Fell free to merge it through a tree of your choice.
+
+Best regards
+Thomas
+
+> ---
+>   Documentation/gpu/todo.rst | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> index be8637da3fe950..efe9393f260ae2 100644
+> --- a/Documentation/gpu/todo.rst
+> +++ b/Documentation/gpu/todo.rst
+> @@ -655,9 +655,9 @@ Better Testing
+>   Add unit tests using the Kernel Unit Testing (KUnit) framework
+>   --------------------------------------------------------------
+>   
+> -The `KUnit <https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html>`_
+> -provides a common framework for unit tests within the Linux kernel. Having a
+> -test suite would allow to identify regressions earlier.
+> +The :doc:`KUnit </dev-tools/kunit/index>` provides a common framework for unit
+> +tests within the Linux kernel. Having a test suite would allow to identify
+> +regressions earlier.
+>   
+>   A good candidate for the first unit tests are the format-conversion helpers in
+>   ``drm_format_helper.c``.
 
 -- 
-Cheers
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-David / dhildenb
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/d0b06885-9f04-483f-a7e1-f197c8431491%40redhat.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/871b2113-5482-4f3c-b58b-573d6cbeebe0%40suse.de.
