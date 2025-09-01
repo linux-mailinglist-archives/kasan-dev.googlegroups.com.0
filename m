@@ -1,140 +1,140 @@
-Return-Path: <kasan-dev+bncBDP53XW3ZQCBBJE227CQMGQE72FXA5Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBDP53XW3ZQCBBJU227CQMGQE7JUEQTA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11FA6B3EC7D
-	for <lists+kasan-dev@lfdr.de>; Mon,  1 Sep 2025 18:43:18 +0200 (CEST)
-Received: by mail-wm1-x33f.google.com with SMTP id 5b1f17b1804b1-45b883aa405sf13572145e9.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 01 Sep 2025 09:43:18 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1756744997; cv=pass;
+Received: from mail-wr1-x440.google.com (mail-wr1-x440.google.com [IPv6:2a00:1450:4864:20::440])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62A4BB3EC7E
+	for <lists+kasan-dev@lfdr.de>; Mon,  1 Sep 2025 18:43:19 +0200 (CEST)
+Received: by mail-wr1-x440.google.com with SMTP id ffacd0b85a97d-3d160b611fdsf1483207f8f.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 01 Sep 2025 09:43:19 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1756744999; cv=pass;
         d=google.com; s=arc-20240605;
-        b=W2TNk15csYCfVxlbL1DKrK44cg6H7uYKRTNV4zaAIT0jUCvEeKTwcTn3qEDz61cl8D
-         Hzh7y/lXB8Nj6Uj96nZoM0F346Q9Ch3oyVN/LRyEJBalXeZVrKrGpVFCFaPWWv+nnCZ/
-         GrzL6oTin2oGUPOg/v6/m6I6dDK1BFkzpVAGKiTZTGtRbFfnMQ2XThw7yujWoFMcQw6x
-         MQ58XE6RpgT9j7zF/3ACe7C1TrD4Ew29Gt6WOWV0eypOAH2Gb86T69Q6xvnZ0kikRP/+
-         hLslCaxi9C9Ugs3w17OLvVa7p1KcrF+CTe9KYkJBp0f7xDg86X+H9GnCpZyIFsKNXI+t
-         bHqg==
+        b=S4eWXSa6o1iK4bG6+FWB0BcZ3NZS6rYhzYoSKqXkuYVsQmGqxjr5dNriF4dq73gza+
+         xYNQ3BiCHXXVG9r2HfKL7BA3Oowr1yjHv8akTzNJIPDAc+0zKZ3K8dTP7XmsYKYYW0uY
+         jDeNigowk9KYXYjNTqpcfNYYNpqW0KEGqKmN6RRCviq5i5K+s8Hqqzf+NkK89bxB2K02
+         j3x77gl+ovoD+l2tQH72c6c+HCubfBnaGPih7SkHjtzX2nMnq/Ys2YwMcOUf3PlAw2Gj
+         yTgWwX7J97GiiPxIpP97AHReKSKfwk1/oAQlHFokd68LoLvGuZcDuwovnKRD4r3Y/btK
+         aEUw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature
          :dkim-signature;
-        bh=dukCdijJJZ5PHBHPLzH6bHorOfI4sidvAq9gDxUkEFU=;
-        fh=szvch2/D1X9zl5Gnu/raq+ZukoRJkC63F/EKDZt7kng=;
-        b=b9+qlCJzxay/hxNDO/MUWagjI5aADkGqCT4dErSqnY2X5GuMdj8RaA4RVItCWdLgwi
-         r3sM8DDvnasP98dhVrHQhVtHG7wbJw+oY++SXyc0pGv0V+23NbzGxOcS22AGrXSEH8h7
-         77Jmaz+tO6ALuVlOLcSX8uNWhBvsIgeHhZWYVQW8zf5r7128NXpvcYhhd/zq6sBVHDQj
-         wUnI+fGZw9khxX/GU9ELgLj43f4NT2UJlhvTbqYAlpolS1/JCzQPeQLaP5p6vVbg7NOX
-         wzCJHZ6qLenTp6KMKeiA2KzAokKasELV/79N5fkGLL9WuyXwCQa7Oqm5/XUP4emu9u6R
-         suxQ==;
+        bh=tE7qnQu2KLSVzyhnjDRDoqgCMNYeTzMl9+2BMjLguwk=;
+        fh=HSii7nQtohFB7UMK2pz379VYdDTh1zIN5s5AnT3H7cQ=;
+        b=FuiEpea4JQR2jtiL03NtBQFA5m1i9Cm8z3SyQelmygd7Dwi1VRO3vQPwI+ZNiNJsY3
+         ha7ac0n58gq+5H72zrPNlEKCCxbGJ1xK91qxoBeyqa3xhybB8e3n1xfwcewSH9t1zTLN
+         S/T8BiEg/ZqemkR9f+ASfIIjw4SvCAsMlM13gS4erwy7PrSWnnFUP4LaTcQeam6su3EF
+         8k+y80VDCPIADRNlh3VhMKDxPYXojfu4VifP3gNLrxxeS7M7LkIQgYGt600K+/njmEvc
+         1IaXNFJwAyEHtXVpQNxcTTN7BCYFAnWdH+qmUKSLCsFBvzm4EfnMpJiOUR/+gqJskdMt
+         IYwQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=eH7RGex1;
-       spf=pass (google.com: domain of ethan.w.s.graham@gmail.com designates 2a00:1450:4864:20::435 as permitted sender) smtp.mailfrom=ethan.w.s.graham@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=bpBwLepQ;
+       spf=pass (google.com: domain of ethan.w.s.graham@gmail.com designates 2a00:1450:4864:20::436 as permitted sender) smtp.mailfrom=ethan.w.s.graham@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1756744997; x=1757349797; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1756744999; x=1757349799; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dukCdijJJZ5PHBHPLzH6bHorOfI4sidvAq9gDxUkEFU=;
-        b=FktWKdu2HZuztTPKAW22/WPGiva63jUwM+Sdpcw+l2NNbrK12OfnxMyuBxHgUC7EKG
-         rExD37RnNB8bEv8mbWHfYBWV+AnIQrX2nnvQ9xVlOV2MVtuujqoT0/YNTrnrTqcLyB7b
-         Ipyr6QhXovU7J+3yXHMfKVOE34RzBUBYiI0bPtsSXOtmy5+ujruaYt5N1+9Z5Zwubtvu
-         V9kwAPViRd+ZN0+R0XGn89WdY3ShrrNzQMWw9U/OIXhACxrFRtDaPuAjNOVvc7xirwca
-         7qn/+4bJ4bC/VxIr+riLv0c5LOHLZEh7JzxGo3KfX7uZNRMQxu9NMgq1afUV9CvGFV+/
-         CPMQ==
+        bh=tE7qnQu2KLSVzyhnjDRDoqgCMNYeTzMl9+2BMjLguwk=;
+        b=ATLgSJYqvsZrWSyfSJ9ebW5tP1GrrIrtQokBPjD+xvY0ywMbxk5RLBYoqAq0YeOphM
+         eoExYOXAkJN2W5AWV9hz2QtTx1g76EBsyiwOyBS0lFRjZj06wmJQrN6ozuGqy6rpedya
+         lz/k0pMw83IjjyvIplMsgG6O71kcAZOL4cY7mSiMLxIjIzko4c2iamRCDuWbKI9P3HnS
+         15mvvoyKeElaZUsz7vox4D51wf/HzX3OVTbxAHnj/VTep8eg6bC6dlPluHn3DtjPBvVN
+         AbBt87kOO9/vJTWdlAHeWs26M5rWYySGG93heqf5HIS8JQ5baLhMGYoYl1BYzNk9Jb+c
+         KVRA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756744997; x=1757349797; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1756744999; x=1757349799; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dukCdijJJZ5PHBHPLzH6bHorOfI4sidvAq9gDxUkEFU=;
-        b=eFUE4LbuMxrJ6wEYvfVs/e3ABy7bVLNGIqzwhOHENYBJfqK9uWKFnTq/FJQdan814Z
-         erzDO9wlvv4pFg0lzzIZ0pce3pZ2c8vylvjf8jLo0+JX2tZpd9G7gzbzt+dnzHOllcFJ
-         ovKQ6ey9mVN723G8aptxPKiPR602PK4cZznTuy8AB3dxZHV1xcjPJZuF2TCNaAcaTXF9
-         HV/Sbi1vGE5yY0UoEm6YySSAa600tgVh8uRDZXjzVmoNyBofEfwd8c0/lMPoGmydjm5S
-         G44mig91Hj7OTPC9Nj2Qew71i5kxVwaHe+gNOgdE7c1KEA+r67il1MxwyZlo6+UDzJT3
-         EQjQ==
+        bh=tE7qnQu2KLSVzyhnjDRDoqgCMNYeTzMl9+2BMjLguwk=;
+        b=PUG0GYLQd9jnPImmLCAlfa61Tp66cCipjC461lxxo2C1MNsaRV8YzuX/lqKbcnzpaI
+         Klcoxa4VC6nlm0VdmNhc3zU1O7YUo2JgY7dTInv7aX5SfeXL4oSOJczjFJlPqqhSCqzs
+         x49qbat/7Ggxw0PPPTN/dKNNfKM30q5MkBbmB6R7IfgO20X4eItdcjKxWcHdIHZGlLtc
+         6vSrFJyUSyp3PrKgAthL48bAu9dHjYDpEqnNoXK71Me7oHeYJNWh7Km6vHZg5WMI5Wpt
+         TsIJaQ0SLGdvn6a5KxZiXYL5A3P9Fak0H5xLrprBBVt3miaiR/oc9+a2+67QMDE6WGPg
+         97IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756744997; x=1757349797;
+        d=1e100.net; s=20230601; t=1756744999; x=1757349799;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dukCdijJJZ5PHBHPLzH6bHorOfI4sidvAq9gDxUkEFU=;
-        b=IUZ6Alwi46ooKYRZGDgUM/rUWQYbfIP4P//Dy4h2cn7QccC4PTlPIjCQ0DBJ6kLPKA
-         UoODSARQMtBOdTys4rqRg0IUgHTSv1EOV1c6aZD+2lt+3+/7HvdUkhtwrEiuC/O+557F
-         j/OSJXG7tV79UXlFJBO2CMh4ZcKKwSd19d0ZgHVi77AIvA89uMJo9f0HRXTPk0uhqM8K
-         IpEI870NgeONqNEyezghWFu7Q8S5SjUGwYFU/QIx7tPyzndltjI0Wd+PXbwDd4tyDsY2
-         ad4oAENs2GDOhyMZba54KUHX2+ffgo+haYlC85BWnW+FhdrUu6W0ggy3wHrz4MZq8B3g
-         i0ig==
+        bh=tE7qnQu2KLSVzyhnjDRDoqgCMNYeTzMl9+2BMjLguwk=;
+        b=ToddGiE0LNcJKuEvURzI7udGzwWIbrWsvAXgWwSKvUYFAaK4SySV3kTe7+qAyzGpip
+         etSjiQZoJ5NEA7UxQSNO9zxKWzrZUKNQKk3qdMRZIZRV/jXDxpuerzpoxnj1v4elXuMi
+         QU0riS6wbE44lG8mlNGka0pkPw9QWDj63H3TCg5cB1piiFSCWzdbbPQzeePqdkWOA4Pn
+         qgQI9cqgQdZHZnt2uLBZghbwCWIhlg7t0P3oyUM5Iq+bjL2MFEjnsIZyMOWGzC4/nZ+e
+         kVjVTwBdPvG+FNDtnO8cGayZOh4vKlWklE8uJupfcM6oAcOsxj6/GsDT6Xg8tenEUcvP
+         NkvA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXDUN0CmQlasoD4eadK/6Nf9ewqZlGfkxFS9V1lZZGp9CKjIRH7mRM9pE9maVbLhY5GCmgLhA==@lfdr.de
-X-Gm-Message-State: AOJu0YzXB4oEqGZWqq65nvLGVLm7t7Eqj07eXp8r0xlKjQWKk4gXIVdM
-	k7AZ67vvOOUX+f1N2F4HF0E2sRvprI/VNHAY9kIrAWnP6w05ylySeHrV
-X-Google-Smtp-Source: AGHT+IGyT1FPC2OQ33egpeq+cmA7rzmpjrIMRklk8Qpz1tvt7NGLt9Cy2kcKpJDrx2SR+EquNt9wNA==
-X-Received: by 2002:a05:600c:1914:b0:45b:88d6:8ddb with SMTP id 5b1f17b1804b1-45b88d693a5mr57857545e9.37.1756744997554;
-        Mon, 01 Sep 2025 09:43:17 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdMyqe/+pYgIEOmZGzShRjOsS35M7c4wXenGGNzjOZ1dg==
-Received: by 2002:a05:600c:3b9c:b0:43c:ed2c:bcf2 with SMTP id
- 5b1f17b1804b1-45b78cb2f26ls27476205e9.1.-pod-prod-05-eu; Mon, 01 Sep 2025
- 09:43:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWqoHP44jORLdv3NdA3MKLHGhaZAZPhncxy43ufCYeRqXspXHaFB+yXuI5flzmE7bCSIrOYzjuXQ/A=@googlegroups.com
-X-Received: by 2002:a05:600c:524d:b0:45b:8a10:e5a6 with SMTP id 5b1f17b1804b1-45b8a10e833mr55377445e9.15.1756744994550;
-        Mon, 01 Sep 2025 09:43:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1756744994; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCW91ruJrMMgUH822AZN4/gSVsRI1hujGbFyI9MrNc18yE0+7zkLCE4bX9Svj28UCUSZ8DszzA==@lfdr.de
+X-Gm-Message-State: AOJu0YyNQv468sTV4LcwzUip69UcmyzH7iALFhSt7gMT6z3Dcy1epgmA
+	spR3SmxLLyXnAm1JQGQGs08AK/2AL4fuEtsZ3zjEbaRVt0JAPKlGP9uA
+X-Google-Smtp-Source: AGHT+IEAup+LfUvO19biAYSm9Gtdl0CXhPCDYEmJqfvq/Wr6ce8nReC7eUa5Hcm1IdFQIaOBdx4E8Q==
+X-Received: by 2002:a05:6000:200d:b0:3d6:7ae1:aefe with SMTP id ffacd0b85a97d-3d67ae1c171mr4445016f8f.12.1756744998763;
+        Mon, 01 Sep 2025 09:43:18 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZd2y5RhbyrzWsjDYt0EhUbVM6rCeWG4e9gd+1QcVuPd7A==
+Received: by 2002:a05:6000:2005:b0:3b7:8a12:d1ef with SMTP id
+ ffacd0b85a97d-3cde269d5aels2598782f8f.1.-pod-prod-06-eu; Mon, 01 Sep 2025
+ 09:43:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCX80vPSmlxxnLGl6YsOaPTI2j+/khRm0lbCvqkHF5huAdJV0Vve0dxWHl6n+i30NNtOkkzO4IixIO4=@googlegroups.com
+X-Received: by 2002:a05:6000:200d:b0:3d6:7ae1:aefe with SMTP id ffacd0b85a97d-3d67ae1c171mr4444855f8f.12.1756744995643;
+        Mon, 01 Sep 2025 09:43:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1756744995; cv=none;
         d=google.com; s=arc-20240605;
-        b=CZ3AYaXctoN5XliTu8539m6af0BVNDKZICWM5RLJFk+Xguq1KZAdpIM01XA22NdWE8
-         esxhB02LY/jiFiz/EogA85eeaQ4lF9K9sWI9UpxlyUNyK9p0VFf4BQ0q4cGmnMpMJ4lN
-         q5DDe9MLgQzRDnbYIOurvOhj17RpJR/YlztRsAv/rzNZ6HYOJfoEkPca/b/yWAoSzo8i
-         ydwKfXRKIL8UsaFGF/Bj9NSjVuneGFp2S2Sqz0LAux6+oF92M8lZC55z4MCSQN7C8uOl
-         tcVpMPbMDPki8RYjuiDxAUy5quBiPqrS9tR8NqJOPepwJF84KGm00P0PGj9jtBd5J+9j
-         LBJQ==
+        b=N0x1tVfH4YVepG9OSA0RdBwlw65ilsBJpVi7Oo32MiFz9Mih7nHfUYmEo6WEwXMoZH
+         56c5pb1uFvRnv93Wu5OdZltgVUgV89alc/fmr40VwGjNvcJVDOnJ+P/N6wzoBRN801Zu
+         fFL9u9T+bwKB6PRrH7xMWJmvgJ5u477q52NF6S+mkqy/A1kF+udZWe+SktDS6DCWq6kD
+         w92juhcgQgd9uYjrArVxzbb0EUKdlOVVyJ/S4BL0FwvihnhP6yUo7VsOY3lRNNTyiFk/
+         h4SEbx5JClCOQB9AmxMTXKNj45M8CX0wutZ1E7q5Jj7raIsQeaaAhuxw7FCYTg4wbAnU
+         8Lmg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=ApDGjF4qZlhoSmK2tdSzupo+2mRrDnKfGsOkf1zOwN4=;
-        fh=Vpz6EJwJ9u3nVFqc7DOslxY3m2got51INX7VJq2sgBI=;
-        b=f8sUJHEp8FJ2iOzdS1C8CVAgo2nsYI7Rvhidv6XOxPSLavlBXnOCHHfptffHKan2TP
-         6mrgrVrwIcgiNTxAC6pA7INddDm8PP1QfM2/CBbJzNNdhHsmkVzpcBG+C84yAXzRCgHH
-         UGLLdD6Z0KuDs7TpI3Ak72TkSJh55+QaU3OBRgdrml+bJ1wCv+1dJ3b4j+yyCCZU/R3t
-         CDqHNxRznjmvtNv07Nw1KsWdwcmQySnFeoskZqY5kbIADZg0vaauLt/smr69lNZza/gx
-         imz8YDJxdsLTpxTgiu1VpJfu0+TGZyVYRi+7/9+6XQMqezi+gTuVoS0k+ipHQs3X7K3p
-         OUNA==;
+        bh=IBvpSqbqbG4wFXeR5v1aPOZCpZfQ+jFjNgEJ1TDAElY=;
+        fh=2GcMZ/hvz4yDR0eMK8Nxj/9frEsTavDhziTjf9iWQeQ=;
+        b=YjnH+GW+Syqr7iYDUQdr2UJfu1UOj1zkNDP94k4mHrKhMLlYET6AVuSn0C53Yp8B2+
+         bNfP5LRn2UUwRq3110Q+jvYF4XHApJwhjt59sJBGyLCpHCssY1EGzOipWGxTkpiJiuSY
+         U0kBiF1JD3NQHEbvPGEoVU56nWqXqdECJVs16nfMFKmZ//M42YIdpBvJZT3qu0NqDfiL
+         eiSE6v1qD6CAWUnVwZy1PtNCa3GgdgBxSNkiyc2tg+/yhALTEZPoUDcytlA3ZRZGlUEX
+         GXfjDdxhz/HnjcVbHVjf93KlEiTSxP0KlLOOeQVTuJWZwTSRJLNCzxrMxe5tE+SDIj1H
+         LizA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=eH7RGex1;
-       spf=pass (google.com: domain of ethan.w.s.graham@gmail.com designates 2a00:1450:4864:20::435 as permitted sender) smtp.mailfrom=ethan.w.s.graham@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=bpBwLepQ;
+       spf=pass (google.com: domain of ethan.w.s.graham@gmail.com designates 2a00:1450:4864:20::436 as permitted sender) smtp.mailfrom=ethan.w.s.graham@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com. [2a00:1450:4864:20::435])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-45b8b916d49si1082135e9.0.2025.09.01.09.43.14
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com. [2a00:1450:4864:20::436])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3cf2883c69csi142991f8f.3.2025.09.01.09.43.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Sep 2025 09:43:15 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ethan.w.s.graham@gmail.com designates 2a00:1450:4864:20::436 as permitted sender) client-ip=2a00:1450:4864:20::436;
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-3ce4ed7a73fso2303137f8f.1;
+        Mon, 01 Sep 2025 09:43:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWPfWIG6UUlZI2vFxJm3CoS244fMAD1rpZbNC4Tf5xEUaW96sldV/Mxx+/lVSdIWBpRMwrtzst38yoq@googlegroups.com, AJvYcCWb4deGMm2QqYhRpN444HMF0j3C0BH7V244102X87EH6xRwgsMZAwetE3o0H1TK4qXLZxZruDq8RQ0=@googlegroups.com
+X-Gm-Gg: ASbGncugfVgWsPdaKqck7X5dXUNzJBHWvAftY3pnFJPKY2EzL/fE4lcPjlnj8fuqUrX
+	Rx4bCGOalLsuqQ13IyFatcTC9SYvZj57JTsYuo4Uzeon8712MsqdiYATs2ul1WtiKnjQz3cY/EE
+	BGcIvDSiB3U9Y/+FWz+q9F+us4GDR9FqUyH25NgKcWiZ/WAy8p5qoTolEOP+4E793LrzxcIzu+B
+	GvH1PTjUr6ooCfYNd16pJy1n7+H0Vcd2pcYyDVPPagr4P5Kmu8CvSv9E6L4xGyw92vBvtn/PTr3
+	inn7N8eFhNr4wy0yrvshR9hQ94eiyt4CtXGxb3dbyqj1i/cKbuTCq8Nwb/Qg7TtXJikX2b+3em/
+	/MHFeqyVKrn7K4J8DOfz6VT/QZqV2+ohKpIpJF/WA8O+YUnKLeQUHK3x1zl5VoAsz6+1OO2GMIj
+	+Pqxcd6EYsm5LuzR1k++W830z3u5Ac
+X-Received: by 2002:a05:6000:4210:b0:3d5:9efa:fbf2 with SMTP id ffacd0b85a97d-3d59efaff51mr3979157f8f.22.1756744994954;
         Mon, 01 Sep 2025 09:43:14 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ethan.w.s.graham@gmail.com designates 2a00:1450:4864:20::435 as permitted sender) client-ip=2a00:1450:4864:20::435;
-Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-3d0dd9c9381so3105317f8f.1;
-        Mon, 01 Sep 2025 09:43:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUY8vyiZwb1uuUeBDmfFWmR4UlZlqLH8tW6Him1Yh/CblVtSvwhAtm9PzYYkub97P6Q+rSRNO0SoAOg@googlegroups.com, AJvYcCXwSarc4kcTfiQj1gZH1mmVAKtEbdkNkDAZYLPMbprQmCI35L52l6S7nkrJwltjpbPA9Vu1iLjXg5Y=@googlegroups.com
-X-Gm-Gg: ASbGncv5lB9b6IeEFsJjddH9PZ72RIg9IlRSgoMZg36N1Tub0c9ncE3Arh0fuFc8wiR
-	wfF7vV/cONR+JbsDd4Z8vKiHgaX5LeCEbIvjSO6oQrUjDJAlPUv1j9VVKCRSzS2F1uGdtwaEBp2
-	bh8Xx2v8xAtgy9IOSBD8Ea50zZP5BeywyS5oftEPCU2u+MB2PsM09h3TkfuUoZxhXDhhOhNeczf
-	NZSiaur2fSjYMxGbgprC6H/r/elfqAYGPvUtiQscPi/cTK+DyMikCMycF9xuu2rgIYTRPWJ+WLg
-	MD+A5QV7zn3rg7iXT3yz9e+Tr8ct0tmZhFgagHB3GqhiFDBE1qjzWCowPc9jzs4ZKPUvEn1WUWZ
-	zzybu0/TLKKQWNXdKgdJYeSGIcT45TM0yu+NIr4FLuonty3OAkraVNOq/1lMLIAyniWU8S8Fp+L
-	b+GwmneWrYRXuiZE/yr+mZxWbjhRk4
-X-Received: by 2002:a05:6000:25ca:b0:3b7:9629:ac9e with SMTP id ffacd0b85a97d-3d1df34d63dmr5448037f8f.50.1756744993978;
-        Mon, 01 Sep 2025 09:43:13 -0700 (PDT)
 Received: from xl-nested.c.googlers.com.com (140.225.77.34.bc.googleusercontent.com. [34.77.225.140])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3cf274dde69sm15955362f8f.14.2025.09.01.09.43.13
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3cf274dde69sm15955362f8f.14.2025.09.01.09.43.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 09:43:13 -0700 (PDT)
+        Mon, 01 Sep 2025 09:43:14 -0700 (PDT)
 From: Ethan Graham <ethan.w.s.graham@gmail.com>
 To: ethangraham@google.com,
 	glider@google.com
@@ -157,18 +157,18 @@ Cc: andreyknvl@gmail.com,
 	herbert@gondor.apana.org.au,
 	davem@davemloft.net,
 	linux-crypto@vger.kernel.org
-Subject: [PATCH v2 RFC 6/7] kfuzztest: add KFuzzTest sample fuzz targets
-Date: Mon,  1 Sep 2025 16:42:11 +0000
-Message-ID: <20250901164212.460229-7-ethan.w.s.graham@gmail.com>
+Subject: [PATCH v2 RFC 7/7] crypto: implement KFuzzTest targets for PKCS7 and RSA parsing
+Date: Mon,  1 Sep 2025 16:42:12 +0000
+Message-ID: <20250901164212.460229-8-ethan.w.s.graham@gmail.com>
 X-Mailer: git-send-email 2.51.0.318.gd7df087d1a-goog
 In-Reply-To: <20250901164212.460229-1-ethan.w.s.graham@gmail.com>
 References: <20250901164212.460229-1-ethan.w.s.graham@gmail.com>
 MIME-Version: 1.0
 X-Original-Sender: ethan.w.s.graham@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=eH7RGex1;       spf=pass
+ header.i=@gmail.com header.s=20230601 header.b=bpBwLepQ;       spf=pass
  (google.com: domain of ethan.w.s.graham@gmail.com designates
- 2a00:1450:4864:20::435 as permitted sender) smtp.mailfrom=ethan.w.s.graham@gmail.com;
+ 2a00:1450:4864:20::436 as permitted sender) smtp.mailfrom=ethan.w.s.graham@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
@@ -186,172 +186,152 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Ethan Graham <ethangraham@google.com>
 
-Add two simple fuzz target samples to demonstrate the KFuzzTest API and
-provide basic self-tests for the framework.
+Add KFuzzTest targets for pkcs7_parse_message, rsa_parse_pub_key, and
+rsa_parse_priv_key to serve as real-world examples of how the framework is used.
 
-These examples showcase how a developer can define a fuzz target using
-the FUZZ_TEST(), constraint, and annotation macros, and serve as runtime
-sanity checks for the core logic. For example, they test that out-of-bounds
-memory accesses into poisoned padding regions are correctly detected in a
-KASAN build.
+These functions are ideal candidates for KFuzzTest as they perform complex
+parsing of user-controlled data but are not directly exposed at the syscall
+boundary. This makes them difficult to exercise with traditional fuzzing tools
+and showcases the primary strength of the KFuzzTest framework: providing an
+interface to fuzz internal functions.
 
-These have been tested by writing syzkaller-generated inputs into their
-debugfs 'input' files and verifying that the correct KASAN reports were
-triggered.
+The targets are defined within /lib/tests, alongside existing KUnit
+tests.
 
 Signed-off-by: Ethan Graham <ethangraham@google.com>
----
- samples/Kconfig                               |  7 +++
- samples/Makefile                              |  1 +
- samples/kfuzztest/Makefile                    |  3 ++
- samples/kfuzztest/overflow_on_nested_buffer.c | 52 +++++++++++++++++++
- samples/kfuzztest/underflow_on_buffer.c       | 41 +++++++++++++++
- 5 files changed, 104 insertions(+)
- create mode 100644 samples/kfuzztest/Makefile
- create mode 100644 samples/kfuzztest/overflow_on_nested_buffer.c
- create mode 100644 samples/kfuzztest/underflow_on_buffer.c
 
-diff --git a/samples/Kconfig b/samples/Kconfig
-index ffef99950206..4be51a21d010 100644
---- a/samples/Kconfig
-+++ b/samples/Kconfig
-@@ -321,6 +321,13 @@ config SAMPLE_HUNG_TASK
- 	  if 2 or more processes read the same file concurrently, it will
- 	  be detected by the hung_task watchdog.
+---
+v2:
+- Move KFuzzTest targets outside of the source files into dedicated
+  _kfuzz.c files under /crypto/asymmetric_keys/tests/ as suggested by
+  Ignat Korchagin and Eric Biggers.
+---
+---
+ crypto/asymmetric_keys/Kconfig                | 15 ++++++++
+ crypto/asymmetric_keys/Makefile               |  2 +
+ crypto/asymmetric_keys/tests/Makefile         |  2 +
+ crypto/asymmetric_keys/tests/pkcs7_kfuzz.c    | 22 +++++++++++
+ .../asymmetric_keys/tests/rsa_helper_kfuzz.c  | 38 +++++++++++++++++++
+ 5 files changed, 79 insertions(+)
+ create mode 100644 crypto/asymmetric_keys/tests/Makefile
+ create mode 100644 crypto/asymmetric_keys/tests/pkcs7_kfuzz.c
+ create mode 100644 crypto/asymmetric_keys/tests/rsa_helper_kfuzz.c
+
+diff --git a/crypto/asymmetric_keys/Kconfig b/crypto/asymmetric_keys/Kconfig
+index e1345b8f39f1..7a4c5eb18624 100644
+--- a/crypto/asymmetric_keys/Kconfig
++++ b/crypto/asymmetric_keys/Kconfig
+@@ -104,3 +104,18 @@ config FIPS_SIGNATURE_SELFTEST_ECDSA
+ 	depends on CRYPTO_ECDSA=y || CRYPTO_ECDSA=FIPS_SIGNATURE_SELFTEST
  
-+config SAMPLE_KFUZZTEST
-+	bool "Build KFuzzTest sample targets"
+ endif # ASYMMETRIC_KEY_TYPE
++
++config PKCS7_MESSAGE_PARSER_KFUZZ
++	bool "Build fuzz target for PKCS#7 parser"
 +	depends on KFUZZTEST
++	depends on PKCS7_MESSAGE_PARSER
++	default y
 +	help
-+	  Build KFuzzTest sample targets that serve as selftests for input
-+	  deserialization and inter-region redzone poisoning logic.
++	  Builds the KFuzzTest targets for PKCS#7.
 +
- source "samples/rust/Kconfig"
++config RSA_HELPER_KFUZZ
++	bool "Build fuzz targets for RSA helpers"
++	depends on KFUZZTEST
++	default y
++	help
++	  Builds the KFuzzTest targets for RSA helper functions.
+diff --git a/crypto/asymmetric_keys/Makefile b/crypto/asymmetric_keys/Makefile
+index bc65d3b98dcb..77b825aee6b2 100644
+--- a/crypto/asymmetric_keys/Makefile
++++ b/crypto/asymmetric_keys/Makefile
+@@ -67,6 +67,8 @@ obj-$(CONFIG_PKCS7_TEST_KEY) += pkcs7_test_key.o
+ pkcs7_test_key-y := \
+ 	pkcs7_key_type.o
  
- source "samples/damon/Kconfig"
-diff --git a/samples/Makefile b/samples/Makefile
-index 07641e177bd8..3a0e7f744f44 100644
---- a/samples/Makefile
-+++ b/samples/Makefile
-@@ -44,4 +44,5 @@ obj-$(CONFIG_SAMPLE_DAMON_WSSE)		+= damon/
- obj-$(CONFIG_SAMPLE_DAMON_PRCL)		+= damon/
- obj-$(CONFIG_SAMPLE_DAMON_MTIER)	+= damon/
- obj-$(CONFIG_SAMPLE_HUNG_TASK)		+= hung_task/
-+obj-$(CONFIG_SAMPLE_KFUZZTEST)		+= kfuzztest/
- obj-$(CONFIG_SAMPLE_TSM_MR)		+= tsm-mr/
-diff --git a/samples/kfuzztest/Makefile b/samples/kfuzztest/Makefile
-new file mode 100644
-index 000000000000..4f8709876c9e
---- /dev/null
-+++ b/samples/kfuzztest/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0-only
++obj-y += tests/
 +
-+obj-$(CONFIG_SAMPLE_KFUZZTEST) += overflow_on_nested_buffer.o underflow_on_buffer.o
-diff --git a/samples/kfuzztest/overflow_on_nested_buffer.c b/samples/kfuzztest/overflow_on_nested_buffer.c
+ #
+ # Signed PE binary-wrapped key handling
+ #
+diff --git a/crypto/asymmetric_keys/tests/Makefile b/crypto/asymmetric_keys/tests/Makefile
 new file mode 100644
-index 000000000000..8b4bab1d6d4a
+index 000000000000..42a779c9042a
 --- /dev/null
-+++ b/samples/kfuzztest/overflow_on_nested_buffer.c
-@@ -0,0 +1,52 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/crypto/asymmetric_keys/tests/Makefile
+@@ -0,0 +1,2 @@
++obj-$(CONFIG_PKCS7_MESSAGE_PARSER_KFUZZ) += pkcs7_kfuzz.o
++obj-$(CONFIG_RSA_HELPER_KFUZZ) += rsa_helper_kfuzz.o
+diff --git a/crypto/asymmetric_keys/tests/pkcs7_kfuzz.c b/crypto/asymmetric_keys/tests/pkcs7_kfuzz.c
+new file mode 100644
+index 000000000000..84d0b0d8d0eb
+--- /dev/null
++++ b/crypto/asymmetric_keys/tests/pkcs7_kfuzz.c
+@@ -0,0 +1,22 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
 +/*
-+ * This file contains a KFuzzTest example target that ensures that a buffer
-+ * overflow on a nested region triggers a KASAN OOB access report.
++ * PKCS#7 parser KFuzzTest target
++ *
++ * Copyright 2025 Google LLC
++ */
++#include <crypto/pkcs7.h>
++#include <linux/kfuzztest.h>
++
++struct pkcs7_parse_message_arg {
++	const void *data;
++	size_t datalen;
++};
++
++FUZZ_TEST(test_pkcs7_parse_message, struct pkcs7_parse_message_arg)
++{
++	KFUZZTEST_EXPECT_NOT_NULL(pkcs7_parse_message_arg, data);
++	KFUZZTEST_ANNOTATE_LEN(pkcs7_parse_message_arg, datalen, data);
++	KFUZZTEST_EXPECT_LE(pkcs7_parse_message_arg, datalen, 16 * PAGE_SIZE);
++
++	pkcs7_parse_message(arg->data, arg->datalen);
++}
+diff --git a/crypto/asymmetric_keys/tests/rsa_helper_kfuzz.c b/crypto/asymmetric_keys/tests/rsa_helper_kfuzz.c
+new file mode 100644
+index 000000000000..5877e54cb75a
+--- /dev/null
++++ b/crypto/asymmetric_keys/tests/rsa_helper_kfuzz.c
+@@ -0,0 +1,38 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * RSA key extract helper KFuzzTest targets
 + *
 + * Copyright 2025 Google LLC
 + */
 +#include <linux/kfuzztest.h>
++#include <crypto/internal/rsa.h>
 +
-+static void overflow_on_nested_buffer(const char *a, size_t a_len, const char *b, size_t b_len)
-+{
-+	size_t i;
-+	pr_info("a = [%px, %px)", a, a + a_len);
-+	pr_info("b = [%px, %px)", b, b + b_len);
-+
-+	/* Ensure that all bytes in arg->b are accessible. */
-+	for (i = 0; i < b_len; i++)
-+		READ_ONCE(b[i]);
-+	/*
-+	 * Check that all bytes in arg->a are accessible, and provoke an OOB on
-+	 * the first byte to the right of the buffer which will trigger a KASAN
-+	 * report.
-+	 */
-+	for (i = 0; i <= a_len; i++)
-+		READ_ONCE(a[i]);
-+}
-+
-+struct nested_buffers {
-+	const char *a;
-+	size_t a_len;
-+	const char *b;
-+	size_t b_len;
++struct rsa_parse_pub_key_arg {
++	const void *key;
++	size_t key_len;
 +};
 +
-+/**
-+ * The KFuzzTest input format specifies that struct nested buffers should
-+ * be expanded as:
-+ *
-+ * | a | b | pad[8] | *a | pad[8] | *b |
-+ *
-+ * where the padded regions are poisoned. We expect to trigger a KASAN report by
-+ * overflowing one byte into the `a` buffer.
-+ */
-+FUZZ_TEST(test_overflow_on_nested_buffer, struct nested_buffers)
++FUZZ_TEST(test_rsa_parse_pub_key, struct rsa_parse_pub_key_arg)
 +{
-+	KFUZZTEST_EXPECT_NOT_NULL(nested_buffers, a);
-+	KFUZZTEST_EXPECT_NOT_NULL(nested_buffers, b);
-+	KFUZZTEST_ANNOTATE_LEN(nested_buffers, a_len, a);
-+	KFUZZTEST_ANNOTATE_LEN(nested_buffers, b_len, b);
++	KFUZZTEST_EXPECT_NOT_NULL(rsa_parse_pub_key_arg, key);
++	KFUZZTEST_ANNOTATE_LEN(rsa_parse_pub_key_arg, key_len, key);
++	KFUZZTEST_EXPECT_LE(rsa_parse_pub_key_arg, key_len, 16 * PAGE_SIZE);
 +
-+	overflow_on_nested_buffer(arg->a, arg->a_len, arg->b, arg->b_len);
-+}
-diff --git a/samples/kfuzztest/underflow_on_buffer.c b/samples/kfuzztest/underflow_on_buffer.c
-new file mode 100644
-index 000000000000..fbe214274037
---- /dev/null
-+++ b/samples/kfuzztest/underflow_on_buffer.c
-@@ -0,0 +1,41 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * This file contains a KFuzzTest example target that ensures that a buffer
-+ * underflow on a region triggers a KASAN OOB access report.
-+ *
-+ * Copyright 2025 Google LLC
-+ */
-+#include <linux/kfuzztest.h>
-+
-+static void underflow_on_buffer(char *buf, size_t buflen)
-+{
-+	size_t i;
-+
-+	pr_info("buf = [%px, %px)", buf, buf + buflen);
-+
-+	/* First ensure that all bytes in arg->b are accessible. */
-+	for (i = 0; i < buflen; i++)
-+		READ_ONCE(buf[i]);
-+	/*
-+	 * Provoke a buffer overflow on the first byte preceding b, triggering
-+	 * a KASAN report.
-+	 */
-+	READ_ONCE(*((char *)buf - 1));
++	struct rsa_key out;
++	rsa_parse_pub_key(&out, arg->key, arg->key_len);
 +}
 +
-+struct some_buffer {
-+	char *buf;
-+	size_t buflen;
++struct rsa_parse_priv_key_arg {
++	const void *key;
++	size_t key_len;
 +};
 +
-+/**
-+ * Tests that the region between struct some_buffer and the expanded *buf field
-+ * is correctly poisoned by accessing the first byte before *buf.
-+ */
-+FUZZ_TEST(test_underflow_on_buffer, struct some_buffer)
++FUZZ_TEST(test_rsa_parse_priv_key, struct rsa_parse_priv_key_arg)
 +{
-+	KFUZZTEST_EXPECT_NOT_NULL(some_buffer, buf);
-+	KFUZZTEST_ANNOTATE_LEN(some_buffer, buflen, buf);
++	KFUZZTEST_EXPECT_NOT_NULL(rsa_parse_priv_key_arg, key);
++	KFUZZTEST_ANNOTATE_LEN(rsa_parse_priv_key_arg, key_len, key);
++	KFUZZTEST_EXPECT_LE(rsa_parse_priv_key_arg, key_len, 16 * PAGE_SIZE);
 +
-+	underflow_on_buffer(arg->buf, arg->buflen);
++	struct rsa_key out;
++	rsa_parse_priv_key(&out, arg->key, arg->key_len);
 +}
 -- 
 2.51.0.318.gd7df087d1a-goog
@@ -359,4 +339,4 @@ index 000000000000..fbe214274037
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250901164212.460229-7-ethan.w.s.graham%40gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250901164212.460229-8-ethan.w.s.graham%40gmail.com.
