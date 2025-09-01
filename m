@@ -1,131 +1,130 @@
-Return-Path: <kasan-dev+bncBC32535MUICBBPXN23CQMGQE25OHJWI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC32535MUICBBTPN23CQMGQEH4MOSGY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53d.google.com (mail-ed1-x53d.google.com [IPv6:2a00:1450:4864:20::53d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24725B3E874
-	for <lists+kasan-dev@lfdr.de>; Mon,  1 Sep 2025 17:07:44 +0200 (CEST)
-Received: by mail-ed1-x53d.google.com with SMTP id 4fb4d7f45d1cf-61d2d2b792asf1617402a12.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 01 Sep 2025 08:07:44 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1756739263; cv=pass;
+Received: from mail-pg1-x537.google.com (mail-pg1-x537.google.com [IPv6:2607:f8b0:4864:20::537])
+	by mail.lfdr.de (Postfix) with ESMTPS id E68CFB3E87B
+	for <lists+kasan-dev@lfdr.de>; Mon,  1 Sep 2025 17:07:58 +0200 (CEST)
+Received: by mail-pg1-x537.google.com with SMTP id 41be03b00d2f7-b47630f9aa7sf3795960a12.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 01 Sep 2025 08:07:58 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1756739277; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Zuu0XQ3jB0oilrsAgtH/BzxyqLHEy4NDHXmwx2TS2OX6qed0IAUfQGobRxQMoyKKP7
-         2bL9oGJTpKJ64dFNHiOTFoUMrHPQ0VOp/tgHTfj/Nh93SoHf1lzlpKkfMkk9EjztrKH7
-         greZSExF9HUvQ8hQza67c5Aww2BmfiRw3WbYaw6MlbGjJLLcoEGWP6jgqvdTjHYYN+0n
-         KGWKY6wK544BdVX2xv0F+DcEwcXGwYbdohoXrhQ4U9SA+43mWBJs+YBXgtHy/k35JhAV
-         /z5PvpiL3LU4TQqnWrooI1Mf/eB/RCrQET1snnu/oVKu8D95i0RPMUCGEW7G1U52/F08
-         DFNA==
+        b=dsTwVxa/kOlBvBLGujxHsdKad244nrfyVu7zR3DyKlHJ19g2Tm0DanXazx6w4on1kw
+         VVi6rA7PYDKHciybSo7MwkIhzYIrE3DFrIehzJ0xuXlHShKuW2xXyvR6QDtSLORxnJUC
+         DkwZ0Jrz1b14Wt3U9ikmzE5s5rHV+HzCiNPllM+4OD2ck678IVTv9D2qWVPcbaQdMiLv
+         p00xwTidIP/Vt0Il+3FWOYNsYu6mC3G2phsujFzNadubc5txbu9lJSJlO89TK0ctZAIO
+         N9mng2AY5x+gNV1skfxXvMjS0DIU006gw8DVr9oCEmE/sKQYcCX+ljF1d+G9WilADxRO
+         A7jA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=jUfskquC0xDiliSGtN6wF/CZWkIR93t8iCdt2t3yTHg=;
-        fh=1WmDF9KWODzCEo5hGBMiv8IUx1xWNSw5Sq7FEs6dpTw=;
-        b=Cr59ayTGfa1xYIraPL5syM3wg+7JsLrHpiWphlE9gnwzwwY0aHBS6cZkL5ZuyMcxum
-         4aloLtT78D8q0Q8K8pJKsxWag+DkTPlpEhLFyiSSRw4JFOGjl3LINTJbD6oG9yS+f6wM
-         8pO1RO38PHAnwWAxN4NgiW7U2KwEudTDTlvrH0koxx1yzfzVwpheckB0j7Q/R05tbm/I
-         tTksMivyhJhEF9W4XK4xUrxSRr4g5CSTgn5WKqzy6p6bRpPZCp++FCLx2kHJZHDJN2wV
-         cMecP8hizb13PrPFGkyVCVzLDPDF425jDNBLnPZ16TZYL5lZTpg7bbvErl+YKqBRxm1L
-         +m3w==;
+        bh=PpoNfgTVGN12dsr/g+kajH1rDj6IrR39SsVaIvQQGwA=;
+        fh=sLUTpFiDb5hxorNft+UJkqiWVGwnCrCXzACWyqQeK6Q=;
+        b=PY0z+EnQBVZYNWIKUZreqHHGstZ3Utp8XrzCQpLwObVsnxIFYsg+J7qjABoByKOPOa
+         OwTEtn38DMm5MINrNwPEqndXSDIhKIgYBSd3IXNwV9pcqtmudpOFou/nt/jtSfq8Tfns
+         eATL10QERjKUXNULibj3K4XJFIQD7Gft4EjT254LP4VrJJcZ8Nk+01Rm2dhNFM73TtKU
+         KY9H2YmoPWvMO3YyCE1OMPLn4OO8IMDIba7qT8/p3LFkfjSPyEiz3McDzY4yMuPtFZpb
+         THSLpPM0phtXUC34li1C0Xp3ybyEG2DJhT4OWK5aZRyhT57PrGffoQIr6skRmhXvaBEy
+         wUGw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=AAcxLvWo;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=cBvLhJre;
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1756739263; x=1757344063; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1756739277; x=1757344077; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=jUfskquC0xDiliSGtN6wF/CZWkIR93t8iCdt2t3yTHg=;
-        b=FYwJvx5l96kOM4NrO8Oz6laxZrVzUmPLnOctIJ9LyMbPOPRIgMRRWcR8CiMM7CgB4S
-         ip455UsPFK3faq+1qk6DMaZWmNeo9ANoGZ1sXtsw5YcLPTpAjOcSfOEbyBinXWXxG2c7
-         mg6BliUDDd9sive3uahnJdlv/GqIlzZLtMgKsu4j1GlcoZnJ74xXDa6AM3lPxWKzl8Dh
-         gUoqOx/E41xAvyYhQpY8/pLhQBzlU7++Zb9S5jPhqnnktm3rBE2AtLl0ijFOWLgffJcB
-         8lT3EiZUTsasbpTs6Uyd6CYDK0FxALuwsqiURYlqL+/ASDF4SFBZUvx+yrW4RULVfl3r
-         MOaw==
+        bh=PpoNfgTVGN12dsr/g+kajH1rDj6IrR39SsVaIvQQGwA=;
+        b=FpPqUvxsq30mXz6pE7Qw2f1/dsSv+WXBGrDopOVByZYGH4BJzBg1e2c3WmeclOI+Ey
+         8DkEQJPXE03MLVOjPhdVowsDieFewIlvJOh4i3Sd25EhpjDWjc22XQsk0QhPFSEktnjZ
+         iMUoGtTVO/xVLASwQp2Ro3hga6em0zvxP/6iqshZ8OpZ68DN6mJJvhmwHoRZ92HQMouC
+         eE/XxQsgoZjZEGZnJa5/c9C7RcsntoOGTgMIiftKccQAPSP7Pz371PhS9iVDD/raItE2
+         MnMcY3LiAuUYG5bbzhpKkBSnYlcA1/5Be3Ornk9T4SVT5JSsljI+ekm24jyL6wsnMs2m
+         kW/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756739263; x=1757344063;
+        d=1e100.net; s=20230601; t=1756739277; x=1757344077;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jUfskquC0xDiliSGtN6wF/CZWkIR93t8iCdt2t3yTHg=;
-        b=s3fii7QL8dilYq9VLILkdweWSeAYXAh66L4hIVw29pwdKJBB8jGE55fPlJmHpYLTNu
-         /6UIgInmvTsBFzxIpKvVQVneQGXLDIZnKxQU+w+vnu86T+XG/fhoN9XUgSPTCmPwNGcC
-         7KDPfdHkZ3Uv2qZgOJydfBCc19kiv3aiFPsXmakMoYsCg+y8k/ba34tXQV1mfCJJolRn
-         a30tj6+1UP1XHVpHR+8Gi8VAx0MxQTYeQ42HizlZXR0hJnB0AzhdWj+eDyXVmE0Sv6oH
-         jf+renix3k6ZeF2OQBMB1FOPlcmP62AxLXoid+A2fU7Qt1FOaqn/wjdzsoSi8y6VnxVL
-         L7NQ==
-X-Forwarded-Encrypted: i=2; AJvYcCXWMw7tPuCxpmqsfG9vkp66LeyvC0wcbDxt7mcYGRdmIpZT0wvOhysWU28Wflbgo1NG8fYDrA==@lfdr.de
-X-Gm-Message-State: AOJu0YwFcDFpGTBIaJ7Y6qoJToLwos0SgD5ncWw51WPVKal5/otLunib
-	QfQ7oKSJxeKYB/GEs+EqB6gbTTwVTlx7mEW0dNmtRNqQMJ2EkGJ6ZK10
-X-Google-Smtp-Source: AGHT+IFQ47r6mWT1WrIGJRYi0PRfOwZiEy0lpiVFk1flOtCJQgc8LZvXR0M2p/nfQh9Qk7xyqpV/sQ==
-X-Received: by 2002:a05:6402:4306:b0:61c:948e:59cd with SMTP id 4fb4d7f45d1cf-61d26d84f73mr7800311a12.24.1756739263122;
-        Mon, 01 Sep 2025 08:07:43 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZf5OFofGmuagvc1AkS2Du+rpSE9vqodxuXXsxv1+MwIEQ==
-Received: by 2002:a50:c30d:0:b0:61a:170c:1804 with SMTP id 4fb4d7f45d1cf-61cd3f77485ls3358271a12.2.-pod-prod-06-eu;
- Mon, 01 Sep 2025 08:07:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWmPZcnoIxXG1HFoNIH1BxkNYa/l9P+wPzrpyHanEBzgtYNZYcpKsmpvHuhLTAuOxWknE3A5XxlZvs=@googlegroups.com
-X-Received: by 2002:a17:907:7245:b0:afe:7d3b:8463 with SMTP id a640c23a62f3a-b01f20bc431mr833081066b.62.1756739260175;
-        Mon, 01 Sep 2025 08:07:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1756739260; cv=none;
+        bh=PpoNfgTVGN12dsr/g+kajH1rDj6IrR39SsVaIvQQGwA=;
+        b=eMVF3YF1elVIeqpyUh7IUYDlmyyEoTNnyhiu6+xBnWgkAELWhGjwNXWzUI8ZU3QO86
+         sOadO3XFBA6ztTcoc7l8h01AIvw1acS7AaMGgg1yXN6egrMKQzV4IGWuUQPgYu1D6vC1
+         I4uJZqgZ9fVG2Oe+YUd4dX5siuXnkU7Q9e5qrdP9WKslDa6qADjFglMpFvYoAbM36D/e
+         O+F3+k6fPeF6Pqhl4+XeKCi+ssAxlzA9jpnMWjvbFeOND5ut9tyVpekgmWDwdvgYiAX6
+         7ptHxzJjUjjwE3MEkUDvOcb0XXaIe2JWZ7mllOy+MiJwx/sRt4kB87q1/3qEBeplrt1s
+         yt5A==
+X-Forwarded-Encrypted: i=2; AJvYcCUDjQedd9l0cIOZRufrJwfShqVqX91XN2KOAteHJbeW3j5frfOPGF+QHTHTvhp64Bx6NvAt/Q==@lfdr.de
+X-Gm-Message-State: AOJu0YxGcoLTtESfTjEm+Opap86OY82u5eGXJH5RWFMwkXG4LFN4ujxL
+	MWeGPMQg9yfVqF/I8UgYbk0M2O6jv/m86g8WT7ATrO/DHSsXj7P/ff6x
+X-Google-Smtp-Source: AGHT+IEUsvsXaISIr4Vl8nt9dK2m11nP5jx15Be0SawzLfwHIJZqPWNLi8r6zNH6CrNQS4KvE5qeag==
+X-Received: by 2002:a05:6a20:7b06:b0:243:fe1e:2f97 with SMTP id adf61e73a8af0-243fe1e3014mr338894637.19.1756739277319;
+        Mon, 01 Sep 2025 08:07:57 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcMj9Cq9v5Tm/kitB6N2X/tUAaFrDnvgPZaZNM0nAdu7g==
+Received: by 2002:a05:6a00:800b:b0:772:6b0d:37ce with SMTP id
+ d2e1a72fcca58-7726b0d3d77ls207271b3a.1.-pod-prod-02-us; Mon, 01 Sep 2025
+ 08:07:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCU2Fx59Si67HCfMy0gQ2kvLvaixy0CsxHgiMg8FSGpki1DdOlYepPugBv+O6fZUxbkHFkdy4DIRnCM=@googlegroups.com
+X-Received: by 2002:a05:6a20:4321:b0:243:b8c8:a247 with SMTP id adf61e73a8af0-243d6dd8d9dmr11893307637.2.1756739275758;
+        Mon, 01 Sep 2025 08:07:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1756739275; cv=none;
         d=google.com; s=arc-20240605;
-        b=hBM6r3UGn6itkw3u9tT6qWyU/pQNV+ujR9blwLEzixnFIGpfYNRwJUoRoGtNwDfcbH
-         wUrf8Ts1yB6IL8/QrVCkEOY9OkFY5t4GzGg7JPvbJU+WgcaFpwfIGZHurb4coiMp/Vw7
-         3gQ2unviTHitijXuRyLB9+nMg9rL+Zx5BjL3RFzEicISHJ4rBb7hPq+4GqCsS6YrFWCa
-         CXM9YVBYlp1L/x0sCplDGjN3Jpp9BCjJqaqrPM9nlvpsS4ACuLl553DUpziD234eWzrC
-         qbIC3UfhhHTEvwb1HijB+OYwh39PIdcFadC7GY9wV5m9160KTUkDftuWG96cbAoH6HPe
-         TVGg==
+        b=Bo5Vsmj9mQ/qSUiAQbyrbEDOAige1YiaWLhUSLxGp4VbmBiqp81RxR3cO01ZzACPlP
+         M7NtvcrCezxqvQJtQCfXNnMmUFKY4ep2jRzxLb039TuzT1Yk85xK25IYjMTHTi3pUqgd
+         jro6Ki8DVwW4C38PNrkFhmGgj3iAYkWe/iTtJItecLRXFrxKZMh4lq93krTlZBHl7ybo
+         pk6gTj5P/pnCkYc/6+kUauBQSvVQzTkDfdjGxwcwmVaAoPztkYqKUXxsxBvc1hz+GY8l
+         nZN4vYiP/QMOmiB9BvANcKpQro5lgdv+jUyZgn6R0XABNQg5e6x/r+cSb660q4Vcqi1I
+         fbSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=1uoE6NXhltHN+7rLv53vXfhLviFP/GMqcI5NGlTVFxQ=;
-        fh=HZd3WqDCB2w+hFqNxcu9K3GcyUiUuKc4ovslYdzTWiE=;
-        b=S0aRpMDI+5CsigLv0gCNGqtpEk/U/x6YPrmx4oYl60CyVwPyRm571jib7oodK8Ysds
-         5c6YaQsjQxJGjVVFBBPcxAlzMimamEDxBKVcIjaMdah8+mlj4Mn8XXNB7NgwafTQW4RF
-         RvXx4XIG7d4j+8oY+MNH9XF10mflFphnMNOrh3JSk0XBZgG5p+N4z5c9wsWr7FRHzMHm
-         6H+Sty/+63VYjHOfoq47wSW+p3CHjAbIFz3zblb2gXe2Cozk3YREbuV1tCbkJYEIQUad
-         2UWJ7hzsP406xeq6GKy2HvyA/IQTq+JI/PNXmjcBY43yIS7J5Gvs/U6dhy1+KAOAqxXE
-         BSBA==;
+        bh=1NuKSd2ef5HwYax7pwu6yf7kwVuEbI8vaAEgix6O8kQ=;
+        fh=C29x4Vv0csHPF9cut5UHVlExc2+JnwAY8sXblkE4YL4=;
+        b=Jl9YDuBPE8yuBI//wjbQxox+JhAWBLRkOFF7Kuq4Xw7lC4O1nm40UFcDnzy0WZxwZj
+         SHw8IIht3XQeE3SCY0FMjEf08abi+8A5ZgjBIfNyFIlQqQhTeqeoMdnlkof8T4j7RQRI
+         Crl4rHxiHNu8G4ufp/U7SWxhwlxbXFdLLg3b1MUhK0veeitKyphFy+/LlR070qTbm/Tz
+         BihijKzIz7ymXz3fvs70UsCRurc+9hr/Anqol4hB1WetfSkpvn2O+qdZYtll2uweBmfL
+         iA6bgqMSC2bnHv3vUcVVm8IVXEzHSmf5G7C6cxj4kbwUzNrQ8eotGZr1AjTIKZR2ZY07
+         jZ+g==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=AAcxLvWo;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=cBvLhJre;
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
-        by gmr-mx.google.com with ESMTPS id a640c23a62f3a-aff0d8f06a3si12493266b.2.2025.09.01.08.07.39
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
+        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-328027692f6si266988a91.1.2025.09.01.08.07.55
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 08:07:40 -0700 (PDT)
-Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
+        Mon, 01 Sep 2025 08:07:55 -0700 (PDT)
+Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
 Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-458-Vu95gNDhN86FCvXuoQpXFg-1; Mon,
- 01 Sep 2025 11:07:34 -0400
-X-MC-Unique: Vu95gNDhN86FCvXuoQpXFg-1
-X-Mimecast-MFC-AGG-ID: Vu95gNDhN86FCvXuoQpXFg_1756739249
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-319-WXE1NSHDPjahq0Msave6uA-1; Mon,
+ 01 Sep 2025 11:07:49 -0400
+X-MC-Unique: WXE1NSHDPjahq0Msave6uA-1
+X-Mimecast-MFC-AGG-ID: WXE1NSHDPjahq0Msave6uA_1756739264
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 609CF195608B;
-	Mon,  1 Sep 2025 15:07:29 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 34D8B195609E;
+	Mon,  1 Sep 2025 15:07:44 +0000 (UTC)
 Received: from t14s.fritz.box (unknown [10.22.88.45])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9DFF318003FC;
-	Mon,  1 Sep 2025 15:07:15 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D513D18003FC;
+	Mon,  1 Sep 2025 15:07:29 +0000 (UTC)
 From: "'David Hildenbrand' via kasan-dev" <kasan-dev@googlegroups.com>
 To: linux-kernel@vger.kernel.org
 Cc: David Hildenbrand <david@redhat.com>,
 	Zi Yan <ziy@nvidia.com>,
-	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
 	Wei Yang <richard.weiyang@gmail.com>,
 	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
 	Alexander Potapenko <glider@google.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Brendan Jackman <jackmanb@google.com>,
@@ -142,6 +141,7 @@ Cc: David Hildenbrand <david@redhat.com>,
 	John Hubbard <jhubbard@nvidia.com>,
 	kasan-dev@googlegroups.com,
 	kvm@vger.kernel.org,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
 	linux-arm-kernel@axis.com,
 	linux-arm-kernel@lists.infradead.org,
@@ -157,6 +157,7 @@ Cc: David Hildenbrand <david@redhat.com>,
 	Marco Elver <elver@google.com>,
 	Marek Szyprowski <m.szyprowski@samsung.com>,
 	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
 	Muchun Song <muchun.song@linux.dev>,
 	netdev@vger.kernel.org,
 	Oscar Salvador <osalvador@suse.de>,
@@ -168,18 +169,18 @@ Cc: David Hildenbrand <david@redhat.com>,
 	Vlastimil Babka <vbabka@suse.cz>,
 	wireguard@lists.zx2c4.com,
 	x86@kernel.org
-Subject: [PATCH v2 11/37] mm: limit folio/compound page sizes in problematic kernel configs
-Date: Mon,  1 Sep 2025 17:03:32 +0200
-Message-ID: <20250901150359.867252-12-david@redhat.com>
+Subject: [PATCH v2 12/37] mm: simplify folio_page() and folio_page_idx()
+Date: Mon,  1 Sep 2025 17:03:33 +0200
+Message-ID: <20250901150359.867252-13-david@redhat.com>
 In-Reply-To: <20250901150359.867252-1-david@redhat.com>
 References: <20250901150359.867252-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 X-Original-Sender: david@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=AAcxLvWo;
+ header.i=@redhat.com header.s=mimecast20190719 header.b=cBvLhJre;
        spf=pass (google.com: domain of david@redhat.com designates
- 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+ 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
 X-Original-From: David Hildenbrand <david@redhat.com>
 Reply-To: David Hildenbrand <david@redhat.com>
@@ -196,72 +197,78 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Let's limit the maximum folio size in problematic kernel config where
-the memmap is allocated per memory section (SPARSEMEM without
-SPARSEMEM_VMEMMAP) to a single memory section.
+Now that a single folio/compound page can no longer span memory sections
+in problematic kernel configurations, we can stop using nth_page() in
+folio_page() and folio_page_idx().
 
-Currently, only a single architectures supports ARCH_HAS_GIGANTIC_PAGE
-but not SPARSEMEM_VMEMMAP: sh.
-
-Fortunately, the biggest hugetlb size sh supports is 64 MiB
-(HUGETLB_PAGE_SIZE_64MB) and the section size is at least 64 MiB
-(SECTION_SIZE_BITS == 26), so their use case is not degraded.
-
-As folios and memory sections are naturally aligned to their order-2 size
-in memory, consequently a single folio can no longer span multiple memory
-sections on these problematic kernel configs.
-
-nth_page() is no longer required when operating within a single compound
-page / folio.
+While at it, turn both macros into static inline functions and add
+kernel doc for folio_page_idx().
 
 Reviewed-by: Zi Yan <ziy@nvidia.com>
-Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
 Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- include/linux/mm.h | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ include/linux/mm.h         | 16 ++++++++++++++--
+ include/linux/page-flags.h |  5 ++++-
+ 2 files changed, 18 insertions(+), 3 deletions(-)
 
 diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 77737cbf2216a..2dee79fa2efcf 100644
+index 2dee79fa2efcf..f6880e3225c5c 100644
 --- a/include/linux/mm.h
 +++ b/include/linux/mm.h
-@@ -2053,11 +2053,25 @@ static inline long folio_nr_pages(const struct folio *folio)
- 	return folio_large_nr_pages(folio);
- }
+@@ -210,10 +210,8 @@ extern unsigned long sysctl_admin_reserve_kbytes;
  
--/* Only hugetlbfs can allocate folios larger than MAX_ORDER */
--#ifdef CONFIG_ARCH_HAS_GIGANTIC_PAGE
--#define MAX_FOLIO_ORDER		PUD_ORDER
--#else
-+#if !defined(CONFIG_ARCH_HAS_GIGANTIC_PAGE)
-+/*
-+ * We don't expect any folios that exceed buddy sizes (and consequently
-+ * memory sections).
-+ */
- #define MAX_FOLIO_ORDER		MAX_PAGE_ORDER
-+#elif defined(CONFIG_SPARSEMEM) && !defined(CONFIG_SPARSEMEM_VMEMMAP)
-+/*
-+ * Only pages within a single memory section are guaranteed to be
-+ * contiguous. By limiting folios to a single memory section, all folio
-+ * pages are guaranteed to be contiguous.
-+ */
-+#define MAX_FOLIO_ORDER		PFN_SECTION_SHIFT
-+#else
-+/*
-+ * There is no real limit on the folio size. We limit them to the maximum we
-+ * currently expect (e.g., hugetlb, dax).
-+ */
-+#define MAX_FOLIO_ORDER		PUD_ORDER
+ #if defined(CONFIG_SPARSEMEM) && !defined(CONFIG_SPARSEMEM_VMEMMAP)
+ #define nth_page(page,n) pfn_to_page(page_to_pfn((page)) + (n))
+-#define folio_page_idx(folio, p)	(page_to_pfn(p) - folio_pfn(folio))
+ #else
+ #define nth_page(page,n) ((page) + (n))
+-#define folio_page_idx(folio, p)	((p) - &(folio)->page)
  #endif
  
- #define MAX_FOLIO_NR_PAGES	(1UL << MAX_FOLIO_ORDER)
+ /* to align the pointer to the (next) page boundary */
+@@ -225,6 +223,20 @@ extern unsigned long sysctl_admin_reserve_kbytes;
+ /* test whether an address (unsigned long or pointer) is aligned to PAGE_SIZE */
+ #define PAGE_ALIGNED(addr)	IS_ALIGNED((unsigned long)(addr), PAGE_SIZE)
+ 
++/**
++ * folio_page_idx - Return the number of a page in a folio.
++ * @folio: The folio.
++ * @page: The folio page.
++ *
++ * This function expects that the page is actually part of the folio.
++ * The returned number is relative to the start of the folio.
++ */
++static inline unsigned long folio_page_idx(const struct folio *folio,
++		const struct page *page)
++{
++	return page - &folio->page;
++}
++
+ static inline struct folio *lru_to_folio(struct list_head *head)
+ {
+ 	return list_entry((head)->prev, struct folio, lru);
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index 5ee6ffbdbf831..faf17ca211b4f 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -316,7 +316,10 @@ static __always_inline unsigned long _compound_head(const struct page *page)
+  * check that the page number lies within @folio; the caller is presumed
+  * to have a reference to the page.
+  */
+-#define folio_page(folio, n)	nth_page(&(folio)->page, n)
++static inline struct page *folio_page(struct folio *folio, unsigned long n)
++{
++	return &folio->page + n;
++}
+ 
+ static __always_inline int PageTail(const struct page *page)
+ {
 -- 
 2.50.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250901150359.867252-12-david%40redhat.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250901150359.867252-13-david%40redhat.com.
