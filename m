@@ -1,147 +1,172 @@
-Return-Path: <kasan-dev+bncBCG5FM426MMRB3OV3LCQMGQE4X4S3EY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV4VKNQZYERBRXO3LCQMGQED5SAQQI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A46FB3F85A
-	for <lists+kasan-dev@lfdr.de>; Tue,  2 Sep 2025 10:29:35 +0200 (CEST)
-Received: by mail-lj1-x23c.google.com with SMTP id 38308e7fff4ca-336e18c37e2sf9029371fa.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 02 Sep 2025 01:29:35 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1756801775; cv=pass;
+Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE34B3FA20
+	for <lists+kasan-dev@lfdr.de>; Tue,  2 Sep 2025 11:22:15 +0200 (CEST)
+Received: by mail-wm1-x33a.google.com with SMTP id 5b1f17b1804b1-45b8dde54c1sf10829825e9.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 02 Sep 2025 02:22:15 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1756804935; cv=pass;
         d=google.com; s=arc-20240605;
-        b=efpIna6G5Kojkra2PLv0oFF4H491jO48sLy63D4XonpvjvsO7BM1S0SgAQSaWBI/HJ
-         ayrY1K5qEbAa7W7CfZ156PMjzMf/W/dCedpIQwS0DvicCz++4GJCxSgNzsyTolAvgk51
-         OjXM++Dj+g5yprWSl41zP5qNIUMqqcWGwBVA7rke4z70q5DQI2EhX2IjIg/tU3mXMJtC
-         6mUTlhWrMFT+KIttQ2AUdoQQspqSzkZ+M+GbfIqnuqmEjZJtxkOhTLTBCKN9cPNeihLb
-         +JsRtT+M7xGSjGU7yWKhZzKjaDpZ3pxYmB85JWO8jx9d4oR+GtXp2+TKdxjx7XvqMugQ
-         2Ecg==
+        b=IgnZ0Ss7SwRQXIwXlN4EslvRrx58qdGJ/kOOSNNqi/8sNyGMXi1I5ccGzow3VKbPHo
+         RrxCH2Ef0AFWzsOsewK4sYXrvIwFDxEI3HKiIIXywb2ryN10hUnRi93PtT2NBLr1W9ou
+         1+08gf22PXRyYk7j+Vl1DlmxcykdzLDLPDcCIS+qM75PhqHhV58mtVgoXrKCKd9QWeAX
+         X29sjUX/ojd1+kzS6iw9VayvkxmU7QIezNhnkRGq2SEVvDlAyCbNOsxSe6ieVGRpXQ30
+         AhDq4kV1R2WsMSfZRPhjwGpwZBKaLMp4JRso4cDApL/DZeI/Gdx53B2o7Kl9y8SVQLMS
+         NLpw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=j8fqMOlSaYwmL+ZlmcymRbZNCfGG2BAu7SES23mLVNM=;
-        fh=qLNei9AJ5fSU3OKxemSJnfr32RdY629w/ejCZgP0LpA=;
-        b=a3J72FOUBGVQGVvj0Lc5QWo0KN0u7BVgT1XKfWQWDoVTtjMAzIpz8U9UYvcmwyespC
-         wdCpIGFZ5FyFbSlQAxYu7aZte6Cnsljmv/+VsOqj7qU+OtSdEEcREB80xrCWus5I9L3B
-         OXSPXLJXGb66RtHJJ8aLgOlvwZk/bkny0ed5KmLe5kEuwFhBTrDaworAhsBynsQd20Bo
-         zWVnc3HxoBqrIiscDse59jaxe3UEkDDua7CNqY4dfh1vYfbS5K+Z301kfSnIy+T84rGH
-         ju19Mkn6C9jMmm7QPoEAhhit5bntRUqKpRMHKlPRJE9eQq3jJLgeHSN3OFMZZI78NAaj
-         CqeQ==;
+         :list-id:mailing-list:precedence:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=25j8El9ptVkH+nWKe2SwvRrOg5bY6HshXfFZ/r7nBc8=;
+        fh=vDJTCteEDBHeDV4EMZPQKhg0iQ2w6CdnbX5arEYzSsg=;
+        b=WQ1Az9jLRD/GkwKsRjtV8wkr0sTF7xb+OFq9a5ryDsPhvAIkenH968C62JpSAUlcxm
+         mGITmP92OgqOuSsBtcGf38+6bQu/UXgapawruAk9+MXCc4GjHM1WjfzPkFYkj8M5zT/g
+         ryyEKTc9RTo2CLLz55xwdOoWZOYj0NZNLeKya+nQjKmSke4YI2YwF1jFO0qzMyUxTQEd
+         qCqO0GoPfywbQvma4jkK0B0jztsHchcjwFHngnfiq+9cJ4Ja7hPnlx/KuJdDSTJC7B4v
+         6duquV/DG7zREmbboZYG8CKempRkCmcbiW7tCuQCN3Vtt5YmJMwrmtvsx4dR3QJWwIP8
+         KKZQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=nbKHNeGC;
-       spf=pass (google.com: domain of 36qq2aakkcwcfqnhjwdmqlttlqj.htrpfxfs-ijalttlqjlwtzux.htr@flex--aliceryhl.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=36qq2aAkKCWcFQNHJWdMQLTTLQJ.HTRPFXFS-IJaLTTLQJLWTZUX.HTR@flex--aliceryhl.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@ursulin-net.20230601.gappssmtp.com header.s=20230601 header.b="oFwW443/";
+       spf=none (google.com: tursulin@ursulin.net does not designate permitted sender hosts) smtp.mailfrom=tursulin@ursulin.net;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1756801775; x=1757406575; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1756804935; x=1757409735; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:references:mime-version:in-reply-to:date:from:to
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:from:content-language:references:cc
+         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=j8fqMOlSaYwmL+ZlmcymRbZNCfGG2BAu7SES23mLVNM=;
-        b=cyXKU3VpFk2ALeapUog+yjW4HKspeohR6abcfldnVaBLkS4T57ORcqlTAl3nH6L3iC
-         1AgCCALk7r9oy0bA3eV8sLNfX/WsX37rkENDXgpvbsqcuJ15CSgK8e94TjHstbtVyqBv
-         JkTp9MFWRuJ9ymjHUTwSMDUyocKYa5SUsPGGxN3pWxslS+ueIdEVbEzxtROcXwB2Txev
-         s5HaXbkZ5csb7tiJZYN0ulrM4tHeb5k/TST+1YGADTxKKzfvNq2SIKgBoaeeo/2G/VmY
-         mERgkR9VjXMmQwvl3qB47PlidIXiIIgfJo61iLeM6OorNVl+U2zFObno4AJEQyjO5Tw7
-         7+pQ==
+        bh=25j8El9ptVkH+nWKe2SwvRrOg5bY6HshXfFZ/r7nBc8=;
+        b=VwO93y5Q5fXEgZ3wR2DWUphX9qRZUriLMYenOPQN3cqmYM3VGWEiZprA6CmT8JG597
+         UrrSHSARkU06FC2LXRW8cjyIb3LgQbTCyhFdrl3Cv5GH57sPsgC2yNMGGuAKpGMR+goq
+         YH9aVoSEPCAsSD23DLvMRDya41tWckt7JtfOQFIlp4bveMKSwkP6nUR8TbPzurOE5GFI
+         2SVyAILS5WqRN01pNeJR5I+0aQ/C6XIIl0fka6QIvuIjHJ/OyxzFRCIMqmB1lO6u70Va
+         JTDWPYXSTkhrWJRDPZbFdUi0Brea3Jb6bjaCOC7W+DknsdSHqPd2trMOhouzNAZUTI43
+         pJuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756801775; x=1757406575;
+        d=1e100.net; s=20230601; t=1756804935; x=1757409735;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:references:mime-version:in-reply-to:date
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j8fqMOlSaYwmL+ZlmcymRbZNCfGG2BAu7SES23mLVNM=;
-        b=j67hqaqk+R3kx7JhaEhew/RLRsb4ax5NiI22VIPfUnI4ScKiaJCxhhm3+z2Ld2wHc+
-         S3bjkUVheR14QwYo1nie6VeakOev4vxCKGqXQzHLW8KaUa0ueNI1Yct8xT7uANLCrWIG
-         8YtTuV9ahp59zF2JVQJjJbDOnFZu4/4xCl+uL73bopMfUSDIWGRzNOZJ2gxlvKSJfutF
-         /Okymdo6u8VNfosW691jkN4sozZ6T/21E39FskgosvbUH/hfS2vEtu8ba9JfqxCAlTLo
-         wcU1mDRzczpKCjxr+HpHIT+mmaXgc3N35yGCYVrb90v/K1EqB6wgUCy3uG2f/GJPZUfg
-         5dfw==
-X-Forwarded-Encrypted: i=2; AJvYcCXYLMKaj16Qe1BCgOLQCzAd1W8Pgit0ONbnTy64miINd2zRsoSKF3ewCr6a4hoBkVW0JV1EPg==@lfdr.de
-X-Gm-Message-State: AOJu0Yy42WnwqYMgrKVuOiAqxMgm13cKHPqtwz6+SnTiFRYilbtJN/BJ
-	BOXc2JVcgZt+umfvgHdrHGZoUDtIdDEs5JNzdi4s7IJlv7B94JJUoQgl
-X-Google-Smtp-Source: AGHT+IHliQ1WiZgTq89rRpMCVa3EMd7Id/UVR/jm3dK+gB5H3QQOArvUr7fSTBNxGJjXNn3PfzAPxA==
-X-Received: by 2002:a05:651c:1547:b0:336:e024:5c3f with SMTP id 38308e7fff4ca-336e0245df9mr21523221fa.30.1756801774350;
-        Tue, 02 Sep 2025 01:29:34 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdFSU8YWmoLrlt8fwvVVY0bjDBcJ3PwGiCVDPlZtvwdLQ==
-Received: by 2002:a05:651c:31ce:b0:336:896a:a615 with SMTP id
- 38308e7fff4ca-336a0fe147cls10094711fa.1.-pod-prod-05-eu; Tue, 02 Sep 2025
- 01:29:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCV9hL4c2cecpVbO6gwbVgzWyei34hnBynOusnrMvdi83to4K8/vjY8Y29uH9lTguXBRvJwRYdAvwoA=@googlegroups.com
-X-Received: by 2002:a05:651c:1b12:b0:332:2235:911c with SMTP id 38308e7fff4ca-336caf71358mr33342511fa.37.1756801771411;
-        Tue, 02 Sep 2025 01:29:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1756801771; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:content-language:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=25j8El9ptVkH+nWKe2SwvRrOg5bY6HshXfFZ/r7nBc8=;
+        b=kk4ZOiCV4cEz8SYocjELoEYyGOrxjU3R8avnuCnwZ2/UhYacm4ljb21Jr4rGVLPUFZ
+         MX1eleg0fSUMzSY03uopP+azmFfZtea972KzZ2WvlbKxvDt1KifpxSEocrjMiDxNM05T
+         LZVbW0bo9cXjKDCNL54PKONOGZcJI+MB1Af/A/g5qsKNz38UTNK8s4Rt4MLMX6B3AK+t
+         aVqW9GJMlVskF9jVWX2Cslz22W7ZQr3M74Dw3C4HZaSGixpEw4fA3h/Tp3s/r833Po4+
+         VjsRLwxgIyaweMTOO2xLEJ63j/c0WLe3cmeuFqZ9VKYNJnWdT2TeSBuWwHZeNWX6I+8n
+         KINQ==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCVSrRVEybgi1SwVbEoFKJXuTeSEYazxUQcX+oxF80nc+lKrTFgSKrZQU/vYOkeui/0H66O6PQ==@lfdr.de
+X-Gm-Message-State: AOJu0Yy2MJc/mRWGeVdoO3rsXarRywHNg6gUlX2Z0mQA3yXb782MpVmg
+	BbSN0n+OlEBvG2jZw585mkcZm7sS7N7auzhYgfgX2SekbAIpZfOIE9k5
+X-Google-Smtp-Source: AGHT+IFDTTwktZ3Kr8MB88HLfghfTcZCCF0phTDj/YG6ZvzRM69RVUhaOsdeLV03pChyRvX/e2be2A==
+X-Received: by 2002:a05:600c:4447:b0:45b:8ac2:9756 with SMTP id 5b1f17b1804b1-45b8ac2a1e8mr66207095e9.1.1756804934822;
+        Tue, 02 Sep 2025 02:22:14 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdZq9sLxKNZIksKfZg3uW/ERUafSIb46zpgwdSFWchBzQ==
+Received: by 2002:a05:6000:230d:b0:3b3:9ca4:d6f3 with SMTP id
+ ffacd0b85a97d-3d7b1c54dadls727540f8f.2.-pod-prod-09-eu; Tue, 02 Sep 2025
+ 02:22:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWkMrSiqoMQ5esZy5+6leww87P4f4h2YTEWoFCLQFewc/XM2lvg6CTriBSs9TlARrz9swUd9z9eG2Q=@googlegroups.com
+X-Received: by 2002:a5d:64cd:0:b0:3ce:16d3:7bd1 with SMTP id ffacd0b85a97d-3d1d9ac1cdamr7963538f8f.0.1756804932021;
+        Tue, 02 Sep 2025 02:22:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1756804931; cv=none;
         d=google.com; s=arc-20240605;
-        b=MCbWxkiXl8uxUezwcbCadPxL96itWjMJXvuDt2IjQMi/R6GNpvC3PCZLo0Dhor1VCt
-         A5OIeRADVhiZbJGyljWpc2Z8awzwqCOJrOGgCy1nw6xRi0m0q9nNU1TQaIY38XW5d08P
-         LO6rRgde+e6u/xJN041fgmPI/tRiyh+SkwN4bT7+BBElqeESSNWJnbwrsOtzOVDHvh+U
-         5dnuatlNw8yVvQluUkiXpBf2m8hC14IE6nOTRwttnV+h48OMf2snz26QXOSdRn8ZHRTb
-         UhSQaHFMLeMZuLllmEy7mPtPaNeG68wVIOiapMV1aBVNN8IllV5xe/8k9jfG6y3nAFjf
-         cr3A==
+        b=Y0axj49zsP/xXVLcTJuYRC47xjrSwpdyndFDwIEVpbtE9YmMOi10cOkVQr4TAheI8v
+         HuxttGbz0hbH9VnejwFfts7pbu0DxBPQe5jVIW9Kx6p/uiDljJS3T1C5qES0BIUFnDYS
+         TZkaUP7Bi4TGd8m4qJiw0suzMqLd+qFyMGyiDXN008KcyWn9q+yMow3FXVNBzrr/JkJX
+         bEK+Ztj4M0UYCary69DpyMFXdEbH5cEaEbEI1/Ad+iKSk5CAYnCfEp3Q3B8tgJxnS8YQ
+         toXguh21ehufRrPRozQiNCYk2WUJUr6TKapQ8YLRDN23FwAkwiedghsdTdcAMTlsMKnj
+         QmxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:dkim-signature;
-        bh=fMrVj7jAgdBMUg6bB9EkBvTIBFRbh5mF4KGnDnI9ZoQ=;
-        fh=o/iCLdpc1r5+CNPCfOfVwITeaoDs/rWbFcZx5WKUmLA=;
-        b=ifCglPHCYnKdMvhMeXrRNUH/Ut+UZdeIRz6mv0UDVmYHksXIQ4i/1EgH+vZBhvXGGk
-         SBWhU70puTN6hOMOEY+m0OhbfA6r1xecHp7UL9sXlmCbWYxpvrWGCZNKxGRxugPnb/ob
-         kg8xCVspUcu8RGAKRDRXsZiz20hU1/izN0uUO8W2wNXdj1ow7SVcRLB8AlkhB/l8cSgx
-         tIAw5IFV0yhyAi3MKkoOX742UiSUIDU7h0XQIonpysFPHlmO94x6iv0Fypl8MxaHJfUs
-         anxGQFoppJXTZRPxPJkcZAD8A3utj9QrlKzFC2Z1isVFzTRkAUBpDU5ThWgl+M/SFFGQ
-         MqHQ==;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :dkim-signature;
+        bh=0Be300C9M54HN2j6qqn3KzILYOn0Dm/rUn/s4aJntRQ=;
+        fh=Qf+NoPbjua1FxmxE8v9nmNEPqqtrm0YXlLWTMDc2Cdc=;
+        b=P/u76p5Pcx0xNv/jeag1SzpmsLqYm6QGzK037p4pr0w0fbDN2ZPB3uM4ekh8IBPkKN
+         MlDpT01lYYVa85rVIP9qSDN0C+jICnt+b2KFA/p29DAvdO1EXaSfD32HxAP3CDuXEgCH
+         v+/pACT0ngi7PMW7VsgFUjdZjfr1uB/FmZk85fNVyqG0AfbZGEcIYoRk4XoZshXFJSif
+         Z0P0BzJveT8R0xfKA9hcY1gp7EmkBNGXD/z3FQGOhcNi9Lg8+Ddi/tdBy3qnfnnju4qI
+         ZUCRaM9xqFhSLV2Gl90JKxuDDf2XL/mqQEXKE2Es/+yGZMg2YekCNHZoyRNZD6hTFFEi
+         yGqA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=nbKHNeGC;
-       spf=pass (google.com: domain of 36qq2aakkcwcfqnhjwdmqlttlqj.htrpfxfs-ijalttlqjlwtzux.htr@flex--aliceryhl.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=36qq2aAkKCWcFQNHJWdMQLTTLQJ.HTRPFXFS-IJaLTTLQJLWTZUX.HTR@flex--aliceryhl.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@ursulin-net.20230601.gappssmtp.com header.s=20230601 header.b="oFwW443/";
+       spf=none (google.com: tursulin@ursulin.net does not designate permitted sender hosts) smtp.mailfrom=tursulin@ursulin.net;
        dara=pass header.i=@googlegroups.com
-Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com. [2a00:1450:4864:20::34a])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-337f4f72a71si177851fa.3.2025.09.02.01.29.31
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com. [2a00:1450:4864:20::329])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-45b8fa29a24si494675e9.1.2025.09.02.02.22.11
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Sep 2025 01:29:31 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 36qq2aakkcwcfqnhjwdmqlttlqj.htrpfxfs-ijalttlqjlwtzux.htr@flex--aliceryhl.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) client-ip=2a00:1450:4864:20::34a;
-Received: by mail-wm1-x34a.google.com with SMTP id 5b1f17b1804b1-45b869d3572so8490105e9.1
-        for <kasan-dev@googlegroups.com>; Tue, 02 Sep 2025 01:29:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU7Yi4I9UVxv2bPQLrnLnzR5R9hfI6E8xV4scq9txOV3bruK4kMinK62hD/+0AzYLHyXXK/HpUftwI=@googlegroups.com
-X-Received: from wrbbs17.prod.google.com ([2002:a05:6000:711:b0:3b7:8b93:59f4])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:1a8c:b0:3c9:24f5:4711 with SMTP id ffacd0b85a97d-3d1def66f6dmr8162944f8f.43.1756801770707;
- Tue, 02 Sep 2025 01:29:30 -0700 (PDT)
-Date: Tue, 2 Sep 2025 08:29:29 +0000
-In-Reply-To: <20250901-shrimp-define-9d99cc2a012a@spud>
-Mime-Version: 1.0
-References: <20250408220311.1033475-1-ojeda@kernel.org> <20250901-shrimp-define-9d99cc2a012a@spud>
-Message-ID: <aLaq6TpUtLkqHg_o@google.com>
-Subject: Re: [PATCH] rust: kasan/kbuild: fix missing flags on first build
-From: "'Alice Ryhl' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
-	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	kasan-dev@googlegroups.com, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
-	Matthew Maurer <mmaurer@google.com>, Sami Tolvanen <samitolvanen@google.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: aliceryhl@google.com
+        Tue, 02 Sep 2025 02:22:11 -0700 (PDT)
+Received-SPF: none (google.com: tursulin@ursulin.net does not designate permitted sender hosts) client-ip=2a00:1450:4864:20::329;
+Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-45b873a2092so23014445e9.1
+        for <kasan-dev@googlegroups.com>; Tue, 02 Sep 2025 02:22:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWK9xFyyWDnZA+kS9NU9yt6va/lFZZjH3ZrGiIaO3/yi2b1aGuNnPyoLPq2FsokjZ9+eNwXJ5ORGz8=@googlegroups.com
+X-Gm-Gg: ASbGncvsnX45tCePbbe0kyw3zzsEnb9B3uobkoHSlN1ahj5xWtfBsOSB0ugt0BV/2El
+	OYynJRSFzECubgtq61+cJNNlYENA1GEEJvKFxWpx+XvZ1VuQYq1C/BFZ0UYMGLGiZh47HIoRtAs
+	8B+4mW0x4kIvY/CxLHvVOidgKBnthimRkgAkk4Tv8Ac02QudaQnYdeL5SWguer/QY80T8Ujun/Q
+	Q1SmHP3HQvBmszwXsTbHpuAKZYaeSImVZHQ3RSEXkIVQmDGABngIF5ZcY2bhIqwQPklRm4KKe4m
+	YyJHIqC/+cBDwp76vWC9yMp2UD/x3pl5Y+O7z29bs6dIz/tPVnWovkcMmXKgvj1lAIpHhFnFHNh
+	+EduK8uPZw1R+GYVf1ePNKQ/Oky6r5aEfpKg=
+X-Received: by 2002:a05:600c:a04:b0:45b:7d24:beac with SMTP id 5b1f17b1804b1-45b8553335amr94619035e9.10.1756804930815;
+        Tue, 02 Sep 2025 02:22:10 -0700 (PDT)
+Received: from [192.168.0.101] ([84.66.36.92])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3d0b9402299sm17994846f8f.18.2025.09.02.02.22.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Sep 2025 02:22:10 -0700 (PDT)
+Message-ID: <4bbf5590-7591-4dfc-a23e-0bda6cb31a80@ursulin.net>
+Date: Tue, 2 Sep 2025 10:22:09 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 26/37] drm/i915/gem: drop nth_page() usage within SG
+ entry
+To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
+ Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ iommu@lists.linux.dev, io-uring@vger.kernel.org,
+ Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
+ Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
+ kasan-dev@googlegroups.com, kvm@vger.kernel.org,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
+ linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Michal Hocko <mhocko@suse.com>,
+ Mike Rapoport <rppt@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+ netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
+ Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+ wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+References: <20250901150359.867252-1-david@redhat.com>
+ <20250901150359.867252-27-david@redhat.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20250901150359.867252-27-david@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Original-Sender: tursulin@ursulin.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=nbKHNeGC;       spf=pass
- (google.com: domain of 36qq2aakkcwcfqnhjwdmqlttlqj.htrpfxfs-ijalttlqjlwtzux.htr@flex--aliceryhl.bounces.google.com
- designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=36qq2aAkKCWcFQNHJWdMQLTTLQJ.HTRPFXFS-IJaLTTLQJLWTZUX.HTR@flex--aliceryhl.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+ header.i=@ursulin-net.20230601.gappssmtp.com header.s=20230601
+ header.b="oFwW443/";       spf=none (google.com: tursulin@ursulin.net does
+ not designate permitted sender hosts) smtp.mailfrom=tursulin@ursulin.net;
        dara=pass header.i=@googlegroups.com
-X-Original-From: Alice Ryhl <aliceryhl@google.com>
-Reply-To: Alice Ryhl <aliceryhl@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -154,116 +179,45 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Sep 01, 2025 at 06:45:54PM +0100, Conor Dooley wrote:
-> Yo,
-> 
-> On Wed, Apr 09, 2025 at 12:03:11AM +0200, Miguel Ojeda wrote:
-> > If KASAN is enabled, and one runs in a clean repository e.g.:
-> > 
-> >     make LLVM=1 prepare
-> >     make LLVM=1 prepare
-> > 
-> > Then the Rust code gets rebuilt, which should not happen.
-> > 
-> > The reason is some of the LLVM KASAN `rustc` flags are added in the
-> > second run:
-> > 
-> >     -Cllvm-args=-asan-instrumentation-with-call-threshold=10000
-> >     -Cllvm-args=-asan-stack=0
-> >     -Cllvm-args=-asan-globals=1
-> >     -Cllvm-args=-asan-kernel-mem-intrinsic-prefix=1
-> > 
-> > Further runs do not rebuild Rust because the flags do not change anymore.
-> > 
-> > Rebuilding like that in the second run is bad, even if this just happens
-> > with KASAN enabled, but missing flags in the first one is even worse.
-> > 
-> > The root issue is that we pass, for some architectures and for the moment,
-> > a generated `target.json` file. That file is not ready by the time `rustc`
-> > gets called for the flag test, and thus the flag test fails just because
-> > the file is not available, e.g.:
-> > 
-> >     $ ... --target=./scripts/target.json ... -Cllvm-args=...
-> >     error: target file "./scripts/target.json" does not exist
-> > 
-> > There are a few approaches we could take here to solve this. For instance,
-> > we could ensure that every time that the config is rebuilt, we regenerate
-> > the file and recompute the flags. Or we could use the LLVM version to
-> > check for these flags, instead of testing the flag (which may have other
-> > advantages, such as allowing us to detect renames on the LLVM side).
-> > 
-> > However, it may be easier than that: `rustc` is aware of the `-Cllvm-args`
-> > regardless of the `--target` (e.g. I checked that the list printed
-> > is the same, plus that I can check for these flags even if I pass
-> > a completely unrelated target), and thus we can just eliminate the
-> > dependency completely.
-> > 
-> > Thus filter out the target.
-> 
-> 
-> 
-> 
-> > This does mean that `rustc-option` cannot be used to test a flag that
-> > requires the right target, but we don't have other users yet, it is a
-> > minimal change and we want to get rid of custom targets in the future.
-> 
-> Hmm, while this might be true, I think it should not actually have been
-> true. Commit ca627e636551e ("rust: cfi: add support for CFI_CLANG with Rust")
-> added a cc-option check to the rust kconfig symbol, checking if the c
-> compiler supports the integer normalisations stuff:
-> 	depends on !CFI_CLANG || RUSTC_VERSION >= 107900 && $(cc-option,-fsanitize=kcfi -fsanitize-cfi-icall-experimental-normalize-integers)
-> and also sets the relevant options in the makefile:
-> 	ifdef CONFIG_RUST
-> 	       # Always pass -Zsanitizer-cfi-normalize-integers as CONFIG_RUST selects
-> 	       # CONFIG_CFI_ICALL_NORMALIZE_INTEGERS.
-> 	       RUSTC_FLAGS_CFI   := -Zsanitizer=kcfi -Zsanitizer-cfi-normalize-integers
-> 	       KBUILD_RUSTFLAGS += $(RUSTC_FLAGS_CFI)
-> 	       export RUSTC_FLAGS_CFI
-> 	endif
-> but it should also have added a rustc-option check as, unfortunately,
-> support for kcfi in rustc is target specific. This results in build
-> breakages where the arch supports CFI_CLANG and RUST, but the target in
-> use does not have the kcfi flag set.
-> I attempted to fix this by adding:
-> 	diff --git a/arch/Kconfig b/arch/Kconfig
-> 	index d1b4ffd6e0856..235709fb75152 100644
-> 	--- a/arch/Kconfig
-> 	+++ b/arch/Kconfig
-> 	@@ -916,6 +916,7 @@ config HAVE_CFI_ICALL_NORMALIZE_INTEGERS_CLANG
-> 	 config HAVE_CFI_ICALL_NORMALIZE_INTEGERS_RUSTC
-> 	        def_bool y
-> 	        depends on HAVE_CFI_ICALL_NORMALIZE_INTEGERS_CLANG
-> 	+       depends on $(rustc-option,-C panic=abort -Zsanitizer=kcfi -Zsanitizer-cfi-normalize-integers)
-> 	        depends on RUSTC_VERSION >= 107900
-> 	        # With GCOV/KASAN we need this fix: https://github.com/rust-lang/rust/pull/129373
-> 	        depends on (RUSTC_LLVM_VERSION >= 190103 && RUSTC_VERSION >= 108200) || \
-> but of course this does not work for cross compilation, as you're
-> stripping the target information out and so the check passes on my host
-> even though my intended
-> RUSTC_BOOTSTRAP=1 rustc -C panic=abort -Zsanitizer=kcfi -Zsanitizer-cfi-normalize-integers -Ctarget-cpu=generic-rv64 --target=riscv64imac-unknown-none-elf
-> is a failure.
-> 
-> I dunno too much about rustc itself, but I suspect that adding kcfi to
-> the target there is a "free" win, but that'll take time to trickle down
-> and the minimum version rustc version for the kernel isn't going to have
-> that.
-> 
-> I'm not really sure what your target.json suggestion below is, so just
-> reporting so that someone that understands the alternative solutions can
-> fix this.
 
-Probably right now we have to do this cfg by
+On 01/09/2025 16:03, David Hildenbrand wrote:
+> It's no longer required to use nth_page() when iterating pages within a
+> single SG entry, so let's drop the nth_page() usage.
+> 
+> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_pages.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> index c16a57160b262..031d7acc16142 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> @@ -779,7 +779,7 @@ __i915_gem_object_get_page(struct drm_i915_gem_object *obj, pgoff_t n)
+>   	GEM_BUG_ON(!i915_gem_object_has_struct_page(obj));
+>   
+>   	sg = i915_gem_object_get_sg(obj, n, &offset);
+> -	return nth_page(sg_page(sg), offset);
+> +	return sg_page(sg) + offset;
+>   }
+>   
+>   /* Like i915_gem_object_get_page(), but mark the returned page dirty */
 
-	depends on CONFIG_ARM
+LGTM. If you want an ack to merge via a tree other than i915 you have 
+it. I suspect it might be easier to coordinate like that.
 
-to prevent riscv if rustc has the missing setting
-set on riscv. Once we add it to riscv, we change it to
+Regards,
 
-	depends on CONFIG_ARM || (RUSTC_VERSION >= ??? || CONFIG_RISCV)
-
-Alice
+Tvrtko
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aLaq6TpUtLkqHg_o%40google.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/4bbf5590-7591-4dfc-a23e-0bda6cb31a80%40ursulin.net.
