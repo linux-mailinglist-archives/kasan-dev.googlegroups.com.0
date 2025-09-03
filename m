@@ -1,145 +1,150 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBNMX4HCQMGQEHFIXTGI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCD6ROMWZ4CBBFFQ4HCQMGQEGNM3ZKY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x438.google.com (mail-pf1-x438.google.com [IPv6:2607:f8b0:4864:20::438])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62A95B42314
-	for <lists+kasan-dev@lfdr.de>; Wed,  3 Sep 2025 16:07:51 +0200 (CEST)
-Received: by mail-pf1-x438.google.com with SMTP id d2e1a72fcca58-7724487d2a8sf6252966b3a.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 03 Sep 2025 07:07:51 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1756908470; cv=pass;
+Received: from mail-pj1-x1040.google.com (mail-pj1-x1040.google.com [IPv6:2607:f8b0:4864:20::1040])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E91CB4243B
+	for <lists+kasan-dev@lfdr.de>; Wed,  3 Sep 2025 17:00:39 +0200 (CEST)
+Received: by mail-pj1-x1040.google.com with SMTP id 98e67ed59e1d1-329ee69e7desf1943437a91.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 03 Sep 2025 08:00:38 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1756911637; cv=pass;
         d=google.com; s=arc-20240605;
-        b=NILtupbD7Bx9fUwy/xbsK8atxmN6/4N0MSnh2Z9yEgWu4uFmNKBwo1i6AQ8Gom0AqU
-         eWN/DQWeFXCJUWMxiDV2+63OgxlkDy1VkS25VjloVYLFQVPHFOAQQfR3u3WBgorUXGzc
-         LxEuO6RAZoe86D49TVXjz1PtL+HkR6mdPXGr8+llFzntPZiVQjsF1F3+3s114qKmZ5st
-         VC4ax7hSwb0c6oxF3apPweOZHl7/bR3bOY6X6u+mgPfrHg299uR65YIo0Jf+/p8nUL7O
-         uDemYmKPcOWyGLi6pSRyZ3mQGnlbur1fpgM5NX8m8W9Fy1l+jaL6ZZaTYpEvTLDurWaW
-         k99A==
+        b=dKLfixmCFBGNVWq7HCLv+81ihoFwdu+ymIY5zTqLonSOEdh0FCBTilrjeyhKXZXFWs
+         kCQ7IlCMiAejoV4xcbuzwseXTim18nIv7L9DtyBSY1eOyCHplmV0nfGow3M3hT5f/lrf
+         YuYCRCYOr/ttCjzCEmCjn7XEHE7XNTEeP5HcZu1CgROdGrFMDCuQxeXjE9YwSWoin3lN
+         Nlxlr+Jw+ADYnV7/Ydezv+vXqhu1YoF9aTm+6vb1UZ+zBIGIPGNrggA1DkZrTb13zu15
+         GIRX2fHiWXMvayWGllNXam96sFZn9dOZoPbEPbdBZooIhLOFPh8b4C9h4YMUwCAdbQkE
+         cmdQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=Kgn9j3tF9WLQKuReF0uaAeaNDKENYJB4gS1j7Mts66w=;
-        fh=rIR3ElPC5XzHDkaH7DBzC0smPGEKMdT6p2vwmjS906s=;
-        b=T7Y5h/TGhWjUJ8g/sSm8yOJSy2JrxLLj8LYrJERwPkgfg0RVVnzAhjBGJ2nhQfBJuR
-         R48Ygc9csc8cs+bpEmqq6twHt0NIcxJQ3WtWupp9+65nUnhAKgHtGOESk0kl5N5LnyUw
-         rPAC0buk+ysIXxr+N1lZoNcLUfJx+q0eGgC4T6UUlay7moAgqz0LbJ9qylQYnPfU7I8i
-         wsyTQ/yr4rV/3a3dkUnzS3at7zTUU1LsAYI2ALKRLKITvBEUSPv4Gbp/b75Gqd3evHyx
-         Sf+fzc7qJnk716ABKT/mg5d1yINOIKw+2X8BMpj9X4X2UVxLdOu58LYQg86VeZdntc/S
-         VSaQ==;
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=ZZsBBgqoj4OoBqMb6dq/HsQn8/2ClHcFMBKG72oLpi4=;
+        fh=jP6l/7PVHn3E+hZIOIbLzTZkea6+PspIZfZzWduhz4g=;
+        b=Zr5L4zagAD2PAAT/Y/B04ic+efWejEfs6IfS6mZ184QNcH0bPPz9X+gG7HVwWkafgw
+         dPqGbDk5hKcyW49YTbgAtsaJnTdtx3xWnRofdXaFe570NucI46eOPwWGBG9Fcu2sI+p6
+         HlQ+pmyDJpovYeoalRZcvjjisvwPoyCsMGpckbfm8MbhDShxy6Fp3/cznid0XyX4rkco
+         DnbKXipgG2FyB7XUmA+DzXX9nJsbS/rFCVeDg7WS9Ir7X0uegTUW7vQYW8djqX+iPyLX
+         QG0GR68D5hQcOFS/3U+nB86kZf/L5CNj8+LcI411lHIV7DycN1G3kPQeAh9RsU0LfSwO
+         iRBw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=iHfgL129;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::52a as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
+       spf=pass (google.com: domain of yeoreum.yun@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=yeoreum.yun@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1756908470; x=1757513270; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1756911637; x=1757516437; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Kgn9j3tF9WLQKuReF0uaAeaNDKENYJB4gS1j7Mts66w=;
-        b=YP2LMbJFre4iBC9gvdW36as6xqIsTykGYtAg8JTunW7ERwa1UjEMRLd7Xd6Vf7682K
-         zRp8GMAhbYfSjLiOP9CaWbhNMRYzFWRCw/wlcjz8UVrA43l32wKZgTWgo7f3wnFI23TJ
-         TiRKpG4UDky8lIKm7XJD/YNSW+s1zslYYUVOPczNpbLjZ6GiiUpv7VGdHsCw1yLTI44t
-         uSw9/Ks8vdn2TuaMz7A3DOPvWoMFaZu67C6oXmPMoPQaxeN3rJQDv5ezstWGlAIogN6I
-         9Z154eaDKCNbmqFFPw6/avWYy6MHvV3zQ4shjOOvmQUz1jH0CFQBUM7BfrZHWyibT4L6
-         OlzA==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZZsBBgqoj4OoBqMb6dq/HsQn8/2ClHcFMBKG72oLpi4=;
+        b=QxZ9wvMVPT25t54iEETAa89Tmf0UES9Io+QfITP1mfHqIPv1nQZVBtLQF4l9lrBHz3
+         ey+iJ8OlRKBthidT3w2zWVSiESSSOCXQ7hb+3kl0D43TBNuLJEy9iNWxa3W1T9zyurcT
+         USypfk8+XM0fBBrk/YaeR3LmL6+pbqS2TCrNnU+lkZyT/8reJssmir8y52l0PhgJII6U
+         Eahbx3U+695JI2oXY3fyJeVJFyhtUWb8QYd6l5crq7o0DZpeAX98+a5ZbWVnWJvpdLD7
+         AyhOXYjGq2Bbqze0rxcgnXQ9cB7Ax6GYe3ckG26Y8feU9x7B3agPVhlGrQ4H9+yagD3Z
+         HeIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756908470; x=1757513270;
+        d=1e100.net; s=20230601; t=1756911637; x=1757516437;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Kgn9j3tF9WLQKuReF0uaAeaNDKENYJB4gS1j7Mts66w=;
-        b=iQb54EgistQQPJ+jguok10RbSvoGizkdIHcdJwT9KhLo7/ve7hLHwjUfiYt9ngxUZv
-         Y41kip1XS463ZcHvqCnJMp4y1/HfjVUWTyDkAPN6P4tlpr1NfCP9jTWkLhxUQVFcsW/2
-         6YJrBJpVAUQl2IlffjqcaCdD8X80RrAQQgNlmg/cTt2217p+GC8PRRiCsWkzLkFe34Fi
-         TgnwHB5VUzX9eSteS42Gx/X7drW9lxVcG9QiYx49tEDFu3fVJAHYRxv5cP8omj0ajBSu
-         7hyWG6MjJ+1qowVGGzdM6g+/o6BbCeTsJnfZbYTaBnTsB9dJOq+454si933LeY26qKxJ
-         N/BA==
-X-Forwarded-Encrypted: i=2; AJvYcCVRrg8ebCGbfOyFBy5B+JenkxMZo2pJ1Hux/zqk749ZZ5cz+JpdVpAlF5vLkb8mkFZFv4UXVA==@lfdr.de
-X-Gm-Message-State: AOJu0YzmKJF9uM6OJSZVNqsR9KkjFdG2Q1v6BvzIbGXzD2LrQSJiAYGA
-	6i9k4CA9M1yIJJCmBoqLBKZWZKK4SJnKdaxJ+v6TdxszCgF6buudumsc
-X-Google-Smtp-Source: AGHT+IFx+3rvYZK2q6d8kTZVssAe+UXdAGX4tGk2uKiU4Oxnx32KIv0NK5KQm1f/cWoeNAwBIYRoEQ==
-X-Received: by 2002:a05:6a00:bd90:b0:771:ead8:dcdb with SMTP id d2e1a72fcca58-7723e258689mr16475469b3a.8.1756908469531;
-        Wed, 03 Sep 2025 07:07:49 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdeBr1+1qNisXmRiXWcjDD/HeFVJD+hp3/Ft9sogR6ykA==
-Received: by 2002:a05:6a00:999:b0:770:532e:5fc6 with SMTP id
- d2e1a72fcca58-7725bb7aafels3546863b3a.0.-pod-prod-06-us; Wed, 03 Sep 2025
- 07:07:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVumL8hhitthrhCnQ03v/Q+FIy+2ObDNZ/UaKXAXNiGpY1BWCzaGibPTGQvBR2CYWejD3SvqA1SwUk=@googlegroups.com
-X-Received: by 2002:a05:6a00:2da5:b0:772:8101:870c with SMTP id d2e1a72fcca58-77281019e70mr3276670b3a.11.1756908467670;
-        Wed, 03 Sep 2025 07:07:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1756908467; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZZsBBgqoj4OoBqMb6dq/HsQn8/2ClHcFMBKG72oLpi4=;
+        b=jS/S4fqFxQho4F1+IXAwXgkifOoWL8+p5c5Na/UDm5D2L1FaXa/gDEUPfrfBDIL4gc
+         jX+o5DAs7BqHPBGwbf/YFITXW1axJDNljnTKQ2ePyCfqxc0u5+nSIq9OTg/kf37skGEF
+         R/ORbim70HZhdIXgi3mYSAQeLIDH2og43F97i57GRko8Iprwp6s8bIiGK2Xr/TeL5JYU
+         eUCqKSRc1f/uqLvLcKIOixYFZyAUK4fxFETiN0qz++6DcE/oQFV3s+CVUUbibaNZ1zen
+         ioJjFapK9GQ7MWpEae43fo1t7iKny+lheccSTSRC9/bOIMUd9SpEc9hdPbpTFWSPnUWi
+         MgQg==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCVKgBVI1bxI4F9E+eLpKNQtlWpCWYtIoWLDFN9kczhYVNuI0kxhyraoiqYukph3xZp0PqX4wQ==@lfdr.de
+X-Gm-Message-State: AOJu0YwbMBuCQxft0PAELMJSszdvoPxu8g8NmlxHcFr6OH0oL6BvemQG
+	18ZjyYa/TyIob/emc1YETBmqg6oj5xEO7G97D22F5O9eGf/72QUG9ZUu
+X-Google-Smtp-Source: AGHT+IFJnhYAxUSXU1x8GaX2e+U4NK680DFObF/7DMZL8cvx+qlUC3FnP/iW2tc3Qn3Feegg+M3ZLQ==
+X-Received: by 2002:a17:90b:1848:b0:327:6de3:24b6 with SMTP id 98e67ed59e1d1-3281541223dmr19750196a91.8.1756911636730;
+        Wed, 03 Sep 2025 08:00:36 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfVmP4JuizXQ+uJiu2m+megwiMSFVi+vvoe/h2UsdJM0A==
+Received: by 2002:a17:90b:3754:b0:31c:c0bd:10f8 with SMTP id
+ 98e67ed59e1d1-32b5ed78079ls944730a91.0.-pod-prod-09-us; Wed, 03 Sep 2025
+ 08:00:33 -0700 (PDT)
+X-Received: by 2002:a17:90b:3148:b0:328:650:4e7a with SMTP id 98e67ed59e1d1-32815412274mr20795377a91.3.1756911632885;
+        Wed, 03 Sep 2025 08:00:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1756911632; cv=none;
         d=google.com; s=arc-20240605;
-        b=NulrsrqqJC8EExxoDHC8A4oBzX7hK5hieKAruD2WVMUm5Osty4aOtUZMeDHE1EKoll
-         5+WkI7cRrKf8EaDmfrTU9iG5iqRve7gSB/wIM8hsozDmYRHBr4acSkUMh+hQWaHe4795
-         MsSTk7lnp+IbR3822F/ql4vCLbc0dwcilUqNhsPCpYol6kyuOdpjKt6qxgOauTSJvqHV
-         JVyUk+fZkR1CmXJCEpw3qhY8XdIdDvbhEf3OBLUftwhe382N2S/i3bdp507JRYPIoU/D
-         hb9Vc2Kmgn8Q4SH9WMr76UfG0M+6AUbsTZ1c5T2zv6trP1wZLVW7mMZVtcQNiI61zHgq
-         //CQ==
+        b=Dz0NAAZfvqbqWrK6fyQTAczjvpHjfyoTLBCRXmx2au4dJsvMWPdBd2KRZrmJHGkSbX
+         6MK14xkkBstIf3Tkptj1awDLHQnSmXfLcDEotBiEGtvuNSjemlfnB4tsRIoZz6Hv82H9
+         g9i9j6M5VK+bVGXjnD9t9ytcHhuFyT659Uc+rhmdXkyssN7qOiHgfAVDXHXP4TZMLsHO
+         LKL20kul+gf7zq5b11uzpcnjsTJh5NQg3EpZQ5dYOqldDd2jIQwh2wpNUQLoQLllamdw
+         Jl+aD/R344Q9Akgb1ii481HK7mgTsA+b8uze67G0Wc+tACGCuzjnGk9DePYQu029IhbC
+         ePLQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=5K9EI/c+PZFvJEHF5Aa1VFvLskC+dFsbaSIMq7wWgXc=;
-        fh=rbdHQi08oDaXRKL/LdsxLtdz+Vvyn0Xi2wL+ua3g9ZQ=;
-        b=QKTucyZf9qYKndNL2fNHBjZJrTgJEAcTJ9JBCttqGmXM0BfiCkPkvyb8G3fV0nzvig
-         XMl20aiMecWSzIL8ya9DW+zmGq1yd7aVf/3pjGNPJUZ5aZp1gWZpK1A1jT23KEp4SJIE
-         JSUFvAzFHwt1C2TDs6lJELb35ia5wZ2fWGVGS2sw3/7ppDaX9JgLVfyL+OPrxmj+V+Ps
-         tEcFu3G4vYS6HxveNh63tEhHT5Zu0LVjQ3VPAPdMRMcW4FpgMUcArO2/G7C0HW/v4D42
-         zc2gK5k68Cltv1eieiIoLoNis63dO/++DmpZGZgrO/DlUimVB58iZA7rlihXLXG5tDVA
-         AAZg==;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from;
+        bh=GWtECCYO/W3ZeQTeOSKG2/hfJYDhLePie2ke5lizwtk=;
+        fh=sO9hEm1jMmDS9TNxUqxXxXlVQts1wG4o/F/u/UhyUv4=;
+        b=GaARG3pUWxz3lIKaMAb3kuhjFZQssgfHC4TyuIGxtRv3sNyUKC7qp1RlSITdCSkco9
+         ddELRIX9LpD4EoJ/rciVwSFS7dfN4TKWvOLRTv58TLSkmy2iFfICkWuqD+pZUq1v/CwO
+         Jrj/mfR35TfpJh8l7nJL3xuX1XhvkZ1QabshKUx6BvhoQmuabU0nIy3JYATk6NaSk3D3
+         Bs6roxd6s4z61wLjtr2B6ZWDWZ35iWb6ZfpUQ3zuqPUc0n67O5hFHxdZl8GCpmTSX8nQ
+         BVx8HFxFwLUro5MDmmmTiVfDKzpcw1vFluSTzoB2QqrdzUIHLf4DUfx91dHRmbTx1aXF
+         e2qw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=iHfgL129;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::52a as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com. [2607:f8b0:4864:20::52a])
-        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-7726452229asi295226b3a.4.2025.09.03.07.07.47
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Sep 2025 07:07:47 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::52a as permitted sender) client-ip=2607:f8b0:4864:20::52a;
-Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-b4755f37c3eso5714466a12.3
-        for <kasan-dev@googlegroups.com>; Wed, 03 Sep 2025 07:07:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWUaMsYuKPINQLIWDmCjxQj3FmmfCRcACzNtmBY3MPuqlI0dPucvXXt06nRkbqCvMvkzfayF4Lvq3s=@googlegroups.com
-X-Gm-Gg: ASbGncvTI3Dp9REbQ3+QQZ0fNbxPspkgkZgC/yiZU+/BBgdr5XYHsZtJdFPdDgutUDW
-	lVEggtJeslgVXcYjRKWSr6J2h+syiULieyUTU8tQAKRuRC4uGKtzSxmTBjuiSnPlVzWCE7Y5Def
-	hG1+SylqtMO9fKF2qle0KqRogqTPeb9rhXwAR1iY5sJhzbgRR881Jkago0rLlCLzhBqDUtsGaZ6
-	9Xgc9y4gpUjphzwcb9IJTx9IbJHula05FyHbm6yPvhZWZvyhMiWyw==
-X-Received: by 2002:a17:90b:2888:b0:327:ad83:6ce6 with SMTP id
- 98e67ed59e1d1-328156bab71mr18212350a91.21.1756908466847; Wed, 03 Sep 2025
- 07:07:46 -0700 (PDT)
+       spf=pass (google.com: domain of yeoreum.yun@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=yeoreum.yun@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id 98e67ed59e1d1-327914df480si492528a91.1.2025.09.03.08.00.31
+        for <kasan-dev@googlegroups.com>;
+        Wed, 03 Sep 2025 08:00:31 -0700 (PDT)
+Received-SPF: pass (google.com: domain of yeoreum.yun@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 65C9A1688;
+	Wed,  3 Sep 2025 08:00:21 -0700 (PDT)
+Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D89543F694;
+	Wed,  3 Sep 2025 08:00:25 -0700 (PDT)
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: ryabinin.a.a@gmail.com,
+	glider@google.com,
+	andreyknvl@gmail.com,
+	dvyukov@google.com,
+	vincenzo.frascino@arm.com,
+	corbet@lwn.net,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	akpm@linux-foundation.org,
+	scott@os.amperecomputing.com,
+	jhubbard@nvidia.com,
+	pankaj.gupta@amd.com,
+	leitao@debian.org,
+	kaleshsingh@google.com,
+	maz@kernel.org,
+	broonie@kernel.org,
+	oliver.upton@linux.dev,
+	james.morse@arm.com,
+	ardb@kernel.org,
+	hardevsinh.palaniya@siliconsignals.io,
+	david@redhat.com,
+	yang@os.amperecomputing.com
+Cc: kasan-dev@googlegroups.com,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mm@kvack.org,
+	Yeoreum Yun <yeoreum.yun@arm.com>
+Subject: [PATCH v7 0/2] introduce kasan.write_only option in hw-tags
+Date: Wed,  3 Sep 2025 16:00:18 +0100
+Message-Id: <20250903150020.1131840-1-yeoreum.yun@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20250901164212.460229-1-ethan.w.s.graham@gmail.com> <20250901164212.460229-5-ethan.w.s.graham@gmail.com>
-In-Reply-To: <20250901164212.460229-5-ethan.w.s.graham@gmail.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 3 Sep 2025 16:07:09 +0200
-X-Gm-Features: Ac12FXz0U-3N7wPl6bYh7KGL8GiZ-rYE3Roev_WD4ikilRDTuvPr9ZMXra7VBOo
-Message-ID: <CAG_fn=XxRoZJtxKJrLGTTV42H7gDMFEaQZiYQ+nFgmhexzgW9Q@mail.gmail.com>
-Subject: Re: [PATCH v2 RFC 4/7] tools: add kfuzztest-bridge utility
-To: Ethan Graham <ethan.w.s.graham@gmail.com>
-Cc: ethangraham@google.com, andreyknvl@gmail.com, brendan.higgins@linux.dev, 
-	davidgow@google.com, dvyukov@google.com, jannh@google.com, elver@google.com, 
-	rmoar@google.com, shuah@kernel.org, tarasmadan@google.com, 
-	kasan-dev@googlegroups.com, kunit-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, dhowells@redhat.com, 
-	lukas@wunner.de, ignat@cloudflare.com, herbert@gondor.apana.org.au, 
-	davem@davemloft.net, linux-crypto@vger.kernel.org
+X-Original-Sender: yeoreum.yun@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of yeoreum.yun@arm.com designates 217.140.110.172 as
+ permitted sender) smtp.mailfrom=yeoreum.yun@arm.com;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=arm.com
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: glider@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=iHfgL129;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::52a as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -152,134 +157,83 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-> +       fd = openat(AT_FDCWD, buf, O_WRONLY, 0);
-> +       if (fd < 0)
-> +               return fd;
-> +
-> +       bytes_written = write(fd, (void *)data, data_size);
+Hardware tag based KASAN is implemented using the Memory Tagging Extension
+(MTE) feature.
 
-We need a check for bytes_written == data_size here.
-There's no way we can use a while-loop to ensure everything was
-written (because the debugfs handler expects us to write the whole
-packet at once), but at least a sanity check won't hurt.
+MTE is built on top of the ARMv8.0 virtual address tagging TBI
+(Top Byte Ignore) feature and allows software to access a 4-bit
+allocation tag for each 16-byte granule in the physical address space.
+A logical tag is derived from bits 59-56 of the virtual
+address used for the memory access. A CPU with MTE enabled will compare
+the logical tag against the allocation tag and potentially raise an
+tag check fault on mismatch, subject to system registers configuration.
 
-> +       err = tokenize(input_fmt, &tokens, &num_tokens);
-> +       if (err) {
-> +               printf("tokenization failed: %s\n", strerror(-err));
-> +               return err;
-> +       }
+Since ARMv8.9, FEAT_MTE_STORE_ONLY can be used to restrict raise of tag
+check fault on store operation only.
 
-I would probably make tokenization part of parse(), but that's up to you.
+Using this feature (FEAT_MTE_STORE_ONLY), introduce KASAN write-only mode
+which restricts KASAN check write (store) operation only.
+This mode omits KASAN check for read (fetch/load) operation.
+Therefore, it might be used not only debugging purpose but also in
+normal environment.
 
-> +
-> +       err = parse(tokens, num_tokens, &ast_prog);
-> +       if (err) {
-> +               printf("parsing failed: %s\n", strerror(-err));
-> +               return err;
-> +       }
-> +
-> +       rs = new_rand_stream(input_filepath, 1024);
+This patch is based on v6.17-rc4.
 
-You probably need to destroy this stream after use, like you destroy the buffer.
-Same for the tokens.
+Patch History
+=============
+from v6 to v7:
+  - modify some comments on KASAN kunit test.
+  - rebased to v6.17-rc4.
+  - https://lore.kernel.org/all/20250901104623.402172-1-yeoreum.yun@arm.com/
 
-> +
-> +int append_bytes(struct byte_buffer *buf, const char *bytes, size_t num_bytes)
-> +{
-> +       size_t req_size;
-> +       size_t new_size;
-> +       char *new_ptr;
-> +
-> +       req_size = buf->num_bytes + num_bytes;
-> +       new_size = buf->alloc_size;
-> +
-> +       while (req_size > new_size)
-> +               new_size *= 2;
-> +       if (new_size != buf->alloc_size) {
-> +               new_ptr = realloc(buf->buffer, new_size);
-> +               if (!buf->buffer)
+from v5 to v6:
+  - change macro name for KASAN kunit test.
+  - remove and restore useless line adding/removal.
+  - modify some comments on KASAN kunit test.
+  - https://lore.kernel.org/all/20250820071243.1567338-1-yeoreum.yun@arm.com/
 
-You should be checking for !new_ptr here.
+from v4 to v5:
+  - fix wrong allocation
+  - add small comments
+  - https://lore.kernel.org/all/20250818075051.996764-1-yeoreum.yun@arm.com/
 
-> +
-> +static bool is_alpha(char c)
-> +{
-> +       return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
-> +}
-> +
-> +static bool is_whitespace(char c)
-> +{
-> +       switch (c) {
-> +       case ' ':
-> +       case '\r':
-> +       case '\t':
-> +       case '\n':
-> +               return true;
-> +       default:
-> +               return false;
-> +       }
-> +}
-> +
-> +static void skip_whitespace(struct lexer *l)
-> +{
-> +       for (;;) {
-> +               if (is_whitespace(peek(l))) {
-> +                       advance(l);
-> +               } else {
-> +                       return;
-> +               }
-> +       }
-> +}
+from v3 to v4:
+  - fix wrong condition
+  - https://lore.kernel.org/all/20250816110018.4055617-1-yeoreum.yun@arm.com/
 
-while (is_whitespace(peek(l))) {
-    advance(l);
-}
+from v2 to v3:
+  - change MET_STORE_ONLY feature as BOOT_CPU_FEATURE
+  - change store_only to write_only
+  - move write_only setup into the place other option's setup place
+  - change static key of kasan_flag_write_only to static boolean.
+  - change macro KUNIT_EXPECT_KASAN_SUCCESS to KUNIT_EXPECT_KASAN_FAIL_READ.
+  - https://lore.kernel.org/all/20250813175335.3980268-1-yeoreum.yun@arm.com/
 
-> --- /dev/null
-> +++ b/tools/kfuzztest-bridge/input_parser.c
-> @@ -0,0 +1,373 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Parser for KFuzzTest textual input format
+from v1 to v2:
+  - change cryptic name -- stonly to store_only
+  - remove some TCF check with store which can make memory courruption.
+  - https://lore.kernel.org/all/20250811173626.1878783-1-yeoreum.yun@arm.com/
 
-Some description of the format would be useful here.
+Yeoreum Yun (2):
+  kasan/hw-tags: introduce kasan.write_only option
+  kasan: apply write-only mode in kasan kunit testcases
 
-> + *
-> + * Copyright 2025 Google LLC
-> + */
-> +#include <asm-generic/errno-base.h>
-> +#include <stdio.h>
-> +#include <string.h>
-> +
-> +#include "input_lexer.h"
-> +#include "input_parser.h"
-> +
-> +#define MAX(a, b) ((a) > (b) ? (a) : (b))
-> +
-> +static struct token *peek(struct parser *p)
-> +{
-> +       return p->tokens[p->curr_token];
-> +}
-> +
-> +static struct token *advance(struct parser *p)
-> +{
-> +       struct token *tok = peek(p);
-> +       p->curr_token++;
-> +       return tok;
-> +}
+ Documentation/dev-tools/kasan.rst  |   3 +
+ arch/arm64/include/asm/memory.h    |   1 +
+ arch/arm64/include/asm/mte-kasan.h |   6 +
+ arch/arm64/kernel/cpufeature.c     |   2 +-
+ arch/arm64/kernel/mte.c            |  18 +++
+ mm/kasan/hw_tags.c                 |  70 +++++++++-
+ mm/kasan/kasan.h                   |   7 +
+ mm/kasan/kasan_test_c.c            | 205 +++++++++++++++++++----------
+ 8 files changed, 240 insertions(+), 72 deletions(-)
 
-It would be nice to check for p->token_count here.
 
-> +       region->num_members = 0;
-> +       while (!match(p, TOKEN_RBRACE)) {
-> +               err = parse_type(p, &node);
-> +               if (err)
-> +                       goto fail;
-> +               region->members = realloc(region->members, ++region->num_members * sizeof(struct ast_node *));
-
-Missing a NULL check here.
+base-commit: b320789d6883cc00ac78ce83bccbfe7ed58afcf0
+--
+LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CAG_fn%3DXxRoZJtxKJrLGTTV42H7gDMFEaQZiYQ%2BnFgmhexzgW9Q%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250903150020.1131840-1-yeoreum.yun%40arm.com.
