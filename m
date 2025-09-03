@@ -1,140 +1,145 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB25S37CQMGQES5YBGTA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBPX637CQMGQEAF22TUQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3c.google.com (mail-oo1-xc3c.google.com [IPv6:2607:f8b0:4864:20::c3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75737B41493
-	for <lists+kasan-dev@lfdr.de>; Wed,  3 Sep 2025 08:00:15 +0200 (CEST)
-Received: by mail-oo1-xc3c.google.com with SMTP id 006d021491bc7-61e12e5e9bbsf3669700eaf.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 02 Sep 2025 23:00:15 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1756879212; cv=pass;
+Received: from mail-pf1-x437.google.com (mail-pf1-x437.google.com [IPv6:2607:f8b0:4864:20::437])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7422BB418DE
+	for <lists+kasan-dev@lfdr.de>; Wed,  3 Sep 2025 10:41:44 +0200 (CEST)
+Received: by mail-pf1-x437.google.com with SMTP id d2e1a72fcca58-7724bca103dsf3180040b3a.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 03 Sep 2025 01:41:44 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1756888894; cv=pass;
         d=google.com; s=arc-20240605;
-        b=ASR9ihVZAByxTcL6uGphDuUr2FeQu/geO2aC9Z4ryji1/QDO3q4GbWHL4ENq/dMVOM
-         oiHjvKlByhr9ZitBuBAiU/CLjFdaLJCWrwp7og7VOEiNjXg03kY7dLprS64URcCpVu0h
-         SN1KpZs2a1j5jVnPY7iJtZX5In/KiNe7kpAJEbSrlkhn5msnNY7MaW1MRLPBiVUx7a0l
-         Tnic58SHQHMK/WsghCkHR9FpHDA35xFfJyYcYKz1naeI29xQXKYsuRc2QG3dfQHYCIH6
-         1lwQ5YpCi76fvKCpQ7eq+sfo9kVP4Dbo9TOwrAZPHTcOvySJIETG5Wc6A3R+F9AwP9rk
-         BGyw==
+        b=AXIy8Po7bX98IvDJDYKbFs1J9VjCYJgxgeJ9OzVyhRN00WorxNPv4p6LQSfm71gkUw
+         hhxFpQNE79J6mQtn6IZxHoXH/BApJLWsRtaBKxD4TgNfkR3i67O/VcLyNFclDILoILrd
+         DaV3yPoh/MU4/rH+aNtQv2nBS+YU3plyoKVJpRzJRMY6G6IBQZYRU+amlgG+E6jMErJz
+         BK0+zvEf1/QJ5umJrdFL6W1TE85gE1CgTIGks8DlOoJHygePV7XuZOmxjfrQGt46wPrO
+         iFDhpG8Y8J2IQO3RodprSGKTSDshLW92SSV5JbDWIKR3oaasqjPzub80lSZvl9MHzrs3
+         WhUQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=qxIHpetW3lJQXwdnjAOh+fViCIEzlWU/H2zo/xkoY2w=;
-        fh=acKPry6E/azsfbrpFJrMrr19IQBCjGSuP36yk3LZuIc=;
-        b=cbumdqK7+XGSwPZfdKT8LmwKHIqwLVxexzaKckLw5oSV7CMXKnTpnJDxglHNgGtEM0
-         0d9Fo0wqSWe7AmzdDeiYL6TdFw4Q87y36jTUlWEACg3rrDVcs+NTnUN7bLFysmcsqeit
-         Wm/q5YLF/5XWxN+nBsGh1ZZjAXEhXCSSolvZa4Hrlx3ffDZw3ZvqbfRcbACwKMLudomi
-         cEcVC0Tn5lPOXGt5H+SntgAfZKvlYV/TF2PdUZIIwGK4+mYTAyzR2uJxwiTC1JsE+7Y6
-         q5o/vMI7pKyIBiB5wgr5YsRgGu74tVooQtv9EYHw2YvEPwNx8zcAWMZ2+fZWIICfAt5n
-         7OrQ==;
+        bh=sCVcTealz5JU3nUMpgf449vsH/YI9onHKZOXpZ4gJmU=;
+        fh=dl97ZIskc/olfnaaJImypbPEQzGfhoJcv3XMI10dFCA=;
+        b=ZeM8fQaWxU4zQtCpyHgWmer/Txk0o2/kjkkQIVMsT6VNiGBDlY21p0fPVjJ/pp6DA0
+         ukb5eSrax6MSt5qyiv5rx5FjBQKXaL5lqNsy2aguUC8f6Tl/EECfdHehLqmwzPysOV3G
+         5ehxS0yN0te+Sia6lla4AyQ4MnBVMllnVEziJhJa9LijVEvejR+j0whSyUbOziGHGytm
+         ACqrnk8KA8syS/lQemOCfOmxstYxzJxfwCash1jD69hr8guKjwQZg+HyOADGlJsvpMoR
+         1+7e5DD3QcxQ4ydT9V7yf4EVxNhCO/xTfFM1UzaWPQmLERXt0A4qhVoGascCB1gOR6Lx
+         qQcA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=vhmTD9Gy;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::629 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b="Hc/+2O99";
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2c as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1756879212; x=1757484012; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1756888894; x=1757493694; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qxIHpetW3lJQXwdnjAOh+fViCIEzlWU/H2zo/xkoY2w=;
-        b=Abzj6waf6pHHXOI8YVGLgOXvaTmwNC3AKumHiqO4n2YH7eRVzkAgCh1mpWIzEzViFl
-         spX+sLI6ktZKshWyuiKrN7l2oLALD6MLshMHxdWji5YfdgAG4iecJmUyF0/5ek0k3ceA
-         dPUzX9eOWntaDz7d+KkKVioPalc578ic17caSN2ra28DdM8R0Vxoo/ygPaAfrOqaBEcP
-         N92PAVxKf5QcNW1L5ShKeYdfNVbWWS0qRKdVnQMvgpI2o7IOqlVKtrIwTGcreeuD3COL
-         CmHVGOxKmGgIDBIdmEsrhQY05qvhvFUu+GIg+EULduV5BjX0rbgQog2aiewrwajsSzmy
-         Lcjw==
+        bh=sCVcTealz5JU3nUMpgf449vsH/YI9onHKZOXpZ4gJmU=;
+        b=i3qm/6xBui37fQpAwlHEZjvgBAZVx6hay5uMIy/jINtDpjjWd7sCZoh7cEaSZbVGsq
+         8XUVD9zrUILVZY3JTxxEBAh6+dYvTIEf51uutK6Hm4M42LKBU/aLbQmkmXyRDsx7Gx+g
+         H6X0v7pk8W9QnwEA8xQkJ3kvR3P2vtTokF4+4dfvpBeWnb46z/3FjO5TBpTFDMPkx+5M
+         e+Bhbmk1twuWHWWxcrMC+WfFxMdDr4ACd1C/HET0LmFmeq0ZN07RH1HxXrghkqMmrUCj
+         1noTWL6/snXDSjoJB4Oa0pB17sQnYOJf337m+SsmldI6qdzKhbvd6m4X5y0Dc5GLWd6w
+         uT8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756879212; x=1757484012;
+        d=1e100.net; s=20230601; t=1756888894; x=1757493694;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qxIHpetW3lJQXwdnjAOh+fViCIEzlWU/H2zo/xkoY2w=;
-        b=WW5xhccEloyg4RRW/27Jxmg0dVl9tZpXY1+tr3vpkj15wvlBQzhTkk3iUmaj6GJWVV
-         74W8+oFfgDvWgx/DU0/xD6+Hn4dUEpRuzrz3G+KPFlY0Xe8nTQCBKrnrYI5/viyFlVB/
-         6VFaoOLpWl1W97N4KI8jNP/q9cUhLJZMHmSfBAPBPzTAvUEpXpbmZ+CZzPQzAGKykvtn
-         O4opdWDjoFod0oAa+kZ96YKIINOMSpeRPZ3dJQQS4Ll6GCAnGjdmuK0eLEIVrfRWyaU9
-         lau6UwDHLU7ZA/zeR/pa9Y7MJ6PfEf7xTSineinVITpmdMgr1mLGVXWdoDxn8tLhwlmL
-         L+pQ==
-X-Forwarded-Encrypted: i=2; AJvYcCXxHj4HeRi+jmlXE1YvcbRIdFdO8fE4LWihh99ar2eNih1NoJ6rAN+tU6PjPcPnthcYuop/cQ==@lfdr.de
-X-Gm-Message-State: AOJu0YzuEd1gV6R0j4ZtisLJhBA05XDE8cVHp7xsXSG4wfoxEqcbwg2m
-	GVYztt+9XvJXlW5Ltk14s8CmaueIYIg9UbiUXB0o+e4a4eTMKVTvl6FX
-X-Google-Smtp-Source: AGHT+IEqf5vH/bJ3sFqpUH+TYvtLdYMvSU0GN2EW34AXnOLSzJMgQZupmq2AiTCvMiEOo/HYfzdTJQ==
-X-Received: by 2002:a05:6820:1609:b0:61e:1b97:149b with SMTP id 006d021491bc7-61e3376c50amr7133785eaf.7.1756879211844;
-        Tue, 02 Sep 2025 23:00:11 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZeBoaPy2bJi+C+sL2A4bJdpiargCoe38M1o6g0iPiiQ+Q==
-Received: by 2002:a05:6820:4614:b0:61d:f8d4:b32a with SMTP id
- 006d021491bc7-61e1271c1c3ls1757637eaf.1.-pod-prod-09-us; Tue, 02 Sep 2025
- 23:00:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVivmH2953Y715v8TGO7bm70OA3siMKkq2qs+Aqr+XhbKqnPXeCBCaBMZT4gEJYYzhQwcGUzFf4NI0=@googlegroups.com
-X-Received: by 2002:a05:6830:65d2:10b0:745:9272:4a42 with SMTP id 46e09a7af769-74592724eefmr1209517a34.24.1756879210717;
-        Tue, 02 Sep 2025 23:00:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1756879210; cv=none;
+        bh=sCVcTealz5JU3nUMpgf449vsH/YI9onHKZOXpZ4gJmU=;
+        b=vapkZZFuAKb4QAKTmsa+F0y8pIGFf3pdeDImvNE3p/Ko7tYoARerXu/LZHDUEIqryy
+         RefHZwxLu0kWPVKG1pBNV9Lnaqbb5yGa9ciRQxgbsGZXj1rJY9VTcqLHGPpFw9G72o0q
+         wt+t+J8O1LalEmU0iNYeyVGLiqJuu9l3KkHtH2CUfgo+SI11/OKA/DtaukYoZmCSuldz
+         97CCZLOum/hizXgDzzTHwv2gL/5OYmxTqKqy2J4xk/qg/J+B9CLhNl01DFhQ7tFhLFIn
+         khJwl+nCwy5SFQ6rAod/EZh7XDQ5fNd8GrYK23VtiIFZe+EO1yzZGyF5pg5bBXQRHFVi
+         JCDg==
+X-Forwarded-Encrypted: i=2; AJvYcCV/xD6g4Fnns5wpSGz9Nl4YIqfTilLYuS/HxvywodBYBR1v4uv7TfycrZIAR8PmOTpkQA619Q==@lfdr.de
+X-Gm-Message-State: AOJu0Yxe6LcM6f8eMHryWhsI9oouECMvSturaXxstXt+snra4WjmGj/s
+	R7gCC1ElGYmpEdoNfHWwOAaMC9KH3BCRhrdEWp/u09ppRXGdAWglEyuo
+X-Google-Smtp-Source: AGHT+IG03RyOQoWPIIa4nafVEblNvzaynFSuMxTQ59XiqQsAihs7hUKtCCP3+QWS8IYpQDQxHAaxyQ==
+X-Received: by 2002:aa7:88c2:0:b0:772:867d:6bd7 with SMTP id d2e1a72fcca58-772867d6cfamr345713b3a.0.1756888894470;
+        Wed, 03 Sep 2025 01:41:34 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdJXV6zlk2Ue1ycC/e8WL4Xhj7sZu72O6eESjH6sHYv7g==
+Received: by 2002:a05:6a00:92a1:b0:772:628c:ad19 with SMTP id
+ d2e1a72fcca58-772628cae12ls3540401b3a.1.-pod-prod-05-us; Wed, 03 Sep 2025
+ 01:41:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWcpTRVwQj9oDXvtA8n2bLLGwoiuVUQwinaJZzeXAszS593JiHku8JAb4cmghoy3r7rkuzkRV6fPgY=@googlegroups.com
+X-Received: by 2002:a05:6a20:258f:b0:243:ca56:a719 with SMTP id adf61e73a8af0-243d6f3798bmr19030381637.41.1756888893051;
+        Wed, 03 Sep 2025 01:41:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1756888893; cv=none;
         d=google.com; s=arc-20240605;
-        b=SRTgt99v3qpFXyLIU05K8XB6hE2YVoj+mcE9Hv3Gh3e2MQMKgbYqAVXOYdmTfLKImh
-         qAnrdhyTtdNi289EAZ3rLbJaHLSCWXryGCFKD4pF82a7+oVaia+tBQMb3qU1zNepPsSo
-         uBxbSOhYCrbiMK2ne/5wKaDfqmXCEMcAePinOb1eksqLYf/Z8OmoK+56FYycHfrAnCck
-         42dVhdvu5cmaGRvjva3E5eRaTz7l41TcUrkyFFyzH0tJ5JL4TAEQ49ug9Km3fk/9wagn
-         rdK/bfzi4tLuBhELER422DTSg0D5WlRk+PpY7sBBPN+vqNwcrfYVqaZzQ8zsK04OvIHm
-         i4Pw==
+        b=afmQtD+W8GEXfcONe9ZB3Um0YhYTSpELMgNRcKjdaIyxff0UiDk51nAoXvq602OqBf
+         oHeBGqoz9CZRmEt4p5iwW7bGI5dGlJ1LbM8pQDHwnrfpJKBdfOENBcyBlv23ldVXBinr
+         4vuEKxSNd5QrePSnwW6opVVh4qRUCs7ptdT8m6UyzuyaGdJjwZAVyeTK8ccyLxrNyHeV
+         or4Wa3KmNs64DdUIgg7zeBKDT51vvfLHXz9lvBkktH54e80tTTc8KSUakkGbQBpR5nMa
+         NGbB0tG4kfby8ETPGpy2zwjlSDECmkTURD6Oh/nFB6oaYh/5xYDbVBJ//xQaPflgMNix
+         rJ/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=FdC3QTxmU3besuQLS5g8tc+09uf1KenOXC1aPNt3jcA=;
-        fh=gSI/LVmk3wcHT8LAxbHNaGw0PZw0vnwLXeLvpjQrSj4=;
-        b=ixNe9FK6Jm5EnUb30LBYCu1zD/IeHVBkG3G3Qj7/UynMxxWhDQcRtHqyeVJHvWyYe1
-         jX4RIlabguL0lVQNmy6JppGkkdO6cry4mdeC6xap79JIhK2G9BPUPdcMZlzv6c45hvW9
-         bwSZP91j0NG4HU4LjdZIRBMPQKyZWcsfAX5finyK8cEWJ/jpfJYODjtAtKhRyzQRs9yT
-         oV3bhSRighqzZRutkPwyCEW7JCVUzfcj71xy+0DiqmmvFijR2Ujz0/2obGm8hENqsIFs
-         +JST0T60ibrD7TyXOjhkn6Bblgj+M2H19W1lATYtB7bCvvBBfBsaK0msRG5Fkfmgy8hY
-         3pWw==;
+        bh=q/+sjUPKzzeyDNJhhYPMVRz16X6YZ4H6NdmqB+0gdRo=;
+        fh=8cGnYZpJtCvEXet13wrHhhfdLIzssGl9OvCbrt6wzlw=;
+        b=Rchb4NATSNXFZxgOxktQ2ptMkdPzvuzKNuN8RVSmEEoaG5Z5KDOIWEZHFMgdWmPIds
+         LprtHZFmnOV81rgHtihXEYA4ukMmf7GHotaEBYvWLmUTYmmlawPQ0aFwczOHW3vYADLD
+         J2qN5LDixIf1/O3kgHYn15ZjddjlkG3WcCGHXCJQ+viQfdIJFnbnv+Ri3VdXF75YYcLx
+         3CeMXPWJc6o0qDIuSBm5Hassai2BUCwiaq+EWVYiXQYv4YnTkxwBBlfmJx0Nh52TFAEM
+         fDRqyIG6kAtB+H8MZ+p47idII53gq4zfXCSlkx68rvgfhCq6RcC6bgTmJk34vAzPDaIl
+         vuWA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=vhmTD9Gy;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::629 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b="Hc/+2O99";
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2c as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com. [2607:f8b0:4864:20::629])
-        by gmr-mx.google.com with ESMTPS id 006d021491bc7-61e31dbf0fbsi380472eaf.1.2025.09.02.23.00.10
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com. [2607:f8b0:4864:20::f2c])
+        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-b4ccf7a0dfasi549988a12.1.2025.09.03.01.41.33
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Sep 2025 23:00:10 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::629 as permitted sender) client-ip=2607:f8b0:4864:20::629;
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-24a9cc916b3so32567935ad.0
-        for <kasan-dev@googlegroups.com>; Tue, 02 Sep 2025 23:00:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWaiAQwP7d/uXA4fJSgZJ68ZRJVfxO0iPTloFR5FtbgmvX+u7k9dN4+J6dtrqh7golUbhwxxtiCsxQ=@googlegroups.com
-X-Gm-Gg: ASbGnctIV2fbJZKtHSAgnN/P2313t2wJCiiJ1O0/EKOAEOkYuTrGlnOWTHh7ZdQGz8F
-	WSplL/4hvVVieiS45D9a4Pi+gXZIMtQWEoWx8KOHsIpeiyneZbD5AqO69rOpDvJTyp10t7UB2nK
-	LpL5iEixBLAWd1fxr4aVg1TY4vdhr+OuiXEcSvZpG1Cjhqj0KQyD+ReMq7tjY0CZqpHPe7ZgAWt
-	eRwQFni+Dg10/OI/CuUeeZVQOj5JW52fpmAGNhlIIhv6Q==
-X-Received: by 2002:a17:902:d543:b0:246:4077:456f with SMTP id
- d9443c01a7336-24944b35030mr172147985ad.58.1756879209794; Tue, 02 Sep 2025
- 23:00:09 -0700 (PDT)
+        Wed, 03 Sep 2025 01:41:33 -0700 (PDT)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2c as permitted sender) client-ip=2607:f8b0:4864:20::f2c;
+Received: by mail-qv1-xf2c.google.com with SMTP id 6a1803df08f44-70ddd2e61d9so67786776d6.1
+        for <kasan-dev@googlegroups.com>; Wed, 03 Sep 2025 01:41:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW1N87NPlEnVWtJix0LiuAmfcjA/tFDhsvD3sJ3wHSwBTKCiapk/SFzvHfSgN0EyPnYdPy/aFf4sd0=@googlegroups.com
+X-Gm-Gg: ASbGncsTBHfXdE4xeEuo3RZIrqF60Tc8rqI6vG0d+hT/sswf4PF9yj7h42MyjZzim2v
+	O7m0t2KE63n3XNeJ1AupWJkVgQDWNV8809gyFdWbzvgt3FZV4VBHsajqWhNN7gTf8/K4/tLktuN
+	lvlKvkGgvFShHpy2bkaTPLXcIAXpzhnhZ6tPly1Y9hkQTzIhja5yUc/zmer3/+HSG67CT0Fl4z4
+	tBduQoS+1qGwkFWH+qzJ5fLPXHKVFm4b/fvuEFerEE=
+X-Received: by 2002:a05:6214:400c:b0:70d:fd01:992d with SMTP id
+ 6a1803df08f44-70fac73d452mr164331216d6.16.1756888891694; Wed, 03 Sep 2025
+ 01:41:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250903000752.GA2403288@ax162>
-In-Reply-To: <20250903000752.GA2403288@ax162>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 3 Sep 2025 08:00:00 +0200
-X-Gm-Features: Ac12FXy7vOsop2eZcEJ8r-sYpuE381OhvdK3KJiYzgxTh4KO44xvrZCKXVwkZ5E
-Message-ID: <CANpmjNNV=ZmjcGWvPwHz+To6qVE4s=SY0CrcXFbizMeBrBaX4g@mail.gmail.com>
-Subject: Re: clang-22 -Walloc-size in mm/kfence/kfence_test.c in 6.6 and 6.1
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com, 
-	linux-mm@kvack.org, llvm@lists.linux.dev
+References: <20250901164212.460229-1-ethan.w.s.graham@gmail.com> <20250901164212.460229-3-ethan.w.s.graham@gmail.com>
+In-Reply-To: <20250901164212.460229-3-ethan.w.s.graham@gmail.com>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 3 Sep 2025 10:40:55 +0200
+X-Gm-Features: Ac12FXwvjV2R_1nfj-fpPxtTM3Ef-lrf13TD6fJR0T0JxJ4IOXBIbC7rd81mwII
+Message-ID: <CAG_fn=XWr1_Qvzqq3_dUm-3DjpCFxBz7SbYaW8OMZ1BohjVYDA@mail.gmail.com>
+Subject: Re: [PATCH v2 RFC 2/7] kfuzztest: add user-facing API and data structures
+To: Ethan Graham <ethan.w.s.graham@gmail.com>
+Cc: ethangraham@google.com, andreyknvl@gmail.com, brendan.higgins@linux.dev, 
+	davidgow@google.com, dvyukov@google.com, jannh@google.com, elver@google.com, 
+	rmoar@google.com, shuah@kernel.org, tarasmadan@google.com, 
+	kasan-dev@googlegroups.com, kunit-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, dhowells@redhat.com, 
+	lukas@wunner.de, ignat@cloudflare.com, herbert@gondor.apana.org.au, 
+	davem@davemloft.net, linux-crypto@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=vhmTD9Gy;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::629 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ header.i=@google.com header.s=20230601 header.b="Hc/+2O99";       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2c as
+ permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,45 +152,139 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 3 Sept 2025 at 02:07, Nathan Chancellor <nathan@kernel.org> wrote:
->
-> Hi kfence folks,
->
-> After [1] in clang, I am seeing an instance of this pop up in
-> mm/kfence/kfence_test.c on linux-6.6.y and linux-6.1.y:
->
->   mm/kfence/kfence_test.c:723:8: error: allocation of insufficient size '0' for type 'char' with size '1' [-Werror,-Walloc-size]
->     723 |         buf = krealloc(buf, 0, GFP_KERNEL); /* Free. */
->         |               ^
->
-> I do not see this in linux-6.12.y or newer but I wonder if that is just
-> because the memory allocation profiling adds some indirection that makes
-> it harder for clang to perform this analysis?
+> --- a/arch/x86/kernel/vmlinux.lds.S
+> +++ b/arch/x86/kernel/vmlinux.lds.S
+> @@ -112,6 +112,26 @@ ASSERT(__relocate_kernel_end - __relocate_kernel_start <= KEXEC_CONTROL_CODE_MAX
+>  #else
+>  #define KEXEC_RELOCATE_KERNEL
+>  #endif
+> +
+> +#ifdef CONFIG_KFUZZTEST
+> +#define KFUZZTEST_TABLE                                                        \
+> +       . = ALIGN(PAGE_SIZE);                                           \
+> +       __kfuzztest_targets_start = .;                                  \
+> +       KEEP(*(.kfuzztest_target));                                     \
+> +       __kfuzztest_targets_end = .;                                    \
+> +       . = ALIGN(PAGE_SIZE);                                           \
+> +       __kfuzztest_constraints_start = .;                              \
+> +       KEEP(*(.kfuzztest_constraint));                                 \
+> +       __kfuzztest_constraints_end = .;                                \
+> +       . = ALIGN(PAGE_SIZE);                                           \
+> +       __kfuzztest_annotations_start = .;                              \
+> +       KEEP(*(.kfuzztest_annotation));                                 \
+> +       __kfuzztest_annotations_end = .;
+> +
+> +#else /* CONFIG_KFUZZTEST */
+> +#define KFUZZTEST_TABLE
+> +#endif /* CONFIG_KFUZZTEST */
 
-It shouldn't, there's still a direct call:
+I think the definition of KFUZZTEST_TABLE should better be in
+include/asm-generic/vmlinux.lds.h, so that it can be used by other
+architectures.
 
-  > void * __must_check krealloc_noprof(const void *objp, size_t new_size,
-  >                                     gfp_t flags) __realloc_size(2);
-  > #define krealloc(...)
-alloc_hooks(krealloc_noprof(__VA_ARGS__))
+> + * KFuzzTest receives its input from userspace as a single binary blob. This
+> + * format allows for the serialization of complex, pointer-rich C structures
+> + * into a flat buffer that can be safely passed into the kernel. This format
+> + * requires only a single copy from userspace into a kenrel buffer, and no
 
-> Should this warning just be silenced for this translation unit or is
-> there some other fix that could be done here?
+Nit: kernel
 
-It should be silenced. I'm surprised that they'd e.g. warn about
-malloc(0), which is well defined, and in the kernel, we also have
-0-sized kmalloc (incl krealloc) allocations being well-defined. As
-long as the returned pointer isn't used, there's no UB. I guess doing
-an explicit 0-sized alloc is not something anyone should do normally I
-guess, so the warning ought to prevent that, but in the test case we
-explicitly want that.
+> + * further kernel allocations. Pointers are patched internally using a "region"
+> + * system where each region corresponds to some pointed-to data.
+> + *
+> + * Regions should be padded to respect alignment constraints of their underlying
+> + * types, and should be followed by at least 8 bytes of padding. These padded
+> + * regions are poisoned by KFuzzTest to ensure that KASAN catches OOB accesses.
+> + *
+> + * The format consists of a prefix and three main components:
 
-> [1]: https://github.com/llvm/llvm-project/commit/6dc188d4eb15cbe9bdece3d940f03d93b926328c
->
-> Cheers,
-> Nathan
+Nit: s/prefix/header?
+
+> + * 1. An 8-byte header: Contains KFUZZTEST_MAGIC in the first 4 bytes, and the
+> + *     version number in the subsequent 4 bytes. This ensures backwards
+> + *     compatibility in the event of future format changes.
+> + * 2. A reloc_region_array: Defines the memory layout of the target structure
+> + *     by partitioning the payload into logical regions. Each logical region
+> + *     should contain the byte representation of the type that it represents,
+> + *     including any necessary padding. The region descriptors should be
+> + *     ordered by offset ascending.
+> + * 3. A reloc_table: Provides "linking" instructions that tell the kernel how
+> + *     to patch pointer fields to point to the correct regions. By design,
+> + *     the first region (index 0) is passed as input into a FUZZ_TEST.
+> + * 4. A Payload: The raw binary data for the structure and its associated
+> + *     buffers. This should be aligned to the maximum alignment of all
+> + *     regions to satisfy alignment requirements of the input types, but this
+> + *     isn't checked by the parser.
+
+Maybe also call it "target structure" here?
+
+> + * For a detailed specification of the binary layout see the full documentation
+> + * at: Documentation/dev-tools/kfuzztest.rst
+> + */
+> +
+> +/**
+> + * struct reloc_region - single contiguous memory region in the payload
+> + *
+> + * @offset: The byte offset of this region from the start of the payload, which
+> + *     should be aligned to the alignment requirements of the region's
+> + *     underlying type.
+> + * @size: The size of this region in bytes.
+> + */
+> +struct reloc_region {
+> +       uint32_t offset;
+> +       uint32_t size;
+> +};
+> +
+> +/**
+> + * struct reloc_region_array - array of regions in an input
+
+Nit: newline here for consistency.
+
+
+> +#define __KFUZZTEST_DEFINE_CONSTRAINT(arg_type, field, val1, val2, tpe)                                         \
+> +       static struct kfuzztest_constraint __constraint_##arg_type##_##field __section(".kfuzztest_constraint") \
+> +               __used = {                                                                                      \
+> +                       .input_type = "struct " #arg_type,                                                      \
+> +                       .field_name = #field,                                                                   \
+> +                       .value1 = (uintptr_t)val1,                                                              \
+> +                       .value2 = (uintptr_t)val2,                                                              \
+> +                       .type = tpe,                                                                            \
+> +               }
+> +
+> +/**
+> + * KFUZZTEST_EXPECT_EQ - constrain a field to be equal to a value
+> + *
+> + * @arg_type: name of the input structure, without the leading "struct ".
+> + * @field: some field that is comparable
+> + * @val: a value of the same type as @arg_type.@field
+> + */
+> +#define KFUZZTEST_EXPECT_EQ(arg_type, field, val)                                    \
+> +       do {                                                                         \
+> +               if (arg->field != val)                                               \
+> +                       return;                                                      \
+> +               __KFUZZTEST_DEFINE_CONSTRAINT(arg_type, field, val, 0x0, EXPECT_EQ); \
+
+Doesn't the compiler complain about defining __used in the middle of the block?
+Maybe move it before the if statement?
+
+> + * KFUZZTEST_EXPECT_NE - constrain a field to be not equal to a value
+
+Nit: you could probably save some space and extract the boilerplate
+from KFUZZTEST_EXPECT_XX into a helper macro.
+
+> +config KFUZZTEST
+> +       bool "KFuzzTest - enable support for internal fuzz targets"
+> +       depends on DEBUG_FS && DEBUG_KERNEL
+
+Given that you only have the sections defined for x86, you should
+probably put something like "depends on X86_64" here.
+If you go for it, please mention somewhere that the framework is only
+available for x86_64, and add "x86:" to the patch title.
+
+An alternative would be to add KFUZZTEST_TABLE to vmlinux.lds.S for
+every architecture.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNV%3DZmjcGWvPwHz%2BTo6qVE4s%3DSY0CrcXFbizMeBrBaX4g%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CAG_fn%3DXWr1_Qvzqq3_dUm-3DjpCFxBz7SbYaW8OMZ1BohjVYDA%40mail.gmail.com.
