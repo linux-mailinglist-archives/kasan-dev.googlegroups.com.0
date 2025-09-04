@@ -1,156 +1,148 @@
-Return-Path: <kasan-dev+bncBCKPFB7SXUERBQ4T4XCQMGQEFEI6Z7Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBNFH4XCQMGQEHN2KWPY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FA38B4350B
-	for <lists+kasan-dev@lfdr.de>; Thu,  4 Sep 2025 10:11:50 +0200 (CEST)
-Received: by mail-pj1-x1038.google.com with SMTP id 98e67ed59e1d1-324e41e946esf1233383a91.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 04 Sep 2025 01:11:49 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1756973507; cv=pass;
+Received: from mail-il1-x138.google.com (mail-il1-x138.google.com [IPv6:2607:f8b0:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4525B43651
+	for <lists+kasan-dev@lfdr.de>; Thu,  4 Sep 2025 10:54:13 +0200 (CEST)
+Received: by mail-il1-x138.google.com with SMTP id e9e14a558f8ab-3ecbbe7dc63sf9690395ab.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 04 Sep 2025 01:54:13 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1756976052; cv=pass;
         d=google.com; s=arc-20240605;
-        b=bxTq92Yl2mmR5axVTDH0WgcbRYRPN+vJSHj+MGJ6eyjO0zfcfDEnDzqDoEinA87+MB
-         Mhpzd8A/xIC/4SXhyLoWqXHl3zb/+RgfarwrIoBzEsS+uGO8GLs/na4ORfJP2CgYpbCE
-         R4JkZwgzr+/du6QHQSNlS2UXc0D0xnLdUhl/0D3iIgrbpKHsQqTWyNSs2NBz0LYlX1gZ
-         8SM11n+LjPf0OVH/kuvhwStuCvgSmV/EyJPEw0oRyivTXVH/F0NxDQRCrIJxxwEhtKv+
-         MIEpKCFH6Ca7OKeTFeqywI9jGOLs0e6J8nXZUb0gKhyfVQsSaCoWVLtNQ3FFmJktdKUT
-         xquw==
+        b=ZYSScLrcgK4uuFjcVWvqO0i/A3Qg+uWZSWEJbbyNVKgQ3GJNnEp38X88Zll06xTuF9
+         Mr/yZuXamnQs0FeA9KSCE8viQLdVh2BpH7qMdswBg2pi9ojGATCdKHDNZLmu/dn+1YYM
+         K6s9NeTJ9WmtFzCu50nXX6GQmok77sJPpAzaQw5aU2xY/sZy7HMVa/E0mQCzDBbNGlWT
+         wIiXQcYZh9ULO4BkWKXf9HaIpaBwbGQV1QkhkCRB5nV+gzFkXyDUqHLQg+AZ0tDQ/lRu
+         WKLsupbbTuV0ry9MqxFCVlpaaJwJxwA4IUomua3daoMzl+9XXkTFbY+jv9ZJUTEyDBa9
+         K5tA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=4blQu5Kzhs6HYlwXgcU4OJsTOERNCaU7fmQWTVOMLhg=;
-        fh=q16Z1UlZ1KKw9aH6Im6w7y5GTN3EnHesEoUROu2QBQM=;
-        b=TWnJzzvKvwJMCDcxnAJbIWrNS75VDf1aUy7yWN+e8vRe2MaaSVB2IwONJ91U77hbKy
-         /1R+27DrD9149nUmdElBEgHt06JmrV9cdp58FvQ9juOsdKQisQEQnC1ooq+vUvmSqTiO
-         YwYbeIDMmUu7jVeDnjm2kqd2zeNrRnzbTE18qU+F7I01pOedjKtnHMMv99pJfvK40e+j
-         p54WIIPcdESdd+4Jp61qQVgXF0KN2EDFfDZZyQpyFfVs6CBWfYJp/g/pRXCjiHp9h/GP
-         NSIYTWjcKdw/lTjL0VzMKYgRWEgRPZOCw45dNyg2xmtKAMeW42HRVXswH0i9Vjl2aIKb
-         sM1A==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=XOG2xVzhvvxO/w30TNM6RUI0h0QWOlaOWM8pAK+6mvw=;
+        fh=BcxaMOy82QPj5ejw/tJQS2uEH0MqAckDY6IvYmVZD0Y=;
+        b=FDahm0Wel8GotaZ8Lj4DrrSeTnJRKZ0k1VCKp9mSPFaisgGT7D2t/xKUwludYaaPWk
+         OPXu3MTguQfDK1MTT+WK7F5amfruCGBjlfxrmTjOD21Wi8Gjv0AphnSBUO8BwGMYrmFa
+         8M4mAdqMyCa1gE93IWqlG8z7dR0fEbkb0poZ92XsCtsh2A/f7WE2g89QGehL6VXYYrHd
+         hX5Ar6T71sHYFwShE/XiNdQjTjYHYZg3ezmmXsua0mUwO/rfqu93qWj9if0b7FQvwkwc
+         bVMbJXKOFuPIopr2k0NMI2iXOsLBaN2BNxd2su8vU9tECTYNsglZyusFIpBheoHwOkGN
+         Ypig==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b="JW4/Qwge";
-       spf=pass (google.com: domain of bhe@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@google.com header.s=20230601 header.b=4cSZRGba;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f30 as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1756973507; x=1757578307; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1756976052; x=1757580852; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4blQu5Kzhs6HYlwXgcU4OJsTOERNCaU7fmQWTVOMLhg=;
-        b=tEQIJBlidqUdjgXx5noqdH9yRq/Bu8pmyVtSYtRVQQxVvrjyvJuwfpg/hXliBoazAA
-         HAY1PoycDaydr1DjceDX70Ed2Mjbj/mFzpz0MZ7yOESofrjhw/uycxcLvKYF96RJ4fI1
-         us5evRALXGnm8gITscR5F4FAX2aIJv6V9IlgwuoraG4Sc3A6uFneyUaA9hQLMFoJ0CEG
-         wMGA/PkQeJqZTmVxdVN0hGELc9fMMtdgUkOgEEsFrejVLanZeC9+LC+UUPHP5t91tRsT
-         k6BBj34gPg+4FUKdpzDh+RhGlAOZ+hUXRHe1xORMaf6KrHWdMwfm9F3mAE7kYu4r01FD
-         0QMQ==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XOG2xVzhvvxO/w30TNM6RUI0h0QWOlaOWM8pAK+6mvw=;
+        b=bgkK743pupavC0+5rqgIqZQuIl2BnNXURJ+XGy6FnPeyeAlT+89pRY45RPaceNMx9d
+         LW/F8ecgzcWihbVeqT6nnD9fwpayRz44yfxG+lieRP/x82b7FscWOd3Uyu5wf6fwr19s
+         b+hiNHAnZuphgTEHBiK4/KxfPsJECYg0oZYOYykIAuQUT5WmYf4/5CorCzOJyMviS1ZX
+         JaG166RaMjHDl107ltPVGD1Hj66xImCxsYNRS1YsN6MnhOUvxcNkIefSunIl7H/pILHq
+         4Iw5uLfOcJfbvHoCgw3Co+GSuDONS3GDP4E+1DKGiM6SrBJWmTyBkZ6W1u/AFI4KWVEX
+         T0OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756973507; x=1757578307;
+        d=1e100.net; s=20230601; t=1756976052; x=1757580852;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:x-beenthere
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4blQu5Kzhs6HYlwXgcU4OJsTOERNCaU7fmQWTVOMLhg=;
-        b=v8c+EPi9bjAWqoDs9BriGBjaknnn7tejuMZAf0+Ji92LvSHhC2WOoD6kwd7AyqKWyc
-         npfbNLm2jcEL0keGAb3glNAeCtpxb/8qEQfMqoGl/qhPMOJDCvvTcuomG2Wjji9F7Vpz
-         I0f26gGYi5wIzzAO0T+2F4CgkPui0OQIpYpU747G4gWrfbTcgXAjaOMJyO+4+5NSQh10
-         iovnNCUkncUY528COZwTKufXaI/dcYnONsQXy6a45Cqw4XC52HvOuyJkZcJs3q52PkOe
-         B9RxQTIR19oW6So3/R3GTK34Xoo/Z9JoeNG19gv1PZRUl8gOdkHtY2gwIxwFa6hwweKW
-         h6Tg==
-X-Forwarded-Encrypted: i=2; AJvYcCVBgXr8l0c4w82R7mS5X4BeabOmkQJI2o8gQRhrwWfkf2u53rczI1yIL6L/0vYLKS/hQNNPUA==@lfdr.de
-X-Gm-Message-State: AOJu0YwJfkSn/4YAA5wpaA+1z2uKLoT92x0tiLcMtIWrFRRv7mQCc7VA
-	tMNUDh7JCrSAYPopbg92srREdE5kDls54uIG6fKwtRMyftwiOy/4mpAX
-X-Google-Smtp-Source: AGHT+IEgaqiOFkvcwyD7I9LjXyglHzqeU1zA4/Fa6RdM2HHTqIVexlrP1e7JWAXIZQYPNgqji6Cihw==
-X-Received: by 2002:a17:90b:2245:b0:32b:90a5:ed2c with SMTP id 98e67ed59e1d1-32b90a5f1f2mr2826336a91.20.1756973507423;
-        Thu, 04 Sep 2025 01:11:47 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdvVkfUW+T7gCJuyUhFJ2yIolTYlJ47vsbMRPVm+5AQSw==
-Received: by 2002:a17:90b:5584:b0:321:c794:1cbb with SMTP id
- 98e67ed59e1d1-327aacd18fdls8375913a91.1.-pod-prod-06-us; Thu, 04 Sep 2025
- 01:11:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCV1D583HiV0EHdIzK+IBrn4HFiwqYq0y1cvL4jttfxjEQaB28P+JmyMMh1wjomJ6K9bpyFIU1Ps72o=@googlegroups.com
-X-Received: by 2002:a05:6a21:999f:b0:24c:48f3:3fd2 with SMTP id adf61e73a8af0-24c48f34120mr1414666637.24.1756973506089;
-        Thu, 04 Sep 2025 01:11:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1756973506; cv=none;
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XOG2xVzhvvxO/w30TNM6RUI0h0QWOlaOWM8pAK+6mvw=;
+        b=FfSq5MnCVxbzp/K8kNw5p0o9j4uleTNORitriRvoEVBqJBVrmE3YcEQ+3XGEfuKeDo
+         mCoODN9rDCwlJ28ypPwYW6spLj4Uabouj7eJzil1PhIR5Bt04HrMu9rb9tdigffx8kqV
+         1cc13sietAVZdxCHYWkaNWfljUCHD1HT5GL01WqLMWaU5dHVmzwHFmtBY1mp18y76+Gt
+         X6DB6udQ3myBR7a8lZABzLbXjOSDsoKYoyZ8hHq6nzBntpPzvnxVuOsEM0f9M40k0bxp
+         Bqi32MlucxXLQ1CjQAfh6Z0f7x4LF9uIww7U0ILiyOOaaqatBtM2ASiJ1gn+5Ccy4lgX
+         5MlQ==
+X-Forwarded-Encrypted: i=2; AJvYcCUyC8zx+ZwPJGDyUzaRjL5KKKRszoxeffaPjfn7UkfahFsDr6FW5TbesGNhiyGguTTzM6Fapg==@lfdr.de
+X-Gm-Message-State: AOJu0Yxq/IFYi0WBolwyhIhLnpvQwbJ64mMe5zVaT/p5BWeOzLdS+EVI
+	npv9o1dCV0f2/b6ddvlQloMgfNa5uVMIaJQunSQE18HM5ZI/ap/wBBkk
+X-Google-Smtp-Source: AGHT+IHeq0D10h7lnS3RDY1a55BE5XiHSbC2lsQzEl0FbxoLo+hzBjfyPjguyUbH4zmxHXoh2FM+BQ==
+X-Received: by 2002:a05:6e02:1d99:b0:3f6:5f7f:5050 with SMTP id e9e14a558f8ab-3f65f7f506dmr85636865ab.15.1756976052348;
+        Thu, 04 Sep 2025 01:54:12 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcU3qPi4Oaf00coInlxzXDcWCR8a5+nZsj4wFWMjyPbbw==
+Received: by 2002:a05:6e02:198d:b0:3f1:219f:f51e with SMTP id
+ e9e14a558f8ab-3f136fb421bls52524805ab.0.-pod-prod-07-us; Thu, 04 Sep 2025
+ 01:54:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCU+yIeWkbOsYxiHMEe8Say8tM1tLc2+npB9LRHE04koeyXm3RvM1NgVLkAGjQYfG8FVvRCEySIZz/8=@googlegroups.com
+X-Received: by 2002:a05:6e02:168f:b0:3eb:9359:d88e with SMTP id e9e14a558f8ab-3f401fcf90cmr256511295ab.21.1756976051481;
+        Thu, 04 Sep 2025 01:54:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1756976051; cv=none;
         d=google.com; s=arc-20240605;
-        b=ArPplHH8pQDj6lul9nk401Th9ZXbZM1R8n/rEPQPURzaUmYuY5Jfr6dQdD5ex6cqMn
-         FTuO9edz9ClS6j9I8FX5NvACl7ndOW1zqFObdaYg8I9CsJsGqnmwx1+aZvLrkWpl1mgS
-         R7GMxYnmFvrO5uD2ExMXPx5i0DNe2HwiwJAOsTtJMUGlpi+RhhHlLCBJqZMt0ueHqfWs
-         CJ4TJPTB8dFAx0Lda5QOmdFIApZBNuaRJce8GCxNkvV7ixBTP0yfwqnFn4OPuJqtNYku
-         vDLQ3mIKiW4jp+g3y+Fh9T/dKhVR3nk+RnocsPUjlGRifid5JYtXEr/0Bx75plJ6I71R
-         Io8Q==
+        b=a70gPSF3RcKfkZM2FLxjljywNCTDFIR0LzXrIk6nAtwaml1vBADX+79un3d5MgUPpa
+         c6/S1j/Bao+7c9l3dRoUusKHBBfGRMzL3/0KihiAsXpBE5fCYMgodLvilGSoO0Q51Kzi
+         vnBoHMnjCHnIZMLUgt29/jxHZs7Piwr8uK+4/awQjueOonVjXRAg16ObW2EYPyrIihRg
+         xYSkrTsozuSQADIWvhkJ4+TcPHLiNDB776VWAKLYzS9mb6DdFLwQ1pOBczxSGCWcQY+O
+         IkF2zq7CuHDhj4/RxXVSjOXv+cLZV2DgTmhAu8LLz+2ML9CUvYuyPLXq0Y5ctjXmamca
+         20ww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=Pr0Y4bkCbfd3itfrxpuVGdfdmmRa0XxzBqHDc5t+1Us=;
-        fh=UGuqUXvML/cHLhf4E1PmZ8AzOnpOlFnqJwHOSj3W6X8=;
-        b=gyq8E9vjP7Tu+CW+Gkj2cYkzQn7rvbbbFIqRBeKryY3Tv3Hn82XqKFklXtMAgEVEKl
-         /sTzJs9Ye/f3aNKzVzEyYesxjT/TLUsPcYghdV0WO95fkwVEJeA1atCkVpVjd4+mszMQ
-         LnTimtcK9X2kw3P+aStPp4E9uNNkYZDwGzYkBY70JAGkuP2w0q27NIYh3CSNXIq9iyMK
-         WKLQ0tLWNya4qqQia2pJwtY56MylYYvXZ7CQLfHErtc/uw9vmzEYFxs2vj5KWIN8wqKR
-         DeihvqDkkSrH36aT2OgObFAiHWpmE3rYmmmBhXarFsjkP0ROGJmnOgij0sMiQVjzOUx1
-         qVdQ==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9VicjXT4pdNAgXdUSH6UsBDRLh+o/JYSTnI74S8PEYQ=;
+        fh=kj1tGHi4jjA/W6gTSWzpLFfNNg6Wv69v1ARTw0hDCCQ=;
+        b=O5tzHsA4lbQnyNv+VNe7yoKBvPWybKQVP1P+8UJG0V2RiGYciqh/ABZnDYO3DRep0/
+         TqXznhAdfTBkj2M8eerFlxc5l+jaUJySPOLr6EdqZh31mAAVqxSGyt5xjZHF4Y2aSOn5
+         zbY3LtcJgL0C2KQzH7U+NUbLD1XIL/DLBT0U9Ve9bdR1RYm4/qicHP8cVLF3OtegORU3
+         QuhVPz+EjmbUGzVJ2QPyGPtUwTzfhhDJ9DC1G1yX1o+8ytd8joKBcQV1eSOiwx6wwfe7
+         /2xdNdB/acz1LTIQFz7k2WVjEpk3e0IC8TejAVabOXnb3BWZ5G+bPaKUyw9sFMx07EV0
+         HEaw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b="JW4/Qwge";
-       spf=pass (google.com: domain of bhe@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
-        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-32b91305464si74953a91.0.2025.09.04.01.11.45
+       dkim=pass header.i=@google.com header.s=20230601 header.b=4cSZRGba;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f30 as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com. [2607:f8b0:4864:20::f30])
+        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-50d8f054ff5si654243173.1.2025.09.04.01.54.11
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Sep 2025 01:11:45 -0700 (PDT)
-Received-SPF: pass (google.com: domain of bhe@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-502-44yZFtgQN2Gh_XbvPEWQXg-1; Thu,
- 04 Sep 2025 04:11:41 -0400
-X-MC-Unique: 44yZFtgQN2Gh_XbvPEWQXg-1
-X-Mimecast-MFC-AGG-ID: 44yZFtgQN2Gh_XbvPEWQXg_1756973499
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DF26F180034D;
-	Thu,  4 Sep 2025 08:11:38 +0000 (UTC)
-Received: from localhost (unknown [10.72.112.19])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5AD32180035E;
-	Thu,  4 Sep 2025 08:11:36 +0000 (UTC)
-Date: Thu, 4 Sep 2025 16:11:33 +0800
-From: "'Baoquan He' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: glider@google.com, dvyukov@google.com, elver@google.com,
-	linux-mm@kvack.org, ryabinin.a.a@gmail.com,
-	vincenzo.frascino@arm.com, akpm@linux-foundation.org,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	kexec@lists.infradead.org, sj@kernel.org,
-	lorenzo.stoakes@oracle.com, snovitoll@gmail.com,
-	christophe.leroy@csgroup.eu
-Subject: Re: [PATCH v3 00/12] mm/kasan: make kasan=on|off work for all three
- modes
-Message-ID: <aLlJtTeNMdtZAA9B@MiWiFi-R3L-srv>
-References: <20250820053459.164825-1-bhe@redhat.com>
- <CA+fCnZdfv+D7sfRtWgbbFAmWExggzC2by8sDaK7hXfTS7viY8w@mail.gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Sep 2025 01:54:11 -0700 (PDT)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f30 as permitted sender) client-ip=2607:f8b0:4864:20::f30;
+Received: by mail-qv1-xf30.google.com with SMTP id 6a1803df08f44-72816012c5cso6172946d6.0
+        for <kasan-dev@googlegroups.com>; Thu, 04 Sep 2025 01:54:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXcJGkZ0DbHwvUTcLFxeTkEygLUDUnFji37z2Q82dGPjOn2ol8PNVYr1+SixwJbt2sSaJoCzdR4yT0=@googlegroups.com
+X-Gm-Gg: ASbGncta4xQj68PZ7GeCAtBTrGKHfLjwfzzoGdTpokNNTexoC7apAtwQchreurjVqE+
+	fru64p7F3P7oSK2QbsK1PPbXST579mHS3FmwFZKmmK+1Q1YUZbYi/Di537fFKKXI+up72ejYfD5
+	dPepq5VY3i+AF3M4X04ajI9y1GWOZHlS9FNviI0tSVR3xrrD+FiTroZRgS7yc57N86ngjCwJrhi
+	4ApXOgcVqFh1yQtyBSivTc+TSyOGz3tBIyHzPglvuY=
+X-Received: by 2002:a05:6214:19eb:b0:723:255a:9168 with SMTP id
+ 6a1803df08f44-7232569d525mr82498246d6.4.1756976050489; Thu, 04 Sep 2025
+ 01:54:10 -0700 (PDT)
 MIME-Version: 1.0
+References: <20250901164212.460229-1-ethan.w.s.graham@gmail.com> <20250901164212.460229-6-ethan.w.s.graham@gmail.com>
+In-Reply-To: <20250901164212.460229-6-ethan.w.s.graham@gmail.com>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 4 Sep 2025 10:53:32 +0200
+X-Gm-Features: Ac12FXzGXGcfd1LWU7AL2P0uHHVI9Cjfbatglasugt3XjpaIrqiLrO1UVJEntQs
+Message-ID: <CAG_fn=VBbSqb07-pbbEw7F=SP5_t74Re7ki0+ZS=mBm2S9BehA@mail.gmail.com>
+Subject: Re: [PATCH v2 RFC 5/7] kfuzztest: add ReST documentation
+To: Ethan Graham <ethan.w.s.graham@gmail.com>
+Cc: ethangraham@google.com, andreyknvl@gmail.com, brendan.higgins@linux.dev, 
+	davidgow@google.com, dvyukov@google.com, jannh@google.com, elver@google.com, 
+	rmoar@google.com, shuah@kernel.org, tarasmadan@google.com, 
+	kasan-dev@googlegroups.com, kunit-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, dhowells@redhat.com, 
+	lukas@wunner.de, ignat@cloudflare.com, herbert@gondor.apana.org.au, 
+	davem@davemloft.net, linux-crypto@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CA+fCnZdfv+D7sfRtWgbbFAmWExggzC2by8sDaK7hXfTS7viY8w@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Original-Sender: bhe@redhat.com
+X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b="JW4/Qwge";
-       spf=pass (google.com: domain of bhe@redhat.com designates
- 170.10.133.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
-X-Original-From: Baoquan He <bhe@redhat.com>
-Reply-To: Baoquan He <bhe@redhat.com>
+ header.i=@google.com header.s=20230601 header.b=4cSZRGba;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f30 as
+ permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -163,103 +155,105 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 09/03/25 at 03:22pm, Andrey Konovalov wrote:
-> On Wed, Aug 20, 2025 at 7:35=E2=80=AFAM Baoquan He <bhe@redhat.com> wrote=
-:
-> >
-> > Currently only hw_tags mode of kasan can be enabled or disabled with
-> > kernel parameter kasan=3Don|off for built kernel. For kasan generic and
-> > sw_tags mode, there's no way to disable them once kernel is built.
-> > This is not convenient sometime, e.g in system kdump is configured.
-> > When the 1st kernel has KASAN enabled and crash triggered to switch to
-> > kdump kernel, the generic or sw_tags mode will cost much extra memory
-> > for kasan shadow while in fact it's meaningless to have kasan in kdump
-> > kernel.
-> >
-> > So this patchset moves the kasan=3Don|off out of hw_tags scope and into
-> > common code to make it visible in generic and sw_tags mode too. Then we
-> > can add kasan=3Doff in kdump kernel to reduce the unneeded meomry cost =
-for
-> > kasan.
->=20
-> Continuing the discussion on the previous version: so the unwanted
-> extra memory usage is caused by the shadow memory for vmalloc
-> allocations (as they get freed lazily)? This needs to be explained in
-> the commit message.
+On Mon, Sep 1, 2025 at 6:43=E2=80=AFPM Ethan Graham <ethan.w.s.graham@gmail=
+.com> wrote:
+>
+> From: Ethan Graham <ethangraham@google.com>
+>
+> Add Documentation/dev-tools/kfuzztest.rst and reference it in the
+> dev-tools index.
+>
+> Signed-off-by: Ethan Graham <ethangraham@google.com>
+Acked-by: Alexander Potapenko <glider@google.com>
 
-Hmm, up to now, there are two parts of big amount of memory requiring
-for kernel as I observed. One is the direct memory mapping shadow of
-kasan, which is 1/8 of system RAM in generic mode and 1/16 of system
-RAM in sw_tags mode; the other is the shadow meomry for vmalloc which
-causes meomry big meomry usage in kdump kernel because of lazy vmap
-freeing. By introducing "kasan=3Doff|on", if we specify 'kasan=3Doff', the
-former is avoided by skipping the kasan_init(), and the latter is avoided
-by not build the vmalloc shadow for vmalloc.
+Some nits below.
 
-Yes, I totally agree with you, I should have put this in cover letter
-and the main patch log to explain it better.
+> +Macros ``FUZZ_TEST``, `KFUZZTEST_EXPECT_*`` and ``KFUZZTEST_ANNOTATE_*``=
+ embed
 
->=20
-> If so, would it help if we make the kasan.vmalloc command-line
-> parameter work with the non-HW_TAGS modes (and make it do the same
-> thing as disabling CONFIG_KASAN_VMALLOC)?
->=20
-> What I don't like about introducing kasan=3Doff for non-HW_TAGS modes is
-> that this parameter does not actually disable KASAN. It just
-> suppresses KASAN code for mapping proper shadow memory. But the
-> compiler-added instrumentation is still executing (and I suspect this
-> might break the inline instrumentation mode).
+Nit: missing second backtick before KFUZZTEST_EXPECT_
 
-I may not follow your saying it doesn't disable KASAN. In this patchset,
-not only do I disable the code for mapping shadow memory, but also I
-skip any KASAN checking. Please see change of check_region_inline() in
-mm/kasan/generic.c and kasan_check_range() in mm/kasan/sw_tags.c. It
-will skip any KASAN checking when accessing memory.
 
-Yeah, the compiler added instrumentation will be called, but the if
-(!kasan_enabled()) checking will decide if going further into KASAN code
-or just return directly. I tried inline mode on x86_64 and arm64, it
-works well when one reviewer said inline mode could cost much more
-memory, I don't see any breakage w or w/o kasan=3Doff when this patchset
-applied..
+> +Input Format
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +KFuzzTest targets receive their inputs from userspace via a write to a d=
+edicated
+> +debugfs ``/sys/kernel/debug/kfuzztest/<test-name>/input``.
 
->=20
-> Perhaps, we could instead add a new kasan.shadow=3Don/off parameter to
-> make it more explicit that KASAN is not off, it's just that it stops
-> mapping shadow memory.
+Nit: "debugfs file"?
 
-Hmm, as I explained at above, kasan=3Doff will stop mapping shadow memory,
-and also stop executing KASAN code to poison/unpoison memory and check the
-shadow. It may be inappropriate to say it only stops mapping shadow.
+> +- Padding and Poisoning: The space between the end of one region's data =
+and the
+> +  beginning of the next must be sufficient for padding. In KASAN builds,
+> +  KFuzzTest poisons this unused padding, allowing for precise detection =
+of
+> +  out-of-bounds memory accesses between adjacent buffers. This padding s=
+hould
+> +  be at least ``KFUZZTEST_POISON_SIZE`` bytes as defined in
+> +  `include/linux/kfuzztest.h``.
 
->=20
-> Dmitry, Alexander, Marco, do you have any opinion on kasan=3Doff for
-> non-HW_TAGS modes?
->=20
-> On a side note, this series will need to be rebased onto Sabyrzhan's
-> patches [1] - those are close to being ready. But perhaps let's wait
-> for v7 first.
+Nit: missing leading backtick.
 
-I replied to Sabyrzhan's patchset, on top of this patchset, it's much
-easier and cleaner to remove kasan_arch_is_ready(). We don't need
-introduce CONFIG_ARCH_DEFER_KASAN. Please see below patchset which is
-based on this patchset introducing 'kasan=3Doff|on' to genric|sw_tags
-mode.
+> +
+> +KFuzzTest Bridge Tool
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The kfuzztest-bridge program is a userspace utility that encodes a rando=
+m byte
 
-[PATCH 0/4] mm/kasan: remove kasan_arch_is_ready()
-https://lore.kernel.org/all/20250812130933.71593-1-bhe@redhat.com/T/#u
+Nit: do we need backticks around kfuzztest-bridge?
 
->=20
-> [1] https://lore.kernel.org/all/20250810125746.1105476-1-snovitoll@gmail.=
-com/
->=20
+> +This tool is intended to be simple, both in usage and implementation. It=
+s
+> +structure and DSL are sufficient for simpler use-cases. For more advance=
+d
+> +coverage-guided fuzzing it is recommended to use syzkaller which impleme=
+nts
+> +deeper support for KFuzzTest targets.
 
-Thanks a lot for reviewing and feedback.
+Nit: please add a link to syzkaller.
+
+> +
+> +The textual format is a human-readable representation of the region-base=
+d binary
+> +format used by KFuzzTest. It is described by the following grammar:
+> +
+> +.. code-block:: text
+> +
+> +       schema     ::=3D region ( ";" region )* [";"]
+> +       region     ::=3D identifier "{" type+ "}"
+
+Don't types need to be separated with spaces?
+
+> +       type       ::=3D primitive | pointer | array | length | string
+> +       primitive  ::=3D "u8" | "u16" | "u32" | "u64"
+> +       pointer    ::=3D "ptr" "[" identifier "]"
+> +       array      ::=3D "arr" "[" primitive "," integer "]"
+> +       length     ::=3D "len" "[" identifier "," primitive "]"
+> +       string     ::=3D "str" "[" integer "]"
+> +       identifier ::=3D [a-zA-Z_][a-zA-Z1-9_]*
+> +       integer    ::=3D [0-9]+
+> +
+> +Pointers must reference a named region. To fuzz a raw buffer, the buffer=
+ must be
+
+Maybe insert a paragraph break between these two sentences?
+
+> +.. code-block:: text
+> +
+> +       my_struct { ptr[buf] len[buf, u64] }; buf { arr[u8, n] };
+> +
+> +Where ``n`` is some integer value defining the size of the byte array in=
+side of
+
+s/Where/, where/ ?
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/a=
-LlJtTeNMdtZAA9B%40MiWiFi-R3L-srv.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
+AG_fn%3DVBbSqb07-pbbEw7F%3DSP5_t74Re7ki0%2BZS%3DmBm2S9BehA%40mail.gmail.com=
+.
