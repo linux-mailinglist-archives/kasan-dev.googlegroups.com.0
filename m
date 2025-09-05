@@ -1,159 +1,160 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBNVH5XCQMGQEEA5B4FQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDEZDPVRZMARBQWX5XCQMGQENW7HLCA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AD60B46562
-	for <lists+kasan-dev@lfdr.de>; Fri,  5 Sep 2025 23:18:47 +0200 (CEST)
-Received: by mail-wm1-x33a.google.com with SMTP id 5b1f17b1804b1-45b98de0e34sf20961565e9.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 05 Sep 2025 14:18:47 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1757107127; cv=pass;
+Received: from mail-qt1-x840.google.com (mail-qt1-x840.google.com [IPv6:2607:f8b0:4864:20::840])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56522B466E4
+	for <lists+kasan-dev@lfdr.de>; Sat,  6 Sep 2025 01:01:24 +0200 (CEST)
+Received: by mail-qt1-x840.google.com with SMTP id d75a77b69052e-4b5d58d226csf59340171cf.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 05 Sep 2025 16:01:24 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1757113283; cv=pass;
         d=google.com; s=arc-20240605;
-        b=VTVT2zlfkvAu/4R46+piVqcIZ5HknAnEwnnfxN8YONn695nXIdm3yL+isz3OpxkVu/
-         qTb1Vnu3e1Z9ixtMJCCgMBTVR+ZzveLqYUgFkKiBRivryU/0fGf+DPxfNvNsUJcNHIJ6
-         2iCG96L5GwsXuBUNeUoWDGrWmAE3J1z0bc8gmLrAucmqAlVEI8dPMjPvgN+zjwwexNdo
-         5mHvgm/rSIiLp3MJQiZektdzTAgNG9yP73xu8zOLoWcmyldzCYFHtqF5S+98Sw5sule7
-         SOhaAIvWwDCBU2gYq1BehDpxQkq+WE6eI8vXvFYfzzfhJZ+d1b6esEdECUqB7uG8RU7t
-         bWeg==
+        b=SJdLN1lUIl75hK6XShaTno3q7QdzpFfzeAqvfPh+8w4qPuSWg4saRmwN3EFjFI8Zj5
+         jc4iarfkNW5Ui3poc4kcTdQdTGOW357eV85P/lV2oCYWX3E7fVeBTzlhYxtTEnlxFg48
+         vOUaO1i5o30yZI8GxkS1+CBVus617q7uLJG3tvv5K+crhs3b97hGfHmRuki/yCPMw9OT
+         ZqE6iAy1hIke6D4w+6hsBNkcv5Kk9xgSuWc9v6PF0VXRY98v+za1Gg1BTb4zjn/SEits
+         3tP27exFTv7sd1Hk7sWHWuHlDbCQ4k4da78D43Z3OXAf/ioelzDkQ6B7QFmrLgEYJXBz
+         6sCQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=576Ioo986pVxHeSGh1NVgAkXkIS7A9ZaO0bCNC3xzjw=;
-        fh=3pRVi0nuNPT29PN18OyMskiGXeAsz6IICE6bfndtEE4=;
-        b=VFFRECxLj9mfZmyUViqUn41Hj1mEJxyySLnMF6JdEbB0/4tNHZDN011GITL1JL67a1
-         gPU/YBo5sRAiS/ArdQ6910LwKr/85AkYa47EUWbmZjgusjkLsce9BqrTsFP5qQTvrkiY
-         ECruArQdxiMBxIx7/v7NTDb0inVU+Td+3d+Rk+wh74ze5ZqTQwrR68McRwZP4FyBK70i
-         Jv7eKpp5WN807PKREkzVGY/mnvfC7FyrkKhf4jqK62XoBWOAok5sY6iMa+hCuuwPRQSl
-         EyOfLtiNm9OOiWrUEUdt4cWOO1u+/ekou5cnngUaMl/xZ4FzpbSb6Iphl3eD6WZBbHL2
-         cBbA==;
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=TVyz/ZiAAzSoNb1wNfce3wSBQvs99lw9iCsOJegzJpo=;
+        fh=oROYc9cs/uOs3A20keHZ38nsiuAPPzBb84rRwOCv11k=;
+        b=MwwqhhPtU/isFDx7nKhaXSLrW6eEhA38Ne/toccMNvpAVOWMnXDLJElKgZideifTNu
+         aysLKgNkqoU7e6yFDaeUltT+8Kmk9yIo5VhExT82pKDKVS1pBAiVpxDjvUZRmmFI4vqc
+         wbZGbJfmyX1E9dEU5/efB6eJwmdflnZoxJSo3WnyLq+RT39bi6DN8qpouwCLOKSwSeUM
+         uA1JB5/d4KFAYhmG/+7LWYp13FBiY4ngc0ElxACCVTQzpx1LRaKNHN3y3C7NZZvfaEZ+
+         hX2YA6UebhJmsEKAbbkS3rHNU6s2+gm9cgrCJC/2YaJRduyowRXSJeKGsa0CAY7nVn9X
+         cvyw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=cYLgAOuA;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::330 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=FKhh4N0Y;
+       spf=pass (google.com: domain of ebiggers@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) smtp.mailfrom=ebiggers@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1757107127; x=1757711927; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1757113283; x=1757718083; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=576Ioo986pVxHeSGh1NVgAkXkIS7A9ZaO0bCNC3xzjw=;
-        b=HIgWURwxUX8pRWH9c5Xar0u+Af976h9w27xnq4UGabYbMjqO5DK+LUzoL6zUrE8ViY
-         46Y1sO3LsxkCkK16W/eid/13j4w7BcFQ8XWwzu7Gyk9Fz9T18BjI2n9RG0khV8GkaEuo
-         BAVaztXquN09Lwd1wF3kwMvRssuw5LDCDMcV/JWpmlEqSDz3sywbeYMv0ov6OU3pjE05
-         3i7wUER90tjw2FSp7WyHBJjyiKIzz8fXFZ+VnyjngrVmarxSkekxm6ZOwJ4nD1E9bpyg
-         uGHbo33qYhjFUiZTlrVdeilBsZrok5TPcf97Q4hfPeSx8QQWdEamEWit9cH9g62An3QU
-         MM8A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757107127; x=1757711927; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=576Ioo986pVxHeSGh1NVgAkXkIS7A9ZaO0bCNC3xzjw=;
-        b=SGiS7wxczcfqrau22oOPfQQcmZm9xsnGIhBfkTwEnd6/cwPhpKQSBJ6OaJATvmNK4r
-         ZVaNX6RmESFrQ8vl9LGyl28FJU75cu097i/2VBkFif/Gs9cdfENxbKHTp6a67JibFoBb
-         eZvUWvERu7urp8qNtZCg/BHZJetWhoXfTgxYWMoyQWkTF2HwAYcN+8bmxOgHemARsGF8
-         E83WM77YCQTl5cQ1jtblRECXFopNZy18m+HsR2f73dvKBoJgU05cEG3ZKHwHuaRq3xBE
-         pBmEUa/uklyVG3qGflWDEQMkzyJ7yENdzoQnM1denbtJGQNh/hCo9cAZ7BMR6zE4ekh+
-         WZeA==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TVyz/ZiAAzSoNb1wNfce3wSBQvs99lw9iCsOJegzJpo=;
+        b=d+GgFVvcEbirsnRQuD7bjO1g/loePQveOxw0BNOaL1w3SVMwjUFadRdz1ql4mbKHWN
+         jMtNgVim1I5Pj07nJVanGWc5YI9pHRf3iV5zpgYoCkuebn2Bm5UKGWgTEUi30Ujg1m37
+         yp/91ZU+HBn6S8iDc+Ruk77PWnXSWXubwaz9ilY84k522woDPtj6UTMfLKSi4awj5R94
+         AoTdMsO/gaczNF/7RMOwO7E942MprTrvBpgokHSas696sMJwNfD3NY6eVRFvKn02CivF
+         y+I7TXiXIHNoC97hoiTVSiSHr5r3tiuHOat13qrd8gObtVI0ZIE9DxVAswDLY+YH0QDd
+         QvQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757107127; x=1757711927;
+        d=1e100.net; s=20230601; t=1757113283; x=1757718083;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=576Ioo986pVxHeSGh1NVgAkXkIS7A9ZaO0bCNC3xzjw=;
-        b=mVYkfQlMr65nUm+p239ruGViUPU6jfAZIC5Y2V+rvL9Mzo/au0pjcOLwoV9syRwViB
-         MqXYYqnQePiYyWa20nZ6IqbkOV2diTvwxy3E2WWusE1LgOlUVARe9QinIgQEvBBUMJNP
-         LDS3NHvEX40VKKaHeBRe0VwOiBN063P8K6yOBgl4RsSIB3SynTLfn6E9yhe01KuT3R2P
-         SQb9T8x9JWR7LErUvrHMyHaI7HbwxZOd8MOUA6s2PAcCB7e2iXR2I6aM0h5qPk5iI9Q6
-         H0fdBKTZxYvZXiYxkS5MgvPoL+hEH6Ih/UxAbA4AY0YE8FYJAAf3IhoM6VU3yhNaLy2l
-         0S/g==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWE41IQ8gKBB23KIUSAQxaTWcOpwBJ1ctDsu1yu82P/Cs6NXhGrNoLrMyfROAAd/IVm6c6pYw==@lfdr.de
-X-Gm-Message-State: AOJu0YwdHWcB6qZWeyhCR3A/vX+hy3WgkqdU7NWfcj0m87YZhT0wZjTA
-	YXSvlLuUFLsQ9+WOEPQS2HMTBnSYbtAdEU3yX0huPv9Z+7ALLOTibWa4
-X-Google-Smtp-Source: AGHT+IE/H03lx/qLuThqCmMEBGXjj/XMP9jBt9gtUVXlyezrIii3XVuoYhGVxNBrz6yoTTaFy2uLZA==
-X-Received: by 2002:a05:6000:40da:b0:3e2:b2f0:6e57 with SMTP id ffacd0b85a97d-3e642f91589mr26109f8f.36.1757107126687;
-        Fri, 05 Sep 2025 14:18:46 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZds9WWZnWOa/gwzqJMVbVls7sLOQq7grk/O8v0DcntaZQ==
-Received: by 2002:a05:6000:3101:b0:3db:a907:f1a4 with SMTP id
- ffacd0b85a97d-3e3b48980e4ls758477f8f.1.-pod-prod-02-eu; Fri, 05 Sep 2025
- 14:18:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCX5jYxYWDhMvQMmgY4gNEnq9CbBDemnJPJtG1NR0SPdIgQrx8z7DUHB2kKqK+4bq//uIe/SMQlKIYk=@googlegroups.com
-X-Received: by 2002:a05:6000:1a8c:b0:3ca:4b59:2714 with SMTP id ffacd0b85a97d-3e636d8fb41mr42567f8f.10.1757107123971;
-        Fri, 05 Sep 2025 14:18:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1757107123; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TVyz/ZiAAzSoNb1wNfce3wSBQvs99lw9iCsOJegzJpo=;
+        b=AJLQkJ+RVQIzqvCPZ3OT3Wr/Hn4xbGd16c//MrA3P/S7Cy9GFRhb6NkUEJyDM8+E7e
+         37IGv2/8qbIMnICe1a9II3t1MchqZ/JWkHWF5nvPuB+isBJG7jz4sdtPBeZKjwhMqDEZ
+         wDGmg4GPTL09xbiG4lxdquexneQjPDBku9rcYH4VIM5WRsZVvIOHBkFewjeRMPN+Scr1
+         tkTZ/xu8j8EI/opFO9KOqDHD1wmidt4eWKjXd+MYpLynUGP+iVVAfwM9Pnta4GsVqrlU
+         KIaUtb+q/H9gXuNKFrt+VoUU2QjkIQI/diX2gBEPsQRwRD79lhxQ7Mz0d5NkhPEahnVb
+         4x5A==
+X-Forwarded-Encrypted: i=2; AJvYcCVvHDUNxA0o47E4T+JUva+B8Xl8YQ2CIetCkRDyJ3Ar0ogEkC2aImzhWD7JpysKUJeIdiynng==@lfdr.de
+X-Gm-Message-State: AOJu0YxUtm73yNo+107dlPOr72J9nrzB5AO1xPwb3bwozuPLdNLaeaYI
+	kEGBAlYL1hg+MOqCcwkS24BU3cTE/kcFxaOvZKIwpdPTqIitvyFOL2bn
+X-Google-Smtp-Source: AGHT+IHhEYXJht3c84OVpanQ3+PB/k07d8wq3/4zlViMUF6muMdj/qqaki8SUWFV3giqtV0Oimbsqw==
+X-Received: by 2002:ac8:5992:0:b0:4b5:f788:423c with SMTP id d75a77b69052e-4b5f84650e7mr3268251cf.65.1757113282699;
+        Fri, 05 Sep 2025 16:01:22 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZepr/JQvUQN6L/pUxRcU5XjcvZNo4ipTVgHFt3ctykkNA==
+Received: by 2002:a05:622a:7:b0:4b0:9935:4640 with SMTP id d75a77b69052e-4b5ea8d8ef3ls19970241cf.0.-pod-prod-09-us;
+ Fri, 05 Sep 2025 16:01:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWD2f7ULcb7tJ+Zb9Mw5ACL12lnUZONsnbNinnGwD5JmnMc9bg/bCAK4SeZo95xlvZ3hUtSS/30FzU=@googlegroups.com
+X-Received: by 2002:ac8:5a45:0:b0:4b0:7950:8cdb with SMTP id d75a77b69052e-4b5f839007emr4291381cf.31.1757113281784;
+        Fri, 05 Sep 2025 16:01:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1757113281; cv=none;
         d=google.com; s=arc-20240605;
-        b=cN+i1slRHUcVGUAyBVjL3SYz0x5YclC6Y0dRDnkPg+0UysFopijtL10OWz8XM02y+e
-         SzX3SqyqETG05RC9UrhxqTSSylWQtjtydvstg4AmLx3h+uYjODku7/vn5ZH0+8uDAKVQ
-         WVC9jCNrZt1ldb9Rvi6j45tZu+LYymVkJ3W1eKBuM9yfBzjLWaZMoO/NRx24dRCc7CAc
-         QCqCMXL29GYWK9+Ds51Tj+LGjvZ4Dhwn5Y3+ufZyqEVRxsNdfUE9HXI5iYKEUFPdufWe
-         yd+EUY+fRbnvsYD08IJL6ccWU5yUhwDWLu4myGguLIYToqeogQ0JPJXhAtfAp6uy91OO
-         zYaQ==
+        b=hwk6zyru/ReizYeJMFJtRA47xvHu0Z8zF14tRprmAm9rTWI2rxKAt8gJRbj4qNw89Y
+         QaEWUAiwMEAthN6DZQHq57qwGrTFKHC8ZtxiGJNZpMb3DN1tsnB9fYEKtuaug4SwoIav
+         K8gaaWrp8mztiiLH2bDFevI9SCn52mLVsodSiJ8LXaSmY8jxOj1QTNIj3Zp4eVJS1HV9
+         1KYO3ag987lWxGoy8j1crdGN52alUtbeTkoO2koz6GFaPBT8XU8sVmOgZpThQFpwwcfn
+         33O/lwIYFKq32ZrG/3assAWV7hUmumBcTQeSF8reo52tlV/bN2+BI3WmIvRsTbEp9QhO
+         sYBw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=+ir+mQtnfx/4sLdud4ghKsNSgiyx0xtDI7KlyJXyioY=;
-        fh=i/WcA/5edN+8og8Cey/2C5bwuKFR2oyMkgWydsSTwR8=;
-        b=HP+aM/mb5Iyo+JfOKDhhlysMobCD+RrRw65ArAneYM7frQFXRBThuYLbrZE3Xhu1bl
-         Gf+/a3znpPKslgAnbjJJckgLH3yca1BkGAhWGTTBXx5jeeQQNmii2ddloioTxnLSlvYZ
-         eA5AfIHdzwRrJle1v3E5Vw5xLRK6ojIgkqhY/rgJDhqR/GWwJ68KW8VTk4vDMN2/ibfv
-         0roSjQM4Kf11LUc7WHeFFqYpW2otgz/jKozkA3MIDJ/JNEoStuzrffpIpIsQfAXe8UYX
-         7kAyKhvuNKMqWvELsIyEQjtJtJIiV7sqGWUnHdZI3ZeJtRG3B+eL3YeIF1vNnt95+qGv
-         hq5A==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=XZoercRzV+9gES767UN4t02R1PKB+nn+QIHkF8YGS5E=;
+        fh=vX6gO3pliJpm/AGrWIy9cYz9F3J0yH3JYHwS9n457z8=;
+        b=ljRfFC8yww4RDaGXBMUOcJ1QxCiwlhWJv2Xf/QD4dvrY5+81DjLPU1BEtiCfLUuLIg
+         OzpZY0A4P2zLulrWP16hfZVZ70N7k0dgIe5XYiivDxZb4Rz9m3mTMWkp/72RkhN+Zsn+
+         hKhki03R/a6GZsXdBiBsLS6j/++f37stRhHLfQnckMOIkIIh/2W+pYUWyryHl/nSlQa9
+         ozkKM/FlujxkDK2gTTSbGeFbmLVodTGfZ6ktcSzJWlUwwGbSky1LlIU/ZSlCy3tpamMd
+         4mg6moDkRbetp9Sv7hRd09gLNwAw4CEbMw4/sucfvwdWsh4UjFkNvgz2m2DbCTdcF3eH
+         KlEQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=cYLgAOuA;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::330 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com. [2a00:1450:4864:20::330])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3e278ac83dasi101244f8f.4.2025.09.05.14.18.43
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=FKhh4N0Y;
+       spf=pass (google.com: domain of ebiggers@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) smtp.mailfrom=ebiggers@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from tor.source.kernel.org (tor.source.kernel.org. [2600:3c04:e001:324:0:1991:8:25])
+        by gmr-mx.google.com with ESMTPS id d75a77b69052e-4b48f78b3e5si3431191cf.5.2025.09.05.16.01.21
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Sep 2025 14:18:43 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::330 as permitted sender) client-ip=2a00:1450:4864:20::330;
-Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-45b9853e630so24036065e9.0
-        for <kasan-dev@googlegroups.com>; Fri, 05 Sep 2025 14:18:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUNh9zpqPTIY3smkQ9Yo7Yh1W9jkHXv8znL9KmX35w0m73dMaSMHOQpCDAC7mOe4hVNlp0HAgM2r5A=@googlegroups.com
-X-Gm-Gg: ASbGncv2NCFsvMHcV6Kgtu/PRtYe8v0SIuRf2IDdtKlnoDgQypp7PoHZIfKdQ5n7CEz
-	okcd7LElq79xVOyBmSTTX7DxdyhepKx2PQrRaMbdGHBOC05RhTslZ2qy6nJfPPD8hC3li0oiFWH
-	qLyOFIrdItrjGRntJsD6JNNRvbxGo5ymc7OWi5pgdg8Rg582iNjMMd1JR9C90rzbPc61AYVyES+
-	jkQvaAWd0qDFzvxUQ==
-X-Received: by 2002:a05:600c:1987:b0:458:b01c:8f with SMTP id
- 5b1f17b1804b1-45ddde8a55cmr3274575e9.8.1757107123278; Fri, 05 Sep 2025
- 14:18:43 -0700 (PDT)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Sep 2025 16:01:21 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ebiggers@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) client-ip=2600:3c04:e001:324:0:1991:8:25;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id CBCC2601AA;
+	Fri,  5 Sep 2025 23:01:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2CEDC4CEF1;
+	Fri,  5 Sep 2025 23:01:18 +0000 (UTC)
+Date: Fri, 5 Sep 2025 16:00:06 -0700
+From: "'Eric Biggers' via kasan-dev" <kasan-dev@googlegroups.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Brendan Jackman <jackmanb@google.com>,
+	Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>,
+	Dmitry Vyukov <dvyukov@google.com>, dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org, iommu@lists.linux.dev,
+	io-uring@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>,
+	Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
+	John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
+	kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
+	linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Marco Elver <elver@google.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+	Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
+	Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+	virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+	wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH v2 19/37] mm/gup: remove record_subpages()
+Message-ID: <20250905230006.GA1776@sol>
+References: <20250901150359.867252-1-david@redhat.com>
+ <20250901150359.867252-20-david@redhat.com>
+ <5090355d-546a-4d06-99e1-064354d156b5@redhat.com>
 MIME-Version: 1.0
-References: <01d9ec74-27bb-4e41-9676-12ce028c503f@linux.com>
-In-Reply-To: <01d9ec74-27bb-4e41-9676-12ce028c503f@linux.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Fri, 5 Sep 2025 23:18:32 +0200
-X-Gm-Features: Ac12FXxfwzu8wekZMUNPG1-5QkyVVlkCYMyrLtAYUduk-8PvduVEITzaspdDKck
-Message-ID: <CA+fCnZdQDDwkcd153qexNDP-61VAbB4iAJrj02UVtoL8KN2Vjw@mail.gmail.com>
-Subject: Re: Slab allocator hardening and cross-cache attacks
-To: alex.popov@linux.com
-Cc: "kernel-hardening@lists.openwall.com" <kernel-hardening@lists.openwall.com>, linux-hardening@vger.kernel.org, 
-	kasan-dev <kasan-dev@googlegroups.com>, Kees Cook <keescook@chromium.org>, 
-	Kees Cook <kees@kernel.org>, Jann Horn <jannh@google.com>, Marco Elver <elver@google.com>, 
-	Matteo Rizzo <matteorizzo@google.com>, Florent Revest <revest@google.com>, 
-	GONG Ruiqi <gongruiqi1@huawei.com>, Harry Yoo <harry.yoo@oracle.com>, 
-	Peter Zijlstra <peterz@infradead.org>, LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: andreyknvl@gmail.com
+Content-Disposition: inline
+In-Reply-To: <5090355d-546a-4d06-99e1-064354d156b5@redhat.com>
+X-Original-Sender: ebiggers@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=cYLgAOuA;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::330
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+ header.i=@kernel.org header.s=k20201202 header.b=FKhh4N0Y;       spf=pass
+ (google.com: domain of ebiggers@kernel.org designates 2600:3c04:e001:324:0:1991:8:25
+ as permitted sender) smtp.mailfrom=ebiggers@kernel.org;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Eric Biggers <ebiggers@kernel.org>
+Reply-To: Eric Biggers <ebiggers@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -166,56 +167,116 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Sep 5, 2025 at 10:11=E2=80=AFPM Alexander Popov <alex.popov@linux.c=
-om> wrote:
->
-> After experimenting with kernel-hack-drill on Ubuntu Server 24.04, I foun=
-d that
-> CONFIG_RANDOM_KMALLOC_CACHES and CONFIG_SLAB_BUCKETS block naive UAF
-> exploitation, yet they also make my cross-cache attacks completely stable=
-. It
-> looks like these allocator features give an attacker better control over =
-the
-> slab with vulnerable objects and reduce the noise from other objects. Wou=
-ld you
-> agree?
->
-> It seems that, without a mitigation such as SLAB_VIRTUAL, the Linux kerne=
-l
-> remains wide-open to cross-cache attacks.
+On Fri, Sep 05, 2025 at 08:41:23AM +0200, David Hildenbrand wrote:
+> On 01.09.25 17:03, David Hildenbrand wrote:
+> > We can just cleanup the code by calculating the #refs earlier,
+> > so we can just inline what remains of record_subpages().
+> > 
+> > Calculate the number of references/pages ahead of times, and record them
+> > only once all our tests passed.
+> > 
+> > Signed-off-by: David Hildenbrand <david@redhat.com>
+> > ---
+> >   mm/gup.c | 25 ++++++++-----------------
+> >   1 file changed, 8 insertions(+), 17 deletions(-)
+> > 
+> > diff --git a/mm/gup.c b/mm/gup.c
+> > index c10cd969c1a3b..f0f4d1a68e094 100644
+> > --- a/mm/gup.c
+> > +++ b/mm/gup.c
+> > @@ -484,19 +484,6 @@ static inline void mm_set_has_pinned_flag(struct mm_struct *mm)
+> >   #ifdef CONFIG_MMU
+> >   #ifdef CONFIG_HAVE_GUP_FAST
+> > -static int record_subpages(struct page *page, unsigned long sz,
+> > -			   unsigned long addr, unsigned long end,
+> > -			   struct page **pages)
+> > -{
+> > -	int nr;
+> > -
+> > -	page += (addr & (sz - 1)) >> PAGE_SHIFT;
+> > -	for (nr = 0; addr != end; nr++, addr += PAGE_SIZE)
+> > -		pages[nr] = page++;
+> > -
+> > -	return nr;
+> > -}
+> > -
+> >   /**
+> >    * try_grab_folio_fast() - Attempt to get or pin a folio in fast path.
+> >    * @page:  pointer to page to be grabbed
+> > @@ -2967,8 +2954,8 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
+> >   	if (pmd_special(orig))
+> >   		return 0;
+> > -	page = pmd_page(orig);
+> > -	refs = record_subpages(page, PMD_SIZE, addr, end, pages + *nr);
+> > +	refs = (end - addr) >> PAGE_SHIFT;
+> > +	page = pmd_page(orig) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
+> >   	folio = try_grab_folio_fast(page, refs, flags);
+> >   	if (!folio)
+> > @@ -2989,6 +2976,8 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
+> >   	}
+> >   	*nr += refs;
+> > +	for (; refs; refs--)
+> > +		*(pages++) = page++;
+> >   	folio_set_referenced(folio);
+> >   	return 1;
+> >   }
+> > @@ -3007,8 +2996,8 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
+> >   	if (pud_special(orig))
+> >   		return 0;
+> > -	page = pud_page(orig);
+> > -	refs = record_subpages(page, PUD_SIZE, addr, end, pages + *nr);
+> > +	refs = (end - addr) >> PAGE_SHIFT;
+> > +	page = pud_page(orig) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
+> >   	folio = try_grab_folio_fast(page, refs, flags);
+> >   	if (!folio)
+> > @@ -3030,6 +3019,8 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
+> >   	}
+> >   	*nr += refs;
+> > +	for (; refs; refs--)
+> > +		*(pages++) = page++;
+> >   	folio_set_referenced(folio);
+> >   	return 1;
+> >   }
+> 
+> Okay, this code is nasty. We should rework this code to just return the nr and receive a the proper
+> pages pointer, getting rid of the "*nr" parameter.
+> 
+> For the time being, the following should do the trick:
+> 
+> commit bfd07c995814354f6b66c5b6a72e96a7aa9fb73b (HEAD -> nth_page)
+> Author: David Hildenbrand <david@redhat.com>
+> Date:   Fri Sep 5 08:38:43 2025 +0200
+> 
+>     fixup: mm/gup: remove record_subpages()
+>     pages is not adjusted by the caller, but idnexed by existing *nr.
+>     Signed-off-by: David Hildenbrand <david@redhat.com>
+> 
+> diff --git a/mm/gup.c b/mm/gup.c
+> index 010fe56f6e132..22420f2069ee1 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -2981,6 +2981,7 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
+>                 return 0;
+>         }
+> +       pages += *nr;
+>         *nr += refs;
+>         for (; refs; refs--)
+>                 *(pages++) = page++;
+> @@ -3024,6 +3025,7 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
+>                 return 0;
+>         }
+> +       pages += *nr;
+>         *nr += refs;
+>         for (; refs; refs--)
+>                 *(pages++) = page++;
 
-I'd second the notion that without SLAB_VIRTUAL, the attempts to
-deterministically separate objects into different caches based on the
-code location or the type (as also with the TYPED_KMALLOC_CACHES
-series proposed by Marco [1]) aid exploitation more than prevent it.
+Can this get folded in soon?  This bug is causing crashes in AF_ALG too.
 
-Many kernel exploits nowadays rely on cross-cache attacks due to the
-high portability of the post-cross-cache techniques for getting code
-execution or escalating privileges. And with these object separation
-features, the amount of unrelated-to-the-exploit allocation noise for
-a specific slab cache gets significantly reduced or completely
-removed. Which makes cross-cache attacks very stable.
+Thanks,
 
-The only negative effect these separation features have on cross-cache
-attacks is that the attacker has to use the objects coming from the
-affected slab cache (i.e. the cache from where the object affected by
-the exploited vulnerability is allocated) for the slab shaping during
-the cross-cache attack (filling up the slab, overflowing the partial
-list, etc.). In practice, this is usually not a problem: the attacker
-can often allocate as many objects as they want from the affected
-cache (by using the same code path as the one required to allocate the
-vulnerable object) and only trigger the vulnerability for one of them.
+- Eric
 
-Having said that, I think it's still worth working on these separation
-features with the hope that SLAB_VIRTUAL will at some point end up in
-the kernel and be affordable enough to be enabled in production.
-
-[1] https://lore.kernel.org/all/20250825154505.1558444-1-elver@google.com/
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-A%2BfCnZdQDDwkcd153qexNDP-61VAbB4iAJrj02UVtoL8KN2Vjw%40mail.gmail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250905230006.GA1776%40sol.
