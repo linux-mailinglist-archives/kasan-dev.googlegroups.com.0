@@ -1,225 +1,147 @@
-Return-Path: <kasan-dev+bncBC32535MUICBBHEM5LCQMGQEXOLV2JA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBVWA5LCQMGQEYUSUDAI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63c.google.com (mail-pl1-x63c.google.com [IPv6:2607:f8b0:4864:20::63c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08319B44E0C
-	for <lists+kasan-dev@lfdr.de>; Fri,  5 Sep 2025 08:41:35 +0200 (CEST)
-Received: by mail-pl1-x63c.google.com with SMTP id d9443c01a7336-244581ce13asf39125875ad.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 04 Sep 2025 23:41:34 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1757054493; cv=pass;
+Received: from mail-qv1-xf40.google.com (mail-qv1-xf40.google.com [IPv6:2607:f8b0:4864:20::f40])
+	by mail.lfdr.de (Postfix) with ESMTPS id D068DB45185
+	for <lists+kasan-dev@lfdr.de>; Fri,  5 Sep 2025 10:33:27 +0200 (CEST)
+Received: by mail-qv1-xf40.google.com with SMTP id 6a1803df08f44-71fe8dd89c6sf35171006d6.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 05 Sep 2025 01:33:27 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1757061206; cv=pass;
         d=google.com; s=arc-20240605;
-        b=IeqytcHqtHAaAMNtRWYCw8qYyU5iZwHDdmZCXXE89HMFV8u27/0lEYvx3KosrVwGMB
-         MWrpxmh6fsJgkhjYiZAgq23TJ2QD2yRLyzo3ymPtrlBahs60mH7Luq+f6prfLRlf1fvN
-         6fyUv2FZ/ewSAvF75aZhf0KZoW/7xcKBXHW7cKNwYetsIUt3P/qRgA47MrgEygSpyT4b
-         mLVUGey3IO3VjQS5SRUfFQDUXitpIiOBkUus29pryPPsm2K3ed2jwlb2UPdSodUR3x+M
-         BrDqKHMkW4D2BhUJ5NmOmpYCjCNQWD2fjRZHs1wJ6JZItE556aqkDmMtT3H1XwNgNcKj
-         hNAA==
+        b=R14HfkhnnoZEcJBL71PA9cs1byxaubc5OPEYqc0TFD4dMC2YjMmB12n/slXhGD4j5+
+         IhLLeyseXS7ADwEpgaSqHdax8LyCDwl35om34ldr+t5JRZG19KQrZtduHtQ8VZtgC6yS
+         vTvJMbsG8B5FbfCEoJE/Rq5DIARrAvJKTrWtVA90RO1o9fq3+OLIF2nWyREu962N0deX
+         c3wE72Bfnp6xucucXmmBIG1RkgYCw/2SJOZW1PRzIN7DF4hQw3JF//taK+MjrpA190RR
+         4CnnYXCLolkn4+Xs2yzu2sGRDSlr1R4i+eWS1tbugmNAtZRoOnEtK8FLaeyky0pEJrdJ
+         s+3Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-language
-         :in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:dkim-signature;
-        bh=gzDdUSDwS6fOmW2t2SJa7X5X4k8QD4iCrTGlo01ofBo=;
-        fh=E7sjaelbmMODUVmPW3uyBKdyhHymS2EiJynwWXfTs9I=;
-        b=J02lbAQutBAtewZmakdBzczcEElgDZp+yM8zZF5cerJxJiroHQSha5vMaIuK7DJkVQ
-         XWAvqvoYtvpYfKWozmzQGQGqjI8MD1yfmDParTxzjHJHxe9a2sEGKEvNuoolUmObCpta
-         pQlRlLU06i06MhHI99bAHnMkBW4XywpcFiX7bJyEW5pMOBNApDJa0hqnBqWFkjiZF2fk
-         mmJw8FoSqaEhS5m3qrdAXGLHYHZANkGZ8KsS+KVz8RBuNyqwOCWmpzfvTGWnhFFXM6Ls
-         HQJ8SRezWTgjdDxPooiA5+SB8d0BsPi+BFsPFeDfuFBTy5sqt8FGwsjWalh822OydlB3
-         NPwg==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Heb6mNM/tcOOClyvzyXoVwShB/fwwbgy5PqcKRgzI38=;
+        fh=ReFN+TkJSJSfpBbbLLodLoo0LiQ/NHIanZMvpUotGuY=;
+        b=BzUFwt8SiyFfVb1lsGMoUm+rHU9l1fowe95j973VC1u2u02BcmPuFWiFv6wiFY5zEe
+         wJLOBpOYhBRQGNt7LzI919h2qZ9vmt53FYrmCW3ypW6yRmXqV7OzlvXbJVzSxk+GOoaO
+         BB9mE6bRPJ+uVSYwuNIyi9ijjD4Vs5FxjQt6V8TrCbbf0JhTqzzWoJwN5HtZ8Z5jogaj
+         ttKRc+dQ5L/hPxcCs/2ZdSFwDdMnT3IFDvJ/GJYvW/gueyckJR/M5ZGC8ijerctCNTTn
+         iMOLSh+TkXn0DCeTSuVS9z4SVgjEnlPcQavxt/zZzzwMINPki7CMv/9fBlNiQ+JjYsKE
+         p1IQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=EpW1p9MM;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@google.com header.s=20230601 header.b=ko8Y1617;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f29 as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1757054493; x=1757659293; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1757061206; x=1757666006; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
-         :content-language:in-reply-to:autocrypt:from:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=gzDdUSDwS6fOmW2t2SJa7X5X4k8QD4iCrTGlo01ofBo=;
-        b=ss38izuw979LCpLb73pP4eThSkGrc57D4s4G6/pSxsX2okKe8FXrBWZVvELsPQQL2E
-         +ZFQ7pbK7V8L6DSyxGi9afGHxLfa7aEXGECnMccG8JGqhFTaHxHlcCo1wuP+yZb2PbpH
-         y7XfIrHGphd1hVTgrlucNW0V8pUG4Fop8QhFjh5fgfsXZohBslnlqxMBxboGr0gw9uCr
-         Tlc+oHlJF1K/CHnvVL9JdPQFO2ehlbxvGkImZU2zFGGWXkUnfcJfXaZubgJXMf6bNNk+
-         z/mwJiY9Kt6DETS7jQ3bCio4PbhwV4UlE382WNLIGV7Nr7EpMkePxbY1yj/bfLnM32fv
-         JWQg==
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Heb6mNM/tcOOClyvzyXoVwShB/fwwbgy5PqcKRgzI38=;
+        b=VfyGNTNm+u3j9gv+4MS6vsNTOdad+3LlkiWLE9VKqouL2dd+5yq+ZUEGVtdq5HN6Nh
+         lJ+AmkktPLICnxibDpL4ZDMukMDUV/sqEYjqbARSfSXsjobVfAbmqIX88wTvP/X2S1OL
+         +41YhGKt7MharSveklxeixk6iVG3csU2uBnOSeGXiAbXnNjgOwNtmDeOk07iuNbWYdRv
+         flAqxRyAPSmqgS5tkBOrPcXlPtUAnllPGtdJ4TJso8frG8Vn1OmUN2aGqKfjEfIXylRi
+         e4A6bTuQdp1Al7zfK8Oqf+bL9D6Dv8nzq723tOHzDHNAb7h/QFilprsTQXTwm6UnTab4
+         zuVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757054493; x=1757659293;
+        d=1e100.net; s=20230601; t=1757061206; x=1757666006;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
-         :content-language:in-reply-to:autocrypt:from:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:x-beenthere
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gzDdUSDwS6fOmW2t2SJa7X5X4k8QD4iCrTGlo01ofBo=;
-        b=c9t0mNYgNO6NSFvGvr75zfBNWi2CU6Douz8Z40ScxVpoR/C2RdL0kV4PnZYh0FOhpr
-         eQxJqfXSqPv0JdQhPVWd3ZHIJ8y0AXuTpzZwK7pT+8oazgOV6Dmdu7GEHWlUHHkYWTj3
-         odsS9iroL55r1taeQ+vY6ieDEsANUCtc8K2NGH2IneV/eqmmjpMeJ3gdur1G7dgLWguA
-         MtnjNHTyVSN0JsGET1r+lDOmWr4Z69gh200BTcp+heLLUlrJzpOXYMNJQy4kypAFgL4U
-         lyJpJqi2eOqJCZchDBIOthdZAhVzmVcKyAl77R76Hp7vry3YbElBA+vsrkw0ecI568jl
-         4l3g==
-X-Forwarded-Encrypted: i=2; AJvYcCUi0VQwXZ3U/gyFjsBe/zn80rPsdjQ/JyGzSWQ9VmTnYC8N0Ii8yj4J/lKatUmiCxFnnaKJ8A==@lfdr.de
-X-Gm-Message-State: AOJu0YwrVpFJC+Urtld2uWgj9kfGJJsi36h/wLbHywB9djrg8tJVDmtE
-	UzeYZoUiy1xPWysZr6eBVnLdu+rS0JCCuqqkwZ1K0cwIH2Q4sv8nSaZv
-X-Google-Smtp-Source: AGHT+IGRJOJZ758xYsV2NNLsGmSOnwjkcfwW+ije2YMpOF47EMWUy23BNapiI2TaUUVbeiOpsWSWfg==
-X-Received: by 2002:a17:903:ac8:b0:248:7878:cee9 with SMTP id d9443c01a7336-24944ad05a0mr245405135ad.42.1757054493173;
-        Thu, 04 Sep 2025 23:41:33 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcB50Fh3r/NygNZEQzJVifVz2i8zs4q2F31LYM9R24a0Q==
-Received: by 2002:a17:903:3293:b0:24b:63d:52bf with SMTP id
- d9443c01a7336-24d4c188d2fls3544045ad.0.-pod-prod-03-us; Thu, 04 Sep 2025
- 23:41:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCV6zrjX0cpHLcLT5AWydIutVe9y8EW4eNGxi0rtLn6Z9s0yqLe4kkC/ijioiCePGeIJtE4qzb1+mZw=@googlegroups.com
-X-Received: by 2002:a17:903:3d0d:b0:24c:8984:5f9c with SMTP id d9443c01a7336-24c898478c6mr117936195ad.36.1757054491553;
-        Thu, 04 Sep 2025 23:41:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1757054491; cv=none;
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Heb6mNM/tcOOClyvzyXoVwShB/fwwbgy5PqcKRgzI38=;
+        b=gPp6jNg/scEuZ7Kyvxs+d7cOBv7Q1ySoESczP1Mn/vtVVMjEKE/iS+YK1qZOkR7dgP
+         n9mW9OquBmAB+zUOCTskg9ZrXuUY53NuWNrQhP/1vKXC/txQTeow7JLKH6we2Vq4dCPr
+         qeyGA6gn8MIhDHOYov5BGwmRWAoy1EvfCGw5UUwNerHKRPjNEQpND2bkTLuJk+vL2xzF
+         7yMUbt/OX+wpLaLPmmA5gKlrKRwTm1OO5e840CMUnZhTpym4+zau9BRbrR9MxV12tYA8
+         yEOTxFWP04Ppt6VL1Tq6C6ZE8x1bwn/fzintvo+WGoqwDb1KkahUmYN9QlGeBhksK0Wu
+         c51Q==
+X-Forwarded-Encrypted: i=2; AJvYcCVouy+W8Yu7gWnq3A17gVwSnV+LVA4hXGmlkfZ7Y+EF0dsVUYP8/+0OiPQefut1LeLTp2/0+w==@lfdr.de
+X-Gm-Message-State: AOJu0YwS2HwUHJ7ChcFvKSae1mBpBGxO8P2ImHqnywmKYwfGir16jhMD
+	Va35jsAzaL/1tNJBFoNRUGh8wUMYGERbHoMscDgUmZ18FGXNGTTi7cii
+X-Google-Smtp-Source: AGHT+IEb17bmLL9jsPAthI9D4p+LL4DtZyAgSLePSGiJKIyb48ZNc5JQkJ5bUy9iNnWL5abKZ6Nj3w==
+X-Received: by 2002:a05:6214:2e85:b0:722:25e8:b488 with SMTP id 6a1803df08f44-72225e8c257mr93229886d6.27.1757061206419;
+        Fri, 05 Sep 2025 01:33:26 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfjgRDTTO9CCA4QzuMNSymh5TznBy8LyEU63WTPwer+jg==
+Received: by 2002:ad4:5be9:0:b0:70d:e7ba:ea21 with SMTP id 6a1803df08f44-72d3934a1a4ls6317946d6.1.-pod-prod-09-us;
+ Fri, 05 Sep 2025 01:33:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXcjK5sOmRMGZwd6hfclSBshO2lp/ibE2I87I5qrQWiNnERAYOx4DebbUmAgCYGQQqnG2VER1sZsNY=@googlegroups.com
+X-Received: by 2002:a05:6122:4687:b0:541:53a0:823 with SMTP id 71dfb90a1353d-544a02e64f1mr7284882e0c.13.1757061204983;
+        Fri, 05 Sep 2025 01:33:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1757061204; cv=none;
         d=google.com; s=arc-20240605;
-        b=ktmFJsrcj048Va5g4HVCaWzYWYOh6qZCXSwPOg4qUnqO819TYq5UywpInPOTbJmN0Y
-         hRcP4+R2KshS0HqLBySciK9z0sbyGhq8/m75aqcRr8GZGEEJOqO0h5KoJu3XSzsNUGJM
-         Lhcm93mpZlHuBgX2k4L6UF6vO6gB64F2KKcZQQK5EXOh4GoxpJ9rMm4R98r/QQ8i2oek
-         WOHcppiGjf7PRVdPIyum6QPN/tp3NvtX2twxt2noNppUTTZh/0MUg8f2a2puCxTcJBpH
-         lYxz2ZZx7FcL5nvHBFRvBgBCfxxNCWLf8tF7xUPKEEdWtZur1uHPnBf5DJU/zJ9mojW4
-         DmWA==
+        b=dLEWvDQeUWH7XtKkFOcq7TTl28THg3MPO3VuY8lrquHW6NKXr4SJmXZWwoCcLsfED5
+         OjaUK027tqF5Gdq7U1aRFHRz2EIodG8fhEL9Z5mLfPkdRi0jnaAd9lngDLj2LBy4Up0s
+         hjtX0tImCV8HnqhI/2Gh9xDFDs8l3NFiq7US191exh38OlfkyIBeWpbwIde6LIVsztDs
+         LO/WFNCaCNvwVfC05zFIsYDOCDMGE3jtIRSnPhL6fRBs2jNurIEShUQb5BUDOKt2tqZW
+         BzZ//8et+2Ib0zimRsZ2KY9OK+69bwOmMwNjdKfZDXhurRdI9BrFrhQ+z+G0oVcGoTv8
+         oq2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:content-language:in-reply-to:autocrypt
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:dkim-signature;
-        bh=oF3HN1Q6ZNxZN3c5DymWi4LgFv8yUurotu5FuTflls4=;
-        fh=dG5DXcInsYQLCMbfXdZpHyawgm/AU94nqD0+YsQ4WVQ=;
-        b=Ihz/y6RiwN2sXuRBgNuPBR5/zGnYED6J4xSIKKE1ahSiLkj4PQ54L8hfLe1e+8SQXw
-         82PMk4O3bUXdM7NIKupfeoZ/FcxcWIq76ERTsBjzDp7bxprd0CPvPJgYZrqm26VFzJhx
-         RGhnWUI0BBqq3wqfIwj7LEW4D9yNecOz+qxOtMsaQSZvQ1b0Gnni6rnVr5Y8HUAv9NxR
-         5q2wwrrFEVzixyVBdyu+L+NR06+TClBcVGOKdboA+KistzpAuBLYF4o6V6+5yN3xUnsY
-         QI5w85kSDfYoi5o5IEkACtBuQlrDQHOhtApiKYG3Ezm4YqTyxND0HTN01iMNfWtpDUVM
-         wn9A==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=NiGQFhCM+75MKVgSkB143RjF35qXTjKYNYENw01ZAOY=;
+        fh=N0q9XM2ezEa2E7YyPTFJeMaCXJkWs7nV4Z8+B5+diYQ=;
+        b=SndKqHmxb33XTb2rgGqQZ1lI5WdUq7VcpNkO7BxPqLhV0bQpYaIjyxN+zt6rjEsPNu
+         ZMiWKYSUEg9zKvQgXyQQQHcyaa+zkLq20zZ1H0XAYOLUnHW35hKq/Vshw/kEJdUJo3NE
+         +tiLJwmopCzIN1+M7d5r7TcRvE7yj8uo3l1fYgoYTQ0DDCy5Fylpp86YLYYq+4VjMzwT
+         qfrVtqrV0uF1W3sB3MFc445WBycLGOvBBPVnQpAK1eYEWwm7sflJ39PyjLuPRAZr7LND
+         DgZGYl1u717KIXGp1WN15MqveflQ7Xodtjqet5RnQ182E+ycUk4e8AMdeTtsxekcUp76
+         bWLg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=EpW1p9MM;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
-        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-32b915ead9dsi145337a91.0.2025.09.04.23.41.31
+       dkim=pass header.i=@google.com header.s=20230601 header.b=ko8Y1617;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f29 as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com. [2607:f8b0:4864:20::f29])
+        by gmr-mx.google.com with ESMTPS id 71dfb90a1353d-544910f5312si804824e0c.0.2025.09.05.01.33.24
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Sep 2025 23:41:31 -0700 (PDT)
-Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-376--IJj6dKfNACMuJNNvmkV9A-1; Fri, 05 Sep 2025 02:41:29 -0400
-X-MC-Unique: -IJj6dKfNACMuJNNvmkV9A-1
-X-Mimecast-MFC-AGG-ID: -IJj6dKfNACMuJNNvmkV9A_1757054488
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-45dd9a66cfbso1788795e9.1
-        for <kasan-dev@googlegroups.com>; Thu, 04 Sep 2025 23:41:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV9blDLrJD53Pt2lZq548VzPdN1hmhaPeqen6vdLNXaHd1bs/Dm/nfgP/hxneFsRT+v0HyJxMoVgrU=@googlegroups.com
-X-Gm-Gg: ASbGncu1ewZkxNdOAeTYH7ZIxpvjeJYyugriHwO9rpuJoSMLMHNUKr0wBqg0dtJao7h
-	7V5JujmlZV8Vru3Y09N3fnbrgZa1Ufp2L7IG8UD7irIRKitwxhhBm3Ox13BcIWbpycy1iuSVtCi
-	5uk4ZW/vy+mPPKTP4uBq5rK6bZhajYW/ymGvB2mg6372r8ZqRMILLMLI2ciIF4WR09YAfiYzEUd
-	I9YOvoJ7JYbNAtbeGnFmlCioIRSakxJDwbDyPsfN0auChXXwvz+yD46ZNeeiZ0nHq/B6D0IIO5Q
-	cP93AFVXRtBvVY5x7uB035LnO6QCO7+UcmBHwdhXIas2z0BAT9Kj9cWqUUcwYS2HLe55TnfvtQE
-	aAv4Urw/9O3lioPde8PYFRdp/2LfnB8aAVnezhezL5yvXoxQVy6RLbcjR
-X-Received: by 2002:a05:600c:4ec9:b0:45b:7ffa:1bf8 with SMTP id 5b1f17b1804b1-45b934f6a56mr114232795e9.23.1757054487705;
-        Thu, 04 Sep 2025 23:41:27 -0700 (PDT)
-X-Received: by 2002:a05:600c:4ec9:b0:45b:7ffa:1bf8 with SMTP id 5b1f17b1804b1-45b934f6a56mr114232615e9.23.1757054487185;
-        Thu, 04 Sep 2025 23:41:27 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f4d:e00:298:59cc:2514:52? (p200300d82f4d0e00029859cc25140052.dip0.t-ipconnect.de. [2003:d8:2f4d:e00:298:59cc:2514:52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b7e8879cesm316420125e9.12.2025.09.04.23.41.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Sep 2025 23:41:26 -0700 (PDT)
-Message-ID: <5090355d-546a-4d06-99e1-064354d156b5@redhat.com>
-Date: Fri, 5 Sep 2025 08:41:23 +0200
+        Fri, 05 Sep 2025 01:33:24 -0700 (PDT)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f29 as permitted sender) client-ip=2607:f8b0:4864:20::f29;
+Received: by mail-qv1-xf29.google.com with SMTP id 6a1803df08f44-726dec342bbso18664276d6.1
+        for <kasan-dev@googlegroups.com>; Fri, 05 Sep 2025 01:33:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUIy71fYfBxLniQmE88SwmzsDw0Kqm/eFNzAmQKKclxfHYX48JfgpiG+m0Re5tQyipU/deJCWwIi6w=@googlegroups.com
+X-Gm-Gg: ASbGncuHIIlONP6qZoaiB5wDyG9HmmKIsDbUJtLPM+b3dfeVCsKrO9bnPKKNlKNAIf0
+	0JWjE+jAUEjpm/q4A5fXoRaepfNf5fAGVzsIyZ9OJqcCcRra+lGLpJywUi2suCBbe9zKpgkt8G7
+	iIrJriooHAT5twVDXheTL/pFC39xx+BrDnnvBj+4BKT/OupnAPXIYDKenK4vtrtD4D0i0UQzY7P
+	n4qWyATUaWBxGlebPD9lxBgumahlkmPR0Cs0kGC60L+
+X-Received: by 2002:ad4:5c8d:0:b0:729:4be4:7fdb with SMTP id
+ 6a1803df08f44-7294be484d2mr55718806d6.52.1757061204289; Fri, 05 Sep 2025
+ 01:33:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 19/37] mm/gup: remove record_subpages()
-To: linux-kernel@vger.kernel.org
-Cc: Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
- Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- iommu@lists.linux.dev, io-uring@vger.kernel.org,
- Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
- Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
- kasan-dev@googlegroups.com, kvm@vger.kernel.org,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
- linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Marco Elver <elver@google.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
- Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
- Robin Murphy <robin.murphy@arm.com>, Suren Baghdasaryan <surenb@google.com>,
- Tejun Heo <tj@kernel.org>, virtualization@lists.linux.dev,
- Vlastimil Babka <vbabka@suse.cz>, wireguard@lists.zx2c4.com, x86@kernel.org,
- Zi Yan <ziy@nvidia.com>, Jens Axboe <axboe@kernel.dk>
-References: <20250901150359.867252-1-david@redhat.com>
- <20250901150359.867252-20-david@redhat.com>
-From: "'David Hildenbrand' via kasan-dev" <kasan-dev@googlegroups.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20250901150359.867252-20-david@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: SBwvI6qU1dr-Kcejf8g4T0_BQchhOL1gzbs0wGoZD2o_1757054488
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Original-Sender: david@redhat.com
+References: <20250901164212.460229-1-ethan.w.s.graham@gmail.com> <20250901164212.460229-2-ethan.w.s.graham@gmail.com>
+In-Reply-To: <20250901164212.460229-2-ethan.w.s.graham@gmail.com>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Fri, 5 Sep 2025 10:32:46 +0200
+X-Gm-Features: Ac12FXwF_nrqiRF1QRwe4SEL1LOgGhI7gT4sYUe3e0eDMXNCPS7Bt_KSLOk4LK4
+Message-ID: <CAG_fn=UfKBSxgcNp5dB3DDoNAnCpDbYoV8HC4BhS7LbgQSpwQw@mail.gmail.com>
+Subject: Re: [PATCH v2 RFC 1/7] mm/kasan: implement kasan_poison_range
+To: Ethan Graham <ethan.w.s.graham@gmail.com>
+Cc: ethangraham@google.com, andreyknvl@gmail.com, brendan.higgins@linux.dev, 
+	davidgow@google.com, dvyukov@google.com, jannh@google.com, elver@google.com, 
+	rmoar@google.com, shuah@kernel.org, tarasmadan@google.com, 
+	kasan-dev@googlegroups.com, kunit-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, dhowells@redhat.com, 
+	lukas@wunner.de, ignat@cloudflare.com, herbert@gondor.apana.org.au, 
+	davem@davemloft.net, linux-crypto@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=EpW1p9MM;
-       spf=pass (google.com: domain of david@redhat.com designates
- 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
-X-Original-From: David Hildenbrand <david@redhat.com>
-Reply-To: David Hildenbrand <david@redhat.com>
+ header.i=@google.com header.s=20230601 header.b=ko8Y1617;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f29 as
+ permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -232,127 +154,86 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 01.09.25 17:03, David Hildenbrand wrote:
-> We can just cleanup the code by calculating the #refs earlier,
-> so we can just inline what remains of record_subpages().
-> 
-> Calculate the number of references/pages ahead of times, and record them
-> only once all our tests passed.
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+On Mon, Sep 1, 2025 at 6:43=E2=80=AFPM Ethan Graham <ethan.w.s.graham@gmail=
+.com> wrote:
+>
+> From: Ethan Graham <ethangraham@google.com>
+>
+> Introduce a new helper function, kasan_poison_range(), to encapsulate
+> the logic for poisoning an arbitrary memory range of a given size, and
+> expose it publically in <include/linux/kasan.h>.
+>
+> This is a preparatory change for the upcoming KFuzzTest patches, which
+> requires the ability to poison the inter-region padding in its input
+> buffers.
+>
+> No functional change to any other subsystem is intended by this commit.
+>
+> Signed-off-by: Ethan Graham <ethangraham@google.com>
 > ---
->   mm/gup.c | 25 ++++++++-----------------
->   1 file changed, 8 insertions(+), 17 deletions(-)
-> 
-> diff --git a/mm/gup.c b/mm/gup.c
-> index c10cd969c1a3b..f0f4d1a68e094 100644
-> --- a/mm/gup.c
-> +++ b/mm/gup.c
-> @@ -484,19 +484,6 @@ static inline void mm_set_has_pinned_flag(struct mm_struct *mm)
->   #ifdef CONFIG_MMU
->   
->   #ifdef CONFIG_HAVE_GUP_FAST
-> -static int record_subpages(struct page *page, unsigned long sz,
-> -			   unsigned long addr, unsigned long end,
-> -			   struct page **pages)
-> -{
-> -	int nr;
-> -
-> -	page += (addr & (sz - 1)) >> PAGE_SHIFT;
-> -	for (nr = 0; addr != end; nr++, addr += PAGE_SIZE)
-> -		pages[nr] = page++;
-> -
-> -	return nr;
-> -}
-> -
->   /**
->    * try_grab_folio_fast() - Attempt to get or pin a folio in fast path.
->    * @page:  pointer to page to be grabbed
-> @@ -2967,8 +2954,8 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
->   	if (pmd_special(orig))
->   		return 0;
->   
-> -	page = pmd_page(orig);
-> -	refs = record_subpages(page, PMD_SIZE, addr, end, pages + *nr);
-> +	refs = (end - addr) >> PAGE_SHIFT;
-> +	page = pmd_page(orig) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
->   
->   	folio = try_grab_folio_fast(page, refs, flags);
->   	if (!folio)
-> @@ -2989,6 +2976,8 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
->   	}
->   
->   	*nr += refs;
-> +	for (; refs; refs--)
-> +		*(pages++) = page++;
->   	folio_set_referenced(folio);
->   	return 1;
->   }
-> @@ -3007,8 +2996,8 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
->   	if (pud_special(orig))
->   		return 0;
->   
-> -	page = pud_page(orig);
-> -	refs = record_subpages(page, PUD_SIZE, addr, end, pages + *nr);
-> +	refs = (end - addr) >> PAGE_SHIFT;
-> +	page = pud_page(orig) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
->   
->   	folio = try_grab_folio_fast(page, refs, flags);
->   	if (!folio)
-> @@ -3030,6 +3019,8 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
->   	}
->   
->   	*nr += refs;
-> +	for (; refs; refs--)
-> +		*(pages++) = page++;
->   	folio_set_referenced(folio);
->   	return 1;
->   }
+>  include/linux/kasan.h | 16 ++++++++++++++++
+>  mm/kasan/shadow.c     | 31 +++++++++++++++++++++++++++++++
+>  2 files changed, 47 insertions(+)
+>
+> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+> index 890011071f2b..09baeb6c9f4d 100644
+> --- a/include/linux/kasan.h
+> +++ b/include/linux/kasan.h
+> @@ -102,6 +102,21 @@ static inline bool kasan_has_integrated_init(void)
+>  }
+>
+>  #ifdef CONFIG_KASAN
+> +
+> +/**
+> + * kasan_poison_range - poison the memory range [start, start + size)
+> + *
+> + * The exact behavior is subject to alignment with KASAN_GRANULE_SIZE, d=
+efined
+> + * in <mm/kasan/kasan.h>.
+> + *
+> + * - If @start is unaligned, the initial partial granule at the beginnin=
+g
+> + *     of the range is only poisoned if CONFIG_KASAN_GENERIC is enabled.
 
-Okay, this code is nasty. We should rework this code to just return the nr and receive a the proper
-pages pointer, getting rid of the "*nr" parameter.
+Nit: for consistency with other functions in this header, can we
+change @start to @addr?
 
-For the time being, the following should do the trick:
+> + * - The poisoning of the range only extends up to the last full granule=
+ before
+> + *     the end of the range. Any remaining bytes in a final partial gran=
+ule are
+> + *     ignored.
 
-commit bfd07c995814354f6b66c5b6a72e96a7aa9fb73b (HEAD -> nth_page)
-Author: David Hildenbrand <david@redhat.com>
-Date:   Fri Sep 5 08:38:43 2025 +0200
+Maybe we should require that the end of the range is aligned, as we do
+for e.g. kasan_unpoison()?
+Are there cases in which we want to call it for non-aligned addresses?
 
-     fixup: mm/gup: remove record_subpages()
-     
-     pages is not adjusted by the caller, but idnexed by existing *nr.
-     
-     Signed-off-by: David Hildenbrand <david@redhat.com>
+>
+> +void kasan_poison_range(const void *start, size_t size)
+> +{
+> +       void *end =3D (char *)start + size;
 
-diff --git a/mm/gup.c b/mm/gup.c
-index 010fe56f6e132..22420f2069ee1 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -2981,6 +2981,7 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
-                 return 0;
-         }
-  
-+       pages += *nr;
-         *nr += refs;
-         for (; refs; refs--)
-                 *(pages++) = page++;
-@@ -3024,6 +3025,7 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
-                 return 0;
-         }
-  
-+       pages += *nr;
-         *nr += refs;
-         for (; refs; refs--)
-                 *(pages++) = page++;
+There's only a single use of `end` below, so maybe drop this variable
+altogether?
 
+> +       uintptr_t start_addr =3D (uintptr_t)start;
+> +       uintptr_t head_granule_start;
+> +       uintptr_t poison_body_start;
+> +       uintptr_t poison_body_end;
+> +       size_t head_prefix_size;
+> +       uintptr_t end_addr;
+> +
+> +       end_addr =3D ALIGN_DOWN((uintptr_t)end, KASAN_GRANULE_SIZE);
 
--- 
+I suggest making it
+       end_addr =3D ALIGN_DOWN((uintptr_t)start + size, KASAN_GRANULE_SIZE)=
+;
+instead.
 
-Cheers
-
-David / dhildenb
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/5090355d-546a-4d06-99e1-064354d156b5%40redhat.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
+AG_fn%3DUfKBSxgcNp5dB3DDoNAnCpDbYoV8HC4BhS7LbgQSpwQw%40mail.gmail.com.
