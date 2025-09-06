@@ -1,178 +1,151 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBM626HCQMGQEYM3D6SY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORBJO46HCQMGQE23GWYZI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07745B4758E
-	for <lists+kasan-dev@lfdr.de>; Sat,  6 Sep 2025 19:19:49 +0200 (CEST)
-Received: by mail-lj1-x239.google.com with SMTP id 38308e7fff4ca-3381cbfc1fbsf7110301fa.2
-        for <lists+kasan-dev@lfdr.de>; Sat, 06 Sep 2025 10:19:49 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1757179188; cv=pass;
+Received: from mail-lj1-x23f.google.com (mail-lj1-x23f.google.com [IPv6:2a00:1450:4864:20::23f])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEE0EB475CE
+	for <lists+kasan-dev@lfdr.de>; Sat,  6 Sep 2025 19:23:51 +0200 (CEST)
+Received: by mail-lj1-x23f.google.com with SMTP id 38308e7fff4ca-336b13923d4sf15760391fa.1
+        for <lists+kasan-dev@lfdr.de>; Sat, 06 Sep 2025 10:23:51 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1757179431; cv=pass;
         d=google.com; s=arc-20240605;
-        b=QKmyuC7a2jRb+O7V7GOm0cZL1ax/gEqwzDyWGdK0WJYcS+sd40lNQrkfOXDxi3q9E5
-         tVj8rkMhVWYwTNMG5re62KxqYO0gaK6pipExXQ2h8cM06+JMORuLEGJRwsV7Bf2ImFMi
-         INoEezk9ciT8xsYnt98Exd801uiUDulQkRk3l74QYWf8ct2mAG516LzOOTYAo/VyBimL
-         bGobtqvWiH3dXCdZK5DDe8nGk37/2n+LazvCbaW4jYI9UthuNvRkUw++FUook+vBL8Le
-         agFyMEZXpU2nHXQGOMJ2fwPZ/cstSl6rSoejo5lR0y3QCG9d0+tgfHlVsJNOWq1SuNXZ
-         SSPg==
+        b=bPYq2J2zD9if3kPYHwrVmWDS3CiFPkqPSxF3R0cegR5F0TvlTw/nbLpuoEGTb3GjtG
+         KHBlJ/gYfDb0lZSpiU0XjkSI6MtrIPv05K40lzLIIrMJDVGJDRA+OyrEL8zwmLb/sqwR
+         dEJKgWsA9Y3495jtgLJxuss8pvsT8J+Pg5BYUO/EKuTNCfBLd1k87CeFq0xX7J6Epi+1
+         lakx6OcbP9rE2zumH7a6dNcF3DVlVgIoCCWiFnC/OfvjuWPtmrGER5YqOv/hjpq4YtS2
+         qBR6/XPFWZaypxNl1RHxbxN2571dXrL5rzQFT2/wbGJTnOUZXzCJg0Rgb+nLZrwPr8eB
+         fBzA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
          :subject:message-id:date:from:in-reply-to:references:mime-version
          :sender:dkim-signature:dkim-signature;
-        bh=QI7QfMOK4qtBo8c7BG5lMYeFo3HibePnWxit8ebMZAQ=;
-        fh=1MNRaM9F00OSqJz++b7bkYSi81gmRqFleZpIb3VnnxQ=;
-        b=bl+/p6PNThC19wNtdFLjhi5xRw0UXsRfj4wHtkXnjSd3N9KyzCroGQfES4Rgz1uTna
-         t7fdRinV7wni25WPWWtFAmYmboxATe3gXsViUG1+V9Lw6oKjh9f+9nBzQsVLFfn+gabn
-         jhgQYWQ4IS71nNQw7LCaCrXelj60515dGpeygrjCd/4SCIJJx6A0mbCjmhNaBXiTCF+c
-         A/59vchHRAVSOaFlV/uX6Ago5AEW+8x7hbFoKpkA6xm/GXFwsTAWWa3jVtJGXyiHemcB
-         pvAcUQ94xCQVf+MO03qc9FVXfo5I2WpgWKUm6oNciJgc1Yq1VEJqfbdsvYjv8vfUXoIm
-         XJVQ==;
+        bh=OUYy5WV7/SlaA7z0c5v7dUXfqoktrw5vp83CUjoDDbg=;
+        fh=sXN/m8Rnhz3Fm6Q8mHfE4vuPB7uJDLXKYpneXTiip/E=;
+        b=ALkxGioGV/Xn/y2SxMOs93Pyop7D24nMqM8hCkgxoAHkTvifp+OfTyDeiwZfhsClhm
+         M7M9tg8+u8McbGEhYzf8LdeKf9yBapjk6h8ekkH5SC0K0gX8gtzUXESQ32xesx1JZa91
+         rpVH1epM5IOLTwLzJ6Zfa7iikg/NxJTNECTjBSMgGyjdgFv0sIMItOwX36M+jUE+nPED
+         cEswvuoTMIz9pMAI/CFfe3XWx5L0ibVULmKAHuvwVjrKXGf/OLRLuVH5XDYIbCWWtBDJ
+         hx8gCaQrVUUo9OMfPBlg5h3x2mgVx1nCulZ8x0QzfBCthtcjkotnX2m84ewsZp2TzysF
+         FZ/w==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=kTVAHwuR;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::436 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=QybubthW;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::32b as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1757179188; x=1757783988; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1757179431; x=1757784231; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:content-transfer-encoding:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=QI7QfMOK4qtBo8c7BG5lMYeFo3HibePnWxit8ebMZAQ=;
-        b=DeRqTar3qmlOQMjSHw7/VEhQfAa8PLjwC0pYqH7s87RSyFG5xm96j24cmThXmQNcpp
-         ZfhOivAAZtl/mLT1DROcSktogP/zG/W+2IrFTqew1Cerq0O8RO+Y6lQLXV0RQ4FN8kzO
-         6wtkZ2HGmrk7gP8Ha4DJTwZwrOWcXszV+GNDFQqCYr1UD2mToGtx7TkWl7+pD6uX1Kea
-         I5DP4+j+anvDjIrZSn6Qk12pc+oGNBijYpnZMftG4LN2N8hq9hyToX8GFPz6zzV+bjfz
-         88eDi9BAhuKfS9CWoz1Os3YJVs7jwAqH6927Wbz6ifgnM0q+nUdmilyrNlmoTEM2n1lr
-         fqBg==
+        bh=OUYy5WV7/SlaA7z0c5v7dUXfqoktrw5vp83CUjoDDbg=;
+        b=mV7HCiOQvuehkFGZHk9OnAlo5cjZhMEBfQ7u/KvE8FGWI9N/1rTNSDKK6AoWpCCRKt
+         w+2rCFfgRTCvt0jyMkoeVeyASL3nYfdDtkwfGdL8AgmSYaqcubw5DgCxuzvnzh+raYp7
+         UKxW0/tNqppCuNP+xVZkObdNC8k0zqzUWY9tizXyX0nKsTmieFq01OzdMhZgbzlOWklD
+         Zj7riW9D9wTbnTpa+7/nowpKAht4kqVx1s4MsDOpgvSeQ2bPj+fw/d6Yy1FTZzQY8ZgS
+         +GlK0FZDXXM4aIuNGhQBoXwp+2h+F4BD+E6nrftREjduZsTX61n4dSbUbm4MOXXimUNV
+         Zaqg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757179188; x=1757783988; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1757179431; x=1757784231; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:content-transfer-encoding:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QI7QfMOK4qtBo8c7BG5lMYeFo3HibePnWxit8ebMZAQ=;
-        b=UDMfhrdq22fSyPxsmGXPtPMfZphYo2DJWKuIK2pOdhJfSQSAHPTU0XhaHlRgkO/4sh
-         b1Op+uP0w5LiQ4OMpzo2yUASes4GtykPK1VKXe/Iue1uFeqGm4FPtuGwCDaKz1DxsauU
-         FxQM/rf6a6SNQ+lT9ZodAbHQGFiBJJhGEg0rRlE1sJKuDiAvEH+KtQDQtgypQtoASAqg
-         YWtEDkEpj6BBByhmYPqv7rY1DqKNN91rqq4xaXl/Kfnl+lIqOg17eh+7z7xbBidfwxBz
-         P3Qfke5ki1nMfFrvySxy4+mIWc5dvWf9/iyMvz51oPJZJn/gt6SBe2cc1avLGOgOnnhU
-         OHfg==
+        bh=OUYy5WV7/SlaA7z0c5v7dUXfqoktrw5vp83CUjoDDbg=;
+        b=RoS4TAvPoLwkFeyeKUOglWGxXPvxNaIU4/iEitU+LhkOTQebxcWfIPJJoye71CFgtY
+         Em0xIQgbRWkEzIakZB1y6WEsmiWUHTq4h42TwkrWBdVSanD+IlhmwhpHJn7HhFuRjk7p
+         z08SJVSJPipRz2d2MqGxfzPXbYQvXebvWIKurr5gsJ1Td+M1eVrCxAdbMOQY+EqsAYBb
+         imNpjUVmA+OsJKDY/EJWE6qaZpqjm4V/qaSds1+WfAHfiwkvo3so2UFaUgnnQ/U5XAGU
+         SLSNW+KNVZX1YfQJp2CxdwbXmyMpiQ/UX3qOvSwaCr87tvIM64kQOfJ5BNTAwGZaE6fQ
+         tX1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757179188; x=1757783988;
+        d=1e100.net; s=20230601; t=1757179431; x=1757784231;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=QI7QfMOK4qtBo8c7BG5lMYeFo3HibePnWxit8ebMZAQ=;
-        b=B9T6yTcnSelCpCITj0npucxSIMKQWsYxIX28mSJoF4ljXErTY1ZWEuA+5aCWw5Y4Dn
-         EvBx/9HOASm+mIuF6j1OsFZdWJj+URmguubBE1jj6g5QD76lfqz8d4APVWfdBNdys2BT
-         ylQMwdIPveCjlOBXEOMZ2w+YvtWUe3wDZrKCf670do5wWtj9bfVOaLPJFnGOL7uJ1um5
-         JYsnoy8HjRCjPoWiIMUFiCgmOVvz5QWSexIXktuhX9XPAHd9sZVoaRoCU8Jqrr0dpRFF
-         hqDD6mrVY/+CUy2vAJ8UuUdSq7mm76xnAyQq7WdzfWhfqo4WrgnQN6FVjjNvaxDDFTTC
-         zVtg==
+        bh=OUYy5WV7/SlaA7z0c5v7dUXfqoktrw5vp83CUjoDDbg=;
+        b=po2ggM026mj0XtI76mxV+sIiMuvRtDogyaq/zBqKBazOjxQZdjMk6zy3YPRtwvFahU
+         C1qdkXpNq43udv/0LPaomHx/uoM80JhUTskTgBmNXYrBoU+XK6Kv4Wli3ohGcl9NypSA
+         9tYl637k61ZokuxEZys4Oie2G8BZIS+lrPfe3qmcXi/85HWfxW1DKJH7gAo++zcfyCdh
+         O2+jLHAnFd4HMO/rqntgIrf0MAqYiHf6tYdJ5bP9WIg7INoGOIdFIbiYx2/3S8CSSllg
+         j1hY1SrIFxbVJBBT/VGfGxIviufIUCxKftFXfycrCojTJM4jMpqxgKIkSNguDzY5e5Wo
+         6f2w==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXY/U/dDc0aARhERup5I+YbkjE1PUZ/eS/F0K6P5rpsXskgamr8/wJejDk55PyD90s00zA3cw==@lfdr.de
-X-Gm-Message-State: AOJu0YxDHGnAU+l9TiZNUtBS7V9WhO0q5TlClgdbDJ6Afrmnnp9A5N5T
-	G7FJgn4tTEg4IzMOGekFgG7sZhuFRuHYAAwvToOHBBR9EHYYluGloDcq
-X-Google-Smtp-Source: AGHT+IHRFYnTEMh+9L6XYO5o9SPKNWFg0gUcP6U9cXntzX5z92x9kTYo+aYrw+IBobiZon8iBYDwyA==
-X-Received: by 2002:a05:6512:3b0b:b0:55f:4e8a:19ad with SMTP id 2adb3069b0e04-56260a6233fmr655983e87.13.1757179188098;
-        Sat, 06 Sep 2025 10:19:48 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcMdVDBQDXq1oP02Sxqk9V7pb0mujzD1nWP0TzUcRmwiw==
-Received: by 2002:a05:6512:290c:b0:55f:400d:484d with SMTP id
- 2adb3069b0e04-5615badee3fls534004e87.2.-pod-prod-03-eu; Sat, 06 Sep 2025
- 10:19:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUiYZBc2c+AIIz9jTwcZuezFm4umfrzGJKW+tQlrGH12krsl+wlDqu9DZo4LfR69sVb72Podkuf/Zs=@googlegroups.com
-X-Received: by 2002:a05:651c:23c8:20b0:337:ec9a:a557 with SMTP id 38308e7fff4ca-33b42e68b16mr5616941fa.0.1757179185311;
-        Sat, 06 Sep 2025 10:19:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1757179185; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCV1WkvV6nK+8ssZn4LS6E3MXsd4eKk7RcNHioexaTWSVa2Vac2+xF3u0n6BXxW2st8uhLqFaA==@lfdr.de
+X-Gm-Message-State: AOJu0YzBCGzmfbE2FarFhZBYqFBvuPbnQj4jCfwyf5B+gAaP+N5mGI/F
+	SrtxOcK0Xx7eTKVsuDjgDyjqCfZ7EE6pE9SoLlGGQiuY4XdBIK5ix2Fd
+X-Google-Smtp-Source: AGHT+IGmSP73rEyKXON5jqlczatMjXdzVAl84twqg+mdNd6hYA0AqYKJ3QMl51xhhgo9p2/TttRmhw==
+X-Received: by 2002:a05:651c:1696:b0:336:6c93:9726 with SMTP id 38308e7fff4ca-33b50ac79a5mr4633351fa.4.1757179430393;
+        Sat, 06 Sep 2025 10:23:50 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZeWAuBb/hqZVGZOonkgHCyb2kPrLPy2sSrTBovOCUk8hg==
+Received: by 2002:a2e:a375:0:b0:337:e84b:ebd with SMTP id 38308e7fff4ca-338cd23e47fls4126071fa.0.-pod-prod-07-eu;
+ Sat, 06 Sep 2025 10:23:47 -0700 (PDT)
+X-Received: by 2002:a05:651c:4117:b0:336:c6bb:10dc with SMTP id 38308e7fff4ca-33b526a8801mr4323071fa.17.1757179427677;
+        Sat, 06 Sep 2025 10:23:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1757179427; cv=none;
         d=google.com; s=arc-20240605;
-        b=iO+Bu84EUphJfBKtZiNxVrB9fucVjJBR/OGLJg/ngTkSou7BRBw6BtF1yW+8togzM/
-         MeuLYhYpXkYUm97wHh5DgMQAAuxjOh1yhJi83h+e7BWHF+uNQmsM1WXNEDa2g5SdPk9f
-         jR2L0pbI50ubFDK7xktwafYQLGRBqtcIYjBqd3495iEro2MstDE7q+Ai7e+6ZK56CWvx
-         ly6mB4ExmPQKqMEzkrQUODgovjy9QJkjM0YJDZ9D9iRabMdrhIgX+YwcPTIgH4xfzof4
-         0Qg7gp6nRWZizwIkFq1seccShEPT9o1aBlS3roavLjcNwoJtpD0Yf/vINr5NlsdXoI4U
-         1BNQ==
+        b=KEVCnFh02uvuD1dKC3Bmt0o+qzZ+6/69Aw8hezq6LlpSQrlBNDO+ya99adwz7JpNAk
+         fK4RI9Y0Ua1ReItYUyq2ag8OqfIYtgn7uJ2DAr/P8KP19HNMmYhW/N8HA4Mt2zV+a+Sl
+         CyHDNQoDuiG72KZvMhxZMUaqR/R1+BPzhcV2JSOfYQcV9ghlU35sVVwQfp53tXVCYyEP
+         LAd/iDyK/VLmrIR91BLGN8Mjingy9suiftZwKAjtIQ9Kh8l1tU0LXKdFPKIqul0GjyE0
+         DL5uArXcq63J7Trc9+yPqs+ojWT1NHtmwl22QkpQZlOr12fMKkm1eXhZe6sWofAi6kCS
+         e7bA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=eJMKKvsr9aBhw2LBExeW27+96C2S4i1wtwzuhhQgIDI=;
-        fh=5Lke0jskHPBFziqNnEVV/ggHeSiuRfVarawUMVAac0E=;
-        b=HX9qMonufZIGjO/nPMLR1Yp3tqXxFVTZwjJtCXUov1jyGtrbipNCVBwQvw4Fw/0QbE
-         goex2yzxBfLau0u4mhiacn0gDRQ/rC3sHrDp9sxK+u/iMCYtPlq1hwFAAAB55v8MCNJ0
-         EANrjNo6xRM/qu+ZyS0N/pMIVBkDxdPWCTSLyfcvsQ0DhWTaM+jR2y88fNj22NqmTL3A
-         zu+9vsXB6t3bKVtckDCSbfo0zMD6mjF+LWWjlfDHSurQ3TN8E4+ptU7IvPLvMBUqOb0I
-         9xPd64XM93u84406lCK6rOCcI8kWNUFpHPc/eI0yT0jCINdyczu5N56jLyHXNh8ipPqZ
-         odFg==;
+        bh=4c2O+YGbvDnPu9AoMwBBiCr1o4ZEGNWgiuTpwDevAek=;
+        fh=6YCovQoYDiAxkRL/X78L4cxoxYdwR0lfNHm5Lmguo9k=;
+        b=lWw7tR0V58s9lrsr8On6icChqbsRI3evdvshTXZ/FBxBJeU8LaoWyC8Wm26Ck8knOW
+         B9n0NyDeAJImuQ7ElAjrxNL7GxTA1eezkW88ATDMG5wQ8ZZfTX/5TIR+Q4LxWE1UcliN
+         V5fYnAsw5LaG+Vh9tnUK/+UnSdDqzvDb0Lfm55iT/5cJVW1NYxq/dQKgrKCm1Cv2Pv95
+         hrWGPIulrE5IVGyXhvQSgi/YhLBWBu/LIjQaJgAGdcuylyt2zQju/+ZuPxtZsBQpedJP
+         oynBiSploCnaxaFtes7XHbClJFieL0YBKa+FWvEJ3/spZ9tBnSGZSMbD/EwuxxLZyuo/
+         cUrQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=kTVAHwuR;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::436 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=QybubthW;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::32b as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com. [2a00:1450:4864:20::436])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-337f49f1a57si2563831fa.0.2025.09.06.10.19.45
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com. [2a00:1450:4864:20::32b])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-337f4fd35b9si2845861fa.6.2025.09.06.10.23.47
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 06 Sep 2025 10:19:45 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::436 as permitted sender) client-ip=2a00:1450:4864:20::436;
-Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-3e5190bca95so702374f8f.0
-        for <kasan-dev@googlegroups.com>; Sat, 06 Sep 2025 10:19:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV7Gg0E0pLxxhLIjjl3PjKuhNSmp6+1NbP3MRxTLC5K52fGj4iUY7Xn2qyxM9p+pK2nJoC9I/Mfou0=@googlegroups.com
-X-Gm-Gg: ASbGncvHH6BJaUXxjarii+i3+XcUF/HuZk7CMZgZlnXDcRd3p0Owlx+WjDU4t04Aa03
-	8XUb7HEHoVElp+9whqq50nQJuss5Eg9i31HNKivZ8E07fIDhyaHpSpswKibnS0ocCGO0Sr4qliA
-	2RomdGR220RSp/iaaM8vSfh+90AZTIvlleYnoKJz+nNJBzwPOIR9khYoZxKaTreEnJ/6Z8NfnNs
-	APjcTxH
-X-Received: by 2002:a05:6000:2c0b:b0:3e0:37f3:7778 with SMTP id
- ffacd0b85a97d-3e64317d070mr1984874f8f.26.1757179184312; Sat, 06 Sep 2025
- 10:19:44 -0700 (PDT)
+        Sat, 06 Sep 2025 10:23:47 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::32b as permitted sender) client-ip=2a00:1450:4864:20::32b;
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-45ddcf50e95so7258425e9.0
+        for <kasan-dev@googlegroups.com>; Sat, 06 Sep 2025 10:23:47 -0700 (PDT)
+X-Gm-Gg: ASbGncv8Me0muvLK32egl1XCMlXBHn5Y9qsIcX9OtoomRXDiLgGJhaeU1saj4HWNtHN
+	mqIsreYl+20ZYt+ZyQt7COvc5N+o5T3PmsRcrbsSL2BEN0WLt8Xu9r3z04cyYeLwdri0rl8emDJ
+	UK9alzLC5tVMA/tQlpiY/w2Byg/z+xM2zAD2ZHYekck1+C1avrwR82cDwOu5Mld7IC5uYBzeXr9
+	kxQNKJS
+X-Received: by 2002:a05:600c:19ce:b0:45b:b05a:aeeb with SMTP id
+ 5b1f17b1804b1-45dddec8ff1mr22462305e9.28.1757179426824; Sat, 06 Sep 2025
+ 10:23:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1756151769.git.maciej.wieczor-retman@intel.com> <3db48135aec987c99e8e6601249d4a4c023703c4.1756151769.git.maciej.wieczor-retman@intel.com>
-In-Reply-To: <3db48135aec987c99e8e6601249d4a4c023703c4.1756151769.git.maciej.wieczor-retman@intel.com>
+References: <aKMLgHdTOEf9B92E@MiWiFi-R3L-srv>
+In-Reply-To: <aKMLgHdTOEf9B92E@MiWiFi-R3L-srv>
 From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Sat, 6 Sep 2025 19:19:33 +0200
-X-Gm-Features: AS18NWARCvbmNO2W6P1AIa0UmJPeNw-mXWqtKJ3IgauS5o9YHYHKl3h4kKJN_64
-Message-ID: <CA+fCnZd2824w610t86xQk+ykfv3EyAOvhb_OuXjru5e+jE4HTw@mail.gmail.com>
-Subject: Re: [PATCH v5 19/19] x86: Make software tag-based kasan available
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-Cc: sohil.mehta@intel.com, baohua@kernel.org, david@redhat.com, 
-	kbingham@kernel.org, weixugc@google.com, Liam.Howlett@oracle.com, 
-	alexandre.chartre@oracle.com, kas@kernel.org, mark.rutland@arm.com, 
-	trintaeoitogc@gmail.com, axelrasmussen@google.com, yuanchu@google.com, 
-	joey.gouly@arm.com, samitolvanen@google.com, joel.granados@kernel.org, 
-	graf@amazon.com, vincenzo.frascino@arm.com, kees@kernel.org, ardb@kernel.org, 
-	thiago.bauermann@linaro.org, glider@google.com, thuth@redhat.com, 
-	kuan-ying.lee@canonical.com, pasha.tatashin@soleen.com, 
-	nick.desaulniers+lkml@gmail.com, vbabka@suse.cz, kaleshsingh@google.com, 
-	justinstitt@google.com, catalin.marinas@arm.com, 
-	alexander.shishkin@linux.intel.com, samuel.holland@sifive.com, 
-	dave.hansen@linux.intel.com, corbet@lwn.net, xin@zytor.com, 
-	dvyukov@google.com, tglx@linutronix.de, scott@os.amperecomputing.com, 
-	jason.andryuk@amd.com, morbo@google.com, nathan@kernel.org, 
-	lorenzo.stoakes@oracle.com, mingo@redhat.com, brgerst@gmail.com, 
-	kristina.martsenko@arm.com, bigeasy@linutronix.de, luto@kernel.org, 
-	jgross@suse.com, jpoimboe@kernel.org, urezki@gmail.com, mhocko@suse.com, 
-	ada.coupriediaz@arm.com, hpa@zytor.com, leitao@debian.org, 
-	peterz@infradead.org, wangkefeng.wang@huawei.com, surenb@google.com, 
-	ziy@nvidia.com, smostafa@google.com, ryabinin.a.a@gmail.com, 
-	ubizjak@gmail.com, jbohac@suse.cz, broonie@kernel.org, 
-	akpm@linux-foundation.org, guoweikang.kernel@gmail.com, rppt@kernel.org, 
-	pcc@google.com, jan.kiszka@siemens.com, nicolas.schier@linux.dev, 
-	will@kernel.org, jhubbard@nvidia.com, bp@alien8.de, x86@kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Date: Sat, 6 Sep 2025 19:23:36 +0200
+X-Gm-Features: AS18NWBaEWkn9-xRc9TLHpIVSI5D7m1H84UghxFJ-i2_WVGQHVzaNNUWikgWzvg
+Message-ID: <CA+fCnZebyMgWWEOW_ZxiGwnkiXqXX6XK5NJv-uWXAxdN+JxsSw@mail.gmail.com>
+Subject: Re: System is broken in KASAN sw_tags mode during bootup
+To: Baoquan He <bhe@redhat.com>
+Cc: kasan-dev@googlegroups.com, ryabinin.a.a@gmail.com, glider@google.com, 
+	dvyukov@google.com, vincenzo.frascino@arm.com, linux-mm@kvack.org, 
+	Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: andreyknvl@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=kTVAHwuR;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::436
+ header.i=@gmail.com header.s=20230601 header.b=QybubthW;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::32b
  as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
  (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
 Precedence: list
@@ -187,215 +160,151 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Aug 25, 2025 at 10:32=E2=80=AFPM Maciej Wieczor-Retman
-<maciej.wieczor-retman@intel.com> wrote:
+On Mon, Aug 18, 2025 at 1:16=E2=80=AFPM Baoquan He <bhe@redhat.com> wrote:
 >
-> Make CONFIG_KASAN_SW_TAGS available for x86 machines if they have
-> ADDRESS_MASKING enabled (LAM) as that works similarly to Top-Byte Ignore
-> (TBI) that allows the software tag-based mode on arm64 platform.
+> Hi,
 >
-> Set scale macro based on KASAN mode: in software tag-based mode 16 bytes
-> of memory map to one shadow byte and 8 in generic mode.
+> This can be reproduced stably on hpe-apollo arm64 system with the latest
+> upstream kernel. I have this system at hand now, the boot log and kernel
+> config are attached for reference.
 >
-> Disable CONFIG_KASAN_INLINE and CONFIG_KASAN_STACK when
-> CONFIG_KASAN_SW_TAGS is enabled on x86 until the appropriate compiler
-> support is available.
->
-> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-> ---
-> Changelog v4:
-> - Add x86 specific kasan_mem_to_shadow().
-> - Revert x86 to the older unsigned KASAN_SHADOW_OFFSET. Do the same to
->   KASAN_SHADOW_START/END.
-> - Modify scripts/gdb/linux/kasan.py to keep x86 using unsigned offset.
-> - Disable inline and stack support when software tags are enabled on
->   x86.
->
-> Changelog v3:
-> - Remove runtime_const from previous patch and merge the rest here.
-> - Move scale shift definition back to header file.
-> - Add new kasan offset for software tag based mode.
-> - Fix patch message typo 32 -> 16, and 16 -> 8.
-> - Update lib/Kconfig.kasan with x86 now having software tag-based
->   support.
->
-> Changelog v2:
-> - Remove KASAN dense code.
->
->  Documentation/arch/x86/x86_64/mm.rst | 6 ++++--
->  arch/x86/Kconfig                     | 4 +++-
->  arch/x86/boot/compressed/misc.h      | 1 +
->  arch/x86/include/asm/kasan.h         | 1 +
->  arch/x86/kernel/setup.c              | 2 ++
->  lib/Kconfig.kasan                    | 3 ++-
->  scripts/gdb/linux/kasan.py           | 4 ++--
->  7 files changed, 15 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/arch/x86/x86_64/mm.rst b/Documentation/arch/x8=
-6/x86_64/mm.rst
-> index a6cf05d51bd8..ccbdbb4cda36 100644
-> --- a/Documentation/arch/x86/x86_64/mm.rst
-> +++ b/Documentation/arch/x86/x86_64/mm.rst
-> @@ -60,7 +60,8 @@ Complete virtual memory map with 4-level page tables
->     ffffe90000000000 |  -23    TB | ffffe9ffffffffff |    1 TB | ... unus=
-ed hole
->     ffffea0000000000 |  -22    TB | ffffeaffffffffff |    1 TB | virtual =
-memory map (vmemmap_base)
->     ffffeb0000000000 |  -21    TB | ffffebffffffffff |    1 TB | ... unus=
-ed hole
-> -   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN sh=
-adow memory
-> +   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN sh=
-adow memory (generic mode)
-> +   fffff40000000000 |   -8    TB | fffffbffffffffff |    8 TB | KASAN sh=
-adow memory (software tag-based mode)
->    __________________|____________|__________________|_________|_________=
-___________________________________________________
->                                                                |
->                                                                | Identica=
-l layout to the 56-bit one from here on:
-> @@ -130,7 +131,8 @@ Complete virtual memory map with 5-level page tables
->     ffd2000000000000 |  -11.5  PB | ffd3ffffffffffff |  0.5 PB | ... unus=
-ed hole
->     ffd4000000000000 |  -11    PB | ffd5ffffffffffff |  0.5 PB | virtual =
-memory map (vmemmap_base)
->     ffd6000000000000 |  -10.5  PB | ffdeffffffffffff | 2.25 PB | ... unus=
-ed hole
-> -   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN sh=
-adow memory
-> +   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN sh=
-adow memory (generic mode)
-> +   ffeffc0000000000 |   -6    PB | fffffbffffffffff |    4 PB | KASAN sh=
-adow memory (software tag-based mode)
->    __________________|____________|__________________|_________|_________=
-___________________________________________________
->                                                                |
->                                                                | Identica=
-l layout to the 47-bit one from here on:
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index b8df57ac0f28..f44fec1190b6 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -69,6 +69,7 @@ config X86
->         select ARCH_CLOCKSOURCE_INIT
->         select ARCH_CONFIGURES_CPU_MITIGATIONS
->         select ARCH_CORRECT_STACKTRACE_ON_KRETPROBE
-> +       select ARCH_DISABLE_KASAN_INLINE        if X86_64 && KASAN_SW_TAG=
-S
+> [   89.257633] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> [   89.257646] BUG: KASAN: invalid-access in pcpu_alloc_noprof+0x42c/0x9a=
+8
+> [   89.257672] Write of size 528 at addr ddfffd7fbdc00000 by task systemd=
+/1
+> [   89.257685] Pointer tag: [dd], memory tag: [ca]
+> [   89.257692]
+> [   89.257703] CPU: 108 UID: 0 PID: 1 Comm: systemd Not tainted 6.17.0-rc=
+2 #1 PREEMPT(voluntary)
+> [   89.257719] Hardware name: HPE Apollo 70             /C01_APACHE_MB   =
+      , BIOS L50_5.13_1.16 07/29/2020
+> [   89.257726] Call trace:
+> [   89.257731]  show_stack+0x30/0x90 (C)
+> [   89.257753]  dump_stack_lvl+0x7c/0xa0
+> [   89.257769]  print_address_description.isra.0+0x90/0x2b8
+> [   89.257789]  print_report+0x120/0x208
+> [   89.257804]  kasan_report+0xc8/0x110
+> [   89.257823]  kasan_check_range+0x7c/0xa0
+> [   89.257835]  __asan_memset+0x30/0x68
+> [   89.257847]  pcpu_alloc_noprof+0x42c/0x9a8
+> [   89.257859]  mem_cgroup_alloc+0x2bc/0x560
+> [   89.257873]  mem_cgroup_css_alloc+0x78/0x780
+> [   89.257893]  cgroup_apply_control_enable+0x230/0x578
+> [   89.257914]  cgroup_mkdir+0xf0/0x330
+> [   89.257928]  kernfs_iop_mkdir+0xb0/0x120
+> [   89.257947]  vfs_mkdir+0x250/0x380
+> [   89.257965]  do_mkdirat+0x254/0x298
+> [   89.257979]  __arm64_sys_mkdirat+0x80/0xc0
+> [   89.257994]  invoke_syscall.constprop.0+0x88/0x148
+> [   89.258011]  el0_svc_common.constprop.0+0x78/0x148
+> [   89.258025]  do_el0_svc+0x38/0x50
+> [   89.258037]  el0_svc+0x3c/0x168
+> [   89.258050]  el0t_64_sync_handler+0xa0/0xf0
+> [   89.258063]  el0t_64_sync+0x1b0/0x1b8
+> [   89.258076]
+> [   89.258080] The buggy address belongs to a 0-page vmalloc region start=
+ing at 0xcafffd7fbdc00000 allocated at pcpu_get_vm_areas+0x0/0x1da0
+> [   89.258111] The buggy address belongs to the physical page:
+> [   89.258117] page: refcount:1 mapcount:0 mapping:0000000000000000 index=
+:0x0 pfn:0x881ddac
+> [   89.258129] flags: 0xa5c00000000000(node=3D1|zone=3D2|kasantag=3D0x5c)
+> [   89.258148] raw: 00a5c00000000000 0000000000000000 dead000000000122 00=
+00000000000000
+> [   89.258160] raw: 0000000000000000 f3ff000813efa600 00000001ffffffff 00=
+00000000000000
+> [   89.258168] raw: 00000000000fffff 0000000000000000
+> [   89.258173] page dumped because: kasan: bad access detected
+> [   89.258178]
+> [   89.258181] Memory state around the buggy address:
+> [   89.258192] Unable to handle kernel paging request at virtual address =
+ffff7fd7fbdbffe0
+> [   89.258199] KASAN: probably wild-memory-access in range [0xfffffd7fbdb=
+ffe00-0xfffffd7fbdbffe0f]
+> [   89.258207] Mem abort info:
+> [   89.258211]   ESR =3D 0x0000000096000007
+> [   89.258216]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
+> [   89.258223]   SET =3D 0, FnV =3D 0
+> [   89.258228]   EA =3D 0, S1PTW =3D 0
+> [   89.258232]   FSC =3D 0x07: level 3 translation fault
+> [   89.258238] Data abort info:
+> [   89.258241]   ISV =3D 0, ISS =3D 0x00000007, ISS2 =3D 0x00000000
+> [   89.258246]   CM =3D 0, WnR =3D 0, TnD =3D 0, TagAccess =3D 0
+> [   89.258252]   GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
+> [   89.258260] swapper pgtable: 4k pages, 48-bit VAs, pgdp=3D0000008ff8b8=
+f000
+> [   89.258267] [ffff7fd7fbdbffe0] pgd=3D1000008ff0275403, p4d=3D1000008ff=
+0275403, pud=3D1000008ff0274403, pmd=3D1000000899079403, pte=3D000000000000=
+0000
+> [   89.258296] Internal error: Oops: 0000000096000007 [#1]  SMP
+> [   89.540859] Modules linked in: i2c_dev
+> [   89.544619] CPU: 108 UID: 0 PID: 1 Comm: systemd Not tainted 6.17.0-rc=
+2 #1 PREEMPT(voluntary)
+> [   89.553234] Hardware name: HPE Apollo 70             /C01_APACHE_MB   =
+      , BIOS L50_5.13_1.16 07/29/2020
+> [   89.562970] pstate: 604000c9 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYP=
+E=3D--)
+> [   89.569933] pc : __pi_memcpy_generic+0x24/0x230
+> [   89.574472] lr : kasan_metadata_fetch_row+0x20/0x30
+> [   89.579350] sp : ffff8000859d76c0
+> [   89.582660] x29: ffff8000859d76c0 x28: 0000000000000100 x27: ffff008ec=
+626d800
+> [   89.589807] x26: 0000000000000210 x25: 0000000000000000 x24: fffffd7fb=
+dbfff00
+> [   89.596952] x23: ffff8000826cbeb8 x22: fffffd7fbdc00000 x21: 00000000f=
+ffffffe
+> [   89.604097] x20: ffff800082682ee0 x19: fffffd7fbdbffe00 x18: 000000000=
+49016ff
+> [   89.611242] x17: 3030303030303030 x16: 2066666666666666 x15: 663130303=
+0303030
+> [   89.618386] x14: 0000000000000001 x13: 0000000000000001 x12: 000000000=
+0000001
+> [   89.625530] x11: 687420646e756f72 x10: 0000000000000020 x9 : 000000000=
+0000000
+> [   89.632674] x8 : ffff78000859d766 x7 : 0000000000000000 x6 : 000000000=
+000003a
+> [   89.639818] x5 : ffff8000859d7728 x4 : ffff7fd7fbdbfff0 x3 : efff80000=
+0000000
+> [   89.646963] x2 : 0000000000000010 x1 : ffff7fd7fbdbffe0 x0 : ffff80008=
+59d7718
+> [   89.654107] Call trace:
+> [   89.656549]  __pi_memcpy_generic+0x24/0x230 (P)
+> [   89.661086]  print_report+0x180/0x208
+> [   89.664753]  kasan_report+0xc8/0x110
+> [   89.668333]  kasan_check_range+0x7c/0xa0
+> [   89.672258]  __asan_memset+0x30/0x68
+> [   89.675836]  pcpu_alloc_noprof+0x42c/0x9a8
+> [   89.679935]  mem_cgroup_alloc+0x2bc/0x560
+> [   89.683947]  mem_cgroup_css_alloc+0x78/0x780
+> [   89.688222]  cgroup_apply_control_enable+0x230/0x578
+> [   89.693191]  cgroup_mkdir+0xf0/0x330
+> [   89.696771]  kernfs_iop_mkdir+0xb0/0x120
+> [   89.700697]  vfs_mkdir+0x250/0x380
+> [   89.704103]  do_mkdirat+0x254/0x298
+> [   89.707596]  __arm64_sys_mkdirat+0x80/0xc0
+> [   89.711697]  invoke_syscall.constprop.0+0x88/0x148
+> [   89.716491]  el0_svc_common.constprop.0+0x78/0x148
+> [   89.721286]  do_el0_svc+0x38/0x50
+> [   89.724602]  el0_svc+0x3c/0x168
+> [   89.727746]  el0t_64_sync_handler+0xa0/0xf0
+> [   89.731933]  el0t_64_sync+0x1b0/0x1b8
+> [   89.735603] Code: f100805f 540003c8 f100405f 540000c3 (a9401c26)
+> [   89.741695] ---[ end trace 0000000000000000 ]---
+> [   89.746308] note: systemd[1] exi
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
 
-Do you think it would make sense to drop the parts of the series that
-add int3 handling, since the inline instrumentation does not work yet
-anyway?
+Might be the same issue as the one being fixed by Maciej here:
 
->         select ARCH_ENABLE_HUGEPAGE_MIGRATION if X86_64 && HUGETLB_PAGE &=
-& MIGRATION
->         select ARCH_ENABLE_MEMORY_HOTPLUG if X86_64
->         select ARCH_ENABLE_MEMORY_HOTREMOVE if MEMORY_HOTPLUG
-> @@ -199,6 +200,7 @@ config X86
->         select HAVE_ARCH_JUMP_LABEL_RELATIVE
->         select HAVE_ARCH_KASAN                  if X86_64
->         select HAVE_ARCH_KASAN_VMALLOC          if X86_64
-> +       select HAVE_ARCH_KASAN_SW_TAGS          if ADDRESS_MASKING
->         select HAVE_ARCH_KFENCE
->         select HAVE_ARCH_KMSAN                  if X86_64
->         select HAVE_ARCH_KGDB
-> @@ -403,7 +405,7 @@ config AUDIT_ARCH
->
->  config KASAN_SHADOW_OFFSET
->         hex
-> -       depends on KASAN
+https://lore.kernel.org/all/bcf18f220ef3b40e02f489fdb90fc7a5a153a383.175615=
+1769.git.maciej.wieczor-retman@intel.com/
+https://lore.kernel.org/all/3339d11e69c9127108fe8ef80a069b7b3bb07175.175615=
+1769.git.maciej.wieczor-retman@intel.com/
 
-Line accidentally removed?
-
-> +       default 0xeffffc0000000000 if KASAN_SW_TAGS
->         default 0xdffffc0000000000
->
->  config HAVE_INTEL_TXT
-> diff --git a/arch/x86/boot/compressed/misc.h b/arch/x86/boot/compressed/m=
-isc.h
-> index db1048621ea2..ded92b439ada 100644
-> --- a/arch/x86/boot/compressed/misc.h
-> +++ b/arch/x86/boot/compressed/misc.h
-> @@ -13,6 +13,7 @@
->  #undef CONFIG_PARAVIRT_SPINLOCKS
->  #undef CONFIG_KASAN
->  #undef CONFIG_KASAN_GENERIC
-> +#undef CONFIG_KASAN_SW_TAGS
->
->  #define __NO_FORTIFY
->
-> diff --git a/arch/x86/include/asm/kasan.h b/arch/x86/include/asm/kasan.h
-> index f3e34a9754d2..385f4e9daab3 100644
-> --- a/arch/x86/include/asm/kasan.h
-> +++ b/arch/x86/include/asm/kasan.h
-> @@ -7,6 +7,7 @@
->  #include <linux/types.h>
->  #define KASAN_SHADOW_OFFSET _AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
->  #ifdef CONFIG_KASAN_SW_TAGS
-> +#define KASAN_SHADOW_SCALE_SHIFT 4
->
->  /*
->   * LLVM ABI for reporting tag mismatches in inline KASAN mode.
-> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-> index 1b2edd07a3e1..5b819f84f6db 100644
-> --- a/arch/x86/kernel/setup.c
-> +++ b/arch/x86/kernel/setup.c
-> @@ -1207,6 +1207,8 @@ void __init setup_arch(char **cmdline_p)
->
->         kasan_init();
->
-> +       kasan_init_sw_tags();
-> +
->         /*
->          * Sync back kernel address range.
->          *
-> diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-> index f82889a830fa..9ddbc6aeb5d5 100644
-> --- a/lib/Kconfig.kasan
-> +++ b/lib/Kconfig.kasan
-> @@ -100,7 +100,8 @@ config KASAN_SW_TAGS
->
->           Requires GCC 11+ or Clang.
->
-> -         Supported only on arm64 CPUs and relies on Top Byte Ignore.
-> +         Supported on arm64 CPUs that support Top Byte Ignore and on x86=
- CPUs
-> +         that support Linear Address Masking.
->
->           Consumes about 1/16th of available memory at kernel start and
->           add an overhead of ~20% for dynamic allocations.
-> diff --git a/scripts/gdb/linux/kasan.py b/scripts/gdb/linux/kasan.py
-> index fca39968d308..4b86202b155f 100644
-> --- a/scripts/gdb/linux/kasan.py
-> +++ b/scripts/gdb/linux/kasan.py
-> @@ -7,7 +7,7 @@
->  #
->
->  import gdb
-> -from linux import constants, mm
-> +from linux import constants, utils, mm
->  from ctypes import c_int64 as s64
->
->  def help():
-> @@ -40,7 +40,7 @@ class KasanMemToShadow(gdb.Command):
->          else:
->              help()
->      def kasan_mem_to_shadow(self, addr):
-> -        if constants.CONFIG_KASAN_SW_TAGS:
-> +        if constants.CONFIG_KASAN_SW_TAGS and not utils.is_target_arch('=
-x86'):
-
-This change seems to belong to the patch that changes how the shadow
-memory address is calculated.
-
-
->              addr =3D s64(addr)
->          return (addr >> self.p_ops.KASAN_SHADOW_SCALE_SHIFT) + self.p_op=
-s.KASAN_SHADOW_OFFSET
->
-> --
-> 2.50.1
->
+Perhaps it makes sense to split that fix out of the series and submit
+separately.
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -403,4 +312,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-A%2BfCnZd2824w610t86xQk%2Bykfv3EyAOvhb_OuXjru5e%2BjE4HTw%40mail.gmail.com.
+A%2BfCnZebyMgWWEOW_ZxiGwnkiXqXX6XK5NJv-uWXAxdN%2BJxsSw%40mail.gmail.com.
