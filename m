@@ -1,149 +1,149 @@
-Return-Path: <kasan-dev+bncBC32535MUICBBQFW57CQMGQES2F4R6I@googlegroups.com>
+Return-Path: <kasan-dev+bncBC32535MUICBB3NW57CQMGQEAT7GBUA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x639.google.com (mail-pl1-x639.google.com [IPv6:2607:f8b0:4864:20::639])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42042B4698B
-	for <lists+kasan-dev@lfdr.de>; Sat,  6 Sep 2025 08:57:07 +0200 (CEST)
-Received: by mail-pl1-x639.google.com with SMTP id d9443c01a7336-24caf28cce0sf65833115ad.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 05 Sep 2025 23:57:07 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1757141825; cv=pass;
+Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54747B4699C
+	for <lists+kasan-dev@lfdr.de>; Sat,  6 Sep 2025 08:57:51 +0200 (CEST)
+Received: by mail-lj1-x239.google.com with SMTP id 38308e7fff4ca-336d4230e67sf8260401fa.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 05 Sep 2025 23:57:51 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1757141870; cv=pass;
         d=google.com; s=arc-20240605;
-        b=cm0wyRWpA40q3aKcqNik64xYhCKoknRQ/zSkSM45SRAyzh8lwqm07BYPK1IZGWeZv8
-         oPmVtnVVdAQI+DouH++ROsSpR4pLJYV8OCVp5r0GbkVHy/34zfv2Yrw69N475zvw4z+o
-         GEWitu14hAV1UAuxfZ3g7mGNKeGqzpNaK4yMAlAhG7FCBp/OfHmls5Os4flClMJi3qKa
-         uZ/kj9qNL0hnP5h7c9I9OF2ev1Kzfoqc82Sv5BJk6DX98ZNR5M32P0CxYqYXgsP0quHp
-         iU4bg+ElCWD44W9QkyCFULub+JQYWBD+ZYqn4g/s8IV5Ds1PhXnYqIdH9SQu+8rGPDdy
-         n3kA==
+        b=b7T1FDuQiVuCfXKLghbvfiiOuyVFdMaCP//4BwUidl0WGQ/Vev2grOmcx5UgBwn9ol
+         0iC2YBOs4nGzRO+4IBG60BbdKN4YP8lYUcnwXz8paa0Ba88Gk2m5Ut0tHtq7RF7QMW0l
+         Mvvhnk8q6akR0EeMljoXvOapZBW2LdbrI7Khz/w8hLvlUYjiOgHNAk9hui/spWEEPmHd
+         Vz1tAAU9DlMzGydwrLCN4DT2QNAz1fa/oJE69Gqg9dvb7qmJm5rQKGl2LDCSvDNhggNm
+         1D3yLdYsD1RnoJ677XTYOwynAlq5ha+/6rauRcdMfzA7oAe04WIdWqC/+goH9GRjtnD3
+         7wWg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-language
          :in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:dkim-signature;
-        bh=/TnZOvEL0hHLDoqweqmAfu7dvCmwpEvEEsnVJ3vtGOw=;
-        fh=LyY1lOCF1jgBbg/ibsU/JznBum3Thj4YLRJuVE7Nfcw=;
-        b=emqr7I+vxOsL2Y0sVn1sivDBXW+7Xb6/EcleLq+V8xPToeggrDxMBT+44PewSDDl/C
-         MvNo+Pp+vHTIfcqc1J12XW1b/0zKyaKnPy7W3jPWtfCDHpjz6mO2/uN6ecP8ExM8xieA
-         T3ub4DiKCj4zLJw82jtEzYXWCmvB5N0VGhlBDhnBXsBg08ZZZK6qVZYozCMw4mAWBiw4
-         K0Fq5xzMNfZ8fVrB5Aaqu9i1P5VvkPMBqPh7/RYwOSJrWvN7Q/WmvasoDsmxn7pcPgjc
-         +oWcLQTz0sbFfQsL4xK6ZxYQmcpLTckxKrDzggi1YBK5vg36RBxgBr+GRPeWxNP5Fd+L
-         m79w==;
+        bh=k+5QRMTBRwm9zfF8H/BTFb1tWXGVafygFvYzNZrXTX8=;
+        fh=lcLf97ETl+SGcEOeosU6lO7C7ah9yJJbGBjTTdQwrFs=;
+        b=D1jJoSZLWCNiEejwKakJmP+8EXkjel52lDM6JQgwYTNnHaayEeSC+LygHx0e4y35mL
+         5fOyNNcTswSsOLBGSka0EYd+ngJTCM7syAdQaVLfRLpJ9SDNYQppZmHJJ4z6NiiMEh2r
+         ziVhE6N5uYl9VQDz/huuoSCfiIi6T08lAWtD60ToAeyY2V/fA9pivnHIavnWIS+7z/Kv
+         xESPtswZNPpxBoL7GfEnP8ZdGGkkBQv5WoN6Yz7IE81A0kAwyrW2gIvGoGQKGGI2C2u7
+         cwo5ZfVSjdtgLgO3wnY6swAQSDTtN0wf6zIHgl7z7AY0bVN9oLeh6ngh8WDWI0Y5NY+L
+         fcuw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=XZrKF99G;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=IFSh2Efd;
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1757141825; x=1757746625; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1757141870; x=1757746670; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-language:in-reply-to:autocrypt:from:references:cc:to
          :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=/TnZOvEL0hHLDoqweqmAfu7dvCmwpEvEEsnVJ3vtGOw=;
-        b=EYja14uYz75vPs8Upf1sHYxCkmZQcWDHqzvR6ioe2tUJKcTF/+BjZPNZN8uMI6mO/E
-         9XEJ3v/A5avVE1e8qX3KM0+S3wdw95vsFPE2KnLLmaxcRBKtG48TluWKaBzzj/Xi4zuJ
-         z465iSXkXlw8OXzmrZIEHVxMFIGNeKV+AfcZpoeFZp9jh0jnpmHlA/T+yijL4PUFKSfQ
-         WxqQvAcCbhGh66W7EuXWn+z5i7Q74FIj/NMShtDArm4e+QMkyXa7W92rjyeMm7tXVBV1
-         FIS0zVld3PxJXp+po6GnkgBA97TK8axGL00eWkuGnh/R5R5QCF4uEQPD8a8k18HYMQ2i
-         nugw==
+        bh=k+5QRMTBRwm9zfF8H/BTFb1tWXGVafygFvYzNZrXTX8=;
+        b=iS3UrZ4J91uCOCvpfz4HRXvw3vbute2ZNAomEG/M2NCt7vdRSXSnlnN6TMCs8oUQBV
+         W1JRI5awaceYoTRU+k6e6OnyAApYa5D0LBHNgBB0pRNJfr+nU5PggpmgvzFcWYUxDnZm
+         upxShwkiTrXPbbYbTM5PxaVMp/FtX7GU62FHv2ndfzhK8glZnpRjFWPvgYlQddSk4qft
+         dwpJT22INVk1ooWNJBt1vea6yffMYfibsinLL9/Q+K6qWNc0C0jZi4HKtxBFJfVxaRKk
+         hfjOHbkwl2VS0WVJR5KfXza6q1JWmdQajdtN6Xv0gzItKwJNrAwx9mcBkbNtkWBFq6Io
+         RtUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757141825; x=1757746625;
+        d=1e100.net; s=20230601; t=1757141870; x=1757746670;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-language:in-reply-to:autocrypt:from:references:cc:to
          :subject:user-agent:mime-version:date:message-id:x-beenthere
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/TnZOvEL0hHLDoqweqmAfu7dvCmwpEvEEsnVJ3vtGOw=;
-        b=sf1vyalYJ6bcbl6xusyFUpqIjnrhlWsjPa3/irOmt68xZuH2YqaZFMJ3vF3b0p3jAn
-         W7hPVXOYjvbN4bkCDla53wHT8N65KwOwKJxhmXC+MlllGlVFzcfxKpdZbkG0fcEDBI8r
-         z23ch/MtwyFAixAQ1gMuTz9ABkwxYeTDVJePD58yFzYGonlcYv30g3Wu+LNzOsAC93pj
-         vj7x35dvkXX8EXbDHHw2AkzWOEmKM2CcUSem6e2tugtkAau3nw0crWi+mwKnuqF9fjbX
-         FlPpFfEGQb3ACCIWJxhqN1YWhT/rmmljYCpMhVkIRCPmIiOgqLDP9XzeqqsM+wmlG3uy
-         2NFg==
-X-Forwarded-Encrypted: i=2; AJvYcCV7wCrL5CKAM0hLtoAOXhxgj7fL5p4PvY6nvX5EtRoSygu/oQjxGeLgJDZtw8mpYB+tFY0lWw==@lfdr.de
-X-Gm-Message-State: AOJu0YwUIl9y2R8enWFtPjXbWGFG0WtzppdqsISqx8TBqQUehZIE7noL
-	bDlObFVftQRVpz1eil/JioQao+CpAwziNSZFFG/T3hPQDK7cQtU8zEKR
-X-Google-Smtp-Source: AGHT+IHDn+HDukkhkh98bA9ZAkc2pJEodkDlF+UwOep/UHwUNZ9/6wGzSq677OE6ldwQH4lPqanTvw==
-X-Received: by 2002:a17:902:f711:b0:248:96af:51e with SMTP id d9443c01a7336-251751e5bc1mr19270755ad.45.1757141825361;
-        Fri, 05 Sep 2025 23:57:05 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdzIHbw9UIrPVtF5Fb3j9ACxt0pMGzLOe09YpCms29SXw==
-Received: by 2002:a17:903:2f83:b0:246:7bc8:5845 with SMTP id
- d9443c01a7336-24d4c560993ls17292375ad.0.-pod-prod-08-us; Fri, 05 Sep 2025
- 23:57:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVajMQrESJBeVdwH6lH/U7+o4GFzYIJPQuYT7k7LcSrdlUnw8SV9A4yv2pAmm6SRqzn2mVuoBTntf4=@googlegroups.com
-X-Received: by 2002:a17:902:f550:b0:24b:270e:56f4 with SMTP id d9443c01a7336-251736df030mr18718795ad.37.1757141823475;
-        Fri, 05 Sep 2025 23:57:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1757141823; cv=none;
+        bh=k+5QRMTBRwm9zfF8H/BTFb1tWXGVafygFvYzNZrXTX8=;
+        b=N87xmFueLaUCv199qLV/VPxjd7VYf7lb0+DQNFTy9Mv4c/JyxdSztQIWgtcLg1QSdH
+         LNCJ9k45r5cLhZ/6yDLAoXm++2p9kAGd1tfahLLRWrhaWHY4FEfDO6Ha4SuBI1JtB51Z
+         O6DJhKNA7Z+6Do+RS1HRwSr3JW3EpbN11cj2VOCGVsssLiEYvXnFtcsPmis//8UO0Luk
+         Nlh9ItzoptNi5A0BWWP4jQMG+HjpLo6wqv4lfgMnIlFz7UVhN/L1Q7Flc0NU+XckRi19
+         oKkLNrNH52iZ9OYiKL7KVWCRl/SJEc4gmoRhE/nUp9sUhhKWO9gdgwiB+acyA/dLlNcu
+         pvSw==
+X-Forwarded-Encrypted: i=2; AJvYcCUMsIsT6dBAyvbpqTkZdLAnf6KdLWhlP3HVQCDSVzq1TTICi40hOK51KYWfNyMd1Z/whuKnXQ==@lfdr.de
+X-Gm-Message-State: AOJu0YwD/U/JVDnzXSRr/46pBMvS4rL0urzHneizsIeiyo2ZAbksD8Hf
+	GTvcGX4lHemP90ZU1i8LXX2SZJ6fA6NcLDbhXVCSabWQK8T1AdmAaDH0
+X-Google-Smtp-Source: AGHT+IEyhYwIknUanWzsoynK29Pfbn+8z7cx7DwvE1pWtKMpkktaVIDSZQ9307SU1tYKFFkOMEtLFQ==
+X-Received: by 2002:a05:6512:3b0b:b0:55f:4e8a:19ad with SMTP id 2adb3069b0e04-56260a6233fmr337038e87.13.1757141869886;
+        Fri, 05 Sep 2025 23:57:49 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcdglNTQJHfEoJr35ylDRYldGbbVxi9nbtBHAPszb4siQ==
+Received: by 2002:ac2:5bdc:0:b0:560:99a2:96c1 with SMTP id 2adb3069b0e04-5615bacb920ls255499e87.1.-pod-prod-03-eu;
+ Fri, 05 Sep 2025 23:57:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWlx4bBsr19PSBe/+WDt/ijk5IS0jZg1XwIRBzVhzqfRucjezdCPxsKSMoT3i13xRDVzzHFM6V/VVw=@googlegroups.com
+X-Received: by 2002:a05:651c:23d2:20b0:338:735:8a79 with SMTP id 38308e7fff4ca-33b4b230a20mr3355051fa.1.1757141866499;
+        Fri, 05 Sep 2025 23:57:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1757141866; cv=none;
         d=google.com; s=arc-20240605;
-        b=X99j/Bm724R+WQHWG4jjFU9Q+j2YhzfhFw91PQSUkKJK6PziTCo1uogmQgfwMWIZvo
-         T0rmOy4TWD4AU/p6WQkktlEJARa+fWCGRDCNBQn48YOFnpsosXQ/Q4Ic2aK4CTclGVOK
-         vc6ngKY1Vv4+kQTUKvVA14hYm9DsIo9+VdBqal/YVd0Hc2Pmqx9Q8ba8yHFguj73exkf
-         UsHc8ZbzsuvwHHlE1okNZvA8amF7C6bNZBBr2oTi499la8UI4dCPqGmcGf95MeY2uOdr
-         aMdqGW/e3OTRZHdPllxuFxDtof068Gu5xGN+y3IkcjAOVVAKLdrHtysX804IMFQrYihk
-         sEVQ==
+        b=ZBNKV3Lr6RyFRVXgl3nUVQyMzJR982m2TiirJikHsZpeo1F1k20qcS47rZBZUA/B8P
+         WWEfqauY/LcwLpfuscrTd3+V4G1VKWcottG0lbcJ2k23Kb5SqI+Id9KNWUQhe0i4ihd0
+         7ygXulIdiyJzRm3WopnpS3l/dOujXNk6RzfIaKdYKO+MlrvsToHkn9D8BoKPfxuwyI3W
+         QBYBqbB6N0HVOzMFrlb/zMWPHLN4ZFCmJKQOoaCayviurPXDyWtUrrdqXhsewQbjmGRW
+         R+L2Z675plFTJNqdh0nYJ2WdK9XugAayo2b9TbmwYvHo+QdRltnIMgcI5Ml7QWLX9j0D
+         NdLQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:content-language:in-reply-to:autocrypt
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:dkim-signature;
-        bh=Vne0EVwrnVHw6NJLJyd+zZpE6+oJG9x8TCUx1n8W1nw=;
-        fh=E9DPpRgp+rlA1N7DjPlRhB/HiS0HKpIG1mNKSTgZniQ=;
-        b=GrGo0lcx0KRpfOzuef5QHBMS3aveRwtdHqYR8FMMeKbosUu5jxGLgGRbbv07bD7G/0
-         wFWLse12XEAM7utBmnETev/kuaCJsT7D2Uqlft16GxWM7DdhKWV0jtf2dWMwY5M6ssL/
-         U1nJYcz7BhrikGoXSRZ+3ZC5EpqrKG5y0AZGEjLzO57oG/ii5+TTR1V1OC7cIaP1f+zu
-         IVuibnVl0RTNQHdQ+uzECuQxSHOoPj4jCF63iHCH5D7jT1yUqGgr1NoyIxzTsfJI63/w
-         JY4qpNft8C8LNctFUAPzaErYziDxufjnBDwstradgLPKetbRDADy6njQodlN8HlnSb9U
-         69qg==;
+        bh=CCJs31gS3SmY6gT03ZW9SqmlSjC26seB+xyCx6US3Ag=;
+        fh=C2pFNgB1Ns3QLI07+D4lIW1UnbxiI4PRCG6/9jmnDEY=;
+        b=K8eKNjAZyWuQzA5YHd2OcmNfGLMKpyStqYF4WGwHQwKBSq92N30F2fhPeRhu5JVSbL
+         arMCZF4SgIaFO21pK9XS6hhO+xU5yY9mLekIRIumaLdvqFvZ5SPDmS1VwSy6QmC+W38W
+         zBAbzMIvVWPEkhhZcYa9Hg09qDywcuTzgiIzEDEjtT/Q654j3vT4Dvyr6Oo7FJDLAvkc
+         TsvuYKugsLGHc2jECer3JouCel9gXax0KKNWbChHdOdT+JjE5+blplv4T/LUo9P3NCYw
+         r9PbNpwwjZwlGVodFJ9itJa8jV8abivMD/CfWx7WNs/QXBVingX9NXZ12tLgttV1s/j8
+         PJ3w==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=XZrKF99G;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=IFSh2Efd;
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
-        by gmr-mx.google.com with ESMTPS id d9443c01a7336-24c966877d4si731585ad.0.2025.09.05.23.57.03
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-337f4f75055si1984921fa.4.2025.09.05.23.57.45
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Sep 2025 23:57:03 -0700 (PDT)
-Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+        Fri, 05 Sep 2025 23:57:46 -0700 (PDT)
+Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-281-fE6Yvm5-M_6H801YAk54eA-1; Sat, 06 Sep 2025 02:56:59 -0400
-X-MC-Unique: fE6Yvm5-M_6H801YAk54eA-1
-X-Mimecast-MFC-AGG-ID: fE6Yvm5-M_6H801YAk54eA_1757141819
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-45dd5c1b67dso11069205e9.2
-        for <kasan-dev@googlegroups.com>; Fri, 05 Sep 2025 23:56:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXNJ0wmLtMS6iOb+9YEWxrcIaYU7IKKxKbZp/AhVz5Ak30Tr0RbiXp/LHbS5+qxV80v20QvBgUvWzI=@googlegroups.com
-X-Gm-Gg: ASbGncsDX7wcV9XX+9S6GHAAcDFZUPj3spuLPxHQkc254IX+8X/mOjyFiuSEOsrQ7rq
-	T+8eSr3f5uv4Mbp4Bmzlj8qUtSuSMw8u4r4V/YQKd6NcH+BXSXcpOxWrJxWjSa6UfywNGQa3e2K
-	7OHOgMAbcz0mseBIRg1Vk5Wgj9U7qHq3Eh7mhOLoXZGO0Di6VSuRFyYxJBH3UZRsJxsxAhk/tYH
-	pgqRgRfMltcqyDHdMUVNdCvn7wjA9Hd01tBbC0TLnQBBKWRAZxqjErV4Sp8mRZ8dPL+cKAD/Ty5
-	82gtsw3Th4NWDydvnmGPOpWHL4b683bYVdVpychIMgxqkgYxQMIBT1z9xbP2n0PDtQjV49XI50j
-	NpGmr6RGLkGu4RYQsEbhPdv4WiPrD6c9SLkZLDN5MXl+oIW1HLaCwARiw/J8Mb86cEkc=
-X-Received: by 2002:a05:6000:4406:b0:3e7:404f:6b9 with SMTP id ffacd0b85a97d-3e7404f0ad9mr25517f8f.24.1757141818666;
-        Fri, 05 Sep 2025 23:56:58 -0700 (PDT)
-X-Received: by 2002:a05:6000:4406:b0:3e7:404f:6b9 with SMTP id ffacd0b85a97d-3e7404f0ad9mr25486f8f.24.1757141818148;
-        Fri, 05 Sep 2025 23:56:58 -0700 (PDT)
+ us-mta-6-_3v02MfLN7qMFArW9T0WmA-1; Sat, 06 Sep 2025 02:57:43 -0400
+X-MC-Unique: _3v02MfLN7qMFArW9T0WmA-1
+X-Mimecast-MFC-AGG-ID: _3v02MfLN7qMFArW9T0WmA_1757141862
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-45dde353979so1323855e9.3
+        for <kasan-dev@googlegroups.com>; Fri, 05 Sep 2025 23:57:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV/ZLzAsUP+2zayJytBWy5BMmJBp757yUTeizLL5pX886mfMtMioVM9qdBa9c3y505lBXUd3FvQ/84=@googlegroups.com
+X-Gm-Gg: ASbGnctm97QIQ42n4fyLMy5kJVBlAsX5md37cOzAF/ObFHfoo4+iHg/DCjfCfWaJ/45
+	GK14t18kFmiYEmwBmrAPtMbPiayvI0YVvSHaeAdMWmE05yRIaNS9eBW2/4qApsDFDtropTwnpaX
+	wU5PlF/uG6q6f3N6B7aFxLK0iDUaeFKdcu8/S6eBkGUBt/oHrEoEC0ohR8hruld3gDhABHLPtJe
+	iFH+wdqaH/8oJ9dp1Zhob576r4Fv4wNUF046pBqS/ZBbsg3URAht0a3e25YRjPPTl9EhEudOZ1o
+	cWlyA5BENeavAQ4fIsldMw4GcVtZA7YWBbJ0gLmNs6ASJZ9sFW5hy0U47YGCF71fMx1WnEqu0zo
+	7zsduk3ARyQcyjJOF53dT5wrMoCvsWWZ3Ht8BX5OqxHnyZCYq/nzgoxjbWzKG0SXOv/k=
+X-Received: by 2002:a05:600c:a43:b0:45d:d944:e763 with SMTP id 5b1f17b1804b1-45dddef8abemr11582345e9.33.1757141861880;
+        Fri, 05 Sep 2025 23:57:41 -0700 (PDT)
+X-Received: by 2002:a05:600c:a43:b0:45d:d944:e763 with SMTP id 5b1f17b1804b1-45dddef8abemr11582145e9.33.1757141861401;
+        Fri, 05 Sep 2025 23:57:41 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f30:de00:8132:f6dc:cba2:9134? (p200300d82f30de008132f6dccba29134.dip0.t-ipconnect.de. [2003:d8:2f30:de00:8132:f6dc:cba2:9134])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3df4fd372ccsm11959114f8f.32.2025.09.05.23.56.49
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e740369f1esm87090f8f.11.2025.09.05.23.57.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Sep 2025 23:56:53 -0700 (PDT)
-Message-ID: <85e760cf-b994-40db-8d13-221feee55c60@redhat.com>
-Date: Sat, 6 Sep 2025 08:56:48 +0200
+        Fri, 05 Sep 2025 23:57:40 -0700 (PDT)
+Message-ID: <64fe4c61-f9cc-4a5a-9c33-07bd0f089e94@redhat.com>
+Date: Sat, 6 Sep 2025 08:57:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 19/37] mm/gup: remove record_subpages()
-To: John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org
-Cc: Alexander Potapenko <glider@google.com>,
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
  Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
  dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  iommu@lists.linux.dev, io-uring@vger.kernel.org,
  Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
- Johannes Weiner <hannes@cmpxchg.org>, kasan-dev@googlegroups.com,
- kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
+ kasan-dev@googlegroups.com, kvm@vger.kernel.org,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
  Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
  linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
  linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
@@ -160,7 +160,7 @@ Cc: Alexander Potapenko <glider@google.com>,
  Zi Yan <ziy@nvidia.com>
 References: <20250901150359.867252-1-david@redhat.com>
  <20250901150359.867252-20-david@redhat.com>
- <016307ba-427d-4646-8e4d-1ffefd2c1968@nvidia.com>
+ <5090355d-546a-4d06-99e1-064354d156b5@redhat.com> <20250905230006.GA1776@sol>
 From: "'David Hildenbrand' via kasan-dev" <kasan-dev@googlegroups.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -206,17 +206,17 @@ Autocrypt: addr=david@redhat.com; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <016307ba-427d-4646-8e4d-1ffefd2c1968@nvidia.com>
+In-Reply-To: <20250905230006.GA1776@sol>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: WKSDzdbe1WDwzAMqSVGEMt-6kWWFZqh32jT7o9sBUv4_1757141819
+X-Mimecast-MFC-PROC-ID: xyYe2Jcrrjr4VBZT1WnoIkA8ZLnUUHf43NVZNAS9hhw_1757141862
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 X-Original-Sender: david@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=XZrKF99G;
+ header.i=@redhat.com header.s=mimecast20190719 header.b=IFSh2Efd;
        spf=pass (google.com: domain of david@redhat.com designates
- 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+ 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
 X-Original-From: David Hildenbrand <david@redhat.com>
 Reply-To: David Hildenbrand <david@redhat.com>
@@ -232,347 +232,114 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 06.09.25 03:05, John Hubbard wrote:
-> On 9/1/25 8:03 AM, David Hildenbrand wrote:
->> We can just cleanup the code by calculating the #refs earlier,
->> so we can just inline what remains of record_subpages().
+On 06.09.25 01:00, Eric Biggers wrote:
+> On Fri, Sep 05, 2025 at 08:41:23AM +0200, David Hildenbrand wrote:
+>> On 01.09.25 17:03, David Hildenbrand wrote:
+>>> We can just cleanup the code by calculating the #refs earlier,
+>>> so we can just inline what remains of record_subpages().
+>>>
+>>> Calculate the number of references/pages ahead of times, and record them
+>>> only once all our tests passed.
+>>>
+>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>> ---
+>>>    mm/gup.c | 25 ++++++++-----------------
+>>>    1 file changed, 8 insertions(+), 17 deletions(-)
+>>>
+>>> diff --git a/mm/gup.c b/mm/gup.c
+>>> index c10cd969c1a3b..f0f4d1a68e094 100644
+>>> --- a/mm/gup.c
+>>> +++ b/mm/gup.c
+>>> @@ -484,19 +484,6 @@ static inline void mm_set_has_pinned_flag(struct mm_struct *mm)
+>>>    #ifdef CONFIG_MMU
+>>>    #ifdef CONFIG_HAVE_GUP_FAST
+>>> -static int record_subpages(struct page *page, unsigned long sz,
+>>> -			   unsigned long addr, unsigned long end,
+>>> -			   struct page **pages)
+>>> -{
+>>> -	int nr;
+>>> -
+>>> -	page += (addr & (sz - 1)) >> PAGE_SHIFT;
+>>> -	for (nr = 0; addr != end; nr++, addr += PAGE_SIZE)
+>>> -		pages[nr] = page++;
+>>> -
+>>> -	return nr;
+>>> -}
+>>> -
+>>>    /**
+>>>     * try_grab_folio_fast() - Attempt to get or pin a folio in fast path.
+>>>     * @page:  pointer to page to be grabbed
+>>> @@ -2967,8 +2954,8 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
+>>>    	if (pmd_special(orig))
+>>>    		return 0;
+>>> -	page = pmd_page(orig);
+>>> -	refs = record_subpages(page, PMD_SIZE, addr, end, pages + *nr);
+>>> +	refs = (end - addr) >> PAGE_SHIFT;
+>>> +	page = pmd_page(orig) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
+>>>    	folio = try_grab_folio_fast(page, refs, flags);
+>>>    	if (!folio)
+>>> @@ -2989,6 +2976,8 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
+>>>    	}
+>>>    	*nr += refs;
+>>> +	for (; refs; refs--)
+>>> +		*(pages++) = page++;
+>>>    	folio_set_referenced(folio);
+>>>    	return 1;
+>>>    }
+>>> @@ -3007,8 +2996,8 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
+>>>    	if (pud_special(orig))
+>>>    		return 0;
+>>> -	page = pud_page(orig);
+>>> -	refs = record_subpages(page, PUD_SIZE, addr, end, pages + *nr);
+>>> +	refs = (end - addr) >> PAGE_SHIFT;
+>>> +	page = pud_page(orig) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
+>>>    	folio = try_grab_folio_fast(page, refs, flags);
+>>>    	if (!folio)
+>>> @@ -3030,6 +3019,8 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
+>>>    	}
+>>>    	*nr += refs;
+>>> +	for (; refs; refs--)
+>>> +		*(pages++) = page++;
+>>>    	folio_set_referenced(folio);
+>>>    	return 1;
+>>>    }
 >>
->> Calculate the number of references/pages ahead of times, and record them
->> only once all our tests passed.
+>> Okay, this code is nasty. We should rework this code to just return the nr and receive a the proper
+>> pages pointer, getting rid of the "*nr" parameter.
 >>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>   mm/gup.c | 25 ++++++++-----------------
->>   1 file changed, 8 insertions(+), 17 deletions(-)
+>> For the time being, the following should do the trick:
+>>
+>> commit bfd07c995814354f6b66c5b6a72e96a7aa9fb73b (HEAD -> nth_page)
+>> Author: David Hildenbrand <david@redhat.com>
+>> Date:   Fri Sep 5 08:38:43 2025 +0200
+>>
+>>      fixup: mm/gup: remove record_subpages()
+>>      pages is not adjusted by the caller, but idnexed by existing *nr.
+>>      Signed-off-by: David Hildenbrand <david@redhat.com>
 >>
 >> diff --git a/mm/gup.c b/mm/gup.c
->> index c10cd969c1a3b..f0f4d1a68e094 100644
+>> index 010fe56f6e132..22420f2069ee1 100644
 >> --- a/mm/gup.c
 >> +++ b/mm/gup.c
->> @@ -484,19 +484,6 @@ static inline void mm_set_has_pinned_flag(struct mm_struct *mm)
->>   #ifdef CONFIG_MMU
->>   
->>   #ifdef CONFIG_HAVE_GUP_FAST
->> -static int record_subpages(struct page *page, unsigned long sz,
->> -			   unsigned long addr, unsigned long end,
->> -			   struct page **pages)
->> -{
->> -	int nr;
->> -
->> -	page += (addr & (sz - 1)) >> PAGE_SHIFT;
->> -	for (nr = 0; addr != end; nr++, addr += PAGE_SIZE)
->> -		pages[nr] = page++;
->> -
->> -	return nr;
->> -}
->> -
->>   /**
->>    * try_grab_folio_fast() - Attempt to get or pin a folio in fast path.
->>    * @page:  pointer to page to be grabbed
->> @@ -2967,8 +2954,8 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
->>   	if (pmd_special(orig))
->>   		return 0;
->>   
->> -	page = pmd_page(orig);
->> -	refs = record_subpages(page, PMD_SIZE, addr, end, pages + *nr);
->> +	refs = (end - addr) >> PAGE_SHIFT;
->> +	page = pmd_page(orig) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
->>   
->>   	folio = try_grab_folio_fast(page, refs, flags);
->>   	if (!folio)
->> @@ -2989,6 +2976,8 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
->>   	}
->>   
->>   	*nr += refs;
->> +	for (; refs; refs--)
->> +		*(pages++) = page++;
->>   	folio_set_referenced(folio);
->>   	return 1;
->>   }
->> @@ -3007,8 +2996,8 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
->>   	if (pud_special(orig))
->>   		return 0;
->>   
->> -	page = pud_page(orig);
->> -	refs = record_subpages(page, PUD_SIZE, addr, end, pages + *nr);
->> +	refs = (end - addr) >> PAGE_SHIFT;
->> +	page = pud_page(orig) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
->>   
->>   	folio = try_grab_folio_fast(page, refs, flags);
->>   	if (!folio)
->> @@ -3030,6 +3019,8 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
->>   	}
->>   
->>   	*nr += refs;
->> +	for (; refs; refs--)
->> +		*(pages++) = page++;
+>> @@ -2981,6 +2981,7 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
+>>                  return 0;
+>>          }
+>> +       pages += *nr;
+>>          *nr += refs;
+>>          for (; refs; refs--)
+>>                  *(pages++) = page++;
+>> @@ -3024,6 +3025,7 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
+>>                  return 0;
+>>          }
+>> +       pages += *nr;
+>>          *nr += refs;
+>>          for (; refs; refs--)
+>>                  *(pages++) = page++;
 > 
-> Hi David,
+> Can this get folded in soon?  This bug is causing crashes in AF_ALG too.
 
-Hi!
-
-> 
-> Probably a similar sentiment as Lorenzo here...the above diffs make the code
-> *worse* to read. In fact, I recall adding record_subpages() here long ago,
-> specifically to help clarify what was going on.
-
-Well, there is a lot I dislike about record_subpages() to go back there.
-Starting with "as Willy keeps explaining, the concept of subpages do
-not exist and ending with "why do we fill out the array even on failure".
-
-:)
-
-> 
-> Now it's been returned to it's original, cryptic form.
-> 
-
-The code in the caller was so uncryptic that both me and Lorenzo missed
-that magical addition. :P
-
-> Just my take on it, for whatever that's worth. :)
-
-As always, appreciated.
-
-I could of course keep the simple loop in some "record_folio_pages"
-function and clean up what I dislike about record_subpages().
-
-But I much rather want the call chain to be cleaned up instead, if possible.
-
-
-Roughly, what I am thinking (limiting it to pte+pmd case) about is the following:
-
-
- From d6d6d21dbf435d8030782a627175e36e6c7b2dfb Mon Sep 17 00:00:00 2001
-From: David Hildenbrand <david@redhat.com>
-Date: Sat, 6 Sep 2025 08:33:42 +0200
-Subject: [PATCH] tmp
-
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
-  mm/gup.c | 79 ++++++++++++++++++++++++++------------------------------
-  1 file changed, 36 insertions(+), 43 deletions(-)
-
-diff --git a/mm/gup.c b/mm/gup.c
-index 22420f2069ee1..98907ead749c0 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -2845,12 +2845,11 @@ static void __maybe_unused gup_fast_undo_dev_pagemap(int *nr, int nr_start,
-   * also check pmd here to make sure pmd doesn't change (corresponds to
-   * pmdp_collapse_flush() in the THP collapse code path).
-   */
--static int gup_fast_pte_range(pmd_t pmd, pmd_t *pmdp, unsigned long addr,
--		unsigned long end, unsigned int flags, struct page **pages,
--		int *nr)
-+static unsigned long gup_fast_pte_range(pmd_t pmd, pmd_t *pmdp, unsigned long addr,
-+		unsigned long end, unsigned int flags, struct page **pages)
-  {
-  	struct dev_pagemap *pgmap = NULL;
--	int ret = 0;
-+	unsigned long nr_pages = 0;
-  	pte_t *ptep, *ptem;
-  
-  	ptem = ptep = pte_offset_map(&pmd, addr);
-@@ -2908,24 +2907,20 @@ static int gup_fast_pte_range(pmd_t pmd, pmd_t *pmdp, unsigned long addr,
-  		 * details.
-  		 */
-  		if (flags & FOLL_PIN) {
--			ret = arch_make_folio_accessible(folio);
--			if (ret) {
-+			if (arch_make_folio_accessible(folio)) {
-  				gup_put_folio(folio, 1, flags);
-  				goto pte_unmap;
-  			}
-  		}
-  		folio_set_referenced(folio);
--		pages[*nr] = page;
--		(*nr)++;
-+		pages[nr_pages++] = page;
-  	} while (ptep++, addr += PAGE_SIZE, addr != end);
-  
--	ret = 1;
--
-  pte_unmap:
-  	if (pgmap)
-  		put_dev_pagemap(pgmap);
-  	pte_unmap(ptem);
--	return ret;
-+	return nr_pages;
-  }
-  #else
-  
-@@ -2938,21 +2933,24 @@ static int gup_fast_pte_range(pmd_t pmd, pmd_t *pmdp, unsigned long addr,
-   * get_user_pages_fast_only implementation that can pin pages. Thus it's still
-   * useful to have gup_fast_pmd_leaf even if we can't operate on ptes.
-   */
--static int gup_fast_pte_range(pmd_t pmd, pmd_t *pmdp, unsigned long addr,
--		unsigned long end, unsigned int flags, struct page **pages,
--		int *nr)
-+static unsigned long gup_fast_pte_range(pmd_t pmd, pmd_t *pmdp, unsigned long addr,
-+		unsigned long end, unsigned int flags, struct page **pages)
-  {
-  	return 0;
-  }
-  #endif /* CONFIG_ARCH_HAS_PTE_SPECIAL */
-  
--static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
--		unsigned long end, unsigned int flags, struct page **pages,
--		int *nr)
-+static unsigned long gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
-+		unsigned long end, unsigned int flags, struct page **pages)
-  {
-+	const unsigned long nr_pages = (end - addr) >> PAGE_SHIFT;
-  	struct page *page;
-  	struct folio *folio;
--	int refs;
-+	unsigned long i;
-+
-+	/* See gup_fast_pte_range() */
-+	if (pmd_protnone(orig))
-+		return 0;
-  
-  	if (!pmd_access_permitted(orig, flags & FOLL_WRITE))
-  		return 0;
-@@ -2960,33 +2958,30 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
-  	if (pmd_special(orig))
-  		return 0;
-  
--	refs = (end - addr) >> PAGE_SHIFT;
-  	page = pmd_page(orig) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
-  
--	folio = try_grab_folio_fast(page, refs, flags);
-+	folio = try_grab_folio_fast(page, nr_pages, flags);
-  	if (!folio)
-  		return 0;
-  
-  	if (unlikely(pmd_val(orig) != pmd_val(*pmdp))) {
--		gup_put_folio(folio, refs, flags);
-+		gup_put_folio(folio, nr_pages, flags);
-  		return 0;
-  	}
-  
-  	if (!gup_fast_folio_allowed(folio, flags)) {
--		gup_put_folio(folio, refs, flags);
-+		gup_put_folio(folio, nr_pages, flags);
-  		return 0;
-  	}
-  	if (!pmd_write(orig) && gup_must_unshare(NULL, flags, &folio->page)) {
--		gup_put_folio(folio, refs, flags);
-+		gup_put_folio(folio, nr_pages, flags);
-  		return 0;
-  	}
-  
--	pages += *nr;
--	*nr += refs;
--	for (; refs; refs--)
-+	for (i = 0; i < nr_pages; i++)
-  		*(pages++) = page++;
-  	folio_set_referenced(folio);
--	return 1;
-+	return nr_pages;
-  }
-  
-  static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
-@@ -3033,11 +3028,11 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
-  	return 1;
-  }
-  
--static int gup_fast_pmd_range(pud_t *pudp, pud_t pud, unsigned long addr,
--		unsigned long end, unsigned int flags, struct page **pages,
--		int *nr)
-+static unsigned long gup_fast_pmd_range(pud_t *pudp, pud_t pud, unsigned long addr,
-+		unsigned long end, unsigned int flags, struct page **pages)
-  {
--	unsigned long next;
-+	unsigned long cur_nr_pages, next;
-+	unsigned long nr_pages = 0;
-  	pmd_t *pmdp;
-  
-  	pmdp = pmd_offset_lockless(pudp, pud, addr);
-@@ -3046,23 +3041,21 @@ static int gup_fast_pmd_range(pud_t *pudp, pud_t pud, unsigned long addr,
-  
-  		next = pmd_addr_end(addr, end);
-  		if (!pmd_present(pmd))
--			return 0;
-+			break;
-  
--		if (unlikely(pmd_leaf(pmd))) {
--			/* See gup_fast_pte_range() */
--			if (pmd_protnone(pmd))
--				return 0;
-+		if (unlikely(pmd_leaf(pmd)))
-+			cur_nr_pages = gup_fast_pmd_leaf(pmd, pmdp, addr, next, flags, pages);
-+		else
-+			cur_nr_pages = gup_fast_pte_range(pmd, pmdp, addr, next, flags, pages);
-  
--			if (!gup_fast_pmd_leaf(pmd, pmdp, addr, next, flags,
--				pages, nr))
--				return 0;
-+		nr_pages += cur_nr_pages;
-+		pages += cur_nr_pages;
-  
--		} else if (!gup_fast_pte_range(pmd, pmdp, addr, next, flags,
--					       pages, nr))
--			return 0;
-+		if (nr_pages != (next - addr) >> PAGE_SIZE)
-+			break;
-  	} while (pmdp++, addr = next, addr != end);
-  
--	return 1;
-+	return nr_pages;
-  }
-  
-  static int gup_fast_pud_range(p4d_t *p4dp, p4d_t p4d, unsigned long addr,
--- 
-2.50.1
-
-
-
-Oh, I might even have found a bug moving away from that questionable
-"ret==1 means success" handling in gup_fast_pte_range()? Will
-have to double-check, but likely the following is the right thing to do.
-
-
-
- From 8f48b25ef93e7ef98611fd58ec89384ad5171782 Mon Sep 17 00:00:00 2001
-From: David Hildenbrand <david@redhat.com>
-Date: Sat, 6 Sep 2025 08:46:45 +0200
-Subject: [PATCH] mm/gup: fix handling of errors from
-  arch_make_folio_accessible() in follow_page_pte()
-
-In case we call arch_make_folio_accessible() and it fails, we would
-incorrectly return a value that is "!= 0" to the caller, indicating that
-we pinned all requested pages and that the caller can keep going.
-
-follow_page_pte() is not supposed to return error values, but instead
-0 on failure and 1 on success.
-
-That is of course wrong, because the caller will just keep going pinning
-more pages. If we happen to pin a page afterwards, we're in trouble,
-because we essentially skipped some pages.
-
-Fixes: f28d43636d6f ("mm/gup/writeback: add callbacks for inaccessible pages")
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
-  mm/gup.c | 3 +--
-  1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/mm/gup.c b/mm/gup.c
-index 22420f2069ee1..cff226ec0ee7d 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -2908,8 +2908,7 @@ static int gup_fast_pte_range(pmd_t pmd, pmd_t *pmdp, unsigned long addr,
-  		 * details.
-  		 */
-  		if (flags & FOLL_PIN) {
--			ret = arch_make_folio_accessible(folio);
--			if (ret) {
-+			if (arch_make_folio_accessible(folio)) {
-  				gup_put_folio(folio, 1, flags);
-  				goto pte_unmap;
-  			}
--- 
-2.50.1
-
+Andrew immediately dropped the original patch, so it's gone from 
+mm-unstable and should be gone from next soon (today?).
 
 -- 
 Cheers
@@ -582,4 +349,4 @@ David / dhildenb
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/85e760cf-b994-40db-8d13-221feee55c60%40redhat.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/64fe4c61-f9cc-4a5a-9c33-07bd0f089e94%40redhat.com.
