@@ -1,222 +1,169 @@
-Return-Path: <kasan-dev+bncBCVZXJXP4MDBB3GL77CQMGQEOFICHCY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRBH6N77CQMGQEQTPYSJQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43c.google.com (mail-pf1-x43c.google.com [IPv6:2607:f8b0:4864:20::43c])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3B03B4A548
-	for <lists+kasan-dev@lfdr.de>; Tue,  9 Sep 2025 10:31:42 +0200 (CEST)
-Received: by mail-pf1-x43c.google.com with SMTP id d2e1a72fcca58-7725c995dd0sf5416957b3a.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 09 Sep 2025 01:31:42 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1757406701; cv=pass;
+Received: from mail-wr1-x43e.google.com (mail-wr1-x43e.google.com [IPv6:2a00:1450:4864:20::43e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 938F2B4A560
+	for <lists+kasan-dev@lfdr.de>; Tue,  9 Sep 2025 10:34:41 +0200 (CEST)
+Received: by mail-wr1-x43e.google.com with SMTP id ffacd0b85a97d-3e3f8616125sf2488520f8f.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 09 Sep 2025 01:34:41 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1757406881; cv=pass;
         d=google.com; s=arc-20240605;
-        b=YeWGnYznHBkbryf25eEh6MoGSGG4BzQbbHv/tuAbEU3o+S6cwQlnu0MAMl0IxiNIXz
-         XfNQABb5WDVWowoK3RswpmQOhF9+DF9KCJDC6waQutGd7s5iJHbBw6Us+KutgtQnluc7
-         jwk9O4Sedh5QXeYVkJvWJUlz/7EiiUYA2v2eBHUasXVR4tGfBfPK/9kQlLmS6KlWriTG
-         QEdniOCLA22hWMZi80nLADKri3X0vCOU0nStbRsGcRb2+TzBjYyqPxBGseT1UUZi8GqP
-         5vtqukzLgfkxrs+yDOog7sWBJW5THPKQI6mWxmRcpX7M1WVi1H/bbnRH8Z3Y/4CJMeBD
-         Sbzg==
+        b=ZqjkcabK8fXEqyA1dqAJ7jeBlJVJILRysOiD0AXPsm5MuMYM7hy6ACwlPYSupAbopk
+         h1XHu32JT9CcJyCevwzPAoPHr7yBuXyNpgLhPtATu1Xru8jhtCHuSCFxTvjmGxhsa4f0
+         IQqS0ec7wD6ZLkO/xwYSWHjesP+mqcVzYc9HX17wmQxvyL8cQcxAiRk05YxGsHlSu7kk
+         5KYGCl0Zr32ZxLMatLzfEV7tsjiS/NgxvCgul0Ozi79VLta5+jJZt+C5OQ6HTvVg0W1b
+         bM6TmDTOWiVF/vsvsB/3MlnI0TQiE9DsgUdFRY/es6L3vaKYmrRiyK64NYeLyTcwEA/u
+         ++hQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:dkim-signature;
-        bh=36VseVrP62pq3bLwPrrsE6eH6yczJ7n3xFjlDLnqxGE=;
-        fh=JHLk0ja9v2Ii0EqThx/FsPuw0LMNkTkh3sqm1qoWRzw=;
-        b=X5+Syox4KVAQN87PRdxCJoultQ/Nlm2EJIf1wv8lL6b2kyTuxOdyNgUrT6isFK/cEt
-         jjTSAILyk/+DJT5xgQvsfyv3sFZI1t/7Sira7RDyiIfJkF4qokGY5oAqg2mCzu+UiCn6
-         QEfIkteZxuTI5ZxZEPpMY9Czyo3fDaj0xMAurGGrUlJk81bMDh03JFBfuj7QPdN0073Z
-         23HA0iPyEcTNJIyPYjVQpLXN80s7DJly7moXiurbY5vk/gdAl9TtwcFfPu8iP9voAY3f
-         dRCiF+nnbbiWQEhGzyeLC3S8cT33aw6sATG1Mv5f1eVqmG+41u+K3RfAGLhNYMy5sn+K
-         tAUg==;
+         :list-id:mailing-list:precedence:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=55OUyL1RaJwPbLre0ss21gZCreUniPCQS/S8nGdeYP8=;
+        fh=SljlPjELQgjXTXUFcoaQlxrqhJyQ7kUQUCFKx5AOBnk=;
+        b=LZniucR+c4uUxH37ILeE3sM3bxeNHpaY8Nx1B+YBiUJ+PwtVCKVyuJ0KCORFJyHWcB
+         27i0ZKAEdAy3e3uh9XwbXbf/JEMAgX/1dj55aoUVNHseTxqS90WcjRmuO0Z38ercRUOR
+         lzR7/02TqxeOyD48A8l9s8Z497BmoezoXkrZFsN0obYBHFtNPUya/FBwYuKO90IX8Fnx
+         gS0H1uHAXE5PL4MH4aHZ4Nb63HprvwJXI476vrYZrif+5I2sJlPyn58VjKZOiVT+zhga
+         Kr49OgrExLOaK3I6xZTO3HOZVkUAFrIFY60LYTSmF9pqAwr7HOtogjVk4pDZjyUjaTQ1
+         Z8Uw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=MyRChXSO;
-       spf=pass (google.com: domain of agordeev@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=agordeev@linux.ibm.com;
-       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=AkETeRDs;
+       spf=none (google.com: peterz@infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1757406701; x=1758011501; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1757406881; x=1758011681; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :x-original-authentication-results:x-original-sender:in-reply-to
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-transfer-encoding
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=36VseVrP62pq3bLwPrrsE6eH6yczJ7n3xFjlDLnqxGE=;
-        b=m2gc0nvoxEQGG9Lhl77VBq+F3+n2WWAjf4AkyrqC3XXJQ3aWkQuafMyIeLuValUR+U
-         SJl7Nrwh+juF28NUQWms1NjJyV0Cvm6rS1PRQH9pZAPkZAkZpMSRUu8hYY++NrBwWQp1
-         D1fh74wb0W3b1uwG0DMTjHzRTBzCN232Ler2xFWN/IhbGr3zKqzxudueU3+5VfIliabZ
-         HUu4dukToC7vXKRspEj7Uw8tGSP2hTwf7/7ZwwNhhlVTxSX6CLsGX6qYPwlOgkZ7U0kM
-         zHbs6huXDNgu3mFjzMGTh5CQGlVPUeNdHj1Xr+yDOHWYtdI559OgFCkuAlILlJSrW+Xs
-         6FLA==
+        bh=55OUyL1RaJwPbLre0ss21gZCreUniPCQS/S8nGdeYP8=;
+        b=KnMtgDOlrEjUAQbgtAp685zGlH+YkbiRQUbrtYBcrMr60xsjETq2KD8SM/+De8kjRs
+         pQj2TrOHNmLZWJTCtPHkSwYNHu+dfaLO3vbLN5ijbDuezCrUdv2Fi3XXwQoJJPBLwLJt
+         /pAggGvwJ4iVuj8KxrqvHRHhiYhgsmCJOEpnvb1X+DcYzhW4dzVcNaLKYZvlsXkL/P9N
+         +UvAE2kBOA+rokFbB3nN+0qF6rH9LpPW1z8PGUAJajdRjVdBL+2eSJPqbN28hUWJopPs
+         51DPv0dAWC3GngJQuilf+4QAULSX7PQxlGer+Fxov4GN3SnOz1Nm74qobAoWHHrMEfA6
+         KwZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757406701; x=1758011501;
+        d=1e100.net; s=20230601; t=1757406881; x=1758011681;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :content-transfer-encoding:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:x-beenthere
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=36VseVrP62pq3bLwPrrsE6eH6yczJ7n3xFjlDLnqxGE=;
-        b=bK4ctsdl0LLBJoLkguj61CbL2acHso79BN7EmfzKUqNm7wUfiXcGTE12yrfzC3f3Ms
-         81x6rVMNumQi4P/Przur++lQv0ULeZ+ZOqvDy4OATJtPQpLGHjeRSwtb9aF+kEN8aYN2
-         7N9ievf9JLfLcgUIf0MnLQa7EOPKZ1Pi2XIlESJuQh5SLaIvfEjW5HfUzRKhob4b5VM3
-         OzV2VS0SVe5ZTos1eD6Zjb+AbrV6q3ei2HUrhWSnPPzten9JLsvNVwx5nRPcTRxKdmtU
-         Jcp4zD+G62M2Orh+OvQqVOIF+Enh5eH3AKbIEnBNSztusaIiMCyw38m/Q6FXV4I30coj
-         x8gA==
+        bh=55OUyL1RaJwPbLre0ss21gZCreUniPCQS/S8nGdeYP8=;
+        b=EV4jqcPZH2fAT6YsswkV1wJtHuKnm0hUPGeIKw2B9ZqCY5/9b3dtu0FLr0JFaSBZMm
+         7rHxcPqwePPIAaiGaXlrzpFkV66FyxFMNVbPq0wQOFyDKr9Vwm89texdq7k/0B4Eropt
+         /S3ZwUTMkTkVPkwqEo8hUndXZ2Iu6O4TzjlW5PVXPd4zfMJHYrvQe0BplPtaeOcDbGiZ
+         E0VN+ok5mrR6pw8IUtm6d+WZ0KQx+Hr417Vm9SJV9AkbwUpHfxQ4HVATK33FWM3KYJHa
+         gKdhG3Zssc5xzPpgN8RYySivogR4USpfj3ZOCr4wvCSS5P7A1e14o268iVlWcs3hAJJM
+         l9xg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCU2X79L/Kfdkj4MxYNdMilBa+1IHNnaNs4Z4x9knrl9lcbX/YqZoVrwtAix/PkxjhJk7KKRfA==@lfdr.de
-X-Gm-Message-State: AOJu0Ywc8169lnEco0xjL3U9aRUBSKEODyx/u/WSqyPIQDvOgPESwCf3
-	cQhl5KxlZHyNySsf3Ij6mH5YJhbGFAGCs0c9Oc0+CNRJaMeDFWr8xRT9
-X-Google-Smtp-Source: AGHT+IE6W40z4BS5iclWL3PjCg2Udn5pWu+5TRkuivIs2ffJRRwJez37nCNUbw2QB+HJHcHGIEjHlQ==
-X-Received: by 2002:a05:6a00:c8c:b0:772:5487:c35a with SMTP id d2e1a72fcca58-7742dcd7050mr14720577b3a.14.1757406701064;
-        Tue, 09 Sep 2025 01:31:41 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdIqUh6vQzab9DvTPN03MjhRyzTCeggdbCrMOH6Fyztqg==
-Received: by 2002:a05:6a00:f86:b0:772:437d:60ca with SMTP id
- d2e1a72fcca58-7741eeff3e0ls4007178b3a.0.-pod-prod-01-us; Tue, 09 Sep 2025
- 01:31:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCW7SrfmoNA/L2J4U7RDYAXYs/Nph0QWh3/CzcJsY5EDlOEzFuD+Q7C3xvgCc6J+q2YmTNZAgKm3Q2I=@googlegroups.com
-X-Received: by 2002:a05:6a21:339b:b0:250:6e0:ab3d with SMTP id adf61e73a8af0-2533e18c848mr16856439637.8.1757406699298;
-        Tue, 09 Sep 2025 01:31:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1757406699; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCXwgHdtzTe24Tnapqd4jcXTShs9pjfnPsQ5j3baSqYqC4CMR75jg42mHNVHqcln2hN1rjTsWA==@lfdr.de
+X-Gm-Message-State: AOJu0YxCF9P4R7mxhlFP0vGMp5NDzYC6sbY3jIRKANdrK52SC6PflUeZ
+	sBMgUdp9u6Kh8cnUSdf9RVe3VmtD8DvQo/vP1uL1REtp/4Uq9o1JYhOD
+X-Google-Smtp-Source: AGHT+IGYa1nk9Z/exHIW8pyVC1ykoqEW/06Bk3WVId/CnwP+hcYhOmqL+gl2Xg9/3g/W/1kCyf44Hg==
+X-Received: by 2002:a05:6000:40cc:b0:3e0:63dc:914f with SMTP id ffacd0b85a97d-3e2ffd7fc12mr13530768f8f.5.1757406880567;
+        Tue, 09 Sep 2025 01:34:40 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd6NGfZbL55ZG+euENV0KUXWhLyZjANZaypoahDz3M/iyw==
+Received: by 2002:adf:a407:0:b0:3cd:ba6b:8407 with SMTP id ffacd0b85a97d-3e0b802f614ls564473f8f.0.-pod-prod-00-eu-canary;
+ Tue, 09 Sep 2025 01:34:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUHI+FYS4IlpET50Z7awt4MgzfmGCI6Xx6NHy+FrYyv4o8agw0mowedl6V0aRusQi+jmqHeeQe7+dM=@googlegroups.com
+X-Received: by 2002:a05:6000:26cd:b0:3c6:c737:d39f with SMTP id ffacd0b85a97d-3e627a7c648mr10824572f8f.3.1757406877451;
+        Tue, 09 Sep 2025 01:34:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1757406877; cv=none;
         d=google.com; s=arc-20240605;
-        b=C/VsGeroZoYwYiKAFoxl8j+lXKJhN28MMODssELy4HvP4vpCvoLVycx3nkTQ6ZrzMC
-         gmIGj+O9VZ+r9gJbUdazOG1tA1K/iyF2MOym3UYHrrMmaCQP+25Tw/kTgYu4ix3JNic3
-         lsEmPIgEq2BfcuvFhoa+o9wNmnwHqvt4wmyDorz4mNxAE7vkWrg4qi/yzmCSrnFsthtf
-         MNTyaqC+6FfZh5IarRDv9HpY0LTmuoSxs1+6Mhos63ulvrN84Y7YW+3uM5rTH89d18Or
-         eVpS7lsS507kLdj2GjE7QS7xQuOPwfhnidSI5AWq0NkW9hnewN7WzXGlwggHh/upIqWr
-         Iltg==
+        b=QZmb5abxqwNFb7FJqlMzRyhGhv772+hoEdqaoGEjQFZY/JG9LTEJO4pjwbCAOdhiv2
+         e63eoyMxCGhOZvdGXxpe7DxTw4z7r8yiBFsR4s3BwYIvzSJuNiMz/FrmXJhGUSRJXj1Y
+         cjMdV1cneWhOTFTZ+EFevt5RnxUhdRn2Vy5xWxHev4lXkzyIiyJvcDf0EQAN+A2bu52G
+         lb7g/Mq91u4+DLUs7EuNGyUrwqEFon9EKzMw8FoIMhWtlSzgCdY6x43jA3i7+xZtTnPK
+         aeuIbgsqTdWnL3EegODarkHAhWRVeSvFogVrGV0d5LHhhWoJfdDw3L73WD//Lx2Wrvhk
+         ZnZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=XRGYRp9IpXgOlM6YrJRhvNTKdkbZq/NQnIfckf3EQjs=;
-        fh=Ij5oADESTW4IVY1YwadtFENfJwkg4a2jmN+e8QXfrDc=;
-        b=cd/xwMcR8IPaK9g6YoQ4APIPc1F62hVbgh/MYupidVEJKAXz4Gzq/FskUgtb1zp+O0
-         BipMKaiMCZ2JbncuX6CGvb0v4SEvIHFIVE5OBL6VbEo1ZT44CHrbr2982M7/+eNM/lz0
-         Cb/nSIrdlQAEJmSass8uovxd5LHWrk4V8gT1jUEJ8wag8c0fWZu1W4rpk3X9T2tNnRU/
-         Pq7Wj6n7r+LNh+D34E7n8OhfSOxyIqBT/AQMvyUK3e/C3b4Ki7EtHBMgi31hVBn3EMcX
-         Kyde+WAN/N0+MzalLSTywGUsDv/zEemDCH14BpyjgRJ5FbxpQ99zaKmddMwovt0tIGrw
-         6HjA==;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=tUi9+YGmuLz8MduOv6pUfelR4HtcHzXR6NiGUZMk3E0=;
+        fh=6o9exbjceqOafs/JqE/dn63d3bNVOIy3yYCOlKb10pY=;
+        b=Fp8Z1gfmoJtDwVvDqblzfVBH2ADK/M/oLAGY3k6ISndou0u6t4BPfnmfjKSfZ4f/ZP
+         9riAVw/9q4RKsN4dXVp1NSLvqFVRs6MEh7Le/s1MY0aLiwSSzawezYE4NropgdE0HtgN
+         9P0pmfS2GfKipm2HC6EyOKteZzrd4pvCTYvtaiIhoijuSfirtG2FQu3vPsYzefXHO+4g
+         AemWI2b+9KR3vNQSJeYMbojsgPRtIZzf28rt9qqScvGepZ6I4kK44VkHdo8t+PWG/9Gx
+         OOd/yrVd94c0OV783eWhe0DElJG469+3e2KyX3cfL/cJuhBkCdk6kyw9o+SpMiqH1Qeb
+         VbEA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=MyRChXSO;
-       spf=pass (google.com: domain of agordeev@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=agordeev@linux.ibm.com;
-       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com. [148.163.158.5])
-        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-b4faa1812aasi605890a12.3.2025.09.09.01.31.39
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=AkETeRDs;
+       spf=none (google.com: peterz@infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
+Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3e75233b260si15822f8f.3.2025.09.09.01.34.37
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 09 Sep 2025 01:31:39 -0700 (PDT)
-Received-SPF: pass (google.com: domain of agordeev@linux.ibm.com designates 148.163.158.5 as permitted sender) client-ip=148.163.158.5;
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 588JcNWG009190;
-	Tue, 9 Sep 2025 08:31:34 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 490acqxe1c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 09 Sep 2025 08:31:33 +0000 (GMT)
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 5898Qk8A011618;
-	Tue, 9 Sep 2025 08:31:32 GMT
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 490acqxe14-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 09 Sep 2025 08:31:32 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5895lhMj011435;
-	Tue, 9 Sep 2025 08:31:31 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 490y9uacnj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 09 Sep 2025 08:31:31 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5898VSmY44564752
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 9 Sep 2025 08:31:28 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EA9D020043;
-	Tue,  9 Sep 2025 08:31:27 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8E9C720040;
-	Tue,  9 Sep 2025 08:31:25 +0000 (GMT)
-Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown [9.87.149.210])
-	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Tue,  9 Sep 2025 08:31:25 +0000 (GMT)
-Date: Tue, 9 Sep 2025 10:31:24 +0200
-From: Alexander Gordeev <agordeev@linux.ibm.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>,
-        Guo Ren <guoren@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>, Nicolas Pitre <nico@fluxnic.net>,
-        Muchun Song <muchun.song@linux.dev>,
-        Oscar Salvador <osalvador@suse.de>,
-        David Hildenbrand <david@redhat.com>,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        Hugh Dickins <hughd@google.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>, Jann Horn <jannh@google.com>,
-        Pedro Falcato <pfalcato@suse.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-csky@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-mm@kvack.org,
-        ntfs3@lists.linux.dev, kexec@lists.infradead.org,
-        kasan-dev@googlegroups.com, Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH 00/16] expand mmap_prepare functionality, port more users
-Message-ID: <4fbe6c51-69f4-455e-922f-acdc613108cb-agordeev@linux.ibm.com>
-References: <cover.1757329751.git.lorenzo.stoakes@oracle.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Sep 2025 01:34:37 -0700 (PDT)
+Received-SPF: none (google.com: peterz@infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uvto3-00000005FzH-2299;
+	Tue, 09 Sep 2025 08:34:27 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id D2142300579; Tue, 09 Sep 2025 10:34:25 +0200 (CEST)
+Date: Tue, 9 Sep 2025 10:34:25 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>, sohil.mehta@intel.com,
+	baohua@kernel.org, david@redhat.com, kbingham@kernel.org,
+	weixugc@google.com, Liam.Howlett@oracle.com,
+	alexandre.chartre@oracle.com, kas@kernel.org, mark.rutland@arm.com,
+	trintaeoitogc@gmail.com, axelrasmussen@google.com,
+	yuanchu@google.com, joey.gouly@arm.com, samitolvanen@google.com,
+	joel.granados@kernel.org, graf@amazon.com,
+	vincenzo.frascino@arm.com, kees@kernel.org, ardb@kernel.org,
+	thiago.bauermann@linaro.org, glider@google.com, thuth@redhat.com,
+	kuan-ying.lee@canonical.com, pasha.tatashin@soleen.com,
+	nick.desaulniers+lkml@gmail.com, vbabka@suse.cz,
+	kaleshsingh@google.com, justinstitt@google.com,
+	catalin.marinas@arm.com, alexander.shishkin@linux.intel.com,
+	samuel.holland@sifive.com, dave.hansen@linux.intel.com,
+	corbet@lwn.net, xin@zytor.com, dvyukov@google.com,
+	tglx@linutronix.de, scott@os.amperecomputing.com,
+	jason.andryuk@amd.com, morbo@google.com, nathan@kernel.org,
+	lorenzo.stoakes@oracle.com, mingo@redhat.com, brgerst@gmail.com,
+	kristina.martsenko@arm.com, bigeasy@linutronix.de, luto@kernel.org,
+	jgross@suse.com, jpoimboe@kernel.org, urezki@gmail.com,
+	mhocko@suse.com, ada.coupriediaz@arm.com, hpa@zytor.com,
+	leitao@debian.org, wangkefeng.wang@huawei.com, surenb@google.com,
+	ziy@nvidia.com, smostafa@google.com, ryabinin.a.a@gmail.com,
+	ubizjak@gmail.com, jbohac@suse.cz, broonie@kernel.org,
+	akpm@linux-foundation.org, guoweikang.kernel@gmail.com,
+	rppt@kernel.org, pcc@google.com, jan.kiszka@siemens.com,
+	nicolas.schier@linux.dev, will@kernel.org, jhubbard@nvidia.com,
+	bp@alien8.de, x86@kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, llvm@lists.linux.dev,
+	linux-kbuild@vger.kernel.org, kasan-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v5 13/19] kasan: x86: Handle int3 for inline KASAN reports
+Message-ID: <20250909083425.GH4067720@noisy.programming.kicks-ass.net>
+References: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
+ <36c0e5e9d875addc42a73168b8090144c327ec9f.1756151769.git.maciej.wieczor-retman@intel.com>
+ <CA+fCnZcMV0BOJyvx2nciCK2jvht-Hx0HnFtRzcc=zu+pQSOdVw@mail.gmail.com>
+ <couuy2aawztipvnlmaloadkbceewcekur5qbtzktr7ovneduvf@l47rxycy65aa>
+ <hw7xa2ooqeyjo5ypc5jluuyjlgyzimxtylj5sh6igyffsxtyaf@qajqp37h6v2n>
+ <epbqhjyfdt3daudp2wx54jsw6d7jf6ifbr3yknlfuqptz7b4uq@73n5k6b2jrrl>
+ <CA+fCnZdJckDC4AKYxLS1MLBXir4wWqNddrD0o+mY4MXt0CYhcQ@mail.gmail.com>
+ <ra5s3u5ha6mveijzwkoe2437ged5k5kacs5nqvkf4o7c2lcfzd@fishogqlatjb>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <cover.1757329751.git.lorenzo.stoakes@oracle.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 3deOkNqrfHdLIv9wcUPHlUetDtdvUQWz
-X-Authority-Analysis: v=2.4 cv=Mp1S63ae c=1 sm=1 tr=0 ts=68bfe5e5 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=kj9zAlcOel0A:10 a=yJojWOMRYYMA:10 a=rCdDL0ybDgsdDLvqgG0A:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: qA00adzFc2mr4mwvlzTl3c7SVFuwc24W
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAwMCBTYWx0ZWRfX9DH4SXGK5Ef2
- wejG4c7pX++RhbA1qSy6joL4Dc2oCsCOSPIhrBxt/QLkDiM3oF5S3fnf0a8rvaceAzUOg6WA1gQ
- Ir8I+yPvEyV1Im2S29dkEFwOqpdtLAPsWf2TTp0eyOgmPS+IVsDGdHQRHBjWiZ05r0xpu4su3dr
- m16Ho7NogpEOVcd3h6JEtyn5UfreBb3jlkItkjRqhI4JeeAIMcTnphkaB4l7pHKWbZxIqItt4g7
- VpspaOMhadlzbq6FrrwE54z2UGMx4eYQuRZiUQE2/EtFUQMQbKGs7KhlROQVEQLcoAhtD28WCFQ
- L6pd7Sw8hzkZH/lMoqL2zPGcZXWdwKNG36NITE6JE5TGdgh01ojrh+qdwWmxBmCjCCl7ztPlKTn
- wVjj1P8/
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-08_06,2025-09-08_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 clxscore=1011 phishscore=0 spamscore=0
- adultscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060000
-X-Original-Sender: agordeev@linux.ibm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ibm.com header.s=pp1 header.b=MyRChXSO;       spf=pass (google.com:
- domain of agordeev@linux.ibm.com designates 148.163.158.5 as permitted
- sender) smtp.mailfrom=agordeev@linux.ibm.com;       dmarc=pass (p=REJECT
- sp=NONE dis=NONE) header.from=ibm.com
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <ra5s3u5ha6mveijzwkoe2437ged5k5kacs5nqvkf4o7c2lcfzd@fishogqlatjb>
+X-Original-Sender: peterz@infradead.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@infradead.org header.s=desiato.20200630 header.b=AkETeRDs;
+       spf=none (google.com: peterz@infradead.org does not designate permitted
+ sender hosts) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -229,107 +176,65 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Sep 08, 2025 at 12:10:31PM +0100, Lorenzo Stoakes wrote:
+On Tue, Sep 09, 2025 at 10:24:22AM +0200, Maciej Wieczor-Retman wrote:
+> On 2025-09-08 at 22:19:05 +0200, Andrey Konovalov wrote:
+> >On Mon, Sep 8, 2025 at 3:09=E2=80=AFPM Maciej Wieczor-Retman
+> ><maciej.wieczor-retman@intel.com> wrote:
+> >>
+> >> >>I recall there were some corner cases where this code path got calle=
+d in outline
+> >> >>mode, didn't have a mismatch but still died due to the die() below. =
+But I'll
+> >> >>recheck and either apply what you wrote above or get add a better ex=
+planation
+> >> >>to the patch message.
+> >> >
+> >> >Okay, so the int3_selftest_ip() is causing a problem in outline mode.
+> >> >
+> >> >I tried disabling kasan with kasan_disable_current() but thinking of =
+it now it
+> >> >won't work because int3 handler will still be called and die() will h=
+appen.
+> >>
+> >> Sorry, I meant to write that kasan_disable_current() works together wi=
+th
+> >> if(!kasan_report()). Because without checking kasan_report()' return
+> >> value, if kasan is disabled through kasan_disable_current() it will ha=
+ve no
+> >> effect in both inline mode, and if int3 is called in outline mode - th=
+e
+> >> kasan_inline_handler will lead to die().
+> >
+> >So do I understand correctly, that we have no way to distinguish
+> >whether the int3 was inserted by the KASAN instrumentation or natively
+> >called (like in int3_selftest_ip())?
+> >
+> >If so, I think that we need to fix/change the compiler first so that
+> >we can distinguish these cases. And only then introduce
+> >kasan_inline_handler(). (Without kasan_inline_handler(), the outline
+> >instrumentation would then just work, right?)
+> >
+> >If we can distinguish them, then we should only call
+> >kasan_inline_handler() for the KASAN-inserted int3's. This is what we
+> >do on arm64 (via brk and KASAN_BRK_IMM). And then int3_selftest_ip()
+> >should not be affected.
+>=20
+> Looking at it again I suppose LLVM does pass a number along metadata to t=
+he
+> int3. I didn't notice because no other function checks anything in the x8=
+6 int3
+> handler, compared to how it's done on arm64 with brk.
+>=20
+> So right, thanks, after fixing it up it shouldn't affect the int3_selftes=
+t_ip().
 
-Hi Lorenzo,
-
-I am getting this warning with this series applied:
-
-[Tue Sep  9 10:25:34 2025] ------------[ cut here ]------------
-[Tue Sep  9 10:25:34 2025] WARNING: CPU: 0 PID: 563 at mm/memory.c:2942 rem=
-ap_pfn_range_internal+0x36e/0x420
-[Tue Sep  9 10:25:34 2025] Modules linked in: diag288_wdt(E) watchdog(E) gh=
-ash_s390(E) des_generic(E) prng(E) aes_s390(E) des_s390(E) libdes(E) sha3_5=
-12_s390(E) sha3_256_s390(E) sha_common(E) vfio_ccw(E) mdev(E) vfio_iommu_ty=
-pe1(E) vfio(E) pkey(E) autofs4(E) overlay(E) squashfs(E) loop(E)
-[Tue Sep  9 10:25:34 2025] Unloaded tainted modules: hmac_s390(E):1
-[Tue Sep  9 10:25:34 2025] CPU: 0 UID: 0 PID: 563 Comm: makedumpfile Tainte=
-d: G            E       6.17.0-rc4-gcc-mmap-00410-g87e982e900f0 #288 PREEMP=
-T=20
-[Tue Sep  9 10:25:34 2025] Tainted: [E]=3DUNSIGNED_MODULE
-[Tue Sep  9 10:25:34 2025] Hardware name: IBM 8561 T01 703 (LPAR)
-[Tue Sep  9 10:25:34 2025] Krnl PSW : 0704d00180000000 00007fffe07f5ef2 (re=
-map_pfn_range_internal+0x372/0x420)
-[Tue Sep  9 10:25:34 2025]            R:0 T:1 IO:1 EX:1 Key:0 M:1 W:0 P:0 A=
-S:3 CC:1 PM:0 RI:0 EA:3
-[Tue Sep  9 10:25:34 2025] Krnl GPRS: 0000000004044400 001c0f000188b024 000=
-0000000000000 001c0f000188b022
-[Tue Sep  9 10:25:34 2025]            000078000c458120 000078000a0ca800 000=
-00f000188b022 0000000000000711
-[Tue Sep  9 10:25:34 2025]            000003ffa6e05000 00000f000188b024 000=
-003ffa6a05000 0000000004044400
-[Tue Sep  9 10:25:34 2025]            000003ffa7aadfa8 00007fffe2c35ea0 001=
-c000000000000 00007f7fe0faf000
-[Tue Sep  9 10:25:34 2025] Krnl Code: 00007fffe07f5ee6: 47000700           =
-     bc      0,1792
-                                      00007fffe07f5eea: af000000           =
-     mc      0,0
-                                     #00007fffe07f5eee: af000000           =
-     mc      0,0
-                                     >00007fffe07f5ef2: a7f4ff11           =
-     brc     15,00007fffe07f5d14
-                                      00007fffe07f5ef6: b904002b           =
-     lgr     %r2,%r11
-                                      00007fffe07f5efa: c0e5000918bb    bra=
-sl   %r14,00007fffe0919070
-                                      00007fffe07f5f00: a7f4ff39           =
-     brc     15,00007fffe07f5d72
-                                      00007fffe07f5f04: e320f0c80004    lg =
-     %r2,200(%r15)
-[Tue Sep  9 10:25:34 2025] Call Trace:
-[Tue Sep  9 10:25:34 2025]  [<00007fffe07f5ef2>] remap_pfn_range_internal+0=
-x372/0x420=20
-[Tue Sep  9 10:25:34 2025]  [<00007fffe07f5fd4>] remap_pfn_range_complete+0=
-x34/0x70=20
-[Tue Sep  9 10:25:34 2025]  [<00007fffe019879e>] remap_oldmem_pfn_range+0x1=
-3e/0x1a0=20
-[Tue Sep  9 10:25:34 2025]  [<00007fffe0bd3550>] mmap_complete_vmcore+0x520=
-/0x7b0=20
-[Tue Sep  9 10:25:34 2025]  [<00007fffe077b05a>] __compat_vma_mmap_prepare+=
-0x3ea/0x550=20
-[Tue Sep  9 10:25:34 2025]  [<00007fffe0ba27f0>] pde_mmap+0x160/0x1a0=20
-[Tue Sep  9 10:25:34 2025]  [<00007fffe0ba3750>] proc_reg_mmap+0xd0/0x180=
-=20
-[Tue Sep  9 10:25:34 2025]  [<00007fffe0859904>] __mmap_new_vma+0x444/0x129=
-0=20
-[Tue Sep  9 10:25:34 2025]  [<00007fffe085b0b4>] __mmap_region+0x964/0x1090=
-=20
-[Tue Sep  9 10:25:34 2025]  [<00007fffe085dc7e>] mmap_region+0xde/0x250=20
-[Tue Sep  9 10:25:34 2025]  [<00007fffe08065fc>] do_mmap+0x80c/0xc30=20
-[Tue Sep  9 10:25:34 2025]  [<00007fffe077c708>] vm_mmap_pgoff+0x218/0x370=
-=20
-[Tue Sep  9 10:25:34 2025]  [<00007fffe080467e>] ksys_mmap_pgoff+0x2ee/0x40=
-0=20
-[Tue Sep  9 10:25:34 2025]  [<00007fffe0804a3a>] __s390x_sys_old_mmap+0x15a=
-/0x1d0=20
-[Tue Sep  9 10:25:34 2025]  [<00007fffe29f1cd6>] __do_syscall+0x146/0x410=
-=20
-[Tue Sep  9 10:25:34 2025]  [<00007fffe2a17e1e>] system_call+0x6e/0x90=20
-[Tue Sep  9 10:25:34 2025] 2 locks held by makedumpfile/563:
-[Tue Sep  9 10:25:34 2025]  #0: 000078000a0caab0 (&mm->mmap_lock){++++}-{3:=
-3}, at: vm_mmap_pgoff+0x16e/0x370
-[Tue Sep  9 10:25:34 2025]  #1: 00007fffe3864f50 (vmcore_cb_srcu){.+.+}-{0:=
-0}, at: mmap_complete_vmcore+0x20c/0x7b0
-[Tue Sep  9 10:25:34 2025] Last Breaking-Event-Address:
-[Tue Sep  9 10:25:34 2025]  [<00007fffe07f5d0e>] remap_pfn_range_internal+0=
-x18e/0x420
-[Tue Sep  9 10:25:34 2025] irq event stamp: 19113
-[Tue Sep  9 10:25:34 2025] hardirqs last  enabled at (19121): [<00007fffe03=
-91910>] __up_console_sem+0xe0/0x120
-[Tue Sep  9 10:25:34 2025] hardirqs last disabled at (19128): [<00007fffe03=
-918f2>] __up_console_sem+0xc2/0x120
-[Tue Sep  9 10:25:34 2025] softirqs last  enabled at (4934): [<00007fffe021=
-cb8e>] handle_softirqs+0x70e/0xed0
-[Tue Sep  9 10:25:34 2025] softirqs last disabled at (3919): [<00007fffe021=
-b670>] __irq_exit_rcu+0x2e0/0x380
-[Tue Sep  9 10:25:34 2025] ---[ end trace 0000000000000000 ]---
-
-Thanks!
+Seriously guys, stop using int3 for this. UBSAN uses UD1, why the heck
+would KASAN not do the same?
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/4=
-fbe6c51-69f4-455e-922f-acdc613108cb-agordeev%40linux.ibm.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
+0250909083425.GH4067720%40noisy.programming.kicks-ass.net.
