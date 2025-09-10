@@ -1,149 +1,252 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBVNLQXDAMGQEXUU6D2I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCN77QHK3UIBB5OPQXDAMGQEM6YRJZA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x38.google.com (mail-oa1-x38.google.com [IPv6:2001:4860:4864:20::38])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68FECB51427
-	for <lists+kasan-dev@lfdr.de>; Wed, 10 Sep 2025 12:41:27 +0200 (CEST)
-Received: by mail-oa1-x38.google.com with SMTP id 586e51a60fabf-31d65745a59sf6289429fac.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 10 Sep 2025 03:41:27 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1757500886; cv=pass;
+Received: from mail-pj1-x103b.google.com (mail-pj1-x103b.google.com [IPv6:2607:f8b0:4864:20::103b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 900EAB51643
+	for <lists+kasan-dev@lfdr.de>; Wed, 10 Sep 2025 13:58:47 +0200 (CEST)
+Received: by mail-pj1-x103b.google.com with SMTP id 98e67ed59e1d1-32b698861d8sf6651184a91.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 10 Sep 2025 04:58:47 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1757505526; cv=pass;
         d=google.com; s=arc-20240605;
-        b=P2rTnr2Aw+tZKotoMflvMJbCHVBEAkdogK4e8zy6IbZ+hwQyCGV7QekDV8ZK2IGE/R
-         +JVddXBolAyysWBolVz4Y4x/mwpcrDM+4vk3L79DkGVzJkN34oMgJpptmKYcmgzk3tfZ
-         D3n67qAsWjL4sBx+kmhzmKp59c3OhNv8/c+KZB1CzU3XHhIDxBUq2rnclBksPq8uO9OQ
-         NmqNawFPIk/sI53vKt939KQ+kVYjFvmBuJwn9POGE5HbP+ghTK74bNng5TRW0q5L0oa3
-         7/CS6wgOPOEoUPiGWQgaLaZ5lSiasTH7dGqA1PRourndZHNoPpEn2OOFaX+C7/JjWItN
-         prUg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        b=E7qPxZPApsVeMJJzix7UgA1oy2cAKQ4U1dHXg/+h6/mcG7KQjLT4euqjoYf0CVEX6d
+         oOJGrrZ2vvjAYqpJT3/qpCKtD5s692vt2aXvE95FOOYgn2FE2U0zYbg/aKCMn3+l19ub
+         g25md+Ku9a8O5n6mQ6zy4XN2tyLK6bdJzKL1j5PfLZwYYX9pdsqkxIowMH61wWOxMZ1L
+         IIf9W0sQEl6zYik5TgS81zpWf1SS/tytom9pfmgeCcO11PnLjGZzHZqyX6PmkhZHhK9h
+         KOLTr+LK9lDxOEK9JD6ceQjBnpDp0LPkDsBnWVOmgil3pA1R1rfspApihSfPbiRtN5HN
+         DIgw==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=W8+PXeKd9NXCU3qtyfOGNnBFajSJafpOmblptLwvL38=;
-        fh=8/jV6IWxk4x/8k493ol8DCP1zvsIF+x+V53dzgl2cF0=;
-        b=jqXq+H7Y348HcEN/XeK22/6kzZv0S4u/HzToyYZlj3YP+Rew3ovvWXNFPgDlLvHgAP
-         3uduiouRwPQUkbNsMIG6cB7+t031I2vGOCEvyw9MfGE4THseXMN5EXDVjRVsJtJML5Ej
-         eiCSteeRVvuynIde3YqTuTv7dHsZDAMJX1BBw0V5kcmBBuG0kqtzj5IH0Vgi7+Am1D8j
-         YCi0EBQBO/nlnwcSEN/E6JDivwtUpaP+7hOh1f/JyXg/pa2cMXeW5lqkHNOAuVmqMJ/K
-         CMjpUr8Idv9O1OBDqDMFnqQ7wvVYd176ympz0gHQok9f+lTH5vzQjWfapa/0CcQjd7bB
-         Motg==;
+         :list-id:mailing-list:precedence:reply-to:mime-version:in-reply-to
+         :content-disposition:references:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=aBGlo0PHcqJWtswq+FPxUpu8sDcib84r4DxVDYV1DzA=;
+        fh=xaNjuU0MK8Rfzhxa5cUvPJIM9tXBAry6eg1RxY9md3Q=;
+        b=kJModAFLrXlVnKpiinyc2IFjzF86w2HNOX87xWfUgszKeML4qvDag+PTcGDUU3XS2e
+         sWvrjrPWup1ttaOZdjjSXqA8yxma59OSFiM4VOS2wrO9qm7lpt882YzzbNatw0Mx4qpw
+         N/+SSkohJTSMhFstzBIItuVyt3IV0okygwl6Ct/pEQXHrIq9O38wshgOXVgS5q4aoF7b
+         1VPPYXaV0tu46DWI3/iI+pL9gDrPtoxRIhNd8Kvo7c7eYoYfZpWexsPLeyp0vluSWBOY
+         TvoFYJlMBv/GXDDEtlZRKhzl98oEIBFLCR8GeZPiQAqXE/FxXWFchif//kVdqFbPzl/v
+         RK9w==;
         darn=lfdr.de
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b="b0NIf/7I";
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::832 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
+ARC-Authentication-Results: i=3; gmr-mx.google.com;
+       dkim=pass header.i=@Nvidia.com header.s=selector2 header.b=DCGX5i1w;
+       arc=pass (i=1 spf=pass spfdomain=nvidia.com dkim=pass dkdomain=nvidia.com dmarc=pass fromdomain=nvidia.com);
+       spf=pass (google.com: domain of jgg@nvidia.com designates 2a01:111:f403:2009::627 as permitted sender) smtp.mailfrom=jgg@nvidia.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=nvidia.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1757500886; x=1758105686; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1757505526; x=1758110326; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W8+PXeKd9NXCU3qtyfOGNnBFajSJafpOmblptLwvL38=;
-        b=MrqKSjILJyrfSd48y6xJ+KVBlRgI/b5q7ZbUl8eeF3BiKwdvOyIhLlFurRgV6DsJPH
-         avWB0Kx8FBf7pbOkYTehmTuTJACUgwJ2GdHMSBNZ6Vegpq+QOKsiVfdhRuNeN8e0Pf3S
-         h1ij7jsKX2Dr2yJN5dGor/yHJuXIdgbNHE/jyd4J2EvAXHjbdU4O2ADpOMjaHdiRfYjM
-         5zAPtfIOXcSDjj6NAZ+OCWEfmG6rRonmpQqIijW4hljfpB7wOHetHGmB98Fi+dRfkiNw
-         hQIU9/npIiZ5zWBRSISBci+yuihHna/9nCTyWwBWjiA3oAfMNwM3onYicd7mpy0jkoFx
-         HTBw==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :in-reply-to:content-disposition:references:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=aBGlo0PHcqJWtswq+FPxUpu8sDcib84r4DxVDYV1DzA=;
+        b=Zqv5IrEQAd6Y2OtWBLazv1xgkp53X6LQ6KI9dKtG4lR06QIB3Z+lBHbXwGlgYlVvT8
+         3WsmTnS9D8cteR1o1fXXyShgpzZ8Hoikiqgiaf3yz/8sSWhPnvuG1xs7PYrMwwsWlq3W
+         7Y9nz9Ul0sybIH62mnAw7XPYn70c7K17y9ZS87oQ2rrw++RpDMdex+exh4teaELbUgkI
+         cVv7BamKZwVro7TIkogSjZIDHHa6ncwbXO4p7Cfdk4WAyVOMux0r1n1zYE4UWpfl8LUN
+         aR3mKYYFeuZu3Rpngohtn5va3yG/1qa/FmuDB1CY9Bl+nfTK0hKAjPT6qS7VsJlpMQ1A
+         KYdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757500886; x=1758105686;
+        d=1e100.net; s=20230601; t=1757505526; x=1758110326;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=W8+PXeKd9NXCU3qtyfOGNnBFajSJafpOmblptLwvL38=;
-        b=wzsIGCSIIKgJMROhNclhlv0IvaPYaRs39s2MFBMba3DHLz9xwhlIXZqvTNU69B28u8
-         NOtMDwT9mC1JvQ2nj6UFw11EIbBIGl8OJ8fb2c3R+eOjOGBGjycGoHh3kWWqDOEpI3ly
-         ZoArFGlxFUvRqrKF371bBtP30zFILXAKwgLK5NVdUlkU3ys/BsJPQSMC7xto38/j9s3R
-         w/U6PkCfgqdjJ7rzXJvfD3mCR6in6L3PYkQRQ0boJTzS70WENlT4+5ml6PmTKetLv4Sm
-         PHYIXxtNc1sYkumwi+UgWgP6R2u9moR1OCZrZkm8uVEFTCPn7KJW6Rl8fxXsAxTva807
-         OszA==
-X-Forwarded-Encrypted: i=2; AJvYcCVQCW/mD0qdpyVD/Xb6VquIfi6HJ1B+hw2CpLO8k0sxN4efOC+2nGYubbHw2HPIWCR7wlYlww==@lfdr.de
-X-Gm-Message-State: AOJu0YxeBpTKJCvEgyw+do+TZYGRvjAXUcaFLE8NBFI+WLlyC9LIOx8g
-	0WCGhHHp53iEBf2tfSH6FXVwe5lfVwLg8Pv8gz1kbWEKvuIJPdI3iYl+
-X-Google-Smtp-Source: AGHT+IFAMpLZXdmC8ej69shUKK7S9n4iOJQxGHMr8aq6DeTdvqfvhA13GT6nY1Dclit7EAQWlqR/sw==
-X-Received: by 2002:a05:6870:6125:b0:30b:af6d:f92 with SMTP id 586e51a60fabf-32264b2013bmr6992381fac.34.1757500885887;
-        Wed, 10 Sep 2025 03:41:25 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZfjmKsAaYl1mraLBS4+8NlCwJKJTrDFRnes1Oc8LN16Qg==
-Received: by 2002:a05:6870:e0a7:b0:2ef:3020:be7e with SMTP id
- 586e51a60fabf-321270fd0a0ls3050607fac.1.-pod-prod-06-us; Wed, 10 Sep 2025
- 03:41:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCX2SZAeRkkaeYcoqvaiVGMIFs9k2RJs6hgeWtLZWwHkMsTCUfNxL81N3xhF6yM7AUQOULyrw2jrArw=@googlegroups.com
-X-Received: by 2002:a05:6871:186:10b0:328:8d7:d566 with SMTP id 586e51a60fabf-32808d80b27mr4368305fac.38.1757500884393;
-        Wed, 10 Sep 2025 03:41:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1757500884; cv=none;
+         :x-original-authentication-results:x-original-sender:mime-version
+         :in-reply-to:content-disposition:references:message-id:subject:cc:to
+         :from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aBGlo0PHcqJWtswq+FPxUpu8sDcib84r4DxVDYV1DzA=;
+        b=Sa81GMSdw6wkn/BI5bBD/pF3F+TUCLGwYFZue2F0E/b1VMTDOyMOSjAF/oWHLkUZBo
+         xi8XTd8h0ya7iYRWQKYowJANHSSeDS5VZSv9rv7b3Yq6L/DQLHWtdw/pL59jikRwkBYg
+         SET1SnUkba18Mg9OLGiuAU0fwcfRzqqDxxApVjRXDyUduSRrbFOFHQeVDMfqHkCtMoeX
+         MC5eTRVTm2k3rkw3Jnu4WKtmTzEk8Pe1NsOhprCrsIt/dHkEPlY3PEXVhguFjEpuLAWZ
+         03mydUmtdXi8wNZNWtCkeoFXaKdnWic9hKH0LTt8Px15t5nRV/NUcV+gYHCKrcwIBF+l
+         uZWA==
+X-Forwarded-Encrypted: i=3; AJvYcCXgc9DSgJrhaTV8Sw+kigfWNXWs+A2yT/4CeqzIC4ohldJs6tj9wukqkasnErD0xMhOwIvjEw==@lfdr.de
+X-Gm-Message-State: AOJu0Yxl/tRkqtPkye1dPn8sZ/1F3V7fm1GwivVCE8iN1JmuOJal+ePN
+	1cEYlisPCVVAa+ZugJGxBqfN8gk+2mKpxK4g6qC/y1NKg0BHUpiWKy5G
+X-Google-Smtp-Source: AGHT+IEG13VMuiMzyU5/CI7It+1DfS5JZRLUNEz1I1IkfNVjhWIKzcS1wsdiUZrZWKtfJHLfW001NQ==
+X-Received: by 2002:a17:90b:1fcc:b0:327:ca0a:67b4 with SMTP id 98e67ed59e1d1-32d43f00255mr23588051a91.12.1757505525724;
+        Wed, 10 Sep 2025 04:58:45 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd6CqNV9u3NS1bjPqXOlLcgmxGnOz/93Ku/bFjeg4fRlVw==
+Received: by 2002:a17:90a:1181:b0:327:646f:bb64 with SMTP id
+ 98e67ed59e1d1-32bca93d1f9ls4119864a91.0.-pod-prod-01-us; Wed, 10 Sep 2025
+ 04:58:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=3; AJvYcCXfQzpFCgywYX44dMWlVQIb1QQlDZPPwHA7YjoD52HYVGNjaLE6wAPv5ipNlZQ803ADXJ5yn05YpTU=@googlegroups.com
+X-Received: by 2002:a17:90b:3141:b0:32b:6151:d1b with SMTP id 98e67ed59e1d1-32d43ee5953mr17605400a91.8.1757505524069;
+        Wed, 10 Sep 2025 04:58:44 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1757505524; cv=pass;
         d=google.com; s=arc-20240605;
-        b=g318TAqwSMCH53KekMBe6n612MrvMjdyVtb/yBWnJt0uMqqWxvYRkwpYGJASylWd3l
-         kyZTcivWjJTpMIJBW18ghZp4zHQx3eeHL35alOSN3qWlGK5aufIroIOVqfufDz8mK8NM
-         2ZRtjhKoz7TGufLdGYY3Ov0zXktrDZ1OMyFghLFux8nd72KU3UjYsXp+aul/krDQtiMW
-         0AG46iuUYL2iEuArm9bFdfWjr+Ln6qbQIsfNe/Yj9PQUKF3bTprhVU+chKY4LeyDsMMP
-         QN1wiHvLSgnX6fACHiYN8XM5ta+/raxso3iS/YqdSsg4rwOpLCJ16TUQrMMpKNbE4jWC
-         MM7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ep6DHmBHgd1kpbChAS+R+dvVahzWEZwGQlVUAbmwU28=;
-        fh=Y6GIzejbelx8URfBNgrctbxTGOvY4V/EERAxh6Xxw2E=;
-        b=ACSR4GwnLWlLYc73bpo9RojVCwXuWdLs66doOWxauq8Hh+sbrymO3ThmLnPhrw6KOA
-         n0zRBAw4j+faW5ApmBfpEKhbLAEphwqHyyngNr91Er/X5iIUMPrGRcwy85MLTZgVrzxD
-         T8gm8bmp3uCQztRF7p0G2nlq0if1o5h+O75Tm+Vz4l0eHGAiv30yWtH/3P6S8QWW+SqI
-         idGpInTApT6WQrK1uy/hLmgxPpAWmZLSwMHujfTL/MGzd31GgEfUyALZh0qNd9q7V042
-         ZBYPPxZTUi1Jx9HmRS5vI4g40thfUpMXWsOGIHKucIlSCtUfHPIkScE/JffQONZxCFrh
-         9X0w==;
+        b=bytJavS+IcXN8stjmqYkEraHJxYI73moJUDVSiDQ9tRZV6zxskxA1n4f6jx1L7skcb
+         cHUnL4I5d0U64f+QZBTPKq12yT3+b6IA511gi4b9ZJ0MsJFNxpQ5Zlihvm720RPljmHv
+         faAIzpLxOcbyqp/UMS5VZM312J4L+O2Oryh6rrnI9/0Fer7IoABeXpEXRTt0q6K6B3xF
+         t/5F1F3NRoc6Ov4ff5Tu4myqgR5JpwXA0WxbTLL18zEpc+uXTWXOrhpw9kZ/3KKKYGZl
+         KAla3XHn8uUafYKUAsLIU3Nc9ojzhBw4o/9E9ePNm86qQlGUZ8BqnOnc4jSREVkC/HJh
+         q9/A==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=mime-version:in-reply-to:content-disposition:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=M2CRGJWbvgTRAKQCpQVq3CvW0DQ/ZyYML+xgjXHDleo=;
+        fh=4P1K4Q9+a0/qDcwtkx3cIgJuYWQ/kASUR/Pj3TCogyQ=;
+        b=XNYKdsTpz/QqnbJN8T6HC1vUCJrURxXxaTYKNGpuc25AOexmKFU4fobOad1IPLguZL
+         uMlQa4La0xOAV0Q3Nt8OmDING9+pCrKHHpm+6zBafMIYVWomJ/y1ydH0tUkQpRU0Iz+A
+         PcTVP3Ehsdo4IwE0lCHeGkADDd4WHvyOGHL2zZ8+iBULTJuAT5recoCinuXfgv+cg5C7
+         049No3ggx8Ebdj6rEJAk3ortmUhsvR7/BH+TsJ1gMc+Yo6VjxWWDcJaE6dmMHtyYdUwZ
+         vKI5plpAOIpyWVwENok0xv1bUQWR2nKrXL4lS8GHBJGHaKqfMnWRu5nnLqRFT++Fyz0k
+         CqdA==;
         dara=google.com
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b="b0NIf/7I";
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::832 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com. [2607:f8b0:4864:20::832])
-        by gmr-mx.google.com with ESMTPS id 586e51a60fabf-31d895ec2c8si662950fac.4.2025.09.10.03.41.24
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@Nvidia.com header.s=selector2 header.b=DCGX5i1w;
+       arc=pass (i=1 spf=pass spfdomain=nvidia.com dkim=pass dkdomain=nvidia.com dmarc=pass fromdomain=nvidia.com);
+       spf=pass (google.com: domain of jgg@nvidia.com designates 2a01:111:f403:2009::627 as permitted sender) smtp.mailfrom=jgg@nvidia.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=nvidia.com
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on20627.outbound.protection.outlook.com. [2a01:111:f403:2009::627])
+        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-b4fabd11096si672929a12.5.2025.09.10.04.58.43
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Sep 2025 03:41:24 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::832 as permitted sender) client-ip=2607:f8b0:4864:20::832;
-Received: by mail-qt1-x832.google.com with SMTP id d75a77b69052e-4b61161c32eso36697271cf.3
-        for <kasan-dev@googlegroups.com>; Wed, 10 Sep 2025 03:41:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXjW6ttflM8NwIjhav3BN0mmwqoYtLOYeNjM2TVHHSOKOafqoUmuuyA6FBV3DrVqpLlfSdr7OV6bEw=@googlegroups.com
-X-Gm-Gg: ASbGncvD1szZuu9eLyleV3BQzLCJBnM/AOenBykFZXlo42q0YZc7yWK8sX7dq+nhw2c
-	aXrdgdLACUNRZDpcL3377Kl1ApUrVzMGK86pOAgiQLdmOrh7be6uFE/jDudJ96BljJbsRCUL3vt
-	TCt49BegIc8aWpA86E2zf/g83l20psY6f0XTN3z5mQtR84WHd+WVXtm5rbIqAGe23uUX4axwrjs
-	sf3GYeU9Nj9Ty1WLHok0biIjeBgQZVXNd8FDPrzdkyC
-X-Received: by 2002:a05:622a:40e:b0:4b5:e49d:8076 with SMTP id
- d75a77b69052e-4b5f84676e8mr170436381cf.56.1757500883119; Wed, 10 Sep 2025
- 03:41:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250901164212.460229-1-ethan.w.s.graham@gmail.com> <513c854db04a727a20ad1fb01423497b3428eea6.camel@sipsolutions.net>
-In-Reply-To: <513c854db04a727a20ad1fb01423497b3428eea6.camel@sipsolutions.net>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 10 Sep 2025 12:40:46 +0200
-X-Gm-Features: AS18NWD9OOMFghsEyUOQIKKsq3tKxaVXVh2dSpezbvyYolCB64CRn-65yckShSU
-Message-ID: <CAG_fn=Vco04b9mUPgA1Du28+P4q4wgKNk6huCzU34XWitCL8iQ@mail.gmail.com>
-Subject: Re: [PATCH v2 RFC 0/7] KFuzzTest: a new kernel fuzzing framework
-To: Johannes Berg <johannes@sipsolutions.net>
-Cc: Ethan Graham <ethan.w.s.graham@gmail.com>, ethangraham@google.com, 
-	andreyknvl@gmail.com, brendan.higgins@linux.dev, davidgow@google.com, 
-	dvyukov@google.com, jannh@google.com, elver@google.com, rmoar@google.com, 
-	shuah@kernel.org, tarasmadan@google.com, kasan-dev@googlegroups.com, 
-	kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	dhowells@redhat.com, lukas@wunner.de, ignat@cloudflare.com, 
-	herbert@gondor.apana.org.au, davem@davemloft.net, 
-	linux-crypto@vger.kernel.org
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Sep 2025 04:58:44 -0700 (PDT)
+Received-SPF: pass (google.com: domain of jgg@nvidia.com designates 2a01:111:f403:2009::627 as permitted sender) client-ip=2a01:111:f403:2009::627;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Sn3V7oELjkrT+Ex+wYuTTfJd3WsUwYgnJmnkM+tItOpmbM+J8qovkAPHYt/A7PKdAxoWGlisZ5TesXjmIXvOHKWcNXtA1O3Hg9SA6mAhfrHEezRPKmMCSHIRBmSiBgsvZgxaw6V0hH4pbdO54/Yd5q5EIYBFKZuN7d/8WIw+zLxloBetM/UCcYtcIc6GW5rH0jBKwge7a0m4jPykaBH8Y8sKHehJQWlDdKdUNpkCp2evYTZ7lvgs+TsiTWScPuI24eLlp6TrdOL+hleedbJyK+OJ4SytpZZpW4FYO/j3zVP4FD60hiKyFc9ZB4/0Ery3tfckBgfq1QXuqElNvsjftw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M2CRGJWbvgTRAKQCpQVq3CvW0DQ/ZyYML+xgjXHDleo=;
+ b=tB2vXc4aLG7Xvj/iBdZSvwn5l5BDP6C+4bz1pIRIWCRgMWFDDbhmT5qJwttomGtb8BHCznSs1U/3u4v6DHTHmWC/I6z+Xr6vluxXtIpc3nRzQiDjGvtecnGkPUr8uW7zs/hJWBGP80S7Nc1dUlCLFh9qUOu5jO987pSlHgXoT/P1w6NsT3FQBwOILLwl3So1eAjWPEjg3x9jiy8sN7xCZqAPkDZVJitbvd8ChCDhycviaJq9+sQzjix1CUYwDf9us224wMfxwnVp/LXMt9t30uAoOeFS7X2kQZFGh8Eg3ciqLaMSqi0Ur/Kgqry1mm4HqC3j/XfupYGVGiT8b2TLaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from PH7PR12MB5757.namprd12.prod.outlook.com (2603:10b6:510:1d0::13)
+ by CH3PR12MB8709.namprd12.prod.outlook.com (2603:10b6:610:17c::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 10 Sep
+ 2025 11:58:41 +0000
+Received: from PH7PR12MB5757.namprd12.prod.outlook.com
+ ([fe80::f012:300c:6bf4:7632]) by PH7PR12MB5757.namprd12.prod.outlook.com
+ ([fe80::f012:300c:6bf4:7632%2]) with mapi id 15.20.9094.021; Wed, 10 Sep 2025
+ 11:58:40 +0000
+Date: Wed, 10 Sep 2025 08:58:39 -0300
+From: "'Jason Gunthorpe' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	David Hildenbrand <david@redhat.com>, iommu@lists.linux.dev,
+	Jason Wang <jasowang@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>,
+	Juergen Gross <jgross@suse.com>, kasan-dev@googlegroups.com,
+	Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-nvme@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v6 03/16] dma-debug: refactor to use physical addresses
+ for page mapping
+Message-ID: <20250910115839.GT789684@nvidia.com>
+References: <cover.1757423202.git.leonro@nvidia.com>
+ <56d1a6769b68dfcbf8b26a75a7329aeb8e3c3b6a.1757423202.git.leonro@nvidia.com>
+ <20250909193748.GG341237@unreal>
+ <20250910052618.GH341237@unreal>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: glider@google.com
+Content-Disposition: inline
+In-Reply-To: <20250910052618.GH341237@unreal>
+X-ClientProxiedBy: YT4PR01CA0498.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:10c::6) To PH7PR12MB5757.namprd12.prod.outlook.com
+ (2603:10b6:510:1d0::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5757:EE_|CH3PR12MB8709:EE_
+X-MS-Office365-Filtering-Correlation-Id: d3d1beeb-870b-4064-522c-08ddf0616235
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?FzIxhCTl/DFGFmaXIkSJW43QRlHeUwrObkzUBGOXZlpW5TknvixiA4gDQdO0?=
+ =?us-ascii?Q?Y/Q2AqArhV3Ean+ESTnkZr/fvpBX2nkWxFKLLH4g5CA9C8G475Hr3gb3OOjv?=
+ =?us-ascii?Q?6uJVbcwr9hyVssPYNNIHf4cHbHNfa1FcsJ0EkEfNXG98vrQPHF/sWCvG8QI/?=
+ =?us-ascii?Q?COGsWCNfWUGpIWeBBcktY7eFttSjXnJa/fCDlR5M7SnWvVHjP09ct5kmeZoH?=
+ =?us-ascii?Q?SAYNOPDNskcy46Em8ly9RRUNfqYG4XoPucVxFGwyPQt0cGYV/RAX2nuBRLnY?=
+ =?us-ascii?Q?oDenFOddnolaVnUlfh0CImgVZFr/tUkfCle8aamRAftKGcs67gzyutBwvoDi?=
+ =?us-ascii?Q?dNUaAWRksh0OpZeDtOzS+yUixVU6iF6zuAgdtdJ+/SJw1dzFDkGfm80wGCoH?=
+ =?us-ascii?Q?pckzkDSveUd+iwi2lfDzjyPVQ9yj0CiH/xxWs9md9M1AQSc3NZiJU1hLjeKm?=
+ =?us-ascii?Q?aAY8FuT7mkNTvmr+F8IaY1xbUkqwDE0/IWF1EmvaP2B2COuQ7wMj4RNUjEOc?=
+ =?us-ascii?Q?O/AhbcPzLAMyP9dJTa4ojajfgOMtdCIXx/Rxry4yk0Rx2rZ2fjSA6M+C0jit?=
+ =?us-ascii?Q?E4yYm3ZocgAEqqYDdafANBeHp39vXTx87t0jZIqiUkS+AeC6ISIHwD9hDxkj?=
+ =?us-ascii?Q?3NKmejdUiaLbjH+sBCgqd206gGNFVcc0Zt98Oozys1GBZXwHRLMY812uQPYE?=
+ =?us-ascii?Q?uyHrhpRnGAIYWFfAHefw01QVwryhLl4F/p2FxxZ5WJ2mJk8iLma6uzFa9nse?=
+ =?us-ascii?Q?KDIQcCRrG9o4DskmRPMDf1PaNxx8TvwULUPJB0jwTMsE0RkZQnTZYU69eX3J?=
+ =?us-ascii?Q?DTJiamg3E5I0LV9zQ7KUNLWj7+scC2fn2wUO2D+w6NK2kvcb0lvj02l6UkTc?=
+ =?us-ascii?Q?X7jKgFI4/1/bAGQetuBuvx+ircaAenX1Iq6FMnRYQcgdor2MWhUDTqFKizIA?=
+ =?us-ascii?Q?vJmD0Pht5I+lSm+VVTECa5eMOZE6H/UwUgnXBgFiR+SdXv8DEnEnO9a+9Ujl?=
+ =?us-ascii?Q?fTzsLsC/NZI0DsiAFIBO+4w+7SMolqtyX9A00a9XgVJOp0yXxu2QqO44FHlF?=
+ =?us-ascii?Q?F5kOApjBfLOwHK4UEafL48ADf1hzQpNZPMIk6R2fhwlKEIUMoSNqHn4cTPxl?=
+ =?us-ascii?Q?znJlbuU5Ch+3Eejo3q7yZqrX3ozlPCo0nBxc8d/f9Cr9yddhddHSyXN4+eBq?=
+ =?us-ascii?Q?1K8vM06RHw5aht/nrdIYWUbgLh/jYAL7eVKdCjw67lWNVVQn+anrn3l19WdD?=
+ =?us-ascii?Q?BSnlzXwqrv/YfQoqXhsDx+EYQ9FcwydQzXtPK0D5bSt8yOGcjkm9NRk++zQ6?=
+ =?us-ascii?Q?K5aUj8NJxT+OVBPsX2TS4htXjJaFpFkDZIIIo3/5K+GVBWGmqOwVOybPuki7?=
+ =?us-ascii?Q?iI62pGuhOEA82Yro5WGvlkvleuez4YsUAy/C9hO+W3hCWvzy7fg3ZN0wgqkG?=
+ =?us-ascii?Q?ptHYclhyF3Q=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5757.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9YO2VNtN7/AVkNY5N+N6bpbx5DVFYyJdxIshjK2kTpMeuaOdcSF5l7noHEF1?=
+ =?us-ascii?Q?s+lB5UEncua+s5Drg3oPC44ZKgxdHC7EQ1mmSbi+XEq4qFKNNVBpiRWSIfc/?=
+ =?us-ascii?Q?8ywQrj440x8YBHiXj4uZB0QE+J1KktuhiJc4bflyorZLYXXCNTQlvOTv371c?=
+ =?us-ascii?Q?ASDGOoCEv3wTgUSySdjTbUQQGWvJC0NQpKSsq2qJNstew84LYBuDpBk3uV4o?=
+ =?us-ascii?Q?vBenXfKllbuWTEDAUQSxwockvdu2HZ5HxpgplNGCWZ7znKBO2Us7KIHdhBAe?=
+ =?us-ascii?Q?TCX53Fa2wFwLETR5Ho0D0sOXqpILTIZlgHisolBKChaVQ1AKIqqsvk1hmIgd?=
+ =?us-ascii?Q?YE6/iB4CEGVROiDFPAO5TfADkkrbbKpGKD5A/XCbSSUrHrrkqIUnPM/LzYXQ?=
+ =?us-ascii?Q?WGT0sXGTpAAVusd7OCVZF7nEWNxNPvf9OafKMixxZg+5lm9hMrGaDiXZ7U/0?=
+ =?us-ascii?Q?bWiQu0xeLBXSVpmNEob1HkW8KfUJ1e3A8+quycFN8fJOn5cfpnSW3FEqOAjC?=
+ =?us-ascii?Q?JgfkhIRa6APiEb2G4je21c6BWKbOX5cOHZDHFENP3jL5g+YoyyU1LJz0NoX8?=
+ =?us-ascii?Q?mASc/SCKxHdg3dyOiFa2V+Xpjd+N2LutqqAwhQg4IORPN9sNWSwzKWeX8TPJ?=
+ =?us-ascii?Q?OYNp+31ak76mDNFtIe0GgR/CPpX7wrNktItOo5t05HaCglof/SdPTIbMFvnQ?=
+ =?us-ascii?Q?dIlVEWzu0f1mZZgQUsT1aBY9Hx24N4Kx5QcmLxuijEYIEebO87J8trQkpOC6?=
+ =?us-ascii?Q?5HvTn80xxmbnBR4Z8s48Qux7dO4liJ+EP9gA8N10i8HYKFz6FU5y6aWdKBDu?=
+ =?us-ascii?Q?F2nCo6aUF13uff4b9pX53OdttabCsWvQhcMi73AjQz70ijVhIZRi5rD81caI?=
+ =?us-ascii?Q?qzAmnxy0fXs8ZFjYivEVLHNmcYoWZVTCFLm9h9ZlCYQajTaL3WZ2b4bBYqGY?=
+ =?us-ascii?Q?mE3YlmZLwZtHu8pjWIHa8Vu9ugDe14ebg5WRs5a83zohvO7s4Sb4LfCpMic1?=
+ =?us-ascii?Q?IpBv8kPo4agNFbf1H2TyXz5QyQaAkHqbPjJgR2bgQJ8ELYUjejyvmEhrmoEJ?=
+ =?us-ascii?Q?cle6p7D1vIfzHtVjImdzimXsTUYCsAKTGPmt140QMNxPK7rxy96x1wl3+GfE?=
+ =?us-ascii?Q?2QmAUir2xSQdsVPQXgP+rTTiGOpzo02zLXIOySsQlKBQPfcSP0MVBNdZmxpU?=
+ =?us-ascii?Q?KY1LAWASYTztVwsHLEbLnBvuORa0/G0/n1GbQA1BBOj9PkqnwENbff4O7HYX?=
+ =?us-ascii?Q?n/06d/f2gFt8Gr7mnZ6gme2FoyHeKWUKi0gX2Yeoawx+x9szqxzDkBmWGxM8?=
+ =?us-ascii?Q?R24cd960+95kkj5RLQyuLq+qQSfIut3CnDpnavZuMCT8M7VanWjlKpxbVBmH?=
+ =?us-ascii?Q?9ZdLMvbeCVO22byX6zJ/TqPCtJxTr4zQCRF5JSAHjnClMwsB+zPNa8RuDdCD?=
+ =?us-ascii?Q?ozo2sXZqvbCbHoDATIse33PWDM4HV99uQGVFvcLv2sGGvcSNU4Qq3K73wuEo?=
+ =?us-ascii?Q?rAyxsA9mNo4oh0K+wFkx6BNR032gCcNqav90jaUAoi5RrDp9pRWy4nuuK/ZR?=
+ =?us-ascii?Q?TKRZ0lKjkgxNLtP0ngU=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3d1beeb-870b-4064-522c-08ddf0616235
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5757.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 11:58:40.8152
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NOBo5qiUePOEw1x7YNat0KXcE5eLDbKYD5g/dL+or0XOWmfL8YpjCGLIZSmZwreP
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8709
+X-Original-Sender: jgg@nvidia.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b="b0NIf/7I";       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::832 as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@Nvidia.com header.s=selector2 header.b=DCGX5i1w;       arc=pass
+ (i=1 spf=pass spfdomain=nvidia.com dkim=pass dkdomain=nvidia.com dmarc=pass
+ fromdomain=nvidia.com);       spf=pass (google.com: domain of jgg@nvidia.com
+ designates 2a01:111:f403:2009::627 as permitted sender) smtp.mailfrom=jgg@nvidia.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=nvidia.com
+X-Original-From: Jason Gunthorpe <jgg@nvidia.com>
+Reply-To: Jason Gunthorpe <jgg@nvidia.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -156,125 +259,24 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Sep 8, 2025 at 3:11=E2=80=AFPM Johannes Berg <johannes@sipsolutions=
-.net> wrote:
->
-> Hi Ethan,
+On Wed, Sep 10, 2025 at 08:26:18AM +0300, Leon Romanovsky wrote:
+>  #define PageHighMem(__p) is_highmem_idx(page_zonenum(__p))
+> -#define PhysHighMem(__p) (PageHighMem(phys_to_page(__p)))
+>  #define folio_test_highmem(__f)        is_highmem_idx(folio_zonenum(__f))
+>  #else
+>  PAGEFLAG_FALSE(HighMem, highmem)
+>  #endif
+> +#define PhysHighMem(__p) (PageHighMem(phys_to_page(__p)))
 
-Hi Johannes,
+Yeah, that's what I imagined, and I'd make it a static inline
 
-> Since I'm looking at some WiFi fuzzing just now ...
->
-> > The primary motivation for KFuzzTest is to simplify the fuzzing of
-> > low-level, relatively stateless functions (e.g., data parsers, format
-> > converters)
->
-> Could you clarify what you mean by "relatively" here? It seems to me
-> that if you let this fuzz say something like
-> cfg80211_inform_bss_frame_data(), which parses a frame and registers it
-> in the global scan list, you might quickly run into the 1000 limit of
-> the list, etc. since these functions are not stateless. OTOH, it's
-> obviously possible to just receive a lot of such frames over the air
-> even, or over simulated air like in syzbot today already.
+static inline bool PhysHighMem(phys_addr_t phys)
 
-While it would be very useful to be able to test every single function
-in the kernel, there are limitations imposed by our approach.
-To work around these limitations, some code may need to be refactored
-for better testability, so that global state can be mocked out or
-easily reset between runs.
+These existing macros are old fashioned imho.
 
-I am not very familiar with the code in
-cfg80211_inform_bss_frame_data(), but I can imagine that the code
-doing the actual frame parsing could be untangled from the code that
-registers it in the global list.
-The upside of doing so would be the ability to test that parsing logic
-in modes that real-world syscall invocations may never exercise.
+Jason
 
->
-> As far as the architecture is concerned, I'm reading this is built
-> around syzkaller (like) architecture, in that the fuzzer lives in the
-> fuzzed kernel's userspace, right?
->
-
-This is correct.
-
-> > We would like to thank David Gow for his detailed feedback regarding th=
-e
-> > potential integration with KUnit. The v1 discussion highlighted three
-> > potential paths: making KFuzzTests a special case of KUnit tests, shari=
-ng
-> > implementation details in a common library, or keeping the frameworks
-> > separate while ensuring API familiarity.
-> >
-> > Following a productive conversation with David, we are moving forward
-> > with the third option for now. While tighter integration is an
-> > attractive long-term goal, we believe the most practical first step is
-> > to establish KFuzzTest as a valuable, standalone framework.
->
-> I have been wondering about this from another perspective - with kunit
-> often running in ARCH=3Dum, and there the kernel being "just" a userspace
-> process, we should be able to do a "classic" afl-style fork approach to
-> fuzzing.
-
-This approach is quite popular among security researchers, but if I'm
-understanding correctly, we are yet to see continuous integration of
-UML-based fuzzers with the kernel development process.
-
-> That way, state doesn't really (have to) matter at all. This is
-> of course both an advantage (reproducing any issue found is just the
-> right test with a single input) and disadvantage (the fuzzer won't
-> modify state first and then find an issue on a later round.)
-
-From our experience, accumulated state is more of a disadvantage that
-we'd rather eliminate altogether.
-syzkaller can chain syscalls and could in theory generate a single
-program that is elaborate enough to prepare the state and then find an
-issue.
-However, because resetting the kernel (rebooting machines or restoring
-VM snapshots) is costly, we have to run multiple programs on the same
-kernel instance, which interfere with each other.
-As a result, some bugs that are tricky to trigger become even trickier
-to reproduce, because one can't possibly replay all the interleavings
-of those programs.
-
-So, yes, assuming we can build the kernel with ARCH=3Dum and run the
-function under test in a fork-per-run model, that would speed things
-up significantly.
-
->
-> I was just looking at what external state (such as the physical memory
-> mapped) UML has and that would need to be disentangled, and it's not
-> _that_ much if we can have specific configurations, and maybe mostly
-> shut down the userspace that's running inside UML (and/or have kunit
-> execute before init/pid 1 when builtin.)
-
-I looked at UML myself around 2023, and back then my impression was
-that it didn't quite work with KASAN and KCOV, and adding an AFL
-dependency on top of that made every fuzzer a one-of-a-kind setup.
-
-> Did you consider such a model at all, and have specific reasons for not
-> going in this direction, or simply didn't consider because you're coming
-> from the syzkaller side anyway?
-
-We did consider such a model, but decided against it, with the
-maintainability of the fuzzers being the main reason.
-We want to be sure that every fuzz target written for the kernel is
-still buildable when the code author turns back on it.
-We also want every target to be tested continuously and for the bugs
-to be reported automatically.
-Coming from the syzkaller side, it was natural to use the existing
-infrastructure for that instead of reinventing the wheel :)
-
-That being said, our current approach doesn't rule out UML.
-In the future, we could adapt the FUZZ_TEST macro to generate stubs
-that link against AFL, libFuzzer, or Centipede in UML builds.
-The question of how to run those targets continuously would still be
-on the table, though.
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-AG_fn%3DVco04b9mUPgA1Du28%2BP4q4wgKNk6huCzU34XWitCL8iQ%40mail.gmail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250910115839.GT789684%40nvidia.com.
