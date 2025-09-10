@@ -1,140 +1,140 @@
-Return-Path: <kasan-dev+bncBD53XBUFWQDBBZM2QTDAMGQE2UBGIAA@googlegroups.com>
+Return-Path: <kasan-dev+bncBD53XBUFWQDBB4M2QTDAMGQEOREQ3YY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x37.google.com (mail-oa1-x37.google.com [IPv6:2001:4860:4864:20::37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30F7EB50D4B
-	for <lists+kasan-dev@lfdr.de>; Wed, 10 Sep 2025 07:32:23 +0200 (CEST)
-Received: by mail-oa1-x37.google.com with SMTP id 586e51a60fabf-329b1e1d908sf2630324fac.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 09 Sep 2025 22:32:23 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1757482342; cv=pass;
+Received: from mail-oa1-x3b.google.com (mail-oa1-x3b.google.com [IPv6:2001:4860:4864:20::3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F1FCB50D4D
+	for <lists+kasan-dev@lfdr.de>; Wed, 10 Sep 2025 07:32:35 +0200 (CEST)
+Received: by mail-oa1-x3b.google.com with SMTP id 586e51a60fabf-319c9bb72e1sf9583698fac.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 09 Sep 2025 22:32:35 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1757482354; cv=pass;
         d=google.com; s=arc-20240605;
-        b=OhqO+kLmFkFWjgGHH2ewc76H/e/xGPk/bAGDxMt2UtUc6yGc7UL9Yus+LW8ILhGMKH
-         rvFJJjvhSt74/pIK6wKAQK1EFfiEehD1naaJZdrFE8D7UqnpS0ncLHvGUefFb38SKF4b
-         mCRUg8/DKLKrLNhKTL8Oi9ZR1c53TaA0TEHEyOlUzZ14CkvBwAFbRlhXgQzJEpDxGp2A
-         MIntgwtOiN6JI2HVo/ECJoCmsI46b0Nua4z7/wYhSzebAwWyAkZ40rpM9rBZlQZMMSyR
-         O6beI85L3IgnLReeZCBGwKJUVdtUI8n3rJtzb8oF5cczPQmqMKyhej8aolck0A2q/InI
-         I63A==
+        b=CwCWnAX+37OsC94Ixt6eKa7FGrMmGgkaW7S5LiA+zg8KRCXySXh+GvmTar3/JDIWev
+         K0GnNUpoCUZdgR0Z47ikXNA+uaYSLN7Iy3Wug3TmoTC0C5k30sPtMO4PdulgD2bDc8QI
+         SswIr7AtBfXEqi1ej5OE8PpCgfHS/aETScMzw/IwX4mZU8XHwiMrXqolvxK0/+Vcwia1
+         K3ngrS6Sc6BPqUjRcP7vz4Ds/Tnq3y9IFi0DqTZRuVvzspvzGB0YxUI+LWdmakWhM8Zm
+         axnWfQDZjzRSJViVRgPEpme/Zt03vvGoetPtuCMKryTiautSkIns9R5Y41qv+VvEFTen
+         60hA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature
          :dkim-signature;
-        bh=nmtM7IOytbh4dd0SmUfImNFkz8+E8FdlXZL68Otbnrs=;
-        fh=JPWi5CX53AxnKu2btyxGljyRVaQO+srd0bj1Pf1k8O4=;
-        b=dibvUL8sLSz9jJkGGHHVKz38xT98CF2OmiNXg2nffcHLaRsPV7a7PuN7mZF5kPUpPC
-         WwaGmnYI5ESJaL5gyWhYLcGVIGvbA4HxNvJDHRReUXwEp/I7gkDGrQIqUUNDLjNEmAN3
-         jfuhEaHEeUiBMxQTdNehNTPzexeRX8fJdiLohcHDWQf8yhsRK5tX63Z3bqVjvRZKfZMg
-         bimqc1348Bm2IN6L6xdXM1qXAO68Bm9dfhhLvGSmMT1Q9Qc3q3jVaRCSIO8BdnA2ftYM
-         fjj1glGXEL/E2RH9E66gq2QALFekEJw41Oevwdhml2Hm4PfeSUW7AkwtvmG3A4p7C55Y
-         p8Sw==;
+        bh=RNqLS6H5jJz52FSGxSa/1RfHjMjGlLRHvBeY8e4sHkg=;
+        fh=0RLMgM9qB51fmp5Qa4JhOzIQ1k1dMInpbE97NMloG7o=;
+        b=NCeNL/l5IfUXEixfHTTtuWeq8dwzgjGrbTAJ0G9Hr/pG2WManQSSTZ7xybqG+Q9Afg
+         FPgu8s1hH44Afwbo4lyUbLW6dh08PQOuxb7iF9G0+7mH8Ddeptc+prvcxgQxXdR1NVUS
+         NWN5I8JxP9dFC4bd2H33yyF6H8h+LTfeoGKFY5jdQgEwvt4X7qY/3auek5AMxR3aYmWB
+         Awp7ZMnug1Ow9bP1piUXDSFUOHLicmn/qe9dcTfBNTCbU1q1fOKKNL36DqilLih7u8Rn
+         9RBnSitC+YMI9gwGOS1SxpFU/MTtjvoYiWjh1QV+Wf69QaibhxAhHWrkQEFq0Nvgn6Kg
+         Uszg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=ioFYPxXi;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=nM63+aDo;
        spf=pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::436 as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1757482342; x=1758087142; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1757482354; x=1758087154; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nmtM7IOytbh4dd0SmUfImNFkz8+E8FdlXZL68Otbnrs=;
-        b=Q1E6tE8MziU9ojRhfHw6PqztD0Y2V5dGzbatdwVrTle97nHkr33aDHdTyHUfDmCi8d
-         zTwSg+8/D+W05quJL1Vb/3S1Wl7uI72ImliTPOwiMCdfNmVwKCIks7HjCLmIrXkuMlPy
-         S3UHJEJ28XUIwRQeHlQ9HEyJkOhcktV69ctjXtTyYsJBShenldxu4CzdOFJczLkgL7Id
-         zWuumLIahvNr2HeoMsCCKiUTLDXyDLc0uBtDgAZUDWPIliS4McCSzrtQ5BhZfbz4mZDl
-         GmBmCNINSCJuqkK/oYbn0DsN9Qd5c1qGA3DBtbamrWzXvTJkFn04oMaEPgZRLYk8f5/X
-         r71Q==
+        bh=RNqLS6H5jJz52FSGxSa/1RfHjMjGlLRHvBeY8e4sHkg=;
+        b=lpb9m5S905S6o1I/5QzwCVXObMJESDqYNannlC5d/rGYm/TpwDmXipyN564BDgA8eg
+         8nCCG0gsoJAagdWuJkOuhCz51OsqKZ7YHQlAbvG3FZ4sjniHPgEYJZP6i5fn5ZmB6814
+         GvbJ0jjCXbJSj4QBtCC+qgpkWLLkyrtU8UJQ5L72+/fXMMXGaCZkFgrLsLq6jSae+BJ0
+         on5nclLQAQji1VfTYvRf8ztFqYLWsYS5jtN87vKgKMM6kJ2431iDKfhQlVbWvHC5xwWt
+         xUP54VtXe1M74jRml0mctVjewOh0Xr0wLc7IeL+JQVkoRzhIMEMuKF0CuTTXCpVWy7hg
+         5eZw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757482342; x=1758087142; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1757482354; x=1758087154; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nmtM7IOytbh4dd0SmUfImNFkz8+E8FdlXZL68Otbnrs=;
-        b=C8dmRT9L9Kq0qj5culkUFhZ7lR4jeBQLANkB+8r2/l0DFHl+ehoTDGQcJp2qM3DUzg
-         GpXXDOxiS++0QPrjftk6nEualOYHJC7bdpgLXgMgSfMt+G8AIIEkY6w8xuFtLmyhVM12
-         79ptMAzGUUV9nLDjSJbGgRG6eCd5gbgbKR//8jvqoKkCvNbIJb7v0JJ8Od+DMWKB5k4p
-         UiqMTzl/0tsllbrYDgsbysfGVPseg3LAiLga0D53p0F4NwaFdvBH/CoYDHdsZc7Vds0j
-         SpsqHN2L7OdEEHYVAazE+wpRS8hWjzqcI0sgYRNEzAqAc9WNbZvNnXraweMCtlUwkVmt
-         C5rw==
+        bh=RNqLS6H5jJz52FSGxSa/1RfHjMjGlLRHvBeY8e4sHkg=;
+        b=DyDPIe3wubt/VpBhA6xASJm67/VEU9wJnNFw8JZ/OqS5cn7vfB5JLg02gKw9M1T+mT
+         Sac2/kh5crHgi0QpA99Y5aeASwshgPgEC3j1xisS+5Hcg2GFTTtaocqBWu1w6VDUsu7A
+         /9wZIYqYeFVgkSHlKsDUPDSmL0vLISgInOiUQAN8+Vq0hpwqhG/EeWHd/FpB8JlhUR2Z
+         ptr24pHjJyBaRpx+ppOW4D0wumFD5lJ5EufwuPiAlmPCl8pZl+q+GMD/S4EZFqHio1on
+         n/atZJ76jxlvgyVoyjRIeh0SIvxBv/cLTnMezU8OHQx6ikyL9kDpOePKGGwrpw9CE8BY
+         yuAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757482342; x=1758087142;
+        d=1e100.net; s=20230601; t=1757482354; x=1758087154;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nmtM7IOytbh4dd0SmUfImNFkz8+E8FdlXZL68Otbnrs=;
-        b=V7cmX5W59CDrtrk2nPPOYC/T5QkZuBPJwWMGL3KYSkVqMXbLOwMiIZyr7OU9fwMHF4
-         IzASzFLBmlSY/XHIpw7yRgHPk93oFaz3sLFb51AiLXH1utrKVWCyyAkBxdgNbhxn8K28
-         Z6uHnS7NRImj/7U/92Q4F+qnNjyAAYaDdfA/9x6bze0GswBBtBX2YPPVYgBu/UZK1Ln9
-         21dY2CgmDTVmEhCMGIAgFHLwB+e1/0DoZecm0o2NJf+laLoaM7J+Eu3UB7ShvDLpk6KS
-         z2V6vQwTlCCF8490ie3Nn5O8uq22IfEgx7geBz1NGey3r3PWx2TIDpFWGNyaqckXV/Yh
-         v9hA==
+        bh=RNqLS6H5jJz52FSGxSa/1RfHjMjGlLRHvBeY8e4sHkg=;
+        b=Q1rFaSPeqQgpiShuidQjBKVGdzEzCLQeTLVJ3917txXIjySFAdmEFbfsySc4wzWu1K
+         TdHO64r7Xc2/2zSwfSU9gMoV3CaNBevrpxhqII/Qg2iu0V8CE8YrTDSR6ia9f5O5ip8w
+         RfuqWeuAZ3zIIVzFPuhNq8nGTl0tujZzjktpaLa9fQMvH7yO3IdCwwWoylLRALQZOZvo
+         xS7Adc59exMi813x2jWY/w1/Oc3k96HpeIu8+cGDMhXMPhd993qNCts6CvIKa9EmhdIv
+         1hFGWKQ2gS/BJSFPR499SeTx4aTX6XPjdsf0T6wyLIvX1U/YSUWGlorYWcKLhNPvQwyp
+         CxSw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCV/k4wT1E4H/U+OYFTvCswSyLH6pnAc4WAypWM6/8lHDHlfF2ooKSwYmMaAs0+5tBNSk86Bxg==@lfdr.de
-X-Gm-Message-State: AOJu0YxYKyXGGASEYd5PSu5LIkRIvF9a+jjs+xGmwFz5QhrXVQHqdA5p
-	LNIRNLlqXzRvJxqwuIwxjLyyZCMEjkmDUhnGth83F5CZE6mT9v1W6bHm
-X-Google-Smtp-Source: AGHT+IH7J6c412+qHjbBpzHdG5tnmhRP8esmYSXNWiAR9Vpf+m95LSre/hgGWeqINItgYREKZT66kQ==
-X-Received: by 2002:a05:6870:d95:b0:310:b613:5fd5 with SMTP id 586e51a60fabf-322626446b9mr7715234fac.10.1757482341923;
-        Tue, 09 Sep 2025 22:32:21 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd5+a/iGQ198yWhasmFwN8kaTfGOUITBoXzQZLUOBYND+g==
-Received: by 2002:a05:6871:c711:b0:319:c528:28df with SMTP id
- 586e51a60fabf-321271cc521ls2870095fac.1.-pod-prod-08-us; Tue, 09 Sep 2025
- 22:32:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCU+b8d/dgGnVNnkFtsRnRcio63si5EGRXLY9/eeFvNpHYmqkScqw83HRVKN/vk49OrihiT+N58w3Ew=@googlegroups.com
-X-Received: by 2002:a05:6830:dcc:b0:745:a245:f3c0 with SMTP id 46e09a7af769-74c77b62bb3mr7687514a34.29.1757482340798;
-        Tue, 09 Sep 2025 22:32:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1757482340; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCUudh1zRkZKgLUu/Lx/M87zHNuouPefsRRvMOzhoMxGZiq2jF5Ck91Vqsuzzbem4/Tso5VBhA==@lfdr.de
+X-Gm-Message-State: AOJu0YxGzfCrb3HDnKJc3hE3lJxePt1fhY8B9SYoCGOo1RzHZhf+w4tW
+	bgdEC+Fk3DPLrpXmcmERPWQ/vOEKfDTBzHjoQAj1dzFa0wdiLoKvTPbn
+X-Google-Smtp-Source: AGHT+IEgiXaBpPhA8pNi9kZ4N5tj3CwMm7NH8zeOpNM6RXWqMJpV349wIPeZSpJ3cY/HtJbDVpRkZg==
+X-Received: by 2002:a05:6870:701f:b0:31d:8964:b4aa with SMTP id 586e51a60fabf-322626475ddmr6912902fac.6.1757482354081;
+        Tue, 09 Sep 2025 22:32:34 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd6JQqXt47gD3aQsnoIcA2Pv8skcbzfhrd51lel30Ms00Q==
+Received: by 2002:a05:6871:181:10b0:31d:642d:3aab with SMTP id
+ 586e51a60fabf-32126e748f7ls2293590fac.0.-pod-prod-08-us; Tue, 09 Sep 2025
+ 22:32:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVrSNua7AhJBtzFRsxzJIOixQLnohJ9w8W8iRrynynqd017dYXLxNW+zQfW+Hp9AcNKo1PyLSqtdiU=@googlegroups.com
+X-Received: by 2002:a05:6808:1a17:b0:438:27af:3ff8 with SMTP id 5614622812f47-43b29a07017mr6527801b6e.7.1757482351894;
+        Tue, 09 Sep 2025 22:32:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1757482351; cv=none;
         d=google.com; s=arc-20240605;
-        b=aa5HOuthHNozcHP5cLQPvS1075Eidd//mWoC6zveR4qjl9wQcLR3jmqBd7mbgLYMiH
-         cmW4ZcAlJUH+uRXC+F/1H3h1XLjoExM2XHZPgw7Xk6XUgo+7v0pm9pphFKOLmVEZvmX3
-         /7g4FvPZg7YEOR+FdqO2a9CFUL2G/2RAgxmeHfN2j9ip+d3gGkSMbQvKNbo0VSLrErbG
-         Y8WbBwOYcdzax+z8l3MrR4OzIk3uZgrO6aP0CYhk+/6jSKS+IeuHsfNmT28XOkkpzNEG
-         LOTWcdEY8tBPUCAkuCZxM7WWMmOb6vKzXIyqfx5hPFMFSs2VhzeEOps9YbUmj3e/YeUU
-         hSLg==
+        b=Osvg7R5nPkvj0Xam1ul/Ubv1rcMD7BlSh0ywjCZFXRGXmtroN+GutAhM3UcMkgYgEA
+         Jvs6HTKbaU8cNikRgHavcBuGCyfXf+ZWNNX3xk7uKbdwpy278mynLvzridW2+0TDc0p+
+         T5lJvLkY//c/bg+wWq0qa1R+HNtRP/GvSHgASNIyT7YQfd+bjFZaHBO5a/pMc0zEpqRT
+         Sv6GpyOiAmDUhgklUCOjY1BrllziJUmKm+riydq5ZvcHkqwW/wrzfQqGW6mNCM1achaB
+         deJqclc/ZzEqFNPVlNA1LlVpF1NOuoUXNy9pjsTy1EQR0KHq16/HuaJq2i8gOz59ToYS
+         3RSA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=gaYg+/0/ozWnszVW1Vg9icfOKh+UQdPJqj98WeYrJSI=;
-        fh=ODXvjls294RbA7hIIdBdgKIfLNTXZXR/dpyPhtNhufM=;
-        b=UMLKX61w6QgY3oxOwxAHt5XAXbaG5oDT/1VDZE3WMNQElf77ALFocIZ9DKHLVY7IIN
-         KoH9P4u1Jbl96BjkWU7r19BtjZlWt+0EwoystvxzgXpnGXixoQl67jSTIw8mH/RIkwiL
-         a+ATj7QEYxwKJxIw5q+IFMARJ+OJkKRIEwVQmyaoNRQLW21xcxLkXFms1xBN/s3YHHOc
-         RnOf4rkX7yEO4SkT4CH5VhrxxSGdu7LzTcgDh8QoY+kyVir3ya1arRo2R03+fpRL+jb2
-         paeaTts0t5CM7kiXWECZTMyhoeDCapaKzt7F+lfWZtEE2lyQLAlm1zgHKVSjefoYmJw/
-         iXOQ==;
+        bh=3evZkOOAwLovlQ4xAZyrzRxNzWtrzok12LdiaOixdrk=;
+        fh=LCSv1QAPJ6C/UCCJptiVpjeOPHl25hr1hxAwmthlTAI=;
+        b=Qyet55+wEFtx3TGcAirjIc8ptsZiDdAy3/KrzUP0uQk4jqBDaL6/YQ5iDidOaiVTBL
+         tEAsAY4ZikzBjNBVQRqw2d6oTJ8+WtoH2oTF7yLhBn3XzD1ELtZB3tU3oABS18b0itkN
+         cr5nGR27UnfFjLyABRQGvgAmZJRk6GzfmFAK3USzqwe+N2oJSQMmeE7II/8MywQjZ3Zv
+         Qe3/V7Bb155NIA/0Byx9LgmOECjvSIgbQYcgNgFu9LfZT0kPZ4PquRkaSR8ep2wfmFxc
+         HUZjt4o4OfwvUh60NyjroXlyZQ0eIHvGdWOFylXkwEQCy2VZNSar6lasVTF1buqkgtpj
+         zp2g==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=ioFYPxXi;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=nM63+aDo;
        spf=pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::436 as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com. [2607:f8b0:4864:20::436])
-        by gmr-mx.google.com with ESMTPS id 46e09a7af769-745a33b347asi692883a34.3.2025.09.09.22.32.20
+        by gmr-mx.google.com with ESMTPS id 46e09a7af769-745a33b347asi692883a34.3.2025.09.09.22.32.31
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Sep 2025 22:32:20 -0700 (PDT)
+        Tue, 09 Sep 2025 22:32:31 -0700 (PDT)
 Received-SPF: pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::436 as permitted sender) client-ip=2607:f8b0:4864:20::436;
-Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-772301f8a4cso8965680b3a.3
-        for <kasan-dev@googlegroups.com>; Tue, 09 Sep 2025 22:32:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWh3BlAdFBPiAwtNoeUH/vDxtv8uSbGXnwjOSs8gqBWBc6CwLzvdUV0dAeLgQ1HXPiGQCXZrWt62uU=@googlegroups.com
-X-Gm-Gg: ASbGncs1D7gT93Wtp9fB6PIARP3d1qMAa+pzsLkPeEjyebpnVsHLnzEwRtSyTwwUjgT
-	MbvjV48d8DH/7HBGwlM6GRaXysDQo+P3d8OPBttBEzAJjFJiK1hdymvRdDZvXPzhaX07AJJQZv8
-	Pjxs7k7fac4E9IGEK2cSrdpM7Hr6jG8cC7x2w3rDGaj6hO+pMt84FWKya8KPt25INgg3U1jPsdW
-	VMPSnJcucfzRnj7WQhZaPx+y46Rbh2QN0IFUB+louhTTu+XE1zJfrrq6Vkk2hWBtwY9Ydi/CXoo
-	Kry+Bt5QT6F85EI/mxERfzKIqjB3PTzETEmoPivP10BGCLu76+ijxNRH4e0nCM/OV9a4Ci0k0Du
-	ghA7pze3XSDp0kOlq073yInoTG9Yj5ETjZ3HQe1p6J2me/RblBw==
-X-Received: by 2002:a05:6a00:1a8f:b0:772:2850:783d with SMTP id d2e1a72fcca58-7742dedf06emr18816777b3a.22.1757482339803;
-        Tue, 09 Sep 2025 22:32:19 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-772301f8a4cso8965868b3a.3
+        for <kasan-dev@googlegroups.com>; Tue, 09 Sep 2025 22:32:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVDeNCU7o2BnGb1ZCovg6yl3v8nvqfTsYkQ0izdreByVHBxqXr4du/6XorQtjxBeQlvHQu9/6kfBC8=@googlegroups.com
+X-Gm-Gg: ASbGncu+bTuVsVT5wPUVlqeoZytp+f2ydbYonhQOW4lqlOQagrHWd9/dNL6FdSDA7bt
+	2ryDOekTywJpmNmU6YgV2k5+5Md7Cf3j8kgpwkLI7wYEk8JbyzN5dKi5Yjw5fJxRcMnBlRekV7q
+	WHZQahAJFnV5twUoXZStW/Xc+XjnJpfpJje2il5/LV/kX++UrdzeqrVWYaQlWARg/SdBnKx8em5
+	Pm6WNIGfgxwAUmxXP1BZ0HYVfs/aRW2DE/iEAvr4ESiVTyi7kMWgD35/4QGUWATKzrTfQxcHp6S
+	+tjKe9G244e8OB8ZJrTfFGR6cxVKB4IWGFR8tdtna/v1pibihnx0nP+m70feEKqoaAxu+MGzJB9
+	vwDxEBkttXFUl7xPBwqLSQTPdETJtEK/YRu+6JdVzuo7Sw3Pjnw==
+X-Received: by 2002:a05:6a00:84e:b0:771:f69a:c426 with SMTP id d2e1a72fcca58-7742ddadc99mr21024675b3a.14.1757482351351;
+        Tue, 09 Sep 2025 22:32:31 -0700 (PDT)
 Received: from localhost.localdomain ([45.8.220.62])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7746628ffbesm3870342b3a.66.2025.09.09.22.32.09
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7746628ffbesm3870342b3a.66.2025.09.09.22.32.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Sep 2025 22:32:19 -0700 (PDT)
+        Tue, 09 Sep 2025 22:32:30 -0700 (PDT)
 From: Jinchao Wang <wangjinchao600@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
@@ -169,9 +169,9 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 	linux-perf-users@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Jinchao Wang <wangjinchao600@gmail.com>
-Subject: [PATCH v3 10/19] mm/ksw: resolve stack watch addr and len
-Date: Wed, 10 Sep 2025 13:31:08 +0800
-Message-ID: <20250910053147.1152253-2-wangjinchao600@gmail.com>
+Subject: [PATCH v3 11/19] mm/ksw: add recursive depth tracking
+Date: Wed, 10 Sep 2025 13:31:09 +0800
+Message-ID: <20250910053147.1152253-3-wangjinchao600@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250910053147.1152253-1-wangjinchao600@gmail.com>
 References: <20250910052335.1151048-1-wangjinchao600@gmail.com>
@@ -179,7 +179,7 @@ References: <20250910052335.1151048-1-wangjinchao600@gmail.com>
 MIME-Version: 1.0
 X-Original-Sender: wangjinchao600@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=ioFYPxXi;       spf=pass
+ header.i=@gmail.com header.s=20230601 header.b=nM63+aDo;       spf=pass
  (google.com: domain of wangjinchao600@gmail.com designates
  2607:f8b0:4864:20::436 as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
@@ -197,123 +197,167 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Add helpers to find the stack canary or a local variable addr and len
-for the probed function based on ksw_get_config(). For canary search,
-limits search to a fixed number of steps to avoid scanning the entire
-stack. Validates that the computed address and length are within the
-kernel stack.
+Track per-task recursion depth using a simple hashtable keyed by PID.
+Entry/exit handlers update the depth, triggering only at the configured
+recursion level.
 
 Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
 ---
- mm/kstackwatch/stack.c | 86 ++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 83 insertions(+), 3 deletions(-)
+ mm/kstackwatch/stack.c | 100 ++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 98 insertions(+), 2 deletions(-)
 
 diff --git a/mm/kstackwatch/stack.c b/mm/kstackwatch/stack.c
-index 72409156458f..3ea0f9de698e 100644
+index 3ea0f9de698e..669876057f0b 100644
 --- a/mm/kstackwatch/stack.c
 +++ b/mm/kstackwatch/stack.c
-@@ -13,14 +13,94 @@ static struct kprobe entry_probe;
- static struct fprobe exit_probe;
- #define INVALID_PID -1
+@@ -3,6 +3,8 @@
+ 
+ #include <linux/atomic.h>
+ #include <linux/fprobe.h>
++#include <linux/hash.h>
++#include <linux/hashtable.h>
+ #include <linux/kprobes.h>
+ #include <linux/printk.h>
+ #include <linux/spinlock.h>
+@@ -15,6 +17,83 @@ static struct fprobe exit_probe;
  static atomic_t ksw_stack_pid = ATOMIC_INIT(INVALID_PID);
-+#define MAX_CANARY_SEARCH_STEPS 128
+ #define MAX_CANARY_SEARCH_STEPS 128
+ 
++struct depth_entry {
++	pid_t pid;
++	int depth; /* starts from 0 */
++	struct hlist_node node;
++};
 +
-+static unsigned long ksw_find_stack_canary_addr(struct pt_regs *regs)
++#define DEPTH_HASH_BITS 8
++#define DEPTH_HASH_SIZE BIT(DEPTH_HASH_BITS)
++static DEFINE_HASHTABLE(depth_hash, DEPTH_HASH_BITS);
++static DEFINE_SPINLOCK(depth_hash_lock);
++
++static int get_recursive_depth(void)
 +{
-+	unsigned long *stack_ptr, *stack_end, *stack_base;
-+	unsigned long expected_canary;
-+	unsigned int i;
++	struct depth_entry *entry;
++	pid_t pid = current->pid;
++	int depth = 0;
 +
-+	stack_ptr = (unsigned long *)kernel_stack_pointer(regs);
-+
-+	stack_base = (unsigned long *)(current->stack);
-+
-+	// TODO: limit it to the current frame
-+	stack_end = (unsigned long *)((char *)current->stack + THREAD_SIZE);
-+
-+	expected_canary = current->stack_canary;
-+
-+	if (stack_ptr < stack_base || stack_ptr >= stack_end) {
-+		pr_err("Stack pointer 0x%lx out of bounds [0x%lx, 0x%lx)\n",
-+		       (unsigned long)stack_ptr, (unsigned long)stack_base,
-+		       (unsigned long)stack_end);
-+		return 0;
-+	}
-+
-+	for (i = 0; i < MAX_CANARY_SEARCH_STEPS; i++) {
-+		if (&stack_ptr[i] >= stack_end)
++	spin_lock(&depth_hash_lock);
++	hash_for_each_possible(depth_hash, entry, node, pid) {
++		if (entry->pid == pid) {
++			depth = entry->depth;
 +			break;
++		}
++	}
++	spin_unlock(&depth_hash_lock);
++	return depth;
++}
 +
-+		if (stack_ptr[i] == expected_canary) {
-+			pr_debug("canary found i:%d 0x%lx\n", i,
-+				 (unsigned long)&stack_ptr[i]);
-+			return (unsigned long)&stack_ptr[i];
++static void set_recursive_depth(int depth)
++{
++	struct depth_entry *entry;
++	pid_t pid = current->pid;
++	bool found = false;
++
++	spin_lock(&depth_hash_lock);
++	hash_for_each_possible(depth_hash, entry, node, pid) {
++		if (entry->pid == pid) {
++			entry->depth = depth;
++			found = true;
++			break;
 +		}
 +	}
 +
-+	pr_debug("canary not found in first %d steps\n",
-+		 MAX_CANARY_SEARCH_STEPS);
-+	return 0;
++	if (found) {
++		// last exit handler
++		if (depth == 0) {
++			hash_del(&entry->node);
++			kfree(entry);
++		}
++		goto unlock;
++	}
++
++	WARN_ONCE(depth != 1, "new entry depth %d should be 1", depth);
++	entry = kmalloc(sizeof(*entry), GFP_ATOMIC);
++	if (entry) {
++		entry->pid = pid;
++		entry->depth = depth;
++		hash_add(depth_hash, &entry->node, pid);
++	}
++unlock:
++	spin_unlock(&depth_hash_lock);
 +}
 +
-+static int ksw_stack_validate_addr(unsigned long addr, size_t size)
++static void reset_recursive_depth(void)
 +{
-+	unsigned long stack_start, stack_end;
++	struct depth_entry *entry;
++	struct hlist_node *tmp;
++	int bkt;
 +
-+	if (!addr || !size)
-+		return -EINVAL;
-+
-+	stack_start = (unsigned long)current->stack;
-+	stack_end = stack_start + THREAD_SIZE;
-+
-+	if (addr < stack_start || (addr + size) > stack_end)
-+		return -ERANGE;
-+
-+	return 0;
++	spin_lock(&depth_hash_lock);
++	hash_for_each_safe(depth_hash, bkt, tmp, entry, node) {
++		hash_del(&entry->node);
++		kfree(entry);
++	}
++	spin_unlock(&depth_hash_lock);
 +}
- 
- static int ksw_stack_prepare_watch(struct pt_regs *regs,
- 				   const struct ksw_config *config,
- 				   u64 *watch_addr, u64 *watch_len)
++
+ static unsigned long ksw_find_stack_canary_addr(struct pt_regs *regs)
  {
--	/* implement logic will be added in following patches */
--	*watch_addr = 0;
--	*watch_len = 0;
-+	u64 addr;
-+	u64 len;
-+
-+	/* Resolve addresses for all active watches */
-+	switch (ksw_get_config()->type) {
-+	case WATCH_CANARY:
-+		addr = ksw_find_stack_canary_addr(regs);
-+		len = sizeof(unsigned long);
-+		break;
-+
-+	case WATCH_LOCAL_VAR:
-+		addr = kernel_stack_pointer(regs) +
-+		       ksw_get_config()->local_var_offset;
-+		len = ksw_get_config()->local_var_len;
-+		break;
-+
-+	default:
-+		pr_err("Unknown watch type %d\n", ksw_get_config()->type);
-+		return -EINVAL;
-+	}
-+
-+	if (ksw_stack_validate_addr(addr, len)) {
-+		pr_err("invalid stack addr:0x%llx len :%llu\n", addr, len);
-+		return -EINVAL;
-+	}
-+
-+	*watch_addr = addr;
-+	*watch_len = len;
- 	return 0;
- }
+ 	unsigned long *stack_ptr, *stack_end, *stack_base;
+@@ -109,8 +188,15 @@ static void ksw_stack_entry_handler(struct kprobe *p, struct pt_regs *regs,
+ {
+ 	u64 watch_addr;
+ 	u64 watch_len;
++	int cur_depth;
+ 	int ret;
  
++	cur_depth = get_recursive_depth();
++	set_recursive_depth(cur_depth + 1);
++
++	if (cur_depth != ksw_get_config()->depth)
++		return;
++
+ 	if (atomic_cmpxchg(&ksw_stack_pid, INVALID_PID, current->pid) !=
+ 	    INVALID_PID)
+ 		return;
+@@ -126,8 +212,8 @@ static void ksw_stack_entry_handler(struct kprobe *p, struct pt_regs *regs,
+ 	ret = ksw_watch_on(watch_addr, watch_len);
+ 	if (ret) {
+ 		atomic_set(&ksw_stack_pid, INVALID_PID);
+-		pr_err("failed to watch on addr:0x%llx len:%llu %d\n",
+-		       watch_addr, watch_len, ret);
++		pr_err("failed to watch on depth:%d addr:0x%llx len:%llu %d\n",
++		       cur_depth, watch_addr, watch_len, ret);
+ 		return;
+ 	}
+ }
+@@ -136,6 +222,14 @@ static void ksw_stack_exit_handler(struct fprobe *fp, unsigned long ip,
+ 				   unsigned long ret_ip,
+ 				   struct ftrace_regs *regs, void *data)
+ {
++	int cur_depth;
++
++	cur_depth = get_recursive_depth() - 1;
++	set_recursive_depth(cur_depth);
++
++	if (cur_depth != ksw_get_config()->depth)
++		return;
++
+ 	if (atomic_read(&ksw_stack_pid) != current->pid)
+ 		return;
+ 
+@@ -149,6 +243,8 @@ int ksw_stack_init(void)
+ 	int ret;
+ 	char *symbuf = NULL;
+ 
++	reset_recursive_depth();
++
+ 	memset(&entry_probe, 0, sizeof(entry_probe));
+ 	entry_probe.symbol_name = ksw_get_config()->function;
+ 	entry_probe.offset = ksw_get_config()->ip_offset;
 -- 
 2.43.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250910053147.1152253-2-wangjinchao600%40gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250910053147.1152253-3-wangjinchao600%40gmail.com.
