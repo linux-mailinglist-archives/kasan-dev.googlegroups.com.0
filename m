@@ -1,136 +1,272 @@
-Return-Path: <kasan-dev+bncBDEZDPVRZMARBF6VRTDAMGQEIQG6IQI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDM2HOMBZYGBBJUQRXDAMGQE5KQXC5I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43f.google.com (mail-pf1-x43f.google.com [IPv6:2607:f8b0:4864:20::43f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 912EEB53CCF
-	for <lists+kasan-dev@lfdr.de>; Thu, 11 Sep 2025 22:01:30 +0200 (CEST)
-Received: by mail-pf1-x43f.google.com with SMTP id d2e1a72fcca58-7724ff1200esf979493b3a.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 11 Sep 2025 13:01:30 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1757620889; cv=pass;
-        d=google.com; s=arc-20240605;
-        b=lqwIvKGYjc1QB4CKfojW8T0c2TAk8Yorw9MZQVXMPVjiNTl5aWEJuGXS1/t7okmKR9
-         G6xlNNTaJCgYjC27j0cr0VovMnnFVAXgnIrkbUQeq53zuuoGiz59wPzhDyrKSqZAImNy
-         7cbVKQ08GwYf315SysH8UvlLqcv3nUKWgFWg5lEO0xePWn8TWI0/yXEOmDIXc94PQvi/
-         0uvsmkWNENT5UodHgHSCWa+7xuuVLdJ2aauhnvpJ4iL0wx18YUDDxccvdt6u+wGaIkWI
-         jRkyxbnP0+fCktyUgnw8Yy//h45VOS157/lKCMZyPtY6HappAoZDnxHRJ3HCfR9Oyl6o
-         TQbA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
-         :date:subject:cc:to:from:dkim-signature;
-        bh=vjxZFQdC+I8xUxg4sIaS22LFlVBKGqEnFWZYN+T3LPI=;
-        fh=fs9Nwz2L0g5FcPXTKVvfpVC43nk+szgWsayV25J4zK0=;
-        b=EGTbrl/uabT5wris3On6hcvoDugwIuxZ7jpoYMSL7ApdwAebkOPDLnD1l0L+G3Bh0x
-         wDfkObQ+3f2Kmpkc2yNeDabFlkaBk26LuCt4pTBgXQvl1OmAnblxSgGA+Wdj92hfegGo
-         T0V3tGCTuAsOJfUp+t3Z8McOvnaE7luHIvL2CQxDXD6AmIiV0JNtdwjW6XNpNJb267YZ
-         UPuUvnBEIfQaIQnpkR7BHpP7xNEvAQemHBeiyyWJneCqKvgoRT/E+/3Dh7bM8uqnlnei
-         rTPeAZMfdHqUXYgXHOj9vxyXpxDmLkXBGsv01XPZEgSmXhQGTj0eWLJDrqkPHS0LMlsR
-         kc1A==;
-        darn=lfdr.de
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=ewFZ9qag;
-       spf=pass (google.com: domain of ebiggers@kernel.org designates 172.105.4.254 as permitted sender) smtp.mailfrom=ebiggers@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from mail-oa1-x3b.google.com (mail-oa1-x3b.google.com [IPv6:2001:4860:4864:20::3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id D28F5B53E73
+	for <lists+kasan-dev@lfdr.de>; Fri, 12 Sep 2025 00:07:36 +0200 (CEST)
+Received: by mail-oa1-x3b.google.com with SMTP id 586e51a60fabf-31d71ff0ae0sf1677362fac.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 11 Sep 2025 15:07:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1757620889; x=1758225689; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1757628455; x=1758233255; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vjxZFQdC+I8xUxg4sIaS22LFlVBKGqEnFWZYN+T3LPI=;
-        b=dBEMkx4VWoU3ZKmg25xsxF42R1/ge74cXvb7FjC6hyQyyJQ2V1U57w78RpB6GOwXTY
-         PcqPzwRFaM47RQdG7xX0e1xyixAn1OPkZfrLheWLxvjYlcTxPYHA8pUFRa7nE8EU9fFj
-         UKnuT13cYDzov2a2g+J2ZOUkEmKXThpP67VOBPOUJVAznF9EhpTrBBjKA9PKrw2Pj/xC
-         jA6vQIE0Pp7uIuYyNNjNpuAwkJ+0heQS8LsjXcDA06PS0s5PN9+xMmKmPD1EVbP2RFT4
-         4OmEFuDJLxORCUycORPeHzYHtlIfOHTFICpF0UdKfVS5NHhGk2e2Qk+BZgFQ/vGKRhiA
-         rOiQ==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:date:message-id:sender:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=5u0JMl8rNVuDQE9ctivsE8bfS0Ik3Fnqq58fdDCNiFk=;
+        b=X6YCEcNcyzsvzaM2TiocV1PFSyTNnkNneXjFam9U8jGTRAq8/xbEV5dypT72P6gYDh
+         IhKDG4dBs8mugT44QBezf+AT2uEnCHrLa8vHi2AYObUe1Z7y8lVft4mohtw4RTYPWcMb
+         PCyulNsY/ZrHeofq1ql04Dc7Y8HJP6jdXcmdtnSmeiwH+bAMzIjLMT2GgCD6i4IX+4Z3
+         IgSUd13Ro9e33qzyFMpS33iCc2a/UGaIz/56ruy4/2loMkiem38pbDlZqOVJmAFk38oU
+         vVdF+Y8NqwiFvH1rSY1/k9rr5lLo/NKFSowzFBKfN+Eg7gm1ovyhCpm/vv+Ibtt50w53
+         EHOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757620889; x=1758225689;
+        d=1e100.net; s=20230601; t=1757628455; x=1758233255;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :in-reply-to:content-language:from:references:cc:to:subject
+         :user-agent:date:message-id:x-beenthere:x-gm-message-state:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=vjxZFQdC+I8xUxg4sIaS22LFlVBKGqEnFWZYN+T3LPI=;
-        b=Iz6JqCkXmWpdwedjfpjwjDPJ8TOvpD+mMqPrGB8Vk0chtAprGG/3KZh1x4EguNWWCc
-         bLNM4Is8TzknEEkG0iasdomc1r3S/NRBE96/j2uNGNjJ/VNlD2bCggQDQ0kGmj3d7wph
-         WB4It1bthVvo5h25TfgSxtpbAM076kERZbgxHeTRJhk48yPLmHGXYrv8IPxwhsiZoYYg
-         TvGRYhj3Y8gxezH53UTeGB/8lBFsab+YSv5OFOixWiraz3Rj3jTi97DZBe2w2LKrMo8s
-         OSYuHvCsBFsV+4L7x1eLF65AGzNOD33afa5zdMurf2SQ8NWH1fYAQYajbSl575GsMxeX
-         tCzw==
-X-Forwarded-Encrypted: i=2; AJvYcCWlQ0LKO6vt5I2wAd9BZhiMWhFeJs9pKIpvbZT67Cj0rdfw4hyH/tn4PMqJ+XPuWCYdCTDg9Q==@lfdr.de
-X-Gm-Message-State: AOJu0YxRFSaxobJbB9mOwLIJf34h+S6v8KodqgXRXqJaP4RLMTLMsA5P
-	P7jKiRlXnnZ4gZNjsPSgFjt8VXMDuCfOCJ5C6gIDbGJviuiYw8XzuYrf
-X-Google-Smtp-Source: AGHT+IFNdMbrPeg3vwEh24zIpd5FJfr+7CsQVPD0wjdGz02G3NPhNJyioBhYJ2VeJ8x+opGz+kETNQ==
-X-Received: by 2002:a05:6a00:23d3:b0:772:38d0:4fee with SMTP id d2e1a72fcca58-776120913cemr572781b3a.12.1757620888255;
-        Thu, 11 Sep 2025 13:01:28 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZeMPkvjxyT9iO8Jo0u3axU029l7z0TmoA4jE6zaSMm+mg==
-Received: by 2002:a05:6a00:b4c:b0:772:87ee:6e5c with SMTP id
- d2e1a72fcca58-77604e25b10ls1102596b3a.0.-pod-prod-09-us; Thu, 11 Sep 2025
- 13:01:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWQOXjJuGbPIqP3jl2OUsSS50MkuNASkrV3ZLceQ6AkRzjSaR3PQ2yM1SrLUqAVGmBL0tk0V2HkSx8=@googlegroups.com
-X-Received: by 2002:a05:6a00:194b:b0:772:5271:d1ba with SMTP id d2e1a72fcca58-77612061e2emr662529b3a.7.1757620885755;
-        Thu, 11 Sep 2025 13:01:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1757620885; cv=none;
+        bh=5u0JMl8rNVuDQE9ctivsE8bfS0Ik3Fnqq58fdDCNiFk=;
+        b=SkpZVn9o1w5Y1YFv6E/RroP0mSsZyOOBU385KkCMOD3zA8hQkSXVGlldl9oHDJlhZ7
+         CMprSef/jNuIQPTn3pNn2jlPXSRFA6nxKpi2JZ1JX5XakGf3kGc+izJMZ3P4K2LL+zLH
+         9Jmh03uZfxnZ5NdQNbU9h6YUWHW14EvUgoBdcQGNBAMg7x7bCdWFUYmfhoiK8Xm/2xFc
+         lCzBWz+1CtV2l5RF3Nt6OqZXEjmW4ECV85UdUySFxqMRVrDJCjLipnMt5qXdVJGTBbX3
+         vs+vfuYX5K/TXtM6L4+5hesMJWzfrZ8m3ueisXYOVvsOL1RtlXDFXYA3rldNYZaKmQDq
+         ERbg==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=3; AJvYcCUM4gCkxzI6ESG3M+fhzk+oWC0jGwiTeNQVqzM8ciyBK9kJpn/y1ON9vfbhiXW159xeqsRTcg==@lfdr.de
+X-Gm-Message-State: AOJu0YxsOU/YluEzAddbE1x/29rluwOCZBQV/4hLiLK7t1eahD27XiYA
+	zlui4bFdNNwPfEfrqbeyu8qZkHQgAJL4wCHAy5Prx2mrn/SyOCiOx3r/
+X-Google-Smtp-Source: AGHT+IEkVjHAs89Hsek5V2tSi07ngYY60wF/b+lmazQzK8NEhZCQX7BJ+2jVxgW0kFRdY9RRVziqwA==
+X-Received: by 2002:a05:6870:3894:b0:30b:ae4c:2e82 with SMTP id 586e51a60fabf-32e4c96f3c4mr496795fac.12.1757628455198;
+        Thu, 11 Sep 2025 15:07:35 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd5GzOE64ypjqP4RXGmEQGTTerDgZbuFQGnPftb//38WJQ==
+Received: by 2002:a05:6871:540e:b0:315:2a9d:9ec5 with SMTP id
+ 586e51a60fabf-32d054d9bedls391918fac.1.-pod-prod-00-us; Thu, 11 Sep 2025
+ 15:07:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=3; AJvYcCW2KNfajAXeiNKtlu0wyY7Ht5KtzPTamF3H+/y7kXUzJjUwvbeMARc6tZuPYRk4X8SzrUoZQ+K/PpQ=@googlegroups.com
+X-Received: by 2002:a05:6870:a79f:b0:315:8985:d81c with SMTP id 586e51a60fabf-32e4b4f4cc6mr346220fac.11.1757628453794;
+        Thu, 11 Sep 2025 15:07:33 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1757628453; cv=fail;
         d=google.com; s=arc-20240605;
-        b=KfYt08zfPya5h3w7H43RCNXp86RVCiCpaoWaKLaCwM/327k7eGJnkMosv1LDu1LFFG
-         rhroac6MobJxevRsRzyGB9krU6Qmrol5T9uBS/xGivHYh75LBmHZPipmpE0+ts5tqN7j
-         8opeu9WMQOaWUYVCwunnp2V+Zpl/s9s+ZV4mwTx2+tC+8Ko/DoYc8OskRbrFHnFYGsHa
-         o3lu8CGKEv0RvvIEcnCzwoibPMxgwjJ/PL7lBTK4PNBOdON46KPEL18GxoA1pKjGA7bE
-         MSb8I0MtV2wGs2LJx81WC4Swk6YvUOWC6ba0lRDQNpEStZF5JjQUoqLGRKUGO1/5kSAt
-         n1Uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=/U4YTn7fpmVQukBqbILryxn0c5nCuyfdigbDju2+Dzs=;
-        fh=oO4b7IAYxhiiXhWty/Cra9qYmXRSX03jv+l0QdgpWPA=;
-        b=FRbOJdupCb7hoxXK32mHPL9Equ/ST7k1wMB4Rwjz1iwh3FUrb0OnlSmjWZD9R1dmxu
-         LRmpIXeSHIY2R+vzKR/EJufSph3jCpfASCuChCNcMnj0e2cua/LsTB34jKCfp61gdHba
-         fxhuNZsZ6N/lL56Rwvi3wGfV0YVsT68y4PYLwvszZSo03IwEGRTc1bQ3Vo0CFUyo1Wi+
-         JmWZ93hinOmaD0jnYy33bbE9b8eM8L/J42JMBLDztLPF5PkAyUDpBvhHcQ0KcPV7LIKb
-         ITHs5OelzLIKRpifkBuh5dbdhoaMyEv5byOLMaiU5npmJZL2ESmBW/qsOYEJWH9R2YO5
-         eYCg==;
+        b=RIwWs5NOAjQKv9D8Zg/ihxBB5hn+bbBGb1HExjE6MGWvLI1u+YgaiOArJP+GZMEYfG
+         TxiddADDy+3914X39SEHj09+4JBxqMjsr0vw6S5mRw7A9FyXHoB2oXYVdTsJNyJZmsxy
+         uq9ytUsNHRMKPM8lHeXMSjUV2vdB++eoi+Oywq/sJcD9jBMC7YW/bEcYj7h7yBxRgj09
+         ddp0ymMpYwdF5diL0hvNCKs7hcSydqIgT9sJvt5KKSO8O8SpB0nB9KhdnHWUtQq4/SFI
+         FsontNG0XGdsqaZ+h8uUk4db5YcyBIOHqrnC+GEf6hpf64UKxUdURY1TR9dYAzuyQuuY
+         8CiQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=mime-version:content-transfer-encoding:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:date:message-id
+         :dkim-signature;
+        bh=7Yb5jZGdD0sSS+5D1aGT7DsEJz3AB9mw/RY9EV+oKqU=;
+        fh=w5A9CnUeWDniS8febzczIOAfEVrLzXomca2T58v0TVQ=;
+        b=XBvvrS9qtQL58FSkMX5jKURQvV4WQyLZRgsV5sME/yXmVzX4bYPacLam12tDyEIbRV
+         nD244ptwzPRy0+LtuAKjN+2N/zacSm2UMjm7mH/9qTWKH5tgoRmzje1LVj15x/RNID4F
+         Gtg3QBYMZ0Vp7i7xnj7qtl3NUOcnawC8SzRGvwU5BTo79zh0EOXJMgmiD+O3lyAyGNc0
+         i0Ci1oP0b5tgs1k5TTfPHEzfoqRErOteUKxfKwLWWmr5IHcdHVpavq8AEKUNwJeALIU0
+         l4QtAQQiwhbkHkDg3S+zr11aPfTDgnxAgARRoxkABG7P2YV8Xu6rsdVXCuHrzVyjrLdp
+         IFqQ==;
         dara=google.com
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=ewFZ9qag;
-       spf=pass (google.com: domain of ebiggers@kernel.org designates 172.105.4.254 as permitted sender) smtp.mailfrom=ebiggers@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from tor.source.kernel.org (tor.source.kernel.org. [172.105.4.254])
-        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-77607c67badsi82946b3a.6.2025.09.11.13.01.25
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=VJ8ixl+G;
+       arc=fail (signature failed);
+       spf=pass (google.com: domain of reinette.chatre@intel.com designates 192.198.163.10 as permitted sender) smtp.mailfrom=reinette.chatre@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mgamail.intel.com (mgamail.intel.com. [192.198.163.10])
+        by gmr-mx.google.com with ESMTPS id 586e51a60fabf-32d2f52aa36si132378fac.0.2025.09.11.15.07.33
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 13:01:25 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ebiggers@kernel.org designates 172.105.4.254 as permitted sender) client-ip=172.105.4.254;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id C08EE601DC;
-	Thu, 11 Sep 2025 20:01:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AD03C4CEF0;
-	Thu, 11 Sep 2025 20:01:24 +0000 (UTC)
-From: "'Eric Biggers' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>,
-	kasan-dev@googlegroups.com
-Cc: Dmitry Vyukov <dvyukov@google.com>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	Eric Biggers <ebiggers@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] kmsan: Fix out-of-bounds access to shadow memory
-Date: Thu, 11 Sep 2025 12:58:58 -0700
-Message-ID: <20250911195858.394235-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.51.0
-MIME-Version: 1.0
-X-Original-Sender: ebiggers@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=ewFZ9qag;       spf=pass
- (google.com: domain of ebiggers@kernel.org designates 172.105.4.254 as
- permitted sender) smtp.mailfrom=ebiggers@kernel.org;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: Eric Biggers <ebiggers@kernel.org>
-Reply-To: Eric Biggers <ebiggers@kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 11 Sep 2025 15:07:33 -0700 (PDT)
+Received-SPF: pass (google.com: domain of reinette.chatre@intel.com designates 192.198.163.10 as permitted sender) client-ip=192.198.163.10;
+X-CSE-ConnectionGUID: QMpbtknwTYSKV1Q4FJzDWQ==
+X-CSE-MsgGUID: cr20Z9OPQo2Ypjzx/YsP3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11550"; a="71349751"
+X-IronPort-AV: E=Sophos;i="6.18,258,1751266800"; 
+   d="scan'208";a="71349751"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 15:07:33 -0700
+X-CSE-ConnectionGUID: fxqupNegR/CqAnoDOWiuoA==
+X-CSE-MsgGUID: 3hMBsVIaRWWKRDkUUGglng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,258,1751266800"; 
+   d="scan'208";a="173710304"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 15:07:30 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Thu, 11 Sep 2025 15:07:29 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17 via Frontend Transport; Thu, 11 Sep 2025 15:07:29 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (40.107.93.64) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Thu, 11 Sep 2025 15:07:28 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rqDNgKe8mBHicsje7i1Z+3vUa+N0iv+fkR96LCZNnfuBoJLgZ5EEUwoM6UR2XY1LvxqloiceHAf4sAe/cSPMxlufqyWX3ovoGImcv/QrRPCIfOts3KBA9BSQZAQlPCfkpXfuWPbsFbZNkDqUR5e+/LEAksj8n9i8XUaE6YZsy8pndyZ1gW2zmJOcME40rHbwKLPQaBkmXI2nS6mgBm8iuXBYFIMDSNrjRI+3fWoo65iC0FNY/FKm5rC9qaM+uOBnCEDLK5MSX6OmZGpIzZwrAqnsSaZGCQcaBfWLO0bTWsz9anYTjAhH4sfN0OJB3SuYB7GC6V0fOTdP74UGMw26Nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7Yb5jZGdD0sSS+5D1aGT7DsEJz3AB9mw/RY9EV+oKqU=;
+ b=jkSAEq98XNF45dpVyqG/x4x1EnOhZ/imo6pAR83pY2mMqGr73T9aGK/U5sakWd4k9pz9K5b/uU5pvNU5fB+G1AvR0blLoZBkR2PEFA9vav3OfnQ4RWgPFCK3yP0L3kjbluc9lDq+668sRrHSJAaPQVuoMFFTvaPQwITJCcN0cbHVQDhQz0MenniiWmhBZvHEypGvFZGgKv+Kv4Wg45xHxFpWRLG5QVagQJFxkfve/1VqLVQLom72b8iYn1OnMyvugbQLJIB2Riu8CtBZBLobZlwygnJZLmsyLYa647f9WIjvEb6IK/fX9RoWk4XkOndf1LWx3JNKpIrx/czPxejDMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by SA2PR11MB5035.namprd11.prod.outlook.com (2603:10b6:806:116::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Thu, 11 Sep
+ 2025 22:07:26 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%4]) with mapi id 15.20.9094.021; Thu, 11 Sep 2025
+ 22:07:26 +0000
+Message-ID: <dce30be7-90d3-4a6a-9b26-44d76c3190a0@intel.com>
+Date: Thu, 11 Sep 2025 15:07:21 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 08/16] mm: add ability to take further action in
+ vm_area_desc
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Andrew Morton
+	<akpm@linux-foundation.org>
+CC: Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>,
+	Guo Ren <guoren@kernel.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger
+	<borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, "David S .
+ Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, "Arnd
+ Bergmann" <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Williams <dan.j.williams@intel.com>, Vishal Verma
+	<vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, Nicolas Pitre
+	<nico@fluxnic.net>, Muchun Song <muchun.song@linux.dev>, Oscar Salvador
+	<osalvador@suse.de>, David Hildenbrand <david@redhat.com>, Konstantin Komarov
+	<almaz.alexandrovich@paragon-software.com>, Baoquan He <bhe@redhat.com>,
+	Vivek Goyal <vgoyal@redhat.com>, Dave Young <dyoung@redhat.com>, Tony Luck
+	<tony.luck@intel.com>, Dave Martin <Dave.Martin@arm.com>, James Morse
+	<james.morse@arm.com>, Alexander Viro <viro@zeniv.linux.org.uk>, "Christian
+ Brauner" <brauner@kernel.org>, Jan Kara <jack@suse.cz>, "Liam R . Howlett"
+	<Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport
+	<rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+	<mhocko@suse.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
+	<baolin.wang@linux.alibaba.com>, Uladzislau Rezki <urezki@gmail.com>, "Dmitry
+ Vyukov" <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, "Jann
+ Horn" <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-csky@vger.kernel.org>,
+	<linux-mips@vger.kernel.org>, <linux-s390@vger.kernel.org>,
+	<sparclinux@vger.kernel.org>, <nvdimm@lists.linux.dev>,
+	<linux-cxl@vger.kernel.org>, <linux-mm@kvack.org>, <ntfs3@lists.linux.dev>,
+	<kexec@lists.infradead.org>, <kasan-dev@googlegroups.com>, Jason Gunthorpe
+	<jgg@nvidia.com>
+References: <cover.1757534913.git.lorenzo.stoakes@oracle.com>
+ <d85cc08dd7c5f0a4d5a3c5a5a1b75556461392a1.1757534913.git.lorenzo.stoakes@oracle.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <d85cc08dd7c5f0a4d5a3c5a5a1b75556461392a1.1757534913.git.lorenzo.stoakes@oracle.com>
 Content-Type: text/plain; charset="UTF-8"
+X-ClientProxiedBy: MW3PR05CA0016.namprd05.prod.outlook.com
+ (2603:10b6:303:2b::21) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SA2PR11MB5035:EE_
+X-MS-Office365-Filtering-Correlation-Id: 104ed724-b80f-487b-4edc-08ddf17f97a2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?eDM4VnBna1g3SjJRb00wdjJNN3haRzlDaHhNc1VEMUhZNWZOb0IxRERDM09K?=
+ =?utf-8?B?NVlVRnVlNXlzYTZsUnBoZzFkRUszSTdRRWNKaFQyK0h3QUdjblZNUlcvNEZl?=
+ =?utf-8?B?UFZYZ3g1WTVIWkNuNjFiN05sWHVhUWNQNTI3UUxxbUViUWlXRUdTdHJRNlZh?=
+ =?utf-8?B?aW9ybE1RYTlEZGVKa3dyQjJPUVJVajFUeGdzK202a2o3SWt5NFZaR3drS2x6?=
+ =?utf-8?B?c0JsSTBTNzA1a21SZFdrYzNWdFk3NDFiUWovVVgxTjRHRkh5WU5ubkxKbXNv?=
+ =?utf-8?B?aWIzTFg0bWVqRFVzSmRpQTNKdVI5UlJoTVBwcWxlQk10TVVHRUFNTituUzR4?=
+ =?utf-8?B?N2dFZ1VQOVFVWVN6amdVYllnVHFFU1RFUS9lN0dyQmxOenR1UW02THhPNnV3?=
+ =?utf-8?B?SmxBWjFDbHhtMmk5aG51SCtZYzFvOVhYd3JlUnJFQkk1LzRiSVJpZmtDeDJQ?=
+ =?utf-8?B?NGlLSzdUbDMvYkxNR3RBbXE2ZmU2c1U2U0U4Tk4rWW1nSkk5RzZPWjBiUjlJ?=
+ =?utf-8?B?UnBGYkRKWXdRbEErOUZ2QVE0U2sza1BZZzdScVpaV0NocUw1b3BzOUN5TEJa?=
+ =?utf-8?B?K0cwWkFDZWRRRVVUdlVIb3VnY2Fzc0liWDVlck02dWJNWHdnamlRbnBySm5P?=
+ =?utf-8?B?dE01YlloUXBOM2xYa20yVytxUUR6REhmY2ZkQkg3bXdIZFc4RTdDNE10UGZk?=
+ =?utf-8?B?S0RabHI5L2djN3R2ZFB4RmF6VEVkMlBsa2gyK3F0czhUaGNiVDlpNnpKUW9n?=
+ =?utf-8?B?Z0lYdUNsOHEzVTZMVGZ2U2NtUHdybWlZTzRDMEtSY1U3UUZnQW4vemhFVnJO?=
+ =?utf-8?B?NzJOcGxOODVUc2dZTGxZdUhOOS8xaXRqK2pSMXFMOU9ZdlEyc3dkdVBwZjdO?=
+ =?utf-8?B?VnZLK2h1WVBUZWlOYU5BMlgrVUQrYis0dXRNQmpzNE80czdVRUszLytOcDV3?=
+ =?utf-8?B?UFdTQm9UL0JsbTZIay9vdEhvc3FTaXhSb1BINUpYQmxxL0dHLzl2eEU4WjNa?=
+ =?utf-8?B?em05ZWJaL3A0T3NGNHhhZnNMZWhlTTZYbzVKRE4xSStvT3N0RTY0NU9HMFNE?=
+ =?utf-8?B?NW1MUXM4MDVvM0FIMjd2YUt5ZWtVRFd4aVQ3bWJkTyswYXNjRk0zZHV3b1hB?=
+ =?utf-8?B?UlF1YzZPbjFmZFo4N29kN2UzMDVCcGZoY0FUQ204WnBTNkg0RE1zR0libk0r?=
+ =?utf-8?B?NXdyb3FkbkdUYk50aGYvU0ZJK3FpRkVsMlZETEhGUE5HUEw5K0JsS3dVSmpp?=
+ =?utf-8?B?TnJ4cTdTbDZ3T01EQUI4cEpWeFVTYWtzOE1aUlFJMGpSOE9iV1pEdnZCSDl0?=
+ =?utf-8?B?M1dtNXJWVUJwcU9CUUpabXNEK3VSbWJ3T3ZzbnIzQ3JIbDY0alR1S3lLeWsv?=
+ =?utf-8?B?ZWhkdis1QUhMRTZPbi9KMWxkNXNmcFVXWUNEWFQxNzk2Y1ZZUXR4UExCbEls?=
+ =?utf-8?B?WVQ2ZGJnRERDaVdtaG9LbGxJaXZjSkppQ3VlUnZzZnlickRVQVRyUEJyS01M?=
+ =?utf-8?B?UVNVcnhKaUlNOTUyYllLZnFSNmRMOU5kMU1Iem5XVmNDakhPbm8rbDIxazJF?=
+ =?utf-8?B?T0N6M3kzK2FFVzFxKyt5OGFOUjlKNUJXaFRJcXlGS0lGeGN1Slc2dHF2anJF?=
+ =?utf-8?B?b0VwWEpZUnlUUDNXNjBUS094WTUzUE5aM3FmUUFtNllzZ1p6YjBXUHBBMkQv?=
+ =?utf-8?B?RkhOSHlMSkdVMVQ0RzdmZzhJUFgxellQRGFSTll0NHRaTm1IS3pPYjROK1Rs?=
+ =?utf-8?B?ZTRIRktwMDhDV1ROUlNlUDEyZzhObFEwak1XeFdGUDlNZVhJTUtEaDBUUGgw?=
+ =?utf-8?B?QWI3S1FRbE5PQy9LNFVsOWpvU3pqMk9iRXd3aWxobS96VXViQjNhZkRzVHBF?=
+ =?utf-8?B?UWE4SGJMcVBjbGtsTitRVTBmZTdJUmRLWEQxUHI1VWIxcEtHUzB4V1E3WHNz?=
+ =?utf-8?Q?EKmVJ1TaePc=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MGVUZWYxa1pQYTZpeElDYmU5aVVFdC9uT3JwT3ZadnpIc0RZWm1hZUwxZ2I5?=
+ =?utf-8?B?TndzaG1pQ2d0WTJCOTd5VlpzdEI1aXhJaU9yV3dPdUhwcDNIelRWd2ZqVmZt?=
+ =?utf-8?B?bW9DRFNmL1drR2lBWms0c1BTdHlwYTdTdnBQVDZNbm82eUxuRjFyR2wxbWl4?=
+ =?utf-8?B?ZitYTHhCOFFNWlVWMWFnUlpFZXJsSloyWnVvN3d5TXczY0hFZy9nL1hybEww?=
+ =?utf-8?B?T09UcmwwTUM3bVE3MFZYZnRCNEx5dmgrbTVvMHZiTlhoK1BNb3llYVdnYS9B?=
+ =?utf-8?B?Q0dydDN6QTRKelZwMDkvTEdJWW1YbnBpdGh2SUttNGZJeWdZbVRQcWI3Qm1h?=
+ =?utf-8?B?bEJyWjFmNHh6VHU1R0l2QmNjMUJGQjg3S1R1aEV5MzNxd1IrS29Rd1JGMFhT?=
+ =?utf-8?B?cmVlS0xqZndzbWxzSDBtSk1BanJBOUppY2oyWGpjR2F4SWNjZk5RZjBYaXBp?=
+ =?utf-8?B?dXNzZGxFN3liamZSOEhzNkh2eElDOGJDRUJJYW1TV3V1TEVsWkgxSHRLWjdW?=
+ =?utf-8?B?YjhhcGhReGZ4ZXlkMGwzZ0J5a1l5WDF6WmxHSzFCeWFqUUFQbU9RTzdHQXdV?=
+ =?utf-8?B?cmJCSXVTUGlYZ29IQ21rTUJTbHFQREt1WGpHZUEvQzEwVHRtKzRHdkhVVG84?=
+ =?utf-8?B?MjZZWTI1bmdCUFNpOWpZM1A5cHFTYktUcUNJa3J5Ni9BODh6bkliZDBodEsw?=
+ =?utf-8?B?SnZPSGRRSVgvQVM0V0FaYzgrMWVtakJ2VFU2WFNkUExuRXRSQmFIdmc1VFdL?=
+ =?utf-8?B?MENJdC8xQllRNFZkMHhiaXlEVTd1U3F3R2ZXeFFFbyt5OUIyUDBsekZObDdx?=
+ =?utf-8?B?UWhYSUw0cGdmWGk3NTFJbnkrSXcrb0hsOG5VUmsxbFVGNTAxNnZnZEZIVWJk?=
+ =?utf-8?B?TktFT2FUZnFKSC9OemhSV1cwQmlpeWJsb0dBbExnVy9OR3VGWktsbE5GWUM4?=
+ =?utf-8?B?Q2M2dGtFWGZTLzIyZXduaHdsRGlKZGl2WGpTdEVuNDlGNk1RaGZCUFVPcDg0?=
+ =?utf-8?B?YjJQbW9TWVFkVnVJdHFnNUNRL1pBWFoyWHJmOWZ0dXNsQm1nSnhFOGZIK2tz?=
+ =?utf-8?B?TUlpdDQ3Qmc0M25IZXpxZ0toejh4MDMxSXE0bktBcEZ6bDBnUXFaMS9POEE3?=
+ =?utf-8?B?bXgwTkZVYlJYUFI1Yzk4bHRjNktreGUzTHhWcllQQ1g4Q3hBVU53V05jRnE5?=
+ =?utf-8?B?VFRXbVZPZTY2VlFsa1g3d3ZnYVpJQWE4SHhEY0ZxWTNzSmwvK3kvMndVVXJH?=
+ =?utf-8?B?NEgyQ1dWYWlXU0gxOVQwYmhPNmRaWXdmQ3NWaUNlbEN2MnpsNTdQYStVckxX?=
+ =?utf-8?B?bHdudU5lTlhyVDhsQm5VTkduNEE2VHVNUkp2SkpDQk9QZThiYzg5UHZNM2tk?=
+ =?utf-8?B?RGpXMzdxT0doR2V6ZW05cHRNUVVrdzdwdDVjUWFWRytva2hyMjNxUlk2R3dh?=
+ =?utf-8?B?ODlydXVLSmlVVmIxU01iSXZXaXcxK3MvZnJtb3ZaQWRHMWIrTnpJdys3UE5m?=
+ =?utf-8?B?UGtIVmZqN0E3QVF4YlpZeFpKNzVWcFFWNDhuMlJ5UmFPR1ovbUxYNEpveUlR?=
+ =?utf-8?B?eGphS1A0WGFVSUxoQVJCTEE0MEordENyM0oyUTBLK2hIMm55bEN4WTc3WW5G?=
+ =?utf-8?B?VS94b3NoMWkzNlpNd2RNSzRkQWNDVVFVTnBHUHVjbDJlaFdITW1jeWJySVpo?=
+ =?utf-8?B?TXcrbTFWa3Y3UVJTOW9XODBSTzExazFUOGZzaFBnQUtIVTcraFc1Sys3K3VH?=
+ =?utf-8?B?cWc1WEVlcSs1eE55azdzTnBXYmJxZlRsZFZXaGU3aEY0aHg5aE5BUTZndnFB?=
+ =?utf-8?B?VUpOeU1TMVBOTEVGcXJKNk5NRzMza1BpQWJmYnlXazVQNjBqOFdTWUJqTWl5?=
+ =?utf-8?B?dHJmZ1YxMXc4d2I0WlphSWxzU0c1RVdnRDFkNzE2RSs5Y0VjTlV1ZFdMRmRU?=
+ =?utf-8?B?QUR2SFZ1NkpLWlFzSVNhQThCL0Q1S1Nhdzd1REd6bUVHNHVId1FESWRUdk1F?=
+ =?utf-8?B?VGQvYnR3SXdJRkRHWTR3VXpJYktFTkRHSUl0TE4wcm5qWTBET1owOEFLOXMz?=
+ =?utf-8?B?MGxQaWkzd0lNOXI1WG9vNU91OFZLdHZ1V1RVR1dNUzUzWXVkV0xlSm5pQjVl?=
+ =?utf-8?B?WXI4dHVOSXdRN25rNHBLZ3g3ayt6SXkxZytpOXRxdU5pNzJya0pTTmoxSC9T?=
+ =?utf-8?B?VFE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 104ed724-b80f-487b-4edc-08ddf17f97a2
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2025 22:07:26.5698
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MBxoLnLomYseB9mjG3m6U94rsNPsKwzmOs4mn79Mk++qLduFtEp+EQJ789YL7nPnhG10yna7KpqGmrq2df+lNJ2pl05FoIG9mVAKX7d+d28=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5035
+X-OriginatorOrg: intel.com
+X-Original-Sender: reinette.chatre@intel.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@intel.com header.s=Intel header.b=VJ8ixl+G;       arc=fail
+ (signature failed);       spf=pass (google.com: domain of reinette.chatre@intel.com
+ designates 192.198.163.10 as permitted sender) smtp.mailfrom=reinette.chatre@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,153 +279,86 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Running sha224_kunit on a KMSAN-enabled kernel results in a crash in
-kmsan_internal_set_shadow_origin():
+Hi Lorenzo,
 
-    BUG: unable to handle page fault for address: ffffbc3840291000
-    #PF: supervisor read access in kernel mode
-    #PF: error_code(0x0000) - not-present page
-    PGD 1810067 P4D 1810067 PUD 192d067 PMD 3c17067 PTE 0
-    Oops: 0000 [#1] SMP NOPTI
-    CPU: 0 UID: 0 PID: 81 Comm: kunit_try_catch Tainted: G                 N  6.17.0-rc3 #10 PREEMPT(voluntary)
-    Tainted: [N]=TEST
-    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.17.0-0-gb52ca86e094d-prebuilt.qemu.org 04/01/2014
-    RIP: 0010:kmsan_internal_set_shadow_origin+0x91/0x100
-    [...]
-    Call Trace:
-    <TASK>
-    __msan_memset+0xee/0x1a0
-    sha224_final+0x9e/0x350
-    test_hash_buffer_overruns+0x46f/0x5f0
-    ? kmsan_get_shadow_origin_ptr+0x46/0xa0
-    ? __pfx_test_hash_buffer_overruns+0x10/0x10
-    kunit_try_run_case+0x198/0xa00
+On 9/10/25 1:22 PM, Lorenzo Stoakes wrote:
 
-This occurs when memset() is called on a buffer that is not 4-byte
-aligned and extends to the end of a guard page, i.e. the next page is
-unmapped.
+...
 
-The bug is that the loop at the end of
-kmsan_internal_set_shadow_origin() accesses the wrong shadow memory
-bytes when the address is not 4-byte aligned.  Since each 4 bytes are
-associated with an origin, it rounds the address and size so that it can
-access all the origins that contain the buffer.  However, when it checks
-the corresponding shadow bytes for a particular origin, it incorrectly
-uses the original unrounded shadow address.  This results in reads from
-shadow memory beyond the end of the buffer's shadow memory, which
-crashes when that memory is not mapped.
+> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> index 4a441f78340d..ae6c7a0a18a7 100644
+> --- a/include/linux/mm_types.h
+> +++ b/include/linux/mm_types.h
+> @@ -770,6 +770,64 @@ struct pfnmap_track_ctx {
+>  };
+>  #endif
+>  
+> +/* What action should be taken after an .mmap_prepare call is complete? */
+> +enum mmap_action_type {
+> +	MMAP_NOTHING,		 /* Mapping is complete, no further action. */
+> +	MMAP_REMAP_PFN,		 /* Remap PFN range based on desc->remap. */
+> +	MMAP_INSERT_MIXED,	 /* Mixed map based on desc->mixedmap. */
+> +	MMAP_INSERT_MIXED_PAGES, /* Mixed map based on desc->mixedmap_pages. */
+> +	MMAP_CUSTOM_ACTION,	 /* User-provided hook. */
+> +};
+> +
+> +struct mmap_action {
+> +	union {
+> +		/* Remap range. */
+> +		struct {
+> +			unsigned long addr;
+> +			unsigned long pfn;
+> +			unsigned long size;
+> +			pgprot_t pgprot;
+> +		} remap;
+> +		/* Insert mixed map. */
+> +		struct {
+> +			unsigned long addr;
+> +			unsigned long pfn;
+> +			unsigned long num_pages;
+> +		} mixedmap;
+> +		/* Insert specific mixed map pages. */
+> +		struct {
+> +			unsigned long addr;
+> +			struct page **pages;
+> +			unsigned long num_pages;
+> +			/* kfree pages on completion? */
+> +			bool kfree_pages :1;
+> +		} mixedmap_pages;
+> +		struct {
+> +			int (*action_hook)(struct vm_area_struct *vma);
+> +		} custom;
+> +	};
+> +	enum mmap_action_type type;
+> +
+> +	/*
+> +	 * If specified, this hook is invoked after the selected action has been
+> +	 * successfully completed. Not that the VMA write lock still held.
 
-To fix this, correctly align the shadow address before accessing the 4
-shadow bytes corresponding to each origin.
+A typo that may trip tired eyes: Not -> Note ? (perhaps also "is still held"?)
+(also in the duplicate changes to tools/testing/vma/vma_internal.h)
 
-Fixes: 2ef3cec44c60 ("kmsan: do not wipe out origin when doing partial unpoisoning")
-Cc: stable@vger.kernel.org
-Signed-off-by: Eric Biggers <ebiggers@kernel.org>
----
+> +	 *
+> +	 * The absolute minimum ought to be done here.
+> +	 *
+> +	 * Returns 0 on success, or an error code.
+> +	 */
+> +	int (*success_hook)(struct vm_area_struct *vma);
+> +
+> +	/*
+> +	 * If specified, this hook is invoked when an error occurred when
+> +	 * attempting the selection action.
+> +	 *
+> +	 * The hook can return an error code in order to filter the error, but
+> +	 * it is not valid to clear the error here.
+> +	 */
+> +	int (*error_hook)(int err);
+> +};
 
-v2: Added test case to kmsan_test.
+Reinette
 
- mm/kmsan/core.c       | 10 +++++++---
- mm/kmsan/kmsan_test.c | 16 ++++++++++++++++
- 2 files changed, 23 insertions(+), 3 deletions(-)
-
-diff --git a/mm/kmsan/core.c b/mm/kmsan/core.c
-index 1ea711786c522..8bca7fece47f0 100644
---- a/mm/kmsan/core.c
-+++ b/mm/kmsan/core.c
-@@ -193,11 +193,12 @@ depot_stack_handle_t kmsan_internal_chain_origin(depot_stack_handle_t id)
- 
- void kmsan_internal_set_shadow_origin(void *addr, size_t size, int b,
- 				      u32 origin, bool checked)
- {
- 	u64 address = (u64)addr;
--	u32 *shadow_start, *origin_start;
-+	void *shadow_start;
-+	u32 *aligned_shadow, *origin_start;
- 	size_t pad = 0;
- 
- 	KMSAN_WARN_ON(!kmsan_metadata_is_contiguous(addr, size));
- 	shadow_start = kmsan_get_metadata(addr, KMSAN_META_SHADOW);
- 	if (!shadow_start) {
-@@ -212,13 +213,16 @@ void kmsan_internal_set_shadow_origin(void *addr, size_t size, int b,
- 		}
- 		return;
- 	}
- 	__memset(shadow_start, b, size);
- 
--	if (!IS_ALIGNED(address, KMSAN_ORIGIN_SIZE)) {
-+	if (IS_ALIGNED(address, KMSAN_ORIGIN_SIZE)) {
-+		aligned_shadow = shadow_start;
-+	} else {
- 		pad = address % KMSAN_ORIGIN_SIZE;
- 		address -= pad;
-+		aligned_shadow = shadow_start - pad;
- 		size += pad;
- 	}
- 	size = ALIGN(size, KMSAN_ORIGIN_SIZE);
- 	origin_start =
- 		(u32 *)kmsan_get_metadata((void *)address, KMSAN_META_ORIGIN);
-@@ -228,11 +232,11 @@ void kmsan_internal_set_shadow_origin(void *addr, size_t size, int b,
- 	 * and unconditionally overwrite the old origin slot.
- 	 * If the new origin is zero, overwrite the old origin slot iff the
- 	 * corresponding shadow slot is zero.
- 	 */
- 	for (int i = 0; i < size / KMSAN_ORIGIN_SIZE; i++) {
--		if (origin || !shadow_start[i])
-+		if (origin || !aligned_shadow[i])
- 			origin_start[i] = origin;
- 	}
- }
- 
- struct page *kmsan_vmalloc_to_page_or_null(void *vaddr)
-diff --git a/mm/kmsan/kmsan_test.c b/mm/kmsan/kmsan_test.c
-index c6c5b2bbede0c..902ec48b1e3e6 100644
---- a/mm/kmsan/kmsan_test.c
-+++ b/mm/kmsan/kmsan_test.c
-@@ -554,10 +554,25 @@ static void test_memcpy_initialized_gap(struct kunit *test)
- 
- DEFINE_TEST_MEMSETXX(16)
- DEFINE_TEST_MEMSETXX(32)
- DEFINE_TEST_MEMSETXX(64)
- 
-+/* Test case: ensure that KMSAN does not access shadow memory out of bounds. */
-+static void test_memset_on_guarded_buffer(struct kunit *test)
-+{
-+	void *buf = vmalloc(PAGE_SIZE);
-+
-+	kunit_info(test,
-+		   "memset() on ends of guarded buffer should not crash\n");
-+
-+	for (size_t size = 0; size <= 128; size++) {
-+		memset(buf, 0xff, size);
-+		memset(buf + PAGE_SIZE - size, 0xff, size);
-+	}
-+	vfree(buf);
-+}
-+
- static noinline void fibonacci(int *array, int size, int start)
- {
- 	if (start < 2 || (start == size))
- 		return;
- 	array[start] = array[start - 1] + array[start - 2];
-@@ -675,10 +690,11 @@ static struct kunit_case kmsan_test_cases[] = {
- 	KUNIT_CASE(test_memcpy_aligned_to_unaligned),
- 	KUNIT_CASE(test_memcpy_initialized_gap),
- 	KUNIT_CASE(test_memset16),
- 	KUNIT_CASE(test_memset32),
- 	KUNIT_CASE(test_memset64),
-+	KUNIT_CASE(test_memset_on_guarded_buffer),
- 	KUNIT_CASE(test_long_origin_chain),
- 	KUNIT_CASE(test_stackdepot_roundtrip),
- 	KUNIT_CASE(test_unpoison_memory),
- 	KUNIT_CASE(test_copy_from_kernel_nofault),
- 	{},
-
-base-commit: e59a039119c3ec241228adf12dca0dd4398104d0
--- 
-2.51.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250911195858.394235-1-ebiggers%40kernel.org.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/dce30be7-90d3-4a6a-9b26-44d76c3190a0%40intel.com.
