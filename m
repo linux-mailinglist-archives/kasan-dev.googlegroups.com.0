@@ -1,77 +1,205 @@
-Return-Path: <kasan-dev+bncBDA2XNWCVILRBVPQRHDAMGQEZR7DWGY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC5I5WEMW4JBBNMSRLDAMGQEXTP5CLI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3c.google.com (mail-oa1-x3c.google.com [IPv6:2001:4860:4864:20::3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF6B6B529BF
-	for <lists+kasan-dev@lfdr.de>; Thu, 11 Sep 2025 09:20:54 +0200 (CEST)
-Received: by mail-oa1-x3c.google.com with SMTP id 586e51a60fabf-32145ecd7basf630526fac.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 11 Sep 2025 00:20:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1757575253; x=1758180053; darn=lfdr.de;
+Received: from mail-wm1-x338.google.com (mail-wm1-x338.google.com [IPv6:2a00:1450:4864:20::338])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0816B52BAF
+	for <lists+kasan-dev@lfdr.de>; Thu, 11 Sep 2025 10:32:54 +0200 (CEST)
+Received: by mail-wm1-x338.google.com with SMTP id 5b1f17b1804b1-45cb5dbda9csf2762785e9.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 11 Sep 2025 01:32:54 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1757579574; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=KW5fZudRYdlq0FhKIYZubX76jeXYVE02SMRYRpBelebpYSmGeXi0GGshPdkJylRRak
+         67xLBgUPFQwk6t5+j84ym1mWESTMWcjU5PCSy6RMYIjeAfmlPfyGQx6woc+gP84VKqoA
+         7elphe9ZZp4DP1FwB1b4vAVuKt2B06eRVV8YaJI0XU61RDuGJmKm/BwBzo+KgpLPZskC
+         hg14gQ91FFQ9XTbeb2BsJzRSBak37DjFMUBhvsPSC+6rIz+UTofiLhxCR1P6uDonM9Po
+         8iP5OkzRoB/AIj4SC/HFEpyf1xpNvVnoSW5aekZx8RgxB0/MVfWv+emar3LP3pp4XOlG
+         mC+A==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-sender:mime-version
-         :subject:references:in-reply-to:message-id:to:from:date:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Ps/GK41wER5jq1rRvJuTenO9UToh0j9N0eiPoomIkQg=;
-        b=RAEm2w5uqQeZ0WpPxU4ZeICkI+ngxTJ+aFSq1VOyXxHDeAelvsiCeaeTrm4Uq69ueQ
-         D6RXiLSZmB/xVlkqNsNHLrkx90zvfdf/ESeFQYvp90flQvQ6vZq0eiOQAnmDxcj8VcLn
-         mALz00MzyGBfEZ/oGEe8RiITJmTGJQq7XfMaBZWjA3Xo1qPm120ou+ZLOEL5VFRhQvyr
-         zZqpj2zEyZYr/LFWjkGWl5DVxgIp07J7ytzc1SgN9seMaORlqMdvsd29E/y/TDI+oW1w
-         Nin+utRgIjzCRcNWar/95RcvL0pyh8S13IVyq+P43gmJlMTUya0op13mGs8jZDLXlTmE
-         rwwQ==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=K9TAjK4lwOSE4+3N31ieblp3xMkW6wuMaHKuY7M7Mhs=;
+        fh=907F9ZbAgySJKoE0f48QtZrJGQezH12Jlz13vUq3yiQ=;
+        b=dL3gBUpWZgw5s8RTxuMpMTH4S6Y1iIntpFeaW9AGhD9a3dEjMphFUr4+j6qJ5zrRrH
+         bNDp8hAEaphFl9+RX1qF0u4bJFJWHRXpsaAEngRUQx+x+QnwfY+IssAUlYhPn/DU01Ac
+         DArMLAAKEZ1yxfVI5JU01VN+WdzIVTrS1pn4I3DbP98gUyqtkEh+S3JLPl9Lrb4R5Mzl
+         WOg93+EOlcP5s5qk3Zc8wgXF5LTi7hI5JFooxfqVqp0dbm6WVwQGmMuuTxR8EXVGbiNo
+         vl9ImFvLjcY6a8E9Q1LK0MRTmYANJ1gjLtOseIo4G3AnhbBxPRNNs4IiU5xXfS/Wcx+W
+         vY4w==;
+        darn=lfdr.de
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=g69g7tVg;
+       dkim=neutral (no key) header.i=@suse.cz header.b=0Kn9GhCx;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="Rlw8/zRp";
+       dkim=neutral (no key) header.i=@suse.cz;
+       spf=pass (google.com: domain of jack@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=jack@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757575253; x=1758180053; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1757579574; x=1758184374; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-sender:mime-version
-         :subject:references:in-reply-to:message-id:to:from:date:from:to:cc
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ps/GK41wER5jq1rRvJuTenO9UToh0j9N0eiPoomIkQg=;
-        b=mXZxBrj1b3X70D0SLwTmlNUbDHBsm7TYsrGilcoNOsKtduE1o0/ySeONxPB/DjZ1L9
-         BmryAYnoH8Yp/Jvt3e7YraLCH+fNbxVf+6tiRR0TsfSNnmlFcuyUzZEsXBL41q31Ncb0
-         raj3J3Mw+J1i5qugxE3m3wMgMBtRVdpZYYmJXmfTNQuwowTxH/u1Gn24fN/ccYMWqV8G
-         JCv4qBu3KfamyeiahG226p84QqR6UeJ1KyEj9jrWB9AGqF4vJbsVTREOgqgmRRvKIHuE
-         6dMBH2LNN5PPoz6oIk4jP60SYhdUuCHJzprJPPQEvEPyq2KiQ8hphVBSz4IZh0rdzS1i
-         D6FQ==
+        bh=K9TAjK4lwOSE4+3N31ieblp3xMkW6wuMaHKuY7M7Mhs=;
+        b=G3ZSHLaZiKEfz7dWQEmecjEI8Khl/CcV4CECS051P4EETqwsC7IG5oApVwb5HBuziC
+         UHe+6wXa2Dg1Hr7RGoAjMzoTwPwQnn+i5Ir4/aeu9nSv6LUqOLMTMtYIF/At1BvGZsuv
+         NQFXHsOheY8bHi92/cbPuD4I9uCyx8hF6m6rKYEQ/BKCsg5HG9Hkj6ComReza9y2xkSf
+         3yR+DGfrHuGvUYYEAVpgTmGPQ6W79lb54k1x5EzNX86xrkmNF3vJS81fpg0MG/tjIIb4
+         HLe7lHi1VGovmYLaSRy1A0elcJUdcSMlGbVrM8UF/0o2xavUKRR9Kk3v2rSz2Kotn9Rv
+         6vWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757575253; x=1758180053;
+        d=1e100.net; s=20230601; t=1757579574; x=1758184374;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-sender:mime-version:subject:references:in-reply-to
-         :message-id:to:from:date:x-beenthere:x-gm-message-state:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Ps/GK41wER5jq1rRvJuTenO9UToh0j9N0eiPoomIkQg=;
-        b=J0KPjoVDs46vX9aFB85reajKn+vminztTarvjSYao0XVQpG7tJ6Yd+7KWKlbPDq/3s
-         uhk/x+3+RJMzd+VEKp51XRtlDZ3924jsVAW+4och/WyBe8EXNdM0CGkxCusLufyD3cX3
-         2HKkk4udms/bxGO5NlmrRo+3Tv6wWaO73THp8d593qxw4u39mAJyq4FF4iZVAnT7d5Za
-         hduCIplv+XmV6BEpZKdHgjuXIxjPPP1N/FuJIv/q2C6X1gFMFmmm4ZRnTAM3qYwsbY5d
-         BDDK1Am54cznIZ61jGk7IGeUEdS2LOjVuW2ht2jF7YVCY60XmGoyoWMEc6urbzMxSXTN
-         Qe+w==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=K9TAjK4lwOSE4+3N31ieblp3xMkW6wuMaHKuY7M7Mhs=;
+        b=VirO0SIG0GL3dTYWZygrw1MvlgPGScKOXj7leE8KB0aS3yxbrmRvW6QalkaB47FhBH
+         htcjcYsBtdo5o3GnT5e2cxQKeI0qhRNubczt2CkZR7gWxrkYENDOrKPY/EGoklRlSZbJ
+         8jw+gidWvfuyOl+Q6fxqJmf1k+ePSLewk5Y8GycHSdTXrkfnMyoILOGNeXanHY/yVOF4
+         C2GUcYC+VOt9bWET8a38erN9YXuXghcxkMBtptr921vbtt5M2PI+12uR5aiMStfQ1FZU
+         Zug9GMG3AHqf3lW0CvFTOFhXluEiHAYPhGKd6Vn1H7Lz5vUimZSEbUI+EQtjGCBQlAVl
+         jvNA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=1; AJvYcCVQtXT7ZWxe43pYQBCmEKgkxg43fvBmkn/EPZheDjfpSrjQtcLBouWAW3V+uJrLBKponLYQ7w==@lfdr.de
-X-Gm-Message-State: AOJu0YzF+cesvpm4ijSv7X6Zjxp7F+5T7s1+yynPOIhz6HCrZh7OKhaD
-	gpTdYJZ9YB6kBc11Tc8dj+TtpgwBd/NzYaD5DyKQuGLqyBuwPaADqy8K
-X-Google-Smtp-Source: AGHT+IFvo4/m28QM0SjDHLkg112PA0ZbHMB93gx0YT79IC4HEx/VxtiFyqYlpxnRrMK0/uh3olKBrQ==
-X-Received: by 2002:a05:6870:524d:b0:31d:8e95:2f0a with SMTP id 586e51a60fabf-3226295d4a8mr8991086fac.5.1757575253638;
-        Thu, 11 Sep 2025 00:20:53 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd6y80aJLjk0PiJQz7HSN5aPisizIi2CLL3b/JvOTuMW9A==
-Received: by 2002:a05:6871:670d:b0:310:f792:61cc with SMTP id
- 586e51a60fabf-32d02e1d1ddls216467fac.0.-pod-prod-05-us; Thu, 11 Sep 2025
- 00:20:52 -0700 (PDT)
-X-Received: by 2002:a05:6808:3083:b0:437:e1b0:e969 with SMTP id 5614622812f47-43b29ae0073mr7965074b6e.40.1757575252764;
-        Thu, 11 Sep 2025 00:20:52 -0700 (PDT)
-Date: Thu, 11 Sep 2025 00:20:51 -0700 (PDT)
-From: =?UTF-8?B?2LPZitiv2Kkg2KzYr9ipINin2YTYs9i52YjYr9mK2Kk=?=
- <memosksaa@gmail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <c32377f1-30e9-48b2-937e-86a1b6cca209n@googlegroups.com>
-In-Reply-To: <786188ec-ad7d-4bf7-a23f-32e8940ee1ddn@googlegroups.com>
-References: <786188ec-ad7d-4bf7-a23f-32e8940ee1ddn@googlegroups.com>
-Subject: =?UTF-8?B?UmU6INmB2YogMyDYrti32YjYp9iqINmB2Yog2KfZhNix2YrYp9i2?=
- =?UTF-8?B?IOKBie+4jzA1MzE2MDE5Njcg4oGJ77iPINiz2KfZitiq2YjYqtmD?=
+X-Forwarded-Encrypted: i=2; AJvYcCWqt5rDm/TeXWzcAeL7JH2OfYaqr1m7w+9+2BYAbKP4qL5J0ocZkkfksidC3O7gnh3I8XapEQ==@lfdr.de
+X-Gm-Message-State: AOJu0YzH4xQPntIcz2il2DS9SdXIjhI2h48dCMb7fxosMWFB3ltRiCZA
+	f3pNhDttK32gs3YifBfhesLu7w2OQI+zzcoOGAqyvuXv75rk5b6XpOzB
+X-Google-Smtp-Source: AGHT+IGAOJHb/Xszp5uYNydSI9arP+mpO9mDPNWoXDkONl+mTpgsUPfg9uSzPZ7CGT+/gHwbj/iZzg==
+X-Received: by 2002:a05:600c:1f91:b0:45d:d5df:ab2d with SMTP id 5b1f17b1804b1-45dddeef92cmr161897635e9.26.1757579573906;
+        Thu, 11 Sep 2025 01:32:53 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcev/0FeCfD6kKdmQB6gDykVzxxzNvD3Xzopw4xTgEUGQ==
+Received: by 2002:a05:600c:6090:b0:45b:bd1e:2b11 with SMTP id
+ 5b1f17b1804b1-45e01ba4d59ls2604395e9.0.-pod-prod-03-eu; Thu, 11 Sep 2025
+ 01:32:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXCX9ueeToGFLn1CoKxC0q1d45594kmfxjE8XAvWaSdUwOltutd6KiiWxUY3xYiBIH9CpbqkYoK1PQ=@googlegroups.com
+X-Received: by 2002:a05:600c:4e13:b0:45b:79fd:cb3d with SMTP id 5b1f17b1804b1-45de19f4ea7mr173596395e9.36.1757579570684;
+        Thu, 11 Sep 2025 01:32:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1757579570; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hRA7o9XM0aKGdKoSqYKBtAr0n0og3ordTzRP0wqLr+oD86jgNKbTLzvpl5tRKT4Imz
+         15DW+LqsctSQIBJZwx0CP+tLmfoRoo4NXqASN09ksvWUwDmP+Bn0QTdWZEhVdjuH5m39
+         /YTKtcoyPUXVZFru518XHymvKoU/ZdWtgnSVAWejwve6mDh+GvxP2HOkAER0lCKC2Dtr
+         3MWaUZLEVeaT5ZWWJ+llnSY518W2jgfDzKqEkmvV91GdAprUFa5yGuYtjhUK0kDfKbfd
+         HetHKaqp7ZEVJv6GvyX9/Lo7BPPPyiwicaI4dDCba1T5ThW/1PLJXBUrls5boYE1NziJ
+         9fOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature:dkim-signature
+         :dkim-signature:dkim-signature;
+        bh=pePLUMNa380skWZ7luqeNYuVXr6xGvhkxPkdStUqzL8=;
+        fh=/v17VW8MchCHUgpXxAXTMs5Ee7lYsmC259Kuc6hqZT8=;
+        b=M6o/vG/X372/im78k+wUKj/0vE/T5EXKtl76MazdPgUS1+rYJtTe2hSxTFIlZV0MtU
+         YYTLI+CxTJHFK4Lx6KOpWV+khmIC81BgnISqGS71BFGxIynYb3HP/7iAqqkZHg1Mmcov
+         tDModN/0gghRApcgYJtHKn2y0l4LguqMZCxI3dTyusCHQI3011Wy9EQJTt/aBYGCF4Ns
+         Sb7mQJupxi0tGsPaxKJ4RxGperV6+b1qAraijec/VVCQML7+RbwWMgCN9ZwPJkWz2P1E
+         W6YqPAEMxVIIUQqAsLJ8Hv4EvEsq4hUTxNqMQviCysFyHshtJROjCouFuQiE0GnkZPZ7
+         wtSg==;
+        dara=google.com
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=g69g7tVg;
+       dkim=neutral (no key) header.i=@suse.cz header.b=0Kn9GhCx;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="Rlw8/zRp";
+       dkim=neutral (no key) header.i=@suse.cz;
+       spf=pass (google.com: domain of jack@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=jack@suse.cz
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.223.131])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-45e014a5655si233105e9.0.2025.09.11.01.32.50
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Sep 2025 01:32:50 -0700 (PDT)
+Received-SPF: pass (google.com: domain of jack@suse.cz designates 195.135.223.131 as permitted sender) client-ip=195.135.223.131;
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E82216860D;
+	Thu, 11 Sep 2025 08:32:49 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C178813974;
+	Thu, 11 Sep 2025 08:32:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 0sg1LzGJwmhDcQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 11 Sep 2025 08:32:49 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 3E12AA0A2D; Thu, 11 Sep 2025 10:32:49 +0200 (CEST)
+Date: Thu, 11 Sep 2025 10:32:49 +0200
+From: Jan Kara <jack@suse.cz>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>, 
+	Guo Ren <guoren@kernel.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+	Sven Schnelle <svens@linux.ibm.com>, "David S . Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Williams <dan.j.williams@intel.com>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Nicolas Pitre <nico@fluxnic.net>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@redhat.com>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>, 
+	Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>, 
+	Reinette Chatre <reinette.chatre@intel.com>, Dave Martin <Dave.Martin@arm.com>, 
+	James Morse <james.morse@arm.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Uladzislau Rezki <urezki@gmail.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-csky@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-mm@kvack.org, 
+	ntfs3@lists.linux.dev, kexec@lists.infradead.org, kasan-dev@googlegroups.com, 
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v2 01/16] mm/shmem: update shmem to use mmap_prepare
+Message-ID: <4lfedpbfjq6yexryq4jmdoycky762ewmw2thjm2h6wzgqda46a@p3wzpxlhe7ka>
+References: <cover.1757534913.git.lorenzo.stoakes@oracle.com>
+ <c328d14480808cb0e136db8090f2a203ade72233.1757534913.git.lorenzo.stoakes@oracle.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_59948_1042920712.1757575251557"
-X-Original-Sender: memosksaa@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <c328d14480808cb0e136db8090f2a203ade72233.1757534913.git.lorenzo.stoakes@oracle.com>
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux-foundation.org,lwn.net,infradead.org,kernel.org,alpha.franken.de,linux.ibm.com,davemloft.net,gaisler.com,arndb.de,linuxfoundation.org,intel.com,fluxnic.net,linux.dev,suse.de,redhat.com,paragon-software.com,arm.com,zeniv.linux.org.uk,suse.cz,oracle.com,google.com,suse.com,linux.alibaba.com,gmail.com,vger.kernel.org,lists.linux.dev,kvack.org,lists.infradead.org,googlegroups.com,nvidia.com];
+	R_RATELIMIT(0.00)[to_ip_from(RLizrtjkoytmmoj3iud1rzij51)];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[59];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Original-Sender: jack@suse.cz
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@suse.cz header.s=susede2_rsa header.b=g69g7tVg;       dkim=neutral
+ (no key) header.i=@suse.cz header.b=0Kn9GhCx;       dkim=pass
+ header.i=@suse.cz header.s=susede2_rsa header.b="Rlw8/zRp";
+       dkim=neutral (no key) header.i=@suse.cz;       spf=pass (google.com:
+ domain of jack@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=jack@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -84,362 +212,65 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_59948_1042920712.1757575251557
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_59949_1379410927.1757575251557"
+On Wed 10-09-25 21:21:56, Lorenzo Stoakes wrote:
+> This simply assigns the vm_ops so is easily updated - do so.
+> 
+> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
-------=_Part_59949_1379410927.1757575251557
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Looks good. Feel free to add:
 
-CgrZgdmKIDMg2K7Yt9mI2KfYqiDZgdmKINin2YTYsdmK2KfYtiDigYnvuI8wNTMxNjAxOTY3IOKB
-ie+4jyDYs9in2YrYqtmI2KrZgyDwn5KxINmF2YrYstmI2KjYsdmI2LPYqtmI2YQg2YXZitmB2YrY
-qNix2YrYs9iq2YjZhiDwn5SGIArZhdiq2YjZgdix2Kkg2YHZiiDYp9mE2LHZitin2LYg2I8g8J+M
-izAwOTY2NTMxNjAxOTY3INio2LPYsdmK2Kkg2KrYp9mF2KkKCkN5dG90ZWMgINin2YTYsdmK2KfY
-tuOAmE1pc29wcm9zdG9sCgrjgJkgIOKclO+4jyDYqtmI2KfYtdmE2Yog2YXYudmG2Kcg2KjYs9ix
-2YrYqSDYqtin2YXYqSAgINiz2KfZitiq2YjYqtmDINmB2Yog2KzYr9ipIOKVrCDZhdmD2Kkg4pWs
-INin2YTYsdmK2KfYtuKVrCDYp9mE2LTYsdmC2YrYqSDilawgCtis2YrYstin2YYg4pWsINiu2YXZ
-itizINmF2LTZiti3IOKVrCDZiNin2YTYsdmB2KfYudiMINmI2YXYr9mK2YbYqSDYudmK2LPZidiM
-INmI2YXYr9mK2YbYqSDYrdmF2K/YjCDZiNiz2KrYsdipINmF2KrZiNmB2LEg2KjYrNmF2YrYuSAK
-2KfZhNmF2K/ZhiDinJTvuI8g2YXYuSDYp9iz2KrYtNin2LHYqSDZhdis2KfZhtmK2Kkg2LbZhdin
-2YYg2KfZhNiu2LXZiNi12YrYqSDYqNin2YTYqtmI2LXZitmEINin2YTYs9ix2YrYuSAKCgrZgdmK
-INin2YTYrtmF2YrYs9iMIDExINiz2KjYqtmF2KjYsSAyMDI1INmB2Yog2KrZhdin2YUg2KfZhNiz
-2KfYudipIDEyOjIwOjM3INi1IFVUQy032Iwg2YPYqtioINiz2YrYr9ipINis2K/YqSAK2KfZhNiz
-2LnZiNiv2YrYqSDYsdiz2KfZhNipINmG2LXZh9inOgoKPiDZgdmKIDMg2K7Yt9mI2KfYqiDZgdmK
-INin2YTYsdmK2KfYtiDigYnvuI8wNTMxNjAxOTY3IOKBie+4jyDYs9in2YrYqtmI2KrZgyDwn5Kx
-INmF2YrYstmI2KjYsdmI2LPYqtmI2YQg2YXZitmB2YrYqNix2YrYs9iq2YjZhiDwn5SGIAo+INmF
-2KrZiNmB2LHYqSDZgdmKINin2YTYsdmK2KfYtiDYjyDwn4yLMDA5NjY1MzE2MDE5Njcg2KjYs9ix
-2YrYqSDYqtin2YXYqQo+Cj4gQ3l0b3RlYyAg2KfZhNix2YrYp9i244CYTWlzb3Byb3N0b2wKPgo+
-IOOAmSAg4pyU77iPINiq2YjYp9i12YTZiiDZhdi52YbYpyDYqNiz2LHZitipINiq2KfZhdipICAg
-2LPYp9mK2KrZiNiq2YMg2YHZiiDYrNiv2Kkg4pWsINmF2YPYqSDilawg2KfZhNix2YrYp9i24pWs
-INin2YTYtNix2YLZitipIOKVrCAKPiDYrNmK2LLYp9mGIOKVrCDYrtmF2YrYsyDZhdi02YrYtyDi
-lawg2YjYp9mE2LHZgdin2LnYjCDZiNmF2K/ZitmG2Kkg2LnZitiz2YnYjCDZiNmF2K/ZitmG2Kkg
-2K3Zhdiv2Iwg2YjYs9iq2LHYqSDZhdiq2YjZgdixINio2KzZhdmK2LkgCj4g2KfZhNmF2K/ZhiDi
-nJTvuI8g2YXYuSDYp9iz2KrYtNin2LHYqSDZhdis2KfZhtmK2Kkg2LbZhdin2YYg2KfZhNiu2LXZ
-iNi12YrYqSDYqNin2YTYqtmI2LXZitmEINin2YTYs9ix2YrYuSAKPgo+DQoNCi0tIApZb3UgcmVj
-ZWl2ZWQgdGhpcyBtZXNzYWdlIGJlY2F1c2UgeW91IGFyZSBzdWJzY3JpYmVkIHRvIHRoZSBHb29n
-bGUgR3JvdXBzICJrYXNhbi1kZXYiIGdyb3VwLgpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgZ3Jv
-dXAgYW5kIHN0b3AgcmVjZWl2aW5nIGVtYWlscyBmcm9tIGl0LCBzZW5kIGFuIGVtYWlsIHRvIGth
-c2FuLWRldit1bnN1YnNjcmliZUBnb29nbGVncm91cHMuY29tLgpUbyB2aWV3IHRoaXMgZGlzY3Vz
-c2lvbiB2aXNpdCBodHRwczovL2dyb3Vwcy5nb29nbGUuY29tL2QvbXNnaWQva2FzYW4tZGV2L2Mz
-MjM3N2YxLTMwZTktNDhiMi05MzdlLTg2YTFiNmNjYTIwOW4lNDBnb29nbGVncm91cHMuY29tLgo=
-------=_Part_59949_1379410927.1757575251557
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-<p dir=3D"rtl" style=3D"line-height: 1.38; margin-top: 0pt; margin-bottom: =
-0pt;"><span style=3D"font-size: 14pt; font-family: Arial, sans-serif; color=
-: rgb(47, 79, 79); background-color: transparent; font-weight: 700; font-va=
-riant-numeric: normal; font-variant-east-asian: normal; font-variant-altern=
-ates: normal; font-variant-position: normal; font-variant-emoji: normal; ve=
-rtical-align: baseline; white-space-collapse: preserve;">=D9=81=D9=8A 3 =D8=
-=AE=D8=B7=D9=88=D8=A7=D8=AA =D9=81=D9=8A =D8=A7=D9=84=D8=B1=D9=8A=D8=A7=D8=
-=B6 </span><span style=3D"font-size: 11pt; font-family: Arial, sans-serif; =
-color: rgb(0, 0, 0); background-color: transparent; font-variant-numeric: n=
-ormal; font-variant-east-asian: normal; font-variant-alternates: normal; fo=
-nt-variant-position: normal; font-variant-emoji: normal; vertical-align: ba=
-seline; white-space-collapse: preserve;">=E2=81=89=EF=B8=8F</span><span sty=
-le=3D"font-size: 19pt; font-family: Arial, sans-serif; color: rgb(34, 54, 6=
-9); background-color: transparent; font-weight: 700; font-variant-numeric: =
-normal; font-variant-east-asian: normal; font-variant-alternates: normal; f=
-ont-variant-position: normal; font-variant-emoji: normal; vertical-align: b=
-aseline; white-space-collapse: preserve;">0531601967</span><span style=3D"f=
-ont-size: 15pt; font-family: Arial, sans-serif; color: rgb(47, 79, 79); fon=
-t-variant-numeric: normal; font-variant-east-asian: normal; font-variant-al=
-ternates: normal; font-variant-position: normal; font-variant-emoji: normal=
-; vertical-align: baseline; white-space-collapse: preserve;"> </span><span =
-style=3D"font-size: 11pt; font-family: Arial, sans-serif; color: rgb(0, 0, =
-0); background-color: transparent; font-variant-numeric: normal; font-varia=
-nt-east-asian: normal; font-variant-alternates: normal; font-variant-positi=
-on: normal; font-variant-emoji: normal; vertical-align: baseline; white-spa=
-ce-collapse: preserve;">=E2=81=89=EF=B8=8F </span><span style=3D"font-size:=
- 14pt; font-family: Arial, sans-serif; color: rgb(47, 79, 79); background-c=
-olor: transparent; font-weight: 700; font-variant-numeric: normal; font-var=
-iant-east-asian: normal; font-variant-alternates: normal; font-variant-posi=
-tion: normal; font-variant-emoji: normal; vertical-align: baseline; white-s=
-pace-collapse: preserve;">=D8=B3=D8=A7=D9=8A=D8=AA=D9=88=D8=AA=D9=83 </span=
-><span style=3D"font-size: 11pt; font-family: Arial, sans-serif; color: rgb=
-(0, 0, 0); background-color: transparent; font-variant-numeric: normal; fon=
-t-variant-east-asian: normal; font-variant-alternates: normal; font-variant=
--position: normal; font-variant-emoji: normal; vertical-align: baseline; wh=
-ite-space-collapse: preserve;">=F0=9F=92=B1</span><span style=3D"font-size:=
- 14pt; font-family: Arial, sans-serif; color: rgb(17, 85, 204); background-=
-color: transparent; font-weight: 700; font-variant-numeric: normal; font-va=
-riant-east-asian: normal; font-variant-alternates: normal; font-variant-pos=
-ition: normal; font-variant-emoji: normal; vertical-align: baseline; white-=
-space-collapse: preserve;"> </span><span style=3D"font-size: 16.5pt; font-f=
-amily: Arial, sans-serif; color: rgb(0, 0, 0); font-weight: 700; font-varia=
-nt-numeric: normal; font-variant-east-asian: normal; font-variant-alternate=
-s: normal; font-variant-position: normal; font-variant-emoji: normal; verti=
-cal-align: baseline; white-space-collapse: preserve;">=D9=85=D9=8A=D8=B2=D9=
-=88=D8=A8=D8=B1=D9=88=D8=B3=D8=AA=D9=88=D9=84 =D9=85=D9=8A=D9=81=D9=8A=D8=
-=A8=D8=B1=D9=8A=D8=B3=D8=AA=D9=88=D9=86</span><span style=3D"font-size: 20p=
-t; font-family: Arial, sans-serif; color: rgb(0, 0, 0); background-color: t=
-ransparent; font-weight: 700; font-style: italic; font-variant-numeric: nor=
-mal; font-variant-east-asian: normal; font-variant-alternates: normal; font=
--variant-position: normal; font-variant-emoji: normal; vertical-align: base=
-line; white-space-collapse: preserve;"> </span><span style=3D"font-size: 15=
-pt; font-family: Arial, sans-serif; color: rgb(47, 79, 79); font-variant-nu=
-meric: normal; font-variant-east-asian: normal; font-variant-alternates: no=
-rmal; font-variant-position: normal; font-variant-emoji: normal; vertical-a=
-lign: baseline; white-space-collapse: preserve;">=F0=9F=94=86</span><span s=
-tyle=3D"font-size: 16.5pt; font-family: Arial, sans-serif; color: rgb(0, 0,=
- 0); font-weight: 700; font-variant-numeric: normal; font-variant-east-asia=
-n: normal; font-variant-alternates: normal; font-variant-position: normal; =
-font-variant-emoji: normal; vertical-align: baseline; white-space-collapse:=
- preserve;"> =D9=85=D8=AA=D9=88=D9=81=D8=B1=D8=A9 =D9=81=D9=8A =D8=A7=D9=84=
-=D8=B1=D9=8A=D8=A7=D8=B6 </span><span style=3D"font-size: 20pt; font-family=
-: Arial, sans-serif; color: rgb(0, 0, 0); background-color: transparent; fo=
-nt-weight: 700; font-variant-numeric: normal; font-variant-east-asian: norm=
-al; font-variant-alternates: normal; font-variant-position: normal; font-va=
-riant-emoji: normal; vertical-align: baseline; white-space-collapse: preser=
-ve;">=D8=8F</span><span style=3D"font-size: 20pt; font-family: Arial, sans-=
-serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 700=
-; font-style: italic; font-variant-numeric: normal; font-variant-east-asian=
-: normal; font-variant-alternates: normal; font-variant-position: normal; f=
-ont-variant-emoji: normal; vertical-align: baseline; white-space-collapse: =
-preserve;"> </span><span style=3D"font-size: 11pt; font-family: Arial, sans=
--serif; color: rgb(0, 0, 0); background-color: transparent; font-variant-nu=
-meric: normal; font-variant-east-asian: normal; font-variant-alternates: no=
-rmal; font-variant-position: normal; font-variant-emoji: normal; vertical-a=
-lign: baseline; white-space-collapse: preserve;">=F0=9F=8C=8B</span><span s=
-tyle=3D"font-size: 19pt; font-family: Arial, sans-serif; color: rgb(34, 54,=
- 69); background-color: transparent; font-weight: 700; font-variant-numeric=
-: normal; font-variant-east-asian: normal; font-variant-alternates: normal;=
- font-variant-position: normal; font-variant-emoji: normal; vertical-align:=
- baseline; white-space-collapse: preserve;">00966531601967 </span><span sty=
-le=3D"font-size: 20pt; font-family: Arial, sans-serif; color: rgb(0, 0, 0);=
- background-color: transparent; font-weight: 700; font-style: italic; font-=
-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alte=
-rnates: normal; font-variant-position: normal; font-variant-emoji: normal; =
-vertical-align: baseline; white-space-collapse: preserve;">=D8=A8=D8=B3=D8=
-=B1=D9=8A=D8=A9 =D8=AA=D8=A7=D9=85=D8=A9</span></p><p dir=3D"rtl" style=3D"=
-line-height: 1.38; text-align: center; margin-top: 0pt; margin-bottom: 0pt;=
-"><span style=3D"font-size: 20pt; font-family: Arial, sans-serif; color: rg=
-b(0, 0, 0); background-color: transparent; font-weight: 700; font-style: it=
-alic; font-variant-numeric: normal; font-variant-east-asian: normal; font-v=
-ariant-alternates: normal; font-variant-position: normal; font-variant-emoj=
-i: normal; vertical-align: baseline; white-space-collapse: preserve;">Cytot=
-ec=C2=A0 =D8=A7=D9=84=D8=B1=D9=8A=D8=A7=D8=B6</span><span style=3D"font-siz=
-e: 20pt; font-family: Arial, sans-serif; color: rgb(0, 0, 0); background-co=
-lor: transparent; font-weight: 700; font-variant-numeric: normal; font-vari=
-ant-east-asian: normal; font-variant-alternates: normal; font-variant-posit=
-ion: normal; font-variant-emoji: normal; vertical-align: baseline; white-sp=
-ace-collapse: preserve;">=E3=80=98</span><span style=3D"font-size: 20pt; fo=
-nt-family: Arial, sans-serif; color: rgb(0, 0, 0); background-color: transp=
-arent; font-weight: 700; font-style: italic; font-variant-numeric: normal; =
-font-variant-east-asian: normal; font-variant-alternates: normal; font-vari=
-ant-position: normal; font-variant-emoji: normal; vertical-align: baseline;=
- white-space-collapse: preserve;">Misoprostol</span></p><p dir=3D"rtl" styl=
-e=3D"line-height: 1.38; text-align: center; margin-top: 0pt; margin-bottom:=
- 0pt;"><span style=3D"font-size: 20pt; font-family: Arial, sans-serif; colo=
-r: rgb(0, 0, 0); background-color: transparent; font-weight: 700; font-vari=
-ant-numeric: normal; font-variant-east-asian: normal; font-variant-alternat=
-es: normal; font-variant-position: normal; font-variant-emoji: normal; vert=
-ical-align: baseline; white-space-collapse: preserve;">=E3=80=99=C2=A0 </sp=
-an><span style=3D"font-size: 20pt; font-family: Arial, sans-serif; color: r=
-gb(51, 51, 51); background-color: transparent; font-weight: 700; font-varia=
-nt-numeric: normal; font-variant-east-asian: normal; font-variant-alternate=
-s: normal; font-variant-position: normal; font-variant-emoji: normal; verti=
-cal-align: baseline; white-space-collapse: preserve;">=E2=9C=94=EF=B8=8F</s=
-pan><span style=3D"font-size: 20pt; font-family: Arial, sans-serif; color: =
-rgb(0, 0, 0); background-color: transparent; font-weight: 700; font-style: =
-italic; font-variant-numeric: normal; font-variant-east-asian: normal; font=
--variant-alternates: normal; font-variant-position: normal; font-variant-em=
-oji: normal; vertical-align: baseline; white-space-collapse: preserve;"> =
-=D8=AA=D9=88=D8=A7=D8=B5=D9=84=D9=8A =D9=85=D8=B9=D9=86=D8=A7 =D8=A8=D8=B3=
-=D8=B1=D9=8A=D8=A9 =D8=AA=D8=A7=D9=85=D8=A9 =C2=A0 =D8=B3=D8=A7=D9=8A=D8=AA=
-=D9=88=D8=AA=D9=83 =D9=81=D9=8A =D8=AC=D8=AF=D8=A9 </span><span style=3D"fo=
-nt-size: 20pt; font-family: Arial, sans-serif; color: rgb(0, 0, 0); backgro=
-und-color: transparent; font-weight: 700; font-variant-numeric: normal; fon=
-t-variant-east-asian: normal; font-variant-alternates: normal; font-variant=
--position: normal; font-variant-emoji: normal; vertical-align: baseline; wh=
-ite-space-collapse: preserve;">=E2=95=AC =D9=85=D9=83=D8=A9 =E2=95=AC =D8=
-=A7=D9=84=D8=B1=D9=8A=D8=A7=D8=B6=E2=95=AC =D8=A7=D9=84=D8=B4=D8=B1=D9=82=
-=D9=8A=D8=A9 =E2=95=AC =D8=AC=D9=8A=D8=B2=D8=A7=D9=86 =E2=95=AC =D8=AE=D9=
-=85=D9=8A=D8=B3 =D9=85=D8=B4=D9=8A=D8=B7 =E2=95=AC</span><span style=3D"fon=
-t-size: 20pt; font-family: Arial, sans-serif; color: rgb(0, 0, 0); backgrou=
-nd-color: transparent; font-weight: 700; font-style: italic; font-variant-n=
-umeric: normal; font-variant-east-asian: normal; font-variant-alternates: n=
-ormal; font-variant-position: normal; font-variant-emoji: normal; vertical-=
-align: baseline; white-space-collapse: preserve;"> </span><span style=3D"fo=
-nt-size: 13.5pt; font-family: Arial, sans-serif; color: rgb(0, 29, 53); fon=
-t-weight: 700; font-style: italic; font-variant-numeric: normal; font-varia=
-nt-east-asian: normal; font-variant-alternates: normal; font-variant-positi=
-on: normal; font-variant-emoji: normal; vertical-align: baseline; white-spa=
-ce-collapse: preserve;">=D9=88=D8=A7=D9=84=D8=B1=D9=81=D8=A7=D8=B9=D8=8C =
-=D9=88=D9=85=D8=AF=D9=8A=D9=86=D8=A9 =D8=B9=D9=8A=D8=B3=D9=89=D8=8C =D9=88=
-=D9=85=D8=AF=D9=8A=D9=86=D8=A9 =D8=AD=D9=85=D8=AF=D8=8C =D9=88=D8=B3=D8=AA=
-=D8=B1=D8=A9</span><span style=3D"font-size: 20pt; font-family: Arial, sans=
--serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 70=
-0; font-style: italic; font-variant-numeric: normal; font-variant-east-asia=
-n: normal; font-variant-alternates: normal; font-variant-position: normal; =
-font-variant-emoji: normal; vertical-align: baseline; white-space-collapse:=
- preserve;"> =D9=85=D8=AA=D9=88=D9=81=D8=B1 =D8=A8=D8=AC=D9=85=D9=8A=D8=B9 =
-=D8=A7=D9=84=D9=85=D8=AF=D9=86 </span><span style=3D"font-size: 20pt; font-=
-family: Arial, sans-serif; color: rgb(51, 51, 51); background-color: transp=
-arent; font-weight: 700; font-variant-numeric: normal; font-variant-east-as=
-ian: normal; font-variant-alternates: normal; font-variant-position: normal=
-; font-variant-emoji: normal; vertical-align: baseline; white-space-collaps=
-e: preserve;">=E2=9C=94=EF=B8=8F </span><span style=3D"font-size: 20pt; fon=
-t-family: Arial, sans-serif; color: rgb(0, 0, 0); background-color: transpa=
-rent; font-weight: 700; font-style: italic; font-variant-numeric: normal; f=
-ont-variant-east-asian: normal; font-variant-alternates: normal; font-varia=
-nt-position: normal; font-variant-emoji: normal; vertical-align: baseline; =
-white-space-collapse: preserve;">=D9=85=D8=B9 =D8=A7=D8=B3=D8=AA=D8=B4=D8=
-=A7=D8=B1=D8=A9 =D9=85=D8=AC=D8=A7=D9=86=D9=8A=D8=A9 =D8=B6=D9=85=D8=A7=D9=
-=86 =D8=A7=D9=84=D8=AE=D8=B5=D9=88=D8=B5=D9=8A=D8=A9 =D8=A8=D8=A7=D9=84=D8=
-=AA=D9=88=D8=B5=D9=8A=D9=84 =D8=A7=D9=84=D8=B3=D8=B1=D9=8A=D8=B9</span><spa=
-n style=3D"font-size: 20pt; font-family: Arial, sans-serif; color: rgb(0, 0=
-, 0); background-color: transparent; font-weight: 700; font-variant-numeric=
-: normal; font-variant-east-asian: normal; font-variant-alternates: normal;=
- font-variant-position: normal; font-variant-emoji: normal; vertical-align:=
- baseline; white-space-collapse: preserve;">=C2=A0</span></p><br /><br /><d=
-iv class=3D"gmail_quote"><div dir=3D"auto" class=3D"gmail_attr">=D9=81=D9=
-=8A =D8=A7=D9=84=D8=AE=D9=85=D9=8A=D8=B3=D8=8C 11 =D8=B3=D8=A8=D8=AA=D9=85=
-=D8=A8=D8=B1 2025 =D9=81=D9=8A =D8=AA=D9=85=D8=A7=D9=85 =D8=A7=D9=84=D8=B3=
-=D8=A7=D8=B9=D8=A9 12:20:37 =D8=B5 UTC-7=D8=8C =D9=83=D8=AA=D8=A8 =D8=B3=D9=
-=8A=D8=AF=D8=A9 =D8=AC=D8=AF=D8=A9 =D8=A7=D9=84=D8=B3=D8=B9=D9=88=D8=AF=D9=
-=8A=D8=A9 =D8=B1=D8=B3=D8=A7=D9=84=D8=A9 =D9=86=D8=B5=D9=87=D8=A7:<br/></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin: 0 0 0 0.8ex; border-ri=
-ght: 1px solid rgb(204, 204, 204); padding-right: 1ex;"><p dir=3D"rtl" styl=
-e=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font=
--size:14pt;font-family:Arial,sans-serif;color:rgb(47,79,79);background-colo=
-r:transparent;font-weight:700;font-variant-numeric:normal;font-variant-east=
--asian:normal;font-variant-alternates:normal;vertical-align:baseline">=D9=
-=81=D9=8A 3 =D8=AE=D8=B7=D9=88=D8=A7=D8=AA =D9=81=D9=8A =D8=A7=D9=84=D8=B1=
-=D9=8A=D8=A7=D8=B6 </span><span style=3D"font-size:11pt;font-family:Arial,s=
-ans-serif;color:rgb(0,0,0);background-color:transparent;font-variant-numeri=
-c:normal;font-variant-east-asian:normal;font-variant-alternates:normal;vert=
-ical-align:baseline">=E2=81=89=EF=B8=8F</span><span style=3D"font-size:19pt=
-;font-family:Arial,sans-serif;color:rgb(34,54,69);background-color:transpar=
-ent;font-weight:700;font-variant-numeric:normal;font-variant-east-asian:nor=
-mal;font-variant-alternates:normal;vertical-align:baseline">0531601967</spa=
-n><span style=3D"font-size:15pt;font-family:Arial,sans-serif;color:rgb(47,7=
-9,79);font-variant-numeric:normal;font-variant-east-asian:normal;font-varia=
-nt-alternates:normal;vertical-align:baseline"> </span><span style=3D"font-s=
-ize:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:tra=
-nsparent;font-variant-numeric:normal;font-variant-east-asian:normal;font-va=
-riant-alternates:normal;vertical-align:baseline">=E2=81=89=EF=B8=8F </span>=
-<span style=3D"font-size:14pt;font-family:Arial,sans-serif;color:rgb(47,79,=
-79);background-color:transparent;font-weight:700;font-variant-numeric:norma=
-l;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-al=
-ign:baseline">=D8=B3=D8=A7=D9=8A=D8=AA=D9=88=D8=AA=D9=83 </span><span style=
-=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background=
--color:transparent;font-variant-numeric:normal;font-variant-east-asian:norm=
-al;font-variant-alternates:normal;vertical-align:baseline">=F0=9F=92=B1</sp=
-an><span style=3D"font-size:14pt;font-family:Arial,sans-serif;color:rgb(17,=
-85,204);background-color:transparent;font-weight:700;font-variant-numeric:n=
-ormal;font-variant-east-asian:normal;font-variant-alternates:normal;vertica=
-l-align:baseline"> </span><span style=3D"font-size:16.5pt;font-family:Arial=
-,sans-serif;color:rgb(0,0,0);font-weight:700;font-variant-numeric:normal;fo=
-nt-variant-east-asian:normal;font-variant-alternates:normal;vertical-align:=
-baseline">=D9=85=D9=8A=D8=B2=D9=88=D8=A8=D8=B1=D9=88=D8=B3=D8=AA=D9=88=D9=
-=84 =D9=85=D9=8A=D9=81=D9=8A=D8=A8=D8=B1=D9=8A=D8=B3=D8=AA=D9=88=D9=86</spa=
-n><span style=3D"font-size:20pt;font-family:Arial,sans-serif;color:rgb(0,0,=
-0);background-color:transparent;font-weight:700;font-style:italic;font-vari=
-ant-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:n=
-ormal;vertical-align:baseline"> </span><span style=3D"font-size:15pt;font-f=
-amily:Arial,sans-serif;color:rgb(47,79,79);font-variant-numeric:normal;font=
--variant-east-asian:normal;font-variant-alternates:normal;vertical-align:ba=
-seline">=F0=9F=94=86</span><span style=3D"font-size:16.5pt;font-family:Aria=
-l,sans-serif;color:rgb(0,0,0);font-weight:700;font-variant-numeric:normal;f=
-ont-variant-east-asian:normal;font-variant-alternates:normal;vertical-align=
-:baseline"> =D9=85=D8=AA=D9=88=D9=81=D8=B1=D8=A9 =D9=81=D9=8A =D8=A7=D9=84=
-=D8=B1=D9=8A=D8=A7=D8=B6 </span><span style=3D"font-size:20pt;font-family:A=
-rial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-weight:7=
-00;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant-=
-alternates:normal;vertical-align:baseline">=D8=8F</span><span style=3D"font=
--size:20pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:t=
-ransparent;font-weight:700;font-style:italic;font-variant-numeric:normal;fo=
-nt-variant-east-asian:normal;font-variant-alternates:normal;vertical-align:=
-baseline"> </span><span style=3D"font-size:11pt;font-family:Arial,sans-seri=
-f;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:normal=
-;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-ali=
-gn:baseline">=F0=9F=8C=8B</span><span style=3D"font-size:19pt;font-family:A=
-rial,sans-serif;color:rgb(34,54,69);background-color:transparent;font-weigh=
-t:700;font-variant-numeric:normal;font-variant-east-asian:normal;font-varia=
-nt-alternates:normal;vertical-align:baseline">00966531601967 </span><span s=
-tyle=3D"font-size:20pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backgr=
-ound-color:transparent;font-weight:700;font-style:italic;font-variant-numer=
-ic:normal;font-variant-east-asian:normal;font-variant-alternates:normal;ver=
-tical-align:baseline">=D8=A8=D8=B3=D8=B1=D9=8A=D8=A9 =D8=AA=D8=A7=D9=85=D8=
-=A9</span></p><p dir=3D"rtl" style=3D"line-height:1.38;text-align:center;ma=
-rgin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:20pt;font-family:A=
-rial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-weight:7=
-00;font-style:italic;font-variant-numeric:normal;font-variant-east-asian:no=
-rmal;font-variant-alternates:normal;vertical-align:baseline">Cytotec=C2=A0 =
-=D8=A7=D9=84=D8=B1=D9=8A=D8=A7=D8=B6</span><span style=3D"font-size:20pt;fo=
-nt-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;fo=
-nt-weight:700;font-variant-numeric:normal;font-variant-east-asian:normal;fo=
-nt-variant-alternates:normal;vertical-align:baseline">=E3=80=98</span><span=
- style=3D"font-size:20pt;font-family:Arial,sans-serif;color:rgb(0,0,0);back=
-ground-color:transparent;font-weight:700;font-style:italic;font-variant-num=
-eric:normal;font-variant-east-asian:normal;font-variant-alternates:normal;v=
-ertical-align:baseline">Misoprostol</span></p><p dir=3D"rtl" style=3D"line-=
-height:1.38;text-align:center;margin-top:0pt;margin-bottom:0pt"><span style=
-=3D"font-size:20pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background=
--color:transparent;font-weight:700;font-variant-numeric:normal;font-variant=
--east-asian:normal;font-variant-alternates:normal;vertical-align:baseline">=
-=E3=80=99=C2=A0 </span><span style=3D"font-size:20pt;font-family:Arial,sans=
--serif;color:rgb(51,51,51);background-color:transparent;font-weight:700;fon=
-t-variant-numeric:normal;font-variant-east-asian:normal;font-variant-altern=
-ates:normal;vertical-align:baseline">=E2=9C=94=EF=B8=8F</span><span style=
-=3D"font-size:20pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background=
--color:transparent;font-weight:700;font-style:italic;font-variant-numeric:n=
-ormal;font-variant-east-asian:normal;font-variant-alternates:normal;vertica=
-l-align:baseline"> =D8=AA=D9=88=D8=A7=D8=B5=D9=84=D9=8A =D9=85=D8=B9=D9=86=
-=D8=A7 =D8=A8=D8=B3=D8=B1=D9=8A=D8=A9 =D8=AA=D8=A7=D9=85=D8=A9 =C2=A0 =D8=
-=B3=D8=A7=D9=8A=D8=AA=D9=88=D8=AA=D9=83 =D9=81=D9=8A =D8=AC=D8=AF=D8=A9 </s=
-pan><span style=3D"font-size:20pt;font-family:Arial,sans-serif;color:rgb(0,=
-0,0);background-color:transparent;font-weight:700;font-variant-numeric:norm=
-al;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-a=
-lign:baseline">=E2=95=AC =D9=85=D9=83=D8=A9 =E2=95=AC =D8=A7=D9=84=D8=B1=D9=
-=8A=D8=A7=D8=B6=E2=95=AC =D8=A7=D9=84=D8=B4=D8=B1=D9=82=D9=8A=D8=A9 =E2=95=
-=AC =D8=AC=D9=8A=D8=B2=D8=A7=D9=86 =E2=95=AC =D8=AE=D9=85=D9=8A=D8=B3 =D9=
-=85=D8=B4=D9=8A=D8=B7 =E2=95=AC</span><span style=3D"font-size:20pt;font-fa=
-mily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-we=
-ight:700;font-style:italic;font-variant-numeric:normal;font-variant-east-as=
-ian:normal;font-variant-alternates:normal;vertical-align:baseline"> </span>=
-<span style=3D"font-size:13.5pt;font-family:Arial,sans-serif;color:rgb(0,29=
-,53);font-weight:700;font-style:italic;font-variant-numeric:normal;font-var=
-iant-east-asian:normal;font-variant-alternates:normal;vertical-align:baseli=
-ne">=D9=88=D8=A7=D9=84=D8=B1=D9=81=D8=A7=D8=B9=D8=8C =D9=88=D9=85=D8=AF=D9=
-=8A=D9=86=D8=A9 =D8=B9=D9=8A=D8=B3=D9=89=D8=8C =D9=88=D9=85=D8=AF=D9=8A=D9=
-=86=D8=A9 =D8=AD=D9=85=D8=AF=D8=8C =D9=88=D8=B3=D8=AA=D8=B1=D8=A9</span><sp=
-an style=3D"font-size:20pt;font-family:Arial,sans-serif;color:rgb(0,0,0);ba=
-ckground-color:transparent;font-weight:700;font-style:italic;font-variant-n=
-umeric:normal;font-variant-east-asian:normal;font-variant-alternates:normal=
-;vertical-align:baseline"> =D9=85=D8=AA=D9=88=D9=81=D8=B1 =D8=A8=D8=AC=D9=
-=85=D9=8A=D8=B9 =D8=A7=D9=84=D9=85=D8=AF=D9=86 </span><span style=3D"font-s=
-ize:20pt;font-family:Arial,sans-serif;color:rgb(51,51,51);background-color:=
-transparent;font-weight:700;font-variant-numeric:normal;font-variant-east-a=
-sian:normal;font-variant-alternates:normal;vertical-align:baseline">=E2=9C=
-=94=EF=B8=8F </span><span style=3D"font-size:20pt;font-family:Arial,sans-se=
-rif;color:rgb(0,0,0);background-color:transparent;font-weight:700;font-styl=
-e:italic;font-variant-numeric:normal;font-variant-east-asian:normal;font-va=
-riant-alternates:normal;vertical-align:baseline">=D9=85=D8=B9 =D8=A7=D8=B3=
-=D8=AA=D8=B4=D8=A7=D8=B1=D8=A9 =D9=85=D8=AC=D8=A7=D9=86=D9=8A=D8=A9 =D8=B6=
-=D9=85=D8=A7=D9=86 =D8=A7=D9=84=D8=AE=D8=B5=D9=88=D8=B5=D9=8A=D8=A9 =D8=A8=
-=D8=A7=D9=84=D8=AA=D9=88=D8=B5=D9=8A=D9=84 =D8=A7=D9=84=D8=B3=D8=B1=D9=8A=
-=D8=B9</span><span style=3D"font-size:20pt;font-family:Arial,sans-serif;col=
-or:rgb(0,0,0);background-color:transparent;font-weight:700;font-variant-num=
-eric:normal;font-variant-east-asian:normal;font-variant-alternates:normal;v=
-ertical-align:baseline">=C2=A0</span></p><br></blockquote></div>
+								Honza
 
-<p></p>
+> ---
+>  mm/shmem.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index 45e7733d6612..990e33c6a776 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -2938,16 +2938,17 @@ int shmem_lock(struct file *file, int lock, struct ucounts *ucounts)
+>  	return retval;
+>  }
+>  
+> -static int shmem_mmap(struct file *file, struct vm_area_struct *vma)
+> +static int shmem_mmap_prepare(struct vm_area_desc *desc)
+>  {
+> +	struct file *file = desc->file;
+>  	struct inode *inode = file_inode(file);
+>  
+>  	file_accessed(file);
+>  	/* This is anonymous shared memory if it is unlinked at the time of mmap */
+>  	if (inode->i_nlink)
+> -		vma->vm_ops = &shmem_vm_ops;
+> +		desc->vm_ops = &shmem_vm_ops;
+>  	else
+> -		vma->vm_ops = &shmem_anon_vm_ops;
+> +		desc->vm_ops = &shmem_anon_vm_ops;
+>  	return 0;
+>  }
+>  
+> @@ -5217,7 +5218,7 @@ static const struct address_space_operations shmem_aops = {
+>  };
+>  
+>  static const struct file_operations shmem_file_operations = {
+> -	.mmap		= shmem_mmap,
+> +	.mmap_prepare	= shmem_mmap_prepare,
+>  	.open		= shmem_file_open,
+>  	.get_unmapped_area = shmem_get_unmapped_area,
+>  #ifdef CONFIG_TMPFS
+> -- 
+> 2.51.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion visit <a href=3D"https://groups.google.com/d/msgid/=
-kasan-dev/c32377f1-30e9-48b2-937e-86a1b6cca209n%40googlegroups.com?utm_medi=
-um=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid/kasan-dev=
-/c32377f1-30e9-48b2-937e-86a1b6cca209n%40googlegroups.com</a>.<br />
-
-------=_Part_59949_1379410927.1757575251557--
-
-------=_Part_59948_1042920712.1757575251557--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/4lfedpbfjq6yexryq4jmdoycky762ewmw2thjm2h6wzgqda46a%40p3wzpxlhe7ka.
