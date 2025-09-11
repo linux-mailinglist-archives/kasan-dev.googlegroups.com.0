@@ -1,134 +1,134 @@
-Return-Path: <kasan-dev+bncBC5I5WEMW4JBBFUVRLDAMGQENOR3TQQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC5I5WEMW4JBBF45RLDAMGQE6QOQ5OY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A20FB52BF1
-	for <lists+kasan-dev@lfdr.de>; Thu, 11 Sep 2025 10:38:49 +0200 (CEST)
-Received: by mail-lf1-x137.google.com with SMTP id 2adb3069b0e04-55f6a515516sf1171700e87.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 11 Sep 2025 01:38:49 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1757579928; cv=pass;
+Received: from mail-lj1-x237.google.com (mail-lj1-x237.google.com [IPv6:2a00:1450:4864:20::237])
+	by mail.lfdr.de (Postfix) with ESMTPS id B74EBB52C4C
+	for <lists+kasan-dev@lfdr.de>; Thu, 11 Sep 2025 10:55:53 +0200 (CEST)
+Received: by mail-lj1-x237.google.com with SMTP id 38308e7fff4ca-336e13bf342sf2549571fa.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 11 Sep 2025 01:55:53 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1757580952; cv=pass;
         d=google.com; s=arc-20240605;
-        b=RkVCDsPPteuU134KeVZc9vNrBFM7bN0aqrzFC6RWNzpv1x2IgrAyy9L++ryghyYne6
-         I9YUNXRRHn+BxmEUv3QAGWN31o3WpsXoHltri9a6YrhChUoG0+MiEssKx0/23iPenYCN
-         d8XcyahNNuEdOCG7CcPlV+sEIF/19LpGCj1O+3b6WBJXTYiK6uhoJ4vzoDBdVjUExT8e
-         lzjDe0wHnVrJzG9gL8UJov+apNmauoA10AKwj7eQu/wBzCl5bFLm80vfkoxjKle6lpK8
-         6cB3Vno6yY7izzbF1E/Ab5/ADhV2++RpbZxlqSWlntbXIHIAzsaHUS4nGPE7OU6hdmG6
-         mjDQ==
+        b=RCDOloVMD8HjpSeVt98QfAAYMI/w/G7csKuumzUuAGf3tE3SGzUuQXTA8o9D/aE1jg
+         9cGVfIj2ht7XOrhwNLtMDwia5O0aiugfOTMt3NpT07Ll2HgEn9Aqw/i8xOy+O15ed0UN
+         aem/tSNg4qMFfThujIcWNyhFi+6Wcke8kV0XFhUV5BSGqxp+2nBD+jhwv63YtIjhGHNM
+         YizTB5ITUO2Iw2Enrj5aF7gs5HOnYZwuqHoL5LD1w5k6+Ac8WWznEpoeWojr7ZyHLhVk
+         YJUTy5qctEruPnWFt/pmCjYKE3g1MBtGLgkwmf09tc1vDsxx0HkI+vR5/rwZFqrbNe4h
+         j0qg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=Hnb/LBSI6+XCe6X1mgd/lwGWrfWykZwd7Hl0r3sCilQ=;
-        fh=GCg765eFHzcOjKKrSjduNLANApxWG4txLYW+pVqiy2U=;
-        b=B9VIUh3DzkmpwKxGl8HiapsDIeOjk3KctlEGA4IKDn3oHbJ3aRhGWIUDyyeiUr6Ly4
-         upV+iGsCqdpHcDLZkso2nCpsMIc4v5KyyuiaNgzvrIfD5WsNg9Sf9+Fg3KY0izok1I3r
-         ldeSrU8i6vJsBfA0mEVjrsdIkIn7FRt1aeISD4paOE4wraQCdmj9KIy4tJqiJ32dguhC
-         Bxbz7C97bFgkHvsJimTPC2o/TYa6dqXxX5ttkOK3TUNnqf8vfnj3wBgGO4CCYxoBXKSv
-         mz8gp13kYh0OhSvewAfwfKzalqAudWKN01RntSukBZwZdcC9ww67D00KcwFwgDGGT+rL
-         5Onw==;
+        bh=VVhdtag/NPLP3TbEaanSVxTKlM77jl+cNUT/8Sjhb30=;
+        fh=aKMJ3WYkTwhHzfns1gCWSn3Y0K7HeVjDCDAx4s7aZ1M=;
+        b=VLsPIEw4YNVEoFYb8KxA8a3UqeHMY2+Jpp27pBGgGdOlM4To1E74pe1TtRJQKolapA
+         /bmlqouoIZOmUFzmlMgTQeUCQwj+9lDZ8OzTUeUgLgLPhsaC4F49qTv2/qYr15zXueqz
+         Y85Nd9OcHyjexPZUKfdzvm8NtWDYUXecmw976wf4Z2MasZxBS0q45MzvsqrnJFquX5th
+         ogl2HgnLvlja4KKKTDErj8RAtCpMVZ0Q6y42oRZ4N1YoAvB/x4uSp0ulujPTpvOgBn0Q
+         zrKG2v5Y15zsY0wd6Ul/jUtygOXX16OMvc7WPrYVHczzDbPW1xQUmNvU5fgkHkANaNrN
+         v4Uw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=xB4gv7V3;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=H06dORKL;
+       dkim=neutral (no key) header.i=@suse.cz header.b=0iIQ+Ipq;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=H06dORKL;
        dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=xB4gv7V3;
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       spf=pass (google.com: domain of jack@suse.cz designates 195.135.223.130 as permitted sender) smtp.mailfrom=jack@suse.cz
+       spf=pass (google.com: domain of jack@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=jack@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1757579928; x=1758184728; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1757580952; x=1758185752; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Hnb/LBSI6+XCe6X1mgd/lwGWrfWykZwd7Hl0r3sCilQ=;
-        b=nKKef7jkT/O9PpzlB5zawJ7HTY3hEyOc7nYL+19StlJMUHKm44gO+XsNe5lnuU8XXv
-         DbVMO9pMqmqBHVsuc99oUDFDmrNX16TAJELMXt5dwS50iKo0tfGbuqfLv5gBAkVKG/Bh
-         zBcIMI4XGMCuWUBACQYx9NepBEL1Vt+rVDBSHetEMnKnWAg/lM9RpC2VmsKUA/yfp2Fx
-         3Ia9DEqeJh16siGy57dr14OMh4M6XPjFzkXzw/8TgzIc9xhFVbClFNo05bcA5qk72jpz
-         aNWLylwyFT8TiYJnVcL5IR0y2wSW3cx5ZrEyOGh1Lo4YhB+qyo8B/qfyazXCxMg3KK4K
-         0/Qg==
+        bh=VVhdtag/NPLP3TbEaanSVxTKlM77jl+cNUT/8Sjhb30=;
+        b=U1P//alYCBHMQhW/fJEDWNPp8rpMMNLGoaLqs1L/SEUk8H43LeXLWkDRnfVyMwrkBX
+         9kFU/vByNNSvCl8U+ustK3C4d8692U3h+ZDOsW+8elBuHI9sy2/QjBMmAXBTlExaz03m
+         vmljktbnLhHIAT52Md8ROHr8psVuE9Jwsb6Jys6WjZH1HcVE9Xq3Js2GU9Q9BODw6VBb
+         Vv6G4ZS3aTml0QD+jlqSSe/dfCrWe/dsD4P0RD1xkLBp4CvYABX/+hHQaDpCB2xX+zzR
+         S1+JdqkbJpk5chQd5153lq7xGACfSJKG7773J7zKUERkIFz2ocLJtNuAKbm6GrfrImJS
+         EfXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757579928; x=1758184728;
+        d=1e100.net; s=20230601; t=1757580952; x=1758185752;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Hnb/LBSI6+XCe6X1mgd/lwGWrfWykZwd7Hl0r3sCilQ=;
-        b=Py0S6VsfBeXf2qVmO0FgoF4Wo0rcGMCdd0eivFTlbkqeGWJkPfVV0jC0A91+zj98XS
-         U9q2pQd6/mn+8MKwAluBrYp95zkFf41BlaukWB7Vj5r423jfTlifkt+/9v0GglM6OwZH
-         DgTt+eKNzcPgKFg1WcBaVzcKXCmT8HyzJyZG6h5Qw1sDy11Gbev3gjelmdTA9IP0bcIM
-         SYrqT+PCvygtRhjYAxwd0PqyPECX56HL31Jbb8+dc5Yiw2zeTp5q/wdwcvIMeVwYKxFG
-         PutXqwvpJNxD3sfJmBLWRo7X7ylwGm6ym3zYtj6XbXSN5gaKLlAo8NSQaIAzHiMmYbiT
-         ZZsg==
+        bh=VVhdtag/NPLP3TbEaanSVxTKlM77jl+cNUT/8Sjhb30=;
+        b=Nars4nXbLc8JjVwmd+EDQ4JPS4gK4XsqipScwMSfG3D7Hk4SxrgscVEILnbJxFfBDj
+         bnYpVyvtFV+5ejs09EYzjf220vCewelqwK4b/1rEB8lBXikSa1X4EqTYoe2YXIOAktIb
+         UyWONX4SoQwUuNh3cQwRax/uxTqhNl/SI9bJbYIrTP3i2xHeyFzuN0yBJRKKlhKaZbWR
+         hVpgbNPKC+xDd62pYljjk5mIkhrqjxOh3ge8uNzH7nYmq3+CStmG2m0sicmfUCTBWHw3
+         raHqv/4paccPyBARS2GMKR5Rww9blP/o28ui0OnGSXZfLPRbmI2ahGSTQw3rUqf5s7jG
+         5I2A==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWOdrMOU2BlbugbePHOg66ZLggHBeGvBzUNeM1KpaPRjXVmwQ5CCZ2NNhvvfjbpzLowZyfTWA==@lfdr.de
-X-Gm-Message-State: AOJu0Yxs56q4ugijZtyLJfM5w+DKE5fns6ZVVZqUi5P5YbJdPw+6v05w
-	2PlSPjRorCmV3+vwEjP9WM6cyAP4YY8cQgpBBK6auiPPBxFVQAthhqju
-X-Google-Smtp-Source: AGHT+IFrdfoKQmjimyrZoe2A6nc+MkbAyURMNvu38Dmo83WQqI+64PWRAASz35twmuJiAf6WKrKEjw==
-X-Received: by 2002:a05:6512:ea7:b0:55f:4072:d32e with SMTP id 2adb3069b0e04-56d757d0d5dmr776952e87.4.1757579927445;
-        Thu, 11 Sep 2025 01:38:47 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZeTpRXqbbzKGsgZs/x3fLqwJ3mIWcWGlMoN8PvNLosTXw==
-Received: by 2002:a05:6512:1356:b0:55f:799:5ce5 with SMTP id
- 2adb3069b0e04-56b0af9ad25ls358091e87.1.-pod-prod-00-eu-canary; Thu, 11 Sep
- 2025 01:38:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXl2hcY4uynxpP5tbZJVYih4+IfPWl6b5IF6flsswkWtIMOF9fds/Chi6XkNsTH+b63Ac4zxzqRajc=@googlegroups.com
-X-Received: by 2002:ac2:51d0:0:b0:55f:6736:334a with SMTP id 2adb3069b0e04-56d7b42f8f4mr792285e87.26.1757579923859;
-        Thu, 11 Sep 2025 01:38:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1757579923; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCX9ePxZolusuhWdrZAlDBG1FDngtqnpLy2MCGPHmSYoHNVfNuCFT2oukzzOuZpbOHOsaZF2iA==@lfdr.de
+X-Gm-Message-State: AOJu0YyqhffGy1fSRsJQX3JcJfsClWNm8ihVX7PmIdONQe/nTaoJIhbW
+	HbhPqzUXEcfbkINLUpytYkHtlmMayOwCvlu3OVrrCpN5YGcVOq5E6UWM
+X-Google-Smtp-Source: AGHT+IGY1+QrpoGNPC2nMFpP5nBfGmIYZvZq/lIj5klHTBZ/Ym13xACmVdCU0VAMPKYnyYGq9OLUBQ==
+X-Received: by 2002:a05:651c:211d:b0:336:831d:9e00 with SMTP id 38308e7fff4ca-33b5cbcebd8mr55515251fa.25.1757580952220;
+        Thu, 11 Sep 2025 01:55:52 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZd2ANuHfXKUfNUpM9v2EKEiuI2tBBlP66PHIiuik3chpA==
+Received: by 2002:a05:651c:25d5:10b0:336:c2ac:cd28 with SMTP id
+ 38308e7fff4ca-34ea8514d93ls397511fa.0.-pod-prod-05-eu; Thu, 11 Sep 2025
+ 01:55:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUaIYPb//Fu97uqXz8HUVSkPgTNY29WFZTDWRwG3SfEtRbk6h4FdYVZpA05ti0DoOPS9rqqKN52tpM=@googlegroups.com
+X-Received: by 2002:a05:651c:2221:b0:337:f6f5:a164 with SMTP id 38308e7fff4ca-33b5cbceb98mr59342161fa.28.1757580948888;
+        Thu, 11 Sep 2025 01:55:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1757580948; cv=none;
         d=google.com; s=arc-20240605;
-        b=BR+TvoNMrSxWZmgpH0In85070gRwQFpeDUiOmuvi1I+VW3M3PclyUbX6T4S9HheZrN
-         SSeV2u7oAwkrp1ccbOaezGZHH+jS8JNHZHaqPsmHdVRyVGTm0VWvfHI/OKOlwrYLSbyJ
-         7w7YrzYcGPOkzMsYilh6AsMF8GfLjlLxptnzveBGrr8zAlRuOlm4uswYxa18cj8aAx9j
-         Kwju/dJYrxhsEd/rc44hK+/RWJ4tZ7wsq/xTUROMXH5INs+2qFG8lTH+IxfyzIV20RZq
-         hYNOUhFCBOYgRatJcQCFMcJ8McK1aTskTuZEzIgYwiLROZQ7JVQyFPo22o1cApYdXiee
-         j4tw==
+        b=ksx2R2j2gRd4jqaBkhCb5GhtJ7r4ndswtRG7pMll5laZJd6n0V3UuAsu4SLOu+/lI+
+         QVsDLew5/TSN8ZIt0b9ULmqfSWF6ia6JSsT0feI2epqvErKZzF8A+8Nx2ay8knNEdl0d
+         +KDndOB2bngbmTV9fBeFSTRmnnlzcx6CbyK/3xHnTBxRrpLyGCdPuOhyrjsDoS+ywwX4
+         f7xlJvYKua1kYEa8KSKBhei+cB/WgHfLD2wwEluo1xPz5js7YO1CIIROCzvavzOafqJ4
+         wllgFAzW6Uf/+YJDhvK/vBMmO9J9yG/1vnxqofPmrBI9vriL7k+FfaAiJWrs8tte1JPJ
+         j24g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature:dkim-signature
          :dkim-signature:dkim-signature;
-        bh=C9OZHv6l97MqIsXfPxgJwmp3fJXxpsxaT+6E3H63F4A=;
+        bh=g+JbXqJwzf7cOodAKH9xqcseUyaAMBde80ixVE0ZgKU=;
         fh=/v17VW8MchCHUgpXxAXTMs5Ee7lYsmC259Kuc6hqZT8=;
-        b=VsZVW1vaGpp1I2Ty+ARVkuhOiDhXRu7CZVzb6l2PGGcS2YchcPGbRKAuVCQv5k4jhU
-         cMqH4UQ1QNM3vn8e4JZlgTWxCPhjC/LGGuG0pwIKMGOfzZDocvAW1kYejdjTwpqF1mXQ
-         TX6nR80SaWoveQO70h3FKixA9TVnPiO/PT+LCv7efqhjHv5XPUfDIvwsnF06EjYcj4kT
-         iWFDKlBlB+uY31WqQTqsYLCN7CYQTWmRlobDRwz+hCYVAVQeDhNq/p2f+kk4DFFhteK4
-         RrT9T39Lb+Qr/GqC5//iFPYTd9sObaURQD6gVeWJFi2b39zUDMSs4MShzvXKkWJJ1TBs
-         9+cg==;
+        b=Fp6DDusvquNCIU3F2LFtqhKHG0ZpD8tDKszXoOE0PR3raO+qGrfaOBSmrNFm6+YCz5
+         T24M5oPczAxd03mZkKh0gleR8Hi52UI094P2xP/LlEhmMVC+6JkIE81HQeXyTJvM1GGS
+         NjenTl+BaYTJP82QDpLUQkkCVakjcDlBsO8s4HpgfZbDr22UXZWqqVh9klksQK4y3VYL
+         wBJ6xKdY4KOpUqzQAx8zS1g9zL5PekeuoQczSVIz0VWZsFyk2Ni0c04opSKPUlaBigDi
+         pztUa3uqvJg6VYCWjGNLPoOXXkUN36HtKX+WllpHzP0i2mpBzbTxpZHRyiV96z2Mgp3u
+         G1Uw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=xB4gv7V3;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=H06dORKL;
+       dkim=neutral (no key) header.i=@suse.cz header.b=0iIQ+Ipq;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=H06dORKL;
        dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=xB4gv7V3;
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       spf=pass (google.com: domain of jack@suse.cz designates 195.135.223.130 as permitted sender) smtp.mailfrom=jack@suse.cz
-Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.223.130])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-56e593da29dsi19328e87.1.2025.09.11.01.38.43
+       spf=pass (google.com: domain of jack@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=jack@suse.cz
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.223.131])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-34f1b1b37c1si143551fa.7.2025.09.11.01.55.48
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 01:38:43 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jack@suse.cz designates 195.135.223.130 as permitted sender) client-ip=195.135.223.130;
+        Thu, 11 Sep 2025 01:55:48 -0700 (PDT)
+Received-SPF: pass (google.com: domain of jack@suse.cz designates 195.135.223.131 as permitted sender) client-ip=195.135.223.131;
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9E8A93F958;
-	Thu, 11 Sep 2025 08:38:42 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B730E68010;
+	Thu, 11 Sep 2025 08:55:46 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8EE661372E;
-	Thu, 11 Sep 2025 08:38:42 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A7DA113301;
+	Thu, 11 Sep 2025 08:55:46 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id RzXXIpKKwmiAcwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 11 Sep 2025 08:38:42 +0000
+	id Pmj1KJKOwmjpeAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 11 Sep 2025 08:55:46 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 4D7CAA0A2D; Thu, 11 Sep 2025 10:38:42 +0200 (CEST)
-Date: Thu, 11 Sep 2025 10:38:42 +0200
+	id 5F916A0A2D; Thu, 11 Sep 2025 10:55:42 +0200 (CEST)
+Date: Thu, 11 Sep 2025 10:55:42 +0200
 From: Jan Kara <jack@suse.cz>
 To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -158,14 +158,15 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-mm@kvack.org, 
 	ntfs3@lists.linux.dev, kexec@lists.infradead.org, kasan-dev@googlegroups.com, 
 	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v2 04/16] relay: update relay to use mmap_prepare
-Message-ID: <q5kr5klayp7wcdv5535etvhfcmsftf2h5pi2nhxjpxsyu4h6qt@e6fidg7kolk2>
+Subject: Re: [PATCH v2 09/16] doc: update porting, vfs documentation for
+ mmap_prepare actions
+Message-ID: <xbz56k25ftkjbjpjpslqad5b77klaxg3ganckhbnwe3mf6vtpy@3ytagvaq4gk5>
 References: <cover.1757534913.git.lorenzo.stoakes@oracle.com>
- <3e34bb15a386d64e308c897ea1125e5e24fc6fa4.1757534913.git.lorenzo.stoakes@oracle.com>
+ <e50e91a6f6173f81addb838c5049bed2833f7b0d.1757534913.git.lorenzo.stoakes@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <3e34bb15a386d64e308c897ea1125e5e24fc6fa4.1757534913.git.lorenzo.stoakes@oracle.com>
+In-Reply-To: <e50e91a6f6173f81addb838c5049bed2833f7b0d.1757534913.git.lorenzo.stoakes@oracle.com>
 X-Spam-Level: 
 X-Spamd-Result: default: False [-2.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
@@ -190,16 +191,16 @@ X-Spamd-Result: default: False [-2.30 / 50.00];
 	RCVD_TLS_LAST(0.00)[];
 	TO_MATCH_ENVRCPT_SOME(0.00)[];
 	RCPT_COUNT_GT_50(0.00)[59];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,oracle.com:email,suse.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,oracle.com:email,suse.cz:email,suse.com:email]
 X-Spam-Flag: NO
 X-Spam-Score: -2.30
 X-Original-Sender: jack@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=xB4gv7V3;       dkim=neutral
- (no key) header.i=@suse.cz;       dkim=pass header.i=@suse.cz
- header.s=susede2_rsa header.b=xB4gv7V3;       dkim=neutral (no key)
- header.i=@suse.cz header.s=susede2_ed25519;       spf=pass (google.com:
- domain of jack@suse.cz designates 195.135.223.130 as permitted sender) smtp.mailfrom=jack@suse.cz
+ header.i=@suse.cz header.s=susede2_rsa header.b=H06dORKL;       dkim=neutral
+ (no key) header.i=@suse.cz header.b=0iIQ+Ipq;       dkim=pass
+ header.i=@suse.cz header.s=susede2_rsa header.b=H06dORKL;       dkim=neutral
+ (no key) header.i=@suse.cz;       spf=pass (google.com: domain of
+ jack@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=jack@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -212,11 +213,12 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed 10-09-25 21:21:59, Lorenzo Stoakes wrote:
-> It is relatively trivial to update this code to use the f_op->mmap_prepare
-> hook in favour of the deprecated f_op->mmap hook, so do so.
+On Wed 10-09-25 21:22:04, Lorenzo Stoakes wrote:
+> Now we have introduced the ability to specify that actions should be taken
+> after a VMA is established via the vm_area_desc->action field as specified
+> in mmap_prepare, update both the VFS documentation and the porting guide to
+> describe this.
 > 
-> Reviewed-by: David Hildenbrand <david@redhat.com>
 > Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
 Looks good. Feel free to add:
@@ -226,83 +228,38 @@ Reviewed-by: Jan Kara <jack@suse.cz>
 								Honza
 
 > ---
->  kernel/relay.c | 33 +++++++++++++++++----------------
->  1 file changed, 17 insertions(+), 16 deletions(-)
+>  Documentation/filesystems/porting.rst | 5 +++++
+>  Documentation/filesystems/vfs.rst     | 4 ++++
+>  2 files changed, 9 insertions(+)
 > 
-> diff --git a/kernel/relay.c b/kernel/relay.c
-> index 8d915fe98198..e36f6b926f7f 100644
-> --- a/kernel/relay.c
-> +++ b/kernel/relay.c
-> @@ -72,17 +72,18 @@ static void relay_free_page_array(struct page **array)
->  }
->  
->  /**
-> - *	relay_mmap_buf: - mmap channel buffer to process address space
-> - *	@buf: relay channel buffer
-> - *	@vma: vm_area_struct describing memory to be mapped
-> + *	relay_mmap_prepare_buf: - mmap channel buffer to process address space
-> + *	@buf: the relay channel buffer
-> + *	@desc: describing what to map
->   *
->   *	Returns 0 if ok, negative on error
->   *
->   *	Caller should already have grabbed mmap_lock.
->   */
-> -static int relay_mmap_buf(struct rchan_buf *buf, struct vm_area_struct *vma)
-> +static int relay_mmap_prepare_buf(struct rchan_buf *buf,
-> +				  struct vm_area_desc *desc)
->  {
-> -	unsigned long length = vma->vm_end - vma->vm_start;
-> +	unsigned long length = vma_desc_size(desc);
->  
->  	if (!buf)
->  		return -EBADF;
-> @@ -90,9 +91,9 @@ static int relay_mmap_buf(struct rchan_buf *buf, struct vm_area_struct *vma)
->  	if (length != (unsigned long)buf->chan->alloc_size)
->  		return -EINVAL;
->  
-> -	vma->vm_ops = &relay_file_mmap_ops;
-> -	vm_flags_set(vma, VM_DONTEXPAND);
-> -	vma->vm_private_data = buf;
-> +	desc->vm_ops = &relay_file_mmap_ops;
-> +	desc->vm_flags |= VM_DONTEXPAND;
-> +	desc->private_data = buf;
->  
->  	return 0;
->  }
-> @@ -749,16 +750,16 @@ static int relay_file_open(struct inode *inode, struct file *filp)
->  }
->  
->  /**
-> - *	relay_file_mmap - mmap file op for relay files
-> - *	@filp: the file
-> - *	@vma: the vma describing what to map
-> + *	relay_file_mmap_prepare - mmap file op for relay files
-> + *	@desc: describing what to map
->   *
-> - *	Calls upon relay_mmap_buf() to map the file into user space.
-> + *	Calls upon relay_mmap_prepare_buf() to map the file into user space.
->   */
-> -static int relay_file_mmap(struct file *filp, struct vm_area_struct *vma)
-> +static int relay_file_mmap_prepare(struct vm_area_desc *desc)
->  {
-> -	struct rchan_buf *buf = filp->private_data;
-> -	return relay_mmap_buf(buf, vma);
-> +	struct rchan_buf *buf = desc->file->private_data;
+> diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesystems/porting.rst
+> index 85f590254f07..6743ed0b9112 100644
+> --- a/Documentation/filesystems/porting.rst
+> +++ b/Documentation/filesystems/porting.rst
+> @@ -1285,3 +1285,8 @@ rather than a VMA, as the VMA at this stage is not yet valid.
+>  The vm_area_desc provides the minimum required information for a filesystem
+>  to initialise state upon memory mapping of a file-backed region, and output
+>  parameters for the file system to set this state.
 > +
-> +	return relay_mmap_prepare_buf(buf, desc);
->  }
+> +In nearly all cases, this is all that is required for a filesystem. However, if
+> +a filesystem needs to perform an operation such a pre-population of page tables,
+> +then that action can be specified in the vm_area_desc->action field, which can
+> +be configured using the mmap_action_*() helpers.
+> diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
+> index 486a91633474..9e96c46ee10e 100644
+> --- a/Documentation/filesystems/vfs.rst
+> +++ b/Documentation/filesystems/vfs.rst
+> @@ -1236,6 +1236,10 @@ otherwise noted.
+>  	file-backed memory mapping, most notably establishing relevant
+>  	private state and VMA callbacks.
 >  
->  /**
-> @@ -1006,7 +1007,7 @@ static ssize_t relay_file_read(struct file *filp,
->  const struct file_operations relay_file_operations = {
->  	.open		= relay_file_open,
->  	.poll		= relay_file_poll,
-> -	.mmap		= relay_file_mmap,
-> +	.mmap_prepare	= relay_file_mmap_prepare,
->  	.read		= relay_file_read,
->  	.release	= relay_file_release,
->  };
+> +	If further action such as pre-population of page tables is required,
+> +	this can be specified by the vm_area_desc->action field and related
+> +	parameters.
+> +
+>  Note that the file operations are implemented by the specific
+>  filesystem in which the inode resides.  When opening a device node
+>  (character or block special) most filesystems will call special
 > -- 
 > 2.51.0
 > 
@@ -313,4 +270,4 @@ SUSE Labs, CR
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/q5kr5klayp7wcdv5535etvhfcmsftf2h5pi2nhxjpxsyu4h6qt%40e6fidg7kolk2.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/xbz56k25ftkjbjpjpslqad5b77klaxg3ganckhbnwe3mf6vtpy%403ytagvaq4gk5.
