@@ -1,271 +1,169 @@
-Return-Path: <kasan-dev+bncBDM2HOMBZYGBBQEQRXDAMGQEEOMD7DI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDG6PF6SSYDRBXMXRXDAMGQERFOU2ZA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43d.google.com (mail-pf1-x43d.google.com [IPv6:2607:f8b0:4864:20::43d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63CAFB53E7D
-	for <lists+kasan-dev@lfdr.de>; Fri, 12 Sep 2025 00:08:03 +0200 (CEST)
-Received: by mail-pf1-x43d.google.com with SMTP id d2e1a72fcca58-77230be575fsf196081b3a.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 11 Sep 2025 15:08:03 -0700 (PDT)
+Received: from mail-wr1-x43e.google.com (mail-wr1-x43e.google.com [IPv6:2a00:1450:4864:20::43e])
+	by mail.lfdr.de (Postfix) with ESMTPS id E806BB53E97
+	for <lists+kasan-dev@lfdr.de>; Fri, 12 Sep 2025 00:23:26 +0200 (CEST)
+Received: by mail-wr1-x43e.google.com with SMTP id ffacd0b85a97d-3dbf3054ac4sf652959f8f.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 11 Sep 2025 15:23:26 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1757629406; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=S9tp3te1vsjkwCA4eHPdEl9LHb9Jc+TEQXMt+k1xaTjIRSjfJQU0IM2svPBAsoeQv/
+         RLZvI72st7Z0c5OvMp/MqQYDW4a6SLyx6XjT6uuI8/g0m1T+FX6rNC950NQpjm4ymEdn
+         l0P8U6IDtFvDlIRLKyOvZYMQpPIp9JaGp3FQ5T+qYrEkdOKsa2fGdBuQ4AR7fC+NXp/R
+         Yzm2dU4jqL8jSusCXdLV3YnQdooB20CPgzo69y7AuZaunObyjQGotsLzZUzkCWOfxrNN
+         xx9yqarKbzUaPXrnlx4AgyUCwMyfUYWBeGnVnSNbH+g33zYtunTfNoISXl3xiUXprvHi
+         ftpA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:references:in-reply-to:from
+         :content-language:cc:to:subject:user-agent:mime-version:date
+         :message-id:dkim-filter:sender:dkim-signature;
+        bh=gKaCAI1qd62cUAOk4qclAc89b0OguHem8u8lA04Eo78=;
+        fh=0iR7ixV+DRXX+CE6Q0EwYXMCH4DRtr5gIlwu/sCKsk0=;
+        b=Avjd+bN0Ux/cK/uwKbeMeFOpXiHMQRxLeLAt7PXNnOknmSK2b2HbhA+92VEptyUe0p
+         0ldXxIYOVf0Jo6AMY/xfSWSi2sdoDb5srNcloZNxVxTlfDpX5Qo9oYbvHnqUpxv+AmVv
+         nb9I+RxsKYje+fpsR2kdg2Vcewvwt4xGd8KNfwsQYs/YgKNDuS+aMim0MkrhtmapYCcv
+         zBU0Q5OoDFd7/M9fSEfQF9o7HeRjCKDNYOlo+G9DrLRKIZvJi3FeIYJch30aRZn5UeFB
+         HA3Mpg11WhDpDvVZ+CEilsjdqBpo4qA3umAWcba8PmE2PJkyAa743kTc1kynTdT/IVla
+         vNQw==;
+        darn=lfdr.de
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b="oYf4Wl/v";
+       spf=pass (google.com: domain of m.szyprowski@samsung.com designates 210.118.77.11 as permitted sender) smtp.mailfrom=m.szyprowski@samsung.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1757628481; x=1758233281; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1757629406; x=1758234206; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:date:message-id:sender:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Iz2tvtjLsnfc9xTkZvrPH/wG4JTGwhttXJdqFSOfD9k=;
-        b=qLNdSLUpez8XPI3Pjfv4Yr6CreIjIkrbz6GoAiKoussjaYOKpbaRi3MuWiZfnXJsLe
-         +FEuSrsY14lRAEJ+0BIAXl4FUZwa4c2eOly5f7JmpKYlRXz2UhRXlzdp4+YmYjvEREzi
-         pH2SXpMXJuEeg1ljO9OZAF3LKMjmLki0/Fvx3ESh37DBPM4Rx+r+ClmDVDXoIYeOI6a6
-         URRYrzxdKkSjOqNUATbE0oES5Z8GGzvMmMBrH3BD5Hsucz+1Sx44EBJc/zmzwCbnZT6h
-         pEucmFVSvq/Dc/MlSbuAKBvxJV/aDQQ6eMF0oFt5uncdr8NzpGXf58L8v1eJKlul4DYq
-         1M8w==
+         :x-original-sender:references:in-reply-to:from:content-language:cc
+         :to:subject:user-agent:mime-version:date:message-id:dkim-filter
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=gKaCAI1qd62cUAOk4qclAc89b0OguHem8u8lA04Eo78=;
+        b=IosQvWqX0LKLKQE8nBlK9xkAQjIbEP6VBvGkrILecY/DUs4LPOZ5TUheDqGvaIMqmx
+         CQ7XPZve2ny5QVmAQLlAbJh3+66LJhvmoU/QDbfQTZcGO4x+Yrt05Hupgf8bAPRThZf9
+         ww8e3MnYlEuknOKIbbF+KIc2KK67IiltmwMTtQBCa6KTc+Lgi4s29F1qTpLOPMBJ31al
+         JsJtnALOpTarsXtHFEFx2BUXB0gv44kPKhnunGWDHJz7NKptE0sYooI93dfGIrY9koUg
+         NLJxClt8IePUm0rj7Q8GIvyU7jBdv41PAJb705aGPKYiRX5ei3S2sV5FuHBPoFmXTuo1
+         BgYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757628481; x=1758233281;
+        d=1e100.net; s=20230601; t=1757629406; x=1758234206;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Iz2tvtjLsnfc9xTkZvrPH/wG4JTGwhttXJdqFSOfD9k=;
-        b=CpLsYOok7IGh1SHiZXNVXcj6wFG+DUGnUzaxYygQv/GogbY6Oo7dccXnPjSr9yskkt
-         6LuYS6ErQ5UFBHdMdtseRd0IFCIcGjbFTVohoLU52eru6GUF+yiJEgT9SV8MirBrDg2N
-         eAioVXtzssvGCSYKYQ6rDaWzMYDoR5SoOQQ8MBmOwzCbAiERseQ3qG2E0xvJynlH2DaG
-         hOtGA/M23a4vbkDe5/EQjz/EONYoNwjzFxT2MzCANeA6faXtwL8T8T5RI3S/C5Yb4tWq
-         uv8enV53lsV1OyRQa9szljXUU+HR9eimWDL/B9PEVtf3TOEWsY9InxJZx1515qJz2agh
-         yNrw==
+         :x-original-authentication-results:x-original-sender:references
+         :in-reply-to:from:content-language:cc:to:subject:user-agent
+         :mime-version:date:message-id:dkim-filter:x-beenthere
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gKaCAI1qd62cUAOk4qclAc89b0OguHem8u8lA04Eo78=;
+        b=JAnygDREPeHd5yWMEcVErGMUSJtMVB8C7bKzTgeAVShgrpTSqDWBPzYMGakxkh7/Hd
+         IrgQg9JR+/OIfOl9EWeX4enILSSwuwjteHb9cqNVfwHQT4Jcbhd/fSqWCbn/O9aJmQP5
+         oY8QAhjYcsFsM4ukHyyE41jaMtxGT/oqnpkeNEa3RjCFlf+wkaN/8QPyRjQNwCuIKzSl
+         da/j37SrjJKnM7ee6qjhBBBCbVWHDI+HJeVUcY4eKlPc33HlYX5bICWOZ7Cfq2SBrYrY
+         WADsF+nrteKT6vo1fRRC3dmcnODFJgDO00epJd6UtCWBwhajZ+0az8yDy5DOQwdhOHfP
+         5TCw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=3; AJvYcCWMJe6aUdHqAc7FdNrg++9SiRY45QZ+IZoJIgsbB46tlSvkmf5Z6GwfhZb4vRJoRqs4lSKI7A==@lfdr.de
-X-Gm-Message-State: AOJu0YzzcZ9nQTLQ61Jt0v5p5y3MSQxRttH3T6EzZNsR2YqAksNKsJAI
-	ZCFR6vLA/VmyXyaQBub9dIXtpyMxUI0hH8gyNMk5xn7922Az8GdLU0Sd
-X-Google-Smtp-Source: AGHT+IGVjGhSkSu7fZvERJ7fL0HTti5YwtiJeIufaclW8YTZgLuv92utXBEnVAfOaAXA66eOkAOmKA==
-X-Received: by 2002:a05:6a00:cc2:b0:771:f3c2:bbfc with SMTP id d2e1a72fcca58-77612244b0amr491745b3a.7.1757628480690;
-        Thu, 11 Sep 2025 15:08:00 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcOpCMSdg2BsEOwn0TzhqOYQvMpEns0ENQzv2EH9/aROA==
-Received: by 2002:a05:6a00:3d96:b0:776:14ae:ec3a with SMTP id
- d2e1a72fcca58-77614aeeed3ls33206b3a.1.-pod-prod-03-us; Thu, 11 Sep 2025
- 15:07:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=3; AJvYcCXg39sPsaDwPB0NqmyVpHQ73PwVMaJAeBRV0/wCcOOxdtWHgo6KplAqddfRxf8VwljcWnUum2FZ/wA=@googlegroups.com
-X-Received: by 2002:a05:6a20:939e:b0:251:1b8c:565c with SMTP id adf61e73a8af0-2602c04a6d6mr801257637.31.1757628478921;
-        Thu, 11 Sep 2025 15:07:58 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1757628478; cv=fail;
+X-Forwarded-Encrypted: i=2; AJvYcCWmsdzpduRvWnki8bY9pTyzw90fcvsE4jv4AIcUAVQukCn2ZpLbPy0yUpXnEs8s5Ibd3BSswA==@lfdr.de
+X-Gm-Message-State: AOJu0YzmMiLchurKtDwOMB3wnSapa7kuKbdB+itVDEbZgLutkv3uBoQ9
+	uZXE38OoVBgMZLPX8GlbX6cF+Ly2ihRRp6/+yNu+QjKTnHiKVf/4kiXM
+X-Google-Smtp-Source: AGHT+IG97AoS6GFHeTQxhBf2xY0lbZ3zKogUrG30+JsRpwlwruhTc4f8g+KFqGURFTJggQycjQrJ3g==
+X-Received: by 2002:a05:6000:290b:b0:3e7:42aa:1b3 with SMTP id ffacd0b85a97d-3e7659c1c37mr893832f8f.27.1757629406020;
+        Thu, 11 Sep 2025 15:23:26 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd4zGKoN4q5ozqlLtWFPgWOfu0s8rOGCudv2rwNeOd5M1g==
+Received: by 2002:adf:fe4c:0:b0:3e7:63b9:afd5 with SMTP id ffacd0b85a97d-3e763b9bf2als288070f8f.1.-pod-prod-08-eu;
+ Thu, 11 Sep 2025 15:23:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUGuunuZwu7ltCUgFH5mT4sZe4+yW+MNNjtTrAGtNbcmuV58Cr9OJT9VCyZa0nIAq0rgN/YvwpHx6M=@googlegroups.com
+X-Received: by 2002:a05:6000:2403:b0:3e7:486b:45b0 with SMTP id ffacd0b85a97d-3e7658bc32dmr777113f8f.26.1757629403026;
+        Thu, 11 Sep 2025 15:23:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1757629403; cv=none;
         d=google.com; s=arc-20240605;
-        b=GAnuB+fY7MwwZw7Q+H7hcrJE8oj1itsGUMABVj9SPhRgI+mu39i7HwhnOB6c81zpB8
-         bFysfQ+3QGUUaf/FlWmBK9s/0UY2vMknWdCPeo3nAigq81vjNvBBUYxrEyp8CqQw6a+F
-         gSAsNxhgwmj1/6lhhYC6mADzSXkKPmjp3ht7MO0+VaS3sRX6DHoPrYRgFIy4m0ZLIGco
-         OdZUDzAd98igNzbRfiwx52BUZKv/+MMcKEZXi0pNhHCNNPoaSre2Ra9YmRZoDSeKjfmN
-         qgP//uF9T8gs2QtzO7ToxGkpWPWoA8DKCI+2zo5z4jEIMwfzEzPrFVFzYwFRs7w/BBBn
-         Md4g==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=mime-version:content-transfer-encoding:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:date:message-id
-         :dkim-signature;
-        bh=5cNNf73/JRglblIRtVK/g6Tyl545PuASxqcWeEmDvWU=;
-        fh=w5A9CnUeWDniS8febzczIOAfEVrLzXomca2T58v0TVQ=;
-        b=fFvoHerGLyRntRpc8KxSjl2zC1YQ0twqYxrTqZhDlBQ1F+2nmQBK2y8vJBH/kGfL3R
-         eaaZ0CzIpYTSan7UrB3WXuBs+ZHcSsm8jM/X3rQMA+mAGwRBdG7mqVKvKW/ngFKghLEh
-         nrNlPPnr4IX1alXOUsRC+d4X8V67i3d9eNzBHedJs/0qBc1dHFe3iWJoibnOC3s3IAIp
-         pAcH9t95OfxQYkHZDEzALKNRcq16zMMCtWnHX+F2u71uelW0yn9Fi4vkYlzIWebQC59u
-         fquLHT++8R7HQkApLInD5golw/g7bj4qwVZ0Bte95lrhEdZCmBKWlF3Y1y+iKY9Ak5Am
-         SXvA==;
+        b=cdea27P1NQgy6Hw+uwYUwOnwbOBLMi/a+tPzQ47OWk+NPAdomy8Thcty2fABkFwBd3
+         YTfQVfP0g9xT73wD9f5xFOtp5O4kfhLvH+Al3ImsMJBYbmsB6wPE4pCvN4NDosFw1Q6s
+         B4IrbdOmGrbitiYqXkYsP4C84Gz5jlsB++/rQSDCpAcUfloBdOPtX8eATIYi/msMHACl
+         K/atZU3Dirlg2DrQoqZiBdxfd8psySwQY5329zq3AlmRuS00BhEmNszCBvg2FTBHpjY4
+         Kt6L/pyExWnXH73djPxaF7B82qUM0WLoomMt8Bm+2C8iJk74dxM1MjvhybNwteDvaZr/
+         nHqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=references:content-transfer-encoding:in-reply-to:from
+         :content-language:cc:to:subject:user-agent:mime-version:date
+         :message-id:dkim-signature:dkim-filter;
+        bh=9atdt/om7OmffbDgov9WTxIsiO59X0BmEMtINP1uP9A=;
+        fh=7WVQAQokcltWARD9cjMeQiAwgWq6NbUWVhbXV4o034s=;
+        b=iQOzlg+uv/8KyPPKh84oc4/ntKgL8gvXvOkWnDVWThuCcH6zDHzOI4TyRTVY1G3C7z
+         Ir3gB51+aqZYaDB4JnvNpafpWX1Tp5g6dJhYlSLkrIfOXYLTzSIshJ9YmD2h8/r8NTn/
+         BbR+B5HZW1ebqvntQiKN0AZMxrB97moc8O1diLU+nROzWUK9fTpaeEnIhuYEy8z4koG+
+         KfOI6Wsb4NEl3QLeFGACDWUuLavWssLuZuMDlnQD5G2SGuYQX7egey4H5uSoxZNUFqq0
+         bV0yGox7j+uGsLfhqjKC+OQrrcZZIIhjRxf0kWZUKQDFONi2+pre7Uxhg8U3nEIoMv+6
+         +BUA==;
         dara=google.com
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=VDuviGdT;
-       arc=fail (signature failed);
-       spf=pass (google.com: domain of reinette.chatre@intel.com designates 192.198.163.14 as permitted sender) smtp.mailfrom=reinette.chatre@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mgamail.intel.com (mgamail.intel.com. [192.198.163.14])
-        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-77607b0a18bsi117934b3a.3.2025.09.11.15.07.58
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b="oYf4Wl/v";
+       spf=pass (google.com: domain of m.szyprowski@samsung.com designates 210.118.77.11 as permitted sender) smtp.mailfrom=m.szyprowski@samsung.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com. [210.118.77.11])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3e760816158si60838f8f.7.2025.09.11.15.23.22
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 11 Sep 2025 15:07:58 -0700 (PDT)
-Received-SPF: pass (google.com: domain of reinette.chatre@intel.com designates 192.198.163.14 as permitted sender) client-ip=192.198.163.14;
-X-CSE-ConnectionGUID: 1jUj8e63Txy5Gmc5qheaVQ==
-X-CSE-MsgGUID: UKmkaROYS3WV7byZOhPzAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11550"; a="60047632"
-X-IronPort-AV: E=Sophos;i="6.18,258,1751266800"; 
-   d="scan'208";a="60047632"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 15:07:58 -0700
-X-CSE-ConnectionGUID: U6lWyK6UTcmYMbAPExNOLQ==
-X-CSE-MsgGUID: v0NE2+oWSAC0gXSGJnwhTA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,258,1751266800"; 
-   d="scan'208";a="173375460"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 15:07:58 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 11 Sep 2025 15:07:57 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Thu, 11 Sep 2025 15:07:57 -0700
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (40.107.95.43) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 11 Sep 2025 15:07:55 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WFVtCAxN7HfqW8jh9OHyy/v+TCKQ4F+WiL9QjEczdFR0ynaq1dl+RJkHrj17fs58soc/ycyAykGYftCbFDCuznWMcqqKsl2zqIr9vW7IFbhrdl/hUGJcE81OM1RE35zyxN0OnUpvxwESLAfPAXZ2kXIV7Qo+g+Yepp78lBl4LeGgVbjadaOtZ6LNkpWP5i80YCVsMmQcapg/gApVLPPXwPknKmpkfmvLnYWpfrFNGNl06gsqkPa+yTR469oyxwHHglcfgHik21YKj4pLJYSh0Jg2FBemYqk1o53FdkUg2jL4tbeceU7m9Yzq2g5aEUU5dkOXBDFImmga1W1V8z9kLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5cNNf73/JRglblIRtVK/g6Tyl545PuASxqcWeEmDvWU=;
- b=vIXrVNqQ4jMuBAud/KroaKhkzOxm+s30aFRdKklI7vfRe40mc7iONyn8KciKur7+8TgtlKOhu0MzmjtD9VzmFEZ/IvnNweq7uirPRMNSPl9Ig0VkUnfsuFk5wcBh6AIRsOx1+gryHUkW/kaiArKo5exI/30SicG2l0ncX9bVZke5ujR5Es+2R1iKndBp7nmg/WllwkX9wUmX+A/DnrWnMTO2C4K849grHO89JjWJlp6el2oG6HUmR7X9kAAks90eOrrpo9KwAJFAF4Los9Xh2YV4KUOHPA7GyqaLb2YYzFkS+PQWG601Tg72+w/58uV3S0Ld7E7L5T9q7FryKa0v5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by SA2PR11MB5035.namprd11.prod.outlook.com (2603:10b6:806:116::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Thu, 11 Sep
- 2025 22:07:48 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf%4]) with mapi id 15.20.9094.021; Thu, 11 Sep 2025
- 22:07:48 +0000
-Message-ID: <f04792c6-f651-41f7-a960-56ca37894454@intel.com>
-Date: Thu, 11 Sep 2025 15:07:43 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 12/16] mm: update resctl to use mmap_prepare
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Andrew Morton
-	<akpm@linux-foundation.org>
-CC: Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>,
-	Guo Ren <guoren@kernel.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger
-	<borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, "David S .
- Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, "Arnd
- Bergmann" <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Williams <dan.j.williams@intel.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, Nicolas Pitre
-	<nico@fluxnic.net>, Muchun Song <muchun.song@linux.dev>, Oscar Salvador
-	<osalvador@suse.de>, David Hildenbrand <david@redhat.com>, Konstantin Komarov
-	<almaz.alexandrovich@paragon-software.com>, Baoquan He <bhe@redhat.com>,
-	Vivek Goyal <vgoyal@redhat.com>, Dave Young <dyoung@redhat.com>, Tony Luck
-	<tony.luck@intel.com>, Dave Martin <Dave.Martin@arm.com>, James Morse
-	<james.morse@arm.com>, Alexander Viro <viro@zeniv.linux.org.uk>, "Christian
- Brauner" <brauner@kernel.org>, Jan Kara <jack@suse.cz>, "Liam R . Howlett"
-	<Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport
-	<rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
-	<mhocko@suse.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
-	<baolin.wang@linux.alibaba.com>, Uladzislau Rezki <urezki@gmail.com>, "Dmitry
- Vyukov" <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, "Jann
- Horn" <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <linux-csky@vger.kernel.org>,
-	<linux-mips@vger.kernel.org>, <linux-s390@vger.kernel.org>,
-	<sparclinux@vger.kernel.org>, <nvdimm@lists.linux.dev>,
-	<linux-cxl@vger.kernel.org>, <linux-mm@kvack.org>, <ntfs3@lists.linux.dev>,
-	<kexec@lists.infradead.org>, <kasan-dev@googlegroups.com>, Jason Gunthorpe
-	<jgg@nvidia.com>
-References: <cover.1757534913.git.lorenzo.stoakes@oracle.com>
- <f0bfba7672f5fb39dffeeed65c64900d65ba0124.1757534913.git.lorenzo.stoakes@oracle.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-Content-Language: en-US
-In-Reply-To: <f0bfba7672f5fb39dffeeed65c64900d65ba0124.1757534913.git.lorenzo.stoakes@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-X-ClientProxiedBy: MW3PR05CA0004.namprd05.prod.outlook.com
- (2603:10b6:303:2b::9) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 11 Sep 2025 15:23:23 -0700 (PDT)
+Received-SPF: pass (google.com: domain of m.szyprowski@samsung.com designates 210.118.77.11 as permitted sender) client-ip=210.118.77.11;
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20250911222322euoutp011634560d57af0d6769ea82508ee6c7b3~kWqER7Qs81513015130euoutp01K;
+	Thu, 11 Sep 2025 22:23:22 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20250911222322euoutp011634560d57af0d6769ea82508ee6c7b3~kWqER7Qs81513015130euoutp01K
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20250911222321eucas1p114043a72e011e2fff92df33a2133b21e~kWqDhtt8p0600006000eucas1p18;
+	Thu, 11 Sep 2025 22:23:21 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20250911222317eusmtip2aabd06b78078a7146730dff557f2cb71~kWqAG3AB-1019110191eusmtip2F;
+	Thu, 11 Sep 2025 22:23:17 +0000 (GMT)
+Message-ID: <5ffc63e9-19bd-4e12-92fc-57fe12d10f4f@samsung.com>
+Date: Fri, 12 Sep 2025 00:23:17 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SA2PR11MB5035:EE_
-X-MS-Office365-Filtering-Correlation-Id: 319beb2c-694a-446d-cac7-08ddf17fa485
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Zk04RzdPUEtuUFdCdXJaMk8vcG41bzNvL3hlNjBhaXVES0pyRGMvaWF5cjMw?=
- =?utf-8?B?RVZORnJvQ3V2Sm80YTJLamxsYWR1R01qT0RIR1hIdzVVM2xLUHZXaFoyYm9I?=
- =?utf-8?B?dENrMm9qTWNjTmNibU9ZTkowbThqRG1jclNRNXJ1YmV5aHpVV2F3MUp2d245?=
- =?utf-8?B?d2V6cWRLUkFTeDBMTGVmVWlkRUlieFovaW45NkpxNDh4cmtGYWVtTXNZektU?=
- =?utf-8?B?Z29HTGtUdVZGL3VvY0lmYWl0UW5yN1JTT0llYWYrU2FiUHhXejh4cVFRMXFZ?=
- =?utf-8?B?Qk1GNnRMTkNtaGhwcTNTRENwaEdnZ3AyQkFaUldoQitaL3BQL1Vpb3Fzd1BO?=
- =?utf-8?B?VUdTQTBLTEJEcVpsMkdsZkowemYyWkU2bUVXYk5HcC9IbStLMXNnUkNyQnpn?=
- =?utf-8?B?bXY4clptaUNldjBnOEd2cnNQTUYvckRZMlZ6Q1BjTW82d2VsVFZjZExGdTMv?=
- =?utf-8?B?YWN6MFl3ZkhMQlJsMUtaeWwvckhxL1ZNV3NCY0dUdmNBa0J0NWwwTUdTVTFB?=
- =?utf-8?B?YURFdUYxK1QxVzI3TTAyQng3Y0NWeUkvSlJTcHg1ZmpRZmlJeWNRMGMzWVM2?=
- =?utf-8?B?MDVFM1J5NXVRYWpkalhkUjlBVVQ4cXk1MUJ6S3V5Q3lBWWpaS3BBYnJYYS8w?=
- =?utf-8?B?enluK0JaQ1ErSHA5YkVDSzkrSVRpaDdodWtTaEtON1RNcXlBUHhqZThSS2dx?=
- =?utf-8?B?QitJQU82RTRsSmRuUmNqRW1Gdmo2RDRpMDZvVXk5Q09aL2JOcTUwa0dwODBi?=
- =?utf-8?B?UHVIMnJXRHgwRFFyU1BIb2twNDRQSGtjRGhTY3M0b3lkZWgzeWQ2Z2lsMmYz?=
- =?utf-8?B?T0hlbG5HMUdxV01pbjJqK25iV3d5SWRZN08rTE1yNEFCYiswUFhzbFhLUEpY?=
- =?utf-8?B?Tm5Ba0E0eWJOdjNSWjU5bzFFS0pRaGt5NU5raGhsNFVyWE5YUEZmOXBLSDdP?=
- =?utf-8?B?QkQwZjlTTnF4R3AyZ2RHMjNZS2IxOHZ6akp5di9acGtKaTJHdFVjcGY0VmNY?=
- =?utf-8?B?Rnk5SHI0T1drdlYyOG9FYWUzSlhLbW5uTWlyZlBMTHFKZ1Bta0ZrdVkwSFVt?=
- =?utf-8?B?VVU5SGZldlp4andUTUN6SjRpL2pwTkgrVjA1bTl3M0pzUm9JaUFacmVXYnU2?=
- =?utf-8?B?UmFEWGhvekF0NkVnaUtQR1hiczlEbXdWNzdVbEtiRENJRzJLaDVnREdKK0pj?=
- =?utf-8?B?OE1SaTlseDI1Und4RkxiTk1IME5KUXBqdVhHTGkrc2lFWkVIQ2JsRGRsVmFv?=
- =?utf-8?B?aDZseVJrSVJWcTU1VEx6S3hnUG0wVEJaaCtPdzRPcEJSU3BvMUVKanYzOWxK?=
- =?utf-8?B?QWt1aU5QT0FNNHY4U2VpSU5ZclFheUQrOXFSNzNXNGlqSUNGUlJ6MERiS1Fi?=
- =?utf-8?B?QUhGSWIyVzh2VTk1c2h1ZkpsNkdpeklMc1c0b3hyYmw4RDBmcTFvNjJoeWF3?=
- =?utf-8?B?ZlMvVlhGRlJvMHhGSHYvaGhkR3NhTEJ4Nlc2NVp3MS9TKzEwUTdrenpnb3lU?=
- =?utf-8?B?Ynhrci9FRHF6T3JldXJnbmxlQmZoZit4LzhuV2s0UDBzWjVLcnJOTzd2RXZo?=
- =?utf-8?B?RGlUdUNzQW1OWUVTa0t6S0tuWTdYVUtTcU1nWDNEdlVlaXVaZU84Zi94RU9I?=
- =?utf-8?B?SDNvZ0pkeHJBWVZGK25lblMvYzVneloxbzJqRDFHSzNiSnhBZm13U1dnbXhC?=
- =?utf-8?B?SXB5MUwyZWdIeDk3UlhwWkxVS2dYOFJuRlp0TlphL2djNG9QRkZkREkvSG5Q?=
- =?utf-8?B?YmllVWc0ZGJqS1ZBVitqWCtzSHE5V21Ub0JiaFlrR1pxS1lSbGV4ZVBRdWl0?=
- =?utf-8?B?aEpsN1g2MlBmUW5mMDN3TTc5M1UwSGtTdDk4ZlpxdkkxK3p0ZnNnQnowSGdJ?=
- =?utf-8?B?ZzhlRWZNNXA3SDZjVm9TbDQ1RGsxdkF6UWtnQVNSVnJnOU1vZ2RMUGh3M2d5?=
- =?utf-8?Q?AeK/eY4ohe0=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MENpTWZGNnBaYU9Ka3U1VXYrWkxZTTNFVkE4c1Q4eDViZnYzZG1SL3dHZS92?=
- =?utf-8?B?Q0lMS2lpWUY2eXhtZXRTalA5SzBFQXU0bjRSZXJDenBEN0d3Z2Vra3J1WTZR?=
- =?utf-8?B?RlpLY2t2UDlrM3I4dGVVTDJ3R0Rrc2NINU1GbFNRL0FOcXBEUWRhQWpEU1lr?=
- =?utf-8?B?Z2lkUndBMmM2ZnhPelBDUDU4d09nUVRraUhZeEZXc0doVmRlSmhKdnN5RUp1?=
- =?utf-8?B?aGpBN1BocDFHSDhYVXhqTldmUVFZOUVJZ25DTzVvcnhTM01CdFdxeWlmZjRX?=
- =?utf-8?B?U2cvVFRvMW1wYXRHUHFrdXR6eEdZTGhLUHZ0YUNVZzlOMFBTSkJLUk9KKzlX?=
- =?utf-8?B?eW1CMDVZeC9FVHp4T1hXc0Q5ZmU5bjlEUVhQdE9MczJqRjZaM0xKSEg5QlBU?=
- =?utf-8?B?VDZKUFcyWjlWTUlIRVVacDhtVGR2UzY5cXRQbzRiZHJiRGl5eEdONlF4OUxP?=
- =?utf-8?B?K2wzK1EvWU1mNVRvejB4cXc3TFpXbEdrRHVKNGtaTzIreGRzZm9IZ1dlVElN?=
- =?utf-8?B?NlNndERuTzhHd1h1UkpUVWRNcGF3Q3F2VXhBcWdlYnRqcVFLMFlyakZyRmh4?=
- =?utf-8?B?bmNtbEFJVUsyWmxJdWt6R1hkZUhlWENtOHFHa2NaclVpaVNISlh4QlpXVjNO?=
- =?utf-8?B?dTBMRDgrZHA5VHovQUtob2MvQWp1MFpRTUVWSEhJWW1HODdubEtNbjVFN0V4?=
- =?utf-8?B?Ni91NmFLMHdxcDVHaVlLNmhlT1ZuZEVVdDNNWGN3MWkvc3BjbVJyWWdydEZl?=
- =?utf-8?B?N1FTWDhodGdSREYzQTkwbkFzdHd4ZGsyRjd3QzBYVDQzNTB4MzV6OVRyN2Jr?=
- =?utf-8?B?c01hL0YzR0RWcWg4alJ6WHdFc01pdkpnVUl3SnZ0WldtRXNLWW1KQTQ3UW5i?=
- =?utf-8?B?bW9aRDg3T1hra1BrZ2VBbWRzRU9VS0oyeDJneWNhMGhaQzlXQlhNbUJpeXBh?=
- =?utf-8?B?U0xLb1BoSHlUMUl3ZXlVdmRoeTZDYlNLNzA5M1I1UTVOMnlUUllUNDBPNnl1?=
- =?utf-8?B?ekEreFliUnA3OTNJREVYcXUvbW52TGVoYkI2YkN4Z3R4WGFidFRMazU4Yzdm?=
- =?utf-8?B?Wk1ZRnhISzJIbTNrc2wzbmYwODk2bXhVTXFEM3R1RnBFQmhGS3pHeDJYNVM1?=
- =?utf-8?B?eENpRExNcDU0N3ZNYnNRNUt4Z3BIdEhzaC9qMHNNdGFLYlEyTiszditqTU5Q?=
- =?utf-8?B?eWtwTDBEWnZFTHExV05XQ3o1VFBrZjR5L1B2cjVNZ2EzZUg4YU50WFpUTXgw?=
- =?utf-8?B?Rm1qc2phMUFQR0tDMDJ2bnFlaHJwN3ptOERTdGVKOFN0bC9aWnNscTlOM2s1?=
- =?utf-8?B?VzNBVGhpVlQ1QVJUaC9mZy8vaVJ5b08xYUE3ZWMrQkRlbUg1RE5SSi9jVnZ3?=
- =?utf-8?B?VHI1MVlHTytuV0RMVU9kMWlLVXdHZDh2OGhtRUFVQXlSN0JPM3dFK3ovK0du?=
- =?utf-8?B?ekFxQmpESlRrYUpBbzBzY3E4c1h0bGtxa1BrNUZBRGNYVnNBV0lGb3VyZzZv?=
- =?utf-8?B?aDlxLzFmTkJtRVJtSHJUREJvaW9sOEI4cEtnNHoxMXB2MWV2SW5wZFpZTnBG?=
- =?utf-8?B?b3ZJWEswdkdueTJkM1lHK0RXUXgrSmFnSUtuZUgxd25ENHRHbWN6ZzVzeEgy?=
- =?utf-8?B?bU1tL3VKZTN1NXZ3UjcxaWVzdkg1azFjZjVXZm9sajR2Qlg1cGRhTEYzNFI2?=
- =?utf-8?B?ZFkxTXFrL0lDMVJqL1BqU3Q5N2prN2lTOGVNT1RPelBGR2tLamlvWE94QjUz?=
- =?utf-8?B?QTlJd29VZ3JNWU02R1dpeXZzT1FPU29kV0xVYVJzQ0JZNEwwZVhRSVgrMUdr?=
- =?utf-8?B?RFZyMDVsbGtNRVVGdzN3TEpXMm1Wam1XbkhJajRoZzhUUzBaazVNM2FLMitt?=
- =?utf-8?B?SXFFaTBSMERYd1dQbExmc2ZhSEM0RWp1ZjVvMjdwa2RqSDVPM3JmK1pPUXVW?=
- =?utf-8?B?YVdONHJUbzdBRnFtUFNhTlJhWHNHTUptYlNYSVRENUF4NXpFbkZhTUF5S2ht?=
- =?utf-8?B?cTgzRE5yQWNpRnVTb245cVJRNmdDelFJSjVoMUlyWWVoTW83WnBucmpuWHdH?=
- =?utf-8?B?T01uUUFsRjNoODJwUzRydGROcU1DMUZ5RHJteWdFa0ZPY1dRUnlXSWVZZGwr?=
- =?utf-8?B?OTdSZC9WVWdqMk1nU2lhYXNoWjdOYnNXd3E2cUlVSU9veXk1SFQrYUwzdmpi?=
- =?utf-8?B?M2c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 319beb2c-694a-446d-cac7-08ddf17fa485
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2025 22:07:48.1404
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rO5jqT5bmqq3jlE63kAzh7ThfNpeBg8PqnLpYMv16VOydfIKeo9nuSGlCOTYP1Vn2szmpkXQZvG35yWfdCnDhtRdV2i0nmt/Db7iZC6ir3I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5035
-X-OriginatorOrg: intel.com
-X-Original-Sender: reinette.chatre@intel.com
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH v6 03/16] dma-debug: refactor to use physical addresses
+ for page mapping
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Abdiel Janulgue
+	<abdiel.janulgue@gmail.com>, Alexander Potapenko <glider@google.com>, Alex
+	Gaynor <alex.gaynor@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>, David
+	Hildenbrand <david@redhat.com>, iommu@lists.linux.dev, Jason Wang
+	<jasowang@redhat.com>, Jens Axboe <axboe@kernel.dk>, Joerg Roedel
+	<joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>, Juergen Gross
+	<jgross@suse.com>, kasan-dev@googlegroups.com, Keith Busch
+	<kbusch@kernel.org>, linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-trace-kernel@vger.kernel.org, Madhavan Srinivasan
+	<maddy@linux.ibm.com>, Masami Hiramatsu <mhiramat@kernel.org>, Michael
+	Ellerman <mpe@ellerman.id.au>, "Michael S. Tsirkin" <mst@redhat.com>, Miguel
+	Ojeda <ojeda@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	rust-for-linux@vger.kernel.org, Sagi Grimberg <sagi@grimberg.me>, Stefano
+	Stabellini <sstabellini@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20250910052618.GH341237@unreal>
+X-CMS-MailID: 20250911222321eucas1p114043a72e011e2fff92df33a2133b21e
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="UTF-8"
+X-RootMTR: 20250910052628eucas1p160daa0dadb6f81d7831d8047628aa9d4
+X-EPHeader: CA
+X-CMS-RootMailID: 20250910052628eucas1p160daa0dadb6f81d7831d8047628aa9d4
+References: <cover.1757423202.git.leonro@nvidia.com>
+	<56d1a6769b68dfcbf8b26a75a7329aeb8e3c3b6a.1757423202.git.leonro@nvidia.com>
+	<20250909193748.GG341237@unreal>
+	<CGME20250910052628eucas1p160daa0dadb6f81d7831d8047628aa9d4@eucas1p1.samsung.com>
+	<20250910052618.GH341237@unreal>
+X-Original-Sender: m.szyprowski@samsung.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=VDuviGdT;       arc=fail
- (signature failed);       spf=pass (google.com: domain of reinette.chatre@intel.com
- designates 192.198.163.14 as permitted sender) smtp.mailfrom=reinette.chatre@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+ header.i=@samsung.com header.s=mail20170921 header.b="oYf4Wl/v";
+       spf=pass (google.com: domain of m.szyprowski@samsung.com designates
+ 210.118.77.11 as permitted sender) smtp.mailfrom=m.szyprowski@samsung.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -278,26 +176,57 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Lorenzo,
+On 10.09.2025 07:26, Leon Romanovsky wrote:
+> On Tue, Sep 09, 2025 at 10:37:48PM +0300, Leon Romanovsky wrote:
+>> On Tue, Sep 09, 2025 at 04:27:31PM +0300, Leon Romanovsky wrote:
+>>> From: Leon Romanovsky <leonro@nvidia.com>
+>> <...>
+>>
+>>>   include/linux/page-flags.h         |  1 +
+>> <...>
+>>
+>>> --- a/include/linux/page-flags.h
+>>> +++ b/include/linux/page-flags.h
+>>> @@ -614,6 +614,7 @@ FOLIO_FLAG(dropbehind, FOLIO_HEAD_PAGE)
+>>>    * available at this point.
+>>>    */
+>>>   #define PageHighMem(__p) is_highmem_idx(page_zonenum(__p))
+>>> +#define PhysHighMem(__p) (PageHighMem(phys_to_page(__p)))
+>> This was a not so great idea to add PhysHighMem() because of "else"
+>> below which unfolds to maze of macros and automatically generated
+>> functions with "static inline int Page##uname ..." signature.
+>>
+>>>   #define folio_test_highmem(__f)	is_highmem_idx(folio_zonenum(__f))
+>>>   #else
+>>>   PAGEFLAG_FALSE(HighMem, highmem)
+> After sleeping over it, the following hunk will help:
+>
+> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> index dfbc4ba86bba2..2a1f346178024 100644
+> --- a/include/linux/page-flags.h
+> +++ b/include/linux/page-flags.h
+> @@ -614,11 +614,11 @@ FOLIO_FLAG(dropbehind, FOLIO_HEAD_PAGE)
+>    * available at this point.
+>    */
+>   #define PageHighMem(__p) is_highmem_idx(page_zonenum(__p))
+> -#define PhysHighMem(__p) (PageHighMem(phys_to_page(__p)))
+>   #define folio_test_highmem(__f)        is_highmem_idx(folio_zonenum(__f))
+>   #else
+>   PAGEFLAG_FALSE(HighMem, highmem)
+>   #endif
+> +#define PhysHighMem(__p) (PageHighMem(phys_to_page(__p)))
+>
+>   /* Does kmap_local_folio() only allow access to one page of the folio? */
+>   #ifdef CONFIG_DEBUG_KMAP_LOCAL_FORCE_MAP
 
-On 9/10/25 1:22 PM, Lorenzo Stoakes wrote:
-> Make use of the ability to specify a remap action within mmap_prepare to
-> update the resctl pseudo-lock to use mmap_prepare in favour of the
-> deprecated mmap hook.
-> 
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> ---
+Okay, I will add this fixup while applying the patches.
 
-Thank you.
-
-Acked-by: Reinette Chatre <reinette.chatre@intel.com>
-
-This does not conflict with any of the resctrl changes currently
-being queued in tip tree for inclusion during next merge window.
-
-Reinette
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/f04792c6-f651-41f7-a960-56ca37894454%40intel.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/5ffc63e9-19bd-4e12-92fc-57fe12d10f4f%40samsung.com.
