@@ -1,134 +1,134 @@
-Return-Path: <kasan-dev+bncBC5I5WEMW4JBBYMTRLDAMGQEIKCV3HY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC5I5WEMW4JBBLMURLDAMGQE6PWZAJQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADA2FB52BCD
-	for <lists+kasan-dev@lfdr.de>; Thu, 11 Sep 2025 10:35:47 +0200 (CEST)
-Received: by mail-lf1-x13f.google.com with SMTP id 2adb3069b0e04-55f6af0affesf294716e87.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 11 Sep 2025 01:35:47 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1757579747; cv=pass;
+Received: from mail-wr1-x437.google.com (mail-wr1-x437.google.com [IPv6:2a00:1450:4864:20::437])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D74B52BDB
+	for <lists+kasan-dev@lfdr.de>; Thu, 11 Sep 2025 10:37:03 +0200 (CEST)
+Received: by mail-wr1-x437.google.com with SMTP id ffacd0b85a97d-3d3d2472b92sf299426f8f.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 11 Sep 2025 01:37:03 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1757579823; cv=pass;
         d=google.com; s=arc-20240605;
-        b=jscQ6s6jrXyVpFqRjqtHey0HUsadQqUGkzXiWjQTFiAIUiZnYKRpVfK2dd3gFxout4
-         SYEb+iv8z5Am2jjNcHbJNWEbQQa/iJw+CCwzMVdFTCFjArnxeyDksCJTle3cM6WdMQBS
-         Yc7+dPGtbxXMhwj4N83gZkwRbcb/8r8OUFdb2iBMznsI0J75xM7dw8XKEXwTT449Qx3X
-         ANyCeYjCPA4SJr80Mg2epTBlLHNr9X7iPDkqs0XIqTk/Uy9WjoLrx3CdA2FtEkjkV848
-         sdnODfKfY81RHWK3q2GyxkIgtk+YVNNRvc8KxUakViBq60DnsGFA5OZBPyepTFbYhTlO
-         IHwg==
+        b=GowHgfj2kO4Y7xajivE0qH0jd0JGl9xIxwqXoKOvSWK3usqhFKAHi+QKTTdZdVXV8g
+         8FGgH9nV+wzcqoMCmfYWtEbbMBpPFPvYoDtyuRRlvS7M8hRbtShGvypk7DCpdACWxGCK
+         xxUIeA2UOo8rZxQBL8Wd0dHIUY5DN0ZShdn4a5ptVWuxNL3SCLdDy6GZTmqjwbD32as+
+         Tzxx/zxqBG+InNk5ZPSPeT89rSpLqp5TRI8wdiRmvCPqH87nfdVOdoF11dVlXNFSJPPd
+         42vJ1ZQ3mexv0wCE0cqVLYD54sSBuITErYEZgzRjUQEXNkNg/QWaC7Y+51MIWffwohOE
+         GNRA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=luWcNKSpaxAwnMI4gc1KAIpv0JMX7q+eYRY8/KhYw88=;
-        fh=P/E7g1RUseY0m4KPizEkv4OBirgnlSu9vvQrR8EFSCY=;
-        b=I4hgqnA5QZDl8fPoGFIkHpIMyAut+QtKIjoWgy5LsSUkF1eoSsln5zJUFJxglNE0ET
-         3bE5GT0QU+062TEcW4AV2DA0Mh6DN8ohQxdIbqNncun4QaT8avK4r0wk28BypwIYO4oF
-         +te0uU1WpsJPsQp2zZWzLL0aFq5Gws+pEewjN4icBxigDagIkySRiwFcGgiwNY6X1GiU
-         QrgCwaWwVB6hhjuB7xzp/QPhBSHaQGH/+Ad4jH8xFJFZzxNXztpgGteo9y+lDVhRzbi3
-         fQCIgtpEbBQkEh9Yb+dC/oqrWQvR8pLKuOLoWjRcdM345orHTnGdzT8Z32PmI6VsBf2E
-         +vaw==;
+        bh=2YhFqmF5JoCHAP977qFx4raqIA+Z52iGy5nfuymtJ9M=;
+        fh=WDh9E5amTWA0oyHRMkUUl3pAqT1ctCWDsvv0BF7A4OI=;
+        b=MMEAGcZDM/hnGHqlAL8Bv9g1LrVOKLpipPmxhOLg1W5ddMz214E4CYVQaM9o/3JBJ+
+         iBnTrKWnlbXThfNIF8UesEGHeXRMM3jub1K9nLALW5orHmQA/ycjvEvp/qX5E59FBmfc
+         S82W6qJSNzsS4FsH11pixIqsAbnFS0eAz4Ts7zyY9TCLG2LyIZFqnisfq5Hxm6VxW60p
+         QfjS1OLrFbImgqoVulRb6NToNLZ+sWouZiNLRVvS/VmMAmHqCu0NY2Sp2qczzKwriUY9
+         0Z4xMhYOHLR5d59m59eoOoZzXJCpD1xv7A3g4WGYiy8IFZMef1fZppBvwgl93ikHMaKg
+         ryTQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="V/2pNPLX";
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=gbVdZ5or;
        dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="V/2pNPLX";
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=BXH35BNu;
        dkim=neutral (no key) header.i=@suse.cz;
-       spf=pass (google.com: domain of jack@suse.cz designates 195.135.223.130 as permitted sender) smtp.mailfrom=jack@suse.cz
+       spf=pass (google.com: domain of jack@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=jack@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1757579747; x=1758184547; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1757579823; x=1758184623; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=luWcNKSpaxAwnMI4gc1KAIpv0JMX7q+eYRY8/KhYw88=;
-        b=xr8h6ZXrJkIt6nrbZ9vRWf36gdjGaDla0EUSVxSQpwD7DBpAHLQdpXYSifeWwcnRPm
-         JjOVzxmCCehLMjuoUeY3P/F9+VYTaVk2Js51qvIIiBqQFez23JvEYV2zTGBBeoILcuoR
-         dJicD9GoFAqqkIbmrweG5Rp0RoE7BgxwHCcjdLLfB1WcQtoumdZpC/EsODhHWGsWjn/G
-         6JbsFOQjlVJWZC2+hQeJATzudTBm/OEMulwaO1DUNJwc816Wi2LJBZPuz+wgRrkWrrNE
-         3E++Kc5LUZPG2zaR+ZtfCtQIAV+IsWl9FInbyE9l4fropvRZUWaNB9w1WArIo1gU/DXB
-         rRZg==
+        bh=2YhFqmF5JoCHAP977qFx4raqIA+Z52iGy5nfuymtJ9M=;
+        b=b+5JJBH/wkdnYCTYx//IseYqDGq1+6PveVWnhXKnn7tiptKn8BSRPmlv05rDHyhcFK
+         yaiHSo41CNTDulBTArjxR5rWaEXuxFGPh2/RMQ2xurTr61WbuU2GqHDc32cDtST7+SFL
+         STCoEXVmFwzKjIUQeRhrBQ7+1leIUGEt3ld8w0oxcjT9qBpEZFzSB4wUDx4wrowiq2M/
+         W3BsuRNSCZTkB2TmXoKDhBn54XRCpudL5WeauBo5Rl9rw/7bDkcO77wM4CpWIPaF4DBl
+         BUGfy83apJIsuKmiO6NrEUdHkgfqmXJScpdeyQMIj0DwzHPqCyae1lcSLDlzWa72ZVxE
+         FVaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757579747; x=1758184547;
+        d=1e100.net; s=20230601; t=1757579823; x=1758184623;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=luWcNKSpaxAwnMI4gc1KAIpv0JMX7q+eYRY8/KhYw88=;
-        b=rYW7+Q7C1asdECnJriqh0u/Faet3PAzTvhtUCrbKUaPTR3xh5S5OCloU5gDpBttEvV
-         R6aHd8wQHRsIVInCfUzhOmhsv5ZTVW6CYcRWUFyp6ueeKZJy3IGfa4h8K1yEyFgtjUGh
-         5ceDl20C9ak+dJPr2jpqFsEz9g0d3CdUC+G/NGxem4plmmE2ayl/2Iu3ZCRIRBeCd8J1
-         BJGu2m+NNzJIu/zyU2RndADLQXodIe0lPBDxA8j/0GPgIuu+hoF11baC5Z4N7zSkBOm1
-         SnthwyvBzMubt5viPG15FuxPJpuz6/BSW++iC0G9rhhT9HpUANdOX7G/u0UqbHb26vIk
-         USMA==
+        bh=2YhFqmF5JoCHAP977qFx4raqIA+Z52iGy5nfuymtJ9M=;
+        b=thJ1pXJohYmMa53NpFXorYqAy6StO4/bbvaVexPZXDxIzfXLWLpiIccyCwAx0l+iLX
+         LJ6aRmGQAyTlRievkq0gMC97AOjwImwMOC7Z5nB1mbKw5cEVEpjnhPehpIb4VP/ye46U
+         G4q3p0IScuYpZe21wOPp/q06NDYkD8AVoamnDVnH3VgcENOdnPyYHsw4U1Csowp5ZPle
+         PXhAcdGB7Xol7g1i51BnfasgU9oYfRFjNdD/IQ7Xp1n0YfbTRX38iJ5WGSUVUhPK1+rv
+         PySaze3bMygZk2hLTll+ZTRoEcA45uyrXECnSwyCN2Y19O45Ia5khfr4uHDBDlHwV0V2
+         LtiQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWlqrZ80SEq3z1i1dTe5iJJ4qJP1Mi5mi84pgyzB4IbgubEPTnV50uHcG43Dsp87QNFPw6P+Q==@lfdr.de
-X-Gm-Message-State: AOJu0YxQdesaP2Eb2KLkZKvsKXDi7SS6RAGbLKymgN2eKzx4u4JLC0zw
-	Y2lxZ8WiW10rdL8OwVa7kPHg9NwXM5ZhTpYFFDBK+HeBPapAsMen1AX5
-X-Google-Smtp-Source: AGHT+IE5cUrXXYxtn82yqBn1yCEiA4w6T+y4cZeIrgWa0ihUvYRttuTwNdMyyhUFLjAQp6ClvXZ2Dw==
-X-Received: by 2002:a05:651c:1117:10b0:336:5d33:c394 with SMTP id 38308e7fff4ca-33b56213846mr58333781fa.33.1757579746351;
-        Thu, 11 Sep 2025 01:35:46 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZcCd6VXHeYDYKj+3HXrK8lAqk3hPs4+kL/LdhplMjVycw==
-Received: by 2002:a05:651c:f0a:b0:335:7e09:e3da with SMTP id
- 38308e7fff4ca-34eb1fc10f5ls1067441fa.2.-pod-prod-04-eu; Thu, 11 Sep 2025
- 01:35:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCV7fmNrAgAQ771nBfb6b1WNDeth6XODLB/oMhktvif0wxMfN93qw+0ckzPlAHkgloWjN4bIsx5J4eU=@googlegroups.com
-X-Received: by 2002:a05:651c:411a:b0:333:f113:cbab with SMTP id 38308e7fff4ca-33b5192ec23mr37602451fa.16.1757579743144;
-        Thu, 11 Sep 2025 01:35:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1757579743; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCUR7M0DcdUzCZL6lb0CRkNJWgaUsjA2I4xjTOirNNjfaHhdUbx0ISNXQdzvW8HfniONl7mGXw==@lfdr.de
+X-Gm-Message-State: AOJu0YzxcboCmV9aHssAHmiotBXh16B9AmAHjtR1NtZVOCoWrEGeECTK
+	3RTlciF2N6UesnG6ZN6D7R6s1A14e7PDhux7cUQHGCnM9hRSG9+HlXiw
+X-Google-Smtp-Source: AGHT+IEMMN0hheFSE+4KV0wi9jXYJpufm77PiVQefUHITYzahGPRTPvchymK1ToYJ8MdyaU9Xt4IWg==
+X-Received: by 2002:a05:6000:2203:b0:3d2:208c:45aa with SMTP id ffacd0b85a97d-3e64b82d62bmr14400109f8f.29.1757579822525;
+        Thu, 11 Sep 2025 01:37:02 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdxIT3qopYO7zv2JTODp4FbziWK2afbt5tvn92QRrD4tg==
+Received: by 2002:a05:600c:674f:b0:459:ddca:2012 with SMTP id
+ 5b1f17b1804b1-45dffc18bb5ls2652615e9.2.-pod-prod-05-eu; Thu, 11 Sep 2025
+ 01:36:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXb6yQqp+Fr4aL4FR1zhGkMwl0M7JGmySiAvX70frumRBXeo2NHOTHxewr18tocUmEyGOJByPrsfdU=@googlegroups.com
+X-Received: by 2002:a05:600c:1d2a:b0:450:cabd:b4a9 with SMTP id 5b1f17b1804b1-45dddef7fcfmr137987255e9.29.1757579819675;
+        Thu, 11 Sep 2025 01:36:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1757579819; cv=none;
         d=google.com; s=arc-20240605;
-        b=k3mKMm9RMpWo9gSGGqgWJpwWqR+u6hTuc5SwDcp8O80JUrp7KWMEav7qwJpZA7w/dG
-         H/YqaoYK7PBi2+pxUM7yQ9N3pETj5ZIQnReifTztButrGhBPQFoDh/kPqkWaCcxJ0oCH
-         l5j0WPXsCqPYu8ooK7jVPo7uokvSuEuTIKDknCEIjMYLGFHUB5mV/3+dfyPdAiKO3MNQ
-         WEY3tEwFdiRIp0EcmTYsbCF43CwPzcalVBKB4x+CzFBUtWzgmzQ8N1uQieaFnZ6os8xJ
-         lfGDeNdo/EHdYED/AsBNy7V1Vf/VG1n4zHn9F1mEYdT8eEImsqRXU6lMLSsRmyCFVyo2
-         TG1g==
+        b=UTIIcpFmB/NMmfYwQkL6AhmavUoN3dw+qlF96a+Uqcj8WD/9WjTRfCH4eJI/CMA/uP
+         ++UM1AuGd/B7jgOFvepaJ6NyANxAi8HPHkD2lQp4cF8Cpqzy0iAswLyj/AEMc9jDbFx7
+         T50s/vf49btYvopKaIaxX5Wweurk0rlJeTcA8eLtW6hduEPgsCMJgyYjnWTUUqW7G8Mk
+         VeafaD5drW4a/ekHkiuDC6Lt3rb+v9uYx7p1yw514Iwu36+vmiRjzAzmgxVqzQYLbRT0
+         NcYpBS6CPjRQiTA+gVuHUkm9uA725XVm5aToF11whtPlRFHDDINu+AdjgYS6ecPTxLQ8
+         9Gqg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature:dkim-signature
          :dkim-signature:dkim-signature;
-        bh=KZHXjktAiNRSWCsp7mRo7oXVASySHuSrY3xtvxgr0Oo=;
+        bh=MVKatHAMv6K0HJB+fE+uvvzEY9BdzRg6mGSrDhfixOc=;
         fh=/v17VW8MchCHUgpXxAXTMs5Ee7lYsmC259Kuc6hqZT8=;
-        b=b3pSVr6Mv3lWdIK81vMjWoArYPxShc9O/LSkX0ZIR8h7/1Asq+enDOdFua5melQxX4
-         PP6+wB+ZkYdxWbYZNc7EHo6hWaK/ZsUdPDd1lkI2E0OWJiG1d2i+zmxaoPKljWhFpb03
-         hx81GXvMOzkxm3OSBO1pgAPPmEAZ1bDf8HKonnHIZJAn8otneMn0Uis/r6Tp8Dk0eIST
-         RGJpkQ0N3A69Xit9o3Le3NMqM5bd4ooGaD8uxxGZMI+iP73disLvrYE13vbxk2EFaRtS
-         mt7etnqpV43O+3qQd2iEP/gxPrFxieqgI/WajmyHsKIu5sS/ren2KV9ihmD701ul6eD/
-         fMDA==;
+        b=B8Qk/YGFVVPEoRbayX4rwBuBvx541jVwvsBNlKNbR/Jb0Tf2KDgErHmgPdHX0VX92s
+         PZdXXDE4EBJWDDfj4ScrE25T9MiwmywPe90aDnGUrK5WS4ZgBYFrEP2mkKAt/vzzS2uK
+         k5kTDRN2QG5SQVxvmIVP5gyoq9MC/auCdTC7+z8WsX05I80gqYnCziCgRYAsezvYPFGB
+         4JEPmHJ6U+KIgUCovmqGnoPwGx/pmEnA27qMiIbye0FwlRPSMXpiM8jNx+XGMEgo7HhZ
+         x/l4G5De1H0j8A/jgXh9bTEfMTrFXVpIbk/ewWTnfbbI9DG55lk2xbYMhBrb6+moj5bO
+         MzFw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="V/2pNPLX";
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=gbVdZ5or;
        dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="V/2pNPLX";
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=BXH35BNu;
        dkim=neutral (no key) header.i=@suse.cz;
-       spf=pass (google.com: domain of jack@suse.cz designates 195.135.223.130 as permitted sender) smtp.mailfrom=jack@suse.cz
-Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.223.130])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-34f10020328si218541fa.0.2025.09.11.01.35.43
+       spf=pass (google.com: domain of jack@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=jack@suse.cz
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2a07:de40:b251:101:10:150:64:2])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-45e0155dc80si366525e9.0.2025.09.11.01.36.59
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 01:35:43 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jack@suse.cz designates 195.135.223.130 as permitted sender) client-ip=195.135.223.130;
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+        Thu, 11 Sep 2025 01:36:59 -0700 (PDT)
+Received-SPF: pass (google.com: domain of jack@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:2;
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A4BA43F8BF;
-	Thu, 11 Sep 2025 08:35:41 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E8F2468606;
+	Thu, 11 Sep 2025 08:36:58 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 93F831372E;
-	Thu, 11 Sep 2025 08:35:41 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D83BA1372E;
+	Thu, 11 Sep 2025 08:36:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1yYeJN2JwmhYcgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 11 Sep 2025 08:35:41 +0000
+	id mpvENCqKwmjOcgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 11 Sep 2025 08:36:58 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 48964A0A2D; Thu, 11 Sep 2025 10:35:41 +0200 (CEST)
-Date: Thu, 11 Sep 2025 10:35:41 +0200
+	id 8E4F6A0A2D; Thu, 11 Sep 2025 10:36:58 +0200 (CEST)
+Date: Thu, 11 Sep 2025 10:36:58 +0200
 From: Jan Kara <jack@suse.cz>
 To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -158,48 +158,56 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-mm@kvack.org, 
 	ntfs3@lists.linux.dev, kexec@lists.infradead.org, kasan-dev@googlegroups.com, 
 	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v2 02/16] device/dax: update devdax to use mmap_prepare
-Message-ID: <fpdlink5oiu7dbx35qayavv4lq2qjvruyplo2bomvu7lnsz62h@uwoawxkmywo7>
+Subject: Re: [PATCH v2 03/16] mm: add vma_desc_size(), vma_desc_pages()
+ helpers
+Message-ID: <afrz7upbj463hmejktsw2dxvvty7a7jtsibyn4fdlwwyrzogrh@c3svlrvl4job>
 References: <cover.1757534913.git.lorenzo.stoakes@oracle.com>
- <12f96a872e9067fa678a37b8616d12b2c8d1cc10.1757534913.git.lorenzo.stoakes@oracle.com>
+ <5ac75e5ac627c06e62401dfda8c908eadac8dfec.1757534913.git.lorenzo.stoakes@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <12f96a872e9067fa678a37b8616d12b2c8d1cc10.1757534913.git.lorenzo.stoakes@oracle.com>
-X-Spamd-Result: default: False [-2.30 / 50.00];
+In-Reply-To: <5ac75e5ac627c06e62401dfda8c908eadac8dfec.1757534913.git.lorenzo.stoakes@oracle.com>
+X-Spamd-Result: default: False [-2.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MX_GOOD(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	ARC_NA(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	FREEMAIL_CC(0.00)[linux-foundation.org,lwn.net,infradead.org,kernel.org,alpha.franken.de,linux.ibm.com,davemloft.net,gaisler.com,arndb.de,linuxfoundation.org,intel.com,fluxnic.net,linux.dev,suse.de,redhat.com,paragon-software.com,arm.com,zeniv.linux.org.uk,suse.cz,oracle.com,google.com,suse.com,linux.alibaba.com,gmail.com,vger.kernel.org,lists.linux.dev,kvack.org,lists.infradead.org,googlegroups.com,nvidia.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLizrtjkoytmmoj3iud1rzij51)];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_GT_50(0.00)[59];
+	R_RATELIMIT(0.00)[to_ip_from(RLx5fqm8k6as49t7tzapjazi4f)];
 	MISSING_XM_UA(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Spam-Score: -2.30
+X-Rspamd-Queue-Id: E8F2468606
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -2.51
 X-Original-Sender: jack@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b="V/2pNPLX";
-       dkim=neutral (no key) header.i=@suse.cz;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b="V/2pNPLX";
-       dkim=neutral (no key) header.i=@suse.cz;       spf=pass (google.com:
- domain of jack@suse.cz designates 195.135.223.130 as permitted sender) smtp.mailfrom=jack@suse.cz
+ header.i=@suse.cz header.s=susede2_rsa header.b=gbVdZ5or;       dkim=neutral
+ (no key) header.i=@suse.cz;       dkim=pass header.i=@suse.cz
+ header.s=susede2_rsa header.b=BXH35BNu;       dkim=neutral (no key)
+ header.i=@suse.cz;       spf=pass (google.com: domain of jack@suse.cz
+ designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=jack@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -212,119 +220,73 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed 10-09-25 21:21:57, Lorenzo Stoakes wrote:
-> The devdax driver does nothing special in its f_op->mmap hook, so
-> straightforwardly update it to use the mmap_prepare hook instead.
+On Wed 10-09-25 21:21:58, Lorenzo Stoakes wrote:
+> It's useful to be able to determine the size of a VMA descriptor range used
+> on f_op->mmap_prepare, expressed both in bytes and pages, so add helpers
+> for both and update code that could make use of it to do so.
 > 
-> Acked-by: David Hildenbrand <david@redhat.com>
 > Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
-Looks good. Feel free to add:
+Looks good, I presume more users will come later in the series :). Feel
+free to add:
 
 Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
 
 > ---
->  drivers/dax/device.c | 32 +++++++++++++++++++++-----------
->  1 file changed, 21 insertions(+), 11 deletions(-)
+>  fs/ntfs3/file.c    |  2 +-
+>  include/linux/mm.h | 10 ++++++++++
+>  mm/secretmem.c     |  2 +-
+>  3 files changed, 12 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/dax/device.c b/drivers/dax/device.c
-> index 2bb40a6060af..c2181439f925 100644
-> --- a/drivers/dax/device.c
-> +++ b/drivers/dax/device.c
-> @@ -13,8 +13,9 @@
->  #include "dax-private.h"
->  #include "bus.h"
+> diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+> index c1ece707b195..86eb88f62714 100644
+> --- a/fs/ntfs3/file.c
+> +++ b/fs/ntfs3/file.c
+> @@ -304,7 +304,7 @@ static int ntfs_file_mmap_prepare(struct vm_area_desc *desc)
 >  
-> -static int check_vma(struct dev_dax *dev_dax, struct vm_area_struct *vma,
-> -		const char *func)
-> +static int __check_vma(struct dev_dax *dev_dax, vm_flags_t vm_flags,
-> +		       unsigned long start, unsigned long end, struct file *file,
-> +		       const char *func)
->  {
->  	struct device *dev = &dev_dax->dev;
->  	unsigned long mask;
-> @@ -23,7 +24,7 @@ static int check_vma(struct dev_dax *dev_dax, struct vm_area_struct *vma,
->  		return -ENXIO;
+>  	if (rw) {
+>  		u64 to = min_t(loff_t, i_size_read(inode),
+> -			       from + desc->end - desc->start);
+> +			       from + vma_desc_size(desc));
 >  
->  	/* prevent private mappings from being established */
-> -	if ((vma->vm_flags & VM_MAYSHARE) != VM_MAYSHARE) {
-> +	if ((vm_flags & VM_MAYSHARE) != VM_MAYSHARE) {
->  		dev_info_ratelimited(dev,
->  				"%s: %s: fail, attempted private mapping\n",
->  				current->comm, func);
-> @@ -31,15 +32,15 @@ static int check_vma(struct dev_dax *dev_dax, struct vm_area_struct *vma,
->  	}
->  
->  	mask = dev_dax->align - 1;
-> -	if (vma->vm_start & mask || vma->vm_end & mask) {
-> +	if (start & mask || end & mask) {
->  		dev_info_ratelimited(dev,
->  				"%s: %s: fail, unaligned vma (%#lx - %#lx, %#lx)\n",
-> -				current->comm, func, vma->vm_start, vma->vm_end,
-> +				current->comm, func, start, end,
->  				mask);
->  		return -EINVAL;
->  	}
->  
-> -	if (!vma_is_dax(vma)) {
-> +	if (!file_is_dax(file)) {
->  		dev_info_ratelimited(dev,
->  				"%s: %s: fail, vma is not DAX capable\n",
->  				current->comm, func);
-> @@ -49,6 +50,13 @@ static int check_vma(struct dev_dax *dev_dax, struct vm_area_struct *vma,
->  	return 0;
+>  		if (is_sparsed(ni)) {
+>  			/* Allocate clusters for rw map. */
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 892fe5dbf9de..0b97589aec6d 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -3572,6 +3572,16 @@ static inline unsigned long vma_pages(const struct vm_area_struct *vma)
+>  	return (vma->vm_end - vma->vm_start) >> PAGE_SHIFT;
 >  }
 >  
-> +static int check_vma(struct dev_dax *dev_dax, struct vm_area_struct *vma,
-> +		     const char *func)
+> +static inline unsigned long vma_desc_size(struct vm_area_desc *desc)
 > +{
-> +	return __check_vma(dev_dax, vma->vm_flags, vma->vm_start, vma->vm_end,
-> +			   vma->vm_file, func);
+> +	return desc->end - desc->start;
 > +}
 > +
->  /* see "strong" declaration in tools/testing/nvdimm/dax-dev.c */
->  __weak phys_addr_t dax_pgoff_to_phys(struct dev_dax *dev_dax, pgoff_t pgoff,
->  		unsigned long size)
-> @@ -285,8 +293,9 @@ static const struct vm_operations_struct dax_vm_ops = {
->  	.pagesize = dev_dax_pagesize,
->  };
+> +static inline unsigned long vma_desc_pages(struct vm_area_desc *desc)
+> +{
+> +	return vma_desc_size(desc) >> PAGE_SHIFT;
+> +}
+> +
+>  /* Look up the first VMA which exactly match the interval vm_start ... vm_end */
+>  static inline struct vm_area_struct *find_exact_vma(struct mm_struct *mm,
+>  				unsigned long vm_start, unsigned long vm_end)
+> diff --git a/mm/secretmem.c b/mm/secretmem.c
+> index 60137305bc20..62066ddb1e9c 100644
+> --- a/mm/secretmem.c
+> +++ b/mm/secretmem.c
+> @@ -120,7 +120,7 @@ static int secretmem_release(struct inode *inode, struct file *file)
 >  
-> -static int dax_mmap(struct file *filp, struct vm_area_struct *vma)
-> +static int dax_mmap_prepare(struct vm_area_desc *desc)
+>  static int secretmem_mmap_prepare(struct vm_area_desc *desc)
 >  {
-> +	struct file *filp = desc->file;
->  	struct dev_dax *dev_dax = filp->private_data;
->  	int rc, id;
+> -	const unsigned long len = desc->end - desc->start;
+> +	const unsigned long len = vma_desc_size(desc);
 >  
-> @@ -297,13 +306,14 @@ static int dax_mmap(struct file *filp, struct vm_area_struct *vma)
->  	 * fault time.
->  	 */
->  	id = dax_read_lock();
-> -	rc = check_vma(dev_dax, vma, __func__);
-> +	rc = __check_vma(dev_dax, desc->vm_flags, desc->start, desc->end, filp,
-> +			 __func__);
->  	dax_read_unlock(id);
->  	if (rc)
->  		return rc;
->  
-> -	vma->vm_ops = &dax_vm_ops;
-> -	vm_flags_set(vma, VM_HUGEPAGE);
-> +	desc->vm_ops = &dax_vm_ops;
-> +	desc->vm_flags |= VM_HUGEPAGE;
->  	return 0;
->  }
->  
-> @@ -377,7 +387,7 @@ static const struct file_operations dax_fops = {
->  	.open = dax_open,
->  	.release = dax_release,
->  	.get_unmapped_area = dax_get_unmapped_area,
-> -	.mmap = dax_mmap,
-> +	.mmap_prepare = dax_mmap_prepare,
->  	.fop_flags = FOP_MMAP_SYNC,
->  };
->  
+>  	if ((desc->vm_flags & (VM_SHARED | VM_MAYSHARE)) == 0)
+>  		return -EINVAL;
 > -- 
 > 2.51.0
 > 
@@ -335,4 +297,4 @@ SUSE Labs, CR
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/fpdlink5oiu7dbx35qayavv4lq2qjvruyplo2bomvu7lnsz62h%40uwoawxkmywo7.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/afrz7upbj463hmejktsw2dxvvty7a7jtsibyn4fdlwwyrzogrh%40c3svlrvl4job.
