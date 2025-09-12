@@ -1,186 +1,160 @@
-Return-Path: <kasan-dev+bncBD53XBUFWQDBBMFNR7DAMGQENGWVG7Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBC3ZLA5BYIFBBKGRT3DAMGQEQ26LA3Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x37.google.com (mail-oa1-x37.google.com [IPv6:2001:4860:4864:20::37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 763ADB544E6
-	for <lists+kasan-dev@lfdr.de>; Fri, 12 Sep 2025 10:15:46 +0200 (CEST)
-Received: by mail-oa1-x37.google.com with SMTP id 586e51a60fabf-31d8898b6f3sf2572793fac.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 12 Sep 2025 01:15:46 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1757664945; cv=pass;
+Received: from mail-pl1-x640.google.com (mail-pl1-x640.google.com [IPv6:2607:f8b0:4864:20::640])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D46EB56FC9
+	for <lists+kasan-dev@lfdr.de>; Mon, 15 Sep 2025 07:48:27 +0200 (CEST)
+Received: by mail-pl1-x640.google.com with SMTP id d9443c01a7336-24457f59889sf39931385ad.0
+        for <lists+kasan-dev@lfdr.de>; Sun, 14 Sep 2025 22:48:27 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1757915305; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Sm4htpWbLJ6z6dEBabBRwwNy2n0v04q6OFM31vaeArl1RktwJ5VKp861ZRqO6OyVe5
-         M6aDu6qsXVtl0Z0TXUW/rb81XLYKYYGuDxmGTiofLtqAz4eqmkgLl7pXLGrGPYC5buMo
-         4nNNdxY5DC2CudeR5H9hvIJePupOXp50dB5ZiJRIlg2CatqxMkKf00ROVwM2OWpQvd/V
-         4w1VgknCvuF9xNPY1lrgqgS3kvneQ5bkTcJ31q3C9lXQR8jK9vXmz4eO1be+pLoA/ovT
-         +V0CS+fs+bqXMvJRRG3oosQC+yLd17pXvxYw54bkf3DzbsUMIZlFudwAe2DJY2gzfccG
-         78Vw==
+        b=EJr9Z6+VnKoQLSkIaMWNl/+iIFWNmvpHRP1oeSWTp2LjVdm5NI658/DqlKjQ27JqgW
+         xJKv1a/LikJq+a8oZPE1fU31dZ3gwuR7nV4W+/H0iA2TF3AiaIJNFmxJ6P/jQGx/XNIC
+         uaMPpM/8DYbK5lJkByDqL19Fu3AryJVIGJNbH43tieYCkIPkQkyRbjK/INM40pKGLLIz
+         S6NQz3dJNELdOID62oV2rifi5WOth35XG7pHW4OzmRdXaCJlFo/Qkb5GqM1wE9WA9vxW
+         +3GUowyCvj3GlYLUOkV4TKj+w9nVGYgWdx/P451d7/Vaz3pnRUo4gBpqyojTz9HHJbn4
+         rTRg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :in-reply-to:from:references:cc:to:content-language:subject
-         :user-agent:mime-version:date:message-id:sender:dkim-signature
-         :dkim-signature;
-        bh=mke0+TtU/0sZ8Upr3pt8V89wfTnNy+Zn2CSo94YeOHc=;
-        fh=AvzwiBxpnRKhOKmwBcOp71RJWxbyj2oZeS3HqsMgZ8E=;
-        b=dMcs9kQgTRo14iuhpRu+dy5TZN1EaUTpXqxyBvcpFfcR5wTilZF4+66aG5eQfRddtY
-         +u3pVb10ZNAXpHHaSdKYVMSlG8H8of6VSzPdiI7e14qecAocsyFlLf+g9/3dhwhZpryL
-         Q8ct6BVzcToe8mcX5AFp9qXYXBevEPDDvtfTmLQLmHIBEVuZI19rDOAOgd5oh4wEvC8g
-         keLrpONyqkqtNLJX6+YcV6LjuoFWWd+jXlSYoWPA7FAeNlGDYmstFsBxi3VX4b7Yd+2z
-         DLmFCGqXkdIL+49Vm7zbA1TFBrTJ9OLR8OSa7kC5GTN8sHVZ9h6MPKf2oZMTT0Yk4kyP
-         n85g==;
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=DmPrGnpdnkZh1xivPY4SW5R6dYaNFBsgR+M9DBeW9Ek=;
+        fh=fVZHtAd0rvu18ur3JaCPHsoRS8L61L98+yhl7HEbBSc=;
+        b=OeRo7jus1jUWEt32Ac8rywRVy30rl2HYdr63o3Ac2gByZ9JP1oDzE8p9JijLcXD77b
+         rySY2jx3htFDAEXABGPb1qg5ochxns55hPqk3suhzTlgoayddIyc4I6mQ8CrXLNnwHh0
+         5R2z2Es5gzzn3Ul5n2N1ZVO9+PCP98UuWKiNhysSFGJz377N1BnssSXMjijDkm2Ajys6
+         tZgNfrGMX5SMJwaLZJXnzoZeoHPR9L6Kr6JY2x85ggrjq/cAxBWZRwisi4QWvemdZTlh
+         R4f7Z5GE/e460uftHhhQ83tIAeE0bUd3FI8wlIiXboz/IxcSSRSuU1RXA51kFX6KNizv
+         AgWg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=EKChy69Q;
-       spf=pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::533 as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=LY4R44OP;
+       spf=pass (google.com: domain of leon@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=leon@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1757664945; x=1758269745; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1757915305; x=1758520105; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:in-reply-to:from
-         :references:cc:to:content-language:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=mke0+TtU/0sZ8Upr3pt8V89wfTnNy+Zn2CSo94YeOHc=;
-        b=RLGdBC/y2QpJRfX2bD0LzBLldpT9rlomc1aDSWrgBi9g9apGiAecibJYhGm2dhtvtA
-         UBdyodMsXCXVPF5xcz+59lAb3Yyfpj5qSL9nxmHypplSJVEMqQsyD3A9fC8GOasWzZUr
-         N6aLj/p8mg35Khx+TD5jNpelNJ9NyxkzVUTtb+sWiZjAyg1l3FqX2Xq0rVH0RkSscU40
-         vyDD04DJNkCGD8Ik/6H1IAquolJxVmWPc87c4jSGee/2CquelNErzTs+AyiEJztjbBBE
-         JxQgX+7QH+HwWkJj1JOgkmVfeZCJde1WcL0UZPhNDLkG0AuZOYGav8uYVdeHuId95cmz
-         TqVw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757664945; x=1758269745; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:in-reply-to:from
-         :references:cc:to:content-language:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=mke0+TtU/0sZ8Upr3pt8V89wfTnNy+Zn2CSo94YeOHc=;
-        b=KwIpXzP/YTpEuu4/cRLoO5TD8Om6O06WwIyg8gtTp260Eoj+eA/o/0mZ/npDjskYsm
-         WiyTIj9GmiVhF6AMwLqS8OIfx7CHmLS9mEgO5X31fNtzCTBEJDnti8wMbmwdjF2sfYb8
-         ShTN+RLAp5KI5dE0c0qvVGsdfQqz6a8TZE7RBjJ3zYXaIDMDzR1/4D//Gboc+w6PTUmY
-         Tb45gFMCmx/5wLcr38BnEg/N7RsZDUWE0+P0Ydq5zLLNYK52LcFExW3Olfpaz7C7DdQI
-         bDdF6Ye7xBmSOyz2+OexARajvI+9SbtxKYU0+JSqBGY9VtQxUvDU5gEUpl7lWjX6oIci
-         EkTg==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DmPrGnpdnkZh1xivPY4SW5R6dYaNFBsgR+M9DBeW9Ek=;
+        b=Xj0a5/97r+C91XzoQCBYG0ciRbK476nnipXk9NJFz0bNqnQRRt6BuMZFJfxrQg/UdZ
+         711OvjkWMGdujEcEOMscXUJ8/mAbBoKrOVpPrKWg9kHSx9aU3nv6FwoAJxjqPrM/dzvi
+         KfCQi1pc4u5gWwSBiaQ8YljTQs+9jVlCw52Xe15HR30cgzMzrUJhSU0MUngQ87lsm50x
+         uTFS5c5DI51nPTBXZ0rVfaa9gwl8fP8/p7xM8AtTPxpm39CWOvIqG1xQAbJtl/nJpeT/
+         gt90k7qeNI9okshSODllvrITBrHkPhvh54Qeo3mR0BTrSka1otfg7YJccfahObDV8it2
+         b4Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757664945; x=1758269745;
+        d=1e100.net; s=20230601; t=1757915305; x=1758520105;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mke0+TtU/0sZ8Upr3pt8V89wfTnNy+Zn2CSo94YeOHc=;
-        b=OrdYwynTHMMCPs28Gbyz9nyiTlEGKcAO0hVUIU/86DBNycXDK5cP6/09QZyZtYnGeK
-         JhxvAwRjic1o+9Nl8wBWcQkVRQsmNTwGnlRRENl90a2b4iekH4DH91pICRyVdmkhqBE/
-         xa8Y88EdGsPONExA9LqC7+F6eRS2+V4H8icMOFeZ4PcGecTpu4l8QD5bB8OEbHgxWsOE
-         Eh/ukgJdxSloVTweyvQLmsY1WAmGvz94ltPJ8MNyBkX9ZianwXfgQ9mpX5AvhzcaUH7V
-         JoxdztzHqU9SJksnaUM852FQ9eRy3T/9eOChhe4b5M7t2e2a/i6/UYp8Qdh17oQ6lmK2
-         FqEg==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUAw8VzrI5y0PHNVyIuHmaUa29dm3m90BwioLovqY6rMMfFwbyEGBY6wxcEh3WOJsosvB22ew==@lfdr.de
-X-Gm-Message-State: AOJu0Yx14Zto9dqGjZORwUmkveLlMjnHJ0Pwp3cDdUA1bgMWooZEicGD
-	XAwS3Dx2kLcoDKfiUMyyLQUhudvkGiAY9F4GrF1j3xYEBPbgEONpaojJ
-X-Google-Smtp-Source: AGHT+IGzdCl6HutyLuO6W90WSzzjz28kMssqteXDxMFykn5J1e3XonUe8I86QVClDv7nzC+J57THKA==
-X-Received: by 2002:a05:6870:bac6:b0:301:2bc7:61e7 with SMTP id 586e51a60fabf-32e572ed9f9mr1222741fac.26.1757664945093;
-        Fri, 12 Sep 2025 01:15:45 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=AZMbMZdwXu5+N/7KM0lxHWrQGuzZej0DwqD/IQ0t+V3oHiEvHw==
-Received: by 2002:a05:6871:6201:b0:315:8af6:e4ed with SMTP id
- 586e51a60fabf-32d0682bb8cls1237009fac.2.-pod-prod-05-us; Fri, 12 Sep 2025
- 01:15:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUbLysegq/WCbh7Y+mxlTeh+EdRdWLbvXqS/xY3MJ+lC8JwNa2NPUBCbedvZfxCBJPsLJCvPesQMcM=@googlegroups.com
-X-Received: by 2002:a05:6808:e83:b0:435:728d:ed15 with SMTP id 5614622812f47-43b8da38402mr898513b6e.38.1757664944209;
-        Fri, 12 Sep 2025 01:15:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1757664944; cv=none;
+        bh=DmPrGnpdnkZh1xivPY4SW5R6dYaNFBsgR+M9DBeW9Ek=;
+        b=L0s+drn90K+6ONSx0A0aBErJcajlCSNStpqjBJGz9/BwpW/zv2T7FQRIS05v1z8CXL
+         oIUpDmurA3w0YjmclsmvImvOgGQyV74+gkHNKT3kDgaW7olFhaOb3TOaw4M03dxFvQHg
+         vaHUC4iyvp8UmbRM44Or+X/hzFlQbXvLGA1ih/a7H3n4Lv5kyFEkaSeuYpwHPlq2kUUC
+         2gSsj0C0CRTzGzCRvkxiVY7CZMFkqWVHLXgRxrCmKqxG/bLSTB7pMp2PZzx7xvWmUu+F
+         fWVjBD+6YtJepbGj0UDVqD0wtDtYa+1/cS0lMsxawsVuLCzESvyPRM0oJERZRq4VGJzM
+         Jlkg==
+X-Forwarded-Encrypted: i=2; AJvYcCXa0jaWbqdwcEQy7FS8GYxkd04qcRFcsBbH19nXYT8hT8ZoisQdI7MtpLeDHlkJXwdiiSeDQg==@lfdr.de
+X-Gm-Message-State: AOJu0YwW82RLP9OTJ1Dw0LJhCFjVnZzQvKYmAyMeHqXA12FQkscHWfQM
+	xyzDo8HnpgubNkLqzLQy4OMcKbgfEyq8hxmBB8+P6qdOgO3GkQq2eFMH
+X-Google-Smtp-Source: AGHT+IE9fngXhb9p7QCnZhDBEI5PwC+KSKzRzHSyfxMiFZkqQXkB6FlSlsBc5Men59KmReeRwWVw9A==
+X-Received: by 2002:a17:902:d2c8:b0:266:2e6b:f592 with SMTP id d9443c01a7336-2662e6bf791mr28835065ad.25.1757915305191;
+        Sun, 14 Sep 2025 22:48:25 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd5SLFlk4qYxJMDgbroCKIftchaEOLjOjUsa5tTgSzweng==
+Received: by 2002:a17:902:d50d:b0:246:570:cbdd with SMTP id
+ d9443c01a7336-25beddd8445ls41187445ad.2.-pod-prod-02-us; Sun, 14 Sep 2025
+ 22:48:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUG44B6yMa8sMm5z23/IvCjUaGSEI/3TfBCypacJpHNUrYMlw0Puk6sxuCYXwNB5WytZuCNfAwkFtU=@googlegroups.com
+X-Received: by 2002:a17:902:ec8e:b0:25d:d848:1cca with SMTP id d9443c01a7336-25dd8481fbdmr141944535ad.35.1757915303436;
+        Sun, 14 Sep 2025 22:48:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1757915303; cv=none;
         d=google.com; s=arc-20240605;
-        b=WkRBzpMnh5G0mMxebSEjEI2oeA4BVHTyFOhVMdZ6ufwO20iDuCj4jZWQ+6QXkenJ9H
-         /GCk7PBjIW1mI6sFa5DDyQWJX5SgCQOeZI8jZBEZTajs0vHTh6TgIqQ1uxN+evE8oKeR
-         RgW/yLunlw4xTv+v6ABefz7vOrErMZ6ewRSav2LDEG57eoX9g5gRg6nW/i48c51sB7st
-         zhTMX0X0Z5tSqSi8Ga/aciVJ3v6b/4d+jjEIfetHqQxgo7f2OdhJuaM5xLmgPbh2REzI
-         yGNXhzptUDZKiv1dFmAAzwbl8nzCfM90BWWMyonlM9NYxSyCWKV3Ndf8ddEUIsPNtVVE
-         n+rw==
+        b=UzPVhFrCZpDEyfpUKubuIQWH8FSH6mSzqGk5xNyrj0DiVQrSXptChXETUOr+C50uo5
+         95jpJpntEOD4JyzltQEpjEZaw0c78kdxmINm7Pa1TehTzNRF8kn3gQOCHzNNEWHQ6BJs
+         7hDyO047QcAwsUu7BcR/xNN1q/S5pY66ijarDpYrfQbvzPruW2hSkPstPCs5KK1uvz6j
+         45ie5yrMr51sr//OHeTZt/0dAxo7j00TlFkMH5K08QEyR3r8Qn2KznquRg522NT+oM8p
+         BZxsx7IHMm6DRCfqAzLRvJzneolKyZjqw0xg0NEcmsfKmVC0986O85hJ9ayJno0lUEB0
+         GZ8g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :dkim-signature;
-        bh=b2EuFHC5+5B8ohKz2yz145rUlrp5xKfqVTKvvn+wKTM=;
-        fh=EJVRchjWPXr+78DLxqHdlCbMm2iDXdBCZ/AdGox3fos=;
-        b=iLYPa1c7vcHjy3g4YnJ3sBUt28aV0QGHB98rIvHhoQE5KNK5DGiN9B3dqICSpnnrP/
-         oSN2HW1biYZwwOQ+9x/uf0slS5UaV/vLMvzHY2S061g3nbBm3Y+BRbD6RrrnaQQ9CZ+u
-         0IYt2Bmp6RBkOs2BPmgg+wZQ5dJnocdB7NV3RmK5xHfICEZ/7ti2UeNF3AGcNGTxnXVX
-         uFjpE/9iP1ffeUhqp/AjnJkETUA73e+9dyDSb1GUgu3HEGmyAP08oDWXP585reXJtR9L
-         ejKzsg7JH4zsoOR8Op5y9SA7jJdmd33/B8N0kSQY7+Vwz+yWTTjQgYdLrcAI2KyKJYXM
-         GpUQ==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=JXL3zMOfk7HJmj1hH5tcjC1ukwS1rzTdhMLd/yhlMo8=;
+        fh=0KZfjkVFrBJ1A8P/k5PTY2PAUr+/l0FquzWeYmXM7tg=;
+        b=MDR9wjhumHVhc8LbaRLtpx7nPpSQx8J3qk31nLJ1gvWpRlAG60iYI7DLxKi+tPa7nH
+         7HbYIo7h0aZkOA8V8aVS1eiz+imr25IWrfpxImWKPmr4jHlRYwDbbF9xERvql22WvNrN
+         J0L0P8VFgQIpN0Arafs6UE36xsovP30pNK85sBLAkY1ChdfuFYXX1nKShkCyTSEnPz+R
+         TUAyIJ6ivfFCZhbjs6DHxd+wY2cY1WrURvWOfzxOHA5fb2nb4qwAzIUcgM16N2L6eyJB
+         uhwD5W3LGdtaZkB7wOuTkCkmhg4Zgp12EF93Xw+FHTFi2pWlFzE4ZSWqCTpkkvvm/7lY
+         V8iw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=EKChy69Q;
-       spf=pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::533 as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com. [2607:f8b0:4864:20::533])
-        by gmr-mx.google.com with ESMTPS id 5614622812f47-43b8dd21b7bsi56572b6e.4.2025.09.12.01.15.44
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=LY4R44OP;
+       spf=pass (google.com: domain of leon@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=leon@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from sea.source.kernel.org (sea.source.kernel.org. [2600:3c0a:e001:78e:0:1991:8:25])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-25f31869f46si2207695ad.5.2025.09.14.22.48.23
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Sep 2025 01:15:44 -0700 (PDT)
-Received-SPF: pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::533 as permitted sender) client-ip=2607:f8b0:4864:20::533;
-Received: by mail-pg1-x533.google.com with SMTP id 41be03b00d2f7-b4c9a6d3fc7so1012967a12.3
-        for <kasan-dev@googlegroups.com>; Fri, 12 Sep 2025 01:15:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVOP171KZaoqMGv+LSRV02dPOYwi3x0KW5nqqlLRSBoR9lT7C5zlqAZoW4OOS2ebV85ItEnZ6FM3rU=@googlegroups.com
-X-Gm-Gg: ASbGncuergN3GGh34OnrNBJz8Zjtwzh0MXYLaCmKhKizIaeHKm7NuP9LM2Mbl8rgaiz
-	/1tb7lVVZ6FLgb2q5KJTNFjsGcXL+QO8Ua8f0zmV1FDZLkMQXUvIfse9HZ+AVo28NEmtdGCYFvP
-	BEGEZpmwVW7HiriDHCNBQpkZb1b7rmyJD6VmQEU1IhIXKKJnteqgSt8KqdBTEJhjh6TlghdmT9p
-	sKjaYpF2VEgjwdH2uH08Kumr3PfdFmeFsLhgptqrBhei7QdhNJORAFRpTWlMmPNDHYQ9DYpXWkL
-	LFQUg07IUBG3kruMEh9Nbqc63B7AsyozNkW+IES2eT1rqUIS8hj7cgtOE+uO9rev+sSlzqvQlVa
-	M6jf8okk86vYerlMX6A==
-X-Received: by 2002:a17:902:f707:b0:25e:78db:4a0d with SMTP id d9443c01a7336-25e78db4d35mr3480525ad.36.1757664943639;
-        Fri, 12 Sep 2025 01:15:43 -0700 (PDT)
-Received: from [127.0.0.1] ([2403:2c80:6::3079])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c36cc580csm41503445ad.10.2025.09.12.01.15.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Sep 2025 01:15:43 -0700 (PDT)
-Message-ID: <8c047b5f-f4c2-4795-8ceb-a556ac6647b2@gmail.com>
-Date: Fri, 12 Sep 2025 16:15:30 +0800
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Sep 2025 22:48:23 -0700 (PDT)
+Received-SPF: pass (google.com: domain of leon@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) client-ip=2600:3c0a:e001:78e:0:1991:8:25;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 05E2143F68;
+	Mon, 15 Sep 2025 05:48:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1FCDC4CEF1;
+	Mon, 15 Sep 2025 05:48:21 +0000 (UTC)
+Date: Fri, 12 Sep 2025 12:03:27 +0300
+From: "'Leon Romanovsky' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	David Hildenbrand <david@redhat.com>, iommu@lists.linux.dev,
+	Jason Wang <jasowang@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>,
+	Juergen Gross <jgross@suse.com>, kasan-dev@googlegroups.com,
+	Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-nvme@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v6 00/16] dma-mapping: migrate to physical address-based
+ API
+Message-ID: <20250912090327.GU341237@unreal>
+References: <CGME20250909132821eucas1p1051ce9e0270ddbf520e105c913fa8db6@eucas1p1.samsung.com>
+ <cover.1757423202.git.leonro@nvidia.com>
+ <0db9bce5-40df-4cf5-85ab-f032c67d5c71@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/19] mm/ksw: Introduce real-time Kernel Stack Watch
- debugging tool
-Content-Language: en-CA
-To: Alexander Potapenko <glider@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Masami Hiramatsu <mhiramat@kernel.org>, Peter Zijlstra
- <peterz@infradead.org>, Mike Rapoport <rppt@kernel.org>,
- "Naveen N . Rao" <naveen@kernel.org>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com,
- "David S. Miller" <davem@davemloft.net>, Steven Rostedt
- <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>,
- "Liang, Kan" <kan.liang@linux.intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250910052335.1151048-1-wangjinchao600@gmail.com>
- <aMO07xMDpDdDc1zm@mdev>
- <CAG_fn=V5LUhQQeCo9cNBKX1ys3OivB49TuSeWoPN-MPT=YTG6g@mail.gmail.com>
-From: Jinchao Wang <wangjinchao600@gmail.com>
-In-Reply-To: <CAG_fn=V5LUhQQeCo9cNBKX1ys3OivB49TuSeWoPN-MPT=YTG6g@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: wangjinchao600@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <0db9bce5-40df-4cf5-85ab-f032c67d5c71@samsung.com>
+X-Original-Sender: leon@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=EKChy69Q;       spf=pass
- (google.com: domain of wangjinchao600@gmail.com designates
- 2607:f8b0:4864:20::533 as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+ header.i=@kernel.org header.s=k20201202 header.b=LY4R44OP;       spf=pass
+ (google.com: domain of leon@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25
+ as permitted sender) smtp.mailfrom=leon@kernel.org;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Leon Romanovsky <leon@kernel.org>
+Reply-To: Leon Romanovsky <leon@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -193,78 +167,119 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 9/12/25 14:41, Alexander Potapenko wrote:
-> On Fri, Sep 12, 2025 at 7:51=E2=80=AFAM Jinchao Wang <wangjinchao600@gmai=
-l.com> wrote:
->>
->> FYI: The current patchset contains lockdep issues due to the kprobe hand=
-ler
->> running in NMI context. Please do not spend time reviewing this version.
->> Thanks.
->> --
->> Jinchao
->=20
-> Hi Jinchao,
->=20
-> In the next version, could you please elaborate more on the user
-> workflow of this tool?
-> It occurs to me that in order to detect the corruption the user has to
-> know precisely in which function the corruption is happening, which is
-> usually the hardest part.
->=20
+On Fri, Sep 12, 2025 at 12:25:38AM +0200, Marek Szyprowski wrote:
+> On 09.09.2025 15:27, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> >
+> > Changelog:
+> > v6:
+> >   * Based on "dma-debug: don't enforce dma mapping check on noncoherent
+> >     allocations" patch.
+> >   * Removed some unused variables from kmsan conversion.
+> >   * Fixed missed ! in dma check.
+> > v5: https://lore.kernel.org/all/cover.1756822782.git.leon@kernel.org
+> >   * Added Jason's and Keith's Reviewed-by tags
+> >   * Fixed DMA_ATTR_MMIO check in dma_direct_map_phys
+> >   * Jason's cleanup suggestions
+> > v4: https://lore.kernel.org/all/cover.1755624249.git.leon@kernel.org/
+> >   * Fixed kbuild error with mismatch in kmsan function declaration due to
+> >     rebase error.
+> > v3: https://lore.kernel.org/all/cover.1755193625.git.leon@kernel.org
+> >   * Fixed typo in "cacheable" word
+> >   * Simplified kmsan patch a lot to be simple argument refactoring
+> > v2: https://lore.kernel.org/all/cover.1755153054.git.leon@kernel.org
+> >   * Used commit messages and cover letter from Jason
+> >   * Moved setting IOMMU_MMIO flag to dma_info_to_prot function
+> >   * Micro-optimized the code
+> >   * Rebased code on v6.17-rc1
+> > v1: https://lore.kernel.org/all/cover.1754292567.git.leon@kernel.org
+> >   * Added new DMA_ATTR_MMIO attribute to indicate
+> >     PCI_P2PDMA_MAP_THRU_HOST_BRIDGE path.
+> >   * Rewrote dma_map_* functions to use thus new attribute
+> > v0: https://lore.kernel.org/all/cover.1750854543.git.leon@kernel.org/
+> > ------------------------------------------------------------------------
+> >
+> > This series refactors the DMA mapping to use physical addresses
+> > as the primary interface instead of page+offset parameters. This
+> > change aligns the DMA API with the underlying hardware reality where
+> > DMA operations work with physical addresses, not page structures.
+> >
+> > The series maintains export symbol backward compatibility by keeping
+> > the old page-based API as wrapper functions around the new physical
+> > address-based implementations.
+> >
+> > This series refactors the DMA mapping API to provide a phys_addr_t
+> > based, and struct-page free, external API that can handle all the
+> > mapping cases we want in modern systems:
+> >
+> >   - struct page based cacheable DRAM
+> >   - struct page MEMORY_DEVICE_PCI_P2PDMA PCI peer to peer non-cacheable
+> >     MMIO
+> >   - struct page-less PCI peer to peer non-cacheable MMIO
+> >   - struct page-less "resource" MMIO
+> >
+> > Overall this gets much closer to Matthew's long term wish for
+> > struct-pageless IO to cacheable DRAM. The remaining primary work would
+> > be in the mm side to allow kmap_local_pfn()/phys_to_virt() to work on
+> > phys_addr_t without a struct page.
+> >
+> > The general design is to remove struct page usage entirely from the
+> > DMA API inner layers. For flows that need to have a KVA for the
+> > physical address they can use kmap_local_pfn() or phys_to_virt(). This
+> > isolates the struct page requirements to MM code only. Long term all
+> > removals of struct page usage are supporting Matthew's memdesc
+> > project which seeks to substantially transform how struct page works.
+> >
+> > Instead make the DMA API internals work on phys_addr_t. Internally
+> > there are still dedicated 'page' and 'resource' flows, except they are
+> > now distinguished by a new DMA_ATTR_MMIO instead of by callchain. Both
+> > flows use the same phys_addr_t.
+> >
+> > When DMA_ATTR_MMIO is specified things work similar to the existing
+> > 'resource' flow. kmap_local_pfn(), phys_to_virt(), phys_to_page(),
+> > pfn_valid(), etc are never called on the phys_addr_t. This requires
+> > rejecting any configuration that would need swiotlb. CPU cache
+> > flushing is not required, and avoided, as ATTR_MMIO also indicates the
+> > address have no cacheable mappings. This effectively removes any
+> > DMA API side requirement to have struct page when DMA_ATTR_MMIO is
+> > used.
+> >
+> > In the !DMA_ATTR_MMIO mode things work similarly to the 'page' flow,
+> > except on the common path of no cache flush, no swiotlb it never
+> > touches a struct page. When cache flushing or swiotlb copying
+> > kmap_local_pfn()/phys_to_virt() are used to get a KVA for CPU
+> > usage. This was already the case on the unmap side, now the map side
+> > is symmetric.
+> >
+> > Callers are adjusted to set DMA_ATTR_MMIO. Existing 'resource' users
+> > must set it. The existing struct page based MEMORY_DEVICE_PCI_P2PDMA
+> > path must also set it. This corrects some existing bugs where iommu
+> > mappings for P2P MMIO were improperly marked IOMMU_CACHE.
+> >
+> > Since ATTR_MMIO is made to work with all the existing DMA map entry
+> > points, particularly dma_iova_link(), this finally allows a way to use
+> > the new DMA API to map PCI P2P MMIO without creating struct page. The
+> > VFIO DMABUF series demonstrates how this works. This is intended to
+> > replace the incorrect driver use of dma_map_resource() on PCI BAR
+> > addresses.
+> >
+> > This series does the core code and modern flows. A followup series
+> > will give the same treatment to the legacy dma_ops implementation.
+> 
+> Applied patches 1-13 into dma-mapping-for-next branch. Let's check if it 
+> works fine in linux-next.
 
-Hi Alexander,
+Thanks a lot.
 
-Thank you for the question. I agree with your observation about the
-challenge of detecting stack corruption.
+> 
+> Best regards
+> -- 
+> Marek Szyprowski, PhD
+> Samsung R&D Institute Poland
+> 
+> 
 
-Stack corruption debugging typically involves three steps:
-  1. Detect the corruption
-  2. Find the root cause
-  3. Fix the issue
-
-Your question addresses step 1, which is indeed a challenging
-part. Currently, we have several approaches for detection:
-
-- Compile with CONFIG_STACKPROTECTOR_STRONG to add stack canaries
-   and trigger __stack_chk_fail() on corruption
-- Manual detection when local variables are unexpectedly modified
-   (though this is quite difficult in practice)
-
-However, KStackWatch is specifically designed for step 2 rather than
-step 1. Let me illustrate with a complex scenario:
-
-In one actual case, the corruption path was:
-- A calls B (the buggy function) through N1 call levels
-- B stores its stack variable L1's address in P (through a global
-   variable or queue or list...)
-- C (the victim) called by A through N2 levels, unexpectedly has a
-   canary or local variable L2 with the overlapping address with L1
-- D uses P in a separate task (N3 call levels deep), which modifies
-   the value of L1, and L2 is corrupted
-- C finds the corruption
-
-The only clue might be identifying function D first, which then leads
-us to B through P.
-
-Key advantages of KStackWatch:
-  - Lightweight overhead that doesn't reduce reproduction probability
-  - Real-time capability to identify corruption exactly when it happens
-  - Precise location tracking of where corruptions occur
-
-KStackWatch helps identify function D directly, bypassing the complex
-call chains (N1, N2, N3) and intermediate functions. Once we locate D,
-we can trace back through the corruption path and resolve the issue.
-
-Does this clarify the tool's intended workflow?
-
---=20
-Jinchao
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/8=
-c047b5f-f4c2-4795-8ceb-a556ac6647b2%40gmail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250912090327.GU341237%40unreal.
