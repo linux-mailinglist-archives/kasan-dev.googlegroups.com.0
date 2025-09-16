@@ -1,135 +1,136 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBUHUUTDAMGQE62PLCPA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDHIHTVCYMHBB3PXUTDAMGQE3QNN3JQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83d.google.com (mail-qt1-x83d.google.com [IPv6:2607:f8b0:4864:20::83d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93785B5935A
-	for <lists+kasan-dev@lfdr.de>; Tue, 16 Sep 2025 12:22:10 +0200 (CEST)
-Received: by mail-qt1-x83d.google.com with SMTP id d75a77b69052e-4b79773a429sf81226951cf.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 16 Sep 2025 03:22:10 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1758018129; cv=pass;
+Received: from mail-qv1-xf3d.google.com (mail-qv1-xf3d.google.com [IPv6:2607:f8b0:4864:20::f3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6B97B5939D
+	for <lists+kasan-dev@lfdr.de>; Tue, 16 Sep 2025 12:29:03 +0200 (CEST)
+Received: by mail-qv1-xf3d.google.com with SMTP id 6a1803df08f44-786c3986579sf30456426d6.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 16 Sep 2025 03:29:03 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1758018542; cv=pass;
         d=google.com; s=arc-20240605;
-        b=GHKmX70lSZWGH1SnF5SAmhueFdN1hQu1BjJvFc6VRBvOIwaDNIwkwsKigIT6cioFcK
-         18GLW7zNUbgMvrH3ao0oWa9nABj8awZev7rDiXl7dv6ePCVYvYN//BjuGBS8YJ1RdcTV
-         dMQ0IBkCdzROECrmMUki5dbMUdIPAB/MLPBJvJedUKeQr9hvhbwHr1efMnVunXKcjtYD
-         4QFSxa7vHaIURdM/ybWVFzi1ViahbNRWXRGnpji1wJRJrKLUuYE5Mvgf5/1RUKIkjlKo
-         qtfGbbcKnWA5JTsl8lOjzYP43h7kaYpioz3remMLQq/SL6DE9VamHLMJQAT8RmTfzVZ8
-         W0UQ==
+        b=cGB2Ip16Nh9oEQILkn59txdMyKRpDoq36CMxS7dvr77GcP33nSfAQ/qvBPCIvt50J7
+         WAJWaNdTDVgsdC3TrmFbbqC4bMP4Jo1V1UhKhLHhdsMBrj4WArAw33dwQkztNx58SGwW
+         fMcDmYfVYBRzdv3oQj8lQRAknpFlS5e5IoUinwVeqMYZV05ibAe210KXvKAoOfJ599o9
+         WGjtitWPhqhH3FsZemZIdy1ri2zjPBebszQ+WJ23KaltQApIOlDvzfzaeFuC9Z9W780r
+         sp9QfFwqztl+6SWIJx8ECfsotJ5Y+uLItKGQAQfF2qFh+2MwSnUvsoX1hKfe9gSMlk3T
+         jOvg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=KuGYjNmIpagusq/mb3NahVGnXW7eEhNKvdkx1EPul5o=;
-        fh=4YMYMSk2qrswI+BzqXSgeay0EyknrUqKzCewTma7oqI=;
-        b=QkR3YaKknXOcCUD0umahLtwJ81gg2kNbto20hwXifdqZBSpciIaP91TCw/cW5WhWaY
-         LgwC5AI9Ux1BOoG8fn0zUmeFAbrwNDkebP4fr62gq9sN2xT8M1NOqXud87R7kRYYauR6
-         F4STMaRfYrb4/gS3jOTdW4NKDQXDhiQPfuq7M3SVVwavHf0XEnTNNOSaXcmUaXFzjo8C
-         0B0VVGV4Yj99KszJoT0gfK8dThpO5OvEGZ0AeznKKECUG6LDhzCEruhgTXYor3SANIvU
-         KOHDeUFAC7UglC5Kpi789XCS6chAMVH1hiYEVa5c7c7SHj0Cf+mG+xRz8W6nM5Y+EBo/
-         G1lA==;
+        bh=wg3YVzbQXf38x1uXsFw1+Aw6/XpPZ/7hEYmeoiZFFu4=;
+        fh=Pwavja6uqlYf7QYlRAGh3TcxvBLDGhZAggBqwjQWr2s=;
+        b=iT0zQJM3oZ5/5zeNkwdIEYLzIYJfom1Ps/Agsf8EQTMV8IRF1Xy92+tbSIrPFu0bh7
+         seIGDKyBM92HtlAN1K5FXJewkUIb4AbI8lGhLs36gbr3cGnEMIuDqWbkL6YFTzbvLGgT
+         cthlMUfJ/ThePFhXLaQEvcdEXld6NTDG+J7xP3ugJC6Ujd1VdxYN0bw7BucDONkyWsGV
+         0A+HFxGXoy71G820R421Qwl6UhezTmbmm3ajfCZBt06+QHin1kq2De5T8pJ/8VF1LEsy
+         5gUkRbMweN202/5auNt/WaDxJ/elqn+Gr9IeTSzFn3TpG3aDpVDuTfMuEmXFr2vGgKPQ
+         ffsg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b="z9ofhw6/";
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2a as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@cloudflare.com header.s=google09082023 header.b=fWr5OwRA;
+       spf=pass (google.com: domain of ignat@cloudflare.com designates 2607:f8b0:4864:20::734 as permitted sender) smtp.mailfrom=ignat@cloudflare.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cloudflare.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1758018129; x=1758622929; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1758018542; x=1758623342; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KuGYjNmIpagusq/mb3NahVGnXW7eEhNKvdkx1EPul5o=;
-        b=Y1wcKrJMpdofU8KcCuKcOjRlTocgY2tGKvxkKij5lKoIT2MPCvXK+Fe43Dc7bL74AS
-         WD4eYNz/5VJMfW8Zvfxjubho3YFFpDsQfRzaneJxtllE7rYVmPmdB2r6RX4YYBH+MyVI
-         SUjMi7nuxGvw5+vCT9Tn0M608rJkksNLXcn2TWhg6/Ifg4fl8kJKRy8FgDZbB7BWDSyV
-         F1ra41FjQ+Tij9tlZ5Xjw96JTXQ8R8Qdcm+8dQKUVhxm0UJbTo6kzHATAQx+yQHpW0Ws
-         3pZ6qXyVd/mfIsLCqRpix9jsOxwPrfWyZauAVPfHz9kNQx18j+5wcOsoTrVPm++pgCwg
-         buYg==
+        bh=wg3YVzbQXf38x1uXsFw1+Aw6/XpPZ/7hEYmeoiZFFu4=;
+        b=F9rlyhagwHcjxnahMWEJsBYStg1HJSg+8S34n77JXlbYdhZJ5K08vDlxFLKSkQ4LrJ
+         +8iIhKxPMjyVuquhNfW9ZbUwjAIzgeA7EeJHO03NYgqBIHv/jCk3eg/WyIceL6t3C+wa
+         MND1CgsnDSYYMWQQ2MIxGKwMsOjSkjf6T+dpTaye9kkQxtgX7kypYNgQiC6uWPWSl8sr
+         ngtLSIXfrIoydlA7Jf5ryBDtXFX3ojcg4nZJQn2V8bmc3d/cSxUi7vC8lPxi77QPSP0w
+         1na3PC8AVtiDz0DM/Tf8mobD38UeWgHm6e3lRzPne9KxD/jGKDpZVk4RiNuF4TSLVZ4b
+         u+Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758018129; x=1758622929;
+        d=1e100.net; s=20230601; t=1758018542; x=1758623342;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=KuGYjNmIpagusq/mb3NahVGnXW7eEhNKvdkx1EPul5o=;
-        b=RIxsaNhb2JfLnWGfpKHu6om++dZeP3yB+6xAUcrx8r4d8jPC1fTNU/cW4P8aNSfchi
-         BVbPyuteXQzmI0teOuGjfvyM9+S05LfI8Ka4I8UJvV/d8tY83zHQQXAcl7iGcwyurr8T
-         VQEoSfS0vm0V2aQOizurW93ni6A6fr+gUBFmezZF7pKMmh2S/EbPTvpz/JIn/syDWyFw
-         QwDV0iUqp4H0IJt/KjY9DLwr1p5aDHFaTPXyAJplsRAtTbkZT5gigGMghE4KoDvCjxEb
-         VJLbXLO9C0fb/uqJTTTsnx53HTUK/GKEXdSPn7Jme3GHty1jXoZPFibw4rw1Lu20lXVo
-         rRRQ==
-X-Forwarded-Encrypted: i=2; AJvYcCWtmiFxPoMbiEoa8pNbsaIZyEm0D57QeDPD9dkC6RwKu6O6syjOoFDCsr15cpAqQbH+/xULxg==@lfdr.de
-X-Gm-Message-State: AOJu0YyhbjQctmAOdHdJC8YV5He6Y2JcP9c4Zw9mIF47JRZtM5QeGvQM
-	OsMxzVbLM3Q1ubg1RLpZUqb5qRMt6/iKKzAIfa91RsWQVGqudWxPQqDP
-X-Google-Smtp-Source: AGHT+IFuRzBtgwFhUAujWsg0dn+X6jRVA+XAG8PX7jvqZ8Nz1Md2mt7VK5sUgT/ry8db1CxI5O4vjw==
-X-Received: by 2002:a05:622a:a18:b0:4b5:d60c:2fc8 with SMTP id d75a77b69052e-4b77d09239bmr233885931cf.71.1758018129228;
-        Tue, 16 Sep 2025 03:22:09 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd75K0XoWxo1zhoG93PzLh7qgsJ8IWNZ3Pjkx7D63I/6bA==
-Received: by 2002:a05:622a:3c8:b0:4b0:889b:bc70 with SMTP id
- d75a77b69052e-4b636ccb94als108959081cf.2.-pod-prod-04-us; Tue, 16 Sep 2025
- 03:22:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVciIpQOGxR16Biq8ks8WnSP7RadlkaKiHyQRerufsjFGz3rxFx0284iZ4GoX2ezCzB73APo+9E4Wo=@googlegroups.com
-X-Received: by 2002:ac8:5882:0:b0:4b6:33e6:bc04 with SMTP id d75a77b69052e-4b77d05a075mr166392431cf.60.1758018128302;
-        Tue, 16 Sep 2025 03:22:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1758018128; cv=none;
+        bh=wg3YVzbQXf38x1uXsFw1+Aw6/XpPZ/7hEYmeoiZFFu4=;
+        b=wNLxl+LNEKYe+N64+OFzjEBSRHIAB66shtGBhgT/Bol+xm7XF4q9n+C6ihZ7UdJF4m
+         blKYhR6qh3O2QJOsrmpGm6jfQBgQbGMqO7kHJiBIjsc3U5xvlDonz30jeCsA2tT59SAR
+         JB/iPbRQOU1jiN2X9itdHJAvK/39Ne/ROd+HMMHGLMqQ6uYz/EwxtAJdH6A7PyqCIIRG
+         OwKqCGOfdoj7gHoudPB5t+JdcQlcbe1xZXi58T6yVTUbaoWkJ22rQ6cEjy32yTrgGfQ1
+         PQwvxTOh9lmCxJrKk4UC05GjNi102lFouh0wIq9gQZhoiSS3X8/lKBmc74pTo55IlV10
+         26SA==
+X-Forwarded-Encrypted: i=2; AJvYcCWT/vx2gXgESQPdnwqE0jJIGvsuGb5qMNvP/XusFJKgVDJdXr6hOFlAKk34iANen36Jozix+g==@lfdr.de
+X-Gm-Message-State: AOJu0YxptLr6fx3D9X0P5LGFLZwF8QVLFng/iLROgLQd8P+ET8zBKKtY
+	q758hc77ABuimGRr4dsT5qHiFjVAKIr06SBo/oCJkqNHpuXWNWHoe7ls
+X-Google-Smtp-Source: AGHT+IF1pWYp9ShoIlxzKlLojbOVQLcn8K0lwCo88FtuAx7MyHr0fB/hujmcLwUGKpIAZSNsROKACg==
+X-Received: by 2002:a05:6214:cc4:b0:784:4f84:22fb with SMTP id 6a1803df08f44-7844f8423ffmr77688026d6.24.1758018542016;
+        Tue, 16 Sep 2025 03:29:02 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd6ssqGc6Gci6r9Tdg6FlIo0B2wEAehnHgcZWH5OE+6CNA==
+Received: by 2002:a05:6214:5287:b0:70d:9fb7:7561 with SMTP id
+ 6a1803df08f44-762e590fce0ls89606126d6.2.-pod-prod-05-us; Tue, 16 Sep 2025
+ 03:29:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUbMfEXab7n/irCXWfxYI24RTIxlfHDCtNifJbq9d9u9w/kYFuPQWGXmPXvScVjdN9wr1l2nXc+tt0=@googlegroups.com
+X-Received: by 2002:a05:6214:e4c:b0:77e:c0d1:11d with SMTP id 6a1803df08f44-77ec0ef85e6mr92599106d6.48.1758018541229;
+        Tue, 16 Sep 2025 03:29:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1758018541; cv=none;
         d=google.com; s=arc-20240605;
-        b=Y9NoRqLn39Zx7/vqZNFFhWqUGakkw3Hu0OGprWcmKY/pxan/4zr293RUnt52FodwHz
-         wfatNaAmA+8xt6zEGxJSFtKZ1Lhv3vJtzHM46/dHIoRH2dSlyFTFe4HwYb7JJ8HzM0x0
-         7YZRdQDTl5DtVpMtFNT6OzuQnrDnnJ7JnhpxOPa76yRHi+uAc9A0IWdSR33YezE2blI6
-         x2uSYj25O+W9n1b9/lunvDK8slcRuSpowW4/Gefl5yVzpVBfzFkFJjBTHYWQ2yt1f5oR
-         /9M2D3uLjJh1EdK+boPlnhS264PX+GcRXo++suBMDz64nGZ3+TxjC98wJOHP0IpdO3A/
-         UQIg==
+        b=aA4JVKeVUZyY5oCTZw5hWRYf2kIZa8qJg0kLXJ1mIonrytuPOIWoDSSPt9T/AqK9gc
+         buD1tJI/A8gNq4QvsUeMbeEGDs2pRnCxy3yik2mRX2jibA2xDPGFj8fS+V+HHrEpSosC
+         kKZwrIZpJ1XwStQGlv/HkScI3TbSuMitS2MFXSW5KnXHfPA6Se8VEHogAZYpR/DKIHj1
+         eC4TcAIhKPvslanKj1fDGuXYochW84kk47jrsZ/Yp2IA5AaAQ5lOIt0G6A3Fsd0HWaPD
+         XAGddRDd4rxNQSjZ6+8IcPzanwqRQ9IsvKfAVuWpidXFeqOmWl/smdhavuP3FvsyZ+SQ
+         NIVw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=8fDdVkJYP6n8rFxsmmwdyCR43GJXYJ4e6lkQY1k5jhI=;
-        fh=hUh0b1IdHmPRw1wdKo8eNpSjDcEUaTvNk4QpwuvgN/Y=;
-        b=lk3RNBe7DRZF97ILhMNiLajVsO2JvbWLGF3EThwylE1dxXxENWsRcz2n9FvAyQ8I56
-         z/3hwp6O/LkzjE47UQsMVQ6VvH4VwBwBn4IFuU8lU83MPliLt5hcfOU+dW/J8+5buawR
-         1yM58b607bYUBRMZlNNHM0lCndHbVLZ2mPrnNdFWM7oLpy3fVxAu7RRDuJRfPIjn1dEu
-         JLi7Vp6991Kuxa/sYT4BNEf2IDQVcOpoVkyem2DdJufWnfTtfld6O+p9a+nmbbsYtObO
-         ZrGymbUhXc4adBxm6EHwJIUpAzkbFeEBW5S1Po85txCZJYL4Zy8PKz4a6tyxkp476x6M
-         FPOg==;
+        bh=dVtnxKhUzhBsXhVoc6XgCECsqL2+mal6aWmAQ944WSU=;
+        fh=j3p4FisFYyJq+oOIkVrvcfWzES33VjLNM5NtLYFDack=;
+        b=E7Lrpw1+4NwzL0PINBhYqav+v4bBRkXtkRvaGctMVIhts8S79cgThOzDwqbJezAxqE
+         gAPdqdaVKTCBU+HEPxetYUK4OtfN2K0f8ArRmIE8tIPsEQohWp7Vd9eH8mp8TWvZW08F
+         oAHZAQi1g5sYcu9mCdTMcShetCy7Y7xK8Ja933/h9o3t6SbjvIzILKN1rRXEE/INStSi
+         1HUvBiBRu++2GTBNHJ8zeMhBWteomEBwFW35FnAfB1b3lZqLlrhDl0mfy/Gq7xtgz5x5
+         eAoK3dTsE7HeXjpL50DKItDdUv9gmgOr8yU9pldJuoaPC2heGDJDZu0h38cFYmq0ZSqQ
+         kWBQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b="z9ofhw6/";
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2a as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@cloudflare.com header.s=google09082023 header.b=fWr5OwRA;
+       spf=pass (google.com: domain of ignat@cloudflare.com designates 2607:f8b0:4864:20::734 as permitted sender) smtp.mailfrom=ignat@cloudflare.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cloudflare.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com. [2607:f8b0:4864:20::f2a])
-        by gmr-mx.google.com with ESMTPS id af79cd13be357-820c87de2dasi56888285a.1.2025.09.16.03.22.08
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com. [2607:f8b0:4864:20::734])
+        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-763b1f6ee87si235056d6.1.2025.09.16.03.29.01
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Sep 2025 03:22:08 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2a as permitted sender) client-ip=2607:f8b0:4864:20::f2a;
-Received: by mail-qv1-xf2a.google.com with SMTP id 6a1803df08f44-778d99112fbso35022526d6.1
-        for <kasan-dev@googlegroups.com>; Tue, 16 Sep 2025 03:22:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU+o42jlhkfDyoCd9b9oYJUv5P6EFqqPLD/+gAfBEHdDNqRd43tHVBEzvZnTL+dQPJggQfRaSbsEPg=@googlegroups.com
-X-Gm-Gg: ASbGnculZiOgk3Sr/Ynmbb5F0bKDfkpIH6Zw0rR4q7TJxsgm74dcn/euzhNDLO54pEM
-	vyPTeRPQEZTR5hDrWaDH7iRSOjonYQk4286vDQIY5U48aV6O1vl6Wg3L48sEpyB2psm2nypNdJM
-	WimxdE0N1wPqtviLN37rx9xKP8ALZyGhT6SX1pexZInQXJ4QefrJvzoIrpeOZxGf7Fufbu5GgYE
-	CfxsqSqRy5CJ6hJF+f8bTC8b2JTpT57nYELd/lrl88igDdSFkg2cCE=
-X-Received: by 2002:a05:6214:1c4d:b0:781:a369:ef8c with SMTP id
- 6a1803df08f44-781a369f19fmr98103496d6.16.1758018127627; Tue, 16 Sep 2025
- 03:22:07 -0700 (PDT)
+        Tue, 16 Sep 2025 03:29:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ignat@cloudflare.com designates 2607:f8b0:4864:20::734 as permitted sender) client-ip=2607:f8b0:4864:20::734;
+Received: by mail-qk1-x734.google.com with SMTP id af79cd13be357-80e2c52703bso467108285a.1
+        for <kasan-dev@googlegroups.com>; Tue, 16 Sep 2025 03:29:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV5pL1S3mhUH3wRDBc5Jj5KkQC/RKtjTL6dWE9gXdf5/vhIXvewxYJpOBRH+ZKHUC18nCUVzsBbWpk=@googlegroups.com
+X-Gm-Gg: ASbGncvwbJSsosITDOYUXOnOo6ilwR3ISME4lNJRrSAsG+s4tPihdHY9f3Nqok3WLdj
+	tIxOg2jFIIYzZ4cHlvyOKh3E7un/wJIXBV5h5hDMOlGsRBcefYFc2TC8x/JYMX/hX/VPi4qmmrk
+	/om3KO+Pg0dIsVUw7cp34I8l2lhP5gft4yBjoqap7SjaCrs6zNOkfwCoRnaUmqyJshY/NEh23rK
+	H7DREdJ908tc4DfIV/LHO4=
+X-Received: by 2002:a05:620a:4107:b0:802:78a5:a86f with SMTP id
+ af79cd13be357-824047c8dd0mr1779923485a.79.1758018540609; Tue, 16 Sep 2025
+ 03:29:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250916090109.91132-1-ethan.w.s.graham@gmail.com> <20250916090109.91132-4-ethan.w.s.graham@gmail.com>
-In-Reply-To: <20250916090109.91132-4-ethan.w.s.graham@gmail.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 16 Sep 2025 12:21:31 +0200
-X-Gm-Features: AS18NWAvlqXEHGPKEvaBnkig3ksosFgvoGuvVmEMsd87qxp-V32sXYdPaxYq0Tg
-Message-ID: <CAG_fn=U0dOBumngmQQ1cna=SZvbDXjJ8NrVUZyCHY5dzJV4rVg@mail.gmail.com>
-Subject: Re: [PATCH v1 03/10] kfuzztest: implement core module and input processing
+References: <20250916090109.91132-1-ethan.w.s.graham@gmail.com> <20250916090109.91132-8-ethan.w.s.graham@gmail.com>
+In-Reply-To: <20250916090109.91132-8-ethan.w.s.graham@gmail.com>
+From: "'Ignat Korchagin' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 16 Sep 2025 11:28:47 +0100
+X-Gm-Features: AS18NWCkhNpkebAoSzpi6YfP7wdFTOupUdzVBrFWuQqh8FgNjyJdBm5a2YlrxX8
+Message-ID: <CALrw=nE9jYhHZnix8RV9UHApOZaF7otRLPHn3cmvOPaqQLzrnw@mail.gmail.com>
+Subject: Re: [PATCH v1 07/10] crypto: implement KFuzzTest targets for PKCS7
+ and RSA parsing
 To: Ethan Graham <ethan.w.s.graham@gmail.com>
-Cc: ethangraham@google.com, andreyknvl@gmail.com, andy@kernel.org, 
-	brauner@kernel.org, brendan.higgins@linux.dev, davem@davemloft.net, 
-	davidgow@google.com, dhowells@redhat.com, dvyukov@google.com, 
-	elver@google.com, herbert@gondor.apana.org.au, ignat@cloudflare.com, 
+Cc: ethangraham@google.com, glider@google.com, andreyknvl@gmail.com, 
+	andy@kernel.org, brauner@kernel.org, brendan.higgins@linux.dev, 
+	davem@davemloft.net, davidgow@google.com, dhowells@redhat.com, 
+	dvyukov@google.com, elver@google.com, herbert@gondor.apana.org.au, 
 	jack@suse.cz, jannh@google.com, johannes@sipsolutions.net, 
 	kasan-dev@googlegroups.com, kees@kernel.org, kunit-dev@googlegroups.com, 
 	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org, 
@@ -137,14 +138,15 @@ Cc: ethangraham@google.com, andreyknvl@gmail.com, andy@kernel.org,
 	tarasmadan@google.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: glider@google.com
+X-Original-Sender: ignat@cloudflare.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b="z9ofhw6/";       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2a as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@cloudflare.com header.s=google09082023 header.b=fWr5OwRA;
+       spf=pass (google.com: domain of ignat@cloudflare.com designates
+ 2607:f8b0:4864:20::734 as permitted sender) smtp.mailfrom=ignat@cloudflare.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=cloudflare.com;
+       dara=pass header.i=@googlegroups.com
+X-Original-From: Ignat Korchagin <ignat@cloudflare.com>
+Reply-To: Ignat Korchagin <ignat@cloudflare.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,60 +159,169 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Sep 16, 2025 at 11:01=E2=80=AFAM Ethan Graham
+On Tue, Sep 16, 2025 at 10:01=E2=80=AFAM Ethan Graham
 <ethan.w.s.graham@gmail.com> wrote:
 >
 > From: Ethan Graham <ethangraham@google.com>
 >
-> Add the core runtime implementation for KFuzzTest. This includes the
-> module initialization, and the logic for receiving and processing
-> user-provided inputs through debugfs.
+> Add KFuzzTest targets for pkcs7_parse_message, rsa_parse_pub_key, and
+> rsa_parse_priv_key to serve as real-world examples of how the framework
+> is used.
 >
-> On module load, the framework discovers all test targets by iterating
-> over the .kfuzztest_target section, creating a corresponding debugfs
-> directory with a write-only 'input' file for each of them.
+> These functions are ideal candidates for KFuzzTest as they perform
+> complex parsing of user-controlled data but are not directly exposed at
+> the syscall boundary. This makes them difficult to exercise with
+> traditional fuzzing tools and showcases the primary strength of the
+> KFuzzTest framework: providing an interface to fuzz internal functions.
 >
-> Writing to an 'input' file triggers the main fuzzing sequence:
-> 1. The serialized input is copied from userspace into a kernel buffer.
-> 2. The buffer is parsed to validate the region array and relocation
->    table.
-> 3. Pointers are patched based on the relocation entries, and in KASAN
->    builds the inter-region padding is poisoned.
-> 4. The resulting struct is passed to the user-defined test logic.
+> To validate the effectiveness of the framework on these new targets, we
+> injected two artificial bugs and let syzkaller fuzz the targets in an
+> attempt to catch them.
+>
+> The first of these was calling the asn1 decoder with an incorrect input
+> from pkcs7_parse_message, like so:
+>
+> - ret =3D asn1_ber_decoder(&pkcs7_decoder, ctx, data, datalen);
+> + ret =3D asn1_ber_decoder(&pkcs7_decoder, ctx, data, datalen + 1);
+>
+> The second was bug deeper inside of asn1_ber_decoder itself, like so:
+>
+> - for (len =3D 0; n > 0; n--)
+> + for (len =3D 0; n >=3D 0; n--)
+>
+> syzkaller was able to trigger these bugs, and the associated KASAN
+> slab-out-of-bounds reports, within seconds.
+>
+> The targets are defined within /lib/tests, alongside existing KUnit
+> tests.
 >
 > Signed-off-by: Ethan Graham <ethangraham@google.com>
->
+
+Reviewed-by: Ignat Korchagin <ignat@cloudflare.com>
+
 > ---
 > v3:
-
-Nit: these are RFC version numbers, and they will start clashing with
-the non-RFC numbers next time you update this series.
-I suggest changing them to "RFC v3" and "RFC v2" respectively.
-
+> - Change the fuzz target build to depend on CONFIG_KFUZZTEST=3Dy,
+>   eliminating the need for a separate config option for each individual
+>   file as suggested by Ignat Korchagin.
+> - Remove KFUZZTEST_EXPECT_LE on the length of the `key` field inside of
+>   the fuzz targets. A maximum length is now set inside of the core input
+>   parsing logic.
+> v2:
+> - Move KFuzzTest targets outside of the source files into dedicated
+>   _kfuzz.c files under /crypto/asymmetric_keys/tests/ as suggested by
+>   Ignat Korchagin and Eric Biggers.
+> ---
+> ---
+>  crypto/asymmetric_keys/Makefile               |  2 +
+>  crypto/asymmetric_keys/tests/Makefile         |  2 +
+>  crypto/asymmetric_keys/tests/pkcs7_kfuzz.c    | 22 +++++++++++
+>  .../asymmetric_keys/tests/rsa_helper_kfuzz.c  | 38 +++++++++++++++++++
+>  4 files changed, 64 insertions(+)
+>  create mode 100644 crypto/asymmetric_keys/tests/Makefile
+>  create mode 100644 crypto/asymmetric_keys/tests/pkcs7_kfuzz.c
+>  create mode 100644 crypto/asymmetric_keys/tests/rsa_helper_kfuzz.c
+>
+> diff --git a/crypto/asymmetric_keys/Makefile b/crypto/asymmetric_keys/Mak=
+efile
+> index bc65d3b98dcb..77b825aee6b2 100644
+> --- a/crypto/asymmetric_keys/Makefile
+> +++ b/crypto/asymmetric_keys/Makefile
+> @@ -67,6 +67,8 @@ obj-$(CONFIG_PKCS7_TEST_KEY) +=3D pkcs7_test_key.o
+>  pkcs7_test_key-y :=3D \
+>         pkcs7_key_type.o
+>
+> +obj-y +=3D tests/
 > +
-> +/**
-> + * kfuzztest_init - initializes the debug filesystem for KFuzzTest
+>  #
+>  # Signed PE binary-wrapped key handling
+>  #
+> diff --git a/crypto/asymmetric_keys/tests/Makefile b/crypto/asymmetric_ke=
+ys/tests/Makefile
+> new file mode 100644
+> index 000000000000..4ffe0bbe9530
+> --- /dev/null
+> +++ b/crypto/asymmetric_keys/tests/Makefile
+> @@ -0,0 +1,2 @@
+> +obj-$(CONFIG_KFUZZTEST) +=3D pkcs7_kfuzz.o
+> +obj-$(CONFIG_KFUZZTEST) +=3D rsa_helper_kfuzz.o
+> diff --git a/crypto/asymmetric_keys/tests/pkcs7_kfuzz.c b/crypto/asymmetr=
+ic_keys/tests/pkcs7_kfuzz.c
+> new file mode 100644
+> index 000000000000..37e02ba517d8
+> --- /dev/null
+> +++ b/crypto/asymmetric_keys/tests/pkcs7_kfuzz.c
+> @@ -0,0 +1,22 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * PKCS#7 parser KFuzzTest target
 > + *
-> + * Each registered target in the ".kfuzztest_targets" section gets its o=
-wn
-> + * subdirectory under "/sys/kernel/debug/kfuzztest/<test-name>" containi=
-ng one
-> + * write-only "input" file used for receiving inputs from userspace.
-> + * Furthermore, a directory "/sys/kernel/debug/kfuzztest/_config" is cre=
-ated,
-> + * containing two read-only files "minalign" and "num_targets", that ret=
-urn
-> + * the minimum required region alignment and number of targets respectiv=
-ely.
-
-This comment (and some below) is out of sync with the implementation.
-As we've discussed offline, there's probably little value in having
-"/sys/kernel/debug/kfuzztest/_config/num_targets", because that number
-is equal to the number of files in "/sys/kernel/debug/kfuzztest/"
-minus one.
-It just came to my mind that "num_invocations" could be moved to some
-"kfuzztest/_stat" directory, but it can also stay here as long as you
-fix the doc comments.
+> + * Copyright 2025 Google LLC
+> + */
+> +#include <crypto/pkcs7.h>
+> +#include <linux/kfuzztest.h>
+> +
+> +struct pkcs7_parse_message_arg {
+> +       const void *data;
+> +       size_t datalen;
+> +};
+> +
+> +FUZZ_TEST(test_pkcs7_parse_message, struct pkcs7_parse_message_arg)
+> +{
+> +       KFUZZTEST_EXPECT_NOT_NULL(pkcs7_parse_message_arg, data);
+> +       KFUZZTEST_ANNOTATE_ARRAY(pkcs7_parse_message_arg, data);
+> +       KFUZZTEST_ANNOTATE_LEN(pkcs7_parse_message_arg, datalen, data);
+> +
+> +       pkcs7_parse_message(arg->data, arg->datalen);
+> +}
+> diff --git a/crypto/asymmetric_keys/tests/rsa_helper_kfuzz.c b/crypto/asy=
+mmetric_keys/tests/rsa_helper_kfuzz.c
+> new file mode 100644
+> index 000000000000..bd29ed5e8c82
+> --- /dev/null
+> +++ b/crypto/asymmetric_keys/tests/rsa_helper_kfuzz.c
+> @@ -0,0 +1,38 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * RSA key extract helper KFuzzTest targets
+> + *
+> + * Copyright 2025 Google LLC
+> + */
+> +#include <linux/kfuzztest.h>
+> +#include <crypto/internal/rsa.h>
+> +
+> +struct rsa_parse_pub_key_arg {
+> +       const void *key;
+> +       size_t key_len;
+> +};
+> +
+> +FUZZ_TEST(test_rsa_parse_pub_key, struct rsa_parse_pub_key_arg)
+> +{
+> +       KFUZZTEST_EXPECT_NOT_NULL(rsa_parse_pub_key_arg, key);
+> +       KFUZZTEST_ANNOTATE_ARRAY(rsa_parse_pub_key_arg, key);
+> +       KFUZZTEST_ANNOTATE_LEN(rsa_parse_pub_key_arg, key_len, key);
+> +
+> +       struct rsa_key out;
+> +       rsa_parse_pub_key(&out, arg->key, arg->key_len);
+> +}
+> +
+> +struct rsa_parse_priv_key_arg {
+> +       const void *key;
+> +       size_t key_len;
+> +};
+> +
+> +FUZZ_TEST(test_rsa_parse_priv_key, struct rsa_parse_priv_key_arg)
+> +{
+> +       KFUZZTEST_EXPECT_NOT_NULL(rsa_parse_priv_key_arg, key);
+> +       KFUZZTEST_ANNOTATE_ARRAY(rsa_parse_priv_key_arg, key);
+> +       KFUZZTEST_ANNOTATE_LEN(rsa_parse_priv_key_arg, key_len, key);
+> +
+> +       struct rsa_key out;
+> +       rsa_parse_priv_key(&out, arg->key, arg->key_len);
+> +}
+> --
+> 2.51.0.384.g4c02a37b29-goog
+>
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -218,4 +329,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-AG_fn%3DU0dOBumngmQQ1cna%3DSZvbDXjJ8NrVUZyCHY5dzJV4rVg%40mail.gmail.com.
+ALrw%3DnE9jYhHZnix8RV9UHApOZaF7otRLPHn3cmvOPaqQLzrnw%40mail.gmail.com.
