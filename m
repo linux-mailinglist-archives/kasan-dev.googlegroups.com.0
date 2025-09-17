@@ -1,155 +1,134 @@
-Return-Path: <kasan-dev+bncBC4LXIPCY4NRB6MCVHDAMGQEK6NJ54A@googlegroups.com>
+Return-Path: <kasan-dev+bncBC3ZLA5BYIFBBXVOVHDAMGQEGFOSAWY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88116B7CAC1
-	for <lists+kasan-dev@lfdr.de>; Wed, 17 Sep 2025 14:07:55 +0200 (CEST)
-Received: by mail-lf1-x139.google.com with SMTP id 2adb3069b0e04-57363fa0e80sf2292368e87.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 17 Sep 2025 05:07:55 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1758110875; cv=pass;
+Received: from mail-ot1-x33d.google.com (mail-ot1-x33d.google.com [IPv6:2607:f8b0:4864:20::33d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C350B7C3A2
+	for <lists+kasan-dev@lfdr.de>; Wed, 17 Sep 2025 13:56:21 +0200 (CEST)
+Received: by mail-ot1-x33d.google.com with SMTP id 46e09a7af769-7509629d847sf6863597a34.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 17 Sep 2025 04:56:21 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1758110180; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Kc588FgmeOjMo9DCxqI2f+fH4AJO/Gjz14rAP3Jr9D0Usd47dbiio3XT6/HfbVcLr4
-         jKGmgvDCRU80vRM8znCoor/SNV8jQMb6kJQ3EUd2Gvm0ZVEoWuFrBvYDijYFiCbx0eDP
-         BO/hWpicSG5r8t5LI2Zc4sYk8NgwApsvQDh1cfd72PyS5VO0ns3zf8KMT/LHSrSevJJL
-         irGNqvJXADqr3yR3LkmWlnMPrKr0bEZ7TPivbHaZiGQQOeFNL0U78yFh93TgjUwAvX4F
-         bqvSl2pXxTTM0goUvG6BajFnTs4IYrVNYyr15sEBJMROTpUJnUPR6r2QMFqPkAHw+la1
-         jyHw==
+        b=B8x5Po7b6POeEr0p3Js/3NnW6D3bXdYEgpSsS5yxXNmLiZMdeRjC/ChvPn6q3x3MIm
+         HDoP8mLNn71UNX7c1rL0w2ak7cNkXmR0Zr71IhOtKfmuTKwpl/VPkDslOFfwTor6XX1V
+         EP+qvWYTjf6kBlgASHLqalJRMcyPIqPbVGPosnkHJN61AbBFxMDViyIDD7/VQnvuYgGC
+         9OA+Z49cpZOmMmfVr7Ii6PjCIXm0Uj4EVRGvefmePJKBhgnXvvRw8tyncJsD+N/m0KHR
+         9i+WVhhoLTX/yLSRrrs+5Wpu0Q8SxBdSYgZvxRm8jI2nDhe95/mRVxPc8TBmi8OwgqCK
+         //Fw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=0Ln9sR+XyPg8KJxP6pKi4LoJv/an1cclhgAc0JVKl6M=;
-        fh=iJAgE0WGaWdTgaW7XKT2TJzUa/21DTThAY4q9FbbBeE=;
-        b=IbfCjn64iOo7s2liu2wbrnA/r9q18xSpqjaOZov0zlXKE39D94ClWlz3dgBU1V+F2c
-         DJBtpnwS5VZTmGWKTKU/GbjSllwYEJc11OuYMVoeTa0sH/8YVoJZGEg01Qi9ZEfCgshz
-         mLIOi+s6SC3245icjK8wE9GeO2rHf71gUnd+0D41bgGpGHkd2bun0QTavs9W/fDHTUCg
-         M5xHQvlHGPKDsSluhoZp2xlqNO1OczO27w2SIyu/5O3+bkqR6MDwvyjzryL5z+lxHYRy
-         tXB/0WwzGF+DXfdXsyJ7cTzQO44WRs1B8r3MrW/uDEdxCvfMW6LK3SBKYANcosWyiR4I
-         eMSw==;
+         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
+         :date:subject:cc:to:from:dkim-signature;
+        bh=PWBC65kZvD9fZWv51dJ4q4v1IAIGSBlyGonfKQEZFVE=;
+        fh=+uP5sN9AoN4rbDLQcYhOKCEWIgkqIDv6utqwM8pO2gg=;
+        b=hjqAc3oFcpXn2wEputTR75LB7qi6n18gm3oZOOGw1y8nbhpRGmHtmv/sRK+OQS+kM4
+         JdzMy1h7bH6yKUY2v/oADAJd88yQDn+MBGihv0JYybhKXTAhU689gm4zaGWCZJ+Xm00z
+         Zjk84FNbgGdfY1nmZE5+agppwdXEa5+RPYKHnaxrQWDy1rim8SRRbaA4+sF+4+2uW6W1
+         i4Klqhz/bcqDYHqQdWlD+jweBHYn8UUoJlFYCfJOxbhzAehPnCe2Sri2UlZgNMD6lcq3
+         iY/yx5VPbj6x12Y0uFApbTRwy2LAihyazTyBen6E5ZJkJ/EVh7SKrNoQODb9zA1cVMLr
+         fi0w==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=cYLl7O5r;
-       spf=pass (google.com: domain of lkp@intel.com designates 198.175.65.13 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=IuQW4qLP;
+       spf=pass (google.com: domain of leon@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) smtp.mailfrom=leon@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1758110875; x=1758715675; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1758110180; x=1758714980; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0Ln9sR+XyPg8KJxP6pKi4LoJv/an1cclhgAc0JVKl6M=;
-        b=eEiAnj1oiKMrxHYa/rGpe56W8K/hVGfT0KNajNKpV/IAz/0XzUbIF0fPP178CAee3O
-         VCdem6uicaP7zi7MgNXP7nwpjqNCLUWloIMpqsC2VkMiXvym2AFl71w+co/lgBuvs8O/
-         zhudpSf65anF0TVPSAQTP/nPpV9kuAMnrPgmsT5ZBDzO1+3b6E71AYHCdx/R3DIjRugE
-         egDS2GoHsvERBkUn1XAb0Iat3b8oh0KOZtV+rY5bBSWhyr4AtGiTXVImd1jgOK0eLezW
-         pUGT/2oKt/cTOjV2SWWmnL37HUpzS5CBVOi159whMbF8bm64t8cPGfpclcQWpf+yX7Nl
-         XaGQ==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PWBC65kZvD9fZWv51dJ4q4v1IAIGSBlyGonfKQEZFVE=;
+        b=OBL8hj9cHmnj2v5ncTfsJrwuXyUXAZ6CWzTojA6CHniUciWA9SP2j58u+1bcFJ0aqm
+         iu9cBjy0+MI1Q10jLO94HuexEeSI5BkVaAGHLG61gAEvWENm+SfKE035DaszUHNq1qMM
+         7VYDnfEdUL0PIE8XseN4NEDU5lnmWRcY4vVgmijf6v9p2MM8u+/GluM0aBlQYXZhQ1Dl
+         ycRVnJc/0hrT7+5+YqHLjob20pp4iGhkc4cDTowpqewZMaIeIJFK7bkr2U8R0uG6T8z7
+         FtlfGcK3SRp+eBiDMFyGC0iGBpohKrsTpx3zfHx0mtM2YpoOgbq/XMO/JN+nr1W5Xwy5
+         tbIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758110875; x=1758715675;
+        d=1e100.net; s=20230601; t=1758110180; x=1758714980;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0Ln9sR+XyPg8KJxP6pKi4LoJv/an1cclhgAc0JVKl6M=;
-        b=Z3PYVFa1SpHQU6uE3H1uyTxhvph/AHJQXodUwFEjw3FSxysvHvBdn8er8/8nyrs+dt
-         wv/KTa0ZkEKn7HorT4rCcnyAOrE5x5suad+5DB9qYslLv5ek5o0f4rGJ97ckv2kAutuk
-         QKJGlE60G9ApT6WzKBOJcPoM1hsyWWQIZLuJJJAZCB1MDlkQMpzbf9kp5XLU3NOxm76q
-         DQYL9L0wIYgbG0gIkr68isJnXy7erZDETC7evS4mNMKmaMJY4uW1mC4ffd86K0BMgYHc
-         pYCuuwa73YNCAdY8QJqW9Ng0Wp7ATjIU6MUia5Uo+gZOCKvHiOasoBYtITYs02OEmqrg
-         czRg==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCX0tHlS8kHBOWxXpa9KMzagKAt/dlkmQW+eZit74TsMkCMAecQMcKtfOTTThcC58tg5NsR/ug==@lfdr.de
-X-Gm-Message-State: AOJu0Yzuyi6F9QX6+jFbDHcBOyR+IeJgyd7JV+1DddmaQLEtFRhuJS6o
-	9vi7Y/FH9uSVNC3cEiLAYOSMkZ/qnEKUhrCAoAds13bZFNctPZvPPipc
-X-Google-Smtp-Source: AGHT+IGXWg1ZbMVB6iH/qdZ0o+pOb4SKEdB6/Wzy/oQJcpkLy/XJcOxAy6qTSZEUhMoGsQQBbx+I3A==
-X-Received: by 2002:a05:600c:1f89:b0:45b:88d6:8ddb with SMTP id 5b1f17b1804b1-462074c6780mr5329695e9.37.1758085497834;
-        Tue, 16 Sep 2025 22:04:57 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd7oGMVgjFfbhc+t54VOqB4C05tXuSuRs/1f8lFzZVquFw==
-Received: by 2002:a05:600c:674f:b0:459:ddca:2012 with SMTP id
- 5b1f17b1804b1-45dffc18bb5ls32824695e9.2.-pod-prod-05-eu; Tue, 16 Sep 2025
- 22:04:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVXoTqfbBhgqmA+SsRX+PzJ5338/9Qo9AI0ZuY4B5dT3gxlak/1yh4JW7ECMPr45eImoWMbd19uV/Q=@googlegroups.com
-X-Received: by 2002:a05:600c:450b:b0:45b:5f3d:aa3d with SMTP id 5b1f17b1804b1-46205eb1681mr4784275e9.21.1758085495082;
-        Tue, 16 Sep 2025 22:04:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1758085495; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PWBC65kZvD9fZWv51dJ4q4v1IAIGSBlyGonfKQEZFVE=;
+        b=v2fM4VUrPEt0ECyQFIzVaWYXe2RhX1sJlpvytxUBcTOcR8EzuFSSwWPD3ZctnoSpmA
+         f+9I5Zc2VdltDOGqjQBqGniNDNzeKnQRwyhdmYWDY0VmFekLYYxmyQRCgkbs52y4N2gs
+         3ohGlDL7NGwWQKFU1YpChg1cyxB73sr0GPu+SniMQz8av6w0BFbh0ls2pylAJ0Jfs92Q
+         fNLUFBbnU/9d0l7TNfK1nhoYIIHiGX1QrufZbNH3VPSZlJRRSzWSQIUJQSJygprXp/fx
+         5LeTr29Pg8d+KB6ICBiT+1TtcTe+ywLKP8Ka8lBA3JvDyG7he+uT0e9slmJNJjKaGB6n
+         bFFw==
+X-Forwarded-Encrypted: i=2; AJvYcCXN61wKdb8WwC6SlYwQ+QkCno8R8RQ6MbkoAiUKaePvB6kK49zSwiglmnzbtLovZeZAvx1usw==@lfdr.de
+X-Gm-Message-State: AOJu0Yy6vHeARkq40gUFwkSXYOi7r7FPZZhwTQHgqnIK/HoCBYGQfzsN
+	YUVuDSSvMCZh2igkG88finfCOExqYchWx49vqEfnR/NFHoXBN5lRQrDG
+X-Google-Smtp-Source: AGHT+IGfP9aRki2GCxCPZxx9mjkjqvWURdLEoooRvaUhupSCr09BMh5F2U95fV5JSnXbjTBLqdnbcQ==
+X-Received: by 2002:a05:6e02:1d88:b0:423:f8cd:739e with SMTP id e9e14a558f8ab-4241a4e1019mr11522935ab.11.1758091103198;
+        Tue, 16 Sep 2025 23:38:23 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd57NoxkFkSIjRMcQ+qYKek2Fas6QbPaaQkLZU5ho9pdqQ==
+Received: by 2002:a92:c24f:0:b0:41c:6466:4299 with SMTP id e9e14a558f8ab-424010a0b84ls23804305ab.1.-pod-prod-07-us;
+ Tue, 16 Sep 2025 23:38:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUi3z40JAauOGbBl5Z5DW4i/Gsrp7phlHI4preii27q78LSHloWkaQM65F43IRl4butYxQlQjEptgo=@googlegroups.com
+X-Received: by 2002:a05:6e02:1a09:b0:3f1:931f:bc33 with SMTP id e9e14a558f8ab-4241a54acdbmr11021555ab.24.1758091102144;
+        Tue, 16 Sep 2025 23:38:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1758091102; cv=none;
         d=google.com; s=arc-20240605;
-        b=VQh/Z8EJWeA7mdHls5B4V7qnVgtXcLlRP4FnwmoYJzPO7GDBA9UkLIblVYjLtiygnd
-         RRTDjaIgNECaCraoSJlPk/nYyHu2sslyEkDS5nAmXHyFpcrlQ6WU1EUnYdTfuTyalXaf
-         ALMv3y34PeEbIfDqj1zttB5c01VVCQKFzkaUnk0geaef7DrcKW+APkAUBqJmtrvD0EhK
-         fwsJr8GBS/6eu+LlxQ4WhlMbntxhB4gKHfMtChabwiqUW0/wUZQ+wzjKUgi3Usi8xwaN
-         1Mn2bntk//BwmFu+YZYVP+LBPD+oB47ZqWZhZjSFuoVldVgpk4wAt6qM3ByCsDkzm1NQ
-         PLvw==
+        b=dF3YdBQ8RxX6GD+eOJEAmbKE4zECQ6J1DvG1g+5sxT0G07UU7c/fzRFw4Zg4wnL+pq
+         xs5YA8VdrkyopKEFDjjgg6VN9cujZevkHRBTcGGmHX2LNODBHC5lsd58nSBfSdgltXyi
+         b6qngSZ/OEFkyffAr6/PUcQ72hl8wFYNhO0AO8nfpnyUYLLLyuRDNxQ8xAcw5gekxSok
+         CRSe/fJ/8aGL+Xz5EbAbrmWZKDEk3sTBVjlarGSwQBILMekpH3GGT+3I8Tbgd/qPGNfU
+         hJH7V/eQCRu6UiMlIybbGWRhQP74OZLzkta9wSGeAiMUhljCBwkUDdqfCmaEuUk671RH
+         d8kg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=XZEz55vnKWns6VDkaWcQmypGBYAaCR3xPOFfGClLlqU=;
-        fh=lYa0FG45bwqSJAg0l7nL5e2519l1C90YKv5AyQwXbVo=;
-        b=QoFQJD99FHqQmAy3n9qxyo+JLWBAbaM6TCDrIdTT2L7uiZMwmpPsM46Ky+pp3CDpVs
-         5+/Ex+LH9C8EHrvyt+NrXKwAL7hnpv+MQnxOCHPzj0T+Stq+28YVPZ6Krh0d8Xl0St0M
-         7EWGwBwmVc4qJpBIoV+e4LgTa0bSq+Am4aeKPFdDuHC1twswdnQT9WQNH3S7/y200Hn7
-         FhI5V7FdHo2qOl2+ksgwvP/vGWgLQOETrbXnQXQpbtRI0Tv0H7zGEQMxG8qQ86oMdFHi
-         ZOl9g5mfFjJPAeBjqgpxFdPvbgvvSGTTVudHF7SaVFqSv+dTKzhKdjFXpqhxjdWnnMz+
-         vJGQ==;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=MVI3HAtab8kNZWveLBryTVR4KMrizuFaCRKQXr1wpU8=;
+        fh=4smB/2pAJF/5Gh0etI1CxX7xhZbPtL/kE2Eu9eUs3ds=;
+        b=BQVXR64ReAk2Q8cL7EhainxSbfMhb0UK1gBdj3Ligup9VnFvVLlBiACz+EDXx/HmrU
+         OxpkE4exHcHcm7+y8CbjoNHT5MPES+MzSDLB4eiXFQbVDaw5X28jFy+hgfP+Q0BRtTnw
+         PHQUb+J1kpT84mkISnT1oYj92S3BSikOSh0+Vz6ku8FlnbNhVQiGAYd9sg/8RJDRSL64
+         1/JRmyIVsi/P4LPP5g6VNk3T/WaALFBasWDNhGLR7sPfK2F1XclUaGwBahYwYb9f0d7C
+         eh3nvlSuzXY141GckWFXPB7p2z3i5MOyeFn7IhAO3UB4XmlnntwTNS648nhAeui1ty9z
+         aI0w==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=cYLl7O5r;
-       spf=pass (google.com: domain of lkp@intel.com designates 198.175.65.13 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mgamail.intel.com (mgamail.intel.com. [198.175.65.13])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-45f32522420si1148915e9.1.2025.09.16.22.04.54
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 16 Sep 2025 22:04:54 -0700 (PDT)
-Received-SPF: pass (google.com: domain of lkp@intel.com designates 198.175.65.13 as permitted sender) client-ip=198.175.65.13;
-X-CSE-ConnectionGUID: de+3LsLLSGGVxf5OxxZ84A==
-X-CSE-MsgGUID: 35IFwWJRQkKN08X7b2Nhvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="71484281"
-X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; 
-   d="scan'208";a="71484281"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2025 22:04:53 -0700
-X-CSE-ConnectionGUID: sB/NHNXdQIqoO2ykPrcXBg==
-X-CSE-MsgGUID: Jad/lXalRXmHa4vZHqcc7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; 
-   d="scan'208";a="175224112"
-Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 16 Sep 2025 22:04:46 -0700
-Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uykLT-00015t-1z;
-	Wed, 17 Sep 2025 05:04:43 +0000
-Date: Wed, 17 Sep 2025 13:04:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ethan Graham <ethan.w.s.graham@gmail.com>, ethangraham@google.com,
-	glider@google.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	andreyknvl@gmail.com, andy@kernel.org, brauner@kernel.org,
-	brendan.higgins@linux.dev, davem@davemloft.net, davidgow@google.com,
-	dhowells@redhat.com, dvyukov@google.com, elver@google.com,
-	herbert@gondor.apana.org.au, ignat@cloudflare.com, jack@suse.cz,
-	jannh@google.com, johannes@sipsolutions.net,
-	kasan-dev@googlegroups.com, kees@kernel.org,
-	kunit-dev@googlegroups.com, linux-crypto@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, lukas@wunner.de,
-	rmoar@google.com, shuah@kernel.org, tarasmadan@google.com
-Subject: Re: [PATCH v1 09/10] fs/binfmt_script: add KFuzzTest target for
- load_script
-Message-ID: <202509171240.sw10iAf6-lkp@intel.com>
-References: <20250916090109.91132-10-ethan.w.s.graham@gmail.com>
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=IuQW4qLP;
+       spf=pass (google.com: domain of leon@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) smtp.mailfrom=leon@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from tor.source.kernel.org (tor.source.kernel.org. [2600:3c04:e001:324:0:1991:8:25])
+        by gmr-mx.google.com with ESMTPS id e9e14a558f8ab-41dee17d767si6236515ab.1.2025.09.16.23.38.22
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Sep 2025 23:38:22 -0700 (PDT)
+Received-SPF: pass (google.com: domain of leon@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) client-ip=2600:3c04:e001:324:0:1991:8:25;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 4DB69601DA;
+	Wed, 17 Sep 2025 06:38:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B8E9C4CEF0;
+	Wed, 17 Sep 2025 06:38:20 +0000 (UTC)
+From: "'Leon Romanovsky' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	kasan-dev@googlegroups.com,
+	kernel test robot <lkp@intel.com>,
+	linux-mm@kvack.org
+Subject: [PATCH] kmsan: fix missed kmsan_handle_dma() signature conversion
+Date: Wed, 17 Sep 2025 09:37:36 +0300
+Message-ID: <4b2d7d0175b30177733bbbd42bf979d77eb73c29.1758090947.git.leon@kernel.org>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20250916090109.91132-10-ethan.w.s.graham@gmail.com>
-X-Original-Sender: lkp@intel.com
+X-Original-Sender: leon@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=cYLl7O5r;       spf=pass
- (google.com: domain of lkp@intel.com designates 198.175.65.13 as permitted
- sender) smtp.mailfrom=lkp@intel.com;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=intel.com
+ header.i=@kernel.org header.s=k20201202 header.b=IuQW4qLP;       spf=pass
+ (google.com: domain of leon@kernel.org designates 2600:3c04:e001:324:0:1991:8:25
+ as permitted sender) smtp.mailfrom=leon@kernel.org;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Leon Romanovsky <leon@kernel.org>
+Reply-To: Leon Romanovsky <leon@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -162,119 +141,46 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Ethan,
+From: Leon Romanovsky <leonro@nvidia.com>
 
-kernel test robot noticed the following build warnings:
+kmsan_handle_dma_sg() has call to kmsan_handle_dma() function which was
+missed during conversion to physical addresses. Update that caller too
+and fix the following compilation error:
 
-[auto build test WARNING on akpm-mm/mm-nonmm-unstable]
-[also build test WARNING on herbert-cryptodev-2.6/master herbert-crypto-2.6/master linus/master v6.17-rc6 next-20250916]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+mm/kmsan/hooks.c:372:6: error: too many arguments to function call, expected 3, have 4
+  371 |                 kmsan_handle_dma(sg_page(item), item->offset, item->length,
+      |                 ~~~~~~~~~~~~~~~~
+  372 |                                  dir);
+      |                                  ^~~
+mm/kmsan/hooks.c:362:19: note: 'kmsan_handle_dma' declared here
+  362 | EXPORT_SYMBOL_GPL(kmsan_handle_dma);
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Graham/mm-kasan-implement-kasan_poison_range/20250916-210448
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/20250916090109.91132-10-ethan.w.s.graham%40gmail.com
-patch subject: [PATCH v1 09/10] fs/binfmt_script: add KFuzzTest target for load_script
-config: i386-randconfig-013-20250917 (https://download.01.org/0day-ci/archive/20250917/202509171240.sw10iAf6-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250917/202509171240.sw10iAf6-lkp@intel.com/reproduce)
+Fixes: 6eb1e769b2c1 ("kmsan: convert kmsan_handle_dma to use physical addresses")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202509170638.AMGNCMEE-lkp@intel.com/
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+ mm/kmsan/hooks.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509171240.sw10iAf6-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from fs/binfmt_script.c:166:
-   In file included from fs/tests/binfmt_script_kfuzz.c:8:
->> include/linux/kfuzztest.h:135:3: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
-     134 |         pr_info("reloc_table: { num_entries = %u, padding = %u } @ offset 0x%lx", rt->num_entries, rt->padding_size,
-         |                                                                             ~~~
-         |                                                                             %x
-     135 |                 (char *)rt - (char *)regions);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:585:34: note: expanded from macro 'pr_info'
-     585 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                                 ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:512:60: note: expanded from macro 'printk'
-     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   In file included from fs/binfmt_script.c:166:
-   In file included from fs/tests/binfmt_script_kfuzz.c:8:
-   include/linux/kfuzztest.h:141:37: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
-     141 |         pr_info("payload: [0x%lx, 0x%lx)", (char *)payload_start - (char *)regions,
-         |                              ~~~           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                              %x
-   include/linux/printk.h:585:34: note: expanded from macro 'pr_info'
-     585 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                                 ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:512:60: note: expanded from macro 'printk'
-     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   In file included from fs/binfmt_script.c:166:
-   In file included from fs/tests/binfmt_script_kfuzz.c:8:
-   include/linux/kfuzztest.h:142:3: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
-     141 |         pr_info("payload: [0x%lx, 0x%lx)", (char *)payload_start - (char *)regions,
-         |                                     ~~~
-         |                                     %x
-     142 |                 (char *)payload_end - (char *)regions);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:585:34: note: expanded from macro 'pr_info'
-     585 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                                 ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:512:60: note: expanded from macro 'printk'
-     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   3 warnings generated.
-
-
-vim +135 include/linux/kfuzztest.h
-
-6f8f11abdf5c57 Ethan Graham 2025-09-16  117  
-6f8f11abdf5c57 Ethan Graham 2025-09-16  118  /*
-6f8f11abdf5c57 Ethan Graham 2025-09-16  119   * Dump some information on the parsed headers and payload. Can be useful for
-6f8f11abdf5c57 Ethan Graham 2025-09-16  120   * debugging inputs when writing an encoder for the KFuzzTest input format.
-6f8f11abdf5c57 Ethan Graham 2025-09-16  121   */
-6f8f11abdf5c57 Ethan Graham 2025-09-16  122  __attribute__((unused)) static inline void kfuzztest_debug_header(struct reloc_region_array *regions,
-6f8f11abdf5c57 Ethan Graham 2025-09-16  123  								  struct reloc_table *rt, void *payload_start,
-6f8f11abdf5c57 Ethan Graham 2025-09-16  124  								  void *payload_end)
-6f8f11abdf5c57 Ethan Graham 2025-09-16  125  {
-6f8f11abdf5c57 Ethan Graham 2025-09-16  126  	uint32_t i;
-6f8f11abdf5c57 Ethan Graham 2025-09-16  127  
-6f8f11abdf5c57 Ethan Graham 2025-09-16  128  	pr_info("regions: { num_regions = %u } @ %px", regions->num_regions, regions);
-6f8f11abdf5c57 Ethan Graham 2025-09-16  129  	for (i = 0; i < regions->num_regions; i++) {
-6f8f11abdf5c57 Ethan Graham 2025-09-16  130  		pr_info("  region_%u: { start: 0x%x, size: 0x%x }", i, regions->regions[i].offset,
-6f8f11abdf5c57 Ethan Graham 2025-09-16  131  			regions->regions[i].size);
-6f8f11abdf5c57 Ethan Graham 2025-09-16  132  	}
-6f8f11abdf5c57 Ethan Graham 2025-09-16  133  
-6f8f11abdf5c57 Ethan Graham 2025-09-16  134  	pr_info("reloc_table: { num_entries = %u, padding = %u } @ offset 0x%lx", rt->num_entries, rt->padding_size,
-6f8f11abdf5c57 Ethan Graham 2025-09-16 @135  		(char *)rt - (char *)regions);
-6f8f11abdf5c57 Ethan Graham 2025-09-16  136  	for (i = 0; i < rt->num_entries; i++) {
-6f8f11abdf5c57 Ethan Graham 2025-09-16  137  		pr_info("  reloc_%u: { src: %u, offset: 0x%x, dst: %u }", i, rt->entries[i].region_id,
-6f8f11abdf5c57 Ethan Graham 2025-09-16  138  			rt->entries[i].region_offset, rt->entries[i].value);
-6f8f11abdf5c57 Ethan Graham 2025-09-16  139  	}
-6f8f11abdf5c57 Ethan Graham 2025-09-16  140  
-6f8f11abdf5c57 Ethan Graham 2025-09-16  141  	pr_info("payload: [0x%lx, 0x%lx)", (char *)payload_start - (char *)regions,
-6f8f11abdf5c57 Ethan Graham 2025-09-16  142  		(char *)payload_end - (char *)regions);
-6f8f11abdf5c57 Ethan Graham 2025-09-16  143  }
-6f8f11abdf5c57 Ethan Graham 2025-09-16  144  
-
+diff --git a/mm/kmsan/hooks.c b/mm/kmsan/hooks.c
+index fa9475e5ec4e9..90bee565b9bc2 100644
+--- a/mm/kmsan/hooks.c
++++ b/mm/kmsan/hooks.c
+@@ -368,8 +368,7 @@ void kmsan_handle_dma_sg(struct scatterlist *sg, int nents,
+ 	int i;
+ 
+ 	for_each_sg(sg, item, nents, i)
+-		kmsan_handle_dma(sg_page(item), item->offset, item->length,
+-				 dir);
++		kmsan_handle_dma(sg_phys(item), item->length, dir);
+ }
+ 
+ /* Functions from kmsan-checks.h follow. */
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.51.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/202509171240.sw10iAf6-lkp%40intel.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/4b2d7d0175b30177733bbbd42bf979d77eb73c29.1758090947.git.leon%40kernel.org.
