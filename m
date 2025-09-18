@@ -1,125 +1,124 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBPVDWDDAMGQESOHUTWQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBNVDWDDAMGQECTCBZZA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x338.google.com (mail-wm1-x338.google.com [IPv6:2a00:1450:4864:20::338])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D8B6B84F81
-	for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 16:05:52 +0200 (CEST)
-Received: by mail-wm1-x338.google.com with SMTP id 5b1f17b1804b1-45f2a1660fcsf9388275e9.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 07:05:52 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1758204351; cv=pass;
+Received: from mail-ed1-x53b.google.com (mail-ed1-x53b.google.com [IPv6:2a00:1450:4864:20::53b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05E89B84F6C
+	for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 16:05:44 +0200 (CEST)
+Received: by mail-ed1-x53b.google.com with SMTP id 4fb4d7f45d1cf-62b77ca3f64sf843744a12.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 07:05:44 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1758204343; cv=pass;
         d=google.com; s=arc-20240605;
-        b=QqWO/aJhVUbYBQtMvz68XLGZyu1WVc2c3Ql4dJtUKUub8t+XQcB47x/LZbdvRY95Lh
-         QxY1CetlfkBjG8CIq/yidQiM5oI2xWI1Av1acmHR3tDzmFJOj6i/Yv/fDl4E4DpuccAM
-         ZJcDNGhoY4Nj2wC1oPltxknvaeO671PdM58nTUPkRU8KM2UdxtDLrpMzZumhL/W7tyVF
-         Z2cBSRHTA0cIYbjm6UfkykTGTBCfjQIBm800L8JQBGNN8mZbnYTUqhhH9hnGqYYCjhxn
-         Fgt5bsCJndo1q4dwwEb7gD7VFK6EsGk8cLhWj92yixSDC9fTMugPL7GGNCe0fh1LnrlC
-         pqsg==
+        b=HJeft09sy7x2YxSO18R0NLtTYa4BngQUM/K+ElPcr69BYONrLlxtTkasqlt7r5ZmTd
+         UwuPKgSO9EAAund3C/pk9xV7Hh0MCZIykoN/6blT+Objwtu5s93okp6+2OnD81MGhfo2
+         GuCsDlTskLRsA29pUoJ+m5Zq3MSAWoaYUNcnPmwSG98D43bOCVeXpfZCOjr4/x9EfwGS
+         XrHwAWS+WO4+LhgCZq+3i5Xru76OPsN/VF0o9ItBXglh5L9kQjqOrksFY5mvRzGqJmvc
+         +gOuHr/P7KQOXqc488Z/saZCdOUw7aEWoz1WbzpUXKHsbLrSk5sxBKMDIXA6x3nEM1QR
+         tLmw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=PX2fk3kNQZWrbnojlO3ibeQHwKoaViHHQE4H0y2gS38=;
-        fh=/aMR0UKCq1MOTttVwu5hrm/qDSHvZKOYN0gtV5ij6KI=;
-        b=UXrT33v0wfAArrJN4DxkfJNjQu6YYPMgrA0p2TEITzaDhpUSO8DH4WS/ef11nc1e9h
-         YPu+b4/Yf0rUtmGu3BQwjOEpuVRlBbRDNgYDTJOnQrfdEGweIEkCICTHfuP1c5/v33ux
-         MWme+kmrDuMgXwKqwr+LyELkEBK33y9V52abo6WQIFolVbW+dxjnIMm3Yi3bn3w1BC27
-         apzjP+SGqJjHfzI14D+7J84ejpXjEVtNnSmuFNj50jl6j28iedR3SWE1D41flk2ZuglW
-         HNuMrZWCU6rxIIgju+jRGxKbDWbXAEI4gGIbxh9dm+rOYlQ7PRh7Fx0nU1cuvmJnK/Wn
-         UJKA==;
+        bh=olu9ZpnHORm1i+29Ak6tAAhMO4eKpO26fB2Ic2PEsWs=;
+        fh=AMl21ql5+tb86dC4bA4EcNEyYZ59/tYZvmefzyjrfwY=;
+        b=V7I88gShWFQyY0n3lIhtwMiMJCtFOneU4zfwK+/4ierrPUbtvT/KnexEicE5bZkicO
+         kyv93N+MU1xmVeOfQMls2QOfgpTYHk2mcnAcPU+Q4r/GxQITjp1l9zzmkGFxl2LGAt2Q
+         DTfixt32iL6Y9YEOIqdVuCyQcKOOazqLM+rpeJ7Ci7MDYGsqsNxkv6hM6X2HfS6WaOVp
+         RZCN48IOgZeUXMJTPIOEQAtg5nrnVKBI7UVelnqe/atXXpTmrjJAG6OhqRZhT99fo39R
+         82S0u919c9rvOmIBhtkSEhoOmGNDBVFSCWpx8lsjkcYL5g9sGQVQmLXq2jWlNV81wumk
+         Q3tQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=clAAMd00;
-       spf=pass (google.com: domain of 3srhmaaukcviy5fyb08805y.w864ucu7-xyf08805y0b8e9c.w86@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3sRHMaAUKCVIy5FyB08805y.w864uCu7-xyF08805y0B8E9C.w86@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=VaKJHSLu;
+       spf=pass (google.com: domain of 3sxhmaaukcvq07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3sxHMaAUKCVQ07H0D2AA270.yA86wEw9-z0H2AA2702DAGBE.yA8@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1758204351; x=1758809151; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1758204343; x=1758809143; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=PX2fk3kNQZWrbnojlO3ibeQHwKoaViHHQE4H0y2gS38=;
-        b=Fv+NRlZs/6EvB+CfKnyvK440dxc8H3Pd/asA1umLhpuf+3D+o4nT+lKsXRus+LyAZn
-         rNX9g17M96PTtCJKnHDTy97dYqYKUIsLUcLiBU6TpgUcyA+3u77mNech9BECxd5DhwmW
-         RI1qDdeYxjthoPnQaDhfK7LNVS/Oun01GAMDxehO0xD/8/7NGALbuzhEYX7HEDIPGxXC
-         Ql65kpozh7zAd2jtTZtvF21TTlTynIjPmjPLpo4veRKW66NsXhz+xXRx8bofIvlfE3T3
-         KlO+KsGT0vFjUQfuBG/ljAGI650dnb8XpBNLpv3dSLv8OnDJbn6PVpnMye3Hjjfs4Sgt
-         V+/g==
+        bh=olu9ZpnHORm1i+29Ak6tAAhMO4eKpO26fB2Ic2PEsWs=;
+        b=f33gool8sNPpAQ8E9PRq0q3GfdRUAJZ6LRSX4pIqNdZ/45SiEAicq85W9apurf9Z6e
+         vPk8V7c2sf18P/Ktliu2OUr4QQ1nM5xao4nOU9erouYMOKns12uHMMhhsR9VAa6aTnrM
+         zL03xQ7W3ZhgwG7Bwx9uURQfafY0piZ17yF9pfpWBaEtLF+g1HnYcy9glG29rU8LM3UH
+         ahAEG41+RqM33NobnsWOMDVGsGRClOCL3LN0fSTmvB66e/uJcr+fWttCylEuZng0juP/
+         mGNBFFiuLi3bmvRigV5zbuas4FWEr9/DG4l/OljRdj6V4MujVTgCl9axTxb87YrtONBK
+         lMcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758204351; x=1758809151;
+        d=1e100.net; s=20230601; t=1758204343; x=1758809143;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PX2fk3kNQZWrbnojlO3ibeQHwKoaViHHQE4H0y2gS38=;
-        b=mUMjuc0Z9bSZsSt69BHWsaCE163WkSUqEhsT8oZdhnxjT3y1FkDbNhPM2Z2NRhJg+5
-         9JJsMjrFpInQmNLJEYR/YDzKrbjrzUontiVihk4W+CFVDshPkSfl0RlgNws1EQCcaVOO
-         w4zKMZWlYGyt06d4xeKhcPafUcerm+iwHUfbNh5/dZaqDqFgb9oYgFdGfI6ZnGlN6tX+
-         35deCbmL6n3mSouU9yyFvyo4aeoKvoEDRncT4Fzg1GB2S4BQ8BWQGd8KjRm87dxdxQ64
-         ICAiJAPPUIMG6E9HqZ0XicfaTN355VZzeW7owUMyNcBjGYpwl36w5jjNlZlAy/W0ZqmO
-         usFw==
-X-Forwarded-Encrypted: i=2; AJvYcCUuDnH+HVyKTWT5jE1Dqb88gcC9KuDDbkyh4A2cEXdEm5iuUqz+30wcn0j/Sw4SMgcOI9flTQ==@lfdr.de
-X-Gm-Message-State: AOJu0YyVHkRyCeQU/urAtNqiCR5ODrDe9hQT/V6t2u/lv8VRGDvbX8KA
-	PG2x3ZUTQFO1NWxhAI7qhRFH6gu/VGLqjcSHpHzUAuwaogw6wQWx0cLC
-X-Google-Smtp-Source: AGHT+IHfC1wH6yhM21t5zskLihjtnEtjXFtwzsSK3uj8+maxraT8MjSknYPxnnSfb6qYBQhUUYK9SQ==
-X-Received: by 2002:a05:600c:450f:b0:45d:d8d6:7fcc with SMTP id 5b1f17b1804b1-46206a2b929mr54675535e9.27.1758204351434;
-        Thu, 18 Sep 2025 07:05:51 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd4mBNONBmmTGN7KNKkEiFIDTbH8aYsUNm+Pq55smyGgEA==
-Received: by 2002:a05:600c:8b76:b0:459:d42f:7dd5 with SMTP id
- 5b1f17b1804b1-4653cefee11ls6338855e9.0.-pod-prod-09-eu; Thu, 18 Sep 2025
- 07:05:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVc9SJUq2UfdFwzUY9Odeb9MhjhkTO1o2+QBjFU05iOyZw+cNrQ+QWvBxxEiT5rwI1OATk03A0Fdic=@googlegroups.com
-X-Received: by 2002:a05:600c:1d1a:b0:45d:e326:96e7 with SMTP id 5b1f17b1804b1-46206b20d8bmr53724415e9.29.1758204347317;
-        Thu, 18 Sep 2025 07:05:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1758204338; cv=none;
+        bh=olu9ZpnHORm1i+29Ak6tAAhMO4eKpO26fB2Ic2PEsWs=;
+        b=axPswFbOjMWFC0QSimnD4lqc/9tMgWFXYBLIe6gtFpj9v50JFrncCbwWhGO1PitSlE
+         fSzULkKWCN/WoFErlbvDnFc11fd1VyX6hGxITru7NNfVSdP1U2RVBEDxgMaYsFO96AwS
+         kcCi+ProdMh4DpsyzDS9OLvauDMbPQn88PEz1i+QdxPhrNivScPOVd/qFxD3ByNzycVP
+         kL43wUXmoUMaNYbqbtzZ8A4GA3zkmW6LyfyXOPBdiu9aGizzWv/8JYcf5O2jq02zqVq5
+         10yr2S90jV0lX54cTtzY0J3HypqlM7cE0B/jO15mMGwg3ybUseR9s68ZjsspfVBokxWC
+         yBrA==
+X-Forwarded-Encrypted: i=2; AJvYcCWBL5bLyBsLQHjhkSd1ctNGD/c6Faiwmtz59zsx41rkWbKIAZNUq9PXQvRpF6SJGOGlR9X6NA==@lfdr.de
+X-Gm-Message-State: AOJu0YyIahw3tOTGKc4be2UT3CxfdR4zk1RZtbC25IqK98uNKWCUi34G
+	G+DdYDcKO9OekbL8G+PaXvpMgYjDHnTfscJJlYfKXK599KvdwPL65Too
+X-Google-Smtp-Source: AGHT+IFjwrchRDxwetU27xaqZEwcJu+x5eU6uxE1O/n7NkYawjA4b6yRifrmAJplOaLKVt+fNPHyNQ==
+X-Received: by 2002:a05:6402:535b:10b0:62f:a35c:6c3d with SMTP id 4fb4d7f45d1cf-62fa35c6fddmr2710643a12.11.1758204343338;
+        Thu, 18 Sep 2025 07:05:43 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd6S/Ba+dz1+JJECDldFJHwUc4nY/FBCBvUTjZmHLJMNKg==
+Received: by 2002:a05:6402:3789:b0:62f:4bd0:6c60 with SMTP id
+ 4fb4d7f45d1cf-62fa77200a7ls652866a12.1.-pod-prod-01-eu; Thu, 18 Sep 2025
+ 07:05:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVfrQipa4ZwgoQNn8KTgcVVojbgwk+IGej523jQBDIQB+meU5qpHnABIBks9A49E1BOu4ymP00FPbg=@googlegroups.com
+X-Received: by 2002:a05:6402:13d0:b0:62f:6e4d:7add with SMTP id 4fb4d7f45d1cf-62f83a0cc5amr6360739a12.7.1758204340539;
+        Thu, 18 Sep 2025 07:05:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1758204340; cv=none;
         d=google.com; s=arc-20240605;
-        b=MqGyB2NubY/evfzYp36oWy6bjShrJg8eT+bJI5rAbrr/52Yo8iHhHwGfESgHBWVyZC
-         5GNhqaPm0FNa9L5tU5UY+BWvTuMxxmblZRLGG5nUKApROiRIdAdWVhQNddNVySaEMASj
-         3XoW8yQpQ0XJ73y74CkRt09fj4ZmsMqns+nERddBMGF1Z2KYqgzdHw0hggINbEgdncpO
-         niWivE1dI7xdWK1LYTKEpmPqJ0zT7LhgsYjIQttv1+DusP4OuMswQcgZMmzI5qrPvhfp
-         sgaTmbb3kpuyAz/B3gEIVjh5KQdbU+ow4gmTNDn+PRbDB5z/8Nc7G3du+qC/LHWQQNKH
-         kghQ==
+        b=JO31sx4wnk7JoijaZniulYKr18K+D2StlZnmjjb88P0TWtZJM8qjRdo/z/Q3i9R4XU
+         iWORbzu/KM+/4qUUYEGoUwVO0RrVmzYb2ydIEj9ACZxL+APqIrbJmK9SE+Qve7okILvp
+         JXZp3QOVNIYnvkjJKS8U+spM4spqohBbWgAWFZwxjaOz+8yzgUJq5BxOzgmzpimpcrxt
+         7Ccy5PEq8QIc8jqCeXHA2BFz5k4s46gjOjVIzlsK/OueUQNw2MYMGelqQWi24Ri2V4hO
+         hOyrk8bsO/k7wflZNx4en8oaK7k74VaWunbpoXpVuVLvDSlsvAu81poiuBybW+ATgs1v
+         LxWA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=bj3A6JwSdDEEkQDBIc6+7Le1EULqvByaO8E+vTXCoDc=;
-        fh=2Gnpn2aXwryNUAUnJXJX0VCR+y6f5bG8NtdlXlAu8dg=;
-        b=Ep+pXoNJzy+QBZcyCE98813yKYLndquLWo53hSFeqBkkvfSCD9J2p1OHP3BZ94Kd6T
-         P3pbQzO0JLBibwcmDNOB8eA2frVwFMrFta6NrcRno9DRWj7b1WT3zkJBYRoDVkUz48n1
-         vL/3EA92im92MBuDHC+qIVTOc+5jjf7G1voMLrI2PqTvFpmFnYTAmtj1BRXhpXJC6q3a
-         s82N7ldjc24R+RSkwG8DkSKayV9gmSBz7AyRU4PzVQD/m961fYZOqtNMiBYZzW4QOeow
-         yUSNrKtTKPBnA7zW44Ssd6REJ1RBo2NDDpCdcmP751HF448Z5AIuPilEsFkPgeTqmqFJ
-         zyeg==;
+        bh=PkIaNFjZ8EE9t4JDBPeqGMTocvjIYd1EXgJAVVa8hvk=;
+        fh=r9lVOVGzgsynBGOHUsjL0uC3QfE51LNMR3cW62I/mgA=;
+        b=DNDlgsDmObCm8pdBbtiyWWeqWrIZCtL6jGyvaqIMNm7nwQVklVhi9C72GzCCxKbv6Q
+         gwHNiDQESshda8IZ5cLJXIDucPuJHx4g/lztGtGzzJhKMKBIuSrnZoKguWVfsQx9QY8K
+         6S7GJ0qPBua9Ojh7345/wKR2I/oPr8tietata7Bb6xT7GGOHsJBxVrioz7zY5CIS46wa
+         El3gktqw6vbUWhdXK1xkyjgo99Vbs53NFso5o/DXnvZ4cm7pKewWh1LYNEEXPK8NmbLa
+         4eqdXAznHx4XbotuEmCJC4mOQSJB7+R1EyKdHjSNmvl6KUl+4dgfQUs+o75EQY4J3RYe
+         xr2A==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=clAAMd00;
-       spf=pass (google.com: domain of 3srhmaaukcviy5fyb08805y.w864ucu7-xyf08805y0b8e9c.w86@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3sRHMaAUKCVIy5FyB08805y.w864uCu7-xyF08805y0B8E9C.w86@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=VaKJHSLu;
+       spf=pass (google.com: domain of 3sxhmaaukcvq07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3sxHMaAUKCVQ07H0D2AA270.yA86wEw9-z0H2AA2702DAGBE.yA8@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com. [2a00:1450:4864:20::34a])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3edff885cf2si49992f8f.0.2025.09.18.07.05.38
+Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com. [2a00:1450:4864:20::349])
+        by gmr-mx.google.com with ESMTPS id 4fb4d7f45d1cf-62fa5f13997si61834a12.4.2025.09.18.07.05.40
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Sep 2025 07:05:38 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3srhmaaukcviy5fyb08805y.w864ucu7-xyf08805y0b8e9c.w86@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) client-ip=2a00:1450:4864:20::34a;
-Received: by mail-wm1-x34a.google.com with SMTP id 5b1f17b1804b1-45f2a1660fcso9386515e9.1
-        for <kasan-dev@googlegroups.com>; Thu, 18 Sep 2025 07:05:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWNppq0E1zIMKvKXlFFu6U/nyyh+GbRo8QWPDHVKix1DfMlQaHZWwHqQm4tz0AKV3Rgcm95WqQ/eDw=@googlegroups.com
-X-Received: from wrum18.prod.google.com ([2002:a5d:6a12:0:b0:3ee:15bb:3d66])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:adf:b19a:0:b0:3ec:dfe5:17d0
- with SMTP id ffacd0b85a97d-3ecdfe51b3emr3102866f8f.9.1758204337306; Thu, 18
- Sep 2025 07:05:37 -0700 (PDT)
-Date: Thu, 18 Sep 2025 15:59:15 +0200
+        Thu, 18 Sep 2025 07:05:40 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3sxhmaaukcvq07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) client-ip=2a00:1450:4864:20::349;
+Received: by mail-wm1-x349.google.com with SMTP id 5b1f17b1804b1-45b990eb77cso8078385e9.0
+        for <kasan-dev@googlegroups.com>; Thu, 18 Sep 2025 07:05:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUkGmApzemP5up4XG17TKXpGnTgxinnh9czzMPBN/WO0PFzempE/cy7ssxmfCUW/dUeS8z9t/w3IEI=@googlegroups.com
+X-Received: from wmqj11.prod.google.com ([2002:a05:600c:190b:b0:45d:db34:5091])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:6018:b0:456:942:b162
+ with SMTP id 5b1f17b1804b1-4650503b3e2mr26525245e9.11.1758204339995; Thu, 18
+ Sep 2025 07:05:39 -0700 (PDT)
+Date: Thu, 18 Sep 2025 15:59:16 +0200
 In-Reply-To: <20250918140451.1289454-1-elver@google.com>
 Mime-Version: 1.0
 References: <20250918140451.1289454-1-elver@google.com>
 X-Mailer: git-send-email 2.51.0.384.g4c02a37b29-goog
-Message-ID: <20250918140451.1289454-5-elver@google.com>
-Subject: [PATCH v3 04/35] Documentation: Add documentation for Compiler-Based
- Capability Analysis
+Message-ID: <20250918140451.1289454-6-elver@google.com>
+Subject: [PATCH v3 05/35] checkpatch: Warn about capability_unsafe() without comment
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, 
 	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>
@@ -147,9 +146,9 @@ Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenry
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=clAAMd00;       spf=pass
- (google.com: domain of 3srhmaaukcviy5fyb08805y.w864ucu7-xyf08805y0b8e9c.w86@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3sRHMaAUKCVIy5FyB08805y.w864uCu7-xyF08805y0B8E9C.w86@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b=VaKJHSLu;       spf=pass
+ (google.com: domain of 3sxhmaaukcvq07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3sxHMaAUKCVQ07H0D2AA270.yA86wEw9-z0H2AA2702DAGBE.yA8@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -166,190 +165,37 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Adds documentation in Documentation/dev-tools/capability-analysis.rst,
-and adds it to the index and cross-references from Sparse's document.
+Warn about applications of capability_unsafe() without a comment, to
+encourage documenting the reasoning behind why it was deemed safe.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
-v2:
-* Remove cross-reference to Sparse, since we plan to remove Sparse
-  support anyway.
-* Mention __no_capability_analysis should be avoided.
----
- .../dev-tools/capability-analysis.rst         | 147 ++++++++++++++++++
- Documentation/dev-tools/index.rst             |   1 +
- 2 files changed, 148 insertions(+)
- create mode 100644 Documentation/dev-tools/capability-analysis.rst
+ scripts/checkpatch.pl | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/dev-tools/capability-analysis.rst b/Documentation/dev-tools/capability-analysis.rst
-new file mode 100644
-index 000000000000..1287f792f6cd
---- /dev/null
-+++ b/Documentation/dev-tools/capability-analysis.rst
-@@ -0,0 +1,147 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. Copyright (C) 2025, Google LLC.
-+
-+.. _capability-analysis:
-+
-+Compiler-Based Capability Analysis
-+==================================
-+
-+Capability analysis is a C language extension, which enables statically
-+checking that user-definable "capabilities" are acquired and released where
-+required. An obvious application is lock-safety checking for the kernel's
-+various synchronization primitives (each of which represents a "capability"),
-+and checking that locking rules are not violated.
-+
-+The Clang compiler currently supports the full set of capability analysis
-+features. To enable for Clang, configure the kernel with::
-+
-+    CONFIG_WARN_CAPABILITY_ANALYSIS=y
-+
-+The feature requires Clang 22 or later.
-+
-+The analysis is *opt-in by default*, and requires declaring which modules and
-+subsystems should be analyzed in the respective `Makefile`::
-+
-+    CAPABILITY_ANALYSIS_mymodule.o := y
-+
-+Or for all translation units in the directory::
-+
-+    CAPABILITY_ANALYSIS := y
-+
-+It is possible to enable the analysis tree-wide, however, which will result in
-+numerous false positive warnings currently and is *not* generally recommended::
-+
-+    CONFIG_WARN_CAPABILITY_ANALYSIS_ALL=y
-+
-+Programming Model
-+-----------------
-+
-+The below describes the programming model around using capability-enabled
-+types.
-+
-+.. note::
-+   Enabling capability analysis can be seen as enabling a dialect of Linux C with
-+   a Capability System. Some valid patterns involving complex control-flow are
-+   constrained (such as conditional acquisition and later conditional release
-+   in the same function, or returning pointers to capabilities from functions.
-+
-+Capability analysis is a way to specify permissibility of operations to depend
-+on capabilities being held (or not held). Typically we are interested in
-+protecting data and code by requiring some capability to be held, for example a
-+specific lock. The analysis ensures that the caller cannot perform the
-+operation without holding the appropriate capability.
-+
-+Capabilities are associated with named structs, along with functions that
-+operate on capability-enabled struct instances to acquire and release the
-+associated capability.
-+
-+Capabilities can be held either exclusively or shared. This mechanism allows
-+assign more precise privileges when holding a capability, typically to
-+distinguish where a thread may only read (shared) or also write (exclusive) to
-+guarded data.
-+
-+The set of capabilities that are actually held by a given thread at a given
-+point in program execution is a run-time concept. The static analysis works by
-+calculating an approximation of that set, called the capability environment.
-+The capability environment is calculated for every program point, and describes
-+the set of capabilities that are statically known to be held, or not held, at
-+that particular point. This environment is a conservative approximation of the
-+full set of capabilities that will actually held by a thread at run-time.
-+
-+More details are also documented `here
-+<https://clang.llvm.org/docs/ThreadSafetyAnalysis.html>`_.
-+
-+.. note::
-+   Clang's analysis explicitly does not infer capabilities acquired or released
-+   by inline functions. It requires explicit annotations to (a) assert that
-+   it's not a bug if a capability is released or acquired, and (b) to retain
-+   consistency between inline and non-inline function declarations.
-+
-+Supported Kernel Primitives
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. Currently the following synchronization primitives are supported:
-+
-+For capabilities with an initialization function (e.g., `spin_lock_init()`),
-+calling this function on the capability instance before initializing any
-+guarded members or globals prevents the compiler from issuing warnings about
-+unguarded initialization.
-+
-+Lockdep assertions, such as `lockdep_assert_held()`, inform the compiler's
-+capability analysis that the associated synchronization primitive is held after
-+the assertion. This avoids false positives in complex control-flow scenarios
-+and encourages the use of Lockdep where static analysis is limited. For
-+example, this is useful when a function doesn't *always* require a lock, making
-+`__must_hold()` inappropriate.
-+
-+Keywords
-+~~~~~~~~
-+
-+.. kernel-doc:: include/linux/compiler-capability-analysis.h
-+   :identifiers: struct_with_capability
-+                 token_capability token_capability_instance
-+                 __guarded_by __pt_guarded_by
-+                 __must_hold
-+                 __must_not_hold
-+                 __acquires
-+                 __cond_acquires
-+                 __releases
-+                 __must_hold_shared
-+                 __acquires_shared
-+                 __cond_acquires_shared
-+                 __releases_shared
-+                 __acquire
-+                 __release
-+                 __cond_lock
-+                 __acquire_shared
-+                 __release_shared
-+                 __cond_lock_shared
-+                 capability_unsafe
-+                 __capability_unsafe
-+                 disable_capability_analysis enable_capability_analysis
-+
-+.. note::
-+   The function attribute `__no_capability_analysis` is reserved for internal
-+   implementation of capability-enabled primitives, and should be avoided in
-+   normal code.
-+
-+Background
-+----------
-+
-+Clang originally called the feature `Thread Safety Analysis
-+<https://clang.llvm.org/docs/ThreadSafetyAnalysis.html>`_, with some
-+terminology still using the thread-safety-analysis-only names. This was later
-+changed and the feature became more flexible, gaining the ability to define
-+custom "capabilities".
-+
-+Indeed, its foundations can be found in `capability systems
-+<https://www.cs.cornell.edu/talc/papers/capabilities.pdf>`_, used to specify
-+the permissibility of operations to depend on some capability being held (or
-+not held).
-+
-+Because the feature is not just able to express capabilities related to
-+synchronization primitives, the naming chosen for the kernel departs from
-+Clang's initial "Thread Safety" nomenclature and refers to the feature as
-+"Capability Analysis" to avoid confusion. The implementation still makes
-+references to the older terminology in some places, such as `-Wthread-safety`
-+being the warning option that also still appears in diagnostic messages.
-diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
-index 65c54b27a60b..62ac23f797cd 100644
---- a/Documentation/dev-tools/index.rst
-+++ b/Documentation/dev-tools/index.rst
-@@ -18,6 +18,7 @@ Documentation/process/debugging/index.rst
-    :maxdepth: 2
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index e722dd6fa8ef..532075e67a96 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -6717,6 +6717,14 @@ sub process {
+ 			}
+ 		}
  
-    testing-overview
-+   capability-analysis
-    checkpatch
-    clang-format
-    coccinelle
++# check for capability_unsafe without a comment.
++		if ($line =~ /\bcapability_unsafe\b/) {
++			if (!ctx_has_comment($first_line, $linenr)) {
++				WARN("CAPABILITY_UNSAFE",
++				     "capability_unsafe without comment\n" . $herecurr);
++			}
++		}
++
+ # check of hardware specific defines
+ 		if ($line =~ m@^.\s*\#\s*if.*\b(__i386__|__powerpc64__|__sun__|__s390x__)\b@ && $realfile !~ m@include/asm-@) {
+ 			CHK("ARCH_DEFINES",
 -- 
 2.51.0.384.g4c02a37b29-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250918140451.1289454-5-elver%40google.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250918140451.1289454-6-elver%40google.com.
