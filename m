@@ -1,124 +1,124 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBXNDWDDAMGQECZA2EJQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBYFDWDDAMGQE3WHKMQI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
-	by mail.lfdr.de (Postfix) with ESMTPS id 192D1B84FC6
-	for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 16:06:23 +0200 (CEST)
-Received: by mail-wm1-x340.google.com with SMTP id 5b1f17b1804b1-45b986a7b8asf5467725e9.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 07:06:23 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1758204382; cv=pass;
+Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04DF0B84FCC
+	for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 16:06:26 +0200 (CEST)
+Received: by mail-lj1-x23e.google.com with SMTP id 38308e7fff4ca-34cc36bd494sf5907361fa.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 07:06:25 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1758204385; cv=pass;
         d=google.com; s=arc-20240605;
-        b=lJrnUYIuMMmDBMhCq7GbNu/dZZAUyUDDVpC6tRlTtUIfbpzGM/gSk6IwsuZDRRCkid
-         m5I00FthtFf+ox+lzmtKsfmKQROSF4lgmeqkaYt73RC71ELzUqEcBZK8l/6RyyprXA6y
-         v1ihrdmVohZnl0G26yqPjlxyNQsm9hWkZPzl3qy1NOpQiqBec9f2xsX4LOcYN23HKbfF
-         0/Qc87RKAk49FZoY/ys5PaUeVE6IvBemX49WOUN7JvaXeYTbpnBdq0RN2aox5MwCzhSL
-         iR7ktmuf6LTdtjx9P1wFMrfaRgKYr82O5Ctz8tugu7TMSlz7SYWvq36A2eY/vyy6l0r0
-         LYRQ==
+        b=Z9EVh4X+sdMKoeWaQcp1HpWcyoPrALhsD/my1vkY6l7kEHMCdLy99ZQ7LLSr+nwMcx
+         E+1511fNlJe7a4vBOH6efChO99mG3I3sckSgIz9osel1906itjenLj0FRnG4zKw3wB9d
+         jgxBumWTSjq4tpDKhLA8xOZWIkAmY43qhSAeJFoqFvXltXuEb1bGVFTe1YJ72mwQ8noW
+         HDkSL/JeJJfj6/+hDsQR0h6OYVVQUEQX3cKqWPWHfYYHZe48YVHcbmiw7dTjMHJoAQ+w
+         H72KnWTm0EzJTofeo3oe214cqobViiYbsmD+oVoVozfZOBmWOXI04Rta8KSTFtd2I+CM
+         32JQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=l+5p10DDmUKbP5O+/XvyO54b1SmQztvFeYimQs10Tc0=;
-        fh=bPpHpdS5BZfS8opbihs9GrdJfQ4xw5YWv7Uy0PZqlQc=;
-        b=g5RsIO/ahcUDn+skYO4PPgZPr1VXEBR662f4dQ7K+196a0E9wzCFHgnNUAYzRa7osk
-         FzEQJimIa22wZLkBfaH7rOCUv1Sg9LGfTsFHIkVYxPcne2vPCYXx4SEFPwP+l9y7qOyD
-         kDs/eZkM8B/13Oanc4Z8YrYVxBLCohdhxgvJSaQfvU9zRzt2UWzZyI8eb+AJ/Luyp2CI
-         BBswCwJsyZs7NTnyqZ5ataIza2xtGwbP/LQl1bHkOuymGLPPzb3kZiVywqcxJPUr+Gkj
-         6yueOkyIdHvd6pp97DnLZ04yAxwUtcwL+/QRc+vuGms37lAvsq8+5GK24YgH2Q+yhLcZ
-         Be/g==;
+        bh=QCA1P/I0IbYCZmH8l+XEFrex1daiWSvMDs/J9CMb+Fs=;
+        fh=2r25MAfNFF8kbRrwVgySIk3VwDMFMJ82VebrOD8JTyY=;
+        b=Kk58oM6cOYQeBg8EPzZJQqRMsQuRNAcuQMQjrqLZkMVzduXwSWSUZavtqkLaJvo3a2
+         SXelomOT8I+64OnF7QeAozZ5TqapO5TmKxViTSDLPqgnxUNQxmz0mfZgW1yGzc4iyEAV
+         NgPcJm9KUSmLf7XAWt/ZEXrxghgJh3rpBsDfzAeuSKV/O4qhf8Gap4iGnnKnxcUxoqQx
+         Sd7eDM2JVHK+cDRPYlGAiTAt1V96L6561rMh/km0pIgr6eK0IctQvGWgvEhC/RfN6itt
+         L+uLjOIAe1ZuLDm6tS+QOllNhwy4kI+A/drJZti0kAQsyENw2qEfhDAQ67p+8frdRKMR
+         wpiQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=4IBFIX52;
-       spf=pass (google.com: domain of 32hhmaaukcxsdkudqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=32hHMaAUKCXsdkudqfnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=a5j9E88g;
+       spf=pass (google.com: domain of 33rhmaaukcx4gnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=33RHMaAUKCX4gnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1758204382; x=1758809182; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1758204385; x=1758809185; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=l+5p10DDmUKbP5O+/XvyO54b1SmQztvFeYimQs10Tc0=;
-        b=RfQC5ijr6y2pBfNKuFz1/1DDJIsKicqeHLfG0PX0wUgI/6GGx9HTbQDuyl2ljiHDa1
-         dwbfwdzobMrfZPdTIGs560kmqNTHcPC+zVkOpEW5k5apRj0AH2BwtEicWifFg9e5QDbA
-         cZB0u4wlmZ1Ka/1Lk3kaHfTSM38P0Rd9y5F2iFXv+haUgbeFesXFidFMGjhD9rZ+RH1H
-         45addJJ6VG1Z9KwOECjNXllCfsvkQK/CcvUTprj6/7P5eSkH6qQtlJec+zDvFpY3TRrW
-         2EAmw/laN51hLspXH13XmADYhpscCpkzST/4g7NF2CDPcNo4wSxndWBKJ/J3E51xGheE
-         HfqA==
+        bh=QCA1P/I0IbYCZmH8l+XEFrex1daiWSvMDs/J9CMb+Fs=;
+        b=kRFBYx1aJrOs3g7nLk5uqeEfzcdlbrBIWsvS+xD2vcFtQkJ0W4sMR1XBCYKWLY27LA
+         8yMSn/1wxe3yOt7ZzsGaP3nzTRgtdH0EjilQ14SnycTai2uUBsvW8JkYYa8CJKClIys2
+         q2iqg90MHRx8jXdvDgs7V1vbHYuqwUU52U/qPOq7j+9+MU5XvATk1RFhnhOIWWov+BvZ
+         kg47l7ge8ZjcnteB5BLbGyXhRdi1sPTq5YAWmtcC6IPztPoRArQBszLlibVeTgg4Z+b1
+         NJNbbBUswBHctRZIGA/tfVMInLcyVM0OE44tIxD538nxsW+qPone9ixog3z3pJ+BYjyg
+         u/eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758204382; x=1758809182;
+        d=1e100.net; s=20230601; t=1758204385; x=1758809185;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=l+5p10DDmUKbP5O+/XvyO54b1SmQztvFeYimQs10Tc0=;
-        b=fTGQxt3SZd4Eqv8nVFWhsW2pPvqPlQEtQ5nW7znNNyv7tcNkop6XuHcRaa1kC6YNeu
-         gTb9zb7AlS5pvsaOhoavVAEqFeIQq5PnApgenXWSwbqgjDWC67VS/9hsbiBtgczc7yxC
-         wxhxZD8Sh8kGinMp4FeolcX9LO7phby5bpK1GIYkMeOkBOU8xC3zLIaNfr4DBXHQ0FZy
-         1Ua3He84aF/LUBAzaBOfP2tapjZWknUuDsJnmjaoz/vgVhBv33HIlrXSB6lumEzzJUDd
-         SaMGTR12b4tTtPNqmTTXq+9V05dtvW+Wmoh5FF1boze5uT9pVAE9WdSMIh2PwglA2kJY
-         TTbg==
-X-Forwarded-Encrypted: i=2; AJvYcCUlGHyJ04yfdhYoyJ76oHdPYZ22CkfGhBTASubvLXOTzmcrNj8O5X65xeAL0k4JdmumRF0jbQ==@lfdr.de
-X-Gm-Message-State: AOJu0YyiM2txiyZm0oHJGZpna7ibWESGH1yAL6ojWzULfin7Q4hO8H0J
-	RzMGNGQjOpmF2/96Vq8Mj2kMGjzzHpLbZIW7c0R5Rsje4j/JMGO2HoJY
-X-Google-Smtp-Source: AGHT+IEtHxROp1Hmt8U03elkyzSO0Z8BRe+XmGH5hJ9F1zDvWLeSPFM+Vc2Xlos7F6Ol1ZczHXjQUQ==
-X-Received: by 2002:a05:6000:1889:b0:3ee:1492:aeac with SMTP id ffacd0b85a97d-3ee1492bd04mr1493923f8f.38.1758204382373;
+        bh=QCA1P/I0IbYCZmH8l+XEFrex1daiWSvMDs/J9CMb+Fs=;
+        b=INSvOfxm13DZhtGU/bnhTEDY35IJQWmPEbnpRWt42I9ZDm6jKG2PeJV/ZR+W/lFi+I
+         XOBJ8D5SRJkDKQnbzgdEZu0poUbaNcfMA5t3fJVcjBK0dqi9aQGsrKkQ8c6Wr+LlRahZ
+         zqIEqv0rI9SY7ncJVD2+tDWdqY87rgjVNWwTs++eIcHnt3lTLYXojKZJs8csh23HcB57
+         L26S24Umef2+5Iqdz+LcPHV+xDpWzZljxatQpgGOW28n7PAbdgC2iG21aGlDSlFkwEkf
+         VmTyy4Fm1HFORbVnvjpLm1Y/XnJ4qtePpiCNqc3f0vSOK0jdAIq0qu+i+7+jmIN4U6+s
+         ZdMw==
+X-Forwarded-Encrypted: i=2; AJvYcCVJ4gu3Fs3Jtp4/VVewvVjxYrAQv2WhkVn80pfrNxpyauiCaM0OLsGHij4VCWOA8DbO4BAqsw==@lfdr.de
+X-Gm-Message-State: AOJu0Yx9ZlTdWNu4h+55vpR3ajrCCwhOjESMFTuJQ/3hs4raNE4kkNbg
+	iky2y11tIgjMbrYkrkYdD0wZx9kyr0byvQuxiZbNR1dYqwc/rD1GG431
+X-Google-Smtp-Source: AGHT+IFX/TLcYtXH+Mzybad4DS7R5ovpEO0KdEswEWq7bUsgUgNQsYHvD7AvGF/kcFD57vcXzKPq6w==
+X-Received: by 2002:a2e:a545:0:b0:336:8809:676b with SMTP id 38308e7fff4ca-35f5fe9d7ebmr16709351fa.4.1758204385058;
+        Thu, 18 Sep 2025 07:06:25 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd4SiU+u5V+ZMA5h8duYtAYePPkOQPTwNZcuLjQRl5UmGw==
+Received: by 2002:a05:651c:b06:b0:332:2df3:1cb6 with SMTP id
+ 38308e7fff4ca-361c8bdaa11ls2851521fa.2.-pod-prod-02-eu; Thu, 18 Sep 2025
+ 07:06:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVq1AHXLkN8Uc10YGfuFdQfmJEs4WB0DUqvyvTjyXF+1wAkdqPIMK5+nCOLvnMWsPvR+pkFsZhsNbc=@googlegroups.com
+X-Received: by 2002:a2e:beab:0:b0:35f:fc7e:ce47 with SMTP id 38308e7fff4ca-35ffc7ed1a9mr17150141fa.40.1758204382032;
         Thu, 18 Sep 2025 07:06:22 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd4dgnapHKW0mURztJA9gSHpIAxxg+r8xrHZZGD0ItZOiQ==
-Received: by 2002:a05:6000:40ca:b0:3ed:8e48:5e0d with SMTP id
- ffacd0b85a97d-3ee106bfb24ls558934f8f.1.-pod-prod-04-eu; Thu, 18 Sep 2025
- 07:06:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWQCOxVZpkRKqpl37ot733b/m49MkzyNM1/kRN4XgxCrKFHt/QV/GfDyz5tRXwBoVvluLaYQp6Tz7o=@googlegroups.com
-X-Received: by 2002:a05:6000:2305:b0:3ec:4eeb:48db with SMTP id ffacd0b85a97d-3ecdfa52bcfmr5833959f8f.36.1758204379703;
-        Thu, 18 Sep 2025 07:06:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1758204379; cv=none;
+ARC-Seal: i=1; a=rsa-sha256; t=1758204382; cv=none;
         d=google.com; s=arc-20240605;
-        b=TotAQ6STYA/zCOlPPiOfjKaKpIUrejSXvcwwT2PfpbY4HsWMnq6UNeaOMgaC3hwwwg
-         jIX2/1++ztFjnrkxM7TeZUWB7Jr5JaotU14nkyYZpo58x4YaORwTKZ+fhHCR/sv9jUJ2
-         cezwub/LkAz7Am1+VfXP3rFtmUNXsuX/Vp0O8Geu+IcZjNf8fdRm0Mn0N5asZDEHYAsV
-         TB7L/fg4mUbAYlvDDdt67xDVAG7p7OuCplJ+TlbmmteuptNxMtoNoTnq5nUx6idP0SGF
-         iwE3qOzbdvQq4in5KsyIPSGO0G4NJwr9oyCC3vvpN64h6fnginPK6rpYQS0oqsmqiIJi
-         op9g==
+        b=ephO9gGpiSwtchx9AuFEVbFN3ABw7JApAdkeBWXsSxudXPby1EW0Ptg8wmqlKdpXHF
+         w+0mQ6bBl7CAs88jfi52ezGEKhWKXu3+tQNULK+dFzPrqc6fe7ixqPM2O4vfzRp+e2+u
+         qwcpP5ujjH1FDo40xqR+r1yTNEimBAew0NGfzqvBnVAO1jqk9/66wk+uVGiAhNrsf8r5
+         jxT23HsH3sEM6fuKooMYNbb2MD8NuSvqDHi94AwXMU+fWNyAe4c2T2nv5hoISUajx6fC
+         3wtBCB8Bm3ta/LJWhJI4eZUKdzl0MeOowElFOpyeyjqAUBHS65l4pJX7Zzmz7kcN32EE
+         wGCg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=q4us2nxi3JpTZDeL0scdeAdIw4lyPkneoFt53x8qoK8=;
-        fh=nAkILN0Y7RBmUbJHghswVDHqg5tLbNLI7IkWT+GM0+4=;
-        b=beENvOnvP54foIfbybnMwAkvbFNtONQe5S6IB+wE0VIIWtmj0O7mbXSqSBc+Kr8W+n
-         lo5SJ+ZBYULp02Sny/3JGqiU786zm+iLvENQ1De+97cYlSNfwgENRGfDE5NpbuSOAF76
-         sMxqhlt0iqYi6B8yMSIoHGAiKCV4pnTN4n/uf/X7TU0SrL44uDulja7iKdJV3efb+UsB
-         rknUVhYCgIJgzfQYFrxXVK2nTlC11rD9HsQ87fCU45Ruj6YnSgyG1bVJBRZsnIJv7J/u
-         RvtlY4Zt1X3a9kz/wdlNI5xRm8H40Punb9R8hsi6uO4IOjDbXY/N7Sa/a1XJMfUUpSvf
-         grpw==;
+        bh=ELhsFQQQ03C4hLdoxnucw/8+AkmAKW9zLdfFvUdcDbU=;
+        fh=/1/TsBh9GiEVyIFF93X1DulE5I09nwfElqmudtn/1+8=;
+        b=ie+dt5QHpievTIP61PNUJ4af+ohzR3W0y7aKzt/Ibd7vHdQsDV6hkfeqK00+77we2M
+         zltO8c1Jzzj2a5jU78MYQnfn0vVjDthNywckEZPSW5onpq1cDQ5q+eRqnAMqDa1GYE6/
+         +4ovC1yxw8ZqvqOH6s3ZbP5Kvcjcypxy9myijlyQ684ztq+2yr8gqiStzS58IJ6/ki8y
+         dK7EjPQtHcUz9G7lM1Zae1RGkGzSWmKE5XBg+7n7SLYbxh2rzl0Y63Zn75HDumIDeMSH
+         cNxHwx7O1EsJPNdOPHY3mk5+WCX9yeezj/m9ds1DusIm1OiG6g1dzTqLBRTGG5X5upCX
+         KwhQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=4IBFIX52;
-       spf=pass (google.com: domain of 32hhmaaukcxsdkudqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=32hHMaAUKCXsdkudqfnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=a5j9E88g;
+       spf=pass (google.com: domain of 33rhmaaukcx4gnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=33RHMaAUKCX4gnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-wr1-x44a.google.com (mail-wr1-x44a.google.com. [2a00:1450:4864:20::44a])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-465c53d4bcdsi330145e9.1.2025.09.18.07.06.19
+Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com. [2a00:1450:4864:20::34a])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-361a6d7c976si411721fa.5.2025.09.18.07.06.22
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Sep 2025 07:06:19 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 32hhmaaukcxsdkudqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) client-ip=2a00:1450:4864:20::44a;
-Received: by mail-wr1-x44a.google.com with SMTP id ffacd0b85a97d-3ece0cb7c9cso670150f8f.1
-        for <kasan-dev@googlegroups.com>; Thu, 18 Sep 2025 07:06:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXUytIrOGeulJi9AcLnKN7R6GKuuq8q4OJjkZriGK5hB3XpPFVDJCZg+toSwo3CwMSUeRv8lUvfyvM=@googlegroups.com
-X-Received: from wrml2.prod.google.com ([2002:adf:e582:0:b0:3ec:dab8:7d45])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:2307:b0:3e4:bb5f:ee6d
- with SMTP id ffacd0b85a97d-3ecdf9bed46mr5359337f8f.15.1758204378633; Thu, 18
- Sep 2025 07:06:18 -0700 (PDT)
-Date: Thu, 18 Sep 2025 15:59:30 +0200
+        Thu, 18 Sep 2025 07:06:22 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 33rhmaaukcx4gnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) client-ip=2a00:1450:4864:20::34a;
+Received: by mail-wm1-x34a.google.com with SMTP id 5b1f17b1804b1-45f2f15003aso6521855e9.0
+        for <kasan-dev@googlegroups.com>; Thu, 18 Sep 2025 07:06:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUfowkvAtFECpovoVdgmiI+MrBDtgccpJtS1/VcYCaPflgnLMZuKLJhaFr0NJCEPKBgARGLmpO/06c=@googlegroups.com
+X-Received: from wmbbi7.prod.google.com ([2002:a05:600c:3d87:b0:45d:d522:48a9])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:2a93:b0:462:cd41:c2f8
+ with SMTP id 5b1f17b1804b1-464c6761397mr28424195e9.5.1758204381270; Thu, 18
+ Sep 2025 07:06:21 -0700 (PDT)
+Date: Thu, 18 Sep 2025 15:59:31 +0200
 In-Reply-To: <20250918140451.1289454-1-elver@google.com>
 Mime-Version: 1.0
 References: <20250918140451.1289454-1-elver@google.com>
 X-Mailer: git-send-email 2.51.0.384.g4c02a37b29-goog
-Message-ID: <20250918140451.1289454-20-elver@google.com>
-Subject: [PATCH v3 19/35] locking/local_lock: Support Clang's capability analysis
+Message-ID: <20250918140451.1289454-21-elver@google.com>
+Subject: [PATCH v3 20/35] locking/ww_mutex: Support Clang's capability analysis
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, 
 	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>
@@ -146,9 +146,9 @@ Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenry
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=4IBFIX52;       spf=pass
- (google.com: domain of 32hhmaaukcxsdkudqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=32hHMaAUKCXsdkudqfnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b=a5j9E88g;       spf=pass
+ (google.com: domain of 33rhmaaukcx4gnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=33RHMaAUKCX4gnxgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -165,425 +165,235 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Add support for Clang's capability analysis for local_lock_t and
-local_trylock_t.
+Add support for Clang's capability analysis for ww_mutex.
+
+The programming model for ww_mutex is subtly more complex than other
+locking primitives when using ww_acquire_ctx. Encoding the respective
+pre-conditions for ww_mutex lock/unlock based on ww_acquire_ctx state
+using Clang's capability analysis makes incorrect use of the API harder.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
 v3:
-* Switch to DECLARE_LOCK_GUARD_1_ATTRS() (suggested by Peter)
 * __assert -> __assume rename
-* Rework __this_cpu_local_lock helper
-* Support local_trylock_t
+
+v2:
+* New patch.
 ---
- .../dev-tools/capability-analysis.rst         |  2 +-
- include/linux/local_lock.h                    | 45 +++++++-----
- include/linux/local_lock_internal.h           | 71 ++++++++++++++----
- lib/test_capability-analysis.c                | 73 +++++++++++++++++++
- 4 files changed, 156 insertions(+), 35 deletions(-)
+ .../dev-tools/capability-analysis.rst         |  3 +-
+ include/linux/ww_mutex.h                      | 22 ++++--
+ lib/test_capability-analysis.c                | 69 +++++++++++++++++++
+ 3 files changed, 87 insertions(+), 7 deletions(-)
 
 diff --git a/Documentation/dev-tools/capability-analysis.rst b/Documentation/dev-tools/capability-analysis.rst
-index 7a4c2238c910..9fb964e94920 100644
+index 9fb964e94920..2b89d346723b 100644
 --- a/Documentation/dev-tools/capability-analysis.rst
 +++ b/Documentation/dev-tools/capability-analysis.rst
-@@ -82,7 +82,7 @@ Supported Kernel Primitives
+@@ -82,7 +82,8 @@ Supported Kernel Primitives
  
  Currently the following synchronization primitives are supported:
  `raw_spinlock_t`, `spinlock_t`, `rwlock_t`, `mutex`, `seqlock_t`,
--`bit_spinlock`, RCU, SRCU (`srcu_struct`), `rw_semaphore`.
-+`bit_spinlock`, RCU, SRCU (`srcu_struct`), `rw_semaphore`, `local_lock_t`.
+-`bit_spinlock`, RCU, SRCU (`srcu_struct`), `rw_semaphore`, `local_lock_t`.
++`bit_spinlock`, RCU, SRCU (`srcu_struct`), `rw_semaphore`, `local_lock_t`,
++`ww_mutex`.
  
  For capabilities with an initialization function (e.g., `spin_lock_init()`),
  calling this function on the capability instance before initializing any
-diff --git a/include/linux/local_lock.h b/include/linux/local_lock.h
-index 2ba846419524..cfdca5bee89e 100644
---- a/include/linux/local_lock.h
-+++ b/include/linux/local_lock.h
-@@ -13,13 +13,13 @@
-  * local_lock - Acquire a per CPU local lock
-  * @lock:	The lock variable
-  */
--#define local_lock(lock)		__local_lock(this_cpu_ptr(lock))
-+#define local_lock(lock)		__local_lock(__this_cpu_local_lock(lock))
+diff --git a/include/linux/ww_mutex.h b/include/linux/ww_mutex.h
+index 45ff6f7a872b..549d75aee76a 100644
+--- a/include/linux/ww_mutex.h
++++ b/include/linux/ww_mutex.h
+@@ -44,7 +44,7 @@ struct ww_class {
+ 	unsigned int is_wait_die;
+ };
  
- /**
-  * local_lock_irq - Acquire a per CPU local lock and disable interrupts
-  * @lock:	The lock variable
-  */
--#define local_lock_irq(lock)		__local_lock_irq(this_cpu_ptr(lock))
-+#define local_lock_irq(lock)		__local_lock_irq(__this_cpu_local_lock(lock))
- 
- /**
-  * local_lock_irqsave - Acquire a per CPU local lock, save and disable
-@@ -28,19 +28,19 @@
-  * @flags:	Storage for interrupt flags
-  */
- #define local_lock_irqsave(lock, flags)				\
--	__local_lock_irqsave(this_cpu_ptr(lock), flags)
-+	__local_lock_irqsave(__this_cpu_local_lock(lock), flags)
- 
- /**
-  * local_unlock - Release a per CPU local lock
-  * @lock:	The lock variable
-  */
--#define local_unlock(lock)		__local_unlock(this_cpu_ptr(lock))
-+#define local_unlock(lock)		__local_unlock(__this_cpu_local_lock(lock))
- 
- /**
-  * local_unlock_irq - Release a per CPU local lock and enable interrupts
-  * @lock:	The lock variable
-  */
--#define local_unlock_irq(lock)		__local_unlock_irq(this_cpu_ptr(lock))
-+#define local_unlock_irq(lock)		__local_unlock_irq(__this_cpu_local_lock(lock))
- 
- /**
-  * local_unlock_irqrestore - Release a per CPU local lock and restore
-@@ -49,7 +49,7 @@
-  * @flags:      Interrupt flags to restore
-  */
- #define local_unlock_irqrestore(lock, flags)			\
--	__local_unlock_irqrestore(this_cpu_ptr(lock), flags)
-+	__local_unlock_irqrestore(__this_cpu_local_lock(lock), flags)
- 
- /**
-  * local_lock_init - Runtime initialize a lock instance
-@@ -64,7 +64,7 @@
-  * locking constrains it will _always_ fail to acquire the lock in NMI or
-  * HARDIRQ context on PREEMPT_RT.
-  */
--#define local_trylock(lock)		__local_trylock(this_cpu_ptr(lock))
-+#define local_trylock(lock)		__local_trylock(__this_cpu_local_lock(lock))
- 
- /**
-  * local_trylock_irqsave - Try to acquire a per CPU local lock, save and disable
-@@ -77,27 +77,32 @@
-  * HARDIRQ context on PREEMPT_RT.
-  */
- #define local_trylock_irqsave(lock, flags)			\
--	__local_trylock_irqsave(this_cpu_ptr(lock), flags)
--
--DEFINE_GUARD(local_lock, local_lock_t __percpu*,
--	     local_lock(_T),
--	     local_unlock(_T))
--DEFINE_GUARD(local_lock_irq, local_lock_t __percpu*,
--	     local_lock_irq(_T),
--	     local_unlock_irq(_T))
-+	__local_trylock_irqsave(__this_cpu_local_lock(lock), flags)
-+
-+DEFINE_LOCK_GUARD_1(local_lock, local_lock_t __percpu,
-+		    local_lock(_T->lock),
-+		    local_unlock(_T->lock))
-+DEFINE_LOCK_GUARD_1(local_lock_irq, local_lock_t __percpu,
-+		    local_lock_irq(_T->lock),
-+		    local_unlock_irq(_T->lock))
- DEFINE_LOCK_GUARD_1(local_lock_irqsave, local_lock_t __percpu,
- 		    local_lock_irqsave(_T->lock, _T->flags),
- 		    local_unlock_irqrestore(_T->lock, _T->flags),
- 		    unsigned long flags)
- 
- #define local_lock_nested_bh(_lock)				\
--	__local_lock_nested_bh(this_cpu_ptr(_lock))
-+	__local_lock_nested_bh(__this_cpu_local_lock(_lock))
- 
- #define local_unlock_nested_bh(_lock)				\
--	__local_unlock_nested_bh(this_cpu_ptr(_lock))
-+	__local_unlock_nested_bh(__this_cpu_local_lock(_lock))
- 
--DEFINE_GUARD(local_lock_nested_bh, local_lock_t __percpu*,
--	     local_lock_nested_bh(_T),
--	     local_unlock_nested_bh(_T))
-+DEFINE_LOCK_GUARD_1(local_lock_nested_bh, local_lock_t __percpu,
-+		    local_lock_nested_bh(_T->lock),
-+		    local_unlock_nested_bh(_T->lock))
-+
-+DECLARE_LOCK_GUARD_1_ATTRS(local_lock, __assumes_cap(_T), /* */)
-+DECLARE_LOCK_GUARD_1_ATTRS(local_lock_irq, __assumes_cap(_T), /* */)
-+DECLARE_LOCK_GUARD_1_ATTRS(local_lock_irqsave, __assumes_cap(_T), /* */)
-+DECLARE_LOCK_GUARD_1_ATTRS(local_lock_nested_bh, __assumes_cap(_T), /* */)
- 
+-struct ww_mutex {
++struct_with_capability(ww_mutex) {
+ 	struct WW_MUTEX_BASE base;
+ 	struct ww_acquire_ctx *ctx;
+ #ifdef DEBUG_WW_MUTEXES
+@@ -52,7 +52,7 @@ struct ww_mutex {
  #endif
-diff --git a/include/linux/local_lock_internal.h b/include/linux/local_lock_internal.h
-index 4c0e117d2d08..22ffaf06d9eb 100644
---- a/include/linux/local_lock_internal.h
-+++ b/include/linux/local_lock_internal.h
-@@ -10,18 +10,20 @@
+ };
  
+-struct ww_acquire_ctx {
++struct_with_capability(ww_acquire_ctx) {
+ 	struct task_struct *task;
+ 	unsigned long stamp;
+ 	unsigned int acquired;
+@@ -107,6 +107,7 @@ struct ww_acquire_ctx {
+  */
+ static inline void ww_mutex_init(struct ww_mutex *lock,
+ 				 struct ww_class *ww_class)
++	__assumes_cap(lock)
+ {
+ 	ww_mutex_base_init(&lock->base, ww_class->mutex_name, &ww_class->mutex_key);
+ 	lock->ctx = NULL;
+@@ -141,6 +142,7 @@ static inline void ww_mutex_init(struct ww_mutex *lock,
+  */
+ static inline void ww_acquire_init(struct ww_acquire_ctx *ctx,
+ 				   struct ww_class *ww_class)
++	__acquires(ctx) __no_capability_analysis
+ {
+ 	ctx->task = current;
+ 	ctx->stamp = atomic_long_inc_return_relaxed(&ww_class->stamp);
+@@ -179,6 +181,7 @@ static inline void ww_acquire_init(struct ww_acquire_ctx *ctx,
+  * data structures.
+  */
+ static inline void ww_acquire_done(struct ww_acquire_ctx *ctx)
++	__releases(ctx) __acquires_shared(ctx) __no_capability_analysis
+ {
+ #ifdef DEBUG_WW_MUTEXES
+ 	lockdep_assert_held(ctx);
+@@ -196,6 +199,7 @@ static inline void ww_acquire_done(struct ww_acquire_ctx *ctx)
+  * mutexes have been released with ww_mutex_unlock.
+  */
+ static inline void ww_acquire_fini(struct ww_acquire_ctx *ctx)
++	__releases_shared(ctx) __no_capability_analysis
+ {
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ 	mutex_release(&ctx->first_lock_dep_map, _THIS_IP_);
+@@ -245,7 +249,8 @@ static inline void ww_acquire_fini(struct ww_acquire_ctx *ctx)
+  *
+  * A mutex acquired with this function must be released with ww_mutex_unlock.
+  */
+-extern int /* __must_check */ ww_mutex_lock(struct ww_mutex *lock, struct ww_acquire_ctx *ctx);
++extern int /* __must_check */ ww_mutex_lock(struct ww_mutex *lock, struct ww_acquire_ctx *ctx)
++	__cond_acquires(0, lock) __must_hold(ctx);
+ 
+ /**
+  * ww_mutex_lock_interruptible - acquire the w/w mutex, interruptible
+@@ -278,7 +283,8 @@ extern int /* __must_check */ ww_mutex_lock(struct ww_mutex *lock, struct ww_acq
+  * A mutex acquired with this function must be released with ww_mutex_unlock.
+  */
+ extern int __must_check ww_mutex_lock_interruptible(struct ww_mutex *lock,
+-						    struct ww_acquire_ctx *ctx);
++						    struct ww_acquire_ctx *ctx)
++	__cond_acquires(0, lock) __must_hold(ctx);
+ 
+ /**
+  * ww_mutex_lock_slow - slowpath acquiring of the w/w mutex
+@@ -305,6 +311,7 @@ extern int __must_check ww_mutex_lock_interruptible(struct ww_mutex *lock,
+  */
+ static inline void
+ ww_mutex_lock_slow(struct ww_mutex *lock, struct ww_acquire_ctx *ctx)
++	__acquires(lock) __must_hold(ctx) __no_capability_analysis
+ {
+ 	int ret;
+ #ifdef DEBUG_WW_MUTEXES
+@@ -342,6 +349,7 @@ ww_mutex_lock_slow(struct ww_mutex *lock, struct ww_acquire_ctx *ctx)
+ static inline int __must_check
+ ww_mutex_lock_slow_interruptible(struct ww_mutex *lock,
+ 				 struct ww_acquire_ctx *ctx)
++	__cond_acquires(0, lock) __must_hold(ctx)
+ {
+ #ifdef DEBUG_WW_MUTEXES
+ 	DEBUG_LOCKS_WARN_ON(!ctx->contending_lock);
+@@ -349,10 +357,11 @@ ww_mutex_lock_slow_interruptible(struct ww_mutex *lock,
+ 	return ww_mutex_lock_interruptible(lock, ctx);
+ }
+ 
+-extern void ww_mutex_unlock(struct ww_mutex *lock);
++extern void ww_mutex_unlock(struct ww_mutex *lock) __releases(lock);
+ 
+ extern int __must_check ww_mutex_trylock(struct ww_mutex *lock,
+-					 struct ww_acquire_ctx *ctx);
++					 struct ww_acquire_ctx *ctx)
++	__cond_acquires(true, lock) __must_hold(ctx);
+ 
+ /***
+  * ww_mutex_destroy - mark a w/w mutex unusable
+@@ -363,6 +372,7 @@ extern int __must_check ww_mutex_trylock(struct ww_mutex *lock,
+  * this function is called.
+  */
+ static inline void ww_mutex_destroy(struct ww_mutex *lock)
++	__must_not_hold(lock)
+ {
  #ifndef CONFIG_PREEMPT_RT
- 
--typedef struct {
-+struct_with_capability(local_lock) {
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
- 	struct lockdep_map	dep_map;
- 	struct task_struct	*owner;
- #endif
--} local_lock_t;
-+};
-+typedef struct local_lock local_lock_t;
- 
- /* local_trylock() and local_trylock_irqsave() only work with local_trylock_t */
--typedef struct {
-+struct_with_capability(local_trylock) {
- 	local_lock_t	llock;
- 	u8		acquired;
--} local_trylock_t;
-+};
-+typedef struct local_trylock local_trylock_t;
- 
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
- # define LOCAL_LOCK_DEBUG_INIT(lockname)		\
-@@ -81,9 +83,14 @@ do {								\
- 			      0, LD_WAIT_CONFIG, LD_WAIT_INV,	\
- 			      LD_LOCK_PERCPU);			\
- 	local_lock_debug_init(lock);				\
-+	__assume_cap(lock);					\
- } while (0)
- 
--#define __local_trylock_init(lock) __local_lock_init(lock.llock)
-+#define __local_trylock_init(lock)				\
-+do {								\
-+	__local_lock_init(lock.llock);				\
-+	__assume_cap(lock);					\
-+} while (0)
- 
- #define __spinlock_nested_bh_init(lock)				\
- do {								\
-@@ -94,6 +101,7 @@ do {								\
- 			      0, LD_WAIT_CONFIG, LD_WAIT_INV,	\
- 			      LD_LOCK_NORMAL);			\
- 	local_lock_debug_init(lock);				\
-+	__assume_cap(lock);					\
- } while (0)
- 
- #define __local_lock_acquire(lock)					\
-@@ -116,22 +124,25 @@ do {								\
- 	do {							\
- 		preempt_disable();				\
- 		__local_lock_acquire(lock);			\
-+		__acquire(lock);				\
- 	} while (0)
- 
- #define __local_lock_irq(lock)					\
- 	do {							\
- 		local_irq_disable();				\
- 		__local_lock_acquire(lock);			\
-+		__acquire(lock);				\
- 	} while (0)
- 
- #define __local_lock_irqsave(lock, flags)			\
- 	do {							\
- 		local_irq_save(flags);				\
- 		__local_lock_acquire(lock);			\
-+		__acquire(lock);				\
- 	} while (0)
- 
- #define __local_trylock(lock)					\
--	({							\
-+	__try_acquire_cap(lock, ({				\
- 		local_trylock_t *tl;				\
- 								\
- 		preempt_disable();				\
-@@ -145,10 +156,10 @@ do {								\
- 				(local_lock_t *)tl);		\
- 		}						\
- 		!!tl;						\
--	})
-+	}))
- 
- #define __local_trylock_irqsave(lock, flags)			\
--	({							\
-+	__try_acquire_cap(lock, ({				\
- 		local_trylock_t *tl;				\
- 								\
- 		local_irq_save(flags);				\
-@@ -162,7 +173,7 @@ do {								\
- 				(local_lock_t *)tl);		\
- 		}						\
- 		!!tl;						\
--	})
-+	}))
- 
- #define __local_lock_release(lock)					\
- 	do {								\
-@@ -182,18 +193,21 @@ do {								\
- 
- #define __local_unlock(lock)					\
- 	do {							\
-+		__release(lock);				\
- 		__local_lock_release(lock);			\
- 		preempt_enable();				\
- 	} while (0)
- 
- #define __local_unlock_irq(lock)				\
- 	do {							\
-+		__release(lock);				\
- 		__local_lock_release(lock);			\
- 		local_irq_enable();				\
- 	} while (0)
- 
- #define __local_unlock_irqrestore(lock, flags)			\
- 	do {							\
-+		__release(lock);				\
- 		__local_lock_release(lock);			\
- 		local_irq_restore(flags);			\
- 	} while (0)
-@@ -202,13 +216,19 @@ do {								\
- 	do {							\
- 		lockdep_assert_in_softirq();			\
- 		local_lock_acquire((lock));			\
-+		__acquire(lock);				\
- 	} while (0)
- 
- #define __local_unlock_nested_bh(lock)				\
--	local_lock_release((lock))
-+	do {							\
-+		__release(lock);				\
-+		local_lock_release((lock));			\
-+	} while (0)
- 
- #else /* !CONFIG_PREEMPT_RT */
- 
-+#include <linux/spinlock.h>
-+
- /*
-  * On PREEMPT_RT local_lock maps to a per CPU spinlock, which protects the
-  * critical section while staying preemptible.
-@@ -263,7 +283,7 @@ do {								\
- } while (0)
- 
- #define __local_trylock(lock)					\
--	({							\
-+	__try_acquire_cap(lock, capability_unsafe(({		\
- 		int __locked;					\
- 								\
- 		if (in_nmi() | in_hardirq()) {			\
-@@ -275,13 +295,36 @@ do {								\
- 				migrate_enable();		\
- 		}						\
- 		__locked;					\
--	})
-+	})))
- 
- #define __local_trylock_irqsave(lock, flags)			\
--	({							\
-+	__try_acquire_cap(lock, ({				\
- 		typecheck(unsigned long, flags);		\
- 		flags = 0;					\
- 		__local_trylock(lock);				\
--	})
-+	}))
-+
-+#endif /* CONFIG_PREEMPT_RT */
- 
-+#if defined(WARN_CAPABILITY_ANALYSIS)
-+/*
-+ * Because the compiler only knows about the base per-CPU variable, use this
-+ * helper function to make the compiler think we lock/unlock the @base variable,
-+ * and hide the fact we actually pass the per-CPU instance to lock/unlock
-+ * functions.
-+ */
-+static __always_inline local_lock_t *__this_cpu_local_lock(local_lock_t __percpu *base)
-+	__returns_cap(base) __attribute__((overloadable))
-+{
-+	return this_cpu_ptr(base);
-+}
-+#ifndef CONFIG_PREEMPT_RT
-+static __always_inline local_trylock_t *__this_cpu_local_lock(local_trylock_t __percpu *base)
-+	__returns_cap(base) __attribute__((overloadable))
-+{
-+	return this_cpu_ptr(base);
-+}
- #endif /* CONFIG_PREEMPT_RT */
-+#else  /* WARN_CAPABILITY_ANALYSIS */
-+#define __this_cpu_local_lock(base) this_cpu_ptr(base)
-+#endif /* WARN_CAPABILITY_ANALYSIS */
+ 	mutex_destroy(&lock->base);
 diff --git a/lib/test_capability-analysis.c b/lib/test_capability-analysis.c
-index 3c6dad0ba065..e506dadb3933 100644
+index e506dadb3933..12fd9716f0a4 100644
 --- a/lib/test_capability-analysis.c
 +++ b/lib/test_capability-analysis.c
-@@ -6,7 +6,9 @@
- 
- #include <linux/bit_spinlock.h>
- #include <linux/build_bug.h>
-+#include <linux/local_lock.h>
- #include <linux/mutex.h>
-+#include <linux/percpu.h>
- #include <linux/rcupdate.h>
- #include <linux/rwsem.h>
+@@ -14,6 +14,7 @@
  #include <linux/seqlock.h>
-@@ -450,3 +452,74 @@ static void __used test_srcu_guard(struct test_srcu_data *d)
- 	guard(srcu)(&d->srcu);
- 	(void)srcu_dereference(d->data, &d->srcu);
+ #include <linux/spinlock.h>
+ #include <linux/srcu.h>
++#include <linux/ww_mutex.h>
+ 
+ /*
+  * Test that helper macros work as expected.
+@@ -523,3 +524,71 @@ static void __used test_local_trylock(void)
+ 		local_unlock(&test_local_trylock_data.lock);
+ 	}
  }
 +
-+struct test_local_lock_data {
-+	local_lock_t lock;
-+	int counter __guarded_by(&lock);
++static DEFINE_WD_CLASS(ww_class);
++
++struct test_ww_mutex_data {
++	struct ww_mutex mtx;
++	int counter __guarded_by(&mtx);
 +};
 +
-+static DEFINE_PER_CPU(struct test_local_lock_data, test_local_lock_data) = {
-+	.lock = INIT_LOCAL_LOCK(lock),
-+};
-+
-+static void __used test_local_lock_init(struct test_local_lock_data *d)
++static void __used test_ww_mutex_init(struct test_ww_mutex_data *d)
 +{
-+	local_lock_init(&d->lock);
++	ww_mutex_init(&d->mtx, &ww_class);
 +	d->counter = 0;
 +}
 +
-+static void __used test_local_lock(void)
++static void __used test_ww_mutex_lock_noctx(struct test_ww_mutex_data *d)
 +{
-+	unsigned long flags;
-+
-+	local_lock(&test_local_lock_data.lock);
-+	this_cpu_add(test_local_lock_data.counter, 1);
-+	local_unlock(&test_local_lock_data.lock);
-+
-+	local_lock_irq(&test_local_lock_data.lock);
-+	this_cpu_add(test_local_lock_data.counter, 1);
-+	local_unlock_irq(&test_local_lock_data.lock);
-+
-+	local_lock_irqsave(&test_local_lock_data.lock, flags);
-+	this_cpu_add(test_local_lock_data.counter, 1);
-+	local_unlock_irqrestore(&test_local_lock_data.lock, flags);
-+
-+	local_lock_nested_bh(&test_local_lock_data.lock);
-+	this_cpu_add(test_local_lock_data.counter, 1);
-+	local_unlock_nested_bh(&test_local_lock_data.lock);
-+}
-+
-+static void __used test_local_lock_guard(void)
-+{
-+	{ guard(local_lock)(&test_local_lock_data.lock); this_cpu_add(test_local_lock_data.counter, 1); }
-+	{ guard(local_lock_irq)(&test_local_lock_data.lock); this_cpu_add(test_local_lock_data.counter, 1); }
-+	{ guard(local_lock_irqsave)(&test_local_lock_data.lock); this_cpu_add(test_local_lock_data.counter, 1); }
-+	{ guard(local_lock_nested_bh)(&test_local_lock_data.lock); this_cpu_add(test_local_lock_data.counter, 1); }
-+}
-+
-+struct test_local_trylock_data {
-+	local_trylock_t lock;
-+	int counter __guarded_by(&lock);
-+};
-+
-+static DEFINE_PER_CPU(struct test_local_trylock_data, test_local_trylock_data) = {
-+	.lock = INIT_LOCAL_TRYLOCK(lock),
-+};
-+
-+static void __used test_local_trylock_init(struct test_local_trylock_data *d)
-+{
-+	local_trylock_init(&d->lock);
-+	d->counter = 0;
-+}
-+
-+static void __used test_local_trylock(void)
-+{
-+	local_lock(&test_local_trylock_data.lock);
-+	this_cpu_add(test_local_trylock_data.counter, 1);
-+	local_unlock(&test_local_trylock_data.lock);
-+
-+	if (local_trylock(&test_local_trylock_data.lock)) {
-+		this_cpu_add(test_local_trylock_data.counter, 1);
-+		local_unlock(&test_local_trylock_data.lock);
++	if (!ww_mutex_lock(&d->mtx, NULL)) {
++		d->counter++;
++		ww_mutex_unlock(&d->mtx);
 +	}
++
++	if (!ww_mutex_lock_interruptible(&d->mtx, NULL)) {
++		d->counter++;
++		ww_mutex_unlock(&d->mtx);
++	}
++
++	if (ww_mutex_trylock(&d->mtx, NULL)) {
++		d->counter++;
++		ww_mutex_unlock(&d->mtx);
++	}
++
++	ww_mutex_lock_slow(&d->mtx, NULL);
++	d->counter++;
++	ww_mutex_unlock(&d->mtx);
++
++	ww_mutex_destroy(&d->mtx);
++}
++
++static void __used test_ww_mutex_lock_ctx(struct test_ww_mutex_data *d)
++{
++	struct ww_acquire_ctx ctx;
++
++	ww_acquire_init(&ctx, &ww_class);
++
++	if (!ww_mutex_lock(&d->mtx, &ctx)) {
++		d->counter++;
++		ww_mutex_unlock(&d->mtx);
++	}
++
++	if (!ww_mutex_lock_interruptible(&d->mtx, &ctx)) {
++		d->counter++;
++		ww_mutex_unlock(&d->mtx);
++	}
++
++	if (ww_mutex_trylock(&d->mtx, &ctx)) {
++		d->counter++;
++		ww_mutex_unlock(&d->mtx);
++	}
++
++	ww_mutex_lock_slow(&d->mtx, &ctx);
++	d->counter++;
++	ww_mutex_unlock(&d->mtx);
++
++	ww_acquire_done(&ctx);
++	ww_acquire_fini(&ctx);
++
++	ww_mutex_destroy(&d->mtx);
 +}
 -- 
 2.51.0.384.g4c02a37b29-goog
@@ -591,4 +401,4 @@ index 3c6dad0ba065..e506dadb3933 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250918140451.1289454-20-elver%40google.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250918140451.1289454-21-elver%40google.com.
