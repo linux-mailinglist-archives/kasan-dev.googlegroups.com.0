@@ -1,119 +1,124 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBKNDWDDAMGQEXGZHL2Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBLFDWDDAMGQE5PLJWGY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75227B84F5A
-	for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 16:05:31 +0200 (CEST)
-Received: by mail-wm1-x33a.google.com with SMTP id 5b1f17b1804b1-45cb612d362sf5694235e9.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 07:05:31 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1758204331; cv=pass;
+Received: from mail-wr1-x438.google.com (mail-wr1-x438.google.com [IPv6:2a00:1450:4864:20::438])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C5C3B84F5D
+	for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 16:05:34 +0200 (CEST)
+Received: by mail-wr1-x438.google.com with SMTP id ffacd0b85a97d-3ee10a24246sf556280f8f.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 07:05:34 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1758204334; cv=pass;
         d=google.com; s=arc-20240605;
-        b=TM0r//ntRYy9Dy4k4QNG42LcMj+ehgNo4EqcWXYTdnM6M7h+V9LSof3GqugrWp4ykp
-         /q+4Z0xv1JdIG5fxqi1HKYC7Jn6R74yp7OMctGmFNLz9p33IRpJAPyCOroLljI6e93Ed
-         ObuX3b6PC3FvCpLLWjAZGGLptpXnrgaHyego+pZ4nRzSvNI4TrqZVpELtCVV24cNmNmU
-         qk/vu+K5CAkqEsbjAQm+qidOMqdhWd6vEhojsUVLyPMt2ssS00MpcRA6/455KXuhm34I
-         gHS8KIzRygP7xHAbvXTEbcsNiPMQrrE44+qXCx9lqLIJFy+69H5MSsWte9jdH8fd9MI0
-         5qCg==
+        b=k2NS/TWqQGFHzTQKHsHUbDK/tZcCu3Bd+WbW38Xuve4AmkSWgYSQMvXHgExtMhDQ6w
+         UhmOr/+xaeWn3LkF5+1fJ6jpf3mm/T4URCCj4e0GO1lNIWwzh+2dlOoqDCuNdc+zKhdQ
+         7sQ3id59jFVHO0UrL5QwgVE91oLCd+WkvFmt2EqsO+358WpfIS55tSdAEx68YXu0fI4d
+         O+IpsH74A6BYC1R3j0t/EsbAFx3mAgzOlv5UPf63Nc3bmUdBCChkOEEyKYzjQJC2laRG
+         AmePcH6Q8uUqdtZoAmJ7Lgdh3tD4vpDVaYiRsOVDW40IuP2E+Lo4LDqP9xNvaPITavNp
+         IHPQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :message-id:mime-version:date:dkim-signature;
-        bh=iF7gvMn6pEcdEOfGZ5NSZvrS4V0ApwlOyM/ZqEUbMWI=;
-        fh=TbLHt4xtOgEpuyg84uOrX5bV1jxVVoHGchnG35zdtF8=;
-        b=OFNXVZojGskkFETEBSsICEqFGo60EKm009UzHF/pSnE9HWaAIdWA1wfAGCJb6osw2U
-         NhADAFvQzJyL5b8a59sQ+1nbVEovMLA7IqzKojYj+ho4RrjaHPAKMfzbEdh27qU7h6VY
-         B/gmfZ+6nd8WF2dzzpekNbDYaNCdVq86l1yKrn9pg/4Wg/ER7rwAJJFm6cedUu6AarBz
-         AtGmjJoaxEpX//pQqH+nujkoMWdTQ2Vu/QVMw1zgzCUeu0Is3xazFD01ozY52Zc0Pf1G
-         cpRSy4pNWISk0nTUgVRrjrhqiOerVmRNteiCzRlCP4Jj76E0QHu1DcOht6gA7mRxs4zC
-         hNZw==;
+         :message-id:references:mime-version:in-reply-to:date:dkim-signature;
+        bh=+f8FYm3pUOH+rjDyBb9Dvx/IsJXY4WY1d1Gg78fHG8w=;
+        fh=bTZbN+3uNbC+eZ1PNMqKonUuilHqyyawnxrjLziU3vE=;
+        b=TtH7JzXTOe4a3Smy7+z0cr8DoLl4V5VHtMFl7CV7IGAci+N+EYjfWzcIuA0Schace5
+         F+AWyd9IhVtC6RV4X6B4mkMxCwPqWD36OykDm+mRa724vfX1NU2WPQsoitPUbfAlHHfT
+         SYdPXEOxYGNgGjrExYmaLHTHwzLEMbTeoZIHEQ/eEyRubyeQJJEWExXYhHvpvW2ivLu0
+         ZL2byoH7pit5gAC59UGkzNAczx6MG1E/Uq1gxII654L2zONwuMU4rEmZbpUxTk5+Vdy8
+         uDGGnnKJb/18u5YCWOhyayCuIDWpWTINF6FSCmzj2gYb72cgEhuYO/4uP43AtoyDcnaX
+         1gIQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=Ee0aem4i;
-       spf=pass (google.com: domain of 3phhmaaukcucnu4n0pxxpun.lxvtj1jw-mn4pxxpunp0x3y1.lxv@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3phHMaAUKCUcnu4n0pxxpun.lxvtj1jw-mn4pxxpunp0x3y1.lxv@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=U5DEwdcl;
+       spf=pass (google.com: domain of 3qrhmaaukcuoqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3qRHMaAUKCUoqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1758204331; x=1758809131; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1758204334; x=1758809134; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iF7gvMn6pEcdEOfGZ5NSZvrS4V0ApwlOyM/ZqEUbMWI=;
-        b=wJGuA3uGdW86oirteaj9ieB6HYsnE+6ygila209fgUK19PaVcRqeKm1bp465/Hzp0G
-         IqCYY/Pysyn+7bEwQ7GK6s8kDP69zN/od2zX9rPtI1oK9T8Y20kmL+wtoKwx/qmxJDQz
-         H19PCFrs1tXaNgPrl2VDcLvJr1vsbSdAeUSoAZGl5mfNvOShoGAijOLkUen9+TrBy2mG
-         5nj9UAtLUa/w+w7stPOfuxHyCGpaRQ8cM/GCz23o9JewQzJJpxAiDzQ4TEsyAyS5QuxK
-         zHF5KnOSEGVrS6gvTD+5wWAnMrdF47UlTnbe9jXwpicdsbz9CsRWiI9QrljdmN6a03tm
-         ABww==
+         :subject:message-id:references:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+f8FYm3pUOH+rjDyBb9Dvx/IsJXY4WY1d1Gg78fHG8w=;
+        b=OoE9Yx/L9Vltb6Ds4HKjFiBNrnIjeKbj8uIv/AZ67q8isMvqqkrp0Jel7PGZzwGG7x
+         xvLVe1Yd/2XoniFtnBkd5flPX9nZcQry94LR4fm5LE4vNJb0HNUIwZHdy3iY6OKeZOTY
+         rWkKX5WeQs+upj83bRgfjghIepD6qCrtNDZlG03ofyzpjFAmrBlwe+3toItBLovSrAGf
+         lXWlex9kJHpXMxH/6waG/OIy+5oaEOhhzvFco8TcmvPHoJo7yuU0XHPI7y2IvPzS8Opm
+         s8nAf2u8BSKjvIlXYTIopetiUcEGqHYBUVab0AhqqNnJAhlA0TLy7l8GM15nQEPCEB8F
+         +j3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758204331; x=1758809131;
+        d=1e100.net; s=20230601; t=1758204334; x=1758809134;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iF7gvMn6pEcdEOfGZ5NSZvrS4V0ApwlOyM/ZqEUbMWI=;
-        b=ZsuNlY6fsGPI2UyQ5+jSIov4Ds2MSwhUqKSeX7+EJjiGMzZMnGpmrJt4s2RS9y1ib3
-         jG7LMNNDfy188isgtHOSlkVg4OXLopNmDqBH9SrAxNq+0G3e79N5SsXmsru3Pld54PEb
-         pLTUeeHWkRJRNdoOxPKoFDfAv5XZjfcsI0Ra9yEoTR/H2fH2priuDKlwK3iX/1MyUK1q
-         8rZPyilDSZPxZvz8eIRPHikGiSm9cz8vuf+kKEH8Pzfv/fLr7Zn4Q3nGn9drNAQXZFel
-         uUZK/NtSbbsSB9uxGosZoM3RSEE8cdjIhLyTbJvTjFD1vSH6iKCjfpXC2ndl4E6hhxRQ
-         LWlA==
-X-Forwarded-Encrypted: i=2; AJvYcCWfFLaqPcMcO2NQg8UfYERZBYHw+9ocffeURIBcj45etzprrya0+d2y4x1gKJNjeBqPfDLCOQ==@lfdr.de
-X-Gm-Message-State: AOJu0YwiNf62irUt1IIFD05sJeo1/wUzTRwqfk5ux+gMdOUqYsJEVer/
-	4biwR3lWXXwWFnU2s+cNVZKIO8pZjfv5mZG5PuH40UWKxtIuQA5ZjOiN
-X-Google-Smtp-Source: AGHT+IF8TyPA3cppMZwLyxpo4w3J8Jxv89W6h1H7thTU1FblXY0td96e18mco40Ob+lpHq+1Twj6cA==
-X-Received: by 2002:a05:600c:468f:b0:45f:28c9:4261 with SMTP id 5b1f17b1804b1-46205adf781mr56380535e9.20.1758204330291;
-        Thu, 18 Sep 2025 07:05:30 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd4V24aP3qK3LW9ovIO+91VQMvN4baSfh0bpof59Kajqaw==
-Received: by 2002:a5d:5d0f:0:b0:3da:cb77:e987 with SMTP id ffacd0b85a97d-3ee10310db2ls389013f8f.0.-pod-prod-06-eu;
- Thu, 18 Sep 2025 07:05:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWXj5ulpH79Q1kubMpG4TRf6EpSHzfG8w80H71Oiu/wnbo2IvBLzoiWMYAZtm6+8i2aE0hGYfyDvig=@googlegroups.com
-X-Received: by 2002:a05:6000:178e:b0:3ea:124c:8fb7 with SMTP id ffacd0b85a97d-3ecdfa4e102mr5894934f8f.48.1758204327390;
-        Thu, 18 Sep 2025 07:05:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1758204327; cv=none;
+         :subject:message-id:references:mime-version:in-reply-to:date
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+f8FYm3pUOH+rjDyBb9Dvx/IsJXY4WY1d1Gg78fHG8w=;
+        b=RLei8gvFoCe1y3SRLKhXGIu3xj7vZANuB7lPfRA6WPwdeqRba3LSTn15JIhTVA4ITd
+         asiUxFZr3Ts29gfi6RMpbZ53e6VWHxebDEtxTO+OYvl0eH4V0rDN4M7nZu9+Nu5uqJUT
+         l6ry773aPEzkk1IUnr5Jke4nWXaRofLYx6lSHx/AxhIFS1TH5Qki47+ebc90SC+oRX/p
+         GJ/VxA0uWcf+fpJZFW37orS/RH2y5rcdpx+CYCy6/u6K83n3fBZsW4rmO6arbiLCGtbE
+         hNBRiDDoT66qvs6UOkYdW9rAapP0m6k5LmQP/CcN2kzfy5Ci1j5Vlu6fo2GuJ03CydAR
+         xN7A==
+X-Forwarded-Encrypted: i=2; AJvYcCWMykLvTICgq7kY66HSKa6FLVCRpizn0fssWqs7FMutO6Uc9Qs7LuFIdmMv4KJwfZeCaC0Ovg==@lfdr.de
+X-Gm-Message-State: AOJu0Yye3hn9XQI06LBKN0tuOa7IeTgCfbjKeaWkDBs5dsfwG+degFnL
+	XfSUU8ZtaMW+tbEfxqAJ5km3fxc/XFRNzM3T4kvUaGj89lK9lqkHfhGS
+X-Google-Smtp-Source: AGHT+IE920d5Bvih60PtfUcF0xRZYT6lOWDWb+HtXs5VJOVoUftMwakYfJeiO/53TMTvHfep70GvZA==
+X-Received: by 2002:a05:6000:1889:b0:3ee:1492:aeac with SMTP id ffacd0b85a97d-3ee1492bd04mr1491379f8f.38.1758204333191;
+        Thu, 18 Sep 2025 07:05:33 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd5SEmbimxCGE218B5MKg7p0VJ6EN4b0izgAQZ4b09DQ/g==
+Received: by 2002:a05:6000:40ca:b0:3ed:8e48:5e0d with SMTP id
+ ffacd0b85a97d-3ee106bfb24ls558436f8f.1.-pod-prod-04-eu; Thu, 18 Sep 2025
+ 07:05:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXG4IUE9Ni865geMSBsXUvu+VFMtugNbeUzUBm21gG2W8ruDTZt+86rP73SUKuV6pcwubVuWC10ztw=@googlegroups.com
+X-Received: by 2002:a05:6000:2489:b0:3b9:148b:e78 with SMTP id ffacd0b85a97d-3ecdfa772e7mr5656911f8f.53.1758204329938;
+        Thu, 18 Sep 2025 07:05:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1758204329; cv=none;
         d=google.com; s=arc-20240605;
-        b=T9mDVpxBr2opjXDALL/z+eyweEooEObW1Ig8ylGnS7mAYCPyYKQ1FnkGJtB7LRxYVw
-         /LhDTopwGmH4W2UpjtQVDeL1gyyQ/M+ip9489I/oLU0+Gzqo4ZdRFOUpwmelfQnDioEo
-         nwdHWROTGCzlm7VF5uA+x03C4B5KOjdih3nv2a9ti4FN9uOS2Qy7KOwI3k7oAOAh/ss/
-         SOGLNyc7oe1ieB1f/ME05eRQ7XOmWn8a4F2zMix9ztr1rEw+5faRbnMMpXk8q40X6K2u
-         y0LQL5B7oev2k58zQleoASKQoTHFqqwV+7AbSzevb1FXLu2awJFPWGOyUTf4Zhm0JN3t
-         6WwQ==
+        b=fnEgb7gB/Nu4zFxST67fl/1c1szWjSKws49C8TuSXqTuNv3iLsOdcK9MqQBu9HjPqx
+         ZgzUvsHPaN/CFD+84gCLHUnIDTOcNkNuRYocPYNvSOdVuvf4/sWyQ1W8D+S1a84R9c3T
+         Uo53tcesiO+Hq7AFeXgvvA3VqOU/FDz0O7AiQMFc+2b6CVgZ3Cjeh191Y59PVU3enGTn
+         9wIjW8H/e3WeEJdpTWaFm/4tBVAMQFr1hVsxxoLTBSbcn1HpJj2v7zjeGbh4ZV84sONr
+         gdlnJmNPEyLf3DzBZpEaWlGNehgq8752TvZZhhfthYtrR2hmisOMOfHC/615TyaNIUrm
+         NoLg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
-        bh=wxDWT9Jhe5/U9R8flrhyT53CUNqFwMWNSIwpcA9ZCHg=;
-        fh=BDXSlpXWg+IjA+GmZ7wVo1OaA/mhTIEqYuDaRZc/LBI=;
-        b=djRK+N8E89f+ze+9esObhj1FzcAPiBMdlv8d9sqwsytwBU59tmtEbNiqsaHVtLGNXf
-         vmtnyLU3oWRo6CvH8Bmu7ijyjkjPP5bWIn6jw4fA/vaJZZB3SrbQiJuSsRURtdMTutgB
-         pw0bDIMqzpMqTf+NqyDF2pHvCktfKghdeLLpQKR/xQOWg+fqxY7NV6BN/MofdSH0zVBr
-         H3HmqxxKmAeuGDX1gu0q8dl2P+G2rQlkkzhblnY8RP9/y5/Fj33bBm7A2j4UVAkVSiXs
-         j+yXzHPi2zliTC4fCAgcCjb69ELdfCREb3RD8y/gCJfKXxiN4bW883hEziiMTap4rzKO
-         cmoQ==;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:dkim-signature;
+        bh=sI2tSFnbkFXEHpzRn76LXPg2QDPG5jXGC+/0hf5kEII=;
+        fh=ubd87IkISQe6po1C3br5ewGC6ynKlUWlDGor3VcxkxI=;
+        b=cAbCtGqQq7hI8exsWMDMaeLAXy142K/4RfVwCPL8ZbqAZ3ZVhpfuczZvP5kJo9cm4k
+         PFFYD8Vc9azOt3cGWDuGO3BTAr8WiFbPcCcJOdk/2vnTnWH5LPjpIab7jb32GxjTNX9b
+         HYRIzBi83B0D1o0IH0k99CLVcYQrwY0mN5edu3/E5MrKaWsp2QE9Fmgmr6ZIYsiq7qXj
+         IiYQ/HV1DPa07hp8zUlB/lzCazvOyUr7uvujmLqUM4olJ73FK3LSOrtZi/oktHO0uwqg
+         e3fiAgefKwliV68hm5ph3+8RhnD5/ojRRe3mfK/xCQxYpUXauGBm0zSUFcWUN3QiJJ/F
+         9JiQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=Ee0aem4i;
-       spf=pass (google.com: domain of 3phhmaaukcucnu4n0pxxpun.lxvtj1jw-mn4pxxpunp0x3y1.lxv@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3phHMaAUKCUcnu4n0pxxpun.lxvtj1jw-mn4pxxpunp0x3y1.lxv@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=U5DEwdcl;
+       spf=pass (google.com: domain of 3qrhmaaukcuoqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3qRHMaAUKCUoqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com. [2a00:1450:4864:20::34a])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3ee073f5527si56263f8f.2.2025.09.18.07.05.27
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3ee073f5527si56268f8f.2.2025.09.18.07.05.29
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Sep 2025 07:05:27 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3phhmaaukcucnu4n0pxxpun.lxvtj1jw-mn4pxxpunp0x3y1.lxv@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) client-ip=2a00:1450:4864:20::34a;
-Received: by mail-wm1-x34a.google.com with SMTP id 5b1f17b1804b1-45b467f5173so8896955e9.3
-        for <kasan-dev@googlegroups.com>; Thu, 18 Sep 2025 07:05:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUL9YmODdhn/gPffLaV7i9ETPiaOD6e6YTFrKD15k/qIH5QDPDFLt5hHtRJE3bbKP3QhOz21EkDxMY=@googlegroups.com
-X-Received: from wrbcc12.prod.google.com ([2002:a5d:5c0c:0:b0:3ec:e0b7:7699])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:2483:b0:3cd:ef83:a9a1
- with SMTP id ffacd0b85a97d-3ecdf9c2666mr5663097f8f.20.1758204326802; Thu, 18
- Sep 2025 07:05:26 -0700 (PDT)
-Date: Thu, 18 Sep 2025 15:59:11 +0200
+        Thu, 18 Sep 2025 07:05:29 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3qrhmaaukcuoqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) client-ip=2a00:1450:4864:20::34a;
+Received: by mail-wm1-x34a.google.com with SMTP id 5b1f17b1804b1-45de13167aaso9987805e9.1
+        for <kasan-dev@googlegroups.com>; Thu, 18 Sep 2025 07:05:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWzMKELP5YOKmKS/WiwCXoE55ED6ht4zGJaDw09UjFnVR2m7L3pDXwaMjWffn+qsjFa694/S4efThE=@googlegroups.com
+X-Received: from wmlv10.prod.google.com ([2002:a05:600c:214a:b0:45b:9c60:76bb])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:b86:b0:455:f59e:fd9b
+ with SMTP id 5b1f17b1804b1-46205eb1674mr64702705e9.24.1758204329318; Thu, 18
+ Sep 2025 07:05:29 -0700 (PDT)
+Date: Thu, 18 Sep 2025 15:59:12 +0200
+In-Reply-To: <20250918140451.1289454-1-elver@google.com>
 Mime-Version: 1.0
+References: <20250918140451.1289454-1-elver@google.com>
 X-Mailer: git-send-email 2.51.0.384.g4c02a37b29-goog
-Message-ID: <20250918140451.1289454-1-elver@google.com>
-Subject: [PATCH v3 00/35] Compiler-Based Capability- and Locking-Analysis
+Message-ID: <20250918140451.1289454-2-elver@google.com>
+Subject: [PATCH v3 01/35] compiler_types: Move lock checking attributes to compiler-capability-analysis.h
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, 
 	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>
@@ -141,9 +146,9 @@ Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenry
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=Ee0aem4i;       spf=pass
- (google.com: domain of 3phhmaaukcucnu4n0pxxpun.lxvtj1jw-mn4pxxpunp0x3y1.lxv@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3phHMaAUKCUcnu4n0pxxpun.lxvtj1jw-mn4pxxpunp0x3y1.lxv@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b=U5DEwdcl;       spf=pass
+ (google.com: domain of 3qrhmaaukcuoqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3qRHMaAUKCUoqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -160,363 +165,107 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Capability analysis is a C language extension, which enables statically
-checking that user-definable "capabilities" are acquired and released where
-required. An obvious application is lock-safety checking for the kernel's
-various synchronization primitives (each of which represents a "capability"),
-and checking that locking rules are not violated.
+The conditional definition of lock checking macros and attributes is
+about to become more complex. Factor them out into their own header for
+better readability, and to make it obvious which features are supported
+by which mode (currently only Sparse). This is the first step towards
+generalizing towards "capability analysis".
 
-Clang originally called the feature "Thread Safety Analysis" [1], with
-some terminology still using the thread-safety-analysis-only names. This
-was later changed and the feature became more flexible, gaining the
-ability to define custom "capabilities". Its foundations can be found in
-"capability systems" [2], used to specify the permissibility of
-operations to depend on some capability being held (or not held).
+No functional change intended.
 
-Because the feature is not just able to express capabilities related to
-synchronization primitives, the naming chosen for the kernel departs
-from Clang's initial "Thread Safety" nomenclature and refers to the
-feature as "Capability Analysis" to avoid confusion. The implementation
-still makes references to the older terminology in some places, such as
-`-Wthread-safety` being the warning enabled option that also still
-appears in diagnostic messages.
-
-Enabling capability analysis can be seen as enabling a dialect of Linux
-C with a Capability System.
-
-Additional details can be found in the added kernel-doc documentation.
-An LWN article covered v2 of the series: https://lwn.net/Articles/1012990/
-
- [1] https://clang.llvm.org/docs/ThreadSafetyAnalysis.html
- [2] https://www.cs.cornell.edu/talc/papers/capabilities.pdf
-
-=== Development Approach ===
-
-Prior art exists in the form of Sparse's context tracking. Locking
-annotations on functions exist, so the concept of analyzing locking rules
-is not foreign to the kernel's codebase.
-
-However, Clang's analysis is more complete vs. Sparse's, with the
-typical trade-offs in static analysis: improved completeness is
-sacrificed for more possible false positives or additional annotations
-required by the programmer. Numerous options exist to disable or opt out
-certain code from analysis.
-
-This series initially aimed to retain compatibility with Sparse, which
-can provide tree-wide analysis of a subset of the capability analysis
-introduced, but it was later decided to drop Sparse compatibility. For
-the most part, the new (and old) keywords used for annotations remain
-the same, and many of the pre-existing annotations remain valid.
-
-One big question is how to enable this feature, given we end up with a
-new dialect of C -- 2 approaches have been considered:
-
-  A. Tree-wide all-or-nothing approach. This approach requires tree-wide
-     changes, adding annotations or selective opt-outs. Making additional
-     primitives capability-enabled increases churn, esp. where maintainers
-     are unaware of the feature's existence and how to use it.
-
-Because we can't change the programming language (even if from one C
-dialect to another) of the kernel overnight, a different approach might
-cause less friction.
-
-  B. A selective, incremental, and much less intrusive approach.
-     Maintainers of subsystems opt in their modules or directories into
-     "capability analysis" (via Makefile):
-  
-       CAPABILITY_ANALYSIS_foo.o := y	# foo.o only
-       CAPABILITY_ANALYSIS := y  	# all TUs
-  
-     Most (eventually all) synchronization primitives and more
-     capabilities (including ones that could track "irq disabled",
-     "preemption" disabled, etc.) could be supported.
-
-The approach taken by this series is B. This ensures that only
-subsystems where maintainers are willing to deal with any warnings are
-opted-in. Introducing the feature can be done incrementally, without
-large tree-wide changes and adding numerous opt-outs and annotations to
-the majority of code.
-
-  Note: Bart Van Assche concurrently worked on enabling -Wthread-safety:
-  https://lore.kernel.org/all/20250206175114.1974171-1-bvanassche@acm.org/
-  Bart's work has shown what it might take to go with approach A
-  (tree-wide, restricted to 'mutex' usage). This has shown that the
-  analysis finds real issues when applied to enough subsystems!  We hope
-  this serves as motivation to eventually enable the analysis in as many
-  subsystems as possible, particularly subsystems that are not as easily
-  tested by CI systems and test robots.
-
-=== Initial Uses ===
-
-With this initial series, the following synchronization primitives are
-supported: `raw_spinlock_t`, `spinlock_t`, `rwlock_t`, `mutex`,
-`seqlock_t`, `bit_spinlock`, RCU, SRCU (`srcu_struct`), `rw_semaphore`,
-`local_lock_t`, `ww_mutex`.
-
-To demonstrate use of the feature on real kernel code, the series also
-enables capability analysis for the following subsystems:
-
-	* kernel/kcov
-	* kernel/kcsan
-	* kernel/sched/
-	* lib/rhashtable
-	* lib/stackdepot
-	* mm/kfence
-	* security/tomoyo
-    	* crypto/
-
-The initial benefits are static detection of violations of locking
-rules. As more capabilities are added, we would see more static checking
-beyond what regular C can provide, all while remaining easy (read quick)
-to use via the Clang compiler.
-
-  Note: The kernel already provides dynamic analysis tools Lockdep and
-  KCSAN for lock-safety checking and data-race detection respectively.
-  Unlike those, Clang's capability analysis is a compile-time static
-  analysis with no runtime impact. The static analysis complements
-  existing dynamic analysis tools, as it may catch some issues before
-  even getting into a running kernel, but is *not* a replacement for
-  whole-kernel testing with the dynamic analysis tools enabled!
-
-=== Appendix ===
-
-A Clang version that supports `-Wthread-safety-pointer` and the new
-alias-analysis of capability pointers is required (from this version
-onwards):
-
-	https://github.com/llvm/llvm-project/commit/b4c98fcbe1504841203e610c351a3227f36c92a4 [3]
-
-This series is also available at this Git tree:
-
-	https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git/log/?h=cap-analysis/dev
-
-=== Changelog ===
-
-v3:
-
-  - Bump min. Clang version to 22+ (unreleased), which now supports:
-
-	* re-entrancy via __attribute__((reentrant_capability));
-	* basic form of capability alias analysis [3] - which is the
-	  biggest improvement since v2.
-
-    This was the result of conclusions from this discussion:
-    https://lore.kernel.org/all/CANpmjNPquO=W1JAh1FNQb8pMQjgeZAKCPQUAd7qUg=5pjJ6x=Q@mail.gmail.com/
-
-  - Rename __asserts_cap/__assert_cap to __assumes_cap/__assume_cap.
-
-  - Switch to DECLARE_LOCK_GUARD_1_ATTRS().
-
-  - Add __acquire_ret and __acquire_shared_ret helper macros - can be
-    used to define function-like macros that return objects which
-    contains a held capabilities. Works now because of capability alias
-    analysis.
-
-  - Add capability_unsafe_alias() helper, where the analysis rightfully
-    points out we're doing strange things with aliases but we don't
-    care.
-
-  - Support multi-argument attributes.
-
-  - Enable for kernel/sched/{core,fair}.c, kernel/kcsan.
-  - Drop drivers/tty changes (revisit later).
-
-v2: https://lore.kernel.org/all/20250304092417.2873893-1-elver@google.com/
-
-  - Remove Sparse context tracking support - after the introduction of
-    Clang support, so that backports can skip removal of Sparse support.
-
-  - Remove __cond_lock() function-like helper.
-
-  - ww_mutex support.
-
-  - -Wthread-safety-addressof was reworked and committed in upstream
-    Clang as -Wthread-safety-pointer.
-
-  - Make __cond_acquires() and __cond_acquires_shared() take abstract
-    value, since compiler only cares about zero and non-zero.
-
-  - Rename __var_guarded_by to simply __guarded_by. Initially the idea
-    was to be explicit about if the variable itself or the pointed-to
-    data is guarded, but in the long-term, making this shorter might be
-    better.
-
-  - Likewise rename __ref_guarded_by to __pt_guarded_by.
-
-  - Introduce common header warning suppressions - this is a better
-    solution than guarding header inclusions with disable_ +
-    enable_capability_analysis(). Header suppressions are disabled when
-    selecting CONFIG_WARN_CAPABILITY_ANALYSIS_ALL=y. This bumps the
-    minimum Clang version required to 20+.
-
-  - Make the data_race() macro imply disabled capability analysis.
-    Writing capability_unsafe(data_race(..)) is unnecessarily verbose
-    and data_race() on its own already indicates something subtly unsafe
-    is happening.  This change was made after analysis of a finding in
-    security/tomoyo.
-
-  - Enable analysis in the following subsystems as additional examples
-    of larger subsystem. Where it was obvious, the __guarded_by
-    attribute was added to lock-guarded variables to improve coverage.
-
-    	* drivers/tty
-	* security/tomoyo
-    	* crypto/
-
-RFC v1: https://lore.kernel.org/lkml/20250206181711.1902989-1-elver@google.com
-
-Marco Elver (35):
-  compiler_types: Move lock checking attributes to
-    compiler-capability-analysis.h
-  compiler-capability-analysis: Add infrastructure for Clang's
-    capability analysis
-  compiler-capability-analysis: Add test stub
-  Documentation: Add documentation for Compiler-Based Capability
-    Analysis
-  checkpatch: Warn about capability_unsafe() without comment
-  cleanup: Basic compatibility with capability analysis
-  lockdep: Annotate lockdep assertions for capability analysis
-  locking/rwlock, spinlock: Support Clang's capability analysis
-  compiler-capability-analysis: Change __cond_acquires to take return
-    value
-  locking/mutex: Support Clang's capability analysis
-  locking/seqlock: Support Clang's capability analysis
-  bit_spinlock: Include missing <asm/processor.h>
-  bit_spinlock: Support Clang's capability analysis
-  rcu: Support Clang's capability analysis
-  srcu: Support Clang's capability analysis
-  kref: Add capability-analysis annotations
-  locking/rwsem: Support Clang's capability analysis
-  locking/local_lock: Include missing headers
-  locking/local_lock: Support Clang's capability analysis
-  locking/ww_mutex: Support Clang's capability analysis
-  debugfs: Make debugfs_cancellation a capability struct
-  compiler-capability-analysis: Remove Sparse support
-  compiler-capability-analysis: Remove __cond_lock() function-like
-    helper
-  compiler-capability-analysis: Introduce header suppressions
-  compiler: Let data_race() imply disabled capability analysis
-  MAINTAINERS: Add entry for Capability Analysis
-  kfence: Enable capability analysis
-  kcov: Enable capability analysis
-  kcsan: Enable capability analysis
-  stackdepot: Enable capability analysis
-  rhashtable: Enable capability analysis
-  printk: Move locking annotation to printk.c
-  security/tomoyo: Enable capability analysis
-  crypto: Enable capability analysis
-  sched: Enable capability analysis for core.c and fair.c
-
- .../dev-tools/capability-analysis.rst         | 148 +++++
- Documentation/dev-tools/index.rst             |   1 +
- Documentation/dev-tools/sparse.rst            |  19 -
- Documentation/mm/process_addrs.rst            |   6 +-
- MAINTAINERS                                   |  11 +
- Makefile                                      |   1 +
- crypto/Makefile                               |   2 +
- crypto/acompress.c                            |   6 +-
- crypto/algapi.c                               |   2 +
- crypto/api.c                                  |   1 +
- crypto/crypto_engine.c                        |   2 +-
- crypto/drbg.c                                 |   5 +
- crypto/internal.h                             |   2 +-
- crypto/proc.c                                 |   3 +
- crypto/scompress.c                            |  24 +-
- .../net/wireless/intel/iwlwifi/iwl-trans.c    |   4 +-
- .../net/wireless/intel/iwlwifi/iwl-trans.h    |   6 +-
- .../intel/iwlwifi/pcie/gen1_2/internal.h      |   5 +-
- .../intel/iwlwifi/pcie/gen1_2/trans.c         |   4 +-
- fs/dlm/lock.c                                 |   2 +-
- include/crypto/internal/acompress.h           |   7 +-
- include/crypto/internal/engine.h              |   2 +-
- include/linux/bit_spinlock.h                  |  24 +-
- include/linux/cleanup.h                       |  17 +
- include/linux/compiler-capability-analysis.h  | 423 +++++++++++++
- include/linux/compiler.h                      |   2 +
- include/linux/compiler_types.h                |  18 +-
- include/linux/console.h                       |   4 +-
- include/linux/debugfs.h                       |  12 +-
- include/linux/kref.h                          |   2 +
- include/linux/list_bl.h                       |   2 +
- include/linux/local_lock.h                    |  45 +-
- include/linux/local_lock_internal.h           |  73 ++-
- include/linux/lockdep.h                       |  12 +-
- include/linux/mm.h                            |  33 +-
- include/linux/mutex.h                         |  35 +-
- include/linux/mutex_types.h                   |   4 +-
- include/linux/rcupdate.h                      |  86 +--
- include/linux/refcount.h                      |   6 +-
- include/linux/rhashtable.h                    |  14 +-
- include/linux/rwlock.h                        |  22 +-
- include/linux/rwlock_api_smp.h                |  43 +-
- include/linux/rwlock_rt.h                     |  44 +-
- include/linux/rwlock_types.h                  |  10 +-
- include/linux/rwsem.h                         |  66 +-
- include/linux/sched.h                         |   6 +-
- include/linux/sched/signal.h                  |  16 +-
- include/linux/sched/task.h                    |   5 +-
- include/linux/sched/wake_q.h                  |   3 +
- include/linux/seqlock.h                       |  24 +
- include/linux/seqlock_types.h                 |   5 +-
- include/linux/spinlock.h                      |  89 ++-
- include/linux/spinlock_api_smp.h              |  34 +-
- include/linux/spinlock_api_up.h               | 112 +++-
- include/linux/spinlock_rt.h                   |  37 +-
- include/linux/spinlock_types.h                |  10 +-
- include/linux/spinlock_types_raw.h            |   5 +-
- include/linux/srcu.h                          |  60 +-
- include/linux/srcutiny.h                      |   4 +
- include/linux/srcutree.h                      |   6 +-
- include/linux/ww_mutex.h                      |  22 +-
- kernel/Makefile                               |   2 +
- kernel/kcov.c                                 |  36 +-
- kernel/kcsan/Makefile                         |   2 +
- kernel/kcsan/report.c                         |  11 +-
- kernel/printk/printk.c                        |   2 +
- kernel/sched/Makefile                         |   3 +
- kernel/sched/core.c                           |  89 ++-
- kernel/sched/fair.c                           |   9 +-
- kernel/sched/sched.h                          | 110 +++-
- kernel/signal.c                               |   4 +-
- kernel/time/posix-timers.c                    |  13 +-
- lib/Kconfig.debug                             |  45 ++
- lib/Makefile                                  |   6 +
- lib/dec_and_lock.c                            |   8 +-
- lib/rhashtable.c                              |   5 +-
- lib/stackdepot.c                              |  20 +-
- lib/test_capability-analysis.c                | 596 ++++++++++++++++++
- mm/kfence/Makefile                            |   2 +
- mm/kfence/core.c                              |  20 +-
- mm/kfence/kfence.h                            |  14 +-
- mm/kfence/report.c                            |   4 +-
- mm/memory.c                                   |   4 +-
- mm/pgtable-generic.c                          |  19 +-
- net/ipv4/tcp_sigpool.c                        |   2 +-
- scripts/Makefile.capability-analysis          |  11 +
- scripts/Makefile.lib                          |  10 +
- scripts/capability-analysis-suppression.txt   |  33 +
- scripts/checkpatch.pl                         |   8 +
- security/tomoyo/Makefile                      |   2 +
- security/tomoyo/common.c                      |  52 +-
- security/tomoyo/common.h                      |  77 +--
- security/tomoyo/domain.c                      |   1 +
- security/tomoyo/environ.c                     |   1 +
- security/tomoyo/file.c                        |   5 +
- security/tomoyo/gc.c                          |  28 +-
- security/tomoyo/mount.c                       |   2 +
- security/tomoyo/network.c                     |   3 +
- tools/include/linux/compiler_types.h          |   2 -
- 99 files changed, 2370 insertions(+), 589 deletions(-)
- create mode 100644 Documentation/dev-tools/capability-analysis.rst
+Signed-off-by: Marco Elver <elver@google.com>
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+---
+ include/linux/compiler-capability-analysis.h | 32 ++++++++++++++++++++
+ include/linux/compiler_types.h               | 18 ++---------
+ 2 files changed, 34 insertions(+), 16 deletions(-)
  create mode 100644 include/linux/compiler-capability-analysis.h
- create mode 100644 lib/test_capability-analysis.c
- create mode 100644 scripts/Makefile.capability-analysis
- create mode 100644 scripts/capability-analysis-suppression.txt
 
+diff --git a/include/linux/compiler-capability-analysis.h b/include/linux/compiler-capability-analysis.h
+new file mode 100644
+index 000000000000..7546ddb83f86
+--- /dev/null
++++ b/include/linux/compiler-capability-analysis.h
+@@ -0,0 +1,32 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Macros and attributes for compiler-based static capability analysis.
++ */
++
++#ifndef _LINUX_COMPILER_CAPABILITY_ANALYSIS_H
++#define _LINUX_COMPILER_CAPABILITY_ANALYSIS_H
++
++#ifdef __CHECKER__
++
++/* Sparse context/lock checking support. */
++# define __must_hold(x)		__attribute__((context(x,1,1)))
++# define __acquires(x)		__attribute__((context(x,0,1)))
++# define __cond_acquires(x)	__attribute__((context(x,0,-1)))
++# define __releases(x)		__attribute__((context(x,1,0)))
++# define __acquire(x)		__context__(x,1)
++# define __release(x)		__context__(x,-1)
++# define __cond_lock(x, c)	((c) ? ({ __acquire(x); 1; }) : 0)
++
++#else /* !__CHECKER__ */
++
++# define __must_hold(x)
++# define __acquires(x)
++# define __cond_acquires(x)
++# define __releases(x)
++# define __acquire(x)		(void)0
++# define __release(x)		(void)0
++# define __cond_lock(x, c)	(c)
++
++#endif /* __CHECKER__ */
++
++#endif /* _LINUX_COMPILER_CAPABILITY_ANALYSIS_H */
+diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
+index 16755431fc11..c24e60e75f36 100644
+--- a/include/linux/compiler_types.h
++++ b/include/linux/compiler_types.h
+@@ -24,6 +24,8 @@
+ # define BTF_TYPE_TAG(value) /* nothing */
+ #endif
+ 
++#include <linux/compiler-capability-analysis.h>
++
+ /* sparse defines __CHECKER__; see Documentation/dev-tools/sparse.rst */
+ #ifdef __CHECKER__
+ /* address spaces */
+@@ -34,14 +36,6 @@
+ # define __rcu		__attribute__((noderef, address_space(__rcu)))
+ static inline void __chk_user_ptr(const volatile void __user *ptr) { }
+ static inline void __chk_io_ptr(const volatile void __iomem *ptr) { }
+-/* context/locking */
+-# define __must_hold(x)	__attribute__((context(x,1,1)))
+-# define __acquires(x)	__attribute__((context(x,0,1)))
+-# define __cond_acquires(x) __attribute__((context(x,0,-1)))
+-# define __releases(x)	__attribute__((context(x,1,0)))
+-# define __acquire(x)	__context__(x,1)
+-# define __release(x)	__context__(x,-1)
+-# define __cond_lock(x,c)	((c) ? ({ __acquire(x); 1; }) : 0)
+ /* other */
+ # define __force	__attribute__((force))
+ # define __nocast	__attribute__((nocast))
+@@ -62,14 +56,6 @@ static inline void __chk_io_ptr(const volatile void __iomem *ptr) { }
+ 
+ # define __chk_user_ptr(x)	(void)0
+ # define __chk_io_ptr(x)	(void)0
+-/* context/locking */
+-# define __must_hold(x)
+-# define __acquires(x)
+-# define __cond_acquires(x)
+-# define __releases(x)
+-# define __acquire(x)	(void)0
+-# define __release(x)	(void)0
+-# define __cond_lock(x,c) (c)
+ /* other */
+ # define __force
+ # define __nocast
 -- 
 2.51.0.384.g4c02a37b29-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250918140451.1289454-1-elver%40google.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250918140451.1289454-2-elver%40google.com.
