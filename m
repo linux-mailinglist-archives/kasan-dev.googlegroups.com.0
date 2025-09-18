@@ -1,124 +1,124 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBRNDWDDAMGQEIAUMQ2Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBR5DWDDAMGQEMOMH24Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD3B7B84F90
-	for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 16:05:58 +0200 (CEST)
-Received: by mail-wm1-x33c.google.com with SMTP id 5b1f17b1804b1-45de13167aasf9993785e9.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 07:05:58 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1758204358; cv=pass;
+Received: from mail-wr1-x43e.google.com (mail-wr1-x43e.google.com [IPv6:2a00:1450:4864:20::43e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04591B84F93
+	for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 16:06:01 +0200 (CEST)
+Received: by mail-wr1-x43e.google.com with SMTP id ffacd0b85a97d-3ebc706ef7fsf268517f8f.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 07:06:01 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1758204360; cv=pass;
         d=google.com; s=arc-20240605;
-        b=NIF/0BvrQwE/Y3Oz95eMI/PwJ5Jw5yAvD9qUm3ezp/bGSIXBKoNIwxOd+rFXSS5+Xj
-         oaVbRyCGsxnEIp2tWKzvRwTM6UaZWToiG6cKSDGIQvAp4uKueXBAOdHIX6P1nCC0jWOq
-         OSOJq2hQOqVLClnQxHiwgd4j11woBa2PdoaGmtFv3702Fb4m1c0aJ7uZvXsLK3scPX1o
-         HmBfph7CP5u8yFIrXN9oFZ7ksGF89Q+XOlwt//xv2FyWY6BJLlNCsw+/d0yXj2BN9pDD
-         v7z+midlBMDsslI9+6c386F8baVAooAyiiedydDJrawoX6XWPoUZRU3KQCbs8mzno3Ss
-         Tz1w==
+        b=VgBIPKwqgwCT01sfPjpZSDvXA8lsg3peFNVc10Epw8pU0DQKUp3igII7u9U9FczH9s
+         T+t4lj5nEpwmeZGCNjHOqi/xlwlRoT6vHXwwjPthpK2CRU4ZPLP2eMm7K6X2YubWItzy
+         swDqeGDShGsOZN+0Vo4DCtPKv99emGGzW5kJKf605anmJxWFVsS0PF0gZVq6A8c7Q0UY
+         y6VJDzp4pxyRrT2ZmIk+nhLxvswsmtLYVoYDD9cqPOh8Ix/JR5p2BOI/UoP/RAJnznFi
+         nuu1iXeHbo6/svQ9S4oKEbgMyjxSpUzK8llNtM06Speqq8wgslmaJpIrDUh1ZL4Z82Wo
+         wu7Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=nbMkg7t7LspiqV6w3qS9rn2xLUXD3+x0AZTZVcTciHk=;
-        fh=nwdxCNRoMSfAi+PB1SscCofmAqdNixwHRXXgQipJl6Y=;
-        b=CMeQV/RqGUuuiBDFAfHlqwggqR5aHbo7TnDouxKcM7vRQBsGPfEt+L3kDo7BzBA3PH
-         LIaP2lrsokqqp9816LefK6aiGHQFhmN1UsuQdVSMfBVDBXcI4jXhEs3XE55e6mLYLAcf
-         ovjlzOTqRBzstMgjES76dCT4y3WDaXKJMD8yKm6jJ/quWZyw90HpTg1htNU+s7Xw4F4/
-         OT9fX0U5OHsjiJnd7WsGbDrQTWyQ5mGAJk2tCvqSyHKLlJ5toZm+G63Vb1spsi2K8dkW
-         Qs/XgL1eqFSCqta8In7D9HogINeIg8rI46tbbPu11eRKNO3soFH/dlFTkFjNpxyb6NtN
-         qb8A==;
+        bh=/CHf51WJmuSnBbUNO7sbt6oPCGZTXO8y/euysQN6cEc=;
+        fh=3mXge0KmNUF3i+RgsJKcYI/w0VNWHzxPADYNtpeYj2c=;
+        b=XsQHvCHokYQboPSkesf90YpmaChPlrS5LPfT7tej9QvkHJvUNzqFkR5x0LvQoVNoL3
+         Qt5nKuVwzPvnpAZr5KNtZUnIO4a32j6Iynvh07pSpYWtE3GGnsi7n29c6pLanfBzjRR3
+         QdudLSCMuuNMcbr38L1kEvOOq/u8p1wEg7WNMXRj8gCsAvGRBOm6x8bzAzSU5Du2iu4a
+         vFEy/QHclxcaZN6I4Xcw+bBjMyFNDxMrI36e5FWnKEaFOeqChbZgjXM86qGfomaJOnxd
+         bP6sjtrkigdxtsQO9tsJWthOM0okXwX4swNp/5wsumCV3u11HXpu+x6632za5iiT2SiW
+         3U8Q==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=LoWCAITu;
-       spf=pass (google.com: domain of 3whhmaaukcwmfmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3whHMaAUKCWMFMWFSHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b="Sq1z1Ah/";
+       spf=pass (google.com: domain of 3xbhmaaukcwuhoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3xBHMaAUKCWUHOYHUJRRJOH.FRPNDVDQ-GHYJRRJOHJURXSV.FRP@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1758204358; x=1758809158; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1758204360; x=1758809160; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=nbMkg7t7LspiqV6w3qS9rn2xLUXD3+x0AZTZVcTciHk=;
-        b=UdpEPVrkNgt6uEz8c/g4n1SFoj4ew43m1VejQdVeDDeWd65U03riJCOeNIXVFBhYRr
-         l5ciU3up+BEogeB33jNW6VXAk1+IsnH0ueyYwselMSY/bKcxRwqjpRDTayddyV6irKz0
-         mLhuJjqp2HMMgIz1KhS0CamWRjTWX4DjwD+HRRvChw7RV6iVO6kislWRWUpPQPhBRCkS
-         tQPDoCMLajf1T4eJHDsT1hpqbbKZ77K7NgliUKWP9v/U65ackPCkTgW1XzXvLHmV+46U
-         0Is+p4WUUQU8C0nYgXzj/HH6j4UFr4L0/UMA7fKHEDC4AUuzAXZXyDruJFfPD+e7vVJp
-         bD6A==
+        bh=/CHf51WJmuSnBbUNO7sbt6oPCGZTXO8y/euysQN6cEc=;
+        b=ASecxqXJ0kCmpAQP96VXOs09QU/WRCBP4Svli1QlOc0zlkvbYhkmYJnzCfXhUM3MXM
+         1+hiRbeUPdgDF1ZokWfSkBRNtuMPdMlbK5cGSiCsZWReCURq84sDRZ5kxa4++mY4bF5Z
+         0HJAGVkV85uQy2y41L4HZMFJZkeLUyGCFF5AnqS88UnwH7oDiWnuCYMB/SZCcvZGh7k3
+         WtSqj+sKAWHz1n2LcUvhn9pN6Ov7noj9gYcyr7SzXAzHHRJVwOKmXLQrsHlQC2yTCYmR
+         cQqPyg6e2E+w52IrEALIsi/OO5wg/HS89RmT99pXDgkPaPftVVOjVge3m7cp2aHVZ740
+         gHWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758204358; x=1758809158;
+        d=1e100.net; s=20230601; t=1758204360; x=1758809160;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nbMkg7t7LspiqV6w3qS9rn2xLUXD3+x0AZTZVcTciHk=;
-        b=qIHpsMM4LHn0Pe3JdvR4xtkVa68a3D62xFRDVB+5KwlPkjbB7eTi+AF4dx7HL30lIW
-         +rc++/q9AX9FETvuJCqqofL2vrUiFBE00jrKWKnykTnq/T1Ly9YQJjoVmvGjcoWvw0zD
-         Xt4aaWygZC7fef7Mc7iul06Igr8v4XiDG+cLftT/QCGMqtsc1s4vizoiQ/0CIfR5MZ3S
-         9WKdlwrc0n9Rw87TRllZxZR0XIkgHikmeM//15WjwxbP8i8VXKPuYWs3lXJZ/5BlhWs4
-         KJiK4wMB0w5cwiIevCYEOw9LqukeOjsW4EaPyv3SHeepjWQSu4o45uwb8VZoXnXWnUW4
-         xdnQ==
-X-Forwarded-Encrypted: i=2; AJvYcCXLdG7rwaTs/SywD1d5yjx3GNBSTP2uP/PhE4GUcbtqHozsDwugswxTGEgyJbqP2T/+JSKrHw==@lfdr.de
-X-Gm-Message-State: AOJu0Yyo+OeZSwmpY6zwmOTedEpmAn+1srLO3N1eI+WzhMa479GCM3ZG
-	VpQIbRDuqvlVl5jc3Jfp+yry2sZSFUNX3VQhI/Wv7Cb6uZnNIPPl28kA
-X-Google-Smtp-Source: AGHT+IFOXWUybL8iZ7JAt8dWaSBlEKq6VqHUYcUix5TbdW5Eu9Sfp5AgxBxaeetmcLoJcZmof3iHLg==
-X-Received: by 2002:a05:600c:b86:b0:455:f59e:fd9b with SMTP id 5b1f17b1804b1-46205eb1674mr64725315e9.24.1758204357985;
+        bh=/CHf51WJmuSnBbUNO7sbt6oPCGZTXO8y/euysQN6cEc=;
+        b=R2mELE84kZ4TjUd/hkxA/8VuGqGVWx1Fa3+0tpzYxWF3NlisBv5nXEulQSRU4o8/Rp
+         63aEvNIIhCi76QR1SHdVay7qNRNuRvQ4kIC34f1UK8jzABwfZyC5znbTyQKBaTaYZWHI
+         zg9Fs6cWa2we/2FLhk6CPyq61Kk7/N2ao5txn+bT+yFhC+1IuLXCQNLTMyA/9GM1cmp1
+         6/1DD64NaX1XmDLwVzOeNsVA5QviIFTtHiYVZovA8g9pcs0DZYq/aelIZLwSyfYVoilG
+         Mr8hAv1iAlT8XrrGy+dNWQHYMSV1Cjz0kR43/u1Yu8tz0/NmtWkYaI3OPso9Khjq+RHy
+         jamA==
+X-Forwarded-Encrypted: i=2; AJvYcCUFhQYDxgPWISTKttE6d1MEFrSsI0lkiTW/ydXyisi1gscYpSfg3SHnYLZbYkKEZumYtVweKw==@lfdr.de
+X-Gm-Message-State: AOJu0YxWb1R4ryoLNbL/DghE9awt8T5fFcrNUYd9ArgHGOmXahUsuXe0
+	zM+KMk9I4P2Zhy2ugKhuAKIPbagenPXvyc7kvRgmcfEflQKX9GN3DKrm
+X-Google-Smtp-Source: AGHT+IFVGL/8pQ65xAfUHFtLsYHBkw6j48Y6l2Khi1kQPx7HznIYsBuY9M/usFKtiM/klmqLZ7cAww==
+X-Received: by 2002:a05:6000:400a:b0:3e0:152a:87b2 with SMTP id ffacd0b85a97d-3ecdf9af8c6mr6348838f8f.13.1758204360360;
+        Thu, 18 Sep 2025 07:06:00 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd7kIYShUK3WwvdAJxmskg15OegQggXiz0iV/Mdgoh29cQ==
+Received: by 2002:a05:6000:1aca:b0:3e1:d1b0:66c9 with SMTP id
+ ffacd0b85a97d-3ee106b0ccbls579147f8f.1.-pod-prod-09-eu; Thu, 18 Sep 2025
+ 07:05:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXadPIgnT6TqKWKF7jqMB3dZelKc1bDChffn7eHS8lJ+SLDSYdyX0I9aly4g4Qme2FKJvS9eCeapVY=@googlegroups.com
+X-Received: by 2002:a05:6000:1842:b0:3ec:3cac:7dfd with SMTP id ffacd0b85a97d-3ecdf9caeb5mr6204872f8f.26.1758204357499;
         Thu, 18 Sep 2025 07:05:57 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd4viLfsI3IjfDToI9OX2ZUkRr0foGrbvc1mYaWFeSYJhg==
-Received: by 2002:a05:600c:181b:b0:45b:990e:8515 with SMTP id
- 5b1f17b1804b1-465454cdef0ls5472235e9.1.-pod-prod-05-eu; Thu, 18 Sep 2025
- 07:05:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVvDi8xS0xDxe4MlbrLwGJ7OXF/oCL/xJlCegQUyEyjpPS2o9Nf4g/oeeUQJ2sXTyFKcRvWGr+KE4U=@googlegroups.com
-X-Received: by 2002:a05:6000:1863:b0:3e9:d9bd:5043 with SMTP id ffacd0b85a97d-3ecdf94504amr5206861f8f.0.1758204355058;
-        Thu, 18 Sep 2025 07:05:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1758204355; cv=none;
+ARC-Seal: i=1; a=rsa-sha256; t=1758204357; cv=none;
         d=google.com; s=arc-20240605;
-        b=COTNS0U+3FBLJd02WgZOZOhysY7v0eP5DgrVwjeJXHS6AO5G0mF+ZLH45oL9TdUG9q
-         Q8+OVTkWLM1eJi9FxN65ZF3jupkJ/uK9ok9hQa+VgwxfYFdyOIUAeCZHwhke57TFtdme
-         BASYDx4zVZTP7UP1yoLo9o8XQ9wgDH4ebB+Dz+h48DRPiYy0qTaryAESV+rzGnSdATPM
-         lqEBWz4g2O4xFge2VgeYJZQT9mTOpOJ6uHbaAwZkGbCusz8xSxc/JvVuu8THuKhWpHXi
-         h1GMSIfvLEuxaEhD6gpsGgzkXCfI92vdjXOaTEFUHoS2l5i9lGLcwoGN/BSD1/ngLrrc
-         ZQmw==
+        b=Enc4m73YIPBU5rnmNa20qIiB2BZORmySiPHUuUnNUIV7ZJIE3BhUFsXx14aNTZi1Hj
+         9Qdokyh5pRb7AxikZvhaGsZ6EroiEOkEoic1g+97Uwjk1nype0c3NUKvq/XxbEHBPVaM
+         hKfzUsChEF7HEdDFzeLV3+dstqb0sdxm7x+OVDuWvj/SYEtlFxaS0ba13/HuYWyahtMi
+         3AKpfv4U29Kb4EEqVWKeXkDXkBeu5cjx86DmIRYdk3iu1RdYeVG0jcsEdm9QoGrHmMkr
+         AMzH9PvgHsx7duzhBMZUG3uppcIN92JJGM5IMttXAgV7V+odoF83V4rnYRN46S1Ox3AL
+         zghA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=P08xa+RVj+NYVod6vjIgPrZ1iS5A/lHieiP5dR8CwWY=;
-        fh=88Nc0bGuHvf84OwA5FrT1+WzaolrltRSITcaHAG0ETI=;
-        b=EHlJXvwKGmY7LV4Q+Ci8hb1d4FUeUc8f0TnniHAMLjgdk4z4CSO7vjIROO/1b3zEIt
-         TKeH1fHCAnxgJ0mXIkgSSEqmUb7hGMvZsQqHxbfOj6jAiJmzQOou9CJAVbWwdzUCD68p
-         9wKlXcS0TtV/xvqilisvyUfNsrhnLvQNnovfAF4j2DaB0DqxyrCfhyVVZNf3ayukNr74
-         sFXzNdzmSFyugRcXsd4XpN9Uq5l+vpzSQHTFExKh3vEomJskayDqk7GxU+TBvRjv8uRA
-         BC5uHxXXjf+VjeBZ2TyxbAw7OBAh1RbUp7V0sGFVV7s7S7WICeoqLdyvUzFZ1mF9i3HU
-         MHxQ==;
+        bh=O/41QdXex1hw7P5cbsCaPm8UfRqOpbfD5EoaOmOtrFc=;
+        fh=euprQqPbSNYcYQxD0S9aOZcCIcp/cn+k1JunrSqULSY=;
+        b=JWgdFk7rDTVe/2OEhsVMWzdZ1OL++WqVrZC3gC1qE5qasZhxoVvmTuO3OZbbSs4nJ6
+         f72RA6tjCLFJjdUbbccEfHFqggztiKM7gg9jw7QMDOI5/mPNj+NfDNGz1qMq2SZ/LK8R
+         o5BjqLAk1kowbTj8ow2Ad0BRhDMKZ4HVO+vcxn80hgSX6vNcyiZEeBivgGdV8YTLTqim
+         pbcBTX/tDv5y8jZocngfVSULUMl9z+w5rA5E8/lJf05IJXxITSRefYsPJQp3GzebNJCj
+         pUCl0HTYBJlDs9uwK8Nuphfegx2xGRDbUUz58qFNrb5XptzEZ0/496o24dKq9PfzCX25
+         FuQA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=LoWCAITu;
-       spf=pass (google.com: domain of 3whhmaaukcwmfmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3whHMaAUKCWMFMWFSHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b="Sq1z1Ah/";
+       spf=pass (google.com: domain of 3xbhmaaukcwuhoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3xBHMaAUKCWUHOYHUJRRJOH.FRPNDVDQ-GHYJRRJOHJURXSV.FRP@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-ej1-x649.google.com (mail-ej1-x649.google.com. [2a00:1450:4864:20::649])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-45f32088d94si559865e9.0.2025.09.18.07.05.54
+Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com. [2a00:1450:4864:20::349])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3edff885cf2si50013f8f.0.2025.09.18.07.05.57
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Sep 2025 07:05:54 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3whhmaaukcwmfmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) client-ip=2a00:1450:4864:20::649;
-Received: by mail-ej1-x649.google.com with SMTP id a640c23a62f3a-b044a42959dso158180966b.1
-        for <kasan-dev@googlegroups.com>; Thu, 18 Sep 2025 07:05:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXS3JkYEA+yVgkC/8D4cdM61TBJHZHIB+8VMzqI3Qpdl9tXXn0oLWw6LLNMJX431uiSsBv8WAW3a3g=@googlegroups.com
-X-Received: from ejctp26.prod.google.com ([2002:a17:907:c49a:b0:b0d:2e46:f67])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:6e8d:b0:b0d:5e0d:eaa4
- with SMTP id a640c23a62f3a-b1bba003769mr678528666b.16.1758204354138; Thu, 18
- Sep 2025 07:05:54 -0700 (PDT)
-Date: Thu, 18 Sep 2025 15:59:21 +0200
+        Thu, 18 Sep 2025 07:05:57 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3xbhmaaukcwuhoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) client-ip=2a00:1450:4864:20::349;
+Received: by mail-wm1-x349.google.com with SMTP id 5b1f17b1804b1-45de27bf706so5593565e9.0
+        for <kasan-dev@googlegroups.com>; Thu, 18 Sep 2025 07:05:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVR1eSl2Di+9Yt+8T9E44GCq4hLgAt/ieymD8QlAhgpcwVLmDG14Ia+2NWMd2e9Af+ZaooADWE9Vgk=@googlegroups.com
+X-Received: from wmlv10.prod.google.com ([2002:a05:600c:214a:b0:45b:9c60:76bb])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:3227:b0:45d:f7e4:7a9e
+ with SMTP id 5b1f17b1804b1-466ce515027mr10992405e9.5.1758204356910; Thu, 18
+ Sep 2025 07:05:56 -0700 (PDT)
+Date: Thu, 18 Sep 2025 15:59:22 +0200
 In-Reply-To: <20250918140451.1289454-1-elver@google.com>
 Mime-Version: 1.0
 References: <20250918140451.1289454-1-elver@google.com>
 X-Mailer: git-send-email 2.51.0.384.g4c02a37b29-goog
-Message-ID: <20250918140451.1289454-11-elver@google.com>
-Subject: [PATCH v3 10/35] locking/mutex: Support Clang's capability analysis
+Message-ID: <20250918140451.1289454-12-elver@google.com>
+Subject: [PATCH v3 11/35] locking/seqlock: Support Clang's capability analysis
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, 
 	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>
@@ -146,9 +146,9 @@ Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenry
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=LoWCAITu;       spf=pass
- (google.com: domain of 3whhmaaukcwmfmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3whHMaAUKCWMFMWFSHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b="Sq1z1Ah/";       spf=pass
+ (google.com: domain of 3xbhmaaukcwuhoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3xBHMaAUKCWUHOYHUJRRJOH.FRPNDVDQ-GHYJRRJOHJURXSV.FRP@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -165,215 +165,303 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Add support for Clang's capability analysis for mutex.
+Add support for Clang's capability analysis for seqlock_t.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
 v3:
-* Switch to DECLARE_LOCK_GUARD_1_ATTRS() (suggested by Peter)
 * __assert -> __assume rename
 ---
  .../dev-tools/capability-analysis.rst         |  2 +-
- include/linux/mutex.h                         | 35 +++++-----
- include/linux/mutex_types.h                   |  4 +-
- lib/test_capability-analysis.c                | 64 +++++++++++++++++++
- 4 files changed, 87 insertions(+), 18 deletions(-)
+ include/linux/seqlock.h                       | 24 +++++++++++
+ include/linux/seqlock_types.h                 |  5 ++-
+ lib/test_capability-analysis.c                | 43 +++++++++++++++++++
+ 4 files changed, 71 insertions(+), 3 deletions(-)
 
 diff --git a/Documentation/dev-tools/capability-analysis.rst b/Documentation/dev-tools/capability-analysis.rst
-index 9abd7f62cf4e..89f9c991f7cf 100644
+index 89f9c991f7cf..4789de7b019a 100644
 --- a/Documentation/dev-tools/capability-analysis.rst
 +++ b/Documentation/dev-tools/capability-analysis.rst
 @@ -81,7 +81,7 @@ Supported Kernel Primitives
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
  Currently the following synchronization primitives are supported:
--`raw_spinlock_t`, `spinlock_t`, `rwlock_t`.
-+`raw_spinlock_t`, `spinlock_t`, `rwlock_t`, `mutex`.
+-`raw_spinlock_t`, `spinlock_t`, `rwlock_t`, `mutex`.
++`raw_spinlock_t`, `spinlock_t`, `rwlock_t`, `mutex`, `seqlock_t`.
  
  For capabilities with an initialization function (e.g., `spin_lock_init()`),
  calling this function on the capability instance before initializing any
-diff --git a/include/linux/mutex.h b/include/linux/mutex.h
-index 847b81ca6436..7e4eb778d269 100644
---- a/include/linux/mutex.h
-+++ b/include/linux/mutex.h
-@@ -62,6 +62,7 @@ do {									\
- 	static struct lock_class_key __key;				\
- 									\
- 	__mutex_init((mutex), #mutex, &__key);				\
-+	__assume_cap(mutex);						\
- } while (0)
+diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
+index 5ce48eab7a2a..2c7a02b727de 100644
+--- a/include/linux/seqlock.h
++++ b/include/linux/seqlock.h
+@@ -816,6 +816,7 @@ static __always_inline void write_seqcount_latch_end(seqcount_latch_t *s)
+ 	do {								\
+ 		spin_lock_init(&(sl)->lock);				\
+ 		seqcount_spinlock_init(&(sl)->seqcount, &(sl)->lock);	\
++		__assume_cap(sl);					\
+ 	} while (0)
  
  /**
-@@ -157,13 +158,13 @@ static inline int __must_check __devm_mutex_init(struct device *dev, struct mute
-  * Also see Documentation/locking/mutex-design.rst.
+@@ -832,6 +833,7 @@ static __always_inline void write_seqcount_latch_end(seqcount_latch_t *s)
+  * Return: count, to be passed to read_seqretry()
   */
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
--extern void mutex_lock_nested(struct mutex *lock, unsigned int subclass);
-+extern void mutex_lock_nested(struct mutex *lock, unsigned int subclass) __acquires(lock);
- extern void _mutex_lock_nest_lock(struct mutex *lock, struct lockdep_map *nest_lock);
- extern int __must_check mutex_lock_interruptible_nested(struct mutex *lock,
--					unsigned int subclass);
-+					unsigned int subclass) __cond_acquires(0, lock);
- extern int __must_check _mutex_lock_killable(struct mutex *lock,
--		unsigned int subclass, struct lockdep_map *nest_lock);
--extern void mutex_lock_io_nested(struct mutex *lock, unsigned int subclass);
-+		unsigned int subclass, struct lockdep_map *nest_lock) __cond_acquires(0, lock);
-+extern void mutex_lock_io_nested(struct mutex *lock, unsigned int subclass) __acquires(lock);
- 
- #define mutex_lock(lock) mutex_lock_nested(lock, 0)
- #define mutex_lock_interruptible(lock) mutex_lock_interruptible_nested(lock, 0)
-@@ -186,10 +187,10 @@ do {									\
- 	_mutex_lock_killable(lock, subclass, NULL)
- 
- #else
--extern void mutex_lock(struct mutex *lock);
--extern int __must_check mutex_lock_interruptible(struct mutex *lock);
--extern int __must_check mutex_lock_killable(struct mutex *lock);
--extern void mutex_lock_io(struct mutex *lock);
-+extern void mutex_lock(struct mutex *lock) __acquires(lock);
-+extern int __must_check mutex_lock_interruptible(struct mutex *lock) __cond_acquires(0, lock);
-+extern int __must_check mutex_lock_killable(struct mutex *lock) __cond_acquires(0, lock);
-+extern void mutex_lock_io(struct mutex *lock) __acquires(lock);
- 
- # define mutex_lock_nested(lock, subclass) mutex_lock(lock)
- # define mutex_lock_interruptible_nested(lock, subclass) mutex_lock_interruptible(lock)
-@@ -207,7 +208,7 @@ extern void mutex_lock_io(struct mutex *lock);
+ static inline unsigned read_seqbegin(const seqlock_t *sl)
++	__acquires_shared(sl) __no_capability_analysis
+ {
+ 	return read_seqcount_begin(&sl->seqcount);
+ }
+@@ -848,6 +850,7 @@ static inline unsigned read_seqbegin(const seqlock_t *sl)
+  * Return: true if a read section retry is required, else false
   */
- 
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
--extern int _mutex_trylock_nest_lock(struct mutex *lock, struct lockdep_map *nest_lock);
-+extern int _mutex_trylock_nest_lock(struct mutex *lock, struct lockdep_map *nest_lock) __cond_acquires(true, lock);
- 
- #define mutex_trylock_nest_lock(lock, nest_lock)		\
- (								\
-@@ -217,17 +218,21 @@ extern int _mutex_trylock_nest_lock(struct mutex *lock, struct lockdep_map *nest
- 
- #define mutex_trylock(lock) _mutex_trylock_nest_lock(lock, NULL)
- #else
--extern int mutex_trylock(struct mutex *lock);
-+extern int mutex_trylock(struct mutex *lock) __cond_acquires(true, lock);
- #define mutex_trylock_nest_lock(lock, nest_lock) mutex_trylock(lock)
- #endif
- 
--extern void mutex_unlock(struct mutex *lock);
-+extern void mutex_unlock(struct mutex *lock) __releases(lock);
- 
--extern int atomic_dec_and_mutex_lock(atomic_t *cnt, struct mutex *lock);
-+extern int atomic_dec_and_mutex_lock(atomic_t *cnt, struct mutex *lock) __cond_acquires(true, lock);
- 
--DEFINE_GUARD(mutex, struct mutex *, mutex_lock(_T), mutex_unlock(_T))
--DEFINE_GUARD_COND(mutex, _try, mutex_trylock(_T))
--DEFINE_GUARD_COND(mutex, _intr, mutex_lock_interruptible(_T), _RET == 0)
-+DEFINE_LOCK_GUARD_1(mutex, struct mutex, mutex_lock(_T->lock), mutex_unlock(_T->lock))
-+DEFINE_LOCK_GUARD_1_COND(mutex, _try, mutex_trylock(_T->lock))
-+DEFINE_LOCK_GUARD_1_COND(mutex, _intr, mutex_lock_interruptible(_T->lock), _RET == 0)
-+
-+DECLARE_LOCK_GUARD_1_ATTRS(mutex, __assumes_cap(_T), /* */)
-+DECLARE_LOCK_GUARD_1_ATTRS(mutex_try, __assumes_cap(_T), /* */)
-+DECLARE_LOCK_GUARD_1_ATTRS(mutex_intr, __assumes_cap(_T), /* */)
- 
- extern unsigned long mutex_get_owner(struct mutex *lock);
- 
-diff --git a/include/linux/mutex_types.h b/include/linux/mutex_types.h
-index fdf7f515fde8..e1a5ea12d53c 100644
---- a/include/linux/mutex_types.h
-+++ b/include/linux/mutex_types.h
-@@ -38,7 +38,7 @@
-  * - detects multi-task circular deadlocks and prints out all affected
-  *   locks and tasks (and only those tasks)
+ static inline unsigned read_seqretry(const seqlock_t *sl, unsigned start)
++	__releases_shared(sl) __no_capability_analysis
+ {
+ 	return read_seqcount_retry(&sl->seqcount, start);
+ }
+@@ -872,6 +875,7 @@ static inline unsigned read_seqretry(const seqlock_t *sl, unsigned start)
+  * _irqsave or _bh variants of this function instead.
   */
--struct mutex {
-+struct_with_capability(mutex) {
- 	atomic_long_t		owner;
- 	raw_spinlock_t		wait_lock;
- #ifdef CONFIG_MUTEX_SPIN_ON_OWNER
-@@ -59,7 +59,7 @@ struct mutex {
+ static inline void write_seqlock(seqlock_t *sl)
++	__acquires(sl) __no_capability_analysis
+ {
+ 	spin_lock(&sl->lock);
+ 	do_write_seqcount_begin(&sl->seqcount.seqcount);
+@@ -885,6 +889,7 @@ static inline void write_seqlock(seqlock_t *sl)
+  * critical section of given seqlock_t.
   */
- #include <linux/rtmutex.h>
+ static inline void write_sequnlock(seqlock_t *sl)
++	__releases(sl) __no_capability_analysis
+ {
+ 	do_write_seqcount_end(&sl->seqcount.seqcount);
+ 	spin_unlock(&sl->lock);
+@@ -898,6 +903,7 @@ static inline void write_sequnlock(seqlock_t *sl)
+  * other write side sections, can be invoked from softirq contexts.
+  */
+ static inline void write_seqlock_bh(seqlock_t *sl)
++	__acquires(sl) __no_capability_analysis
+ {
+ 	spin_lock_bh(&sl->lock);
+ 	do_write_seqcount_begin(&sl->seqcount.seqcount);
+@@ -912,6 +918,7 @@ static inline void write_seqlock_bh(seqlock_t *sl)
+  * write_seqlock_bh().
+  */
+ static inline void write_sequnlock_bh(seqlock_t *sl)
++	__releases(sl) __no_capability_analysis
+ {
+ 	do_write_seqcount_end(&sl->seqcount.seqcount);
+ 	spin_unlock_bh(&sl->lock);
+@@ -925,6 +932,7 @@ static inline void write_sequnlock_bh(seqlock_t *sl)
+  * other write sections, can be invoked from hardirq contexts.
+  */
+ static inline void write_seqlock_irq(seqlock_t *sl)
++	__acquires(sl) __no_capability_analysis
+ {
+ 	spin_lock_irq(&sl->lock);
+ 	do_write_seqcount_begin(&sl->seqcount.seqcount);
+@@ -938,12 +946,14 @@ static inline void write_seqlock_irq(seqlock_t *sl)
+  * seqlock_t write side section opened with write_seqlock_irq().
+  */
+ static inline void write_sequnlock_irq(seqlock_t *sl)
++	__releases(sl) __no_capability_analysis
+ {
+ 	do_write_seqcount_end(&sl->seqcount.seqcount);
+ 	spin_unlock_irq(&sl->lock);
+ }
  
--struct mutex {
-+struct_with_capability(mutex) {
- 	struct rt_mutex_base	rtmutex;
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
- 	struct lockdep_map	dep_map;
+ static inline unsigned long __write_seqlock_irqsave(seqlock_t *sl)
++	__acquires(sl) __no_capability_analysis
+ {
+ 	unsigned long flags;
+ 
+@@ -976,6 +986,7 @@ static inline unsigned long __write_seqlock_irqsave(seqlock_t *sl)
+  */
+ static inline void
+ write_sequnlock_irqrestore(seqlock_t *sl, unsigned long flags)
++	__releases(sl) __no_capability_analysis
+ {
+ 	do_write_seqcount_end(&sl->seqcount.seqcount);
+ 	spin_unlock_irqrestore(&sl->lock, flags);
+@@ -998,6 +1009,7 @@ write_sequnlock_irqrestore(seqlock_t *sl, unsigned long flags)
+  * The opened read section must be closed with read_sequnlock_excl().
+  */
+ static inline void read_seqlock_excl(seqlock_t *sl)
++	__acquires_shared(sl) __no_capability_analysis
+ {
+ 	spin_lock(&sl->lock);
+ }
+@@ -1007,6 +1019,7 @@ static inline void read_seqlock_excl(seqlock_t *sl)
+  * @sl: Pointer to seqlock_t
+  */
+ static inline void read_sequnlock_excl(seqlock_t *sl)
++	__releases_shared(sl) __no_capability_analysis
+ {
+ 	spin_unlock(&sl->lock);
+ }
+@@ -1021,6 +1034,7 @@ static inline void read_sequnlock_excl(seqlock_t *sl)
+  * from softirq contexts.
+  */
+ static inline void read_seqlock_excl_bh(seqlock_t *sl)
++	__acquires_shared(sl) __no_capability_analysis
+ {
+ 	spin_lock_bh(&sl->lock);
+ }
+@@ -1031,6 +1045,7 @@ static inline void read_seqlock_excl_bh(seqlock_t *sl)
+  * @sl: Pointer to seqlock_t
+  */
+ static inline void read_sequnlock_excl_bh(seqlock_t *sl)
++	__releases_shared(sl) __no_capability_analysis
+ {
+ 	spin_unlock_bh(&sl->lock);
+ }
+@@ -1045,6 +1060,7 @@ static inline void read_sequnlock_excl_bh(seqlock_t *sl)
+  * hardirq context.
+  */
+ static inline void read_seqlock_excl_irq(seqlock_t *sl)
++	__acquires_shared(sl) __no_capability_analysis
+ {
+ 	spin_lock_irq(&sl->lock);
+ }
+@@ -1055,11 +1071,13 @@ static inline void read_seqlock_excl_irq(seqlock_t *sl)
+  * @sl: Pointer to seqlock_t
+  */
+ static inline void read_sequnlock_excl_irq(seqlock_t *sl)
++	__releases_shared(sl) __no_capability_analysis
+ {
+ 	spin_unlock_irq(&sl->lock);
+ }
+ 
+ static inline unsigned long __read_seqlock_excl_irqsave(seqlock_t *sl)
++	__acquires_shared(sl) __no_capability_analysis
+ {
+ 	unsigned long flags;
+ 
+@@ -1089,6 +1107,7 @@ static inline unsigned long __read_seqlock_excl_irqsave(seqlock_t *sl)
+  */
+ static inline void
+ read_sequnlock_excl_irqrestore(seqlock_t *sl, unsigned long flags)
++	__releases_shared(sl) __no_capability_analysis
+ {
+ 	spin_unlock_irqrestore(&sl->lock, flags);
+ }
+@@ -1125,6 +1144,7 @@ read_sequnlock_excl_irqrestore(seqlock_t *sl, unsigned long flags)
+  * parameter of the next read_seqbegin_or_lock() iteration.
+  */
+ static inline void read_seqbegin_or_lock(seqlock_t *lock, int *seq)
++	__acquires_shared(lock) __no_capability_analysis
+ {
+ 	if (!(*seq & 1))	/* Even */
+ 		*seq = read_seqbegin(lock);
+@@ -1140,6 +1160,7 @@ static inline void read_seqbegin_or_lock(seqlock_t *lock, int *seq)
+  * Return: true if a read section retry is required, false otherwise
+  */
+ static inline int need_seqretry(seqlock_t *lock, int seq)
++	__releases_shared(lock) __no_capability_analysis
+ {
+ 	return !(seq & 1) && read_seqretry(lock, seq);
+ }
+@@ -1153,6 +1174,7 @@ static inline int need_seqretry(seqlock_t *lock, int seq)
+  * with read_seqbegin_or_lock() and validated by need_seqretry().
+  */
+ static inline void done_seqretry(seqlock_t *lock, int seq)
++	__no_capability_analysis
+ {
+ 	if (seq & 1)
+ 		read_sequnlock_excl(lock);
+@@ -1180,6 +1202,7 @@ static inline void done_seqretry(seqlock_t *lock, int seq)
+  */
+ static inline unsigned long
+ read_seqbegin_or_lock_irqsave(seqlock_t *lock, int *seq)
++	__acquires_shared(lock) __no_capability_analysis
+ {
+ 	unsigned long flags = 0;
+ 
+@@ -1205,6 +1228,7 @@ read_seqbegin_or_lock_irqsave(seqlock_t *lock, int *seq)
+  */
+ static inline void
+ done_seqretry_irqrestore(seqlock_t *lock, int seq, unsigned long flags)
++	__no_capability_analysis
+ {
+ 	if (seq & 1)
+ 		read_sequnlock_excl_irqrestore(lock, flags);
+diff --git a/include/linux/seqlock_types.h b/include/linux/seqlock_types.h
+index dfdf43e3fa3d..9775d6f1a234 100644
+--- a/include/linux/seqlock_types.h
++++ b/include/linux/seqlock_types.h
+@@ -81,13 +81,14 @@ SEQCOUNT_LOCKNAME(mutex,        struct mutex,    true,     mutex)
+  *    - Comments on top of seqcount_t
+  *    - Documentation/locking/seqlock.rst
+  */
+-typedef struct {
++struct_with_capability(seqlock) {
+ 	/*
+ 	 * Make sure that readers don't starve writers on PREEMPT_RT: use
+ 	 * seqcount_spinlock_t instead of seqcount_t. Check __SEQ_LOCK().
+ 	 */
+ 	seqcount_spinlock_t seqcount;
+ 	spinlock_t lock;
+-} seqlock_t;
++};
++typedef struct seqlock seqlock_t;
+ 
+ #endif /* __LINUX_SEQLOCK_TYPES_H */
 diff --git a/lib/test_capability-analysis.c b/lib/test_capability-analysis.c
-index 84060bace61d..286723b47328 100644
+index 286723b47328..74d287740bb8 100644
 --- a/lib/test_capability-analysis.c
 +++ b/lib/test_capability-analysis.c
-@@ -5,6 +5,7 @@
-  */
+@@ -6,6 +6,7 @@
  
  #include <linux/build_bug.h>
-+#include <linux/mutex.h>
+ #include <linux/mutex.h>
++#include <linux/seqlock.h>
  #include <linux/spinlock.h>
  
  /*
-@@ -144,3 +145,66 @@ TEST_SPINLOCK_COMMON(read_lock,
- 		     read_unlock,
- 		     read_trylock,
- 		     TEST_OP_RO);
+@@ -208,3 +209,45 @@ static void __used test_mutex_cond_guard(struct test_mutex_data *d)
+ 		d->counter++;
+ 	}
+ }
 +
-+struct test_mutex_data {
-+	struct mutex mtx;
-+	int counter __guarded_by(&mtx);
++struct test_seqlock_data {
++	seqlock_t sl;
++	int counter __guarded_by(&sl);
 +};
 +
-+static void __used test_mutex_init(struct test_mutex_data *d)
++static void __used test_seqlock_init(struct test_seqlock_data *d)
 +{
-+	mutex_init(&d->mtx);
++	seqlock_init(&d->sl);
 +	d->counter = 0;
 +}
 +
-+static void __used test_mutex_lock(struct test_mutex_data *d)
++static void __used test_seqlock_reader(struct test_seqlock_data *d)
 +{
-+	mutex_lock(&d->mtx);
-+	d->counter++;
-+	mutex_unlock(&d->mtx);
-+	mutex_lock_io(&d->mtx);
-+	d->counter++;
-+	mutex_unlock(&d->mtx);
++	unsigned int seq;
++
++	do {
++		seq = read_seqbegin(&d->sl);
++		(void)d->counter;
++	} while (read_seqretry(&d->sl, seq));
 +}
 +
-+static void __used test_mutex_trylock(struct test_mutex_data *d, atomic_t *a)
++static void __used test_seqlock_writer(struct test_seqlock_data *d)
 +{
-+	if (!mutex_lock_interruptible(&d->mtx)) {
-+		d->counter++;
-+		mutex_unlock(&d->mtx);
-+	}
-+	if (!mutex_lock_killable(&d->mtx)) {
-+		d->counter++;
-+		mutex_unlock(&d->mtx);
-+	}
-+	if (mutex_trylock(&d->mtx)) {
-+		d->counter++;
-+		mutex_unlock(&d->mtx);
-+	}
-+	if (atomic_dec_and_mutex_lock(a, &d->mtx)) {
-+		d->counter++;
-+		mutex_unlock(&d->mtx);
-+	}
-+}
++	unsigned long flags;
 +
-+static void __used test_mutex_assert(struct test_mutex_data *d)
-+{
-+	lockdep_assert_held(&d->mtx);
++	write_seqlock(&d->sl);
 +	d->counter++;
-+}
++	write_sequnlock(&d->sl);
 +
-+static void __used test_mutex_guard(struct test_mutex_data *d)
-+{
-+	guard(mutex)(&d->mtx);
++	write_seqlock_irq(&d->sl);
 +	d->counter++;
-+}
++	write_sequnlock_irq(&d->sl);
 +
-+static void __used test_mutex_cond_guard(struct test_mutex_data *d)
-+{
-+	scoped_cond_guard(mutex_try, return, &d->mtx) {
-+		d->counter++;
-+	}
-+	scoped_cond_guard(mutex_intr, return, &d->mtx) {
-+		d->counter++;
-+	}
++	write_seqlock_bh(&d->sl);
++	d->counter++;
++	write_sequnlock_bh(&d->sl);
++
++	write_seqlock_irqsave(&d->sl, flags);
++	d->counter++;
++	write_sequnlock_irqrestore(&d->sl, flags);
 +}
 -- 
 2.51.0.384.g4c02a37b29-goog
@@ -381,4 +469,4 @@ index 84060bace61d..286723b47328 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250918140451.1289454-11-elver%40google.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250918140451.1289454-12-elver%40google.com.
