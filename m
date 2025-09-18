@@ -1,147 +1,172 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBA5YWDDAMGQE5YHJDTY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC3ZPIWN3EFBBMOUWDDAMGQEUL26UVY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43e.google.com (mail-pf1-x43e.google.com [IPv6:2607:f8b0:4864:20::43e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2815FB85572
-	for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 16:49:41 +0200 (CEST)
-Received: by mail-pf1-x43e.google.com with SMTP id d2e1a72fcca58-77ca5b8387asf1195174b3a.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 07:49:41 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1758206979; cv=pass;
+Received: from mail-wr1-x43a.google.com (mail-wr1-x43a.google.com [IPv6:2a00:1450:4864:20::43a])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2016B85C3C
+	for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 17:50:10 +0200 (CEST)
+Received: by mail-wr1-x43a.google.com with SMTP id ffacd0b85a97d-3ccd58af2bbsf889209f8f.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 18 Sep 2025 08:50:10 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1758210610; cv=pass;
         d=google.com; s=arc-20240605;
-        b=icvWBFyNwByIrOoq+fpiW8q3LIGEPQWu8oV1B8HjP+CQs9tHYqGMv1kxPAz7P0W5gq
-         653bpXKgb9/hXX6VmajOclKURvN1MQydpSehXO3+F1cTBwm4/AYUYGvG5Ei4P/8CT/J8
-         /bPP7TTlBp0y9St8szSQfMYsBi59PM/mm6LpDdh/lg41rS+hiF+6Ekbyr/CEKMezkKWv
-         aT/yT2xoSN04QxPCM51Nv74WOTiUemtPiU2lrz0VqwMJ/rk38dh+5byR4SUm7XR/c+rH
-         klH4u15n3lgUjDUU8PctOSccrx9A/qtKiBO4nVTEVfIseqqEYEREjqXkIcdrXrnklYpA
-         ufDw==
+        b=XOQ5cUaqNdvcF+XJy61v/MA+kZpwr8vkt3YjskngH1j4hNXbxm0MaCGZjSymx0NGV9
+         OWica0AHyHV+BZ2Zu6n9L3cuFcZi6IOtyncpVWXnldeWWR11RnmT3Hdu/63sr4O91xzu
+         5ur8470L/o2it4AszCYY1ZAhWQ3YQt9nwNxyKOkRvo4EH8Qg5bJYizGEdor+50aZaHYf
+         BJP2uxyD6lL97jQ6tpOW4Y/+DJFxAbEWLT7IveImz7AmNPAo5HV+opnQmw7nMRxzJu7P
+         DpU0SpHWiYevkdqNmLYdnRj1QO8nvBwHzVDFsdUKX9OGlrGXZIC9wnkR7ycutEYD9DI8
+         nxXQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=XvfZa48X95Q1NCnzNs+NL+ifrlU2pPYPmShQJPjy1Po=;
-        fh=XsJl/qHw5qJkWwjEUbh9DXlaIwt5VllsK2KxnsK7reU=;
-        b=SLCFJrsW4/qaWJ9czv23xQxm7p5N8QQcbx/QjtZvhJE4SwwNVxP40Fs8Nh1WKbwc3z
-         CFH7Jqz76YnSxFX2Ed1VCS31FBH/HAM1qFpWei0eA2qMOXhaGcLBGEb/VlPCbsjbIlHV
-         eIQBflhx1utGjASgAVsmDihTzrQjPjrMm9rniGXk8kCzyXPCMFHY0BSkcHqxcix9+Kua
-         hcQUFjI9Is1Fbj6VG16AEmKJLK3cCC6IEHUrDtaHrrkwp52WmWsVRY7LyvzgD9wd8HyE
-         CKrxfsaq0KbA09pt/DN69eeYRsK9A8bKgW307YtCp3XTo0ZYGrX9QM4NnKUtzP3bQoHo
-         lOIQ==;
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=Ow9AiD1rbKReUMFu9GF3OR9YmCftPcYcHu92BZjqnRw=;
+        fh=iQpBOXDSLxnA4sa96WxBiQy19/0UO2UulTy8MT5J+XE=;
+        b=WUxMI52teVtGz5AJixlgXknqcOHB9VALCNz3X85f2Dt1tPU2orijkOiaTIF99Rb/Cd
+         YRZKVYE2a4aQYXGAYZq+NGUPUdO+pTsvqxZAmPm4m/fqF6r1M6KEVUcA6T7zMrIJ+2Ny
+         vHmo4Pe7naLQYDb5OQxJL3FoLfNCAa6OeMlxniM86s/CXUxrpByve/zFEx2ZXdYGvAME
+         xXr5N28E3uJtUhfcM2FW6q/9r2a6pDMmFuHi1F2wEZdZ97exkVqnBszeLKQb+oQ0bev3
+         NekNzUAR7Z9WhX5eNHfRnqiR0QraJVGXbH/vW2VlSG0PwalVaWr0M9biwbW7BCN/rxsz
+         QDxQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=OctF5PY5;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::830 as permitted sender) smtp.mailfrom=surenb@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@linux-foundation.org header.s=google header.b=Vebp1m8J;
+       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::634 as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1758206979; x=1758811779; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1758210610; x=1758815410; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XvfZa48X95Q1NCnzNs+NL+ifrlU2pPYPmShQJPjy1Po=;
-        b=jmVkNELv8StWTsD0ByXcRYQItYlZFbKzlvshf2tIPsg4A66JcXv007hcJzXG53YaoR
-         IVUdhc03xHLguUAPdMVfi4DCqQLNrd8BMqq/+wnEQgDuSO3fQu1H+ofhNG65T19/m4Z3
-         NMY7CbpaEcBc2Xtr3pyXNTClfLEH0R9POojIHYnWhyuAFnsWjBFosJBzT9RdL6N7fDHk
-         i5FydsOVG1+tvUH3ZyuOIiLWJv52qmYtfV8Oq1Hd0xmdFfdgJ4KIWt8JezMo8EmR3le1
-         qsG22RIsEIjAEvpwO4MQraxamytCHH+IGQZAmHy2QUaE3ECbeGjblarvNkVXKoLSgVnS
-         oEPg==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ow9AiD1rbKReUMFu9GF3OR9YmCftPcYcHu92BZjqnRw=;
+        b=UYB46j4CoxUuaJKepFMMZG0Zo/M+e4CqPhHGBeOe/2B9pAJw57XeRQQ1mmarNq5T54
+         wSE6KLUYp1bxNSOu5WMbLZd/cmyvv+xbfpfDaBpIXNa5Cmj0k8KcQ8dJdWo6ePRZ+ObZ
+         njOVSiVq1ELCpY8DnhZCXNbgPFEQruF/rTsNWNV/+c0Ut9ZkojKbH6+jq6KZiIBvwB/F
+         8Evvvv20XIsCsIoH139iV5/YxLSVeJ/NCZet3D6Wc1/nHzpNKxZN4baIoatVz2suDHf3
+         yjXgeLiDWJ7Y+D3o1zG8s/sQewo7ulI/8cxklvBSb+HIQ4UAwvwN3iZzidMuVUJWajJW
+         o6wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758206979; x=1758811779;
+        d=1e100.net; s=20230601; t=1758210610; x=1758815410;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XvfZa48X95Q1NCnzNs+NL+ifrlU2pPYPmShQJPjy1Po=;
-        b=jqQM1SwCeMIU1Gg8LfumPO5upGDXCCpuuFPfDuZKFXPY4BuspuhpYkrx4GG9R01uFG
-         QtnaZgXQ+9+HXhYRWJLYxm4gbqgwMqFndx6k9kDvRN6PzVrpiAuzm/eHqlbyfcHfOKcy
-         VlUqM5U/odW0pQSa2H5pWYBBL8EUts6kDQsHMQlgvx1erbgjcdcvfkiS0z7uqsk5o8Qy
-         XMb32KGxP9CulIcD51oHYszpd5HVseSduJdmLkFg5TZqHuaCnkFSV6PaJhy20RomePxE
-         Gg8IsZVao+7+9T8Dr7pNZl8o0khLfC9/NGFnvvcUfKV62czSfU0DmkF3RKsHexOvhAN5
-         n/7A==
-X-Forwarded-Encrypted: i=2; AJvYcCUwNvWGInDOmmnGC4z8pVvR3llwBrr/OWAPQ2Vi+Oh6KHQKCvyA7aS+eNj5W1TIvW5ZXmMDWg==@lfdr.de
-X-Gm-Message-State: AOJu0YwTSrrtdW9xOXaqO47CXTlgB3ErXxCYG/9SZrFHeFNsMdh6KAcp
-	zh6x+Q+YOv7NOmsPqZA7zKTaxoJvsy7RIqrht1MMngJGW+RbEHgMdlU6
-X-Google-Smtp-Source: AGHT+IHboX0wH7o5vIlxX2O+nJFFHOSnYJ3zJoTuY5hy5jezOGoxlypmRyhVZDq/GG552BMhe5JI0Q==
-X-Received: by 2002:a05:6a00:18a2:b0:772:6235:7038 with SMTP id d2e1a72fcca58-77bf72cbc6emr6914646b3a.10.1758206979364;
-        Thu, 18 Sep 2025 07:49:39 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd7rXDxC+i3N/Wus0vglzJxC3owPXoUA5EzAE1a/GomgRQ==
-Received: by 2002:a05:6a00:815:b0:736:57a0:c48f with SMTP id
- d2e1a72fcca58-77e02b31c06ls219097b3a.2.-pod-prod-09-us; Thu, 18 Sep 2025
- 07:49:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCU79Ti2pXCRr4HD76xBry2wh0UZV1zSItPn/plfjHKyvQmaobJhaiXa+HMfO5TZBIcQRWvikkyQaFc=@googlegroups.com
-X-Received: by 2002:a05:6a20:394b:b0:263:28c2:c8f7 with SMTP id adf61e73a8af0-27a8dfaecdemr7777768637.9.1758206977802;
-        Thu, 18 Sep 2025 07:49:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1758206977; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ow9AiD1rbKReUMFu9GF3OR9YmCftPcYcHu92BZjqnRw=;
+        b=V00P4SUaoBaZnf0H1RWaNWwR0CudpWtxaHcyfx/oUIpK6/kpiaFpYjPvltnsVUe4ZP
+         AAclo8t9Mk+yegTRo9vuWg/TLf+IUYenVbSpTa0F3dvy7ewmTSuXSUIa6rc9K0HS2z/8
+         YM5nyBx/UpcLnOCk+d91N0IuJUknatSNdALKds1b8WQxdQqGc9kqgPFHJ+68zTR/txRJ
+         mWKnsryqkApCr/LY25bB7xSHJCQQ/SoZD+Zzr6tMmpzTmYeqtFAf22E7ZJ0ojEm6yUwz
+         GBlSGTMjG30qRamiiwDpVTEKF88ZLSwsnpSpGrg8Ut3o7m7+6NxFibFBTFspDvEyIIrj
+         9F/g==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCWcxVGTISTnSY1AajFcULfq+0AWaofssEmHAgofQvI1uZagAiW+0sPcr/penxc72adlY2yX+g==@lfdr.de
+X-Gm-Message-State: AOJu0YzcWbRCyk7b8hjEmNoG6mUa52e/fCaM8iLXLC5OwKwu2LMS67Hh
+	mx9IJPg1QzuTOqCsgWRpmGpSLkKWUYSW7ZYob6hBg+mdYINiQOGIyi7E
+X-Google-Smtp-Source: AGHT+IHkYKeyeChEe2wB5nRAvSRWXHfcNzzplhIx7fOvIevnkc3cmDDOUFzFb2eSnl/B9JqbBsMjfQ==
+X-Received: by 2002:a05:6000:4024:b0:3bd:13d6:6c21 with SMTP id ffacd0b85a97d-3edc9e2ba59mr3964351f8f.0.1758210609902;
+        Thu, 18 Sep 2025 08:50:09 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd4p7eOv3cu0aaS3tazpepxNgm6slHYtpSSve3hV7S++og==
+Received: by 2002:a05:6000:420e:b0:3db:a907:f17b with SMTP id
+ ffacd0b85a97d-3ee1058778fls410311f8f.1.-pod-prod-00-eu; Thu, 18 Sep 2025
+ 08:50:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCV10d7RankCaVG2kl8sNMiYkceRiuTgMgHnCYgI49PFzdm3reBEzjZOvzcjYJFkNdSgiMLOR74R280=@googlegroups.com
+X-Received: by 2002:a05:6000:2c0b:b0:3dc:1a9c:2e7f with SMTP id ffacd0b85a97d-3ee16026538mr136467f8f.8.1758210606606;
+        Thu, 18 Sep 2025 08:50:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1758210606; cv=none;
         d=google.com; s=arc-20240605;
-        b=huGWZwsS3ru93QXrqn+IbIftiNtXNPTq19NbxXqq1+BiIFtt9hoD/r+gYf+Z8VMHOK
-         vq2di5mYOzemeu8FhIdUADifL+16tt1yELEeUmX3pwhlv6wh5chEhEptl2Nb7YoqoKbR
-         i/b7b3oV9/TnP6oUHzPXDjLAKlyEwmOQV2tFTS6Ug0+8P/D1rjcUN96YipcwkxFHiqCQ
-         ihS1lu9cH1jUeX3hLwxtgky67phA8uZtl1V7+GvGDgITnC3PRHQffFYTXdfXxWdmNCG9
-         +QlB49wVsVZzmKZsnOmDa4u6DEsHErr8w0pSov0KqaYvABJbZlskfBFliNS4n8y6xfw4
-         XR7g==
+        b=dwSNsAqAEELa4TzL87y0bTJrJveLjsV1yV1pl7iP6DB5QAEv7IAInxALJqpX0g/8+m
+         lL555b39NSQK4YBXaTe9OsLLwoKLWxcDQwtTp6oRJxEXy74eriOSwH0DJxzRaatRZ1k3
+         fkA7G2AMy4WQo6hSxpJ6CNOXd7LpVf9RKKP63bRfR9qOpV/4ei1fVAPj7Ay5BTQtYuI1
+         L4L/KcRMLJNDtxFF+u1qYSz+pnYLSFM2qs4X+NYy7XsmUsILqoDiVmG7NMsEc5ZJ8Mfu
+         6fo/EN8Stoe6IGNJfB2F+nV6S36ioPc2jfJPlCsfgu2h726IOq9EqO+R+JnEdPwPVIf6
+         hd/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KvgqQMIRazqhTNds4nMPQal7ZSlIJweSzO/oPA+Hs2c=;
-        fh=/FikcAsapytfbksSYO8+v+S2FPEnHxohvOemXffvsZs=;
-        b=XAaBCB2rNqg4L9b9oMv48EivIv8GS/UaNnm2JT3Xu6oEumnGr/aqGYze6f1QunU8FJ
-         gvYI/gNJSGJlWcTYgJW8XT0YLwnj634KEfBtVScVGpp6KHq7Zsm2zQS2lrmFFJrpoZbD
-         ICDCEv4UGwaFMmkQiThzD+eXdXwV96ipqrPcbmc7N1JhTX8NlwglFlORCOEmGf2k4B6X
-         l0SB38q0Ybo6LKF24KxaDQA8RmXpO147hCdSlkY438VDiysH3BuSDW0+WcO7Nw+rl7gk
-         P5dVpcIrZ75pefUkhAnApbzzrdUkqc8yaOP/9Y+pt//QcPpfawj8cI7pcx9+xqGo0yJV
-         XNYA==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=hpKO6CsQCuex3g+QZ22KGPC+ZgcKRmVKS1THDCqCkXc=;
+        fh=T+rbCMBi3WxwHgk4i9u7OuSTXjQVaM8kci+o8WkMCVA=;
+        b=Iu6t3sgLrSy2I1qkTvDB0jtNHPE3SQP+FJj5fQNii8PxIT/FNRYYI44fWAQFU/AtjG
+         kw3nBNKqDL8fVtt64bBSiHOTyNKxcO1T/BfAFZfkxuZlQ+fzMxhmJkUp72txqnb4ywhi
+         IIB4e6H6/s8RtN8G7ZfelHbxZALxK61oW6m8dwnEG+H6pINEhw9UpxuRZvLUOlqNn1Dp
+         AfH9gQbRVF4d7UnLFlogPWAJuDQowh7EDdZPw4lHY48981kseohk5C0eUhTLu+yBU7bn
+         Ws9aipt4fJETtOShKTWf7pBle4SQYfXHlSi3dv/WLYcm2quvwwtpFAD/nsPKwMytUvVo
+         Qphw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=OctF5PY5;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::830 as permitted sender) smtp.mailfrom=surenb@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@linux-foundation.org header.s=google header.b=Vebp1m8J;
+       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::634 as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org;
        dara=pass header.i=@googlegroups.com
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com. [2607:f8b0:4864:20::830])
-        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-b5515666145si16034a12.1.2025.09.18.07.49.37
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com. [2a00:1450:4864:20::634])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3ee0fbcabecsi47283f8f.8.2025.09.18.08.50.06
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Sep 2025 07:49:37 -0700 (PDT)
-Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::830 as permitted sender) client-ip=2607:f8b0:4864:20::830;
-Received: by mail-qt1-x830.google.com with SMTP id d75a77b69052e-4b4bcb9638aso434551cf.0
-        for <kasan-dev@googlegroups.com>; Thu, 18 Sep 2025 07:49:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXH3JG5x7ornMQLfmy8/ULB6D2WTIMCUm8b2J+Obup0Sg2cf/REdlWzKH4LdZG0knRxAjNAx2ER/No=@googlegroups.com
-X-Gm-Gg: ASbGncu4dqRnZC+uPSvTNro8qajEFarMncLwE5pEQYb7MQdYi3uHpLs+eFPw6r64Z5a
-	YzQrK7ySBoapHLTjTZoLLiReOBSjsIla9hn6epQcbgDvx0PQ+V4ingJ1W4IWPK7yFaU93xsj/IG
-	pZkmTqT+OeMWQxzGdtcAYY0tHpQyWDYhMWPsWGlGhNUww4SOGISgMs/vWOFS0ERpiyTmUO1h9U8
-	IW9rSA1Gkka/eQ+ykBq2S8tDs0nj4kMq6EgKLSbOR1DJ64jTFCG22e9KZ7SC+Y=
-X-Received: by 2002:a05:622a:118c:b0:4b3:50ee:579e with SMTP id
- d75a77b69052e-4ba2dbd8d7amr13425281cf.11.1758206976508; Thu, 18 Sep 2025
- 07:49:36 -0700 (PDT)
+        Thu, 18 Sep 2025 08:50:06 -0700 (PDT)
+Received-SPF: pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::634 as permitted sender) client-ip=2a00:1450:4864:20::634;
+Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-b07dac96d1eso334397366b.1
+        for <kasan-dev@googlegroups.com>; Thu, 18 Sep 2025 08:50:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW9a33/DcMfMiKENljvIWn1Mx/iegERnVMiogSIELtPt4uKxvQYFUQrhE4ojpN99khwQs+TxiNVdws=@googlegroups.com
+X-Gm-Gg: ASbGncvuXoM1WiVtbQzfiGBItVI/Kg1zWBct1e/A9Sp/uwWNTKMIsGAo+t3GotCwNa6
+	jqQcxfxoV1zWDCd4VvSbjhjZ9Pto8LOshZAM/BOjIYpuv7Wz6fUj3sXgk4ty9xgaLP6RY+U84vv
+	0HeQgCYwM60k0buDDWDupZ0jhidRRRe3OTpNk5yvC5qo5K0yWrwDkqnNA7L87Jk9tFsCPBIruxw
+	QfHBx3yTie+en/FysahL7M2e4PLYCIRJZukKh4ZblfNAkAEbP95eU3tGE9PjYE635GeOGfLLyeN
+	VMt4WdTK1W8qCnWzlIqC35OLUkgIWeRJOHZEjDXkxjvbKMWvZsCb4CAw6eHUcpma33obB4K8UmO
+	RMsd1A6fzsQ4i9Dau4lTgPUpTAFdRzAAgFXUQWx6fmacLQDbhLXbKE55jG+IYwFeUyomKyc4RpU
+	ZOrafLnWcTz9rW7Lw=
+X-Received: by 2002:a17:907:7b9c:b0:b07:dd5e:16be with SMTP id a640c23a62f3a-b1fa844e2f5mr390570166b.4.1758210605709;
+        Thu, 18 Sep 2025 08:50:05 -0700 (PDT)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com. [209.85.218.41])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b1fc890cb0esm216830866b.46.2025.09.18.08.50.02
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Sep 2025 08:50:03 -0700 (PDT)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b046f6fb230so232597466b.1
+        for <kasan-dev@googlegroups.com>; Thu, 18 Sep 2025 08:50:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUaLhndHPrMLs9D6SXnLPIgM6eme/R/cLfjMSpCDfRirMPNb/DwF3qj6EgpKZ/sp3IfQ1lkRt0ykI4=@googlegroups.com
+X-Received: by 2002:a17:907:9612:b0:b10:ecc6:5d8d with SMTP id
+ a640c23a62f3a-b1fac9c9b84mr417765966b.26.1758210601571; Thu, 18 Sep 2025
+ 08:50:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <202509171214.912d5ac-lkp@intel.com> <b7d4cf85-5c81-41e0-9b22-baa9a7e5a0c4@suse.cz>
- <ead41e07-c476-4769-aeb6-5a9950737b98@suse.cz> <CAADnVQJYn9=GBZifobKzME-bJgrvbn=OtQJLbU+9xoyO69L8OA@mail.gmail.com>
- <ce3be467-4ff3-4165-a024-d6a3ed33ad0e@suse.cz>
-In-Reply-To: <ce3be467-4ff3-4165-a024-d6a3ed33ad0e@suse.cz>
-From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 18 Sep 2025 07:49:25 -0700
-X-Gm-Features: AS18NWBKqEKLWVuQ980Fh7DdopBdRtw6yIZtBXo-Y59z15HRkGH_vRxj6TN4pFk
-Message-ID: <CAJuCfpGLhJtO02V-Y+qmvzOqO2tH5+u7EzrCOA1K-57vPXhb+g@mail.gmail.com>
-Subject: Re: [linux-next:master] [slab] db93cdd664: BUG:kernel_NULL_pointer_dereference,address
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, kernel test robot <oliver.sang@intel.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Harry Yoo <harry.yoo@oracle.com>, oe-lkp@lists.linux.dev, 
-	kbuild test robot <lkp@intel.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-	"open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>, linux-mm <linux-mm@kvack.org>
+References: <20250918140451.1289454-1-elver@google.com>
+In-Reply-To: <20250918140451.1289454-1-elver@google.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 18 Sep 2025 08:49:44 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgd-Wcp0GpYaQnU7S9ci+FvFmaNw1gm75mzf0ZWdNLxvw@mail.gmail.com>
+X-Gm-Features: AS18NWBk4u9ObN57KesSGhJyt-aPlWZgKdxYhvzpAyoaxlNUF53WHe4dSKjzUBg
+Message-ID: <CAHk-=wgd-Wcp0GpYaQnU7S9ci+FvFmaNw1gm75mzf0ZWdNLxvw@mail.gmail.com>
+Subject: Re: [PATCH v3 00/35] Compiler-Based Capability- and Locking-Analysis
+To: Marco Elver <elver@google.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>, 
+	Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Bart Van Assche <bvanassche@acm.org>, Bill Wendling <morbo@google.com>, Christoph Hellwig <hch@lst.de>, 
+	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
+	Frederic Weisbecker <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>, 
+	Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Triplett <josh@joshtriplett.org>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	Kentaro Takeda <takedakn@nttdata.co.jp>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
+	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
+	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
+	llvm@lists.linux.dev, rcu@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: surenb@google.com
+X-Original-Sender: torvalds@linux-foundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=OctF5PY5;       spf=pass
- (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::830 as
- permitted sender) smtp.mailfrom=surenb@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Suren Baghdasaryan <surenb@google.com>
-Reply-To: Suren Baghdasaryan <surenb@google.com>
+ header.i=@linux-foundation.org header.s=google header.b=Vebp1m8J;
+       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates
+ 2a00:1450:4864:20::634 as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org;
+       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -154,108 +179,81 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Sep 18, 2025 at 12:06=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> w=
-rote:
+On Thu, 18 Sept 2025 at 07:05, Marco Elver <elver@google.com> wrote:
 >
-> On 9/17/25 20:38, Alexei Starovoitov wrote:
-> > On Wed, Sep 17, 2025 at 2:18=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz=
-> wrote:
-> >>
-> >> Also I was curious to find out which path is triggered so I've put a
-> >> dump_stack() before the kmalloc_nolock call:
-> >>
-> >> [    0.731812][    T0] Call Trace:
-> >> [    0.732406][    T0]  __dump_stack+0x18/0x30
-> >> [    0.733200][    T0]  dump_stack_lvl+0x32/0x90
-> >> [    0.734037][    T0]  dump_stack+0xd/0x20
-> >> [    0.734780][    T0]  alloc_slab_obj_exts+0x181/0x1f0
-> >> [    0.735862][    T0]  __alloc_tagging_slab_alloc_hook+0xd1/0x330
-> >> [    0.736988][    T0]  ? __slab_alloc+0x4e/0x70
-> >> [    0.737858][    T0]  ? __set_page_owner+0x167/0x280
-> >> [    0.738774][    T0]  __kmalloc_cache_noprof+0x379/0x460
-> >> [    0.739756][    T0]  ? depot_fetch_stack+0x164/0x180
-> >> [    0.740687][    T0]  ? __set_page_owner+0x167/0x280
-> >> [    0.741604][    T0]  __set_page_owner+0x167/0x280
-> >> [    0.742503][    T0]  post_alloc_hook+0x17a/0x200
-> >> [    0.743404][    T0]  get_page_from_freelist+0x13b3/0x16b0
-> >> [    0.744427][    T0]  ? kvm_sched_clock_read+0xd/0x20
-> >> [    0.745358][    T0]  ? kvm_sched_clock_read+0xd/0x20
-> >> [    0.746290][    T0]  ? __next_zones_zonelist+0x26/0x60
-> >> [    0.747265][    T0]  __alloc_frozen_pages_noprof+0x143/0x1080
-> >> [    0.748358][    T0]  ? lock_acquire+0x8b/0x180
-> >> [    0.749209][    T0]  ? pcpu_alloc_noprof+0x181/0x800
-> >> [    0.750198][    T0]  ? sched_clock_noinstr+0x8/0x10
-> >> [    0.751119][    T0]  ? local_clock_noinstr+0x137/0x140
-> >> [    0.752089][    T0]  ? kvm_sched_clock_read+0xd/0x20
-> >> [    0.753023][    T0]  alloc_slab_page+0xda/0x150
-> >> [    0.753879][    T0]  new_slab+0xe1/0x500
-> >> [    0.754615][    T0]  ? kvm_sched_clock_read+0xd/0x20
-> >> [    0.755577][    T0]  ___slab_alloc+0xd79/0x1680
-> >> [    0.756469][    T0]  ? pcpu_alloc_noprof+0x538/0x800
-> >> [    0.757408][    T0]  ? __mutex_unlock_slowpath+0x195/0x3e0
-> >> [    0.758446][    T0]  __slab_alloc+0x4e/0x70
-> >> [    0.759237][    T0]  ? mm_alloc+0x38/0x80
-> >> [    0.759993][    T0]  kmem_cache_alloc_noprof+0x1db/0x470
-> >> [    0.760993][    T0]  ? mm_alloc+0x38/0x80
-> >> [    0.761745][    T0]  ? mm_alloc+0x38/0x80
-> >> [    0.762506][    T0]  mm_alloc+0x38/0x80
-> >> [    0.763260][    T0]  poking_init+0xe/0x80
-> >> [    0.764032][    T0]  start_kernel+0x16b/0x470
-> >> [    0.764858][    T0]  i386_start_kernel+0xce/0xf0
-> >> [    0.765723][    T0]  startup_32_smp+0x151/0x160
-> >>
-> >> And the reason is we still have restricted gfp_allowed_mask at this po=
-int:
-> >> /* The GFP flags allowed during early boot */
-> >> #define GFP_BOOT_MASK (__GFP_BITS_MASK & ~(__GFP_RECLAIM|__GFP_IO|__GF=
-P_FS))
-> >>
-> >> It's only lifted to a full allowed mask later in the boot.
-> >
-> > Ohh. That's interesting.
-> >
-> >> That means due to "kmalloc_nolock() is not supported on architectures =
-that
-> >> don't implement cmpxchg16b" such architectures will no longer get obje=
-xts
-> >> allocated in early boot. I guess that's not a big deal.
-> >>
-> >> Also any later allocation having its flags screwed for some reason to =
-not
-> >> have __GFP_RECLAIM will also lose its objexts. Hope that's also accept=
-able.
-> >> I don't know if we can distinguish a real kmalloc_nolock() scope in
-> >> alloc_slab_obj_exts() without inventing new gfp flags or passing an ex=
-tra
-> >> argument through several layers of functions.
-> >
-> > I think it's ok-ish.
-> > Can we add a check to alloc_slab_obj_exts() that sets allow_spin=3Dtrue
-> > if we're in the boot phase? Like:
-> > if (gfp_allowed_mask !=3D __GFP_BITS_MASK)
-> >    allow_spin =3D true;
-> > or some cleaner way to detect boot time by checking slab_state ?
-> > bpf is not active during the boot and nothing should be
-> > calling kmalloc_nolock.
+> Capability analysis is a C language extension, which enables statically
+> checking that user-definable "capabilities" are acquired and released where
+> required. An obvious application is lock-safety checking for the kernel's
+> various synchronization primitives (each of which represents a "capability"),
+> and checking that locking rules are not violated.
 >
-> Checking the gfp_allowed_mask should work. Slab state is already UP so wo=
-n't
-> help, and this is not really about slab state anyway.
-> But whether worth it... Suren what do you think?
+> Clang originally called the feature "Thread Safety Analysis" [1],
 
-Vlastimil's fix is correct. We definitely need __GFP_NO_OBJ_EXT when
-allocating an obj_exts vector, otherwise it will try to recursively
-allocate an obj_exts vector for obj_exts allocation.
+So this looks really interesting, but I absolutely *hate* the new
+"capability" name.
 
-For the additional __GFP_BITS_MASK check, that sounds good to me as
-long as we add a comment on why that is there. Or maybe such a check
-deserves to be placed in a separate function similar to
-gfpflags_allow_{spinning | blocking}?
+We have existing and traditional - and very very different - meaning
+of "capabilities" in the kernel, and having this thing called
+"capability" is just wrong. Particularly as it then talks about
+"acquiring capabilities" - which is *EXACTLY* what our lon-existing
+capabilities are all about, but are something entirely and totally
+different.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-AJuCfpGLhJtO02V-Y%2BqmvzOqO2tH5%2Bu7EzrCOA1K-57vPXhb%2Bg%40mail.gmail.com.
+So please - call it something else. Even if clang then calls it
+'capability analysis", within the context of a kernel, please ignore
+that, and call it something that makes more sense (I don't think
+"capabilities" make sense even in the context of clang, but hey,
+that's _their_ choice - but we should not then take that bad choice
+and run with it).
+
+Sparse called it "context analysis", and while the "analysis" part is
+debatable - sparse never did much anything clever enough to merit
+calling it analysis - at least the "context" part of the name is I
+think somewhat sane.
+
+Because it's about making decisions based on the context the code runs in.
+
+But I'm certainly not married to the "context" name either. I'd still
+claim it makes more sense than "capability", but the real problem with
+"capability" isn't that it doesn't make sense, it's that we already
+*HAVE* that as a concept, and old and traditional use is important.
+
+But we do use the word "context" in this context quite widely even
+outside of the sparse usage, ie that's what we say when we talk about
+things like locking and RCU (ie we talk about running in "process
+context", or about "interrupt context" etc). That's obviously where
+the sparse naming comes from - it's not like sparse made that up.
+
+So I'm really happy to see compilers start exposing these kinds of
+interfaces, and the patches look sane apart from the absolutely
+horrible and unacceptable name. Really - there is no way in hell we
+can call this "capability" in a kernel context.
+
+I'd suggest just doing a search-and-replace of 's/capability/context/'
+and it would already make things a ton better. But maybe there are
+better names for this still?
+
+I mean, even apart from the fact that we have an existing meaning for
+"capability", just look at the documentation patch, and read the first
+sentence:
+
+  Capability analysis is a C language extension, which enables statically
+  checking that user-definable "capabilities" are acquired and released where
+  required.
+
+and just from a plain English language standpoint, the word
+"capability" makes zero sense. I think you even realized that, in that
+you put that word in quotes, because it's _so_ nonsensical.
+
+And if not "context", maybe some other word? But really, absolutely
+*not* "capability". Because that's just crazy talk.
+
+Please? Because other than this naming issue, I think this really is a
+good idea.
+
+           Linus
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CAHk-%3Dwgd-Wcp0GpYaQnU7S9ci%2BFvFmaNw1gm75mzf0ZWdNLxvw%40mail.gmail.com.
