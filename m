@@ -1,161 +1,143 @@
-Return-Path: <kasan-dev+bncBCUY5FXDWACRBLWDW3DAMGQE3HWXN6Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDCPL7WX3MKBBUGZW3DAMGQESELSJNY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88665B8AEC6
-	for <lists+kasan-dev@lfdr.de>; Fri, 19 Sep 2025 20:32:17 +0200 (CEST)
-Received: by mail-wm1-x339.google.com with SMTP id 5b1f17b1804b1-469e82ad756sf3145005e9.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 19 Sep 2025 11:32:17 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1758306737; cv=pass;
+Received: from mail-pl1-x63f.google.com (mail-pl1-x63f.google.com [IPv6:2607:f8b0:4864:20::63f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79924B8B120
+	for <lists+kasan-dev@lfdr.de>; Fri, 19 Sep 2025 21:19:46 +0200 (CEST)
+Received: by mail-pl1-x63f.google.com with SMTP id d9443c01a7336-2697410e7f9sf40312485ad.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 19 Sep 2025 12:19:46 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1758309585; cv=pass;
         d=google.com; s=arc-20240605;
-        b=KGxzX+2Wz6lQWMBacn1+sLuBLdPdNwxVhvCrYu0S9m4hLe2MRwLkfHx5EZZi/wKSC9
-         80co9+pU8DreuJcIBSeMwQdfh9ou0qLZJm5RfN3fywcNz62oVv2yZr50URSVB8AuUf/S
-         XLLv1mito0XpR7+HsbPPmjExXPMPgaI5Ph1rcyB5t08+dZ+3n3YBToAx8NVzUbTFAJtY
-         NNNsSTAeGdMQeJvqrh2H/q23GQ5uY6hAvipE7dwpkPBLz3ysUO8QnROZKyk4l3ufYJrL
-         KnWgPEkGzGUb2H6D9VRpbj7Z0tTyUEIfM0pNFtv37BARwc78X8DX0g3Ftq/lzH+F+V5+
-         /UDQ==
+        b=NDxeQ4agR5QhgrpU2fo1am4ZLnDfy9aTe/+mGUvCdgrTmntm7CQ97rmv2GZ09bRL2e
+         o8gEI7vcylTveZzDPZfhnzz+yUYWj3wllnPBZIUkE1++qIVwJTCxTUTW7kL7r4a63lbT
+         OnX3vUPgEe2s858cHAFW3jEkFyis/JFIdl7Y8W9KW5WQVwoqVdBsifGVIFpATOYhaE4W
+         kvR+bhmViah462zOwArOyavKdgDHY/8Y7ufeM/2lIlV0LE4pseYbgAZHmUbkK0lDA3Fa
+         KO/xhu3kfot2VkO0Ue+orglrLBLvdb7MJsW1KXBL0XJck60yc2lWBrQpbWk/7hru5a9E
+         EXTg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=fWSNAx/ATAOEuSJ7h5PHuZUJrkb61jL6EOPJkG7QO9o=;
-        fh=3G7MUCPrZdhgiU7FfeGKhLtGvS5QrA3QhFOa76xREyk=;
-        b=U+eHKaLs9NyGynE+pVMN9/jFyV4lXwTvzVBMNFHYigLDgVN+LQ2ChQJseEnwaIzqtP
-         17Lyc31zj1HS78MVlEJGZOohbv/D00GUg+W176hBPpYIaY8IA9L9mxLyJuab7/g5gvWA
-         mOLhMo/xBAcuL3fTTOeizA1BeK/EWBOQ3g9DF5oTgLPgzETtGqg9EeGlv8NDOfaj4H14
-         Wx/YT+bjY+50Qv6LH85tI70U+UB+f9ryrpGoLGWyeeVpJFbscn0RfIE8986GwGmwsKNY
-         rR86hybkc0F7W0/a/BqeAJS83qVxGjKghA7fndTQmD1nwgPNV26G4o7a6I/s+4x5Sp4K
-         BZ6g==;
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=M0YKgJaKYuhAulNu+MWVhzafQseQFv1YPVWxfuZ3W6g=;
+        fh=Lus7hIH2NETQlAcpO8fXyB/7MuDpevSmkRZkUDUN5dw=;
+        b=QRvOfE5bXovhazaRg3DvcNeF9vX2zj87CzwbzU/g83wPR1KSNwp+8MOZ0WgVSt7J9U
+         80Mm+Ws56kJrJraJpqMG7yL3Pfc3P2qZeNU+s2uMlkwQvL7jH+HT5P17DOeDwISaAfqF
+         hYL3wiwtfhnPQwUeyXetKbyqgJCY96naL0GXh54pxwuwoXz8knPoM7ee3kNbpb9rafHy
+         wIXDH1AiMbVeKdpBDjr9u6xv3p+AQYnHcnx6df43TEVuEK3m78avLdDTCMw4csPX/sW/
+         EzgJI/UiAwcpUKoutbXzTjGWJt7e8wGcpxrWNM4+QvMNhRnv3ap8y8BQlpGRoPOf/3oc
+         f6qA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=eHRkOLBf;
-       spf=pass (google.com: domain of alexei.starovoitov@gmail.com designates 2a00:1450:4864:20::42b as permitted sender) smtp.mailfrom=alexei.starovoitov@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=i2GtAhd8;
+       spf=pass (google.com: domain of kees@kernel.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1758306737; x=1758911537; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1758309585; x=1758914385; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fWSNAx/ATAOEuSJ7h5PHuZUJrkb61jL6EOPJkG7QO9o=;
-        b=jbVlQAkEjmCEgzyOc10RxKfyo6xgjb6IHpNtWdysdWtvWx0FzRcf8biOYZvhLIsN1I
-         U4Q3c+eATmqTD8LdgAqr0fGIChvvbI2n3B0eqwS3YmUYw5R9s0FLdVdiYpNv3ncilmcq
-         Rz3nY7FzkJsBYQj5KtaDbNCVd21vZTp30EkS06ZzI7zhjQXEuQO5IND51aQjELANZBrl
-         vqUcWcZzaqPYaOLTRnfbhoz/AIXBL/719MfAAr/jQ7bXkc2ueQIZvPXwSYevrJJ2fyFT
-         V49FmFmQcEro7XJ3F2fbJyzfsZioZiNyfho2pRhq4+ub9L0xpI5N/raXfy4FEXYeJlgC
-         w/KA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758306737; x=1758911537; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fWSNAx/ATAOEuSJ7h5PHuZUJrkb61jL6EOPJkG7QO9o=;
-        b=g1+jiebhYNAOxMtwOCmrIIXVop1H2HAuxJMzMHGNj6FLDgurzcTXnPcBUapRU1TPDC
-         Hl4spWuE1WXZosHQYfub0bff1NoOB0seo2641gzxLnACB+cVt2VzTl8kjs/ymjC4gM3/
-         DvsuWGaCJCah70RWnl1M+6fAC6LAFqeAHqwe/rln48jj1kkQ+rAZr+91cYhkieOPy8SA
-         gbloDIJcXyh5QVXMhUYfAuQYdi/ZJNql7SpxW7Go0/QwU7cg/Go3gywdBDbmtdjTAUsM
-         cgjIrzkwI8FhGQhUdkZACPiui+3r1XFHFviGcUhKN09vzFHtTEO48wmTbRR7As93lU/E
-         LPZQ==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=M0YKgJaKYuhAulNu+MWVhzafQseQFv1YPVWxfuZ3W6g=;
+        b=WbKX5KMIUMHeUvAP7dmqPOqMP/QyAsqUnQnpYyIsumPZa3/a4xju/g2m6ZBoB8+zki
+         cq3FEmvyUgOAR5FAGNJrAeWMOBEEf/N60wky9PWeA9erkPqf8W6qqPiW4C9s3QC4syZF
+         mRBDxVtt2PU2cfHdEvps1ScPPv05PRKoX7uPzJ5qrlYBbz9vzdFmgxLecK0Ls2kwiX0n
+         7IIB4dRVZpwBCaldYMqtIbjcsLP2XoYHYdIylXpTFlFJcqDsS4aFsEwNwfl/JLd13sL6
+         nZHbDLRYMQurnqYhSPZSzxRo+pdxMs9dehCuDe8VJJ9t8Z3KGOHpKH3JOl1lJpcItVUq
+         xeag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758306737; x=1758911537;
+        d=1e100.net; s=20230601; t=1758309585; x=1758914385;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=fWSNAx/ATAOEuSJ7h5PHuZUJrkb61jL6EOPJkG7QO9o=;
-        b=Dt/LVTj5C2uIdjYFtrlVcX7l/nfzhxH00lgqvLnglvBcDDO54qGWQ5uamBOKwlNspm
-         mFToeeGizF59xluoeKi0OFR9fy1qZQilt7bG0yoNCZf+VdlEx0qbzZ7MTawLhx3FoFjm
-         eabhuTOmH4lzdkU3v2huY8QAcMSobfKa5l+1zu6Xm6NHUevOEPHUGeYd6soSjjNDqye9
-         3Lngg3rOCtiEwwNT9ojT/77ZEvRVnOKOSlaUkhLK6tbm2QE1juy9nEQtBQQWvD9yXL40
-         JQX7ip0+RMkhVCz5kgFvbO0wpv3y5y0UBbGedSNnwjZpF0nuxqeJauK5+/Y9UgiV6acU
-         C1/A==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUqxsMj4KhS9Rqj6vimsoD1b/c5C9ZXHe/nj+lJRT3T1pNVkkER+MlJv0oRwSER+oUS6jDL6g==@lfdr.de
-X-Gm-Message-State: AOJu0YwkJEiVD5JcNhOBk54h3lzGeYtVCmvhKZjuSd6w9AiA62qtgx9+
-	TOp9U4TRi1kAjBkRiEj0uSKk1/qu4j7ru6bLUCGicOoT53L9DnNhDhmT
-X-Google-Smtp-Source: AGHT+IH58h674mD/4rCMtMl6JzaYULgpcp8bkbJ7Yzj+vz4TTCkMdyTah1xV64bBDdm+rm/aEKxpag==
-X-Received: by 2002:a05:600c:3b09:b0:45b:9afe:ad48 with SMTP id 5b1f17b1804b1-467e82608c5mr48942435e9.16.1758306735135;
-        Fri, 19 Sep 2025 11:32:15 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd7y+S9NQAbMLTpjxMitjSjNJneTFAo3h2b/uJFREWNAdw==
-Received: by 2002:a05:600c:4690:b0:45d:d27e:8ca8 with SMTP id
- 5b1f17b1804b1-46543b01aaals12790905e9.2.-pod-prod-03-eu; Fri, 19 Sep 2025
- 11:32:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWoXjvqTvXiRvyYNG9ANp8JEeh4eKkCDzasjLcziukULGYNXcyXcdsWrcKbIIuJUbQpbxue1FohLas=@googlegroups.com
-X-Received: by 2002:a05:600c:4f51:b0:468:7ad5:b91c with SMTP id 5b1f17b1804b1-4687ad5c393mr42042085e9.5.1758306731512;
-        Fri, 19 Sep 2025 11:32:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1758306731; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M0YKgJaKYuhAulNu+MWVhzafQseQFv1YPVWxfuZ3W6g=;
+        b=gzT9kHkofBT6+PLszPSytgB8ooy4LL9s65rkXZWoYhp3AyO9UQ0NQRVkeiNH423bDZ
+         uEHjmA+4onEFQmUO5BI2AjuzFJjX7BCYCgc2EIFPFbdEY814SppV9lPfklM2cbDDj8p+
+         3AW1LRTLLZ4hQn2E6h7SoHYItqGVkqm9j1lWiHvisd5zb97vEiPzJYGWSFmCvqoQ+JKK
+         yaEWzu0QxCk4sOEkhI/51CDr0r/t1Y63RxEnfOgQ1jFIAL6EW3AQTmog2eKAPDqSaHwS
+         1sPiRNt4o2cO33eYNDDHeYmDtEaOvfHiRzTYExQxt+TLJDsJtIH4O7TEqMA3Tuj0N7kQ
+         X/fQ==
+X-Forwarded-Encrypted: i=2; AJvYcCVPkcjSVF9aSKT1QXg5aOF0Ex37nxC4Vd5PRwoxy7js/A1MFhGFeMRCK2ZgZTKBOLZdniSFKg==@lfdr.de
+X-Gm-Message-State: AOJu0YzWFpFgQ4XDepAdyHpAvhznaLYSyg/PZDMyI+orsgyvxN+4AATr
+	jf2x7yGb8HMDQi0M05EL/T89dEi0IPPP+ca9d5iLVcrIEYJxECXP1BgL
+X-Google-Smtp-Source: AGHT+IHGDmVJl6EFvMnW73dvka/+GURxJmuhKxLjKLslyFzh1/+w+Pwxskoo3zLf4d15YENzZNrrrg==
+X-Received: by 2002:a17:902:ce92:b0:24e:bdfa:112b with SMTP id d9443c01a7336-269ba592471mr51941405ad.61.1758309584974;
+        Fri, 19 Sep 2025 12:19:44 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd74MMRJPLA2SoVVqw9zQflpcJpI5Q9R4vMgPSFnGRzvcw==
+Received: by 2002:a17:903:7ce:b0:25d:b1dd:933c with SMTP id
+ d9443c01a7336-26983fcc2c6ls14302895ad.0.-pod-prod-08-us; Fri, 19 Sep 2025
+ 12:19:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXcj9mQZeqUTE1IAIVUNjLriSm6OYnurHlJA+ZK0jnQBaJKjIuXltXILfbGPwi9Gif8Zu1f+tEgbPI=@googlegroups.com
+X-Received: by 2002:a17:902:e74b:b0:264:3519:80d0 with SMTP id d9443c01a7336-269ba516ec9mr66476895ad.33.1758309583669;
+        Fri, 19 Sep 2025 12:19:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1758309583; cv=none;
         d=google.com; s=arc-20240605;
-        b=ScjXHQbuLy9qDVBOkNDi857NO6G6pI0zm88JWjLW4IF2MXDX9/KK/+6rcTRQoVXebF
-         lO0s1dCE2BHnwAsd3RWBhQC43TycE/HPGx8NGiXSvvbQVEUZBHsOGVg2XeVeE0cu3ZXM
-         SFvx7Jc7gUnaUUu/GEQRV/fhDIstfOuxwjGGFrtsy2LVx5ND22OW6uYoBrY/LnML29xL
-         KBaFrL3TwZ5Ggh0JP8MesjCmO6flvWaaB3Khq2EOQ+b+0sMtkwMbYb1DK6K1szm+kdiB
-         41pGuXhjx0DC7nBwldlFL6MTBN/iUxYHicjViQsOZSDJh6X0qp2AxwR8ib9AgL7XA2Hi
-         zc+A==
+        b=Qb0WIbha1ywqH3tUbEuoqRtzp8B1QdW17WkxFMf3DDqigr5FBbAvLNqiezojddoTMP
+         ezAimPB0YT0Y3Yw/H0wCXvWFbAgANzogJjE37PlXUpaiJ5yRUbihlauVqM0Fp028lfPS
+         X1SxY3ivHdKoWktWCooZBYQjdTnbbCsdafCOCX2zRF+f/LXtOVjUkfh8ckVB1xpYFhBX
+         54L+VNpsGcnrgsvbVv/L7eidN89Jct7fkxzxTtuI93rkBmE9fMRBptxpNj8443vMxi1S
+         scV13IJuj0WXOl0GlWRXD/1LI0KhSwSO8gCUTrSqn4LnuToo1D9kmqQVGkKV28HenXqf
+         ME2g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=NNz2rvWdWurkAjYnYhECzBshCI3+0s6yD1fA4kNT29Q=;
-        fh=eZA5lYVRs2l97JgX1twKSr9vkLjV4NYVZtFFEHfgG1U=;
-        b=Sb/FhAZt7BAg/AV1MqzVpTV2Xc2zXxDnA3/6gLaFbPvwHotTJ5stISmB3AyQRp+GCB
-         WRjItAsjujzfGl3V/5p2YgqgvpFVAPJsiHPvVr6kNiPZRZlTjheHMBQVobVJytmD6UL/
-         V9uvsz9R4JDjiXubxkg39sTgoNdoyfHApG3pP91VMOeDZyeD0oyI0Eo8u7tbSZRsMhRN
-         1NZTAQE3mGyMQ9/KZJZnVawYQ6kvh+Vdjdyi5C6QgM1smf+r9FzIDmCdgyiDGaMkNU/v
-         5ZVuC9z8bExd7U7g/oXFeZbLn+Ge+4Py1iGRZ+MYUVP8yWLsutAqojoI4FrDkXv8VA82
-         aN4Q==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=8yV55nY0fvSS+z77AKpGU5Td15J+ZOm7wtKdU5Fyu44=;
+        fh=e5XdSZYxHgB58OrRh71Tuu5nIIlnRa1LtvK3lQRpPSo=;
+        b=CgVszjsrUk11TAzkPYu45yZ7KJfyAcNIVEt5GF2HfeeXbhcCeh0z53NR21AUxP1r62
+         jvjxviaMRJAKWh7a40zK1u6Vxa4359fHUx+anqxmaS5DOLuFxVfVAtFJ0rHT3fVIyvGD
+         /dsW7yxzjWxB7IbBWYJZQAJ4ZUS0a5n5uk0Mh/2+A1OwUtPoZyCjw4NoAhDMMDKr2agG
+         Fo0UYt6PCLg8crTHfVrHDmWJlKXtnF2bTV4Z8FNShWCKk76Rq0SLgKpRqPgLI5fZGDip
+         fxNmREN9nNchGICXn+C43DBVcwn1H1JAFd2zeMrqh2DzDZdw66G04lynJdB3XzN74cu9
+         264A==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=eHRkOLBf;
-       spf=pass (google.com: domain of alexei.starovoitov@gmail.com designates 2a00:1450:4864:20::42b as permitted sender) smtp.mailfrom=alexei.starovoitov@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com. [2a00:1450:4864:20::42b])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-45f3208575dsi3296215e9.0.2025.09.19.11.32.11
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Sep 2025 11:32:11 -0700 (PDT)
-Received-SPF: pass (google.com: domain of alexei.starovoitov@gmail.com designates 2a00:1450:4864:20::42b as permitted sender) client-ip=2a00:1450:4864:20::42b;
-Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-3ee130237a8so1195944f8f.0
-        for <kasan-dev@googlegroups.com>; Fri, 19 Sep 2025 11:32:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVRzvopvnQTmGVGG8NQ2EjtKCBJeu7UglAmYRvaGnsLOvl6e7Zt+EdEuKK0x7kyY+xQ8HPB0bVipT8=@googlegroups.com
-X-Gm-Gg: ASbGncuc3bfDjlas32NPLJWVbTCQRAIXJ5FEs3XdPVlD91wMBtSlVA3QMSiSYm6mhQV
-	s6SwpJfBLj3+UfKRoXESX6JvRIK3T7/cNDWeNMzdbcUD+SKHzHRXL5JPCedtWbzOZfgK7iJhEcm
-	FuiduV/OgOpQnA+e0fk5DarbYIN5WpS8baD3WgbA7zVrZkjyHwMz/SvXcLLo+QoHyOoys/dL4zi
-	GRSYzCawSyLbUG7zUmQe88=
-X-Received: by 2002:a05:6000:2486:b0:3ed:f690:a390 with SMTP id
- ffacd0b85a97d-3ee8481fdffmr3766244f8f.40.1758306730884; Fri, 19 Sep 2025
- 11:32:10 -0700 (PDT)
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=i2GtAhd8;
+       spf=pass (google.com: domain of kees@kernel.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from sea.source.kernel.org (sea.source.kernel.org. [172.234.252.31])
+        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-330a48b1828si45836a91.0.2025.09.19.12.19.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Sep 2025 12:19:43 -0700 (PDT)
+Received-SPF: pass (google.com: domain of kees@kernel.org designates 172.234.252.31 as permitted sender) client-ip=172.234.252.31;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 3288743CED;
+	Fri, 19 Sep 2025 19:19:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 083E6C4CEF0;
+	Fri, 19 Sep 2025 19:19:43 +0000 (UTC)
+Date: Fri, 19 Sep 2025 12:19:42 -0700
+From: "'Kees Cook' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Ethan Graham <ethan.w.s.graham@gmail.com>
+Cc: ethangraham@google.com, glider@google.com, andreyknvl@gmail.com,
+	andy@kernel.org, brauner@kernel.org, brendan.higgins@linux.dev,
+	davem@davemloft.net, davidgow@google.com, dhowells@redhat.com,
+	dvyukov@google.com, elver@google.com, herbert@gondor.apana.org.au,
+	ignat@cloudflare.com, jack@suse.cz, jannh@google.com,
+	johannes@sipsolutions.net, kasan-dev@googlegroups.com,
+	kunit-dev@googlegroups.com, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, lukas@wunner.de,
+	rmoar@google.com, shuah@kernel.org, sj@kernel.org,
+	tarasmadan@google.com
+Subject: Re: [PATCH v2 09/10] fs/binfmt_script: add KFuzzTest target for
+ load_script
+Message-ID: <202509191208.D2BCFD366F@keescook>
+References: <20250919145750.3448393-1-ethan.w.s.graham@gmail.com>
+ <20250919145750.3448393-10-ethan.w.s.graham@gmail.com>
 MIME-Version: 1.0
-References: <202509171214.912d5ac-lkp@intel.com> <b7d4cf85-5c81-41e0-9b22-baa9a7e5a0c4@suse.cz>
- <ead41e07-c476-4769-aeb6-5a9950737b98@suse.cz> <CAADnVQJYn9=GBZifobKzME-bJgrvbn=OtQJLbU+9xoyO69L8OA@mail.gmail.com>
- <ce3be467-4ff3-4165-a024-d6a3ed33ad0e@suse.cz> <CAJuCfpGLhJtO02V-Y+qmvzOqO2tH5+u7EzrCOA1K-57vPXhb+g@mail.gmail.com>
- <CAADnVQLPq=puz04wNCnUeSUeF2s1SwTUoQvzMWsHCVhjFcyBeg@mail.gmail.com> <CAJuCfpGA_YKuzHu0TM718LFHr92PyyKdD27yJVbtvfF=ZzNOfQ@mail.gmail.com>
-In-Reply-To: <CAJuCfpGA_YKuzHu0TM718LFHr92PyyKdD27yJVbtvfF=ZzNOfQ@mail.gmail.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Fri, 19 Sep 2025 11:31:57 -0700
-X-Gm-Features: AS18NWDr8VuH5ucHYn2ibLVBASY5zct8WHDo7Mc0mqgDvlFRZ593jDOgzN6t5y4
-Message-ID: <CAADnVQKt5YVKiVHmoB7fZsuMuD=1+bMYvCNcO0+P3+5rq9JXVw@mail.gmail.com>
-Subject: Re: [linux-next:master] [slab] db93cdd664: BUG:kernel_NULL_pointer_dereference,address
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>, kernel test robot <oliver.sang@intel.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Harry Yoo <harry.yoo@oracle.com>, oe-lkp@lists.linux.dev, 
-	kbuild test robot <lkp@intel.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-	"open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>, linux-mm <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: alexei.starovoitov@gmail.com
+Content-Disposition: inline
+In-Reply-To: <20250919145750.3448393-10-ethan.w.s.graham@gmail.com>
+X-Original-Sender: kees@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=eHRkOLBf;       spf=pass
- (google.com: domain of alexei.starovoitov@gmail.com designates
- 2a00:1450:4864:20::42b as permitted sender) smtp.mailfrom=alexei.starovoitov@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+ header.i=@kernel.org header.s=k20201202 header.b=i2GtAhd8;       spf=pass
+ (google.com: domain of kees@kernel.org designates 172.234.252.31 as permitted
+ sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass (p=QUARANTINE
+ sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Kees Cook <kees@kernel.org>
+Reply-To: Kees Cook <kees@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -168,136 +150,151 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Sep 19, 2025 at 8:01=E2=80=AFAM Suren Baghdasaryan <surenb@google.c=
-om> wrote:
->
-> On Thu, Sep 18, 2025 at 6:39=E2=80=AFPM Alexei Starovoitov
-> <alexei.starovoitov@gmail.com> wrote:
-> >
-> > On Thu, Sep 18, 2025 at 7:49=E2=80=AFAM Suren Baghdasaryan <surenb@goog=
-le.com> wrote:
-> > >
-> > > On Thu, Sep 18, 2025 at 12:06=E2=80=AFAM Vlastimil Babka <vbabka@suse=
-.cz> wrote:
-> > > >
-> > > > On 9/17/25 20:38, Alexei Starovoitov wrote:
-> > > > > On Wed, Sep 17, 2025 at 2:18=E2=80=AFAM Vlastimil Babka <vbabka@s=
-use.cz> wrote:
-> > > > >>
-> > > > >> Also I was curious to find out which path is triggered so I've p=
-ut a
-> > > > >> dump_stack() before the kmalloc_nolock call:
-> > > > >>
-> > > > >> [    0.731812][    T0] Call Trace:
-> > > > >> [    0.732406][    T0]  __dump_stack+0x18/0x30
-> > > > >> [    0.733200][    T0]  dump_stack_lvl+0x32/0x90
-> > > > >> [    0.734037][    T0]  dump_stack+0xd/0x20
-> > > > >> [    0.734780][    T0]  alloc_slab_obj_exts+0x181/0x1f0
-> > > > >> [    0.735862][    T0]  __alloc_tagging_slab_alloc_hook+0xd1/0x3=
-30
-> > > > >> [    0.736988][    T0]  ? __slab_alloc+0x4e/0x70
-> > > > >> [    0.737858][    T0]  ? __set_page_owner+0x167/0x280
-> > > > >> [    0.738774][    T0]  __kmalloc_cache_noprof+0x379/0x460
-> > > > >> [    0.739756][    T0]  ? depot_fetch_stack+0x164/0x180
-> > > > >> [    0.740687][    T0]  ? __set_page_owner+0x167/0x280
-> > > > >> [    0.741604][    T0]  __set_page_owner+0x167/0x280
-> > > > >> [    0.742503][    T0]  post_alloc_hook+0x17a/0x200
-> > > > >> [    0.743404][    T0]  get_page_from_freelist+0x13b3/0x16b0
-> > > > >> [    0.744427][    T0]  ? kvm_sched_clock_read+0xd/0x20
-> > > > >> [    0.745358][    T0]  ? kvm_sched_clock_read+0xd/0x20
-> > > > >> [    0.746290][    T0]  ? __next_zones_zonelist+0x26/0x60
-> > > > >> [    0.747265][    T0]  __alloc_frozen_pages_noprof+0x143/0x1080
-> > > > >> [    0.748358][    T0]  ? lock_acquire+0x8b/0x180
-> > > > >> [    0.749209][    T0]  ? pcpu_alloc_noprof+0x181/0x800
-> > > > >> [    0.750198][    T0]  ? sched_clock_noinstr+0x8/0x10
-> > > > >> [    0.751119][    T0]  ? local_clock_noinstr+0x137/0x140
-> > > > >> [    0.752089][    T0]  ? kvm_sched_clock_read+0xd/0x20
-> > > > >> [    0.753023][    T0]  alloc_slab_page+0xda/0x150
-> > > > >> [    0.753879][    T0]  new_slab+0xe1/0x500
-> > > > >> [    0.754615][    T0]  ? kvm_sched_clock_read+0xd/0x20
-> > > > >> [    0.755577][    T0]  ___slab_alloc+0xd79/0x1680
-> > > > >> [    0.756469][    T0]  ? pcpu_alloc_noprof+0x538/0x800
-> > > > >> [    0.757408][    T0]  ? __mutex_unlock_slowpath+0x195/0x3e0
-> > > > >> [    0.758446][    T0]  __slab_alloc+0x4e/0x70
-> > > > >> [    0.759237][    T0]  ? mm_alloc+0x38/0x80
-> > > > >> [    0.759993][    T0]  kmem_cache_alloc_noprof+0x1db/0x470
-> > > > >> [    0.760993][    T0]  ? mm_alloc+0x38/0x80
-> > > > >> [    0.761745][    T0]  ? mm_alloc+0x38/0x80
-> > > > >> [    0.762506][    T0]  mm_alloc+0x38/0x80
-> > > > >> [    0.763260][    T0]  poking_init+0xe/0x80
-> > > > >> [    0.764032][    T0]  start_kernel+0x16b/0x470
-> > > > >> [    0.764858][    T0]  i386_start_kernel+0xce/0xf0
-> > > > >> [    0.765723][    T0]  startup_32_smp+0x151/0x160
-> > > > >>
-> > > > >> And the reason is we still have restricted gfp_allowed_mask at t=
-his point:
-> > > > >> /* The GFP flags allowed during early boot */
-> > > > >> #define GFP_BOOT_MASK (__GFP_BITS_MASK & ~(__GFP_RECLAIM|__GFP_I=
-O|__GFP_FS))
-> > > > >>
-> > > > >> It's only lifted to a full allowed mask later in the boot.
-> > > > >
-> > > > > Ohh. That's interesting.
-> > > > >
-> > > > >> That means due to "kmalloc_nolock() is not supported on architec=
-tures that
-> > > > >> don't implement cmpxchg16b" such architectures will no longer ge=
-t objexts
-> > > > >> allocated in early boot. I guess that's not a big deal.
-> > > > >>
-> > > > >> Also any later allocation having its flags screwed for some reas=
-on to not
-> > > > >> have __GFP_RECLAIM will also lose its objexts. Hope that's also =
-acceptable.
-> > > > >> I don't know if we can distinguish a real kmalloc_nolock() scope=
- in
-> > > > >> alloc_slab_obj_exts() without inventing new gfp flags or passing=
- an extra
-> > > > >> argument through several layers of functions.
-> > > > >
-> > > > > I think it's ok-ish.
-> > > > > Can we add a check to alloc_slab_obj_exts() that sets allow_spin=
-=3Dtrue
-> > > > > if we're in the boot phase? Like:
-> > > > > if (gfp_allowed_mask !=3D __GFP_BITS_MASK)
-> > > > >    allow_spin =3D true;
-> > > > > or some cleaner way to detect boot time by checking slab_state ?
-> > > > > bpf is not active during the boot and nothing should be
-> > > > > calling kmalloc_nolock.
-> > > >
-> > > > Checking the gfp_allowed_mask should work. Slab state is already UP=
- so won't
-> > > > help, and this is not really about slab state anyway.
-> > > > But whether worth it... Suren what do you think?
-> > >
-> > > Vlastimil's fix is correct. We definitely need __GFP_NO_OBJ_EXT when
-> > > allocating an obj_exts vector, otherwise it will try to recursively
-> > > allocate an obj_exts vector for obj_exts allocation.
-> > >
-> > > For the additional __GFP_BITS_MASK check, that sounds good to me as
-> > > long as we add a comment on why that is there. Or maybe such a check
-> > > deserves to be placed in a separate function similar to
-> > > gfpflags_allow_{spinning | blocking}?
-> >
-> > I would not. I think adding 'boot or not' logic to these two
-> > will muddy the waters and will make the whole slab/page_alloc/memcg
-> > logic and dependencies between them much harder to follow.
-> > I'd either add a comment to alloc_slab_obj_exts() explaining
-> > what may happen or add 'boot or not' check only there.
-> > imo this is a niche, rare and special.
->
-> Ok, comment it is then.
-> Will you be sending a new version or Vlastimil will be including that
-> in his fixup?
+On Fri, Sep 19, 2025 at 02:57:49PM +0000, Ethan Graham wrote:
+> From: Ethan Graham <ethangraham@google.com>
+> 
+> Add a KFuzzTest target for the load_script function to serve as a
+> real-world example of the framework's usage.
+> 
+> The load_script function is responsible for parsing the shebang line
+> (`#!`) of script files. This makes it an excellent candidate for
+> KFuzzTest, as it involves parsing user-controlled data within the
+> binary loading path, which is not directly exposed as a system call.
+> 
+> The provided fuzz target in fs/tests/binfmt_script_kfuzz.c illustrates
+> how to fuzz a function that requires more involved setup - here, we only
+> let the fuzzer generate input for the `buf` field of struct linux_bprm,
+> and manually set the other fields with sensible values inside of the
+> FUZZ_TEST body.
+> 
+> To demonstrate the effectiveness of the fuzz target, a buffer overflow
+> bug was injected in the load_script function like so:
+> 
+> - buf_end = bprm->buf + sizeof(bprm->buf) - 1;
+> + buf_end = bprm->buf + sizeof(bprm->buf) + 1;
+> 
+> Which was caught in around 40 seconds by syzkaller simultaneously
+> fuzzing four other targets, a realistic use case where targets are
+> continuously fuzzed. It also requires that the fuzzer be smart enough to
+> generate an input starting with `#!`.
+> 
+> While this bug is shallow, the fact that the bug is caught quickly and
+> with minimal additional code can potentially be a source of confidence
+> when modifying existing implementations or writing new functions.
+> 
+> Signed-off-by: Ethan Graham <ethangraham@google.com>
+> 
+> ---
+> PR v2:
+> - Introduce cleanup logic in the load_script fuzz target.
+> ---
+> ---
+>  fs/binfmt_script.c             |  8 +++++
+>  fs/tests/binfmt_script_kfuzz.c | 58 ++++++++++++++++++++++++++++++++++
+>  2 files changed, 66 insertions(+)
+>  create mode 100644 fs/tests/binfmt_script_kfuzz.c
+> 
+> diff --git a/fs/binfmt_script.c b/fs/binfmt_script.c
+> index 637daf6e4d45..c09f224d6d7e 100644
+> --- a/fs/binfmt_script.c
+> +++ b/fs/binfmt_script.c
+> @@ -157,3 +157,11 @@ core_initcall(init_script_binfmt);
+>  module_exit(exit_script_binfmt);
+>  MODULE_DESCRIPTION("Kernel support for scripts starting with #!");
+>  MODULE_LICENSE("GPL");
+> +
+> +/*
+> + * When CONFIG_KFUZZTEST is enabled, we include this _kfuzz.c file to ensure
+> + * that KFuzzTest targets are built.
+> + */
+> +#ifdef CONFIG_KFUZZTEST
+> +#include "tests/binfmt_script_kfuzz.c"
+> +#endif /* CONFIG_KFUZZTEST */
+> diff --git a/fs/tests/binfmt_script_kfuzz.c b/fs/tests/binfmt_script_kfuzz.c
+> new file mode 100644
+> index 000000000000..26397a465270
+> --- /dev/null
+> +++ b/fs/tests/binfmt_script_kfuzz.c
+> @@ -0,0 +1,58 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * binfmt_script loader KFuzzTest target
+> + *
+> + * Copyright 2025 Google LLC
+> + */
+> +#include <linux/binfmts.h>
+> +#include <linux/kfuzztest.h>
+> +#include <linux/slab.h>
+> +#include <linux/sched/mm.h>
+> +
+> +struct load_script_arg {
+> +	char buf[BINPRM_BUF_SIZE];
+> +};
+> +
+> +FUZZ_TEST(test_load_script, struct load_script_arg)
+> +{
+> +	struct linux_binprm bprm = {};
+> +	char *arg_page;
+> +
+> +	arg_page = (char *)get_zeroed_page(GFP_KERNEL);
+> +	if (!arg_page)
+> +		return;
+> +
+> +	memcpy(bprm.buf, arg->buf, sizeof(bprm.buf));
+> +	/*
+> +	 * `load_script` calls remove_arg_zero, which expects argc != 0. A
+> +	 * static value of 1 is sufficient for fuzzing.
+> +	 */
+> +	bprm.argc = 1;
+> +	bprm.p = (unsigned long)arg_page + PAGE_SIZE;
+> +	bprm.filename = kstrdup("fuzz_script", GFP_KERNEL);
+> +	if (!bprm.filename)
+> +		goto cleanup;
+> +	bprm.interp = kstrdup(bprm.filename, GFP_KERNEL);
+> +	if (!bprm.interp)
+> +		goto cleanup;
+> +
+> +	bprm.mm = mm_alloc();
+> +	if (!bprm.mm)
+> +		goto cleanup;
+> +
+> +	/*
+> +	 * Call the target function. We expect it to fail and return an error
+> +	 * (e.g., at open_exec), which is fine. The goal is to survive the
+> +	 * initial parsing logic without crashing.
+> +	 */
+> +	load_script(&bprm);
+> +
+> +cleanup:
+> +	if (bprm.mm)
+> +		mmput(bprm.mm);
+> +	if (bprm.interp)
+> +		kfree(bprm.interp);
+> +	if (bprm.filename)
+> +		kfree(bprm.filename);
+> +	free_page((unsigned long)arg_page);
+> +}
 
-Whichever way. I can, but so far Vlastimil phrasing of comments
-were much better than mine :) So I think he can fold what he prefers.
+Yay fuzzing hooks! I'm excited about this series overall, but I'm not
+a fan of this "manual" init/clean up of bprm.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-AADnVQKt5YVKiVHmoB7fZsuMuD%3D1%2BbMYvCNcO0%2BP3%2B5rq9JXVw%40mail.gmail.com=
-.
+If you're going to set up a bprm that passes through load_script(), it
+needs to be both prepared correctly (alloc_bprm) and cleaned up correctly
+(free_bprm). Otherwise, you may be fuzzing impossible states created by
+the fuzztest setup. And having a second init/cleanup path in here makes
+future refactoring work more of a burden/fragile.
+
+But this is also kind of not a great example of fuzztest utility because
+load_script _is_ actually directly accessible from syscalls: it is trivial
+to externally fuzz load_script by just writing the buffer to a file and
+execve'ing it. :)
+
+-Kees
+
+-- 
+Kees Cook
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/202509191208.D2BCFD366F%40keescook.
