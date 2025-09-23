@@ -1,255 +1,141 @@
-Return-Path: <kasan-dev+bncBCN77QHK3UIBBWVIZPDAMGQE7EQQEMA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDB3VRFH7QKRBHN3ZPDAMGQEOYWDVAQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x1139.google.com (mail-yw1-x1139.google.com [IPv6:2607:f8b0:4864:20::1139])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E4CDB96F24
-	for <lists+kasan-dev@lfdr.de>; Tue, 23 Sep 2025 19:09:47 +0200 (CEST)
-Received: by mail-yw1-x1139.google.com with SMTP id 00721157ae682-7341cfed3ffsf92725927b3.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 23 Sep 2025 10:09:47 -0700 (PDT)
-ARC-Seal: i=3; a=rsa-sha256; t=1758647386; cv=pass;
+Received: from mail-qt1-x83a.google.com (mail-qt1-x83a.google.com [IPv6:2607:f8b0:4864:20::83a])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA67B9717C
+	for <lists+kasan-dev@lfdr.de>; Tue, 23 Sep 2025 19:49:24 +0200 (CEST)
+Received: by mail-qt1-x83a.google.com with SMTP id d75a77b69052e-4d6fc3d74a2sf9391941cf.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 23 Sep 2025 10:49:24 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1758649758; cv=pass;
         d=google.com; s=arc-20240605;
-        b=IvQQ6SERoViKIFBo5OaWiSRrfSmlrf/ZoBt0KqKQAsVGGsplknRYqd2ucIfibARmkB
-         32nhUO2hfU6sp/JFSPkQLtD/ree+YmcVmhKHKkYra08Lh9qE8tAq1J9ZHnNuohHRNWyT
-         pHU4QHAHhFSAzytm0nk3+CIpFXICQxf4JeNzzJOscCf8Z/D3QuGdxWRgAosXP5IMuulG
-         Frd6W0Lo/9tYzFWPJGNtC4xfIOXHsB/ArvEdSzH91VzuZQulybOkiIdT+2dGTFcdOqun
-         M6sCOIaR1CcZmVuDXZkJmI92BvKrcXHdxYfKJJaE1ZAeCEikm+carrKCKLLwmGl8L92H
-         oryQ==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:in-reply-to
-         :content-disposition:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=Fz6rBAyWMonj7uzMLxoxvyQlaix02FGzBpegpIiBuUI=;
-        fh=aMDYK20MlOBupZTx/UzH03qMSdGTU1Fo5JDaHyPcaX4=;
-        b=KkDGeEOfZekOI+VjW+mTCmYpJGAyIlFlZMqJk+taAuFGskSZYKkYgp5GNSscT4B8Bg
-         FNPHNl6dLX+lVZgJ//LNdatUTah+EpZpMMXmMRw24tm4erAQ9xINBufesX3TVtDaivAY
-         /y82Fs6+nXEUnt4x1AvVgksNg5zfs79MoczPLML4HWcuz3AFd8iqEhIYBk1TuJTbkykv
-         eRmMCKVEAy6dXCAmdbSe8WkZ0KBUCpdOWhb7QqLlYSSB7yXADDyLhpZHk+/MzT+G9Emi
-         KC/5YjNwzbQtBwqbYRO4KLKa1Dkg22qQb/vsFyNn/HijWLurRHtLZBFvfeuETkG3Jb4j
-         5+Fw==;
-        darn=lfdr.de
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@Nvidia.com header.s=selector2 header.b=Clve4RHO;
-       arc=pass (i=1 spf=pass spfdomain=nvidia.com dkim=pass dkdomain=nvidia.com dmarc=pass fromdomain=nvidia.com);
-       spf=pass (google.com: domain of jgg@nvidia.com designates 2a01:111:f403:c112::5 as permitted sender) smtp.mailfrom=jgg@nvidia.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=nvidia.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1758647386; x=1759252186; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :in-reply-to:content-disposition:references:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fz6rBAyWMonj7uzMLxoxvyQlaix02FGzBpegpIiBuUI=;
-        b=ALsPG5/PiL/E0q9Nf+3s2uxZeZoIbwhHUXMV1KzgsYNPqI45tFeuYF8QmlfoU3U3g1
-         nYEDqmrByquQ4gZ1EsfUZqJQz1qaWsDIXtO6V+eUCa/jtca/hSbBdQYIOv6JGbz7ubTZ
-         b7/owjOiHeOEgFpCPITwh5iyMUGa3G6TwQsksisGZYsDeOTiORTPIUONTFECuOdzlaUI
-         ZwCeR8cfPco44SEILsBlTDIUernTTjrsHTNTNuY/uELt3U8ikHUOJbmYUYzCc1/ChcCS
-         Kd3Auu3+jVLMy9xlyNImR5CUayo0cgn+EZXxexb6L62RTRxqJOHSE4DwMWlcn30CNbHJ
-         1eSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758647386; x=1759252186;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :in-reply-to:content-disposition:references:message-id:subject:cc:to
-         :from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fz6rBAyWMonj7uzMLxoxvyQlaix02FGzBpegpIiBuUI=;
-        b=gRrz2vRPLaCQ6X+Bz3KoeDEIDTx4DGe9I9SdekP+DglL8TMixgsrLXtbLtOhVCda/c
-         WQFzoWbZkHTwsU7bL4rgrz3m67AL0ij4enn/a4fHNBvGvX5U2YpbFOVUp/f0653/GZVc
-         LwQbeBxzEjTVyGnhG/DKos03CA3vWYumak8v8iuL6nat19VwuW5FGlMNPsB4Jrc1hAKF
-         REGlqVReyZNygr++OsKKs1F9n7YqcQf6Zr6BsZ5DITfUT3iiyxqyo0Tgk12OOmmdFOdQ
-         9x7xiC3uL7w5Zbo0dNYqSHnwkWatYJtyN3zanB7LyV1axufcfT6BIcNsvdAqWwxXfy0p
-         cu2A==
-X-Forwarded-Encrypted: i=3; AJvYcCUhKB9CXz5t+A3+8DSfAlOscUUn7UlmKeCDIuzj4quYAuMkXj1jInr9Bv8plIjLDPBcDyupdw==@lfdr.de
-X-Gm-Message-State: AOJu0YwCof2YRb2EaUbzw6FPeeXJ+QzFpB+MGSzNLjAEDqftQwShiiVM
-	LQMXEsrlWJca+YNXFynQGYWz+iNyiGmsbSyyhBxlzWtLiBDcEAxS267i
-X-Google-Smtp-Source: AGHT+IHtSPtMJ63GsIOi3UorgJfUj30M/ytsftL0uG50qg3+0W0yfjbgqVaUKhSUbAi6lUIr8jmZ/Q==
-X-Received: by 2002:a53:c611:0:b0:633:961a:bd46 with SMTP id 956f58d0204a3-6360463d1b7mr2239950d50.25.1758647386279;
-        Tue, 23 Sep 2025 10:09:46 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd4aZkts/Pr6lVuc9xUmPjjWgwabbrup6IaSnLP53CiYHw==
-Received: by 2002:a25:d60f:0:b0:e96:f5a8:6a70 with SMTP id 3f1490d57ef6-ea5d11bc337ls4249393276.2.-pod-prod-01-us;
- Tue, 23 Sep 2025 10:09:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=3; AJvYcCV07lroCc4c/p3XyrgOA3L9QVY/3lXU/qbQ7idDjPQXKO76bOmlb7L26YkfZb4M1VZoOUDY/FoatM4=@googlegroups.com
-X-Received: by 2002:a05:6902:33ca:b0:e97:598:fa39 with SMTP id 3f1490d57ef6-eb32e72e6eamr2581095276.16.1758647385243;
-        Tue, 23 Sep 2025 10:09:45 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1758647385; cv=pass;
-        d=google.com; s=arc-20240605;
-        b=JUa+cg7jgPLrl7J5GyS19TQimKJ+bnwBx+QF5Mv9jvKw3w+XSLw6uc9JNlT87AvxWi
-         LBBdk1vvQOqy5K+UYs5xY+an/pJ8GRtAymAk6EITII87zG6HtOfDBydPgcBD/NNGc2Yl
-         4hkPGUhfXkAxP/utY6lbJ/6v73wGRd6YxtHEcJZKSXs0v2FA4MbF3+n812xRcOP8JHZj
-         A56dPG/o+KwTUo9YS4F9vqs65OLG0Kx3n4CdmBT1OG9nD+Pvlf68iAfXvsBdy8xcxPCi
-         PPETKYqw7gWaWYfQ5vx4Xz4tcw7xh6czdiWM/17skVmLUhfUspxuHyr0Q3sf7UbfRWGR
-         SKSw==
+        b=K2nTjVp8uEtWTJh5mC2TFAE8HL9hQfgJZ21EutNKcSbv0zaKZmLAch8swtmmEF7Tt2
+         WI6YHNRRULDko7hxHUDcghQwY8tpI0KowtNstVIj/6k4Q2ALb4NXXsNlawfigCZxTGkL
+         5ptpuZ/VNujuJgTPQlxmymIWpaWFzr1bQJi322//a7gBbOO+6Gzz1wqB15vh2fYfjMnV
+         iTlgH1t43HFO6vjD+oaFR3LnVEu2ZNLmAJsKwoKWJLDZ2838/UqyHf+mKi0m1+mtQltn
+         dEu15VDwweBuFuB8t3yn5OziOXnCV8MzH8E1UQeFa/qXV3MvBVEI+7cxGPUOTlLEbRrE
+         sJ2g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=mime-version:in-reply-to:content-disposition:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=zfBJt5ORyJeWyTmriSi9rxIRbYwbq9D6z6afL/pAXS8=;
-        fh=rDAxN/Iy2nxK9hcQ8li78U2u7XWjrcYsRqVBWjO8IzE=;
-        b=iEJl68ZBu1dQERY3vKQsCETObwBekesdyfGGhev5kBDseuWFnfN/KBldUdPs/gljq+
-         H9mJfYa4mC/lb5dzv58jWR+ML7btZgAnzkAPrsXRJTG4CVojYXD/RwROVoHalDdPydpY
-         EdypHelia7Kmp/0l53DmUjE9kPLCB6THJGQfmxg/IZWuHtivAmns+2U23/LD55081cli
-         O4de0GYy9fivgJ69ZXRdpbkt5PBt1Eg7Q85c2CVI0GgkX2uCeEq04W1r2qIqDscss73N
-         Q6oxnGzn3+CLYXRdE08bhWxbCoG4XiY8c1p61qURbLSZhUozwktDLcgu+WPB5np+gMHa
-         Cn8A==;
-        dara=google.com
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=Cj0OwTuD4hWZ0M43ouNIIX77S9+d4Rc05iShckfgeBU=;
+        fh=iQIRdPiyqiaPqSFJ6OeqU41C2UEgypaeuVQltJjbQwc=;
+        b=PrSpD9hdlzzHTB8yTgFbnSR8R68vp8uELiEmhaqE2nL1irIGBQP1jh0AfbXcGSvla8
+         RCzXdemRemlG7OGU/BRN5/RTJtQYZ37Dv7pILfCC2+VmeQ+a1Gvd5TvaIN+bnkIuvi1/
+         x5M8IL9AIqmq6PMzear0omAFf1bPhQFrhKJwrGPcJuaf0v4UVys3Qs8kz7dCyZRz6ldG
+         xsbSis6V6yyFjt12rQo/trMPsv8BqA7yHSLoztbZtb/9E0NwQ9N2ICZ7muPibPPafxib
+         L4JEYvRP/GS6dJLgLQYGblj4mCIPw6wm/KUTBL7MTAJJxu28NOsOYigFuDRRR43mL5/V
+         WAKQ==;
+        darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@Nvidia.com header.s=selector2 header.b=Clve4RHO;
-       arc=pass (i=1 spf=pass spfdomain=nvidia.com dkim=pass dkdomain=nvidia.com dmarc=pass fromdomain=nvidia.com);
-       spf=pass (google.com: domain of jgg@nvidia.com designates 2a01:111:f403:c112::5 as permitted sender) smtp.mailfrom=jgg@nvidia.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=nvidia.com
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazlp170100005.outbound.protection.outlook.com. [2a01:111:f403:c112::5])
-        by gmr-mx.google.com with ESMTPS id 3f1490d57ef6-ea5ce7250b6si721295276.1.2025.09.23.10.09.45
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Sep 2025 10:09:45 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jgg@nvidia.com designates 2a01:111:f403:c112::5 as permitted sender) client-ip=2a01:111:f403:c112::5;
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oWXggwVgG5+rl5z3SotJHQW1m4VjyXkt4rjniHHR2g+2Y3BHmjdoAqeVdP8k6mFe4IPb7kV+kge+ua1wSDvFL/quwLj4xhgtg8qlTIIUhCND6ACY1ARSrSYQ1pBHaSOpuwWRUe4OCI33oN+aektYyfNGfWTTlHi5lIwPl+an8UXKbN+hNUXK9Al/EyVpsysGtHD3vdUrEgNt1EMA7AVtqQwfJvPDoxL69kJrBOAbNaM3P//k0fFCX16uKv5cS6gw5sNS6VeWBk1hZgy5h50/yWGLyF4jP1+0rbw5DoPWdZbzD2HEXux/VkFJmyXHmptrQF3nI2FE+1vg30x+4Ui66g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zfBJt5ORyJeWyTmriSi9rxIRbYwbq9D6z6afL/pAXS8=;
- b=c4pMUCw0BfP/FSxTb+iJvOpFnhv2VZ5tk4N0rFUs3VE5JxKA+/LCYfsgEscOPhkcBmn8mnqWcvQBR8ozQh3kBNvhm/k8t/iXX0N3X3MAB7NL+3A7G+2SRwEnBiw9tNhNJ++RJMXlSFhasUB3UKspQrLRpqDBn809urbmvdRpCe8BQtw+rAQ3B6qSQMHUcXgjB97FDu8Z8M/QGUR/kkKu8BrcsyDg+z1FjySil2bvtHYp5VbPFYh3DrMT5KLkFnOVJE3g2Z9jrRPkrKYpnxDMu5ap+AsWNINW9UHaB4ftMQ/b789+skrb0bomTQOX2Z14ErVFPJGj3bG6xxi2XV3jKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from PH7PR12MB5757.namprd12.prod.outlook.com (2603:10b6:510:1d0::13)
- by CY8PR12MB7097.namprd12.prod.outlook.com (2603:10b6:930:51::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.14; Tue, 23 Sep
- 2025 17:09:39 +0000
-Received: from PH7PR12MB5757.namprd12.prod.outlook.com
- ([fe80::f012:300c:6bf4:7632]) by PH7PR12MB5757.namprd12.prod.outlook.com
- ([fe80::f012:300c:6bf4:7632%2]) with mapi id 15.20.9137.018; Tue, 23 Sep 2025
- 17:09:39 +0000
-Date: Tue, 23 Sep 2025 14:09:36 -0300
-From: "'Jason Gunthorpe' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Leon Romanovsky <leon@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+       spf=pass (google.com: domain of ada.coupriediaz@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=ada.coupriediaz@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlegroups.com; s=20230601; t=1758649758; x=1759254558; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cj0OwTuD4hWZ0M43ouNIIX77S9+d4Rc05iShckfgeBU=;
+        b=YyW0eJHtzp2NwXzAVDL588xYgxd0+6jGc0y5yb0rGw1NfsrjSnM+HkzX5bWN0kmKBz
+         zgPPOAz4rCvF7cgXgwemJYE51Kmi19mFTMmOEIEvbY4BSs4VddgPu2b0iUxieku0QOeh
+         UqhFngbNFXp0a+3ER6yePxL4xTZwKZmPNAY9F/quaj6gGGevAIDy4Zy4BDsJm+VzZkgd
+         oxskyKQ3H4qCrn9BSGGl1JS/xM07tyDOMK86WKi9KoKZXOV9qop+JnWIYxeVKBLCoaXX
+         Ue9qqBUFWN9AdNquJz2hocaAr85mQs1ChxHLQVC0p2jEZhdWspxJlMCbfzP8nSl/UANg
+         Nlxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758649758; x=1759254558;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cj0OwTuD4hWZ0M43ouNIIX77S9+d4Rc05iShckfgeBU=;
+        b=VXUak0CjAmf+d3k8D7SKL6F+y3yAxBHAHFMjdx4PGnk/1m28+xmVQYyvKkmOJ/mz+/
+         e0BAQCBQX3N1qDMyjumH/FGaeW49EKjSdAYTwDLRBrtQ+X7jdtP4NIXXDc0nvx7OW3Mz
+         uohNhSTggrf5DDbwGlnW9kk6EVI4mXw9b8kpOD3RU/w24FXcF950hjqFLBzu3leu4spk
+         hYqntyO4J/hyRDWtfNPUdbY7QQcS8hpFun3RRyEcq6BxM8n6fWogfM86EhaPqpdfo+KP
+         ZUX85ynv9wmRFTXXSj+8IxmVGQdy0g5qzjwvmTmXFjNzfAibBk0cqDtOWvbrhXXbbQxE
+         RrdQ==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCXs8f60r7ijAsRAQQRu6pH4EWizWjp4Ab5HIuLxSOgaCLaRYQ6mvZXCLO26/G0rjnQZpWq8gA==@lfdr.de
+X-Gm-Message-State: AOJu0YyZzhUvAm6JEPD7SzHaszrNmJgceZeXvFmhF9ll2wtenJoOcA6o
+	YrLF0I/MEODLJPVmtHfjYfcIq4YfuhZXMcC0DOVQNHX/cpF+pmavI/1K
+X-Google-Smtp-Source: AGHT+IHuDdIi+0u4VdQuhB5gHN96ckkYfPNJp0GrDAUULf6y18BsXCjFj6OcPPfEw2cDkW2pWiOkCQ==
+X-Received: by 2002:ac8:7dc5:0:b0:4d1:89c4:822 with SMTP id d75a77b69052e-4d36fc044c4mr39263511cf.41.1758649757500;
+        Tue, 23 Sep 2025 10:49:17 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd7AJxI4gIP3Fg6pa11TMloyXPSN54sKw7Vh6SRJKxK5lQ==
+Received: by 2002:a05:622a:2b4c:b0:4d6:c3a2:e1bd with SMTP id
+ d75a77b69052e-4d6c3a2e86als8348951cf.0.-pod-prod-04-us; Tue, 23 Sep 2025
+ 10:49:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVw+I1K/v/xkS5vQUj0XuUC4vhotSSD/kwX5jnqAElNjG9L+HjtBiHOd4CXgrm4sIF8w+pVoFrhlvM=@googlegroups.com
+X-Received: by 2002:a05:620a:1927:b0:848:7602:4eab with SMTP id af79cd13be357-85171ff670emr419785285a.61.1758649756583;
+        Tue, 23 Sep 2025 10:49:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1758649756; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dLz8IUalA0SZULuOVM0k1jdFLkLczP+LFbvN/oT6XYdVfCh20rsknXA3Kki5i4+cJ4
+         1PjL4VjyWPxHbKuMB+zGkRZCxOxk3XXjBhhGbqvNMMfgEbJbXdoIkFYRqlJRLuflZud9
+         IiWTCedgwTImeWHarse6ECf2PjmoAYdygPfrhXjY4TBEudYRu4UUQAk0p9pw1mq9Vebq
+         CrGnV36b2/wKgv7SEHp3rguN+kOaImZBVrsyrEHDI3PGKxqUzXalUwJZNqoLcdUpaTKZ
+         7kMw8/dxd3+ShSpAgdgmTRRb8zR7zjPPcZmYW+D0HbMY+WMcQ4C8tGK4x5DRGFEm1IpU
+         BgYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from;
+        bh=y/e42gdWunAcYjZs/G+x4HdyYeWqvZ6TiFHxMcGWdBA=;
+        fh=eoJjfSK6fSSw8URA2i1Ih8m7A3n64cnY04bTfTqxJBk=;
+        b=YJZJkbwhpg14fmh48KXSde3VfLNstR0rQiQ+WDoRv9zInCInLUTY5z1fB11bIJxhPx
+         ChvDycuEStP/OO43sNlVEsdYuT8+yK9nFhoxtqnyQdNEZg5w14Tssb0ruRk7RR6yKs8d
+         q2psgjiKpxn1YI1yERMZjTrMN96ohX7t9XRRh71uKznHWrwMKiDku/AMqX2JLcs5Jqen
+         wawCAA8FWdW4gCUbLgzRPRmiO4NQ6G/MsGk9JSerzDcd5afnOiCQLNqrZd2n4GF2kKUJ
+         qujwXzeds07EPxXiGa4SsMPZWihn69n/wpgwrQEGWb8CGSKRQeyL3YKIwCa0cLyUbHqG
+         34Mg==;
+        dara=google.com
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       spf=pass (google.com: domain of ada.coupriediaz@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=ada.coupriediaz@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id af79cd13be357-84720843c7fsi33541285a.3.2025.09.23.10.49.16
+        for <kasan-dev@googlegroups.com>;
+        Tue, 23 Sep 2025 10:49:16 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ada.coupriediaz@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 914C7497;
+	Tue, 23 Sep 2025 10:49:07 -0700 (PDT)
+Received: from e137867.cambridge.arm.com (e137867.arm.com [10.1.30.204])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B928A3F5A1;
+	Tue, 23 Sep 2025 10:49:11 -0700 (PDT)
+From: Ada Couprie Diaz <ada.coupriediaz@arm.com>
+To: linux-arm-kernel@lists.infradead.org
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
 	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
-	David Hildenbrand <david@redhat.com>, iommu@lists.linux.dev,
-	Jason Wang <jasowang@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-	Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>,
-	Juergen Gross <jgross@suse.com>, kasan-dev@googlegroups.com,
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v6 00/16] dma-mapping: migrate to physical address-based
- API
-Message-ID: <20250923170936.GA2614310@nvidia.com>
-References: <CGME20250909132821eucas1p1051ce9e0270ddbf520e105c913fa8db6@eucas1p1.samsung.com>
- <cover.1757423202.git.leonro@nvidia.com>
- <0db9bce5-40df-4cf5-85ab-f032c67d5c71@samsung.com>
- <20250912090327.GU341237@unreal>
- <aM1_9cS_LGl4GFC5@kbusch-mbp>
- <20250920155352.GH10800@unreal>
- <aM9LH6WSeOPGeleY@kbusch-mbp>
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <aM9LH6WSeOPGeleY@kbusch-mbp>
-X-ClientProxiedBy: BL0PR0102CA0062.prod.exchangelabs.com
- (2603:10b6:208:25::39) To PH7PR12MB5757.namprd12.prod.outlook.com
- (2603:10b6:510:1d0::13)
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	kasan-dev@googlegroups.com,
+	Mark Rutland <mark.rutland@arm.com>,
+	Ada Couprie Diaz <ada.coupriediaz@arm.com>
+Subject: [RFC PATCH 00/16] arm64: make alternative patching callbacks safe
+Date: Tue, 23 Sep 2025 18:48:47 +0100
+Message-ID: <20250923174903.76283-1-ada.coupriediaz@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5757:EE_|CY8PR12MB7097:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc204952-1979-427d-43f4-08ddfac3faa1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?SJmAD6P8WrWWuHZOaif2sELSogZjML3CSOMNpyLWiBOtInZlQ+z3+HEwPek+?=
- =?us-ascii?Q?xMrD+nXnpvB6+wyNA1MiGP7PUnMUXGOAo3Uji+JoeKTFjjpa2Wi8Tbdyy306?=
- =?us-ascii?Q?lwMaY9apU4XbSh6ZMNDCYILAWKLg9xO1o0WaQX8X0t8PvWqGVI05dXYUfaJS?=
- =?us-ascii?Q?dP23xF90g3yxrMg3E0ZweazGKCUtcpUk0BvZseMZ9Mn3ZEYPDC6SUqNTPyT5?=
- =?us-ascii?Q?h9T0/JdzXqp5RVHFb0bCnTeE1SrhMbi0i6Rwq9D+7fSAiRtjgDGvD08j6Dh4?=
- =?us-ascii?Q?9zDSElycQTqtC+SxuEXwPTeBP5j6mXPlytrpc/8I54CGMdxY0OT/iG0EKH+k?=
- =?us-ascii?Q?fKXK1lmN2YB3l8NfwJKB3i6Bz1OJ+8wsnPpvf5DTWI6QOizZNh1dlKcg9Ons?=
- =?us-ascii?Q?TwWJMjyGVaKnEc2KUnRHPRc9MXBxGdU2tpcoHFFMsv9ME5toHcHyY+5fBPyE?=
- =?us-ascii?Q?3Lb1wA0tfhFmNLq9dByW3S/Z+OHToqipzWlBOL6llXnYqFA+YekgTSmj5THl?=
- =?us-ascii?Q?IUevUbBBCkjpZQxFLPv0NEJI2jBOhEfviO8nRNoLyQPmgl2v4GXdiHmnd5B0?=
- =?us-ascii?Q?qgOqPkxSpeWRVpwdlX+vRBOY8V8aTOnh+PZoebudEvEnynv7uqK6MA0Pr1F4?=
- =?us-ascii?Q?+TlSLo1HaMFQ+fiKgoBluBBPW4Er7lSbish+pOk2mGuC9aJf+Flh7VdsNF6A?=
- =?us-ascii?Q?UBkhE3SDC/eCbRcZtuyp5GvG8SnptVS3yn2DsSwwLQpvFtNh5A2kh4ZNKih5?=
- =?us-ascii?Q?QE5ni5X10wtQk9Lj7T3AchwuQtLJwd4rBA7qvGl2P71YUZWb2LPuBW0/72Ko?=
- =?us-ascii?Q?HO0ZQDsdrG8umM0sZrIhMKAFizButughBB28ZD1cnb+YnbeglqerRHRo9O8o?=
- =?us-ascii?Q?1tTH5/UldaE30aM/XBB3HqZ6cRzzPdXjNJQwa2kWysbdYBzArHi4lJOq6uT+?=
- =?us-ascii?Q?mZxfrv0YS27avYVToN6qcOyuSpCKxEBWrDJacnMkhhw+w06PXPIWOVgcLgod?=
- =?us-ascii?Q?pRGBSZmi4gYf6GWVOypTrxrQ0KtcbuO8KCcCkSjevTbrbQp5gUbkFJW/lEoY?=
- =?us-ascii?Q?zELONf86F3MT5VsZE9116D1a+e6lzmJCL9whVQqkV5sdp1irFJ+ropB9qI/k?=
- =?us-ascii?Q?gGCmG061yMAzLvZxz6tc7q3/3RWpV+zHLlQxPe1v04t0wauH76R68fyv9HNn?=
- =?us-ascii?Q?zn9NF6ZRGRZ5r/qNo2Uw/19OKlKFBpbeXLMMvKu5NQTSsADFKP7IT7jD76xH?=
- =?us-ascii?Q?mn/fba6qnsgXbTXfsL0KdhGksYcRoJxVvi8p2TUhJ41p79ubs5tNZJcXm0IY?=
- =?us-ascii?Q?Nd/QX/TgbDELc27Fsek28z6L76ISG+5VrCn+LPiDjw7PEuA4X6IpJ76tIYcL?=
- =?us-ascii?Q?6ccVwWP77+YQSyB29uu+HetpBBRd/bjPUMECjnJO/TWb3cSYEl3+bHX392Dy?=
- =?us-ascii?Q?2VgYRkJLZZo=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5757.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9brSa+bdlvi/6eftqG0wEDppljbQgJEznYpb1kQH86dDICWbUMxtWiwK0/X7?=
- =?us-ascii?Q?4rEWjqAc1kRsokCGBoz/oQbnANRsFgz673fviV3zWc3btFSRfD9I/XSh4cqp?=
- =?us-ascii?Q?Q+Q+8h58Gm0cfSghyhxjy0uUK1l4e4fzZLwD04xX2uZPZxg3rHzASRTDh+us?=
- =?us-ascii?Q?qgCFEDJR1PuMoPABTM36UOjJ6ub0/RXqf1Q10EItpXz66f9Eqppjjk/LCCMf?=
- =?us-ascii?Q?49LiQkJ7Jeo39RkV8AIR7CtfJoLZrdV3MdmykRQ57YzURLJzvykAbUMGKRFx?=
- =?us-ascii?Q?OQFm3ar9RMXa+/T8WxRzXgwMvRW/YW7wivCv74tpewW3AhCRCEu+wj3SOSB+?=
- =?us-ascii?Q?4RlQ9MjNbsW7Jl9giTy6DXl4x6Fu9qIX6oRShn8Uilv+pRN/ry8KE3UcA+Wn?=
- =?us-ascii?Q?ULvpHSCX1TyG+D3TBfE5QuTqlCG3isyhf2JNFtZpdroPhK0r/PANzfcv3BWG?=
- =?us-ascii?Q?5+EH4FUjAbQPDabCUvlrG6EzUYfox05xMC6bLMoreyRPS7Ojy2mp1v2pIg7j?=
- =?us-ascii?Q?7c1YIEg/truGG6QwtrwM4sI/9Vf+vz4UxPJNkExIvW4XDBa07XUdpPIfdPwD?=
- =?us-ascii?Q?wx9RpRN+d13xiSLdQIFkuqZII6bHusCMmTb9E4narF0h5L/oEgpOqxsBcHBg?=
- =?us-ascii?Q?ewdVKMLIBuo4fNrUkHkFKGzyKxveEUg9bW8w2PUI6njWI+DQIkg5J+YF38uK?=
- =?us-ascii?Q?Ew1CW/yzGdWCvjC7hpcT8Ks7ALN72NOBDVhNCOMPtfuQ00fdyYU/ImkkcDCa?=
- =?us-ascii?Q?OgXhBxMQtCnHPN/94sn7nXKb42TanX5SvZSuubFyUn9YK/MPNCkdbSd2cvPd?=
- =?us-ascii?Q?O+eiBurynvlcVjvyQvC6tIMszTe9kXiIDrHL6h2TvytWCOgZyCSBQYmy8HjZ?=
- =?us-ascii?Q?AJE8h0BeCiD4GxdgQU0B9kVCJ7SRRuaVeWcG/byzaTRliSgzwspmNszSU7vI?=
- =?us-ascii?Q?w1zJZCrHgFDVq5KyG3ask7NK2W0l6gI+hQBLGORGHW4LJCSId4OVNZlD53px?=
- =?us-ascii?Q?qw+5w0iybqAX5cb/BcIO3BvJd+6Dvl9TTQXENrWmNE4hrPzOz3r/cCf6XjLK?=
- =?us-ascii?Q?MOa7ZLp/kRBF0xUqB0hEEAt7uVdrDwUHTBraQMBLZdDZS6Yh5Wmnam1J2ZZu?=
- =?us-ascii?Q?gL5lGS0Sa8F7GW+ZQWERfs/8h3BinfAAwALQr+XognophwGG/PoHnulu55wn?=
- =?us-ascii?Q?N6N61LxtGOTnozw9ccWDX9sp7X/5ZZUgMTNqDe5HPkkzf8E+TRIWQaSqsUMZ?=
- =?us-ascii?Q?h7hVC2StbNxHjI6L/97Q4lxxwCOl59nYpHes7gqUxhZIKkFj1NJ/QML71bGJ?=
- =?us-ascii?Q?SRBra1y1gGCD6HM4rDZdFiWixSvuP/Zl8olGEJUgiYR0LZo7l2+3qJ0DENnC?=
- =?us-ascii?Q?5qugSmfjHJFJVySpdCgDiGx7H/u147UlCRCnLlNsX1sBgdSO5fMLmg1bj1M1?=
- =?us-ascii?Q?8KkyHbCIbZvB+TBvJjr+HZZoL9DomFAIc8tlOZAIx2zdP7zX2hvfN/h9EOpe?=
- =?us-ascii?Q?dRp/8lGy1sAFgNZzIblQrUHChTBvYY7FFJUihHYLu0AQAC7CntY0Dde2YTGz?=
- =?us-ascii?Q?SOVUD2AqRajEjF69PyqwB/dZIVBwUeZ/PoDq/A15?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc204952-1979-427d-43f4-08ddfac3faa1
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5757.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 17:09:39.1137
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ceigpDcxetN7qTmDdR6xf/u6VfAhbxjc3VgXcalLxLEkjfvE0x+7MsjxHGl5BBWd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7097
-X-Original-Sender: jgg@nvidia.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@Nvidia.com header.s=selector2 header.b=Clve4RHO;       arc=pass
- (i=1 spf=pass spfdomain=nvidia.com dkim=pass dkdomain=nvidia.com dmarc=pass
- fromdomain=nvidia.com);       spf=pass (google.com: domain of jgg@nvidia.com
- designates 2a01:111:f403:c112::5 as permitted sender) smtp.mailfrom=jgg@nvidia.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=nvidia.com
-X-Original-From: Jason Gunthorpe <jgg@nvidia.com>
-Reply-To: Jason Gunthorpe <jgg@nvidia.com>
+X-Original-Sender: ada.coupriediaz@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of ada.coupriediaz@arm.com designates 217.140.110.172 as
+ permitted sender) smtp.mailfrom=ada.coupriediaz@arm.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -262,54 +148,223 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sat, Sep 20, 2025 at 06:47:27PM -0600, Keith Busch wrote:
-> On Sat, Sep 20, 2025 at 06:53:52PM +0300, Leon Romanovsky wrote:
-> > On Fri, Sep 19, 2025 at 10:08:21AM -0600, Keith Busch wrote:
-> > > On Fri, Sep 12, 2025 at 12:03:27PM +0300, Leon Romanovsky wrote:
-> > > > On Fri, Sep 12, 2025 at 12:25:38AM +0200, Marek Szyprowski wrote:
-> > > > > >
-> > > > > > This series does the core code and modern flows. A followup series
-> > > > > > will give the same treatment to the legacy dma_ops implementation.
-> > > > > 
-> > > > > Applied patches 1-13 into dma-mapping-for-next branch. Let's check if it 
-> > > > > works fine in linux-next.
-> > > > 
-> > > > Thanks a lot.
-> > > 
-> > > Just fyi, when dma debug is enabled, we're seeing this new warning
-> > > below. I have not had a chance to look into it yet, so I'm just
-> > > reporting the observation.
-> > 
-> > Did you apply all patches or only Marek's branch?
-> > I don't get this warning when I run my NVMe tests on current dmabuf-vfio branch.
-> 
-> This was the snapshot of linux-next from the 20250918 tag. It doesn't
-> have the full patchset applied.
-> 
-> One other thing to note, this was runing on arm64 platform using smmu
-> configured with 64k pages. If your iommu granule is 4k instead, we
-> wouldn't use the blk_dma_map_direct path.
+Hi all,
 
-I spent some time looking to see if I could guess what this is and
-came up empty. It seems most likely we are leaking a dma mapping
-tracking somehow? The DMA API side is pretty simple here though..
+This started as an optimization of an alternative (patch 16) but quickly
+devolved into a patching rabbit hole, raising more questions than answers.
+Hence my looking for comments and some of the patches being
+"half-done", as per the notes you will find in patches 7 and 12.
 
-Not sure the 64k/4k itself is a cause, but triggering the non-iova
-flow is probably the issue.
 
-Can you check the output of this debugfs:
+Currently, we use a few callbacks to patch the kernel code, mostly
+for KVM and Spectre mitigation handling.
+However, almost all of those callbacks are instrumentable or call
+instrumentable functions : which means they can be patched themselves.
 
-/*
- * Dump mappings entries on user space via debugfs
- */
-static int dump_show(struct seq_file *seq, void *v)
+While applying alternatives, there is no guarantee that a function
+might be in a consistent state if it is called by the patching callback,
+nor is there a guarantee that the patching of a function calling another
+will be consistent between both.
+Further, `__apply_alternatives()` doesn't flush the instruction cache
+until having applied all alternatives, so there is a possibility that
+a patching callback or one of its callees might have been patched
+while the I-cache contains an unpatched or partially patched version.
 
-? If the system is idle and it has lots of entries that is probably
-confirmation of the theory.
+This has (mostly[0]) not blown up so far, but it is mechanically unsound :
+we cannot be sure it will not happen in the future.
 
-Jason
+
+The goal of this series is to gather feedback on how we can make sure
+that the patching callbacks we use are safe and not instrumentable,
+as well as all of their callees.
+Details on the thought process and the results follow, with open questions
+at then end.
+
+
+Callbacks are made safe when all their callees are, current callbacks
+are covered by patches 1-12.
+Patches 13-16 are illustrative of what might be required to implement
+a new callback using functions not yet covered.
+
+
+Reasoning
+===
+
+I felt that the safest way to be sure that the callbacks would not be
+instrumented would be if they were `noinstr` and if all of their callees
+were `__always_inline`, or `noinstr` if that were not possible.
+That way, if the callback itself is not patchable neither would be any
+of the functions it calls, nor any of those that they call, etc.
+(Marking all patching callbacks `noinstr` would also make them easily
+indentifialbe as internal callbacks, re:[1])
+
+I noted the following alternative callbacks, and went through all of their
+callees recursively :
+ - kvm_compute_final_ctr_el0
+ - kvm_get_kimage_voffset
+ - kvm_update_va_mask
+ - kvm_patch_vector_branch
+ - spectre_bhb_patch_loop_iter (noinstr)
+ - spectre_bhb_patch_loop_mitigation_enable (safe, noinstr)
+ - spectre_bhb_patch_clearbhb
+ - spectre_bhb_patch_wa3 (noinstr)
+ - spectre_v4_patch_fw_mitigation_enable
+ - smccc_patch_fw_mitigation_conduit
+ - kasan_hw_tags_enable
+ - alt_cb_patch_nops (safe, noinstr)
+
+Only a couple of them are already safe, and a few more `noinstr` but
+calling not inlined nor `noinstr` functions.
+
+
+The largest source of unsafe functions being called is the
+`aarch64_insn_...` functions. There is a large number of them, but only
+a few are used in alternative callbacks (directly or transitively).
+As they are usually quite simple it made sense to `__always_inline`
+those few used in callbacks, which also limits the scope of a complete
+`insn` rework.
+All the `...get_<insn>_value()`/`is_<insn>()` are `__always_inline`
+already, which reduces the number of functions to take care of.
+
+
+The second one is calls to `printk`, throug `WARN`s or `pr_...` functions.
+This is something that we cannot make `__always_inline` or `noinstr`,
+so we must either remove them entirely or find another way to make
+the information available.
+
+`aarch64_insn_...` functions call `pr_err` a lot to denote invalid
+input data, but it is often a dynamically provided argument : if not
+in the callbacks, in other use cases (mostly, the BPF JIT compiler).
+I removed those as they should always lead to an a break fault instruction
+being generated, though the source of the issue becomes less clear.
+In cases where the arguments are all available at compile time, I replaced
+the runtime `pr_err()` by a `compiletime_assert()`, as a way to preserve
+some of the error messages.
+
+
+Outcome
+===
+
+With this series, most of the callbacks are deemede "safe", with
+the following exceptions :
+ - kvm_patch_vector_branch
+ - spectre_bhb_patch_wa3
+ - spectre_v4_patch_fw_mitigation_enable
+ - smccc_patch_fw_mitigation_conduit
+
+This is due to the use of `WARN`s which I do not know if
+they can be safely removed and calling into non-arch code.
+There is a bit more info on the Spectre and KVM ones in patches 7 and 12.
+
+This also doesn't (currently, I think it would make sense to do it)
+apply the same fixes to the functions called by `patch_alternative()`,
+which thus remains "unsound".
+
+There is no size difference in the final image after forcing all those
+new inlines with the base defconfig.
+A clean compilation on my machine is about 1% faster wall clock time,
+using 1% more total CPU time. (20 samples for each, -j110, 125GB of RAM)
+
+This also allows safely introducing a new callback which handles the
+Cortex-A57 erratum 832075 (Patch 16), which would be sent separately
+after discussion on the RFC.
+
+
+Open questions
+===
+
+There are quite a few things that I am unsure about and would appreciate
+some input on :
+
+ - I do prefer when we have error messages, but the current series
+   removes a lot of them and fully completing the goal requires the
+   removal of more yet.
+   - Instead of removing all of them, would it make sense to gate them
+     behind a config option (depending on `CONFIG_EXPERT`) ? For example
+     `CONFIG_ARM64_UNSAFE_ALTERNATIVE` ? But that would only help for
+     developpers or when actively trying to debug.
+   - Alternatively, would a command line option make sense ? But then,
+     I'm afraid that it would call into more instrumentable/patchable
+     functions, leading us back to the beginning. 
+   - Are the `compiletime_assert` messages a useful alternative ?
+     Are they more limiting than needed ? (Given the arguments _need_
+     to be decidable at compile time, that would limit new users that
+     create them dynamically)
+
+ - Some alternative callbacks are `__init`. This makes them incompatible
+   with the default `noinstr`, as they place functions in different
+   text sections. I worked around that for now by using
+   `__noinstr_section(".init.text")`, which adds all the `noinstr`
+   attributes, but maintains the function in the init section.
+   However, it seems to me that Kprobes do not care about the attributes
+   and only look at the section to block instrumentation, which could
+   be an issue.
+   What to do with `__init` callbacks then ? Would this be "good enough" ?
+   Is there a proper way to have non-instrumented `__init` functions ?
+   What would be the impact of not marking them `__init` anymore ?
+
+ - Given all the limitations and issues above, is this the right way to go
+   about it ?
+
+ - `__always_inline`'ing seems to make sense here, but does create
+   a disparity in the `aarch64_insn_...` functions,
+   but marking everything `noinstr` instead would work as well. Given
+   that there is no size difference with and without the patches,
+   I would assume that the compiler already inlines them all,
+   given we compile with -O2 which considers all functions for inlining.
+
+ - It also means a change of visibility for a few helper functions.
+   I have tried to add relevant checks when needed, but I assume there
+   were reasons for them to be static to the C file, which they cannot
+   be anymore if the functions that need them are `__always_inline`
+
+
+
+Thanks very much for taking the time and apologies for another
+lengthy cover.
+Best,
+Ada
+
+Based on v6.17-rc4
+
+[0]: https://lore.kernel.org/all/aNF0gb1iZndz0-be@J2N7QTR9R3/
+[1]: https://lore.kernel.org/all/aJnccgC5E-ui2Oqo@willie-the-truck/
+
+Ada Couprie Diaz (16):
+  kasan: mark kasan_(hw_)tags_enabled() __always_inline
+  arm64: kasan: make kasan_hw_tags_enable() callback safe
+  arm64/insn: always inline aarch64_insn_decode_register()
+  arm64/insn: always inline aarch64_insn_encode_register()
+  arm64/insn: always inline aarch64_insn_encode_immediate()
+  arm64/insn: always inline aarch64_insn_gen_movewide()
+  arm64/proton-pack: make alternative callbacks safe
+  arm64/insn: always inline aarch64_insn_gen_logical_immediate()
+  arm64/insn: always inline aarch64_insn_gen_add_sub_imm()
+  arm64/insn: always inline aarch64_insn_gen_branch_reg()
+  arm64/insn: always inline aarch64_insn_gen_extr()
+  kvm/arm64: make alternative callbacks safe
+  arm64/insn: introduce missing is_store/is_load helpers
+  arm64/insn: always inline aarch64_insn_encode_ldst_size()
+  arm64/insn: always inline aarch64_insn_gen_load_acq_store_rel()
+  arm64/io: rework Cortex-A57 erratum 832075 to use callback
+
+ arch/arm64/include/asm/insn.h   | 632 ++++++++++++++++++++++++++++++--
+ arch/arm64/include/asm/io.h     |  27 +-
+ arch/arm64/kernel/image-vars.h  |   1 +
+ arch/arm64/kernel/io.c          |  21 ++
+ arch/arm64/kernel/mte.c         |   1 +
+ arch/arm64/kernel/proton-pack.c |   1 +
+ arch/arm64/kvm/va_layout.c      |  12 +-
+ arch/arm64/lib/insn.c           | 530 +-------------------------
+ include/linux/kasan-enabled.h   |   6 +-
+ 9 files changed, 657 insertions(+), 574 deletions(-)
+
+
+base-commit: b320789d6883cc00ac78ce83bccbfe7ed58afcf0
+-- 
+2.43.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250923170936.GA2614310%40nvidia.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250923174903.76283-1-ada.coupriediaz%40arm.com.
