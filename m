@@ -1,112 +1,112 @@
-Return-Path: <kasan-dev+bncBDB3VRFH7QKRBLV3ZPDAMGQEPDOMH5Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBDB3VRFH7QKRBMF3ZPDAMGQE6T2VWDY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x1140.google.com (mail-yw1-x1140.google.com [IPv6:2607:f8b0:4864:20::1140])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFBFDB97198
-	for <lists+kasan-dev@lfdr.de>; Tue, 23 Sep 2025 19:49:35 +0200 (CEST)
-Received: by mail-yw1-x1140.google.com with SMTP id 00721157ae682-73934dd7a22sf73095547b3.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 23 Sep 2025 10:49:35 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1758649774; cv=pass;
+Received: from mail-qt1-x840.google.com (mail-qt1-x840.google.com [IPv6:2607:f8b0:4864:20::840])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42804B9719E
+	for <lists+kasan-dev@lfdr.de>; Tue, 23 Sep 2025 19:49:38 +0200 (CEST)
+Received: by mail-qt1-x840.google.com with SMTP id d75a77b69052e-4b5f6eeb20esf202216351cf.3
+        for <lists+kasan-dev@lfdr.de>; Tue, 23 Sep 2025 10:49:38 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1758649777; cv=pass;
         d=google.com; s=arc-20240605;
-        b=W7351CfIaY3NHGGtUC+EjayRQNIoIhVYAB40Sh0IVcf8Qf5Q99sYqx3aTO1j9pSj36
-         ClAcJg8SEgMxRcl3l5kDMm60/AZHoCNbRJAy5Lz6v2auB5PCaTEb3DQj5Xj/bvZELQKu
-         X4rOGGX/O36up6DIOOzIBWrZy/bcnXRkJeCG/X1PwVWA/HBnCkkXxW/LVh8/X1tLZ1Xo
-         hQZjejPkFHYZjXFkEYQf6Dbuiaddl7r2Qvgusv8JWZrAxsXOAGU9xqYc/BYboPplPkE/
-         q1ZO1hFn04v1aliXjSCkfWc7Yl/up5q10PYmVJKh55BhEUU53qpeGZdbfw35VJocAOJ9
-         FrSw==
+        b=k0Ot9Bp73BJ7wwsSPEdwLKNc7GrNwJkQJIme6DbSjSjlyZFmdkZsj4QQdCz9LGgxF0
+         o8UiRLYHNvI/HUpbawDxSvJXBAxOJgLAg1TLOf2JgvTREgQMGLeB4r4DC7wznaprrazm
+         Vt1qK6FkBn3SCVDofPtQ8pLHFK9tjO10FEZ5PFQHZDRXsJMrKBfTgpjqeD9D4Kp+WadS
+         Al8Fn8s8qGueKqjUBdbi1pwpEtAE7BUP/Ph1sgWjqTpJe3/xB3AAiKYHfg0Ig0z+VnQm
+         /tPudpv1OHCIMoWenz/4RrUDxqOIn2lRGCOQr3Kylj6UPl+PIR7eq/ytzSlEfrtOWWQW
+         ivQw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=7xqkYX1CD0IdUG3na+iYYbWhiXXRQyfmkX3llCCTrJE=;
-        fh=13p/QkZsN0fPBy0jqxgR0o9dax19yi/MI5M6LCb9ikw=;
-        b=K7Tr23v9w0rr0q0FcP8klV5DqYI42Mly6pfBXUgXR4toSoRGvx4mUdrmxBu2RCIpVC
-         s/lduWJA1ywMJGoXJCVBS50uN4WCT8m1Mni3GB4jzORRmxLMYEmCwq5ibg4X6dOm3noj
-         OqBaszhEHvq1jHCSAhtlL80ypoVeEXE8ETjVoqvqSAQgmh/A+FlcSX6sSHZXlc42Yba2
-         zYF/n6wg5COd883OCAuA8HJQg7HEPXiYH+Yx+29VYzoP7dyxd3RM0yPoJ+Bxg0gYErX9
-         KMnHwcTPk8pTzWfXN6+TnOFpgZTRNOPqYloBV5+C8VYhy6t/ZU2nHQTBvDZgCb2+54A0
-         ziTg==;
+        bh=huS/oVfGv9dUWjF6eXYhQ+71TQqSI8keTHD0BVymvCU=;
+        fh=T04zxiPKWZkjZc9iuWYyq3VzsT4BAbCMCEocHvH+ETE=;
+        b=Dy3XF5/B5PVJApE2hhWwut91hpIxG4VOE/ZRTSg8cE7ZkDwifv/SxRlG8vpFJ3zPdK
+         NkxnX98beiWXdGGj9gofylQZHjqc8aujAIWLHKZgpr7PjDasb/At0rWkLmxLYzA5XZAy
+         mxhhItysCCvofNO7Lnn75OmINkBbd9UABET0t5CSXNZNibirGukLRh7FaNPi2gXtsTsI
+         wnRw8UcpAeeHgWu1LZdSLIgxCOpjr1BpzePPEDtzGQ+/jrN0frANRuQSv8m15cJW0fza
+         QQEwjHXttyZeI4Lunfk+ki3/Nu44Fma3p2fNmxTRMlAtIP9mYESKSwzpYspKOv01qsF3
+         ApfQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of ada.coupriediaz@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=ada.coupriediaz@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1758649774; x=1759254574; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1758649777; x=1759254577; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7xqkYX1CD0IdUG3na+iYYbWhiXXRQyfmkX3llCCTrJE=;
-        b=oTVRQ1aGXVmtWAkPmuZildg0r3VkRpNJQDPM1/AIPXMXYzDjw6vMlo6bfFjnVpHfq2
-         HgIdipgxiD8xuOiN4NkZmstG9jrvfun0govgxkOaBBMb4Ok8QMZPatcPr4632c8i/nvO
-         fFHjNf/mkqb4GprfcExbZSh2mnnt6sHsuoTz7/kRViqUJZ72IugLf10SiA7w8NEJHFxN
-         1shNIxL6Mb02wZBAx8Vdcj/oqwflyFpXxC0UgXu01+nTKWyydJcg9PCbalk+gKa6MOCF
-         QRV9QmamLCw5PTJM/7LogTc+CGCOOYTcka5xzXGkJW7IPi3We9lLopO0dCUPIHdBomLJ
-         +82Q==
+        bh=huS/oVfGv9dUWjF6eXYhQ+71TQqSI8keTHD0BVymvCU=;
+        b=rXmQjYj7adU9P1J5pgOsp1UsphEaAMA3gynHPWIAgzmeq0iBnURhyKafXkK96jTPqk
+         vTQF5S7jB6HqINg1k+rW0/BDnDPNGf546Lzf/9t9PXAwIDtL9CSEKXAnyViEpxKcE8uy
+         95VG+10C+UUeSHC0MydTYUy4gUU/yqb3wLIU/qLfKWOvugwdJ0154V5QnW7lbVqb/F2i
+         3U8Hpkk9VDMXmAOADV9apB1cwRtobZza0Osc0tB07RsrIht7DD8bLIZkkp+GqX750RH5
+         mPhCiJWTtiRLLZGCGLHaatBCGNf+GsGIY1MdB85brqrIfF/bkBj7wssUFbPD58ajm2xb
+         ds7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758649774; x=1759254574;
+        d=1e100.net; s=20230601; t=1758649777; x=1759254577;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7xqkYX1CD0IdUG3na+iYYbWhiXXRQyfmkX3llCCTrJE=;
-        b=JKAZ4es4WKAckOJ2gKaMmcmO4v+SWKREZwf+mIIP+NCmZSh8+icizLHGAV8K8zQCZ1
-         g138tuUlV6xrNi78SLQ+DX/oRRadyLzm3ogY8EYEPkmbC6b+6v1NhV8GVW/u3wbF1O5V
-         XWcCtElPykCSfA1KuB9A4Ag7vX70geF+NeRIVNB9kdcZe4VxcurxaB2Z7gCJBKOodWba
-         Xji3iDDjQ/Mcf4cgej98qpLvZ4fPDGW8TVd1mWypKLHly3/xy1X0N5sa3ZWYmK0OhWzE
-         3tm7u/rZtvIRzGtEB831Q5447Z5VNxUAJ6BBOmv4Cx9jLIni38Pdr7BjOvpGMb+HxNTh
-         dFyA==
+        bh=huS/oVfGv9dUWjF6eXYhQ+71TQqSI8keTHD0BVymvCU=;
+        b=rhlQ1X+jQzTAgXNJS5ePecFS+H+syFOKW2bV68BDX2ftCacmQA/uOM5Ymppawj0lrF
+         /c8fBjtFShBp6BuAkw8Rg85Iv8i0N109VUYfPtBIR1l9FVrkfjW61ocq2+3fg8clTc60
+         nsbZC0ZnQmAC8cCAQ4YKVgZ0hPBIsf/YpH1twuk/KfCX0UeY3jx2gmaDaDDJAIpecKvy
+         av6l3YD8PwGYiTm/9dqDEqCn/k2h4mt25gwTsFr81uHghjoJ+Zh+IKUJh0Y6ujTk7dqN
+         NKUjr7+WyigeHaNecmn1UoNfuX//VIalAaHKSnqJHufS7tyuGFh0zsBQzc/N3w7WTE7Z
+         2pRQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVLse0/GxiyFRXUvLAAlcB4uF3bu2pn34KyAilsZMu42f2INaIZNDt8WBma714zkWhh8aGoXA==@lfdr.de
-X-Gm-Message-State: AOJu0YxTKZO1lM4ZdrkcGwXv/2GKhxVNmR8Dh3t32HK52cu3zSHwPb6K
-	WpLhjJjgqavJw9XWEEwxzIx1ET22ri+Cbjkm4z0UjDO60M0V6r3n6hAw
-X-Google-Smtp-Source: AGHT+IH3hqB5xDpTyLFTvSN64gW4igPyo9m2QRb3NCHFkE+lInqL2IEnyfCrwLzGPmJmj7uNHYsXRA==
-X-Received: by 2002:a05:690c:6281:b0:723:bf47:96f8 with SMTP id 00721157ae682-758a7b2ed88mr30209207b3.53.1758649774645;
-        Tue, 23 Sep 2025 10:49:34 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd6EXVSMkBAXWyB8HorTW/Oh/CYwDZ8FMrZjFtdVE0FQpA==
-Received: by 2002:a05:690e:1489:b0:5f3:b6f7:81b5 with SMTP id
- 956f58d0204a3-633be0fde53ls3916285d50.2.-pod-prod-05-us; Tue, 23 Sep 2025
- 10:49:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWV81e2J4VzLg6Fdsmy4P4YPsCOsB1Zrl6UQk09oZz9oIosZ1KnONKyM0zczgXagdvU5bHt+SMi+oA=@googlegroups.com
-X-Received: by 2002:a05:690e:424f:b0:62c:70de:7c9a with SMTP id 956f58d0204a3-636046a8e0emr1889779d50.11.1758649772402;
-        Tue, 23 Sep 2025 10:49:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1758649772; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCW+DXmRcSSowK5ajl8cDDFPY8Ol2c9OqPNEpxInVVMksbJNTn5Cc0EC7FQ9obuJRE3z+6tuzQ==@lfdr.de
+X-Gm-Message-State: AOJu0YzqUcknFEQk09L9IFG07cWgRhy9QjpzHzUgqm+RWdR49wKvy59C
+	wxksOQsDjDxIR4VukGBBmWKfwtzb29HLbEjU5bD3PSBWl1FnjjXllHnV
+X-Google-Smtp-Source: AGHT+IHUIqhsU1ST99VTZ54T/JoqD39Et94160vJ0IM+6qzgqYWp+WdqO4TU+1marvI1kqWPGDaunw==
+X-Received: by 2002:a05:622a:a94a:20b0:4d3:e20b:78c6 with SMTP id d75a77b69052e-4d3e20b8515mr29623551cf.80.1758649776850;
+        Tue, 23 Sep 2025 10:49:36 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd6oCBxI1vE+jgLJf9gHLijHfGlbbQI1halZ0Wn4X/fmqA==
+Received: by 2002:a05:622a:2b4c:b0:4d6:c3a2:e1bd with SMTP id
+ d75a77b69052e-4d6c3a2e86als8353161cf.0.-pod-prod-04-us; Tue, 23 Sep 2025
+ 10:49:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVRVX57t6JlXixI2vuRiyW/c93YPUXIOFjtIknsg+P2fti2bpQKjmJOY7kGym3MhZa3L9E2ZehvOFE=@googlegroups.com
+X-Received: by 2002:a05:620a:4149:b0:811:76d4:6d4c with SMTP id af79cd13be357-851694f4448mr366659685a.10.1758649775914;
+        Tue, 23 Sep 2025 10:49:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1758649775; cv=none;
         d=google.com; s=arc-20240605;
-        b=R11Q2nZGdT5jM989qCVbUArXlK4llhwmAlfPiHwp3Ux9keS+4iwmX8FuHsSH8rYqCB
-         m8kO8I+PJTUC1mEYr7u2IqOUaiWWZghJzQbwytTdiS2Kezuyo51KWMf8hEvDUT+oZ/VI
-         H+QQ3fuT2n79XO3vv36hqvjZAg3EG4nUcmzWqF6vW05sM0dfz2wSfyQIZ7u7SkSfwb67
-         Su/phDG6FVaDeO0ZhLVWU0MfuSEVySQe4dcRNjXEYPjDfbtISoYofUjr8renB+jP3rOk
-         LE8MTjos2Qp/QQ+RnqqhbA5vi9/e3K8Hx9msvCZTV6ECDMEPwj+3l18FznQzhhUbsXGl
-         WwaQ==
+        b=lXhiHDoZUFuRmh2UOie7JcQdcM7VEjqbIkzcizkqz8XK0544865KOa7uhz+CQxcjI8
+         wp+4VqXCEPLXeFjnszw54j3t0x1pZSegExiZp9Hv9oK0DHLHPYPTw9o+Gf/wmZgrZ2c7
+         BIIUtcZ44ZlexvLRIFcG9C8qymYrAr+0mVx7Viwpaxv1Htgr9NVqAGmjTgGEGuWPmbjE
+         Y5XZyPHuMt6N8N4yeYPPKkxZO17g2YvRurKpS7Gjiq5gCE0tYpOU7JbkvyjUlYA/gbSe
+         XKVrPcc9KW60CHEAliTD4VTeHKO5JtWXtZqlNxEN8DFyulH1FgtF0WtqjByvFi7GL9nf
+         Tbaw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from;
-        bh=nRwif9QX4NLPVrTQf/mDPVPyZw6QavAhED2K4dJ9XcQ=;
+        bh=bZ2uzXtl6lqNAinf/Y3wQdYQbNd4yFTmZ87eTrWeF7E=;
         fh=eoJjfSK6fSSw8URA2i1Ih8m7A3n64cnY04bTfTqxJBk=;
-        b=ZFnkzvRWOoo6Mr2uXp5GCsiXWLkHh3mcgf+PQvHwqq2iAfE41Xvha49AOpzVajzBX3
-         aKbausLSQfwr8y5czp6L2sOKQTJ2LVyRw7gXZQ2tEj4IbRXhBV2ppu8LmLVhu2x1vwl6
-         UAIqFRdXOGj5NFsLGSFQR2f88CZBl+e5k0gF2Yc69aEYWO879kEi+OD7c5GOyrDYtSzH
-         BfN98sWXq8Sv3X9LebtNFT7Ew8oUHTkaadKoQCe6jCCq/IDAz6+zbsqALy0vT8a3NN5u
-         C9NS4fUWkOctYlYey/i2rK25uUm8lb/Pvf18RjnhsCm//F69SLBDExd6lB+mlemDcleq
-         rkTQ==;
+        b=Azu8hPtSFWhaM6y2GNheRZfIfyaaXRUMWAS9ghovsa9PdF2iCw/KUCbkrc0JrV+Uc9
+         AyFH/KbkBJwDCm46DBwKCsH2O8dmJvW59OSBoR0gpd5qOEmUOsXM3sqHJPfmr0fTriT5
+         YdBdTGNn+lMigKL45f4g1kV8m28f8/Mg07YdsD8kZKCdF+EqPQgZ/O64mqYiJdG7mtzD
+         qb2EzWN6rZAFy38B91t+stfBtb9emq0QLus/HCy7SM3fJMpnhGM6djHJ7djOgUG/kK7t
+         bDTcCBD9E9M8gaFw3elvVxu0/Qf4HVhxoxTtCKbY///8OXQ0i1AuIxUnDKl/oY867LWJ
+         JQwA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of ada.coupriediaz@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=ada.coupriediaz@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id 956f58d0204a3-635290619edsi449540d50.0.2025.09.23.10.49.32
+        by gmr-mx.google.com with ESMTP id af79cd13be357-855c2950442si1934785a.4.2025.09.23.10.49.35
         for <kasan-dev@googlegroups.com>;
-        Tue, 23 Sep 2025 10:49:32 -0700 (PDT)
+        Tue, 23 Sep 2025 10:49:35 -0700 (PDT)
 Received-SPF: pass (google.com: domain of ada.coupriediaz@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 72CBAFEC;
-	Tue, 23 Sep 2025 10:49:23 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5738B25E0;
+	Tue, 23 Sep 2025 10:49:27 -0700 (PDT)
 Received: from e137867.cambridge.arm.com (e137867.arm.com [10.1.30.204])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 4AA563F5A1;
-	Tue, 23 Sep 2025 10:49:28 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id DB98A3F5A1;
+	Tue, 23 Sep 2025 10:49:31 -0700 (PDT)
 From: Ada Couprie Diaz <ada.coupriediaz@arm.com>
 To: linux-arm-kernel@lists.infradead.org
 Cc: Catalin Marinas <catalin.marinas@arm.com>,
@@ -127,9 +127,9 @@ Cc: Catalin Marinas <catalin.marinas@arm.com>,
 	kasan-dev@googlegroups.com,
 	Mark Rutland <mark.rutland@arm.com>,
 	Ada Couprie Diaz <ada.coupriediaz@arm.com>
-Subject: [RFC PATCH 04/16] arm64/insn: always inline aarch64_insn_encode_register()
-Date: Tue, 23 Sep 2025 18:48:51 +0100
-Message-ID: <20250923174903.76283-5-ada.coupriediaz@arm.com>
+Subject: [RFC PATCH 05/16] arm64/insn: always inline aarch64_insn_encode_immediate()
+Date: Tue, 23 Sep 2025 18:48:52 +0100
+Message-ID: <20250923174903.76283-6-ada.coupriediaz@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250923174903.76283-1-ada.coupriediaz@arm.com>
 References: <20250923174903.76283-1-ada.coupriediaz@arm.com>
@@ -152,126 +152,281 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-As it is always called with an explicit register type, we can
-check for its validity at compile time and remove the runtime error print.
-The register and instruction checks cannot be made at compile time,
-as they are dynamically created. However, we can remove the error print
-as it should never appear in normal operation and will still lead to
-a fault BRK.
+As type is passed dynamically at runtime we cannot check at compile time
+that is valid.
+However, in practice this should not happen and will still result in a
+fault BRK, so remove the error print.
 
-This makes `aarch64_insn_encode_register()` self-contained and safe
-for inlining and usage from patching callbacks.
+Pull `aarch64_get_imm_shift_mask()` in the header as well and make it
+`__always_inline` as it is needed for `aarch64_insn_encode_immediate()`
+and is already safe to inline.
+This is a change of visibility, so make sure to check the input pointers
+in case it is used in other places.
+Current callers do not care about -EINVAL, they just check for an error,
+so change the return to a boolean.
 
-This is a change of visiblity, as previously the function was private to
-lib/insn.c.
-However, in order to inline more `aarch64_insn_...` functions and make
-patching callbacks safe, it needs to be accessible by those functions.
+This makes `aarch64_insn_encode_immediate()` safe for inlining and
+usage from patching callbacks.
+
+As both functions are now `__always_inline`, they do not need
+their `__kprobes` annotation anymore.
 
 Signed-off-by: Ada Couprie Diaz <ada.coupriediaz@arm.com>
 ---
- arch/arm64/include/asm/insn.h | 42 +++++++++++++++++++++++++++++++++++
- arch/arm64/lib/insn.c         | 42 -----------------------------------
- 2 files changed, 42 insertions(+), 42 deletions(-)
+ arch/arm64/include/asm/insn.h | 103 +++++++++++++++++++++++++++++++++-
+ arch/arm64/lib/insn.c         | 102 +--------------------------------
+ 2 files changed, 102 insertions(+), 103 deletions(-)
 
 diff --git a/arch/arm64/include/asm/insn.h b/arch/arm64/include/asm/insn.h
-index f6bce1a62dda..90f271483e5b 100644
+index 90f271483e5b..5f5f6a125b4e 100644
 --- a/arch/arm64/include/asm/insn.h
 +++ b/arch/arm64/include/asm/insn.h
-@@ -559,6 +559,48 @@ enum aarch64_insn_encoding_class aarch64_get_insn_class(u32 insn);
- u64 aarch64_insn_decode_immediate(enum aarch64_insn_imm_type type, u32 insn);
- u32 aarch64_insn_encode_immediate(enum aarch64_insn_imm_type type,
- 				  u32 insn, u64 imm);
-+static __always_inline u32 aarch64_insn_encode_register(
-+				 enum aarch64_insn_register_type type,
-+				 u32 insn,
-+				 enum aarch64_insn_register reg)
+@@ -9,6 +9,7 @@
+ #define	__ASM_INSN_H
+ #include <linux/bits.h>
+ #include <linux/build_bug.h>
++#include <linux/sizes.h>
+ #include <linux/types.h>
+ 
+ #include <asm/insn-def.h>
+@@ -555,10 +556,108 @@ static __always_inline bool aarch64_insn_uses_literal(u32 insn)
+ 	       aarch64_insn_is_prfm_lit(insn);
+ }
+ 
++static __always_inline bool aarch64_get_imm_shift_mask(
++				 enum aarch64_insn_imm_type type, u32 *maskp, int *shiftp)
 +{
-+	compiletime_assert(type >= AARCH64_INSN_REGTYPE_RT &&
-+		type <= AARCH64_INSN_REGTYPE_RS, "unknown register type encoding");
++	u32 mask;
++	int shift;
++
++	if (maskp == NULL || shiftp == NULL)
++		return false;
++
++	switch (type) {
++	case AARCH64_INSN_IMM_26:
++		mask = BIT(26) - 1;
++		shift = 0;
++		break;
++	case AARCH64_INSN_IMM_19:
++		mask = BIT(19) - 1;
++		shift = 5;
++		break;
++	case AARCH64_INSN_IMM_16:
++		mask = BIT(16) - 1;
++		shift = 5;
++		break;
++	case AARCH64_INSN_IMM_14:
++		mask = BIT(14) - 1;
++		shift = 5;
++		break;
++	case AARCH64_INSN_IMM_12:
++		mask = BIT(12) - 1;
++		shift = 10;
++		break;
++	case AARCH64_INSN_IMM_9:
++		mask = BIT(9) - 1;
++		shift = 12;
++		break;
++	case AARCH64_INSN_IMM_7:
++		mask = BIT(7) - 1;
++		shift = 15;
++		break;
++	case AARCH64_INSN_IMM_6:
++	case AARCH64_INSN_IMM_S:
++		mask = BIT(6) - 1;
++		shift = 10;
++		break;
++	case AARCH64_INSN_IMM_R:
++		mask = BIT(6) - 1;
++		shift = 16;
++		break;
++	case AARCH64_INSN_IMM_N:
++		mask = 1;
++		shift = 22;
++		break;
++	default:
++		return false;
++	}
++
++	*maskp = mask;
++	*shiftp = shift;
++
++	return true;
++}
++
++#define ADR_IMM_HILOSPLIT	2
++#define ADR_IMM_SIZE		SZ_2M
++#define ADR_IMM_LOMASK		((1 << ADR_IMM_HILOSPLIT) - 1)
++#define ADR_IMM_HIMASK		((ADR_IMM_SIZE >> ADR_IMM_HILOSPLIT) - 1)
++#define ADR_IMM_LOSHIFT		29
++#define ADR_IMM_HISHIFT		5
++
+ enum aarch64_insn_encoding_class aarch64_get_insn_class(u32 insn);
+ u64 aarch64_insn_decode_immediate(enum aarch64_insn_imm_type type, u32 insn);
+-u32 aarch64_insn_encode_immediate(enum aarch64_insn_imm_type type,
+-				  u32 insn, u64 imm);
++
++static __always_inline u32 aarch64_insn_encode_immediate(
++				 enum aarch64_insn_imm_type type, u32 insn, u64 imm)
++{
++	u32 immlo, immhi, mask;
 +	int shift;
 +
 +	if (insn == AARCH64_BREAK_FAULT)
 +		return AARCH64_BREAK_FAULT;
 +
-+	if (reg < AARCH64_INSN_REG_0 || reg > AARCH64_INSN_REG_SP) {
-+		return AARCH64_BREAK_FAULT;
-+	}
-+
 +	switch (type) {
-+	case AARCH64_INSN_REGTYPE_RT:
-+	case AARCH64_INSN_REGTYPE_RD:
++	case AARCH64_INSN_IMM_ADR:
 +		shift = 0;
-+		break;
-+	case AARCH64_INSN_REGTYPE_RN:
-+		shift = 5;
-+		break;
-+	case AARCH64_INSN_REGTYPE_RT2:
-+	case AARCH64_INSN_REGTYPE_RA:
-+		shift = 10;
-+		break;
-+	case AARCH64_INSN_REGTYPE_RM:
-+	case AARCH64_INSN_REGTYPE_RS:
-+		shift = 16;
++		immlo = (imm & ADR_IMM_LOMASK) << ADR_IMM_LOSHIFT;
++		imm >>= ADR_IMM_HILOSPLIT;
++		immhi = (imm & ADR_IMM_HIMASK) << ADR_IMM_HISHIFT;
++		imm = immlo | immhi;
++		mask = ((ADR_IMM_LOMASK << ADR_IMM_LOSHIFT) |
++			(ADR_IMM_HIMASK << ADR_IMM_HISHIFT));
 +		break;
 +	default:
-+		return AARCH64_BREAK_FAULT;
++		if (aarch64_get_imm_shift_mask(type, &mask, &shift) == false) {
++			return AARCH64_BREAK_FAULT;
++		}
 +	}
 +
-+	insn &= ~(GENMASK(4, 0) << shift);
-+	insn |= reg << shift;
++	/* Update the immediate field. */
++	insn &= ~(mask << shift);
++	insn |= (imm & mask) << shift;
 +
 +	return insn;
 +}
-+
- static __always_inline u32 aarch64_insn_decode_register(
- 				 enum aarch64_insn_register_type type, u32 insn)
- {
+ static __always_inline u32 aarch64_insn_encode_register(
+ 				 enum aarch64_insn_register_type type,
+ 				 u32 insn,
 diff --git a/arch/arm64/lib/insn.c b/arch/arm64/lib/insn.c
-index 0fac78e542cf..1810e1ea64a7 100644
+index 1810e1ea64a7..d77aef7f84f1 100644
 --- a/arch/arm64/lib/insn.c
 +++ b/arch/arm64/lib/insn.c
-@@ -144,48 +144,6 @@ u32 __kprobes aarch64_insn_encode_immediate(enum aarch64_insn_imm_type type,
- 	return insn;
+@@ -13,7 +13,6 @@
+ #include <linux/types.h>
+ 
+ #include <asm/debug-monitors.h>
+-#include <asm/errno.h>
+ #include <asm/insn.h>
+ #include <asm/kprobes.h>
+ 
+@@ -21,71 +20,6 @@
+ #define AARCH64_INSN_N_BIT	BIT(22)
+ #define AARCH64_INSN_LSL_12	BIT(22)
+ 
+-static int __kprobes aarch64_get_imm_shift_mask(enum aarch64_insn_imm_type type,
+-						u32 *maskp, int *shiftp)
+-{
+-	u32 mask;
+-	int shift;
+-
+-	switch (type) {
+-	case AARCH64_INSN_IMM_26:
+-		mask = BIT(26) - 1;
+-		shift = 0;
+-		break;
+-	case AARCH64_INSN_IMM_19:
+-		mask = BIT(19) - 1;
+-		shift = 5;
+-		break;
+-	case AARCH64_INSN_IMM_16:
+-		mask = BIT(16) - 1;
+-		shift = 5;
+-		break;
+-	case AARCH64_INSN_IMM_14:
+-		mask = BIT(14) - 1;
+-		shift = 5;
+-		break;
+-	case AARCH64_INSN_IMM_12:
+-		mask = BIT(12) - 1;
+-		shift = 10;
+-		break;
+-	case AARCH64_INSN_IMM_9:
+-		mask = BIT(9) - 1;
+-		shift = 12;
+-		break;
+-	case AARCH64_INSN_IMM_7:
+-		mask = BIT(7) - 1;
+-		shift = 15;
+-		break;
+-	case AARCH64_INSN_IMM_6:
+-	case AARCH64_INSN_IMM_S:
+-		mask = BIT(6) - 1;
+-		shift = 10;
+-		break;
+-	case AARCH64_INSN_IMM_R:
+-		mask = BIT(6) - 1;
+-		shift = 16;
+-		break;
+-	case AARCH64_INSN_IMM_N:
+-		mask = 1;
+-		shift = 22;
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+-
+-	*maskp = mask;
+-	*shiftp = shift;
+-
+-	return 0;
+-}
+-
+-#define ADR_IMM_HILOSPLIT	2
+-#define ADR_IMM_SIZE		SZ_2M
+-#define ADR_IMM_LOMASK		((1 << ADR_IMM_HILOSPLIT) - 1)
+-#define ADR_IMM_HIMASK		((ADR_IMM_SIZE >> ADR_IMM_HILOSPLIT) - 1)
+-#define ADR_IMM_LOSHIFT		29
+-#define ADR_IMM_HISHIFT		5
+-
+ u64 aarch64_insn_decode_immediate(enum aarch64_insn_imm_type type, u32 insn)
+ {
+ 	u32 immlo, immhi, mask;
+@@ -100,7 +34,7 @@ u64 aarch64_insn_decode_immediate(enum aarch64_insn_imm_type type, u32 insn)
+ 		mask = ADR_IMM_SIZE - 1;
+ 		break;
+ 	default:
+-		if (aarch64_get_imm_shift_mask(type, &mask, &shift) < 0) {
++		if (aarch64_get_imm_shift_mask(type, &mask, &shift) == false) {
+ 			pr_err("%s: unknown immediate encoding %d\n", __func__,
+ 			       type);
+ 			return 0;
+@@ -110,40 +44,6 @@ u64 aarch64_insn_decode_immediate(enum aarch64_insn_imm_type type, u32 insn)
+ 	return (insn >> shift) & mask;
  }
  
--static u32 aarch64_insn_encode_register(enum aarch64_insn_register_type type,
--					u32 insn,
--					enum aarch64_insn_register reg)
+-u32 __kprobes aarch64_insn_encode_immediate(enum aarch64_insn_imm_type type,
+-				  u32 insn, u64 imm)
 -{
+-	u32 immlo, immhi, mask;
 -	int shift;
 -
 -	if (insn == AARCH64_BREAK_FAULT)
 -		return AARCH64_BREAK_FAULT;
 -
--	if (reg < AARCH64_INSN_REG_0 || reg > AARCH64_INSN_REG_SP) {
--		pr_err("%s: unknown register encoding %d\n", __func__, reg);
--		return AARCH64_BREAK_FAULT;
--	}
--
 -	switch (type) {
--	case AARCH64_INSN_REGTYPE_RT:
--	case AARCH64_INSN_REGTYPE_RD:
+-	case AARCH64_INSN_IMM_ADR:
 -		shift = 0;
--		break;
--	case AARCH64_INSN_REGTYPE_RN:
--		shift = 5;
--		break;
--	case AARCH64_INSN_REGTYPE_RT2:
--	case AARCH64_INSN_REGTYPE_RA:
--		shift = 10;
--		break;
--	case AARCH64_INSN_REGTYPE_RM:
--	case AARCH64_INSN_REGTYPE_RS:
--		shift = 16;
+-		immlo = (imm & ADR_IMM_LOMASK) << ADR_IMM_LOSHIFT;
+-		imm >>= ADR_IMM_HILOSPLIT;
+-		immhi = (imm & ADR_IMM_HIMASK) << ADR_IMM_HISHIFT;
+-		imm = immlo | immhi;
+-		mask = ((ADR_IMM_LOMASK << ADR_IMM_LOSHIFT) |
+-			(ADR_IMM_HIMASK << ADR_IMM_HISHIFT));
 -		break;
 -	default:
--		pr_err("%s: unknown register type encoding %d\n", __func__,
--		       type);
--		return AARCH64_BREAK_FAULT;
+-		if (aarch64_get_imm_shift_mask(type, &mask, &shift) < 0) {
+-			pr_err("%s: unknown immediate encoding %d\n", __func__,
+-			       type);
+-			return AARCH64_BREAK_FAULT;
+-		}
 -	}
 -
--	insn &= ~(GENMASK(4, 0) << shift);
--	insn |= reg << shift;
+-	/* Update the immediate field. */
+-	insn &= ~(mask << shift);
+-	insn |= (imm & mask) << shift;
 -
 -	return insn;
 -}
@@ -285,4 +440,4 @@ index 0fac78e542cf..1810e1ea64a7 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250923174903.76283-5-ada.coupriediaz%40arm.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250923174903.76283-6-ada.coupriediaz%40arm.com.
