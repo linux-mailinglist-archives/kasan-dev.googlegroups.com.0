@@ -1,141 +1,215 @@
-Return-Path: <kasan-dev+bncBD2NJ5WGSUOBBG6TZ7DAMGQE6J625NA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDZIFAMNOMIJDWWPYYDBUBCOI272Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DD73B99EE4
-	for <lists+kasan-dev@lfdr.de>; Wed, 24 Sep 2025 14:52:45 +0200 (CEST)
-Received: by mail-wm1-x33d.google.com with SMTP id 5b1f17b1804b1-46b15e6f227sf14002665e9.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 24 Sep 2025 05:52:45 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1758718365; cv=pass;
+Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41FC2B99F91
+	for <lists+kasan-dev@lfdr.de>; Wed, 24 Sep 2025 15:07:31 +0200 (CEST)
+Received: by mail-wm1-x339.google.com with SMTP id 5b1f17b1804b1-45f2a1660fcsf54090405e9.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 24 Sep 2025 06:07:31 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1758719250; cv=pass;
         d=google.com; s=arc-20240605;
-        b=km0z2GvEN4YOPAfXtCnDyPT7YhXmkBZO1fNlSDeat2W7bKHk13B+HE4VgqvheJWI6K
-         DP4WpPBuXW2t/S0CesFFL6bJDSxoa0eqwzKxACvGsobG6ZezzgofQOkyDy6yUP5CDWr0
-         4LPdmF2Ykdc15Z0k1wIkhz4zjstnetTKBLUbhhWp67CvM6RUhwZCx1Zhn2M6fWmeCp+i
-         6tIsZJ3ETZG5xYUsu2KgTgKRsILqgn1LZ8xp3RzTs18wtuqTZFCfB5r0Zg3+JA0gr6IG
-         CrbwJ8Q+8VC2lFgxOX5SZ5S1AmBaVpKioBhmt2y56R/ZdmRCH9U9cOxcdhfK3Np2OnD+
-         PeHA==
+        b=h6Ib9txirPsG0otBviUfrJmE66t+us/cxG/LnrCgAjrSQLpt5UNAuiPWEBNWLCr8VW
+         hFjdcETi4ovI+aM1lic7IuvXZhFvX0mgI0ZZ3uZrkDfQQ2CPFSYu/2S4WJefPPMIr6Su
+         AAnOYNzcHubCzbQyuPB4+SWky4WO+aXYDYDLSNtfCfbd83qtC8NYSgZ9mvwUAXYuVdHL
+         ix7nnLmPnpsd0f8gKdWMWnIO2J5hppevaJqlepfkREMjmEpW7PV4SJPFi4nUI2178A/H
+         L0egsB93aVyPEN5UWc2AErZyfgosD64Ttuh3NWsneIP0ocpmZH0yNnCJRBBVxB6XxcPY
+         yKZg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:user-agent:references
-         :in-reply-to:date:cc:to:from:subject:message-id:sender
+         :list-id:mailing-list:precedence:reply-to:ui-outboundreport
+         :content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id
          :dkim-signature;
-        bh=srE3khVDI7LD9h6Xf+vjLva/immQOuvgByvklsLAnbE=;
-        fh=X07mBAJgkINvcsU3mWhefhgtajWku22bfnOLfe/ZUHs=;
-        b=CoCgD4XiIIcI/pir2gNb0fD3zqx9DQbdx66ndxkAx8aztqwjtZuTGMBXX75lsK2yfv
-         93sFN9YKNosYDY5sFF4yt14XG8Isd5BefoEpSgqhXq2lAhB9hrYKA33IzX4Lr0wFFnYu
-         nbC9kHIAMfGoYkPChdiO0hLA7woBEnSrGjKZEKBN+6/qWs3lwTx9+21PU4X2uAqZYlFc
-         +OLmvjFySQ51Q5TXd+pv2odnWCwkiZKdwiNTvsPJzVvAD8bEV8e2S7JI94WjPkfBcoM4
-         u1Jn7g/4M90jN5KCgwPjjU50F+XpAqvbGjhA9Zg1XycqdIJjtQ07onAVMNe+dnM/V0fW
-         AZ5w==;
+        bh=B93HKZ0LJ6Rxectqv7DjoKPYjWSB7ulpr+DmeyPar7o=;
+        fh=BT6GcSNnAMshWF6YZskoEOwYWBxpdKkogLg+WHxxt3E=;
+        b=Y7nRR6ES8RyxKhqtUgCyyByIi+6+dDglURhibqoVXWtZR8k/Bn2Sd3V77RBn7qukCe
+         ewZqsEsoS6TUhgbWMU8SOOwG/WA7kWVXRCdgDFIC3qBEwe+6mF+UWpbDs6i0aELLw83L
+         eWMinNNlfs/xHZd/iKab6HzbWo08cnoxJxqVYiAqXzSnf4yK4pwPTb4v3uHC04v/i+IK
+         xwgX24im5DxPH50sIy//zH+sCeMHRwoZUUbXmYr2+hvR49POt1ZghF8x6mEdudmZXFOx
+         PRmQyvWQi8stzWDRiWoNCAX6no2sgI8Xhp2y60bzSsMzvUu4BgXUX5Yk9sLkzTRbvGQu
+         bj9g==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@sipsolutions.net header.s=mail header.b=YbRceCCB;
-       spf=pass (google.com: domain of johannes@sipsolutions.net designates 2a01:4f8:242:246e::2 as permitted sender) smtp.mailfrom=johannes@sipsolutions.net;
-       dmarc=pass (p=NONE sp=REJECT dis=NONE) header.from=sipsolutions.net
+       dkim=pass header.i=@web.de header.s=s29768273 header.b=i3MxGX53;
+       spf=pass (google.com: domain of markus.elfring@web.de designates 217.72.192.78 as permitted sender) smtp.mailfrom=Markus.Elfring@web.de;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=web.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1758718364; x=1759323164; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1758719250; x=1759324050; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:user-agent:references:in-reply-to
-         :date:cc:to:from:subject:message-id:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=srE3khVDI7LD9h6Xf+vjLva/immQOuvgByvklsLAnbE=;
-        b=PNsacfyIpjU1GKXNe2zeRxFCEX7ljUuukFgVjsP51KVKuJpIFnL4ifrjkwfJUjT/zi
-         jzoaklrAUigYTtiXry2HtwJltNhtLkPrCE8RuoecVcYQXgQdtMc2g63QN0rnJf5fYxcP
-         Fbip3Aalgx6nWieZF3Xp9HAPmpD0k4oke8+VJdZum+yVdweqoa7D3GNjDV30sZ//gujm
-         EYuLc7cK1n8MJkkJ6obmWxh4HWBt5Z+I3O0l85vjteL/ps9qMDXwtcP/COt0GdNBn9u8
-         ZUXUljI/c0Qb6nL8jmUjRkuCinff4KDPli7LaEjmEnjzTcEGbIOlpdMCjnWSnwIfpBLJ
-         iYTA==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :ui-outboundreport:content-transfer-encoding:in-reply-to:from
+         :content-language:subject:references:cc:to:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=B93HKZ0LJ6Rxectqv7DjoKPYjWSB7ulpr+DmeyPar7o=;
+        b=oRyzDdPVdvmfr4LxqWfVDt3f+Gt3b87Y3MM3Rt6410R3WQM2dUqA/cAW87o7lKywsp
+         ZvOIk74/ZkyBZgpgX2R5ex4/y70SGOKLNWdcGTOpOE5w3rERaB4JtcbSdRcTXkcUHvzz
+         3twGToaAdO/xFaJ/upl23pmiQVD+9jeI6ExACjlbKS3MpLlQ723wZjFUXZ4S9w1R5dNp
+         BEYx6YJz6xHjnF9lvVaDvvihTGlW00awGjdMid/b/4IxA9G7jUAlrqmoXhZMj8fqxKMA
+         xaQ8QGEPndgWyK6FMypljynDwkKC7wtgWBuL6kjV1DsiELkX9XntG5eWlfmBf9smxsZC
+         LQYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758718364; x=1759323164;
+        d=1e100.net; s=20230601; t=1758719250; x=1759324050;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :user-agent:references:in-reply-to:date:cc:to:from:subject
-         :message-id:x-beenthere:x-gm-message-state:sender:from:to:cc:subject
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :ui-outboundreport:content-transfer-encoding:in-reply-to:from
+         :content-language:subject:references:cc:to:user-agent:mime-version
+         :date:message-id:x-beenthere:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=srE3khVDI7LD9h6Xf+vjLva/immQOuvgByvklsLAnbE=;
-        b=sXRgBmTbczWrMGPKIL4beJ/XW8hVqUhZMlzUxMn0Ym8aAgTN6W458zoyNg8y+4pVaH
-         QcJ8K7Q48N1Dy1+rvczpFhB3ju6EX0MGHpULoENy9IUMn9KcaTdemAYxuggWtTpISP/6
-         ssJK6+EJrFhbDwvVhSj3p7vYKpDDjhWAQQmqfX5Vdl52E1tY/kedm5r5rLOc/mGSF4U1
-         0MDt+T1aUpDfgR3/IBGf2pZJaXahnjkn41vglag1thlHAYFQV8YWaYF4L6siqdNTqlAP
-         o2hSG2dbSHoY3b1MzcjWMmrDZEG86oFvEUPmnDP4+4KBcbNSdroq94yr1O6gU5Ov+HWr
-         fzmw==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVT+gxj2ZELZrntJ1E1vhEqKGRS8UMq78bJQ5/Qk96IPqMwJiiiFWMb+JoEK1fTQg9790mjHg==@lfdr.de
-X-Gm-Message-State: AOJu0Ywj10mMc7YzB6hWJUdqPHgMjr5VXyFUBWr0Jasq3tGmkeY9+nAy
-	1N9N8bImtvNh7bg118/d9CgNyFDELXtjbgd6OVUARYJVzPmb50mha9jM
-X-Google-Smtp-Source: AGHT+IEbRmP1yHKZ23nLyaQKj+95jDTjWEYsyjYquyzXuKu+h/MPl5Ez3mYYoCjWGT2o9D9VA3TtDw==
-X-Received: by 2002:a05:600c:3145:b0:45d:f804:bcda with SMTP id 5b1f17b1804b1-46e1d9817dbmr63272725e9.13.1758718364417;
-        Wed, 24 Sep 2025 05:52:44 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd49KRE+mSey6tL85wFq8b0C9XPdGB70WquCj2WHvLGK1w==
-Received: by 2002:a05:600c:540f:b0:46e:2b86:81f6 with SMTP id
- 5b1f17b1804b1-46e2b8682dels4739015e9.1.-pod-prod-04-eu; Wed, 24 Sep 2025
- 05:52:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUAsFfHquC3s15plDelV7Tcj4LXVojFdCiQ6mLfsUgWzGLY8wVFmnqNVvNzFiB/ubGXo4j4vG8XrDc=@googlegroups.com
-X-Received: by 2002:a05:600c:4f09:b0:46e:1aaa:6953 with SMTP id 5b1f17b1804b1-46e1dabe43dmr57573135e9.28.1758718361743;
-        Wed, 24 Sep 2025 05:52:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1758718361; cv=none;
+        bh=B93HKZ0LJ6Rxectqv7DjoKPYjWSB7ulpr+DmeyPar7o=;
+        b=UJUc5PAsZoPPI6iYcRAH9SjY9vl/OhyTBepnRs4CrgBuFAuj+OxyVXm6cPciAgqSqL
+         YBAGZkhXR6JHC3cAtX5RE2iwZm97tMTR7TJkUIS8SpBTPqGTKcI+J10FUm0ebsslJHcB
+         G4/+lVNx4oqxJqBw7miDvoW/ptpNvfdvonZd75taJ2JWGX37XlWfju9rMGmd/PpELyjL
+         RBVvXoKb105PaEzl71IAwvLoEpOZeD08gU5g4Vg4BMsqva44f4N6S+IPXW/53Dd2NwbC
+         ykyR28A3n415dcClgNIfjjJTXdYPBi8Or5YcJn/uqTff/TpYf1LWj34UfpCknEPIZl86
+         5w3w==
+X-Forwarded-Encrypted: i=2; AJvYcCUCarTQKvXSN7FDJy3Q4mwMMw9Qz1zZCT/xUr25m0F42c2TC6B7+KZtPwaKDbacdSe7KrXR5Q==@lfdr.de
+X-Gm-Message-State: AOJu0YySKBkOU7E97CY5kzqVBSAVLsLAQ/5Zf+J8bwyrblzM1Sf7so3c
+	AtL6MW784CEI488Mfv4n9KFw/70mcX1H0JBWidp0kA0a87GPTnv9uwYs
+X-Google-Smtp-Source: AGHT+IGZxnbJnYVZP/MqMEkM4ty42S0vgTW5P0nf6ITPs2pweDtBBUjg/FoAO9aWkA3TtOUczY0atg==
+X-Received: by 2002:a05:600c:6288:b0:46d:996b:8293 with SMTP id 5b1f17b1804b1-46e1dab26ccmr55432735e9.22.1758719250394;
+        Wed, 24 Sep 2025 06:07:30 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd6FcS79cdEjM0OlcjYN7uC+7oAHJtlKnWKT/TzfAEa0RQ==
+Received: by 2002:a05:600c:8812:b0:46e:1d97:94c3 with SMTP id
+ 5b1f17b1804b1-46e1d97965als7014775e9.1.-pod-prod-09-eu; Wed, 24 Sep 2025
+ 06:07:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVWYPyLPZ2aj1M0kgLjgSyyho2P2FPHP7mQVD8fPqiVitheoME1vZMT38wl9qeDerNPeYEXcWOgfq8=@googlegroups.com
+X-Received: by 2002:a05:600c:4683:b0:461:8bdb:e8 with SMTP id 5b1f17b1804b1-46e1dabfaf3mr71837825e9.30.1758719247725;
+        Wed, 24 Sep 2025 06:07:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1758719247; cv=none;
         d=google.com; s=arc-20240605;
-        b=DXL/I+rMGDLajBbdneKbKwf1o+ENn35BkXrIO2AGF449WYClj+mTzc5XN1eM8EcEHB
-         2BfS8x5WruEusOAybc/lT7163XkKC+QgFsV1X0A5PAayzFYywHhvVOZxeUvvHruc/LI7
-         fH3sNFLbFeejJctuFgCd/n8ZpHruz3Buxt+1ODbkTIAyBJxMDG0W6EJYbSjpsNuvIU2O
-         iFRjDAUbp46t4fqur9BvwYBy/cgED/rc911vXYJf6aG5L633jXKT/Clbq1ZW5sJ7nDAz
-         Imm/t3TcL/AAE05ODVpkEH3qn/GCGswH44e/Qfb8osAtTjf/7C4hy8Uas8zZ2lqB5PhL
-         TQnA==
+        b=AmZm8zcbRiasmTTr+InP4tg1CnGnsZ2kdaXh4F80rl2i0t9RhBHmdHRMdUKj1pQu0u
+         FkGcd73qiuCcLje4moz2tigmuTlJGsqQAipzidMNFn9m0pvGHWFF3Wz32Sp+3P9daIMF
+         uF+QRWvqXa6LUMNAAhd1wNwt6/TUVXB7DVQs+npWoZfbLn9+5PcbpUNkY3Vh8ywMJ6Fm
+         uwTXiTZ6A3XaK13JuRlmwh7gVQP+ixBeJwVJEPGK0lYcTjwhGLX0TH6E0RKOWFniq3uy
+         FiS+rrkegFo0382Ra5JEJw8tDyX+r4cmE85HMF98P2pdJKkAhNEm+p9awNEMdturvOUC
+         +Mdw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:dkim-signature;
-        bh=h5K+P/riDmU7tvn3fIuQxPNsf4KltKjt2Yr02gW3kT0=;
-        fh=gZU0QbOfDfUHA1yliJKiIafaMj674KUIe0ogWesOIVk=;
-        b=AyYbYajAl1Kg/YuAOdNNH0g/1mn9Uf9xWGF9t+x0zjRSSGG0P70Kq56dxBjycDgjcD
-         J6w7ql746jcWONLX4xcz3+rHPxNL56ZGnndqSokyPVGKKoyhQ7VpOpuGfBX1aDZCAzLP
-         Ch9jScntswlqI7RoFqPn42NR+q2sgNP2tCS6QtCbRHIH9ocZOJeJaCWMPmzaoOSooxoM
-         ++OP8wiRXns8+y8N+HoSFTyotHgNlG+WyXsP/y/tS9T61E/IOxNj3C1QwL1QVyixXosu
-         kM/MXCsq5bw5F5Nw85v22tfO9jyX+IIk/C8kWMsC9du9pDSU5PXd2JLu5bGHoqQo1vyF
-         E8UA==;
+        h=ui-outboundreport:content-transfer-encoding:in-reply-to:from
+         :content-language:subject:references:cc:to:user-agent:mime-version
+         :date:message-id:dkim-signature;
+        bh=OdGjjsFfxm07FUwZBmeZuXP/mxTZFmQCW5oypD8AB9k=;
+        fh=rJrci2Mk7UYFZFEq5EX3Wk1Btuo+HnU1GbKUIpi4htk=;
+        b=hYLZ1rog5brRstghiWqrTLXbZJCNfkiYj7qAmvlcxKLgTrCeXhtYTmqJz+Sr9X8gxi
+         1EEl29S5/P+pC7lsZJxHqUlmYSbcO9foKXUOd8McsYlKXT/cApFUcv4a0/ohi6vSTyJv
+         Fgt5Lfa8ltqu4fDMc4KUpK7hJ8mhLD3eNBe43mC9mixpe3m1CHk1sqRcfswJVXisdAOy
+         equZzwTwrLijb7j1mFm41T+H2HkHaZg422nvU4G3AQm/0yxNyXh9yawsvH/Ep7VMavfI
+         m1SiRQZRdejlrxSBdv2CPbyOGT1ylMAyAqijzf1CBNuazXCpRmoaHNsUDieiCjUSWQpc
+         a+3Q==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@sipsolutions.net header.s=mail header.b=YbRceCCB;
-       spf=pass (google.com: domain of johannes@sipsolutions.net designates 2a01:4f8:242:246e::2 as permitted sender) smtp.mailfrom=johannes@sipsolutions.net;
-       dmarc=pass (p=NONE sp=REJECT dis=NONE) header.from=sipsolutions.net
-Received: from sipsolutions.net (s3.sipsolutions.net. [2a01:4f8:242:246e::2])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-46e2a7a8379si337285e9.0.2025.09.24.05.52.41
+       dkim=pass header.i=@web.de header.s=s29768273 header.b=i3MxGX53;
+       spf=pass (google.com: domain of markus.elfring@web.de designates 217.72.192.78 as permitted sender) smtp.mailfrom=Markus.Elfring@web.de;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=web.de
+Received: from mout.web.de (mout.web.de. [217.72.192.78])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-3ee0fbcabecsi370553f8f.8.2025.09.24.06.07.27
+        for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 05:52:41 -0700 (PDT)
-Received-SPF: pass (google.com: domain of johannes@sipsolutions.net designates 2a01:4f8:242:246e::2 as permitted sender) client-ip=2a01:4f8:242:246e::2;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.98.2)
-	(envelope-from <johannes@sipsolutions.net>)
-	id 1v1Oz3-00000008sim-1o1i;
-	Wed, 24 Sep 2025 14:52:33 +0200
-Message-ID: <3562eeeb276dc9cc5f3b238a3f597baebfa56bad.camel@sipsolutions.net>
-Subject: Re: [PATCH v2 0/10] KFuzzTest: a new kernel fuzzing framework
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Ethan Graham <ethan.w.s.graham@gmail.com>, ethangraham@google.com, 
-	glider@google.com
-Cc: andreyknvl@gmail.com, andy@kernel.org, brauner@kernel.org, 
-	brendan.higgins@linux.dev, davem@davemloft.net, davidgow@google.com, 
-	dhowells@redhat.com, dvyukov@google.com, elver@google.com, 
-	herbert@gondor.apana.org.au, ignat@cloudflare.com, jack@suse.cz,
- jannh@google.com, 	kasan-dev@googlegroups.com, kees@kernel.org,
- kunit-dev@googlegroups.com, 	linux-crypto@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, 	lukas@wunner.de,
- rmoar@google.com, shuah@kernel.org, sj@kernel.org, 	tarasmadan@google.com
-Date: Wed, 24 Sep 2025 14:52:32 +0200
-In-Reply-To: <20250919145750.3448393-1-ethan.w.s.graham@gmail.com> (sfid-20250919_165801_647339_D5FEA55B)
-References: <20250919145750.3448393-1-ethan.w.s.graham@gmail.com>
-	 (sfid-20250919_165801_647339_D5FEA55B)
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42)
+        Wed, 24 Sep 2025 06:07:27 -0700 (PDT)
+Received-SPF: pass (google.com: domain of markus.elfring@web.de designates 217.72.192.78 as permitted sender) client-ip=217.72.192.78;
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.69.191]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MRk0W-1uu9At2VjO-00OPr1; Wed, 24
+ Sep 2025 15:07:25 +0200
+Message-ID: <a1eaa2bd-3e0f-4871-aa57-d7f9966178a5@web.de>
+Date: Wed, 24 Sep 2025 15:07:23 +0200
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
-X-Original-Sender: johannes@sipsolutions.net
+User-Agent: Mozilla Thunderbird
+To: Alexander Potapenko <glider@google.com>, linux-mm@kvack.org,
+ kasan-dev@googlegroups.com
+Cc: LKML <linux-kernel@vger.kernel.org>, Aleksandr Nogikh
+ <nogikh@google.com>, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Marco Elver <elver@google.com>, Mike Rapoport <rppt@kernel.org>,
+ Vlastimil Babka <vbabka@suse.cz>
+References: <20250924100301.1558645-1-glider@google.com>
+Subject: Re: [PATCH v2] mm/memblock: Correct totalram_pages accounting with
+ KMSAN
+Content-Language: en-GB, de-DE
+From: "'Markus Elfring' via kasan-dev" <kasan-dev@googlegroups.com>
+In-Reply-To: <20250924100301.1558645-1-glider@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:SFNX8XgpMpqmZ8DFGyqHU/flC0dMddIahNCKi+wLKgzOcsrK+q+
+ VEgkUaBXW6MC6RSJV/hisVggNpvBdfIFZM4CDwB1eQhlhNM339o8WZtj8AKd85CPq1fE5y2
+ LaQTHPvlE8g/k6+vQrkJ1IXVWJHqZqozhVc1+GeGF9q2Lpt1uSW3hihtGCxVVeJgvt265Vx
+ BI5TVmS11apeqEBt6M/TA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:EuAIvhGxH8c=;L+2hPOxomEmsD70I1x5BNSGi48V
+ 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
+ I99lVDE3+0CJlmBw5cmhEcQewOvqMGXoW4Io3
+X-Original-Sender: Markus.Elfring@web.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@sipsolutions.net header.s=mail header.b=YbRceCCB;       spf=pass
- (google.com: domain of johannes@sipsolutions.net designates
- 2a01:4f8:242:246e::2 as permitted sender) smtp.mailfrom=johannes@sipsolutions.net;
-       dmarc=pass (p=NONE sp=REJECT dis=NONE) header.from=sipsolutions.net
+ header.i=@web.de header.s=s29768273 header.b=i3MxGX53;       spf=pass
+ (google.com: domain of markus.elfring@web.de designates 217.72.192.78 as
+ permitted sender) smtp.mailfrom=Markus.Elfring@web.de;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=web.de
+X-Original-From: Markus Elfring <Markus.Elfring@web.de>
+Reply-To: Markus Elfring <Markus.Elfring@web.de>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -148,84 +222,20 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 2025-09-19 at 14:57 +0000, Ethan Graham wrote:
-> 
-> This patch series introduces KFuzzTest, a lightweight framework for
-> creating in-kernel fuzz targets for internal kernel functions.
-> 
-> The primary motivation for KFuzzTest is to simplify the fuzzing of
-> low-level, relatively stateless functions (e.g., data parsers, format
-> converters) that are difficult to exercise effectively from the syscall
-> boundary. It is intended for in-situ fuzzing of kernel code without
-> requiring that it be built as a separate userspace library or that its
-> dependencies be stubbed out. Using a simple macro-based API, developers
-> can add a new fuzz target with minimal boilerplate code.
+=E2=80=A6
+> This patch refactors `memblock_free_pages()` =E2=80=A6
 
-So ... I guess I understand the motivation to make this easy for
-developers, but I'm not sure I'm happy to have all of this effectively
-depend on syzkaller.
+See also:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Doc=
+umentation/process/submitting-patches.rst?h=3Dv6.17-rc7#n94
 
-You spelled out the process to actually declare a fuzz test, but you
-never spelled out the process to actually run fuzzing against it. For
-the record, and everyone else who might be reading, here's my
-understanding:
+Regards,
+Markus
 
- - the FUZZ_TEST() macro declares some magic in the Linux binary,
-   including the name of the struct that describes the necessary input
-
- - there's a parser in syzkaller (and not really usable standalone) that
-   can parse the vmlinux binary (and doesn't handle modules) and
-   generates descriptions for the input from it
-
- - I _think_ that the bridge tool uses these descriptions, though the
-   example you have in the documentation just says "use this command for
-   this test" and makes no representation as to how the first argument
-   to the bridge tool is created, it just appears out of thin air
-
- - the bridge tool will then parse the description and use some random
-   data to create the serialised data that's deserialized in the kernel
-   and then passed to the test
-
-   - side note: did that really have to be a custom serialization
-     format? I don't see any discussion on that, there are different
-     formats that exist already, I'd think?
-
- - the test runs now, and may or may not crash, as you'd expect
-
-
-I was really hoping to integrate this with ARCH=um and other fuzzers[1],
-but ... I don't really think it's entirely feasible. I can basically
-only require hard-coding the input description like the bridge tool
-does, but that doesn't scale, or attempt to extract a few thousand lines
-of code from syzkaller to extract the data...
-
-[1] in particular honggfuzz as I wrote earlier, due to the coverage
-    feedback format issues with afl++, but if I were able to use clang
-    right now I could probably also make afl++ work in a similar way
-    by adding support for --fsanitize-coverage=trace-pc-guard first.
-
-
-I'm not even saying that you had many choices here, but it's definitely
-annoying, at least to me, that all this infrastructure is effectively
-dependent on syzkaller due to all of this. At the same time, yes, I get
-that parsing dwarf and getting a description out is not an easy feat,
-and without the infrastructure already in syzkaller it'd take more than
-the ~1.1kLOC (and even that is not small) it has now.
-
-
-I guess the biggest question to me is ultimately why all that is
-necessary? Right now, there's only the single example kfuzztest that
-even uses this infrastructure beyond a single linear buffer [2]. Where
-is all that complexity even worth it? It's expressly intended for
-simpler pieces of code that parse something ("data parsers, format
-converters").
-
-[2] admittedly the auxdisplay one is slightly different and uses a
-    string, but that's pretty much equivalent
-
-johannes
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/3562eeeb276dc9cc5f3b238a3f597baebfa56bad.camel%40sipsolutions.net.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/a=
+1eaa2bd-3e0f-4871-aa57-d7f9966178a5%40web.de.
