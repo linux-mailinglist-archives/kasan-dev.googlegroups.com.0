@@ -1,136 +1,221 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBW4DZ7DAMGQEDC5OSBI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDM2745SWEORB35HZ7DAMGQE3XXKFWY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43a.google.com (mail-wr1-x43a.google.com [IPv6:2a00:1450:4864:20::43a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03C63B994FC
-	for <lists+kasan-dev@lfdr.de>; Wed, 24 Sep 2025 12:03:09 +0200 (CEST)
-Received: by mail-wr1-x43a.google.com with SMTP id ffacd0b85a97d-3f6b44ab789sf1827204f8f.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 24 Sep 2025 03:03:09 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1758708188; cv=pass;
+Received: from mail-qt1-x83a.google.com (mail-qt1-x83a.google.com [IPv6:2607:f8b0:4864:20::83a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F5B5B998FC
+	for <lists+kasan-dev@lfdr.de>; Wed, 24 Sep 2025 13:20:17 +0200 (CEST)
+Received: by mail-qt1-x83a.google.com with SMTP id d75a77b69052e-4b31bea5896sf64455021cf.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 24 Sep 2025 04:20:17 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1758712816; cv=pass;
         d=google.com; s=arc-20240605;
-        b=gbhe5N4kK/0O0z1bMAPqbP7nnxdHWcSZuE4xbDzYzH0weUa7nb52I8R/wUkPB1awp+
-         R8EG/wBRTr/4VObtOi82Hf+8ugPURWvX5g82ygHA1FoXFDJ2i1oSP64m3pLJB90umTw/
-         xiV7p0ze+aLCofFLye5Yhep0DUIeC9VHIKoKx0XCzKhWQgEJF3sgGdddNiZsXFfRyAPO
-         zmUJK8tow0/RByGvIWtgKqLiFTJuxCBzpDJRf0oVX3/LJQH7jDvJuB7E8FtQme01yItP
-         FSPxdS3IlyPSVgG+eLIIFVbFtIGMd1LVw9WrKR65OLVu+dFicWkLxiDtcwHmAUKtJxUI
-         Ig4w==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        b=EE10nF+8Ka6i20ZRDCGmMbMrS2lgmNrTBi34prJUPK7bFw7elspnzgc5S0zBKzrjoG
+         9sERh9q00YLhC+ncCtgSLRNUnuHpGlu5U1hWq0NKLDHqw5TEO5X//nF5vT4ABBVuKgnP
+         v4s+EMWkcmSCOA0m6TVGE1M8wL1bc/he3EtEqthlUSeSJRB4Qlyo+lohdVsnCQmhUNzx
+         qme1at9+HwGO1lOWZDN+lhsFbcuhYd46V9LBcR/5FnQ9YLFEUDGFZDOkpkZ5HRMgZNoD
+         atbkBrWd4Bxc/R89l6jh8vV6YYidFWMFJhNWEX1p5damSpJlWmaBD+CbVhNAogOHu4We
+         F/bg==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :message-id:mime-version:date:dkim-signature;
-        bh=G01+is5owBFHf38mjJye9Lu6sXETYXYSMw91Yj1LT58=;
-        fh=FV+JyTTY7x/DfUsSTHUSCwqW826Y1Vu3/II0ZNhNuvY=;
-        b=KarNMmVNXHvfiswNqVW3GUUqyztasrHv0jqR6uBf5cjc7O5uIvRAh4Mr7gX1QRdNm5
-         8GoeX4H6iFZKjrrKo2lwvf28NObKyG+uqaIrjbLZ5gs0RGKjYk0U96klcleMC0WQlsLM
-         hkNjWcqZgaKIxxqpTCc6GON3z83luRoZMXAd+m7FfWEoydd+abb+Vzn2uttykyopTB0n
-         9nZv2Ma37wboxBq7harWRkbZrXjKo+Ct2/4d+BuOjLdUEYR7sxSi3x3AnsbTQAa+FG08
-         9zmShgOyQtDkp0gXEti4SqR8/Wb4kUH0vnNHYPSWhCOH8lrlvI9rJhTLJ4ye5hrOCo5K
-         874A==;
+         :list-id:mailing-list:precedence:mime-version:msip_labels
+         :content-language:accept-language:message-id:date:thread-index
+         :thread-topic:subject:to:from:sender:dkim-signature;
+        bh=MoQgKAd+DPaqNW92LTebLAFJJZbl9j8VfO5U12qMwQ4=;
+        fh=0CZ6KaAMTanT51lUJSQJ03z6ccuRdgz7EItrM17b6Ck=;
+        b=ASqC12xKfXwJnw0xDJlZg97BDeMDkkV4E5hx3JoLOztCgko8G1x4x6hCgA+trPW2zl
+         MOUbfcjQweqIhTA6olC6ozljPkco2oLLmV4Gy+YGT3fXoy7t6NKuOsUyi9WI5ZY8BGmj
+         k+QUypn2Q34vxO65NXAzuIikxEWRYIUYCIH0WUQVAm5NGUJ+/ZC7Ka0/y1WpAXi5kTF2
+         nCOj+VqPhtSfcp+epHlmYIztjWSPmW3OIgK6eP1TqvAr6kgCb+WkwYaGw46tDjhFPKCW
+         rt5NhGuH/CJ63JRkYgJZMkJscq1WbU+4OtdMOVj0V47eAFyqkEoly5AbLPbtoDbHViwM
+         YrVA==;
         darn=lfdr.de
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=SbSTNezN;
-       spf=pass (google.com: domain of 32mhtaaykcfcfkhcdqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--glider.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=32MHTaAYKCfcfkhcdqfnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--glider.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
+ARC-Authentication-Results: i=3; gmr-mx.google.com;
+       dkim=pass header.i=@outlook.com header.s=selector1 header.b=riNpH9Vq;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of https.www.benjamin.digitalmarketingservices@outlook.com designates 2a01:111:f403:d405::2 as permitted sender) smtp.mailfrom=https.www.benjamin.digitalmarketingservices@outlook.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=outlook.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1758708188; x=1759312988; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1758712816; x=1759317616; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G01+is5owBFHf38mjJye9Lu6sXETYXYSMw91Yj1LT58=;
-        b=T+jNT9awJjxzIQ2BCBeG+0PyhAWBRboPyuTnOjAxiWMsgjScFcPZ+JL5PXb+50RwFF
-         fKOhW2z//5QmD4Tse+T1uTw6KS+87JRjxy66XbOsneae87lvXaoBkHRfYz+682NsJrR+
-         UnPKItHOZ18ktPgTDbNusxTy5o0x0gL1Q9qvxbDAiqbxdX9pU0h9iWmBqbZpBI7ZhES5
-         HA9S1YypqHOdRftSRnLUUAt8qd3/zAzpjwKxKBhdApsAwLgvop+sqcDnbD4fY26bQ1A6
-         4Su+qUxD3gRn29mG4PGfL1YYzO2DIkJ+y+rE1RqMCO3RdJnyHcsbsLe2L3XrwOKSSDig
-         gw9w==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:msip_labels:content-language
+         :accept-language:message-id:date:thread-index:thread-topic:subject
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=MoQgKAd+DPaqNW92LTebLAFJJZbl9j8VfO5U12qMwQ4=;
+        b=qSzawFgF53uV1O7D1PeIdO8b/ypc/Jih4VAgBFIMBeaMLkY7rVmQKeDv4qvDu0KwJH
+         e4GFaSHTw1h69l1f66u7Dk7DJnZVASh/sRrj0N00TRk+ISsKQVhy1HF/icLxU23INfnm
+         SQ8dPy00SIIQXEp6uHtofMlXIMKDUbbJn5lB+peE5pixzy1q3MOY10oFUeVN5tVfhg59
+         mKhvDJvCaajc3iShU2dbn8Z2cXNgLuea8AZD19zy3Z9bfG5IYQk2+36VfQgL/bDN48wa
+         OCcD9KJYgYmOKtHX6cgeSUcNANEJbZps/TeXww5wpFH3y6CWG/OtiUVZAWjkGoMmcaT9
+         nBLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758708188; x=1759312988;
+        d=1e100.net; s=20230601; t=1758712816; x=1759317616;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=G01+is5owBFHf38mjJye9Lu6sXETYXYSMw91Yj1LT58=;
-        b=HnpSsl++ENnv3FjeGOiuWrMcrwo30Lqo/2s3nYrVi+XCMmksLsP+DCNq+YUcrtMK77
-         JwmjYnzglsZgiu1U/wZWzNjQoKAyWKrlzUDb6+uF6uvO3LU6YW6XxPW2QfuHJu9VVFWK
-         gblvRYt2LBWMJ8ilA3DsaaQZzizmFvyA91dJyCO9pcsuGw5UzSf7Nz1H4fzxXxSx6tiW
-         WviMLxtxjksbqhWTccQDoQbP/sDosczsWe26EN3z5yi+RRC3C+pvQSXAVwfHOAZxCY+8
-         Kd4uXTD3iUOBTwuRt/HpGmeKsdz1juTTYErnE8husTbk6xVc7Jrn4XmjRYlQwfF+VuAG
-         2cjw==
-X-Forwarded-Encrypted: i=2; AJvYcCWF55Bu3N931ziTOtLfcZxh36m3rVUGZ/NntRBk3iHw/hVmTK2v9l8fmYRqQwQEysUpigjHgQ==@lfdr.de
-X-Gm-Message-State: AOJu0Yy978Fl+Q5zRZNVKKw4FVl6/n9wVXFY/d6fTh/kGJ4s2udfI2gr
-	BOglFMZ9uyO701L4jQJlN4SOIobbYOGIJ30RS5zAv6R3jxbLaM5AWuhM
-X-Google-Smtp-Source: AGHT+IEL9w1rQAQtWKwvi/ODYoJ1wKc5KfofDfyNFyM42jwIkwdIG9e2uPqj4Dk5YlUy7hDmpnR08Q==
-X-Received: by 2002:a05:6000:40dc:b0:3f7:4637:f052 with SMTP id ffacd0b85a97d-405cb7bbb1bmr5583596f8f.44.1758708188096;
-        Wed, 24 Sep 2025 03:03:08 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd6FSkMJmX7UFDkzrkCSccOweBXS7BpVabU+gvtNTzO60g==
-Received: by 2002:a05:600c:5290:b0:46b:38cc:d7cc with SMTP id
- 5b1f17b1804b1-46b38ccd960ls34585145e9.2.-pod-prod-01-eu; Wed, 24 Sep 2025
- 03:03:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCU1sLK1U3vd5SygAvRhaxriPp/SO6H9eWWCxNvfBdcU/mHlDvtpzJzaPEfc7K8VX7iUx1KV3zslygA=@googlegroups.com
-X-Received: by 2002:a05:6000:24c9:b0:400:1bbb:d257 with SMTP id ffacd0b85a97d-405c5ccd1e2mr5603309f8f.26.1758708185309;
-        Wed, 24 Sep 2025 03:03:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1758708185; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :msip_labels:content-language:accept-language:message-id:date
+         :thread-index:thread-topic:subject:to:from:x-beenthere
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MoQgKAd+DPaqNW92LTebLAFJJZbl9j8VfO5U12qMwQ4=;
+        b=s+DHH0XEsbptzqM+2t9V3Hqv8OI+nvNdm03SIzcOlgNb9zzyb7w++/iwpELMj8gutx
+         XQmB1Y5FlAjNdnbGjbDhGC/XMQoJHa4SHNUHjQhY9nbs9xeH3RYcHnIQtPASUZhXbsmI
+         W/CbslVXDv3Z7ZFLsekxOklincW7A9NSlSUgmHl3EkWb86PPKjMPrVkGqqc23Fk/Guoo
+         svIJcvSuW/0Uj25VG7cnRWPWq6Zcrgd5fW2iroAfQKKxc3r9br5htSuowKonLao7fZpg
+         ZeunWvpqiH2MUCI1hfyEuXPHIhUurf58ZB+kbC3CtUmhfB32rB73VKF5VH7RjdH1PsvW
+         noWg==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=3; AJvYcCUTUBnwhFrKuvOZ21hGSgNGtoMeB/jAIhXxAT2RsuoBFS/MiYOaJG+DxBfGqQp5P3vj4U8LrQ==@lfdr.de
+X-Gm-Message-State: AOJu0Ywiw5RtIIxu/G1M+2ELfGfTA43XfXAzsW3fTQptObattLahXxBb
+	BCpQpDMx2vksc3u/dWKPR31KYIWK+YzD98FG1YJX1igvRW3eHpSlTNWP
+X-Google-Smtp-Source: AGHT+IGQi0wK8hiNpCxR1kYwhBQRPYiIz7a6F2I52cik7+4998wg0ZK82sjRpSxtJIgibKrtr8rfxQ==
+X-Received: by 2002:ad4:5c8d:0:b0:79c:6f51:7f6f with SMTP id 6a1803df08f44-7e71265c001mr69497786d6.55.1758712815876;
+        Wed, 24 Sep 2025 04:20:15 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h=ARHlJd6rWHxhHUnR+yvnjZm1+1AlrMw8vQBNAVPBDolzHPjbEQ==
+Received: by 2002:ad4:5962:0:b0:783:6e2:3e57 with SMTP id 6a1803df08f44-7933ea75357ls28533896d6.0.-pod-prod-08-us;
+ Wed, 24 Sep 2025 04:20:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=3; AJvYcCWJ6+WtmDjayLglPem+GsUCv+MOpZwx1zsGGE57i/heMsc4gq7IKuHEUqH+ZAD1Nnf2OR7Cg7LHXSg=@googlegroups.com
+X-Received: by 2002:a05:6122:31a9:b0:54a:9fe8:1717 with SMTP id 71dfb90a1353d-54bcb1bb614mr1892495e0c.9.1758712814892;
+        Wed, 24 Sep 2025 04:20:14 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1758712814; cv=pass;
         d=google.com; s=arc-20240605;
-        b=NOclw7S/7uVc65EDtFjuF9JC4QwoQy6mpGacJSP9K57glDXSXPS+l+CS+vTlOmvIaG
-         iX779+cJgjEcaUGrRf1a+K/gFJi4Q1fhyWLxzp4mLKLdqhz/96PAiGxmgQ+LsOGLfJ6W
-         jrLGlL5p5yoQ/ILRzO2G/u2DAeLsxABXLB9FZ1QCNift9IBirfksqF2vWLbeZc14CkKj
-         fqjrDCECUZHFI76p8uJMZASrncUmB0lAWG/aKGsg9VV0jD7CjQ0zmb40ThAncBRLKrVC
-         VbQLERQpAowfgq7Qd3mFGFMXMitCUrtDttKx5gVbU4EhAiliklL+TygjqT4gq0nhyhoG
-         LKeg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
-        bh=ZjocDtApH+mYILuh2MoVR7BbFeZzIGZsGcmRz0O6aqA=;
-        fh=jewNmAwYZV1elOv33a4REUFxXyEKF3YUvUZ7vIvBWQ8=;
-        b=DluLizfWXMiVpmVldM3JHkD6u8mZnQehpH0/b66qVCYtjtZr2kA12R6Q3QNOU734qU
-         m/Ixx36oWgLYR5hR6LH/RtQZLJNplx/HLrHXh5XQBMcEUO2+3d4+rUM5lxoRJ6gMGoad
-         ZpxLeMqktAS3FibaMrAAsfKnilJi431jWbp0n9LeLV48ownn51u7SW96Tju3H8TMd/DO
-         /U4iscGNPNGUt67fO2vyrpFn5rLKD0WAdY4HughR7duhzeLkug+nZXahg11aosfAsd1P
-         g6UEn/JecWyFNSiSzhQleZ2ahzIJkhBH9hiW7GoTJuE4/6cGDG2cxVKN63PfOWkrxI8A
-         zRFw==;
+        b=W3Hod8Uy+9qemvLlTGkZt+q1dF1qgP+E05hqX2v81/Y7FKvb3w4pm1ANk6B9IgWpRl
+         HT2lJbOV4Ff3FR/k+lFoQcIKJ6SISuQTolIUnG2+Z+u1rAvSaulb+6BljOU+CCf7D1rI
+         qsSkO2vofguKDt6Gc0h82CgVcgoKFdlkqomacQjC4OaNBoUNxjVH/2zhByoueY9u2E00
+         R2KVFNNp8K35mAgN0fDBh4mLjhsXarEalGUNwaADGNfOj05BCbK9wkKexbf9gZD3VcbT
+         64kgzb29GSagZ/8+h+0ICkbdgIe1S9HeltDmJ4OijxOEnrVYjufQXFmFW32mDCLnkNDU
+         tTrQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=mime-version:msip_labels:content-language:accept-language
+         :message-id:date:thread-index:thread-topic:subject:to:from
+         :dkim-signature;
+        bh=nBjmsMg/M4y0LNbGjumZeJbaJ7mkvTNAAlIPBeArQj8=;
+        fh=KQ8HRf2InxjJNwyO0eF7Ei4ZzU4tJFmoyJnczlYz83o=;
+        b=f8YKBDyWhOLWA0m9PcXkdXJWrgGRSC+ZbFOaZvhaXIIKDPuK/a7AsOO56rgCu7JebP
+         dCJtJbP2wLR0Piaxm5TmpW2S5UaQb56+msQXvC5FAKb/KjXnQtqB/Qdb4R+emfI6J7ka
+         GsoFhzmqlx5tOi+fFkn+XUgPctfocSTwCHCpNVEmzY7RPy80qqhGtoiWvoQtpK7HwYq/
+         7a14Q+j3ekhDR4fSXrjq4S44mTtG3fhIFiax5kkASgw3h5zk75Af/2vdAzDPMz9Qan5R
+         xjDI3dAFAYRntV47v9VksZRr/ZED8bwTUSdfPMJCgwEn5YIRmz1wUgsx5CbBx/7UZWqI
+         qvPQ==;
         dara=google.com
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=SbSTNezN;
-       spf=pass (google.com: domain of 32mhtaaykcfcfkhcdqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--glider.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=32MHTaAYKCfcfkhcdqfnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--glider.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com. [2a00:1450:4864:20::34a])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-46e2a9af972si215565e9.2.2025.09.24.03.03.05
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Sep 2025 03:03:05 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 32mhtaaykcfcfkhcdqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--glider.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) client-ip=2a00:1450:4864:20::34a;
-Received: by mail-wm1-x34a.google.com with SMTP id 5b1f17b1804b1-45e037fd142so54859545e9.3
-        for <kasan-dev@googlegroups.com>; Wed, 24 Sep 2025 03:03:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVZimn44RK+wETYyqfWYzjzGl3zK4xcsYr6ElOICXWrAP5Xc1FJxuPwHsKIH7njlDQ2HWSqHYV4uxc=@googlegroups.com
-X-Received: from wrbet7.prod.google.com ([2002:a05:6000:2307:b0:3ed:665b:ec9d])
- (user=glider job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:288b:b0:3ee:1296:d9e6
- with SMTP id ffacd0b85a97d-405cdc1e751mr3789906f8f.61.1758708184637; Wed, 24
- Sep 2025 03:03:04 -0700 (PDT)
-Date: Wed, 24 Sep 2025 12:03:01 +0200
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.51.0.534.gc79095c0ca-goog
-Message-ID: <20250924100301.1558645-1-glider@google.com>
-Subject: [PATCH v2] mm/memblock: Correct totalram_pages accounting with KMSAN
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-To: glider@google.com
-Cc: akpm@linux-foundation.org, david@redhat.com, vbabka@suse.cz, 
-	rppt@kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	elver@google.com, dvyukov@google.com, kasan-dev@googlegroups.com, 
-	Aleksandr Nogikh <nogikh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: glider@google.com
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@outlook.com header.s=selector1 header.b=riNpH9Vq;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of https.www.benjamin.digitalmarketingservices@outlook.com designates 2a01:111:f403:d405::2 as permitted sender) smtp.mailfrom=https.www.benjamin.digitalmarketingservices@outlook.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=outlook.com
+Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazolkn190120002.outbound.protection.outlook.com. [2a01:111:f403:d405::2])
+        by gmr-mx.google.com with ESMTPS id 71dfb90a1353d-54bda6a4f19si83360e0c.5.2025.09.24.04.20.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Sep 2025 04:20:14 -0700 (PDT)
+Received-SPF: pass (google.com: domain of https.www.benjamin.digitalmarketingservices@outlook.com designates 2a01:111:f403:d405::2 as permitted sender) client-ip=2a01:111:f403:d405::2;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lZhymIw/SCgGNQ8+ey0I9GxG//P2gWVnMPL+4lD0yR37D4bCRaYBRYnj9bAo1roauosWmjtcZmd7cbZLYS3Is/9dikRvrQgSFuoMZLtJrVYJJpncSqGupegsJmX17YEaZ8nhM9hzUJZVKdI9JgqQn0s7ry+pHnn4UBdr2QqOoGxbovCwqR0bpDtZukkiEbTW2im8OVqjJoJQn+FHTK+cVO9Y+qr7gf8MTpgIac6j/2+gNY/bPcRi/AoGY4B3xspvp6KICJubLciBGeoIOzvGAg/RoDfCiascYfZI63/L/ioNCGXHPS0OoxkJln2oZbjfYqso3tiyShtXasPRptNgww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nBjmsMg/M4y0LNbGjumZeJbaJ7mkvTNAAlIPBeArQj8=;
+ b=O7KhfJ7LLv2AY2fYkerBqRvTIzu879mD8kHM6kxgKI0WpBpBuTQgBJdTPkN4bvz+7YfEDj42kN8BSYIJCsnxpgivBIBAK+qeSecuUqBHEymr8WX87nUAbFP0+9HGMhdjHJS1OwjBod3X7ZUlRtwBSeZBvRF2VtAMyVH1ezeEYTOQq5tJdqhpDSdXnIOFXN4xOMTgzEKaZK+f0M0h8yd+m8PcV8+Qs7G9vN5owyipvjHR1mTMv0+XN/l3U8Jkfrs+oeE1y8AhUl2vHWcO1piHwYa7bKtAz+96uKG88p/nQPO3qClRR8sapGcJ1tpxlmYs1ZMldemgl+/g1z7844qiBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from TY0PR0101MB4727.apcprd01.prod.exchangelabs.com
+ (2603:1096:400:265::11) by TY0PR0101MB4334.apcprd01.prod.exchangelabs.com
+ (2603:1096:400:1b2::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Wed, 24 Sep
+ 2025 11:19:37 +0000
+Received: from TY0PR0101MB4727.apcprd01.prod.exchangelabs.com
+ ([fe80::82fd:5f9d:37b2:467a]) by
+ TY0PR0101MB4727.apcprd01.prod.exchangelabs.com
+ ([fe80::82fd:5f9d:37b2:467a%3]) with mapi id 15.20.9160.008; Wed, 24 Sep 2025
+ 11:19:37 +0000
+From: Benjamin DigitalMarketingServices
+	<https.www.Benjamin.DigitalMarketingServices@outlook.com>
+To: Benjamin DigitalMarketingServices
+	<https.www.benjamin.digitalmarketingservices@outlook.com>
+Subject: Re: Yes...
+Thread-Topic: Yes...
+Thread-Index: AQHcLUTJlRWjiFy8nEuH88kurGvcyg==
+Date: Wed, 24 Sep 2025 11:19:36 +0000
+Message-ID: <TY0PR0101MB4727B80F5D83C58A4E9CBFCEF61CA@TY0PR0101MB4727.apcprd01.prod.exchangelabs.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY0PR0101MB4727:EE_|TY0PR0101MB4334:EE_
+x-ms-office365-filtering-correlation-id: d1bed334-9e7b-4df2-9896-08ddfb5c3ebc
+x-microsoft-antispam: BCL:0;ARA:14566002|8062599012|31061999003|461199028|5062599005|8060799015|19110799012|15080799012|15030799006|40105399003|440099028|39145399003|4302099013|3412199025|39105399003|34005399003|41105399003|102099032|10035399007|1602099012|1710799026;
+x-microsoft-antispam-message-info: =?iso-8859-1?Q?wLvD+kpotWumv8UpgK6o0ELRGYaIXyI2/6jCqbOITY05bk6k+DFcY4oyTG?=
+ =?iso-8859-1?Q?r5YXj5WT4wI1wgIsq7zyaX3J8aGGdsLSKjJrvZZOso8Xx2lFutoBMCOYhI?=
+ =?iso-8859-1?Q?Lnvyliz9TttQXPHDAwED9QdT7EtcQyeGOr63Z3fPXWExSOkvRPqOyXrUun?=
+ =?iso-8859-1?Q?CCFEjDpZ06ePAX9pPyMrDGsbln/oDAPb1WuQDWXEwx+sNHxic22mv6Myvq?=
+ =?iso-8859-1?Q?XCjGrnKZodtyR4ePsSXMGSL3Fg9isnLqDQFPO2gRQKxVGBxJmPiw7UQ06k?=
+ =?iso-8859-1?Q?4yWpY51m7JTo3EJUwdH6j+hHPFQLP2bXDV90C5jHX+WYFGWAWWIhkXOlf7?=
+ =?iso-8859-1?Q?b7gQ8am144ovf/nsSVJSAPyJSFasvcxfNrk1RZJ7kIRU5Ee2v4oBu3W8wS?=
+ =?iso-8859-1?Q?Ps8x3q4VG1nvVoaJ107M24xvdmfPRQcrZQLB/IbS+fEnkQBs3Clogyw/XR?=
+ =?iso-8859-1?Q?1Mi4SrM19FjA8jnXiAC7IAmYcoJ28UjKOVObon6VL90BQz4BAETsd8iW45?=
+ =?iso-8859-1?Q?/f59Y2F+Lcox4JEDwiI/oFi5017bVAj9Xd51mORzc9bm0CEnNcdkg0HkeO?=
+ =?iso-8859-1?Q?7m2+6IYq5dto2EzOPVYF6HkdDPBAvF1Otd2uQcEPurzL6rrR2oceY4+qZr?=
+ =?iso-8859-1?Q?bYbh0d+IgmDTu+H/op/MHW0K48QujIQxZ8fci2M7+S9UEmKL444JMz7KmP?=
+ =?iso-8859-1?Q?zqBR1SF75Wp6x/8O4RijYN7FXfgNPq+KM7BHkHbneiwtJOqmm5ndWwasFR?=
+ =?iso-8859-1?Q?Q+ap2s7tI6KMLLAH34ToLL+g+tmjUoghRjICutcUrnErF5p6uKDvcTFf3I?=
+ =?iso-8859-1?Q?r7gyce7HzzzRcZaNkCm6OYjed/CkzrAHeRZVMpKLLpzq4xRQRnyNya0gjs?=
+ =?iso-8859-1?Q?kQSyytGaR5zz/CNrIk1F8sp6vLRNrlwIRbBSS+9XjfmLACJUTkq2ncX58V?=
+ =?iso-8859-1?Q?qgBWFx9/I+l1zMfxyABm/wsvaTeT5NIhMLmQFSuMKkGwQhaEOYdk53bd1m?=
+ =?iso-8859-1?Q?Dfo5YgmHIX6yX4/HWuwlBgJ20Awg73uL6zcLnPo/Xhi0X9yOqNqaj7yZ+T?=
+ =?iso-8859-1?Q?g5xiialgGL9j5spGH1YUWooBaWDSBlGisuxwrzoO2uqwNPPclTUjo+2NkC?=
+ =?iso-8859-1?Q?e0w9mtPJoWnCeJznHg2ebCa5LDTwBkIZs1yOpwAeGE6gnEYzLulq2iQvgN?=
+ =?iso-8859-1?Q?x+VYHSGiJ8QQ6kIneS0kBg648meiiUD9s68YqHXRMce0va8MUt+bn+tTnc?=
+ =?iso-8859-1?Q?HzluHMOmjO8PRi2T93LuZJjGwlm6+ZjuQihEU6kOGXnP4pCU5KCBfmE6FJ?=
+ =?iso-8859-1?Q?7+covaZ9DqywGbGRZQRCHiIKUmF5fJkaYKvQILZUS77DOOSpSlS0B+qkfG?=
+ =?iso-8859-1?Q?+tSJkKQxKxVhFdSg92wrPU61NZOy0WNBuYu48Lw6KKcltWhbfiEnfqO7Iv?=
+ =?iso-8859-1?Q?iOJUQh9sU9OyL7mR2NlentqVkcdQdt3O/9hi7OY5SUWMmcYyme1qtyS8Dy?=
+ =?iso-8859-1?Q?YplpflOn8snn1FwalhADsn?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?biYWpOPtqYNtFMQRRq2UxUKQb2+DO1+wyZC/6aRM2scHYYH5pfIEmCjMga?=
+ =?iso-8859-1?Q?PkxlWThCPPYlLB7qmz97wCynPIGHJZ4cQZUJ5kXho4ow0XIqBZzcaJFNep?=
+ =?iso-8859-1?Q?FLESgVZ/Tvb7TESjUY48k6mTohGBo20PvFatD8uUWPgkSspwkEA28yQoZF?=
+ =?iso-8859-1?Q?NLjA4mXwmEDsGee2NikgOBKrWOov5qahSTtt2V+u2n9qgEIhz8pePrTqbF?=
+ =?iso-8859-1?Q?ByPrvdhmKbu6/nBnDIXakBly12zAJm1UggAIj+mdsYpKAt7y6tq9Fpi/cw?=
+ =?iso-8859-1?Q?aoiuEoHJ3wX2Hr5LSUbvBxPry3bo4ALO3B07SyJxEQ5Ip3CJFe2PgkwCq/?=
+ =?iso-8859-1?Q?D6700pSTwfsHv9ohTgN9aGyq6JFLD5FtMV1v6XlJC0yLWwEFI0xCsED4NB?=
+ =?iso-8859-1?Q?vE+2woOHwVrsbxdU6sXUL6X0fNoYbWosphzQL9r1lDmXPdtYyHii4VcxaG?=
+ =?iso-8859-1?Q?rDdI6v+FnVaPXwx62lr9c3Ef4X6kNcM80Mm/omQfbfmxnybEw8XElAr2tT?=
+ =?iso-8859-1?Q?G1gRDI/qC8p2ZJVcBR37JqMyCx84VgppY+2wi+gV/YufHo/5lcaL9dP4Hu?=
+ =?iso-8859-1?Q?p2TUoauBWDf5NpmmW4V74Y91MnBae9fE7l2yhTvwOJNOxGhQx/V87u83uy?=
+ =?iso-8859-1?Q?hB2IaYwW0vYmc6Otn/k27iD2AouiF3NJuT3S/Z188xbfWGureNScH0BsIL?=
+ =?iso-8859-1?Q?Swp9vCVVVy4x4fNf3kRi07uA8F4pl7DBOiRgnnaZV/AjWnGmVVxaG9xm/k?=
+ =?iso-8859-1?Q?tF9ly1E3Z1ReDTloTkit5cJBxnEQsWzFAtxejf2bCsNv1F/+3XuU/o1Vju?=
+ =?iso-8859-1?Q?Yblk1289LUk75ySil2AF6hGlfV3ltPyUH4if4JgUWSADdhREtB5ti2lXEB?=
+ =?iso-8859-1?Q?we4vm3mJX0UktSoMWFTkxATLfWoxJdaopTtT4kEYzzxpYwhSiwlA6ZFaw8?=
+ =?iso-8859-1?Q?ZuCSyxZBy5hXc0HocngetwgNn0R3nVEhg7VnE3fIjuzhYijGVfPxbwD0Fg?=
+ =?iso-8859-1?Q?5jjVDffEGZXe+AVEqA99yuh827b0KzN/PRMFVvv04XgGyb7QmEvfzS7eF2?=
+ =?iso-8859-1?Q?SDwZnp8lNZHmn51uAd92t5jycnKlT2U38O3h9uG8nDO5aL1i9BG2+A9qih?=
+ =?iso-8859-1?Q?2LL7X/s1EzY5AOGHdHo3tLM2nFpuIVSyMoYp38Z8VDy/nmZ/kZX4QxYtar?=
+ =?iso-8859-1?Q?yg3rk0WIppIGU7GsqknICzHIJLf+T1QfcTaMX+l55OTV9KtUsHe2CzfGsF?=
+ =?iso-8859-1?Q?mYRNpfSOMZOlhss1kfpJJlAi1wHDLE2Nn0pM7mvDPNSEzas3S/6kKYHTNY?=
+ =?iso-8859-1?Q?b81ZTkDuXld7pOWQdxo2F5uF6obc7C/1hQloukSgf9ugjDGwpi1Vu0skE3?=
+ =?iso-8859-1?Q?LwR4y6Yc2u+HdI0DdYMfCUayrx5KQbuVOl+qZ15ZDN67nW4j+MnfL1V6ZW?=
+ =?iso-8859-1?Q?8d8xpqj7+m1JULGh?=
+Content-Type: multipart/alternative;
+	boundary="_000_TY0PR0101MB4727B80F5D83C58A4E9CBFCEF61CATY0PR0101MB4727_"
+MIME-Version: 1.0
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY0PR0101MB4727.apcprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: d1bed334-9e7b-4df2-9896-08ddfb5c3ebc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Sep 2025 11:19:36.4393
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR0101MB4334
+X-Original-Sender: https.www.benjamin.digitalmarketingservices@outlook.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=SbSTNezN;       spf=pass
- (google.com: domain of 32mhtaaykcfcfkhcdqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--glider.bounces.google.com
- designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=32MHTaAYKCfcfkhcdqfnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--glider.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@outlook.com header.s=selector1 header.b=riNpH9Vq;       arc=pass
+ (i=1);       spf=pass (google.com: domain of https.www.benjamin.digitalmarketingservices@outlook.com
+ designates 2a01:111:f403:d405::2 as permitted sender) smtp.mailfrom=https.www.benjamin.digitalmarketingservices@outlook.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=outlook.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,162 +228,161 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-When KMSAN is enabled, `kmsan_memblock_free_pages()` can hold back pages
-for metadata instead of returning them to the early allocator. The callers,
-however, would unconditionally increment `totalram_pages`, assuming the
-pages were always freed. This resulted in an incorrect calculation of the
-total available RAM, causing the kernel to believe it had more memory than
-it actually did.
+--_000_TY0PR0101MB4727B80F5D83C58A4E9CBFCEF61CATY0PR0101MB4727_
+Content-Type: text/plain; charset="UTF-8"
 
-This patch refactors `memblock_free_pages()` to return the number of pages
-it successfully frees. If KMSAN stashes the pages, the function now
-returns 0; otherwise, it returns the number of pages in the block.
+Hello
 
-The callers in `memblock.c` have been updated to use this return value,
-ensuring that `totalram_pages` is incremented only by the number of pages
-actually returned to the allocator. This corrects the total RAM accounting
-when KMSAN is active.
+Quick follow up. Can I send the errors? Just reply Yes, or Sure.
 
-Cc: Aleksandr Nogikh <nogikh@google.com>
-Fixes: 3c2065098260 ("init: kmsan: call KMSAN initialization routines")
-Signed-off-by: Alexander Potapenko <glider@google.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Thank you
 
----
-v2:
-- Remove extern from the declaration of memblock_free_pages() in
-  mm/internal.h as suggested by Mike Rapoport.
-- Fix formatting in the definition of memblock_free_pages() in
-  mm/mm_init.c as suggested by Mike Rapoport.
-- Refactor memblock_free_late() to improve readability as suggested by
-  David Hildenbrand.
----
- mm/internal.h |  4 ++--
- mm/memblock.c | 21 +++++++++++----------
- mm/mm_init.c  |  9 +++++----
- 3 files changed, 18 insertions(+), 16 deletions(-)
+________________________________
+From: Benjamin DigitalMarketingServices
+Sent: Tuesday, September 9, 2025 10:56 AM
+To: Benjamin DigitalMarketingServices <https.www.benjamin.digitalmarketingservices@outlook.com>
+Subject: Re: Yes..
 
-diff --git a/mm/internal.h b/mm/internal.h
-index 45b725c3dc030..ac841c53653eb 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -742,8 +742,8 @@ static inline void clear_zone_contiguous(struct zone *zone)
- extern int __isolate_free_page(struct page *page, unsigned int order);
- extern void __putback_isolated_page(struct page *page, unsigned int order,
- 				    int mt);
--extern void memblock_free_pages(struct page *page, unsigned long pfn,
--					unsigned int order);
-+unsigned long memblock_free_pages(struct page *page, unsigned long pfn,
-+				  unsigned int order);
- extern void __free_pages_core(struct page *page, unsigned int order,
- 		enum meminit_context context);
- 
-diff --git a/mm/memblock.c b/mm/memblock.c
-index 117d963e677c9..9b23baee7dfe7 100644
---- a/mm/memblock.c
-+++ b/mm/memblock.c
-@@ -1826,6 +1826,7 @@ void *__init __memblock_alloc_or_panic(phys_addr_t size, phys_addr_t align,
- void __init memblock_free_late(phys_addr_t base, phys_addr_t size)
- {
- 	phys_addr_t cursor, end;
-+	unsigned long freed_pages = 0;
- 
- 	end = base + size - 1;
- 	memblock_dbg("%s: [%pa-%pa] %pS\n",
-@@ -1834,10 +1835,9 @@ void __init memblock_free_late(phys_addr_t base, phys_addr_t size)
- 	cursor = PFN_UP(base);
- 	end = PFN_DOWN(base + size);
- 
--	for (; cursor < end; cursor++) {
--		memblock_free_pages(pfn_to_page(cursor), cursor, 0);
--		totalram_pages_inc();
--	}
-+	for (; cursor < end; cursor++)
-+		freed_pages += memblock_free_pages(pfn_to_page(cursor), cursor, 0);
-+	totalram_pages_add(freed_pages);
- }
- 
- /*
-@@ -2259,9 +2259,11 @@ static void __init free_unused_memmap(void)
- #endif
- }
- 
--static void __init __free_pages_memory(unsigned long start, unsigned long end)
-+static unsigned long __init __free_pages_memory(unsigned long start,
-+						unsigned long end)
- {
- 	int order;
-+	unsigned long freed = 0;
- 
- 	while (start < end) {
- 		/*
-@@ -2279,14 +2281,15 @@ static void __init __free_pages_memory(unsigned long start, unsigned long end)
- 		while (start + (1UL << order) > end)
- 			order--;
- 
--		memblock_free_pages(pfn_to_page(start), start, order);
-+		freed += memblock_free_pages(pfn_to_page(start), start, order);
- 
- 		start += (1UL << order);
- 	}
-+	return freed;
- }
- 
- static unsigned long __init __free_memory_core(phys_addr_t start,
--				 phys_addr_t end)
-+					       phys_addr_t end)
- {
- 	unsigned long start_pfn = PFN_UP(start);
- 	unsigned long end_pfn = PFN_DOWN(end);
-@@ -2297,9 +2300,7 @@ static unsigned long __init __free_memory_core(phys_addr_t start,
- 	if (start_pfn >= end_pfn)
- 		return 0;
- 
--	__free_pages_memory(start_pfn, end_pfn);
--
--	return end_pfn - start_pfn;
-+	return __free_pages_memory(start_pfn, end_pfn);
- }
- 
- static void __init memmap_init_reserved_pages(void)
-diff --git a/mm/mm_init.c b/mm/mm_init.c
-index 5c21b3af216b2..9883612768511 100644
---- a/mm/mm_init.c
-+++ b/mm/mm_init.c
-@@ -2548,24 +2548,25 @@ void *__init alloc_large_system_hash(const char *tablename,
- 	return table;
- }
- 
--void __init memblock_free_pages(struct page *page, unsigned long pfn,
--							unsigned int order)
-+unsigned long __init memblock_free_pages(struct page *page, unsigned long pfn,
-+					 unsigned int order)
- {
- 	if (IS_ENABLED(CONFIG_DEFERRED_STRUCT_PAGE_INIT)) {
- 		int nid = early_pfn_to_nid(pfn);
- 
- 		if (!early_page_initialised(pfn, nid))
--			return;
-+			return 0;
- 	}
- 
- 	if (!kmsan_memblock_free_pages(page, order)) {
- 		/* KMSAN will take care of these pages. */
--		return;
-+		return 0;
- 	}
- 
- 	/* pages were reserved and not allocated */
- 	clear_page_tag_ref(page);
- 	__free_pages_core(page, order, MEMINIT_EARLY);
-+	return 1UL << order;
- }
- 
- DEFINE_STATIC_KEY_MAYBE(CONFIG_INIT_ON_ALLOC_DEFAULT_ON, init_on_alloc);
--- 
-2.51.0.534.gc79095c0ca-goog
+Hi,
+
+I found your details on Google,   and I have looked at your website.
+
+I would like to send you the errors of this business website!
+
+If you were on page #1, you'd get so many new customers every day.
+
+May I send you a price list & report ? if interested
+
+Regards,
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250924100301.1558645-1-glider%40google.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/TY0PR0101MB4727B80F5D83C58A4E9CBFCEF61CA%40TY0PR0101MB4727.apcprd01.prod.exchangelabs.com.
+
+--_000_TY0PR0101MB4727B80F5D83C58A4E9CBFCEF61CATY0PR0101MB4727_
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+Hello</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+Quick follow up. Can I send the errors? Just reply Yes, or Sure.</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+Thank you</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+<br>
+</div>
+<hr style=3D"display: inline-block; width: 98%;">
+<div class=3D"elementToProof" id=3D"divRplyFwdMsg">
+<div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
+11pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<b>From:</b>&nbsp;Benjamin DigitalMarketingServices<br>
+<b>Sent:</b>&nbsp;Tuesday, September 9, 2025 10:56 AM<br>
+<b>To:</b>&nbsp;Benjamin DigitalMarketingServices &lt;https.www.benjamin.di=
+gitalmarketingservices@outlook.com&gt;<br>
+<b>Subject:</b>&nbsp;Re: Yes..</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);" class=3D"elementToProof">
+&nbsp;</div>
+</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);" class=3D"elementToProof">
+Hi,</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);" class=3D"elementToProof">
+I found your details on Google, &nbsp; and I have looked at your website.</=
+div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);" class=3D"elementToProof">
+I would like to send you the errors of this business website!</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);" class=3D"elementToProof">
+If you were on page #1, you'd get so many new customers every day.</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);" class=3D"elementToProof">
+May I send you a price list &amp; report ? if interested</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);" class=3D"elementToProof">
+Regards,</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+<br>
+</div>
+</body>
+</html>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion visit <a href=3D"https://groups.google.com/d/msgid/=
+kasan-dev/TY0PR0101MB4727B80F5D83C58A4E9CBFCEF61CA%40TY0PR0101MB4727.apcprd=
+01.prod.exchangelabs.com?utm_medium=3Demail&utm_source=3Dfooter">https://gr=
+oups.google.com/d/msgid/kasan-dev/TY0PR0101MB4727B80F5D83C58A4E9CBFCEF61CA%=
+40TY0PR0101MB4727.apcprd01.prod.exchangelabs.com</a>.<br />
+
+--_000_TY0PR0101MB4727B80F5D83C58A4E9CBFCEF61CATY0PR0101MB4727_--
