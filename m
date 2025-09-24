@@ -1,169 +1,166 @@
-Return-Path: <kasan-dev+bncBDV2D5O34IDRBGWK2DDAMGQEBCBYAVY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB2VQ2HDAMGQECIC65UA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x840.google.com (mail-qt1-x840.google.com [IPv6:2607:f8b0:4864:20::840])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D79B9AF95
-	for <lists+kasan-dev@lfdr.de>; Wed, 24 Sep 2025 19:06:36 +0200 (CEST)
-Received: by mail-qt1-x840.google.com with SMTP id d75a77b69052e-4d9a3ca3ec8sf1436841cf.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 24 Sep 2025 10:06:36 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1758733595; cv=pass;
+Received: from mail-yx1-xb137.google.com (mail-yx1-xb137.google.com [IPv6:2607:f8b0:4864:20::b137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22246B9C2EC
+	for <lists+kasan-dev@lfdr.de>; Wed, 24 Sep 2025 22:45:32 +0200 (CEST)
+Received: by mail-yx1-xb137.google.com with SMTP id 956f58d0204a3-632edf1e41dsf210726d50.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 24 Sep 2025 13:45:32 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1758746731; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Uj4ZArgG2UZ2nVUQgdzVNvGzB55rwebP+tSMyftmUqzncWvS0CWXKw9P6LwWI96TXx
-         GdZ6dUAGmM7s3xXnF6o34tghy7Se3LQytdhhboXXpPqL/MgYGK2zvBxhT5CYf9Jx/aAM
-         7HYrNEuAN7auLe5FwMnlYDRMcgrqyNG5sbtkIsz6xPUSAf7gP1GEZ4CHcNMwd0gnOpVP
-         FSRWkx19Vq+gCVOthYg916aZEda7n0WFNCMUHzgjPwBOta7/IM7e4GjPDJkCF/RxM/yR
-         U1FgiJ00MmzciTrmk0rrDV+LB9uEeqISL/5ixQ2QY1PefyMHAEEhRn+H8rNXt8qGMBkC
-         EBzA==
+        b=h80QU7rtHf60IxdJOCEGJ0yBZPPnOcec4FDMhm+/MoQRD0wAJpKNvDHwtu70ofKqPv
+         mtzATSWkf2C4wiNMJR0Sx9EossVqNCmuI+XSL4S8xSC6/wDBhCI28OY8KwEkYRriW+lM
+         sIth2pOhDeSqotjtF7bMGV7yVy4VnetYk7GrZUL7Wu1ZDRri0u51ol21kBiwaaxrbtWZ
+         FFcEUtjLZHtcoL9BPLdfpV2G2ViiW0t9Fv0bTVNzXEiBoGdq6Kfj+z5y/iNC0zIXCx4y
+         dJSwtEzCYdwrIh0zS6rhfV8ZglWplgN8VKsE4TVn7Upq0b/GPy3+W8QH+uu40VwR7ghE
+         9j7w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=6idrHw5eF55h31Xl2vw37hd4Vb9S5hc0DSQg753b6KY=;
-        fh=fGEVYLUlUzvcp32eS6fRq7yuw10h5oU4TBJTHJaHwzc=;
-        b=h+wvqL/q4h4zixGWVn+Eg9lVc3UB1PrGrtvriPqV0TczDWXtLL33Gt0mPf2iVXph4V
-         GHWFYLXxVpcqtixqC3GtGDnj3viToOPJhJckYwdI6GY6hBoNExa18NJnffJSXJsAsg/V
-         c3Jm6XaLb4oI5AiP0H3J+h56NjG+QTrM4hP5MfgAztH9dPV28ryL3OuiMb5P+oUFgSn8
-         SDBzwcmnhPnN/20mQL939VI3R7LDJfUGDJ6zEmJnidiNrejhUBvrcqcQ0DVhYQhSpERH
-         sQ8Kk4wvbaMbzrAihPxjIupK4Zq97b74VJ1FoYOzERybE4mixx/5aVrdrBXAqbpxpWhi
-         Qfmw==;
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=TCbIO7ABBBrG+cxvZqab37xKHRTaz4YXRUC5Z4HOZMA=;
+        fh=cuPJ9HZrYhNpyJZdQp8EWVc7x8baPSSKdzoKuqkTZMw=;
+        b=AuKInYmCgCvt/0zC6e/wGQJVtBAy2S0guu2q6gH0sV1So+SEc2YCM/B7NjdA6HfRel
+         6ijQZvlAH8cTeZOIGZb+EbheZtY6rbh+Nu6nGveSzFPhyHYk39FTn+vn60Rn6Poc0ehX
+         Xy+53K8GguIKZaObSgJ3GmxJEcO6EJZrSkpOgH+g0ZMGpIUW5OH3o4H5N9Qg8xwSKk3o
+         PsJD7f/t0rx7yl6xfVx+5q7kPEMonVmbi89OKMlAw5IP/LL/d8Al1kXoYeCDP/0AV4K3
+         YpcTjT6KosrC3TR49SCALm6jlG6tmLCrhBP6W1A+jIndcaorTxxTvJwGohUGbiAB0zUe
+         EQyQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b=yMVBBGhb;
-       spf=none (google.com: rdunlap@infradead.org does not designate permitted sender hosts) smtp.mailfrom=rdunlap@infradead.org
+       dkim=pass header.i=@google.com header.s=20230601 header.b=HYvFhvK5;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1758733595; x=1759338395; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1758746731; x=1759351531; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:content-language:references:to
-         :subject:user-agent:mime-version:date:message-id:sender:from:to:cc
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6idrHw5eF55h31Xl2vw37hd4Vb9S5hc0DSQg753b6KY=;
-        b=UcN/xo6ApTem86YxHeFF/OWLAHWNki0uvtAu6A0OcxOwgARMyTL2lNa2zDME9VkB6E
-         qMHYznb5Hfj95XPliUPlvkP0u8ZKr8VYZdf0JktBK9nCzcTVFokO/Dr/HCA4Wq+iRYRQ
-         QdK+0w8GXaNbHYzlAe8CvjGBGwWe4zstwmZfwVZn76sNEaPr+KP6+gXshTU+xBkXSdw2
-         KvBtkQJ+1wbVss1TjfCj/5wDJjjWEFosNvLwKKsTPBeiCl3+s1oWcIgnuZoG0DVE9ouX
-         Ie1EiWPbad+MKS2PqTBs1VQN+S83tf6B96zXrEaecr417FTbGaLcL9e2DbA0jZ53ONOh
-         SxUQ==
+        bh=TCbIO7ABBBrG+cxvZqab37xKHRTaz4YXRUC5Z4HOZMA=;
+        b=DufHPyeWYpb5KhgzZWwj95N2SJxkow6kUmzEPmW1cemp67oLSme3v3RklrQ/KokUJ2
+         OzlXZOLUeIfklPId5URowlVehpclmoyidwXViNdtLO8v8b4nFjZ9zANeFbWwRCnuzPqd
+         7SzSb6QZ5HKTnbRSO6sPWDd4RFq8AGAvXUKI72uo1vSdJOWwWgbmFpni/kLGnuU4zp1N
+         Jre0wYe6ywvtsaSEZzUJ3QDDGtY2EEBvjph18Iq8+P6/ahv8mUySehho9nYKlJiyJcRK
+         Z422hzsimRTH2GLACbMdWfL97Uf6rWb4CeTs/q7eMln6LU33XFUACC+It7HSY7ce8NB6
+         7EEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758733595; x=1759338395;
+        d=1e100.net; s=20230601; t=1758746731; x=1759351531;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:content-language:references:to:subject:user-agent:mime-version
-         :date:message-id:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6idrHw5eF55h31Xl2vw37hd4Vb9S5hc0DSQg753b6KY=;
-        b=lnRzek1LjIKOQzhMp9IywX6pnoBy5DRIdI5wBBmyVWd7h8B9/qxZxwf+zIH6WNYJw4
-         TciIKfca8ng92DlyzsBJTevayADJbYD2BqwqwWCXCqvHVencXSuf9rHBO1wLFYl0I2NR
-         KLK89catISmmy7m+IvVdNFPTyK1lhtX1liy5EXkyEEBX9NfzepIkc6CucPdYrZeLewt7
-         ia66oHFISQEbWuDUJ6avM//M6Y0N32Ch4JYOgXcO5nJUzFOPMprm1SP6yqsHRptWkKq6
-         R2bZ7EBmEoX2xBy6gGZSdFcMXDo4hfWUpwympA7hnJpooDINWSZ1I4xUqM4Dvc9SrJ6V
-         Y72Q==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVAEIt+ybQd4wUlXc5uWDkN3rNWEnTdpWOCZIk8kalbiLQ4oCpdpe6qwFRF3ex7aM4l76efbw==@lfdr.de
-X-Gm-Message-State: AOJu0YwSFr6dnQtiwBUXDm22Ttn4XGeTYM2barSjKYeNXqgMEHsC6bEF
-	VSi2d5+deP5oPLAZCYhYKqGb7Nut/YGoVRz0AI+/KsbEn8YqnJYKwQOT
-X-Google-Smtp-Source: AGHT+IHaVwztOYGCHfJAN2ygyGo2dvVBJwg188/uIMaH/9iTUoPGs/iDnRIYVQ2aAkGgO++OO5yxUA==
-X-Received: by 2002:ac8:5809:0:b0:4ca:a077:2929 with SMTP id d75a77b69052e-4da4d220829mr7223671cf.79.1758733594883;
-        Wed, 24 Sep 2025 10:06:34 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd7/TalD6oV4gp/B4xoHUB+By8KAxOOAQnzP13tqWuueCQ=="
-Received: by 2002:a05:622a:768b:b0:4d7:a20a:baad with SMTP id
- d75a77b69052e-4da7ee4f07cls254721cf.1.-pod-prod-01-us; Wed, 24 Sep 2025
- 10:06:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVDfAm7+lekdunvl8jRU3BjjSL8g/bVKtA6dw7Q0k+pdZ8VY/p9rXyiIHBj57t44TXzK3M50JkzunM=@googlegroups.com
-X-Received: by 2002:a05:622a:212:b0:4b7:a8ce:a419 with SMTP id d75a77b69052e-4da486b7062mr8697281cf.26.1758733594058;
-        Wed, 24 Sep 2025 10:06:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1758733594; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TCbIO7ABBBrG+cxvZqab37xKHRTaz4YXRUC5Z4HOZMA=;
+        b=O4svX/dQEewn+248IJ92olhXv6VuEQH41Fq2jEdyraXUEoXzg1fw9s4P54kjCq87s1
+         bTN7Tc/W2UMxGAB4CLgLPsfGs9rRwf4MMrxT2goaR2o/9eQP4MOjcf64ymCEE/hKjC8l
+         cTS7pYcr1XrUz9psK1A3KI8+7fSfEr8IpMiZeVegKEmHCd4lqDg7mSCckLBB17b7Bp/2
+         UrRFs7IBVLOfWaGxuK3R0SavVUr9tQZ18c+x1dYDFRH3nDaR/NyCzXYmBnopFIJU49oJ
+         YZhZegLgqys9BFfbryNJ/vljWtXFpgXwzLzPjY2ncjAYGSLKR8E++wIXH2UtFW0N0Qlx
+         DriA==
+X-Forwarded-Encrypted: i=2; AJvYcCW+7xrsTCPmbqAJWjnjcO6cO8aNtrZvQY+cLmpziPvw+iwzx2b+a6prh1QinDKfp6nktsOX1A==@lfdr.de
+X-Gm-Message-State: AOJu0YxsTW91hyBZJ3kWAg+6R0yINvbPiSqgJ4XrFkI2Oe7RywFOoQkI
+	A4KZjuoduy6Fo1lBEowYBxVOpu7PhEcbfBZsxAh6xzTOwbxtfnvBx1Sr
+X-Google-Smtp-Source: AGHT+IEB20YNSxoBkCv5G2nHRhy8zCRi+9rZG17ZiIDzuP8bxoiOCH6NCxDGfdI600MwkKEc9Ti8Rg==
+X-Received: by 2002:a05:690e:ee4:b0:634:76e1:7c5a with SMTP id 956f58d0204a3-6361a7b92b2mr625302d50.30.1758746730688;
+        Wed, 24 Sep 2025 13:45:30 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd7wb7zdl6y6RDxn9yA1anos5TXSnkvR3+HcdZ8S+FvX3Q=="
+Received: by 2002:a25:a022:0:b0:eb3:57a0:33a6 with SMTP id 3f1490d57ef6-eb3814d5f6cls183601276.1.-pod-prod-07-us;
+ Wed, 24 Sep 2025 13:45:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVZY652npnLtbf2GRlafRNA0IF2PNmxN7WAv5fTBe7ULPolc7aY/FAHz4BEZ7pCXqRlutfIm+ryIcc=@googlegroups.com
+X-Received: by 2002:a05:6902:f87:b0:ead:eaa:52c1 with SMTP id 3f1490d57ef6-eb37fcae0f8mr1291789276.37.1758746729607;
+        Wed, 24 Sep 2025 13:45:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1758746729; cv=none;
         d=google.com; s=arc-20240605;
-        b=WetxOFj2PPDPMym/UqLTwcytxQ87pUeJWWERj3vfRXoDMh+AxQ1DwU0Kj3fqLRCA0Q
-         BAGGwSrPFgOI6u2S0oku6ynUs2XV9csetsMAJ8lQBWeEuscbBNQFfYeib8lorpUiCCSE
-         TJMNrBihYx2+r/LiIUombxnQRO1IpA1zigVIDKGW8b8WVSw4w13mgnUN+yN1Vd5UI9Vz
-         OtsqH8qt1RsqxwyEJKPM29E2fgwljl1d4khcv4g8yybFL8lXHgaMarOjOtY5xcZxWGJO
-         Kdeo8Kiu9JLYz84lwjo8sGD4TOcBcxstQsLPSbwSoMq6TPLIXXyqQl+65WurDRwStVOM
-         wlLw==
+        b=S5VqRPGUrPs2UMPYnAn2O94jy55i1Daka9CSTmj88xgie0w4VeWr655XkZDqAq8YAj
+         ArD5N8SfJmtLbhp8K29RJEqiv0lyQ/OM9wAk29kKQcnJSQkm3v+q41UqAvyr46p23jEs
+         l6N7lqvzMFzOoqc4xP0lflT1zU6U/6kn24n3XiveGNrsJcqCD2otxaVeTbxFYrt4ElPa
+         A975T+2QxSItyDNSzIy9lWzoQr3o26pKprHuSGvAy9pQM1/fjj3hlFcY/+Eep+bakjYn
+         bxLWxux9O+ZwO5S6fQO/nY1HSRMdi3LYrSIq9+WQzLSUV/6skonXTtjLP3Hzuw6IZFpS
+         maKg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :dkim-signature;
-        bh=IYQIoIaOKCIxSPFzuBjsQ4uTXQsp3WYZ5kAt8a5vPEc=;
-        fh=EStM6pqu3a7Q8MuRqDY8UFKW3fNq6kCdmrImRGWgliM=;
-        b=XZaGambYnSchtFiZvN+E8UfBbfuOXyOl+aSqrw9Ez4d6PiohTxGsby6hWVL3Jc6ysa
-         ig0SfhVqIZz6i7Udln0fdnZgsd7pqtnMXa69wMuKW0ifCOAmoXmcadZXS2PaJkqLeLiI
-         YWKiixShJUcFeHs08O4yUadSRRjK75WWcUwkRY+5bXlV7fNRkv/8i5lPw8YQXNkQT37j
-         BbXowAw8p+FlnYfHocFlurZ/nnN+BdlOtUz8t6x2wAmaQmvO8JQD92lwjnx9sh/htRZp
-         jvWKnoEPlSgOV2cJxPSnYsAwPrC6upjgLqIj1Bqsk8nSIyZrdYWDbbDng3QrRbDZPpZN
-         Yo8Q==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=w1mp7LI1ysXg3EhsS9eEgLmna2zUSv012OjKVUUaPuY=;
+        fh=Rq0vSa9UlRnFAH/Z27LAdR1DBBW+M0m3VNxdKLc0q/U=;
+        b=DDTHIUQSE1pjA3GW5FzMG0SmVllC0jpjOD6yOH49utNFwDnkVg5NV2Pfz0DwyKL4yf
+         O2362z6JGSO0vyKbaVP2mD1gHoPeHXPs2mEFrVmiwSw58mxqAJwrXhgSqrRU/XZVhgX4
+         X3ErVZAcBIEvjmCvwNNqmAZ2+kqetABq4oW5WgcVmJzo07Ezikrl6kFFvmQ592HhkMWu
+         bP16gl1DjBWNPEZj67IlaWDgTRIYyAt+alCJkm/u7/uojsEt3m57dX8Hmhsbkz6srbqy
+         iFE2MSpkPVOsFG7ZWt/QscswJtNs9GsLicTFbGjBeZXqMpWLuSUJhrKTlIaaxOYpKKxU
+         dTqQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b=yMVBBGhb;
-       spf=none (google.com: rdunlap@infradead.org does not designate permitted sender hosts) smtp.mailfrom=rdunlap@infradead.org
-Received: from bombadil.infradead.org (bombadil.infradead.org. [2607:7c80:54:3::133])
-        by gmr-mx.google.com with ESMTPS id af79cd13be357-85a35b4e523si3172785a.3.2025.09.24.10.06.33
+       dkim=pass header.i=@google.com header.s=20230601 header.b=HYvFhvK5;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com. [2607:f8b0:4864:20::431])
+        by gmr-mx.google.com with ESMTPS id 3f1490d57ef6-eb38390f59esi1612276.3.2025.09.24.13.45.29
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 10:06:33 -0700 (PDT)
-Received-SPF: none (google.com: rdunlap@infradead.org does not designate permitted sender hosts) client-ip=2607:7c80:54:3::133;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v1SwW-00000001yYJ-3ITs;
-	Wed, 24 Sep 2025 17:06:12 +0000
-Message-ID: <3504b378-4360-4e55-b28d-74aabd4308d7@infradead.org>
-Date: Wed, 24 Sep 2025 10:06:10 -0700
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Sep 2025 13:45:29 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::431 as permitted sender) client-ip=2607:f8b0:4864:20::431;
+Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-77f3405c38aso325429b3a.0
+        for <kasan-dev@googlegroups.com>; Wed, 24 Sep 2025 13:45:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUYjN7wVF9PlalJWhHdcMm+GynLknyjd0KcoJfke0L0k4FieSTw/R+zakX3++ylZMMrhkXjTVptafM=@googlegroups.com
+X-Gm-Gg: ASbGncuL5BBNswTpZHBjNL9gLHtHkLVaAqJT/9/KFscILTtkow16iljtI8NCOJ2nb4/
+	pr6xCDDxe+kN5UUMu2f6xVTgsoCNMz6lZdKh64AEgym6KGa7xj8vdMC9pDP8d4l4QTxrXTJN8qX
+	tTrCAcufEaL1doYTKzutbHZOLpeP5jVRNiuYVTHlmFrF16i83ZlT8FKPDZal9QJW/fDnZXQqlr4
+	lYVE9ApsdOzcmbToAVeLRnTrOldiX3e/t8G9hSALVCVDiX6P3Yj2sg=
+X-Received: by 2002:a17:90b:2249:b0:32e:9da9:3e6c with SMTP id
+ 98e67ed59e1d1-3342a2f9230mr918488a91.23.1758746727946; Wed, 24 Sep 2025
+ 13:45:27 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 04/23] mm/ksw: add build system support
-To: Jinchao Wang <wangjinchao600@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Masami Hiramatsu <mhiramat@kernel.org>, Peter Zijlstra
- <peterz@infradead.org>, Mike Rapoport <rppt@kernel.org>,
- Alexander Potapenko <glider@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>,
- "Liang, Kan" <kan.liang@linux.intel.com>,
- David Hildenbrand <david@redhat.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Kees Cook <kees@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Sami Tolvanen <samitolvanen@google.com>, Miguel Ojeda <ojeda@kernel.org>,
- Masahiro Yamada <masahiroy@kernel.org>, Rong Xu <xur@google.com>,
- Naveen N Rao <naveen@kernel.org>, David Kaplan <david.kaplan@amd.com>,
- Andrii Nakryiko <andrii@kernel.org>, Jinjie Ruan <ruanjinjie@huawei.com>,
- Nam Cao <namcao@linutronix.de>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com,
- "David S. Miller" <davem@davemloft.net>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- linux-trace-kernel@vger.kernel.org
 References: <20250924115124.194940-1-wangjinchao600@gmail.com>
- <20250924115124.194940-5-wangjinchao600@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250924115124.194940-5-wangjinchao600@gmail.com>
+ <20250924115931.197077-1-wangjinchao600@gmail.com> <20250924115931.197077-2-wangjinchao600@gmail.com>
+In-Reply-To: <20250924115931.197077-2-wangjinchao600@gmail.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 24 Sep 2025 22:44:50 +0200
+X-Gm-Features: AS18NWALn8StkZt7OAMLGvWBoEjnvi0uixTT5lbJc-ZUHb99wQUtu6-AQu7N2zA
+Message-ID: <CANpmjNNnVx3=dQsoHL+T-95Z_iprCd3FXeYpnHdmi4d06X-x_g@mail.gmail.com>
+Subject: Re: [PATCH v5 17/23] mm/ksw: add test module
+To: Jinchao Wang <wangjinchao600@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
+	Alexander Potapenko <glider@google.com>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	"Liang, Kan" <kan.liang@linux.intel.com>, David Hildenbrand <david@redhat.com>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Sami Tolvanen <samitolvanen@google.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, Rong Xu <xur@google.com>, 
+	Naveen N Rao <naveen@kernel.org>, David Kaplan <david.kaplan@amd.com>, 
+	Andrii Nakryiko <andrii@kernel.org>, Jinjie Ruan <ruanjinjie@huawei.com>, 
+	Nam Cao <namcao@linutronix.de>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	linux-mm@kvack.org, llvm@lists.linux.dev, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	kasan-dev@googlegroups.com, "David S. Miller" <davem@davemloft.net>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, linux-trace-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: rdunlap@infradead.org
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=bombadil.20210309 header.b=yMVBBGhb;
-       spf=none (google.com: rdunlap@infradead.org does not designate
- permitted sender hosts) smtp.mailfrom=rdunlap@infradead.org
+ header.i=@google.com header.s=20230601 header.b=HYvFhvK5;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::431 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -176,54 +173,197 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+On Wed, 24 Sept 2025 at 14:00, Jinchao Wang <wangjinchao600@gmail.com> wrote:
+>
+> Introduce a separate test module to validate functionality in controlled
+> scenarios.
+>
+> The module provides a proc interface (/proc/kstackwatch_test) that allows
+> triggering specific test cases via simple commands:
+>
+>   echo test0 > /proc/kstackwatch_test
 
+This should not be in /proc/ - if anything, it should go into debugfs.
 
-On 9/24/25 4:50 AM, Jinchao Wang wrote:
-> Add Kconfig and Makefile infrastructure.
-> 
-> The implementation is located under `mm/kstackwatch/`.
-> 
+> Test module is built with optimizations disabled to ensure predictable
+> behavior.
+>
 > Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
 > ---
->  mm/Kconfig.debug             |  8 ++++++++
->  mm/Makefile                  |  1 +
->  mm/kstackwatch/Makefile      |  2 ++
->  mm/kstackwatch/kernel.c      | 23 +++++++++++++++++++++++
->  mm/kstackwatch/kstackwatch.h |  5 +++++
->  mm/kstackwatch/stack.c       |  1 +
->  mm/kstackwatch/watch.c       |  1 +
->  7 files changed, 41 insertions(+)
->  create mode 100644 mm/kstackwatch/Makefile
->  create mode 100644 mm/kstackwatch/kernel.c
->  create mode 100644 mm/kstackwatch/kstackwatch.h
->  create mode 100644 mm/kstackwatch/stack.c
->  create mode 100644 mm/kstackwatch/watch.c
-> 
+>  mm/Kconfig.debug        |  10 ++++
+>  mm/kstackwatch/Makefile |   6 ++
+>  mm/kstackwatch/test.c   | 122 ++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 138 insertions(+)
+>  create mode 100644 mm/kstackwatch/test.c
+>
 > diff --git a/mm/Kconfig.debug b/mm/Kconfig.debug
-> index 32b65073d0cc..89be351c0be5 100644
+> index 89be351c0be5..291dd8a78b98 100644
 > --- a/mm/Kconfig.debug
 > +++ b/mm/Kconfig.debug
-> @@ -309,3 +309,11 @@ config PER_VMA_LOCK_STATS
->  	  overhead in the page fault path.
->  
->  	  If in doubt, say N.
+> @@ -317,3 +317,13 @@ config KSTACK_WATCH
+>           A lightweight real-time debugging tool to detect stack corrupting.
+>
+>           If unsure, say N.
 > +
-> +config KSTACK_WATCH
-> +	bool "Kernel Stack Watch"
-> +	depends on HAVE_HW_BREAKPOINT && KPROBES && FPROBE && STACKTRACE
-> +	help
-> +	  A lightweight real-time debugging tool to detect stack corrupting.
-
-	                                                         corruption.
-
+> +config KSTACK_WATCH_TEST
+> +       tristate "KStackWatch Test Module"
+> +       depends on KSTACK_WATCH
+> +       help
+> +         This module provides controlled stack corruption scenarios to verify
+> +         the functionality of KStackWatch. It is useful for development and
+> +         validation of KStackWatch mechanism.
 > +
-> +	  If unsure, say N.
-
-
--- 
-~Randy
+> +         If unsure, say N.
+> diff --git a/mm/kstackwatch/Makefile b/mm/kstackwatch/Makefile
+> index 84a46cb9a766..d007b8dcd1c6 100644
+> --- a/mm/kstackwatch/Makefile
+> +++ b/mm/kstackwatch/Makefile
+> @@ -1,2 +1,8 @@
+>  obj-$(CONFIG_KSTACK_WATCH)     += kstackwatch.o
+>  kstackwatch-y := kernel.o stack.o watch.o
+> +
+> +obj-$(CONFIG_KSTACK_WATCH_TEST)        += kstackwatch_test.o
+> +kstackwatch_test-y := test.o
+> +CFLAGS_test.o := -fno-inline \
+> +               -fno-optimize-sibling-calls \
+> +               -fno-pic -fno-pie -O0 -Og
+> diff --git a/mm/kstackwatch/test.c b/mm/kstackwatch/test.c
+> new file mode 100644
+> index 000000000000..1ed98931cc51
+> --- /dev/null
+> +++ b/mm/kstackwatch/test.c
+> @@ -0,0 +1,122 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> +
+> +#include <linux/delay.h>
+> +#include <linux/kthread.h>
+> +#include <linux/list.h>
+> +#include <linux/module.h>
+> +#include <linux/prandom.h>
+> +#include <linux/printk.h>
+> +#include <linux/proc_fs.h>
+> +#include <linux/random.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/string.h>
+> +#include <linux/uaccess.h>
+> +
+> +#include "kstackwatch.h"
+> +
+> +static struct proc_dir_entry *test_proc;
+> +
+> +#define BUFFER_SIZE 16
+> +#define MAX_DEPTH 6
+> +
+> +struct work_node {
+> +       ulong *ptr;
+> +       struct completion done;
+> +       struct list_head list;
+> +};
+> +
+> +static DECLARE_COMPLETION(work_res);
+> +static DEFINE_MUTEX(work_mutex);
+> +static LIST_HEAD(work_list);
+> +
+> +static void test_watch_fire(void)
+> +{
+> +       u64 buffer[BUFFER_SIZE] = { 0 };
+> +
+> +       pr_info("entry of %s\n", __func__);
+> +       ksw_watch_show();
+> +       ksw_watch_fire();
+> +       pr_info("buf[0]:%lld\n", buffer[0]);
+> +
+> +       barrier_data(buffer);
+> +       pr_info("exit of %s\n", __func__);
+> +}
+> +
+> +
+> +static ssize_t test_proc_write(struct file *file, const char __user *buffer,
+> +                              size_t count, loff_t *pos)
+> +{
+> +       char cmd[256];
+> +       int test_num;
+> +
+> +       if (count >= sizeof(cmd))
+> +               return -EINVAL;
+> +
+> +       if (copy_from_user(cmd, buffer, count))
+> +               return -EFAULT;
+> +
+> +       cmd[count] = '\0';
+> +       strim(cmd);
+> +
+> +       pr_info("received command: %s\n", cmd);
+> +
+> +       if (sscanf(cmd, "test%d", &test_num) == 1) {
+> +               switch (test_num) {
+> +               case 0:
+> +                       test_watch_fire();
+> +                       break;
+> +               default:
+> +                       pr_err("Unknown test number %d\n", test_num);
+> +                       return -EINVAL;
+> +               }
+> +       } else {
+> +               pr_err("invalid command format. Use 'testN'.\n");
+> +               return -EINVAL;
+> +       }
+> +
+> +       return count;
+> +}
+> +
+> +static ssize_t test_proc_read(struct file *file, char __user *buffer,
+> +                             size_t count, loff_t *pos)
+> +{
+> +       static const char usage[] = "KStackWatch Simplified Test Module\n"
+> +                                   "============ usage ==============\n"
+> +                                   "Usage:\n"
+> +                                   "echo test{i} > /proc/kstackwatch_test\n"
+> +                                   " test0 - test watch fire\n";
+> +
+> +       return simple_read_from_buffer(buffer, count, pos, usage,
+> +                                      strlen(usage));
+> +}
+> +
+> +static const struct proc_ops test_proc_ops = {
+> +       .proc_read = test_proc_read,
+> +       .proc_write = test_proc_write,
+> +};
+> +
+> +static int __init kstackwatch_test_init(void)
+> +{
+> +       test_proc = proc_create("kstackwatch_test", 0600, NULL, &test_proc_ops);
+> +       if (!test_proc) {
+> +               pr_err("Failed to create proc entry\n");
+> +               return -ENOMEM;
+> +       }
+> +       pr_info("module loaded\n");
+> +       return 0;
+> +}
+> +
+> +static void __exit kstackwatch_test_exit(void)
+> +{
+> +       if (test_proc)
+> +               remove_proc_entry("kstackwatch_test", NULL);
+> +       pr_info("module unloaded\n");
+> +}
+> +
+> +module_init(kstackwatch_test_init);
+> +module_exit(kstackwatch_test_exit);
+> +
+> +MODULE_AUTHOR("Jinchao Wang");
+> +MODULE_DESCRIPTION("Simple KStackWatch Test Module");
+> +MODULE_LICENSE("GPL");
+> --
+> 2.43.0
+>
+> --
+> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250924115931.197077-2-wangjinchao600%40gmail.com.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/3504b378-4360-4e55-b28d-74aabd4308d7%40infradead.org.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNnVx3%3DdQsoHL%2BT-95Z_iprCd3FXeYpnHdmi4d06X-x_g%40mail.gmail.com.
