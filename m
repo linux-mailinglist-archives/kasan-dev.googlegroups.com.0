@@ -1,128 +1,127 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB2VQ2HDAMGQECIC65UA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBB5T2HDAMGQEPWH6OKQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yx1-xb137.google.com (mail-yx1-xb137.google.com [IPv6:2607:f8b0:4864:20::b137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22246B9C2EC
-	for <lists+kasan-dev@lfdr.de>; Wed, 24 Sep 2025 22:45:32 +0200 (CEST)
-Received: by mail-yx1-xb137.google.com with SMTP id 956f58d0204a3-632edf1e41dsf210726d50.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 24 Sep 2025 13:45:32 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1758746731; cv=pass;
+Received: from mail-qv1-xf3d.google.com (mail-qv1-xf3d.google.com [IPv6:2607:f8b0:4864:20::f3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34E5DB9C304
+	for <lists+kasan-dev@lfdr.de>; Wed, 24 Sep 2025 22:50:17 +0200 (CEST)
+Received: by mail-qv1-xf3d.google.com with SMTP id 6a1803df08f44-78de70c9145sf7668136d6.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 24 Sep 2025 13:50:17 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1758747016; cv=pass;
         d=google.com; s=arc-20240605;
-        b=h80QU7rtHf60IxdJOCEGJ0yBZPPnOcec4FDMhm+/MoQRD0wAJpKNvDHwtu70ofKqPv
-         mtzATSWkf2C4wiNMJR0Sx9EossVqNCmuI+XSL4S8xSC6/wDBhCI28OY8KwEkYRriW+lM
-         sIth2pOhDeSqotjtF7bMGV7yVy4VnetYk7GrZUL7Wu1ZDRri0u51ol21kBiwaaxrbtWZ
-         FFcEUtjLZHtcoL9BPLdfpV2G2ViiW0t9Fv0bTVNzXEiBoGdq6Kfj+z5y/iNC0zIXCx4y
-         dJSwtEzCYdwrIh0zS6rhfV8ZglWplgN8VKsE4TVn7Upq0b/GPy3+W8QH+uu40VwR7ghE
-         9j7w==
+        b=cpNVDZQeyP73rWZNl8XgGR0ZU4sqaVY8saB5mRcUrLrbwwZW382kO//AFWeUYpezbQ
+         rk97UZESv4TSwbQx6YmluRQ0/ApLxzSVhJVcU9xvuWhx/TM2NCTglv7Bbx5OEWyaCBMp
+         9MEq5HoypvHDxQ4Kv+4g2UCLdjW86mICaxzwBtM5eGC/J0OHIFafh8v5Cl67e9/RMqJg
+         thk/1JJ+PUqWsOndpN17I6Z0EJwVQqjvj9unb8D57YFQBzxYrIAer1ZuVY1hcfUUgKJ1
+         bYF1BOr+YK87pJ/aGcxzrgJcXuu3FFyEoYFnALyk6YQ1oMlLyo+NiJ9RJtG07HUxWfzR
+         439g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=TCbIO7ABBBrG+cxvZqab37xKHRTaz4YXRUC5Z4HOZMA=;
-        fh=cuPJ9HZrYhNpyJZdQp8EWVc7x8baPSSKdzoKuqkTZMw=;
-        b=AuKInYmCgCvt/0zC6e/wGQJVtBAy2S0guu2q6gH0sV1So+SEc2YCM/B7NjdA6HfRel
-         6ijQZvlAH8cTeZOIGZb+EbheZtY6rbh+Nu6nGveSzFPhyHYk39FTn+vn60Rn6Poc0ehX
-         Xy+53K8GguIKZaObSgJ3GmxJEcO6EJZrSkpOgH+g0ZMGpIUW5OH3o4H5N9Qg8xwSKk3o
-         PsJD7f/t0rx7yl6xfVx+5q7kPEMonVmbi89OKMlAw5IP/LL/d8Al1kXoYeCDP/0AV4K3
-         YpcTjT6KosrC3TR49SCALm6jlG6tmLCrhBP6W1A+jIndcaorTxxTvJwGohUGbiAB0zUe
-         EQyQ==;
+        bh=3a7HmM/uW20MJh4aCP3RwGeNXoU0yI8HPEXDr3Rjs3k=;
+        fh=FqtBNgwgzJJErhFjdCwHXXDkaL7ITN+Qfu9fYO21Og8=;
+        b=EjpSMSPbYaFX3rpF3zdp+AZWcqbaeBC0lsCg7tLetnHMh8kKWazveq/0S4XfxsoaiW
+         8Qp0JpLLy5q51cOOXc05omlQ1sMIASfNTddmJA1toqKTBRq2daEtwTGGpM2kzrShyug1
+         PUW9X0jgPJsCzzKc5M+cQ480R8cZvgg+f1sEtVfF+SeyLqtfFzZSPm6Kboh/N8YgYz3Z
+         UC3ABZXjT28GJHrdZfoGfMhGF44j/dEia5GUsj3REAjpI87Tby/9eCjYdI1k7VsUd7AP
+         Qh3bVWlUTk0O6bMxx6rCZFbCrtzOfxYTCHgPhzH1y7jsKvITyrzbOZUvcPbsPhlMs23V
+         NLhA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=HYvFhvK5;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=nTCHn5kj;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::636 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1758746731; x=1759351531; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1758747016; x=1759351816; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TCbIO7ABBBrG+cxvZqab37xKHRTaz4YXRUC5Z4HOZMA=;
-        b=DufHPyeWYpb5KhgzZWwj95N2SJxkow6kUmzEPmW1cemp67oLSme3v3RklrQ/KokUJ2
-         OzlXZOLUeIfklPId5URowlVehpclmoyidwXViNdtLO8v8b4nFjZ9zANeFbWwRCnuzPqd
-         7SzSb6QZ5HKTnbRSO6sPWDd4RFq8AGAvXUKI72uo1vSdJOWwWgbmFpni/kLGnuU4zp1N
-         Jre0wYe6ywvtsaSEZzUJ3QDDGtY2EEBvjph18Iq8+P6/ahv8mUySehho9nYKlJiyJcRK
-         Z422hzsimRTH2GLACbMdWfL97Uf6rWb4CeTs/q7eMln6LU33XFUACC+It7HSY7ce8NB6
-         7EEQ==
+        bh=3a7HmM/uW20MJh4aCP3RwGeNXoU0yI8HPEXDr3Rjs3k=;
+        b=V4L2f3hFWC7BOo4Gy2w5Y8VpLRWSCtbb2eSEJnEKegbMFZGLl+40cHGZYKySI4j1wX
+         kIAXcvZGkHUwWrMTf66MXxBXl//sWDzGFREuvNYXzTB2HVMySBrbsrWCHunlMTCwuMd4
+         ERc0Y+POi4lKb67McnDLYRfffFbpifHY0CmdGtOtin7m3WOLxF+UYIz1sXo/+mRUIdK+
+         gk2Mv4ZsmVQLyaHLDQ+YIsQduB0jGL8whYqqbcvb3ETwDKzkW4N1RupJhUzEagtywM6+
+         PVehoN0E9Bo5HY3wrcCRlCXLLGeD8/SUTloPljmhkAgCdofmenknx+27BMdj5F8h40Ad
+         EvEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758746731; x=1759351531;
+        d=1e100.net; s=20230601; t=1758747016; x=1759351816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TCbIO7ABBBrG+cxvZqab37xKHRTaz4YXRUC5Z4HOZMA=;
-        b=O4svX/dQEewn+248IJ92olhXv6VuEQH41Fq2jEdyraXUEoXzg1fw9s4P54kjCq87s1
-         bTN7Tc/W2UMxGAB4CLgLPsfGs9rRwf4MMrxT2goaR2o/9eQP4MOjcf64ymCEE/hKjC8l
-         cTS7pYcr1XrUz9psK1A3KI8+7fSfEr8IpMiZeVegKEmHCd4lqDg7mSCckLBB17b7Bp/2
-         UrRFs7IBVLOfWaGxuK3R0SavVUr9tQZ18c+x1dYDFRH3nDaR/NyCzXYmBnopFIJU49oJ
-         YZhZegLgqys9BFfbryNJ/vljWtXFpgXwzLzPjY2ncjAYGSLKR8E++wIXH2UtFW0N0Qlx
-         DriA==
-X-Forwarded-Encrypted: i=2; AJvYcCW+7xrsTCPmbqAJWjnjcO6cO8aNtrZvQY+cLmpziPvw+iwzx2b+a6prh1QinDKfp6nktsOX1A==@lfdr.de
-X-Gm-Message-State: AOJu0YxsTW91hyBZJ3kWAg+6R0yINvbPiSqgJ4XrFkI2Oe7RywFOoQkI
-	A4KZjuoduy6Fo1lBEowYBxVOpu7PhEcbfBZsxAh6xzTOwbxtfnvBx1Sr
-X-Google-Smtp-Source: AGHT+IEB20YNSxoBkCv5G2nHRhy8zCRi+9rZG17ZiIDzuP8bxoiOCH6NCxDGfdI600MwkKEc9Ti8Rg==
-X-Received: by 2002:a05:690e:ee4:b0:634:76e1:7c5a with SMTP id 956f58d0204a3-6361a7b92b2mr625302d50.30.1758746730688;
-        Wed, 24 Sep 2025 13:45:30 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd7wb7zdl6y6RDxn9yA1anos5TXSnkvR3+HcdZ8S+FvX3Q=="
-Received: by 2002:a25:a022:0:b0:eb3:57a0:33a6 with SMTP id 3f1490d57ef6-eb3814d5f6cls183601276.1.-pod-prod-07-us;
- Wed, 24 Sep 2025 13:45:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVZY652npnLtbf2GRlafRNA0IF2PNmxN7WAv5fTBe7ULPolc7aY/FAHz4BEZ7pCXqRlutfIm+ryIcc=@googlegroups.com
-X-Received: by 2002:a05:6902:f87:b0:ead:eaa:52c1 with SMTP id 3f1490d57ef6-eb37fcae0f8mr1291789276.37.1758746729607;
-        Wed, 24 Sep 2025 13:45:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1758746729; cv=none;
+        bh=3a7HmM/uW20MJh4aCP3RwGeNXoU0yI8HPEXDr3Rjs3k=;
+        b=PZe7bhF/cow9FTPTEMQZgddAAZA7eu0iLmp5PHmFYqKvsSnLd5a6rVJ64FgI3QrBH+
+         BaeFKOiPOD5+NeVP/P6vEpq/5X0Szxp16wt+dtwBmQl8MFLrmIyoz7gUkcJo+9RZoyE+
+         9pGoAk2hz2x3fwcLSLL9u60k9H+E1ZaNGBS7qtA9FqzSTmFqjqHmdrXckwHR2o1IMCxy
+         ny2hGss5Hshdzijayq9G0mKezSTTZGARAzqNkXmDSg83Qk6dr4ogxrokHM0YW20PoTNq
+         8kqn1h2e78xJ++U4LWXer0fLZefOh0XUefTyW4SmoclocamoJ8vMAoXo/6KZogZtYqwn
+         1Dsg==
+X-Forwarded-Encrypted: i=2; AJvYcCUb/mCJwUbs7K6doIfyZtl0RrALbh7yLMW5ZFvSDSe1aMTXqIAZxeh5AcaJF0M2dSmGTNn6gA==@lfdr.de
+X-Gm-Message-State: AOJu0YwEqEFO3CPU2dPh95Ny6D3OG0T8aVKy6o1XjIHa0k1AI+UDjh2F
+	RPk0i6MUCnmRnMMoJLW9RR/zzmAI7tr7PFKI0bAzxMMU2U0ax3kTsrvE
+X-Google-Smtp-Source: AGHT+IFlhRxxz9mol6pdDlh7SFAVXPEmflZVm/3+BUjf4J/kRUeRyu7hTIcKOHuFSQupL5EfZgwRiQ==
+X-Received: by 2002:a05:6214:5185:b0:783:c657:6db0 with SMTP id 6a1803df08f44-7fc2c8a4f54mr20732136d6.14.1758747015589;
+        Wed, 24 Sep 2025 13:50:15 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd5+REhNt8AwbNqvtTFuw1Lb/6QG3EJ8nhK3rKyhWMOegQ=="
+Received: by 2002:ad4:5589:0:b0:78e:136c:b6d8 with SMTP id 6a1803df08f44-7fd7f9730d2ls5884406d6.2.-pod-prod-07-us;
+ Wed, 24 Sep 2025 13:50:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWe52NzgYW+Crde0g/ZF3xpAOcyadEgu8e6DaEC4aenHOeaVFoTufZ9GRYWPlAgHPky8wjrflIhVzw=@googlegroups.com
+X-Received: by 2002:a05:6102:3596:b0:596:163e:c59f with SMTP id ada2fe7eead31-5acd91d9a50mr637314137.34.1758747014474;
+        Wed, 24 Sep 2025 13:50:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1758747014; cv=none;
         d=google.com; s=arc-20240605;
-        b=S5VqRPGUrPs2UMPYnAn2O94jy55i1Daka9CSTmj88xgie0w4VeWr655XkZDqAq8YAj
-         ArD5N8SfJmtLbhp8K29RJEqiv0lyQ/OM9wAk29kKQcnJSQkm3v+q41UqAvyr46p23jEs
-         l6N7lqvzMFzOoqc4xP0lflT1zU6U/6kn24n3XiveGNrsJcqCD2otxaVeTbxFYrt4ElPa
-         A975T+2QxSItyDNSzIy9lWzoQr3o26pKprHuSGvAy9pQM1/fjj3hlFcY/+Eep+bakjYn
-         bxLWxux9O+ZwO5S6fQO/nY1HSRMdi3LYrSIq9+WQzLSUV/6skonXTtjLP3Hzuw6IZFpS
-         maKg==
+        b=TPPEjQPkdLjnKywjoiEWKCiObOGjVDBESN8Ph/9UfB/1qv6UGBGduP2EKEt0fQaRyH
+         dtTGagVbYAkg1b2lJqYTGGuyDB9iUKCkwwy+I/Ur0xfh+FkkhKGQ27JhAR2jjGcXJyYh
+         A7YPGhusvL2aSSXoTm2FFOauYNxtCjHT4cYnRXYNhSD4fLlNNqVKThykCU5KCVmgagZ6
+         o2QdaVxY2ttT98uWFMGwdnxS/e3yDmnCH9iGBaSlPj4h4mXbZYAPbTidyRaCqNq1iFcc
+         ukdDf8AmhZPnyMmiRrE8aSnnWE++ukWSEtejgzSOdnq0GwLW5Ts9OZ2T90HCY481nLzU
+         5ibw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=w1mp7LI1ysXg3EhsS9eEgLmna2zUSv012OjKVUUaPuY=;
-        fh=Rq0vSa9UlRnFAH/Z27LAdR1DBBW+M0m3VNxdKLc0q/U=;
-        b=DDTHIUQSE1pjA3GW5FzMG0SmVllC0jpjOD6yOH49utNFwDnkVg5NV2Pfz0DwyKL4yf
-         O2362z6JGSO0vyKbaVP2mD1gHoPeHXPs2mEFrVmiwSw58mxqAJwrXhgSqrRU/XZVhgX4
-         X3ErVZAcBIEvjmCvwNNqmAZ2+kqetABq4oW5WgcVmJzo07Ezikrl6kFFvmQ592HhkMWu
-         bP16gl1DjBWNPEZj67IlaWDgTRIYyAt+alCJkm/u7/uojsEt3m57dX8Hmhsbkz6srbqy
-         iFE2MSpkPVOsFG7ZWt/QscswJtNs9GsLicTFbGjBeZXqMpWLuSUJhrKTlIaaxOYpKKxU
-         dTqQ==;
+        bh=yUtonTzH+d6Koc9tBSC0pPXzcPpJLfBt1hfJF5PLabQ=;
+        fh=WgqOc51jJK0ZKG+Fc6puAjaz6N1VOUySRizLYnfHRnQ=;
+        b=djU4L/hs8rm8QiQffa+yZ9iBu7QSU8dbbORsXdUxURg8BIPEB7P8Ber+tYH7lt59pt
+         hNWMUsTg18XsiH6/eJNNjsuODg32vQV+IPVukNfu968MZl6GlwkGuo40jVWn2LoNKLjP
+         ihqVKfZJOLnHeZUNMIm/J1CqZUrXY+vjbSZsz8rm2GprG/gdjBb6Kk+76iNHRJS3WE9b
+         okVvP13lbJhaKma882R1fzW49XFSBk2/gOmnno7wAaHWrOazc5XdKpguvyBGRHJlQ76w
+         trnLOq0tiWH3pPBEsl5Yuf/b6xEzP9y1byZHt9+ufypjXHtUP2Febd95eOaXxPaliCR0
+         +1Zg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=HYvFhvK5;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=nTCHn5kj;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::636 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com. [2607:f8b0:4864:20::431])
-        by gmr-mx.google.com with ESMTPS id 3f1490d57ef6-eb38390f59esi1612276.3.2025.09.24.13.45.29
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com. [2607:f8b0:4864:20::636])
+        by gmr-mx.google.com with ESMTPS id ada2fe7eead31-5ae24516065si5591137.0.2025.09.24.13.50.14
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Sep 2025 13:45:29 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::431 as permitted sender) client-ip=2607:f8b0:4864:20::431;
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-77f3405c38aso325429b3a.0
-        for <kasan-dev@googlegroups.com>; Wed, 24 Sep 2025 13:45:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUYjN7wVF9PlalJWhHdcMm+GynLknyjd0KcoJfke0L0k4FieSTw/R+zakX3++ylZMMrhkXjTVptafM=@googlegroups.com
-X-Gm-Gg: ASbGncuL5BBNswTpZHBjNL9gLHtHkLVaAqJT/9/KFscILTtkow16iljtI8NCOJ2nb4/
-	pr6xCDDxe+kN5UUMu2f6xVTgsoCNMz6lZdKh64AEgym6KGa7xj8vdMC9pDP8d4l4QTxrXTJN8qX
-	tTrCAcufEaL1doYTKzutbHZOLpeP5jVRNiuYVTHlmFrF16i83ZlT8FKPDZal9QJW/fDnZXQqlr4
-	lYVE9ApsdOzcmbToAVeLRnTrOldiX3e/t8G9hSALVCVDiX6P3Yj2sg=
-X-Received: by 2002:a17:90b:2249:b0:32e:9da9:3e6c with SMTP id
- 98e67ed59e1d1-3342a2f9230mr918488a91.23.1758746727946; Wed, 24 Sep 2025
- 13:45:27 -0700 (PDT)
+        Wed, 24 Sep 2025 13:50:14 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::636 as permitted sender) client-ip=2607:f8b0:4864:20::636;
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-26e68904f0eso3020525ad.0
+        for <kasan-dev@googlegroups.com>; Wed, 24 Sep 2025 13:50:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVrZ1jCxmu4GEEM5xtu/YbazI2vpQk0YEAOBeEOxn/8Vwjz68o92D8WiJZivoCahHOIlokllz6PbZM=@googlegroups.com
+X-Gm-Gg: ASbGncsWaRnWmkNZtpHtD0M7q9fCtUE+cgOwQt3/jqf7FKXNyQra8dqOdsF2l34GWsa
+	DkTuJLbE2aTsI8/CGEJFrYRxuMh6Z9PDW6XuBvBEV9Qz+UycDIh4m4d3lKFCOXtzcrmY9B9YbZj
+	X2wXmeT2cQ7lIkda4hhbQ2AE7R8kq4GSF2AkTKhPymKPHIBJc+LIun9ZVfSwG269EyDt+vupFia
+	cSjb/Aji5gAxOD2n2XlF7gcllpGgRK84dqad/zNSVyZDLRGFkmKfvY=
+X-Received: by 2002:a17:903:264b:b0:269:8059:83ab with SMTP id
+ d9443c01a7336-27ed4ab545emr6206725ad.51.1758747013201; Wed, 24 Sep 2025
+ 13:50:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250924115124.194940-1-wangjinchao600@gmail.com>
- <20250924115931.197077-1-wangjinchao600@gmail.com> <20250924115931.197077-2-wangjinchao600@gmail.com>
-In-Reply-To: <20250924115931.197077-2-wangjinchao600@gmail.com>
+References: <20250924115124.194940-1-wangjinchao600@gmail.com> <20250924115124.194940-7-wangjinchao600@gmail.com>
+In-Reply-To: <20250924115124.194940-7-wangjinchao600@gmail.com>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 24 Sep 2025 22:44:50 +0200
-X-Gm-Features: AS18NWALn8StkZt7OAMLGvWBoEjnvi0uixTT5lbJc-ZUHb99wQUtu6-AQu7N2zA
-Message-ID: <CANpmjNNnVx3=dQsoHL+T-95Z_iprCd3FXeYpnHdmi4d06X-x_g@mail.gmail.com>
-Subject: Re: [PATCH v5 17/23] mm/ksw: add test module
+Date: Wed, 24 Sep 2025 22:49:35 +0200
+X-Gm-Features: AS18NWBgUAm60x7jbnTDK3WCQpUXDCFu_1mbN9k4BD6qrp1olQW-5h-0n2U9Y9E
+Message-ID: <CANpmjNOuA3q3BweB9kTUpAX4CX1U25Pqa0Hiyt__=7zio81=Uw@mail.gmail.com>
+Subject: Re: [PATCH v5 06/23] mm/ksw: add singleton /proc/kstackwatch interface
 To: Jinchao Wang <wangjinchao600@gmail.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
 	Peter Zijlstra <peterz@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
@@ -155,8 +154,8 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, Masami Hiramatsu <mhiramat@kernel
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=HYvFhvK5;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::431 as
+ header.i=@google.com header.s=20230601 header.b=nTCHn5kj;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::636 as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -173,197 +172,162 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 24 Sept 2025 at 14:00, Jinchao Wang <wangjinchao600@gmail.com> wrote:
+On Wed, 24 Sept 2025 at 13:51, Jinchao Wang <wangjinchao600@gmail.com> wrote:
 >
-> Introduce a separate test module to validate functionality in controlled
-> scenarios.
->
-> The module provides a proc interface (/proc/kstackwatch_test) that allows
-> triggering specific test cases via simple commands:
->
->   echo test0 > /proc/kstackwatch_test
+> Provide the /proc/kstackwatch file to read or update the configuration.
+> Only a single process can open this file at a time, enforced using atomic
+> config_file_busy, to prevent concurrent access.
 
-This should not be in /proc/ - if anything, it should go into debugfs.
+Why is this in /proc and not debugfs?
 
-> Test module is built with optimizations disabled to ensure predictable
-> behavior.
+> ksw_get_config() exposes the configuration pointer as const.
 >
 > Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
 > ---
->  mm/Kconfig.debug        |  10 ++++
->  mm/kstackwatch/Makefile |   6 ++
->  mm/kstackwatch/test.c   | 122 ++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 138 insertions(+)
->  create mode 100644 mm/kstackwatch/test.c
+>  mm/kstackwatch/kernel.c      | 77 +++++++++++++++++++++++++++++++++++-
+>  mm/kstackwatch/kstackwatch.h |  3 ++
+>  2 files changed, 79 insertions(+), 1 deletion(-)
 >
-> diff --git a/mm/Kconfig.debug b/mm/Kconfig.debug
-> index 89be351c0be5..291dd8a78b98 100644
-> --- a/mm/Kconfig.debug
-> +++ b/mm/Kconfig.debug
-> @@ -317,3 +317,13 @@ config KSTACK_WATCH
->           A lightweight real-time debugging tool to detect stack corrupting.
+> diff --git a/mm/kstackwatch/kernel.c b/mm/kstackwatch/kernel.c
+> index 3b7009033dd4..4a06ddadd9c7 100644
+> --- a/mm/kstackwatch/kernel.c
+> +++ b/mm/kstackwatch/kernel.c
+> @@ -3,11 +3,15 @@
 >
->           If unsure, say N.
-> +
-> +config KSTACK_WATCH_TEST
-> +       tristate "KStackWatch Test Module"
-> +       depends on KSTACK_WATCH
-> +       help
-> +         This module provides controlled stack corruption scenarios to verify
-> +         the functionality of KStackWatch. It is useful for development and
-> +         validation of KStackWatch mechanism.
-> +
-> +         If unsure, say N.
-> diff --git a/mm/kstackwatch/Makefile b/mm/kstackwatch/Makefile
-> index 84a46cb9a766..d007b8dcd1c6 100644
-> --- a/mm/kstackwatch/Makefile
-> +++ b/mm/kstackwatch/Makefile
-> @@ -1,2 +1,8 @@
->  obj-$(CONFIG_KSTACK_WATCH)     += kstackwatch.o
->  kstackwatch-y := kernel.o stack.o watch.o
-> +
-> +obj-$(CONFIG_KSTACK_WATCH_TEST)        += kstackwatch_test.o
-> +kstackwatch_test-y := test.o
-> +CFLAGS_test.o := -fno-inline \
-> +               -fno-optimize-sibling-calls \
-> +               -fno-pic -fno-pie -O0 -Og
-> diff --git a/mm/kstackwatch/test.c b/mm/kstackwatch/test.c
-> new file mode 100644
-> index 000000000000..1ed98931cc51
-> --- /dev/null
-> +++ b/mm/kstackwatch/test.c
-> @@ -0,0 +1,122 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> +
-> +#include <linux/delay.h>
-> +#include <linux/kthread.h>
-> +#include <linux/list.h>
-> +#include <linux/module.h>
-> +#include <linux/prandom.h>
-> +#include <linux/printk.h>
+>  #include <linux/kstrtox.h>
+>  #include <linux/module.h>
 > +#include <linux/proc_fs.h>
-> +#include <linux/random.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/string.h>
+> +#include <linux/seq_file.h>
+>  #include <linux/string.h>
 > +#include <linux/uaccess.h>
-> +
-> +#include "kstackwatch.h"
-> +
-> +static struct proc_dir_entry *test_proc;
-> +
-> +#define BUFFER_SIZE 16
-> +#define MAX_DEPTH 6
-> +
-> +struct work_node {
-> +       ulong *ptr;
-> +       struct completion done;
-> +       struct list_head list;
-> +};
-> +
-> +static DECLARE_COMPLETION(work_res);
-> +static DEFINE_MUTEX(work_mutex);
-> +static LIST_HEAD(work_list);
-> +
-> +static void test_watch_fire(void)
+>
+>  #include "kstackwatch.h"
+>
+>  static struct ksw_config *ksw_config;
+> +static atomic_t config_file_busy = ATOMIC_INIT(0);
+>
+>  struct param_map {
+>         const char *name;       /* long name */
+> @@ -74,7 +78,7 @@ static int ksw_parse_param(struct ksw_config *config, const char *key,
+>   * - sp_offset  |so (u16) : offset from stack pointer at func_offset
+>   * - watch_len  |wl (u16) : watch length (1,2,4,8)
+>   */
+> -static int __maybe_unused ksw_parse_config(char *buf, struct ksw_config *config)
+> +static int ksw_parse_config(char *buf, struct ksw_config *config)
+>  {
+>         char *part, *key, *val;
+>         int ret;
+> @@ -109,18 +113,89 @@ static int __maybe_unused ksw_parse_config(char *buf, struct ksw_config *config)
+>         return 0;
+>  }
+>
+> +static ssize_t kstackwatch_proc_write(struct file *file,
+> +                                     const char __user *buffer, size_t count,
+> +                                     loff_t *pos)
 > +{
-> +       u64 buffer[BUFFER_SIZE] = { 0 };
+> +       char input[MAX_CONFIG_STR_LEN];
+> +       int ret;
 > +
-> +       pr_info("entry of %s\n", __func__);
-> +       ksw_watch_show();
-> +       ksw_watch_fire();
-> +       pr_info("buf[0]:%lld\n", buffer[0]);
-> +
-> +       barrier_data(buffer);
-> +       pr_info("exit of %s\n", __func__);
-> +}
-> +
-> +
-> +static ssize_t test_proc_write(struct file *file, const char __user *buffer,
-> +                              size_t count, loff_t *pos)
-> +{
-> +       char cmd[256];
-> +       int test_num;
-> +
-> +       if (count >= sizeof(cmd))
+> +       if (count == 0 || count >= sizeof(input))
 > +               return -EINVAL;
 > +
-> +       if (copy_from_user(cmd, buffer, count))
+> +       if (copy_from_user(input, buffer, count))
 > +               return -EFAULT;
 > +
-> +       cmd[count] = '\0';
-> +       strim(cmd);
+> +       input[count] = '\0';
+> +       strim(input);
 > +
-> +       pr_info("received command: %s\n", cmd);
+> +       if (!strlen(input)) {
+> +               pr_info("config cleared\n");
+> +               return count;
+> +       }
 > +
-> +       if (sscanf(cmd, "test%d", &test_num) == 1) {
-> +               switch (test_num) {
-> +               case 0:
-> +                       test_watch_fire();
-> +                       break;
-> +               default:
-> +                       pr_err("Unknown test number %d\n", test_num);
-> +                       return -EINVAL;
-> +               }
-> +       } else {
-> +               pr_err("invalid command format. Use 'testN'.\n");
-> +               return -EINVAL;
+> +       ret = ksw_parse_config(input, ksw_config);
+> +       if (ret) {
+> +               pr_err("Failed to parse config %d\n", ret);
+> +               return ret;
 > +       }
 > +
 > +       return count;
 > +}
 > +
-> +static ssize_t test_proc_read(struct file *file, char __user *buffer,
-> +                             size_t count, loff_t *pos)
+> +static int kstackwatch_proc_show(struct seq_file *m, void *v)
 > +{
-> +       static const char usage[] = "KStackWatch Simplified Test Module\n"
-> +                                   "============ usage ==============\n"
-> +                                   "Usage:\n"
-> +                                   "echo test{i} > /proc/kstackwatch_test\n"
-> +                                   " test0 - test watch fire\n";
-> +
-> +       return simple_read_from_buffer(buffer, count, pos, usage,
-> +                                      strlen(usage));
-> +}
-> +
-> +static const struct proc_ops test_proc_ops = {
-> +       .proc_read = test_proc_read,
-> +       .proc_write = test_proc_write,
-> +};
-> +
-> +static int __init kstackwatch_test_init(void)
-> +{
-> +       test_proc = proc_create("kstackwatch_test", 0600, NULL, &test_proc_ops);
-> +       if (!test_proc) {
-> +               pr_err("Failed to create proc entry\n");
-> +               return -ENOMEM;
-> +       }
-> +       pr_info("module loaded\n");
+> +       seq_printf(m, "%s\n", ksw_config->user_input);
 > +       return 0;
 > +}
 > +
-> +static void __exit kstackwatch_test_exit(void)
+> +static int kstackwatch_proc_open(struct inode *inode, struct file *file)
 > +{
-> +       if (test_proc)
-> +               remove_proc_entry("kstackwatch_test", NULL);
-> +       pr_info("module unloaded\n");
+> +       if (atomic_cmpxchg(&config_file_busy, 0, 1))
+> +               return -EBUSY;
+> +
+> +       return single_open(file, kstackwatch_proc_show, NULL);
 > +}
 > +
-> +module_init(kstackwatch_test_init);
-> +module_exit(kstackwatch_test_exit);
+> +static int kstackwatch_proc_release(struct inode *inode, struct file *file)
+> +{
+> +       atomic_set(&config_file_busy, 0);
+> +       return single_release(inode, file);
+> +}
 > +
-> +MODULE_AUTHOR("Jinchao Wang");
-> +MODULE_DESCRIPTION("Simple KStackWatch Test Module");
-> +MODULE_LICENSE("GPL");
+> +static const struct proc_ops kstackwatch_proc_ops = {
+> +       .proc_open = kstackwatch_proc_open,
+> +       .proc_read = seq_read,
+> +       .proc_write = kstackwatch_proc_write,
+> +       .proc_lseek = seq_lseek,
+> +       .proc_release = kstackwatch_proc_release,
+> +};
+> +
+> +const struct ksw_config *ksw_get_config(void)
+> +{
+> +       return ksw_config;
+> +}
+>  static int __init kstackwatch_init(void)
+>  {
+>         ksw_config = kzalloc(sizeof(*ksw_config), GFP_KERNEL);
+>         if (!ksw_config)
+>                 return -ENOMEM;
+>
+> +       if (!proc_create("kstackwatch", 0600, NULL, &kstackwatch_proc_ops)) {
+> +               pr_err("create proc kstackwatch fail");
+> +               kfree(ksw_config);
+> +               return -ENOMEM;
+> +       }
+> +
+>         pr_info("module loaded\n");
+>         return 0;
+>  }
+>
+>  static void __exit kstackwatch_exit(void)
+>  {
+> +       remove_proc_entry("kstackwatch", NULL);
+> +       kfree(ksw_config->func_name);
+> +       kfree(ksw_config->user_input);
+>         kfree(ksw_config);
+>
+>         pr_info("module unloaded\n");
+> diff --git a/mm/kstackwatch/kstackwatch.h b/mm/kstackwatch/kstackwatch.h
+> index a7bad207f863..983125d5cf18 100644
+> --- a/mm/kstackwatch/kstackwatch.h
+> +++ b/mm/kstackwatch/kstackwatch.h
+> @@ -29,4 +29,7 @@ struct ksw_config {
+>         char *user_input;
+>  };
+>
+> +// singleton, only modified in kernel.c
+> +const struct ksw_config *ksw_get_config(void);
+> +
+>  #endif /* _KSTACKWATCH_H */
 > --
 > 2.43.0
 >
 > --
 > You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 > To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250924115931.197077-2-wangjinchao600%40gmail.com.
+> To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250924115124.194940-7-wangjinchao600%40gmail.com.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNnVx3%3DdQsoHL%2BT-95Z_iprCd3FXeYpnHdmi4d06X-x_g%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOuA3q3BweB9kTUpAX4CX1U25Pqa0Hiyt__%3D7zio81%3DUw%40mail.gmail.com.
