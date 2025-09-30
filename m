@@ -1,140 +1,140 @@
-Return-Path: <kasan-dev+bncBD53XBUFWQDBBB4I5XDAMGQE5RA64PQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBD53XBUFWQDBBDMI5XDAMGQEU4S4XMQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf40.google.com (mail-qv1-xf40.google.com [IPv6:2607:f8b0:4864:20::f40])
-	by mail.lfdr.de (Postfix) with ESMTPS id AECFBBAB093
-	for <lists+kasan-dev@lfdr.de>; Tue, 30 Sep 2025 04:44:24 +0200 (CEST)
-Received: by mail-qv1-xf40.google.com with SMTP id 6a1803df08f44-818bf399f8asf92863806d6.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 29 Sep 2025 19:44:24 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1759200263; cv=pass;
+Received: from mail-io1-xd3d.google.com (mail-io1-xd3d.google.com [IPv6:2607:f8b0:4864:20::d3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D69BAB09C
+	for <lists+kasan-dev@lfdr.de>; Tue, 30 Sep 2025 04:44:31 +0200 (CEST)
+Received: by mail-io1-xd3d.google.com with SMTP id ca18e2360f4ac-90dfda98b4bsf1098428839f.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 29 Sep 2025 19:44:30 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1759200269; cv=pass;
         d=google.com; s=arc-20240605;
-        b=bwgKACObeWPwblqcFghi1tdULklOv57CA3y8CPg2GrR80362n3n4BFc9IDJBhgz6ko
-         AaRIfg+mfRbJ4wYonwOOClduXBmOh4sc4gOBQ/zrM+JRemXQLtiTCWO+gOYsFyNrw53E
-         FQscJevxM8xqfkzLYTlfZz0Z3RwoeBsAZYE9ZIezn7qMh5rYyh0ZQLIbn6F94mxsGmSQ
-         mAot9aiMR+iF19q7V0LiN3ajx2o6g8fMV7LdiqALegtK3mQ1q7S/2YjZ5tUVigSryNfA
-         zu/orzjz8Ms+cIrvmbPrDmYk1hbZ7qInwaI3JgtW1cJA/SzsjhIzOJawpakwcDcu8LVU
-         PAKw==
+        b=aBuuVFBpuziJUyYf0xjFK+Mgx6JTbwL/lEnBufiKi8C47K7Cdt4tpD3smaPj8vdNe4
+         8g0ef4irsqCRdX1Fevt0YH8StrwS0E8KTyeNjbf2WFne9RbM3ErpxLvm8xilTIYbsXNy
+         L5aRpOdk2Wctacsv1N6MzR8OcERLS69MXLEyEKRu7Zj9AzEunA6Y+cBcQyP75Fbroc49
+         TguSpEoAMcXYNqT/7WEdCtFHBVgPNUk09Ih+pTukeFjhRfz6kLAGQ/d+0xK+zZp5btxm
+         YxTSM/V0Ep6Z3WwprfCGLFOm1KiY3ji5IgGyRUbO5u1q9WVN9yNdQ7MQYuVdv4gWNNzO
+         KopA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature
          :dkim-signature;
-        bh=lnA1OpWERzoKE32cnIpaKxgg5La3tH4sjNhDjMvl/tQ=;
-        fh=vnibRXGoMSuO3+/lKESjHV3QBjd8PzXm0xIKAhbbpsE=;
-        b=EwNeXYj3eTR8GD0u/bFqY3Vu2aPXVJcZuNESC8Zl4O2E+nb3YawZB0uhkmOFGjOT//
-         7w7LMwlK3WOsy+X3cc9mTTu/tAycsFJEFLlXWbwAy6Vri5pLUmHuHHK4+D9Y5mJCQc79
-         QCdFHkUMhEIohRCw/t0GV9L+Xv4MGLDfAfRAJbQbrCMmMBaEHZVGG6c3ftmMGjBFWrdL
-         qmn2sDOsNIVQ8PWCUnb/j1LtGY2aOjrm/qMEaY/4icXchh3gXBg6YXC/Sznv663I+tJx
-         i9FexnJ3J0GAciCzsuZhY4ocvXDlrTSsG8iKyhL3rUF9nO9Zsdi2usP88gbIIz4vzsLd
-         e+kQ==;
+        bh=elhbBXskcQTCud3K7aq3BZESNUBnqLMSxgw7ivbFa24=;
+        fh=z/HBPUdWBdR3fDeSj3JpPCpeF07z1fCJdkp1WRrJhW8=;
+        b=dY0FJrOZ0cuygLg50+r9TUmGylQEUm2brsgDRUzig2+HKRYjPtKKoSzS618pQZxdCj
+         Iv2RgkWbJbD8fb3Fl4qfvc5PYDGYbbFjs8e2MXPR8RBEOyOXBZwzGlT9uwnOKDa2qemy
+         l5RabA1eO3wwlTq19eZ67+jmrVuWrMSl8Rw3zHmEUkklZM47fNRrWsklYd0yjynEUsMS
+         riA49/387tdh/hWTl731RAE7kazRB1XYe5aiRAQCrNi2KBIaA6xlG+odXJ0IW/pkKwoB
+         zoA2Y8s+8mwvFsJvmk6I4A8yhBjwCXp10FHLxNU3esmEkaKzNWidmYWoiQ8MKWqzeBax
+         sABw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=MEask2kh;
-       spf=pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=NIvyT57B;
+       spf=pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::530 as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1759200263; x=1759805063; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1759200269; x=1759805069; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lnA1OpWERzoKE32cnIpaKxgg5La3tH4sjNhDjMvl/tQ=;
-        b=RBGpyxOeZ6PZFW2rhJ9AR931POz6XdZLT+KSrhkml/fO1z5CXO0BbFMq3qQlcbnvSU
-         Ugt4fx/xqFzq8a+n6kcgcNn/Po0rc+b4R23F0M+zLRCpBOaMq5t/lnvE5fGIJKl8O4jU
-         o82foMPHhKKlKeX3ZF1DgA/J8waOX/SGiL5IZWVumhWxquc9xbKeurIImM94raE5YGMa
-         Cq9EBGEzzVRrgUppYFYim8d5h8wV1ZYRIKYrl6Px7kaarNHIJmLX6ZrwEO9ax+ax5JNO
-         0P2HDEZXiD7MEpIj46KqSHBZCZ0Z4AFkAKOs5unHDlWh5nSkKe8WJbkQ1YURQj4wAfBB
-         yqYQ==
+        bh=elhbBXskcQTCud3K7aq3BZESNUBnqLMSxgw7ivbFa24=;
+        b=RR5QP44+l3uxYfDd2YQJXIQR/4cisTBb1YWDiuEXgzv9fogL3ily9iNFzTJLrv1AfP
+         Sh4i4+EvBhV/hOzBbEB5n0SJqVnicHVxBhgmSO0QilKZPWdjlGGq8pg9qT4TLDZWdi2Q
+         S+S9B5SphkSkPSREfEAN6cZnGHKMaMdrx93D66m96RzqfRnvowll2hM+xww1tJw14YPn
+         Zpye49EW9DFL3yAcqOdvv1PrCHC3TL0l6Xy71EKSndOEN3IHDARpN8ytSquVqu/CCtw7
+         2zZZ5/U6IaqgNALqIwjbqLygdDgpTGhR5+RSfvrMdVyJewCtehzKuHgChLJVwYRM3axU
+         MkVQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759200263; x=1759805063; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1759200269; x=1759805069; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lnA1OpWERzoKE32cnIpaKxgg5La3tH4sjNhDjMvl/tQ=;
-        b=a16Zu5NAnLKDZqkQFaUk5G2fjeDpCr40pf4QzomCHYcaCwZMp8C+fj7ujsfqCqjOrF
-         QQUDjMJT6eJLMR1z3+j5714DHDOA5euoSyzai4f8ebfY8nVOiGqazYwNEa4Gk0c+Z7TC
-         9D7/oQPwbwOg7z6zTVjso2xPrLkzsBBfPjf7dBuUmzDogfn1Js4nr7Jb9SqpvEwH20zv
-         9cNl9Z7ND/+yXx/j+0Hpgc1rNQ5anYK2Xe8zoFkWyhxZuQ0is4BVR8cY/kiHKq2TvQIb
-         FWnQLj5S1pYVVgcmyB6+eQLrsj0bIP2jDjrKT5CDd+ttEBlIB7Poc6ImDZAkLdDoCUyG
-         c7FA==
+        bh=elhbBXskcQTCud3K7aq3BZESNUBnqLMSxgw7ivbFa24=;
+        b=P1+2U0gBe1Kt/PvJRCVlUL80T8qCZ+U+/hgiCUNCZWi7HurJbxnnGwTL/rREtbn2ct
+         H5TDj9L4EEcuDfLvnW23kmG5K8LDL9TEPhx706xoFMjtlexdzdKiPkhi+60hyJZ3M+97
+         OSU/r0c9Jg9BKoy6XBM0UNV1o0AGb08a4aEniGlIRDo43TDucklVn+C3DamjLLdYiq1I
+         AoGEI7z+XWVbdBJ2KVhTuyeBedmDDLFuXye+P7h7X5EwtgLIVhxL0i4VlPu8pGuAlm0t
+         SmFGD9WRDX1/U0bQhcpbsAg4JwyLHi6YVVgJNN79DdA6MdZ6wQkZsFf3gggTiYVjC6LG
+         DxyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759200263; x=1759805063;
+        d=1e100.net; s=20230601; t=1759200269; x=1759805069;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lnA1OpWERzoKE32cnIpaKxgg5La3tH4sjNhDjMvl/tQ=;
-        b=dPInXbqH8LL1Zc93+mQarcIDKP6yijp29fcWVwDW3bGxJyjM2jdrGPSDnV78m2SYWZ
-         RZfnaMSiZEE72WczBJhytE5wyO3dh4Dohb4Q3SQKSyZXYEe/dGys7WWuN8zY5fUq4+7n
-         gpPw6FnrJ/8Sa7aED8nn0PduL2NdK6HRHcB8dMMfDoFN09m1qmyMxxgvSJc40tVkSHgf
-         1/JXLL80saYzjA9D/D2lvBZr5X+ZfwiKUPPF0eDFzfQtesD+43tG6hLT/r5ZlNROQ/A+
-         U5vu1NFB3jjhAFwkxnBJldvP6RSr6DOusfLuC5eFF9ezr017ka7NgewxT7rmaR+I92WN
-         fydQ==
+        bh=elhbBXskcQTCud3K7aq3BZESNUBnqLMSxgw7ivbFa24=;
+        b=ec/JN5vRy+nfuh0Xmvo5AbbVnyXjVy5ukFJi1S6TtXUrh/eTcEPomNDqrvlhYppb2D
+         MhQ4uyJVKi61oq0SdSlkl8r3THznzyHYwQ0/ExkhP9bYxcHZJ+PtmfRUORNRHr6SdjOn
+         KoZYoZmdLRdD7J0mztgsiaHeNRMKDkAIxjgP/rZh8jaBszi+1vVVrsl/gLU4KBcA/eWx
+         u7UwKs/TgxmdFvs4yT3vBEHs3U4C1yrgsPqkxULTAX6a7gzRFnEojJ6dBwqbV4Ggy8Gy
+         RcqasBkO/cneL17EHbG6Aa1NuC0E7219lpy6CSjrXFUGVgCnBInUunbjAaNk7X+u7ZmM
+         rKeg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXFEMtK9dFfNFSNg1olge2//TzsSGh6oy7m+Z57K5RnFNp8NpMzKpr4ahALA35JQgMoGiSl1w==@lfdr.de
-X-Gm-Message-State: AOJu0YzALhhFZ7PFDL+chQT4AguQ8m95Sd9cKECHCLjYMooHZhA212u8
-	4WSjfgxb5gWsQDi2YeEP5gBh/4DSXulb9M0/ws6nHSbTciMKI72w2Qug
-X-Google-Smtp-Source: AGHT+IGUtxt5epFjUyxMq9nd9dZK3fIpSxycsAFlkX33EX2Dytq6oo40iEgKw1PHjrktJFvT3E++uA==
-X-Received: by 2002:a05:6214:ca9:b0:78f:2ee8:cf41 with SMTP id 6a1803df08f44-7fc25dedf53mr255043666d6.10.1759200263383;
-        Mon, 29 Sep 2025 19:44:23 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd7aX/zHsneM9dwDiM5fCQMi7tniiNV7ou7xXijSeoBeRQ=="
-Received: by 2002:a0c:fb05:0:b0:70d:bc98:89ea with SMTP id 6a1803df08f44-7fd82a4efc0ls101130446d6.2.-pod-prod-09-us;
- Mon, 29 Sep 2025 19:44:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXIDcARyo4c83MocYzE2/bKK5DOHDNy/XLymeC5E8pES5dxE0VLYo5vldloCHm2QsqAkf1aenHS6Zk=@googlegroups.com
-X-Received: by 2002:a05:6122:1d0e:b0:544:79bd:f937 with SMTP id 71dfb90a1353d-5509a620bddmr94016e0c.15.1759200262545;
-        Mon, 29 Sep 2025 19:44:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1759200262; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCX/UKHqUIR7PleHaDbo1VWEj10QECpJnEAwISJSOUFmLLsBoA09EnwLKdia7UTPGNg3Tvgbug==@lfdr.de
+X-Gm-Message-State: AOJu0YwSzGp/Tp6ynMjcvhGdszrojpeBml/in+gmn6wRLQ1EgeGaRYe0
+	9V1Uhay7ov52to9UfrEsLFlqYWfRH5eIX2Tndn8dG+HFlYJCQBqiegUe
+X-Google-Smtp-Source: AGHT+IGyuXnKG9OcWXZknW0W9CSgrfucLcYb+o2K9+8Kv0fZz7aiHN+f5qniRN8q6bjXCDJInvz1EA==
+X-Received: by 2002:a92:c0c4:0:b0:424:85b0:e1cb with SMTP id e9e14a558f8ab-42595644bb7mr56729505ab.31.1759200269287;
+        Mon, 29 Sep 2025 19:44:29 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd6+yZRKwJnjr0GdN0CsvWhFdxo7s04Yg09i1OCYpy4wxg=="
+Received: by 2002:a92:c6cc:0:b0:426:c373:25d9 with SMTP id e9e14a558f8ab-426c3732a02ls38991065ab.2.-pod-prod-05-us;
+ Mon, 29 Sep 2025 19:44:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWW9Q0b32AXn/QBT2mBjqVw4e7v0z8ekv7EtXhQ4yih7kqNoojT3o/3BXn4+mj2308YdJkGlt9lXN4=@googlegroups.com
+X-Received: by 2002:a05:6602:6d04:b0:8f9:a50a:ff16 with SMTP id ca18e2360f4ac-929a79332c3mr871636839f.6.1759200268351;
+        Mon, 29 Sep 2025 19:44:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1759200268; cv=none;
         d=google.com; s=arc-20240605;
-        b=aiOOjg26oCoNSyr5JAlZQB39m7AhuZ/VpIOiZScVImezNPEMGvXVKCtViCWOJjXdD5
-         MovA0MoTuwhJzOJysq5gmbRC2RsheGNjz7j5h2pGQl2EgUxyIa/fusipBNNQfz2sCQcl
-         5RVTv90fQ4bIjj1MFVP0/l9D010GNB5Am/ewKN0V6FTPwkeTbwE3+VCwijkVs7hYu7D9
-         LKJlg3rSltA/6AdZHIa2Q6aLk7R+YlWX6d2LFHiOeZBTWZCB6o3iLgv2ivfu+t9L8G70
-         um93tGDuch58q/EILcy9SgS1DQuGba+BJ5unCLSV6Db0yP0rcUEjhbmx6lGm1/onp0BM
-         Tdsw==
+        b=MB/xlVkKjLlskKJKB6fxfS2PP8BJGWbihbsAb7F6FhwFT/rdFuvzqFJjil78RPUqxY
+         OPgXkxJYcdOtsxlJ4ZAq27vneiRDmxzM5F67W5vt47jEyFqZ2g+jqZ2rCnh+iEce+jO/
+         q+/DCvFIgbYjfI37OVNT+8m1C59hyYJcB+zKWtXSZAnYFBMw38RNcBusQ0Fw74l6JCiK
+         NNZ+YKMQo5mHNWF+lz+28tcwZv2/+s5LPJltPvj37WCgYDJEcmpM9vUY4pJh2tS3ex3o
+         YR6U/1VnSR3QsOLcTSjVPJg/sgSCvwKiY2NUMckuJhxGP9TNJ7cuqiuo/mXPH0ZAODNl
+         +31w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=kk8QwiK6ueKhbPm+iybiDp/pMjWX1cNh1XEGnvIxiQI=;
-        fh=QKCpOxNMmUxld7paDcOxlzT0aDR+6KLjboTqYz68cFA=;
-        b=HZ3Ife2vtfu342AiV2RKNHsN7UFx4xsX0H7TlfpVL9G+TDWEJObRGjtIMhu2Kh3ILH
-         It4EseCnLZPYZEbxE8dh4fuUe/FK0Ib0BOUWCA1RsgojVXs95kSgi7V2DPe93/Tb7g3j
-         CNBwxcJ1PXzCosLYxCRM2WWXU8DAtml51DOMlmUbJWbVHaPVLHYazCrO7l1HvHuP7NeS
-         HEswbzxzCou98+8T2mOn6R8R58ny6n8+YWTnahxjOJtnUlzLwy01DS8ey7JxTA+QTznx
-         Y30xN09fEsJbejNuPlCJJy83iJv3UqT1OHf5WhkOn/FdCgKwRg26Dc4OTWUJsbthjrve
-         GQqQ==;
+        bh=bd/jIJYyk1G6SYf0mNQVLBMDX4oiGoErfqkyMXn4+LQ=;
+        fh=w1d7N+myGnoTnqBggO9/xVzx9HjzrbPreXoCuqUv5BM=;
+        b=G2p+FPqOKPqxl9ORd/gJRfOQVmjLr/htSdec6AolpHcsvDOkqqKBiPe7KreeMBvrI8
+         xmhItuticC8DcUYX1t+PQtxoAPr95/YjOAX9wqcRW72Fw6UhTgaGv/2lQZZxyI79jOZd
+         epl6klzCFBMSmUX/iBTlf8fueH1e0DJZFTEenMC5JiEqcyWflmtVC2NDwpYrbCVXSBuI
+         e7G7HbkKvlaPC69BPhRrC8SB67I4259s77RlSDkCw6XjsmYzNm3+es91Dp7+c4hcY0d+
+         0iwYR29PCXZSIFKD2YVs0hys8aWzSI18qxsRjnhruowvt20sRx7juTP/K6MHqPwmP7SN
+         ShUA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=MEask2kh;
-       spf=pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=NIvyT57B;
+       spf=pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::530 as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com. [2607:f8b0:4864:20::431])
-        by gmr-mx.google.com with ESMTPS id 71dfb90a1353d-54beddd78cdsi538136e0c.5.2025.09.29.19.44.22
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com. [2607:f8b0:4864:20::530])
+        by gmr-mx.google.com with ESMTPS id ca18e2360f4ac-9040a31f0d2si60128939f.3.2025.09.29.19.44.28
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Sep 2025 19:44:22 -0700 (PDT)
-Received-SPF: pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::431 as permitted sender) client-ip=2607:f8b0:4864:20::431;
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-7835321bc98so2473452b3a.2
-        for <kasan-dev@googlegroups.com>; Mon, 29 Sep 2025 19:44:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXeLi4QX36VEszAu3k2IuS8LrOEKRl8nnsX3sVqWjmHNrrdaLVEauA/LmsV2vRGrn8rXvA4vKqwGkU=@googlegroups.com
-X-Gm-Gg: ASbGncs6t2jCJQV4V1F1ENyBnTBLGUyybHUAE682wLf6/M/Ait9Uj5RpMXXTdC426u/
-	cMrIVA/jl1PL1ZVp4pKsYMqbss7wq9tIRbICjTUYbWQfOmSMUZuUXwrkr059iN+vwUNow9MWDpl
-	0dh4QutvG+wqDeR2q0x/2abcrE/efEfFXXF7p8xCizVkv7TZpjHShz00nq5uvDzJJ3XXc9JQG/5
-	b9Xmmg8pZGdYn6WeygaA3D21CIhCO2D/OXxYOgInwYU8EoBsVCY+VOrjodKstyw5YlTli30HQJn
-	JzFDhh1fHiUfnrGOQQXDCFoQTPC8S9ibEdfop+eZC47NN/VCcqSwpO8ct1WkEU+tGW0JP+BrVPT
-	mjBvc1J/voC48Wfpe5OHgkLztNh8Ucx3CDEwr5qI6ddL3IEtfLCwS5s1wkqzPwK/2bhtF5Xxpo1
-	Wf
-X-Received: by 2002:a05:6a20:e29:b0:2ea:41f1:d53a with SMTP id adf61e73a8af0-2ea41f1d8femr15753456637.41.1759200261084;
-        Mon, 29 Sep 2025 19:44:21 -0700 (PDT)
+        Mon, 29 Sep 2025 19:44:28 -0700 (PDT)
+Received-SPF: pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::530 as permitted sender) client-ip=2607:f8b0:4864:20::530;
+Received: by mail-pg1-x530.google.com with SMTP id 41be03b00d2f7-b57bf560703so4017927a12.2
+        for <kasan-dev@googlegroups.com>; Mon, 29 Sep 2025 19:44:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUcRGgW5NpjDrEQ6xlPdfwyRvvGlTnWHonRO97b4WhHgezVfNzCXQjk3qMh4ZKRE1nT/xwQ/h64yGk=@googlegroups.com
+X-Gm-Gg: ASbGnct/S/Qw7uEHnocLBCG+/XfvGDJUtYvQTksM7Zp8Zwj8nYEcjnpe0mzMwneKNxE
+	dZTvwVM7aZ3z1ULlE87zxecWK0ME+0pSJMjeXrnGkkqQt/pcjQstsffPPguF3c8+DIMQv3rXmTF
+	Eqm0NwYkBPSba4JequjMw3jBX+5kwaZbFIbZ0aUgf/J09pHBiF3d529izI/KlGEngZmAobpDArw
+	Gtshry1aRUci7z+YuN/KqvYEJGs2Y2xZh+e8ZVeV/wQ7CF5zxJpPwXaPvFXDBjJ1ZK1Qc63ZV55
+	BPgNc6kb8Zqlpsa0Urhth5qEEH0BNsWe2Z+8I5nEpH2c7T/i1w2l8hBWuGW+HuoEqWfsVr/6ueS
+	DF8/L9J39kyUXsYqmrSxYOHpU3QgZgXtmJNrkGDTkXvcBWbw8huyfd6SXLnQfRS5dh+2jadk4Ki
+	N9
+X-Received: by 2002:a17:903:a8b:b0:27d:339c:4b0 with SMTP id d9443c01a7336-27ed4aa57f1mr154617195ad.35.1759200267317;
+        Mon, 29 Sep 2025 19:44:27 -0700 (PDT)
 Received: from localhost ([45.142.167.196])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b57c55a0ef3sm12386161a12.37.2025.09.29.19.44.20
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed66d43b8sm144778285ad.9.2025.09.29.19.44.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Sep 2025 19:44:20 -0700 (PDT)
+        Mon, 29 Sep 2025 19:44:26 -0700 (PDT)
 From: Jinchao Wang <wangjinchao600@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
@@ -201,18 +201,18 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	linux-trace-kernel@vger.kernel.org
 Cc: Jinchao Wang <wangjinchao600@gmail.com>
-Subject: [PATCH v6 01/23] x86/hw_breakpoint: Unify breakpoint install/uninstall
-Date: Tue, 30 Sep 2025 10:43:22 +0800
-Message-ID: <20250930024402.1043776-2-wangjinchao600@gmail.com>
+Subject: [PATCH v6 02/23] x86/hw_breakpoint: Add arch_reinstall_hw_breakpoint
+Date: Tue, 30 Sep 2025 10:43:23 +0800
+Message-ID: <20250930024402.1043776-3-wangjinchao600@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250930024402.1043776-1-wangjinchao600@gmail.com>
 References: <20250930024402.1043776-1-wangjinchao600@gmail.com>
 MIME-Version: 1.0
 X-Original-Sender: wangjinchao600@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=MEask2kh;       spf=pass
+ header.i=@gmail.com header.s=20230601 header.b=NIvyT57B;       spf=pass
  (google.com: domain of wangjinchao600@gmail.com designates
- 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
+ 2607:f8b0:4864:20::530 as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
@@ -228,237 +228,68 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Consolidate breakpoint management to reduce code duplication.
-The diffstat was misleading, so the stripped code size is compared instead.
-After refactoring, it is reduced from 11976 bytes to 11448 bytes on my
-x86_64 system built with clang.
-
-This also makes it easier to introduce arch_reinstall_hw_breakpoint().
-
-In addition, including linux/types.h to fix a missing build dependency.
+The new arch_reinstall_hw_breakpoint() function can be used in an
+atomic context, unlike the more expensive free and re-allocation path.
+This allows callers to efficiently re-establish an existing breakpoint.
 
 Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
 Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
 ---
- arch/x86/include/asm/hw_breakpoint.h |   6 ++
- arch/x86/kernel/hw_breakpoint.c      | 141 +++++++++++++++------------
- 2 files changed, 84 insertions(+), 63 deletions(-)
+ arch/x86/include/asm/hw_breakpoint.h | 2 ++
+ arch/x86/kernel/hw_breakpoint.c      | 9 +++++++++
+ 2 files changed, 11 insertions(+)
 
 diff --git a/arch/x86/include/asm/hw_breakpoint.h b/arch/x86/include/asm/hw_breakpoint.h
-index 0bc931cd0698..aa6adac6c3a2 100644
+index aa6adac6c3a2..c22cc4e87fc5 100644
 --- a/arch/x86/include/asm/hw_breakpoint.h
 +++ b/arch/x86/include/asm/hw_breakpoint.h
-@@ -5,6 +5,7 @@
- #include <uapi/asm/hw_breakpoint.h>
+@@ -21,6 +21,7 @@ struct arch_hw_breakpoint {
  
- #define	__ARCH_HW_BREAKPOINT_H
-+#include <linux/types.h>
- 
- /*
-  * The name should probably be something dealt in
-@@ -18,6 +19,11 @@ struct arch_hw_breakpoint {
- 	u8		type;
+ enum bp_slot_action {
+ 	BP_SLOT_ACTION_INSTALL,
++	BP_SLOT_ACTION_REINSTALL,
+ 	BP_SLOT_ACTION_UNINSTALL,
  };
  
-+enum bp_slot_action {
-+	BP_SLOT_ACTION_INSTALL,
-+	BP_SLOT_ACTION_UNINSTALL,
-+};
-+
- #include <linux/kdebug.h>
- #include <linux/percpu.h>
- #include <linux/list.h>
+@@ -65,6 +66,7 @@ extern int hw_breakpoint_exceptions_notify(struct notifier_block *unused,
+ 
+ 
+ int arch_install_hw_breakpoint(struct perf_event *bp);
++int arch_reinstall_hw_breakpoint(struct perf_event *bp);
+ void arch_uninstall_hw_breakpoint(struct perf_event *bp);
+ void hw_breakpoint_pmu_read(struct perf_event *bp);
+ void hw_breakpoint_pmu_unthrottle(struct perf_event *bp);
 diff --git a/arch/x86/kernel/hw_breakpoint.c b/arch/x86/kernel/hw_breakpoint.c
-index b01644c949b2..3658ace4bd8d 100644
+index 3658ace4bd8d..29c9369264d4 100644
 --- a/arch/x86/kernel/hw_breakpoint.c
 +++ b/arch/x86/kernel/hw_breakpoint.c
-@@ -48,7 +48,6 @@ static DEFINE_PER_CPU(unsigned long, cpu_debugreg[HBP_NUM]);
-  */
- static DEFINE_PER_CPU(struct perf_event *, bp_per_reg[HBP_NUM]);
- 
--
- static inline unsigned long
- __encode_dr7(int drnum, unsigned int len, unsigned int type)
- {
-@@ -85,96 +84,112 @@ int decode_dr7(unsigned long dr7, int bpnum, unsigned *len, unsigned *type)
- }
- 
- /*
-- * Install a perf counter breakpoint.
-- *
-- * We seek a free debug address register and use it for this
-- * breakpoint. Eventually we enable it in the debug control register.
-- *
-- * Atomic: we hold the counter->ctx->lock and we only handle variables
-- * and registers local to this cpu.
-+ * We seek a slot and change it or keep it based on the action.
-+ * Returns slot number on success, negative error on failure.
-+ * Must be called with IRQs disabled.
-  */
--int arch_install_hw_breakpoint(struct perf_event *bp)
-+static int manage_bp_slot(struct perf_event *bp, enum bp_slot_action action)
- {
--	struct arch_hw_breakpoint *info = counter_arch_bp(bp);
--	unsigned long *dr7;
--	int i;
--
--	lockdep_assert_irqs_disabled();
-+	struct perf_event *old_bp;
-+	struct perf_event *new_bp;
-+	int slot;
-+
-+	switch (action) {
-+	case BP_SLOT_ACTION_INSTALL:
-+		old_bp = NULL;
+@@ -99,6 +99,10 @@ static int manage_bp_slot(struct perf_event *bp, enum bp_slot_action action)
+ 		old_bp = NULL;
+ 		new_bp = bp;
+ 		break;
++	case BP_SLOT_ACTION_REINSTALL:
++		old_bp = bp;
 +		new_bp = bp;
 +		break;
-+	case BP_SLOT_ACTION_UNINSTALL:
-+		old_bp = bp;
-+		new_bp = NULL;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
- 
--	for (i = 0; i < HBP_NUM; i++) {
--		struct perf_event **slot = this_cpu_ptr(&bp_per_reg[i]);
-+	for (slot = 0; slot < HBP_NUM; slot++) {
-+		struct perf_event **curr = this_cpu_ptr(&bp_per_reg[slot]);
- 
--		if (!*slot) {
--			*slot = bp;
--			break;
-+		if (*curr == old_bp) {
-+			*curr = new_bp;
-+			return slot;
- 		}
- 	}
- 
--	if (WARN_ONCE(i == HBP_NUM, "Can't find any breakpoint slot"))
--		return -EBUSY;
-+	if (old_bp) {
-+		WARN_ONCE(1, "Can't find matching breakpoint slot");
-+		return -EINVAL;
-+	}
-+
-+	WARN_ONCE(1, "No free breakpoint slots");
-+	return -EBUSY;
-+}
-+
-+static void setup_hwbp(struct arch_hw_breakpoint *info, int slot, bool enable)
-+{
-+	unsigned long dr7;
- 
--	set_debugreg(info->address, i);
--	__this_cpu_write(cpu_debugreg[i], info->address);
-+	set_debugreg(info->address, slot);
-+	__this_cpu_write(cpu_debugreg[slot], info->address);
- 
--	dr7 = this_cpu_ptr(&cpu_dr7);
--	*dr7 |= encode_dr7(i, info->len, info->type);
-+	dr7 = this_cpu_read(cpu_dr7);
-+	if (enable)
-+		dr7 |= encode_dr7(slot, info->len, info->type);
-+	else
-+		dr7 &= ~__encode_dr7(slot, info->len, info->type);
- 
- 	/*
--	 * Ensure we first write cpu_dr7 before we set the DR7 register.
--	 * This ensures an NMI never see cpu_dr7 0 when DR7 is not.
-+	 * Enabling:
-+	 *   Ensure we first write cpu_dr7 before we set the DR7 register.
-+	 *   This ensures an NMI never see cpu_dr7 0 when DR7 is not.
- 	 */
-+	if (enable)
-+		this_cpu_write(cpu_dr7, dr7);
-+
- 	barrier();
- 
--	set_debugreg(*dr7, 7);
-+	set_debugreg(dr7, 7);
-+
- 	if (info->mask)
--		amd_set_dr_addr_mask(info->mask, i);
-+		amd_set_dr_addr_mask(enable ? info->mask : 0, slot);
- 
--	return 0;
-+	/*
-+	 * Disabling:
-+	 *   Ensure the write to cpu_dr7 is after we've set the DR7 register.
-+	 *   This ensures an NMI never see cpu_dr7 0 when DR7 is not.
-+	 */
-+	if (!enable)
-+		this_cpu_write(cpu_dr7, dr7);
+ 	case BP_SLOT_ACTION_UNINSTALL:
+ 		old_bp = bp;
+ 		new_bp = NULL;
+@@ -187,6 +191,11 @@ int arch_install_hw_breakpoint(struct perf_event *bp)
+ 	return arch_manage_bp(bp, BP_SLOT_ACTION_INSTALL);
  }
  
- /*
-- * Uninstall the breakpoint contained in the given counter.
-- *
-- * First we search the debug address register it uses and then we disable
-- * it.
-- *
-- * Atomic: we hold the counter->ctx->lock and we only handle variables
-- * and registers local to this cpu.
-+ * find suitable breakpoint slot and set it up based on the action
-  */
--void arch_uninstall_hw_breakpoint(struct perf_event *bp)
-+static int arch_manage_bp(struct perf_event *bp, enum bp_slot_action action)
++int arch_reinstall_hw_breakpoint(struct perf_event *bp)
++{
++	return arch_manage_bp(bp, BP_SLOT_ACTION_REINSTALL);
++}
++
+ void arch_uninstall_hw_breakpoint(struct perf_event *bp)
  {
--	struct arch_hw_breakpoint *info = counter_arch_bp(bp);
--	unsigned long dr7;
--	int i;
-+	struct arch_hw_breakpoint *info;
-+	int slot;
- 
- 	lockdep_assert_irqs_disabled();
- 
--	for (i = 0; i < HBP_NUM; i++) {
--		struct perf_event **slot = this_cpu_ptr(&bp_per_reg[i]);
--
--		if (*slot == bp) {
--			*slot = NULL;
--			break;
--		}
--	}
--
--	if (WARN_ONCE(i == HBP_NUM, "Can't find any breakpoint slot"))
--		return;
-+	slot = manage_bp_slot(bp, action);
-+	if (slot < 0)
-+		return slot;
- 
--	dr7 = this_cpu_read(cpu_dr7);
--	dr7 &= ~__encode_dr7(i, info->len, info->type);
-+	info = counter_arch_bp(bp);
-+	setup_hwbp(info, slot, action != BP_SLOT_ACTION_UNINSTALL);
- 
--	set_debugreg(dr7, 7);
--	if (info->mask)
--		amd_set_dr_addr_mask(0, i);
-+	return 0;
-+}
- 
--	/*
--	 * Ensure the write to cpu_dr7 is after we've set the DR7 register.
--	 * This ensures an NMI never see cpu_dr7 0 when DR7 is not.
--	 */
--	barrier();
-+int arch_install_hw_breakpoint(struct perf_event *bp)
-+{
-+	return arch_manage_bp(bp, BP_SLOT_ACTION_INSTALL);
-+}
- 
--	this_cpu_write(cpu_dr7, dr7);
-+void arch_uninstall_hw_breakpoint(struct perf_event *bp)
-+{
-+	arch_manage_bp(bp, BP_SLOT_ACTION_UNINSTALL);
- }
- 
- static int arch_bp_generic_len(int x86_len)
+ 	arch_manage_bp(bp, BP_SLOT_ACTION_UNINSTALL);
 -- 
 2.43.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250930024402.1043776-2-wangjinchao600%40gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250930024402.1043776-3-wangjinchao600%40gmail.com.
