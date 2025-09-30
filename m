@@ -1,154 +1,221 @@
-Return-Path: <kasan-dev+bncBC76POFLYULBBSM25PDAMGQEBOKNWOA@googlegroups.com>
+Return-Path: <kasan-dev+bncBD53XBUFWQDBBA4I5XDAMGQE7FHGTAQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x440.google.com (mail-pf1-x440.google.com [IPv6:2607:f8b0:4864:20::440])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF494BAA44D
-	for <lists+kasan-dev@lfdr.de>; Mon, 29 Sep 2025 20:17:48 +0200 (CEST)
-Received: by mail-pf1-x440.google.com with SMTP id d2e1a72fcca58-78104c8c8ddsf4134241b3a.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 29 Sep 2025 11:17:48 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1759169866; cv=pass;
+Received: from mail-qv1-xf3e.google.com (mail-qv1-xf3e.google.com [IPv6:2607:f8b0:4864:20::f3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id D97B1BAB090
+	for <lists+kasan-dev@lfdr.de>; Tue, 30 Sep 2025 04:44:20 +0200 (CEST)
+Received: by mail-qv1-xf3e.google.com with SMTP id 6a1803df08f44-78e30eaca8esf152623666d6.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 29 Sep 2025 19:44:20 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1759200259; cv=pass;
         d=google.com; s=arc-20240605;
-        b=MJyV6LjHVAsSJ6rJl7j4f4FoegDNpQKpkaOBul/WHw7oOhxfCWFAPlo9yuUukE0A5A
-         zOv8MTudb5OtD0DyMCma79rMBqMIqK3rEhRZ5rqKoNymtRvqKOjaPXFkBnN/4F7UKzow
-         zrE3CbDPpO4m0KK+qdRvTUjoa1hwfcYfgpG1BBUymHvVvwOjmXGME1Qw147dEu3vV8+W
-         DfT+mc2zqbx5hNDWcZRBHXeL5Mq7B5xoHF+f5iJ/OL+eEE9DWBkE/n3InFu0GRcQSh7u
-         vuYJvX3s5CSginvS4rD1ORQVpD2ITqFnCfqqtYBDkbsqUnrOvkVO3SaGd+8JPaitXj59
-         XbXw==
+        b=lCEJBt9o3IKevktHDPDYoJeWPC1ZcPH9L6mPfKdvhv2gBmI2RoNxmGTzxpl/bdlXFT
+         38zPuBDM70tulk1pxV/DVH49XdDSyduJjthH6iWnbbxphLW31rQ+Wxxm1Fje0hSTmIgq
+         AxJS3Nc1Lpv3X/ZEksgQELPFp7nJt7DB8JRqPO0QdtY/O+7Uf8SK3RUqo/ehsZ0C3iWE
+         qq/9r6D6wQO6c7TYPGI2b4M3tSQorK2oM1Z/ilADHYGt+vlFCd8IZ25Ag/gtDgHH60Ez
+         QbHr5lDCw/Sto5eStm88naHOO2dIS7/w1t/t/0g0Zki9HBjUO7SwgPxE59eAyAyXMciI
+         z3dA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=6quh/obVwV4f9vaH7GFDZ4JSsEIdc9ZfPXuAFRLORDk=;
-        fh=r7zhd+Dwq4Y2tstrfc8VHtsVNSZV4MmQ5T4VBy16M0o=;
-        b=DKT93WNU+k834OUOmZqNQdIw3TTBleyWNzFOjT93jPGW1Hq2W2ufB0YO5WWp+msASH
-         S6Zn1CdmHG1gVkKff9g2XHvj6NvZikoyU3g/dXY0Y4v0e7rDV3oC/hdoKfTKK72WQV7T
-         7Vpcz/mLb56qHCw/FwhEVCLPkW+SkQOtSkxHJ0MFZrt2kHTghYRb2rUUk8SRAumRxWEc
-         BiHoiFfeNuoW/UV/TOJOe7aAOHvczV/ImGAFyXofxP9kamuxIkTN8QxSLaq3l+ivFhEm
-         yn61BDINSB+1mPshHGWGXZ9Ohd0tKmbumFlEY2zS4mr0fmbVGamtSzxfOI28Pn1xDIlI
-         Rw+A==;
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :mime-version:message-id:date:subject:cc:to:from:sender
+         :dkim-signature:dkim-signature;
+        bh=qIViZbSRnccfASyUX/gK/MO3riGcxk+NPrBOJ5Ujd6Q=;
+        fh=IIvybftLySNO+UI/kAxM4rCYlt4G3JPKROITrMheqCs=;
+        b=HIoqProBKuWhVi2rv1q0Mo9Vy+xQDZiMw9ztChTICwQ2WdDrmhp3Z4xhZtcH7AikLt
+         3AriWqqfT5iuecLnevg0UQcA3P5QQ9njy3kzivjvbs2BbBsM0MgioYPklHgIe3QrXAY1
+         WNjtJ2nVo9mUbXtqCNwP8kjYjji38nAOSHF+3+XFXiX2ijdvXpu3ggvO9wt4BMAmkILn
+         UVUBlaG+7HOBqKQc7RwlQ3nIPvsLMVOSUKoAr2KD8Z2oBBkh7ozSafIqVx5mzOI4FOv1
+         l66+4eFKoBCxlD+pEU9MuFj0AztID+DCoXu4T8qEbQW1G8vu05Ux0bSF/mOJICMXxQyW
+         OMCw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="iSHp/qgY";
-       spf=pass (google.com: domain of chrisl@kernel.org designates 172.105.4.254 as permitted sender) smtp.mailfrom=chrisl@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=H6xOnB1w;
+       spf=pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::52d as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1759169866; x=1759774666; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1759200259; x=1759805059; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6quh/obVwV4f9vaH7GFDZ4JSsEIdc9ZfPXuAFRLORDk=;
-        b=DYNkCM9hf3u87HRPIjDWWMLhz/CMNBF9Km/KCtDWUXGSTQjtEpkebGePsOolbPTuDZ
-         qq1LtcSlKGYCqrILi924TaEMAIpYM02gXQXjOJoQEVaIC2C2a/vyHnJ6faEGvjWBME9P
-         RuKFED9SZ09/lizdRPQn/a5Kkr+flhzDizSLtIftkDyj9jdsMqYjxOkN3KwuUhr1p6tJ
-         PJIeM5Z+fc8zGbqyIRMHaJJ9lTvOlqCz3CbC4yw3SEZ/nrB8T4WjlhFpQ7pc3A4YfNJw
-         7d8s/7vLEFkNSfS4BqAa5PYOpLgGx9yTdoWMrdlu1YSTylTtUDTj+AA/zfUhZ2jQFxGp
-         3cHg==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:mime-version:message-id
+         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qIViZbSRnccfASyUX/gK/MO3riGcxk+NPrBOJ5Ujd6Q=;
+        b=NodxCD/gHqkpzLxN2yU55AHG2hzvRbZG05Ism1Q/xd2licSQgT5lSETcT7XDImhdtR
+         XcDBC4QbS+5bdQ+eoItwtnGG6hbZjOcjCCLQDoNwmj+GTJ0blk/mRTxpaPI/pk68WWdL
+         ZIAlke4+CWz4iRjI80gbtQVVNtE4XagnJlPYClrQogo9WF3ovVWgjxC6NBxRkYV7ncBD
+         2k0DjY6P1fpuHt7RVHvyRKDMAWnNf6qNouKmqCHQf4eIZiW03wJXBzSk7pJweB7RJv4p
+         srqHI+fTp87Pb1O5X4s9Z9PuFUTcpsk+OcGT+nJudqWfq8Inq6gbitO4YNs4sLJsnQAI
+         kH2A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759200259; x=1759805059; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:mime-version:message-id
+         :date:subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qIViZbSRnccfASyUX/gK/MO3riGcxk+NPrBOJ5Ujd6Q=;
+        b=MgA0DqZMbF5KmI5HjcvR/RNZonuG/SVnfrDZqVJMEuwv3U8uzH8fv9VSqfAZCZxxhb
+         jBdqn2lCpPT6CySaPoBcJVf7QaizCFISNnbh+YHiX/wOuGzMqubeuPN4EFZ5xNWWkU2N
+         4IlmOaWQndBv5t7tVtAIzKIU3WucVrqfXq52CSd88DjFQNA5nYOuX5WILlJCaJAy+YB5
+         HpdxPNZM/G8XlCghs90e41mZ5+yQUKEVrw1I/tTQLJYgF6dyGwrQOXP2IJ/LckqHFtH4
+         x7Ykl95V/rbIE8aY5yTYofW1Ux2hTUZcZCRbyiIXc/UEu3mB/a9L6weeg+SDhKoyMWYW
+         8CMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759169866; x=1759774666;
+        d=1e100.net; s=20230601; t=1759200259; x=1759805059;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6quh/obVwV4f9vaH7GFDZ4JSsEIdc9ZfPXuAFRLORDk=;
-        b=f/Ms1Z3kkt+tPAefCLzvYspbxMbrvbHHOrzxcqNj5Ctp/yytJ4kzdjcpEBFbMRqlsU
-         xasIPX4B5I3xlgZUQRze2JekpmApzrFL2EmJ+fEwH3ay597nTCmtU5Cj1mgxtMR3DrKX
-         hlnueA1yi6p61VtglKaOzvLNFJNfU+mMif/N5VkxKka/Cd+jDiKthXKa9Hr3UPfroYyE
-         IpuoVinzS9iv+dEuvRheYfwkTysABk9no4hY2Yxix5Nb2+Rpf3hXsQ+BD7xxbDpcm9qX
-         eRyflcg8vYyBtWTIUZK7qQS6ArTXVjLNDrv9pAcqf0lyJ85rL09I7J/ZI31+XQBhvWxH
-         LzVw==
-X-Forwarded-Encrypted: i=2; AJvYcCXUz4lgpoHXC78h9+suegBZsdSSYv2or/SXwP+n/KxvrbNOJNs4K9yscCN8nbO4d2NbsCFTLw==@lfdr.de
-X-Gm-Message-State: AOJu0Yy+iVtc2nj258xcae52PhEu+mY1gwOX3JoFGcSCLJ1/YAGABAtA
-	azGbq2bAGtTF+C5gojhEgfMIpN8SDGvDwzdStj1inY1KJ5opOCurBTXr
-X-Google-Smtp-Source: AGHT+IGL07Hf75ZY57amMKpyRq+szCtAQwcfEXQ0BQtAppQmfzkbwgmUkaIbn4LLSrU/HjGnbzZ7Nw==
-X-Received: by 2002:a05:6a21:3b8a:b0:2f4:a8f:728f with SMTP id adf61e73a8af0-2f40a8f74c7mr15074479637.29.1759169866153;
-        Mon, 29 Sep 2025 11:17:46 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd77KXF2pMKLKVlaJ5V3k+QHhWuUkB5ANHIQpAeSxudeVg=="
-Received: by 2002:aa7:9d1a:0:b0:77e:ce3:c5cf with SMTP id d2e1a72fcca58-780fee348e6ls3584444b3a.2.-pod-prod-07-us;
- Mon, 29 Sep 2025 11:17:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXUljJCPCNCOVIGbm81RLvjlt4+noMnnyhqrGW4bovAXPJ2gX+c/yMflBLL8WFR1FLWxcQKMde63gA=@googlegroups.com
-X-Received: by 2002:a05:6a00:2342:b0:781:171c:54cf with SMTP id d2e1a72fcca58-781171c58demr11978029b3a.1.1759169864719;
-        Mon, 29 Sep 2025 11:17:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1759169864; cv=none;
+         :content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-beenthere:x-gm-message-state:sender:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=qIViZbSRnccfASyUX/gK/MO3riGcxk+NPrBOJ5Ujd6Q=;
+        b=K+kUk37Z5rm6cqQ8KHF/LU/S/BPq1uizv1QYWvypfymth1teZ6Thbg3ePV/6M5HPsZ
+         9wTEi4rwoe7WRvRIYFk+mcx3lKkXbWcHQaV62FAq1Dk1OGn0bP7u/98rn20QIaZcjWda
+         2wLi+cqrygOxBz31gz1leXDAqoXJ1tk0BOtTaicNW0xCrtJiEN/HsKAvc3Riv5BF3GUK
+         mmlkiefXZN35epvgdHUysRyJh1gSyBlFJFGDTqU0Y++lhy2zo4P7vpXtEJP9l8sU2aym
+         WTbtAY2v81uuOG3zBDDw9uwweAyUR60SUkCLz6+yPnAU5cSwY/BeP3i6cU/LoJn3h7Q1
+         DWOw==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCUeu9R5qtaAHInrdqfhRhmiPCEmoiAPgLk95VHgo8VdA9FNumuwDC5TQug6aY1VDjx3ltVxdw==@lfdr.de
+X-Gm-Message-State: AOJu0Yz5/16mzZfArwyM2FlhXKwokpJlz7qvahJAu0CKwM/rsee6F3D3
+	6esNAa0qcOvrNzk1qwc6jsB4pfwhYCEZtCx9KXhMAJm2/YEU3JIWAFQh
+X-Google-Smtp-Source: AGHT+IEpLm3FoBPuSBZKrpoD9sbspsmHBFaqjyBiMMR+UdB0OePhfGe2EJ+1hFdXVYI1W2iq7xFJcA==
+X-Received: by 2002:a05:6214:2427:b0:806:7173:3af5 with SMTP id 6a1803df08f44-80671739302mr224172006d6.55.1759200259267;
+        Mon, 29 Sep 2025 19:44:19 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd4GqHGiN2NlameewdXH2KAvC2gqUaqGke3yujr/ZyWXEg=="
+Received: by 2002:a05:6214:5549:b0:70b:acc1:ba52 with SMTP id
+ 6a1803df08f44-7fd805ef9e3ls90731946d6.2.-pod-prod-02-us; Mon, 29 Sep 2025
+ 19:44:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUlfJrFyUcbg6sim8IGKxBx9jETP2jfgxtJtV9mqz6aSvNvEx+Li2vAoCqVFwiivgTrf921buHdCE4=@googlegroups.com
+X-Received: by 2002:a05:6214:2349:b0:86c:1f66:e2eb with SMTP id 6a1803df08f44-86c1f66e430mr14773756d6.33.1759200258322;
+        Mon, 29 Sep 2025 19:44:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1759200258; cv=none;
         d=google.com; s=arc-20240605;
-        b=RTH4KzFMY64ES+tR5sRRo9g6LiaC2VNPGej59oquYv3qz2t7VxM2GQL+WwFz8AhF5N
-         zsoTGNuuhwM/o61z6X3rVdU9xgcwD61RicBDpiqz/duE2LdXoYGHJEq2FH7nzf5xQU7N
-         SyBgRwD8ai3BD9JTUTcoDCS0SM6ga0QSPAL90ywtFvs5KVw1lcwwkE0qKE3rfuXIAwxT
-         wbwZaWCQ4JC7VEvzuBqCoPfs1+GvBKplUudufBJXWhO2k2cNI5/nDmvcGRLaUoFlk9bQ
-         4+cOp/uLB6aD8VWR2rsVlQSkREmi4lcDLr3AEvn6iMhwexB39LdtEuICl+Vw2QVpKa8G
-         u3wg==
+        b=e4ULT12C6GLG94s9QtE9VM99fAVGeSmkEpd7J+/wpcGcfFcWTuk/zz5BmMSi2EcMFi
+         P9wRGWSpOMi76BeQfw+gg6HeU2IIMqq2hpdXfF51mfG4VXAQlzIi4f/+gl5+aIjRvLu3
+         x0IAOQRaTug4Fv6eyermFNCzo1YR37dssUK254WV2Uiwd39Xi1RZMb9hiR/vIuTQ7F9p
+         DNE84b+gxYJvj/ZrdwB1omFMEIC88YwrlENnkVUb5mFDQRQ41NbmZitsVQR+7pvS9rB5
+         aLWHxZfYCTuLqtnpIPK7xISxlszG257DXHrn0jVBUrKyn8Ahufpshk1nnehogSqT8lIs
+         EQEA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=rbR40gIwz1eWno2qORrORtHBF7WKzEwOSgZS9A7bK9A=;
-        fh=gXhaYtjcy0+GATm9FJ+WwhxG0byq9UeCM+m56AVcRfw=;
-        b=ihGWofM22d8rw5jAosVbafXP0O8Rjj89STQxJLNqC7yopnwjaMs8SW5UCMPaKu8FJi
-         uAOXbl9kmSWHlzPe9rT/8b7tpm8tXj4aubAB4E3+z/C0y7PxJFD/ZUpHkb4foStfzvPS
-         TY50QryHocrUgzDVrLUtkcNChcD1ZuRGPh+ahHVJKi98ZS3/F8AQNaq2YwOejYJWObOh
-         0gHkwv9YwHCuNytEfAu13pUhOZ2Sol/R5RbS0o4yybq2HwEnV6ioCorkRKyiHjNybvps
-         L5LIHKSUjuCBzuZNZ2BG3oYftvfF6va7NCUaRrhgpSZsTgsaE9dlSv8KLVlFJ5uKTIpx
-         Rg0g==;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=oBLHnI+e6tAOqeHvXlDdht1mTbtW+pSP4ewzl28Opg0=;
+        fh=XQSk26guKPnt5/3siDpedR+9lhRLQZ2OGxX8FwxARO4=;
+        b=Rhx74zNZBCIoyugOp5T9lLhho9pZFP2oww8HS9RG3K7l9MgzDEvYD8Ii9c7S3VZCyw
+         qJmDT0ksG/QiEgfo8VUNJMs7jldSHm4K4jbFKmnZqSTJqR28StA76J6VFgRWaf3T57of
+         UzfISBfaOX7d+L8T68AJlI7aionLpwr8Kd3Awhse38hIrhMEuIrzFe6MismLszVJmmAO
+         0AdSp+ANnGZWOhHvxviUz39TSBbeMtq5hmq113Hu639OtYsPAssgiI1B9DcIEfmOt4s8
+         NCmEbTw6zDwFY3u0k1M9C17Ibe1/Kc7YPSF2tnLj3SC77nTE/DbYWklq4cHE4KIPQkVT
+         zCKg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="iSHp/qgY";
-       spf=pass (google.com: domain of chrisl@kernel.org designates 172.105.4.254 as permitted sender) smtp.mailfrom=chrisl@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from tor.source.kernel.org (tor.source.kernel.org. [172.105.4.254])
-        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-781028a7830si534684b3a.3.2025.09.29.11.17.44
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=H6xOnB1w;
+       spf=pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::52d as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com. [2607:f8b0:4864:20::52d])
+        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-8015b6ea19dsi270386d6.3.2025.09.29.19.44.18
         for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Sep 2025 19:44:18 -0700 (PDT)
+Received-SPF: pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::52d as permitted sender) client-ip=2607:f8b0:4864:20::52d;
+Received: by mail-pg1-x52d.google.com with SMTP id 41be03b00d2f7-b57de3f63c8so3052024a12.3
+        for <kasan-dev@googlegroups.com>; Mon, 29 Sep 2025 19:44:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXmnjSuEok3hgehX5wzT2AYsTSNu4E2fNWgIz3vkfJP13XBISUQlnYf05836NH76zyKtUjG3TIDVKw=@googlegroups.com
+X-Gm-Gg: ASbGnctPVGPCuX+xe11ARMRycpwb3EqMoIqLmuzRAEKoTIML//9TpRxYez1ghFUyPTT
+	Mji3RZaG35gelRpCgOWEzvDKB5KXX1TwPoVstHTO97QFFqnyUPiQ5hCqXvcEiO7YT8XzYHKZ1zJ
+	juT4wbLnsJMpqYU1LkPDMO2O3ctzF8VvRtCGePWFpMecOoc1vSd6lmmofAZfkLX0dPLShob1fe9
+	cmoWVWvY+36Ip1r/YgMG2og0jHLYAhPKBHkEjqVFDsjpr536EO3bjbE+mMjI/s35zn4q/Vg5/g4
+	O5vpkrlxT6Y+bBSYqFiaxSCDjF63fM5JR6nP3x7HR7dg/p4hRKYcIQZ1ZTgc1lIVfnQBjG3DP42
+	5yw6pwam6/L3Gz4CoeVRhy0s5suSYZldY0P9XytQBMM3DZ3j0z9aAu+eEaEPELrn1WsL7W4g1pb
+	D/
+X-Received: by 2002:a17:902:c409:b0:275:f156:965c with SMTP id d9443c01a7336-27ed4ade26bmr209883395ad.52.1759200257156;
+        Mon, 29 Sep 2025 19:44:17 -0700 (PDT)
+Received: from localhost ([45.142.167.196])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed66d3acfsm146037925ad.20.2025.09.29.19.44.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Sep 2025 11:17:44 -0700 (PDT)
-Received-SPF: pass (google.com: domain of chrisl@kernel.org designates 172.105.4.254 as permitted sender) client-ip=172.105.4.254;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 98D3E626AF
-	for <kasan-dev@googlegroups.com>; Mon, 29 Sep 2025 18:17:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D9D1C19423
-	for <kasan-dev@googlegroups.com>; Mon, 29 Sep 2025 18:17:43 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-72e565bf2feso52818277b3.3
-        for <kasan-dev@googlegroups.com>; Mon, 29 Sep 2025 11:17:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUmMb0DZpDGRsx/LlCh1B+dA33U5/kzP+FmFBxt4WGuAQzcIM15YRM2ZcM8yO1w1xc69I9o9a+aKOM=@googlegroups.com
-X-Received: by 2002:a53:ea42:0:b0:63a:183:ffda with SMTP id
- 956f58d0204a3-63a01a28749mr3923965d50.26.1759169862055; Mon, 29 Sep 2025
- 11:17:42 -0700 (PDT)
+        Mon, 29 Sep 2025 19:44:16 -0700 (PDT)
+From: Jinchao Wang <wangjinchao600@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Marco Elver <elver@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	"Liang, Kan" <kan.liang@linux.intel.com>,
+	David Hildenbrand <david@redhat.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Kees Cook <kees@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Rong Xu <xur@google.com>,
+	Naveen N Rao <naveen@kernel.org>,
+	David Kaplan <david.kaplan@amd.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Jinjie Ruan <ruanjinjie@huawei.com>,
+	Nam Cao <namcao@linutronix.de>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-mm@kvack.org,
+	llvm@lists.linux.dev,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	kasan-dev@googlegroups.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-trace-kernel@vger.kernel.org
+Cc: Jinchao Wang <wangjinchao600@gmail.com>
+Subject: [PATCH v6 00/23] mm/ksw: Introduce real-time KStackWatch debugging tool
+Date: Tue, 30 Sep 2025 10:43:21 +0800
+Message-ID: <20250930024402.1043776-1-wangjinchao600@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20250927080635.1502997-1-jianyungao89@gmail.com>
-In-Reply-To: <20250927080635.1502997-1-jianyungao89@gmail.com>
-From: "'Chris Li' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 29 Sep 2025 11:17:31 -0700
-X-Gmail-Original-Message-ID: <CACePvbWkr79j-ogkp+-Eehx=pssTmb2Cb4npKGd0ehZE-qudcg@mail.gmail.com>
-X-Gm-Features: AS18NWDO3sHve2jnUkOqUEozfH6mTV1MNP6z6MOxPopzdQLUYhEQ7K_wVAWGfWA
-Message-ID: <CACePvbWkr79j-ogkp+-Eehx=pssTmb2Cb4npKGd0ehZE-qudcg@mail.gmail.com>
-Subject: Re: [PATCH] mm: Fix some typos in mm module
-To: "jianyun.gao" <jianyungao89@gmail.com>
-Cc: linux-mm@kvack.org, SeongJae Park <sj@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Kairui Song <kasong@tencent.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	"open list:DATA ACCESS MONITOR" <damon@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>, 
-	"open list:KMSAN" <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: chrisl@kernel.org
+X-Original-Sender: wangjinchao600@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b="iSHp/qgY";       spf=pass
- (google.com: domain of chrisl@kernel.org designates 172.105.4.254 as
- permitted sender) smtp.mailfrom=chrisl@kernel.org;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: Chris Li <chrisl@kernel.org>
-Reply-To: Chris Li <chrisl@kernel.org>
+ header.i=@gmail.com header.s=20230601 header.b=H6xOnB1w;       spf=pass
+ (google.com: domain of wangjinchao600@gmail.com designates
+ 2607:f8b0:4864:20::52d as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -161,261 +228,180 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Acked-by: Chris Li <chrisl@kernel.org>
+This patch series introduces KStackWatch, a lightweight debugging tool to d=
+etect
+kernel stack corruption in real time. It installs a hardware breakpoint
+(watchpoint) at a function's specified offset using `kprobe.post_handler` a=
+nd
+removes it in `fprobe.exit_handler`. This covers the full execution window =
+and
+reports corruption immediately with time, location, and a call stack.
 
-Chris
+The motivation comes from scenarios where corruption occurs silently in one
+function but manifests later in another, without a direct call trace linkin=
+g
+the two. Such bugs are often extremely hard to debug with existing tools.
+These scenarios are demonstrated in test 3=E2=80=935 (silent corruption tes=
+t, patch 20).
 
-On Sat, Sep 27, 2025 at 1:07=E2=80=AFAM jianyun.gao <jianyungao89@gmail.com=
-> wrote:
->
-> Below are some typos in the code comments:
->
->   intevals =3D=3D> intervals
->   addesses =3D=3D> addresses
->   unavaliable =3D=3D> unavailable
->   facor =3D=3D> factor
->   droping =3D=3D> dropping
->   exlusive =3D=3D> exclusive
->   decription =3D=3D> description
->   confict =3D=3D> conflict
->   desriptions =3D=3D> descriptions
->   otherwize =3D=3D> otherwise
->   vlaue =3D=3D> value
->   cheching =3D=3D> checking
->   exisitng =3D=3D> existing
->   modifed =3D=3D> modified
->
-> Just fix it.
->
-> Signed-off-by: jianyun.gao <jianyungao89@gmail.com>
-> ---
->  mm/damon/sysfs.c  | 2 +-
->  mm/gup.c          | 2 +-
->  mm/kmsan/core.c   | 2 +-
->  mm/ksm.c          | 2 +-
->  mm/memory-tiers.c | 2 +-
->  mm/memory.c       | 4 ++--
->  mm/secretmem.c    | 2 +-
->  mm/slab_common.c  | 2 +-
->  mm/slub.c         | 2 +-
->  mm/swapfile.c     | 2 +-
->  mm/userfaultfd.c  | 2 +-
->  mm/vma.c          | 4 ++--
->  12 files changed, 14 insertions(+), 14 deletions(-)
->
-> diff --git a/mm/damon/sysfs.c b/mm/damon/sysfs.c
-> index c96c2154128f..25ff8bd17e9c 100644
-> --- a/mm/damon/sysfs.c
-> +++ b/mm/damon/sysfs.c
-> @@ -1232,7 +1232,7 @@ enum damon_sysfs_cmd {
->         DAMON_SYSFS_CMD_UPDATE_SCHEMES_EFFECTIVE_QUOTAS,
->         /*
->          * @DAMON_SYSFS_CMD_UPDATE_TUNED_INTERVALS: Update the tuned moni=
-toring
-> -        * intevals.
-> +        * intervals.
->          */
->         DAMON_SYSFS_CMD_UPDATE_TUNED_INTERVALS,
->         /*
-> diff --git a/mm/gup.c b/mm/gup.c
-> index 0bc4d140fc07..6ed50811da8f 100644
-> --- a/mm/gup.c
-> +++ b/mm/gup.c
-> @@ -2730,7 +2730,7 @@ EXPORT_SYMBOL(get_user_pages_unlocked);
->   *
->   *  *) ptes can be read atomically by the architecture.
->   *
-> - *  *) valid user addesses are below TASK_MAX_SIZE
-> + *  *) valid user addresses are below TASK_MAX_SIZE
->   *
->   * The last two assumptions can be relaxed by the addition of helper fun=
-ctions.
->   *
-> diff --git a/mm/kmsan/core.c b/mm/kmsan/core.c
-> index 1ea711786c52..1bb0e741936b 100644
-> --- a/mm/kmsan/core.c
-> +++ b/mm/kmsan/core.c
-> @@ -33,7 +33,7 @@ bool kmsan_enabled __read_mostly;
->
->  /*
->   * Per-CPU KMSAN context to be used in interrupts, where current->kmsan =
-is
-> - * unavaliable.
-> + * unavailable.
->   */
->  DEFINE_PER_CPU(struct kmsan_ctx, kmsan_percpu_ctx);
->
-> diff --git a/mm/ksm.c b/mm/ksm.c
-> index 160787bb121c..edd6484577d7 100644
-> --- a/mm/ksm.c
-> +++ b/mm/ksm.c
-> @@ -389,7 +389,7 @@ static unsigned long ewma(unsigned long prev, unsigne=
-d long curr)
->   * exponentially weighted moving average. The new pages_to_scan value is
->   * multiplied with that change factor:
->   *
-> - *      new_pages_to_scan *=3D change facor
-> + *      new_pages_to_scan *=3D change factor
->   *
->   * The new_pages_to_scan value is limited by the cpu min and max values.=
- It
->   * calculates the cpu percent for the last scan and calculates the new
-> diff --git a/mm/memory-tiers.c b/mm/memory-tiers.c
-> index 0382b6942b8b..f97aa5497040 100644
-> --- a/mm/memory-tiers.c
-> +++ b/mm/memory-tiers.c
-> @@ -519,7 +519,7 @@ static inline void __init_node_memory_type(int node, =
-struct memory_dev_type *mem
->          * for each device getting added in the same NUMA node
->          * with this specific memtype, bump the map count. We
->          * Only take memtype device reference once, so that
-> -        * changing a node memtype can be done by droping the
-> +        * changing a node memtype can be done by dropping the
->          * only reference count taken here.
->          */
->
-> diff --git a/mm/memory.c b/mm/memory.c
-> index 0ba4f6b71847..d6b0318df951 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -4200,7 +4200,7 @@ static inline bool should_try_to_free_swap(struct f=
-olio *folio,
->          * If we want to map a page that's in the swapcache writable, we
->          * have to detect via the refcount if we're really the exclusive
->          * user. Try freeing the swapcache to get rid of the swapcache
-> -        * reference only in case it's likely that we'll be the exlusive =
-user.
-> +        * reference only in case it's likely that we'll be the exclusive=
- user.
->          */
->         return (fault_flags & FAULT_FLAG_WRITE) && !folio_test_ksm(folio)=
- &&
->                 folio_ref_count(folio) =3D=3D (1 + folio_nr_pages(folio))=
-;
-> @@ -5274,7 +5274,7 @@ vm_fault_t do_set_pmd(struct vm_fault *vmf, struct =
-folio *folio, struct page *pa
->
->  /**
->   * set_pte_range - Set a range of PTEs to point to pages in a folio.
-> - * @vmf: Fault decription.
-> + * @vmf: Fault description.
->   * @folio: The folio that contains @page.
->   * @page: The first page to create a PTE for.
->   * @nr: The number of PTEs to create.
-> diff --git a/mm/secretmem.c b/mm/secretmem.c
-> index 60137305bc20..a350ca20ca56 100644
-> --- a/mm/secretmem.c
-> +++ b/mm/secretmem.c
-> @@ -227,7 +227,7 @@ SYSCALL_DEFINE1(memfd_secret, unsigned int, flags)
->         struct file *file;
->         int fd, err;
->
-> -       /* make sure local flags do not confict with global fcntl.h */
-> +       /* make sure local flags do not conflict with global fcntl.h */
->         BUILD_BUG_ON(SECRETMEM_FLAGS_MASK & O_CLOEXEC);
->
->         if (!secretmem_enable || !can_set_direct_map())
-> diff --git a/mm/slab_common.c b/mm/slab_common.c
-> index bfe7c40eeee1..9ab116156444 100644
-> --- a/mm/slab_common.c
-> +++ b/mm/slab_common.c
-> @@ -256,7 +256,7 @@ static struct kmem_cache *create_cache(const char *na=
-me,
->   * @object_size: The size of objects to be created in this cache.
->   * @args: Additional arguments for the cache creation (see
->   *        &struct kmem_cache_args).
-> - * @flags: See the desriptions of individual flags. The common ones are =
-listed
-> + * @flags: See the descriptions of individual flags. The common ones are=
- listed
->   *         in the description below.
->   *
->   * Not to be called directly, use the kmem_cache_create() wrapper with t=
-he same
-> diff --git a/mm/slub.c b/mm/slub.c
-> index d257141896c9..5f2622c370cc 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -2412,7 +2412,7 @@ bool slab_free_hook(struct kmem_cache *s, void *x, =
-bool init,
->                 memset((char *)kasan_reset_tag(x) + inuse, 0,
->                        s->size - inuse - rsize);
->                 /*
-> -                * Restore orig_size, otherwize kmalloc redzone overwritt=
-en
-> +                * Restore orig_size, otherwise kmalloc redzone overwritt=
-en
->                  * would be reported
->                  */
->                 set_orig_size(s, x, orig_size);
-> diff --git a/mm/swapfile.c b/mm/swapfile.c
-> index b4f3cc712580..b55f10ec1f3f 100644
-> --- a/mm/swapfile.c
-> +++ b/mm/swapfile.c
-> @@ -1545,7 +1545,7 @@ static bool swap_entries_put_map_nr(struct swap_inf=
-o_struct *si,
->
->  /*
->   * Check if it's the last ref of swap entry in the freeing path.
-> - * Qualified vlaue includes 1, SWAP_HAS_CACHE or SWAP_MAP_SHMEM.
-> + * Qualified value includes 1, SWAP_HAS_CACHE or SWAP_MAP_SHMEM.
->   */
->  static inline bool __maybe_unused swap_is_last_ref(unsigned char count)
->  {
-> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
-> index aefdf3a812a1..333f4b8bc810 100644
-> --- a/mm/userfaultfd.c
-> +++ b/mm/userfaultfd.c
-> @@ -1508,7 +1508,7 @@ static int validate_move_areas(struct userfaultfd_c=
-tx *ctx,
->
->         /*
->          * For now, we keep it simple and only move between writable VMAs=
-.
-> -        * Access flags are equal, therefore cheching only the source is =
-enough.
-> +        * Access flags are equal, therefore checking only the source is =
-enough.
->          */
->         if (!(src_vma->vm_flags & VM_WRITE))
->                 return -EINVAL;
-> diff --git a/mm/vma.c b/mm/vma.c
-> index 3b12c7579831..2e127fa97475 100644
-> --- a/mm/vma.c
-> +++ b/mm/vma.c
-> @@ -109,7 +109,7 @@ static inline bool is_mergeable_vma(struct vma_merge_=
-struct *vmg, bool merge_nex
->  static bool is_mergeable_anon_vma(struct vma_merge_struct *vmg, bool mer=
-ge_next)
->  {
->         struct vm_area_struct *tgt =3D merge_next ? vmg->next : vmg->prev=
-;
-> -       struct vm_area_struct *src =3D vmg->middle; /* exisitng merge cas=
-e. */
-> +       struct vm_area_struct *src =3D vmg->middle; /* existing merge cas=
-e. */
->         struct anon_vma *tgt_anon =3D tgt->anon_vma;
->         struct anon_vma *src_anon =3D vmg->anon_vma;
->
-> @@ -798,7 +798,7 @@ static bool can_merge_remove_vma(struct vm_area_struc=
-t *vma)
->   * Returns: The merged VMA if merge succeeds, or NULL otherwise.
->   *
->   * ASSUMPTIONS:
-> - * - The caller must assign the VMA to be modifed to @vmg->middle.
-> + * - The caller must assign the VMA to be modified to @vmg->middle.
->   * - The caller must have set @vmg->prev to the previous VMA, if there i=
-s one.
->   * - The caller must not set @vmg->next, as we determine this.
->   * - The caller must hold a WRITE lock on the mm_struct->mmap_lock.
-> --
-> 2.34.1
->
+Key features include:
+
+* Immediate and precise corruption detection
+* Support multiple watchpoints for concurrently called functions
+* Lockless design, usable in any context
+* Depth filter for recursive calls
+* Minimal impact on reproducibility
+* Flexible procfs configuration with key=3Dval syntax
+
+To validate the approach, the patch includes a test module and a test scrip=
+t.
+
+There is a workflow example described in detail in the documentation (patch=
+ 22).
+Please read the document first if you want an overview.
+
+---
+  Patches 1=E2=80=933 of this series are also used in the wprobe work propo=
+sed by
+  Masami Hiramatsu, so there may be some overlap between our patches.
+  Patch 3 comes directly from Masami Hiramatsu (thanks).
+---
+Changelog
+
+V6:
+  * Replace procfs with debugfs interface
+  * Fix typos
+
+V5:
+  * Support key=3Dvalue input format
+  * Support multiple watchpoints
+  * Support watching instruction inside loop
+  * Support recursion depth tracking with generation
+  * Ignore triggers from fprobe trampoline
+  * Split watch_on into watch_get and watch_on to fail fast
+  * Handle ksw_stack_prepare_watch error
+  * Rewrite silent corruption test
+  * Add multiple watchpoints test
+  * Add an example in documentation
+
+V4:
+  https://lore.kernel.org/all/20250912101145.465708-1-wangjinchao600@gmail.=
+com/
+  * Solve the lockdep issues with:
+    * per-task KStackWatch context to track depth
+    * atomic flag to protect watched_addr
+  * Use refactored version of arch_reinstall_hw_breakpoint
+
+V3:
+  https://lore.kernel.org/all/20250910052335.1151048-1-wangjinchao600@gmail=
+.com/
+  * Use modify_wide_hw_breakpoint_local() (from Masami)
+  * Add atomic flag to restrict /proc/kstackwatch to a single opener
+  * Protect stack probe with an atomic PID flag
+  * Handle CPU hotplug for watchpoints
+  * Add preempt_disable/enable in ksw_watch_on_local_cpu()
+  * Introduce const struct ksw_config *ksw_get_config(void) and use it
+  * Switch to global watch_attr, remove struct watch_info
+  * Validate local_var_len in parser()
+  * Handle case when canary is not found
+  * Use dump_stack() instead of show_regs() to allow module build
+  * Reduce logging and comments
+  * Format logs with KBUILD_MODNAME
+  * Remove unused headers
+  * Add new document
+
+V2:
+  https://lore.kernel.org/all/20250904002126.1514566-1-wangjinchao600@gmail=
+.com/
+  * Make hardware breakpoint and stack operations architecture-independent.
+
+V1:
+  https://lore.kernel.org/all/20250828073311.1116593-1-wangjinchao600@gmail=
+.com/
+  * Replaced kretprobe with fprobe for function exit hooking, as suggested
+    by Masami Hiramatsu
+  * Introduced per-task depth logic to track recursion across scheduling
+  * Removed the use of workqueue for a more efficient corruption check
+  * Reordered patches for better logical flow
+  * Simplified and improved commit messages throughout the series
+  * Removed initial archcheck which should be improved later
+  * Replaced the multiple-thread test with silent corruption test
+  * Split self-tests into a separate patch to improve clarity.
+  * Added a new entry for KStackWatch to the MAINTAINERS file.
+
+RFC:
+  https://lore.kernel.org/lkml/20250818122720.434981-1-wangjinchao600@gmail=
+.com/
+
+---
+
+The series is structured as follows:
+
+Jinchao Wang (22):
+  x86/hw_breakpoint: Unify breakpoint install/uninstall
+  x86/hw_breakpoint: Add arch_reinstall_hw_breakpoint
+  mm/ksw: add build system support
+  mm/ksw: add ksw_config struct and parser
+  mm/ksw: add singleton debugfs interface
+  mm/ksw: add HWBP pre-allocation
+  mm/ksw: Add atomic watchpoint management api
+  mm/ksw: ignore false positives from exit trampolines
+  mm/ksw: support CPU hotplug
+  sched: add per-task context
+  mm/ksw: add entry kprobe and exit fprobe management
+  mm/ksw: add per-task ctx tracking
+  mm/ksw: resolve stack watch addr and len
+  mm/ksw: manage probe and HWBP lifecycle via procfs
+  mm/ksw: add self-debug helpers
+  mm/ksw: add test module
+  mm/ksw: add stack overflow test
+  mm/ksw: add recursive depth test
+  mm/ksw: add multi-thread corruption test cases
+  tools/ksw: add test script
+  docs: add KStackWatch document
+  MAINTAINERS: add entry for KStackWatch
+
+Masami Hiramatsu (Google) (1):
+  HWBP: Add modify_wide_hw_breakpoint_local() API
+
+ Documentation/dev-tools/index.rst       |   1 +
+ Documentation/dev-tools/kstackwatch.rst | 314 ++++++++++++++++++++++
+ MAINTAINERS                             |   8 +
+ arch/Kconfig                            |  10 +
+ arch/x86/Kconfig                        |   1 +
+ arch/x86/include/asm/hw_breakpoint.h    |   8 +
+ arch/x86/kernel/hw_breakpoint.c         | 148 +++++-----
+ include/linux/hw_breakpoint.h           |   6 +
+ include/linux/kstackwatch_types.h       |  14 +
+ include/linux/sched.h                   |   5 +
+ kernel/events/hw_breakpoint.c           |  37 +++
+ mm/Kconfig.debug                        |  18 ++
+ mm/Makefile                             |   1 +
+ mm/kstackwatch/Makefile                 |   8 +
+ mm/kstackwatch/kernel.c                 | 292 ++++++++++++++++++++
+ mm/kstackwatch/kstackwatch.h            |  60 +++++
+ mm/kstackwatch/stack.c                  | 240 +++++++++++++++++
+ mm/kstackwatch/test.c                   | 343 ++++++++++++++++++++++++
+ mm/kstackwatch/watch.c                  | 305 +++++++++++++++++++++
+ tools/kstackwatch/kstackwatch_test.sh   |  52 ++++
+ 20 files changed, 1809 insertions(+), 62 deletions(-)
+ create mode 100644 Documentation/dev-tools/kstackwatch.rst
+ create mode 100644 include/linux/kstackwatch_types.h
+ create mode 100644 mm/kstackwatch/Makefile
+ create mode 100644 mm/kstackwatch/kernel.c
+ create mode 100644 mm/kstackwatch/kstackwatch.h
+ create mode 100644 mm/kstackwatch/stack.c
+ create mode 100644 mm/kstackwatch/test.c
+ create mode 100644 mm/kstackwatch/watch.c
+ create mode 100755 tools/kstackwatch/kstackwatch_test.sh
+
+--=20
+2.43.0
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-ACePvbWkr79j-ogkp%2B-Eehx%3DpssTmb2Cb4npKGd0ehZE-qudcg%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
+0250930024402.1043776-1-wangjinchao600%40gmail.com.
