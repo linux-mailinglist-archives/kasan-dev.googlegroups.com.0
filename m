@@ -1,150 +1,169 @@
-Return-Path: <kasan-dev+bncBDG6PF6SSYDRBX7I7XDAMGQEKBXGKKQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV2D5O34IDRBPPOQDDQMGQEMAC6U2A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E0BBB6050
-	for <lists+kasan-dev@lfdr.de>; Fri, 03 Oct 2025 09:00:05 +0200 (CEST)
-Received: by mail-lj1-x240.google.com with SMTP id 38308e7fff4ca-362de25dbc4sf10946371fa.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 03 Oct 2025 00:00:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1759474784; cv=pass;
+Received: from mail-qt1-x83f.google.com (mail-qt1-x83f.google.com [IPv6:2607:f8b0:4864:20::83f])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB4FABB8253
+	for <lists+kasan-dev@lfdr.de>; Fri, 03 Oct 2025 22:51:10 +0200 (CEST)
+Received: by mail-qt1-x83f.google.com with SMTP id d75a77b69052e-4e0e7caf22esf73520301cf.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 03 Oct 2025 13:51:10 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1759524669; cv=pass;
         d=google.com; s=arc-20240605;
-        b=DguDBbWN8P4T26ENpeYhT7pMdHO55Vd5e/zwou1nG9/DvKOoy7DzFEmAHFCig36EDB
-         KvHZti2bIlrDuhKsYoBbS423lfjGFMdRcg2eOS/4GutQvPVvrLOaY/t9zEHBXZhaKNjI
-         nufdXEFeYaFp8kq5n5DsLu8ke9y+MtW1oMO1l1Lc3jch4uHvTXfVMcLMmotYoeWI+s/n
-         0K2IBNBDSRh6oSNRDHwJQORVYgJ66GESxXu6KAa8uSGHWGDOE+OyQXHj1pXXKBFOXVj6
-         RGdl2X8R84hTLS/7jvlg4V63XvsuG4xNzuqsCoQ9QGTD8fMgsWKwt9JJTxykAjhhGEO4
-         e1YA==
+        b=DX7rM17sC5VLU+nB/e6p0PxXNuqLe9sy8aAIGwIozP3UK9N1i9hPkmJRGOaL7YgBPZ
+         Ut7qg0hmcR/ZUt6obxRWdfKI0du34chNhp8mJEJCRClxRfZMKbr/tybdbEMSUgvJX2i1
+         s9PI9lGjKuHUHIFCTB5kBgGEeYxyJMq9xRsA/mmR+ZpuahAEIt7TYM/1cUwasZ0nXFrr
+         v46VV45WM0sKcb0rBudA1yTNcKyuDHKQ9jwRhYTmwDBYEfF6VfVcNIbCEdvlI7kbWua2
+         4tlI897kC+r1hAzo81BBqjKjqwuSKPyOAtGLeRAVQXdLskVByJ4I0QANx9Lirnin2IYJ
+         GwmA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:references:in-reply-to:from
-         :content-language:cc:to:subject:user-agent:mime-version:date
-         :message-id:dkim-filter:sender:dkim-signature;
-        bh=Tr0yfWpO0dkZvbcQy3DIoIiHvI6+KIL+M73o5QosCEY=;
-        fh=JpYQQG/eYcZBJfB/4MPyGCslZVkkd6X7ODX9E7Iutdw=;
-        b=NigWyGPGyeW7ev+ZVTq67+Qxz9LwjUucMPuePtd5n6xoU16x8ebbrZzMLPPLvMFvZv
-         YvWwe7b/6QTBYXfMnAdEWqc9RZ4EVD+sbyejxTemsaCXeqcS4dHTrfCbxHoJBBE4d2qk
-         y8pMK/D50+rI61/XU9oWGMgWQ5qGt8OYMYEA27f8F2RxoUuTlt/NufVc1vjVlURhtvo3
-         FleG5CtpGfSwnymCDeddFxpsMVb5EF9FaO9FYzBdOrOM7YZcYSPTMmp7lAf4fUlsWJ7u
-         57Wprfr597OlyQPmf9ZP8G0XRk04sYIeOxt/LtTQFXKvvJZ39U1RxWXTT2uq0ulv8Au9
-         ct0A==;
+         :list-id:mailing-list:precedence:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=gW6Zy3x1ZaKH6h4S/iRMYJu1k28r3TQ9hzDSI/ODY8Q=;
+        fh=CCNDdLeCLUToY0EwCP7jbklv2uyLZ+FibVYEva4xh8k=;
+        b=RxmJaNNsPYM430Fa0bySe4oxIK1B/5tMCzps78shawxkUhuVMBMzXO2Ggl7OmKG8X3
+         S+7XTwhgUqXXqe3DT5gkiDpyYeYHSUA1bteEMqFTKlGXFDreLugEpBZjjrCHw6gUX1Ei
+         Q5TVF/tmAdptpXdC03H/LiC6bZSl1v4pSZfxLeetukWa1O0Fo4Gn0+RYdzLcBo0MWcCj
+         74fyRk1gUKlQF0O3Tfp2ENou9/8C58FZlv7Ocr4t43MoMkG25hdq9dikql3NLRIgXzER
+         TVMrOVgSp1sHHIFLCHbKo7PWt9wOgwc8ptpChlwag4c2IqgocRQkSPl93ux6HuVcilUB
+         KtnQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=rNU5cVhm;
-       spf=pass (google.com: domain of m.szyprowski@samsung.com designates 210.118.77.12 as permitted sender) smtp.mailfrom=m.szyprowski@samsung.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
+       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b=Lrx+Opa8;
+       spf=none (google.com: rdunlap@infradead.org does not designate permitted sender hosts) smtp.mailfrom=rdunlap@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1759474784; x=1760079584; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1759524669; x=1760129469; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:references:in-reply-to:from:content-language:cc
-         :to:subject:user-agent:mime-version:date:message-id:dkim-filter
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tr0yfWpO0dkZvbcQy3DIoIiHvI6+KIL+M73o5QosCEY=;
-        b=OJWUzPaSZM0keKkSCqxssEW9TeVJjDbTEUMgkRugHM48a7ioarob7ItqkyE7z+3WY1
-         H5YGpi7H0NEjATwJcHkJQBEnOnO9E++o0E5OhUYgWPiKZnvFr0sStvf7JSfbhNIZziJp
-         LEWtDwp34SETS0Iuah3UYMCSzcnOhviKxquNBbmSVPoMJUUyxXsShGIOimURXcqfZNb5
-         Fg23wOhIBsyot3PMK6U+S6ofkJ/iRp57/931xYUdj9xRZDfgLf6dF0oMWPtbu1Rh9I/9
-         SdyNvtDc/YexM/JtB/q0JUKhq1Bn/3Iaf2Wg6VOQP7vglVSUx6LMvZ6Qfd5xqiSlA17r
-         saBw==
+         :x-original-sender:in-reply-to:from:content-language:references:to
+         :subject:user-agent:mime-version:date:message-id:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gW6Zy3x1ZaKH6h4S/iRMYJu1k28r3TQ9hzDSI/ODY8Q=;
+        b=xWtAd44tY6fDhyxy9yl5JEdJ655HPFFdcnzXMbaTNWszugx6CIlZ+97YAW0KwQIjjz
+         cBLURgJXbhjYnDoBp8Nu0Ra+kr3DGuJrDqo3X6PwagAAPYiu5/60xYvqpeR8VLQtbWzE
+         J5A5GAOwJuKTGxjOiymOrFcCmbtOMOEHisowwyWYKwuZTSQzWmDpGwMQs5jz+jgrnDJV
+         2AYs7drQlBBCm187wUldcp8oYG54ax7fp0rz/mLJS+y1F4bSlEaY5OZqw7HzhRoyE+aC
+         045iLlcxHH8WL6UrCShjBNLIp7MDihqe0ENaezqhFjO7YqW9rEUICa4BGyljeT2emfjG
+         +nsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759474784; x=1760079584;
+        d=1e100.net; s=20230601; t=1759524669; x=1760129469;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:references
-         :in-reply-to:from:content-language:cc:to:subject:user-agent
-         :mime-version:date:message-id:dkim-filter:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Tr0yfWpO0dkZvbcQy3DIoIiHvI6+KIL+M73o5QosCEY=;
-        b=wQ25wXE+o2TzoZ6eGejkbjlMvFEzJMED4pfVIpjiX8xI+bLf0wbt1GypIVA/RSVq+o
-         R24zHLDotHuMOFmWCZO6aEVeDcWc68ZqnU0dRvXVYULYSwnXAkxd4aMiG8Zegdh7++9c
-         eS18/GwdTFRcIrt96PtY1ZS9t9shQRrgQhrt5zYgHdmcB4ud31/bFFi86vjTd47P239K
-         ijpYN7XvQ09sQBt4GFKNcVqfFw95LfzQToKIJbZscvwHUhxlNNeeFCSkPJoqlm8rp1Rb
-         +neZBlYrLqYaodLBEtJGBNhS7hupLt8SwoKSzfx9zQVRK+lgo1bZyYHn/ogZLHRNPeaP
-         GHwQ==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:content-language:references:to:subject:user-agent:mime-version
+         :date:message-id:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gW6Zy3x1ZaKH6h4S/iRMYJu1k28r3TQ9hzDSI/ODY8Q=;
+        b=buML38ePafEkIVqskJfjV1UuEQeSae8Ih1NMprAo8sbtpW3si5m0QT7BkI17z67jtr
+         pBhawWEcRvFeUuJMMMhfGANeOmTXW7e/IVBNhkJrl9DgDto4WQWClg1uMSolsoGFlLAw
+         OEIJQhpy3S1mFE060eKXnqNLftDSpZktEhkAhqFGLMG841jiSzsRhIFDkejtU9da51+8
+         Uo0kSkM+GYGB8AvCeSZshrrBMdYTeN+la/HaMx0guOT6ubeKC8s60pJ9wcWZO8XYSXie
+         IoLH3jA/eMgEM0ZDQ4PZqldZqxsRkZRyqpwxV+Yezvp+cbpV0d8cEMyj418J0AJIZbGo
+         AABQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUQvs+h2CvXdeqA483R+Ll4FdwGFeDMzfIzg4E4BDDhm9jFzggn271pM/ejwu21w6DhQy3ryg==@lfdr.de
-X-Gm-Message-State: AOJu0Yz4/CeZWywEhm5RG/aGX+JRKLwq8xBNo7EPXx6WkbZypBgs7GId
-	rWDdINYktbD1IC/jBcQBrCG7Dq5U97p5/L0Lq5bspVgOshlP9ZPQhUUU
-X-Google-Smtp-Source: AGHT+IEoYX7JDW+ecy1rM0+oLDnVXCBhU/UXDyH3Ns3MgIin+AhuYEj3jJeVK5pKp3B031Tt20221w==
-X-Received: by 2002:a05:651c:1612:b0:372:932b:f5dd with SMTP id 38308e7fff4ca-374c38372b3mr5600271fa.20.1759474783974;
-        Thu, 02 Oct 2025 23:59:43 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd7KG2DRgy/x6588mUAQ8GyIxjXyU55HYiMutIvhakZvvQ=="
-Received: by 2002:a05:651c:23d6:20b0:36b:ab9d:42ef with SMTP id
- 38308e7fff4ca-373b85e0c67ls2547901fa.2.-pod-prod-05-eu; Thu, 02 Oct 2025
- 23:59:41 -0700 (PDT)
-X-Received: by 2002:a2e:bc21:0:b0:36e:6d54:b56d with SMTP id 38308e7fff4ca-374c36ff205mr5290861fa.12.1759474780848;
-        Thu, 02 Oct 2025 23:59:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1759474780; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCVLZvu5TmSgxGH29gCOc0IMjUzE9YLG6y3XvqSHR2Hr1FgwpdfQQMyuVZ/czMJWSIhiAicyuA==@lfdr.de
+X-Gm-Message-State: AOJu0YzNSYjNsgODBdXjj60Vk6ie7DV7mduKYY9S4CqaXHMpP4eaAwPl
+	LcA2CuRf6mbhb/SRdfT8EfnmjGNNQy9CJkBwV31Beu4ipoRbBTBPfmU4
+X-Google-Smtp-Source: AGHT+IHlg4KzMEFPekaV64e82BCVSga53a0Qik6vIOA11mU7ej3xkqTDvaR3cg54EOMdvrZ2cwPRcQ==
+X-Received: by 2002:ac8:5fce:0:b0:4d2:322b:9b58 with SMTP id d75a77b69052e-4e576ae7575mr58926721cf.46.1759524669257;
+        Fri, 03 Oct 2025 13:51:09 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd696SkFeqmLH+Qou7eUUNmkWvMpexoQEb3x+k3XAQXhtg=="
+Received: by 2002:a05:622a:8352:b0:4d6:4b7c:c237 with SMTP id
+ d75a77b69052e-4e55ae306c2ls39419381cf.1.-pod-prod-03-us; Fri, 03 Oct 2025
+ 13:51:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWagNjwV+9YrViHMN/19BLcUZpWrle9bwdaeFyjxxIaNGyH0Ee6opccxmrKu/mfwRrUexbkiZFBgU4=@googlegroups.com
+X-Received: by 2002:a05:622a:4894:b0:4b7:9c8d:1bab with SMTP id d75a77b69052e-4e576a60b1dmr56327031cf.20.1759524668522;
+        Fri, 03 Oct 2025 13:51:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1759524668; cv=none;
         d=google.com; s=arc-20240605;
-        b=bPCuAYYEpprKHxuJ68lEUo+FlXr6d4STz9583QtMQbt7tEaIpYzGHsESPW7gCzCH0N
-         tXA1sSHmzWO3k2KBDbMitnl7YEqrfDCTvsj5lqcfM/O/12zljpgG0GTeWcuXtnJCohzr
-         bsy8aWdeeNQ7Cd3KSb2WsJo6TZRy5mF1k5EOO1uCqnQQVUTJnmqAk0IoqxVrsBNLPQVY
-         03DgKw5lsHQ/GK0w0FRhhtC5CFk9GfOznKQRlsUFvWlppA/5LxpR08vpc+3XUHRGNJ70
-         d8Vpweqv1KZrt6KKgmnNH737jmBEq44VBHGfnIeP9K9OF2yqZDegIs+WCGXJT0uqHH8u
-         WDcg==
+        b=O+dTFXesMxbkt1Hk3K8S+iaIIhCldQRIbj3ObfZxJqn+fJcozYU3dwcxrraI2BBGj/
+         I5Cuteww0Rgt0AEDoJAe4RzRugl5FyrBnnaic8xNj4sk7fLXPZ4CXsmEqazQ26I8CFSS
+         dnXP1WAiaBolj4bXyb/2DveImdhQEvA4wH+MhoVpMHvBG15H6VuPi03dQOMIhaEEWDgh
+         bhjtnemWqgXXcFpO3OtDgy1z8Xu2UeKzyq4wlK8MylYWvlW4dWgMC+aLmsIS5+cGb/sy
+         6uZHhPVwP2G6haOabMVqKzfT1myCFQ49Y2/Q738PLySdXhoBf+MlBNJxexPT5rbHD4mV
+         3r8Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=references:content-transfer-encoding:in-reply-to:from
-         :content-language:cc:to:subject:user-agent:mime-version:date
-         :message-id:dkim-signature:dkim-filter;
-        bh=WB9sbfpLecnMxMoiDerCoUS7521vhN66oFyAsMbTO/0=;
-        fh=+f3FJC+LJz1xU0x5VHD/dtdGYZL2qc+FIGklMAXMR8Q=;
-        b=FpYhD2YXYroXKTzmsmGDqf4xt3zKVnShqS2x8AIhSIutJkngBBlx2vVi43HX0NBx3F
-         j8x5tdMIqK8QlMCz9S6BzhNgXGtHKSyhYYPIgo9fXc2WKS7L8RC6cvSmKiinrLMeLhev
-         adabPYFw9qWOFrH3WxGOQYglK4NjeF3jaYs7SKv74w0hxgWMEPavofp55YK6k76QxJjT
-         6hD5SGCH/dEKnuBtRT55sMqlcbo+4pK7LFtyJOOl5kekhrpNlaV3hUkE09w7rAixhaVB
-         MsX3j8P3VrCvENy/13An9J8bRgHY8icLOh2/B85GgJaNs3ZRBZzbQhG2e3yfxj5Pj5zr
-         6CHA==;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :dkim-signature;
+        bh=oIs3ppVLk6gw/qZXypZLZcOfa+yCn//X21VZFkDaLYU=;
+        fh=cHwqki7ZDIrT3RHhLW47jmiIK6nXXmPQd8r1WVcpAy0=;
+        b=kR7BEOSd/QGHt5MSXzvYg0oAxW+2BKmLa8RCeyx0wPuqhdSIp2QXEiz5c1Cvrx/xv6
+         fnNZLtl2zRrT3gcCodxJIsKyHRLcyoGvtLflmMJ+ZtaOxA3RKFLHaSRIst3wVfrpjvyL
+         3ieMvEoAhOun8SKSHcdUol+lBvEfc1GJSpXO7tPS1EMlv2JPDUsYOQb3m08HrvQuusb7
+         lxXuqHv/7snT0hutJbCDIM04y6U3UpBRuriMx22yW9aaDLfyxZbr0OhOQz2WwK00cXX5
+         uFhHAnYdKv8xllhIxXIuPWIR72QAfyCChCyu3bVQDZVKaWGA6Trs65nsArQR1iLC+Qmi
+         aQHw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=rNU5cVhm;
-       spf=pass (google.com: domain of m.szyprowski@samsung.com designates 210.118.77.12 as permitted sender) smtp.mailfrom=m.szyprowski@samsung.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com. [210.118.77.12])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-373ba426631si886011fa.8.2025.10.02.23.59.40
+       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b=Lrx+Opa8;
+       spf=none (google.com: rdunlap@infradead.org does not designate permitted sender hosts) smtp.mailfrom=rdunlap@infradead.org
+Received: from bombadil.infradead.org (bombadil.infradead.org. [2607:7c80:54:3::133])
+        by gmr-mx.google.com with ESMTPS id d75a77b69052e-4e55e277612si43571cf.4.2025.10.03.13.51.08
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 02 Oct 2025 23:59:40 -0700 (PDT)
-Received-SPF: pass (google.com: domain of m.szyprowski@samsung.com designates 210.118.77.12 as permitted sender) client-ip=210.118.77.12;
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20251003065939euoutp02a5c93e7327fca8d506816727b9084aa9~q6P1jdEtb2855028550euoutp023
-	for <kasan-dev@googlegroups.com>; Fri,  3 Oct 2025 06:59:39 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20251003065939euoutp02a5c93e7327fca8d506816727b9084aa9~q6P1jdEtb2855028550euoutp023
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20251003065939eucas1p2a570a631290b2053af4bfee78ca93977~q6P1Z1Cy11393413934eucas1p25;
-	Fri,  3 Oct 2025 06:59:39 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20251003065937eusmtip1440172238527b922b950b45020a53526~q6P0IH4u62724027240eusmtip1D;
-	Fri,  3 Oct 2025 06:59:37 +0000 (GMT)
-Message-ID: <c921d3d4-3f15-4b46-bd6c-2f48b2747e60@samsung.com>
-Date: Fri, 3 Oct 2025 08:59:37 +0200
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Oct 2025 13:51:08 -0700 (PDT)
+Received-SPF: none (google.com: rdunlap@infradead.org does not designate permitted sender hosts) client-ip=2607:7c80:54:3::133;
+Received: from [50.53.25.54] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v4mjl-0000000D7bQ-0Z25;
+	Fri, 03 Oct 2025 20:50:45 +0000
+Message-ID: <3913273d-12e2-426f-aec7-263b7f49008a@infradead.org>
+Date: Fri, 3 Oct 2025 13:50:43 -0700
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH] kmsan: fix kmsan_handle_dma() to avoid false positives
-To: Shigeru Yoshida <syoshida@redhat.com>, glider@google.com,
-	elver@google.com, dvyukov@google.com, akpm@linux-foundation.org,
-	jgg@ziepe.ca, leon@kernel.org
-Cc: kasan-dev@googlegroups.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 23/23] MAINTAINERS: add entry for KStackWatch
+To: Jinchao Wang <wangjinchao600@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
+ Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ "Liang, Kan" <kan.liang@linux.intel.com>,
+ David Hildenbrand <david@redhat.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Kees Cook <kees@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Sami Tolvanen <samitolvanen@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Rong Xu <xur@google.com>,
+ Naveen N Rao <naveen@kernel.org>, David Kaplan <david.kaplan@amd.com>,
+ Andrii Nakryiko <andrii@kernel.org>, Jinjie Ruan <ruanjinjie@huawei.com>,
+ Nam Cao <namcao@linutronix.de>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com,
+ "David S. Miller" <davem@davemloft.net>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ linux-trace-kernel@vger.kernel.org
+References: <20250930024402.1043776-1-wangjinchao600@gmail.com>
+ <20250930024402.1043776-24-wangjinchao600@gmail.com>
 Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20251002051024.3096061-1-syoshida@redhat.com>
-X-CMS-MailID: 20251003065939eucas1p2a570a631290b2053af4bfee78ca93977
-X-Msg-Generator: CA
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250930024402.1043776-24-wangjinchao600@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-RootMTR: 20251002051101eucas1p250c65f775d8e64053ee7e009142c89c7
-X-EPHeader: CA
-X-CMS-RootMailID: 20251002051101eucas1p250c65f775d8e64053ee7e009142c89c7
-References: <CGME20251002051101eucas1p250c65f775d8e64053ee7e009142c89c7@eucas1p2.samsung.com>
-	<20251002051024.3096061-1-syoshida@redhat.com>
-X-Original-Sender: m.szyprowski@samsung.com
+X-Original-Sender: rdunlap@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@samsung.com header.s=mail20170921 header.b=rNU5cVhm;       spf=pass
- (google.com: domain of m.szyprowski@samsung.com designates 210.118.77.12 as
- permitted sender) smtp.mailfrom=m.szyprowski@samsung.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=samsung.com
+ header.i=@infradead.org header.s=bombadil.20210309 header.b=Lrx+Opa8;
+       spf=none (google.com: rdunlap@infradead.org does not designate
+ permitted sender hosts) smtp.mailfrom=rdunlap@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,86 +176,43 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 02.10.2025 07:10, Shigeru Yoshida wrote:
-> KMSAN reports an uninitialized value issue in dma_map_phys()[1].  This
-> is a false positive caused by the way the virtual address is handled
-> in kmsan_handle_dma().  Fix it by translating the physical address to
-> a virtual address using phys_to_virt().
->
-> [1]
-> BUG: KMSAN: uninit-value in dma_map_phys+0xdc5/0x1060
->   dma_map_phys+0xdc5/0x1060
->   dma_map_page_attrs+0xcf/0x130
->   e1000_xmit_frame+0x3c51/0x78f0
->   dev_hard_start_xmit+0x22f/0xa30
->   sch_direct_xmit+0x3b2/0xcf0
->   __dev_queue_xmit+0x3588/0x5e60
->   neigh_resolve_output+0x9c5/0xaf0
->   ip6_finish_output2+0x24e0/0x2d30
->   ip6_finish_output+0x903/0x10d0
->   ip6_output+0x331/0x600
->   mld_sendpack+0xb4a/0x1770
->   mld_ifc_work+0x1328/0x19b0
->   process_scheduled_works+0xb91/0x1d80
->   worker_thread+0xedf/0x1590
->   kthread+0xd5c/0xf00
->   ret_from_fork+0x1f5/0x4c0
->   ret_from_fork_asm+0x1a/0x30
->
-> Uninit was created at:
->   __kmalloc_cache_noprof+0x8f5/0x16b0
->   syslog_print+0x9a/0xef0
->   do_syslog+0x849/0xfe0
->   __x64_sys_syslog+0x97/0x100
->   x64_sys_call+0x3cf8/0x3e30
->   do_syscall_64+0xd9/0xfa0
->   entry_SYSCALL_64_after_hwframe+0x77/0x7f
->
-> Bytes 0-89 of 90 are uninitialized
-> Memory access of size 90 starts at ffff8880367ed000
->
-> CPU: 1 UID: 0 PID: 1552 Comm: kworker/1:2 Not tainted 6.17.0-next-20250929 #26 PREEMPT(none)
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.17.0-5.fc42 04/01/2014
-> Workqueue: mld mld_ifc_work
->
-> Fixes: 6eb1e769b2c1 ("kmsan: convert kmsan_handle_dma to use physical addresses")
-> Signed-off-by: Shigeru Yoshida <syoshida@redhat.com>
+Hi,
 
-Applied to dma-mapping-for-next (for v6.18-rc1) branch. Thanks!
-
+On 9/29/25 7:43 PM, Jinchao Wang wrote:
+> Add a maintainer entry for Kernel Stack Watch.
+> 
+> Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
 > ---
-> The hash in the "Fixes" tag comes from the linux-next tree
-> (next-20250929), as it has not yet been included in the mainline tree.
-> ---
->   mm/kmsan/hooks.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/mm/kmsan/hooks.c b/mm/kmsan/hooks.c
-> index 90bee565b9bc..2cee59d89c80 100644
-> --- a/mm/kmsan/hooks.c
-> +++ b/mm/kmsan/hooks.c
-> @@ -339,13 +339,12 @@ static void kmsan_handle_dma_page(const void *addr, size_t size,
->   void kmsan_handle_dma(phys_addr_t phys, size_t size,
->   		      enum dma_data_direction dir)
->   {
-> -	struct page *page = phys_to_page(phys);
->   	u64 page_offset, to_go;
->   	void *addr;
->   
->   	if (PhysHighMem(phys))
->   		return;
-> -	addr = page_to_virt(page);
-> +	addr = phys_to_virt(phys);
->   	/*
->   	 * The kernel may occasionally give us adjacent DMA pages not belonging
->   	 * to the same allocation. Process them separately to avoid triggering
+>  MAINTAINERS | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 520fb4e379a3..3d4811ff3631 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13362,6 +13362,14 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git
+>  F:	Documentation/dev-tools/kselftest*
+>  F:	tools/testing/selftests/
+>  
+> +KERNEL STACK WATCH
+> +M:	Jinchao Wang <wangjinchao600@gmail.com>
+> +S:	Maintained
+> +F:	Documentation/dev-tools/kstackwatch.rst
+> +F:	include/linux/kstackwatch_types.h
+> +F:	mm/kstackwatch/
+> +F:	tools/kstackwatch/
+> +
 
-Best regards
+Add entries in alphabetical order, please.
+
+>  KERNEL SMB3 SERVER (KSMBD)
+>  M:	Namjae Jeon <linkinjeon@kernel.org>
+>  M:	Namjae Jeon <linkinjeon@samba.org>
+
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+~Randy
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/c921d3d4-3f15-4b46-bd6c-2f48b2747e60%40samsung.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/3913273d-12e2-426f-aec7-263b7f49008a%40infradead.org.
