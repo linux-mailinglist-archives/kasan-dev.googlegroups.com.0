@@ -1,162 +1,154 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBXVSTPDQMGQEZIUBX2I@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXZ5J7IUEIBBCWLTPDQMGQEM4HK7OY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EF4BBC6B29
-	for <lists+kasan-dev@lfdr.de>; Wed, 08 Oct 2025 23:36:32 +0200 (CEST)
-Received: by mail-lj1-x23d.google.com with SMTP id 38308e7fff4ca-36a632165c9sf7073651fa.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 08 Oct 2025 14:36:32 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1759959392; cv=pass;
+Received: from mail-pf1-x43b.google.com (mail-pf1-x43b.google.com [IPv6:2607:f8b0:4864:20::43b])
+	by mail.lfdr.de (Postfix) with ESMTPS id F06A3BC6CB7
+	for <lists+kasan-dev@lfdr.de>; Thu, 09 Oct 2025 00:28:40 +0200 (CEST)
+Received: by mail-pf1-x43b.google.com with SMTP id d2e1a72fcca58-77f5e6a324fsf1377697b3a.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 08 Oct 2025 15:28:40 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1759962507; cv=pass;
         d=google.com; s=arc-20240605;
-        b=CV1RXGPn+wYpO2LJFSbcxdiWhxhUVoGvqXI9CFwq2yy0u7pxAqcafvltun7t9itm78
-         kMeVsFDgc8dES2nhfQMoKFhc+jhfTYZevPTvCgtKUIT12igbAH5G/RJcHCHu0SWhyMac
-         MghVnfFCyrRhZPPMD/N9Y/WkK/dKgdvqAv3gBMlvm9HJTW5XJ2voIVF46fwG+Vwubh9M
-         sfStOGu0O/OBjS090dLFskMo8KEJ3CBkaQDD3Xwklyryq8aFsg81I5aEYOfJ/XcDweOf
-         dlcXSmTjjPlOQjAqP328c7emhedfVBnWedPi9X30qEFg1P/QS/yfwdEZ34GGb+B3gyQP
-         LtUQ==
+        b=O/0QDp51FlrqdNPOWwOf5osa0XoP1DKNtuXD3Ib8ulIgntU0KHMFUqqH/74C5tYAQr
+         ZqnhOMlb4V10OyKSdQ/B0b4/6/m4VDe5KvgyLWRR8oBMXR2rZ81dTp1s+gsUfnNRr4Qo
+         /b6NS94Z/Cqi1udmO5HrD7ArFllLToJ+Pp71vhNjGZjNAa9lS4TWC723rHvWONo0u6GS
+         +kCtUT0UiOfjiTYDZhwN2/UZuQdVMyFyBcFV9kkVY/drH+L5X72uNphX5mToPa5whfbS
+         ACvU/I+9GcVcoP4HcbnXE2nTxuLwgMlEZg0YYOxMRndzxD2f9w+RmE6rRKcXSNrWyg/1
+         +QfA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=C/NraLvmLGH1SIqafu1ifbN21yMZqQKaO1lOLTsvhlo=;
-        fh=5ZFa6ndMTGtqDwjLtX+6+l9LslXD6CWqivVe5N4EcMo=;
-        b=i0Vftvn05Inpp4jn0sZjq2a3uSNqEthzJ2tLnR9MPboZ/5nVWa1fSXZzWhIKTIEYFq
-         OeVy4yl0kt98LBliAn0iJAeUZLegkwDps8pm3sQn9jmElea3p7S2BahEOb+N2pLAFylz
-         6xLnr8ahp2n+rixeIZLtGKALyESaK1VEjWfginQafcRM4BOhA+mOlx79NQqhvK3ieY0o
-         eOdm4D2xo9mbOj5FYG0XKD0Nf0Izxpo3vJJ5CU2G5Gpg5HgenXSlWozHPOt0PfiIYovV
-         Gg7dzXr96dINvR2NLT+w7wAp79Y0XpjRP6t0CjmstKWJcLm8ve52yImjzVx4A8oYjZsk
-         7F3A==;
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :in-reply-to:organization:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:sender
+         :dkim-signature;
+        bh=JmxQSN5PfTPXInf1EVaT6dSpjHYhVHys+GUg7GTfi4M=;
+        fh=LXz+cZjHN9R9XLJCNRR6qksTfuc5zl4bVsW/bnnPQkc=;
+        b=XcxPXI2ulEJffDlixwUJ7x6IYAEpfxil+MyuGnjqzXV4ePNksJyY8TJ7GXbH9kVyTG
+         ks8KxSrLwC69P1ppmRhpHmre0tGBhn6CCvvu4UtJWdID883t4hbxVdjXQ80TdYcHb7cg
+         gAE1Ol3MosqnLDm+ODdp8MeF675zYTEUnJ5GXda3L33q9aBoEvSxty/unY9yn5f+b873
+         qDGfjObvWxVDTpH1TP9//En0YVc2HhJ/HPtXJFzyPtrxoxxAuL+2QAvFfvgz9PXuGlqb
+         eU1XqHBhssMqfjj+thmLvk5RFt6Sl+jBbMGBGoiyy4fFzWH1t6A/poR7pLWctnjFmexW
+         3vBg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=WPEvHQrJ;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42a as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+       spf=pass (google.com: domain of yskelg@gmail.com designates 209.85.216.51 as permitted sender) smtp.mailfrom=yskelg@gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1759959392; x=1760564192; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1759962507; x=1760567307; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=C/NraLvmLGH1SIqafu1ifbN21yMZqQKaO1lOLTsvhlo=;
-        b=ldtKvZxf1/zlUcTcbau+rwrxsj07x/ZBe9uc+BY2WRQ4yW6qNg+skWzgcimOzfF2K9
-         mbe3rZ5Hg01OqYmBhKjV8eqs3jniOk7mjgMmvhKxGm+NqJ1sKJKguodGUL9gUvOYR7iI
-         MWe4DlD1qlXMYQ7kFWeK6f9STJdiFtIqT5kA4AO3v7zIsTBWDW/o4PZycMkt2UR5cHic
-         zMwQGmUSt7WOzLsM6IUpPu7gm8v+B/r0iTR6hqk+B8pPRXQ59/QfIja55L6/jmfxcSRF
-         8AMgfIDT6L6seS5aJ00bu4atO45pVEFLm/O3NpF3jfqLlN3yxXtj5wYLdex4BZD3em2V
-         5OLg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759959392; x=1760564192; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C/NraLvmLGH1SIqafu1ifbN21yMZqQKaO1lOLTsvhlo=;
-        b=kKkQxKvMF6BnRl5+/TqBpxOXUpRDh90QJlvcdFlBkl1UH5SW8bq34D9vtjH62uPMcm
-         y1fekE6kWbIN56Nsc8jCRqkKaGD+pD7/L3fI9KF4yAHG4loRj90/QQ8NlSe1tXVFegiC
-         Tz5+FGES7Blu1dRkpOx7mrvKFz29QKg5NufCPzFIL1BKJ+Pjws5uPO6Mf+jMLkTjGkJD
-         f81eGfTScJfwCZRB1XOSQIpdjIBX4ZbC+Gvp0QWqk2iBUzBHJ+J5ADr4IUHLMCi5Aj/L
-         6jHmxaeGZSqSRouVddZwIuYj3e95qfcpPSlytSBwGG/sNHLLOldat27cszTM5wIpROiM
-         ifHg==
+         :x-original-sender:content-transfer-encoding:in-reply-to
+         :organization:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:sender:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=JmxQSN5PfTPXInf1EVaT6dSpjHYhVHys+GUg7GTfi4M=;
+        b=LIGzCt3qkxcY1zIhop+poA5B9eENegtzrMeFiVsbcPxRoKVGvR2uzhuIR9z+5ybML/
+         HyIno/FJKeRBTqvq2IBlhAGE0Yay3LfAeIomZOaBy5oglH540bZNh6TwgmIO6iv+Jbrf
+         D4zinNFa0XdNpL+EZbV0HBLQhfNRkC1xUpW2NAvsGwvYSLuXuOJ5aJQttY+HYr+cKb8W
+         fSG/r7SFZd899j7HL2LSFAV1QuUKJsslfD9K50/Ihden5Zh9W7Ssgs5lczMsxCCZgNkq
+         LISh4Kxif4WEsJ9HzbZt4nIIIeKZn5rVvM71JXLdUQ1h/URes9SfI/4SvDN9BB0Ddtg9
+         DoZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759959392; x=1760564192;
+        d=1e100.net; s=20230601; t=1759962507; x=1760567307;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=C/NraLvmLGH1SIqafu1ifbN21yMZqQKaO1lOLTsvhlo=;
-        b=RUtLY+hKypRaEs82aMWanmk5rhvabaR1XNb6npdcu4qYhCBfEOqwclELLrxOQW6D98
-         dgGoTU7my9i48n1kMOHXWpyX5dJ9dJaHZy4rfz8W3F8pC90A3KWtI/QKwZgGkp1/9Ett
-         uJpiO07tjvZvHTCZY+Qtuu76FUCyK1pnKROIXfoWt9QTlA2mcXpM8/kBevmcXXOxfDER
-         grdratyjDak67nfCKXJIQ0F5Oi44en2brknJapDsL5eaySeMTOUx2d2ODBTsKFW7R+Sb
-         pi+N0cz3A7gdIfmezKeIszmUeOZGft42ekPruaTlO2XNhjBUJOKM6CkZBpEDFfanIFFr
-         KgNQ==
+         :content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JmxQSN5PfTPXInf1EVaT6dSpjHYhVHys+GUg7GTfi4M=;
+        b=gOewP/uw5zoqlAUEqm3pbYRPzEOFfsFghLrQI5R0CnAp3w4whVhemEJq2pij4z1poT
+         dHg2lIC+uvJanns+FIOVsZghWSovu7mGXja217k+pHqu9Sjohs4nE5vCpOr1uTJdT+Am
+         V+E34WNLWzMWoez6q0pc+rEF1jSBEyH7tXKk9t9GufyAPtW6hDpx40mnsf/+1yjexNEl
+         cgrgQzKjXenbmruKDN9WyKCh2lg1FbUVkd/YwmNct1jB4RDxvZrbqB6ZvM9mb0YrY4R3
+         0STnujKHspCVTWjoBAa+N/YVrrA0zmVJ4pVWuVT7Fgs5tPz2drX+VtwEPlp88asBOy+H
+         IIrw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUbR/cFYmm7lBOXdLZ1VJBY5a4g3j3ACmxYUrDqUHSV2KnUJTRF94pQuTK3aWuFlFpLBHdJsw==@lfdr.de
-X-Gm-Message-State: AOJu0YyE9c2XclNw3ZUavUO4Ra8tt1Q5jatdlcOdy/4xBiDamaJe5upj
-	ynPf6xXAWHu/U8DgRBv1V3HYJmNmNJMrsyC//MVk6iWto+uF/6O/PdaH
-X-Google-Smtp-Source: AGHT+IGYQ+B8oVyAk9rQ1Xs/Q+J7+H1az2m6OWwYJJj9YeNF8lp4eYZte20Zwp/2hW4tpMrwCMkzaw==
-X-Received: by 2002:a2e:858d:0:b0:337:e0d9:69a0 with SMTP id 38308e7fff4ca-3760a58a767mr12884631fa.20.1759959391288;
-        Wed, 08 Oct 2025 14:36:31 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd4ae8C1jDd+py/Y/9qkD4aLMqIEob8pFzOvDOj0FFmfxQ=="
-Received: by 2002:a05:651c:4384:10b0:372:94b2:759b with SMTP id
- 38308e7fff4ca-3761ca17d91ls236821fa.2.-pod-prod-00-eu; Wed, 08 Oct 2025
- 14:36:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVUtcE3cw4RkUJtQi384uOeAhMLOzjL3iVgsksspy3Bnj7lsp26WnRdmyMazIyUNq0EuKBqrjoy4I8=@googlegroups.com
-X-Received: by 2002:a05:651c:3608:b0:36c:b120:37b6 with SMTP id 38308e7fff4ca-3760a543562mr16116621fa.19.1759959388338;
-        Wed, 08 Oct 2025 14:36:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1759959388; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCWShuvOihbd4yMRKVaxcASWy7yQt3cWo/jrr/bYO5sKno6vPjv5FuotmADbgaY8wYDV7tZQlA==@lfdr.de
+X-Gm-Message-State: AOJu0Yylj+KzGxr6LfZJtNj1/yGyUVFOH70dDs3FV3iS+HcXe2jRbLhv
+	+l5aNW3ApjdNhkXwiEJsLFqZ9PBDDQ6Z9fufqTlTDBWNT8iLcg57hq+9
+X-Google-Smtp-Source: AGHT+IHbolLayUaMPyiyJQI0uX1zpDqIrJwdCKEm+DrMmmUS1WcvqIu4pfiszJossTu7zotgrUjGwA==
+X-Received: by 2002:a05:6a20:3d06:b0:251:1b8c:5643 with SMTP id adf61e73a8af0-32da845fdf3mr6801753637.50.1759962506924;
+        Wed, 08 Oct 2025 15:28:26 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd4QUi6CFQgI6yQq0gg3gUrd5U6u377fOsDYHoN+INU65A=="
+Received: by 2002:a05:6a00:2b98:b0:77f:19a2:eb01 with SMTP id
+ d2e1a72fcca58-794f33f7a55ls923410b3a.2.-pod-prod-08-us; Wed, 08 Oct 2025
+ 15:28:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCU3H2wIL0Whfz79oPSutR91uPBMynvu3/mMWIH0WS4C5HxILM0L/f2/SGO/dK9w68Zdptveffa3zZg=@googlegroups.com
+X-Received: by 2002:a05:6a00:886:b0:780:f6db:b1bd with SMTP id d2e1a72fcca58-79385324e3dmr5912824b3a.4.1759962505606;
+        Wed, 08 Oct 2025 15:28:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1759962505; cv=none;
         d=google.com; s=arc-20240605;
-        b=QrU1OeFeTqkdI932aKd9S3KUE8dz4cQmMyARV1W8cB9CYFpEhEpYt8pqQS3aLEiox+
-         bDMGBopNzKzccn/2l/5U9TmbE5N2LyEjGP9qm9zxdEmQioXqYhkjQj5SECkeXGtfr1Cx
-         g42L3/zH0r6A5wggwp6gZyA/Bt/BwrHl/tEA8fhRmba3P+6QoLUOvBKcoNQXoEdDIHDm
-         IVtb0BqtW5Kd4tZ5qeOoKghclvlsauM4u4uHfbUJdlg240eJjYEUmMqSHy1egmggeoeS
-         6ZB3Picg2svPfoPzG58D91PXgF3IhZ3QfGqTLp8BRF7fgR5dzx8KLdMHnBrOloeku5dk
-         3v/w==
+        b=K7Lij+dYtmc7o5qz0Tl5JVbwTQ3G5ESMypJbRsgV/JBa5qmvqp86/wqb/JoQRH1Lvn
+         gLqk1DvpaeXVfaCNi66vJ9TBTznHAU1G9ywm8g7DPWXYA2NpBb+DYQ9J5cKUIVc8jzDw
+         xZJbGrUY7GW7f5v3NBwWf2qHUOC4S0KTBBu9KyIQmAdtDKVdIXWjgGa0O+8UxRQa6Lcr
+         N6fejqDqpNLFYBMmcDmaDHnpHgH3zjiqNJ9n++FoXXzdZhkq/q5OkEbOCHNXVGDrqSSe
+         GMyf9jDxMfkWfDmwbFym2nUFp93Ttfl9y/9pKFtlIJDOjRn2lRl1+ajqqhNxW4fZ+80U
+         cBmQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=FEmyrKTdVo56+b/Tyh73u1BP5jkBeN0eSir3I6ZA6yY=;
-        fh=Ct4T6D21kHF3pegVxKPAjZ7y3qlu5zkasgOUCgtheGg=;
-        b=BruSfJCtr7/dWVr89/ugsjbvkM7XUx0OWe+JiS9XTy9R3q25XqUWtW9Td7T6Cm4aCI
-         yoPR2xjBXxNZhhHi5a75w8r2X6h85+5drN+190ewb8/7RYniM0Dx6aZdQTAx7/ePTBt5
-         CJ/V/45fQ7iIBinJd0ZfOp9fZQt9WZz+WXNxnybeZK+nerz75E1qktVjGYIp8sxkXV14
-         UYj0W8HsEAk+MD+5/wnPq48LFWnnKd+MfrFAVpJX6eCr7t1aSaQXprBqEwvELvfZmL1V
-         zXVYARnGZ8Z1sFkT1gWahGhUDp77Y6uskiAO/pS8qiTO/om38nku0eprwrfCNqMGMu+4
-         lV7w==;
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id;
+        bh=m+FDQ7zQAPnlAXJ0xUMPhBN5Vu4l6pnGvG4mZcfsdHU=;
+        fh=kaJT2dbmI3QgHS12CjXeOUMZKOFavxQZ2Gg0jX0Ifg8=;
+        b=N07FUKNfe/krYJo2WJYA2KMac6jRGj7qqh3BVvBKjOYJ4vNkRXJUyQhRNoxfiioUrt
+         IeBsnvZZ+9cVNtiUP1t1n09TDTKDinomjPn0FGOGZUQTt8u7/Ri0qkXnP4H8XX0pm0ob
+         ZbvJlfhqWXh76H6H4JHI5SWrwiFxcGSDtpM2v4Gu85mzp3GupLaPDUptj9Uk6ZrOtPiv
+         TT0QKDGgnKgEpYf4A8Wx22ZUYI5Q47P2k8mHsTbqziERS6R8I/E2+R5pNKiiiuM+zIBs
+         o6Lb3Ipok9H1gB7BfLzOFaxUitw+mQ/C9s8WLMiFbpCFmYmphlyXj4ITs8jug8iaOFiN
+         0MbA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=WPEvHQrJ;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42a as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com. [2a00:1450:4864:20::42a])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-375f3abc3bdsi1624101fa.8.2025.10.08.14.36.28
+       spf=pass (google.com: domain of yskelg@gmail.com designates 209.85.216.51 as permitted sender) smtp.mailfrom=yskelg@gmail.com
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com. [209.85.216.51])
+        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-794e513e895si68244b3a.4.2025.10.08.15.28.25
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Oct 2025 14:36:28 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42a as permitted sender) client-ip=2a00:1450:4864:20::42a;
-Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-3fc36b99e92so1107171f8f.0
-        for <kasan-dev@googlegroups.com>; Wed, 08 Oct 2025 14:36:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWOrEWyvY4mWUV9IJMidwNLEOJMXk6c0fzj4+JHStURoqe8bqwIepkYixMSGJXRTVhVS7z8Z0dmGts=@googlegroups.com
-X-Gm-Gg: ASbGncvhxKgrYNI/J2YIe4uMkAC6QmruT5/7pBA5MFAJVuw2JglKvHulcT1oqMNSACH
-	lE6O7f1AoZznnQZcivM/iFsmBMcOfdVH0+0eVrHgQcVHkbwLtFPkWI2/0c6a0Y0uuMhKNegDdmd
-	k1bMhQ4mqFx6NNGtoSpYpaS79guloe8P449GQk8O24EsnO4oyKze0DeFQFIwXnjl8A4Bn0zAdz0
-	W8fS/zNnY0ii1RKTyf7BPLjBGpaFqlM
-X-Received: by 2002:a5d:64e8:0:b0:3e9:4fe4:2621 with SMTP id
- ffacd0b85a97d-42666aa6354mr3738354f8f.7.1759959387489; Wed, 08 Oct 2025
- 14:36:27 -0700 (PDT)
+        Wed, 08 Oct 2025 15:28:25 -0700 (PDT)
+Received-SPF: pass (google.com: domain of yskelg@gmail.com designates 209.85.216.51 as permitted sender) client-ip=209.85.216.51;
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-339d7c401d8so56409a91.2
+        for <kasan-dev@googlegroups.com>; Wed, 08 Oct 2025 15:28:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWcJEFjPROceEPa8sOuDvTHqenZ5+lTWUFg/WvZjp3Ki9cE+ufYwT5NfyPJTz1U/SirX9aXfu2OCdE=@googlegroups.com
+X-Gm-Gg: ASbGncvrur92XPPVQNQElLAQ4o0os6LHwZAktOdbCDDIU9OGTzXfHrj5lPled7tH81t
+	EXTfVm46Thj0njDsJMAejWYapvXqOLUA3+Ma9YlO5YWCUAgRpMI7ady95SButlkJQ52NF06T1IE
+	hJR0z9Jjv6ieq2VqbPHiO9yVJ0TQiqro1GyvgjV0sVN6F8rSpJ8XFWHxpzTgkE/HxKlP2zY5us6
+	uiSN7BJHwbJE5tWw8yvK6qGCBCt5HSK5cD1XZj6hz60SFXTw80sQL0JrndP3YfFAx3hyzB3V0K1
+	xRYfTm8LXboJqQ+myap0sOled+wdpjE2HGb5G66MH1Cwz+etro+wIk0eY0FoNeIbVeDypRAL2ZF
+	ajyUuAAhtag/qHnBlFDMfiEB+qLnW+KVbjhapU6cfot2oAQr00woVvo0rRmirxUCBvTRyvTKQl9
+	YE3palS7O2auuoAiB7LP60DVo8vBrwYaeNUiK+zyz9HQ==
+X-Received: by 2002:a05:6a20:12c4:b0:2c1:b47d:bcde with SMTP id adf61e73a8af0-32da80da615mr3884733637.1.1759962505124;
+        Wed, 08 Oct 2025 15:28:25 -0700 (PDT)
+Received: from [192.168.50.136] ([118.32.98.101])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b62e3508744sm15811209a12.30.2025.10.08.15.28.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Oct 2025 15:28:24 -0700 (PDT)
+Message-ID: <d0fc7dd9-d921-4d82-9b70-bedca7056961@kzalloc.com>
+Date: Thu, 9 Oct 2025 07:28:19 +0900
 MIME-Version: 1.0
-References: <20251008210425.125021-3-ysk@kzalloc.com>
-In-Reply-To: <20251008210425.125021-3-ysk@kzalloc.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Wed, 8 Oct 2025 23:36:16 +0200
-X-Gm-Features: AS18NWDr7cACmDmTAFMFA6336Xs4RqGaLFCrqQxRq3mWW-FZjr-4oeDaD1dmdEM
-Message-ID: <CA+fCnZcknrhCOskgLLcTn_-o5jSiQsFni7ihMWuc1Qsd-Pu7gg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] arm64: cpufeature: Don't cpu_enable_mte() when
  KASAN_GENERIC is active
-To: Yunseong Kim <ysk@kzalloc.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	James Morse <james.morse@arm.com>, Yeoreum Yun <yeoreum.yun@arm.com>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, Marc Zyngier <maz@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
-	Ard Biesheuvel <ardb@kernel.org>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	kasan-dev@googlegroups.com
+To: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ James Morse <james.morse@arm.com>, Yeoreum Yun <yeoreum.yun@arm.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, Marc Zyngier
+ <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Oliver Upton <oliver.upton@linux.dev>, Ard Biesheuvel <ardb@kernel.org>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ kasan-dev@googlegroups.com
+References: <20251008210425.125021-3-ysk@kzalloc.com>
+ <CA+fCnZcknrhCOskgLLcTn_-o5jSiQsFni7ihMWuc1Qsd-Pu7gg@mail.gmail.com>
+Content-Language: en-US
+From: Yunseong Kim <ysk@kzalloc.com>
+Organization: kzalloc
+In-Reply-To: <CA+fCnZcknrhCOskgLLcTn_-o5jSiQsFni7ihMWuc1Qsd-Pu7gg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: andreyknvl@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=WPEvHQrJ;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42a
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+X-Original-Sender: yskelg@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of yskelg@gmail.com designates 209.85.216.51 as permitted
+ sender) smtp.mailfrom=yskelg@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -169,221 +161,135 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Oct 8, 2025 at 11:13=E2=80=AFPM Yunseong Kim <ysk@kzalloc.com> wrot=
-e:
->
-> When a kernel built with CONFIG_KASAN_GENERIC=3Dy is booted on MTE-capabl=
-e
-> hardware, a kernel panic occurs early in the boot process. The crash
-> happens when the CPU feature detection logic attempts to enable the Memor=
-y
-> Tagging Extension (MTE) via cpu_enable_mte().
->
-> Because the kernel is instrumented by the software-only Generic KASAN,
-> the code within cpu_enable_mte() itself is instrumented. This leads to
-> a fatal memory access fault within KASAN's shadow memory region when
-> the MTE initialization is attempted. Currently, the only workaround is
-> to boot with the "arm64.nomte" kernel parameter.
->
-> This bug was discovered during work on supporting the Debian debug kernel
-> on the Arm v9.2 RADXA Orion O6 board:
->
->  https://salsa.debian.org/kernel-team/linux/-/merge_requests/1670
->
-> Related kernel configs:
->
->  CONFIG_ARM64_AS_HAS_MTE=3Dy
->  CONFIG_ARM64_MTE=3Dy
->
->  CONFIG_KASAN_SHADOW_OFFSET=3D0xdfff800000000000
->  CONFIG_HAVE_ARCH_KASAN=3Dy
->  CONFIG_HAVE_ARCH_KASAN_SW_TAGS=3Dy
->  CONFIG_HAVE_ARCH_KASAN_HW_TAGS=3Dy
->  CONFIG_HAVE_ARCH_KASAN_VMALLOC=3Dy
->  CONFIG_CC_HAS_KASAN_GENERIC=3Dy
->  CONFIG_CC_HAS_KASAN_SW_TAGS=3Dy
->
->  CONFIG_KASAN=3Dy
->  CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX=3Dy
->  CONFIG_KASAN_GENERIC=3Dy
->
-> The panic log clearly shows the conflict:
->
-> [    0.000000] kasan: KernelAddressSanitizer initialized (generic)
-> [    0.000000] psci: probing for conduit method from ACPI.
-> [    0.000000] psci: PSCIv1.1 detected in firmware.
-> [    0.000000] psci: Using standard PSCI v0.2 function IDs
-> [    0.000000] psci: Trusted OS migration not required
-> [    0.000000] psci: SMC Calling Convention v1.2
-> [    0.000000] percpu: Embedded 486 pages/cpu s1950104 r8192 d32360 u1990=
-656
-> [    0.000000] pcpu-alloc: s1950104 r8192 d32360 u1990656 alloc=3D486*409=
-6
-> [    0.000000] pcpu-alloc: [0] 00 [0] 01 [0] 02 [0] 03 [0] 04 [0] 05 [0] =
-06 [0] 07
-> [    0.000000] pcpu-alloc: [0] 08 [0] 09 [0] 10 [0] 11
-> [    0.000000] Detected PIPT I-cache on CPU0
-> [    0.000000] CPU features: detected: Address authentication (architecte=
-d QARMA3 algorithm)
-> [    0.000000] CPU features: detected: GICv3 CPU interface
-> [    0.000000] CPU features: detected: HCRX_EL2 register
-> [    0.000000] CPU features: detected: Virtualization Host Extensions
-> [    0.000000] CPU features: detected: Memory Tagging Extension
-> [    0.000000] CPU features: detected: Asymmetric MTE Tag Check Fault
-> [    0.000000] CPU features: detected: Spectre-v4
-> [    0.000000] CPU features: detected: Spectre-BHB
-> [    0.000000] CPU features: detected: SSBS not fully self-synchronizing
-> [    0.000000] Unable to handle kernel paging request at virtual address =
-dfff800000000005
-> [    0.000000] KASAN: null-ptr-deref in range [0x0000000000000028-0x00000=
-0000000002f]
-> [    0.000000] Mem abort info:
-> [    0.000000]   ESR =3D 0x0000000096000005
-> [    0.000000]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
-> [    0.000000]   SET =3D 0, FnV =3D 0
-> [    0.000000]   EA =3D 0, S1PTW =3D 0
-> [    0.000000]   FSC =3D 0x05: level 1 translation fault
-> [    0.000000] Data abort info:
-> [    0.000000]   ISV =3D 0, ISS =3D 0x00000005, ISS2 =3D 0x00000000
-> [    0.000000]   CM =3D 0, WnR =3D 0, TnD =3D 0, TagAccess =3D 0
-> [    0.000000]   GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
-> [    0.000000] [dfff800000000005] address between user and kernel address=
- ranges
-> [    0.000000] Internal error: Oops: 0000000096000005 [#1]  SMP
-> [    0.000000] Modules linked in:
-> [    0.000000] CPU: 0 UID: 0 PID: 0 Comm: swapper Not tainted 6.17+unrele=
-ased-debug-arm64 #1 PREEMPTLAZY  Debian 6.17-1~exp1
-> [    0.000000] pstate: 800000c9 (Nzcv daIF -PAN -UAO -TCO -DIT -SSBS BTYP=
-E=3D--)
-> [    0.000000] pc : cpu_enable_mte+0x104/0x440
-> [    0.000000] lr : cpu_enable_mte+0xf4/0x440
-> [    0.000000] sp : ffff800084f67d80
-> [    0.000000] x29: ffff800084f67d80 x28: 0000000000000043 x27: 000000000=
-0000001
-> [    0.000000] x26: 0000000000000001 x25: ffff800084204008 x24: ffff80008=
-4203da8
-> [    0.000000] x23: ffff800084204000 x22: ffff800084203000 x21: ffff80008=
-65a8000
-> [    0.000000] x20: fffffffffffffffe x19: fffffdffddaa6a00 x18: 000000000=
-0000011
-> [    0.000000] x17: 0000000000000000 x16: 0000000000000000 x15: 000000000=
-0000000
-> [    0.000000] x14: 0000000000000000 x13: 0000000000000001 x12: ffff70001=
-0a04829
-> [    0.000000] x11: 1ffff00010a04828 x10: ffff700010a04828 x9 : dfff80000=
-0000000
-> [    0.000000] x8 : ffff800085024143 x7 : 0000000000000001 x6 : ffff70001=
-0a04828
-> [    0.000000] x5 : ffff800084f9d200 x4 : 0000000000000000 x3 : ffff80008=
-00794ac
-> [    0.000000] x2 : 0000000000000005 x1 : dfff800000000000 x0 : 000000000=
-000002e
-> [    0.000000] Call trace:
-> [    0.000000]  cpu_enable_mte+0x104/0x440 (P)
-> [    0.000000]  enable_cpu_capabilities+0x188/0x208
-> [    0.000000]  setup_boot_cpu_features+0x44/0x60
-> [    0.000000]  smp_prepare_boot_cpu+0x9c/0xb8
-> [    0.000000]  start_kernel+0xc8/0x528
-> [    0.000000]  __primary_switched+0x8c/0xa0
-> [    0.000000] Code: 9100c280 d2d00001 f2fbffe1 d343fc02 (38e16841)
-> [    0.000000] ---[ end trace 0000000000000000 ]---
-> [    0.000000] Kernel panic - not syncing: Attempted to kill the idle tas=
-k!
-> [    0.000000] ---[ end Kernel panic - not syncing: Attempted to kill the=
- idle task! ]---
->
-> Signed-off-by: Yunseong Kim <ysk@kzalloc.com>
-> ---
->  arch/arm64/kernel/cpufeature.c | 26 ++++++++++++++++++++++----
->  1 file changed, 22 insertions(+), 4 deletions(-)
->
-> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeatur=
-e.c
-> index 5ed401ff79e3..a0a9fa1b376d 100644
-> --- a/arch/arm64/kernel/cpufeature.c
-> +++ b/arch/arm64/kernel/cpufeature.c
-> @@ -2340,6 +2340,24 @@ static void cpu_enable_mte(struct arm64_cpu_capabi=
-lities const *cap)
->
->         kasan_init_hw_tags_cpu();
->  }
-> +
-> +static bool has_usable_mte(const struct arm64_cpu_capabilities *entry, i=
-nt scope)
-> +{
-> +       if (!has_cpuid_feature(entry, scope))
-> +               return false;
-> +
-> +       /*
-> +        * MTE and Generic KASAN are mutually exclusive. Generic KASAN is=
- a
-> +        * software-only mode that is incompatible with the MTE hardware.
-> +        * Do not enable MTE if Generic KASAN is active.
+Hi Andrey,
 
-I do not understand this. Why is Generic KASAN incompatible with MTE?
-Running Generic KASAN in the kernel while having MTE enabled (and e.g.
-used in userspace) seems like a valid combination.
+On 10/9/25 6:36 AM, Andrey Konovalov wrote:
+> On Wed, Oct 8, 2025 at 11:13=E2=80=AFPM Yunseong Kim <ysk@kzalloc.com> wr=
+ote:
+>> [...]
+> I do not understand this. Why is Generic KASAN incompatible with MTE?
 
-The crash log above looks like a NULL-ptr-deref. On which line of code
-does it happen?
+My board wouldn't boot on the debian debug kernel, so I enabled
+earlycon=3Dpl011,0x40d0000 and checked via the UART console.
+
+> Running Generic KASAN in the kernel while having MTE enabled (and e.g.
+> used in userspace) seems like a valid combination.
+
+Then it must be caused by something else. Thank you for letting me know.
+
+It seems to be occurring in the call path as follows:
+
+cpu_enable_mte()
+ -> try_page_mte_tagging(ZERO_PAGE(0))
+   -> VM_WARN_ON_ONCE(folio_test_hugetlb(page_folio(page)));
+
+ https://elixir.bootlin.com/linux/v6.17/source/arch/arm64/include/asm/mte.h=
+#L83
+
+> The crash log above looks like a NULL-ptr-deref. On which line of code
+> does it happen?
+
+Decoded stack trace here:
+
+[    0.000000] Unable to handle kernel paging request at virtual address df=
+ff800000000005
+[    0.000000] KASAN: null-ptr-deref in range [0x0000000000000028-0x0000000=
+00000002f]
+[    0.000000] Mem abort info:
+[    0.000000]   ESR =3D 0x0000000096000005
+[    0.000000]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
+[    0.000000]   SET =3D 0, FnV =3D 0
+[    0.000000]   EA =3D 0, S1PTW =3D 0
+[    0.000000]   FSC =3D 0x05: level 1 translation fault
+[    0.000000] Data abort info:
+[    0.000000]   ISV =3D 0, ISS =3D 0x00000005, ISS2 =3D 0x00000000
+[    0.000000]   CM =3D 0, WnR =3D 0, TnD =3D 0, TagAccess =3D 0
+[    0.000000]   GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
+[    0.000000] [dfff800000000005] address between user and kernel address r=
+anges
+[    0.000000] Internal error: Oops: 0000000096000005 [#1]  SMP
+[    0.000000] Modules linked in:
+[    0.000000] CPU: 0 UID: 0 PID: 0 Comm: swapper Not tainted 6.17+unreleas=
+ed-debug-arm64 #1 PREEMPTLAZY  Debian 6.17-1~exp1
+[    0.000000] pstate: 800000c9 (Nzcv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=
+=3D--)
+[    0.000000] pc : cpu_enable_mte (debian/build/build_arm64_none_debug-arm=
+64/include/linux/page-flags.h:1065 (discriminator 1) debian/build/build_arm=
+64_none_debug-arm64/arch/arm64/include/asm/mte.h:83 (discriminator 1) debia=
+n/build/build_arm64_none_debug-arm64/arch/arm64/kernel/cpufeature.c:2419 (d=
+iscriminator 1))
+[    0.000000] lr : cpu_enable_mte (debian/build/build_arm64_none_debug-arm=
+64/include/linux/page-flags.h:1065 (discriminator 1) debian/build/build_arm=
+64_none_debug-arm64/arch/arm64/include/asm/mte.h:83 (discriminator 1) debia=
+n/build/build_arm64_none_debug-arm64/arch/arm64/kernel/cpufeature.c:2419 (d=
+iscriminator 1))
+[    0.000000] sp : ffff800084f67d80
+[    0.000000] x29: ffff800084f67d80 x28: 0000000000000043 x27: 00000000000=
+00001
+[    0.000000] x26: 0000000000000001 x25: ffff800084204008 x24: ffff8000842=
+03da8
+[    0.000000] x23: ffff800084204000 x22: ffff800084203000 x21: ffff8000865=
+a8000
+[    0.000000] x20: fffffffffffffffe x19: fffffdffddaa6a00 x18: 00000000000=
+00011
+[    0.000000] x17: 0000000000000000 x16: 0000000000000000 x15: 00000000000=
+00000
+[    0.000000] x14: 0000000000000000 x13: 0000000000000001 x12: ffff700010a=
+04829
+[    0.000000] x11: 1ffff00010a04828 x10: ffff700010a04828 x9 : dfff8000000=
+00000
+[    0.000000] x8 : ffff800085024143 x7 : 0000000000000001 x6 : ffff700010a=
+04828
+[    0.000000] x5 : ffff800084f9d200 x4 : 0000000000000000 x3 : ffff8000800=
+794ac
+[    0.000000] x2 : 0000000000000005 x1 : dfff800000000000 x0 : 00000000000=
+0002e
+[    0.000000] Call trace:
+[    0.000000]  cpu_enable_mte (debian/build/build_arm64_none_debug-arm64/=
+=E2=88=9A (discriminator 1) debian/build/build_arm64_none_debug-arm64/arch/=
+arm64/include/asm/mte.h:83 (discriminator 1) debian/build/build_arm64_none_=
+debug-arm64/arch/arm64/kernel/cpufeature.c:2419 (discriminator 1)) (P)
+[    0.000000]  enable_cpu_capabilities (debian/build/build_arm64_none_debu=
+g-arm64/arch/arm64/kernel/cpufeature.c:3561 (discriminator 2))
+[    0.000000]  setup_boot_cpu_features (debian/build/build_arm64_none_debu=
+g-arm64/arch/arm64/kernel/cpufeature.c:3888 debian/build/build_arm64_none_d=
+ebug-arm64/arch/arm64/kernel/cpufeature.c:3906)
+[    0.000000]  smp_prepare_boot_cpu (debian/build/build_arm64_none_debug-a=
+rm64/arch/arm64/kernel/smp.c:466)
+[    0.000000]  start_kernel (debian/build/build_arm64_none_debug-arm64/ini=
+t/main.c:929)
+[    0.000000]  __primary_switched (debian/build/build_arm64_none_debug-arm=
+64/arch/arm64/kernel/head.S:247)
+[    0.000000] Code: 9100c280 d2d00001 f2fbffe1 d343fc02 (38e16841)
+All code
+=3D=3D=3D=3D=3D=3D=3D=3D
+   0:	9100c280 	add	x0, x20, #0x30
+   4:	d2d00001 	mov	x1, #0x800000000000        	// #140737488355328
+   8:	f2fbffe1 	movk	x1, #0xdfff, lsl #48
+   c:	d343fc02 	lsr	x2, x0, #3
+  10:*	38e16841 	ldrsb	w1, [x2, x1]		<-- trapping instruction
+
+Code starting with the faulting instruction
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+   0:	38e16841 	ldrsb	w1, [x2, x1]
+[    0.000000] ---[ end trace 0000000000000000 ]---
+[    0.000000] Kernel panic - not syncing: Attempted to kill the idle task!
+[    0.000000] ---[ end Kernel panic - not syncing: Attempted to kill the i=
+dle task! ]---
 
 
-> +        */
-> +       if (IS_ENABLED(CONFIG_KASAN_GENERIC) && kasan_enabled()) {
-> +               pr_warn_once("MTE capability disabled due to Generic KASA=
-N conflict\n");
-> +               return false;
-> +       }
-> +
-> +       return true;
-> +}
->  #endif /* CONFIG_ARM64_MTE */
->
->  static void user_feature_fixup(void)
-> @@ -2850,7 +2868,7 @@ static const struct arm64_cpu_capabilities arm64_fe=
-atures[] =3D {
->                 .desc =3D "Memory Tagging Extension",
->                 .capability =3D ARM64_MTE,
->                 .type =3D ARM64_CPUCAP_STRICT_BOOT_CPU_FEATURE,
-> -               .matches =3D has_cpuid_feature,
-> +               .matches =3D has_usable_mte,
->                 .cpu_enable =3D cpu_enable_mte,
->                 ARM64_CPUID_FIELDS(ID_AA64PFR1_EL1, MTE, MTE2)
->         },
-> @@ -2858,21 +2876,21 @@ static const struct arm64_cpu_capabilities arm64_=
-features[] =3D {
->                 .desc =3D "Asymmetric MTE Tag Check Fault",
->                 .capability =3D ARM64_MTE_ASYMM,
->                 .type =3D ARM64_CPUCAP_BOOT_CPU_FEATURE,
-> -               .matches =3D has_cpuid_feature,
-> +               .matches =3D has_usable_mte,
->                 ARM64_CPUID_FIELDS(ID_AA64PFR1_EL1, MTE, MTE3)
->         },
->         {
->                 .desc =3D "FAR on MTE Tag Check Fault",
->                 .capability =3D ARM64_MTE_FAR,
->                 .type =3D ARM64_CPUCAP_SYSTEM_FEATURE,
-> -               .matches =3D has_cpuid_feature,
-> +               .matches =3D has_usable_mte,
->                 ARM64_CPUID_FIELDS(ID_AA64PFR2_EL1, MTEFAR, IMP)
->         },
->         {
->                 .desc =3D "Store Only MTE Tag Check",
->                 .capability =3D ARM64_MTE_STORE_ONLY,
->                 .type =3D ARM64_CPUCAP_BOOT_CPU_FEATURE,
-> -               .matches =3D has_cpuid_feature,
-> +               .matches =3D has_usable_mte,
->                 ARM64_CPUID_FIELDS(ID_AA64PFR2_EL1, MTESTOREONLY, IMP)
->         },
->  #endif /* CONFIG_ARM64_MTE */
-> --
-> 2.51.0
->
+If there are any other points you'd like me to check or directions, please
+let me know.
+
+Thank you!
+
+Yunseong
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-A%2BfCnZcknrhCOskgLLcTn_-o5jSiQsFni7ihMWuc1Qsd-Pu7gg%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/d=
+0fc7dd9-d921-4d82-9b70-bedca7056961%40kzalloc.com.
