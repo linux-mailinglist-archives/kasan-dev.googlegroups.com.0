@@ -1,53 +1,53 @@
-Return-Path: <kasan-dev+bncBDLKPY4HVQKBBZGPTXDQMGQEPXU4XWA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDLKPY4HVQKBBGGZTXDQMGQESBR7HCA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x438.google.com (mail-wr1-x438.google.com [IPv6:2a00:1450:4864:20::438])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53749BC7BF5
-	for <lists+kasan-dev@lfdr.de>; Thu, 09 Oct 2025 09:44:37 +0200 (CEST)
-Received: by mail-wr1-x438.google.com with SMTP id ffacd0b85a97d-3f3c118cbb3sf757882f8f.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 09 Oct 2025 00:44:37 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1759995877; cv=pass;
+Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09DC8BC7E6D
+	for <lists+kasan-dev@lfdr.de>; Thu, 09 Oct 2025 10:04:43 +0200 (CEST)
+Received: by mail-lj1-x239.google.com with SMTP id 38308e7fff4ca-36ac8376b3asf2914661fa.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 09 Oct 2025 01:04:43 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1759997081; cv=pass;
         d=google.com; s=arc-20240605;
-        b=bfHzSEge13teUeSdns/S4JJpkl/nzMhjOKpVAdX6NeFbtubWz48UrLdy8VRvc7ngk5
-         CzHhDhSV7+Dh0nx/u/eOa07I/Krak9wnOugYrFLPmIYstEVJmFHQOPMtFxEMw9lPv5Rx
-         bHz+N1Hyrlzq0mIGfDVFpImOLNfEJeeIJePkv1Z11Qd2LcLg9tU8ak/CIjePK9Izjzb4
-         9fFeXp3y1Nyfe9a/P6nstg/Ycbc2g7vMeI6FbK6UkidBTigZNnzbxhx01hY40yEm3MeV
-         XYCq3MpGzAMuXLLbpRvJTnOXV5Zl3/Z8lz05WyaGXWgXmvdO+DCz7oAydMj0PXY2JLqX
-         BkfQ==
+        b=lB6WtNgnxR1jY5D4pX29fsjmclypoeDRUKk2PglOwweE9ke/PFtvG1g4LWoK4OUb8Q
+         zkImIHaWLWi+p9XQP/JDskTVSRw9MR8wJblPJNQQNhQaAJA7WHxg71F9MQ/ud+GCEcK6
+         bldBpdha5LF7/HToEoyIDqeJpKL7uE//dAK+On9nJ3IsegF5xYuK1kdTvYC/GowugOeF
+         Hrp0oqfwZBArwj8aPAVYPxT7WLi800nTICQ11EHzNTuhgSNSd7UOvHrDDnW7eTXKGCBt
+         +ToJwwjHne2quAjO1rrAIeHej/qPLLv8zSdfllovsi8hGUoxdgsgKFRX6iupS0yjok+M
+         4rcA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :in-reply-to:content-language:from:references:cc:to:subject
          :user-agent:mime-version:date:message-id:dkim-signature;
-        bh=cEh2bDxYvmHP5eKJ2+a/doefYtZuBVdRypRJC9HYv5g=;
-        fh=7qgV8PzTALTRa7+KbXLR1I5skmpKimWKrb89VLVTL9E=;
-        b=e9RrExfdzrewzUZRJYtx826YeqLg55DSjntIUwKXbGzEBM3WNuq+zzOroKYoTDpfaA
-         FqI4Z1oy1HxKrD9GdY63bLPQf2VehdMTN8gsTY2UVOniERhbwsOfWDI5BaEjOy3z0KHV
-         XphKjsm+OCbFS+8wqq1189kzVXrHVo86hOlSRquyMs5FsZ7aKdT/33rA38C9BJNreF+y
-         wg8Py/si+AyAuCnnqKlMXwGM6FZ2nS1Xib4/DrMqTZ6k2UcYtGZy03xhHWbYlCb5xW2n
-         l70hQqr3pa8fogQRHa5N2rRNn28/KcNlxluXfPOe1/5IfY2n1T0PkYUR4FNzo2Dho/NU
-         bIgQ==;
+        bh=Z9cJ1lnQGp6bx+N8TIxb2kQ88UORjcmUiCfRYMScWbg=;
+        fh=73RQrvwCP7Y9vfQN2L5vP3r/HqBtFqQ9rN8/VwpRb9I=;
+        b=MgDUHq4d/yjlpTBXeuTUOTDP9UZwEXQtNl4r3A/n/APhLoSItzmR19xO5D/mEIR87V
+         ePhCKGnt1qKsGvmlwLpFOoP+2rVnWZf8aYwcYArOwPZTktIxWD3tr3F8Tra3qNSumgQl
+         OFU3XsKVVF0/qP8ekN2mImfaK93qxxRFWyqVi54xynRvNWOTVXsPoBOtM/3ovigkvChM
+         FFf8AIvEfEqh5rIxr19SeakAm6ONpbTRaFtiFWtrt6OaD6fpNJtDvdqmTA82M4wVUKS8
+         oziQ7WQ6t1i10N1/IsWGo7LvbSSFwNy4NFsf5v7WVfNa8I9sPTS7nuJYeIvIuyYZ2SoF
+         IkAQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1759995877; x=1760600677; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1759997081; x=1760601881; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=cEh2bDxYvmHP5eKJ2+a/doefYtZuBVdRypRJC9HYv5g=;
-        b=MyBCQZ3W1kCgCW2RgtVOOy1Q1M/P+FwVB3nAMqSvo4tNoiWbzNEhxr1i02z0sVjtTw
-         oz2AqUpUNXh4AmRsoGe7sdNynqH1Ze71jPautC4q3SeplW07RIMS0nJEo/ibLM+cMBMQ
-         2B8gdVUrfbt7HElpvl8XAAYuVdHByR0NhG9gQPXgh8PCVmg9e/en0D/PjrtK+6U0xV1X
-         GCI3if4ZoJ/YpBDorNADQk0zaue9DOagFzjeggF8JJ6AEQcabAo3pqQ1FO70o2GKwq87
-         KsTv4YKWTNC/veyvuO9dBGp1oHFpSIIWwmS4G1BDaMxZ/4Ij1G2i9KTRIecK0NYRsnTD
-         +DMA==
+        bh=Z9cJ1lnQGp6bx+N8TIxb2kQ88UORjcmUiCfRYMScWbg=;
+        b=F3I15/pMqwAN4ry5NF70zJsYRK4Q989rTzGDVe6zIVmZq32XkYStEnqh1jCHu16nYe
+         QywJPfV3hLcmOFICZbYNBAygjsv6fc2MIrcw4ntNdepKXCBYzIRJChdYBTSlIU+QyfBo
+         gc4Fnr1JENv2vo82TyoHl8tgOaJrQYGqv8bGGHTZ71YyFXDna+JIpjYwvv3vzHif73ry
+         +gj5Pa11GYCiDwuPrQ2/8zlzUGzPSt2A2QSQdk14yuKhb1gRsmio1tcJwYJAhOpCvS4o
+         ikouU/lvdRN/EOqx360y1FvRXaN8W+9Y7X8CMVBotf871W7RRfRwiYh//ZelN+8WpRBJ
+         EFxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759995877; x=1760600677;
+        d=1e100.net; s=20230601; t=1759997081; x=1760601881;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
@@ -55,76 +55,76 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cEh2bDxYvmHP5eKJ2+a/doefYtZuBVdRypRJC9HYv5g=;
-        b=Yh7iOneFEGLcaaPy2j+YLJf1ypWMtVNBJXDRT4binuxqqioLBt4qqW/umMbMLiJYI9
-         FKMn9yjQlD66k3S2aa18JHomJ9I/7qt91AdCeiDKEEJC8MSWpqxdv9YxgdlMxQll5K8I
-         f2hCAgFhfnm7bj1YTfKqFAT8JlFp+PkGxGzUVj9sktEbH303UePknopcKvUxZl17cReV
-         ZEaacE1Sti0981Qg3aZfVrmESTnI2MeP9JJBdKMRFtHB7EZ1weHs5BmVlLrD8Fo3E9Z2
-         Iivqnx47YLO1yoFYj6tGON1zH3DMemH62RDFlalTSS1hPfXopgz6XW/rWMqskeiaQE7m
-         3WiA==
-X-Forwarded-Encrypted: i=2; AJvYcCWd7gamhtnES5QucuIu4T7eChrbkcAE/d6b1u1c3vqQiqmJcsKmtuDm/xiXWRdgkffE8bKtIw==@lfdr.de
-X-Gm-Message-State: AOJu0Yz0Cuw2quyuxp3Pm2TpW5yAfsu3pqVo3K1DleAg6HuKkPIiqR6Y
-	A+YVgF7EdrVQ2X5DOCyeRH0d4tRs+zQ/PxThsfJsHBiT61E4l1A84+la
-X-Google-Smtp-Source: AGHT+IE02Q0rhe63Z7AajMnA/SC0KR68w+h6xFbkMsYGjt+/Dr48gmhdBZQZbGHUB4MZ3qVNqycXbA==
-X-Received: by 2002:a05:6000:2681:b0:407:4928:ac82 with SMTP id ffacd0b85a97d-4266e8dd3fcmr4020132f8f.53.1759995876628;
-        Thu, 09 Oct 2025 00:44:36 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd7U5RFG9KRSPSJNIqEGZsWGk/ybfXw3rhWcShymxAYV5A=="
-Received: by 2002:a5d:6383:0:b0:412:ab9e:8222 with SMTP id ffacd0b85a97d-426c7ddd70els512205f8f.2.-pod-prod-05-eu;
- Thu, 09 Oct 2025 00:44:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXYaSKl3lLmOSH0M8MvmoVe0vYiDlOTXsmDa03zIX9Wko+cpe8IN03UA20I2KwxgfKnamRu5CzM2es=@googlegroups.com
-X-Received: by 2002:a5d:588b:0:b0:425:86c2:7b4a with SMTP id ffacd0b85a97d-4266d0da0a8mr3802343f8f.24.1759995874068;
-        Thu, 09 Oct 2025 00:44:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1759995874; cv=none;
+        bh=Z9cJ1lnQGp6bx+N8TIxb2kQ88UORjcmUiCfRYMScWbg=;
+        b=reGALnHl9BoxDRkG9v5iK/5HUBOEd4UjlRLC9dUcCb2nNFUX+76aoQNxR27BR+t6+x
+         WRWg9IhpegPX5fBhtBXAb/fkHAx1jnN8TAziYZmcQ/889X7RxVNYVOGdtdjHNDBMwYxg
+         KBd4dwyawkkiW2TjtNh3CcTUPFIVr4sE4/8wtJdfRHwxliLWrCXZGhnF85kXsIrtFS3X
+         QebqdElSLf7C6pJrIpuHcVkfrF9RJUbOCDOQuSQgUJ6JaQ2mD0x31yb6eXmzE5B8zlis
+         7UxGgUjmhslzVvKZRSjkMTkCB7dBrNqCHJtqti3q3Sz+Op4FRs3lH0PeD81SULL9uHYQ
+         cH0Q==
+X-Forwarded-Encrypted: i=2; AJvYcCXdr6MW+pnH3Pc3dFgMnazDsKW32zl1DhUGG2T0lqP60RtW8NgOu5VNE64/bB2W4UMpRfHOCA==@lfdr.de
+X-Gm-Message-State: AOJu0YzYPLK945zKaOAPHOKYzW36dIjjaj6DGhL7XKt9CVFKBHQuKG2B
+	oS+CZWhL4uYfAttnq/Vwu+3HTsdp0F6mh4zxB+fFTN0EjAiXe5lWurVR
+X-Google-Smtp-Source: AGHT+IF8WHV6LX+pwrhNaBdy2MF3nh7LmnLJYX95KQi/IkPlbdSc4zmRhfvyZ5AjQwo8U5/w4psf9w==
+X-Received: by 2002:a2e:b8d0:0:b0:351:786c:e533 with SMTP id 38308e7fff4ca-37609d67ce3mr18496521fa.15.1759997080871;
+        Thu, 09 Oct 2025 01:04:40 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd61/K8Wc/D/PaBe0V3KEaVIqq2YqEHNUCFwn4NcMGnUFQ=="
+Received: by 2002:a2e:83d0:0:b0:363:22ce:bcfc with SMTP id 38308e7fff4ca-3761c93ceb0ls1199101fa.2.-pod-prod-03-eu;
+ Thu, 09 Oct 2025 01:04:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVAAJ3U9KvkdudJMHXpOp5zUaRhPOGWyyjF/pZOBO9rCILSJpxmoLkBtobYQvJ0dOM2rkvm5bXJDK0=@googlegroups.com
+X-Received: by 2002:a05:651c:2552:10b0:372:9135:be24 with SMTP id 38308e7fff4ca-3761e51ca40mr4164641fa.21.1759997077810;
+        Thu, 09 Oct 2025 01:04:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1759997077; cv=none;
         d=google.com; s=arc-20240605;
-        b=NvxOuR7aww/DtY6CF8TIHIvFbOVZeEDqy+GVog7vDNbxK0B4BURlbSuYLNjv6C6O5m
-         aEBg0Zr2OeK4erHW/CFWWCJSaG7IvEGgrq2SQa783M5YsiQeHUoDB5W6Yy/3QExuuvgW
-         RKgnVIhIvx/MEf9/dRzn0KrsXgezbFk/4/+gy9mN0OTsi8ACFf6o6BCdQ+Q3xl/dJKpB
-         gqqDWUNf9qpngMF7WNinoh531TOzm7lZVlx8dxLGX/6oWgPmWC7onMLjLWrJHkLGb7Mi
-         iqhM7UGJ4oibfhyGfS8Qg1oLULRVJJFaoh2jcwsavCwPrqVlwZeM/w1F8to6FW6edj3m
-         XRKw==
+        b=Pjmv6hKOjvQkCldqbLhaOGhGFo274QKybdnT6AaibbKNY+vv+T+hGC/jQB17K4Ci/7
+         2X9Go8Jom1dMuQYUuj1lGeKorjwllNRYLD2FnoObSY9OfkcXyeMZQbu8rysyT1689MO8
+         XSiVlzTZLntSDHittgG1FZRQbZoCZjBOSh32grJF2PP+Xlk0SdliB1HENmYhQYaGxpHO
+         ceJDGRU4Q7e6KOWXWNQt3vg7kh0c6AXxKdJFo5+oH0qFFraneoDHlhdMCM6Yf2b4t5wx
+         qZpYen9ToriVlUttC6zQXfAscVgVrMhqClqyyD6q1sU+VNdclp3p5DcMVnXqog0NnoUA
+         Z2WA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id;
-        bh=s+XtmwdKc8QKMPTZ9xcrxbfmEnkdKPymPLn6kJMJIBg=;
+        bh=Xbw+RhCM/KhKNE+NeIDOVsuF3+v6zQfqYVSxtVn6guE=;
         fh=7wgiGZD7GN9L56S35I5R8c/eoPZ2zJ2PKdmpqRxCfmQ=;
-        b=GiQsMqCv2Hf9eY6SSA4Zw60eVpdaezpvM2oWUBLGz40Piqj1++dKjmIq/n3EBDtUoo
-         YtVTch+rf+utV8XVvgolB8H3A79oVw0hd22Bs0X3GdOtIuApK0+gg4z1iDvkkFLGtZgO
-         TIppXAam4Is+I1WGF9LE7s6BFThxCozjs3hgbyp90MTkXrniJOC7V/gk7WXrb1TEeghl
-         WqYcC+s8MbWwslMjwLVhX2eRMvyWp/HmO20++KleYcR00FKopJ4fSGCMrN/cvwM+K6uq
-         mJiDUpTdPI+Oavm10LmegeEoL+qvM6+PYyQ/ZFXFfVApmStE5j48YRY2PSnplPhK0X+z
-         4+Pg==;
+        b=Na2/D5ItF2Ra6MqXVP54K8tGcS0kVVZpck2dMin+NNHHHCQjRgj04earANHaPr8y7D
+         u3BqSH9iGiQOzSDNQIXt6CcpBmg9A7hoGIXBUQXaUmib66T68q1uY2gOBT+kE3hqp5zj
+         Gbf6zNopb1y9J6IDqc25S/2tI6RiK73dPirmiIoNVb9QrvBPRzWkw1wpzata8da5wbUk
+         BQv5IRp1OT1LwL8rt2SZP71DkQ9ORq2+jqrEGa3VjprsFJXiGV3aqZVU4NRDgi/e4iNI
+         7LMNMQ0iQ8EvywJZHGq0WhcDil8ppaR5OgdvfUrJo70ncTg7vZI8n49TK5huNFu4dbyo
+         RhvA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
 Received: from pegase2.c-s.fr (pegase2.c-s.fr. [93.17.235.10])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-46fab36dd87si830225e9.0.2025.10.09.00.44.33
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-375f39814aasi1887741fa.2.2025.10.09.01.04.37
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Oct 2025 00:44:34 -0700 (PDT)
+        Thu, 09 Oct 2025 01:04:37 -0700 (PDT)
 Received-SPF: pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) client-ip=93.17.235.10;
 Received: from localhost (mailhub4.si.c-s.fr [172.26.127.67])
-	by localhost (Postfix) with ESMTP id 4cj22T4GVLz9sSy;
-	Thu,  9 Oct 2025 09:44:33 +0200 (CEST)
+	by localhost (Postfix) with ESMTP id 4cj2Td0Mj6z9sSL;
+	Thu,  9 Oct 2025 10:04:37 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at c-s.fr
 Received: from pegase2.c-s.fr ([172.26.127.65])
 	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id e-hrpkSiMM5A; Thu,  9 Oct 2025 09:44:33 +0200 (CEST)
+	with ESMTP id qQ36Dhni13kk; Thu,  9 Oct 2025 10:04:36 +0200 (CEST)
 Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase2.c-s.fr (Postfix) with ESMTP id 4cj22T2bCVz9sSq;
-	Thu,  9 Oct 2025 09:44:33 +0200 (CEST)
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4cj2Tc5kJ8z9sSC;
+	Thu,  9 Oct 2025 10:04:36 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 3E1858B768;
-	Thu,  9 Oct 2025 09:44:33 +0200 (CEST)
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id A8FDF8B770;
+	Thu,  9 Oct 2025 10:04:36 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at c-s.fr
 Received: from messagerie.si.c-s.fr ([127.0.0.1])
 	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id iEsvyTlwygx4; Thu,  9 Oct 2025 09:44:33 +0200 (CEST)
+	with ESMTP id CnXkw3FAfnqR; Thu,  9 Oct 2025 10:04:36 +0200 (CEST)
 Received: from [192.168.235.99] (unknown [192.168.235.99])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 4940A8B767;
-	Thu,  9 Oct 2025 09:44:31 +0200 (CEST)
-Message-ID: <1fb2259f-65e1-4cd0-ae70-b355843970e4@csgroup.eu>
-Date: Thu, 9 Oct 2025 09:44:30 +0200
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id AE04F8B76D;
+	Thu,  9 Oct 2025 10:04:34 +0200 (CEST)
+Message-ID: <faf62f20-8844-42a0-a7a7-846d8ead0622@csgroup.eu>
+Date: Thu, 9 Oct 2025 10:04:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: (bisected) [PATCH v2 08/37] mm/hugetlb: check for unreasonable
@@ -190,40 +190,66 @@ Le 09/10/2025 =C3=A0 09:22, David Hildenbrand a =C3=A9crit=C2=A0:
 >> Hi David,
 >>
 >> Le 01/09/2025 =C3=A0 17:03, David Hildenbrand a =C3=A9crit=C2=A0:
->>> Let's check that no hstate that corresponds to an unreasonable folio=20
->>> size
->>> is registered by an architecture. If we were to succeed registering, we
->>> could later try allocating an unsupported gigantic folio size.
->>>
->>> Further, let's add a BUILD_BUG_ON() for checking that HUGETLB_PAGE_ORDE=
-R
->>> is sane at build time. As HUGETLB_PAGE_ORDER is dynamic on powerpc,=20
->>> we have
->>> to use a BUILD_BUG_ON_INVALID() to make it compile.
->>>
->>> No existing kernel configuration should be able to trigger this check:
->>> either SPARSEMEM without SPARSEMEM_VMEMMAP cannot be configured or
->>> gigantic folios will not exceed a memory section (the case on sparse).
->>>
->>> Reviewed-by: Zi Yan <ziy@nvidia.com>
->>> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->>> Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
->>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>
->> I get following warning on powerpc with linus tree, bisected to commit
->> 7b4f21f5e038 ("mm/hugetlb: check for unreasonable folio sizes when
->> registering hstate")
+>>> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+>>> index 1e777cc51ad04..d3542e92a712e 100644
+>>> --- a/mm/hugetlb.c
+>>> +++ b/mm/hugetlb.c
+>>> @@ -4657,6 +4657,7 @@ static int __init hugetlb_init(void)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BUILD_BUG_ON(sizeof_field(struct p=
+age, private) * BITS_PER_BYTE <
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 __NR_HPAGEFLAGS);
+>>> +=C2=A0=C2=A0=C2=A0 BUILD_BUG_ON_INVALID(HUGETLB_PAGE_ORDER > MAX_FOLIO=
+_ORDER);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!hugepages_supported()) {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (hugetl=
+b_max_hstate || default_hstate_max_huge_pages)
+>>> @@ -4740,6 +4741,7 @@ void __init hugetlb_add_hstate(unsigned int order=
+)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BUG_ON(hugetlb_max_hstate >=3D HUG=
+E_MAX_HSTATE);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BUG_ON(order < order_base_2(__NR_U=
+SED_SUBPAGE));
+>>> +=C2=A0=C2=A0=C2=A0 WARN_ON(order > MAX_FOLIO_ORDER);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 h =3D &hstates[hugetlb_max_hstate+=
++];
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __mutex_init(&h->resize_lock, "res=
+ize mutex", &h->resize_key);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 h->order =3D order;
 >=20
-> Do you have the kernel config around? Is it 32bit?
+> We end up registering hugetlb folios that are bigger than=20
+> MAX_FOLIO_ORDER. So we have to figure out how a config can trigger that=
+=20
+> (and if we have to support that).
 >=20
-> That would be helpful.
 
-That's corenet64_smp_defconfig
+MAX_FOLIO_ORDER is defined as:
 
-Boot on QEMU with:
+#ifdef CONFIG_ARCH_HAS_GIGANTIC_PAGE
+#define MAX_FOLIO_ORDER		PUD_ORDER
+#else
+#define MAX_FOLIO_ORDER		MAX_PAGE_ORDER
+#endif
 
-	qemu-system-ppc64 -smp 2 -nographic -M ppce500 -cpu e5500 -m 1G
+MAX_PAGE_ORDER is the limit for dynamic creation of hugepages via=20
+/sys/kernel/mm/hugepages/ but bigger pages can be created at boottime=20
+with kernel boot parameters without CONFIG_ARCH_HAS_GIGANTIC_PAGE:
 
+   hugepagesz=3D64m hugepages=3D1 hugepagesz=3D256m hugepages=3D1
+
+Gives:
+
+HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
+HugeTLB: 0 KiB vmemmap can be freed for a 1.00 GiB page
+HugeTLB: registered 64.0 MiB page size, pre-allocated 1 pages
+HugeTLB: 0 KiB vmemmap can be freed for a 64.0 MiB page
+HugeTLB: registered 256 MiB page size, pre-allocated 1 pages
+HugeTLB: 0 KiB vmemmap can be freed for a 256 MiB page
+HugeTLB: registered 4.00 MiB page size, pre-allocated 0 pages
+HugeTLB: 0 KiB vmemmap can be freed for a 4.00 MiB page
+HugeTLB: registered 16.0 MiB page size, pre-allocated 0 pages
+HugeTLB: 0 KiB vmemmap can be freed for a 16.0 MiB page
 
 
 Christophe
@@ -233,5 +259,5 @@ You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/1=
-fb2259f-65e1-4cd0-ae70-b355843970e4%40csgroup.eu.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/f=
+af62f20-8844-42a0-a7a7-846d8ead0622%40csgroup.eu.
