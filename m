@@ -1,143 +1,136 @@
-Return-Path: <kasan-dev+bncBC32535MUICBBY74TXDQMGQEL42JBMI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDLKPY4HVQKBB24PT3DQMGQEHXQMQOQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63a.google.com (mail-pl1-x63a.google.com [IPv6:2607:f8b0:4864:20::63a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6543CBC842B
-	for <lists+kasan-dev@lfdr.de>; Thu, 09 Oct 2025 11:20:37 +0200 (CEST)
-Received: by mail-pl1-x63a.google.com with SMTP id d9443c01a7336-28d1747f23bsf13027555ad.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 09 Oct 2025 02:20:37 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1760001635; cv=pass;
+Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4FCBC864D
+	for <lists+kasan-dev@lfdr.de>; Thu, 09 Oct 2025 12:01:16 +0200 (CEST)
+Received: by mail-lj1-x239.google.com with SMTP id 38308e7fff4ca-36af4d383fesf3872631fa.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 09 Oct 2025 03:01:16 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1760004076; cv=pass;
         d=google.com; s=arc-20240605;
-        b=h9YBGSr8QSiD62kHk+PiCTfcgcLkUJfes4/KxSmTGy7mgSEW4tAzBFmiWd+l9O+79U
-         cXDshO5dDC67+kMry/OcPa7us0AHgBRp1USVGjQgV2eU8YUmaW146kYr/hUgLm3Nwedz
-         8GaMrxcjyre+bnfhbRTTjMbLapqsCVUpp17WfOX7zIoi2BHemSVGDSq5Lj6mTPd+3QsX
-         TfiOvPIAPHBiv64Y+PUS4IXC8YnsVNR2UhVtwQvBCHYcH+YhDI1DnQoNW11rDGE7pKBC
-         PU2LZE7CHERf31ldRy2JM9WAZ3IIwDpon1Fl3CollGCM/xbXw52yS3GnSiwRWIeafzzH
-         t6mg==
+        b=jUyv+LotavkwY1lvYRLnrR6KfMAL3t6hKH3Zu4+lR9AxMDcbGhQku2eKFAOfkknEnX
+         gw/69k0HnwAeqzG7zZZZw5h0SuHb1waoviepxfmku319DZVA2pJHGJbx/Hhr3veJe+xb
+         J304P/u6K5WaUrCxKMhnEAd62R/lyjY1VH31IKbf+2/6GSsgDJXrJ5RdkbtE9CHk6YDx
+         sZlxIxVkI1Nu6QvM1K9QS59gyTSA7NRJtNs4KyZjNZhScg/KQqf4kY4knyoxl3tajli+
+         au40yz/cRp4H4VxO603Ojrr1djSzYIIsgrxxQN+9T6tEDaj8hJwC9u+Y/ozGx4NDxcUq
+         4uZg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :content-language:in-reply-to:autocrypt:from:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:dkim-signature;
-        bh=Wxm27x9SWToEOcaOJ5R7OEdolUs7bsT8QWKzZ1tI4Gc=;
-        fh=6HQzp2CBrxD62ynR8EOlTjO0iZTd0FmRW1voT8TKgKQ=;
-        b=AaS6P1hS6L1PP6jeShgdT6yGojldbhfrPyKTwRMOPQt5+2ZuNrOR5FEIOL79mIpg1j
-         KmWtTAVSB6ZiysQeoK5J4MWw7We/s1dU0lJ77mHe3bRx4AAkNdacXIK1fh7JyNdE6NG3
-         d4zeX08dEcNYkO1DM5VBDUSpQRri2/9Nd3ZkMpYSxQJ65ol95UCX+PD9rEqTwtieb/ZQ
-         t+Tgjv2Vi3K7vVbYmf/Q+XnxBKj7ri27psCHAkMXfDL3slka666uLLpOMltiDLk4oa6d
-         PgXOPd9Of6tlYuM0YN8bYTUzxVJ0b7vJ8r0x9bh5RdgAVVoU7oI6nX2P1WucBFX4Txj0
-         IdRg==;
+         :in-reply-to:content-language:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:dkim-signature;
+        bh=ngHWrtw+vyiKTuJ+Eca4ykwxUDDmGsuP6B13CrN0kdA=;
+        fh=7zLA/YATsEYYOIePwnOPihdRkyouJ7RNm3emyLOvUDI=;
+        b=HX5te5QGbMDeOFBuiU/OkBMrPNCBLh3f/l/FnalnLOWVoqPR2XL3qEKmq/FJeIiVbA
+         CVR6JDUt74tLGArOJOo0E/xReFlGTu59KAwffjw+dQ6fbUOv2KZgErnuCs6ceF9+mNLP
+         gPXQ2qaunfrzU4WnQFng9+HD/UW/ESaS0xmXY3bvJNbTurE2qnWMCJEKJwElPuB9DGZH
+         t/NYfy95ra4liVvfMzLzoguzlEDoP9ccFq/7v3VSF3006IjxvEOQVqPn+WR1G0CnbzmV
+         g/yb8MsL5wh3o+QWpcimtVou9og+EUvZ4g9uyWkfhF9XrTYOvhgEKq72YHMpUYp6hXB7
+         ps4Q==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=gk842VPf;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
+       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1760001635; x=1760606435; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1760004076; x=1760608876; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:content-language:in-reply-to:autocrypt
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wxm27x9SWToEOcaOJ5R7OEdolUs7bsT8QWKzZ1tI4Gc=;
-        b=HXtt7S6c2/ZiPSoMgLOuGgiycIGmy1jfBGFNb83Y6kyuQm7gLy0/dFcPxS0jT9AJ4L
-         kxxc67iEAafgsL85tJiCDSn8R79ylCvVrVc4L32q+DKYTI7BO0NiOkJxR+kB5qr5v3cJ
-         Sjc8zHurXiig3sx6Qp6DaY7278PUbg2XLD7dxqxiYgcn5fhjbxqNrLxIbMdkEOu0/0Bc
-         YxLP2d5bB6YJtU00BqgTl8Zw/2uHHnLhwdug25cZeAg6NAAdXCA7+Nfq7WNpBJFK57I3
-         IYuo4aGdYMNhDEnn9NhwR1LdPFNv3SrWVD2uSwW/nTsiB/JajtfsUnSCm+h/SotPzmbW
-         x5Lg==
+         :content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ngHWrtw+vyiKTuJ+Eca4ykwxUDDmGsuP6B13CrN0kdA=;
+        b=lRhLhrnaEgEi+TshVXsi7NevF9u4L5wAy2u1MaA/Zs7lL/trf47V/Vb6RTFJPhmaEz
+         fdwvAkKrrWT65vpHTTiJZd+2UT7ncFPrIuR7CJk4aB0+rNimyTH1saIuX4C3Z+6TodPm
+         VBq8LaCLxTHZzCTnk+sW+3p4CXPZqBWI+CIzlpAcHUo6zRsqxfAQUK5uwyOEaNCHklGP
+         JH3Sqv2S2VgzPtMhEU0a6fsa71/BQEhgk9lUrGybMqE3b1a56GttfTT/6ETt5nYN6NZN
+         BkRQI6qaAuM4t+iGD8LzgwCyWmn47Aj/Aqkh1mreCC2t7FlTLA1GTMkmUEiDqld/IcnP
+         yjmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760001635; x=1760606435;
+        d=1e100.net; s=20230601; t=1760004076; x=1760608876;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:content-language:in-reply-to:autocrypt
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-beenthere:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wxm27x9SWToEOcaOJ5R7OEdolUs7bsT8QWKzZ1tI4Gc=;
-        b=DeRSgrHsecs9je81C9bq6dnhN8w9jzPxt0qZelitni0kRW4wlyQlioizDtANRwePgY
-         YfAeugUjld5SkgQzOuk+6kJgOVe/n4uBdZZ+CNjR5GzZtSsgJ83eFBCxXVEn/3rwGpm1
-         SlCnks1ozOCSY/mdnmeMlNDFH1Gfx2oPEdKtDypDxD5TDhdtZA5Q6hxbEq99iqiZWqFO
-         NLxcTumUI5qWXMZVZg3ivu0RRMVqjExn0mqM+PuiNwKCxj1Dw6TAtqnzskvjlizrib08
-         qEh3y19QkqhVM3tWhGVpWaXnFJEXBVu5TKsxPrQcR/KyvcsNjHW5hqNstie5Acs0xxPp
-         ZLkw==
-X-Forwarded-Encrypted: i=2; AJvYcCVDqdFqq0eqtqxs/ApQLvTCqfBPuJQuMWo2z8RGfQcQja9zXM0CbXMWUr3Fxd4hwV1X1W/h0Q==@lfdr.de
-X-Gm-Message-State: AOJu0Yxtt4ERBsX5GfH63P4LuI48SdIIhMzM+3olF6txGZzqJEnVPkD6
-	IRxQpl6EUGb4UA/bUr5hVNkrUVqALA6BgWVpI+Nybba5Di/XIJH9wv5V
-X-Google-Smtp-Source: AGHT+IEd57JXYq+8X5ezzTp8Zc76RxkZfwkFdoheJxCnv4z9yCno2mMBbWKLj+FGI8olRJMbaz5gCg==
-X-Received: by 2002:a17:902:da8e:b0:26a:589b:cf11 with SMTP id d9443c01a7336-29027402d24mr98105485ad.43.1760001635448;
-        Thu, 09 Oct 2025 02:20:35 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd71kJ+rNd9xmWOeqMqVYhecAHZGbenoEGqUDbxNqHc3rQ=="
-Received: by 2002:a17:90a:d790:b0:32e:43aa:41e2 with SMTP id
- 98e67ed59e1d1-33b597805f6ls794424a91.0.-pod-prod-02-us; Thu, 09 Oct 2025
- 02:20:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUSZY2lKyeAom8Z/zowVgHkInkqlALFETDnghv18ICkeX1IcXxwnwHojX8wlzDcCiQG3xS8shionQE=@googlegroups.com
-X-Received: by 2002:a17:903:ac4:b0:266:2e6b:f592 with SMTP id d9443c01a7336-2902739a1b9mr81537105ad.25.1760001633879;
-        Thu, 09 Oct 2025 02:20:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1760001633; cv=none;
+         :content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ngHWrtw+vyiKTuJ+Eca4ykwxUDDmGsuP6B13CrN0kdA=;
+        b=i48BoyZGJpgYjkvf5sD/CkdB1J/JY49kmdzIN4H+YWTQ42/SjbZjNvzdtse991RzCi
+         3yz/i9bt6JJpbCgKhVUQuKpjKGm4StsS/hEsIkWrfOa00E924zVWPzuJF8hIBVDVj9pn
+         LRAJzvfkeL/dRFPnDOqhsHdzcH537SVS0Gh+Yo0ovJu5g6EKTWGBgZeUdiJ3KeXqI0vp
+         IR1e1MLZNth935+QvfKLgxpUb5snBq1e+JSnlfh/97yvxtsicP+eXUD5Z0sOqT6J9DgX
+         eXFeaQ/apVWcL0PhHXXpO8yFZ0595FczV2qk/ExydGcdViQmS6ZTBZcP56EQuWw+c9+N
+         sZEA==
+X-Forwarded-Encrypted: i=2; AJvYcCVhRF8ujYsRN5mxm/PlekwQDhSa0Shq8eZIhf6M90LkWVFuhSRmrJIxWRrOEmhBtuP6D7c5MA==@lfdr.de
+X-Gm-Message-State: AOJu0Yyl7dYKZx2iYCR4esWDUekd+N3afhTe7mfEtcxur8anhz4NbHPk
+	vVBHFrk+vyF/9qSIyEfFYwyLpwzCWHw7jnoE7041ZiY5ohFPM9xqi18G
+X-Google-Smtp-Source: AGHT+IHIcwIvUWef+6q7VzZWyaEC+JNX1/7/G87y1nhSVcK6V17nvDrQG/lFYbFyNur/ZO5Bg6MWjw==
+X-Received: by 2002:a2e:9a0d:0:b0:373:a3e2:b907 with SMTP id 38308e7fff4ca-37609d3a031mr19775991fa.10.1760004075915;
+        Thu, 09 Oct 2025 03:01:15 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd7YjWD8Sf+piWk1uPnlheFoFNrZ49HgQ8RxsjQwYrqvkg=="
+Received: by 2002:a05:651c:4385:10b0:332:2df3:1cb6 with SMTP id
+ 38308e7fff4ca-3761c8fcf01ls1244531fa.2.-pod-prod-02-eu; Thu, 09 Oct 2025
+ 03:01:13 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCV3dPFAYhA4uFK3NJJFEfynxsaP5Feagp7ixzvgBHD3bGGoLt9PITlwWsS6t75H8TyVE0QrMdZykWw=@googlegroups.com
+X-Received: by 2002:a2e:bea5:0:b0:371:a1d1:7fd1 with SMTP id 38308e7fff4ca-37609ed94a3mr17104551fa.37.1760004072848;
+        Thu, 09 Oct 2025 03:01:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1760004072; cv=none;
         d=google.com; s=arc-20240605;
-        b=IUTD6YtoL66a7D7M7NAsuyTkvvukR5VvTHxrjnIB9GRnKu3g8Gotjqtwj/FF83m3sq
-         BS/+W1G+fYVKMCSHIQmmdkVgqlf5+zPCSZwOVbHSLM9YbbTXgwmYqQziNH4YSnSvPTui
-         PbvBf0T32vkDaOPGKGKE8P5weMaM/HnrZzPWeOt27WaGZRBAc+W5yb/FyRZT9TF+hSO/
-         I3DTsjNRhX9l7hh3cSDtJTRagB6Ws9YZNrWDD6do4LX45EjmpnSC5KFCAPJm8B5h8joW
-         70MAhMEyDDd4EN/tSNpZjipT0XtTL4ilVALagCftZBUvirNdy7U7OnrElqR4YvI7EPgz
-         Nf3Q==
+        b=R2fd8aB6wj9IEjfFOVZVHVYcu0t3DcBROG37Fg8DP2EvUUJrNL9a1JCSjEFZPp1o7m
+         QLnmZBLU3Imm6S6UFW5XJfhvtIaaxkix7fo7Yw36vaB6sHGQphAJfQlWj0JAlnkZr9pk
+         QXoq1G9UXIPRDynv2bz9R46qMn5Yve+69OxMf0gCNcuUmFvk4CbhwLHzLVEvF+IWmFAs
+         qhBu5Y1KmdH5AG9DYHHzBm2Mf5oZxpC5nUearNKei2PsYnnwVv0wJXYARIqS8ayEH39Q
+         EZGywjnBTfMUA5/DWdoyI4EFaby5SUS4QJ1gaIdlxUK41equ3JnTW/+qguTET8V2VtxU
+         rGcA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:content-language:in-reply-to:autocrypt
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:dkim-signature;
-        bh=nig+QThvSoNq9uOJUVuoYK6Ng7PXDFkVUD8omncLNk0=;
-        fh=8vBKoA1TW59GsueZtllHB0YU4hzZuMV4vxaG/64WFG4=;
-        b=lMypJaKjlCfXghWU57q0FVkGOGMqPrW1TJ1WfSo1To54+Bk7mr79xpFk3stc3nw/oO
-         5OZJsdsjkfQmJTBX+1eaxJvO35iilrhvTyaxFqkEvgsb0L8TAjTOZ7ioqC/d34uRazSa
-         tUWZpfXmQiRtCDhJW+jXr2EpMXn9jX9g61rK7Aw3V/470TUaVV3gfiU9HjGodAMklKo4
-         +YuRKmdHxZuIzAX9AzphIEriJWjRSUg5yYpWeeyNhW8ter90+QgnCKujt1P7kz5jqZAw
-         1Tv/iM1GQIqKxe5fRw/gxFnS/U7ZT1O9KK9hOl2RCkAz32wAisxPOpOEm0Lm5/cLXUMR
-         P8XQ==;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id;
+        bh=Mviit9av+xJ2i1UCKCKoymOIpaOEjjA1p687Sppc3JU=;
+        fh=7wgiGZD7GN9L56S35I5R8c/eoPZ2zJ2PKdmpqRxCfmQ=;
+        b=CxhJzgNfn4txO1/MZOYir0IypLwrBh5IDC46mDjQDY1N3LPQNJOyS6Viao5wHs7qQ6
+         3H/2HBPGuOuwUcHmzBP1ondEg1PStN1vmLnnBilYZEixzRWjitjomkk9ncES9z4TjCXy
+         FHaTYhxoaeyPsEKya/sKkDKHGfWo3AIEuOr0qtnS5FM4/k4t9VIRxVYd6JOrTPF1Olx4
+         BoFRfqbNQzl6yv8DpYGIR2us3w0riG+nhWGfCnISAVlOQhjhiSCzBwgq5OCozYzLV5QI
+         5sB8uFBwVGCzFI2uZUVDo7Ie24CCb9SZ92h9ofJC2O0QhwtnHRf9hNP8Phd7NJ5L+Ueb
+         ZDNA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=gk842VPf;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
-        by gmr-mx.google.com with ESMTPS id d9443c01a7336-290364cac3csi1061225ad.2.2025.10.09.02.20.33
+       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
+Received: from pegase2.c-s.fr (pegase2.c-s.fr. [93.17.235.10])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-375f3a4eaf6si494061fa.3.2025.10.09.03.01.12
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Oct 2025 02:20:33 -0700 (PDT)
-Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-531-8KHXlSzqP_2lN6vIk5dWag-1; Thu, 09 Oct 2025 05:20:31 -0400
-X-MC-Unique: 8KHXlSzqP_2lN6vIk5dWag-1
-X-Mimecast-MFC-AGG-ID: 8KHXlSzqP_2lN6vIk5dWag_1760001630
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-46e47d14dceso3524875e9.2
-        for <kasan-dev@googlegroups.com>; Thu, 09 Oct 2025 02:20:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWRU1u1kkU7DhOAseLOqtKg1m5yGRocduNr01vl1TUX5cmLB3Gfo/nTp8GPjRH5pk7HnfGoB2YVfMw=@googlegroups.com
-X-Gm-Gg: ASbGncu7ceLkNa/9/dlJxayRBnJ7oWLn5CjoRON3yKYzHrQiuM3ISxPtKNlXd4p96AQ
-	hJWBqep+g0U9+GkEI+SECmNOVskSQ5cRKVp+dDDALRk+CHREvQYAA6RJrMytPdFSMZ3y4d5MoSv
-	g3SAZ9KXa4qrha523SbFnjMV9SqBuHUFM1zHZ4zmQ4OSwJrcKEPaKCpBlkYuf96qCmJFgOBvfFK
-	lMiAyNd+/EZ99ucoD62krJEYhYDhjNYuUl4U9+5gyMkxDarpBp3qed9tzBWp5clUQ/S+33OJS/9
-	5NtUv3TZ9VK9KKmBitcuep2nY7nPXXi0IjEAWOt7J7lXzZOZLoRyQ+bUJAAsiLeiHkPAmW5F1dM
-	Gv09CMiBS
-X-Received: by 2002:a05:600c:4ed4:b0:45d:f88f:9304 with SMTP id 5b1f17b1804b1-46fa9b0e7b3mr48455105e9.30.1760001630390;
-        Thu, 09 Oct 2025 02:20:30 -0700 (PDT)
-X-Received: by 2002:a05:600c:4ed4:b0:45d:f88f:9304 with SMTP id 5b1f17b1804b1-46fa9b0e7b3mr48454685e9.30.1760001629923;
-        Thu, 09 Oct 2025 02:20:29 -0700 (PDT)
-Received: from [192.168.3.141] (tmo-083-189.customers.d1-online.com. [80.187.83.189])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8ab8b0sm33676902f8f.18.2025.10.09.02.20.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Oct 2025 02:20:29 -0700 (PDT)
-Message-ID: <1db15a30-72d6-4045-8aa1-68bd8411b0ba@redhat.com>
-Date: Thu, 9 Oct 2025 11:20:24 +0200
+        Thu, 09 Oct 2025 03:01:12 -0700 (PDT)
+Received-SPF: pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) client-ip=93.17.235.10;
+Received: from localhost (mailhub4.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4cj548110xz9sSL;
+	Thu,  9 Oct 2025 12:01:12 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id qOLNCcqM6pFr; Thu,  9 Oct 2025 12:01:12 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4cj5476tjqz9sSC;
+	Thu,  9 Oct 2025 12:01:11 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id D06108B76C;
+	Thu,  9 Oct 2025 12:01:11 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id MfDghYtIuYkA; Thu,  9 Oct 2025 12:01:11 +0200 (CEST)
+Received: from [192.168.235.99] (unknown [192.168.235.99])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 776CE8B767;
+	Thu,  9 Oct 2025 12:01:09 +0200 (CEST)
+Message-ID: <0c730c52-97ee-43ea-9697-ac11d2880ab7@csgroup.eu>
+Date: Thu, 9 Oct 2025 12:01:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: (bisected) [PATCH v2 08/37] mm/hugetlb: check for unreasonable
  folio sizes when registering hstate
-To: Christophe Leroy <christophe.leroy@csgroup.eu>,
- linux-kernel@vger.kernel.org
+To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
 Cc: Zi Yan <ziy@nvidia.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  "Liam R. Howlett" <Liam.Howlett@oracle.com>,
  Alexander Potapenko <glider@google.com>,
@@ -170,66 +163,19 @@ References: <20250901150359.867252-1-david@redhat.com>
  <faf62f20-8844-42a0-a7a7-846d8ead0622@csgroup.eu>
  <9361c75a-ab37-4d7f-8680-9833430d93d4@redhat.com>
  <03671aa8-4276-4707-9c75-83c96968cbb2@csgroup.eu>
-From: "'David Hildenbrand' via kasan-dev" <kasan-dev@googlegroups.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <03671aa8-4276-4707-9c75-83c96968cbb2@csgroup.eu>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Dnmbx8q3iJfg5h6nJqbU4PUp02-PEht7ZzsVxjl_4yw_1760001630
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+ <1db15a30-72d6-4045-8aa1-68bd8411b0ba@redhat.com>
+From: "'Christophe Leroy' via kasan-dev" <kasan-dev@googlegroups.com>
+Content-Language: fr-FR
+In-Reply-To: <1db15a30-72d6-4045-8aa1-68bd8411b0ba@redhat.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: david@redhat.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=gk842VPf;
-       spf=pass (google.com: domain of david@redhat.com designates
- 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
-X-Original-From: David Hildenbrand <david@redhat.com>
-Reply-To: David Hildenbrand <david@redhat.com>
+X-Original-Sender: christophe.leroy@csgroup.eu
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as
+ permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
+X-Original-From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Reply-To: Christophe Leroy <christophe.leroy@csgroup.eu>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -242,110 +188,160 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 09.10.25 11:16, Christophe Leroy wrote:
->=20
->=20
-> Le 09/10/2025 =C3=A0 10:14, David Hildenbrand a =C3=A9crit=C2=A0:
->> On 09.10.25 10:04, Christophe Leroy wrote:
->>>
->>>
->>> Le 09/10/2025 =C3=A0 09:22, David Hildenbrand a =C3=A9crit=C2=A0:
->>>> On 09.10.25 09:14, Christophe Leroy wrote:
->>>>> Hi David,
->>>>>
->>>>> Le 01/09/2025 =C3=A0 17:03, David Hildenbrand a =C3=A9crit=C2=A0:
->>>>>> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
->>>>>> index 1e777cc51ad04..d3542e92a712e 100644
->>>>>> --- a/mm/hugetlb.c
->>>>>> +++ b/mm/hugetlb.c
->>>>>> @@ -4657,6 +4657,7 @@ static int __init hugetlb_init(void)
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BUILD_BUG_ON(sizeof_fiel=
-d(struct page, private) *
->>>>>> BITS_PER_BYTE <
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 __NR_HPAGEFLAGS);
->>>>>> +=C2=A0=C2=A0=C2=A0 BUILD_BUG_ON_INVALID(HUGETLB_PAGE_ORDER > MAX_FO=
-LIO_ORDER);
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!hugepages_supported=
-()) {
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-if (hugetlb_max_hstate || default_hstate_max_huge_pages)
->>>>>> @@ -4740,6 +4741,7 @@ void __init hugetlb_add_hstate(unsigned int
->>>>>> order)
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BUG_ON(hugetlb_max_hstat=
-e >=3D HUGE_MAX_HSTATE);
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BUG_ON(order < order_bas=
-e_2(__NR_USED_SUBPAGE));
->>>>>> +=C2=A0=C2=A0=C2=A0 WARN_ON(order > MAX_FOLIO_ORDER);
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 h =3D &hstates[hugetlb_m=
-ax_hstate++];
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __mutex_init(&h->resize_=
-lock, "resize mutex", &h->resize_key);
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 h->order =3D order;
->>>>
->>>> We end up registering hugetlb folios that are bigger than
->>>> MAX_FOLIO_ORDER. So we have to figure out how a config can trigger tha=
-t
->>>> (and if we have to support that).
->>>>
->>>
->>> MAX_FOLIO_ORDER is defined as:
->>>
->>> #ifdef CONFIG_ARCH_HAS_GIGANTIC_PAGE
->>> #define MAX_FOLIO_ORDER=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PUD_O=
-RDER
->>> #else
->>> #define MAX_FOLIO_ORDER=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MAX_P=
-AGE_ORDER
->>> #endif
->>>
->>> MAX_PAGE_ORDER is the limit for dynamic creation of hugepages via
->>> /sys/kernel/mm/hugepages/ but bigger pages can be created at boottime
->>> with kernel boot parameters without CONFIG_ARCH_HAS_GIGANTIC_PAGE:
->>>
->>>  =C2=A0=C2=A0=C2=A0 hugepagesz=3D64m hugepages=3D1 hugepagesz=3D256m hu=
-gepages=3D1
->>>
->>> Gives:
->>>
->>> HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
->>> HugeTLB: 0 KiB vmemmap can be freed for a 1.00 GiB page
->>> HugeTLB: registered 64.0 MiB page size, pre-allocated 1 pages
->>> HugeTLB: 0 KiB vmemmap can be freed for a 64.0 MiB page
->>> HugeTLB: registered 256 MiB page size, pre-allocated 1 pages
->>> HugeTLB: 0 KiB vmemmap can be freed for a 256 MiB page
->>> HugeTLB: registered 4.00 MiB page size, pre-allocated 0 pages
->>> HugeTLB: 0 KiB vmemmap can be freed for a 4.00 MiB page
->>> HugeTLB: registered 16.0 MiB page size, pre-allocated 0 pages
->>> HugeTLB: 0 KiB vmemmap can be freed for a 16.0 MiB page
+
+
+Le 09/10/2025 =C3=A0 11:20, David Hildenbrand a =C3=A9crit=C2=A0:
+> On 09.10.25 11:16, Christophe Leroy wrote:
 >>
->> I think it's a violation of CONFIG_ARCH_HAS_GIGANTIC_PAGE. The existing
->> folio_dump() code would not handle it correctly as well.
+>>
+>> Le 09/10/2025 =C3=A0 10:14, David Hildenbrand a =C3=A9crit=C2=A0:
+>>> On 09.10.25 10:04, Christophe Leroy wrote:
+>>>>
+>>>>
+>>>> Le 09/10/2025 =C3=A0 09:22, David Hildenbrand a =C3=A9crit=C2=A0:
+>>>>> On 09.10.25 09:14, Christophe Leroy wrote:
+>>>>>> Hi David,
+>>>>>>
+>>>>>> Le 01/09/2025 =C3=A0 17:03, David Hildenbrand a =C3=A9crit=C2=A0:
+>>>>>>> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+>>>>>>> index 1e777cc51ad04..d3542e92a712e 100644
+>>>>>>> --- a/mm/hugetlb.c
+>>>>>>> +++ b/mm/hugetlb.c
+>>>>>>> @@ -4657,6 +4657,7 @@ static int __init hugetlb_init(void)
+>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BUILD_BUG_ON(sizeo=
+f_field(struct page, private) *
+>>>>>>> BITS_PER_BYTE <
+>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __NR_HPAGEFLAGS);
+>>>>>>> +=C2=A0=C2=A0=C2=A0 BUILD_BUG_ON_INVALID(HUGETLB_PAGE_ORDER > MAX_F=
+OLIO_ORDER);
+>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!hugepages_sup=
+ported()) {
+>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 if (hugetlb_max_hstate ||=20
+>>>>>>> default_hstate_max_huge_pages)
+>>>>>>> @@ -4740,6 +4741,7 @@ void __init hugetlb_add_hstate(unsigned int
+>>>>>>> order)
+>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BUG_ON(hugetlb_max=
+_hstate >=3D HUGE_MAX_HSTATE);
+>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BUG_ON(order < ord=
+er_base_2(__NR_USED_SUBPAGE));
+>>>>>>> +=C2=A0=C2=A0=C2=A0 WARN_ON(order > MAX_FOLIO_ORDER);
+>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 h =3D &hstates[hug=
+etlb_max_hstate++];
+>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __mutex_init(&h->r=
+esize_lock, "resize mutex", &h-=20
+>>>>>>> >resize_key);
+>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 h->order =3D order=
+;
+>>>>>
+>>>>> We end up registering hugetlb folios that are bigger than
+>>>>> MAX_FOLIO_ORDER. So we have to figure out how a config can trigger=20
+>>>>> that
+>>>>> (and if we have to support that).
+>>>>>
+>>>>
+>>>> MAX_FOLIO_ORDER is defined as:
+>>>>
+>>>> #ifdef CONFIG_ARCH_HAS_GIGANTIC_PAGE
+>>>> #define MAX_FOLIO_ORDER=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PUD_=
+ORDER
+>>>> #else
+>>>> #define MAX_FOLIO_ORDER=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MAX_=
+PAGE_ORDER
+>>>> #endif
+>>>>
+>>>> MAX_PAGE_ORDER is the limit for dynamic creation of hugepages via
+>>>> /sys/kernel/mm/hugepages/ but bigger pages can be created at boottime
+>>>> with kernel boot parameters without CONFIG_ARCH_HAS_GIGANTIC_PAGE:
+>>>>
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 hugepagesz=3D64m hugepages=3D1 hugepagesz=3D2=
+56m hugepages=3D1
+>>>>
+>>>> Gives:
+>>>>
+>>>> HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
+>>>> HugeTLB: 0 KiB vmemmap can be freed for a 1.00 GiB page
+>>>> HugeTLB: registered 64.0 MiB page size, pre-allocated 1 pages
+>>>> HugeTLB: 0 KiB vmemmap can be freed for a 64.0 MiB page
+>>>> HugeTLB: registered 256 MiB page size, pre-allocated 1 pages
+>>>> HugeTLB: 0 KiB vmemmap can be freed for a 256 MiB page
+>>>> HugeTLB: registered 4.00 MiB page size, pre-allocated 0 pages
+>>>> HugeTLB: 0 KiB vmemmap can be freed for a 4.00 MiB page
+>>>> HugeTLB: registered 16.0 MiB page size, pre-allocated 0 pages
+>>>> HugeTLB: 0 KiB vmemmap can be freed for a 16.0 MiB page
+>>>
+>>> I think it's a violation of CONFIG_ARCH_HAS_GIGANTIC_PAGE. The existing
+>>> folio_dump() code would not handle it correctly as well.
+>>
+>> I'm trying to dig into history and when looking at commit 4eb0716e868e
+>> ("hugetlb: allow to free gigantic pages regardless of the
+>> configuration") I understand that CONFIG_ARCH_HAS_GIGANTIC_PAGE is
+>> needed to be able to allocate gigantic pages at runtime. It is not
+>> needed to reserve gigantic pages at boottime.
+>>
+>> What am I missing ?
 >=20
-> I'm trying to dig into history and when looking at commit 4eb0716e868e
-> ("hugetlb: allow to free gigantic pages regardless of the
-> configuration") I understand that CONFIG_ARCH_HAS_GIGANTIC_PAGE is
-> needed to be able to allocate gigantic pages at runtime. It is not
-> needed to reserve gigantic pages at boottime.
+> That CONFIG_ARCH_HAS_GIGANTIC_PAGE has nothing runtime-specific in its=20
+> name.
+
+In its name for sure, but the commit I mention says:
+
+     On systems without CONTIG_ALLOC activated but that support gigantic=20
+pages,
+     boottime reserved gigantic pages can not be freed at all.  This patch
+     simply enables the possibility to hand back those pages to memory
+     allocator.
+
+And one of the hunks is:
+
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 7f7fbd8bd9d5b..7a1aa53d188d3 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -19,7 +19,7 @@ config ARM64
+         select ARCH_HAS_FAST_MULTIPLIER
+         select ARCH_HAS_FORTIFY_SOURCE
+         select ARCH_HAS_GCOV_PROFILE_ALL
+-       select ARCH_HAS_GIGANTIC_PAGE if CONTIG_ALLOC
++       select ARCH_HAS_GIGANTIC_PAGE
+         select ARCH_HAS_KCOV
+         select ARCH_HAS_KEEPINITRD
+         select ARCH_HAS_MEMBARRIER_SYNC_CORE
+
+So I understand from the commit message that it was possible at that=20
+time to have gigantic pages without ARCH_HAS_GIGANTIC_PAGE as long as=20
+you didn't have to be able to free them during runtime.
+
 >=20
-> What am I missing ?
+> Can't we just select CONFIG_ARCH_HAS_GIGANTIC_PAGE for the relevant=20
+> hugetlb config that allows for *gigantic pages*.
+>=20
 
-That CONFIG_ARCH_HAS_GIGANTIC_PAGE has nothing runtime-specific in its name=
-.
+We probably can, but I'd really like to understand history and how we=20
+ended up in the situation we are now.
+Because blind fixes often lead to more problems.
 
-Can't we just select CONFIG_ARCH_HAS_GIGANTIC_PAGE for the relevant=20
-hugetlb config that allows for *gigantic pages*.
+If I follow things correctly I see a helper gigantic_page_supported()=20
+added by commit 944d9fec8d7a ("hugetlb: add support for gigantic page=20
+allocation at runtime").
 
---=20
-Cheers
+And then commit 461a7184320a ("mm/hugetlb: introduce=20
+ARCH_HAS_GIGANTIC_PAGE") is added to wrap gigantic_page_supported()
 
-David / dhildenb
+Then commit 4eb0716e868e ("hugetlb: allow to free gigantic pages=20
+regardless of the configuration") changed gigantic_page_supported() to=20
+gigantic_page_runtime_supported()
+
+So where are we now ?
+
+Christophe
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/1=
-db15a30-72d6-4045-8aa1-68bd8411b0ba%40redhat.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/0=
+c730c52-97ee-43ea-9697-ac11d2880ab7%40csgroup.eu.
