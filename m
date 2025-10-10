@@ -1,190 +1,224 @@
-Return-Path: <kasan-dev+bncBDXL53XAZIGBBMH5ULDQMGQEOSF6XQA@googlegroups.com>
+Return-Path: <kasan-dev+bncBD2KV7O4UQOBBQEMUPDQMGQEW2SYFIA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53d.google.com (mail-pg1-x53d.google.com [IPv6:2607:f8b0:4864:20::53d])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB71BCC125
-	for <lists+kasan-dev@lfdr.de>; Fri, 10 Oct 2025 10:07:14 +0200 (CEST)
-Received: by mail-pg1-x53d.google.com with SMTP id 41be03b00d2f7-b4c72281674sf2551470a12.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 10 Oct 2025 01:07:14 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1760083633; cv=pass;
-        d=google.com; s=arc-20240605;
-        b=fiIxVt+lvN3FkMJOSapADR5ehwIGYO94hY5vs2U2yKkCRarlUSkcBnv1vNuKXK9MGI
-         pMZdrOu0OAFPakVWRDJXzjto6q1bNoPp42e4L5tgHSSfy/fFBvrUehRcHzDYiFRKEpxv
-         Z9AUwKU9FZCdMejxg5J7Uz3ANJw+eXQv0e+ML7xQyu+xM9+j74E+xfosh+7xmM5/srBZ
-         avKKryCkU5+guTDUiiqJNgFOfpHCkOoJyACDYJgJo/nwgZc/S4MKfwlO2mqmlI7x/Kjp
-         V1An6KU2tlJS9iAyYLNXQmcQZmLh5edonvqSBmfpRIOMQDmWdRJPG4OceLll1ZbLw/C8
-         sJqQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=RvmbgFuJE5WcAxWOlSggcFXGqgRAwYu86yuX1TsXosM=;
-        fh=XzGQ+PmhreMuTVUjD20Mq5lPljcRmhyOHme0eg7Xa/k=;
-        b=FjRkVynW1cEdn4IjwxRJgVhHtBorjwWljL2KM9/gf3S2Twb5PfyRrtBCTt7Xt1K0y4
-         26b5dmar/sjDXe+oKYBTwpSFjbo9/OAb8GuIdgHAuwcW3JHPPSo7NAqpuwGp7sMYq7yL
-         eMmEEct/G8dKEMLwmJuszS+H/7HhTkNQH1i1/zu0FZQt78zs8jWkDyFMD8LbSejctGb7
-         nNOk1l0ZotDipmlNHoxNEBOCSkMnomfpKYggryrkMznNYIc8tZ0RYC8C69N3r5hUiWe+
-         j4Rd7mw5PQXoxLDaHL+7nmt2e4EKAGytQ2JZ6MtkiPdC9gwV3X2ooFfd+2HeKnUcx+Zd
-         XvAw==;
-        darn=lfdr.de
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=j6G2yvWW;
-       spf=pass (google.com: domain of aleksei.nikiforov@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=aleksei.nikiforov@linux.ibm.com;
-       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
+Received: from mail-il1-x13c.google.com (mail-il1-x13c.google.com [IPv6:2607:f8b0:4864:20::13c])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5DB9BCC2A6
+	for <lists+kasan-dev@lfdr.de>; Fri, 10 Oct 2025 10:39:30 +0200 (CEST)
+Received: by mail-il1-x13c.google.com with SMTP id e9e14a558f8ab-42fa528658fsf1888345ab.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 10 Oct 2025 01:39:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1760083632; x=1760688432; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1760085569; x=1760690369; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:content-language:references:cc
-         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=RvmbgFuJE5WcAxWOlSggcFXGqgRAwYu86yuX1TsXosM=;
-        b=VagMCkknvVrxVPJAARFdWDl6ASuavx1P1I+JRulYh/MYWL1QFYYQ+PUsAzJexsTt/H
-         QykIoiOIfPjBbyYZFNgYfm24Ekuk4LJtrBjNXezmZxpgEjd2ZCTctdW7carGEAAHbgHO
-         G/Y4e4Fa6hBKh8BT264Bu3W2DSYcf739cd4aRnr/FjUzUuLaiFVFnTwJJ8GLgmfPG4vg
-         sgC3hoeLJEBRzM/aXrKWb9DRPQH7kho8woOAXbLIhZsLRstwOpzKTL2C/cp7bdnV393f
-         Ejnd4whZZic/0eHF990ayu5oAZC+iNKK3tJbw+5n7YC7mQLbnvcNIgtMXZUdawRWnM6y
-         leng==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-disposition:message-id:subject:cc:to:from:date:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=oLivnLC6H3HVjAgp5SyKxn5dHECWaptTcb2YCqUlMXo=;
+        b=svEInxf8ALqpCPaCjAi3mbWJBycGnL969rbOH3jUlgPJb8cOx/HJeQoNaTwWi/hFof
+         zwq+x8FwjmcVk6KsBLNlLR8Gx07YEQXkHkS0E/8BmRjGYpL+RYj2wLZ8fGMoBcyf+cnB
+         u6c0CuC3ZR7jPLNHtCTJ+bTPwEkWC6cfGRZOHp2yRBRXn4mduwWIlUs5NrDeqmlET309
+         4lfy+ujh4NuYBFkwSwgcq4+cmMpsIv4b9D2J/TIJpoxspkcF+MlRiyuotz12m4jq0iHQ
+         gsWH5B+31hCFP6YHpe4kM1OXAG7GA7deM/XcH4JXWIJPKXl5sRX51khjombSY4XbIG8m
+         ZSJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760083632; x=1760688432;
+        d=1e100.net; s=20230601; t=1760085569; x=1760690369;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:content-language:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RvmbgFuJE5WcAxWOlSggcFXGqgRAwYu86yuX1TsXosM=;
-        b=i46PjEFIK0CdaiX7LBFVcHTcwgyyBcBuyPoGc3FzF3nmZA44ptvye3aFYfMN4xwMaf
-         auLTQ8jsAsy2rX3DqyzlT7Dy3K+KQE+qkwThjp63EV2aYouT48cJ+dx1NnAiSkGMjMfB
-         DFGYl/tq9YgLuRFD0ozTHoOiB0vRRDa051JJ77acrlsjylWEqzTEOdSjlNPtYqyQjTeQ
-         zv5MM7tEjPM7JWcRN5ajseWidz0G44nTPzl9wsokCBnmrraiyWGeRaE0IcXV5+fpuCQ9
-         MhEocDvUuCtM42JkQ74Hgn3Y/gJ3MZNB/pkRpR7C1eLLXoPXPuum3R+lc8b3jbBYxnnY
-         dMVA==
+         :content-transfer-encoding:x-original-authentication-results
+         :x-original-sender:mime-version:content-disposition:message-id
+         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=oLivnLC6H3HVjAgp5SyKxn5dHECWaptTcb2YCqUlMXo=;
+        b=WEGFjjOLDmpd6Ta3VNZ8drvKsOyR0xxpyaSZldXdXcffTw3zBq1WzIlSXrcjgdE7Lp
+         FSjx13gMZcxffiXRdIchEI13U1uA62/YLLxJGaVLal4NxfTcFlRV5H0ap1S0lpPCauDi
+         r0DvWab+PZKJBQQZ6VmORa4Gy1YyKiF5DigYciptHLu68CUqltFGQ3JpOuc7f+cQTwwX
+         paCQ5yANkHeuvs6Ydarz+vi/fnLWZBkRZPro4H6lfPnJW/NUe+h1RnRa1fALoP60+Ylo
+         h5a+aYOTjH9miY/VZafptWU/VZMuUdJ/sDAhKai13RdTw3hL7shW8yenPnYxqDzu78/s
+         A/Cw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUOgJB3b0Bw00400S1hpgbGq+WEK4WLLeK0BsfGGMxUZh9RrKjwoilN7C6GL/RNdB6vNxKCBw==@lfdr.de
-X-Gm-Message-State: AOJu0Yxd05FK+XrETpM6n5/lagSinVi3srnmcvJf9tbiGw9sZe944f3z
-	4E/zBQSZWJgVvjd4AgXDrh20q89JZZ7IA5Qwy6d5ntsWmPr5jvOVjhBL
-X-Google-Smtp-Source: AGHT+IF4tjXQEw0DMYmMSQ8rpUYHWLDRdfiNxPZFGALNfwUzLCqOJjvVuxddIunrzfMRQI9CtOPc7A==
-X-Received: by 2002:a17:903:2ecd:b0:28e:cc41:b0df with SMTP id d9443c01a7336-2902741fb25mr116721655ad.61.1760083632429;
-        Fri, 10 Oct 2025 01:07:12 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd5K0bJZ7dhGL99o2nMFWbBLc3Kaa0PzwMp0319pZwiB1g=="
-Received: by 2002:a17:903:340e:b0:246:570:cbdd with SMTP id
- d9443c01a7336-290356cc142ls15289145ad.2.-pod-prod-02-us; Fri, 10 Oct 2025
- 01:07:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWWS++fxWR7UTv+jL4gRy2ikcMFrxXKKJQ1QMyg7yCEZt8w0TGJhkGiS3I81uV86bKVPYtq+xB+L6Y=@googlegroups.com
-X-Received: by 2002:a17:902:f68d:b0:25d:d848:1cca with SMTP id d9443c01a7336-290273ef145mr148141485ad.35.1760083630784;
-        Fri, 10 Oct 2025 01:07:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1760083630; cv=none;
+X-Forwarded-Encrypted: i=3; AJvYcCUe1gv2h18GXq+HamhbzKSu/kdsGXNkXKglSaTfhdoJSoHmrwOilur/m11nr5d9l2UqyfhSzQ==@lfdr.de
+X-Gm-Message-State: AOJu0Yy9rx5LyH8JTEUCG6TvekgknIa7vTxH6rvvhF8avAwEhpDI8A5g
+	DBTHekO2Z34rRb6mAcfBL3QGrwjcpTrzUF0KbSiy17cwgH2MrPeNcwzK
+X-Google-Smtp-Source: AGHT+IERWp8wag5xaF5DE5/PXdfaVFzz+61vUshgTDoONJ64xu7Qnwv896p5KZim0UKyLPF/Jv1L0g==
+X-Received: by 2002:a05:6e02:2195:b0:42f:991e:17ea with SMTP id e9e14a558f8ab-42f991e1878mr34644385ab.2.1760085569035;
+        Fri, 10 Oct 2025 01:39:29 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd6WL9ZCyewl21boOqboVpWwjoAW3cLhzo7aCGJS+YcFag=="
+Received: by 2002:a92:c642:0:b0:42f:8a2e:654 with SMTP id e9e14a558f8ab-42f90ab142els16034785ab.1.-pod-prod-01-us;
+ Fri, 10 Oct 2025 01:39:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=3; AJvYcCUkKSoI0q2JQXBoW9KVLZ6MM+k4NLIYyRzKHhCxY9Y9uYA+RzIWDcPLq2Xmb4QuE8dNZTQudmP5wDY=@googlegroups.com
+X-Received: by 2002:a05:6602:340d:b0:8d3:6ac1:4dd3 with SMTP id ca18e2360f4ac-93bd18b16bdmr1281897139f.6.1760085567330;
+        Fri, 10 Oct 2025 01:39:27 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1760085567; cv=fail;
         d=google.com; s=arc-20240605;
-        b=cfZ3n4uJ8cSnq5jx2qT+tAfayfVAX6StRz7EmyerPnVR5Y2EvIMt+ubHsxLqGIuIKf
-         wfjHtmk/y8pWukOXeb+mGwd31tckIMEC73fcSM4cuyCtlFNGgpu2Ndp3BZIE/5divF4B
-         xJyNQSIMFAuUQPyZeZfGoBDv2CDGuD0esatc+lIIf4yOLrAcb7R6XL4SWnT933T2csTW
-         DbiGQJEYaQTMwp47gASiu7uRvx5otjQ2gyhG7pb4pvDlwlV1Pq/uMoNtfAsp0qDRW0Xa
-         h0pqoVuGriVd+f6hrP79MbZtOMxcOYTpmJQDcwOOyqtPKAhpX1GdnB4ZjyqxeeZxA8Y2
-         QvaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        b=bbf2Q93J6aB90BiCeF5RvCjpYixCQmx+CuP494l6kkluo6YB/Tfql/Ho1ls/H35Isd
+         nOn7jZLVfi5kk2192TwPhgU0n/HMVvF3Ii4SBewIbdpS3G0749ymZcIGVCMfHFe1zTtD
+         kH5qlF3O8vAoPwObgbVNtUAKHzM5pdYaGvltICGmz9odLgBbqsQjG9FoltkVKJHFeoTT
+         Z2LfjUarAk6WJ82oj4URs4gqAo87zD3zjduqxpXQeWGF6dtAsUO+c1S+ip8LUdAxlA8/
+         cgEraIuj2w/OBOYqsBryevh4vQAbzHdI2zQkFZhc5sjU1Gq7CQXgnRkMkarG1JpbtKwZ
+         EKmg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=mime-version:content-disposition:message-id:subject:cc:to:from:date
          :dkim-signature;
-        bh=1/qr0Ms7LEN+ZoUHPx1IEnEP/EsOxXGU+zPY1uEN6FU=;
-        fh=9Z/GQEuiK/Q+MMCwIECfay+RAoWdEmMKaMoNOe1MDXo=;
-        b=iUJVtTHkfpGJImulEoDfbTU/geEFFqdWvq7Bo5EbBJki2FvT9xRvRv5SlYsWRXTBvg
-         jBvdVJEhEFMAIYiWPD4UqJNdvyHtQzCFvC1OfEZnLSalpil2dxPJxijsLXtFMMZSflDa
-         G58H9Isaq7qm0vcMbSnH3PPT4Udj9NPCeGWYgH7UBXYPyBFwNMz/OU/BYMfphrO5id1c
-         ReT/97fIzKfMMonBLxUvEwEZyMZEqx9R8kBgIkNbdv0WE5DOj+6KHbp0J7IZ0rd16dJq
-         hGUWDGFZ0WClk1krxoRVH73Ffz6Q5Pwh897TiZ//P9pWuhMctPkCjVyw35spLIG3zc3a
-         31ZA==;
+        bh=kK8iAwmJ8VRmbSLsetgPNptGBFvzljUrRKGULiUzqTE=;
+        fh=mRIWwOjtmAqTWEcQnwnI7G0+xU8AP/13eM5shEJ+vcg=;
+        b=TlXV/ISiN53W/Z0j9szWVRpwbgaTVsmwouBdmgH/vpOivzZtFCqw6FQXiYTNXY1lmD
+         rLO08doTArV6NcURx/z0PZEnA4rgsiGcNAImb0QySb7tlBOr6ittNCw65MBbYRznEQCz
+         FxhtLNeeqTlHzixqhmewHj9BijN2QMaabRQ9kKO6dlmGuCqHSV49fsHBsHgHw6jewXMC
+         874UftMKwfZvgz3LxCkoEeYnR5vg67UjiOKRpLURtN+v+Cy6Jd5BoA26YKhfWHOlcgZW
+         kfazVhctRrJg2V2pSvJ7jDBsa5NuzbAN8YwT0ryTxbcqBgOKJRpZFvHaNpC5qN1+xJ/a
+         ljmA==;
         dara=google.com
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=j6G2yvWW;
-       spf=pass (google.com: domain of aleksei.nikiforov@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=aleksei.nikiforov@linux.ibm.com;
-       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com. [148.163.156.1])
-        by gmr-mx.google.com with ESMTPS id d9443c01a7336-29040994e7bsi801625ad.0.2025.10.10.01.07.10
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@intel.com header.s=Intel header.b="LM/HuVmP";
+       arc=fail (signature failed);
+       spf=pass (google.com: domain of oliver.sang@intel.com designates 198.175.65.15 as permitted sender) smtp.mailfrom=oliver.sang@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mgamail.intel.com (mgamail.intel.com. [198.175.65.15])
+        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-58f67446c7fsi85186173.0.2025.10.10.01.39.26
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 10 Oct 2025 01:07:10 -0700 (PDT)
-Received-SPF: pass (google.com: domain of aleksei.nikiforov@linux.ibm.com designates 148.163.156.1 as permitted sender) client-ip=148.163.156.1;
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 599KiJvD031684;
-	Fri, 10 Oct 2025 08:07:09 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49nv829j24-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Oct 2025 08:07:09 +0000 (GMT)
-Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 59A879qq012514;
-	Fri, 10 Oct 2025 08:07:09 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49nv829j23-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Oct 2025 08:07:09 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59A7uiql020975;
-	Fri, 10 Oct 2025 08:07:07 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 49nv9n0ueb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Oct 2025 08:07:07 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 59A875Lh51446214
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 10 Oct 2025 08:07:05 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B335320179;
-	Fri, 10 Oct 2025 08:07:05 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 36BAD20177;
-	Fri, 10 Oct 2025 08:07:05 +0000 (GMT)
-Received: from [9.111.16.15] (unknown [9.111.16.15])
-	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 10 Oct 2025 08:07:05 +0000 (GMT)
-Message-ID: <335827e0-0a4c-43c3-a79b-6448307573fd@linux.ibm.com>
-Date: Fri, 10 Oct 2025 10:07:04 +0200
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 10 Oct 2025 01:39:27 -0700 (PDT)
+Received-SPF: pass (google.com: domain of oliver.sang@intel.com designates 198.175.65.15 as permitted sender) client-ip=198.175.65.15;
+X-CSE-ConnectionGUID: mbo/QIK0TZqjPQB1OCmvsQ==
+X-CSE-MsgGUID: Bdkue9UtTL+9Z8KncVqYWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="65956449"
+X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
+   d="scan'208";a="65956449"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 01:39:26 -0700
+X-CSE-ConnectionGUID: oC20L6ogQOKPywhI/jG3RA==
+X-CSE-MsgGUID: bmGvjfYdQo6vk3zwReFSOQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
+   d="scan'208";a="180738372"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 01:39:25 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Fri, 10 Oct 2025 01:39:25 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Fri, 10 Oct 2025 01:39:25 -0700
+Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.10) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Fri, 10 Oct 2025 01:39:25 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yqpW71MLMtRN2YN7RJYcq8zuuqs3L/Owj5QGXy/bUmGYZYjV21bja3AEWtrHxxuk0Ts24wPw7wfhGB0/7ZD1limd+a4AMLaMUG8efkqMdTu0ex0chmeMTAsWinXbZrSV/mIr5kPAZOOY7GjuAW288CWe15l+EpyOmPwIXRzUZlfHCDKAzmCb1EldnhJOQloES21ctFK1KJ0G06R4R7McIVWo49lGJQUCRYxRCWQIF3SLF4wlBk7aVUZPAs5H9h/COHPbAtT7TwmmSQ6cgB3S6Z4D656vAaubwt98kgyO1uYZlLAKfe7ZM78hAD3U7f/ookzZGUNIYXxQEDxnksR7Ag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kK8iAwmJ8VRmbSLsetgPNptGBFvzljUrRKGULiUzqTE=;
+ b=qZgnXb5NMqFaB0o0POy41HlJn9DAYOTf9mj4h1DcLKCl9qqJxr6J+q2RBVM5cskShtMV29of8KnNH2qW1tqLwnEGqCDz2O405+vRDTC8pYRXsDOqcmVg9OVuqysyluxU5pf9UNGFD4KYiyaVpaO8ZQwCwAM/RoyYrr8FlTWMVgGpestwiCkeCnGgsFZ+rfwFxQj/LDUQLjfigyq+b2jShlYG0Qj361bS1XbeJbaIz1/WqEcxyPGart+gCocKkGO17H50kVS3yHmi33YXCUiouQxgHvDEIX2rf7Lq74YgBbij0CiOamBWRletJyQwdRd8VyOtsh+1I1anHhMtFd/WUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by MN2PR11MB4727.namprd11.prod.outlook.com (2603:10b6:208:26f::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.9; Fri, 10 Oct
+ 2025 08:39:23 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c%5]) with mapi id 15.20.9203.009; Fri, 10 Oct 2025
+ 08:39:23 +0000
+Date: Fri, 10 Oct 2025 16:39:12 +0800
+From: kernel test robot <oliver.sang@intel.com>
+To: Alexei Starovoitov <ast@kernel.org>
+CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, <linux-kernel@vger.kernel.org>,
+	Vlastimil Babka <vbabka@suse.cz>, Harry Yoo <harry.yoo@oracle.com>,
+	<kasan-dev@googlegroups.com>, <cgroups@vger.kernel.org>,
+	<linux-mm@kvack.org>, <oliver.sang@intel.com>
+Subject: [linus:master] [slab]  af92793e52:
+ BUG_kmalloc-#(Not_tainted):Freepointer_corrupt
+Message-ID: <202510101652.7921fdc6-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+X-ClientProxiedBy: KU0P306CA0062.MYSP306.PROD.OUTLOOK.COM
+ (2603:1096:d10:23::9) To LV3PR11MB8603.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::9)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm/kmsan: Fix kmsan kmalloc hook when no stack depots are
- allocated yet
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        Ilya Leoshkevich <iii@linux.ibm.com>
-References: <20250930115600.709776-2-aleksei.nikiforov@linux.ibm.com>
- <20251008203111.e6ce309e9f937652856d9aa5@linux-foundation.org>
-Content-Language: en-US
-From: Aleksei Nikiforov <aleksei.nikiforov@linux.ibm.com>
-In-Reply-To: <20251008203111.e6ce309e9f937652856d9aa5@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=KrpAGGWN c=1 sm=1 tr=0 ts=68e8bead cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=NEAV23lmAAAA:8 a=VnNF1IyMAAAA:8
- a=088SzXbCcwtnasAlsdMA:9 a=QEXdDO2ut3YA:10 a=HhbK4dLum7pmb74im6QT:22
-X-Proofpoint-GUID: 6u5H5Z_Cfr6xiadmAO8XAYgVd0Gd3Ceo
-X-Proofpoint-ORIG-GUID: xhPR6IrF8eCnckm759wuwrhZdEVGFJYo
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX1aFYWzzRgWq7
- t301c9U/pZtABrD4AzRt83sHUHTFyeko/JV6aut+5gaWPRgA1+jbDTqxKK7hUoD2FrSgQKflQ28
- mq3S2MB1HmowEFge3ZsSSW0yHYLa5niIRRNiwTA9o1UGRp9CSGGseWiPXioSKTSBj5CR9GVIenw
- 3Ta1kGTj9mLHdLYtIA6C4RdBCHCwXG71dDHQjS6B4ZQW9w0DEN5NSEligiVDmrMBnZClASNLzID
- LRcrAUSFtzkusK71Z1A1dw/rTop4WlyBjMA9/Wrgstc0h09512LlGGGRp9WxqA3D5a1UDJZGzL6
- NcydzGl4R5Oow6zgiWZBBWv/EsEcfxTWdbnNcTyOPbBhTv064pbXqByjUY9Dg2jWWHiTE60PQE+
- GOPEAwH4cYrbMKeIF3fMMaGVJ15U7w==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-10_01,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 adultscore=0 lowpriorityscore=0 clxscore=1015
- priorityscore=1501 impostorscore=0 bulkscore=0 spamscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
-X-Original-Sender: aleksei.nikiforov@linux.ibm.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|MN2PR11MB4727:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2fbef629-4a90-41a3-dc6e-08de07d8829b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Gvt4ywcXLt1n4dsYvSnRLvxfqcaAcEu7qZloOaF4ftv5b7EQitmzxCOKfQMO?=
+ =?us-ascii?Q?t3O/mLQQXZWRN7G/7wVYRtFCuijK/776eG21xsElSVwnzp3nUL1KD4o/ghpz?=
+ =?us-ascii?Q?GRO1x3GeQF05fvpLw/MhmnOH9wuk8inDloT8gUn9uEOZw57hyyVShTzJUDab?=
+ =?us-ascii?Q?eyx63zcNwYwEP92qGycRHb/HYy+DayI/oSzmeq78qntxRVPBTkPBxbITupZW?=
+ =?us-ascii?Q?6VuSkM0sJtKB7WNYpf8eccScvo/Xjg2p70jHQo9sk8ubAOm2ZO7i5EW5n5qa?=
+ =?us-ascii?Q?GDWfNSjlGiW/f/HCBJW1wBWGwuvKuNjFMuma5E01evu3yEyYF//oiYXSl+iO?=
+ =?us-ascii?Q?aIiYJo0gq3DGhEeA4HYlsxRN5luZODbHUcPOXBElS5TQ72EuPrAWe6Um3N6F?=
+ =?us-ascii?Q?p01bTQc6AKyA3PNafe2HME8QQsH3Hl2iy28zWSZfxCBT+yoUyjUs377bbtRZ?=
+ =?us-ascii?Q?tKDVcmPB70yFI6Z75aoXd7V7lZEqgAlPFGhLwCKzYIm2mtyKti8+toaLOwBl?=
+ =?us-ascii?Q?HW5RAAOWKNrPxoZ1LYgHvLD/PTGiTag4jxa3rDrqRCY0UZ/M/7og6isyvAfm?=
+ =?us-ascii?Q?HVLiZ+SdMDaKzU7ReDqNR70uNZz348v/R8cQ7YEdXiec9xq1rOGg9bevT5pR?=
+ =?us-ascii?Q?AruBoQSyaAHy7/xDvhhi7PXyr420ac9ydNBngk+E2uvxvS0pB2gJ+V+lDcUl?=
+ =?us-ascii?Q?OJtSoTIOrfLv0MsKccNeOXtldsQVh811UKpuPD40Aw9bqHhKVfqGh4g+pvsb?=
+ =?us-ascii?Q?iG8EIzMYu1q1jbvd6BYZZgCoVUjUfeQmvrzVigCzHJcmshJdtqXj9ScgObBO?=
+ =?us-ascii?Q?jZnAIE5JgjMvSgTBHwND1ZOqV36ova7UY/iQPl8RfIG+y9a6cLH+seO+e3W5?=
+ =?us-ascii?Q?s1UFpn5H9aduWlhtCC8G4nHgo2D7XY80Z9MF7CrZg7cg0gCB3/GmS2G4/vek?=
+ =?us-ascii?Q?YWrT3nbkRIf8ToKTnefH6e3LBx0/qLGyq8RFvHi8lQQ/QKFtw0tT9FkkZIBW?=
+ =?us-ascii?Q?t7i8szdMLHE+wsw9p70Cy5oCaMMu/UJc9oaNAe9FTpFnuRJeun2id/j2Z5Jw?=
+ =?us-ascii?Q?6Pjv4snLluMe6lntCXbBj+dJdV7K5So/ZB6l/7xM0gd8qXqa4bdnoJPVBLeD?=
+ =?us-ascii?Q?STYd4eEvYR5T6iWknjmbKA8Mu1/P4MgeEuRtqXTIl5yLWeLo2bhJUEhHNoVZ?=
+ =?us-ascii?Q?blUOFALS82cmfGRM1xDK3sT6KyvVRRCR7RhtceA3zBdJiBAhZ7TQNdthy/fI?=
+ =?us-ascii?Q?BnbcK7Tr5mv9l6MfMLGiBbwwd6sJGflBHb8ORw+7UzRB7Ub+QGvdOl5gmsru?=
+ =?us-ascii?Q?8hTYcMwrcNbXQB32Au9XcommMOi05fXx+Mit9k6OG1Tc/SKUcmH5r+WErEJp?=
+ =?us-ascii?Q?xmvdEe5HO4K1tbcLz9qgA0A7LZ/gdqIY17RrWfzGfCMe3/VZAhpr9XBTFEpo?=
+ =?us-ascii?Q?CEGzJxLnm/w=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dBxxvt4b1qvCCr7gxHf+cF+OJryyiuQcGdcPtTGqUdNSVhM6Pc3A7m0DD8L0?=
+ =?us-ascii?Q?8VBmM8fUm2oc3mV5tXfJD0bQYqtZPe6KktDlMXJsbQgDjiUNHPp52IqcTxkN?=
+ =?us-ascii?Q?kPSj7SM9E035CAgFXN4m39WuDq1ax6jG3fHQdLPE4BqLCdsnjiM4nkJnPHuD?=
+ =?us-ascii?Q?7E5eyoH2ayQ4UbgNnDYpN5OBjhcaFTlI/O/Wxuh+8m+XbKjLF83N4XBJmFR6?=
+ =?us-ascii?Q?otkI9xIwrGI46OktkNl58IIDy055JNGLiDZLtMUtKyIp+kbPO5Xw/bmTJbwR?=
+ =?us-ascii?Q?PEadkDTBi1JdcOcOD0Gg6jXg9TlEE3H3FMkNlDu7FN2MR9CA/hQ3QNF+Tm0R?=
+ =?us-ascii?Q?N6PdyLIrDJvave3HwYz65ziOdNVgpR19k5IhaLEP/QPTBVxsMAU5H5K2Wzwy?=
+ =?us-ascii?Q?qcg+iHRN3R92l+dcWO46Up1F1nTGX9Vbdy6+UY2212s0J3S8MBSBsIul9aFS?=
+ =?us-ascii?Q?hmeCSOLiVhcpb0cGs9X74ZJFwAiRwvIJyKrf6iCuDs8m1uI4VH4Dxr2r7aIx?=
+ =?us-ascii?Q?cUuE8RGdEO2y6dkHTs9RZNBKw/niWA+NcInM3cSPPMwz1WbMxyjBWsXSQsE8?=
+ =?us-ascii?Q?BNiikL4Ah3bybc0V8HThe4d+BYQrJM8vZ6T2ekQ30LSOkamaPUfO1e/8cEOV?=
+ =?us-ascii?Q?pdxRDGJDlx3GaMIH/wdAs3M+abVQY5HDbjGhkxBroumAvNTzQozm2Vl5yNte?=
+ =?us-ascii?Q?KDqwKZHrm6NhVvQzj/OwYYEo7LXMkaXRLiJp9s1hsGIxkb6lo7W3QVbNCHN+?=
+ =?us-ascii?Q?r/Y0qi5oQvwDWc2GJpqvnKdd37a+QJBvvgFb9k87/FeSR8RSLhBfR50nI9s2?=
+ =?us-ascii?Q?7m9ipwqwc4Kcvulcqj+iX/MO+Zf/oGDE+1XonB+YnUaoQF8JzsWzJUUFBYPu?=
+ =?us-ascii?Q?wOGHFXPHDZA3e81em63elKAJFmGn7VDun0ZSlD1PbFyEDzsONFJldV83zQWT?=
+ =?us-ascii?Q?IT5FuuOXBcq5WcQdcVWh+SNalXolQwURh/Fhqt7Akntfirvv/65And0XM1l5?=
+ =?us-ascii?Q?e6DODDYwVqpRpS78lVsG3HMEm+p8rYcx7iRE9rjCMhcSP5opG6E4IfE2/rTd?=
+ =?us-ascii?Q?HTDqwxVi2BC5XE1MjI92zxlXgQGZlMJu+2fWHnemlG0HUiKF8wjCS7HR462J?=
+ =?us-ascii?Q?xO4KWpdcceJ7yLJmn3fMaHDpqG0TT5Yo4S6Tb2Ng/jCp3qFqskLnSWBBuR8Z?=
+ =?us-ascii?Q?QSFbLpU6rbBN36mMr4iigpIBHnvL/Er2tJnf7wwIqPVke9mTRVpKokye8im6?=
+ =?us-ascii?Q?x70R4UOdYOs5cQ2p3iNwXYnVQOcBOXfjP2JpNP3frMPxwe7tvjyqRWmggtLQ?=
+ =?us-ascii?Q?jPg03y4ikwuX3NaItPZ3t2zU/q9n8lo8Kgoc3CVbw4Av77SRcPcZd5BgExFV?=
+ =?us-ascii?Q?3Xo5e6u24kJ3ur3Pcv2lJH/LZisC54ok2XwRdNr7cRhf3zmo+OJvX8gc0m0I?=
+ =?us-ascii?Q?HD74dA3JxUHrHLN9F1N9IVzk/IBI90exek7811GmTHOBUPootBKbUHxsizZj?=
+ =?us-ascii?Q?DoLpcwHbpSBirybl8rJRKTZ37rtP0dli/Fi58vNbwHuyDELKJ5/C+rJd9UJn?=
+ =?us-ascii?Q?kyM8zYInrqRIvVzTSQSkkBP6FXDpPOGMFAWJhFGVWo0ljQRHZ8UiuoXEj8oT?=
+ =?us-ascii?Q?VQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2fbef629-4a90-41a3-dc6e-08de07d8829b
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2025 08:39:23.0747
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qPIYU4Hj94eko9YdN66robuOaMfp6txkjNzS9BWgIhKWZ70DjKQmIX3uz/9WF7wlT+AifJctjqBSaMZnkdDNcw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4727
+X-OriginatorOrg: intel.com
+X-Original-Sender: oliver.sang@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ibm.com header.s=pp1 header.b=j6G2yvWW;       spf=pass (google.com:
- domain of aleksei.nikiforov@linux.ibm.com designates 148.163.156.1 as
- permitted sender) smtp.mailfrom=aleksei.nikiforov@linux.ibm.com;
-       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
+ header.i=@intel.com header.s=Intel header.b="LM/HuVmP";       arc=fail
+ (signature failed);       spf=pass (google.com: domain of oliver.sang@intel.com
+ designates 198.175.65.15 as permitted sender) smtp.mailfrom=oliver.sang@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Content-Transfer-Encoding: quoted-printable
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -197,435 +231,230 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 10/9/25 05:31, Andrew Morton wrote:
-> On Tue, 30 Sep 2025 13:56:01 +0200 Aleksei Nikiforov <aleksei.nikiforov@linux.ibm.com> wrote:
-> 
->> If no stack depot is allocated yet,
->> due to masking out __GFP_RECLAIM flags
->> kmsan called from kmalloc cannot allocate stack depot.
->> kmsan fails to record origin and report issues.
->>
->> Reusing flags from kmalloc without modifying them should be safe for kmsan.
->> For example, such chain of calls is possible:
->> test_uninit_kmalloc -> kmalloc -> __kmalloc_cache_noprof ->
->> slab_alloc_node -> slab_post_alloc_hook ->
->> kmsan_slab_alloc -> kmsan_internal_poison_memory.
->>
->> Only when it is called in a context without flags present
->> should __GFP_RECLAIM flags be masked.
->>
->> With this change all kmsan tests start working reliably.
-> 
-> I'm not seeing reports of "hey, kmsan is broken", so I assume this
-> failure only occurs under special circumstances?
-
-Hi,
-
-kmsan might report less issues than it detects due to not allocating 
-stack depots and not reporting issues without stack depots. Lack of 
-reports may go unnoticed, that's why you don't get reports of kmsan 
-being broken.
-
-I'm not sure what exactly causes me to hit this issue, but I reproduce 
-it pretty reliably on one s390x machine and two x86_64 machines. I 
-didn't try more different machines yet.
-
-Here's how I reproduce it on Fedora 42 x86_64 machine using podman.
-
-I've got following files in same directory:
-
-$ ls
-busybox.init  busybox.patch  debug.config  kmsan.config 
-kmsan.Dockerfile  qemu.sh
-$ cat busybox.init
-#!/bin/sh
-
-mount -t proc none /proc
-mount -t sysfs none /sys
-
-cat <<!
 
 
-Boot took $(cut -d' ' -f1 /proc/uptime) seconds
+Hello,
 
-         _       _     __ _
-   /\/\ (_)_ __ (_)   / /(_)_ __  _   ___  __
-  /    \| | '_ \| |  / / | | '_ \| | | \ \/ /
-/ /\/\ \ | | | | | / /__| | | | | |_| |>  <
-\/    \/_|_| |_|_| \____/_|_| |_|\__,_/_/\_\
+kernel test robot noticed "BUG_kmalloc-#(Not_tainted):Freepointer_corrupt" =
+on:
+
+commit: af92793e52c3a99b828ed4bdd277fd3e11c18d08 ("slab: Introduce kmalloc_=
+nolock() and kfree_nolock().")
+https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git master
+
+[test failed on      linus/master ec714e371f22f716a04e6ecb2a24988c92b26911]
+[test failed on linux-next/master 0b2f041c47acb45db82b4e847af6e17eb66cd32d]
+[test failed on        fix commit 83d59d81b20c09c256099d1c15d7da21969581bd]
+
+in testcase: trinity
+version: trinity-i386-abe9de86-1_20230429
+with following parameters:
+
+	runtime: 300s
+	group: group-01
+	nr_groups: 5
 
 
-Welcome to mini_linux
+
+config: i386-randconfig-012-20251004
+compiler: gcc-14
+test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 16G
+
+(please refer to attached dmesg/kmsg for entire log/backtrace)
 
 
-!
-exec /bin/sh
-$ cat busybox.patch
-diff --git a/libbb/appletlib.c b/libbb/appletlib.c
-index d9cc48423..a0c502fde 100644
---- a/libbb/appletlib.c
-+++ b/libbb/appletlib.c
-@@ -718,8 +718,8 @@ static int find_script_by_name(const char *name)
-         return -1;
-  }
 
--int scripted_main(int argc UNUSED_PARAM, char **argv) 
-MAIN_EXTERNALLY_VISIBLE;
--int scripted_main(int argc UNUSED_PARAM, char **argv)
-+int scripted_main(int argc UNUSED_PARAM, char **argv) 
-MAIN_EXTERNALLY_VISIBLE //;
-+//int scripted_main(int argc UNUSED_PARAM, char **argv)
-  {
-         int script = find_script_by_name(applet_name);
-         if (script >= 0)
-diff --git a/scripts/kconfig/lxdialog/check-lxdialog.sh 
-b/scripts/kconfig/lxdialog/check-lxdialog.sh
-index 5075ebf2d..c644d1d48 100755
---- a/scripts/kconfig/lxdialog/check-lxdialog.sh
-+++ b/scripts/kconfig/lxdialog/check-lxdialog.sh
-@@ -45,9 +45,9 @@ trap "rm -f $tmp" 0 1 2 3 15
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <oliver.sang@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202510101652.7921fdc6-lkp@intel.co=
+m
 
-  # Check if we can link to ncurses
-  check() {
--        $cc -x c - -o $tmp 2>/dev/null <<'EOF'
-+        $cc -x c - -o $tmp <<'EOF'
-  #include CURSES_LOC
--main() {}
-+int main() { return 0; }
-  EOF
-         if [ $? != 0 ]; then
-             echo " *** Unable to find the ncurses libraries or the" 
-   1>&2
-$ cat debug.config
-CONFIG_DEBUG_INFO=y
-CONFIG_DEBUG_KERNEL=y
-CONFIG_GDB_SCRIPTS=y
-$ cat kmsan.config
-CONFIG_KUNIT=y
-CONFIG_KMSAN=y
-CONFIG_KMSAN_CHECK_PARAM_RETVAL=y
-CONFIG_KMSAN_KUNIT_TEST=y
-CONFIG_FRAME_WARN=4096
-# CONFIG_PROVE_LOCKING is not set
-# CONFIG_LOCK_STAT is not set
-# CONFIG_DEBUG_WW_MUTEX_SLOWPATH is not set
-# CONFIG_DEBUG_LOCK_ALLOC is not set
-# CONFIG_PREEMPT_TRACER is not set
-# CONFIG_DEBUG_PREEMPT is not set
-# CONFIG_TRACE_PREEMPT_TOGGLE is not set
-# CONFIG_DEBUG_VIRTUAL is not set
-$ cat kmsan.Dockerfile
-FROM fedora:42
 
-RUN dnf update -y ; dnf install -y git bash-completion util-linux nano 
-patch \
-         qemu qemu-kvm openssl openssl-devel ncurses-devel gcc gcc-c++ 
-clang clang++ \
-         flex bison bc awk cpio gzip sudo elfutils-libelf-devel pod2html 
-glibc-static
+[   66.142496][    C0] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[   66.146355][    C0] BUG kmalloc-96 (Not tainted): Freepointer corrupt
+[   66.147370][    C0] ----------------------------------------------------=
+-------------------------
+[   66.147370][    C0]
+[   66.149155][    C0] Allocated in alloc_slab_obj_exts+0x33c/0x460 age=3D7=
+ cpu=3D0 pid=3D3651
+[   66.150496][    C0]  kmalloc_nolock_noprof (mm/slub.c:4798 mm/slub.c:565=
+8)
+[   66.151371][    C0]  alloc_slab_obj_exts (mm/slub.c:2102 (discriminator =
+3))
+[   66.152250][    C0]  __alloc_tagging_slab_alloc_hook (mm/slub.c:2208 (di=
+scriminator 1) mm/slub.c:2224 (discriminator 1))
+[   66.153248][    C0]  __kmalloc_cache_noprof (mm/slub.c:5698)
+[   66.154093][    C0]  set_mm_walk (include/linux/slab.h:953 include/linux=
+/slab.h:1090 mm/vmscan.c:3852)
+[   66.154810][    C0]  try_to_inc_max_seq (mm/vmscan.c:4077)
+[   66.155627][    C0]  try_to_shrink_lruvec (mm/vmscan.c:4860 mm/vmscan.c:=
+4903)
+[   66.156512][    C0]  shrink_node (mm/vmscan.c:4952 mm/vmscan.c:5091 mm/v=
+mscan.c:6078)
+[   66.157363][    C0]  do_try_to_free_pages (mm/vmscan.c:6336 mm/vmscan.c:=
+6398)
+[   66.158233][    C0]  try_to_free_pages (mm/vmscan.c:6644)
+[   66.159023][    C0]  __alloc_pages_slowpath+0x28b/0x6e0
+[   66.159977][    C0]  __alloc_frozen_pages_noprof (mm/page_alloc.c:5161)
+[   66.160941][    C0]  __folio_alloc_noprof (mm/page_alloc.c:5183 mm/page_=
+alloc.c:5192)
+[   66.161739][    C0]  shmem_alloc_and_add_folio+0x40/0x200
+[   66.162752][    C0]  shmem_get_folio_gfp+0x30b/0x880
+[   66.163649][    C0]  shmem_fallocate (mm/shmem.c:3813)
+[   66.164498][    C0] Freed in kmem_cache_free_bulk+0x1b/0x50 age=3D89 cpu=
+=3D1 pid=3D248
+[   66.169568][    C0]  kmem_cache_free_bulk (mm/slub.c:4875 (discriminator=
+ 3) mm/slub.c:5197 (discriminator 3) mm/slub.c:5228 (discriminator 3))
+[   66.170518][    C0]  kmem_cache_free_bulk (mm/slub.c:7226)
+[   66.171368][    C0]  kvfree_rcu_bulk (include/linux/slab.h:827 mm/slab_c=
+ommon.c:1522)
+[   66.172133][    C0]  kfree_rcu_monitor (mm/slab_common.c:1728 (discrimin=
+ator 3) mm/slab_common.c:1802 (discriminator 3))
+[   66.173002][    C0]  kfree_rcu_shrink_scan (mm/slab_common.c:2155)
+[   66.173852][    C0]  do_shrink_slab (mm/shrinker.c:438)
+[   66.174640][    C0]  shrink_slab (mm/shrinker.c:665)
+[   66.175446][    C0]  shrink_node (mm/vmscan.c:338 (discriminator 1) mm/v=
+mscan.c:4960 (discriminator 1) mm/vmscan.c:5091 (discriminator 1) mm/vmscan=
+.c:6078 (discriminator 1))
+[   66.176205][    C0]  do_try_to_free_pages (mm/vmscan.c:6336 mm/vmscan.c:=
+6398)
+[   66.177017][    C0]  try_to_free_pages (mm/vmscan.c:6644)
+[   66.177808][    C0]  __alloc_pages_slowpath+0x28b/0x6e0
+[   66.178851][    C0]  __alloc_frozen_pages_noprof (mm/page_alloc.c:5161)
+[   66.179753][    C0]  __folio_alloc_noprof (mm/page_alloc.c:5183 mm/page_=
+alloc.c:5192)
+[   66.180583][    C0]  folio_prealloc+0x36/0x160
+[   66.181430][    C0]  do_anonymous_page (mm/memory.c:4997 mm/memory.c:505=
+4)
+[   66.182288][    C0]  do_pte_missing (mm/memory.c:4232)
+[   66.183062][    C0] Slab 0xe41bfb28 objects=3D21 used=3D17 fp=3D0xedf893=
+20 flags=3D0x40000200(workingset|zone=3D1)
+[   66.184609][    C0] Object 0xedf89b60 @offset=3D2912 fp=3D0xeac7a8b4
+[   66.184609][    C0]
+[   66.185960][    C0] Redzone  edf89b40: cc cc cc cc cc cc cc cc cc cc cc =
+cc cc cc cc cc  ................
+[   66.187388][    C0] Redzone  edf89b50: cc cc cc cc cc cc cc cc cc cc cc =
+cc cc cc cc cc  ................
+[   66.189695][    C0] Object   edf89b60: 00 00 00 00 00 00 00 00 00 00 00 =
+00 00 00 00 00  ................
+[   66.191175][    C0] Object   edf89b70: 00 00 00 00 00 00 00 00 00 00 00 =
+00 00 00 00 00  ................
+[   66.192701][    C0] Object   edf89b80: 00 00 00 00 00 00 00 00 00 00 00 =
+00 00 00 00 00  ................
+[   66.194259][    C0] Object   edf89b90: 00 00 00 00 00 00 00 00 00 00 00 =
+00 00 00 00 00  ................
+[   66.195753][    C0] Object   edf89ba0: 00 00 00 00 00 00 00 00 00 00 00 =
+00 00 00 00 00  ................
+[   66.196836][  T248] sed invoked oom-killer: gfp_mask=3D0x140dca(GFP_HIGH=
+USER_MOVABLE|__GFP_ZERO|__GFP_COMP), order=3D0, oom_score_adj=3D-1000
+[   66.197239][    C0] Object   edf89bb0: 00 00 00 00 00 00 00 00 00 00 00 =
+00 00 00 00 00  ................
+[   66.197395][    C0] Redzone  edf89bc0: cc cc cc cc                      =
+                ....
+[   66.197402][    C0] Padding  edf89bf4: 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a =
+5a              ZZZZZZZZZZZZ
+[   66.197406][    C0] Disabling lock debugging due to kernel taint
+[   66.203107][  T248] CPU: 1 UID: 0 PID: 248 Comm: sed Not tainted 6.17.0-=
+rc3-00014-gaf92793e52c3 #1 PREEMPTLAZY  2cffa6c1ad8b595a5f5738a3e143d70494d=
+8da79
+[   66.203119][  T248] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996=
+), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+[   66.203122][  T248] Call Trace:
+[   66.203125][  T248]  ? show_stack (arch/x86/kernel/dumpstack.c:319)
+[   66.203139][  T248]  dump_stack_lvl (lib/dump_stack.c:122)
+[   66.203148][  T248]  dump_stack (lib/dump_stack.c:130)
+[   66.203153][  T248]  dump_header (mm/oom_kill.c:468 (discriminator 1))
+[   66.203165][  T248]  oom_kill_process.cold (mm/oom_kill.c:450 (discrimin=
+ator 1) mm/oom_kill.c:1041 (discriminator 1))
+[   66.203174][  T248]  out_of_memory (mm/oom_kill.c:1180)
+[   66.203184][  T248]  __alloc_pages_may_oom (mm/page_alloc.c:4026)
+[   66.203199][  T248]  __alloc_pages_slowpath+0x39d/0x6e0
+[   66.203210][  T248]  __alloc_frozen_pages_noprof (mm/page_alloc.c:5161)
+[   66.203221][  T248]  __folio_alloc_noprof (mm/page_alloc.c:5183 mm/page_=
+alloc.c:5192)
+[   66.203227][  T248]  folio_prealloc+0x36/0x160
+[   66.203234][  T248]  do_anonymous_page (mm/memory.c:4997 mm/memory.c:505=
+4)
+[   66.203239][  T248]  ? handle_pte_fault (include/linux/rcupdate.h:341 in=
+clude/linux/rcupdate.h:871 include/linux/pgtable.h:136 mm/memory.c:6046)
+[   66.203244][  T248]  ? handle_pte_fault (include/linux/spinlock.h:391 mm=
+/memory.c:6092)
+[   66.203249][  T248]  ? rcu_is_watching (kernel/rcu/tree.c:752 (discrimin=
+ator 4))
+[   66.203256][  T248]  do_pte_missing (mm/memory.c:4232)
+[   66.203260][  T248]  ? handle_pte_fault (arch/x86/include/asm/preempt.h:=
+104 (discriminator 1) include/linux/rcupdate.h:100 (discriminator 1) includ=
+e/linux/rcupdate.h:873 (discriminator 1) include/linux/pgtable.h:136 (discr=
+iminator 1) mm/memory.c:6046 (discriminator 1))
+[   66.203267][  T248]  handle_pte_fault (mm/memory.c:6052)
+[   66.203275][  T248]  handle_mm_fault (mm/memory.c:6195 mm/memory.c:6364)
+[   66.203289][  T248]  do_user_addr_fault (include/linux/sched/signal.h:42=
+3 (discriminator 1) arch/x86/mm/fault.c:1389 (discriminator 1))
+[   66.203301][  T248]  exc_page_fault (arch/x86/include/asm/irqflags.h:26 =
+arch/x86/include/asm/irqflags.h:109 arch/x86/include/asm/irqflags.h:151 arc=
+h/x86/mm/fault.c:1484 arch/x86/mm/fault.c:1532)
+[   66.203310][  T248]  ? pvclock_clocksource_read_nowd (arch/x86/mm/fault.=
+c:1489)
+[   66.203316][  T248]  handle_exception (arch/x86/entry/entry_32.S:1055)
+[   66.203319][  T248] EIP: 0xb7d730cf
+[   66.203325][  T248] Code: 8d 04 33 8d 92 40 07 00 00 89 45 38 39 d5 ba 0=
+0 00 00 00 0f 44 fa 83 c9 01 09 f7 89 fa 8d 7b 08 83 ca 01 89 53 04 8b 54 2=
+4 04 <89> 48 04 89 f8 e8 a7 cb ff ff e9 93 f7 ff ff 8b 44 24 08 8b 74 24
+All code
+=3D=3D=3D=3D=3D=3D=3D=3D
+   0:	8d 04 33             	lea    (%rbx,%rsi,1),%eax
+   3:	8d 92 40 07 00 00    	lea    0x740(%rdx),%edx
+   9:	89 45 38             	mov    %eax,0x38(%rbp)
+   c:	39 d5                	cmp    %edx,%ebp
+   e:	ba 00 00 00 00       	mov    $0x0,%edx
+  13:	0f 44 fa             	cmove  %edx,%edi
+  16:	83 c9 01             	or     $0x1,%ecx
+  19:	09 f7                	or     %esi,%edi
+  1b:	89 fa                	mov    %edi,%edx
+  1d:	8d 7b 08             	lea    0x8(%rbx),%edi
+  20:	83 ca 01             	or     $0x1,%edx
+  23:	89 53 04             	mov    %edx,0x4(%rbx)
+  26:	8b 54 24 04          	mov    0x4(%rsp),%edx
+  2a:*	89 48 04             	mov    %ecx,0x4(%rax)		<-- trapping instructio=
+n
+  2d:	89 f8                	mov    %edi,%eax
+  2f:	e8 a7 cb ff ff       	call   0xffffffffffffcbdb
+  34:	e9 93 f7 ff ff       	jmp    0xfffffffffffff7cc
+  39:	8b 44 24 08          	mov    0x8(%rsp),%eax
+  3d:	8b                   	.byte 0x8b
+  3e:	74 24                	je     0x64
 
-RUN useradd -m user ; echo "user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+Code starting with the faulting instruction
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+   0:	89 48 04             	mov    %ecx,0x4(%rax)
+   3:	89 f8                	mov    %edi,%eax
+   5:	e8 a7 cb ff ff       	call   0xffffffffffffcbb1
+   a:	e9 93 f7 ff ff       	jmp    0xfffffffffffff7a2
+   f:	8b 44 24 08          	mov    0x8(%rsp),%eax
+  13:	8b                   	.byte 0x8b
+  14:	74 24                	je     0x3a
 
-USER user
-WORKDIR /home/user
 
-RUN mkdir src ; cd src ; git clone --depth=1 --branch v6.17 
-https://github.com/torvalds/linux ; \
-         git clone --depth=1 https://github.com/mirror/busybox
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20251010/202510101652.7921fdc6-lkp@=
+intel.com
 
-COPY --chown=user:user busybox.patch /home/user/busybox.patch
-COPY --chown=user:user qemu.sh /home/user/qemu.sh
-COPY --chown=user:user kmsan.config /home/user/kmsan.config
-COPY --chown=user:user debug.config /home/user/debug.config
-COPY --chown=user:user busybox.init /home/user/busybox.init
 
-RUN chmod +x qemu.sh ; cd src/linux ; make CC=clang defconfig ; \
-         cat ~/kmsan.config >> .config ; cat ~/debug.config >> .config ; \
-         make CC=clang -j8
 
-RUN cd src/busybox ; patch -p1 < ~/busybox.patch ; make defconfig ; \
-         sed -i -e 's:CONFIG_TC=y:# CONFIG_TC is not set:' -e 
-'s:CONFIG_FEATURE_TC_INGRESS=y:# CONFIG_FEATURE_TC_INGRESS is not set:' 
-.config ; \
-         sed -i -e 's:# CONFIG_STATIC is not set:CONFIG_STATIC=y:' 
-.config ; \
-         make -j8 ; make install
+--=20
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
-RUN mkdir src/initramfs ; cd src/initramfs ; mkdir -p bin sbin etc proc 
-sys usr/bin usr/sbin ; \
-         cp -a ~/src/busybox/_install/* . ; cp ~/busybox.init ./init ; 
-chmod +x init ; \
-         find . -print0 | cpio --null -ov --format=newc | gzip -9 > 
-../initramfs.cpio.gz
-$ cat qemu.sh
-#!/bin/bash
-exec qemu-system-x86_64 -m 2G -smp 4 -kernel 
-~/src/linux/arch/x86/boot/bzImage -initrd ~/src/initramfs.cpio.gz 
--nographic -append "console=ttyS0" -enable-kvm "$@"
-$
-
-I build podman image named "kmsan" using non-root user:
-$ podman build -f kmsan.Dockerfile -t kmsan .
-
-And run it using same non-root user and privileged podman container:
-$ podman run -it --rm --privileged kmsan
-
-And inside podman container I execute qemu.sh script:
-$ ./qemu.sh
-
-Here's kmsan unit-test output I get:
-
-[    4.995020]     KTAP version 1 
-
-[    4.996924]     # Subtest: kmsan 
-
-[    4.998461]     # module: kmsan_test 
-
-[    4.998580]     1..25 
-
-[    5.003992]     # test_uninit_kmalloc: uninitialized kmalloc test 
-(UMR report) 
-
-[    5.006948] *ptr is true 
-
-[    5.008519]     # test_uninit_kmalloc: EXPECTATION FAILED at 
-mm/kmsan/kmsan_test.c:173
-[    5.008519]     Expected report_matches(&expect) to be true, but is false
-[    5.016673]     not ok 1 test_uninit_kmalloc 
-
-[    5.019871]     # test_init_kmalloc: initialized kmalloc test (no 
-reports)
-[    5.022995] *ptr is false 
-
-[    5.026736]     ok 2 test_init_kmalloc 
-
-[    5.029653]     # test_init_kzalloc: initialized kzalloc test (no 
-reports)
-[    5.033060] *ptr is false 
-
-[    5.037952]     ok 3 test_init_kzalloc 
-
-[    5.040898]     # test_uninit_stack_var: uninitialized stack variable 
-(UMR report) 
-
-[    5.044349] cond is false 
-  
-
-[    5.045465]     # test_uninit_stack_var: EXPECTATION FAILED at 
-mm/kmsan/kmsan_test.c:211
-[    5.045465]     Expected report_matches(&expect) to be true, but is false
-[    5.052473]     not ok 4 test_uninit_stack_var 
-
-[    5.054740]     # test_init_stack_var: initialized stack variable (no 
-reports) 
-
-[    5.061026] cond is true 
-
-[    5.064956]     ok 5 test_init_stack_var 
-
-[    5.067630]     # test_params: uninit passed through a function 
-parameter (UMR report)
-[    5.073602] arg1 is false 
-
-[    5.074766] arg2 is false 
-
-[    5.075939] arg is false 
-  
-
-[    5.077078] arg1 is false 
-
-[    5.078317] arg2 is true
-[    5.080043]     # test_params: EXPECTATION FAILED at 
-mm/kmsan/kmsan_test.c:262
-[    5.080043]     Expected report_matches(&expect) to be true, but is 
-false
-[    5.086057]     not ok 6 test_params 
-
-[    5.088155]     # test_uninit_multiple_params: uninitialized local 
-passed to fn (UMR report)
-[    5.093995] signed_sum3(a, b, c) is true
-[    5.096099]     # test_uninit_multiple_params: EXPECTATION FAILED at 
-mm/kmsan/kmsan_test.c:282
-[    5.096099]     Expected report_matches(&expect) to be true, but is false
-[    5.107367]     not ok 7 test_uninit_multiple_params
-[    5.110155]     # test_uninit_kmsan_check_memory: 
-kmsan_check_memory() called on uninit local (UMR report)
-[    5.116984]     # test_uninit_kmsan_check_memory: EXPECTATION FAILED 
-at mm/kmsan/kmsan_test.c:309
-[    5.116984]     Expected report_matches(&expect) to be true, but is false
-[    5.126356]     not ok 8 test_uninit_kmsan_check_memory
-[    5.128587]     # test_init_kmsan_vmap_vunmap: pages initialized via 
-vmap (no reports)
-[    5.137961]     ok 9 test_init_kmsan_vmap_vunmap
-[    5.140564]     # test_init_vmalloc: vmalloc buffer can be 
-initialized (no reports)
-[    5.145685] buf[0] is true
-[    5.151173]     ok 10 test_init_vmalloc
-[    5.154140]     # test_uaf: use-after-free in kmalloc-ed buffer (UMR 
-report)
-[    5.157541] value is true
-[    5.158726]     # test_uaf: EXPECTATION FAILED at 
-mm/kmsan/kmsan_test.c:378
-[    5.158726]     Expected report_matches(&expect) to be true, but is false
-[    5.165473]     not ok 11 test_uaf
-[    5.167650]     # test_percpu_propagate: uninit local stored to 
-per_cpu memory (UMR report)
-[    5.173084] check is false
-[    5.174605]     # test_percpu_propagate: EXPECTATION FAILED at 
-mm/kmsan/kmsan_test.c:396
-[    5.174605]     Expected report_matches(&expect) to be true, but is false
-[    5.183281]     not ok 12 test_percpu_propagate
-[    5.185632]     # test_printk: uninit local passed to pr_info() (UMR 
-report)
-[    5.191356] ffff9d1b00367cec contains 0
-[    5.193590]     # test_printk: EXPECTATION FAILED at 
-mm/kmsan/kmsan_test.c:418
-[    5.193590]     Expected report_matches(&expect) to be true, but is false
-[    5.200144]     not ok 13 test_printk
-[    5.202139]     # test_init_memcpy: memcpy()ing aligned initialized 
-src to aligned dst (no reports)
-[    5.208531]     ok 14 test_init_memcpy
-[    5.210437]     # test_memcpy_aligned_to_aligned: memcpy()ing aligned 
-uninit src to aligned dst (UMR report)
-[    5.216716]     # test_memcpy_aligned_to_aligned: EXPECTATION FAILED 
-at mm/kmsan/kmsan_test.c:459
-[    5.216716]     Expected report_matches(&expect) to be true, but is false
-[    5.225432]     not ok 15 test_memcpy_aligned_to_aligned
-[    5.227044]     # test_memcpy_aligned_to_unaligned: memcpy()ing 
-aligned uninit src to unaligned dst (UMR report)
-[    5.231774]     # test_memcpy_aligned_to_unaligned: EXPECTATION 
-FAILED at mm/kmsan/kmsan_test.c:483
-[    5.231774]     Expected report_matches(&expect) to be true, but is false
-[    5.236286]     # test_memcpy_aligned_to_unaligned: EXPECTATION 
-FAILED at mm/kmsan/kmsan_test.c:486
-[    5.236286]     Expected report_matches(&expect) to be true, but is false
-[    5.242427]     not ok 16 test_memcpy_aligned_to_unaligned
-[    5.244753]     # test_memcpy_initialized_gap: unaligned 4-byte 
-initialized value gets a nonzero origin after memcpy() - (2 UMR reports)
-[    5.248626]     # test_memcpy_initialized_gap: EXPECTATION FAILED at 
-mm/kmsan/kmsan_test.c:532
-[    5.248626]     Expected report_matches(&expect) to be true, but is false
-[    5.252339]     # test_memcpy_initialized_gap: EXPECTATION FAILED at 
-mm/kmsan/kmsan_test.c:538
-[    5.252339]     Expected report_matches(&expect) to be true, but is false
-[    5.258704]     not ok 17 test_memcpy_initialized_gap
-[    5.261660]     # test_memset16: memset16() should initialize memory
-[    5.268995]     ok 18 test_memset16
-[    5.270905]     # test_memset32: memset32() should initialize memory
-[    5.275684]     ok 19 test_memset32
-[    5.278033]     # test_memset64: memset64() should initialize memory
-[    5.283358]     ok 20 test_memset64
-[    5.285848]     # test_memset_on_guarded_buffer: memset() on ends of 
-guarded buffer should not crash
-[    5.292876]     ok 21 test_memset_on_guarded_buffer
-[    5.295048]     # test_long_origin_chain: origin chain exceeding 
-KMSAN_MAX_ORIGIN_DEPTH (UMR report)
-[    5.299320]     # test_long_origin_chain: EXPECTATION FAILED at 
-mm/kmsan/kmsan_test.c:599
-[    5.299320]     Expected report_matches(&expect) to be true, but is false
-[    5.306978]     not ok 22 test_long_origin_chain
-[    5.310383]     # test_stackdepot_roundtrip: testing stackdepot 
-roundtrip (no reports)
-[    5.317344]  kunit_try_run_case+0x19b/0xa00
-[    5.319610]  kunit_generic_run_threadfn_adapter+0x62/0xe0
-[    5.322374]  kthread+0x89f/0xb20
-[    5.324121]  ret_from_fork+0x182/0x2a0
-[    5.326284]  ret_from_fork_asm+0x1a/0x30
-[    5.330550]     ok 23 test_stackdepot_roundtrip
-[    5.333135]     # test_unpoison_memory: unpoisoning via the 
-instrumentation vs. kmsan_unpoison_memory() (2 UMR reports)
-[    5.340187] =====================================================
-[    5.342896] BUG: KMSAN: uninit-value in test_unpoison_memory+0x146/0x3f0
-[    5.345803]  test_unpoison_memory+0x146/0x3f0
-[    5.347698]  kunit_try_run_case+0x19b/0xa00
-[    5.348883]  kunit_generic_run_threadfn_adapter+0x62/0xe0
-[    5.350393]  kthread+0x89f/0xb20
-[    5.351322]  ret_from_fork+0x182/0x2a0
-[    5.352454]  ret_from_fork_asm+0x1a/0x30
-[    5.353527]
-[    5.353917] Local variable a created at:
-[    5.354968]  test_unpoison_memory+0x40/0x3f0
-[    5.356253]
-[    5.356716] Bytes 0-2 of 3 are uninitialized
-[    5.357896] Memory access of size 3 starts at ffff9d1b003f7ced
-[    5.359104]
-[    5.359473] CPU: 3 UID: 0 PID: 121 Comm: kunit_try_catch Tainted: G 
-               N  6.17.0 #1 PREEMPT(voluntary)
-[    5.361551] Tainted: [N]=TEST
-[    5.362147] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), 
-BIOS 1.17.0-5.fc42 04/01/2014
-[    5.363915] =====================================================
-[    5.365146] Disabling lock debugging due to kernel taint
-[    5.366264] =====================================================
-[    5.367559] BUG: KMSAN: uninit-value in test_unpoison_memory+0x23d/0x3f0
-[    5.368626]  test_unpoison_memory+0x23d/0x3f0
-[    5.369292]  kunit_try_run_case+0x19b/0xa00
-[    5.369938]  kunit_generic_run_threadfn_adapter+0x62/0xe0
-[    5.370768]  kthread+0x89f/0xb20
-[    5.371299]  ret_from_fork+0x182/0x2a0
-[    5.371862]  ret_from_fork_asm+0x1a/0x30
-[    5.372478]
-[    5.372695] Local variable b created at:
-[    5.373302]  test_unpoison_memory+0x56/0x3f0
-[    5.373896]
-[    5.374097] Bytes 0-2 of 3 are uninitialized
-[    5.374714] Memory access of size 3 starts at ffff9d1b003f7ce9
-[    5.375536]
-[    5.375771] CPU: 3 UID: 0 PID: 121 Comm: kunit_try_catch Tainted: G 
-  B            N  6.17.0 #1 PREEMPT(voluntary)
-[    5.377209] Tainted: [B]=BAD_PAGE, [N]=TEST
-[    5.377771] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), 
-BIOS 1.17.0-5.fc42 04/01/2014
-[    5.378816] =====================================================
-[    5.382141]     ok 24 test_unpoison_memory
-[    5.384615]     # test_copy_from_kernel_nofault: testing 
-copy_from_kernel_nofault with uninitialized memory
-[    5.389317] =====================================================
-[    5.391106] BUG: KMSAN: uninit-value in 
-copy_from_kernel_nofault+0x216/0x4b0
-[    5.393125]  copy_from_kernel_nofault+0x216/0x4b0
-[    5.394564]  test_copy_from_kernel_nofault+0x146/0x2c0
-[    5.396107]  kunit_try_run_case+0x19b/0xa00
-[    5.397331]  kunit_generic_run_threadfn_adapter+0x62/0xe0
-[    5.398582]  kthread+0x89f/0xb20
-[    5.399282]  ret_from_fork+0x182/0x2a0
-[    5.400070]  ret_from_fork_asm+0x1a/0x30
-[    5.400912]
-[    5.401260] Local variable src created at:
-[    5.402081]  test_copy_from_kernel_nofault+0x56/0x2c0
-[    5.403139]
-[    5.403525] Bytes 0-3 of 4 are uninitialized
-[    5.404396] Memory access of size 4 starts at ffff9d1b00407ce8
-[    5.405579]
-[    5.405914] CPU: 0 UID: 0 PID: 123 Comm: kunit_try_catch Tainted: G 
-  B            N  6.17.0 #1 PREEMPT(voluntary)
-[    5.407990] Tainted: [B]=BAD_PAGE, [N]=TEST
-[    5.408620] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), 
-BIOS 1.17.0-5.fc42 04/01/2014
-[    5.409904] =====================================================
-[    5.410823] ret is false
-[    5.411962]     ok 25 test_copy_from_kernel_nofault
-[    5.426479] # kmsan: pass:13 fail:12 skip:0 total:25
-[    5.427361] # Totals: pass:13 fail:12 skip:0 total:25
-[    5.428300] not ok 1 kmsan
-
-I've debugged it, and as I previously wrote, the cause is stack depots 
-not being allocated when kmsan kmalloc hook is called. Previously sent 
-patch fixes these unit-test failures for me.
-
-> 
-> Please explain how you're triggering this failure and whether you think
-> we should backport the fix into -stable kernels and if so, are you able
-> to identify a suitable Fixes: target?
-> 
-At the moment I don't think any backporting is needed.
-
-> Thanks.
-
-Kind regards,
-Aleksei Nikiforov
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/335827e0-0a4c-43c3-a79b-6448307573fd%40linux.ibm.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
+02510101652.7921fdc6-lkp%40intel.com.
