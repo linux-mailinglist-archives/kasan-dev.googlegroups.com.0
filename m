@@ -1,311 +1,161 @@
-Return-Path: <kasan-dev+bncBD6LBUWO5UMBBIUH3HDQMGQEOFKTTQA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDE45GUIXYNRBNOL3HDQMGQEARYH4PA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43d.google.com (mail-pf1-x43d.google.com [IPv6:2607:f8b0:4864:20::43d])
-	by mail.lfdr.de (Postfix) with ESMTPS id D73B8BF1C23
-	for <lists+kasan-dev@lfdr.de>; Mon, 20 Oct 2025 16:13:56 +0200 (CEST)
-Received: by mail-pf1-x43d.google.com with SMTP id d2e1a72fcca58-78104c8c8ddsf3625046b3a.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 20 Oct 2025 07:13:56 -0700 (PDT)
-ARC-Seal: i=3; a=rsa-sha256; t=1760969635; cv=pass;
+Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id D64A7BF27A6
+	for <lists+kasan-dev@lfdr.de>; Mon, 20 Oct 2025 18:39:19 +0200 (CEST)
+Received: by mail-il1-x140.google.com with SMTP id e9e14a558f8ab-430c523ce49sf42707575ab.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 20 Oct 2025 09:39:19 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1760978358; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Q5BD7dP8j40pbm/I3xpiMHpnMvk4j2LYYleQtfoT9zBvBAdE29z84P9/FYO7kj535I
-         OV/7Pb+QLHkRMeaSnmEbQi09fHgEK4+AH0BBA6hsKth2Tph2TADlWRb91AA3XDmTycRq
-         pUuYMDh0tS/r76s1yN/UMFl+OSao5crYsH+W1PqC6cWubZVKCx3P9EBPliWZ+Qr39ztM
-         pbayutXxMAmJu9LZMLF1VCZWv+YYthTJTJASHzMX78YwCHp1RlAfLXJA91PWnNDjuBdG
-         1o2C6VUwIMsmcWo+JKmxndyI8iNtYsT97SLqtNPM2HBxOQ0XtBljtxkyRlOWZYwac2Qr
-         SzIQ==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        b=YQkLHKBBnM/P1CNR4vV0vqCLdTo0UQFqPyAKGn/77zxRI9XLrnQpwTJMXwbeMGNWQw
+         vColorOFIYCoIU3TTUPZJ1OheiQTaizY+n0gEp2QxeOyLWN4FWHlmGndfLkURE2zcq6F
+         Fd3Um8EauAHBJGjpHwv12W5ZG8bcahmIDMULuW43C1BsNKp+SK+yHYnhOMKKprYTm4Bb
+         X5tn2SBps254jaz+a37wf7Fg3IVxo1CImqUYxlnGY/Kby8a00h3DJyHapcpOwYWig50U
+         thz06zer1zFHUJLbrqRpVbFCkdEdeAJssbA7AztbxmA7LAETK8LKz4vYRS+lgAu3elk+
+         BN/w==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:in-reply-to
-         :content-disposition:references:message-id:subject:cc:to:from:date
+         :list-id:mailing-list:precedence:reply-to:mime-version:user-agent
+         :references:in-reply-to:subject:cc:to:from:message-id:date
          :dkim-signature;
-        bh=dhM2SvaF7boYaYtRfYReBiboh1HFF3Q7VuuFpwZu7J4=;
-        fh=eL5GiwsqszipQMMAEpZ+m5rrk2lOfml+hjApF2eO7lQ=;
-        b=BWkjh5pHf1+pvwHbiuVRDLnZ51vu3Q6RudbhwvJOmKcT4FwUNJsTjTEiaAS3oKiVXG
-         nnmON6s1PvLNag38Qt0X5gGhlstpvNAv49wEYF7+nJOwnSOLCqizJpP/Ywxa36g36tPx
-         msijvejz9HQqL7pXHed9XpaUTu1lNzP/05D91+UiS85k2FxgCT+PDUMNKlagaTm+KhJi
-         fNbwZaKDlkqI+ocfFPtfUo+bp4DXkDtRltD4eRI0R8tL6HHB95QvKgGD/gRzCCEVKk6h
-         bZy5y0AMvUvsSY5o2nkS0W62P8Z/LKAGoUJkibx/5GpOnC4HXjiWhOaQjS35jjpfpksp
-         dJvg==;
+        bh=5Mu+j97D/bci+q3GjODPGlS6UEKRr2I8Wth/96tcyPY=;
+        fh=UgzfNJq5pavJDesJeKI7Okvx6eJ//ui7eIBv7oc2G4c=;
+        b=lSuVj/PiIUOik839jocZVmHLg1thnplBBv3E7neJYiAOE3y77LEJNMJacM6Ams8IMz
+         8rUqOiGPeRR7m2uxNwiMN9UXVxcCOAg1XDn832OAIwEPi/SE6H2NobfFUDvTEQvY9zxC
+         cpLnyn/4auUB8iuRw6wCroCEaha+RaqspWDQBPuBgB5K7+C9s/2OxpJIWaO1hD6FgbsA
+         aIopGolLmUfsVi8JGwgqUCvcF9kvE4FyJ1f7cBpZO+W00jlPm/jllaeiGeZCOZwYb/zc
+         cbEb4Slh3t9XCYmgLYuPtbkFOq+xGPBoWGjqv3KAIpJbGryL300dvCWfDvHJwq5hnKFq
+         hNHQ==;
         darn=lfdr.de
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@oracle.com header.s=corp-2025-04-25 header.b=PmY4CW7M;
-       dkim=pass header.i=@oracle.onmicrosoft.com header.s=selector2-oracle-onmicrosoft-com header.b=VoP00omB;
-       arc=pass (i=1 spf=pass spfdomain=oracle.com dkim=pass dkdomain=oracle.com dmarc=pass fromdomain=oracle.com);
-       spf=pass (google.com: domain of lorenzo.stoakes@oracle.com designates 205.220.177.32 as permitted sender) smtp.mailfrom=lorenzo.stoakes@oracle.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=oracle.com
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=CQsMR9Ok;
+       spf=pass (google.com: domain of maz@kernel.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=maz@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1760969635; x=1761574435; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1760978358; x=1761583158; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
-         :in-reply-to:content-disposition:references:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dhM2SvaF7boYaYtRfYReBiboh1HFF3Q7VuuFpwZu7J4=;
-        b=Ulh1DCfzVduPV5qe5yKL7EkNnAguFkHLMQmeBNwj1GZJqjQrxT/tCOl9ts7Rfihweg
-         EZGlVHqP7o2MaQEfGPF98jt1SX5Y/dTzIyHrLN0lUztYgBzVpDiqTbV7QoK0DwO2hjyq
-         obQtE4U4edoDWWLR11fW/tHfiD7gvSKsISWfOXIjqgA/iMHvrTXXwt//skcMkOTLSC7U
-         5c8zoCO0XKjbAqP+4XkfaCLUy9KGpdHTsgtwXzWQgONMneo43m8tr/eRrEAFMawneNkQ
-         nKaDx5jdupiFlKE7yTmww5IJ+IFyjEt/rrTXu+2+spnksEaE18uocCIRp5IEKYihB9f5
-         yHgA==
+         :user-agent:references:in-reply-to:subject:cc:to:from:message-id
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5Mu+j97D/bci+q3GjODPGlS6UEKRr2I8Wth/96tcyPY=;
+        b=fvmnCJ/LgX9qAN7CXU/s9JaGIUS7aLK+SALwgcqm5tEbHtOohD6k4CIM1cAAjWFOcj
+         E5nzYE4slVpMWoTjmj5olYBs8kH8bfA68+x5zIM/xDyaYyGlAD2tNwZQ1+ZZmDBKT7+U
+         OKXPjM7erojRq9Ty3oClv1pHfzNoE59NKdwp0kpZmNCERHEfsUVbZnUMJ88ePWL66Sh/
+         fZ2wk7B2kBaGf9V/2Bs/Lx9mRYf8o6HelHmN0zjvMufdt6nnjtsC9BjLqupJYWJQuf+6
+         X96Ma0TLz2ESYfRd3UpJYNAyqBwvFmeP6tjG9YEetBdihD32xYvzgVTJp+S28yUDlO9f
+         3gJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760969635; x=1761574435;
+        d=1e100.net; s=20230601; t=1760978358; x=1761583158;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
-         :in-reply-to:content-disposition:references:message-id:subject:cc:to
-         :from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :user-agent:references:in-reply-to:subject:cc:to:from:message-id
+         :date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dhM2SvaF7boYaYtRfYReBiboh1HFF3Q7VuuFpwZu7J4=;
-        b=kTbGhmW1aPBQ8IJ4tNuYpqrENBGANSZ5mJCWNUIZonv8oBUDqJ7Rr/vg7FIE15Obtf
-         8inB+vAVi2Vv81EAPcDVO9HdmBrlfelUr5nfXj5S1VUTSY/OYddVsT1Fz0lFwcQl9uzj
-         WJ37IM4XdOkkcAfcKEcu8eYi9VIJDlqbB6+w2OBp7eQbQYht4CiYmu6+fLzhOHAWpVsI
-         MNKcEimRdtKp+IohXv1NejxqztK49dICSolfhRbuDFiYMx2IPibVWhoclXYVpxw7YQGV
-         mVDPgQJvchEmljfHO8F/nFfsefCyk7c0konTQyq5ZYRrzhl8Da3KyhLHZvcii0odQh4G
-         WFCg==
-X-Forwarded-Encrypted: i=3; AJvYcCXg9VT2XbbyKlApZs+NaOm84yPV74hUJimP+OEfiHXw2o9xwaZ/rtOe+e7uRex/xcriMIUEUg==@lfdr.de
-X-Gm-Message-State: AOJu0Yw7VT7TUU9ehKZyoEprF0YxPLMR3xlcxjrDmt1EFKcG1AMk+LwW
-	FElEDPcDESssaxyhtZyYO7vBfRct4yFyASNoqUyeNkO74inckYj1vsSw
-X-Google-Smtp-Source: AGHT+IEnybrW5OzFT0qP/uUAO5MSsYISdUfNxiFVCOBdWBF9cN/wUvQhZe0x6WgwfQxHQqP6NtNJgA==
-X-Received: by 2002:a05:6a00:4288:b0:7a2:2100:1d4b with SMTP id d2e1a72fcca58-7a221001d8cmr16771296b3a.14.1760969634982;
-        Mon, 20 Oct 2025 07:13:54 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd7KcgKgE+cEsJplu5fT3/i/7Hm1HQtxSOQSzsreQEpv9w=="
-Received: by 2002:a05:6a00:1f04:b0:77e:ce3:c5cf with SMTP id
- d2e1a72fcca58-7a2154ea955ls3639681b3a.2.-pod-prod-07-us; Mon, 20 Oct 2025
- 07:13:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=3; AJvYcCVnf3ubAMEToswb4OZdsMCYZGO1gQHAlrzPX6aTvi1UoNB+AiFlr+wB289azCNdPiaIMc9lZoaPF0E=@googlegroups.com
-X-Received: by 2002:a05:6a20:6a1e:b0:2c6:cdcc:5dc0 with SMTP id adf61e73a8af0-334a85464f6mr17576230637.16.1760969633431;
-        Mon, 20 Oct 2025 07:13:53 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1760969633; cv=pass;
+        bh=5Mu+j97D/bci+q3GjODPGlS6UEKRr2I8Wth/96tcyPY=;
+        b=tiH/5MICiKg/VosEbOBtiVlAywAlh1jWkOVb/dd/RWfWfDU+JDNXD1w3rVytM/WVRs
+         hqEVSYdQ4Cd/LNJ5an5dn0AcyzJn/eVVjeRwkH0pJij8mPcVgnE5ERusaWkU76iF4EId
+         osZy+y7A+9wHMbynDuGRWeNFUSCFRDJWHDJ+JdniGQqtvVll0BjK3a3s0htDGBhVInbf
+         nWNqb88p4Hbod8M2n1tnO8qpfjr2pWRU/ImpQjUA01/BLjt1KTzK7mBCbPgfmN3xfFMA
+         Uk69uwIAkhkH6W0aLivnLtw3xb0v2nLn0U1gK8Lm/ShDba59zY4zqdllS1vPkrAK7+q+
+         GfAQ==
+X-Forwarded-Encrypted: i=2; AJvYcCW3J9FLOasrS/QiXzdXgB6WQHYC8Aj6HQzGFd+7Eszblo1ScqPIT1AVxIPGxKggmG0WPZhqkw==@lfdr.de
+X-Gm-Message-State: AOJu0YxLLoT4ipw2T9oKLwssvRSabNuvtbRBQaAngNNuQOESn5uNut6Q
+	mNk0/gPWAWEBdVQ75gzrMLCaw6incBK2rbkUObcZE80+nGnrsp0kFmcf
+X-Google-Smtp-Source: AGHT+IEoIV8rmmgtg66cHbkchzFMlys7z5l4ORNkZm2t7k+q1/nmya4k59HCc3znBBXjmva/uV2IOg==
+X-Received: by 2002:a05:6e02:3787:b0:42d:8b25:47ed with SMTP id e9e14a558f8ab-430c51eb7d1mr212691495ab.6.1760978358244;
+        Mon, 20 Oct 2025 09:39:18 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd591awJjqZNBiRRpx0AJeDqliUHK5WLMEMeWWB6y5p6tA=="
+Received: by 2002:a92:c704:0:b0:430:b5ef:868d with SMTP id e9e14a558f8ab-430b76faaafls36441645ab.2.-pod-prod-03-us;
+ Mon, 20 Oct 2025 09:39:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVQejroc7rVMjCZbue/lZDo6nj1RQaI3KrN49/y0HDkDdKj28/PbHXerpXyiv5IkMOTzWfR3qqTVQ8=@googlegroups.com
+X-Received: by 2002:a05:6e02:1745:b0:42f:91aa:510b with SMTP id e9e14a558f8ab-430c51eac3dmr182553955ab.4.1760978357080;
+        Mon, 20 Oct 2025 09:39:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1760978357; cv=none;
         d=google.com; s=arc-20240605;
-        b=R32lVjdwoZEPPMLpbg8zxaEY2TUl9HI/xkYb+vfFt43/B+W67B7ROQ673TAg2UZcfB
-         k8XY6SbAj6McrLYcFhlXYqTGFc01Ma92YBO4tOiKE9rL02UtcGEh4QEtFT2n4Xd4W7gb
-         udZfpwA0AVprashLbHZP5YSFBQVUK0BjPZGDtD6mYl1og3zKVM9w2utSbFpoGmR1Fr3r
-         3sy3uxncOnvXgqz9cpKb7gdn/485TE3Gj5UnuBAeZrAYk00jQFf0HV4Y5cOlNop0Vcnv
-         YZK630wuTISu8khEB4uPYS1NQLdwtPaP5N7BW+V44wRnTw+04ljYwrfuUQRjhVg+lNcV
-         Eo7w==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=mime-version:in-reply-to:content-disposition:references:message-id
-         :subject:cc:to:from:date:dkim-signature:dkim-signature;
-        bh=RqJP5LSlTyqWEKn83Vhqv5Rb1/W3bmdqnsXgdwjN7Dg=;
-        fh=8lNOV8uDr2VTmczN2n/RzalrcIupURSrGqhSN3ZqU3E=;
-        b=cBt6MXvWUCcMO1/HYTGNlTJZQv4huSXf6iQ4WNFRvY6YBUOCkulG83SRaCQzDkrdaC
-         q15j003Z6rqHKATZHry8/11NCCd+joukkV5AB9KkEYxaMEJmUQbhZhv3bz8PUsGSDGpe
-         xOfhdwrfZNZIQsrclIputXU3F9dpjp9+XHU7urgSCFlGhNfDmADnYPTZ+Blc3cNMx4ou
-         W9pbK0JZjV7qzQxytoFaA5yDhml1ni9VFPaAAy2fo2Poaziiib9OuIQSMc54/KwCTnX8
-         cvHP2m5661SUXSXE8CdsTMF3r68ojLd2FHUGo2pnDuHfpK4+YA8W7pxg9/Ff28QltTQ6
-         xgkg==;
+        b=Sx+xRjIQH3nhMQ6N/S44gUMRm9/CEJCAYDynk5MD8CsRT4GdPCGT/ktwIjmNEoSGgn
+         T655TKRkqjuf8Ww9AL4ce0Y/jLyPTdc1QqId5nau5awvXhlDxNXzNTMsb2FG50dl51p6
+         inqs9RQU9U0wczDIIK1nh1nuSRNMt6vCPvlDn4e33W/dm18kEOrty7T7xR1Z+17dm0ve
+         Dyurm5Fsb8JO0/u63JJGSvqEJIueTDf2l5EhUCXtAnP26ikidNjsqWJernlgOxx+ZVUh
+         1C9SVBPKzmhoB4kll4VHbT3SnUCXsNLWORZnqD/iXuTkO6VfRRAkVC3tgRV4jOF29y4W
+         m/rA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=mime-version:user-agent:references:in-reply-to:subject:cc:to:from
+         :message-id:date:dkim-signature;
+        bh=ljgwGTyHDyNrzUm2wfSApTtDIUOkOST1fBvM18Ofiu4=;
+        fh=2I6TuXMYcRNNrCjn1jRpbuD9zai3uxO6fbJLk4U/BhY=;
+        b=h4sf02TBkHd62d7kq/iLICkbU731jLYr2KA1+2RL98/xhJwpWTADyGeksy7i/tZiTw
+         arRDyBbjoYhasmEiBFyvE+t0DOxQkMTw1UuAF88BR8X0stqZUHmFoGVse6g39SYsMN2E
+         VirF33sA4STq+HMl+z0jzswY8hO0HhwONm1nYpKcMt/keO8IfQMHjvv64WeDfdKqufhz
+         hEL6akSk1LvgGi91IJBKeSIq5J0wz+Mvj8QwPqdQTD3ykVXmKta7OVNcCEy7eCIhEv54
+         OYWSu/uV4dnBWnNzgiO1LOdAW0PPPWxrUDiaNE8iS2VUaHd8NVIC+yRmoTAygYmxd3WD
+         aYpg==;
         dara=google.com
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@oracle.com header.s=corp-2025-04-25 header.b=PmY4CW7M;
-       dkim=pass header.i=@oracle.onmicrosoft.com header.s=selector2-oracle-onmicrosoft-com header.b=VoP00omB;
-       arc=pass (i=1 spf=pass spfdomain=oracle.com dkim=pass dkdomain=oracle.com dmarc=pass fromdomain=oracle.com);
-       spf=pass (google.com: domain of lorenzo.stoakes@oracle.com designates 205.220.177.32 as permitted sender) smtp.mailfrom=lorenzo.stoakes@oracle.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=oracle.com
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com. [205.220.177.32])
-        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-b6a7644f4cbsi613444a12.0.2025.10.20.07.13.53
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=CQsMR9Ok;
+       spf=pass (google.com: domain of maz@kernel.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=maz@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from sea.source.kernel.org (sea.source.kernel.org. [172.234.252.31])
+        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-5a8a96e1150si340294173.4.2025.10.20.09.39.17
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 20 Oct 2025 07:13:53 -0700 (PDT)
-Received-SPF: pass (google.com: domain of lorenzo.stoakes@oracle.com designates 205.220.177.32 as permitted sender) client-ip=205.220.177.32;
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59K8SIqP028347;
-	Mon, 20 Oct 2025 14:13:39 GMT
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49v2yptb92-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 20 Oct 2025 14:13:39 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 59KE4qG5013125;
-	Mon, 20 Oct 2025 14:13:38 GMT
-Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010018.outbound.protection.outlook.com [52.101.46.18])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 49v1baqk36-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 20 Oct 2025 14:13:38 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=o9VC2pClXQ5rb/VXJN9N7U+xeEVNpDF4n5v2EAFmGZQBeAC2+ZDThH9xyRC2HpfMTsUlRoX9PVt6eA9ZZJH3N3lt443sDTEeamzsZZ5HwYiDT20XF/vUSfplGtrep+UcUa5akz4ouxkMAwPQEqCRzElIEfE0eoFzB4tgciVB+fsrVglwXKzB2YgPZYF3iNUhHUna6Y+F/0Mzn6quT1rnPHLjxsNqdXHJnKfC1VwCl6/R2nUNTx26bTEBS9GFjwJL1NubKSkIp18fy6ZGkXThxgDEoncc8Dj/EAP1wEaKcXIUiPXj1dcXVnznMQ8W9G+ILMMrii/MQezYHoMdpzafXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RqJP5LSlTyqWEKn83Vhqv5Rb1/W3bmdqnsXgdwjN7Dg=;
- b=J2p7CUONsC0oCsLb4ZNSGz24fa8W9LlpVshi4dOfym/rIiVMHdAJtQaoC9JREddrv6TiRYO3+Sk0zLVryUs30t+G+FWHvwiW7rOXR7w5HXjVMG7FdmXl2YCKZU0mtQuJv8okB0BuZqPny13a9r5TK4UHp+VS4tvQVHof7lu+iFAUV1jc5/j/iXAzg8HRyarkt3s/Cke+fQ0KyGh1cjqhsaHoVKfLjykBXolvKP7Mhzyjjon5dU2cQgB5oanM59ThnMtAN99V0aw3OKWkVNv3AC8K1PorVdLYEB3HwAmD/aQxU224HignqdWZYykVLzu5TibvNDcDk/DQ0DaCIR5xOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
- by SJ2PR10MB7669.namprd10.prod.outlook.com (2603:10b6:a03:542::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.16; Mon, 20 Oct
- 2025 14:13:33 +0000
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2%2]) with mapi id 15.20.9228.016; Mon, 20 Oct 2025
- 14:13:33 +0000
-Date: Mon, 20 Oct 2025 15:13:30 +0100
-From: "'Lorenzo Stoakes' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Sumanth Korikkar <sumanthk@linux.ibm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>,
-        Guo Ren <guoren@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>, Nicolas Pitre <nico@fluxnic.net>,
-        Muchun Song <muchun.song@linux.dev>,
-        Oscar Salvador <osalvador@suse.de>,
-        David Hildenbrand <david@redhat.com>,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        Hugh Dickins <hughd@google.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>, Jann Horn <jannh@google.com>,
-        Pedro Falcato <pfalcato@suse.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-csky@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-mm@kvack.org,
-        ntfs3@lists.linux.dev, kexec@lists.infradead.org,
-        kasan-dev@googlegroups.com, Jason Gunthorpe <jgg@nvidia.com>,
-        iommu@lists.linux.dev, Kevin Tian <kevin.tian@intel.com>,
-        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v5 12/15] mm/hugetlbfs: update hugetlbfs to use
- mmap_prepare
-Message-ID: <270738c1-e2e5-4e23-83d9-7709601e2e40@lucifer.local>
-References: <cover.1760959441.git.lorenzo.stoakes@oracle.com>
- <b1afa16d3cfa585a03df9ae215ae9f905b3f0ed7.1760959442.git.lorenzo.stoakes@oracle.com>
- <aPY7eQec0bB9847x@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Oct 2025 09:39:17 -0700 (PDT)
+Received-SPF: pass (google.com: domain of maz@kernel.org designates 172.234.252.31 as permitted sender) client-ip=172.234.252.31;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 560754182C;
+	Mon, 20 Oct 2025 16:39:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 280ECC4CEF9;
+	Mon, 20 Oct 2025 16:39:16 +0000 (UTC)
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1vAsuf-0000000FZt9-3Yhi;
+	Mon, 20 Oct 2025 16:39:13 +0000
+Date: Mon, 20 Oct 2025 17:39:13 +0100
+Message-ID: <86ldl5wmry.wl-maz@kernel.org>
+From: "'Marc Zyngier' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Ada Couprie Diaz <ada.coupriediaz@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	kasan-dev@googlegroups.com,
+	Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [RFC PATCH 03/16] arm64/insn: always inline aarch64_insn_decode_register()
+In-Reply-To: <20250923174903.76283-4-ada.coupriediaz@arm.com>
+References: <20250923174903.76283-1-ada.coupriediaz@arm.com>
+	<20250923174903.76283-4-ada.coupriediaz@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <aPY7eQec0bB9847x@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
-X-ClientProxiedBy: LO4P265CA0074.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2bd::13) To DM4PR10MB8218.namprd10.prod.outlook.com
- (2603:10b6:8:1cc::16)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|SJ2PR10MB7669:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5db3c880-40dd-4012-195b-08de0fe2da91
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?mHRSZkotvQpWpzKPJGyiMxEW4vWHE0CFIOGfv1lwdVjQ2nnpaTKMli5N93bj?=
- =?us-ascii?Q?qcjvQjGJ9UR1LHc2Gq5Yc/0lh3AqrKpnTrmDOTZp26o0vlqeJWw6kHSKa6r3?=
- =?us-ascii?Q?0hgeprbnYe9wvJNgsnUW4bdVN/icn+a2pCzfAT/PKBzcdyyySQlVTUp1i8g4?=
- =?us-ascii?Q?8IsmCswzd7IAvurzzhrQIXIWsyjKpufEhUZy5nJTNG5xTByMFiYyex18vDLd?=
- =?us-ascii?Q?upiCQ7Esab/zH1gO/lQr5494KxLw/OnzZsTcp3VMunCOKczUljoKRgH8xLdk?=
- =?us-ascii?Q?GM1biSN08Kov9yDugfnSAqz5FbE5mSs2FT/CCNEFsvqobowCygx1bNQO73ed?=
- =?us-ascii?Q?IJPI6z0X6NA3vXY+7BCi3LKTosrmq8TBhSDNdR5CcI0Rs+cGqPA2N9AZr6kd?=
- =?us-ascii?Q?kRJ1TMoUM5fTIpFDY4lsmH0Bt+C4YVNsHBw75K9/SmxG6KS4GP94zGS1fEPl?=
- =?us-ascii?Q?9mhetllstg+7nCaRkM4xKOg4lZxWo04MQtiZHRZq6BUCr0yJnCyv71IDyhFz?=
- =?us-ascii?Q?gYGOI4mQve4YhYhX6YUuC0lZp243nxoEnLMVZtfBj2UmiCUFVre9Cy7RByuH?=
- =?us-ascii?Q?CxMZo2H/Nwss+fhjiy5/0XBXKKQ7RfGFSftueG9xKYwrqW9pclgrbwzEdwui?=
- =?us-ascii?Q?KzS4t3c+zo1yDGuI+jU7B1sepol5vo4SpAMO0Ekmk4jFqsvhW/2dBBqPmrAG?=
- =?us-ascii?Q?inE340TroKE9n1b7izuMkmYezz8SrhAv2UZiihrhZzCZ4bhVW+JKk4nS97Wk?=
- =?us-ascii?Q?v8x5kZGgCPbnAbXYMWjr5Ms7I+41H3E7VIwKaNPmXE38SIv2tO5+iK8YsZRH?=
- =?us-ascii?Q?J8hC26JA9kaThb9hpe8cLGTUmPJD3giq6EQAVtzh86WED2HYbZimlG9CTsuG?=
- =?us-ascii?Q?wsKTVPiMHhOIac7BMCALT00T2r8ibCJf7z+6k8uv2+WS0fOxzgg6DncD0rJB?=
- =?us-ascii?Q?Zi550ulHhNLiXc90tQk6m/LOeATUr8w1DOkGP6M1oaLxK/M692Fs7EvpN1nn?=
- =?us-ascii?Q?CGLxJBszVK8wXs43XG+a7j/5N/NwP/xvScpbxFGsxSMV24i9+KCUX/uZZggt?=
- =?us-ascii?Q?/qfpEt5h3Dx20T9TGnxPmAxHOIOf5wiPCtus9prywilxm3F/0TiOdjTBmqWH?=
- =?us-ascii?Q?j8QWtt9iJyTHFrdS0cQPLMHwix3Db3uIEm2M4kMLaxVhK54mAorijno934Ui?=
- =?us-ascii?Q?1BRcXALOSZSOeJt7B+vAGbBun52zUZCvG7INc+Y6W9jIzmfCORv3mq53mgWF?=
- =?us-ascii?Q?02lMnWTMcZtELIQ2F5xNoWfzFnUWICB8C99CNHsZVwdTbGl6LfSDsCqUcK0u?=
- =?us-ascii?Q?Gj/P8qmwcNsq3hVq7IfCckz/d3OHTyJ7voUZMYY22HQozyBX7j2IGjxSATIv?=
- =?us-ascii?Q?5BPmWvxJuOxEOSr64J/woxn9tVtZm3QI7iCKJF3r9J9SlaJ5wok7TyrJe4Ca?=
- =?us-ascii?Q?XIZVlHtIbDTkYTFcnR+JQSDM4hMr7y3j?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?M1l69Ii4h73OVG+aq9YKj+syhqEQStHaBNWsPyhSFmrr/Il/ay4fTun2iLDp?=
- =?us-ascii?Q?EkhEtFgKSdI6VQ7RNx9rgQhCRYxteS+o6WBCd2sXyr0I6WuP2y1McypdFDYZ?=
- =?us-ascii?Q?q/1gKtrr/UBpIqVE6j0JKBqyTuJ3Z5BXOu4TVYCJRFFKul0eVih8qGbPbO3d?=
- =?us-ascii?Q?932bMS7ut7jng+nSQKizj5mC/SI/3xi24ACLyhIAQ9B0q23r1vn2yFr0rzs7?=
- =?us-ascii?Q?Ph6fN9Cl0LcgJAA15/biN+3hDrGrsGtxdq1p32SAU2pJ9pLhjsi7h9LWnCSn?=
- =?us-ascii?Q?EcqXGqeaJtAUbKT7taHEnnCGk2P//F6lPBLvwkvfJdf9EryBZrRTu9A6rupU?=
- =?us-ascii?Q?5/e3qZWUg1sfThZj/IK2rcMw0KWRvOYdkqq6SVEmHSYO+2SHtHDkq/M/hcAT?=
- =?us-ascii?Q?YfEBKBpMRKRNVcacPYWe+01hceyHIEQ7ZSQ7V7IjH544Lszcp/+HzqfT20Yy?=
- =?us-ascii?Q?oQms1xsLxvV5Tlb3BK2QbsHzCXINrP/q2tweBWdQksE9BwzdTyZFGW2ponas?=
- =?us-ascii?Q?zfsBcKqSvOHRKxOssxYN13JlqvichnjiVDlmEmdsVP1R+E/haYT5W6w8u3aP?=
- =?us-ascii?Q?CzASjsB3TIvElX4t7IDxY88+C2xGe9OUSdjeHZaoN5xD6x/3IbCa+yhZ/1l7?=
- =?us-ascii?Q?hUJQa1jiAauya9PQ8yWVNsOfl863GBHH9fgaP6MSysMxya6RgLe5DM2bfL+M?=
- =?us-ascii?Q?moqFQCaoFAxJ8SaMVul1fhUmcdR9XfDNTwi3UOCAcfDTgFpEgvOuUE9EiVNh?=
- =?us-ascii?Q?PbxRK5DlpvQ1HCdVGq8W1f4yGX/csUQs6iXHOsIjcKJS7eO50c2GJABI+5Rq?=
- =?us-ascii?Q?hbAj3xg5gePGKSe1HeX2tIkxQKnw5ieIp6jlnfBB6jyr/kh6C3G/WxzyKENZ?=
- =?us-ascii?Q?cRgyl9k1xoU8s2te1Y/CE6/RisEWcuPu5hkL31NFKHoddeXG6PLvcMQw/wSL?=
- =?us-ascii?Q?w+PGg1HiqtIRB7OqTxqrKva069baK6LToAElrSA4BFP4EtVLF/PKjgIPKWyl?=
- =?us-ascii?Q?jEswUOYv7r9cbUxSC9WD0z0Tpb67DIJqlmH3faLtKVpVfapI/Z0RiFEaLyef?=
- =?us-ascii?Q?r4Oj261b149unMDXGAsIuKnx4ZcgH46lnFumpV1IhXMEAEl5WS8Qxk1Ngd2u?=
- =?us-ascii?Q?BEitIdGgHpLHOSSpl/Gkr3vxN/7Bj4XVhbYk5o34Qojvae6IsfaCCM71Qpfg?=
- =?us-ascii?Q?uN28BLUA7gBOcNMe90M2xTAqCAsHCr9dN/0f3dnaHOCbPMIOMrkaO7ns5CR+?=
- =?us-ascii?Q?7quRXQKrwWiA/ZTvyFBXc5CjBlwzTeMMYHp3oZB4jZNTV/jUGeMw8J2BBAnW?=
- =?us-ascii?Q?49f2Na4I+56FPvvstfHStubUxT3d/ZlNSpgJD29gio716M4A//Nqoddyn3E6?=
- =?us-ascii?Q?ezGCVAA2v49HTicib9IBqMS5xxLPLJhBX8BTKtn0ViPKeAX5BTCLtFfEGd6S?=
- =?us-ascii?Q?35W6nOA1CwWy4WCuLy7YDeIgyB4UKGu3qEbzMVuNjXw7hEVlMfyk9L7sNSJy?=
- =?us-ascii?Q?490Pkv4o9DPGzgRNdPqoOkIzUlBXx7svndsKq1w2WDoNUHfYp8muNMNjE5iD?=
- =?us-ascii?Q?V5PHg6SDUeBS+vw5XPumn/cjz3yNIADtdUSD6aaPyM4bSY/9ulXwGF4g3aWQ?=
- =?us-ascii?Q?+Q=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 9OrfgLaeo4e7nQv1QSqz9WYZSb+tvBLr+2GdNhEyopKaScu+82/8k9M/bFCXlGrq9WkIUuKiRlLAk0RYBtc4vXK08jPTABIwVYSAnKMpRcS7atV8XYj1wuY4sLLBFpoDSVMjURcQqHYezK1IDdJ/VD34xqUh/SUVnXs07s+jJNopaSVWSDQrIoM4T8RS5G/9GYBVsmbosSG0ROMNZ2kRMHEsINTcC8fm1QxMAgZwdm72VSzwaDvwVlDybT+wxmIHSmBSq72RHdtc2JMab2kIJShzo5avPNbbhfJD+1VMIgd12vAA8jjU8sPu/OBFY4guwlDnGxmM2O8HUvpF466Lf6Qfw+Et/UP4EmwZlCos75XmeHCwrzXcsv0BrLzQyKJrPyTnbCeIIfoWk9nO46OBpTjI63/zrV+QDgaWgzea8LfhZnUWDHMU9LcjyBbLklvQGbhVqxxJ1tHY/Y4T7pRkrJ9/GmYatOLaK/868VRiiW37PuV8kWXgYRFZB6KpfN2Dn+h9LZuum3EungvZlkuxLlihLzYFty0OPbK3DdfJTEJF9yrx3uxgZXMpGog0O/hqBub5uujFR4JUHDC+I+7t0S3maSaU19O3EPpE0yoZLq8=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5db3c880-40dd-4012-195b-08de0fe2da91
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2025 14:13:33.7835
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HblqPGAzpES/8gt70k9aBo4q+2hrJGbyv/ETRLlQnMzN7VYV16SA8G9THs4iBz7iWC3d42dcjXZ4vmUUVyw9MtWbVzSreBbiyCYU9Cf5ghg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR10MB7669
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-20_04,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 malwarescore=0
- suspectscore=0 spamscore=0 adultscore=0 bulkscore=0 phishscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2510020000 definitions=main-2510200118
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMyBTYWx0ZWRfX8nyhQpg6YVWW
- xikZyxVmIUJGKK+HUa5GlhOl+B0F/QvURzab3589+9+diScp6v1HcTNUVpeV0t/rByxWjsM49x+
- Y/EPCVIovhtlWooi732XkIvrlYu9Gt7xn7f/0Y3bu7ETqquWf62bqORiBwOq3lLTo/7u/VE1slA
- iR4129GQPIooYNBg98GujvFveIzPTjema3kr8EE/O7J3rmnRdVSoYhqjplpQIboD7cNjRSr/fjf
- IJjYFSiCh9wuNtJ3GcznfIfT6qanOtRAZMjU1FAzQBYofMTNEdGGUgFCp4mgU0j17SvocSWOe87
- wbVVwzEOQ1cxmTulVqdLwdgiSqaAT1iIKMFJOOxt9ueRliqaT1FrH1xf8yT2La2PEFVEbpAgap5
- sFuaI4mpi9aC6tIvmPV6PUevuElt+g==
-X-Proofpoint-GUID: kdkqV7_Qjde75NJU4d95VnZyxM6-vws5
-X-Authority-Analysis: v=2.4 cv=Db8aa/tW c=1 sm=1 tr=0 ts=68f64393 b=1 cx=c_pps
- a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=yPCof4ZbAAAA:8 a=Ikd4Dj_1AAAA:8 a=VnNF1IyMAAAA:8 a=seDGfn6Nqulq7RY4adYA:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: kdkqV7_Qjde75NJU4d95VnZyxM6-vws5
-X-Original-Sender: lorenzo.stoakes@oracle.com
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: ada.coupriediaz@arm.com, linux-arm-kernel@lists.infradead.org, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, ardb@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com, dvyukov@google.com, vincenzo.frascino@arm.com, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, kasan-dev@googlegroups.com, mark.rutland@arm.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Original-Sender: maz@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@oracle.com header.s=corp-2025-04-25 header.b=PmY4CW7M;
-       dkim=pass header.i=@oracle.onmicrosoft.com header.s=selector2-oracle-onmicrosoft-com
- header.b=VoP00omB;       arc=pass (i=1 spf=pass spfdomain=oracle.com
- dkim=pass dkdomain=oracle.com dmarc=pass fromdomain=oracle.com);
-       spf=pass (google.com: domain of lorenzo.stoakes@oracle.com designates
- 205.220.177.32 as permitted sender) smtp.mailfrom=lorenzo.stoakes@oracle.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=oracle.com
-X-Original-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Reply-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+ header.i=@kernel.org header.s=k20201202 header.b=CQsMR9Ok;       spf=pass
+ (google.com: domain of maz@kernel.org designates 172.234.252.31 as permitted
+ sender) smtp.mailfrom=maz@kernel.org;       dmarc=pass (p=QUARANTINE
+ sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Marc Zyngier <maz@kernel.org>
+Reply-To: Marc Zyngier <maz@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -318,35 +168,80 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Oct 20, 2025 at 03:39:05PM +0200, Sumanth Korikkar wrote:
-> On Mon, Oct 20, 2025 at 01:11:29PM +0100, Lorenzo Stoakes wrote:
-> > Since we can now perform actions after the VMA is established via
-> > mmap_prepare, use desc->action_success_hook to set up the hugetlb lock
-> > once the VMA is setup.
-> >
-> > We also make changes throughout hugetlbfs to make this possible.
-> >
-> > Note that we must hide newly established hugetlb VMAs from the rmap until
-> > the operation is entirely complete as we establish a hugetlb lock during
-> > VMA setup that can be raced by rmap users.
-> >
-> > Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> > Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
->
-> Hi Lorenzo,
->
-> Tested this patch with libhugetlbfs tests. No locking issues anymore.
->
-> Tested-by: Sumanth Korikkar <sumanthk@linux.ibm.com>
->
-> Thank you
+On Tue, 23 Sep 2025 18:48:50 +0100,
+Ada Couprie Diaz <ada.coupriediaz@arm.com> wrote:
+> 
+> As it is always called with an explicit register type, we can
+> check for its validity at compile time and remove the runtime error print.
+> 
+> This makes `aarch64_insn_decode_register()` self-contained and safe
+> for inlining and usage from patching callbacks.
+> 
+> Signed-off-by: Ada Couprie Diaz <ada.coupriediaz@arm.com>
+> ---
+>  arch/arm64/include/asm/insn.h | 32 ++++++++++++++++++++++++++++++--
+>  arch/arm64/lib/insn.c         | 29 -----------------------------
+>  2 files changed, 30 insertions(+), 31 deletions(-)
+> 
+> diff --git a/arch/arm64/include/asm/insn.h b/arch/arm64/include/asm/insn.h
+> index 18c7811774d3..f6bce1a62dda 100644
+> --- a/arch/arm64/include/asm/insn.h
+> +++ b/arch/arm64/include/asm/insn.h
+> @@ -7,6 +7,7 @@
+>   */
+>  #ifndef	__ASM_INSN_H
+>  #define	__ASM_INSN_H
+> +#include <linux/bits.h>
+>  #include <linux/build_bug.h>
+>  #include <linux/types.h>
+>  
+> @@ -558,8 +559,35 @@ enum aarch64_insn_encoding_class aarch64_get_insn_class(u32 insn);
+>  u64 aarch64_insn_decode_immediate(enum aarch64_insn_imm_type type, u32 insn);
+>  u32 aarch64_insn_encode_immediate(enum aarch64_insn_imm_type type,
+>  				  u32 insn, u64 imm);
+> -u32 aarch64_insn_decode_register(enum aarch64_insn_register_type type,
+> -					 u32 insn);
+> +static __always_inline u32 aarch64_insn_decode_register(
+> +				 enum aarch64_insn_register_type type, u32 insn)
+> +{
+> +	compiletime_assert(type >= AARCH64_INSN_REGTYPE_RT &&
+> +		type <= AARCH64_INSN_REGTYPE_RS, "unknown register type encoding");
+> +	int shift;
+> +
+> +	switch (type) {
+> +	case AARCH64_INSN_REGTYPE_RT:
+> +	case AARCH64_INSN_REGTYPE_RD:
+> +		shift = 0;
+> +		break;
+> +	case AARCH64_INSN_REGTYPE_RN:
+> +		shift = 5;
+> +		break;
+> +	case AARCH64_INSN_REGTYPE_RT2:
+> +	case AARCH64_INSN_REGTYPE_RA:
+> +		shift = 10;
+> +		break;
+> +	case AARCH64_INSN_REGTYPE_RM:
+> +	case AARCH64_INSN_REGTYPE_RS:
+> +		shift = 16;
+> +		break;
+> +	default:
+> +		return 0;
 
-Thanks! I managed to repro very consistently locally so was able to also confirm
-on my end, nice to get external confirmation also! :)
+Could you replace the above compiletime_assert() with something in the
+default: case instead (BUILD_BUG_ON() or otherwise)?
 
-Cheers, Lorenzo
+I'm a bit concerned that if we add an enum entry in the middle of the
+current lot, this code becomes broken without us noticing. It would
+also rid us of this "return 0" case, which is pretty brittle.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/270738c1-e2e5-4e23-83d9-7709601e2e40%40lucifer.local.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/86ldl5wmry.wl-maz%40kernel.org.
