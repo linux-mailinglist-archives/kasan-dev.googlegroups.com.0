@@ -1,142 +1,136 @@
-Return-Path: <kasan-dev+bncBCU4TIPXUUFRBAW54LDQMGQEG4ASRSQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT4XGV33UIBBSE44XDQMGQEVXVEYYQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x1138.google.com (mail-yw1-x1138.google.com [IPv6:2607:f8b0:4864:20::1138])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1130BFB594
-	for <lists+kasan-dev@lfdr.de>; Wed, 22 Oct 2025 12:14:28 +0200 (CEST)
-Received: by mail-yw1-x1138.google.com with SMTP id 00721157ae682-7848b193cc5sf14106507b3.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 22 Oct 2025 03:14:28 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1761128067; cv=pass;
+Received: from mail-pl1-x63c.google.com (mail-pl1-x63c.google.com [IPv6:2607:f8b0:4864:20::63c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B293BFE533
+	for <lists+kasan-dev@lfdr.de>; Wed, 22 Oct 2025 23:36:11 +0200 (CEST)
+Received: by mail-pl1-x63c.google.com with SMTP id d9443c01a7336-27ee41e062csf736625ad.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 22 Oct 2025 14:36:11 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1761168969; cv=pass;
         d=google.com; s=arc-20240605;
-        b=XGy2GpBGJQe5pd2HtkXT5/aNskPumd2KnrlBoOhJTWgkftVq1NmorGsus5v3cCLwEW
-         eZZReES4sVAUuBTKvCU9FjITKYWcPgLsyD9zSRGZBCj4BSPSrh+sM2lTIwBuRnItd5sS
-         u7+cwKG8LxWHL3Hj8WBmsJIf0vUaNYPLMqKeXKFCBbFAGpdfJtpI2rfQtbEoIzL9cX20
-         CyZS9pz7rJzm71RKuGrfquIzuOsRU4QtaMfwiyV4Mrn7i0rRy4ACIXJzZ8EbYpSYiAiC
-         2QvSJRdNgieo+MMXR7g49SM1P6ewl1FImWALF4PJtyO1WFEIORVqcHcBCZV2/SmmoATb
-         tQNg==
+        b=kNNMo3nH+mwrrFF/zfOltmDlSTThgNW2fLjyz858OHCYiG8SMJsAEQbeAPUiF+QrzW
+         KzVca2G1ZYQQrOsSC1BPdYRk4q++QZGP2fWiQJh6EteP9fx2l/8qum1MOuOspFg/3/7q
+         gcHyas4CxiYQpsjlvbUlpa9Q5ZGliu466mK5oaKBk01+C18KVypB67Boz45tzjyTDvgi
+         Wec7yywDIZt8LpxAVoUeyn4crHm518vZ0/mNb348FKLLhWJXOMWK3pweavStxrZPY5LZ
+         Kpu/rDP3094bKA/SOZjYZMMTSeSZfz44qyMFBduAe11denrBpQC54+Q3mBKVJlNYhQo+
+         Y9SQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=a1UpeoP1hsDizUf8XhqqEvOtiTm1B3oUomjEVNX9yZU=;
-        fh=2xnfHrLRgwwTx3nnJoxYjaLZYVXf660Fdc/LPUH4SSQ=;
-        b=Z+eXEPI8LaL5lRFYA/jQ0GutqKI87B7LicgGMPRdFhuTrcLEcJhUPiHovO7rnscxjN
-         /XKaobYI8Q4tghLeeHz16KUNYaYF4C52I943wfCyD17as7VPNeyrUYdu4Y5RHdPyz8kw
-         5sQadYfztaeH/8qu7mmysbC5ui3TxVK7oZKmZkeitTKAVXrdOxdcrxdL7jLKjMdoZj4U
-         TsMn+i6HPsPfFMbCuBHg7HwT/4NDQ34Pai0kGLdz3NMY0XsPWP7pPeJtTEoGjLvx9IlA
-         R8bfY0t7WWjxozmPwpPljApAMItkcLaDuNNWzfRBvnU2zsAnPT6fvvSOpjZD02jzRYou
-         rmAg==;
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=r4qmy6WR9alXrYOQNWIgLdWaVLyNfkBAjzrc1lvyK0Q=;
+        fh=JkHtdiD3CJdEcRFT8ut2tJO9a0drRKlfD84HCamQ1KE=;
+        b=dTd1VsrRtjgapYd2kfOchdsbKiJsztyq2I+Zf6YydTrRPzq2XsVhz3mRwmGPWm6iGY
+         n9cgb+cG25obh1+xqaZ/ff2MZqVnTYmWTrwreFI83mnb39/H548PppyccPoaqCWhWnjI
+         P7YYsXDFtUK4PM57FCl7JUrOpl3B4bSIzrIX+MnnW3C1URcK5WAf5+euMO/RuBN/ZrtY
+         MtTjUjcPpKAmQC8Jro5juaOtcB24VcrqKXLzLmmXFH6ZTBOlYkpIshQwlARGnEwZQzPw
+         0qnOvuBBAJw3XeONSymOVYzkVF/BBblVqdMbhUSCq6i97lWXT9sRPBoyieAUp8+2OTSM
+         TJBA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=MFXjCo9z;
-       spf=pass (google.com: domain of ardb@kernel.org designates 172.105.4.254 as permitted sender) smtp.mailfrom=ardb@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b="YD/zEhKO";
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1761128067; x=1761732867; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1761168969; x=1761773769; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a1UpeoP1hsDizUf8XhqqEvOtiTm1B3oUomjEVNX9yZU=;
-        b=isatOa16jKQqmMY1NDLdMqe1HyR4eZ8OSrzlJ3DjvSh6zA9dXHPSdFMp2x5W7shUzN
-         Flyu6/6UoN6ULp4NJLqWKWe4o31qF8Mt8SWtnORKpvH1rhBYfJDf2YuNF1UhMg4DMTYW
-         FKMsEEjyyyz/7MaK51ryhJnMnR0wi79W06FKfz+8xwyuSyxvlEkVx/nOAcNWnWwRgQGW
-         IVJbWwTzREz6BrKSMwvG5pALtQxGB/ZGtabtDDeODYc8jhV4eLkFXNzVuZhN+QBFcaLN
-         aeXkvqbVtCNixyqzfffYajA26qaE+aftRcntqRDQtdKs4nwYo5CeDlBOCoLpLk7ykZ3u
-         MGnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761128067; x=1761732867;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=a1UpeoP1hsDizUf8XhqqEvOtiTm1B3oUomjEVNX9yZU=;
-        b=s8enWdAiUxoslLAKTRF5/OX5TVsfMqQ4XTefBaYV07QCP8FFdtZ8bEKxNpSEbZrO14
-         4GD06XIfSa1HA/XknYq/F0r5k8mXWo7gdDMM7kbeoaeV9LbZ1kULkYANw16E9G7Tkxyd
-         XJ6BSKA1ZrMenD4w1akqHR+SRdIN3UKNJa4Tk5tvNHdmrb8NOCXLtrcmq/YX3zNctc8q
-         8wXixZZsWuvtE8Ro8q5RnlgDavXI/grDwGJN5ss5X/HU/oAJDKyD22IfbV5HpypYlLm6
-         CZmNP455nXZ4Cg25gsCbzz9Fp0ZomneWRfTItGeT5ejUcOEMM7s9uBGhhxPFFQAvtpn5
-         o3Aw==
-X-Forwarded-Encrypted: i=2; AJvYcCVdATOMaFHDTnBmAdABtFs0ECnaSzccay692WnTOqAtaiwW1RYkd/0g9KBmv/f1hXoD0Mr3xw==@lfdr.de
-X-Gm-Message-State: AOJu0YyGishm13E/sFFOrnbuoj648sZEg9wS2TYQ7E+mTeVLXB86gtYq
-	ZRCVouu+FexiNQwtVS3OcYy4OsV64KJ/QSPZO4UZelAIjtBJDFdNRKse
-X-Google-Smtp-Source: AGHT+IEG/YSbmEBEF8PmCcc+t8xDTT+ddOSxOqmWgBXt294kGOhwe1iB3ATFnyBxoUZwgz8vcjwnqg==
-X-Received: by 2002:a05:690e:151a:b0:63d:83ca:9e53 with SMTP id 956f58d0204a3-63f2823c6f3mr2001566d50.4.1761128067108;
-        Wed, 22 Oct 2025 03:14:27 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd7es10xinkewP2g4E7A8FPI4eLn5qAv6SPNAgY583/jEA=="
-Received: by 2002:a05:690e:141:b0:63c:bedd:3afa with SMTP id
- 956f58d0204a3-63f28af080als410820d50.2.-pod-prod-00-us; Wed, 22 Oct 2025
- 03:14:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVoawzxlYdRomFQ5e8YqLr1CuNsTTlJCzPb+iaW1OvQWOqMDTfvfZpJGfax7CHctywd1sk2Pi0r0lM=@googlegroups.com
-X-Received: by 2002:a05:690e:2514:20b0:633:a6fa:386b with SMTP id 956f58d0204a3-63f2829ff16mr1772052d50.9.1761128065931;
-        Wed, 22 Oct 2025 03:14:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1761128065; cv=none;
+        bh=r4qmy6WR9alXrYOQNWIgLdWaVLyNfkBAjzrc1lvyK0Q=;
+        b=hJZdNsubi0hXkBQ3ClrEYXLabVc+wDO32apDtmD/xg+vt08HQHnCWUNWBw99wg/tVg
+         YFfibn9bt0ZGfBuftXMtjd08GzXHQXV5om/GOSCdzN2npqD6VmlD9o5FOloIwZ+U86ax
+         HPZtcXMYpv00vhI1CdSLxIfEKP0hL2vZxTrOd/4R/jziSrXK3/0Y4hX/oIwFC4+SIqpA
+         qe4DTxwt+tRd+p1Va+s2d9guRBnbdMq8AaCxFW2HZu6AolrLc2L7kGEKds1mPpCRdW48
+         qud906U+1n7n1vNhELrEkGjvqb/wkNVIFqJReqXWG4xmrSG66T1dDyWl5bl903hmsErs
+         aEdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761168969; x=1761773769;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:in-reply-to:message-id:subject:cc:to:from:date
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r4qmy6WR9alXrYOQNWIgLdWaVLyNfkBAjzrc1lvyK0Q=;
+        b=Lr229qI798/JTS3r9VrhcodHFWv/85F5klFW3CV3stVtHv5knyP752YsSuNJGMoxyc
+         p1A4UJKU4B9ymfoyQxPjnABERD7YpGQ0Lts7Sf6YMbmXNRVRGQigtBr6077o1nEpd051
+         HY5I+YwWOSm7/AbINb4YMMFvx8tte9i8iiEIwmFfK8gHF8RLu4tGXhjXh+gxRWb1pa1n
+         rk3TMqNGdeJvAaoKEtNQHzBj+3CpUA5XXuweQi9kLW0pENvtqJwT098Xx69iVby7jOGu
+         Qa/+YvX9i7Gjqpo0rLH5opszn+zg0S3P3J5HMV+NMmE4BFRyKzITK2ODeP5j/8HyUsCy
+         IzfQ==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCWiJgSPIg5xYgq0DKeRZvirgVw8MoMR7sjQHOW0JMjIXvBMcxkjaiaI5eJNy5ms7cHbrN3B5w==@lfdr.de
+X-Gm-Message-State: AOJu0YwpIQ/o1kZqUE+ZQdgJiB0X5IaRp1WF7nhS0P7g7n3LiDwuGg0g
+	fKdDtUz3AVJ8aQ6ADI8KCbr3lHKWRONZNJFscRw+biLHZNXKMBcCQS/Y
+X-Google-Smtp-Source: AGHT+IGH/zAQ1BL3r0p1DkI7mn6E6Q8FUUudTv7erpXvFyq94Ah44v+ZEW4pPSCrF56Rm/G24uxQpg==
+X-Received: by 2002:a17:902:f706:b0:269:6e73:b90a with SMTP id d9443c01a7336-290c9ca6b11mr262987505ad.15.1761168969215;
+        Wed, 22 Oct 2025 14:36:09 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd4lUSigRO0yYET2JZYBvWdBD5LIsQp2ShGEF9xAazB/0w=="
+Received: by 2002:a17:902:e394:b0:28e:cc52:e2f3 with SMTP id
+ d9443c01a7336-2946dc9ae03ls325565ad.2.-pod-prod-09-us; Wed, 22 Oct 2025
+ 14:36:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUwzIkTwQWNj5wJFKqIyOvaa8W74qlEZw49m7cwYYoSgH5r9iAtQG0ofwyyam+MjFWCdlgitgFmNjA=@googlegroups.com
+X-Received: by 2002:a17:903:b90:b0:290:bd15:24a8 with SMTP id d9443c01a7336-290c9c89fa6mr273058255ad.11.1761168966385;
+        Wed, 22 Oct 2025 14:36:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1761168966; cv=none;
         d=google.com; s=arc-20240605;
-        b=bA2d3X78S8Klp/HWw5bgud45YqKHFDWp0VM2CqukQCJpEDcj722Wec/SIcnhsKdRhv
-         Epicg+EuoFdO7TIi7neqDAghyeXGu0UMJx6tMoKEU5hnFIYEVpY/zkJBpUzSUx9fdN9q
-         6iryozPvTOY/Ax6XAFOC0vGmhIUkuZ4HB70HbDiXlZ2NApeNqAKfwftrrREqvPstvlMz
-         ATC8kAHQfCwbGFaX0VdDWFJt2zXs3/R/JqJBN/Hcn1V7GhAeJhSaC/3ZZiArXtF2AfqG
-         JR+8SELYnw5wEWt5M3LAZwUwYFFn2EW6YMJoY+1jOYUQlO0nts6vX18QwdHuVut4SP0S
-         Ss4A==
+        b=UwfqAAoNTYl+wN0r3yTXP49Tt+55ny0skdiUjbJeIxwob9s5iqpvLAwjyZRpVjW2n/
+         cGSQsR/ANft9u1KJpLjTVvuX55YX7OHQF4wgC4gzYolQhwWVe57Q/bKGS9ye/a19gDWM
+         ZeJZnhF+abQH8r1A3Y/8FqVGSh1ThFR9IsVyBaPeJPtOn5BSNG9m375ep7tYpYQcq+ZC
+         5icAN1NG02ss7U9Jsazkohl/ODxyOYyhoLF6MHbbHDo4QYnGCEytuQ8XeNP3A9h2f3gB
+         7T7Jv1p+3SWU+Zj+NuRRJHuF/bzGQwLE1cdxcfuaN2fpHs+NkgjGS91XA9SzJT+90d8o
+         AiYw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=sZfYX+Oj2G0IFK8wm/HdwhknS176NiznuineJy4SZe0=;
-        fh=3Xn9mYIlQMedG7eeZB8jMfXLuC2pd747YiM2HPF37rk=;
-        b=N2HV+NAzFmc2Ce/KVuzg3OO3LmhFW0KXF6vm1HUx4lsi5Q9yKrCIC9Ft+5OCQPk/oq
-         e4LXoLC0shWgucxXa1Hn4iHNfr5g5ltFczMzZFga0IKIHNPuOR9fknFl0xcVFIypXhFI
-         VBYZ6jwZcNrqCJT5nAbJ6eFBAIcVGOvLW1dt09JELaLHszu5x0UcgGfY1iLWPCn7ARB4
-         O7pOo7EloigbwEyKeZDTMfArPxO0/kNWTDHvMvfnABKNf8mo68NuY+gr5nKl4OE2Tphi
-         1PsL23fbSmTjFW8gq9qDkFPtz6B2dSlWulK77EHKHArJmQyKsSmjd3HstD8a/kOcVdP5
-         D8QA==;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=QS/wDVWg/99dm/YWlTuIw+3X1HjWCfQCG/YUCbH1ck0=;
+        fh=fysEXhAOJHtXZ4oxaNZMd2DL5AODcyJSqclD03bI3jU=;
+        b=e6nRfRQ5VahbVX/EuRZHSnhN5so0aTUd7+jnSq9tP/JuGFrXHZWaaHkLXI7V9D2N3N
+         PsXspwGAvRD/qbpaWb2H2huBrNGJezP80qKtf3sFVaYg+jS93Oym7HckfpcqWy7rPODE
+         +WtZPb1go/Ak0s2vwEgUw0nnJBcMKUA8p/F1oCAND0UiywBuL6pv1HINmP9lyhK+hnck
+         uYyOX7Y2SPB7avUfs7YK3mDdCoifik5beXkuIJvkYeMKQM4aAXf2SXUXiy5qpsPbeh6J
+         OffFe5ArIpiBA0PRNlglOVGx8L4HgZBpGTbh3wyvl2reZHYKWi6UAM4LWDGxCGo4tCX4
+         MV7w==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=MFXjCo9z;
-       spf=pass (google.com: domain of ardb@kernel.org designates 172.105.4.254 as permitted sender) smtp.mailfrom=ardb@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from tor.source.kernel.org (tor.source.kernel.org. [172.105.4.254])
-        by gmr-mx.google.com with ESMTPS id 00721157ae682-784a531f31csi4258007b3.0.2025.10.22.03.14.25
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b="YD/zEhKO";
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Received: from sea.source.kernel.org (sea.source.kernel.org. [2600:3c0a:e001:78e:0:1991:8:25])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-2946df1b719si71375ad.8.2025.10.22.14.36.06
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Oct 2025 03:14:25 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ardb@kernel.org designates 172.105.4.254 as permitted sender) client-ip=172.105.4.254;
+        Wed, 22 Oct 2025 14:36:06 -0700 (PDT)
+Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) client-ip=2600:3c0a:e001:78e:0:1991:8:25;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 400BB62366
-	for <kasan-dev@googlegroups.com>; Wed, 22 Oct 2025 10:14:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC88EC116B1
-	for <kasan-dev@googlegroups.com>; Wed, 22 Oct 2025 10:14:24 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-592ee9a16adso1106811e87.0
-        for <kasan-dev@googlegroups.com>; Wed, 22 Oct 2025 03:14:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWT3hU+hIRKMKYD0QDMmv0BvXLF2/fnn0KHSomepa+Ioj3EGFTSVDz3ZxfICgDCUuNrCQ50QC21w7A=@googlegroups.com
-X-Received: by 2002:a05:6512:3d92:b0:57b:5794:ccda with SMTP id
- 2adb3069b0e04-591d84faa97mr5623451e87.20.1761128063284; Wed, 22 Oct 2025
- 03:14:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20251022033405.64761-1-ebiggers@kernel.org>
-In-Reply-To: <20251022033405.64761-1-ebiggers@kernel.org>
-From: "'Ard Biesheuvel' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 22 Oct 2025 12:14:11 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXEjihuC1Wa8fWUqsvsJM6YJZ0wmuhkqicNAfQiHvnWkYw@mail.gmail.com>
-X-Gm-Features: AS18NWBSXzD203ZzkosAKi9Rr6vw53-JkbJxJJd1qk8yGMrx1SL9k2NwvTwhKzM
-Message-ID: <CAMj1kXEjihuC1Wa8fWUqsvsJM6YJZ0wmuhkqicNAfQiHvnWkYw@mail.gmail.com>
-Subject: Re: [PATCH] lib/crypto: poly1305: Restore dependency of arch code on !KMSAN
+	by sea.source.kernel.org (Postfix) with ESMTP id 010D2402AB;
+	Wed, 22 Oct 2025 21:36:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81401C4CEE7;
+	Wed, 22 Oct 2025 21:36:05 +0000 (UTC)
+Date: Wed, 22 Oct 2025 14:36:04 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
 To: Eric Biggers <ebiggers@kernel.org>
-Cc: linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	"Jason A . Donenfeld" <Jason@zx2c4.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Pei Xiao <xiaopei01@kylinos.cn>, Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com, 
-	syzbot+01fcd39a0d90cdb0e3df@syzkaller.appspotmail.com
+Cc: Aleksei Nikiforov <aleksei.nikiforov@linux.ibm.com>, Alexander Potapenko
+ <glider@google.com>, Marco Elver <elver@google.com>, Dmitry Vyukov
+ <dvyukov@google.com>, kasan-dev@googlegroups.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, Ilya Leoshkevich <iii@linux.ibm.com>, Alexei
+ Starovoitov <ast@kernel.org>
+Subject: Re: [PATCH] mm/kmsan: Fix kmsan kmalloc hook when no stack depots
+ are allocated yet
+Message-Id: <20251022143604.1ac1fcb18bfaf730097081ab@linux-foundation.org>
+In-Reply-To: <20251022030213.GA35717@sol>
+References: <20250930115600.709776-2-aleksei.nikiforov@linux.ibm.com>
+	<20251008203111.e6ce309e9f937652856d9aa5@linux-foundation.org>
+	<335827e0-0a4c-43c3-a79b-6448307573fd@linux.ibm.com>
+	<20251022030213.GA35717@sol>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: ardb@kernel.org
+X-Original-Sender: akpm@linux-foundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=MFXjCo9z;       spf=pass
- (google.com: domain of ardb@kernel.org designates 172.105.4.254 as permitted
- sender) smtp.mailfrom=ardb@kernel.org;       dmarc=pass (p=QUARANTINE
- sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: Ard Biesheuvel <ardb@kernel.org>
-Reply-To: Ard Biesheuvel <ardb@kernel.org>
+ header.i=@linux-foundation.org header.s=korg header.b="YD/zEhKO";
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates
+ 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,38 +143,171 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 22 Oct 2025 at 05:37, Eric Biggers <ebiggers@kernel.org> wrote:
->
-> Restore the dependency of the architecture-optimized Poly1305 code on
-> !KMSAN.  It was dropped by commit b646b782e522 ("lib/crypto: poly1305:
-> Consolidate into single module").
->
-> Unlike the other hash algorithms in lib/crypto/ (e.g., SHA-512), the way
-> the architecture-optimized Poly1305 code is integrated results in
-> assembly code initializing memory, for several different architectures.
-> Thus, it generates false positive KMSAN warnings.  These could be
-> suppressed with kmsan_unpoison_memory(), but it would be needed in quite
-> a few places.  For now let's just restore the dependency on !KMSAN.
->
-> Note: this should have been caught by running poly1305_kunit with
-> CONFIG_KMSAN=y, which I did.  However, due to an unrelated KMSAN bug
-> (https://lore.kernel.org/r/20251022030213.GA35717@sol/), KMSAN currently
-> isn't working reliably.  Thus, the warning wasn't noticed until later.
->
-> Fixes: b646b782e522 ("lib/crypto: poly1305: Consolidate into single module")
-> Reported-by: syzbot+01fcd39a0d90cdb0e3df@syzkaller.appspotmail.com
-> Closes: https://lore.kernel.org/r/68f6a48f.050a0220.91a22.0452.GAE@google.com/
-> Reported-by: Pei Xiao <xiaopei01@kylinos.cn>
-> Closes: https://lore.kernel.org/r/751b3d80293a6f599bb07770afcef24f623c7da0.1761026343.git.xiaopei01@kylinos.cn/
-> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
-> ---
->  lib/crypto/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
+On Tue, 21 Oct 2025 20:02:13 -0700 Eric Biggers <ebiggers@kernel.org> wrote:
 
-Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+> On Fri, Oct 10, 2025 at 10:07:04AM +0200, Aleksei Nikiforov wrote:
+> > On 10/9/25 05:31, Andrew Morton wrote:
+> > > On Tue, 30 Sep 2025 13:56:01 +0200 Aleksei Nikiforov <aleksei.nikiforov@linux.ibm.com> wrote:
+> > > 
+> > > > If no stack depot is allocated yet,
+> > > > due to masking out __GFP_RECLAIM flags
+> > > > kmsan called from kmalloc cannot allocate stack depot.
+> > > > kmsan fails to record origin and report issues.
+> > > > 
+> > > > Reusing flags from kmalloc without modifying them should be safe for kmsan.
+> > > > For example, such chain of calls is possible:
+> > > > test_uninit_kmalloc -> kmalloc -> __kmalloc_cache_noprof ->
+> > > > slab_alloc_node -> slab_post_alloc_hook ->
+> > > > kmsan_slab_alloc -> kmsan_internal_poison_memory.
+> > > > 
+> > > > Only when it is called in a context without flags present
+> > > > should __GFP_RECLAIM flags be masked.
+> > > > 
+> > > > With this change all kmsan tests start working reliably.
+> > > 
+> > > I'm not seeing reports of "hey, kmsan is broken", so I assume this
+> > > failure only occurs under special circumstances?
+> > 
+> > Hi,
+> > 
+> > kmsan might report less issues than it detects due to not allocating stack
+> > depots and not reporting issues without stack depots. Lack of reports may go
+> > unnoticed, that's why you don't get reports of kmsan being broken.
+> 
+> Yes, KMSAN seems to be at least partially broken currently.  Besides the
+> fact that the kmsan KUnit test is currently failing (which I reported at
+> https://lore.kernel.org/r/20250911175145.GA1376@sol), I've confirmed
+> that the poly1305 KUnit test causes a KMSAN warning with Aleksei's patch
+> applied but does not cause a warning without it.  The warning did get
+> reached via syzbot somehow
+> (https://lore.kernel.org/r/751b3d80293a6f599bb07770afcef24f623c7da0.1761026343.git.xiaopei01@kylinos.cn/),
+> so KMSAN must still work in some cases.  But it didn't work for me.
+
+OK, thanks, I pasted the above para into the changelog to help people
+understand the impact of this.
+
+> (That particular warning in the architecture-optimized Poly1305 code is
+> actually a false positive due to memory being initialized by assembly
+> code.  But that's besides the point.  The point is that I should have
+> seen the warning earlier, but I didn't.  And Aleksei's patch seems to
+> fix KMSAN to work reliably.  It also fixes the kmsan KUnit test.)
+> 
+> I don't really know this code, but I can at least give:
+> 
+> Tested-by: Eric Biggers <ebiggers@kernel.org>
+> 
+> If you want to add a Fixes commit I think it is either 97769a53f117e2 or
+> 8c57b687e8331.  Earlier I had confirmed that reverting those commits
+> fixed the kmsan test too
+> (https://lore.kernel.org/r/20250911192953.GG1376@sol).
+
+Both commits affect the same kernel version so either should be good
+for a Fixes target.
+
+I'll add a cc:stable to this and shall stage it for 6.18-rcX.
+
+The current state is below - if people want to suggest alterations,
+please go for it.
+
+
+
+From: Aleksei Nikiforov <aleksei.nikiforov@linux.ibm.com>
+Subject: mm/kmsan: fix kmsan kmalloc hook when no stack depots are allocated yet
+Date: Tue, 30 Sep 2025 13:56:01 +0200
+
+If no stack depot is allocated yet, due to masking out __GFP_RECLAIM
+flags kmsan called from kmalloc cannot allocate stack depot.  kmsan
+fails to record origin and report issues.  This may result in KMSAN
+failing to report issues.
+
+Reusing flags from kmalloc without modifying them should be safe for kmsan.
+For example, such chain of calls is possible:
+test_uninit_kmalloc -> kmalloc -> __kmalloc_cache_noprof ->
+slab_alloc_node -> slab_post_alloc_hook ->
+kmsan_slab_alloc -> kmsan_internal_poison_memory.
+
+Only when it is called in a context without flags present should
+__GFP_RECLAIM flags be masked.
+
+With this change all kmsan tests start working reliably.
+
+Eric reported:
+
+: Yes, KMSAN seems to be at least partially broken currently.  Besides the
+:_fact that the kmsan KUnit test is currently failing (which I reported at
+:_https://lore.kernel.org/r/20250911175145.GA1376@sol), I've confirmed that
+:_the poly1305 KUnit test causes a KMSAN warning with Aleksei's patch
+:_applied but does not cause a warning without it.  The warning did get
+:_reached via syzbot somehow
+:_(https://lore.kernel.org/r/751b3d80293a6f599bb07770afcef24f623c7da0.1761026343.git.xiaopei01@kylinos.cn/),
+:_so KMSAN must still work in some cases.  But it didn't work for me.
+
+Link: https://lkml.kernel.org/r/20250930115600.709776-2-aleksei.nikiforov@linux.ibm.com
+Link: https://lkml.kernel.org/r/20251022030213.GA35717@sol
+Fixes: 97769a53f117 ("mm, bpf: Introduce try_alloc_pages() for opportunistic page allocation")
+Signed-off-by: Aleksei Nikiforov <aleksei.nikiforov@linux.ibm.com>
+Reviewed-by: Alexander Potapenko <glider@google.com>
+Tested-by: Eric Biggers <ebiggers@kernel.org>
+Cc: Dmitriy Vyukov <dvyukov@google.com>
+Cc: Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: Marco Elver <elver@google.com>
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+---
+
+ mm/kmsan/core.c   |    3 ---
+ mm/kmsan/hooks.c  |    6 ++++--
+ mm/kmsan/shadow.c |    2 +-
+ 3 files changed, 5 insertions(+), 6 deletions(-)
+
+--- a/mm/kmsan/core.c~mm-kmsan-fix-kmsan-kmalloc-hook-when-no-stack-depots-are-allocated-yet
++++ a/mm/kmsan/core.c
+@@ -72,9 +72,6 @@ depot_stack_handle_t kmsan_save_stack_wi
+ 
+ 	nr_entries = stack_trace_save(entries, KMSAN_STACK_DEPTH, 0);
+ 
+-	/* Don't sleep. */
+-	flags &= ~(__GFP_DIRECT_RECLAIM | __GFP_KSWAPD_RECLAIM);
+-
+ 	handle = stack_depot_save(entries, nr_entries, flags);
+ 	return stack_depot_set_extra_bits(handle, extra);
+ }
+--- a/mm/kmsan/hooks.c~mm-kmsan-fix-kmsan-kmalloc-hook-when-no-stack-depots-are-allocated-yet
++++ a/mm/kmsan/hooks.c
+@@ -84,7 +84,8 @@ void kmsan_slab_free(struct kmem_cache *
+ 	if (s->ctor)
+ 		return;
+ 	kmsan_enter_runtime();
+-	kmsan_internal_poison_memory(object, s->object_size, GFP_KERNEL,
++	kmsan_internal_poison_memory(object, s->object_size,
++				     GFP_KERNEL & ~(__GFP_RECLAIM),
+ 				     KMSAN_POISON_CHECK | KMSAN_POISON_FREE);
+ 	kmsan_leave_runtime();
+ }
+@@ -114,7 +115,8 @@ void kmsan_kfree_large(const void *ptr)
+ 	kmsan_enter_runtime();
+ 	page = virt_to_head_page((void *)ptr);
+ 	KMSAN_WARN_ON(ptr != page_address(page));
+-	kmsan_internal_poison_memory((void *)ptr, page_size(page), GFP_KERNEL,
++	kmsan_internal_poison_memory((void *)ptr, page_size(page),
++				     GFP_KERNEL & ~(__GFP_RECLAIM),
+ 				     KMSAN_POISON_CHECK | KMSAN_POISON_FREE);
+ 	kmsan_leave_runtime();
+ }
+--- a/mm/kmsan/shadow.c~mm-kmsan-fix-kmsan-kmalloc-hook-when-no-stack-depots-are-allocated-yet
++++ a/mm/kmsan/shadow.c
+@@ -208,7 +208,7 @@ void kmsan_free_page(struct page *page,
+ 		return;
+ 	kmsan_enter_runtime();
+ 	kmsan_internal_poison_memory(page_address(page), page_size(page),
+-				     GFP_KERNEL,
++				     GFP_KERNEL & ~(__GFP_RECLAIM),
+ 				     KMSAN_POISON_CHECK | KMSAN_POISON_FREE);
+ 	kmsan_leave_runtime();
+ }
+_
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CAMj1kXEjihuC1Wa8fWUqsvsJM6YJZ0wmuhkqicNAfQiHvnWkYw%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251022143604.1ac1fcb18bfaf730097081ab%40linux-foundation.org.
