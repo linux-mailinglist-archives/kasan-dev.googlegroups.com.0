@@ -1,140 +1,137 @@
-Return-Path: <kasan-dev+bncBDEZDPVRZMARBFMT4HDQMGQEYZSBN7Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBDEZDPVRZMARB6NC4HDQMGQESQTYEBY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43a.google.com (mail-pf1-x43a.google.com [IPv6:2607:f8b0:4864:20::43a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D1ABF9C72
-	for <lists+kasan-dev@lfdr.de>; Wed, 22 Oct 2025 05:03:52 +0200 (CEST)
-Received: by mail-pf1-x43a.google.com with SMTP id d2e1a72fcca58-7810289cd5esf1909989b3a.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 21 Oct 2025 20:03:52 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1761102230; cv=pass;
+Received: from mail-oa1-x38.google.com (mail-oa1-x38.google.com [IPv6:2001:4860:4864:20::38])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC95BF9D84
+	for <lists+kasan-dev@lfdr.de>; Wed, 22 Oct 2025 05:37:31 +0200 (CEST)
+Received: by mail-oa1-x38.google.com with SMTP id 586e51a60fabf-3c9a6b6caa8sf6167047fac.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 21 Oct 2025 20:37:31 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1761104250; cv=pass;
         d=google.com; s=arc-20240605;
-        b=EfYBbsvphTGEZWVv/vIVLw3gLqH0swZZtq4n9lj+jRFtLg9YqVQQQtDDadDTTTM11p
-         pY8f1Fd/Q2ocvNbpKjzUCd2wUYrJbvdSeD/0hdH3jyl2apVWZVSZl9pKbmcq3MPFIVjN
-         lsFqwi5ah0GT91UnKLRLf2A8fZ6cQ142jeh9gGnfyu3VnWhhTReUR6358f6kUgVk/tJX
-         G5gGXFLheAPmiaeCq+oDKuB333EPR1lYp7UZGYyJlPhvNrg63JkPtPBUNB+fNzNOyF3P
-         fcjmKuFq6gQWuzeQkQIBcPqu9HedxqiFNVjIv7ZvQStPo0e2k2rmd0LOqA6kUEfiH8Bj
-         wwdA==
+        b=WLM8UXP9ZhwY3/eKrhU7zHlT/kwVGR9VuPK+29nRsPu0nG8GlHQmicCoC+P0MMYfkJ
+         q5dmwLpgB++LA0MKsb/sZHrrta3DHf5yMNyQUa2FIp1Yla7HnBDWxko/FQ3swmyPmjMX
+         X4SZjWriDXy1DisHmh7z9EaKo6mmdAkd5eNVs8KQQHfWq2EWvhXLR8seUjTLQpeB3s2V
+         loNkeYaPU+y9YUFxD9hrgVqtwHcGuQ7vyfMIDj1q2Q+4rGMoQEqA9PN9ht1uJTYb49Rc
+         TuKP99N6VXyxpfRlU1vUwCxzHtrI8MzhCMgNvU4mIwC45qwap61wtZIvkJTalwkXuTFF
+         QLyQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=UPSNn1yOaofCVhRBDEgd/Z1Krg6Ny0gc7hBGYKW39vY=;
-        fh=5KAFc9CWdRcMI2JLTjyx+KCq9RyTnf/SiNxUz1JZMuY=;
-        b=PxCVdFsgtSIyDqthiLHKBtCQP+F2bUIEaCHrggbe234EUC+Pa6gODUKYgv9BJPzRm6
-         Kb85Pnxq7XVeo00ja+pq6LXliq4tnN+W3Bw8Z0EZj+GYZb8/aGvE+h7FwNb9qTpvaflQ
-         +B/tTnevSEwL720re3M6O8ddyr2KU9Ma+S9c1JeTRqj2Edhm3WcpE0AzzoJjFBottIP7
-         A4jt4+nsHW+dn4s+yLdZLbsCvx/M9EWJolSe1/rq2RzVlEIF6+ZYa+eDS77d89FQAhRd
-         z3+mOBHw0iyJKWuzeNhxGgZvV3oMDTRZxuG7htJ2PmFkUixvvB1F2nb1eFWRUIfCtRS/
-         lR6Q==;
+         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
+         :date:subject:cc:to:from:dkim-signature;
+        bh=FN0rb3CAKFKWC2e8CImPRTwVobsGHg1SXtr62YEI8bs=;
+        fh=nES6+Yne+/HB/bKGzaWI31vnKMjrgnOptTDwbI+ZW1c=;
+        b=Oei9EYecDjSDDvrLiYLeHArGSk3K6DwDfOEHnCr0vigCMIJ63s+dCqPTa8HIICMfpf
+         P2vhZHImW8kNXO9IKEBUzrE4ThoTpFQdBCytw7dDZsS/nrDsGjtgHEne/7QwLdcYZ9ue
+         mQ2Lki8xzXJPV6emC4neRmgea5fZoQrpVJNjtNzN9bNxhS2NtSfSRI7pjbv5ocsUR3sC
+         ez6s2KgMuIJG8Byp3g1KdCcU69Bt+NeP9diLeNgMVXUXYhdX6WZ+0le9VOv8k4Wh5hi0
+         vPre4IvojDO2nitzOgldqzIbq5aQ8rCvzgEOVjOoVOs+3hoBJ3VCuUVoRJQByqhZv5lg
+         xqww==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=j2Q0iTku;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=HqjjRdZf;
        spf=pass (google.com: domain of ebiggers@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) smtp.mailfrom=ebiggers@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1761102230; x=1761707030; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1761104250; x=1761709050; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UPSNn1yOaofCVhRBDEgd/Z1Krg6Ny0gc7hBGYKW39vY=;
-        b=joVQQLUGRKI3D6feJM+Cpm9YLbjbPLLzoVsAtOqy/mS3M8teOyqag5EVxeh//nDx4J
-         8pHEVaDv7CH0DiGy8QtP6Vbs6x5+6UF5Ic5JzkeWMcWBsWlQjLAlgo6LMSgDbEAcpUl/
-         6HIdljGOwZCnx/QflwOczSlqM9pAZcxC8CwfaEuhPscj91k1WjisTx7Zd7nGqXMZxlPN
-         vHacfRMjFovdoQNzcX7qlobLnH7sRvSzaTqgqAg17fsR7XXUf7bMcXfoqjX/EvBLxQzS
-         rsilUm3B/EdAGKtQWBXpLHjCkoh1o9up9MCRBHhXhlw0SkZYaZ2OZ/t7Vp3NFfW6DND6
-         1cTw==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FN0rb3CAKFKWC2e8CImPRTwVobsGHg1SXtr62YEI8bs=;
+        b=K2x5Zd7JSC2lNYwpacMsNoYBYXpV/tCy3MGPXe1W6/4u2eM0ayVZFbiZ5MqUZJlsJ1
+         aRgtipaAPSOupTHA766iq8zJtaKxgtWiST09sq9eOJrrjWiJmJsbDOi5BTCa/mXyog2z
+         wpK5sz4wDtFO3M9A+ZXsw1Iq46TZm0Iuu35wgWenjRb3ZMOvyFZ8x/2NOaM+YHlh/ODm
+         6wEmoSN9yk34TMmHhyeS4/3/FJ7otcfVL8VUk+UaYgOzOQc4JaBCZznHHBhvaZI6mEa+
+         9chUrWt/3O0E5DaYnRIqdibx3gBlHAmL+DCtJz/7eGfVBU7mMPw2AT1nS8pKjd0fFnk4
+         VgGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761102230; x=1761707030;
+        d=1e100.net; s=20230601; t=1761104250; x=1761709050;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UPSNn1yOaofCVhRBDEgd/Z1Krg6Ny0gc7hBGYKW39vY=;
-        b=SPo2S+Usx/npKlqtu4Ny1RfI6NOxOQC3Qxl/uBrQl8Li5Ey4GBrTT7KHP+viurTpnq
-         d6JjVA4YEcOq22IQgGF6qG3Onylq6rQQ8cYc91OwYQq4LqrkkxF4LIy8A4RZkMaZjitk
-         cQvbEnG68K33KbpcCdRlRCkV1arISoRn9D1V1HIQEfuAAzigwen3KBFiVOLnJWmvSfyA
-         Mcm/HptJ0hFKxWfhNcP6QCbmlDxvXsvbsc3edxqabDDWD6+548+L/0XqpB2qwYHkryAv
-         wYri11bIY6fSa2SdZT6xJVerMNRyrL9+vWHryF3wb+Vzy+Gvn3wU3TpAFRxAxK3nZGPt
-         H5ww==
-X-Forwarded-Encrypted: i=2; AJvYcCUA0wU15fuy0OsBgWtd0sQsxhDuWPwP1LTYConM5weXtahqP4NTLOMbiRzrBFNb63CavfKOuA==@lfdr.de
-X-Gm-Message-State: AOJu0YxHEnmXY7/Cr2g92RFHE8KI+6A9sXWlT8Ej8vFC9S0PeBEcLA4J
-	MlNvCljo8+sDQrEaMvI0CykLzVcci9yKEuvpEMRV2DhJQGE9yQQv3UME
-X-Google-Smtp-Source: AGHT+IHCtmgAQKIVOBUeH9CcQ+vmdXZh9hhK2AeEiMDBG9bJDlQdB4DH0xhRlYuSvbyKPBl9BRRDvA==
-X-Received: by 2002:a05:6a21:3396:b0:334:a2b8:183c with SMTP id adf61e73a8af0-334a863824cmr24296287637.44.1761102229775;
-        Tue, 21 Oct 2025 20:03:49 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd6PdETF/nzkCeybpcuNlN1awyv+MPBqA+NnuQQ9yLlQEg=="
-Received: by 2002:a62:e712:0:b0:792:f1c0:cbea with SMTP id d2e1a72fcca58-7a26a54ddd1ls49249b3a.2.-pod-prod-06-us;
- Tue, 21 Oct 2025 20:03:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUZQ2i71a+XlzG5HSNHl+3JrR6DpugFiUgfTWTnn5+HSETGS1MgEr+JUgWbV9PrTb4LHnd27o121Wo=@googlegroups.com
-X-Received: by 2002:a05:6a00:2308:b0:792:52ab:d9fe with SMTP id d2e1a72fcca58-7a220440d9fmr23560897b3a.0.1761102228371;
-        Tue, 21 Oct 2025 20:03:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1761102228; cv=none;
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FN0rb3CAKFKWC2e8CImPRTwVobsGHg1SXtr62YEI8bs=;
+        b=RY4GaVYt1hp5Vak4zOPh8Q/8E1ZrAGtNjyEx6+92b08CKJV75BKf1sMM2K+gPIprC3
+         ciLfn/Ul3ZQN8JMidh49tvK9YE+yYs76Wy6NfJCzKZ0yw/G2KbCiz2UIx0O+XXt/KIHI
+         oISVpq15ioO/PBF5moxZpFEuQEbPugDjDWmJJZc/3CpdXxcvdEh7Jihqx1+SyN8UDH/W
+         tKTLX2Gt0cdV1MQ40yEtXji57D0MOT/0cDRKcCUkl4XnEWka9u78INVrCawuZFv3zOv+
+         NM5j8OkVZDEFkxPBe62ogr8GJYvsxcPWrmyZbDo6Ke6h/cgH80w4eoAGZktj400x2m3h
+         N9SA==
+X-Forwarded-Encrypted: i=2; AJvYcCU6PDeomUgv3owln9pR7SVJHz0H7sES13myFEHf2KtC0+2zt5RcX5e50+oOFq75sjROIgSBhw==@lfdr.de
+X-Gm-Message-State: AOJu0YyPVH9opfHFWO2tAzy6Gq2yvNw+XgcoatD2YCADI4vV1fd3klA1
+	18ejE/2y04EhHa18/wWsqvIPMp+yze3sh5O2paQcci+VZ+C2SVy0ZA45
+X-Google-Smtp-Source: AGHT+IEXd1wCYUSWmLOCzMKAdrtWpOX1fnzrssTRzZe7zVYBSM+XnUVi/A6AQmQR0M/lq5N4Vychlg==
+X-Received: by 2002:a05:6870:a995:b0:3c9:86d7:6d03 with SMTP id 586e51a60fabf-3c98d145ca5mr8958526fac.51.1761104249771;
+        Tue, 21 Oct 2025 20:37:29 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h="ARHlJd7RmvFemXmuEKOH7bJu66DVyo0cK6rbAGSHv5Ozrp0HUg=="
+Received: by 2002:a05:6871:7c0c:b0:3a9:7d42:2984 with SMTP id
+ 586e51a60fabf-3c975220d77ls4499249fac.1.-pod-prod-05-us; Tue, 21 Oct 2025
+ 20:37:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVknzjHidMoaXyfAiCrsSqtotqRy0nKWocGZODtpS4clkc5qEZWJ9mRu8Y0W2vc+w1FI2mNRG+7os8=@googlegroups.com
+X-Received: by 2002:a05:6808:21a7:b0:441:8f74:f27 with SMTP id 5614622812f47-443a31e1b33mr8048706b6e.65.1761104248997;
+        Tue, 21 Oct 2025 20:37:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1761104248; cv=none;
         d=google.com; s=arc-20240605;
-        b=FsOyEOIb7y5fpCMlGuMplL3s4cSQ69UxHvSdE9GduvWBKha2mY7Ay14J0UVu4irgmr
-         CHfeDr61hqNIi3ek0JQYN6TPGoDYToFIrXsHWkpMBd3xNIeZ4POz6B4jF+kbUjCT/rlT
-         Qa7Y9+BL1Pz8Qe7XLk9v1LnemewdIscGkkrw9wuyDFLNLHfysglDHlHrkvDfWQ+RkVxu
-         bcDLq2VAa+Lz5YUVLOGOc4y3TRzxB5xnhRSzZ4AynWDzHooSs9yrSH0dCopmTJ1xeMlO
-         ySO66/+rR0lZOoT1EXa1Nc7CwkQcTDWEveJxdGsgH/VQTyGnuIqi+dd3/i5NVlVwhTvP
-         Wsog==
+        b=e96OHbm1GtGiYl4sKsYh/JJOaXG+ZQZV4ZYX4uY91meOiHVOC6rrO54eu/01gFS+AT
+         emA1xgkzjTMQ+xBYVcv9ET1F0RgKZriaj74OdxMnHZf7TpFjYo2l6nrkDKojZ+MUFu4c
+         4odR9SU7sH1DzXl8U35wUoMMiKyFuXmwVCBkb/T5bn8QFgQvbpEyV3jEAvcs53nbycpG
+         gKFhkzIyUZNPaXn+3XrSHJtsKhQUDOtjp9+YN74QhBXhE5fCdVmpWLStZtk8URDe4qZA
+         3kfpQSu4WdEhVBJm/H3hTw7jmovi3u+rRuYPNtaI2tuWFst1QBm1ehCxWyp2MtPKrsyr
+         czSQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=ZE2B58x1fd9+uScJ88B3iTwTcHnPI9yX7gy9i8nW1Y8=;
-        fh=iewbNjrzwCVC5c1JVn4NSXLbVY7pZ3EungLuzzCJInU=;
-        b=iVkaiF8tLRt7c+akNymZEa3PjIULO10tQwoVgLxpG7NUdEEj9IidQIVEZuJU1pUKk3
-         X5jomgOUgmagMktNcvPQY0B/iwJMvwPr6VYIAml/y4cBEfQ/eIdUbO86tq4P1DDjmGbk
-         +JDG/WakTzeQhhcDhb6NFBSUOANJ67lcGyI3G22Fg1zLnzorftCKre/b7XlkY804o2cf
-         X6q2lPWcfWPTvuJRi1PKoAcZoiN3h9CXEClx1DmkCG/P8BDjIgp2y0a71CImko7pHXJw
-         I7YBPFOU9mRuaLNTiuw5CdgSfVmQtpRq60q7IP9p5GpxkmnqG5gSiAgOGBvz7xQ57wkR
-         BvKw==;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=0+7zP7sb/uUV1jRB9h+eYHxPoVIAWVug9/RfnSjiTss=;
+        fh=An8bt1wDl0UlxFj2PSBGCcVX3Im305i2cyfHZ8X5aks=;
+        b=c6YuP3gjTz54ri/x6cKlm1PPn3PWiCPdwS4OefXGzgIrmMJkP1EdXjCwUKJTBXKTv8
+         RLGpi9zrNnQNxdpEw3tjSrHnTjIHrkmh4za32ADFtR3piwCxkRDQE+ktiR7DwdNquRfh
+         NAHUBPeZPoNFjlpdEoYG2DsOWI+WNDVQ7mopnQJgalYVKePPZS7MTHEzz50Ixs+0ZMFn
+         jRPKFE5+pSdVSuxEUc6v3vvNLwmftfWKy6Et/hHbbcgNQ5NYNzXelDqFhLTnjwRqky90
+         bErG4HWqfyv1iqjjq0nGkNoK/1XS5LHhl4XyMEp6N6uej+VOcex1fQvbdWZBDZ3R1rc3
+         NN/Q==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=j2Q0iTku;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=HqjjRdZf;
        spf=pass (google.com: domain of ebiggers@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) smtp.mailfrom=ebiggers@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 Received: from tor.source.kernel.org (tor.source.kernel.org. [2600:3c04:e001:324:0:1991:8:25])
-        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-7a2300f2611si228876b3a.5.2025.10.21.20.03.48
+        by gmr-mx.google.com with ESMTPS id 006d021491bc7-651d3ac479asi839063eaf.1.2025.10.21.20.37.28
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Oct 2025 20:03:48 -0700 (PDT)
+        Tue, 21 Oct 2025 20:37:28 -0700 (PDT)
 Received-SPF: pass (google.com: domain of ebiggers@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) client-ip=2600:3c04:e001:324:0:1991:8:25;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 5718560325;
-	Wed, 22 Oct 2025 03:03:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6658C4CEF1;
-	Wed, 22 Oct 2025 03:03:46 +0000 (UTC)
-Date: Tue, 21 Oct 2025 20:02:13 -0700
+	by tor.source.kernel.org (Postfix) with ESMTP id 4F792602BF;
+	Wed, 22 Oct 2025 03:37:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DE6CC4CEE7;
+	Wed, 22 Oct 2025 03:37:27 +0000 (UTC)
 From: "'Eric Biggers' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Aleksei Nikiforov <aleksei.nikiforov@linux.ibm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
+To: linux-crypto@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	"Jason A . Donenfeld" <Jason@zx2c4.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Pei Xiao <xiaopei01@kylinos.cn>,
 	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	kasan-dev@googlegroups.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, Ilya Leoshkevich <iii@linux.ibm.com>,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: Re: [PATCH] mm/kmsan: Fix kmsan kmalloc hook when no stack depots
- are allocated yet
-Message-ID: <20251022030213.GA35717@sol>
-References: <20250930115600.709776-2-aleksei.nikiforov@linux.ibm.com>
- <20251008203111.e6ce309e9f937652856d9aa5@linux-foundation.org>
- <335827e0-0a4c-43c3-a79b-6448307573fd@linux.ibm.com>
+	kasan-dev@googlegroups.com,
+	Eric Biggers <ebiggers@kernel.org>,
+	syzbot+01fcd39a0d90cdb0e3df@syzkaller.appspotmail.com
+Subject: [PATCH] lib/crypto: poly1305: Restore dependency of arch code on !KMSAN
+Date: Tue, 21 Oct 2025 20:34:05 -0700
+Message-ID: <20251022033405.64761-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.51.1.dirty
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <335827e0-0a4c-43c3-a79b-6448307573fd@linux.ibm.com>
 X-Original-Sender: ebiggers@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=j2Q0iTku;       spf=pass
+ header.i=@kernel.org header.s=k20201202 header.b=HqjjRdZf;       spf=pass
  (google.com: domain of ebiggers@kernel.org designates 2600:3c04:e001:324:0:1991:8:25
  as permitted sender) smtp.mailfrom=ebiggers@kernel.org;       dmarc=pass
  (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 X-Original-From: Eric Biggers <ebiggers@kernel.org>
 Reply-To: Eric Biggers <ebiggers@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,62 +144,55 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Oct 10, 2025 at 10:07:04AM +0200, Aleksei Nikiforov wrote:
-> On 10/9/25 05:31, Andrew Morton wrote:
-> > On Tue, 30 Sep 2025 13:56:01 +0200 Aleksei Nikiforov <aleksei.nikiforov@linux.ibm.com> wrote:
-> > 
-> > > If no stack depot is allocated yet,
-> > > due to masking out __GFP_RECLAIM flags
-> > > kmsan called from kmalloc cannot allocate stack depot.
-> > > kmsan fails to record origin and report issues.
-> > > 
-> > > Reusing flags from kmalloc without modifying them should be safe for kmsan.
-> > > For example, such chain of calls is possible:
-> > > test_uninit_kmalloc -> kmalloc -> __kmalloc_cache_noprof ->
-> > > slab_alloc_node -> slab_post_alloc_hook ->
-> > > kmsan_slab_alloc -> kmsan_internal_poison_memory.
-> > > 
-> > > Only when it is called in a context without flags present
-> > > should __GFP_RECLAIM flags be masked.
-> > > 
-> > > With this change all kmsan tests start working reliably.
-> > 
-> > I'm not seeing reports of "hey, kmsan is broken", so I assume this
-> > failure only occurs under special circumstances?
-> 
-> Hi,
-> 
-> kmsan might report less issues than it detects due to not allocating stack
-> depots and not reporting issues without stack depots. Lack of reports may go
-> unnoticed, that's why you don't get reports of kmsan being broken.
+Restore the dependency of the architecture-optimized Poly1305 code on
+!KMSAN.  It was dropped by commit b646b782e522 ("lib/crypto: poly1305:
+Consolidate into single module").
 
-Yes, KMSAN seems to be at least partially broken currently.  Besides the
-fact that the kmsan KUnit test is currently failing (which I reported at
-https://lore.kernel.org/r/20250911175145.GA1376@sol), I've confirmed
-that the poly1305 KUnit test causes a KMSAN warning with Aleksei's patch
-applied but does not cause a warning without it.  The warning did get
-reached via syzbot somehow
-(https://lore.kernel.org/r/751b3d80293a6f599bb07770afcef24f623c7da0.1761026343.git.xiaopei01@kylinos.cn/),
-so KMSAN must still work in some cases.  But it didn't work for me.
+Unlike the other hash algorithms in lib/crypto/ (e.g., SHA-512), the way
+the architecture-optimized Poly1305 code is integrated results in
+assembly code initializing memory, for several different architectures.
+Thus, it generates false positive KMSAN warnings.  These could be
+suppressed with kmsan_unpoison_memory(), but it would be needed in quite
+a few places.  For now let's just restore the dependency on !KMSAN.
 
-(That particular warning in the architecture-optimized Poly1305 code is
-actually a false positive due to memory being initialized by assembly
-code.  But that's besides the point.  The point is that I should have
-seen the warning earlier, but I didn't.  And Aleksei's patch seems to
-fix KMSAN to work reliably.  It also fixes the kmsan KUnit test.)
+Note: this should have been caught by running poly1305_kunit with
+CONFIG_KMSAN=y, which I did.  However, due to an unrelated KMSAN bug
+(https://lore.kernel.org/r/20251022030213.GA35717@sol/), KMSAN currently
+isn't working reliably.  Thus, the warning wasn't noticed until later.
 
-I don't really know this code, but I can at least give:
+Fixes: b646b782e522 ("lib/crypto: poly1305: Consolidate into single module")
+Reported-by: syzbot+01fcd39a0d90cdb0e3df@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/r/68f6a48f.050a0220.91a22.0452.GAE@google.com/
+Reported-by: Pei Xiao <xiaopei01@kylinos.cn>
+Closes: https://lore.kernel.org/r/751b3d80293a6f599bb07770afcef24f623c7da0.1761026343.git.xiaopei01@kylinos.cn/
+Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+---
+ lib/crypto/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Tested-by: Eric Biggers <ebiggers@kernel.org>
+diff --git a/lib/crypto/Kconfig b/lib/crypto/Kconfig
+index eea17e36a22be..8886055e938f2 100644
+--- a/lib/crypto/Kconfig
++++ b/lib/crypto/Kconfig
+@@ -95,11 +95,11 @@ config CRYPTO_LIB_POLY1305
+ 	  The Poly1305 library functions.  Select this if your module uses any
+ 	  of the functions from <crypto/poly1305.h>.
+ 
+ config CRYPTO_LIB_POLY1305_ARCH
+ 	bool
+-	depends on CRYPTO_LIB_POLY1305 && !UML
++	depends on CRYPTO_LIB_POLY1305 && !UML && !KMSAN
+ 	default y if ARM
+ 	default y if ARM64 && KERNEL_MODE_NEON
+ 	default y if MIPS
+ 	# The PPC64 code needs to be fixed to work in softirq context.
+ 	default y if PPC64 && CPU_LITTLE_ENDIAN && VSX && BROKEN
 
-If you want to add a Fixes commit I think it is either 97769a53f117e2 or
-8c57b687e8331.  Earlier I had confirmed that reverting those commits
-fixed the kmsan test too
-(https://lore.kernel.org/r/20250911192953.GG1376@sol).
-
-- Eric
+base-commit: 552c50713f273b494ac6c77052032a49bc9255e2
+-- 
+2.51.1.dirty
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251022030213.GA35717%40sol.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251022033405.64761-1-ebiggers%40kernel.org.
