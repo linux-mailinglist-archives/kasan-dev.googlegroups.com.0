@@ -1,137 +1,136 @@
-Return-Path: <kasan-dev+bncBDXYDPH3S4OBBUHG5DDQMGQETWX66DY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXYDPH3S4OBBU7G5DDQMGQETO5EQRQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03FA9C018EB
-	for <lists+kasan-dev@lfdr.de>; Thu, 23 Oct 2025 15:53:22 +0200 (CEST)
-Received: by mail-lf1-x13f.google.com with SMTP id 2adb3069b0e04-579e84da8a6sf530733e87.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 23 Oct 2025 06:53:21 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1761227601; cv=pass;
+Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DDD2C018F1
+	for <lists+kasan-dev@lfdr.de>; Thu, 23 Oct 2025 15:53:25 +0200 (CEST)
+Received: by mail-lj1-x240.google.com with SMTP id 38308e7fff4ca-362de25dbc4sf4495281fa.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 23 Oct 2025 06:53:25 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1761227604; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Ph5rBz5koKl8kjIfW90Y+O4lpPDcTWmCPE8oVlgMd1+M1w7F/yGjGxXjMDX5k3EhVN
-         lim5avMFBgNc/mW4JrnDbse0n1K/TmyOyCFWmjcu8K/3avo70vhFR56roAUYwtRex+zB
-         MMvdN36p9voEQ07Xy3xRh2dpSrDzim0nzgiEL8JuQ1CySoO6tifmaTgYsUmhNCKyAaB0
-         Aib+wj98++5K0JEYr+o97hZTbJdQVZjkRoInDq37pC1+sp9OsIQZXD1Pbxg5ubJtY8m2
-         TYFqFMbU6IQRyL7Bss0F/ehdtynpBeoUn4wCRd/OwQ/7HHrKcoa5c/PGzNMEVqLcSn6F
-         qF1w==
+        b=gQ2AU152h6Lhw/ugI+ZLdt3H1M3U+N5ssYiAkWgcDWOx5AfSYN88pncb2q9th+DXBV
+         DLaG7Gz/6jAdcYGR+WfLcWGaDAGMeKGKL1z4Az7bmd3qchH9CTAmXrTfKSv1nCnz0vJ3
+         Ra8LCUYFfPiTQbyaJ6l87Y0CeMQ03ygLNfS9zH4h7hGOScYlbbmGEAooWL9NEMM7RwS0
+         g98jdh/3NXhg6ZdMsLGl42UkpoGAPGKKYQbVTjthY9b4zqs5wIZEdFX11U7ZGrnoK5uH
+         itj5wMsbu8LlmzRGiiyl/8ja/KxP/LrLpkBH6Y/E/gbX/yR5lDJwTitZ8bLS04LfitQP
+         ENCw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:cc:to:in-reply-to:references
          :message-id:mime-version:subject:date:from:sender:dkim-signature;
-        bh=tcxoJjVSJCM/7tKm75V6G8JXETsDCIWiXKuLVotnwHQ=;
-        fh=KFame3QAT//8H4N+ZnrNLPKkcBc9SrPz+w4ma/cn9Yc=;
-        b=XS5BWqUbdPg3abSXl5SNzyLw7XlP/3qmlnHMZPjSQA9ENFV6f2LSLo25yn+5hZ9gnr
-         OBwWOx3Rvv1zWBhG81Q6qYBweAxUnS1TkbnRB/ox8EYDww7VExuE1qRWED2oDrz2RIoF
-         A6TuBkKe2UCgrhwZa+N4JFTBndz6BV70V2zlsxfLWzkJLkNkU4ZQBNKuU9SIUW56IHwV
-         YP0CAFfP6X1Cxt3mwJqRv9zNtoIseYyusv5YsFcwY87XrSGdWOAQy4Q1MvwvDli5e+Wx
-         U7LoSR0wl62NHlj191xTSmSvDyUjOWMvXJHX6I7dJoWqfQ4YBl6DKDmnKXtLf6WNNzAl
-         /zZQ==;
+        bh=whXDvmpDzbnbN50zRtZ5tXMtehnqCaOAI+svASV/R0Y=;
+        fh=29Cff2fTD1dCMpYDlCJ5rJm5Qg/9LuBOZBY2S8PK/Xc=;
+        b=UckkP/QoCzbFoVApjQDanUAtdsgoc7OKMTvhdg9GBaZGHz72tm/TN4bJjzR2L38YP5
+         AJ4sLY9ptnwq5GZlHC42mNTPytWXLMmZnoAsw/iOkMhLK2G8+G8ia96uwlZKjGV2SQpc
+         lsjshMaC5LBubaMBznpaZwuJdEAjRM3gTHRkV3yErkFJYGtgM46AK7iee7jpE8Ydhj/5
+         6wvbESyTMRvhwin76qa8+c/k2pywgM/wvMO4Em3W31b4eKOZgw/gY5+D3+FSWd8gjbQe
+         dNF/tMk852CNsMcUsWxUtoK3cbatx84iCSqh6bNoa5Xa8C2guUT5046EApn38i516haw
+         Luzg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=MOGWAwma;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=YQw5bU+Z;
        dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=mOq003rK;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="N03/pxcX";
        dkim=neutral (no key) header.i=@suse.cz;
        spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.130 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1761227601; x=1761832401; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1761227604; x=1761832404; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:cc:to:in-reply-to:references:message-id
          :mime-version:subject:date:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tcxoJjVSJCM/7tKm75V6G8JXETsDCIWiXKuLVotnwHQ=;
-        b=ilughRUFqwWw8z8vKwIE0IjcN3x/GtMxi2MZJk0oJjM4hL6jdYiVzJ4xFlqvGhS0uR
-         V5fLGNk8Rj+WjIvV//2z9SidwSEAMMLgqpo8KO4YnwvW23YfS4lSDcTi6zzYubXtJnNL
-         S6c6q2cVVGb95f21j4zs5zZBEmI7BvkgrbfnqOLw+biaQe4Ci9SrBj0TjFe2om4VQZRx
-         rk6hmKlG5ZdLXiui0elQ4YPw33mQCxX7/EscMp/3mjMTo2AJ+qdHZHyDSyG6Q4Ij3i9y
-         QpPirQvsx8vJ06s43Fzlg6UCLxir+hxuVkuiN+rU2jo/7/utjQ0tkphTdm+Di8afY9eA
-         UXTg==
+        bh=whXDvmpDzbnbN50zRtZ5tXMtehnqCaOAI+svASV/R0Y=;
+        b=Ixgag1PCtiJn58+Tg91DRHlC/LdQR1uNLvr7la8KXFUJ92iCSOt0+ihJCmDD/gWAvX
+         D60bloWWnmQQrcurwjN3X/4W5REPgEgDbayo0xPKFTXM29aLQLudk6nFInrvxg+JkWse
+         bS/W1Y4adGxpUz08GedXjGoJHI9t9uwt1CMQLRzOyR1hOi46DlNemPZuFfapaaWmEHNC
+         +iADva4kV1jpX2BsgDXd81rNirxnG42B+ckiAiMFKOy2VSnqenKox9Zl9013U2VLmISX
+         yEQ1272yCZD04JAjwnXNL5YGlDWaJopxycFD4+IH20uCx7HLI5y179ctdD4LAuyXKcRs
+         iN1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761227601; x=1761832401;
+        d=1e100.net; s=20230601; t=1761227604; x=1761832404;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:cc:to
          :in-reply-to:references:message-id:mime-version:subject:date:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tcxoJjVSJCM/7tKm75V6G8JXETsDCIWiXKuLVotnwHQ=;
-        b=oEFDjCtWOWTTR6Qp3K/HYsNfqZQWTazUCq3ZhT/0rW53VR9jCQm5qGETDvNJMmKkpV
-         sjXmc2pmfH5RHbLMYH8x+quADl9PhXUiGEern5om05U0ETwXjGMqbD3wADKVwpm+kQhE
-         rmB/SR+7aZSQ40qvurIbr+VzDND5WOPJlczbSqQrTC60zQ5Y/UseqvOayMcG7g9K4f5P
-         7Mz8MrNs4tu1UTICkFlXpx4+/iuXBHOhbgrTZV8FpXS72N8+DXOx43XiIKgV9T5lwkUX
-         aSx4UG9chcpODHvIGyrTMQEhRzES1nhTsvP4ds7e22Dcf8AgiimE06Vf3tlpr4sodo3a
-         STyQ==
+        bh=whXDvmpDzbnbN50zRtZ5tXMtehnqCaOAI+svASV/R0Y=;
+        b=BLE/iNij+3vJSgJGeXRS41BQzYb0Y/t0of54Gh+JkZAtt8PxQHMlMZ9jhh86Uet3nN
+         y0heRNZ+QLJbT7PtuuWez3ngWOlYHOM53o8xonGVqzHbjybuvI0ooTIOz9+QWSePt4ek
+         fpd6MUeBA0PEqnq6wmxqa8xJ19yUiHgjh88muwCnphIqsjhqnkx/36w//HIND0f1S3Tw
+         5RwzXEmJstJHiiwaluMm2U1YypBI2Ej5bV7+kSt+rVkdKGIjisT6D7i3izSYq9GvioW3
+         q+Ulb96iNHBXI2bjyqtJ/ckI4Vi4SROGk0eVOm8D0dEdc57anfzZeNcmMVSaKYdmvGtW
+         eOGQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCU0cBl34khwXv2ZuRaFb5x4g7XXXl6d3uuLv5Z983pbwn6rzMS35uVtVpjNe+cHeSaMbfnLow==@lfdr.de
-X-Gm-Message-State: AOJu0YzQk1mQB/qw9HqnaqwfSsuoHOoxr7NLdBVaIZVl1MiLBwhVio1A
-	ajHmdROlUzc+ld0Bgr3g6uR6dMpCuA0YKpam64Oe0fZ1pmbNFgUxSHQt
-X-Google-Smtp-Source: AGHT+IEeHyc+KH3KMuSA77Z/YguuENTOTiMOdgHPj66EQw8o9yY1hURO+ENqPc1S83lGYAvuhvybCw==
-X-Received: by 2002:a05:6512:10d4:b0:591:eb9d:ac08 with SMTP id 2adb3069b0e04-592f5a5c5b3mr838621e87.37.1761227600860;
-        Thu, 23 Oct 2025 06:53:20 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+akgVQxzXIBc/xaNkCclvaHFv8EYxlauFZnDK3xllT1ug=="
-Received: by 2002:a05:6512:61b3:b0:591:ec1c:1dbe with SMTP id
- 2adb3069b0e04-592f53bd677ls220631e87.1.-pod-prod-01-eu; Thu, 23 Oct 2025
- 06:53:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUdviMvzVkDmp1M82K93UA0AhgRdX3Dp/coY8mGx3AVISeWtGPSqI6YuLxcl3AoHuSnBuJNCeINx+c=@googlegroups.com
-X-Received: by 2002:a05:6512:61b3:b0:591:eb0e:4c1 with SMTP id 2adb3069b0e04-592f59048a3mr796507e87.10.1761227597945;
-        Thu, 23 Oct 2025 06:53:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1761227597; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCURvfO1tVsdCS4r2wlmbKCFxobgrnlt5+IP7HB3WZy1k1mMGHipJu2VpDnN2xvosvqWk8UYZw==@lfdr.de
+X-Gm-Message-State: AOJu0Yxl/V/uyvCGwz9KIky9HDUOGbod1ymXaxQcHEUTtWklX4rjH45S
+	MMLEEkaJHPir/UXpe4zxQGIsRg6trgnocy/wZPdxd5KxL37Dm5lwLAYh
+X-Google-Smtp-Source: AGHT+IHh3III4dYqGLzGIHTpvxFF6er60ce0NXTQZEuzq92w7zBq5Z9ivQeDYRKTrjn7XPXvgzzrJA==
+X-Received: by 2002:a05:651c:1142:b0:36b:693d:1244 with SMTP id 38308e7fff4ca-37797a0904dmr63813241fa.30.1761227604386;
+        Thu, 23 Oct 2025 06:53:24 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+Z7Qmduhpr6IMkJenn/0FNWWOkE5DAfvw96NSMYf+9pxA=="
+Received: by 2002:a05:651c:40cd:b0:336:c2ac:cd28 with SMTP id
+ 38308e7fff4ca-378d634a59cls1074281fa.0.-pod-prod-05-eu; Thu, 23 Oct 2025
+ 06:53:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVbL0RRNqsHgCl6YHI5NbKjH968hJZH2pyGh5lD42TgM0UJ49XwpMYjHakbCKzshY/QsNEyegjWLW4=@googlegroups.com
+X-Received: by 2002:a05:651c:1593:b0:364:f830:230b with SMTP id 38308e7fff4ca-3779793f476mr73832651fa.22.1761227601590;
+        Thu, 23 Oct 2025 06:53:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1761227601; cv=none;
         d=google.com; s=arc-20240605;
-        b=Mmr47Q30H6t+3w6YcvHrQ0QA3wAcMPsXICQQZe2H3XD1ZCTOVmkhqEKDLRu4ArHQmK
-         mzzZBd8eKfmH7C4cbmj26LHWrHQXUhRi5FpgzrXfFQc5moAIobNJmU+LXxkTltcMkgTz
-         kC0sQMyAJGWBci7Z/uOgxwhBtwUbhtmaj+z/L1VaOpdiWuqhgxnhi1kqEhDqX5CTh7ml
-         JkgI/5MJZb+Z2yELLz7GOPfDnOOy2LDrMq4H+4iqXbHC7GcIlgM6+6jDxYqTR1XzvfD1
-         BvdDTqsexMtH6bXTXcVKDqJY5Cc+nVI+LnEj0F1Ukq8qf4oJuL2lrIcGs8zx40Hh9Ian
-         7hgQ==
+        b=cxohQXQDqQXafjVjzznuzrKgb/KHeYzIOj9Uy04bzJl2EmiXj8dVnvw4YPY5LnaWhQ
+         4xEIyShO6fEB+Ti2PzesiiM+akoDnSNkuytu8OD5iNKVuuH2naKZBaGmcGspATsGyjjQ
+         Oj4FYExyOl9EFBIWQAdJVXZ+XhPMwSEyMD0cz4d75OaEGP6eF0sHpepes97Bawtb7xCH
+         ImNAjihv3FwY6LCuINCvp5OXI/8+aD1+inZgkLiN9hi8OsSQJ6z7lw1HuH1W0htCnT1W
+         4U8wfD2xM6bsYlBd6Z5UCr6NaRkWarVWpjMm05+lOd2/K4ggYFL5C2Hbe7ncjMd3dNoO
+         rUiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:dkim-signature:dkim-signature
          :dkim-signature:dkim-signature;
-        bh=CDkwJ98STTAq4ia+HrB8vgXHgqJB0sa+3LSjpxlnzDw=;
+        bh=nBqIeAt8PqOShiWRW8bX5+U1W1IZCUvUQH43Nd+h/zE=;
         fh=P0r4/dMJvcdpdyMOyJR1abGuGu+lkksl0rleFR28jng=;
-        b=P6+LaWME+xmu23QZr/kKzQZ3igatMG4PJZejDLLNyO53L65VmTI4/wMrbU5+inPODB
-         8KXS812KtrP3DzZ6N8qkuyCCeT2eaIZov/FmxEMMi/tYETM7wYf1412OSwxbtfzeeJJD
-         UmDAuU5xJBvJB1guk3lJW8FmuRhtOghtz08r7XP+kr21VBQheE4UG6LQbXbC0wzKDCJy
-         sz99UhNutKDObtH86HVssAmzGpX4C2VTFZD/TTbUnqtiXEbdFAMOb4tzlgFORTCQ/WmJ
-         7pGgIgG2darDbGER+ujar9Y5VnmsiVEWnFkZS/pO4M8x0SKIAn04q1a9Y4uPKQByuVut
-         qS/Q==;
+        b=fXWdUE3Y/p4Go99CUn/6ucHhK5awoUD5/G+PtVRiKBIjcM6e9o5juIKxQ/7BqDSnNl
+         4+NUN9QCdBlXPVsh97R+4kWCzdX/mAwdgDWExNYRst/x4kLBiFniCQ8J5VWXXa2b2x20
+         tDW9o6Vejm0pqLdFhNvjwmoVwAas5CqqjdrKmEmpAERLvUlliiXzlFLh18g/W5fs9TlD
+         iwsKuh7bKJ4/Taw4VBEPs8j6aOUkWuT2MHZWudNhrYijWtmz1mGYrj6LdEsjIyFJl82X
+         TQDkw/aanzXnWu81sGSKrrqaNJT6P0As901Is6YCYuP1IPmjzx454SmkDHTlQIf/bGuc
+         ELGg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=MOGWAwma;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=YQw5bU+Z;
        dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=mOq003rK;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="N03/pxcX";
        dkim=neutral (no key) header.i=@suse.cz;
        spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.130 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.223.130])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-592f4aa1a26si46214e87.0.2025.10.23.06.53.17
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-378d66942bbsi400181fa.1.2025.10.23.06.53.21
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Oct 2025 06:53:17 -0700 (PDT)
+        Thu, 23 Oct 2025 06:53:21 -0700 (PDT)
 Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.223.130 as permitted sender) client-ip=195.135.223.130;
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7F26121254;
-	Thu, 23 Oct 2025 13:52:53 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A4D8F211F6;
+	Thu, 23 Oct 2025 13:52:57 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 61FE713AE7;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 79A9413AEB;
 	Thu, 23 Oct 2025 13:52:53 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aBahFzUz+mjvQQAAD6G6ig
+	id AMNqHTUz+mjvQQAAD6G6ig
 	(envelope-from <vbabka@suse.cz>); Thu, 23 Oct 2025 13:52:53 +0000
 From: Vlastimil Babka <vbabka@suse.cz>
-Date: Thu, 23 Oct 2025 15:52:26 +0200
-Subject: [PATCH RFC 04/19] slab: prevent recursive kmalloc() in
- alloc_empty_sheaf()
+Date: Thu, 23 Oct 2025 15:52:27 +0200
+Subject: [PATCH RFC 05/19] slab: add sheaves to most caches
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Message-Id: <20251023-sheaves-for-all-v1-4-6ffa2c9941c0@suse.cz>
+Message-Id: <20251023-sheaves-for-all-v1-5-6ffa2c9941c0@suse.cz>
 References: <20251023-sheaves-for-all-v1-0-6ffa2c9941c0@suse.cz>
 In-Reply-To: <20251023-sheaves-for-all-v1-0-6ffa2c9941c0@suse.cz>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -168,14 +167,14 @@ X-Spamd-Result: default: False [-8.30 / 50.00];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.cz:mid,imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:mid]
 X-Spam-Flag: NO
 X-Spam-Score: -8.30
 X-Original-Sender: vbabka@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=MOGWAwma;       dkim=neutral
+ header.i=@suse.cz header.s=susede2_rsa header.b=YQw5bU+Z;       dkim=neutral
  (no key) header.i=@suse.cz;       dkim=pass header.i=@suse.cz
- header.s=susede2_rsa header.b=mOq003rK;       dkim=neutral (no key)
+ header.s=susede2_rsa header.b="N03/pxcX";       dkim=neutral (no key)
  header.i=@suse.cz;       spf=pass (google.com: domain of vbabka@suse.cz
  designates 195.135.223.130 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
@@ -190,114 +189,131 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-We want to expand usage of sheaves to all non-boot caches, including
-kmalloc caches. Since sheaves themselves are also allocated by
-kmalloc(), we need to prevent excessive or infinite recursion -
-depending on sheaf size, the sheaf can be allocated from smaller, same
-or larger kmalloc size bucket, there's no particular constraint.
+In the first step to replace cpu (partial) slabs with sheaves, enable
+sheaves for almost all caches. Treat args->sheaf_capacity as a minimum,
+and calculate sheaf capacity with a formula that roughly follows the
+formula for number of objects in cpu partial slabs in set_cpu_partial().
 
-This is similar to allocating the objext arrays so let's just reuse the
-existing mechanisms for those. __GFP_NO_OBJ_EXT in alloc_empty_sheaf()
-will prevent a nested kmalloc() from allocating a sheaf itself - it will
-either have sheaves already, or fallback to a non-sheaf-cached
-allocation (so bootstrap of sheaves in a kmalloc cache that allocates
-sheaves from its own size bucket is possible). Additionally, reuse
-OBJCGS_CLEAR_MASK to clear unwanted gfp flags from the nested
-allocation.
+This should achieve roughly similar contention on the barn spin lock as
+there's currently for node list_lock without sheaves, to make
+benchmarking results comparable. It can be further tuned later.
+
+Don't enable sheaves for kmalloc caches yet, as that needs further
+changes to bootstraping.
 
 Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 ---
- include/linux/gfp_types.h |  6 ------
- mm/slub.c                 | 36 ++++++++++++++++++++++++++----------
- 2 files changed, 26 insertions(+), 16 deletions(-)
+ include/linux/slab.h |  6 ------
+ mm/slub.c            | 51 +++++++++++++++++++++++++++++++++++++++++++++++----
+ 2 files changed, 47 insertions(+), 10 deletions(-)
 
-diff --git a/include/linux/gfp_types.h b/include/linux/gfp_types.h
-index 65db9349f905..3de43b12209e 100644
---- a/include/linux/gfp_types.h
-+++ b/include/linux/gfp_types.h
-@@ -55,9 +55,7 @@ enum {
- #ifdef CONFIG_LOCKDEP
- 	___GFP_NOLOCKDEP_BIT,
+diff --git a/include/linux/slab.h b/include/linux/slab.h
+index cf443f064a66..e42aa6a3d202 100644
+--- a/include/linux/slab.h
++++ b/include/linux/slab.h
+@@ -57,9 +57,7 @@ enum _slab_flag_bits {
  #endif
+ 	_SLAB_OBJECT_POISON,
+ 	_SLAB_CMPXCHG_DOUBLE,
 -#ifdef CONFIG_SLAB_OBJ_EXT
- 	___GFP_NO_OBJ_EXT_BIT,
+ 	_SLAB_NO_OBJ_EXT,
 -#endif
- 	___GFP_LAST_BIT
+ 	_SLAB_FLAGS_LAST_BIT
  };
  
-@@ -98,11 +96,7 @@ enum {
- #else
- #define ___GFP_NOLOCKDEP	0
- #endif
+@@ -238,11 +236,7 @@ enum _slab_flag_bits {
+ #define SLAB_TEMPORARY		SLAB_RECLAIM_ACCOUNT	/* Objects are short-lived */
+ 
+ /* Slab created using create_boot_cache */
 -#ifdef CONFIG_SLAB_OBJ_EXT
- #define ___GFP_NO_OBJ_EXT       BIT(___GFP_NO_OBJ_EXT_BIT)
+ #define SLAB_NO_OBJ_EXT		__SLAB_FLAG_BIT(_SLAB_NO_OBJ_EXT)
 -#else
--#define ___GFP_NO_OBJ_EXT       0
+-#define SLAB_NO_OBJ_EXT		__SLAB_FLAG_UNUSED
 -#endif
  
  /*
-  * Physical address zone modifiers (see linux/mmzone.h - low four bits)
+  * ZERO_SIZE_PTR will be returned for zero sized kmalloc requests.
 diff --git a/mm/slub.c b/mm/slub.c
-index 68867cd52c4f..f2b2a6180759 100644
+index f2b2a6180759..a6e58d3708f4 100644
 --- a/mm/slub.c
 +++ b/mm/slub.c
-@@ -2031,6 +2031,14 @@ static bool freelist_corrupted(struct kmem_cache *s, struct slab *slab,
+@@ -7810,6 +7810,48 @@ static void set_cpu_partial(struct kmem_cache *s)
+ #endif
  }
- #endif /* CONFIG_SLUB_DEBUG */
  
-+/*
-+ * The allocated objcg pointers array is not accounted directly.
-+ * Moreover, it should not come from DMA buffer and is not readily
-+ * reclaimable. So those GFP bits should be masked off.
-+ */
-+#define OBJCGS_CLEAR_MASK	(__GFP_DMA | __GFP_RECLAIMABLE | \
-+				__GFP_ACCOUNT | __GFP_NOFAIL)
++static unsigned int calculate_sheaf_capacity(struct kmem_cache *s,
++					     struct kmem_cache_args *args)
 +
- #ifdef CONFIG_SLAB_OBJ_EXT
- 
- #ifdef CONFIG_MEM_ALLOC_PROFILING_DEBUG
-@@ -2081,14 +2089,6 @@ static inline void handle_failed_objexts_alloc(unsigned long obj_exts,
- 
- #endif /* CONFIG_MEM_ALLOC_PROFILING_DEBUG */
- 
--/*
-- * The allocated objcg pointers array is not accounted directly.
-- * Moreover, it should not come from DMA buffer and is not readily
-- * reclaimable. So those GFP bits should be masked off.
-- */
--#define OBJCGS_CLEAR_MASK	(__GFP_DMA | __GFP_RECLAIMABLE | \
--				__GFP_ACCOUNT | __GFP_NOFAIL)
--
- static inline void init_slab_obj_exts(struct slab *slab)
- {
- 	slab->obj_exts = 0;
-@@ -2590,8 +2590,24 @@ static void *setup_object(struct kmem_cache *s, void *object)
- 
- static struct slab_sheaf *alloc_empty_sheaf(struct kmem_cache *s, gfp_t gfp)
- {
--	struct slab_sheaf *sheaf = kzalloc(struct_size(sheaf, objects,
--					s->sheaf_capacity), gfp);
-+	struct slab_sheaf *sheaf;
-+	size_t sheaf_size;
++{
++	unsigned int capacity;
++	size_t size;
 +
-+	if (gfp & __GFP_NO_OBJ_EXT)
-+		return NULL;
 +
-+	gfp &= ~OBJCGS_CLEAR_MASK;
++	if (IS_ENABLED(CONFIG_SLUB_TINY) || s->flags & SLAB_DEBUG_FLAGS)
++		return 0;
++
++	/* bootstrap caches can't have sheaves for now */
++	if (s->flags & SLAB_NO_OBJ_EXT)
++		return 0;
 +
 +	/*
-+	 * Prevent recursion to the same cache, or a deep stack of kmallocs of
-+	 * varying sizes (sheaf capacity might differ for each kmalloc size
-+	 * bucket)
++	 * For now we use roughly similar formula (divided by two as there are
++	 * two percpu sheaves) as what was used for percpu partial slabs, which
++	 * should result in similar lock contention (barn or list_lock)
 +	 */
-+	if (s->flags & SLAB_KMALLOC)
-+		gfp |= __GFP_NO_OBJ_EXT;
++	if (s->size >= PAGE_SIZE)
++		capacity = 4;
++	else if (s->size >= 1024)
++		capacity = 12;
++	else if (s->size >= 256)
++		capacity = 26;
++	else
++		capacity = 60;
 +
-+	sheaf_size = struct_size(sheaf, objects, s->sheaf_capacity);
-+	sheaf = kzalloc(sheaf_size, gfp);
++	/* Increment capacity to make sheaf exactly a kmalloc size bucket */
++	size = struct_size_t(struct slab_sheaf, objects, capacity);
++	size = kmalloc_size_roundup(size);
++	capacity = (size - struct_size_t(struct slab_sheaf, objects, 0)) / sizeof(void *);
++
++	/*
++	 * Respect an explicit request for capacity that's typically motivated by
++	 * expected maximum size of kmem_cache_prefill_sheaf() to not end up
++	 * using low-performance oversize sheaves
++	 */
++	return max(capacity, args->sheaf_capacity);
++}
++
+ /*
+  * calculate_sizes() determines the order and the distribution of data within
+  * a slab object.
+@@ -7944,6 +7986,10 @@ static int calculate_sizes(struct kmem_cache_args *args, struct kmem_cache *s)
+ 	if (s->flags & SLAB_RECLAIM_ACCOUNT)
+ 		s->allocflags |= __GFP_RECLAIMABLE;
  
- 	if (unlikely(!sheaf))
- 		return NULL;
++	/* kmalloc caches need extra care to support sheaves */
++	if (!is_kmalloc_cache(s))
++		s->sheaf_capacity = calculate_sheaf_capacity(s, args);
++
+ 	/*
+ 	 * Determine the number of objects per slab
+ 	 */
+@@ -8562,15 +8608,12 @@ int do_kmem_cache_create(struct kmem_cache *s, const char *name,
+ 
+ 	set_cpu_partial(s);
+ 
+-	if (args->sheaf_capacity && !IS_ENABLED(CONFIG_SLUB_TINY)
+-					&& !(s->flags & SLAB_DEBUG_FLAGS)) {
++	if (s->sheaf_capacity) {
+ 		s->cpu_sheaves = alloc_percpu(struct slub_percpu_sheaves);
+ 		if (!s->cpu_sheaves) {
+ 			err = -ENOMEM;
+ 			goto out;
+ 		}
+-		// TODO: increase capacity to grow slab_sheaf up to next kmalloc size?
+-		s->sheaf_capacity = args->sheaf_capacity;
+ 	}
+ 
+ #ifdef CONFIG_NUMA
 
 -- 
 2.51.1
@@ -305,4 +321,4 @@ index 68867cd52c4f..f2b2a6180759 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251023-sheaves-for-all-v1-4-6ffa2c9941c0%40suse.cz.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251023-sheaves-for-all-v1-5-6ffa2c9941c0%40suse.cz.
