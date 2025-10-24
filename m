@@ -1,144 +1,168 @@
-Return-Path: <kasan-dev+bncBD2NJ5WGSUOBB4XV5TDQMGQEH236MZY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCJNVUGE34MBBOMP53DQMGQEGK44NLA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88505C05155
-	for <lists+kasan-dev@lfdr.de>; Fri, 24 Oct 2025 10:38:12 +0200 (CEST)
-Received: by mail-wm1-x337.google.com with SMTP id 5b1f17b1804b1-470fd92ad57sf17936415e9.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 24 Oct 2025 01:38:12 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1761295092; cv=pass;
+Received: from mail-pl1-x640.google.com (mail-pl1-x640.google.com [IPv6:2607:f8b0:4864:20::640])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A7EDC069BF
+	for <lists+kasan-dev@lfdr.de>; Fri, 24 Oct 2025 16:05:48 +0200 (CEST)
+Received: by mail-pl1-x640.google.com with SMTP id d9443c01a7336-290d860acbcsf41385355ad.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 24 Oct 2025 07:05:48 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1761314746; cv=pass;
         d=google.com; s=arc-20240605;
-        b=RAQNzDdtfpSkNv/DLbJLLLPWvp+gTBKFwcckHtKLIdzJNRBsRMO67hPLx1dSEhcLbB
-         rDMKDeCfOBaI247pxwxGNNB3jDxP34qFSGSJdedy6DIqKdLXs+Fi1ZNAQjrfcNDWb8D8
-         5QgEhnlYvpfJxK8haIyRq7V7MXQgA+1dOtVcXydUCPU38A8M8AKXW+6sCy/azVS1xsos
-         0LviWsChKcKrRkziXKP04L1Ds/cDdnVcfkUEpEvYEd9TPo0uCZWh8I/c2HI5i2nmn31K
-         xoBODcRgJArJAwbnheDEF+IvaByYEPh7O6uaVJj9H88LeuPk7LUGHHzQFvkqHrEgUQCa
-         KAIA==
+        b=VPLy8xdctckF3zhloF3UzzJY4nDIkJ+LdGWHwsBR9cByTJe0h4NHMpmr29vOEgcQj6
+         ueBB0ZoA0i3oihFG0FjGLJcnefMb8eHcJIITNfPyvxy00BgqGDIMgrpA6jn74kIL8ngn
+         BJTUshLEloiTbN1ooJ3U7xrOcGeq6oQfBWbanwMnVbArQDhfRncA3zuIP40AW9GJM244
+         FqjM753/4IrCPa8fMV8gHEQxtEwI7/Q6f6+iUiOFitErsZaneGC6Jlj0sfypGvKRMRbb
+         r1cqqwar6M6hfcqyKngQvsAldg0a2ryErTHu0mUlXeJVOYQkgM6hz1md+5pUMFRmyRRe
+         mqLA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:user-agent
-         :content-transfer-encoding:references:in-reply-to:date:cc:to:from
-         :subject:message-id:sender:dkim-signature;
-        bh=7Ggt0CPUd0OheiznM8HPB8oT3GiqAfqGqqZbS1yHfGc=;
-        fh=RJZmOv67QU6RLWSOr6n256lYSjYDB3gaUky00BwOYHQ=;
-        b=PzluvvSaxlTwOLPjNNsuYY9YwuBO7y2dGmQWuqIwd+xiCeccSLdr7iGWEsX43TlzEQ
-         djZj+5z9pjA1jSXsbgvmiM6D4/yRclk63rmg/ApX7Zf6NiO/e3AohGlw2Ryae8PhBhc4
-         RCxQRtMneLR7L9DSK6fY/8WjoC2PoDqNBbJCJmWZi1oSUtbIHMmK4bOka38gXBLVxTaX
-         KY+7E1ioNJcarsjLMDrjvQLbezXpXGTfspnvU/dWESqP7PSS7Sdf0+eMAE8w257U1gam
-         1EpepBNwtXIj5VLZ1qoknplILdJ2xXldU1t9BWDjeXVw0Ec4zta5gb0WNFp32d+VieOP
-         cdQg==;
+         :list-id:mailing-list:precedence:reply-to:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=4Dalloo47mTSzAwJH2WYg/1cKXdNewY1a0N2KX6O2fA=;
+        fh=gEE40ElMOivaJmd9z3kYU+EiB5AghXMWklT0moHF9F4=;
+        b=b2h9F4PZor7QIKn74InHTCGIUt1i18+v27KqsAp+DfNCmkIvgK86ZoIFdOBxMfdf76
+         pH5AyKR7oeesiiL3sUh++bAfYJrkebVsnM+dqxaWkKobNZTZGUuiSJDMlYcbkmsOnGIs
+         1qYUsXA1gqak9lWuBONX3lMpr6gMHWbm7WQnoJ7lQUiGTN3YrULd9Yo+xxBdHpL+jooF
+         Eg3HaZNPeYmHGh5wA+YE3/LqW1tmsFNA4leHU39EMx+mHfxdciaKoRB/HUvG+FYYovcI
+         wGrpK1/toZHxbJACXPWUEEWWAbf4g3shHPE+GU1Y1h0y/fwc9gCPHqK3K4cMXuIDVbF+
+         hRUA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@sipsolutions.net header.s=mail header.b=C9g0Vqbd;
-       spf=pass (google.com: domain of johannes@sipsolutions.net designates 2a01:4f8:242:246e::2 as permitted sender) smtp.mailfrom=johannes@sipsolutions.net;
-       dmarc=pass (p=NONE sp=REJECT dis=NONE) header.from=sipsolutions.net
+       dkim=pass header.i=@meta.com header.s=s2048-2025-q2 header.b=fnXo7b6r;
+       spf=pass (google.com: domain of prvs=63920b99c4=clm@meta.com designates 67.231.145.42 as permitted sender) smtp.mailfrom="prvs=63920b99c4=clm@meta.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=meta.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1761295092; x=1761899892; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1761314746; x=1761919546; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:user-agent:content-transfer-encoding
-         :references:in-reply-to:date:cc:to:from:subject:message-id:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7Ggt0CPUd0OheiznM8HPB8oT3GiqAfqGqqZbS1yHfGc=;
-        b=O/FBlyhf1J972wVD0YMYkXC2SWRdQlKQJ9WelANpYxKvBeb21Sa7h4LMnpZ0x3QQxJ
-         KchMmm+ppmfdTYhI3qOI5gscyO3sFr3sWzWb1XyjioRatxWMV5gT6K1eK9h2XHI2MdWa
-         cS8j0p9JcNnO76+nWE6bbhmIALcBMkDRF1mc1kfAzUZfzveETdtAvYmSVaSXWo+louMD
-         I8RI7R2gqzIqwBPmPmFNdH1OY/XARMR+4tYo3CWKWcgibCp4ht1DLFJzoILY5/kfdMKF
-         Qf8+3MMS19LUKOHZMGmVe+IYpBQJrJAQFFVeqfDQRpEjsPIfpXemno9rD8gWZw1zl0M4
-         zHFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761295092; x=1761899892;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
-         :user-agent:content-transfer-encoding:references:in-reply-to:date:cc
-         :to:from:subject:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7Ggt0CPUd0OheiznM8HPB8oT3GiqAfqGqqZbS1yHfGc=;
-        b=Z//BcuZ8sIWS41biIIfY8jtk0DZmIb3mXqdLIQ3uwj8htHCB5aE49pVbmTSA8KV/S7
-         JvM8IgjwPG5Qp2gTg1MuUB4+rZw6OpNAHzTiUH9mJaJeke/rxofIMwLbckXAcKGKxPrF
-         i7pBc6fvM+GMQLg6uMFiPe6xmjh34RcztOqjED8GGOdiSQC7XmfiGY19iqrBs0gEZgVz
-         aqfe79wYZdSO4Ch5IbnKvHsRr/Vec+srEWoHtW3wtIKhX1h1q/mBEoVn8THpXk1K7366
-         m4B7OoopfLGCK0+0dj6rMm/gYrjGGqq+lVWe63tQ3ruIX3yNzfStVTtB8SJJ49ann/x5
-         FUzg==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWlJt7ImoyqhKVQu+R4ruSuf5e/uvK32HcUltJ9h752cSX2eBoWPYRHZYajKu2HblaTF/ZEDQ==@lfdr.de
-X-Gm-Message-State: AOJu0YwRfo42/gIA0HtJYpxbR8l3rroyFiSx2itP0ROVsAypvMWEdoau
-	fIvE9uS5TYs1VWL9K2GaKqLQ4nr6575qgRgcgo9kEE3BdCi2TK1iY8Nn
-X-Google-Smtp-Source: AGHT+IE3Bk+1qy1I81SsDQlLCSYdUvZ/Jl3MogbaHZlMp5fUaN1qstbOAGEYeECN4gZhEPj6pq0hgQ==
-X-Received: by 2002:a05:6000:420a:b0:429:8bfe:d842 with SMTP id ffacd0b85a97d-4298bfed9c7mr2596940f8f.4.1761295091594;
-        Fri, 24 Oct 2025 01:38:11 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+bKtZjpFCWCu7+6A9MfUoNeb79yHOH4guk1iWOINO0ALQ=="
-Received: by 2002:a05:6000:2889:b0:3ec:2d76:38c0 with SMTP id
- ffacd0b85a97d-42989d9b9eels842852f8f.1.-pod-prod-05-eu; Fri, 24 Oct 2025
- 01:38:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUWVMGP8PHtpqdg86IVyrEjh5Kd8PzTlTDCwymKEfoeemqRao4sofBiL4Gjcon+xte6KkF0nZrzTbA=@googlegroups.com
-X-Received: by 2002:a5d:64e7:0:b0:429:8bd7:774a with SMTP id ffacd0b85a97d-4298bd77939mr4028628f8f.40.1761295088807;
-        Fri, 24 Oct 2025 01:38:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1761295088; cv=none;
+         :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=4Dalloo47mTSzAwJH2WYg/1cKXdNewY1a0N2KX6O2fA=;
+        b=Xf8pO6qeqj3a2C7c2pLQYMxQIcPxBaRjJzbbaubebxFOmU0v7GVUrJbt/I5HMoXD0G
+         MqjW4SFQ8ulyIrGCZRoVekDacRHotCdhtH8NrcnCKS1A80kJkoJ3ZrwnJpkoP+pud+GS
+         ko2E48LBIBYdE5fH4FPsSoGB7Aq9Dglq34uVDQjO9XunJYnMeAOEdWJGF3MD9+0IjRaP
+         2RxXk5BdhRJ1xbLVQHNTpHOI+b8o/QdVjS0nSUimZw2S9CunvNEScNtKeBJSxEV4N+R9
+         ihQ1IQqFWyQUoGXMzyGkd8JHdowL5pq8IB2lOfen3tsTa5SLIwqsGcliSG/RI8VkTUxo
+         baTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761314746; x=1761919546;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4Dalloo47mTSzAwJH2WYg/1cKXdNewY1a0N2KX6O2fA=;
+        b=p9WO9Us6rashfmvAAvov6TuIo1OwlEVGDJufMfXFuhR9L1LOr9/AYTQj616ZbFyh7W
+         iwhoV4j9J7qpU2D4wSqzOWPCOUd+a4Etaf9Yql485bjfH13PefXTFTH2OOr5tHMXQHuT
+         W24qn/MWlqIWD46MyngQoAkpPApO9p5OFYo6MDO5JyBMvUNr6d8FRYFTsQJ1nwsRfc54
+         Zgq0YwfLbH18+Y1mw2X1f2FghtxXok4RJQTcaWR1gG8NVFeuP9MuEuuCIJI647MR9q7y
+         +aollj1KTJ/4cMbdT0WLrr9b5iO1jtMlT3zrrXgxz9AlUbmcQNPQtcOJSuZizPnO6g+Y
+         qJcw==
+X-Forwarded-Encrypted: i=2; AJvYcCVHiRbdA1s09z/u/YMhT+K8TjFg9Z5wVv78+SS4SbX3MlQfVP/5rtjE2cYeHd2AjL7AHEjTUw==@lfdr.de
+X-Gm-Message-State: AOJu0YyO4Sbl0zTbvpUEYyrP7/JR3BwMunweuGIwMiD+bH/54JETFVdO
+	mWGSwMvQ/Pw2A1gK70cU5Tm0K12kjC9L6yb9tu0oWB8662FaziXPCzOD
+X-Google-Smtp-Source: AGHT+IGxzJo45ernrUIkegtX8cal5MoSwEhjl77KJrTAWZzrs2C/DUiFZeg0GWLCXOxKEOdO2ApLlQ==
+X-Received: by 2002:a17:902:ec87:b0:24b:24dc:91a7 with SMTP id d9443c01a7336-290cb65c5a6mr333858005ad.45.1761314746092;
+        Fri, 24 Oct 2025 07:05:46 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+bMkGR7zFPJGQ3StUC7UDf/rs4Kl7MyIDp1gdIDvO5Lrg=="
+Received: by 2002:a17:902:7898:b0:268:589:fe0b with SMTP id
+ d9443c01a7336-2946c7694a3ls17913525ad.0.-pod-prod-06-us; Fri, 24 Oct 2025
+ 07:05:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCU3LgzpZETSoY3wcdJ7szyzGbIfM9ZKLbaWBveBHHwki2+198/RtQrLQ9OuogFa2tisUmPyMEZECyA=@googlegroups.com
+X-Received: by 2002:a17:902:ce12:b0:279:daa1:6780 with SMTP id d9443c01a7336-290cba41dd2mr314750605ad.52.1761314744253;
+        Fri, 24 Oct 2025 07:05:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1761314744; cv=none;
         d=google.com; s=arc-20240605;
-        b=RSiR0cIeZkmGgs6rPx53Jwz3XRfxXUbVwM1K6KtXnLc4o4SA7qJTTWxuWvvYs/bmwt
-         rUrYj/SqYXzJs0SYR9NjeAwzK7TncpKzU8daVWHUmCzz1XjvsUdXKt6pQeEVNQHL7L83
-         Pkgn8gW7CTVgUuMsIlz8V1kwS+pyOZXh1d+SVKWXbST/G4vB1N8ABmul1fwYnFEdd00s
-         jcKGbWT6OOJ5JqI4hZt2+rKKHXfmtwjeDc45SywmXu35a42FyOsx27u80myR4y5GcH5X
-         9n6KnDdVfJWCQvQ4N8Tr3kkUUFg22dYduGi5f+1TFolxtBhkupXx872GJ9l/tyjh5Dot
-         uGBQ==
+        b=HuRns26g0/g4QmQ+wmV9gP3WIuDsOdESwf57lMYxY17ceTQoA4/KcgcvY0LG62Zh1u
+         DGNr9PifRQwLrX4aGIV5v/LmAYJ4opN/wdGK1d5adRAxnsiEKx1gNXh27naceKM4QIt1
+         7OfjHCC+5l6UhVjWtR2McU87losB8lo5OrrEFd7PZhj6TEGDzcgdDWExBaljHqSndx0G
+         JJyTeM1qPNVlXAXCWmuo4na3aZJ2sbkx+cToFDdHCd8TScbChBf12JvlgKAQmxpIHpKD
+         YGAsydD80gceNHSjOIbElxGmlOx3srq63L0T8pKeCXm1syKZ6jUM5+PYhjlj8vcfoEXD
+         42cw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:dkim-signature;
-        bh=L7lT/wMZ1LMdwxMJTrMezCGdtazbt1qIWepTcDamS+o=;
-        fh=wYDXYPGc8/Q9lXYvp+m9p1nduNpQ1NFwCnMrps1pwww=;
-        b=U/5kIhW7VYGQcmNMbQIgD0Y/s4Hyu77yy+yxUEFIcsepZXXGMaPhFnfuJIDMZTqYo1
-         gi0HbaCc6a4UuGh/6BWFIW5wNRknv9i1vF/uU4Gk/FEAMZvJ0N1SQPKys4PEcIfqRDQJ
-         tUojDqp1eFN8jOg631GVkLOyx3Xr1A/t7Vbtcn7ijE2/CGV/T7aFz3pJByyUgSxaf0mK
-         3PwuEcYHxDQwpQ6beBmv9t5fAv2sS0fuZ/YjZ/s6IAgnqkxZbTy/1VYvOQpgu6hFmduj
-         gwiRq1yZ9FGRoxpK2JHWS7QZOZNItoSvEMOx1OTPpV7WxGTzVODgFHIm5pRqR1OLdx+i
-         PlnQ==;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=d+lSgdkA9+bEZAYGayqSUgiThyPvWrBH7x+H6ZQsxL8=;
+        fh=bHAfn63gfa/6zgOaS4Q5hb17jvUVzDiE3LdJ4wZASA0=;
+        b=hVwzZq4xJkTgoRETvVQ8FBy/pc6w2gCdmX8SJhUn/0pSO65pZwlstbpIt19Sdxz7oW
+         0yV6rBR9jR8QhzyEAnmYyjH/Gdocv/zWxPZdoblJwYUnRK/4XU6z8g7dTYmeI1Mn4dIR
+         mM9xMCop2EwS4w3fhNN+q+GQbHlXP0SmLKMM8kIm6eyisBZKN+kly0o3xFEGxB2IWYIh
+         bMBB4ubom2gE38HO0XJ1xjzEfaaMDw8NSaAQVFtYI87dHbvzx9hcJ4JWHsHMfBjxU6Tf
+         hJB6Sijxvyoj22Eom3ycUd9IR5lGEocv5b1rfLjkzfbT9bDaJYh7mI1fsPac8rrnLi+F
+         VSkA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@sipsolutions.net header.s=mail header.b=C9g0Vqbd;
-       spf=pass (google.com: domain of johannes@sipsolutions.net designates 2a01:4f8:242:246e::2 as permitted sender) smtp.mailfrom=johannes@sipsolutions.net;
-       dmarc=pass (p=NONE sp=REJECT dis=NONE) header.from=sipsolutions.net
-Received: from sipsolutions.net (s3.sipsolutions.net. [2a01:4f8:242:246e::2])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-429898a0117si92756f8f.5.2025.10.24.01.38.08
+       dkim=pass header.i=@meta.com header.s=s2048-2025-q2 header.b=fnXo7b6r;
+       spf=pass (google.com: domain of prvs=63920b99c4=clm@meta.com designates 67.231.145.42 as permitted sender) smtp.mailfrom="prvs=63920b99c4=clm@meta.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=meta.com
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com. [67.231.145.42])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-2946deb9112si3318465ad.1.2025.10.24.07.05.44
+        for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Oct 2025 01:38:08 -0700 (PDT)
-Received-SPF: pass (google.com: domain of johannes@sipsolutions.net designates 2a01:4f8:242:246e::2 as permitted sender) client-ip=2a01:4f8:242:246e::2;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.98.2)
-	(envelope-from <johannes@sipsolutions.net>)
-	id 1vCDJ9-00000002PD9-0Qfp;
-	Fri, 24 Oct 2025 10:37:59 +0200
-Message-ID: <438ff89e22a815c81406c3c8761a951b0c7e6916.camel@sipsolutions.net>
-Subject: Re: [PATCH v2 0/10] KFuzzTest: a new kernel fuzzing framework
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Ethan Graham <ethan.w.s.graham@gmail.com>
-Cc: ethangraham@google.com, glider@google.com, andreyknvl@gmail.com, 
-	andy@kernel.org, brauner@kernel.org, brendan.higgins@linux.dev, 
-	davem@davemloft.net, davidgow@google.com, dhowells@redhat.com,
- dvyukov@google.com, 	elver@google.com, herbert@gondor.apana.org.au,
- ignat@cloudflare.com, jack@suse.cz, 	jannh@google.com,
- kasan-dev@googlegroups.com, kees@kernel.org, 	kunit-dev@googlegroups.com,
- linux-crypto@vger.kernel.org, 	linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, lukas@wunner.de, 	rmoar@google.com, shuah@kernel.org,
- sj@kernel.org, tarasmadan@google.com
-Date: Fri, 24 Oct 2025 10:37:57 +0200
-In-Reply-To: <CANgxf6xOJgP6254S8EgSdiivrfE-aJDEQbDdXzWi7K4BCTdrXg@mail.gmail.com> (sfid-20250925_103550_253525_F09A62BB)
-References: <20250919145750.3448393-1-ethan.w.s.graham@gmail.com>
-	 <3562eeeb276dc9cc5f3b238a3f597baebfa56bad.camel@sipsolutions.net>
-	 <CANgxf6xOJgP6254S8EgSdiivrfE-aJDEQbDdXzWi7K4BCTdrXg@mail.gmail.com>
-	 (sfid-20250925_103550_253525_F09A62BB)
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42)
+        Fri, 24 Oct 2025 07:05:44 -0700 (PDT)
+Received-SPF: pass (google.com: domain of prvs=63920b99c4=clm@meta.com designates 67.231.145.42 as permitted sender) client-ip=67.231.145.42;
+Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59O2USQQ1836938;
+	Fri, 24 Oct 2025 07:05:39 -0700
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4a00qr3619-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 24 Oct 2025 07:05:39 -0700 (PDT)
+Received: from devbig091.ldc1.facebook.com (2620:10d:c085:208::7cb7) by
+ mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.20; Fri, 24 Oct 2025 14:05:37 +0000
+From: "'Chris Mason' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+CC: Chris Mason <clm@meta.com>, Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Lameter <cl@gentwo.org>,
+        David Rientjes <rientjes@google.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Harry Yoo <harry.yoo@oracle.com>, Uladzislau Rezki <urezki@gmail.com>,
+        "Liam R. Howlett"
+	<Liam.Howlett@oracle.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        "Sebastian
+ Andrzej Siewior" <bigeasy@linutronix.de>,
+        Alexei Starovoitov
+	<ast@kernel.org>, <linux-mm@kvack.org>,
+        <linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
+        <bpf@vger.kernel.org>, <kasan-dev@googlegroups.com>
+Subject: Re: [PATCH RFC 07/19] slab: make percpu sheaves compatible with kmalloc_nolock()/kfree_nolock()
+Date: Fri, 24 Oct 2025 07:04:12 -0700
+Message-ID: <20251024140416.642903-1-clm@meta.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251023-sheaves-for-all-v1-7-6ffa2c9941c0@suse.cz>
+References: 
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
-X-Original-Sender: johannes@sipsolutions.net
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [2620:10d:c085:208::7cb7]
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI0MDEyNSBTYWx0ZWRfX/YulqWc9km6x
+ rZ9QcTf19ercfPCVy42mSwO7q320WyUffMX/ZOVV7/0+LFbBFHmAfk2Z1nHq59y7qfsbHdViGRD
+ io4nb8k8yiW8czQRYEwRQEohNhFCUEl4NRmZCYsgFJZlRxj1PtPgWgZzuVIHIIhPct9t2Wfu13D
+ SLHDI/8l3xJYV14IBIkFzMZH2jMjSo9AdnQtxANe+GN3UolHaVOk7d0MrciDj2ba98RBSEmnLzO
+ kdTPYGW/hzVqoNvRfKQibEWBbPQz4XKL0KqpaA61zheqxCgwbjLC/NI+Q6G3Ayt2KkYvzXNpdE0
+ FNU6tWhrKW6R4RJlXT9SFRQZnB8ZN5hzY5AQz5eKeJWqoWxcu69Fpr1LA7wONxXD7eMaFZm2vNM
+ KjiYAhsQxFDrI5BZx4kLTH5W8/mBsA==
+X-Authority-Analysis: v=2.4 cv=YfWwJgRf c=1 sm=1 tr=0 ts=68fb87b3 cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=y43Pqs-daWJVC1BrHOAA:9
+ a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-GUID: ypt68hrsJxSCnWKUb2JArGmMBobBfU89
+X-Proofpoint-ORIG-GUID: ypt68hrsJxSCnWKUb2JArGmMBobBfU89
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-24_02,2025-10-22_01,2025-03-28_01
+X-Original-Sender: clm@meta.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@sipsolutions.net header.s=mail header.b=C9g0Vqbd;       spf=pass
- (google.com: domain of johannes@sipsolutions.net designates
- 2a01:4f8:242:246e::2 as permitted sender) smtp.mailfrom=johannes@sipsolutions.net;
-       dmarc=pass (p=NONE sp=REJECT dis=NONE) header.from=sipsolutions.net
+ header.i=@meta.com header.s=s2048-2025-q2 header.b=fnXo7b6r;       spf=pass
+ (google.com: domain of prvs=63920b99c4=clm@meta.com designates 67.231.145.42
+ as permitted sender) smtp.mailfrom="prvs=63920b99c4=clm@meta.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=meta.com
+X-Original-From: Chris Mason <clm@meta.com>
+Reply-To: Chris Mason <clm@meta.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -151,176 +175,134 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Ethan, all,
+On Thu, 23 Oct 2025 15:52:29 +0200 Vlastimil Babka <vbabka@suse.cz> wrote:
 
-Sorry, my=C2=A0current foray into fuzzing got preempted by other things ...
+> Before we enable percpu sheaves for kmalloc caches, we need to make sure
+> kmalloc_nolock() and kfree_nolock() will continue working properly and
+> not spin when not allowed to.
+> 
+> Percpu sheaves themselves use local_trylock() so they are already
+> compatible. We just need to be careful with the barn->lock spin_lock.
+> Pass a new allow_spin parameter where necessary to use
+> spin_trylock_irqsave().
+> 
+> In kmalloc_nolock_noprof() we can now attempt alloc_from_pcs() safely,
+> for now it will always fail until we enable sheaves for kmalloc caches
+> next. Similarly in kfree_nolock() we can attempt free_to_pcs().
+>
 
-> > So ... I guess I understand the motivation to make this easy for
-> > developers, but I'm not sure I'm happy to have all of this effectively
-> > depend on syzkaller.
->=20
-> I would argue that it only depends on syzkaller because it is currently
-> the only fuzzer that implements support for KFuzzTest. The communication
-> interface itself is agnostic.
+Hi Vlastimil,
 
-Yeah I can see how you could argue that. However, syzkaller is also
-effectively the only fuzzer now that supports what you later call "smart
-input generation", and adding it to any other fuzzer is really not
-straight-forward, at least to me. No other fuzzer seems to really have
-felt a need to have this, and there are ... dozens?
+We're trying out the AI patch review automation on the BPF commits and it had
+some questions about a few of these.  Since the goal is to actually test the
+automation, I'm putting them in unedited, but I did try and make sure they
+were valid before sending.
 
-> > the record, and everyone else who might be reading, here's my
-> > understanding:
-> >=20
-> >  - the FUZZ_TEST() macro declares some magic in the Linux binary,
-> >    including the name of the struct that describes the necessary input
-> >=20
-> >  - there's a parser in syzkaller (and not really usable standalone) tha=
-t
-> >    can parse the vmlinux binary (and doesn't handle modules) and
-> >    generates descriptions for the input from it
-> >=20
-> >  - I _think_ that the bridge tool uses these descriptions, though the
-> >    example you have in the documentation just says "use this command fo=
-r
-> >    this test" and makes no representation as to how the first argument
-> >    to the bridge tool is created, it just appears out of thin air
->=20
-> syzkaller doesn't use the bridge tool at all.=C2=A0
+This one is a little verbose for s/NULL/ERR_PTR/ suggestions, but:
 
-Right.
+> diff --git a/mm/slub.c b/mm/slub.c
+> index ecb10ed5acfe..5d0b2cf66520 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
 
-> Since a KFuzzTest target is
-> invoked when you write encoded data into its debugfs input file, any
-> fuzzer that is able to do this is able to fuzz it - this is what syzkalle=
-r
-> does. The bridge tool was added to provide an out-of-the-box tool
-> for fuzzing KFuzzTest targets with arbitrary data that doesn't depend
-> on syzkaller at all.
+[ ... ]
 
-Yes, I understand, I guess it just feels a bit like a fig-leaf to me to
-paper over "you need syzkaller" because there's no way to really
-(efficiently) use it for fuzzing.
+> @@ -2990,7 +2998,8 @@ barn_replace_empty_sheaf(struct node_barn *barn, struct slab_sheaf *empty)
+>   * barn. But if there are too many full sheaves, reject this with -E2BIG.
+>   */
+>  static struct slab_sheaf *
+> -barn_replace_full_sheaf(struct node_barn *barn, struct slab_sheaf *full)
+> +barn_replace_full_sheaf(struct node_barn *barn, struct slab_sheaf *full,
+> +			bool allow_spin)
+>  {
+>  	struct slab_sheaf *empty;
+>  	unsigned long flags;
+> @@ -3001,7 +3010,10 @@ barn_replace_full_sheaf(struct node_barn *barn, struct slab_sheaf *full)
+>  	if (!data_race(barn->nr_empty))
+>  		return ERR_PTR(-ENOMEM);
+>
+> -	spin_lock_irqsave(&barn->lock, flags);
+> +	if (likely(allow_spin))
+> +		spin_lock_irqsave(&barn->lock, flags);
+> +	else if (!spin_trylock_irqsave(&barn->lock, flags))
+> +		return NULL;
 
-> In the provided examples, the kfuzztest-bridge descriptions were
-> hand-written, but it's also feasible to generate them with the ELF
-> metadata in vmlinux. It would be easy to implement support for
-> this in syzkaller, but then we would depend on an external tool
-> for autogenerating these descriptions which we wanted to avoid.
+barn_replace_full_sheaf() now returns NULL when the trylock fails, in
+addition to its existing ERR_PTR(-ENOMEM) and ERR_PTR(-E2BIG) returns.
 
-Oh, I get that you wouldn't necessarily want to have a dependency on
-syzkaller in the kernel example code, but in a sense my argument is that
-there's no such tool at all since syzkaller cannot output anything, and
-then you need to write all the descriptions by hand. Which is fine for
-an _example_ but really doesn't scale to actually running fuzzing.
+[ ... ]
 
-So then we're mostly back to "you need syzkaller to run fuzzing against
-this", which at least to me isn't a great situation.
+> @@ -6047,7 +6070,8 @@ static void __pcs_install_empty_sheaf(struct kmem_cache *s,
+>   * unlocked.
+>   */
+>  static struct slub_percpu_sheaves *
+> -__pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
+> +__pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
+> +			bool allow_spin)
+>  {
+>  	struct slab_sheaf *empty;
+>  	struct node_barn *barn;
+> @@ -6071,7 +6095,7 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
+>  	put_fail = false;
+>
+>  	if (!pcs->spare) {
+> -		empty = barn_get_empty_sheaf(barn);
+> +		empty = barn_get_empty_sheaf(barn, allow_spin);
+>  		if (empty) {
+>  			pcs->spare = pcs->main;
+>  			pcs->main = empty;
+> @@ -6085,7 +6109,7 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
+>  		return pcs;
+>  	}
+>
+> -	empty = barn_replace_full_sheaf(barn, pcs->main);
+> +	empty = barn_replace_full_sheaf(barn, pcs->main, allow_spin);
+>
+>  	if (!IS_ERR(empty)) {
+>  		stat(s, BARN_PUT);
+>  		pcs->main = empty;
+>  		return pcs;
+>  	}
 
-> >  - the bridge tool will then parse the description and use some random
-> >    data to create the serialised data that's deserialized in the kernel
-> >    and then passed to the test
->=20
-> This is exactly right. It's not used by syzkaller, but this is how it's
-> intended to work when it's used as a standalone tool, or for bridging
-> between KFuzzTest targets and an arbitrary fuzzer that doesn't
-> implement the required encoding logic.
+Can this set pcs->main to NULL? When allow_spin=false and the trylock
+fails, barn_replace_full_sheaf() returns NULL. Since !IS_ERR(NULL) is
+true, the code executes pcs->main = NULL and returns pcs. This violates
+the documented invariant that main is "never NULL when unlocked" (from
+struct slub_percpu_sheaves comment at mm/slub.c:481).
 
-Yeah I guess, but that still requires hand-coding the descriptions (or
-writing a separate parser), and notably doesn't work with a sort of in-
-process fuzzing I was envisioning for ARCH=3Dum. Which ought to be much
-faster, and even combinable with fork() as I alluded to in earlier
-emails.
+The caller free_to_pcs() then dereferences pcs->main->objects at
+mm/slub.c:6208, which would be a NULL pointer dereference:
 
-> > I was really hoping to integrate this with ARCH=3Dum and other fuzzers[=
-1],
-> > but ... I don't really think it's entirely feasible. I can basically
-> > only require hard-coding the input description like the bridge tool
-> > does, but that doesn't scale, or attempt to extract a few thousand line=
-s
-> > of code from syzkaller to extract the data...
->=20
-> I would argue that integrating with other fuzzers is feasible, but it doe=
-s
-> require some if not a lot of work depending on the level of support. syzk=
-aller
-> already did most of the heavy lifting with smart input generation and mut=
-ation
-> for kernel functions, so the changes needed for KFuzzTest were mainly:
->=20
-> - Dynamically discovering targets, but you could just as easily write a
->   syzkaller description for them.
-> - Encoding logic for the input format.
->=20
-> Assuming a fuzzer is able to generate C-struct inputs for a kernel functi=
-on,
-> the only further requirement is being able to encode the input and write
-> it into the debugfs input file. The ELF data extraction is a nice-to-have
-> for sure, but it's not a strict requirement.
+    pcs->main->objects[pcs->main->size++] = object;
 
-I mean, yeah, I guess but ... Is there a fuzzer that is able generate
-such input? I haven't seen one. And running the bridge tool separately
-is going to be rather expensive (vs. in-process like I'm thinking
-about), and some form of data extraction is needed to make this scale at
-all.
+The execution path is:
+1. kfree_nolock() calls free_to_pcs() with allow_spin=false
+2. free_to_pcs() calls __pcs_replace_full_main() with allow_spin=false
+3. pcs->spare exists and is full (size == s->sheaf_capacity)
+4. barn_replace_full_sheaf() trylock fails, returns NULL
+5. !IS_ERR(NULL) = true, so pcs->main = NULL is executed
+6. __pcs_replace_full_main() returns pcs with NULL main
+7. free_to_pcs() dereferences pcs->main->objects causing NULL deref
 
-Sure, I can do it all manually for a single test, but is it really a
-good idea that syzkaller is the only thing that could possibly run this
-at scale?
+Should the check be if (empty && !IS_ERR(empty)) to properly handle the
+new NULL return case?
 
-> > I guess the biggest question to me is ultimately why all that is
-> > necessary? Right now, there's only the single example kfuzztest that
-> > even uses this infrastructure beyond a single linear buffer [2]. Where
-> > is all that complexity even worth it? It's expressly intended for
-> > simpler pieces of code that parse something ("data parsers, format
-> > converters").
->=20
-> You're right that the provided examples don't leverage the feature of
-> being able to pass more complex nested data into the kernel. Perhaps
-> for a future iteration, it might be worth adding a target for a function
-> that takes more complex input. What do you think?
+> @@ -6093,6 +6117,11 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
+>  		return pcs;
+>  	}
+>
+> +	if (!allow_spin) {
+> +		local_unlock(&s->cpu_sheaves->lock);
+> +		return NULL;
+> +	}
 
-Well, I guess my thought is that there isn't actually going to be a good
-example that really _requires_ all this flexibility. We're going to want
-to test (mostly?) functions that consume untrusted data, but untrusted
-data tends to come in the form of a linear blob, via the network, from a
-file, from userspace, etc. Pretty much only the syscall boundary has
-highly structured untrusted data, but syzkaller already fuzzes that and
-we're not likely to write special kfuzztests for syscalls?
+This check is never reached when barn_replace_full_sheaf() returns NULL,
+because the early return at the !IS_ERR(empty) check above executes first.
 
-> I'm not sure how much of the kernel complexity really could be reduced
-> if we decided to support only simpler inputs (e.g., linear buffers).
-> It would certainly simplify the fuzzer implementation, but the kernel
-> code would likely be similar if not the same.
+[ ... ]
 
-Well, you wouldn't need the whole custom serialization format and
-deserialization code for a start, nor the linker changes around
-KFUZZTEST_TABLE since run-time discovery would likely be sufficient,
-though of course those are trivial. And the deserialization is almost
-half of the overall infrastructure code?
 
-Anyway, I don't really know what to do. Maybe this has even landed by
-now ;-) I certainly would've preferred something that was easier to use
-with other fuzzers and in-process fuzzing in ARCH=3Dum, but then that'd
-now mean I need to plug it in at a completely different level, or write
-a DWARF parser and serializer if I don't want to have to hand-code each
-target.
-
-I really do want to do fuzz testing on wifi, but with kfuzztest it
-basically means I rely on syzbot to actually run it or have to run
-syzkaller myself, rather than being able to integrate it with other
-fuzzers say in ARCH=3Dum. Personally, I think it'd be worthwhile to have
-that, but I don't see how to integrate it well with this infrastructure.
-
-Also, more generally, it seems unlikely that _anyone_ would ever do
-this, and then it's basically only syzbot that will ever run it.
-
-johannes
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/4=
-38ff89e22a815c81406c3c8761a951b0c7e6916.camel%40sipsolutions.net.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251024140416.642903-1-clm%40meta.com.
