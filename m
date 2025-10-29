@@ -1,240 +1,124 @@
-Return-Path: <kasan-dev+bncBDXYDPH3S4OBBZFFRHEAMGQEDIHNMUI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBCOLRHEAMGQES3TL5JY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x237.google.com (mail-lj1-x237.google.com [IPv6:2a00:1450:4864:20::237])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49EE3C1C8DA
-	for <lists+kasan-dev@lfdr.de>; Wed, 29 Oct 2025 18:46:14 +0100 (CET)
-Received: by mail-lj1-x237.google.com with SMTP id 38308e7fff4ca-37a0a95ab61sf682331fa.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 29 Oct 2025 10:46:14 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1761759973; cv=pass;
+Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8113FC1CE2A
+	for <lists+kasan-dev@lfdr.de>; Wed, 29 Oct 2025 20:05:47 +0100 (CET)
+Received: by mail-lj1-x23e.google.com with SMTP id 38308e7fff4ca-37a0cc22ec1sf540221fa.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 29 Oct 2025 12:05:47 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1761764747; cv=pass;
         d=google.com; s=arc-20240605;
-        b=CQz+Tj9Ixo1Br3t9g0Ndc2hMNmOeHglknybzwViu+3eUX3LauzB0PVvex6gOSJW1gv
-         OLlQtCoUmLrzS3atryAhu4OW6LQ8r5WhnAGArDQ1pP6dH3Rh95p7EYXr997Low92Y44d
-         XHbTNbQbSKiSCKnPKk5zZkdGVisXkzO2s8DfGbHh+o4S1rj8hXOj/Ih1rdmB0UcxAkPk
-         lCLv/GLP000KXBA4xZIQXdQKVEXsbvahfexZ+S1vSNEheAO25uTQxABsLtr4zP0NBYLN
-         ksjH6DWK08DghrWkDgdZkz+kvY9nMhOK0ZBF9t1Z7dwlk3Dl+VWBLZyPkmvTQojgbAGG
-         xAaw==
+        b=OvURL0VcH6758O48tGAAnblTyc6fudJowIaaUzXcG9SKaAf3IW4IGld475zzcwU8ww
+         YoVMovyPWg1D47ovqdNGQWvJFAsYVFvvs9EatucSnEydKWTmKVGZuF1e9QX7gU5UfQMf
+         gUPc7IQqRLKrI17qwW/BLtl30uVDc2iWauy/6hO1iQbEI9ijmo2w1lY/7N4bPyVXHPrc
+         EAGZH4mruvtqRP0dIRk9ufRJ8NK8KB3sKUunoeo3fD9bJ58ALb2gCOmM/r7k8Nyi8li2
+         izzu7NaqgLklzoR4Cv8cq0C0W355iz/jwre5IdaJFx1gnzXKG5zBWRw2Rbr1RCjIZcJj
+         igQA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :in-reply-to:autocrypt:from:references:cc:to:content-language
-         :subject:user-agent:mime-version:date:message-id:sender
-         :dkim-signature;
-        bh=/v88fmOb4PGk+nhSMZxHgJGvMCiVaDMqePSbMNSTuuQ=;
-        fh=TSuAvbwIJoasBfj3DnmoyumGr1JDG3dGiQzStpN2G88=;
-        b=DX1nSMhScDnCLztgbkV6A8XjFujUN7JzwFp6DWp7MKwI68DkQSjHSyHsDpBUBpxi13
-         mtOazoXM/2MedWFKHqYDspJP86cMy+B+/MtQ3wkUqtmVrN4VbsT891Cd9Ve+Blszfel7
-         P5KUGJtj0y/vfbX6thtgb92vnEmmJM+iMF+N5seyCTyZeh6crElZD98Vh0VTInizHbIO
-         L7L7WesWs643ImU+LRMgxewG4BJy3DG2qUHvN1Qrr8gZ9clH997Aq/T2R4DUMwlHUa7M
-         WSo0fprJBc4U7Sgwq/CJvE9QF+Yb+oBCEDfGjWeQ0XFOqzI0nRjHGMtwCcOWdpObCIB9
-         2lbQ==;
+         :list-id:mailing-list:precedence:reply-to:mime-version:feedback-id
+         :message-id:subject:cc:from:to:date:dkim-signature;
+        bh=27f5fJllVFFgZt85RxTZwbLQlVSICJbmQgqvkt5DIxI=;
+        fh=6ezWzJZwD6pvKrZiUP6uG0VTz7JqMoLWH1wJRsb5XiQ=;
+        b=FnXjjwUD2kT3djsAvie/3uy/pP4YI3A/pDVDz591/kQWYC9EsdOIrMRipkqCIAr1FR
+         takP6gkYurysjCG2IR9tgxwEfS7hpsuRQ/ndvUiVWpFJUe5DlwPV+WeUiUSi5sGK0HHi
+         bzEzJWlOjwvBJpze8I4NDSJBHgN924nixf9oTmTSSOG1ru073x8WNAfnTO1oXM0RsZIT
+         mPfrnHl8IxlIvWeuWUQsiKyeMhT4bFLvIgs0IVPLsUB/fZnj4pljr3U9kfFSYcuRc6+n
+         OGeZbx0yw/zZhLeaLx0EYSH2GWavKi7niv70zUDkfetZHWGOyavJvy7GII6Xfq7CbkL8
+         FApA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="Y0vqg8o/";
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=KxFlbH0u;
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       dkim=pass header.i=@pm.me header.s=protonmail3 header.b=AOyiR+rx;
+       spf=pass (google.com: domain of m.wieczorretman@pm.me designates 185.70.43.16 as permitted sender) smtp.mailfrom=m.wieczorretman@pm.me;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=pm.me
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1761759973; x=1762364773; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1761764747; x=1762369547; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:in-reply-to:autocrypt
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/v88fmOb4PGk+nhSMZxHgJGvMCiVaDMqePSbMNSTuuQ=;
-        b=lhO7TbyIdQrJPoOqOYjAm9yJQIxP0o1KsIvacCOn2XMQctERLpTUYgElZinBSr88cT
-         JzFd8HhvMs9uRlR0Ql/bI9Bc2Fq0S/h6KKs9gM5FCF6Q7EtrD6zQAXC+CsLglsnsEJul
-         Jt5z3hz62TufGqYazqml9W7i+EmfAOi7AOR0vdUO49oLwBTms/4pTzN5tYlVoxoBB53N
-         A2rTFYWvQKUWeZsB2QgMEokv+CW7L2zNh1JLDNXrXh7OFSqFznAksVXOQMEdG/+iG+wU
-         otAUcOQaA6LS1WFldo6HaqBxmrt85KCclUMJGL0rY6DkypCDHnqq1JQ5qOj/wVMp25PM
-         KiNg==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :feedback-id:message-id:subject:cc:from:to:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=27f5fJllVFFgZt85RxTZwbLQlVSICJbmQgqvkt5DIxI=;
+        b=LP4g0NUuxL81zmyodwxDI/tFlRkMGoQUAlC6alzLT9Ff69YijofhzROzGJmn/kkI0G
+         WiqBoQaDLif/oIlgYilPkgdvlHHKbKD6NUhYvjbUP1XdePb+RkD8PmU1c6ZYAXDwd6Kt
+         H2hsYzcK2iNnrl3wgCuSHor/3ID2RwzNmbNpEb+NFvvyhxtR7PxhXrk1wvozj9/4sbXB
+         sqm8umlkBkO9y7n3LGu0+dp2rVqxGCGvtry6TcEhm1M0zLDoGEHO4nEMkltUeYKejlie
+         Tjg0CRP/uAUsguiXdNkv2yNxwfKwInUOEcPgdG45Htrhnx/09Mxykp6ieJPgamcBAm5a
+         z0tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761759973; x=1762364773;
+        d=1e100.net; s=20230601; t=1761764747; x=1762369547;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/v88fmOb4PGk+nhSMZxHgJGvMCiVaDMqePSbMNSTuuQ=;
-        b=hbnEfeqf5gemI1EyWHRHDBy55ocww4jThW7FaGQhxAWG4fvFgD2qSfMjjocBlpYX83
-         1HymhSYuKk+9PmTFo5ZF2zEpZocJ/wLMWSiG67PcUn/rsLbnWiJq/4EY6gz6z07viIai
-         ytU7fA7TBMYeZK9IYtVkajmB6D1qBaQOIeiUOCrmr/pARnnSGcwCMAA46484iqRoSbjs
-         76mIu5CQxeYBhP1RqMmFh6yKK8b01ZSGNbC7qnKJmhPuiu+/Jo+vB2ldZJGnqTIt1Hdd
-         Gq5mPzUVHP0215J722hOF3kSYsgAUkFuv91aA9lH1H6+d3VILYCugpfmNpK+NJodYTc2
-         xEow==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWkBw1kw3KqMRGcyljig2P6uRQSnUtBBUEAxLAFrwc1P6PRFnuoGnjWfBRZqKMBUmZNrxw6yw==@lfdr.de
-X-Gm-Message-State: AOJu0YzBdDRZnz27VaSmsLZPaKGRGP7nM0oP9/Nwd2MQylY7lr5m1Crz
-	+0UUFRTjpnlFgidf8MPDAP7eqwjTOCKKcreKT3Fxcw31ZLlz487l5qfp
-X-Google-Smtp-Source: AGHT+IFFOks6Xud1PZcMFi1YiiUP4OEZURupifmqX9xJA1dJNKqHejM+BFLWqqP/8XApUUFZM1RNog==
-X-Received: by 2002:a2e:a554:0:b0:378:ec14:f79d with SMTP id 38308e7fff4ca-37a023cc944mr9713201fa.22.1761759973107;
-        Wed, 29 Oct 2025 10:46:13 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+YkMdMsRxmSdoG8jttPh+0uteLxhxoryyirk9+Wfw4e/g=="
-Received: by 2002:a2e:3514:0:b0:338:4aa:556a with SMTP id 38308e7fff4ca-37a10a17737ls217151fa.0.-pod-prod-01-eu;
- Wed, 29 Oct 2025 10:46:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVlmEzvpwkzQiFJb31ha8ZK4//laztDt2cuqYk3k8MFXPMOpiQ+X1H4PZMKmfkBwNAhQ6qunz/c+Q4=@googlegroups.com
-X-Received: by 2002:a05:651c:509:b0:36b:b0eb:9d64 with SMTP id 38308e7fff4ca-37a023fc5c6mr13787891fa.30.1761759969828;
-        Wed, 29 Oct 2025 10:46:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1761759969; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :feedback-id:message-id:subject:cc:from:to:date:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=27f5fJllVFFgZt85RxTZwbLQlVSICJbmQgqvkt5DIxI=;
+        b=NzUThacpit37dHUHVKWAE9lQrRD4FCGzH6hMznx+dFhi5fdy4TTxVzyC2dRJ1BLXHt
+         UrceS+FE5LJ4RaBFYs5Q+OCk6I3e5GgNudWaTPI19pNr8N0LLukEbi7qFXGNayBzaRNZ
+         tIyVIFGwv0YV3hBH17Uw7Cq6JpRvfJlL8Rb4UahBKYOYcqOMmztqWnQDSZULMaXehiCK
+         a17jQj9klXnI0D1jz7AisHj+Esn276WyrBEwghn5cix0K3Ow62lnISftKVpCQi9RAjIn
+         NtPCwWO9g/qXrZgkIyU3FJAA4RP+eZd3wHhuXcwInpFk//TS1rmiBFjVvw9MInLbHhWm
+         9AVg==
+X-Forwarded-Encrypted: i=2; AJvYcCWzQf/fuqDqLDAv4yqHfUVtMdATHvCLWNnnbxG7pPPsOHGHqhh4vHGFCeChHWRH/6+CYXcf9Q==@lfdr.de
+X-Gm-Message-State: AOJu0YwE2j6mA88G3gBqdIIzmg3N926o5/YuF6uylgMJ7+/a1JyKlAj4
+	7TsK+RM7HMEisUpH9a0i19XksBEDHLnApi6PtzyQZCGS/u9AghmXoBGm
+X-Google-Smtp-Source: AGHT+IFGiL4uBaKHkvYPJZSHflx3udPImF0o5avslL1LNHjdP92PozXsb/t42heflfHETJO6nUHK2Q==
+X-Received: by 2002:a05:6512:3b07:b0:592:fd1e:6f8a with SMTP id 2adb3069b0e04-59416e679fdmr151864e87.6.1761764746378;
+        Wed, 29 Oct 2025 12:05:46 -0700 (PDT)
+X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+YG+S70JCrlyq2ama5j+wnJs0kBgdxUV5PWM7jZ9FZvcg=="
+Received: by 2002:ac2:5930:0:b0:55f:48d5:149d with SMTP id 2adb3069b0e04-59417655e17ls14214e87.2.-pod-prod-08-eu;
+ Wed, 29 Oct 2025 12:05:44 -0700 (PDT)
+X-Received: by 2002:a05:6512:3f1b:b0:591:eb05:c25c with SMTP id 2adb3069b0e04-59416e7dd30mr221225e87.17.1761764744050;
+        Wed, 29 Oct 2025 12:05:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1761764744; cv=none;
         d=google.com; s=arc-20240605;
-        b=jfzpnP3MOuL7soPE/w5pMg87c+JeNA9P241PdIVCc2Ae/GPukxYop+VdCiwc5ivJ3u
-         +kI+i03UThuNZJePkUP6UTSgPiRBVkwOMLZcuHraxYp3j2vWa8vpvR4agq7IUmAcfLFZ
-         FiFzc7P8iAxDYYZKpNdw3W0DTFKxTCLc2PobGgDLK1BFtjlDSo914ydmJcOAb7Hxq/UD
-         DtnWpolw6KsvLKDVZAjTd1EYR+OoSRn3GcAzRkrEQHLX4iKha0z/MlQbusDyRpWIc1tw
-         okCK1e4BIRDjJQQe9MRabVSwKrfpbOBg/swKRZu64dM1eFEStwJQX8TqoSwhyh/ROodU
-         F0Yg==
+        b=dtIKephBdriFMIOIJPKhqCQbDoyjVQOC/wSX+SMlOg2LUnLm9jDUA6Wx3m4dVJz/5B
+         oNtGOHSLlShI9Rtf0C2+XOojr5PZlLOOlLyJ45Fa5KS08Lpek9dHIQvfuucw4Ey0VoJh
+         D63J0tBnIb2kXDzOUJic1gUtpnjoNAFUJP7MiYDgJ87roa48/IHNnH7lG+ayTxXd0GXl
+         kCTfRBI5mIOOBVyXMoPuiw2zkwejpH0qfJI2fZ+LL5RRkvlaHLNdUBz3i8qMBD4FGwZL
+         YzLOuHGAVUZd7eSDfG3OgTx2FEtvk5mpVqYqk7mS27/kUzUx9MVwRVfv4e7tU2T6u8me
+         0Peg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :dkim-signature:dkim-signature:dkim-signature:dkim-signature;
-        bh=F0sZF9w7yuT5ed92au3G/YD+ry/VcKsoeWBjNEV7kJ8=;
-        fh=DeHBzlWLBuUz4lrF8r1FiD1LIVm9vx53xH2yAfKWBjc=;
-        b=Je5HW+pY56I6+RYfMnWA8dimU/gUyWkiU3apz2cW9Aa5J06GJRH65Ycd5jdWtXd+rT
-         9YABX8vzQ6YEj2NHU2vnhBLh8kNPs6bfEIe42iKl+lmehb8PepYs2lY2YHRNR4dimzVc
-         wb69TDgrdUxGZ4YCXLCQ6I2+xf/gmfPM9xbWJbXRsfu/IYBLDPoyVD4dhDRf/Ef1mhrM
-         lFxJJv8X3ntw09Pq742qlanpJCYIQTCTFDB3AEdD8uNMbq/m4pI+NO4J2eShRrXRKk0U
-         d49eY4fSYwN7nLRfNHBfQfyp74p5WmbifWtwg894OwVCv1v1rFqdbvBWNWujVR164LtJ
-         8hWw==;
+        h=content-transfer-encoding:mime-version:feedback-id:message-id
+         :subject:cc:from:to:date:dkim-signature;
+        bh=B6CFw+JSCNGBsZMvctblIxAviwt5E/Cc+YlSpcKbM2E=;
+        fh=F9cNJe7/uLron8lsbb2s7B83ncoMqIuz1w+0GaoUZzI=;
+        b=RqlxlQJ2qt5w81Weufyi9pa0WOqBuvhF7F+B5M3DiAmVTfsQkIiN9wmqKh3L8GRtgt
+         HUT1hP861Zz3WgrfQrP1olWHhMqLEyCWYS6633PY/h6CBCASM9XZMLtkoTT6E0fw6+LR
+         Pr3gkdscR2lv5h3MmKNWoULNTaflV0ce+hiorlIx+7G+aWQsNm/SGlQDo41wJy+s8wrz
+         84xis2xfqZ0qXIDgADKsBbHXDcAfQv8tWHifX1VBI0nnTenyUCFUelMCaWsYQVmZI27Z
+         hCKKREIsI0bVijoEU1AaZxeSG7DVswFUb4eu+PsdfXTsyernOX+N/RN4SBdyu6rfNWmv
+         Dh7A==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="Y0vqg8o/";
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=KxFlbH0u;
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.223.131])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-378f028287bsi2329521fa.7.2025.10.29.10.46.09
+       dkim=pass header.i=@pm.me header.s=protonmail3 header.b=AOyiR+rx;
+       spf=pass (google.com: domain of m.wieczorretman@pm.me designates 185.70.43.16 as permitted sender) smtp.mailfrom=m.wieczorretman@pm.me;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=pm.me
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch. [185.70.43.16])
+        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-5930276e7e7si276864e87.2.2025.10.29.12.05.43
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Oct 2025 10:46:09 -0700 (PDT)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.223.131 as permitted sender) client-ip=195.135.223.131;
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E93E85C054;
-	Wed, 29 Oct 2025 17:46:08 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BA1A61349D;
-	Wed, 29 Oct 2025 17:46:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id RUQaLeBSAmkkdwAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 29 Oct 2025 17:46:08 +0000
-Message-ID: <8a8271f1-a695-4eeb-9a98-3d6268ed0d45@suse.cz>
-Date: Wed, 29 Oct 2025 18:46:08 +0100
+        Wed, 29 Oct 2025 12:05:44 -0700 (PDT)
+Received-SPF: pass (google.com: domain of m.wieczorretman@pm.me designates 185.70.43.16 as permitted sender) client-ip=185.70.43.16;
+Date: Wed, 29 Oct 2025 19:05:27 +0000
+To: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, glider@google.com, mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com,
+	ardb@kernel.org, Liam.Howlett@oracle.com, nicolas.schier@linux.dev, ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, rppt@kernel.org, will@kernel.org, luto@kernel.org
+From: "'Maciej Wieczor-Retman' via kasan-dev" <kasan-dev@googlegroups.com>
+Cc: kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org, m.wieczorretman@pm.me
+Subject: [PATCH v6 00/18] kasan: x86: arm64: KASAN tag-based mode for x86
+Message-ID: <cover.1761763681.git.m.wieczorretman@pm.me>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: b23693d0cf530e4c8a53771e64b6fdea3be223c5
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 07/19] slab: make percpu sheaves compatible with
- kmalloc_nolock()/kfree_nolock()
-Content-Language: en-US
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
- Chris Mason <clm@meta.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>,
- Uladzislau Rezki <urezki@gmail.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Alexei Starovoitov <ast@kernel.org>, linux-mm <linux-mm@kvack.org>,
- LKML <linux-kernel@vger.kernel.org>, linux-rt-devel@lists.linux.dev,
- bpf <bpf@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>
-References: <20251023-sheaves-for-all-v1-0-6ffa2c9941c0@suse.cz>
- <20251023-sheaves-for-all-v1-7-6ffa2c9941c0@suse.cz>
- <CAADnVQLAFkYLLJbMjEyzEu=Q7aJSs19Ddb1qXqEWNnxm6=CDFg@mail.gmail.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <CAADnVQLAFkYLLJbMjEyzEu=Q7aJSs19Ddb1qXqEWNnxm6=CDFg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: E93E85C054
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FREEMAIL_TO(0.00)[gmail.com,meta.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[linux-foundation.org,gentwo.org,google.com,linux.dev,oracle.com,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Original-Sender: vbabka@suse.cz
+X-Original-Sender: m.wieczorretman@pm.me
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b="Y0vqg8o/";
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=KxFlbH0u;
-       dkim=neutral (no key) header.i=@suse.cz;       spf=pass (google.com:
- domain of vbabka@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+ header.i=@pm.me header.s=protonmail3 header.b=AOyiR+rx;       spf=pass
+ (google.com: domain of m.wieczorretman@pm.me designates 185.70.43.16 as
+ permitted sender) smtp.mailfrom=m.wieczorretman@pm.me;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=pm.me
+X-Original-From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+Reply-To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -247,159 +131,252 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 10/24/25 21:43, Alexei Starovoitov wrote:
-> On Thu, Oct 23, 2025 at 6:53=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> =
-wrote:
->>
->> Before we enable percpu sheaves for kmalloc caches, we need to make sure
->> kmalloc_nolock() and kfree_nolock() will continue working properly and
->> not spin when not allowed to.
->>
->> Percpu sheaves themselves use local_trylock() so they are already
->> compatible. We just need to be careful with the barn->lock spin_lock.
->> Pass a new allow_spin parameter where necessary to use
->> spin_trylock_irqsave().
->>
->> In kmalloc_nolock_noprof() we can now attempt alloc_from_pcs() safely,
->> for now it will always fail until we enable sheaves for kmalloc caches
->> next. Similarly in kfree_nolock() we can attempt free_to_pcs().
->>
->> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-...>> @@ -5720,6 +5735,13 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t
-gfp_flags, int node)
->>                  */
->>                 return NULL;
->>
->> +       ret =3D alloc_from_pcs(s, alloc_gfp, node);
->> +
->=20
-> I would remove the empty line here.
+======= Introduction
+The patchset aims to add a KASAN tag-based mode for the x86 architecture
+with the help of the new CPU feature called Linear Address Masking
+(LAM). Main improvement introduced by the series is 2x lower memory
+usage compared to KASAN's generic mode, the only currently available
+mode on x86. The tag based mode may also find errors that the generic
+mode couldn't because of differences in how these modes operate.
 
-Ack.
+======= How does KASAN' tag-based mode work?
+When enabled, memory accesses and allocations are augmented by the
+compiler during kernel compilation. Instrumentation functions are added
+to each memory allocation and each pointer dereference.
 
->> @@ -6093,6 +6117,11 @@ __pcs_replace_full_main(struct kmem_cache *s, str=
-uct slub_percpu_sheaves *pcs)
->>                 return pcs;
->>         }
->>
->> +       if (!allow_spin) {
->> +               local_unlock(&s->cpu_sheaves->lock);
->> +               return NULL;
->> +       }
->=20
-> and would add a comment here to elaborate that the next
-> steps like sheaf_flush_unused() and alloc_empty_sheaf()
-> cannot handle !allow_spin.
+The allocation related functions generate a random tag and save it in
+two places: in shadow memory that maps to the allocated memory, and in
+the top bits of the pointer that points to the allocated memory. Storing
+the tag in the top of the pointer is possible because of Top-Byte Ignore
+(TBI) on arm64 architecture and LAM on x86.
 
-Will do.
->> +
->>         if (PTR_ERR(empty) =3D=3D -E2BIG) {
->>                 /* Since we got here, spare exists and is full */
->>                 struct slab_sheaf *to_flush =3D pcs->spare;
->> @@ -6160,7 +6189,7 @@ __pcs_replace_full_main(struct kmem_cache *s, stru=
-ct slub_percpu_sheaves *pcs)
->>   * The object is expected to have passed slab_free_hook() already.
->>   */
->>  static __fastpath_inline
->> -bool free_to_pcs(struct kmem_cache *s, void *object)
->> +bool free_to_pcs(struct kmem_cache *s, void *object, bool allow_spin)
->>  {
->>         struct slub_percpu_sheaves *pcs;
->>
->> @@ -6171,7 +6200,7 @@ bool free_to_pcs(struct kmem_cache *s, void *objec=
-t)
->>
->>         if (unlikely(pcs->main->size =3D=3D s->sheaf_capacity)) {
->>
->> -               pcs =3D __pcs_replace_full_main(s, pcs);
->> +               pcs =3D __pcs_replace_full_main(s, pcs, allow_spin);
->>                 if (unlikely(!pcs))
->>                         return false;
->>         }
->> @@ -6278,7 +6307,7 @@ bool __kfree_rcu_sheaf(struct kmem_cache *s, void =
-*obj)
->>                         goto fail;
->>                 }
->>
->> -               empty =3D barn_get_empty_sheaf(barn);
->> +               empty =3D barn_get_empty_sheaf(barn, true);
->>
->>                 if (empty) {
->>                         pcs->rcu_free =3D empty;
->> @@ -6398,7 +6427,7 @@ static void free_to_pcs_bulk(struct kmem_cache *s,=
- size_t size, void **p)
->>                 goto no_empty;
->>
->>         if (!pcs->spare) {
->> -               empty =3D barn_get_empty_sheaf(barn);
->> +               empty =3D barn_get_empty_sheaf(barn, true);
->=20
-> I'm allergic to booleans in arguments. They make callsites
-> hard to read. Especially if there are multiple bools.
-> We have horrendous lines in the verifier that we still need
-> to clean up due to bools:
-> check_load_mem(env, insn, true, false, false, "atomic_load");
->=20
-> barn_get_empty_sheaf(barn, true); looks benign,
-> but I would still use enum { DONT_SPIN, ALLOW_SPIN }
-> and use that in all functions instead of 'bool allow_spin'.
+The access related functions are performing a comparison between the tag
+stored in the pointer and the one stored in shadow memory. If the tags
+don't match an out of bounds error must have occurred and so an error
+report is generated.
 
-I'll put it on the TODO list. But I think it's just following the pattern o=
-f
-what you did in all the work leading to kmalloc_nolock() :)
-And it's a single bool and for internal function with limited exposure, so
-might be an overkill. Will see.
+The general idea for the tag-based mode is very well explained in the
+series with the original implementation [1].
 
-> Aside from that I got worried that sheaves fast path
-> may be not optimized well by the compiler:
-> if (unlikely(pcs->main->size =3D=3D 0)) ...
-> object =3D pcs->main->objects[pcs->main->size - 1];
-> // object is accessed here
+[1] https://lore.kernel.org/all/cover.1544099024.git.andreyknvl@google.com/
 
-only by virt_to_folio() which takes a const void *x and is probably inlined
-anyway...
+======= Differences summary compared to the arm64 tag-based mode
+- Tag width:
+	- Tag width influences the chance of a tag mismatch due to two
+	  tags from different allocations having the same value. The
+	  bigger the possible range of tag values the lower the chance
+	  of that happening.
+	- Shortening the tag width from 8 bits to 4, while it can help
+	  with memory usage, it also increases the chance of not
+	  reporting an error. 4 bit tags have a ~7% chance of a tag
+	  mismatch.
 
-> pcs->main->size--;
->=20
-> since object may alias into pcs->main and the compiler
-> may be tempted to reload 'main'.
+- Address masking mechanism
+	- TBI in arm64 allows for storing metadata in the top 8 bits of
+	  the virtual address.
+	- LAM in x86 allows storing tags in bits [62:57] of the pointer.
+	  To maximize memory savings the tag width is reduced to bits
+	  [60:57].
 
-Interesting, it wouldn't have thought about the possibility.
+- Inline mode mismatch reporting
+	- Arm64 inserts a BRK instruction to pass metadata about a tag
+	  mismatch to the KASAN report.
+	- On x86 the INT3 instruction is used for the same purpose.
 
-> Looks like it's fine, since object point is not actually read or written.
+======= Testing
+Checked all the kunits for both software tags and generic KASAN after
+making changes.
 
-Wonder if it figures that out or just assumes it would be an undefined
-behavior (or would we need strict aliasing to allow the assumption?). But
-good to know it looks ok, thanks!
+In generic mode the results were:
 
-> gcc15 asm looks good:
->         movq    8(%rbx), %rdx   # _68->main, _69
->         movl    24(%rdx), %eax  # _69->size, _70
-> # ../mm/slub.c:5129:    if (unlikely(pcs->main->size =3D=3D 0)) {
->         testl   %eax, %eax      # _70
->         je      .L2076  #,
-> .L1953:
-> # ../mm/slub.c:5135:    object =3D pcs->main->objects[pcs->main->size - 1=
-];
->         leal    -1(%rax), %esi  #,
-> # ../mm/slub.c:5135:    object =3D pcs->main->objects[pcs->main->size - 1=
-];
->         movq    32(%rdx,%rsi,8), %rdi   # prephitmp_309->objects[_81], ob=
-ject
-> # ../mm/slub.c:5135:    object =3D pcs->main->objects[pcs->main->size - 1=
-];
->         movq    %rsi, %rax      #,
-> # ../mm/slub.c:5137:    if (unlikely(node_requested)) {
->         testb   %r15b, %r15b    # node_requested
->         jne     .L2077  #,
-> .L1954:
-> # ../mm/slub.c:5149:    pcs->main->size--;
->         movl    %eax, 24(%rdx)  # _81, prephitmp_30->size
+kasan: pass:59 fail:0 skip:13 total:72
+Totals: pass:59 fail:0 skip:13 total:72
+ok 1 kasan
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/8=
-a8271f1-a695-4eeb-9a98-3d6268ed0d45%40suse.cz.
+and for software tags:
+
+kasan: pass:63 fail:0 skip:9 total:72
+Totals: pass:63 fail:0 skip:9 total:72
+ok 1 kasan
+
+======= Benchmarks [1]
+All tests were ran on a Sierra Forest server platform. The only
+differences between the tests were kernel options:
+	- CONFIG_KASAN
+	- CONFIG_KASAN_GENERIC
+	- CONFIG_KASAN_SW_TAGS
+	- CONFIG_KASAN_INLINE [1]
+	- CONFIG_KASAN_OUTLINE
+
+Boot time (until login prompt):
+* 02:55 for clean kernel
+* 05:42 / 06:32 for generic KASAN (inline/outline)
+* 05:58 for tag-based KASAN (outline) [2]
+
+Total memory usage (512GB present on the system - MemAvailable just
+after boot):
+* 12.56 GB for clean kernel
+* 81.74 GB for generic KASAN
+* 44.39 GB for tag-based KASAN
+
+Kernel size:
+* 14 MB for clean kernel
+* 24.7 MB / 19.5 MB for generic KASAN (inline/outline)
+* 27.1 MB / 18.1 MB for tag-based KASAN (inline/outline)
+
+Work under load time comparison (compiling the mainline kernel) (200 cores):
+*  62s for clean kernel
+* 171s / 125s for generic KASAN (outline/inline)
+* 145s for tag-based KASAN (outline) [2]
+
+[1] Currently inline mode doesn't work on x86 due to things missing in
+the compiler. I have written a patch for clang that seems to fix the
+inline mode and I was able to boot and check that all patches regarding
+the inline mode work as expected. My hope is to post the patch to LLVM
+once this series is completed, and then make inline mode available in
+the kernel config.
+
+[2] While I was able to boot the inline tag-based kernel with my
+compiler changes in a simulated environment, due to toolchain
+difficulties I couldn't get it to boot on the machine I had access to.
+Also boot time results from the simulation seem too good to be true, and
+they're much too worse for the generic case to be believable. Therefore
+I'm posting only results from the physical server platform.
+
+======= Compilation
+Clang was used to compile the series (make LLVM=1) since gcc doesn't
+seem to have support for KASAN tag-based compiler instrumentation on
+x86.
+
+======= Dependencies
+The base branch for the series is the mainline kernel, tag 6.18-rc3.
+
+======= Previous versions
+v5: https://lore.kernel.org/all/cover.1756151769.git.maciej.wieczor-retman@intel.com/
+v4: https://lore.kernel.org/all/cover.1755004923.git.maciej.wieczor-retman@intel.com/
+v3: https://lore.kernel.org/all/cover.1743772053.git.maciej.wieczor-retman@intel.com/
+v2: https://lore.kernel.org/all/cover.1739866028.git.maciej.wieczor-retman@intel.com/
+v1: https://lore.kernel.org/all/cover.1738686764.git.maciej.wieczor-retman@intel.com/
+
+Changes v6:
+- Initialize sw-tags only when LAM is available.
+- Move inline mode to use UD1 instead of INT3
+- Remove inline multishot patch.
+- Fix the canonical check to work for user addresses too.
+- Revise patch names and messages to align to tip tree rules.
+- Fix vdso compilation issue.
+
+Changes v5:
+- Fix a bunch of arm64 compilation errors I didn't catch earlier.
+  Thank You Ada for testing the series!
+- Simplify the usage of the tag handling x86 functions (virt_to_page,
+  phys_addr etc.).
+- Remove within() and within_range() from the EXECMEM_ROX patch.
+
+Changes v4:
+- Revert x86 kasan_mem_to_shadow() scheme to the same on used in generic
+  KASAN. Keep the arithmetic shift idea for the KASAN in general since
+  it makes more sense for arm64 and in risc-v.
+- Fix inline mode but leave it unavailable until a complementary
+  compiler patch can be merged.
+- Apply Dave Hansen's comments on series formatting, patch style and
+  code simplifications.
+
+Changes v3:
+- Remove the runtime_const patch and setup a unified offset for both 5
+  and 4 paging levels.
+- Add a fix for inline mode on x86 tag-based KASAN. Add a handler for
+  int3 that is generated on inline tag mismatches.
+- Fix scripts/gdb/linux/kasan.py so the new signed mem_to_shadow() is
+  reflected there.
+- Fix Documentation/arch/arm64/kasan-offsets.sh to take new offsets into
+  account.
+- Made changes to the kasan_non_canonical_hook() according to upstream
+  discussion.
+- Remove patches 2 and 3 since they related to risc-v and this series
+  adds only x86 related things.
+- Reorder __tag_*() functions so they're before arch_kasan_*(). Remove
+  CONFIG_KASAN condition from __tag_set().
+
+Changes v2:
+- Split the series into one adding KASAN tag-based mode (this one) and
+  another one that adds the dense mode to KASAN (will post later).
+- Removed exporting kasan_poison() and used a wrapper instead in
+  kasan_init_64.c
+- Prepended series with 4 patches from the risc-v series and applied
+  review comments to the first patch as the rest already are reviewed.
+
+Maciej Wieczor-Retman (16):
+  kasan: Unpoison pcpu chunks with base address tag
+  kasan: Unpoison vms[area] addresses with a common tag
+  kasan: Fix inline mode for x86 tag-based mode
+  x86/kasan: Add arch specific kasan functions
+  kasan: arm64: x86: Make special tags arch specific
+  x86/mm: Reset tag for virtual to physical address conversions
+  mm/execmem: Untag addresses in EXECMEM_ROX related pointer arithmetic
+  x86/mm: Physical address comparisons in fill_p*d/pte
+  x86/kasan: KASAN raw shadow memory PTE init
+  x86/mm: LAM compatible non-canonical definition
+  x86/mm: LAM initialization
+  x86: Minimal SLAB alignment
+  x86/kasan: Handle UD1 for inline KASAN reports
+  arm64: Unify software tag-based KASAN inline recovery path
+  x86/kasan: Logical bit shift for kasan_mem_to_shadow
+  x86/kasan: Make software tag-based kasan available
+
+Samuel Holland (2):
+  kasan: sw_tags: Use arithmetic shift for shadow computation
+  kasan: sw_tags: Support tag widths less than 8 bits
+
+ Documentation/arch/arm64/kasan-offsets.sh |  8 ++-
+ Documentation/arch/x86/x86_64/mm.rst      |  6 +-
+ MAINTAINERS                               |  4 +-
+ arch/arm64/Kconfig                        | 10 ++--
+ arch/arm64/include/asm/kasan-tags.h       | 14 +++++
+ arch/arm64/include/asm/kasan.h            |  2 -
+ arch/arm64/include/asm/memory.h           | 14 ++++-
+ arch/arm64/include/asm/uaccess.h          |  1 +
+ arch/arm64/kernel/traps.c                 | 17 +-----
+ arch/arm64/mm/kasan_init.c                |  7 ++-
+ arch/x86/Kconfig                          |  4 ++
+ arch/x86/boot/compressed/misc.h           |  1 +
+ arch/x86/include/asm/bug.h                |  1 +
+ arch/x86/include/asm/cache.h              |  4 ++
+ arch/x86/include/asm/kasan-tags.h         |  9 +++
+ arch/x86/include/asm/kasan.h              | 73 ++++++++++++++++++++++-
+ arch/x86/include/asm/page.h               | 33 +++++++++-
+ arch/x86/include/asm/page_64.h            |  1 +
+ arch/x86/kernel/head_64.S                 |  3 +
+ arch/x86/kernel/traps.c                   |  8 +++
+ arch/x86/mm/Makefile                      |  2 +
+ arch/x86/mm/init.c                        |  3 +
+ arch/x86/mm/init_64.c                     | 11 ++--
+ arch/x86/mm/kasan_init_64.c               | 24 +++++++-
+ arch/x86/mm/kasan_inline.c                | 21 +++++++
+ arch/x86/mm/physaddr.c                    |  2 +
+ include/linux/kasan-tags.h                | 21 +++++--
+ include/linux/kasan.h                     | 46 ++++++++++++--
+ include/linux/mm.h                        |  6 +-
+ include/linux/page-flags-layout.h         |  9 +--
+ lib/Kconfig.kasan                         |  3 +-
+ mm/execmem.c                              |  2 +-
+ mm/kasan/report.c                         | 37 ++++++++++--
+ mm/kasan/tags.c                           | 19 ++++++
+ mm/vmalloc.c                              |  6 +-
+ scripts/Makefile.kasan                    |  3 +
+ scripts/gdb/linux/kasan.py                |  5 +-
+ scripts/gdb/linux/mm.py                   |  5 +-
+ 38 files changed, 370 insertions(+), 75 deletions(-)
+ mode change 100644 => 100755 Documentation/arch/arm64/kasan-offsets.sh
+ create mode 100644 arch/arm64/include/asm/kasan-tags.h
+ create mode 100644 arch/x86/include/asm/kasan-tags.h
+ create mode 100644 arch/x86/mm/kasan_inline.c
+
+-- 
+2.51.0
+
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/cover.1761763681.git.m.wieczorretman%40pm.me.
