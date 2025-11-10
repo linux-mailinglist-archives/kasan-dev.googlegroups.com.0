@@ -1,163 +1,228 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRB3NDZDEAMGQEFC3XAZQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBD53XBUFWQDBBG5JZDEAMGQEBOECPVQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43e.google.com (mail-pf1-x43e.google.com [IPv6:2607:f8b0:4864:20::43e])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2285C47EB1
-	for <lists+kasan-dev@lfdr.de>; Mon, 10 Nov 2025 17:25:19 +0100 (CET)
-Received: by mail-pf1-x43e.google.com with SMTP id d2e1a72fcca58-7aac981b333sf3088527b3a.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 10 Nov 2025 08:25:19 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1762791918; cv=pass;
+Received: from mail-io1-xd40.google.com (mail-io1-xd40.google.com [IPv6:2607:f8b0:4864:20::d40])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5516BC47F9E
+	for <lists+kasan-dev@lfdr.de>; Mon, 10 Nov 2025 17:36:45 +0100 (CET)
+Received: by mail-io1-xd40.google.com with SMTP id ca18e2360f4ac-9489a3f6e3dsf218792139f.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 10 Nov 2025 08:36:45 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1762792603; cv=pass;
         d=google.com; s=arc-20240605;
-        b=YlwH3cQLa4xKwL2sVoAbIjoGf1N7EdYumDG03QXdtBL5XgQmfNzk900I8lixqtBY/W
-         dPS4UmgGIukBzNoI2U3pnQGPkCE68wJTiq4TNXsL86VXT7JHSRAOerjgyVpp1XSDuAfK
-         wcIECzTA5AJV4PxnoqlJL1wcdkX/t/Q1XJoZ0BuOzND6DjvID+D9/1IsmQO00L7IE0UJ
-         l2UXBRcvnkqFCsb91v6IX3IauP9U4BflX2YQj9ziuOUNy9kAL9RUAxKgyuxAkRJFVm3C
-         ZZZ6i8hutca0Z3NC1A3QV5dh50n0EEygpLS1DlVTwXatfP861sDo4xFdafPQ3iBwTHXv
-         eCWg==
+        b=DAoWeQjKQ23d0Uu0WceUf1fxamjEyWLGXzSD9AGPI0m1pyRenRq/46xeHxLhyR9Zys
+         8UU/QaAZpBDoA3Gg2hToeY6zW3HOFEiBMh5mrA5JJaihEleaKtmcjn1yLB1kXL+xJfOW
+         ElURZ/1JE1eN3Nx3K50ceHMS8EvaUJf6bQcoaaCABjrk9APnQF/cWTftQySAYxy6lahc
+         KMf84DkGYcitegEncxkNFoorY7beEZQ2AzLzqUux8nP/O3Hm0w6H+meSBlTrSq3+YSyl
+         5X8p7s5W9xaA7Ymui8oIc7pNwdILKKYv2UR0swAzMZA1f4gwXRqsg1J/+mU5mxsGrE5E
+         tZng==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=rZ3JkfCZE1xceJc9OJ8zlA9rC8amrWq9H2xJVRe8rlg=;
-        fh=QpNXiugTaO/PrZmYAnQZOp8jyT4DWJmN6i6pCsBf+2E=;
-        b=MEV95BL1rLbLdvg+ydZVsj2GAWtjF1krllePUDwfQzC+l7C9b3JR1ZkhHngy8vWqbb
-         ibUVwsjcFlNaTVMJQ7w7XM8Kn+8SKyIgCvL4POsZv11bUeIZc0lCWtyx97m5C5o8qn2O
-         lBnEhVQ2AmEJ3Pza79C7kjPyhxZdJ3YumoncV3pqXMeP4QaspMBx3/Jh1YSXlixQ6Bhs
-         c9yAja3cndgMurMvzF6pPzXImWrG8Zu7P4apYrowVCLuMG13KGvmSytUCTVktjyOOcnp
-         Gy/DbdElbgBdTevJBb1HVQCuly0jnfhuWw7cM3RmeUw2M0B7FumqZX9HPdzAKxGkk+Sy
-         EYdQ==;
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :mime-version:message-id:date:subject:to:from:sender:dkim-signature
+         :dkim-signature;
+        bh=mR2l+oDtGKWlXW+pc4fasEFMcWsZ06l7vzxJn8UoiWk=;
+        fh=JFT9683AF1Gt5vYS6drTxGraqkjjRZyesr1+NPq2WV0=;
+        b=DHTmOfxJZQEig2s/btS1uNXMoU5On1eYeKij/lFpw28yruvG7ve9uLcmFBEKYfEt4R
+         dJwJN0NkOrJbRF2n1CXZBMp9l488Eyx2iHJ5RRyw7sbaAa1dfVHv7OeGK4q43zLtiHSi
+         /sRBygYHgvQRrg4eHtHRAcDkLLsVxfDK3XQE78pHTVH/L9/OQK3ikAw+JCHAElo6O+yv
+         CFApgr+M7muIvz/tHVIYEWZvkWgM1F5XRjhsWbbhwGPgfa+n6biJ0Csjm8VbNYSvWMk1
+         iHwMyCt4hnJvzcg6VM2ymAETn+oCR7uHmPWAE9MLpts+Tr+oxf/G5Ke5IM+lcEBdkt2B
+         quiA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=JDuecues;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f36 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b="ZeaMrS/9";
+       spf=pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::102e as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1762791918; x=1763396718; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1762792603; x=1763397403; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rZ3JkfCZE1xceJc9OJ8zlA9rC8amrWq9H2xJVRe8rlg=;
-        b=UbWFJqXYMH1SRhhdCWhy79d6eJ1KDA40OsAu52sHY0FFWTt1GAj8PDIMwt6Wsr1bTy
-         JgN3OiV4Ki51Mgt45lPCPQ76O5cQdxbnt+0Cua9Ae5CD+ZaHy3CEjdjZYCav8Z215RJD
-         Ahoenvs68tTbkNybuKz6q46AqjX2y4lzG/re+5ANwXVYKq4LInXYoL68W5kCZMsnqnVI
-         BtmqALy589Jh4thD9Yv52l3pMtRUlwXpmoMBcCbWENOw0rbqgnsVRdX7LiZcRo1ICti1
-         1ABSUOBMrCpV6gTgBBWJBTnMFfTQ8y8YCiw7aQaCK/+4JDkA67gj5Xo+TLKsq/2sfUVq
-         bSkg==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:mime-version:message-id
+         :date:subject:to:from:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mR2l+oDtGKWlXW+pc4fasEFMcWsZ06l7vzxJn8UoiWk=;
+        b=WaEMzW3L7ptl9avJyaLeC+tN5lbfddL7dYQ5H9+9XyoWEQg3woGItid2CbBsKmO/Ic
+         LzCQLjTxJAFE+R6mbD8yg5q58xVNzZk4D3LMZSP/WOO9dQCPmgAzNtC9ZS6kMVbIf8fp
+         4A5ezxQUrz56I2HuykmYXPzcstt3M0+G2dokm0A9BY1hsDzzjqAgmtTaTxYfsMr2Qwf2
+         UtC7x5jGHxXuggWXCO5kwTNNRpJJKlzVlPzSPf7OPIlw2jldzmMO5DBNuLBtUOBrFXE6
+         NlTmWOqzrKUrjdD0hR3O00gORo8zSdjV2kmL1eTb3LVh6XQLMl3IJZGAKMO7JFHeMS3Z
+         EAvg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762792603; x=1763397403; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:mime-version:message-id
+         :date:subject:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mR2l+oDtGKWlXW+pc4fasEFMcWsZ06l7vzxJn8UoiWk=;
+        b=BzTzpmTuVUEJV+QY72bygyGKSzbJKEx2VHjNJJ10wd5oW+xHVr4jQgtZSeX//YAIkE
+         vGrEkTt4itvUyfWzIdpL1uVuylEHU+ndyfgGPr1IbLVwghJ+ZT4y+P/j1wScFCJ9BPwJ
+         u7w5plqLIbVMX1eyz//GaXhe88wMvFXhX0iYe3nAj49R8+HzIMh/mWtpmEOt+/+Diqqi
+         J4FyzevGEBeA5LqvAMCvEYrAzWXUTjTcDXsI+pwNy3/xDazOGhCgPkB29g/SEuUUrJ4Z
+         37XDqxNx753B2qNCU1/1RMtmplVGLVMYWORCh9txWtsi8gXgoz6DKejTgNkepSop1+A1
+         y0WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762791918; x=1763396718;
+        d=1e100.net; s=20230601; t=1762792603; x=1763397403;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-beenthere
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rZ3JkfCZE1xceJc9OJ8zlA9rC8amrWq9H2xJVRe8rlg=;
-        b=U3yIA54kD2MHdq6vinxFIDzNaKx7E4U+kE6zirfORO+T7MqJjtxFxKVibPVy7+Hi03
-         sLqTPAccqdL9FA7zV6lD/pY8D4RoPoNFQfdt8LICVBChpQ59r0ND/we8rCX4w5gzcRBu
-         ui7LjginR4xVFDp6kJE/Et62Twma40SuT/Fbq5BIXbCZgYXQPGLEhckS9WkhN8mjtvmm
-         3kvkoS9z2QH1rk3QefDQXvMheDEvH/fwMq3iH4BWEr3aLN49uX9UaWiDCFDmi/n7POFB
-         FK2v72sii3X1uk2R+oAOT9SB3qn+eo+E1OybE/mAxNzSkAjzVOb5mdNRzBXSzwt/kxld
-         nLdg==
-X-Forwarded-Encrypted: i=2; AJvYcCVLorRliD3Yopaq0Mu1yug6kN2Xy6gjSN++MANqfPBxwdaACTiKv+UG9JBm9W8PkmLZEZR4sA==@lfdr.de
-X-Gm-Message-State: AOJu0YzpRF5Y2P+GhRywBGkL2ZFqRMIF8gwtfQKniVHnrzGpLbUY45RS
-	xdaR2fYJLUc/DJ2W7tEw1QgooNGzIfgJIvDMffEKNw0c/UnVHRJ0YZxp
-X-Google-Smtp-Source: AGHT+IEMcNVDUBuJ8Gmk07OVZwEBWB5kdorLowX1ZFx7uzsl6Tt+1pSlhAJKC7osXwR0VvQJik44QQ==
-X-Received: by 2002:a05:6a00:1883:b0:79a:fd01:dfa9 with SMTP id d2e1a72fcca58-7b225aec692mr11538245b3a.6.1762791918100;
-        Mon, 10 Nov 2025 08:25:18 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+ZeeqL+os/i7p3yYjFGnAOBX3WHhMLJEmJ60yhp8o5PIg=="
-Received: by 2002:aa7:990e:0:b0:7a4:b41c:6a93 with SMTP id d2e1a72fcca58-7af798ea9a0ls3864153b3a.0.-pod-prod-02-us;
- Mon, 10 Nov 2025 08:25:17 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUH2VviJFJCNdrF+Gqns+TqBLBBgPSN4UfJRzeq8lFAniW0lqhN3/GZwKIncLPfWVCbRRr3X5BoHdw=@googlegroups.com
-X-Received: by 2002:a05:6a00:1813:b0:7ab:4106:8508 with SMTP id d2e1a72fcca58-7b22727b3d2mr13816845b3a.28.1762791916700;
-        Mon, 10 Nov 2025 08:25:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1762791916; cv=none;
+         :content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mR2l+oDtGKWlXW+pc4fasEFMcWsZ06l7vzxJn8UoiWk=;
+        b=Y9rRu5z+E1MXZ7EM15wlWEdz9w2N0UI111HvwSvXSkh+VYhHADSNwlZ7gwmr3afiRK
+         Y7lLWmwNKR+hoUv1aeVfbIq5nVbWOAWcPxBpnwE8GNQdNF8JboLXfzWS9cMTkh1qZwNV
+         GMIW5jT2mMuHEEuhbQ6SQycZVAWkoC5N2eruD4M11vf6UYz1J6hq261S+DJzlXIiXMMy
+         OW30GiBWj8MuU7kJnYm5xMNjxkoDaNeFCt/CUjWAUV7DOSuxBq27DaJf4s9800sYFaUv
+         XKp3CfIazzqH/euuRHZp+ddJCLdGFVpyzgiUPphjQsRMqzl0ZUPjbkRw7oLEP678l02q
+         LhtA==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCUdmYrIF//wPZdxMqKVZoFYZvL8GA9W2h+ad9VmyKm/TQJ0MQljpZsiDFCyHhsR1vV/W2B8oA==@lfdr.de
+X-Gm-Message-State: AOJu0YyCtT8vW4FeMcPnlG6kj7c/p9/BT/8yutt7757y2438y6Z0U79O
+	k9VjdtykJWhhkzVYmL4p1FQTYRuRGunb0RZlIRqcLNUxNoy9i0+NMUPD
+X-Google-Smtp-Source: AGHT+IEbF3oV2EHDNBAUTRsdW+3TzbT96wT7YLcYn0WN/XRIS2DeiT0kmiUIIYAYWBLfEv7g9p8xNg==
+X-Received: by 2002:a05:6e02:3498:b0:433:7ad4:7394 with SMTP id e9e14a558f8ab-4337ad477d4mr69136715ab.20.1762792603426;
+        Mon, 10 Nov 2025 08:36:43 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+ZYTR9wC7N39oex4N1gKFYwJplkhV9STUvzqkCTHaEOVg=="
+Received: by 2002:a05:6e02:1a4c:b0:433:8a74:2890 with SMTP id
+ e9e14a558f8ab-4338a742ab7ls3501445ab.1.-pod-prod-05-us; Mon, 10 Nov 2025
+ 08:36:42 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCV2MOJSNtCUCHaWet9je/Hfygosp6ztVVzVtrncHqO9aVl6h+5CoDY1PpUjVvq3KwrGrFyEYvgqz/s=@googlegroups.com
+X-Received: by 2002:a05:6e02:b4b:b0:433:24d7:309b with SMTP id e9e14a558f8ab-43367dec4a4mr132443255ab.14.1762792602237;
+        Mon, 10 Nov 2025 08:36:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1762792602; cv=none;
         d=google.com; s=arc-20240605;
-        b=jAW1Aod4BevN656qA6o7kjBJ+YQpT0J+ca01CIE7AtXV/XpPKFAfyBa072/HICSpLA
-         4/cOt1KjJ3GNhGRrp+V1z/MWTJQjsNvkjf+EoM7uDSDpxJKT2lYFyF0BtewicQxjItaq
-         yH2PH2CAn0HYEZYhyphaYimeV42GmJ06AKJ9fNsTg9toL+kJwimmvrFzBGOdVlsFhG0g
-         WhA+KBP3l66cz1QXre4/jMPT/0mAoTCFhndbSo5MiCZb9yEneeXRh2H+DWspBGSiuMUI
-         PDdhwrUHO8O6KQAFXt+y55oXWqtfqv+5qiy9dYE2d5v5xSSSyEKV6J8cg2D415AoNhZk
-         jqsg==
+        b=gf34pSXZG+A64ZDySi9eRY83OiyJxHiD1pG0fXALeY+WJSGALhy3BOCM75vwl0LZoG
+         p1VkyQlQgvI2Gt+wjMr/0jwQrF3cA8m7mCy1+eXfDoDM0vVTQ9b4WKnWOjmoZfI1Ok9/
+         XTEX9rDhKGpeSYIuqGLSfLs07r9Wb4Vqg3FxltrLsYOx7tjjY9tyoeeZ9JgPWs46kJZY
+         y/17BNwA/tLKZn3nwxJCOZTOpUJaeq2zxEpn4ArxGYDT0BvAq4s+8wDCjPOPu7GbA3h9
+         JDlmBrmD9LiHK4oitriQaB42/trZcUsUeetic/1EP24yaIG+S0Rdqi3/F8LzAfqb8GMX
+         tuug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=c9SA+Oyt3urlxF8erNwoXRcqQ1B+Xtx2kUos6VgD610=;
-        fh=MgSxWee3OLHo6NMgsrmyAm9dkhFvI3E2BCbQ7RfuTV0=;
-        b=ftYU8ZCakDs3US5kNSk9jcrvKRr4tXI5J911l/lKn456peULShE4GwvH4190vJoYb6
-         Jolliqbkri9dYuOZ0LQNK2uSJAb1vYG49LBB80aKsT7s0z/qITHmsvRSo2BqV3e717Bh
-         hvmqoRZVwh+KFtJkhqetAn5dL1meLWTfXAUaeHFUrXGFiwPQ/XsVlw9rYoesAEUo2GFo
-         gV5d6d4UZcmcdsiCSt6A7qfkX8fvrGR0TpsLJ6Aolhm68ooNf7gjRf7d94lB5HTYREgm
-         Z3B+T0qHrLMGqBfDnjNF3OO91va+iKb3sOGLurRlstBdwvao8maw0KK/TIx3YGSDldR2
-         5a+Q==;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:dkim-signature;
+        bh=OmF3ZiRo+z3/MUzNtC1wwNg9IEmuUusZSisJNz5BISs=;
+        fh=4Im/zVsClL5vNsOVNxL13JxKQeQXiGkzUi6i74ouZfA=;
+        b=cZF0i7oqv5tZL/95MvMT9WNF3mxYrMsLmwuQeKGFvSxwieaascj2ntKvs4VERuVimt
+         zwwm6TMkU4F4PCwVrJYSEge8ESkAF1NCkCA0S+m26Zqi88OgJHA8BB28TT6+nTTjH2ox
+         DnmYvjgR/Bh3mZ7yOsUb1lOuSYxc8kPRE8uw7hHWdIvAAk+S3VDB8WulWeDEfIGthkIa
+         XnEMksYp+ye+8DyzpAbeZYPNgzK2uSIg8cTic7DnNvgslBOjlJtjqP1plSLgLnMCA51q
+         jI5Ij8041ls0znziT9On3L9wdTa6ZPiT0P76VeftjDX51V/RQVtWd6yfHUdNUjYBwVe0
+         TVlQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=JDuecues;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f36 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b="ZeaMrS/9";
+       spf=pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::102e as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com. [2607:f8b0:4864:20::f36])
-        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-7b0cb49dca9si404135b3a.4.2025.11.10.08.25.16
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com. [2607:f8b0:4864:20::102e])
+        by gmr-mx.google.com with ESMTPS id e9e14a558f8ab-433797053e9si5119965ab.0.2025.11.10.08.36.42
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Nov 2025 08:25:16 -0800 (PST)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f36 as permitted sender) client-ip=2607:f8b0:4864:20::f36;
-Received: by mail-qv1-xf36.google.com with SMTP id 6a1803df08f44-88246676008so18372886d6.3
-        for <kasan-dev@googlegroups.com>; Mon, 10 Nov 2025 08:25:16 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVnkx6nMM74WbHa80XJ9nD5xaiAkQh6FeFAd0mqMY0LgoqJLygZ4o5T1NxOqpLpp3970y4cpO4OEYM=@googlegroups.com
-X-Gm-Gg: ASbGnctan3Lz86y2Ks/GTaHM0Bh/65lkNUjJ0S6qmECRsXyxQbRLFpB/xkdTAe/098R
-	yd9dQiDoH9hLJp6fnKiU38TxpwsVbw6GLg6xUUxvRNsciYI/tzLZPGclPcGgFY8VpCra5HBURvA
-	TkP3bw4Dc/BVVdIW+9iT4zWNoNUGWBBkZXxT1amm2qwykw4UcBM+0Uj3lofUCa54C9B03PfKfjT
-	oTrb0WnIV91WuN3Bh/gOINfW7Z6fmqV5WaL+jWd1pS3CLZIRNib7jPxQwS1dPQEZFz+AqH0rsqM
-	LEpgxiWSFRWGAHc=
-X-Received: by 2002:a05:6214:600f:b0:882:4987:360 with SMTP id
- 6a1803df08f44-882498705a3mr75490586d6.62.1762791915502; Mon, 10 Nov 2025
- 08:25:15 -0800 (PST)
+        Mon, 10 Nov 2025 08:36:42 -0800 (PST)
+Received-SPF: pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::102e as permitted sender) client-ip=2607:f8b0:4864:20::102e;
+Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-3439e1b6f72so1141698a91.2
+        for <kasan-dev@googlegroups.com>; Mon, 10 Nov 2025 08:36:42 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWexXDOVVU4Rl/vkbxkRG/9NEeY24nVMus8kKMuoPp0blLJloVmDRNYlxPf6HCYuMAdiCKBEWPd12k=@googlegroups.com
+X-Gm-Gg: ASbGncsAGgs4jA3rJ87jk9MIewtakE8Wr64bm5ML5EgvJyT4ynB44QGNluRMn/y1SzG
+	PnivEh9T5GKnN4WfwPARPK2hd3gPQMXjHu/wj2qaj8LWesSYvBC8yZifLCNQX7vz4jYiQWmNPxA
+	LaPQKFRUgOVYetkxvKnPFJA09j+SyBG34SZ3QbN1oUtayeiCNbhsLTTnJNI6mw0uWJPHgcutlFg
+	lS8hzK2vr/yg+dkUzneh9/0R2zY8HBekH3T3bAo7oquyeSZP16//K53CK4C76prhdMxNKMWMubz
+	FbcomelqnML28l73ok/hOYPSQqW1Sx1a5BPEYygMaqdYK/D0gQx490H6t4h3VjwQwd0j+XktIlk
+	5oTPaVpEsYuK0Mr+pboOnW+xtVySmH0ioH9ceFGA5kttTzx19RsnfzC6Sf6mLfJcasbv2j3KtNd
+	MHUS8xb77oBTQ=
+X-Received: by 2002:a17:90b:2d0d:b0:340:bfcd:6af8 with SMTP id 98e67ed59e1d1-3436cb73a21mr10515621a91.4.1762792601393;
+        Mon, 10 Nov 2025 08:36:41 -0800 (PST)
+Received: from localhost ([103.88.46.62])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ba8faf1dc06sm13055990a12.16.2025.11.10.08.36.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Nov 2025 08:36:40 -0800 (PST)
+From: Jinchao Wang <wangjinchao600@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Marco Elver <elver@google.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Ben Segall <bsegall@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Hildenbrand <david@redhat.com>,
+	David Kaplan <david.kaplan@amd.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Ian Rogers <irogers@google.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	James Clark <james.clark@linaro.org>,
+	Jinchao Wang <wangjinchao600@gmail.com>,
+	Jinjie Ruan <ruanjinjie@huawei.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Justin Stitt <justinstitt@google.com>,
+	kasan-dev@googlegroups.com,
+	Kees Cook <kees@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	"Liang Kan" <kan.liang@linux.intel.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-perf-users@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Michal Hocko <mhocko@suse.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nam Cao <namcao@linutronix.de>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Naveen N Rao <naveen@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Rong Xu <xur@google.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Will Deacon <will@kernel.org>,
+	workflows@vger.kernel.org,
+	x86@kernel.org
+Subject: [PATCH v8 00/27] mm/ksw: Introduce KStackWatch debugging tool
+Date: Tue, 11 Nov 2025 00:35:55 +0800
+Message-ID: <20251110163634.3686676-1-wangjinchao600@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <cover.1761763681.git.m.wieczorretman@pm.me> <da6cee1f1e596da12ef6e57202c26ec802f7528a.1761763681.git.m.wieczorretman@pm.me>
-In-Reply-To: <da6cee1f1e596da12ef6e57202c26ec802f7528a.1761763681.git.m.wieczorretman@pm.me>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 10 Nov 2025 17:24:38 +0100
-X-Gm-Features: AWmQ_blSpUzzxuUgQTtcq9gjImncZd1NpVlVJACeWgHgjGc0p5BSkakhSm40GYM
-Message-ID: <CAG_fn=Ut9JUpStLiO+GsoBpn3d_EyyttcuBby=EKzuxkKdcKcw@mail.gmail.com>
-Subject: Re: [PATCH v6 10/18] x86/mm: Physical address comparisons in fill_p*d/pte
-To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, 
-	kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, 
-	ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, 
-	morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, 
-	baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, 
-	wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, 
-	fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, 
-	ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, 
-	brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, 
-	mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, 
-	thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, 
-	jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, 
-	mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, 
-	vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com, 
-	ardb@kernel.org, Liam.Howlett@oracle.com, nicolas.schier@linux.dev, 
-	ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, 
-	broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, 
-	maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, 
-	rppt@kernel.org, will@kernel.org, luto@kernel.org, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, 
-	llvm@lists.linux.dev, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: glider@google.com
+X-Original-Sender: wangjinchao600@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=JDuecues;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f36 as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@gmail.com header.s=20230601 header.b="ZeaMrS/9";       spf=pass
+ (google.com: domain of wangjinchao600@gmail.com designates
+ 2607:f8b0:4864:20::102e as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -170,54 +235,315 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Oct 29, 2025 at 9:07=E2=80=AFPM Maciej Wieczor-Retman
-<m.wieczorretman@pm.me> wrote:
->
-> From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
->
-> Calculating page offset returns a pointer without a tag. When comparing
-> the calculated offset to a tagged page pointer an error is raised
-> because they are not equal.
->
-> Change pointer comparisons to physical address comparisons as to avoid
-> issues with tagged pointers that pointer arithmetic would create. Open
-> code pte_offset_kernel(), pmd_offset(), pud_offset() and p4d_offset().
-> Because one parameter is always zero and the rest of the function
-> insides are enclosed inside __va(), removing that layer lowers the
-> complexity of final assembly.
->
-> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-> ---
-> Changelog v2:
-> - Open code *_offset() to avoid it's internal __va().
->
->  arch/x86/mm/init_64.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
->
-> diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
-> index 0e4270e20fad..2d79fc0cf391 100644
-> --- a/arch/x86/mm/init_64.c
-> +++ b/arch/x86/mm/init_64.c
-> @@ -269,7 +269,10 @@ static p4d_t *fill_p4d(pgd_t *pgd, unsigned long vad=
-dr)
->         if (pgd_none(*pgd)) {
->                 p4d_t *p4d =3D (p4d_t *)spp_getpage();
->                 pgd_populate(&init_mm, pgd, p4d);
-> -               if (p4d !=3D p4d_offset(pgd, 0))
-> +
-> +               if (__pa(p4d) !=3D (pgtable_l5_enabled() ?
-> +                                 __pa(pgd) :
-> +                                 (unsigned long)pgd_val(*pgd) & PTE_PFN_=
-MASK))
+Earlier this year, I debugged a stack corruption panic that revealed the
+limitations of existing debugging tools. The bug persisted for 739 days
+before being fixed (CVE-2025-22036), and my reproduction scenario
+differed from the CVE report=E2=80=94highlighting how unpredictably these b=
+ugs
+manifest.
 
-Did you test with both 4- and 5-level paging?
-If I understand correctly, p4d and pgd are supposed to be the same
-under !pgtable_l5_enabled().
+The panic call trace:
+
+<4>[89318.486564]  <TASK>
+<4>[89318.486570]  dump_stack_lvl+0x48/0x70
+<4>[89318.486580]  dump_stack+0x10/0x20
+<4>[89318.486586]  panic+0x345/0x3a0
+<4>[89318.486596]  ? __blk_flush_plug+0x121/0x130
+<4>[89318.486603]  __stack_chk_fail+0x14/0x20
+<4>[89318.486612]  __blk_flush_plug+0x121/0x130
+...27 other frames omitted
+<4>[89318.486824]  ksys_read+0x6b/0xf0
+<4>[89318.486829]  __x64_sys_read+0x19/0x30
+<4>[89318.486834]  x64_sys_call+0x1ada/0x25c0
+<4>[89318.486840]  do_syscall_64+0x7f/0x180
+<4>[89318.486847]  ? exc_page_fault+0x94/0x1b0
+<4>[89318.486855]  entry_SYSCALL_64_after_hwframe+0x73/0x7b
+<4>[89318.486866]  </TASK>
+
+Initially, I enabled KASAN, but the bug did not reproduce. Reviewing the
+code in __blk_flush_plug(), I found it difficult to trace all logic
+paths due to indirect function calls through function pointers.
+
+I added canary-locating code to obtain the canary address and value,
+then inserted extensive debugging code to track canary modifications. I
+observed the canary being corrupted between two unrelated assignments,
+indicating corruption by another thread=E2=80=94a silent stack corruption b=
+ug.
+
+I then added hardware breakpoint (hwbp) code, but still failed to catch
+the corruption. After adding PID filters, function parameter filters,
+and depth filters, I discovered the corruption occurred in
+end_buffer_read_sync() via atomic_dec(&bh->b_count), where bh->b_count
+overlapped with __blk_flush_plug()'s canary address. Tracing the bh
+lifecycle revealed the root cause in exfat_get_block()=E2=80=94a function n=
+ot
+even present in the panic call trace.
+
+This bug was later assigned CVE-2025-22036
+(https://lore.kernel.org/all/2025041658-CVE-2025-22036-6469@gregkh/).
+The vulnerability was introduced in commit 11a347fb6cef (March 13, 2023)
+and fixed in commit 1bb7ff4204b6 (March 21, 2025)=E2=80=94persisting for 73=
+9
+days. Notably, my reproduction scenario differed significantly from that
+described in the CVE report, highlighting how these bugs manifest
+unpredictably across different workloads.
+
+This experience revealed how notoriously difficult stack corruption bugs
+are to debug: KASAN cannot reproduce them, call traces are misleading,
+and the actual culprit often lies outside the visible call chain. Manual
+instrumentation with hardware breakpoints and filters was effective but
+extremely time-consuming.
+
+This motivated KStackWatch: automating the debugging workflow I manually
+performed, making hardware breakpoint-based stack monitoring readily
+available to all kernel developers facing similar issues.
+
+KStackWatch is a lightweight debugging tool to detect kernel stack
+corruption in real time. It installs a hardware breakpoint (watchpoint)
+at a function's specified offset using kprobe.post_handler and removes
+it in fprobe.exit_handler. This covers the full execution window and
+reports corruption immediately with time, location, and a call stack.
+
+Beyond automating proven debugging workflows, KStackWatch incorporates
+robust engineering to handle complex scenarios like context switches,
+recursion, and concurrent execution, making it suitable for broad
+debugging use cases.
+
+## Key Features
+
+* Immediate and precise stack corruption detection
+* Support for multiple concurrent watchpoints with configurable limits
+* Lockless design, usable in any context
+* Depth filter for recursive calls
+* Low overhead of memory and CPU
+* Flexible debugfs configuration with key=3Dval syntax
+* Architecture support: x86_64 and arm64
+* Auto-canary detection to simplify configuration
+
+## Architecture Support
+
+KStackWatch currently supports x86_64 and arm64. The design is
+architecture-agnostic, requiring only:
+* Hardware breakpoint modification in atomic context
+
+Arm64 support required only ~20 lines of code(patch 18,19). Future ports
+to other architectures (e.g., riscv) should be straightforward for
+developers familiar with their hardware breakpoint implementations.
+
+## Performance Impact
+
+Runtime overhead was measured on Intel Core Ultra 5 125H @ 3 GHz running
+kernel 6.17, using test4 from patch 24:
+
+     Type                 |   Time (ns)  |  Cycles
+     -----------------------------------------------
+     entry with watch     |     10892    |   32620
+     entry without watch  |       159    |     466
+     exit  with watch     |     12541    |   37556
+     exit  without watch  |       124    |     369
+
+Comparation with other scenarios:
+
+Mode                        |  CPU Overhead (add)  |  Memory Overhead (add)
+----------------------------+----------------------+-----------------------=
+--
+Compiled but not enabled    |  None                |  ~20 B per task
+Enabled, no function hit    |  None                |  ~few hundred B
+Func hit, HWBP not toggled  |  ~140 ns per call    |  None
+Func hit, HWBP toggled      |  ~11=E2=80=9312 =C2=B5s per call  |  None
+
+The overhead is minimal, making KStackWatch suitable for production
+environments where stack corruption is suspected but kernel rebuilds are no=
+t feasible.
+
+## Validation
+
+To validate the approach, this series includes a self-contained test module=
+ and
+a companion shell script. The module provides several test cases covering
+scenarios such as canary overflow, recursive depth tracking, multi-threaded
+silent corruption, retaddr overwriten. A detailed workflow example and usag=
+e
+guide are provided in the documentation (patch 26).
+
+While KStackWatch itself is a new tool and has not yet discovered productio=
+n
+bugs, it automates the exact methodology that I used to manually uncover
+CVE-2025-22036. The tool is designed to make this powerful debugging techni=
+que
+readily available to kernel developers, enabling them to efficiently detect=
+ and
+diagnose similar stack corruption issues in the future.
+
+---
+Patches 1=E2=80=933 of this series are also used in the wprobe work propose=
+d by
+Masami Hiramatsu, so there may be some overlap between our patches.
+Patch 3 comes directly from Masami Hiramatsu (thanks).
+---
+
+Changelog:
+v8:
+* Add arm64 support
+  * Implement hwbp_reinstall() for arm64.
+  * Use single-step mode as default in ksw_watch_handler().
+* Add latency measurements for probe handlers.
+* Update configuration options
+  * Introduce explicit auto_canary parameter.
+  * Default watch_len to sizeof(unsigned long) when zero.
+  * Replace panic_on_catch with panic_hit ksw_config option.
+* Enable KStackWatch in non-debug builds.
+* Limit canary search range to the current stack frame when possible.
+* Add automatic architecture detection for test parameters.
+* Move kstackwatch.h to include/linux/.
+* Relocate Kconfig fragments to the kstackwatch/ directory.
+
+v7:
+  https://lore.kernel.org/all/20251009105650.168917-1-wangjinchao600@gmail.=
+com/
+  * Fix maintainer entry to alphabetical position
+
+v6:
+  https://lore.kernel.org/all/20250930024402.1043776-1-wangjinchao600@gmail=
+.com/
+  * Replace procfs with debugfs interface
+  * Fix typos
+
+v5:
+  https://lore.kernel.org/all/20250924115124.194940-1-wangjinchao600@gmail.=
+com/
+  * Support key=3Dvalue input format
+  * Support multiple watchpoints
+  * Support watching instruction inside loop
+  * Support recursion depth tracking with generation
+  * Ignore triggers from fprobe trampoline
+  * Split watch_on into watch_get and watch_on to fail fast
+  * Handle ksw_stack_prepare_watch error
+  * Rewrite silent corruption test
+  * Add multiple watchpoints test
+  * Add an example in documentation
+
+v4:
+  https://lore.kernel.org/all/20250912101145.465708-1-wangjinchao600@gmail.=
+com/
+  * Solve the lockdep issues with:
+    * per-task KStackWatch context to track depth
+    * atomic flag to protect watched_addr
+  * Use refactored version of arch_reinstall_hw_breakpoint
+
+v3:
+  https://lore.kernel.org/all/20250910052335.1151048-1-wangjinchao600@gmail=
+.com/
+  * Use modify_wide_hw_breakpoint_local() (from Masami)
+  * Add atomic flag to restrict /proc/kstackwatch to a single opener
+  * Protect stack probe with an atomic PID flag
+  * Handle CPU hotplug for watchpoints
+  * Add preempt_disable/enable in ksw_watch_on_local_cpu()
+  * Introduce const struct ksw_config *ksw_get_config(void) and use it
+  * Switch to global watch_attr, remove struct watch_info
+  * Validate local_var_len in parser()
+  * Handle case when canary is not found
+  * Use dump_stack() instead of show_regs() to allow module build
+  * Reduce logging and comments
+  * Format logs with KBUILD_MODNAME
+  * Remove unused headers
+  * Add new document
+
+v2:
+  https://lore.kernel.org/all/20250904002126.1514566-1-wangjinchao600@gmail=
+.com/
+  * Make hardware breakpoint and stack operations
+    architecture-independent.
+
+v1:
+  https://lore.kernel.org/all/20250828073311.1116593-1-wangjinchao600@gmail=
+.com/
+  * Replaced kretprobe with fprobe for function exit hooking, as
+    suggested by Masami Hiramatsu
+  * Introduced per-task depth logic to track recursion across scheduling
+  * Removed the use of workqueue for a more efficient corruption check
+  * Reordered patches for better logical flow
+  * Simplified and improved commit messages throughout the series
+  * Removed initial archcheck which should be improved later
+  * Replaced the multiple-thread test with silent corruption test
+  * Split self-tests into a separate patch to improve clarity.
+  * Added a new entry for KStackWatch to the MAINTAINERS file.
+---
+
+Jinchao Wang (26):
+  x86/hw_breakpoint: Unify breakpoint install/uninstall
+  x86/hw_breakpoint: Add arch_reinstall_hw_breakpoint
+  mm/ksw: add build system support
+  mm/ksw: add ksw_config struct and parser
+  mm/ksw: add singleton debugfs interface
+  mm/ksw: add HWBP pre-allocation
+  mm/ksw: Add atomic watchpoint management api
+  mm/ksw: ignore false positives from exit trampolines
+  mm/ksw: support CPU hotplug
+  sched/ksw: add per-task context
+  mm/ksw: add entry kprobe and exit fprobe management
+  mm/ksw: add per-task ctx tracking
+  mm/ksw: resolve stack watch addr and len
+  mm/ksw: limit canary search to current stack frame
+  mm/ksw: manage probe and HWBP lifecycle via procfs
+  mm/ksw: add KSTACKWATCH_PROFILING to measure probe cost
+  arm64/hw_breakpoint: Add arch_reinstall_hw_breakpoint
+  arm64/hwbp/ksw: integrate KStackWatch handler support
+  mm/ksw: add self-debug helpers
+  mm/ksw: add test module
+  mm/ksw: add stack overflow test
+  mm/ksw: add recursive depth test
+  mm/ksw: add multi-thread corruption test cases
+  tools/ksw: add arch-specific test script
+  docs: add KStackWatch document
+  MAINTAINERS: add entry for KStackWatch
+
+Masami Hiramatsu (Google) (1):
+  HWBP: Add modify_wide_hw_breakpoint_local() API
+
+ Documentation/dev-tools/index.rst       |   1 +
+ Documentation/dev-tools/kstackwatch.rst | 377 +++++++++++++++++++++
+ MAINTAINERS                             |   9 +
+ arch/Kconfig                            |  10 +
+ arch/arm64/Kconfig                      |   1 +
+ arch/arm64/include/asm/hw_breakpoint.h  |   1 +
+ arch/arm64/kernel/hw_breakpoint.c       |  12 +
+ arch/x86/Kconfig                        |   1 +
+ arch/x86/include/asm/hw_breakpoint.h    |   8 +
+ arch/x86/kernel/hw_breakpoint.c         | 148 +++++----
+ include/linux/hw_breakpoint.h           |   6 +
+ include/linux/kstackwatch.h             |  68 ++++
+ include/linux/kstackwatch_types.h       |  14 +
+ include/linux/sched.h                   |   5 +
+ kernel/events/hw_breakpoint.c           |  37 +++
+ mm/Kconfig                              |   1 +
+ mm/Makefile                             |   1 +
+ mm/kstackwatch/Kconfig                  |  34 ++
+ mm/kstackwatch/Makefile                 |   8 +
+ mm/kstackwatch/kernel.c                 | 295 +++++++++++++++++
+ mm/kstackwatch/stack.c                  | 416 ++++++++++++++++++++++++
+ mm/kstackwatch/test.c                   | 345 ++++++++++++++++++++
+ mm/kstackwatch/watch.c                  | 309 ++++++++++++++++++
+ tools/kstackwatch/kstackwatch_test.sh   |  85 +++++
+ 24 files changed, 2130 insertions(+), 62 deletions(-)
+ create mode 100644 Documentation/dev-tools/kstackwatch.rst
+ create mode 100644 include/linux/kstackwatch.h
+ create mode 100644 include/linux/kstackwatch_types.h
+ create mode 100644 mm/kstackwatch/Kconfig
+ create mode 100644 mm/kstackwatch/Makefile
+ create mode 100644 mm/kstackwatch/kernel.c
+ create mode 100644 mm/kstackwatch/stack.c
+ create mode 100644 mm/kstackwatch/test.c
+ create mode 100644 mm/kstackwatch/watch.c
+ create mode 100755 tools/kstackwatch/kstackwatch_test.sh
+
+-*=20
+2.43.0
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-AG_fn%3DUt9JUpStLiO%2BGsoBpn3d_EyyttcuBby%3DEKzuxkKdcKcw%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
+0251110163634.3686676-1-wangjinchao600%40gmail.com.
