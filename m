@@ -1,158 +1,222 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRBEM7ZTEAMGQEBO4BAKQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBD53XBUFWQDBBC63Z7EAMGQERHRPEEQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x537.google.com (mail-ed1-x537.google.com [IPv6:2a00:1450:4864:20::537])
-	by mail.lfdr.de (Postfix) with ESMTPS id 283F2C4D026
-	for <lists+kasan-dev@lfdr.de>; Tue, 11 Nov 2025 11:27:31 +0100 (CET)
-Received: by mail-ed1-x537.google.com with SMTP id 4fb4d7f45d1cf-640ed3ad89bsf6070085a12.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 11 Nov 2025 02:27:31 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1762856850; cv=pass;
+Received: from mail-qt1-x83a.google.com (mail-qt1-x83a.google.com [IPv6:2607:f8b0:4864:20::83a])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B76C50507
+	for <lists+kasan-dev@lfdr.de>; Wed, 12 Nov 2025 03:14:36 +0100 (CET)
+Received: by mail-qt1-x83a.google.com with SMTP id d75a77b69052e-4e8984d8833sf19249551cf.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 11 Nov 2025 18:14:36 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1762913675; cv=pass;
         d=google.com; s=arc-20240605;
-        b=VZCK6zmrMUO7H6aVeyF50hVQhHsKInf7roOM+NtsGUnsEAfNwXTgvGbEKV2EHdkFQa
-         AXvxdjxGn2hnqngCDBcu/tWOIcke00nZxWlpPsRJFH4gUekJzLGPVOGWILSMEUKvZaH9
-         KLc4uKny9WdSfifqFGo0wr5wb2GdfELXtW7tjJg/rUBMc9MaqP6uRDs8Z0OjEOboIFX8
-         iMtPv5j2qjanIrdGkFH/KX7YFE8uAvmZcKhClZ92eV1358HH4Dys8FzDB1fWY+z5PInn
-         ckXyr057McShAZAi9yr24lVBfaisq+/TC+kSFFWrtKiQHxg53hRmqH7Xvf3kys7aJgDb
-         hGvw==
+        b=AjXfb4DORcpF+oYAA2BpkxNROvmPiMNDUYGyvvdm6tcw3wylWjB1hCoZ8VrHojbqvX
+         rLZ6Fk3BM6n+HspHs23eTZ4a9oAz/3Fk0/VuiQ7kZgugOm1KDUobMCpoLx8Ph+GDk+hY
+         CfPU8VX/wfgU6FMcq1pftY9GuS70EK51ijmieL0K74MEZzpdlSDZZLE9tPwsWwlq4P77
+         G/XojRdlBtORvXpz79oMJD9iwo7bBV7bmVSiFOGTyDkrF/REXIA0cOzP6ywRjzAk5e1P
+         Jkn3hLtez5RW0KHxM295ZUgmpYwfb/j9dZVW+OI+eyEJoQt1n63wfmGhW3yrTrRXCsB/
+         iv6g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :list-id:mailing-list:precedence:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:dkim-signature
          :dkim-signature;
-        bh=LdVCV7qmgLxsz+gQDrEXApbgKDOAUwX4NxOWLkKT1kM=;
-        fh=Ps6wGDpQmBpoTPGarP8KXdr8dgmIZZ3hGBIE3P5hpAE=;
-        b=QPf2H/h8qKNSUJXbnocy4NXyLLn7k6OQ5Orxs3bBGbEhMDfUt7o0K0WhnpgSnzTQQJ
-         uenuqMBZUF7kB1DsE0Jep99LxG9VHi+ZhZSiQ7n5m2JDhB2GFxwN2rDSLzoOXbBihCgi
-         4wr7NyH0lat9Vu47LotuPSH7frmJH4BXaP2iwT3bWtW907UgNRBjh9XKsj+S1697mqgh
-         4Z7P5QgyPXElnh7wPt3kND1JJTKv8fkDNKIauqDn9srBNF5n7p56dl1zQTDYw/WAn4/u
-         FuHI+QPPhIDU1AmgK/+VKV7RhAuzHmlzHi23gkk6l2eWggwlXAw+oYemC+tI89lnwXRt
-         NJsw==;
+        bh=HU7fDGLc4YotYEXUitPkvRyvk5+VEVXvOCaE1BxbN28=;
+        fh=drnkxLjsAYvuQ0hdFpbMugcau3qXou6XrpWStGlot0U=;
+        b=kyTYaomYrLSixD0CpenHsw1STu4VKg5d4fHtu3Pl64KyKMK9EKOeYqjUozCqkLKq3x
+         hB1i9RskHryGnAzmkLxyXhJfhso3S9IlXMB0O5W7BEco8uUcucpF4Ml0MCzUVhrBcfId
+         1TEcUEMXIcOMt4fk0UPF6878bfJ8gU27qO3nZ41YhhDbVFhArNkmobYArqL/c8UU4V7k
+         22GhlAHsKx7MOpMLhzOtG4yTzQUlYGq+4dHvg5ds6ohucEf6B27X6bu/dtJase87g3wv
+         LJGxYcZjRy5I273eDpEjkgXHgqAmpVosAAsGziPp09m9zsIQD0H0p6rMXHUotKCaBOyE
+         yrmw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=sjb5S7mK;
-       spf=none (google.com: peterz@infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=infradead.org
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZuHunIKC;
+       spf=pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::102e as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1762856850; x=1763461650; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1762913675; x=1763518475; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LdVCV7qmgLxsz+gQDrEXApbgKDOAUwX4NxOWLkKT1kM=;
-        b=qHwYfcQskQtrZKxMk3M/KzNGPbw5a4p7oUzrvQPJdLSVTuVgf+Af6OHyB/9pTASgeJ
-         8Xx5iPlTDRSE5dB4jCXGIQxbYn13cz3MHIcAu84Wg5v1aygaAy3TVTAnQh45Juot9g6+
-         00t/ca/RvUWxEtqJK11MH3wx2/z52cdmeD9HpUALHkRG++4W25vpW5DWAImv5I8hPMvf
-         lVtx2wQLU6HvClI0LbCKD26HGn2EcoCNxr1RN9P3YjGHwpZ0hoCav6/5yc8WKcfCu0/b
-         fFoCFSsBXE85yvV6U+STKaebE5Wv7mdooYt99AnehezVSk9dQJacErPKkGnnvLAKX8w/
-         5Hag==
+         :x-original-sender:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=HU7fDGLc4YotYEXUitPkvRyvk5+VEVXvOCaE1BxbN28=;
+        b=MuJhRxsPkYzT3zqqIEakTSHfBBzrfR2D/TRggTJ/QpajVIr2S/WCgQkHHn3M99QaRp
+         mM4n8huozOJtDoZZUiXTfx+QGZpghIl/KqqyxuwD941nrbUeBfwOP37Cn80nx/2tOSSZ
+         9oJ3oRUk0ThYHAPGqZrePePCkTTS/6rGmJcGcI99rhdwMuFeGKR/xf/vb/pM0B5N+ei6
+         ftyWNGrhcnt5uKnkxPQ965v2Hx9vRrmxgbkzStLEhLB5yjNESA11reCiqw018JGClbsO
+         OvQZ9C8e6tc8x5TRfo5vyqk1vFqvvP1rmtbUzIJEYXICCaliieVO69rCYtpulVu9OdRB
+         a7bQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762913675; x=1763518475; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HU7fDGLc4YotYEXUitPkvRyvk5+VEVXvOCaE1BxbN28=;
+        b=aJ3/AVb2hQAglRQ6caap4I2bz/56pLj3Ao5EVKcD6xlVLV0SgP38pEL1YMsc9wZGJN
+         hskiKtBXmO/OyxKjIme7yS6938ww13fWOWsjg4OGPNHatF2pHlwx/hocGchaLJZ6GK3y
+         FlGZRq0bSLy2XtuY0vDNB4ZU1CYEoRUTbncGSDcTVZY8sbyGovwuClo0q+p8UvPgdSSR
+         dFlSmSBimH8cCCmynXLJbJXaYpQHm9+Vl6cEvzW0R3nhCggXuuvTlJ79WOGe6TYSABgj
+         sqEf8DuwVF4rUBFrA6ATRMDtpcNoeXOc/aDsqti6B7ExMgfcKNeV+c+L1xgN5GamlV+X
+         In3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762856850; x=1763461650;
+        d=1e100.net; s=20230601; t=1762913675; x=1763518475;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LdVCV7qmgLxsz+gQDrEXApbgKDOAUwX4NxOWLkKT1kM=;
-        b=ncfDH8VWV6yh4kDImwnYMCDHaZunx+juvBUbr0oz/Bpmc9LA125ZK9weejl5jtCZ6d
-         WbBPioy417iCrqZcSzxa+wi/jdxrw+iRuJX+bisMEDzgbNlbzuDF9tU4YXtm34Rxo71Y
-         dTd3vpVYv0qidilCRstlTSVZEx/rokfKbvlp89Cs7HzKPeu+MONvmPOxM49aEs7U7YbS
-         Cxbzmkz9XuSZX3nsW7RhLXzHA4djnN4/VZDPUFEuu5/f3Y5YBpO1Khgb8OT0BFGHc/6W
-         HLC5WV+ex0Is7PXA63rYV1oMrOUrcgV6TuaaUBXUK2J8EfQuwnPevoGBBvDmDxs+PHf8
-         4pqg==
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg:x-beenthere
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HU7fDGLc4YotYEXUitPkvRyvk5+VEVXvOCaE1BxbN28=;
+        b=KaKfvDqXOQ3fB1fCEMDoyd2OdMDxfbf04Llx4Qrul2q2F/L1emvY7iw+Jrm7OAlIOU
+         3L2f5J1HM/ff+o+Lu9Wj7/hKp7ARb6OWtG+ubrocbTqHecNhTb0fcVJoo59UFeelOICj
+         q7N10bZdgkS+Gw91lIDOfL9PX+aecrSa53duP52Qnewn27Rm9iwU2kH0/rEbMA8QNT/J
+         425H3uiI5vie87jmsRRrfwHQ/MLbad/N20OAzc/Wxf3GUXwXRF9xKpXlSsKYrylJg6Xb
+         Kuaw1zXin2tu5fknSjs8DhAS7dmTJIjVRhYUHnAFw1U933wx8g1l4vJ48a1IHo4DHaMT
+         MJlA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWBbemrlg50S1pmosZLLYbDw+jI+8fbO0laH6zl/GFYsDsrKGBEM2LLZOeD07IiRCVooJWNiA==@lfdr.de
-X-Gm-Message-State: AOJu0YyfAQDutM+Lbfy2er0FySZrydUNObDm3YUfZgbSY5lRdFkw1afS
-	K9J10ss+s6f9zcSqWPLZB1wUBkSabZWUOYuOYV5UaCXsqgauJx4XDiey
-X-Google-Smtp-Source: AGHT+IEUdeQloBbuXTF2wfiqrXFUG8XVsjz+pZkwZrr5MKbo868YXp14yziYF7biYtiCcXYP6w/9/A==
-X-Received: by 2002:a05:6402:1d4f:b0:640:ca0a:dc1c with SMTP id 4fb4d7f45d1cf-6415dbfbb3emr9438646a12.7.1762856850080;
-        Tue, 11 Nov 2025 02:27:30 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+Y8V2luH41Wt7EUUdToqaQDqeIoX2sx5pRcplRHQBYTaQ=="
-Received: by 2002:a50:f603:0:b0:641:5a07:215b with SMTP id 4fb4d7f45d1cf-6415a072426ls3443504a12.2.-pod-prod-06-eu;
- Tue, 11 Nov 2025 02:27:27 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCX3f//kvhChMrPvVh40+TwDlF2oQ53l/GN73nla1ATk1Q2hv+wKisrYU8gey1bGIHNP59v5zgvmPm0=@googlegroups.com
-X-Received: by 2002:a17:907:5c5:b0:b71:1164:6a8b with SMTP id a640c23a62f3a-b72e02d3c1bmr902423466b.7.1762856846897;
-        Tue, 11 Nov 2025 02:27:26 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1762856846; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCUmFqbw2p91IwBDF075dQgwaimhjXei2tdht8y2aFTQasstmeUK9AX61eDr0t1l0P8hIz0tkA==@lfdr.de
+X-Gm-Message-State: AOJu0YweYy/gmVbhiT++k/ZR0uZlF5j3F/3WTKS7u37TmgclpFXri8E2
+	aMxTYIkAxDGGHvDigMo/o7/83LTYoLlRqxIBb0ikOY0t/2ooX9vJOVac
+X-Google-Smtp-Source: AGHT+IHaLSEDgHKd+en6KeNJetrumUb3cScDOir5NFn9fHrMh7VYcact2X0exgke4eHkRmMKst5xow==
+X-Received: by 2002:a05:622a:1450:b0:4ed:d76f:a350 with SMTP id d75a77b69052e-4eddbdd8d66mr20359651cf.75.1762913675509;
+        Tue, 11 Nov 2025 18:14:35 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+ai7IlyyiiN3wyQn7y98dfKkILinV5c1oA64/OcprHtxg=="
+Received: by 2002:a05:6214:19cc:b0:882:7510:5ec3 with SMTP id
+ 6a1803df08f44-88275106359ls1618016d6.2.-pod-prod-04-us; Tue, 11 Nov 2025
+ 18:14:34 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCV5mEJOGxNwtAMQpDDu63fovyrve3YfWdCPwthq7keq3y6PKhABxPZwEYbZ1TYTuY8cvRO73ld7dhw=@googlegroups.com
+X-Received: by 2002:a05:620a:700b:b0:8ab:91ad:b21d with SMTP id af79cd13be357-8b29b765fdbmr238465485a.5.1762913674725;
+        Tue, 11 Nov 2025 18:14:34 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1762913674; cv=none;
         d=google.com; s=arc-20240605;
-        b=O2CR+cJKe6g/UAhp7CQcWWYjNJJKKbwCaVjcOjJiLmsXbOmkm2FSHV8hg5cuiAskdX
-         l8tYOdXGQTZfxxQBoXqNwX20iZ9GKnyIT1FK7f71+/NY9F9mjXdy0/vH25TK7IKG6PWI
-         Ve3jkZb7haCmgWcSFkx5NNX0torqP2WC+wkdDKbmIEeE3oHGbM2ItnBo1Jv9r2TWhXbe
-         aa4pvEDy0wyIEUohjepk2Cb8/0zd5NwjpHBpnDqqIkWTdoV4b2xBE5ymDEeCe91LiWhR
-         Crp+QvdQ7Zm2dgaJUwih6CEs/p4cbzWWUr7rhpEEbDwdr27XPg+kqmbxmRlV+GwY0yo3
-         jKOQ==
+        b=OUpb3wJPiVwLzt7LjRJ5eqBNHq+EShTjSfhSwzTLrZ0CIOBNo4d2Idz/RtmCOLRpoj
+         s/i3sHuakCjq2aTUJARs33qkTd/g2wkpOlmvxb+eREjK6gQMOLIs+6tuuZOs4uf8xs2k
+         xP+vKI6cOLHZGqmKkjCBWf8iGX7abxO0UPoeIbafro8a6IkHwaBJNR7PwyNOtfGFU2U0
+         cfwyCZsNNzpni/vPrj8ERBRRsmil/EBgWJ+2vY2BsEuRnETRo/n1NaSrt08q5lRTqunh
+         XjkS+2S+g9/K4sTdeUEwK3U9+oD0L9QDsCvcj5ci8wOkPUDKG6+45bjeCvOo0J+4CXIh
+         P4zA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=iCozD/S14h9YyVEvZtzrw1OeE8+mwrBwtubAIDfZfYw=;
-        fh=CNgI9Uty9wjUOfcmKxFkFBSGCpOFHexYXIcEAbVFFk8=;
-        b=FPVBgDaqpWueO+i9wdiLy7h/fqQXxWCmZ26ygs9aNrg2qiLkf2wommmXgYIB6lkiGX
-         b2aOW1KjOB5Rm0egy6XPBXSpXFaKFm51ihEilFbDeoypxI5tIEKnjfyQJ5hT+Ekusvd3
-         0842BC9H639/vsmRx1J3uUkkRj86pZV9bbp/k7pcfnf1rJ04BivAm+YdgI+wJwMfvzqd
-         RoK7v/EgahBaqMowqDL2VHWz/IkAu5rd862cHioMMOkDw6ySecvjT/qc2ccZLy9wazYm
-         Y/06vdue8U7PnfP+2huYNaiWPwTxGMg4bOo9pdgbB719is0b6g128TcbkZyJHJAoJkEl
-         cFLQ==;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=lVQBcx6xFjlJyhg8EGvnzlqkKD9tleq1IsOwgdEnnOg=;
+        fh=3oFkuEKspV+8uuzB0k6fge4p8sEWlLkFP+IOcXZ9LM4=;
+        b=ZeNGdJtIze+xMLeBroFNTRFR1x/bNkI3e58nIS/t0RNZvnLWWGSOa0Okf3Fc6ds/m5
+         Z6WaGicCn7W6ufBKXGiMBKnK0HNTpelzfwMwf11XxJJHOzKuYmv6wwsN+HFTcI/hRDoL
+         vWFW/Pr1O4DJ4SniHjuILpCOkoqYa2T0Kaj9x9QdsCHMezu77aOfuQuCUTuqvNBPukBI
+         h93PqcKvYFlxprU/dybfuhSMKGiayxZ/TXRXcRAhbHgF83SjgG5LoYXO/N0TTbhGXkrW
+         uQ/ItM2F9dxCQQP9kaUSpYABh6MMZa036jbo7dEBLCs3J7DBa+yo5j7Xm0DhIXFYKAdh
+         8mEQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=sjb5S7mK;
-       spf=none (google.com: peterz@infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=infradead.org
-Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
-        by gmr-mx.google.com with ESMTPS id a640c23a62f3a-b72bc08d36bsi21519666b.0.2025.11.11.02.27.26
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZuHunIKC;
+       spf=pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::102e as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com. [2607:f8b0:4864:20::102e])
+        by gmr-mx.google.com with ESMTPS id af79cd13be357-8b29a84c1b8si1323285a.1.2025.11.11.18.14.34
         for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Nov 2025 18:14:34 -0800 (PST)
+Received-SPF: pass (google.com: domain of wangjinchao600@gmail.com designates 2607:f8b0:4864:20::102e as permitted sender) client-ip=2607:f8b0:4864:20::102e;
+Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-34381ec9197so376822a91.1
+        for <kasan-dev@googlegroups.com>; Tue, 11 Nov 2025 18:14:34 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWdHDcsGQBXShVQcxWiFAFEuzkn2+YbkYxcCiDm+1G0IiXF6oe8PhUTYXAMhPf6bt31RWGVwfJStVo=@googlegroups.com
+X-Gm-Gg: ASbGnctDTuE7kJwG9PBy4wsTuW0bX3g/hXMlvsJnKrMao7MKRF48CLb/uLJYxWKTHbE
+	RMZVwXgvP7UEHXtdkppXiC0H2xVwXhgJOAeQ6poLKG9KfnNpcKTJvxRruf8W12ueKOCbdBV/TP3
+	hSUN7+IivuX3oMLXN1Y2rccC46arlUloU98VksiQViDkkn/5qu2dUfhmUZMG070ELD5PKhtagpF
+	U/IJZmIqJASYgt2FapoKwFhYYv2A5TXGoRM27VGJo7Dp6H5ljQOKCocY86WGKkULUm3Es6w+vcf
+	iMaQQ4UQbCduL9qhOKk41O/96TglubG3K/HVSM3aRGiNRoLyGc20VCm2H/hU3nNoFTJFdo1uDJa
+	44DLGdAMnBKarRf/5rgdIWlzZbQWRHYWxWhdRuoK2bWIGykMSi14MAyb/+yx9xKiST5bnesWaYr
+	XsAtbW6SO9mIc=
+X-Received: by 2002:a17:90b:1b0c:b0:340:a5b2:c30b with SMTP id 98e67ed59e1d1-343dddf6caemr2117777a91.9.1762913673519;
+        Tue, 11 Nov 2025 18:14:33 -0800 (PST)
+Received: from localhost ([45.8.220.62])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-343e0714267sm559591a91.6.2025.11.11.18.14.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Nov 2025 02:27:26 -0800 (PST)
-Received-SPF: none (google.com: peterz@infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1236::1;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vIlaq-00000003ivE-1kUw;
-	Tue, 11 Nov 2025 10:27:20 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 455A4300328; Tue, 11 Nov 2025 11:27:19 +0100 (CET)
-Date: Tue, 11 Nov 2025 11:27:19 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: xin@zytor.com, kaleshsingh@google.com, kbingham@kernel.org,
-	akpm@linux-foundation.org, nathan@kernel.org,
-	ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de,
-	morbo@google.com, jeremy.linton@arm.com, smostafa@google.com,
-	kees@kernel.org, baohua@kernel.org, vbabka@suse.cz,
-	justinstitt@google.com, wangkefeng.wang@huawei.com,
-	leitao@debian.org, jan.kiszka@siemens.com,
-	fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com,
-	ubizjak@gmail.com, ada.coupriediaz@arm.com,
-	nick.desaulniers+lkml@gmail.com, ojeda@kernel.org,
-	brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com,
-	glider@google.com, mark.rutland@arm.com, trintaeoitogc@gmail.com,
-	jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com,
-	dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com,
-	yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com,
-	samuel.holland@sifive.com, vincenzo.frascino@arm.com,
-	bigeasy@linutronix.de, surenb@google.com, ardb@kernel.org,
-	Liam.Howlett@oracle.com, nicolas.schier@linux.dev, ziy@nvidia.com,
-	kas@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-	broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com,
-	maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org,
-	rppt@kernel.org, will@kernel.org, luto@kernel.org,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, x86@kernel.org,
-	linux-kbuild@vger.kernel.org, linux-mm@kvack.org,
-	llvm@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 15/18] x86/kasan: Handle UD1 for inline KASAN reports
-Message-ID: <20251111102719.GH278048@noisy.programming.kicks-ass.net>
-References: <cover.1761763681.git.m.wieczorretman@pm.me>
- <8b0daaf83752528418bf2dd8d08906c37fa31f69.1761763681.git.m.wieczorretman@pm.me>
+        Tue, 11 Nov 2025 18:14:32 -0800 (PST)
+Date: Wed, 12 Nov 2025 10:14:29 +0800
+From: Jinchao Wang <wangjinchao600@gmail.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Marco Elver <elver@google.com>, Mike Rapoport <rppt@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Ben Segall <bsegall@google.com>, Bill Wendling <morbo@google.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Hildenbrand <david@redhat.com>,
+	David Kaplan <david.kaplan@amd.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Ian Rogers <irogers@google.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	James Clark <james.clark@linaro.org>,
+	Jinjie Ruan <ruanjinjie@huawei.com>, Jiri Olsa <jolsa@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Justin Stitt <justinstitt@google.com>, kasan-dev@googlegroups.com,
+	Kees Cook <kees@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Liang Kan <kan.liang@linux.intel.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-perf-users@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
+	Miguel Ojeda <ojeda@kernel.org>, Nam Cao <namcao@linutronix.de>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Naveen N Rao <naveen@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Rong Xu <xur@google.com>, Sami Tolvanen <samitolvanen@google.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>,
+	workflows@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v8 00/27] mm/ksw: Introduce KStackWatch debugging tool
+Message-ID: <aRLmGxKVvfl5N792@ndev>
+References: <20251110163634.3686676-1-wangjinchao600@gmail.com>
+ <aRIh4pBs7KCDhQOp@casper.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <8b0daaf83752528418bf2dd8d08906c37fa31f69.1761763681.git.m.wieczorretman@pm.me>
-X-Original-Sender: peterz@infradead.org
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <aRIh4pBs7KCDhQOp@casper.infradead.org>
+X-Original-Sender: wangjinchao600@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=casper.20170209 header.b=sjb5S7mK;
-       spf=none (google.com: peterz@infradead.org does not designate permitted
- sender hosts) smtp.mailfrom=peterz@infradead.org;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=infradead.org
+ header.i=@gmail.com header.s=20230601 header.b=ZuHunIKC;       spf=pass
+ (google.com: domain of wangjinchao600@gmail.com designates
+ 2607:f8b0:4864:20::102e as permitted sender) smtp.mailfrom=wangjinchao600@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -165,125 +229,77 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Oct 29, 2025 at 08:09:51PM +0000, Maciej Wieczor-Retman wrote:
-> From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-> 
-> Inline KASAN on x86 should do tag mismatch reports by passing the
-> metadata through the UD1 instruction and the faulty address through RDI,
-> a scheme that's already used by UBSan and is easy to extend.
-> 
-> The current LLVM way of passing KASAN software tag mode metadata is done
-> using the INT3 instruction. However that should be changed because it
-> doesn't align to how the kernel already handles UD1 for similar use
-> cases. Since inline software tag-based KASAN doesn't work on x86 due to
-> missing compiler support it can be fixed and the INT3 can be changed to
-> UD1 at the same time.
-> 
-> Add a kasan component to the #UD decoding and handling functions.
-> 
-> Make part of that hook - which decides whether to die or recover from a
-> tag mismatch - arch independent to avoid duplicating a long comment on
-> both x86 and arm64 architectures.
-> 
+On Mon, Nov 10, 2025 at 05:33:22PM +0000, Matthew Wilcox wrote:
+> On Tue, Nov 11, 2025 at 12:35:55AM +0800, Jinchao Wang wrote:
+> > Earlier this year, I debugged a stack corruption panic that revealed th=
+e
+> > limitations of existing debugging tools. The bug persisted for 739 days
+> > before being fixed (CVE-2025-22036), and my reproduction scenario
+> > differed from the CVE report=E2=80=94highlighting how unpredictably the=
+se bugs
+> > manifest.
+>=20
+> Well, this demonstrates the dangers of keeping this problem siloed
+> within your own exfat group.  The fix made in 1bb7ff4204b6 is wrong!
+> It was fixed properly in 7375f22495e7 which lists its Fixes: as
+> Linux-2.6.12-rc2, but that's simply the beginning of git history.
+> It's actually been there since v2.4.6.4 where it's documented as simply:
+>=20
+>       - some subtle fs/buffer.c race conditions (Andrew Morton, me)
+>=20
+> As far as I can tell the changes made in 1bb7ff4204b6 should be
+> reverted.
 
-> diff --git a/arch/x86/include/asm/kasan.h b/arch/x86/include/asm/kasan.h
-> index 396071832d02..375651d9b114 100644
-> --- a/arch/x86/include/asm/kasan.h
-> +++ b/arch/x86/include/asm/kasan.h
-> @@ -6,6 +6,24 @@
->  #include <linux/kasan-tags.h>
->  #include <linux/types.h>
->  #define KASAN_SHADOW_OFFSET _AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
-> +
-> +/*
-> + * LLVM ABI for reporting tag mismatches in inline KASAN mode.
-> + * On x86 the UD1 instruction is used to carry metadata in the ECX register
-> + * to the KASAN report. ECX is used to differentiate KASAN from UBSan when
-> + * decoding the UD1 instruction.
-> + *
-> + * SIZE refers to how many bytes the faulty memory access
-> + * requested.
-> + * WRITE bit, when set, indicates the access was a write, otherwise
-> + * it was a read.
-> + * RECOVER bit, when set, should allow the kernel to carry on after
-> + * a tag mismatch. Otherwise die() is called.
-> + */
-> +#define KASAN_ECX_RECOVER	0x20
-> +#define KASAN_ECX_WRITE		0x10
-> +#define KASAN_ECX_SIZE_MASK	0x0f
-> +#define KASAN_ECX_SIZE(ecx)	(1 << ((ecx) & KASAN_ECX_SIZE_MASK))
->  #define KASAN_SHADOW_SCALE_SHIFT 3
+Thank you for the correction and the detailed history. I wasn't aware this
+dated back to v2.4.6.4. I'm not part of the exfat group; I simply
+encountered a bug that 1bb7ff4204b6 happened to resolve in my scenario.
+The timeline actually illustrates the exact problem KStackWatch addresses:
+a bug introduced in 2001, partially addressed in 2025, then properly fixed
+months later. The 24-year gap suggests these silent stack corruptions are
+extremely difficult to locate.
 
-> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-> index 6b22611e69cc..40fefd306c76 100644
-> --- a/arch/x86/kernel/traps.c
-> +++ b/arch/x86/kernel/traps.c
-> @@ -179,6 +179,9 @@ __always_inline int decode_bug(unsigned long addr, s32 *imm, int *len)
->  	if (X86_MODRM_REG(v) == 0)	/* EAX */
->  		return BUG_UD1_UBSAN;
->  
-> +	if (X86_MODRM_REG(v) == 1)	/* ECX */
-> +		return BUG_UD1_KASAN;
-> +
->  	return BUG_UD1;
->  }
->  
-> @@ -357,6 +360,11 @@ static noinstr bool handle_bug(struct pt_regs *regs)
->  		}
->  		break;
->  
-> +	case BUG_UD1_KASAN:
-> +		kasan_inline_handler(regs);
-> +		handled = true;
-> +		break;
-> +
->  	default:
->  		break;
->  	}
+>=20
+> > Initially, I enabled KASAN, but the bug did not reproduce. Reviewing th=
+e
+> > code in __blk_flush_plug(), I found it difficult to trace all logic
+> > paths due to indirect function calls through function pointers.
+>=20
+> So why is the solution here not simply to fix KASAN instead of this
+> giant patch series?
 
-> +void kasan_inline_handler(struct pt_regs *regs)
-> +{
-> +	int metadata = regs->cx;
-> +	u64 addr = regs->di;
-> +	u64 pc = regs->ip;
-> +	bool recover = metadata & KASAN_ECX_RECOVER;
-> +	bool write = metadata & KASAN_ECX_WRITE;
-> +	size_t size = KASAN_ECX_SIZE(metadata);
-> +
-> +	if (user_mode(regs))
-> +		return;
-> +
-> +	if (!kasan_report((void *)addr, size, write, pc))
-> +		return;
-> +
-> +	kasan_die_unless_recover(recover, "Oops - KASAN", regs, metadata, die);
-> +}
+KASAN caught 7375f22495e7 because put_bh() accessed bh->b_count after
+wait_on_buffer() of another thread returned=E2=80=94the stack was invalid.
+In 1bb7ff4204b6 and my case, corruption occurred before the victim
+function of another thread returned. The stack remained valid to KASAN,
+so no warning triggered. This is timing-dependent, not a KASAN deficiency.
 
-I'm confused. Going by the ARM64 code, the meta-data is constant per
-site -- it is encoded in the break immediate.
+Making KASAN treat parts of active stack frame as invalid would be
+complex and add significant overhead, likely worsening the reproduction
+prevention issue. KASAN's overhead already prevented reproduction in my
+environment.
 
-And I suggested you do the same on x86 by using the single byte
-displacement instruction encoding.
+KStackWatch takes a different approach: it watches stack frame regardless
+of whether KASAN considers them valid or invalid, with much less overhead
+thereby preserving reproduction scenarios.
 
-	ud1	0xFF(%ecx), %ecx
+The value proposition:
+Finding where corruption occurs is the bottleneck. Once located,
+subsystem experts can analyze the root cause. Without that location, even
+experts are stuck.
 
-Also, we don't have to use a fixed register for the address, you can do:
+If KStackWatch had existed earlier, this 24-year-old bug might have been
+found sooner when someone hit a similar corruption. The same applies to
+other stack corruption bugs.
 
-	ud1	0xFF(%ecx), %reg
+I'd appreciate your thoughts on whether this addresses your concerns.
 
-and have %reg tell us what register the address is in.
+Best regards,
+Jinchao
 
-Then you can recover the meta-data from the displacement immediate and
-the address from whatever register is denoted.
-
-This avoids the 'callsite' from having to clobber cx and move the address
-into di.
-
-What you have here will work, and I don't suppose we care about code
-density with KASAN much, but it could've been so much better :/
-
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251111102719.GH278048%40noisy.programming.kicks-ass.net.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/a=
+RLmGxKVvfl5N792%40ndev.
