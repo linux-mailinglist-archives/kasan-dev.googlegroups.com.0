@@ -1,139 +1,160 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBFOK27EAMGQEF25MBQI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBFWX27EAMGQEAM75PRA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3c.google.com (mail-qv1-xf3c.google.com [IPv6:2607:f8b0:4864:20::f3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AA96C57D37
-	for <lists+kasan-dev@lfdr.de>; Thu, 13 Nov 2025 15:03:03 +0100 (CET)
-Received: by mail-qv1-xf3c.google.com with SMTP id 6a1803df08f44-88050bdc2absf29304226d6.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 13 Nov 2025 06:03:03 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1763042582; cv=pass;
+Received: from mail-pf1-x43c.google.com (mail-pf1-x43c.google.com [IPv6:2607:f8b0:4864:20::43c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2654CC57F34
+	for <lists+kasan-dev@lfdr.de>; Thu, 13 Nov 2025 15:30:49 +0100 (CET)
+Received: by mail-pf1-x43c.google.com with SMTP id d2e1a72fcca58-7b2238eef61sf165283b3a.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 13 Nov 2025 06:30:49 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1763044247; cv=pass;
         d=google.com; s=arc-20240605;
-        b=cXd8YtOrxjX6cxTZ6oyUYt/O030QFBs8Pe1wVUwbEaltefBFbOOqEzKKcSVaWzEKYd
-         X5uL7/WCbz/KYXKfN7/2vVLYTrNCO0SbJidFmzdSCce0EFqD9NqLrRdU07AWdm/QHVUH
-         Y36MA3isyXKWFa5+d/mU9WTFGPFHbGp4JGMCK8OWgsF2gf4AsXnLFLVwV9TFhCz883Zm
-         ZF9qcyoefXIbvSxxrELqxYaz7hMrQrFHDonpG25JIU9iMI44N6DxJaUYXJIZ1rMg08tC
-         v2e8IzeZQZeDYw7qKfO6Y2osLrW6f5M18cxmXLHeUXlMJ4sCNsMmQzmuAanuBrpGLT20
-         2sZw==
+        b=XoRdSNA66mdm71SyRFXF753dL/qEeDdRz8qgmCoKML+kJ0+/4L4i9g0UxzXUUjWXrE
+         56ydHFSjQ3erY1Fpg1gQgDHKaTV80hrks4uIYsFE6OfV/5FKnmJKkPZugBgykP8YUDTz
+         QKY4ZTtgoUdyOyF8zeFVkleoHCu/kGdDz+jAx0awdHP6lseZEaxCSsC0S5huXpcwX5nM
+         s/2y3GYki8Rmu4SPBNTCcKfJAH42MucE3c2KWO+9ewP6a9qOEhtcm9y7rUKioRCapkcu
+         ahGcRwHWN7fzm4z9I31+OHHdnBArqiEoLb4HtIQS6lcIupfWn+6o9NqfQ//66Ozeel9d
+         UyVg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=5vUrAjAjJlqYzmvG+9hYNST+T/9FQ/o0uHxDUmt82/Q=;
-        fh=vb1SNYsX65TXi6DOEFB2NzQ9OX8YJsHV7mLCF5ncqmk=;
-        b=bz7dlGX266zMRZhR6MpkilpuO2VlbPGCJGH7QpzXIeC+ZnlHbnjbvQVyEaQpdBWMZL
-         OUQkvUbeJMh1S0t0jLAoZ1kRAe7tNlZuoEifAqPN8LRqVGk7XsvYBJ2Bx2D1AMS+xkkz
-         i0+aqiE650Fg8/awIAF6PAFp33XgdJQjtkgDBmxN7KXltvCk2DUsrXmmjmMirQP8Cv5o
-         Qg6XCy/ylNXCA0cTnyjMs6cIDjdiTf6N7SDX1HnaazDpwiM7Kr4DWdjBW8HFXrgATQsQ
-         40y1rcSuvrypRXqlQ88BiBc8r66Fzl0KR+YgE5KcqMGLBmB3LpvEbJ+ROFbca0WovPh+
-         YGKQ==;
+        bh=4l/WBIepzRBZn0YixAdBmO6t1yeEat3YXfcqddnw4Gw=;
+        fh=0sknnZfutHcBD+EdA0s8SLdPld180n3XiMIpFP35Utc=;
+        b=Xot+tUUcio9aHIKpvEzb5HalhNCEHLsWYsPxoDcbDMPYXHYNh5gmQ2PCRDKkjkwlNt
+         H6N6EIJvzeujsxyFxOR5o+q5MOyWzuin68XUt1sN0AVN6XXIWRhgN1o2VPHQW+6Mi+Lm
+         U9/vattG6oPQ5ZIw4300MEx1KauCGmklCjuAdonr4mci2UPUtUJUdpV/3kP3ZIb5ZKir
+         2WNsgTbci4BLnDdATLhRLqPPzCkii0BCnVbJnt0MkSVCDrkI7S+ystqTCCFzl1s6z18D
+         smSbe0sPQKg4WKSSj4NEdobclD814niPjoVazjdbZA+V2T6iOVVUshGFR7VO4qpsnhQk
+         bGlQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=YyPwsYcW;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b131 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=T9vamlF9;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::42a as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1763042582; x=1763647382; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1763044247; x=1763649047; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5vUrAjAjJlqYzmvG+9hYNST+T/9FQ/o0uHxDUmt82/Q=;
-        b=E2agTZ5zfNEYU+RcfHcS4zQCXBq62euhFTuCApLXl/kTS8/RwZeoD1Ly63Guv402N9
-         5Di80EjYIOGHLyaFxijM2W+2liG4JPVHW0PgcPx2tLeSqlYzWscAPPLMJEuVJ+bE4IO/
-         FKoCSjkEtUMGqTlAOvrfDLDBhK6QJRAFa+H+fc4n1eo1xrVX9En1a4cjTjOyJx/jYCfD
-         G5htwJbioGYYl6qL6sl1jQ/nTRwGEWR7sDTJyxpxmEuTOIiQL97BcVsh1mhbp2Mh/sE5
-         gNic+OBgDeAlTnItMr0Uj8B1K1zfzyBMKZ57Q9U+YC70wuOGUT1I+VraRLL9m4OkpWLk
-         4JtA==
+        bh=4l/WBIepzRBZn0YixAdBmO6t1yeEat3YXfcqddnw4Gw=;
+        b=r7fgwzH3dV2gkiNILSqQ0BHiR580qSk1ssS2OKh1zwUZofglYCMco9FzwrY72FTZBs
+         cA68umVI6PYs6MKXrDpEnbgYh6Jm2rQXVqed3vW8Rm8AKOH14BDuFVtH/di0zowIA/Tx
+         4+7cPi0xF9AZbfZy/2PHuuP0+Kj6bGj048kjeGCGQEIAZSu7SbcPanPBOpnhp5+jWMQk
+         sUHXdP55zEPC+8bK6YT8JsTJKXnWmr4e8G5bxgrC7stS5TX1b7zL/zRZAK6MN8gxP2Hw
+         eB7E2oqvEAVCxHUBgqlON11UtmwHP1fy64xUYef+z0/HnnR1Lqs6mKxrEXNn4m0TKOnF
+         RKLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763042582; x=1763647382;
+        d=1e100.net; s=20230601; t=1763044247; x=1763649047;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5vUrAjAjJlqYzmvG+9hYNST+T/9FQ/o0uHxDUmt82/Q=;
-        b=HAztsMa8egOWIwDukK1kqumtExQ8MW1VMhjfl5gjKH3KeJO9hJCmO36LxTfY7WVQJc
-         aJeYc8JPIT19UNSnWxrtzMbJ5LKka6YgoHmNzPPjzWQi8wcoV3j8lcNeCKiDk5CnUUPa
-         bTdxqRiJXZAF4BtI3rFCnQRVS2GSKs0ulKtOHMa8TjwFqOwvlk9Xa0mR9G1N6FJvkvAs
-         Lrkgnnw4cyqX/KSlvszk9m6rBQDTNblQdsImBlrr71wYMmntkq1MDgNj7GqHKduv8WWo
-         wd3LFFs45H5asR1J3IlHxwR2JOjesKIEECww8E9WNhZoaG8Lym4A9Zs8Mfe8FE5XlY1k
-         3/YQ==
-X-Forwarded-Encrypted: i=2; AJvYcCXWmSV1nZx126w3LadqWRovmm52jE3ga8SOO5aNsqrgGTpWhlKAlHgbqiVzChYhG32mc2FaUA==@lfdr.de
-X-Gm-Message-State: AOJu0YxjGbIjYv2qTugDO65ENkLi+KKk/z1ZSMpsXMMBiGzBA4guYZ/8
-	nZC8YR0MPVAIKww7RFdgVzM0RnnAfoKkrescshEl19+T+gzdxbKOmgkW
-X-Google-Smtp-Source: AGHT+IEpxOV1jqrjazKd/GVWDEpQr/lGEr2uAOSxswl1dVtNDa8KAXb8AIuv5HbxHAsQVm/aRrWCfQ==
-X-Received: by 2002:a05:6214:21cb:b0:87c:1d89:a245 with SMTP id 6a1803df08f44-88271a5c83emr110430996d6.49.1763042581531;
-        Thu, 13 Nov 2025 06:03:01 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+aQZsPHD1OS2n5bzAbBEiX3ZO+X6MgZfgORX+42vxXhWg=="
-Received: by 2002:a05:6214:ac9:b0:880:4116:d4f5 with SMTP id
- 6a1803df08f44-88281b06148ls17572616d6.2.-pod-prod-07-us; Thu, 13 Nov 2025
- 06:03:00 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXrvgMqx68HPHCyoNwPjGLuETLgfceU4g+pgwa/RmVnXxxeodebxzBZrsEiFoO/up0GpaQa5Bx/apc=@googlegroups.com
-X-Received: by 2002:ad4:5ba3:0:b0:87f:bd05:1c89 with SMTP id 6a1803df08f44-88271a4ffabmr98845646d6.35.1763042580346;
-        Thu, 13 Nov 2025 06:03:00 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1763042580; cv=none;
+        bh=4l/WBIepzRBZn0YixAdBmO6t1yeEat3YXfcqddnw4Gw=;
+        b=k/GBh2d4TxLcv8n6dfJT9NVDlZD0vsx+vang5Xezs3N0atDocjBpdY/xPaE8G2upjY
+         5TKiDd9+CJ6jp2P+bKLnjxPFpCjGbfotYcNqAtrCRijuIMfc+UQHeIYyuY4Ofl/ttLCN
+         vpeRYrXWzk+7I+w1WDfcqmXr/h4iyAdu4xhwWrL1omIOLuZmkNhHNGPFijHYhv8TrdD/
+         RjqRYjIhg1kNolkMsfMnfk7SyX5B79lE7CvUGIbhHXT5NkkAJ7j7zpmHLWcHiGrDRV2E
+         PhTqfKekC/cnBakssaQQfMw6Sx5VVYDjids4gPbyQKu++DmkYhS4SvQtG2tsgFw9Mt81
+         45OA==
+X-Forwarded-Encrypted: i=2; AJvYcCWLcGiJR1M6jV2D1km0juc6zfhW99csCrGxTJP/M8kcjnu/DDzaJPBNcnQYuA0zr1zh0KJRTw==@lfdr.de
+X-Gm-Message-State: AOJu0YztBgfzPAiuK9BOZDhnjgo5Of2uNYORjpHV/a77ElA9l3Jkw/KN
+	M7CRK6IWHglcQ18zE3vNZaxTKHD0MycbkcoXXfdSVaTeHZOovOzFid3g
+X-Google-Smtp-Source: AGHT+IHa23YpTsDxqn+2R3vpAq9jKtX4j0SdPACr08uC8//e87jTHD5LFQ2AJBv/M5Tkshvs9e8Ryw==
+X-Received: by 2002:a05:6a00:84c2:b0:7b8:2599:801f with SMTP id d2e1a72fcca58-7b825a8c80dmr2462954b3a.7.1763044247130;
+        Thu, 13 Nov 2025 06:30:47 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+bTXheBPDq7UzgHuiMVJsJxeuJSR8zIiIAUSMUxprwnfg=="
+Received: by 2002:a05:6a00:2f8c:b0:7b1:41b8:c173 with SMTP id
+ d2e1a72fcca58-7b8d54bfb6fls753933b3a.0.-pod-prod-05-us; Thu, 13 Nov 2025
+ 06:30:45 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCV1ih1660LJnlUG+M9aTseYT/jVV9oTt9plcQ8g1GG0dKOQtLrvRb9fxokAULSvVwyVmNMViY6DPL8=@googlegroups.com
+X-Received: by 2002:a05:6a00:1ac7:b0:7ad:f6e8:d013 with SMTP id d2e1a72fcca58-7b7a57a4533mr9508214b3a.32.1763044245319;
+        Thu, 13 Nov 2025 06:30:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1763044245; cv=none;
         d=google.com; s=arc-20240605;
-        b=Pyc9fzmd7HmGD0OvILM7h5oemYGJaEMKwt/mNvEVVAwuxmaq/aiDjueP5Qgkemo00/
-         b4tmIAd8GhgJcfON4cBJXYkk2xIF0aolkktlcq5ja+GaFKkOdLqNv2f3Jgcm/6Ft0e9G
-         +KKPh+l73CymgSY1yBt0ZUPT6/KO/+CENumgv1tXDaE0RtF1JmZPQwhuMBqZilen8Z1h
-         yPOjmJVg2vgtAzoiEwGwUQKiv+FUE4VQFbS93w0L0tXwvdg4rH2FvPhs7XatcEfB6gHM
-         kenvdtVmonY381NmzyEc60YNu/ZmL6uohwK1Yb2BpHhE+yOZsMMPemE+d7qetyFCh0cK
-         jyng==
+        b=ZCQscM81FETjnCghHg4qsPZOlroelZqXY1XZAS7KPZ7w8972s1q5Bn6doUKBOkzF78
+         1h/IflJoxvEo4mIk8iz+HLXc53Vxe9z0XK1hr+XUc32tx/1j8b7yxh0DsnQJxT0UJ8Ne
+         MG+p+CHipnaLsoKd/wudTTcsYx0RDPLaTeY2hCSBYEcHQV2GnV92xTYgFLNE3wRG9mR5
+         DFGYW2umQYN/vyYEZECk+B3d1VkNTHeNqbLJHamAdTcJavVhOQZISBkKc814ADF7hMHW
+         tG67HyxRbcuj3K1vFHL79J2s5PKP8oqajU+9a1QKkkioDYqC/Mj/vfny+4GJ7DYksIEz
+         TQgg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=wDQvj6UlQD63iPrmSZxS8C2tXksjrqLXDzCDe6b36Fk=;
-        fh=BiAtrPeXJCVrk2qiBILPJ4sab2i6PXdarF8KHy3kvHc=;
-        b=EwvH8UHsMIZjBcoll3xkzKHy/1hmWQfCEo8c0TnKl7Z5YLsFex0MWGVyYjnCwq3j9z
-         wsuYcj5YKxS+khgGpAQl3RvSCWKUye8hFoaXMosAMgwPP9+wHr+DWXvKEpZo3bHQ283Y
-         sw2TSG7QnjGuWVCT3PE18YL7ypzgIA9TlOKkfHeqEyEVgGqMHOn0qYcYp0h6TMmvv9dG
-         dPf8nGp+hZQoo732dzR1t9/QIbIB9q+QFxpIsR5p3KXkSNzjEmIt3O41m8okPEPQJ4Ay
-         U5maXoSWmHfAaPxO7oouHxdBgwq0MLMV566i2tv355+Dunqy251Kd6IhyN++S5euTxjC
-         jLBQ==;
+        bh=MBXryWsSo8WBJYsfFQQsezl+bvHfvcNsNG0PI/C7tiU=;
+        fh=fGYKVP/Q8HfahG7PxKIlhQ1js86Z4qAA50RRAlrtZUo=;
+        b=EK56MIb2PpdEDYt/2UnYI6OgUv5GpPMDziwGXGVYjSt/dHthHnlvFpboobU03xgJsD
+         wvL7ItCClBX/ymohNZLfFgcOpqJvjlUK2gUxBaU/AtNWCRora8/kqMfmYfvZBaCP0qek
+         f6pslbBtu622wOgRo5kOtQbT9IcFE4Bc2iA1/OLOR6dkzMaXKyxXr2UlaNADRBfnZ5o3
+         zO9VFlNCeCrt6YfePsnPs031rzBH+WNtlsriH6PvuSn0RnGtsR4FKvLDSdtyCQnX2z4w
+         wYpmcmeB2HJnlv0INePXEPRyfCSNoeCGYUfFdS+c41NxVFMBbezBSPQyYgxTrwvO6TIU
+         OZGA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=YyPwsYcW;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b131 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=T9vamlF9;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::42a as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-yx1-xb131.google.com (mail-yx1-xb131.google.com. [2607:f8b0:4864:20::b131])
-        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-882865f28d4si890296d6.7.2025.11.13.06.03.00
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com. [2607:f8b0:4864:20::42a])
+        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-7b927a1daa3si95924b3a.7.2025.11.13.06.30.45
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Nov 2025 06:03:00 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b131 as permitted sender) client-ip=2607:f8b0:4864:20::b131;
-Received: by mail-yx1-xb131.google.com with SMTP id 956f58d0204a3-63fc72db706so750046d50.2
-        for <kasan-dev@googlegroups.com>; Thu, 13 Nov 2025 06:03:00 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU9pV7rQocJnlzmGsJZjc+Dv/Fa/3+a7gYxEmlA8YGS9lyWaIbeZPr4sqsyOskrffn7NXd7P/zm8QU=@googlegroups.com
-X-Gm-Gg: ASbGncvqhXbDVyFgkPmgvTLjJYuvRcrzgcZLr6vynC3nfvLwFOAWC2tvARuniltvzFT
-	/qK9P1ObDRYSDKfYtTtV/mo227Icxv64Ic6AKWx4cXJYAf8GesuyWt1UrzSZCwCrS9+/ZWgcXVw
-	DGWhu29dLO2UGS93ciBKlj3B1uQJu+Gyc5N8QSouTLw+2uvlizjk5QfhkuHdrMMXEY7NsadyqMX
-	JsKjTGmyFz7cDvaeALjCGbJVy/RVORkPaLnew42RjYNJ1MxJMTl9yEB2QXNHhdHAifEQfuR5rG7
-	5u3Ud30lKmf/jY9tjGc3lnMdFt+HiqrZZg==
-X-Received: by 2002:a05:690e:4257:b0:640:dd53:71b6 with SMTP id
- 956f58d0204a3-64101b011f8mr5047415d50.34.1763042579544; Thu, 13 Nov 2025
- 06:02:59 -0800 (PST)
+        Thu, 13 Nov 2025 06:30:45 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::42a as permitted sender) client-ip=2607:f8b0:4864:20::42a;
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-782e93932ffso720813b3a.3
+        for <kasan-dev@googlegroups.com>; Thu, 13 Nov 2025 06:30:45 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXE9B9WbheeGavpkDTpJtp+RSSIRyALCXxvHqyoyH/zjR9NY7xKB87/cHZ3gPmQaXguB5JGd8UfQ9U=@googlegroups.com
+X-Gm-Gg: ASbGncvbjMJTIz2oQBVz8SH1/f/kQPFhddgLjhQuCSz5TgO6bVX0xTigmy3RwkxlTLZ
+	RA5HWSBT/Uo6sh2Z6WKkmOafjfwTSNkd/irjx0CaYzlj34GLmt+SUGrmNfglEXfKZXBIzJz279C
+	gxHiUVpduug/Xqu4Mk7YbKJImEE/MaVtQ/TIwohNSPTQUWXI/V/assRj7wFldmiSFaThe0U8n0w
+	i8Do/hileCcmizqV3JeQKS7a5vyZ68QJhAKlEU81BnsfCySlrweVlUlUNNhQC3XXFOQyyiikn5t
+	1Y5max1sHDkZannk7eSAjF0=
+X-Received: by 2002:a17:903:fa7:b0:294:f6b4:9a42 with SMTP id
+ d9443c01a7336-2984ed2b5edmr67173465ad.9.1763044244630; Thu, 13 Nov 2025
+ 06:30:44 -0800 (PST)
 MIME-Version: 1.0
-References: <20251113000932.1589073-1-willy@infradead.org> <20251113000932.1589073-2-willy@infradead.org>
-In-Reply-To: <20251113000932.1589073-2-willy@infradead.org>
+References: <20250918140451.1289454-1-elver@google.com> <CAHk-=wgd-Wcp0GpYaQnU7S9ci+FvFmaNw1gm75mzf0ZWdNLxvw@mail.gmail.com>
+ <aMx4-B_WAtX2aiKx@elver.google.com> <CAHk-=wgQO7c0zc8_VwaVSzG3fEVFFcjWzVBKM4jYjv8UiD2dkg@mail.gmail.com>
+ <aM0eAk12fWsr9ZnV@elver.google.com>
+In-Reply-To: <aM0eAk12fWsr9ZnV@elver.google.com>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 13 Nov 2025 15:02:22 +0100
-X-Gm-Features: AWmQ_blhJPjd2aV442pt2egpwN6npTdDWrkyJEPpL0cKMnNAOIkOIqSIOWUamD8
-Message-ID: <CANpmjNMF3RSEtLNKVf4m8wMk-O4-FkdPDbunAsZ_N=h+Rc2tZg@mail.gmail.com>
-Subject: Re: [PATCH v4 01/16] slab: Reimplement page_slab()
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Vlastimil Babka <vbabka@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>, linux-mm@kvack.org, 
-	Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com
+Date: Thu, 13 Nov 2025 15:30:08 +0100
+X-Gm-Features: AWmQ_bmFh2aVYHZwkaHdVYkb7IeD9B_c5E9TrUEhRxSr8kO14B_rxSCEK8GKI2o
+Message-ID: <CANpmjNNoKiFEW2VfGM7rdak7O8__U3S+Esub9yM=9Tq=02d_ag@mail.gmail.com>
+Subject: Re: [PATCH v3 00/35] Compiler-Based Capability- and Locking-Analysis
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>, 
+	Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Bart Van Assche <bvanassche@acm.org>, Bill Wendling <morbo@google.com>, Christoph Hellwig <hch@lst.de>, 
+	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
+	Frederic Weisbecker <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>, 
+	Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Triplett <josh@joshtriplett.org>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	Kentaro Takeda <takedakn@nttdata.co.jp>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
+	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
+	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
+	llvm@lists.linux.dev, rcu@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=YyPwsYcW;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b131 as
+ header.i=@google.com header.s=20230601 header.b=T9vamlF9;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::42a as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -150,156 +171,25 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, 13 Nov 2025 at 01:09, Matthew Wilcox (Oracle)
-<willy@infradead.org> wrote:
+On Fri, 19 Sept 2025 at 11:10, Marco Elver <elver@google.com> wrote:
+[..]
+> I went with "context guard" to refer to the objects themselves, as that
+> doesn't look too odd. It does match the concept of "guard" in
+> <linux/cleanup.h>.
 >
-> In order to separate slabs from folios, we need to convert from any page
-> in a slab to the slab directly without going through a page to folio
-> conversion first.
->
-> Up to this point, page_slab() has followed the example of other memdesc
-> converters (page_folio(), page_ptdesc() etc) and just cast the pointer
-> to the requested type, regardless of whether the pointer is actually a
-> pointer to the correct type or not.
->
-> That changes with this commit; we check that the page actually belongs
-> to a slab and return NULL if it does not.  Other memdesc converters will
-> adopt this convention in future.
->
-> kfence was the only user of page_slab(), so adjust it to the new way
-> of working.  It will need to be touched again when we separate slab
-> from page.
->
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Cc: Alexander Potapenko <glider@google.com>
-> Cc: Marco Elver <elver@google.com>
-> Cc: kasan-dev@googlegroups.com
+> See second attempt below.
+[..]
 
-Ran kfence_test with different test configs:
+I finally got around baking this into a renamed series, that now calls
+it "Context Analysis" - here's a preview:
+https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git/log/?h=ctx-analysis/dev
 
-Tested-by: Marco Elver <elver@google.com>
+As for when we should give this v4 another try: I'm 50/50 on sending
+this now vs. waiting for final Clang 22 to be released (~March 2026).
 
-> ---
->  include/linux/page-flags.h | 14 +-------------
->  mm/kfence/core.c           | 14 ++++++++------
->  mm/slab.h                  | 28 ++++++++++++++++------------
->  3 files changed, 25 insertions(+), 31 deletions(-)
->
-> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> index 0091ad1986bf..6d5e44968eab 100644
-> --- a/include/linux/page-flags.h
-> +++ b/include/linux/page-flags.h
-> @@ -1048,19 +1048,7 @@ PAGE_TYPE_OPS(Table, table, pgtable)
->   */
->  PAGE_TYPE_OPS(Guard, guard, guard)
->
-> -FOLIO_TYPE_OPS(slab, slab)
-> -
-> -/**
-> - * PageSlab - Determine if the page belongs to the slab allocator
-> - * @page: The page to test.
-> - *
-> - * Context: Any context.
-> - * Return: True for slab pages, false for any other kind of page.
-> - */
-> -static inline bool PageSlab(const struct page *page)
-> -{
-> -       return folio_test_slab(page_folio(page));
-> -}
-> +PAGE_TYPE_OPS(Slab, slab, slab)
->
->  #ifdef CONFIG_HUGETLB_PAGE
->  FOLIO_TYPE_OPS(hugetlb, hugetlb)
-> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> index 727c20c94ac5..e62b5516bf48 100644
-> --- a/mm/kfence/core.c
-> +++ b/mm/kfence/core.c
-> @@ -612,14 +612,15 @@ static unsigned long kfence_init_pool(void)
->          * enters __slab_free() slow-path.
->          */
->         for (i = 0; i < KFENCE_POOL_SIZE / PAGE_SIZE; i++) {
-> -               struct slab *slab;
-> +               struct page *page;
->
->                 if (!i || (i % 2))
->                         continue;
->
-> -               slab = page_slab(pfn_to_page(start_pfn + i));
-> -               __folio_set_slab(slab_folio(slab));
-> +               page = pfn_to_page(start_pfn + i);
-> +               __SetPageSlab(page);
->  #ifdef CONFIG_MEMCG
-> +               struct slab *slab = page_slab(page);
->                 slab->obj_exts = (unsigned long)&kfence_metadata_init[i / 2 - 1].obj_exts |
->                                  MEMCG_DATA_OBJEXTS;
->  #endif
-> @@ -665,16 +666,17 @@ static unsigned long kfence_init_pool(void)
->
->  reset_slab:
->         for (i = 0; i < KFENCE_POOL_SIZE / PAGE_SIZE; i++) {
-> -               struct slab *slab;
-> +               struct page *page;
->
->                 if (!i || (i % 2))
->                         continue;
->
-> -               slab = page_slab(pfn_to_page(start_pfn + i));
-> +               page = pfn_to_page(start_pfn + i);
->  #ifdef CONFIG_MEMCG
-> +               struct slab *slab = page_slab(page);
->                 slab->obj_exts = 0;
->  #endif
-> -               __folio_clear_slab(slab_folio(slab));
-> +               __ClearPageSlab(page);
->         }
->
->         return addr;
-> diff --git a/mm/slab.h b/mm/slab.h
-> index f7b8df56727d..18cdb8e85273 100644
-> --- a/mm/slab.h
-> +++ b/mm/slab.h
-> @@ -146,20 +146,24 @@ static_assert(IS_ALIGNED(offsetof(struct slab, freelist), sizeof(freelist_aba_t)
->         struct slab *:          (struct folio *)s))
->
->  /**
-> - * page_slab - Converts from first struct page to slab.
-> - * @p: The first (either head of compound or single) page of slab.
-> + * page_slab - Converts from struct page to its slab.
-> + * @page: A page which may or may not belong to a slab.
->   *
-> - * A temporary wrapper to convert struct page to struct slab in situations where
-> - * we know the page is the compound head, or single order-0 page.
-> - *
-> - * Long-term ideally everything would work with struct slab directly or go
-> - * through folio to struct slab.
-> - *
-> - * Return: The slab which contains this page
-> + * Return: The slab which contains this page or NULL if the page does
-> + * not belong to a slab.  This includes pages returned from large kmalloc.
->   */
-> -#define page_slab(p)           (_Generic((p),                          \
-> -       const struct page *:    (const struct slab *)(p),               \
-> -       struct page *:          (struct slab *)(p)))
-> +static inline struct slab *page_slab(const struct page *page)
-> +{
-> +       unsigned long head;
-> +
-> +       head = READ_ONCE(page->compound_head);
-> +       if (head & 1)
-> +               page = (struct page *)(head - 1);
-> +       if (data_race(page->page_type >> 24) != PGTY_slab)
-> +               page = NULL;
-> +
-> +       return (struct slab *)page;
-> +}
->
->  /**
->   * slab_page - The first struct page allocated for a slab
-> --
-> 2.47.2
->
+Preferences?
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMF3RSEtLNKVf4m8wMk-O4-FkdPDbunAsZ_N%3Dh%2BRc2tZg%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNoKiFEW2VfGM7rdak7O8__U3S%2BEsub9yM%3D9Tq%3D02d_ag%40mail.gmail.com.
