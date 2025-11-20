@@ -1,128 +1,145 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBT7A7TEAMGQEXKAG5JY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC3ZPIWN3EFBBJ5Y7XEAMGQEZLSUZ6I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0643C74CC0
-	for <lists+kasan-dev@lfdr.de>; Thu, 20 Nov 2025 16:14:24 +0100 (CET)
-Received: by mail-wm1-x33f.google.com with SMTP id 5b1f17b1804b1-4779edba8f3sf6956705e9.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 20 Nov 2025 07:14:24 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1763651664; cv=pass;
+Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E1CC75E76
+	for <lists+kasan-dev@lfdr.de>; Thu, 20 Nov 2025 19:21:29 +0100 (CET)
+Received: by mail-wm1-x339.google.com with SMTP id 5b1f17b1804b1-4775e00b16fsf8610635e9.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 20 Nov 2025 10:21:29 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1763662889; cv=pass;
         d=google.com; s=arc-20240605;
-        b=f/wvldNVnLszg4mSOkKNQUyhH4MEMWnsk0nHTn8Zk9jJZZZC3QH1KHlc22+wY2aEmy
-         Ij3KX2+OZHQXZfnFpLqY+QzOtdw6aaj4HRAtM0daK9FnpCyHQlXbQa+8y95ABJah8tu8
-         mrVJB0hzi7//Y31IPDIlAUEMiF8T3Pnndu/JqOAnwoSY1jDXl3y3PWJIZXnunMhjzeZs
-         47kXSwCsSuUKvSV015Q4qKYx0/xzFP8RXpH365VfnYCYeKb+U7IIzF3YpkxtqX7mHAVN
-         VsbaaMSAqF4nKw69Lg0J2qgJy9b1Ai2j1cGy/0UhJSJZwKRcJrb009U0czC7Qzm3gSKh
-         E12A==
+        b=DHaTBoz++Sg6wVu+j+8oEWzfcDI0bqdcSC79V7Ye+KGaHXjzJ9hc4xFPsSW2UcvM+h
+         +1VyKMacDtsjKA7K1rzPlztVa5v4DLepkcnn3Z1Pr1ZABziuu+DL42rQ8TB4X5hCmhJf
+         2I3L+sMXohhT7ErhvoqEi47/LDV1i04z93of44rJ3L8ztAlfjPVOH2+mkDxWn9Ap9/bx
+         Ntxs0ZmFQUiUF2sJ/jyuClvhKjg71enG/6zNJHhce85PGMQofFgQp0fgh02bJkmJE3xt
+         qt0HrMIvQfPik0VMSWETn3hJkwpIXUDAHguUDC368vhtAQrdSKEN7QBVF6ThBLHTXT4E
+         My/w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=O5UsTDhxQOobIvru7gAdjFa7htQ6dYTghDcv2qYoaIM=;
-        fh=PlPriwxd7aohwIme7Y4csPsTE3M+51Of9rxI2xiE+ok=;
-        b=PnugjgukUOzjQcYAib14bBPBJ1ZNCinYFa61CCYhYciwrU0ieSNjr3GuUxu/exghO6
-         k+9dipZgGqlJSn2apjB+hhpD80rfXZpe5mm1Y2v3EGrBXmETTP1cWql9xFEcpzqn0R3j
-         GssZng9qQc2KECASTZSnC2so3hRp9gOc/99CiKz28ZQZOqRfAX+DLUFbytsjzQ8iit3c
-         irWCJvKreabIzHDhHcCeAPN1lpnz6qBWqheOxcQfhgHOrUXshIP1Q1zdLovRGP9Gqp/Q
-         8dTfrsxt6agJJh/B0GET4fEYgv8c5PNIsxJHlDkdygoR61iPmBdSn204e/NHCpyKL/3A
-         jCzw==;
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=3FoaQ0OqsA+vCTGEnzswC8P6yM8NlfDB6wRrk9lcbKw=;
+        fh=0OxBWDYe9yx7zeJpa5i8ePA/gyHKY+kvrBexZNhvCAs=;
+        b=IQPOxmYR+0GO7awsx8UWze5Tse1VhppyNxUAw0et/b5lqb/ByyK8L7fd7Cl0LkxwA8
+         cf+ic9+vloJGV9A9QPdAGzBPPDOaIp7WtZJSfCQMgWJM/wTxKaXM4dyeKHhdX3dQez2J
+         Sz7iWOLhIYjFxK25U/8jsFuNlIqLbcf6/0Tox2TECan8tRWyuH13oJ+nMfWkaYA1Wivy
+         lcGfagQyB465y8c6vIvNhfXfYiXLI2Kstoo2AUa9rzRIpLlAFEdp9rIT6VUATcVGY4B9
+         suHtgViOkdsrXXvJKRx2MgZqPdFslPheSpwZFYdZPejlqkDhgbos6nOVWESbMC7l7/2a
+         hsyA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=bUSqsGwL;
-       spf=pass (google.com: domain of 3tdafaqukcxkbisbodlldib.zljhxpxk-absdlldibdolrmp.zlj@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3TDAfaQUKCXkbisbodlldib.ZljhXpXk-absdlldibdolrmp.Zlj@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@linux-foundation.org header.s=google header.b="gcWj/4qT";
+       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::130 as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1763651664; x=1764256464; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1763662889; x=1764267689; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:references:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=O5UsTDhxQOobIvru7gAdjFa7htQ6dYTghDcv2qYoaIM=;
-        b=Be/AQS1XGWFYHuxVNQ5vGhiEqeorlnlq2sXmRRoznrEYq6vzRK7HdwsYSfzO3+gyfw
-         REuU/olnUwCA/YahLrc2OAhMRp8Cn/v116xHG13hx6/aQjvxw+CJblDMramLy5r1WVDL
-         nAteTgGkxwskYzOkXBWHuNF+S/SiF/Xwx9g81tlgahAKYMxM1s4SeZMIOydbgQ7f3AWg
-         LvPumMD6UTIRyytx7r2qfw9Dmws62HznHTcGrexkUTSWgVk5iZcMS7Rbu2asg722yonk
-         xbWpYWKBWnCdx/Pt4e6fxYqz92FikgrajL3bc3a24VCJPCs+qC4g26tV1fHWE3GFbE1Q
-         2cLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763651664; x=1764256464;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:references:mime-version:in-reply-to:date
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=O5UsTDhxQOobIvru7gAdjFa7htQ6dYTghDcv2qYoaIM=;
-        b=GwoDVb1OXDamyLn2H7Sc0M08Wy+S1GK7VzdxV+Pw+qW0rvpxwFHOdvoDPw2Y5xLSUr
-         c/moA8ETo10dedC8lK54zuzXiiRQTy3bsKjFYVsKr/Mr/8ywSjKOOwx4m+2Lewfm1d2L
-         76nirNtrB/U0HTQV3UqJQj5YPsu5tRyjZ2mjZwhJ2LDFZo5flqT0HMla+yt8pwZJOu+d
-         ZCeHbLgN/1+j/zrnwODPHRWpGWfLdVtPXhL2Jx5O/TkUbZOwiR/23hbaFuFvEa+Q/gN/
-         DpvBB2OJ+o9K3IV55AwvG8kFaeX1UvV5exenUJH1glUu7Ce6HssKDBCN2GIcHudGMt+Q
-         26Ig==
-X-Forwarded-Encrypted: i=2; AJvYcCWALZWMBEpBrDTSgvB1gb3Ld7N+LJEz02n73tb2MmIitJChqYPfxeMu5W21sU44/a1e5ikM0w==@lfdr.de
-X-Gm-Message-State: AOJu0YxdNznSI+4AgO0aJiYV0shsZqLPxPyHwX9jx1IxggupwKfjSbOj
-	kxJW0GNU/YetJRl18rJvt2gTJeuKYgTr08ygu5suPEPaG/ytoA3pP9Gy
-X-Google-Smtp-Source: AGHT+IGngP07AZix1Jg1POlKYA09O9N8HgJcPeFQiQwirOqoQHBlxrwmdvqGZLvKobfoY1a6jPeEBg==
-X-Received: by 2002:a05:600c:1c9f:b0:477:76cb:4812 with SMTP id 5b1f17b1804b1-477b9d6cf52mr40278335e9.0.1763651663956;
-        Thu, 20 Nov 2025 07:14:23 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+anCchaasOO8WVwGaZ+W3aoLH7o9a/u96LWxDzMw1gkLA=="
-Received: by 2002:a05:600c:8188:b0:477:5582:def6 with SMTP id
- 5b1f17b1804b1-477b8e18581ls3778465e9.1.-pod-prod-03-eu; Thu, 20 Nov 2025
- 07:14:21 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXDv9lLr3Iv4p8bTXfkjymHUYngPxyugo0NrmzauMl4L02BM6Pk8uMIbWrhXi9YzIh1UTyr1f5HGpo=@googlegroups.com
-X-Received: by 2002:a05:600c:4748:b0:477:bb0:751b with SMTP id 5b1f17b1804b1-477b9e37f5fmr27261665e9.27.1763651661162;
-        Thu, 20 Nov 2025 07:14:21 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1763651661; cv=none;
+        bh=3FoaQ0OqsA+vCTGEnzswC8P6yM8NlfDB6wRrk9lcbKw=;
+        b=fGvZYQAbjk483Ttz7Mpn9ZYgz31DsF7CS7CfN/mVkbwtWLz4laVwW4UUwXnSe/G4fa
+         auvB3wh7QSp0sqFgo9BEaILlUSR4AxASWXbeABoWniEpbS9pEbe4ryVpwsh/RnXmopBP
+         2XIQGoixBSkoobhPwFWYZaRLkMSwHiyIVMaLti7cxNNCWGRjhoLXAFdDYM7Jw1Tu1Tkm
+         hPyYn+S61xYjMwrZXj+H6EJcb5zqlnqmcUjhGUCttL9mPI7AAQO95X6eIy8HzV5nW9S+
+         d3sV1b/XzfoF3J0JCsxqhPTGFsY8R6FDX6SCTJECVKjE2MMuJVDKrGt3tVM46vSGFsM1
+         Dvrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763662889; x=1764267689;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3FoaQ0OqsA+vCTGEnzswC8P6yM8NlfDB6wRrk9lcbKw=;
+        b=RqjpTYLM2gcXRuDInKvvRGZGoJMFUpp3XQb6EsUcT2Um4CxVO6j/qmIkzjGwf2kLUd
+         tcKgYdcFHEG/UoI2Dd8Z9+eI3oA+L2WBJMqEe7YHAhNoG64kVQyPHAq9T8jRkcHKrGRT
+         xj0YMP/V9U9VgiYTk2m9b9LPliV6csrxY2vGgh4S+XuHWv+pjtqhBQQOwfPKnPab4Rn2
+         I8RJj8Yfaf/vpvzzM+bz7XM8MqUpECqBJtf2Tr54y6u4kLcN37V4KiSMrOtjp+PIHPT8
+         CiLx3A1NXmixphqvtlvqoaHwxEiHEiK6uZYqrCdqqUSTXapB+X6o9rR4PWqksWTowAEr
+         d6cg==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCU4HxDmebgH96fLWLruXJaKx1FwbXYYQQfbHqjOrKHejkZytZs3otwxvvBf1B2lofrgLbLpLw==@lfdr.de
+X-Gm-Message-State: AOJu0YyRF8+uxMLiwK3WWrDyax4xCAKhCrniNn2Nnpgl0FeQGRxVCbJD
+	UXKdb+nvAfK0Z8E1x5IW2EsF1EjkcqTK2OsyhhDxW2PR6hUhnG7I8Yxt
+X-Google-Smtp-Source: AGHT+IHF88pSbnsscjlD9cWAuNlspy5hXF7fMjPmOKxjm7tTVP4tjSHO1mtkKKRwB/kJtFa8+rk4CQ==
+X-Received: by 2002:a05:600c:1f86:b0:477:73e9:dc17 with SMTP id 5b1f17b1804b1-477b8c935d2mr48011255e9.35.1763662888471;
+        Thu, 20 Nov 2025 10:21:28 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+blKI6fVI3rfdeWAVuvo+hXtciAul93++3WDuQnzzMPNw=="
+Received: by 2002:a5d:5f93:0:b0:3e7:5e78:598 with SMTP id ffacd0b85a97d-42cb8239d1bls827241f8f.2.-pod-prod-08-eu;
+ Thu, 20 Nov 2025 10:21:25 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUpuWwJQJDzBjr3hkBeuXqOjH2tfqLK8TJB5Wx+MHNghfRjhUATyfFx5532wN7iTOKfi7u7i94R5GQ=@googlegroups.com
+X-Received: by 2002:a05:600c:4e8e:b0:477:7ab8:aba with SMTP id 5b1f17b1804b1-477b8579d24mr36842135e9.1.1763662885390;
+        Thu, 20 Nov 2025 10:21:25 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1763662885; cv=none;
         d=google.com; s=arc-20240605;
-        b=DovPEGgutqgxrevi/w8QyHQLNnpsn2BisyRHk8JKOGi4BT8JTwfto2Zy/GO6/YVj0w
-         3USEtB4b5oMlUFeEGVicGlPdv8H/igoGK33yFea6LxNAACTW+NLTZkrKuegJWgCbUT9q
-         gvePx0L5ekr53+4FGZvGTpLs/c4GumWOwfNRE6UMVuS62K8W51GMZ5znMxrNIrhqUhSL
-         uprlAkSMo+Vk6WTUxaqCoYZDPq0kJcoUkkg3PAP+/Zge4mH4psigq60rEcsgBB27vEIW
-         LHPClSfzsGhu/QUAC1addmmr8P8GCeI6h/BEi/d0QShMn3STsnxjUmkh+ZHhYEBrz8Co
-         8XTQ==
+        b=XGKR1B+oO0af2JiOaREwzbV6QBFIsSi1NvUEC5JyT7Zni3dKGIL+TemSmnNKPk5ubG
+         4Wy9YVJgcdyy90jZzDgAXs+/JW0XXyRV+u7B9Vk6gENnNgo/bEPyTzix5sI20u3+6vSV
+         dyjbJjDypKWkC1avtpdWqvELcAIU6566oPrVDP5KuWfMOx/Ul2a/1YXgWlqDf25eVeYf
+         015Ok/osy+e0D4rmjrPE7bHvpPhkRQzLsO1MGj4vtgCDXuIV9twA/lAR5ygD/7cMowd9
+         F1fJ7aSMe0niQjPRJU9z+42pJ69QTLN0x4Yz6+QFkiabKaGVsN5SOoDwCgMMVFLfvyCy
+         FxFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:dkim-signature;
-        bh=YGVDTZeKU8HtP6Bp5mRJ8rt3G3nq7YHNLnBPvMXXBAk=;
-        fh=dujRCvfJBx3AwgCtLm192GdHgIYU/ZImCmIXrt1tW7s=;
-        b=C2Gpp8cIT9fg2q19LhBLFW6tq8v448vDmCMS4q7WadazBt++FLPy3vZ21ZJmFuyNGu
-         +D68OgW30p6QRAPuTS1oM44Jnxe+v5XHXeVY7hRlZVYDSMBgbZzss6qVAtC+i+QJZM/q
-         MpOT+zLTrZUjPsrkp7hGQGfyMJ/arMkZGgf+I8wgZHSjgQzbFqIAldiR/NHJPW8boX5L
-         58pDYCd83WKsXgY8wCLfYB7Rps9ouBRg50wS1YN35C4D2Pyc04urR64UgX3N3hB30+7O
-         zTgWKKjXUQ7Ed6chqaFudq2mYRfvZTiUO123DbyjiRF9keiLgCHIK/hRHockG6D1IC6E
-         yKSQ==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=+BPfdnrOHpw/8tC+sL0oorkp9gKYtrunKdRWYzTn+GA=;
+        fh=ZE70MaobYAxvNg475xoj2aDJramfo1Kf/UGaUhrZuD4=;
+        b=Pl9ikEo/zZ5rcHpu4XXFgtAvYVLkvUvECMLYMn/Bn5z7AhKFrL60PkAB/8oM0GL62z
+         8zkab3nXo+3PdU4PUEzfhxuzZqxv6h18aax9/aiV7AZ6toLpe0Ev+4H3dClxojsk51jG
+         PErY0XXy18U0oeVg4GDvJ3IZFP5DCYvHGPv8+Xh2W7cIgGBRy0ittJeOvQmn5cJK3yHr
+         9fI29ESmDhaZt7y4IlHfSoaqm0cmVGToF8NQDyqssFAB+3o8ZGKTDiXxqxULS7L5hs9L
+         6/Lm6cF+bbbYevUuRpCXCf4SmPwYe7uf8aKR11Yq8ysRW4lYxW8addpKH3qzjEW1EiIG
+         JeuA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=bUSqsGwL;
-       spf=pass (google.com: domain of 3tdafaqukcxkbisbodlldib.zljhxpxk-absdlldibdolrmp.zlj@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3TDAfaQUKCXkbisbodlldib.ZljhXpXk-absdlldibdolrmp.Zlj@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@linux-foundation.org header.s=google header.b="gcWj/4qT";
+       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::130 as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org;
        dara=pass header.i=@googlegroups.com
-Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com. [2a00:1450:4864:20::449])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-477b7b92212si254915e9.0.2025.11.20.07.14.20
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com. [2a00:1450:4864:20::130])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-477bf19b404si14985e9.0.2025.11.20.10.21.25
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Nov 2025 07:14:20 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3tdafaqukcxkbisbodlldib.zljhxpxk-absdlldibdolrmp.zlj@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) client-ip=2a00:1450:4864:20::449;
-Received: by mail-wr1-x449.google.com with SMTP id ffacd0b85a97d-42b30184be7so505394f8f.2
-        for <kasan-dev@googlegroups.com>; Thu, 20 Nov 2025 07:14:20 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVbnk0ilgSkGVjJWGPgT76RKgzmTKa7NvV2/1gtb3BzK//72kgQiup34PEygfWN1oy8vXUc8mhTVqs=@googlegroups.com
-X-Received: from wrxm13.prod.google.com ([2002:a05:6000:8d:b0:429:c854:2a08])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:208a:b0:42b:3aca:5a86
- with SMTP id ffacd0b85a97d-42cbb2b1e57mr3064595f8f.57.1763651660166; Thu, 20
- Nov 2025 07:14:20 -0800 (PST)
-Date: Thu, 20 Nov 2025 16:10:00 +0100
-In-Reply-To: <20251120151033.3840508-7-elver@google.com>
-Mime-Version: 1.0
-References: <20251120145835.3833031-2-elver@google.com> <20251120151033.3840508-7-elver@google.com>
-X-Mailer: git-send-email 2.52.0.rc1.455.g30608eb744-goog
-Message-ID: <20251120151033.3840508-36-elver@google.com>
-Subject: [PATCH v4 35/35] sched: Enable context analysis for core.c and fair.c
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, 
-	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
+        Thu, 20 Nov 2025 10:21:25 -0800 (PST)
+Received-SPF: pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::130 as permitted sender) client-ip=2a00:1450:4864:20::130;
+Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-5958931c9c7so1336133e87.2
+        for <kasan-dev@googlegroups.com>; Thu, 20 Nov 2025 10:21:25 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWULDlQ/09jYNMoje9UmT2KX8DK7sU8jByDTxSd91By24Tsx5Qy38G1G/EUAqmwOH8sG8G1Fr8qch0=@googlegroups.com
+X-Gm-Gg: ASbGncsmo9WfHoUDJEUQkQKP8wosST2y45lZhO0I+FQgP1K2HsyvSxCs79pTx8zFN3q
+	9FZtke0tNtpKav7H1xi+StkL3BWapU9ifuaJdC7bHCWx7VakP2ZmhcGybDBOq30BYpN4papctoM
+	eTsRJDuHSYwzxLvJoBcHRRjba4xe+nXrAJVuT/bbp4RIQtOMvvtNht7v+I7eaR3wR7q6yN+kQ4i
+	S6CJw/IgFjL81E703F1Nkk4EKDBjQQIKNfYz/Y6qlQhVynVB5j4HVd48Btjre2vgwGpaw95WAkl
+	FdzRYK70xsFDfRlMQw9CIxbvRO9WmLSMT1GeISvtYwx9DB/hg1IidyB7PyvIuFpuYlqeDafchv+
+	kWRrh6YhAzYBx9BG4B3MacEt5yN3P+Uhl7ElbgF3rp4Jw347N0VIyWZFPPd84GieyzikfBhDS4+
+	QjtpcAx5Gl6PguN95wP47H9BdUtbxGA+/aUYmOJgMgQNtSVq7rTBN19qXwsyOfMraeqZn5dM8=
+X-Received: by 2002:a05:6512:3c86:b0:594:5620:c5ff with SMTP id 2adb3069b0e04-5969e2ae9bemr1488173e87.2.1763662884302;
+        Thu, 20 Nov 2025 10:21:24 -0800 (PST)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com. [209.85.167.52])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5969db89319sm893181e87.36.2025.11.20.10.21.23
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Nov 2025 10:21:23 -0800 (PST)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-59428d2d975so1363828e87.3
+        for <kasan-dev@googlegroups.com>; Thu, 20 Nov 2025 10:21:23 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVS0RwOY1+0MUbBkUJqZC+oQMYcqtN5iOUI+sXrQ456GxANnUYXiiJqWofw4bKhe/FYVhhaxzvCb7U=@googlegroups.com
+X-Received: by 2002:a17:907:7f0a:b0:b70:b71a:a5ae with SMTP id
+ a640c23a62f3a-b7654fe9b97mr482177966b.44.1763662490181; Thu, 20 Nov 2025
+ 10:14:50 -0800 (PST)
+MIME-Version: 1.0
+References: <20251120145835.3833031-2-elver@google.com> <20251120145835.3833031-4-elver@google.com>
+In-Reply-To: <20251120145835.3833031-4-elver@google.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 20 Nov 2025 10:14:34 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whyKteNtcLON-gScv6tu8ssvKWdNw-k371ufDrjOv374g@mail.gmail.com>
+X-Gm-Features: AWmQ_bk-my8wSL6P8yRhTUREdDraem8VrQQmjD7uS2S9oN6T2mRX46ftlS1ytQU
+Message-ID: <CAHk-=whyKteNtcLON-gScv6tu8ssvKWdNw-k371ufDrjOv374g@mail.gmail.com>
+Subject: Re: [PATCH v4 02/35] compiler-context-analysis: Add infrastructure
+ for Context Analysis with Clang
+To: Marco Elver <elver@google.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>, 
+	Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
 	Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
 	Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>, 
 	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
@@ -136,24 +153,20 @@ Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenry
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Miguel Ojeda <ojeda@kernel.org>, 
 	Nathan Chancellor <nathan@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
 	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
 	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
 	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
 	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
 	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org, 
-	Ingo Molnar <mingo@redhat.com>
+	linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+X-Original-Sender: torvalds@linux-foundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=bUSqsGwL;       spf=pass
- (google.com: domain of 3tdafaqukcxkbisbodlldib.zljhxpxk-absdlldibdolrmp.zlj@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3TDAfaQUKCXkbisbodlldib.ZljhXpXk-absdlldibdolrmp.Zlj@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+ header.i=@linux-foundation.org header.s=google header.b="gcWj/4qT";
+       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates
+ 2a00:1450:4864:20::130 as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org;
        dara=pass header.i=@googlegroups.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -166,836 +179,82 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This demonstrates a larger conversion to use Clang's context
-analysis. The benefit is additional static checking of locking rules,
-along with better documentation.
+On Thu, 20 Nov 2025 at 07:13, Marco Elver <elver@google.com> wrote:
+>
+> --- a/include/linux/compiler-context-analysis.h
+> +++ b/include/linux/compiler-context-analysis.h
+> @@ -6,27 +6,465 @@
+>  #ifndef _LINUX_COMPILER_CONTEXT_ANALYSIS_H
+>  #define _LINUX_COMPILER_CONTEXT_ANALYSIS_H
+>
+> +#if defined(WARN_CONTEXT_ANALYSIS)
 
-Notably, kernel/sched contains sufficiently complex synchronization
-patterns, and application to core.c & fair.c demonstrates that the
-latest Clang version has become powerful enough to start applying this
-to more complex subsystems (with some modest annotations and changes).
+Note the 400+ added lines to this header...
 
-Signed-off-by: Marco Elver <elver@google.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Ingo Molnar <mingo@redhat.com>
----
-v4:
-* Rename capability -> context analysis.
+And then note how the header gets used:
 
-v3:
-* New patch.
----
- include/linux/sched.h                    |   6 +-
- include/linux/sched/signal.h             |   4 +-
- include/linux/sched/task.h               |   5 +-
- include/linux/sched/wake_q.h             |   3 +
- kernel/sched/Makefile                    |   3 +
- kernel/sched/core.c                      |  89 ++++++++++++------
- kernel/sched/fair.c                      |   9 +-
- kernel/sched/sched.h                     | 110 +++++++++++++++--------
- scripts/context-analysis-suppression.txt |   1 +
- 9 files changed, 162 insertions(+), 68 deletions(-)
+> +++ b/scripts/Makefile.context-analysis
+> @@ -0,0 +1,7 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +context-analysis-cflags := -DWARN_CONTEXT_ANALYSIS             \
+> +       -fexperimental-late-parse-attributes -Wthread-safety    \
+> +       -Wthread-safety-pointer -Wthread-safety-beta
+> +
+> +export CFLAGS_CONTEXT_ANALYSIS := $(context-analysis-cflags)
 
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index b469878de25c..9088cbda6915 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -2108,9 +2108,9 @@ static inline int _cond_resched(void)
- 	_cond_resched();			\
- })
- 
--extern int __cond_resched_lock(spinlock_t *lock);
--extern int __cond_resched_rwlock_read(rwlock_t *lock);
--extern int __cond_resched_rwlock_write(rwlock_t *lock);
-+extern int __cond_resched_lock(spinlock_t *lock) __must_hold(lock);
-+extern int __cond_resched_rwlock_read(rwlock_t *lock) __must_hold_shared(lock);
-+extern int __cond_resched_rwlock_write(rwlock_t *lock) __must_hold(lock);
- 
- #define MIGHT_RESCHED_RCU_SHIFT		8
- #define MIGHT_RESCHED_PREEMPT_MASK	((1U << MIGHT_RESCHED_RCU_SHIFT) - 1)
-diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
-index a63f65aa5bdd..a22248aebcf9 100644
---- a/include/linux/sched/signal.h
-+++ b/include/linux/sched/signal.h
-@@ -738,10 +738,12 @@ static inline int thread_group_empty(struct task_struct *p)
- 		(thread_group_leader(p) && !thread_group_empty(p))
- 
- extern struct sighand_struct *lock_task_sighand(struct task_struct *task,
--						unsigned long *flags);
-+						unsigned long *flags)
-+	__acquires(&task->sighand->siglock);
- 
- static inline void unlock_task_sighand(struct task_struct *task,
- 						unsigned long *flags)
-+	__releases(&task->sighand->siglock)
- {
- 	spin_unlock_irqrestore(&task->sighand->siglock, *flags);
- }
-diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
-index 525aa2a632b2..2acf9e1c4b0b 100644
---- a/include/linux/sched/task.h
-+++ b/include/linux/sched/task.h
-@@ -214,15 +214,18 @@ static inline struct vm_struct *task_stack_vm_area(const struct task_struct *t)
-  * write_lock_irq(&tasklist_lock), neither inside nor outside.
-  */
- static inline void task_lock(struct task_struct *p)
-+	__acquires(&p->alloc_lock)
- {
- 	spin_lock(&p->alloc_lock);
- }
- 
- static inline void task_unlock(struct task_struct *p)
-+	__releases(&p->alloc_lock)
- {
- 	spin_unlock(&p->alloc_lock);
- }
- 
--DEFINE_GUARD(task_lock, struct task_struct *, task_lock(_T), task_unlock(_T))
-+DEFINE_LOCK_GUARD_1(task_lock, struct task_struct, task_lock(_T->lock), task_unlock(_T->lock))
-+DECLARE_LOCK_GUARD_1_ATTRS(task_lock, __assumes_ctx_guard(_T->alloc_lock), /* */)
- 
- #endif /* _LINUX_SCHED_TASK_H */
-diff --git a/include/linux/sched/wake_q.h b/include/linux/sched/wake_q.h
-index 0f28b4623ad4..765bbc3d54be 100644
---- a/include/linux/sched/wake_q.h
-+++ b/include/linux/sched/wake_q.h
-@@ -66,6 +66,7 @@ extern void wake_up_q(struct wake_q_head *head);
- /* Spin unlock helpers to unlock and call wake_up_q with preempt disabled */
- static inline
- void raw_spin_unlock_wake(raw_spinlock_t *lock, struct wake_q_head *wake_q)
-+	__releases(lock)
- {
- 	guard(preempt)();
- 	raw_spin_unlock(lock);
-@@ -77,6 +78,7 @@ void raw_spin_unlock_wake(raw_spinlock_t *lock, struct wake_q_head *wake_q)
- 
- static inline
- void raw_spin_unlock_irq_wake(raw_spinlock_t *lock, struct wake_q_head *wake_q)
-+	__releases(lock)
- {
- 	guard(preempt)();
- 	raw_spin_unlock_irq(lock);
-@@ -89,6 +91,7 @@ void raw_spin_unlock_irq_wake(raw_spinlock_t *lock, struct wake_q_head *wake_q)
- static inline
- void raw_spin_unlock_irqrestore_wake(raw_spinlock_t *lock, unsigned long flags,
- 				     struct wake_q_head *wake_q)
-+	__releases(lock)
- {
- 	guard(preempt)();
- 	raw_spin_unlock_irqrestore(lock, flags);
-diff --git a/kernel/sched/Makefile b/kernel/sched/Makefile
-index 8ae86371ddcd..b1f1a367034f 100644
---- a/kernel/sched/Makefile
-+++ b/kernel/sched/Makefile
-@@ -1,5 +1,8 @@
- # SPDX-License-Identifier: GPL-2.0
- 
-+CONTEXT_ANALYSIS_core.o := y
-+CONTEXT_ANALYSIS_fair.o := y
-+
- # The compilers are complaining about unused variables inside an if(0) scope
- # block. This is daft, shut them up.
- ccflags-y += $(call cc-disable-warning, unused-but-set-variable)
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index f754a60de848..ebfd107d17af 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -395,6 +395,8 @@ static atomic_t sched_core_count;
- static struct cpumask sched_core_mask;
- 
- static void sched_core_lock(int cpu, unsigned long *flags)
-+	__context_unsafe(/* acquires multiple */)
-+	__acquires(&runqueues.__lock) /* overapproximation */
- {
- 	const struct cpumask *smt_mask = cpu_smt_mask(cpu);
- 	int t, i = 0;
-@@ -405,6 +407,8 @@ static void sched_core_lock(int cpu, unsigned long *flags)
- }
- 
- static void sched_core_unlock(int cpu, unsigned long *flags)
-+	__context_unsafe(/* releases multiple */)
-+	__releases(&runqueues.__lock) /* overapproximation */
- {
- 	const struct cpumask *smt_mask = cpu_smt_mask(cpu);
- 	int t;
-@@ -629,6 +633,7 @@ EXPORT_SYMBOL(__trace_set_current_state);
-  */
- 
- void raw_spin_rq_lock_nested(struct rq *rq, int subclass)
-+	__context_unsafe()
- {
- 	raw_spinlock_t *lock;
- 
-@@ -654,6 +659,7 @@ void raw_spin_rq_lock_nested(struct rq *rq, int subclass)
- }
- 
- bool raw_spin_rq_trylock(struct rq *rq)
-+	__context_unsafe()
- {
- 	raw_spinlock_t *lock;
- 	bool ret;
-@@ -695,15 +701,16 @@ void double_rq_lock(struct rq *rq1, struct rq *rq2)
- 	raw_spin_rq_lock(rq1);
- 	if (__rq_lockp(rq1) != __rq_lockp(rq2))
- 		raw_spin_rq_lock_nested(rq2, SINGLE_DEPTH_NESTING);
-+	else
-+		__acquire_ctx_guard(__rq_lockp(rq2)); /* fake acquire */
- 
- 	double_rq_clock_clear_update(rq1, rq2);
- }
- 
- /*
-- * __task_rq_lock - lock the rq @p resides on.
-+ * ___task_rq_lock - lock the rq @p resides on.
-  */
--struct rq *__task_rq_lock(struct task_struct *p, struct rq_flags *rf)
--	__acquires(rq->lock)
-+struct rq *___task_rq_lock(struct task_struct *p, struct rq_flags *rf)
- {
- 	struct rq *rq;
- 
-@@ -726,9 +733,7 @@ struct rq *__task_rq_lock(struct task_struct *p, struct rq_flags *rf)
- /*
-  * task_rq_lock - lock p->pi_lock and lock the rq @p resides on.
-  */
--struct rq *task_rq_lock(struct task_struct *p, struct rq_flags *rf)
--	__acquires(p->pi_lock)
--	__acquires(rq->lock)
-+struct rq *_task_rq_lock(struct task_struct *p, struct rq_flags *rf)
- {
- 	struct rq *rq;
- 
-@@ -2463,6 +2468,7 @@ static inline bool is_cpu_allowed(struct task_struct *p, int cpu)
-  */
- static struct rq *move_queued_task(struct rq *rq, struct rq_flags *rf,
- 				   struct task_struct *p, int new_cpu)
-+	__must_hold(__rq_lockp(rq))
- {
- 	lockdep_assert_rq_held(rq);
- 
-@@ -2509,6 +2515,7 @@ struct set_affinity_pending {
-  */
- static struct rq *__migrate_task(struct rq *rq, struct rq_flags *rf,
- 				 struct task_struct *p, int dest_cpu)
-+	__must_hold(__rq_lockp(rq))
- {
- 	/* Affinity changed (again). */
- 	if (!is_cpu_allowed(p, dest_cpu))
-@@ -2545,6 +2552,12 @@ static int migration_cpu_stop(void *data)
- 	 */
- 	flush_smp_call_function_queue();
- 
-+	/*
-+	 * We may change the underlying rq, but the locks held will
-+	 * appropriately be "transferred" when switching.
-+	 */
-+	context_unsafe_alias(rq);
-+
- 	raw_spin_lock(&p->pi_lock);
- 	rq_lock(rq, &rf);
- 
-@@ -2654,6 +2667,8 @@ int push_cpu_stop(void *arg)
- 	if (!lowest_rq)
- 		goto out_unlock;
- 
-+	lockdep_assert_rq_held(lowest_rq);
-+
- 	// XXX validate p is still the highest prio task
- 	if (task_rq(p) == rq) {
- 		move_queued_task_locked(rq, lowest_rq, p);
-@@ -2899,8 +2914,7 @@ void release_user_cpus_ptr(struct task_struct *p)
-  */
- static int affine_move_task(struct rq *rq, struct task_struct *p, struct rq_flags *rf,
- 			    int dest_cpu, unsigned int flags)
--	__releases(rq->lock)
--	__releases(p->pi_lock)
-+	__releases(__rq_lockp(rq), &p->pi_lock)
- {
- 	struct set_affinity_pending my_pending = { }, *pending = NULL;
- 	bool stop_pending, complete = false;
-@@ -3055,8 +3069,7 @@ static int __set_cpus_allowed_ptr_locked(struct task_struct *p,
- 					 struct affinity_context *ctx,
- 					 struct rq *rq,
- 					 struct rq_flags *rf)
--	__releases(rq->lock)
--	__releases(p->pi_lock)
-+	__releases(__rq_lockp(rq), &p->pi_lock)
- {
- 	const struct cpumask *cpu_allowed_mask = task_cpu_possible_mask(p);
- 	const struct cpumask *cpu_valid_mask = cpu_active_mask;
-@@ -4348,29 +4361,30 @@ static bool __task_needs_rq_lock(struct task_struct *p)
-  */
- int task_call_func(struct task_struct *p, task_call_f func, void *arg)
- {
--	struct rq *rq = NULL;
- 	struct rq_flags rf;
- 	int ret;
- 
- 	raw_spin_lock_irqsave(&p->pi_lock, rf.flags);
- 
--	if (__task_needs_rq_lock(p))
--		rq = __task_rq_lock(p, &rf);
-+	if (__task_needs_rq_lock(p)) {
-+		struct rq *rq = __task_rq_lock(p, &rf);
- 
--	/*
--	 * At this point the task is pinned; either:
--	 *  - blocked and we're holding off wakeups	 (pi->lock)
--	 *  - woken, and we're holding off enqueue	 (rq->lock)
--	 *  - queued, and we're holding off schedule	 (rq->lock)
--	 *  - running, and we're holding off de-schedule (rq->lock)
--	 *
--	 * The called function (@func) can use: task_curr(), p->on_rq and
--	 * p->__state to differentiate between these states.
--	 */
--	ret = func(p, arg);
-+		/*
-+		 * At this point the task is pinned; either:
-+		 *  - blocked and we're holding off wakeups	 (pi->lock)
-+		 *  - woken, and we're holding off enqueue	 (rq->lock)
-+		 *  - queued, and we're holding off schedule	 (rq->lock)
-+		 *  - running, and we're holding off de-schedule (rq->lock)
-+		 *
-+		 * The called function (@func) can use: task_curr(), p->on_rq and
-+		 * p->__state to differentiate between these states.
-+		 */
-+		ret = func(p, arg);
- 
--	if (rq)
- 		rq_unlock(rq, &rf);
-+	} else {
-+		ret = func(p, arg);
-+	}
- 
- 	raw_spin_unlock_irqrestore(&p->pi_lock, rf.flags);
- 	return ret;
-@@ -5046,6 +5060,8 @@ void balance_callbacks(struct rq *rq, struct balance_callback *head)
- 
- static inline void
- prepare_lock_switch(struct rq *rq, struct task_struct *next, struct rq_flags *rf)
-+	__releases(__rq_lockp(rq))
-+	__acquires(__rq_lockp(this_rq()))
- {
- 	/*
- 	 * Since the runqueue lock will be released by the next
-@@ -5059,9 +5075,15 @@ prepare_lock_switch(struct rq *rq, struct task_struct *next, struct rq_flags *rf
- 	/* this is a valid case when another task releases the spinlock */
- 	rq_lockp(rq)->owner = next;
- #endif
-+	/*
-+	 * Model the rq reference switcheroo.
-+	 */
-+	__release(__rq_lockp(rq));
-+	__acquire(__rq_lockp(this_rq()));
- }
- 
- static inline void finish_lock_switch(struct rq *rq)
-+	__releases(__rq_lockp(rq))
- {
- 	/*
- 	 * If we are tracking spinlock dependencies then we have to
-@@ -5117,6 +5139,7 @@ static inline void kmap_local_sched_in(void)
- static inline void
- prepare_task_switch(struct rq *rq, struct task_struct *prev,
- 		    struct task_struct *next)
-+	__must_hold(__rq_lockp(rq))
- {
- 	kcov_prepare_switch(prev);
- 	sched_info_switch(rq, prev, next);
-@@ -5148,7 +5171,7 @@ prepare_task_switch(struct rq *rq, struct task_struct *prev,
-  * because prev may have moved to another CPU.
-  */
- static struct rq *finish_task_switch(struct task_struct *prev)
--	__releases(rq->lock)
-+	__releases(__rq_lockp(this_rq()))
- {
- 	struct rq *rq = this_rq();
- 	struct mm_struct *mm = rq->prev_mm;
-@@ -5236,7 +5259,7 @@ static struct rq *finish_task_switch(struct task_struct *prev)
-  * @prev: the thread we just switched away from.
-  */
- asmlinkage __visible void schedule_tail(struct task_struct *prev)
--	__releases(rq->lock)
-+	__releases(__rq_lockp(this_rq()))
- {
- 	/*
- 	 * New tasks start with FORK_PREEMPT_COUNT, see there and
-@@ -5268,6 +5291,7 @@ asmlinkage __visible void schedule_tail(struct task_struct *prev)
- static __always_inline struct rq *
- context_switch(struct rq *rq, struct task_struct *prev,
- 	       struct task_struct *next, struct rq_flags *rf)
-+	__releases(__rq_lockp(rq))
- {
- 	prepare_task_switch(rq, prev, next);
- 
-@@ -5948,6 +5972,7 @@ static void prev_balance(struct rq *rq, struct task_struct *prev,
-  */
- static inline struct task_struct *
- __pick_next_task(struct rq *rq, struct task_struct *prev, struct rq_flags *rf)
-+	__must_hold(__rq_lockp(rq))
- {
- 	const struct sched_class *class;
- 	struct task_struct *p;
-@@ -6040,6 +6065,7 @@ static void queue_core_balance(struct rq *rq);
- 
- static struct task_struct *
- pick_next_task(struct rq *rq, struct task_struct *prev, struct rq_flags *rf)
-+	__must_hold(__rq_lockp(rq))
- {
- 	struct task_struct *next, *p, *max = NULL;
- 	const struct cpumask *smt_mask;
-@@ -6339,6 +6365,7 @@ static bool steal_cookie_task(int cpu, struct sched_domain *sd)
- }
- 
- static void sched_core_balance(struct rq *rq)
-+	__must_hold(__rq_lockp(rq))
- {
- 	struct sched_domain *sd;
- 	int cpu = cpu_of(rq);
-@@ -6484,6 +6511,7 @@ static inline void sched_core_cpu_dying(unsigned int cpu) {}
- 
- static struct task_struct *
- pick_next_task(struct rq *rq, struct task_struct *prev, struct rq_flags *rf)
-+	__must_hold(__rq_lockp(rq))
- {
- 	return __pick_next_task(rq, prev, rf);
- }
-@@ -8141,6 +8169,12 @@ static int __balance_push_cpu_stop(void *arg)
- 	struct rq_flags rf;
- 	int cpu;
- 
-+	/*
-+	 * We may change the underlying rq, but the locks held will
-+	 * appropriately be "transferred" when switching.
-+	 */
-+	context_unsafe_alias(rq);
-+
- 	raw_spin_lock_irq(&p->pi_lock);
- 	rq_lock(rq, &rf);
- 
-@@ -8168,6 +8202,7 @@ static DEFINE_PER_CPU(struct cpu_stop_work, push_work);
-  * effective when the hotplug motion is down.
-  */
- static void balance_push(struct rq *rq)
-+	__must_hold(__rq_lockp(rq))
- {
- 	struct task_struct *push_task = rq->curr;
- 
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index 5b752324270b..b8cebd1f1f4d 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -2876,6 +2876,7 @@ static int preferred_group_nid(struct task_struct *p, int nid)
- }
- 
- static void task_numa_placement(struct task_struct *p)
-+	__context_unsafe(/* conditional locking */)
- {
- 	int seq, nid, max_nid = NUMA_NO_NODE;
- 	unsigned long max_faults = 0;
-@@ -4803,7 +4804,8 @@ static inline unsigned long cfs_rq_load_avg(struct cfs_rq *cfs_rq)
- 	return cfs_rq->avg.load_avg;
- }
- 
--static int sched_balance_newidle(struct rq *this_rq, struct rq_flags *rf);
-+static int sched_balance_newidle(struct rq *this_rq, struct rq_flags *rf)
-+	__must_hold(__rq_lockp(this_rq));
- 
- static inline unsigned long task_util(struct task_struct *p)
- {
-@@ -6229,6 +6231,7 @@ static bool distribute_cfs_runtime(struct cfs_bandwidth *cfs_b)
-  * used to track this state.
-  */
- static int do_sched_cfs_period_timer(struct cfs_bandwidth *cfs_b, int overrun, unsigned long flags)
-+	__must_hold(&cfs_b->lock)
- {
- 	int throttled;
- 
-@@ -8714,6 +8717,7 @@ static void set_cpus_allowed_fair(struct task_struct *p, struct affinity_context
- 
- static int
- balance_fair(struct rq *rq, struct task_struct *prev, struct rq_flags *rf)
-+	__must_hold(__rq_lockp(rq))
- {
- 	if (sched_fair_runnable(rq))
- 		return 1;
-@@ -8867,6 +8871,7 @@ static void set_next_task_fair(struct rq *rq, struct task_struct *p, bool first)
- 
- struct task_struct *
- pick_next_task_fair(struct rq *rq, struct task_struct *prev, struct rq_flags *rf)
-+	__must_hold(__rq_lockp(rq))
- {
- 	struct sched_entity *se;
- 	struct task_struct *p;
-@@ -8953,6 +8958,7 @@ pick_next_task_fair(struct rq *rq, struct task_struct *prev, struct rq_flags *rf
- }
- 
- static struct task_struct *__pick_next_task_fair(struct rq *rq, struct task_struct *prev)
-+	__must_hold(__rq_lockp(rq))
- {
- 	return pick_next_task_fair(rq, prev, NULL);
- }
-@@ -12784,6 +12790,7 @@ static inline void nohz_newidle_balance(struct rq *this_rq) { }
-  *   > 0 - success, new (fair) tasks present
-  */
- static int sched_balance_newidle(struct rq *this_rq, struct rq_flags *rf)
-+	__must_hold(__rq_lockp(this_rq))
- {
- 	unsigned long next_balance = jiffies + HZ;
- 	int this_cpu = this_rq->cpu;
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index adfb6e3409d7..2d4b9ba30d58 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -1350,8 +1350,13 @@ static inline bool is_migration_disabled(struct task_struct *p)
- 
- DECLARE_PER_CPU_SHARED_ALIGNED(struct rq, runqueues);
- 
-+static __always_inline struct rq *__this_rq(void)
-+{
-+	return this_cpu_ptr(&runqueues);
-+}
-+
- #define cpu_rq(cpu)		(&per_cpu(runqueues, (cpu)))
--#define this_rq()		this_cpu_ptr(&runqueues)
-+#define this_rq()		__this_rq()
- #define task_rq(p)		cpu_rq(task_cpu(p))
- #define cpu_curr(cpu)		(cpu_rq(cpu)->curr)
- #define raw_rq()		raw_cpu_ptr(&runqueues)
-@@ -1396,6 +1401,7 @@ static inline raw_spinlock_t *rq_lockp(struct rq *rq)
- }
- 
- static inline raw_spinlock_t *__rq_lockp(struct rq *rq)
-+	__returns_ctx_guard(rq_lockp(rq)) /* alias them */
- {
- 	if (rq->core_enabled)
- 		return &rq->core->__lock;
-@@ -1492,6 +1498,7 @@ static inline raw_spinlock_t *rq_lockp(struct rq *rq)
- }
- 
- static inline raw_spinlock_t *__rq_lockp(struct rq *rq)
-+	__returns_ctx_guard(rq_lockp(rq)) /* alias them */
- {
- 	return &rq->__lock;
- }
-@@ -1534,32 +1541,42 @@ static inline bool rt_group_sched_enabled(void)
- #endif /* !CONFIG_RT_GROUP_SCHED */
- 
- static inline void lockdep_assert_rq_held(struct rq *rq)
-+	__assumes_ctx_guard(__rq_lockp(rq))
- {
- 	lockdep_assert_held(__rq_lockp(rq));
- }
- 
--extern void raw_spin_rq_lock_nested(struct rq *rq, int subclass);
--extern bool raw_spin_rq_trylock(struct rq *rq);
--extern void raw_spin_rq_unlock(struct rq *rq);
-+extern void raw_spin_rq_lock_nested(struct rq *rq, int subclass)
-+	__acquires(__rq_lockp(rq));
-+
-+extern bool raw_spin_rq_trylock(struct rq *rq)
-+	__cond_acquires(true, __rq_lockp(rq));
-+
-+extern void raw_spin_rq_unlock(struct rq *rq)
-+	__releases(__rq_lockp(rq));
- 
- static inline void raw_spin_rq_lock(struct rq *rq)
-+	__acquires(__rq_lockp(rq))
- {
- 	raw_spin_rq_lock_nested(rq, 0);
- }
- 
- static inline void raw_spin_rq_lock_irq(struct rq *rq)
-+	__acquires(__rq_lockp(rq))
- {
- 	local_irq_disable();
- 	raw_spin_rq_lock(rq);
- }
- 
- static inline void raw_spin_rq_unlock_irq(struct rq *rq)
-+	__releases(__rq_lockp(rq))
- {
- 	raw_spin_rq_unlock(rq);
- 	local_irq_enable();
- }
- 
- static inline unsigned long _raw_spin_rq_lock_irqsave(struct rq *rq)
-+	__acquires(__rq_lockp(rq))
- {
- 	unsigned long flags;
- 
-@@ -1570,6 +1587,7 @@ static inline unsigned long _raw_spin_rq_lock_irqsave(struct rq *rq)
- }
- 
- static inline void raw_spin_rq_unlock_irqrestore(struct rq *rq, unsigned long flags)
-+	__releases(__rq_lockp(rq))
- {
- 	raw_spin_rq_unlock(rq);
- 	local_irq_restore(flags);
-@@ -1818,17 +1836,15 @@ static inline void rq_repin_lock(struct rq *rq, struct rq_flags *rf)
- 	rq->clock_update_flags |= rf->clock_update_flags;
- }
- 
--extern
--struct rq *__task_rq_lock(struct task_struct *p, struct rq_flags *rf)
--	__acquires(rq->lock);
-+#define __task_rq_lock(...) __acquire_ret(___task_rq_lock(__VA_ARGS__), __rq_lockp(__ret))
-+extern struct rq *___task_rq_lock(struct task_struct *p, struct rq_flags *rf) __acquires_ret;
- 
--extern
--struct rq *task_rq_lock(struct task_struct *p, struct rq_flags *rf)
--	__acquires(p->pi_lock)
--	__acquires(rq->lock);
-+#define task_rq_lock(...) __acquire_ret(_task_rq_lock(__VA_ARGS__), __rq_lockp(__ret))
-+extern struct rq *_task_rq_lock(struct task_struct *p, struct rq_flags *rf)
-+	__acquires(&p->pi_lock) __acquires_ret;
- 
- static inline void __task_rq_unlock(struct rq *rq, struct rq_flags *rf)
--	__releases(rq->lock)
-+	__releases(__rq_lockp(rq))
- {
- 	rq_unpin_lock(rq, rf);
- 	raw_spin_rq_unlock(rq);
-@@ -1836,8 +1852,7 @@ static inline void __task_rq_unlock(struct rq *rq, struct rq_flags *rf)
- 
- static inline void
- task_rq_unlock(struct rq *rq, struct task_struct *p, struct rq_flags *rf)
--	__releases(rq->lock)
--	__releases(p->pi_lock)
-+	__releases(__rq_lockp(rq), &p->pi_lock)
- {
- 	rq_unpin_lock(rq, rf);
- 	raw_spin_rq_unlock(rq);
-@@ -1848,44 +1863,45 @@ DEFINE_LOCK_GUARD_1(task_rq_lock, struct task_struct,
- 		    _T->rq = task_rq_lock(_T->lock, &_T->rf),
- 		    task_rq_unlock(_T->rq, _T->lock, &_T->rf),
- 		    struct rq *rq; struct rq_flags rf)
-+DECLARE_LOCK_GUARD_1_ATTRS(task_rq_lock, __assumes_ctx_guard(_T->pi_lock), /* */)
- 
- static inline void rq_lock_irqsave(struct rq *rq, struct rq_flags *rf)
--	__acquires(rq->lock)
-+	__acquires(__rq_lockp(rq))
- {
- 	raw_spin_rq_lock_irqsave(rq, rf->flags);
- 	rq_pin_lock(rq, rf);
- }
- 
- static inline void rq_lock_irq(struct rq *rq, struct rq_flags *rf)
--	__acquires(rq->lock)
-+	__acquires(__rq_lockp(rq))
- {
- 	raw_spin_rq_lock_irq(rq);
- 	rq_pin_lock(rq, rf);
- }
- 
- static inline void rq_lock(struct rq *rq, struct rq_flags *rf)
--	__acquires(rq->lock)
-+	__acquires(__rq_lockp(rq))
- {
- 	raw_spin_rq_lock(rq);
- 	rq_pin_lock(rq, rf);
- }
- 
- static inline void rq_unlock_irqrestore(struct rq *rq, struct rq_flags *rf)
--	__releases(rq->lock)
-+	__releases(__rq_lockp(rq))
- {
- 	rq_unpin_lock(rq, rf);
- 	raw_spin_rq_unlock_irqrestore(rq, rf->flags);
- }
- 
- static inline void rq_unlock_irq(struct rq *rq, struct rq_flags *rf)
--	__releases(rq->lock)
-+	__releases(__rq_lockp(rq))
- {
- 	rq_unpin_lock(rq, rf);
- 	raw_spin_rq_unlock_irq(rq);
- }
- 
- static inline void rq_unlock(struct rq *rq, struct rq_flags *rf)
--	__releases(rq->lock)
-+	__releases(__rq_lockp(rq))
- {
- 	rq_unpin_lock(rq, rf);
- 	raw_spin_rq_unlock(rq);
-@@ -1896,18 +1912,24 @@ DEFINE_LOCK_GUARD_1(rq_lock, struct rq,
- 		    rq_unlock(_T->lock, &_T->rf),
- 		    struct rq_flags rf)
- 
-+DECLARE_LOCK_GUARD_1_ATTRS(rq_lock, __assumes_ctx_guard(__rq_lockp(_T)), /* */);
-+
- DEFINE_LOCK_GUARD_1(rq_lock_irq, struct rq,
- 		    rq_lock_irq(_T->lock, &_T->rf),
- 		    rq_unlock_irq(_T->lock, &_T->rf),
- 		    struct rq_flags rf)
- 
-+DECLARE_LOCK_GUARD_1_ATTRS(rq_lock_irq, __assumes_ctx_guard(__rq_lockp(_T)), /* */);
-+
- DEFINE_LOCK_GUARD_1(rq_lock_irqsave, struct rq,
- 		    rq_lock_irqsave(_T->lock, &_T->rf),
- 		    rq_unlock_irqrestore(_T->lock, &_T->rf),
- 		    struct rq_flags rf)
- 
--static inline struct rq *this_rq_lock_irq(struct rq_flags *rf)
--	__acquires(rq->lock)
-+DECLARE_LOCK_GUARD_1_ATTRS(rq_lock_irqsave, __assumes_ctx_guard(__rq_lockp(_T)), /* */);
-+
-+#define this_rq_lock_irq(...) __acquire_ret(_this_rq_lock_irq(__VA_ARGS__), __rq_lockp(__ret))
-+static inline struct rq *_this_rq_lock_irq(struct rq_flags *rf) __acquires_ret
- {
- 	struct rq *rq;
- 
-@@ -2908,8 +2930,13 @@ static inline void double_rq_clock_clear_update(struct rq *rq1, struct rq *rq2)
- #define DEFINE_LOCK_GUARD_2(name, type, _lock, _unlock, ...)				\
- __DEFINE_UNLOCK_GUARD(name, type, _unlock, type *lock2; __VA_ARGS__)			\
- static inline class_##name##_t class_##name##_constructor(type *lock, type *lock2)	\
-+	__no_context_analysis							\
- { class_##name##_t _t = { .lock = lock, .lock2 = lock2 }, *_T = &_t;			\
-   _lock; return _t; }
-+#define DECLARE_LOCK_GUARD_2_ATTRS(_name, _lock, _unlock)				\
-+static inline class_##_name##_t class_##_name##_constructor(lock_##_name##_t *_T1,	\
-+							    lock_##_name##_t *_T2) _lock; \
-+static inline void class_##_name##_destructor(class_##_name##_t *_T) _unlock
- 
- static inline bool rq_order_less(struct rq *rq1, struct rq *rq2)
- {
-@@ -2937,7 +2964,8 @@ static inline bool rq_order_less(struct rq *rq1, struct rq *rq2)
- 	return rq1->cpu < rq2->cpu;
- }
- 
--extern void double_rq_lock(struct rq *rq1, struct rq *rq2);
-+extern void double_rq_lock(struct rq *rq1, struct rq *rq2)
-+	__acquires(__rq_lockp(rq1), __rq_lockp(rq2));
- 
- #ifdef CONFIG_PREEMPTION
- 
-@@ -2950,9 +2978,8 @@ extern void double_rq_lock(struct rq *rq1, struct rq *rq2);
-  * also adds more overhead and therefore may reduce throughput.
-  */
- static inline int _double_lock_balance(struct rq *this_rq, struct rq *busiest)
--	__releases(this_rq->lock)
--	__acquires(busiest->lock)
--	__acquires(this_rq->lock)
-+	__must_hold(__rq_lockp(this_rq))
-+	__acquires(__rq_lockp(busiest))
- {
- 	raw_spin_rq_unlock(this_rq);
- 	double_rq_lock(this_rq, busiest);
-@@ -2969,12 +2996,16 @@ static inline int _double_lock_balance(struct rq *this_rq, struct rq *busiest)
-  * regardless of entry order into the function.
-  */
- static inline int _double_lock_balance(struct rq *this_rq, struct rq *busiest)
--	__releases(this_rq->lock)
--	__acquires(busiest->lock)
--	__acquires(this_rq->lock)
-+	__must_hold(__rq_lockp(this_rq))
-+	__acquires(__rq_lockp(busiest))
- {
--	if (__rq_lockp(this_rq) == __rq_lockp(busiest) ||
--	    likely(raw_spin_rq_trylock(busiest))) {
-+	if (__rq_lockp(this_rq) == __rq_lockp(busiest)) {
-+		__acquire(__rq_lockp(busiest)); /* already held */
-+		double_rq_clock_clear_update(this_rq, busiest);
-+		return 0;
-+	}
-+
-+	if (likely(raw_spin_rq_trylock(busiest))) {
- 		double_rq_clock_clear_update(this_rq, busiest);
- 		return 0;
- 	}
-@@ -2997,6 +3028,8 @@ static inline int _double_lock_balance(struct rq *this_rq, struct rq *busiest)
-  * double_lock_balance - lock the busiest runqueue, this_rq is locked already.
-  */
- static inline int double_lock_balance(struct rq *this_rq, struct rq *busiest)
-+	__must_hold(__rq_lockp(this_rq))
-+	__acquires(__rq_lockp(busiest))
- {
- 	lockdep_assert_irqs_disabled();
- 
-@@ -3004,14 +3037,17 @@ static inline int double_lock_balance(struct rq *this_rq, struct rq *busiest)
- }
- 
- static inline void double_unlock_balance(struct rq *this_rq, struct rq *busiest)
--	__releases(busiest->lock)
-+	__releases(__rq_lockp(busiest))
- {
- 	if (__rq_lockp(this_rq) != __rq_lockp(busiest))
- 		raw_spin_rq_unlock(busiest);
-+	else
-+		__release(__rq_lockp(busiest)); /* fake release */
- 	lock_set_subclass(&__rq_lockp(this_rq)->dep_map, 0, _RET_IP_);
- }
- 
- static inline void double_lock(spinlock_t *l1, spinlock_t *l2)
-+	__acquires(l1, l2)
- {
- 	if (l1 > l2)
- 		swap(l1, l2);
-@@ -3021,6 +3057,7 @@ static inline void double_lock(spinlock_t *l1, spinlock_t *l2)
- }
- 
- static inline void double_lock_irq(spinlock_t *l1, spinlock_t *l2)
-+	__acquires(l1, l2)
- {
- 	if (l1 > l2)
- 		swap(l1, l2);
-@@ -3030,6 +3067,7 @@ static inline void double_lock_irq(spinlock_t *l1, spinlock_t *l2)
- }
- 
- static inline void double_raw_lock(raw_spinlock_t *l1, raw_spinlock_t *l2)
-+	__acquires(l1, l2)
- {
- 	if (l1 > l2)
- 		swap(l1, l2);
-@@ -3039,6 +3077,7 @@ static inline void double_raw_lock(raw_spinlock_t *l1, raw_spinlock_t *l2)
- }
- 
- static inline void double_raw_unlock(raw_spinlock_t *l1, raw_spinlock_t *l2)
-+	__releases(l1, l2)
- {
- 	raw_spin_unlock(l1);
- 	raw_spin_unlock(l2);
-@@ -3048,6 +3087,8 @@ DEFINE_LOCK_GUARD_2(double_raw_spinlock, raw_spinlock_t,
- 		    double_raw_lock(_T->lock, _T->lock2),
- 		    double_raw_unlock(_T->lock, _T->lock2))
- 
-+DECLARE_LOCK_GUARD_2_ATTRS(double_raw_spinlock, __assumes_ctx_guard(_T1) __assumes_ctx_guard(_T2), /* */);
-+
- /*
-  * double_rq_unlock - safely unlock two runqueues
-  *
-@@ -3055,13 +3096,12 @@ DEFINE_LOCK_GUARD_2(double_raw_spinlock, raw_spinlock_t,
-  * you need to do so manually after calling.
-  */
- static inline void double_rq_unlock(struct rq *rq1, struct rq *rq2)
--	__releases(rq1->lock)
--	__releases(rq2->lock)
-+	__releases(__rq_lockp(rq1), __rq_lockp(rq2))
- {
- 	if (__rq_lockp(rq1) != __rq_lockp(rq2))
- 		raw_spin_rq_unlock(rq2);
- 	else
--		__release(rq2->lock);
-+		__release(__rq_lockp(rq2)); /* fake release */
- 	raw_spin_rq_unlock(rq1);
- }
- 
-diff --git a/scripts/context-analysis-suppression.txt b/scripts/context-analysis-suppression.txt
-index df25c3d07a5b..fd8951d06706 100644
---- a/scripts/context-analysis-suppression.txt
-+++ b/scripts/context-analysis-suppression.txt
-@@ -26,6 +26,7 @@ src:*include/linux/refcount.h=emit
- src:*include/linux/rhashtable.h=emit
- src:*include/linux/rwlock*.h=emit
- src:*include/linux/rwsem.h=emit
-+src:*include/linux/sched*=emit
- src:*include/linux/seqlock*.h=emit
- src:*include/linux/spinlock*.h=emit
- src:*include/linux/srcu*.h=emit
--- 
-2.52.0.rc1.455.g30608eb744-goog
+Please let's *not* do it this way, where the header contents basically
+get enabled or not based on a compiler flag, but then everybody
+includes this 400+ line file whether they need it or not.
+
+Can we please just make the header file *itself* not have any
+conditionals, and what happens is that the header file is included (or
+not) using a pattern something like
+
+   -include $(srctree)/include/linux/$(context-analysis-header)
+
+instead.
+
+IOW, we'd have three different header files entirely: the "no context
+analysis", the "sparse" and the "clang context analysis" header, and
+instead of having a "-DWARN_CONTEXT_ANALYSIS" define, we'd just
+include the appropriate header automatically.
+
+We already use that "-include" pattern for <linux/kconfig.h> and
+<linux/compiler-version.h>. It's probably what we should have done for
+<linux/compiler.h> and friends too.
+
+The reason I react to things like this is that I've actually seen just
+the parsing of header files being a surprisingly big cost in build
+times. People think that optimizations are expensive, and yes, some of
+them really are, but when a lot of the code we parse is never actually
+*used*, but just hangs out in header files that gets included by
+everybody, the parsing overhead tends to be noticeable. There's a
+reason why most C compilers end up integrating the C pre-processor: it
+avoids parsing and tokenizing things multiple times.
+
+The other reason is that I often use "git grep" for looking up
+definitions of things, and when there are multiple definitions of the
+same thing, I actually find it much more informative when they are in
+two different files than when I see two different definitions (or
+declarations) in the same file and then I have to go look at what the
+#ifdef condition is. In contrast, when it's something where there are
+per-architecture definitions, you *see* that, because the grep results
+come from different header files.
+
+I dunno. This is not a huge deal, but I do think that it would seem to
+be much simpler and more straightforward to treat this as a kind of "N
+different baseline header files" than as "include this one header file
+in everything, and then we'll have #ifdef's for the configuration".
+
+Particularly when that config is not even a global config, but a per-file one.
+
+Hmm? Maybe there's some reason why this suggestion is very
+inconvenient, but please at least consider it.
+
+              Linus
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251120151033.3840508-36-elver%40google.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CAHk-%3DwhyKteNtcLON-gScv6tu8ssvKWdNw-k371ufDrjOv374g%40mail.gmail.com.
