@@ -1,225 +1,155 @@
-Return-Path: <kasan-dev+bncBDXYDPH3S4OBBXVA7TEAMGQE53C5YDQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBF637TEAMGQEDER5W7Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CDDAC7410E
-	for <lists+kasan-dev@lfdr.de>; Thu, 20 Nov 2025 13:58:08 +0100 (CET)
-Received: by mail-lf1-x138.google.com with SMTP id 2adb3069b0e04-59578f8468csf467959e87.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 20 Nov 2025 04:58:08 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1763643487; cv=pass;
+Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84BEBC74B96
+	for <lists+kasan-dev@lfdr.de>; Thu, 20 Nov 2025 16:02:49 +0100 (CET)
+Received: by mail-wm1-x33f.google.com with SMTP id 5b1f17b1804b1-4775d110fabsf9479145e9.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 20 Nov 2025 07:02:49 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1763650969; cv=pass;
         d=google.com; s=arc-20240605;
-        b=hu/QEw3DqOKxqOeqHA8G57q0LrkGN4Vrx+lzVvCvJdFRLqzrXtMmhbku5exkaicqw5
-         k5vzvdS8y+i12nqDInare0Ppd6K2R7zY22tCsVGkR/j1pgxJdpjUnHLyh+/FlbOwoEDK
-         fDdULNTyXiXJrVYIyiH5vjn1MKOmDezfxXvQrNWUdlXltcwIxpPazwiSZx5fvUsIymz9
-         w3/o2ZfAYluvQ8Bp3SPVqZYQwZqKA2eg9VnB4I5WDjeH4ytb7PQJYuDDxhrLfO71XTqy
-         OKdk1yeRo7rhmmbaFj7aoTUPV6dQ519p++fJrXS9wWnYz2vLP39vf+B2nL7SxJnLPN67
-         0D8g==
+        b=DqKJaXGzQFwQh4f6HsrpOqpnVyJBgeg6Kd81wDmqk2B45/D0N+nC0hKuoYKCzqMdLW
+         6aJX3aQLBCP9A9mT0TIHTFYeWBdy1ZNWpBXLAteCVw8qKCARH3WEOYs1yqXd5ESbujoV
+         kvjILodU4309qXyIGyEgKcZABGL02jGyatpPuAyGSu3LFW+enMzpJskQLFNG5mYMjw4k
+         7Aou6h6Lz5aqzF3voaMPuVsgGoKBoKWdRYXGPgfYv84LAum+/RBkk4OtDQy/O8aDOV5c
+         nruGfWobCFKFE885B9iHv6nnArf8RKVwWUHFk4arRtc3P5to4lI3xV+uCgCDQEFT+dYa
+         JXiQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:dkim-signature;
-        bh=iSlU/Ob4zwS1Tu7PqrIXxfWpUpfVxONT1M8b4kYME/8=;
-        fh=QahTAbwKF7Nh3hqD9cZwnZK2sg3hls6QL19loL/ioe4=;
-        b=F6etSnxV1EkXCQGVz20RjaLEKH4s4s346Zj5HPPHlS4Yrg0h/jHL674C1sKDA4DChB
-         rULkoHApJu3wm6/lwPUvPkwQf22SdcJnXZnEVyh3HRqWNvkn1QMd3Gu0Rf7X5b1l0Ruq
-         fVpYJdcXFp3dnxYKei+Q6M3TN1hWSgo5IlpnBukQQCtcIx7TroXuWmgNetzeK7EtUQIV
-         F7r1llbmy5MQLFHH9CXlhS7V1jIsoh9Nlfk3JbJA3ipKbTukhWun/t5BOK22VcoXdbVA
-         Wo7OFzkCtoltufDPb2bqYNk0rT7VLefDm8FyNZcJVcuctx6bs/LiwkB33RE1HkzEzc46
-         5rYw==;
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :message-id:mime-version:date:dkim-signature;
+        bh=3EeaZb7Fz4zKqqCACys4blI1Fm6MyC2Fe+IKAu0BdII=;
+        fh=4hfPT7Zb4rTfZ55HbyTecq5qTci/H6l/voOmUr0sClE=;
+        b=laU+LKnx7ua+gSqfKMlwAFG8DhDcesEedvoM9geDqpM+DwTq/0irtu/qYEc57bGHF5
+         d2jY6bKW91wk9l4PVKhj5iFSkKDcM1looaorVsBW5OzaXbqTx1FMN5qRbRofv4XUZbMV
+         0oif/49lMfGMEDiR77F4lY4uNOvWgF8cuLcYXJRYC2AUq4YY/DH6gZaU0BedtQNevZ7F
+         mTg9tlxsglekVLxRrNH/c8s8FUFz9jMxyIF4UFvWge7Ixrnd2P+a7R47mNkAIxNpRhP/
+         5F2k9521b0/KLQ3R9g0Cekyr4VXYbybE42oTO+K0R+TkPuDpwr4M5n7wMh0Zzw/yl5Qm
+         g+WQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=KPz2W4il;
-       dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=KPz2W4il;
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=ti84snLw;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       dkim=pass header.i=@google.com header.s=20230601 header.b=lcQWGMNK;
+       spf=pass (google.com: domain of 3lc0faqukcbsfmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3lC0faQUKCbsfmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1763643487; x=1764248287; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1763650969; x=1764255769; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:autocrypt:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=iSlU/Ob4zwS1Tu7PqrIXxfWpUpfVxONT1M8b4kYME/8=;
-        b=lrEkv5y8mkUPEXbhiEy0aIZp98YxKp/5a877rnnvNYrJLd5Z5wsxtA72RDZm4P51AV
-         lT6rE9lGePZNEIeGiXhaLJg6Nyy/yZ+XHh9MqpW2B5tedGR7k04HYo6nvf3cFFos+o/q
-         cED9EJGEzr9kq7o8k6Pj1ec8eHY1g8Qhkq9goCUGeYt22Xj13wutG+m+FBFLOrp0RosR
-         pxF2Sy5LRTzmPMYYtbDkpnDhzYwiLJi4wUfQ0P0p/GhqmCAmlVChtfGF3Rg19hx7zLHw
-         5oHgEoERROs3CrF2LNciqRQCNFpeRBUZMH/bvpQnOXXF577/ZXyPaVAufdAcDaxJK6dn
-         fRXw==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3EeaZb7Fz4zKqqCACys4blI1Fm6MyC2Fe+IKAu0BdII=;
+        b=sTY3DhBVq6UkDJwYYnicfn/unCYgIkoy6kPWSFvCitLNwp2wzW9KI0R5s6jFP1mu72
+         MqYnR8SAv0H5OW0+PVTFQ3QWl0t2RCGyWwDlKw1QaG+E4czeyctdmqWqyLBDDTj+XhO5
+         2K77fgKRhr4lAQve+Z0mS8GDZPx/vUOHn8ML87hf94Ph6k6rSyMfQTxSf2wIvv4Fnjxp
+         +LyR8eKD0EftUOQh2zchxiWXgRzGEn0NuLJPC+k5yw3y6g5zW5+6f0yHuLaDIuOT8Nvo
+         q8aG3lXGSAeoVhbK7xJk45gkVsm0Oo0LtU8MbxgqLD5PFLr2UmZ+CrjWTfySSnn1Mz76
+         nqfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763643487; x=1764248287;
+        d=1e100.net; s=20230601; t=1763650969; x=1764255769;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :autocrypt:from:content-language:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:x-beenthere:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=iSlU/Ob4zwS1Tu7PqrIXxfWpUpfVxONT1M8b4kYME/8=;
-        b=KXI4NkZNfZ7/tF83OOJZhoMPFq+aK1/YZBt1tF8n6YX8wnBfjwWtJrMgIEiMeiVKp1
-         VgfVRN/iPlVlBKa8TlZnuHRmVHbTV6p3wB2ivo/eQVhR9lntGOgRdo3vEAAb06kOhX90
-         9Jk77xd/Uih+IU6iP9vuIcHRZTKWaPJ60glKTKXOsUH/fYPexmTSaIKq5XT8UN22P+8d
-         +M3htiY3x1TVArfqVZW+dHN6ie94qo5OjblFGgdbUKDeIXHZ9LoKKaeuns9PUJklcIfx
-         +OIA6Xx9ZvyJ+8tXbq+xJgWSf7F8qmNnIOtPNN4bV+DxyDvChW+JDBVc/P0yOo0CRvwN
-         WUAg==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUAe/jZ8d44wfR09ffvn+7wttrBQFrWqM/OJ3Z/DWLP+ZwKYnbqJ0/tWSHuiOAPn6fB2B980g==@lfdr.de
-X-Gm-Message-State: AOJu0YwbEP+YuK4wjKvJ690d6nQTOn+xv8Be3RaZytWTndPmcgCuWKHG
-	BRLM/VE0u4n718xzf6/4382jErMG6ZmKcBU4bcHCzs1X60tXIYKfpEAT
-X-Google-Smtp-Source: AGHT+IH6wadQ4yV5qDaZ1V+Uv4jY+2kfYeIklRL6K2rGdYT1c+FPZ2ovS+Vy+Ks0OPm1r8ueCQkcDA==
-X-Received: by 2002:a05:6512:4025:b0:595:81e5:7556 with SMTP id 2adb3069b0e04-5969e2c2bd2mr984676e87.3.1763643487107;
-        Thu, 20 Nov 2025 04:58:07 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+b4BvAIW+pYBulYyWMi1JNg/Yi/Xwuyh1XJpfjGEqrcCA=="
-Received: by 2002:a05:6512:40c3:b0:596:9e9b:d1bc with SMTP id
- 2adb3069b0e04-5969e9bd209ls162085e87.1.-pod-prod-03-eu; Thu, 20 Nov 2025
- 04:58:04 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCU5vzC5qkV3C/HIE542szr3874DejEvV5/FTLOpn1NoRuH9V9qvrvtNSG/p3LtrOoW28AisP6IthWI=@googlegroups.com
-X-Received: by 2002:a2e:7808:0:b0:37a:2f92:3bdc with SMTP id 38308e7fff4ca-37cc800e035mr6029541fa.17.1763643484109;
-        Thu, 20 Nov 2025 04:58:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1763643484; cv=none;
+        bh=3EeaZb7Fz4zKqqCACys4blI1Fm6MyC2Fe+IKAu0BdII=;
+        b=xTgDL7jMTs2vQ9uIqfoNNy0CZwkz2fEPQLrM7wfuUBtJEKwJjQbAhV9w5YQHygRuJW
+         V8opVNeBETZ3Hk6bNxaRNXwSEzjJLnl6VDQ711beRlaZ6ef1SJoFhTJbWQdpoN7yXpfl
+         Ga0lOGRoF8nRw7tQLy1PO2koQRbzgLzgQ8zHqAS6FhEMDAUIj6woFVJLjiXDsRdLfkki
+         Z657Z/8Lim+XTqx8ADhWQ+dOI1Qp4Kfm2J8NmnJkor7lgC3GjpUlp/h0movSJqYTH/tV
+         fbEuwBLyUJw39ED6LqfihVmxClcr8OKiiK+/DBKNRn6lDym88ZKx6r2zfY00KtmPvWq6
+         taAg==
+X-Forwarded-Encrypted: i=2; AJvYcCW4lGRI1mFRdTwvgSswFu00uo/+5MIHutaElKZkgCfp3eD+wwFrb+J7mHwFpsu+rlulH4JUUA==@lfdr.de
+X-Gm-Message-State: AOJu0Yy3YkI4ZZwvJ3+OoacLgAyXncnV8ymnmjAG7W34yQx5F2XqyDUg
+	B/rfIjheG8eyb0xpgc1LT7ZONLbNsxo8x2BA/psN9bQ471sy6gqRB3yw
+X-Google-Smtp-Source: AGHT+IH/A6EDlRRiwfpnEzjWQ9TeQi4Jb3ieQnfQc8SNxiqsVWzx2IL+Q6N6f4BgivgyI0Tz2/h+CA==
+X-Received: by 2002:a05:600c:4fc4:b0:477:7a95:b971 with SMTP id 5b1f17b1804b1-477b8c92c49mr41802875e9.31.1763650968624;
+        Thu, 20 Nov 2025 07:02:48 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+ZJLwr7+YNvZn59oNCDDNAxY5opmVcVwHvclqTZBGEfOA=="
+Received: by 2002:a05:6000:2910:b0:425:686d:544f with SMTP id
+ ffacd0b85a97d-42cb821e42fls616123f8f.1.-pod-prod-09-eu; Thu, 20 Nov 2025
+ 07:02:45 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCX2PexlW1VVNhLnQ4tupa1xu3Fm/JoiCi5id2EFF6kYz6j9tQZtto9kCeT6qliJwITemwwdWQXRqK0=@googlegroups.com
+X-Received: by 2002:a05:6000:26c2:b0:429:d290:22f2 with SMTP id ffacd0b85a97d-42cb9a5c40fmr2936556f8f.38.1763650965268;
+        Thu, 20 Nov 2025 07:02:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1763650965; cv=none;
         d=google.com; s=arc-20240605;
-        b=gB0vWRoKWbMiETyTRhz+J2tYiCBenkWsmsI/1huGKIEpXWuwCJZeAmjZ1VIjvcgt1Z
-         5LY/1ydH4JTFwOtGzb5ZSmohjE34Xf1hvC19gCzs9DMS4ECJUTCSuQ7kHO/F6WSOe0gV
-         VXlpoTH508yM7Wze7tSx/Xjck9R3nx87IAxknJVHmW3ZcbW4hqygER8nI1PQbOB/ydoA
-         5vdobAurCBuZoln8ZdkEqFxJxG4o5KxFh+CNXvq41OKPkeJr3ftxBGR2URNQtbSucgVg
-         ow7EUIOuAwREtbPpjxMQqxdhiugzhGdUnajJPdYK0pKavnQOqeFNy+2frdEleRE/ReR7
-         E/MA==
+        b=SdHK2wjzEK36iQ9JCBS4+05bMn0mR677IphR9fq06sJw84P09T3mj7hHcqZs7Lmsup
+         6qiO3vTG1XwUyePFPvUDTzz+WbPm8IHaQ/j6LIHVHRZtuGxvXVd+gDz3MqZjJX1e1hf2
+         PenJJN27fxaBkvgcpnVhSv2UhuNLp2X8B0i0cfV0oM7G7KtBTQKLjDkeoJH02cYdDs9F
+         uzPfv640EyrC6WOL3os552zTY01gYzMT0wXUCxTL5LcmptYHpyq7M5fPlXZ4eWF38Qov
+         K9KUoQJpbHF3YqeOHAG2Q3co8LTYUmxKN/AJKHcRgCMbsKmW2Mzd+bF8INIKxdy4yzqK
+         45hw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:dkim-signature:dkim-signature:dkim-signature
-         :dkim-signature;
-        bh=ZBU/AsUgcSzrIfqjUnDEsEXZDEFHybM/XjPFqhqGKmE=;
-        fh=X0Gct2EHcBVCAlx1axI/Wui6z8Ur6tQqeRRVHGC4ml0=;
-        b=N4UhW6m7FWl8XZH/aZlG+LMwKwhrfvJHlkI8reiLGKCFD9lXhtpURvPsTjtptHJLzw
-         bpOP6d1UxAe9m+mu8oYOWfSkLCtEZeAgHKrlFH9lripeZ7h/GbPNCEzxG9/hoQAfDsqc
-         b23Ra6+IKlzjyZPNxjhJgooWrPa6ShFm4QoURVsxm4s+x+HYU0SBvH8TnuewD3vbawmg
-         eST9ZJRh9MfYulCQyZVzauuB+aLyyYfQWevyssydzeAF8YQFN8xvMbmx3bjMA/4RJJ3V
-         zoNsiPffHQdkyERKtxrdMW6gl8RevzWOvg2hW9QNoxQMt0bCfIa8SG4lyh67xk0aWpq4
-         SCeQ==;
+        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
+        bh=299yB9vU7jRjUKLu8+l/HXcvl5VmnE8Y+0izxahilbE=;
+        fh=QOl5PuX594swUgKhPuh2OEAFnoqQ/UzbOcirbYcoG+s=;
+        b=C3Zx9oqySRhFitSLExWZQ2NJXxTTdtOxuIDbKjiDRdJkOD+1yIt/RNkE8jjxKopQ+a
+         dHDNk2kpJgpaEGKiiorbqwfxCtZfzNncZ7mj1kzTChts7iZBtHM7voaKT7vMq92162JL
+         Pj01DMZFuFoGGD/QAA9dWeuc2M/cd0XaXW6ZzwWcUC7ISROD/mhKQV4NH4p9gA8y9by7
+         9xoFeAElAMo6aqDUMC1fQP5IaPbhV2AFRNskMC2K3K5sgLw7YVmtFk2ai/ujMqtbJM7N
+         1nBdubge8/J9N9ADdQOMU7N9aQCm5yKsZs3bp8+P2WsYa8vvOqVdhZkUIKGce5oJePPw
+         JQJg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=KPz2W4il;
-       dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=KPz2W4il;
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=ti84snLw;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2a07:de40:b251:101:10:150:64:2])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-37cc6ba523fsi380531fa.8.2025.11.20.04.58.03
+       dkim=pass header.i=@google.com header.s=20230601 header.b=lcQWGMNK;
+       spf=pass (google.com: domain of 3lc0faqukcbsfmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3lC0faQUKCbsfmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com. [2a00:1450:4864:20::34a])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-42cb7eb42f2si51025f8f.0.2025.11.20.07.02.45
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Nov 2025 04:58:04 -0800 (PST)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:2;
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1626520A2E;
-	Thu, 20 Nov 2025 12:58:03 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EDD303EA61;
-	Thu, 20 Nov 2025 12:58:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id T1iyOVoQH2mCbgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Thu, 20 Nov 2025 12:58:02 +0000
-Message-ID: <7ffb1908-464a-4158-8712-7735100ae630@suse.cz>
-Date: Thu, 20 Nov 2025 13:58:02 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master] [mempool] 022e94e2c3:
- BUG:KASAN:double-free_in_mempool_free
-To: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Christoph Hellwig <hch@lst.de>,
- kernel test robot <oliver.sang@intel.com>
-Cc: oe-lkp@lists.linux.dev, lkp@intel.com, linux-mm@kvack.org,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com
-References: <202511201309.55538605-lkp@intel.com>
- <20251120072726.GA31171@lst.de>
- <9e066a2f-28fd-4da7-bca8-c10f7b58f811@gmail.com>
-Content-Language: en-US
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <9e066a2f-28fd-4da7-bca8-c10f7b58f811@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Nov 2025 07:02:45 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3lc0faqukcbsfmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) client-ip=2a00:1450:4864:20::34a;
+Received: by mail-wm1-x34a.google.com with SMTP id 5b1f17b1804b1-47775585257so6846895e9.1
+        for <kasan-dev@googlegroups.com>; Thu, 20 Nov 2025 07:02:45 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU03aNaEmzP5EJ6y1AQk+9O4zCPRh/SHK4XJVhXs4T8TMdeKayKUqq6GoI8bFGDS47DUYG4xpvSCdA=@googlegroups.com
+X-Received: from wmbjj13.prod.google.com ([2002:a05:600c:6a0d:b0:477:9f68:c324])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:35c7:b0:46e:49fb:4776
+ with SMTP id 5b1f17b1804b1-477b8954523mr34852375e9.11.1763650964345; Thu, 20
+ Nov 2025 07:02:44 -0800 (PST)
+Date: Thu, 20 Nov 2025 15:49:02 +0100
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.52.0.rc1.455.g30608eb744-goog
+Message-ID: <20251120145835.3833031-2-elver@google.com>
+Subject: [PATCH v4 00/35] Compiler-Based Context- and Locking-Analysis
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>
+Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
+	Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>, 
+	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
+	Frederic Weisbecker <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>, 
+	Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
+	Johannes Berg <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Triplett <josh@joshtriplett.org>, Justin Stitt <justinstitt@google.com>, 
+	Kees Cook <kees@kernel.org>, Kentaro Takeda <takedakn@nttdata.co.jp>, 
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Mark Rutland <mark.rutland@arm.com>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
+	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
+	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com,lst.de,intel.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[lists.linux.dev,intel.com,kvack.org,google.com,gmail.com,arm.com,googlegroups.com];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Original-Sender: vbabka@suse.cz
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=KPz2W4il;       dkim=neutral
- (no key) header.i=@suse.cz;       dkim=pass header.i=@suse.cz
- header.s=susede2_rsa header.b=KPz2W4il;       dkim=neutral (no key)
- header.i=@suse.cz header.s=susede2_ed25519 header.b=ti84snLw;       spf=pass
- (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2
- as permitted sender) smtp.mailfrom=vbabka@suse.cz
+ header.i=@google.com header.s=20230601 header.b=lcQWGMNK;       spf=pass
+ (google.com: domain of 3lc0faqukcbsfmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3lC0faQUKCbsfmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -232,23 +162,369 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 11/20/25 12:17, Andrey Ryabinin wrote:
-> 
-> 
-> On 11/20/25 8:27 AM, Christoph Hellwig wrote:
->> Maybe I'm misunderstanding the trace, but AFAICS this comes from
->> the KASAN kunit test that injects a double free, and the trace
->> shows that KASAN indeed detected the double free and everything is
->> fine.  Or did I misunderstand the report?
->> 
-> 
-> Right, the report comes from the test, so it's expected behavior.
+Context Analysis is a language extension, which enables statically
+checking that required contexts are active (or inactive) by acquiring
+and releasing user-definable "context guards". An obvious application is
+lock-safety checking for the kernel's various synchronization primitives
+(each of which represents a "context guard"), and checking that locking
+rules are not violated.
 
-I assume the bot was filtering those, but the changed stacktrace (now
-including the new mempool_free_bulk()) now looks new and the filter needs
-updating?
+The feature requires Clang 22 (unreleased) or later. Clang originally
+called the feature "Thread Safety Analysis" [1]. This was later changed
+and the feature became more flexible, gaining the ability to define
+custom "capabilities". Its foundations can be found in "Capability
+Systems" [2], used to specify the permissibility of operations to depend
+on some "capability" being held (or not held).
+
+Because the feature is not just able to express "capabilities" related
+to synchronization primitives, and "capability" is already overloaded in
+the kernel, the naming chosen for the kernel departs from Clang's
+"Thread Safety" and "capability" nomenclature; we refer to the feature
+as "Context Analysis" to avoid confusion. The internal implementation
+still makes references to Clang's terminology in a few places, such as
+`-Wthread-safety` being the warning option that also still appears in
+diagnostic messages.
+
+Additional details can be found in the added kernel-doc documentation.
+An LWN article covered v2 of the series: https://lwn.net/Articles/1012990/
+
+ [1] https://clang.llvm.org/docs/ThreadSafetyAnalysis.html
+ [2] https://www.cs.cornell.edu/talc/papers/capabilities.pdf
+
+=== Development Approach ===
+
+Prior art exists in the form of Sparse's Context Tracking. Locking
+annotations on functions already exist sparsely, so the concept of
+analyzing locking rules is not foreign to the kernel's codebase.
+
+However, Clang's analysis is more complete vs. Sparse's, with the
+typical trade-offs in static analysis: improved completeness is
+sacrificed for more possible false positives or additional annotations
+required by the programmer. Numerous options exist to disable or opt out
+certain code from analysis.
+
+This series initially aimed to retain compatibility with Sparse, which
+can provide tree-wide analysis of a subset of the context analysis
+introduced, but it was later decided to drop Sparse compatibility. For
+the most part, the new (and old) keywords used for annotations remain
+the same, and many of the pre-existing annotations remain valid.
+
+One big question is how to enable this feature, given we end up with a
+new dialect of C; two approaches have been considered:
+
+  A. Tree-wide all-or-nothing approach. This approach requires tree-wide
+     changes, adding annotations or selective opt-outs. Making more
+     primitives context-analysis aware increases churn where maintainers
+     are unfamiliar with the feature and the analysis is unable to deal
+     with complex code patterns as-is.
+
+Because we can't change the programming language (even if from one C
+dialect to another) of the kernel overnight, a different approach might
+cause less friction.
+
+  B. A selective, incremental, and much less intrusive approach.
+     Maintainers of subsystems opt in their modules or directories into
+     context analysis (via Makefile):
+
+       CONTEXT_ANALYSIS_foo.o := y	# foo.o only
+       CONTEXT_ANALYSIS := y  		# all TUs
+
+     Most (eventually all) synchronization primitives, and more
+     context guards including ones that track "irq disabled",
+     "preemption" disabled, etc. could be supported.
+
+The approach taken by this series is B. This ensures that only
+subsystems where maintainers are willing to deal with any warnings are
+opted-in. Introducing the feature can be done incrementally, without
+large tree-wide changes and adding numerous opt-outs and annotations to
+the majority of code.
+
+  Note: Bart Van Assche concurrently worked on enabling -Wthread-safety:
+  https://lore.kernel.org/all/20250206175114.1974171-1-bvanassche@acm.org/
+  Bart's work has shown what it might take to go with approach A
+  (tree-wide, restricted to 'mutex' usage). This has shown that the
+  analysis finds real issues when applied to enough subsystems!  We hope
+  this serves as motivation to eventually enable the analysis in as many
+  subsystems as possible, particularly subsystems that are not as easily
+  tested by CI systems and test robots.
+
+=== Initial Uses ===
+
+With this initial series, the following synchronization primitives are
+supported: `raw_spinlock_t`, `spinlock_t`, `rwlock_t`, `mutex`,
+`seqlock_t`, `bit_spinlock`, RCU, SRCU (`srcu_struct`), `rw_semaphore`,
+`local_lock_t`, `ww_mutex`.
+
+To demonstrate use of the feature on real kernel code, the series also
+enables context analysis for the following subsystems:
+
+	* kernel/kcov
+	* kernel/kcsan
+	* kernel/sched/
+	* lib/rhashtable
+	* lib/stackdepot
+	* mm/kfence
+	* security/tomoyo
+    	* crypto/
+
+The initial benefits are static detection of violations of locking
+rules. As more context guards are supported, we would see more static
+checking beyond what regular C can provide, all while remaining easy
+(and quick) to use via the Clang compiler.
+
+  Note: The kernel already provides dynamic analysis tools Lockdep and
+  KCSAN for lock-safety checking and data-race detection respectively.
+  Unlike those, Clang's context analysis is a compile-time static
+  analysis with no runtime impact. The static analysis complements
+  existing dynamic analysis tools, as it may catch some issues before
+  even getting into a running kernel, but is *not* a replacement for
+  whole-kernel testing with the dynamic analysis tools enabled!
+
+=== Appendix ===
+
+A Clang version that supports `-Wthread-safety-pointer` and the new
+alias-analysis of context-guard pointers is required (from this version
+onwards):
+
+	https://github.com/llvm/llvm-project/commit/7ccb5c08f0685d4787f12c3224a72f0650c5865e
+
+The minimum required release version will be Clang 22.
+
+This series is also available at this Git tree:
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git/log/?h=ctx-analysis/dev
+
+=== Changelog ===
+
+v4:
+
+  - Rename capability -> context analysis, per Linus's suggestion:
+    https://lore.kernel.org/all/CAHk-=wgd-Wcp0GpYaQnU7S9ci+FvFmaNw1gm75mzf0ZWdNLxvw@mail.gmail.com/
+
+  - Minor fixes.
+
+v3: https://lore.kernel.org/all/20250918140451.1289454-1-elver@google.com/
+
+  - Bump min. Clang version to 22+ (unreleased), which now supports:
+
+	* re-entrancy via __attribute__((reentrant_capability));
+	* basic form of capability alias analysis - which is the
+	  biggest improvement since v2.
+
+    This was the result of conclusions from this discussion:
+    https://lore.kernel.org/all/CANpmjNPquO=W1JAh1FNQb8pMQjgeZAKCPQUAd7qUg=5pjJ6x=Q@mail.gmail.com/
+
+  - Rename __asserts_cap/__assert_cap to __assumes_cap/__assume_cap.
+
+  - Switch to DECLARE_LOCK_GUARD_1_ATTRS().
+
+  - Add __acquire_ret and __acquire_shared_ret helper macros - can be
+    used to define function-like macros that return objects which
+    contains a held capabilities. Works now because of capability alias
+    analysis.
+
+  - Add capability_unsafe_alias() helper, where the analysis rightfully
+    points out we're doing strange things with aliases but we don't
+    care.
+
+  - Support multi-argument attributes.
+
+  - Enable for kernel/sched/{core,fair}.c, kernel/kcsan.
+  - Drop drivers/tty changes (revisit later).
+
+v2: https://lore.kernel.org/all/20250304092417.2873893-1-elver@google.com/
+
+  - Remove Sparse context tracking support - after the introduction of
+    Clang support, so that backports can skip removal of Sparse support.
+
+  - Remove __cond_lock() function-like helper.
+
+  - ww_mutex support.
+
+  - -Wthread-safety-addressof was reworked and committed in upstream
+    Clang as -Wthread-safety-pointer.
+
+  - Make __cond_acquires() and __cond_acquires_shared() take abstract
+    value, since compiler only cares about zero and non-zero.
+
+  - Rename __var_guarded_by to simply __guarded_by. Initially the idea
+    was to be explicit about if the variable itself or the pointed-to
+    data is guarded, but in the long-term, making this shorter might be
+    better.
+
+  - Likewise rename __ref_guarded_by to __pt_guarded_by.
+
+  - Introduce common header warning suppressions - this is a better
+    solution than guarding header inclusions with disable_ +
+    enable_capability_analysis(). Header suppressions are disabled when
+    selecting CONFIG_WARN_CAPABILITY_ANALYSIS_ALL=y. This bumps the
+    minimum Clang version required to 20+.
+
+  - Make the data_race() macro imply disabled capability analysis.
+    Writing capability_unsafe(data_race(..)) is unnecessarily verbose
+    and data_race() on its own already indicates something subtly unsafe
+    is happening.  This change was made after analysis of a finding in
+    security/tomoyo.
+
+  - Enable analysis in the following subsystems as additional examples
+    of larger subsystem. Where it was obvious, the __guarded_by
+    attribute was added to lock-guarded variables to improve coverage.
+
+    	* drivers/tty
+	* security/tomoyo
+    	* crypto/
+
+RFC v1: https://lore.kernel.org/lkml/20250206181711.1902989-1-elver@google.com
+
+Marco Elver (35):
+  compiler_types: Move lock checking attributes to
+    compiler-context-analysis.h
+  compiler-context-analysis: Add infrastructure for Context Analysis
+    with Clang
+  compiler-context-analysis: Add test stub
+  Documentation: Add documentation for Compiler-Based Context Analysis
+  checkpatch: Warn about context_unsafe() without comment
+  cleanup: Basic compatibility with context analysis
+  lockdep: Annotate lockdep assertions for context analysis
+  locking/rwlock, spinlock: Support Clang's context analysis
+  compiler-context-analysis: Change __cond_acquires to take return value
+  locking/mutex: Support Clang's context analysis
+  locking/seqlock: Support Clang's context analysis
+  bit_spinlock: Include missing <asm/processor.h>
+  bit_spinlock: Support Clang's context analysis
+  rcu: Support Clang's context analysis
+  srcu: Support Clang's context analysis
+  kref: Add context-analysis annotations
+  locking/rwsem: Support Clang's context analysis
+  locking/local_lock: Include missing headers
+  locking/local_lock: Support Clang's context analysis
+  locking/ww_mutex: Support Clang's context analysis
+  debugfs: Make debugfs_cancellation a context guard struct
+  compiler-context-analysis: Remove Sparse support
+  compiler-context-analysis: Remove __cond_lock() function-like helper
+  compiler-context-analysis: Introduce header suppressions
+  compiler: Let data_race() imply disabled context analysis
+  MAINTAINERS: Add entry for Context Analysis
+  kfence: Enable context analysis
+  kcov: Enable context analysis
+  kcsan: Enable context analysis
+  stackdepot: Enable context analysis
+  rhashtable: Enable context analysis
+  printk: Move locking annotation to printk.c
+  security/tomoyo: Enable context analysis
+  crypto: Enable context analysis
+  sched: Enable context analysis for core.c and fair.c
+
+ Documentation/dev-tools/context-analysis.rst  | 146 +++++
+ Documentation/dev-tools/index.rst             |   1 +
+ Documentation/dev-tools/sparse.rst            |  19 -
+ Documentation/mm/process_addrs.rst            |   6 +-
+ MAINTAINERS                                   |  11 +
+ Makefile                                      |   1 +
+ crypto/Makefile                               |   2 +
+ crypto/acompress.c                            |   6 +-
+ crypto/algapi.c                               |   2 +
+ crypto/api.c                                  |   1 +
+ crypto/crypto_engine.c                        |   2 +-
+ crypto/drbg.c                                 |   5 +
+ crypto/internal.h                             |   2 +-
+ crypto/proc.c                                 |   3 +
+ crypto/scompress.c                            |  24 +-
+ .../net/wireless/intel/iwlwifi/iwl-trans.c    |   4 +-
+ .../net/wireless/intel/iwlwifi/iwl-trans.h    |   6 +-
+ .../intel/iwlwifi/pcie/gen1_2/internal.h      |   5 +-
+ .../intel/iwlwifi/pcie/gen1_2/trans.c         |   4 +-
+ fs/dlm/lock.c                                 |   2 +-
+ include/crypto/internal/acompress.h           |   7 +-
+ include/crypto/internal/engine.h              |   2 +-
+ include/linux/bit_spinlock.h                  |  24 +-
+ include/linux/cleanup.h                       |  17 +
+ include/linux/compiler-context-analysis.h     | 429 +++++++++++++
+ include/linux/compiler.h                      |   2 +
+ include/linux/compiler_types.h                |  18 +-
+ include/linux/console.h                       |   4 +-
+ include/linux/debugfs.h                       |  12 +-
+ include/linux/kref.h                          |   2 +
+ include/linux/list_bl.h                       |   2 +
+ include/linux/local_lock.h                    |  45 +-
+ include/linux/local_lock_internal.h           |  73 ++-
+ include/linux/lockdep.h                       |  12 +-
+ include/linux/mm.h                            |  33 +-
+ include/linux/mutex.h                         |  35 +-
+ include/linux/mutex_types.h                   |   4 +-
+ include/linux/rcupdate.h                      |  90 +--
+ include/linux/refcount.h                      |   6 +-
+ include/linux/rhashtable.h                    |  14 +-
+ include/linux/rwlock.h                        |  22 +-
+ include/linux/rwlock_api_smp.h                |  43 +-
+ include/linux/rwlock_rt.h                     |  44 +-
+ include/linux/rwlock_types.h                  |  10 +-
+ include/linux/rwsem.h                         |  66 +-
+ include/linux/sched.h                         |   6 +-
+ include/linux/sched/signal.h                  |  16 +-
+ include/linux/sched/task.h                    |   5 +-
+ include/linux/sched/wake_q.h                  |   3 +
+ include/linux/seqlock.h                       |  24 +
+ include/linux/seqlock_types.h                 |   5 +-
+ include/linux/spinlock.h                      |  89 ++-
+ include/linux/spinlock_api_smp.h              |  34 +-
+ include/linux/spinlock_api_up.h               | 112 +++-
+ include/linux/spinlock_rt.h                   |  37 +-
+ include/linux/spinlock_types.h                |  10 +-
+ include/linux/spinlock_types_raw.h            |   5 +-
+ include/linux/srcu.h                          |  64 +-
+ include/linux/srcutiny.h                      |   4 +
+ include/linux/srcutree.h                      |   6 +-
+ include/linux/ww_mutex.h                      |  22 +-
+ kernel/Makefile                               |   2 +
+ kernel/kcov.c                                 |  36 +-
+ kernel/kcsan/Makefile                         |   2 +
+ kernel/kcsan/report.c                         |  11 +-
+ kernel/printk/printk.c                        |   2 +
+ kernel/sched/Makefile                         |   3 +
+ kernel/sched/core.c                           |  89 ++-
+ kernel/sched/fair.c                           |   9 +-
+ kernel/sched/sched.h                          | 110 +++-
+ kernel/signal.c                               |   4 +-
+ kernel/time/posix-timers.c                    |  13 +-
+ lib/Kconfig.debug                             |  44 ++
+ lib/Makefile                                  |   6 +
+ lib/dec_and_lock.c                            |   8 +-
+ lib/rhashtable.c                              |   5 +-
+ lib/stackdepot.c                              |  20 +-
+ lib/test_context-analysis.c                   | 596 ++++++++++++++++++
+ mm/kfence/Makefile                            |   2 +
+ mm/kfence/core.c                              |  20 +-
+ mm/kfence/kfence.h                            |  14 +-
+ mm/kfence/report.c                            |   4 +-
+ mm/memory.c                                   |   4 +-
+ mm/pgtable-generic.c                          |  19 +-
+ net/ipv4/tcp_sigpool.c                        |   2 +-
+ scripts/Makefile.context-analysis             |  11 +
+ scripts/Makefile.lib                          |  10 +
+ scripts/checkpatch.pl                         |   7 +
+ scripts/context-analysis-suppression.txt      |  33 +
+ security/tomoyo/Makefile                      |   2 +
+ security/tomoyo/common.c                      |  52 +-
+ security/tomoyo/common.h                      |  77 +--
+ security/tomoyo/domain.c                      |   1 +
+ security/tomoyo/environ.c                     |   1 +
+ security/tomoyo/file.c                        |   5 +
+ security/tomoyo/gc.c                          |  28 +-
+ security/tomoyo/mount.c                       |   2 +
+ security/tomoyo/network.c                     |   3 +
+ tools/include/linux/compiler_types.h          |   2 -
+ 99 files changed, 2377 insertions(+), 592 deletions(-)
+ create mode 100644 Documentation/dev-tools/context-analysis.rst
+ create mode 100644 include/linux/compiler-context-analysis.h
+ create mode 100644 lib/test_context-analysis.c
+ create mode 100644 scripts/Makefile.context-analysis
+ create mode 100644 scripts/context-analysis-suppression.txt
+
+-- 
+2.52.0.rc1.455.g30608eb744-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/7ffb1908-464a-4158-8712-7735100ae630%40suse.cz.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251120145835.3833031-2-elver%40google.com.
