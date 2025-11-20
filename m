@@ -1,124 +1,124 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBFPA7TEAMGQEUSJ5OAQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBE7A7TEAMGQE6DWUIMY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
-	by mail.lfdr.de (Postfix) with ESMTPS id E298FC74C78
-	for <lists+kasan-dev@lfdr.de>; Thu, 20 Nov 2025 16:13:26 +0100 (CET)
-Received: by mail-lj1-x240.google.com with SMTP id 38308e7fff4ca-37a34f910f8sf5961731fa.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 20 Nov 2025 07:13:26 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1763651606; cv=pass;
+Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46979C74C73
+	for <lists+kasan-dev@lfdr.de>; Thu, 20 Nov 2025 16:13:25 +0100 (CET)
+Received: by mail-lf1-x137.google.com with SMTP id 2adb3069b0e04-5944d65a8f5sf546247e87.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 20 Nov 2025 07:13:25 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1763651604; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Gb0xpgWl/MPD/V1RKal/g3eZwh0+KIsA71zSNL5UQaINvPZB8DvcW9p1m97abmHaSt
-         LWJT/HI3pZEYkTQeiTqqocvfVYVsWmHAaZ0uns07jhKHqKlGlRfIU/KeBTHZtq2qUePQ
-         WzDAnST4KIpn7+lzpREuTsMYMYBt6c0S3Gt/E8fjOJgy4dETDlJlIffavZ+V7WV9FP+A
-         v1ltdFzKSHzg33IocZg2W0M9DrtfV1uwlpOy8TIMgM3s+PMl30TTMU8coXJuS6+7zZGU
-         87U5+DcR6FNBBNK4+89Z8sRWkmuBEN/ZYApefI7KfgCaFS4fc8p+NCvmb0/xd1G5fsIM
-         G/gw==
+        b=JEJ1i4cl20nBL9XTxhYeXonnCA7GrUPsqruhqUU12Ke5CGmLj8IO/Eexb1JGCD1rUG
+         tMEU4hnkkUTPaijwnX+xgElMSMSCvm0QnIA3bDxvuCvKGcPU0UuXve0JtXD0PKnBMHos
+         evga8vrFeecEmBt8v7y1ScsX2qZA3CjB1hfkaKhdEES2iL4FQ3A1IyVkDEPP1vd6pDM7
+         shZoSyXPXAIX+1jPJn/hqDO6YtS60aAe68UTbZYGlx68Brji7B8UXAOJ7bFohH9cv5Vv
+         4H15i3PEhHmlmPnL4otpvgXGOdX/Ez9SInF9hlSN5YNtHbjxHpu7/33B21MTwSMQYV9f
+         4/Zg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=2eEcMbyzXEXzwzH4b331ZXwbAdwEGOUlhxFoMGVGnS4=;
-        fh=VmSw8+b8deVA+AeHO9lg2OfyZ9a1tY01eCEIb7KMAq8=;
-        b=br1+sxR1+3p9tjKLii/LOEd2ifQolyw4lt6Ye2jpbIEr89iG5rkQDQkn1EI61ee5pZ
-         3NkYUelXXckV1b7JTBVKYlCoxDN37nFDrgczFohHDjQdh/7BOUjgOLbQ37MjnX6z3+QC
-         oqwqudu4UlUY9Gc5d3dpbVEPmwUBl1dvPvTuHTsqvQ66Wbz4UJBD0J4YxxCiZ8PegOik
-         ky+0p4AuHGULT/S/OjMF5qoS9u+dsjJsmCpMNKlHWBzwGqyY1d7dk3Pluw+wtciS/99Z
-         qfHJyzXbmaQxgvJgd+7AkB/41E/JeXVlmzlU1/YTMk7siA58Tbs4t1MzfvuQGx05imW1
-         Us1g==;
+        bh=UvRLr9fTiMu67/mz5dEhZUF3DUBMfI5CNKqTgUTFT2A=;
+        fh=LdjRFZqIqrStwoqDDtI7rHf+JwgisfIUTAYzK0G3RBo=;
+        b=Ctv+gJi1W/kH6xG0MPYa42Fis7Rz5XFKXOR3LOzG+vT6+G5qQXG9wMWMyZfqJbHVYX
+         GJVai0Jgc/9DyS0q3RKn0DtHw9j9sApJgsPNsqePA1nCxQO6b+GhZ5ayNRvfxB6yC4Ui
+         YFUuQ187KD2n2YBozLvb5hw9byGzorlq9cr2WNGwtiSVGc4KlV1FKaW7Au/EuWwWd4fj
+         I5noFHa2LcpUQxKzqz0Bkv55dlztUuOwz7qQpGvg8/vmgoYNqTnY1Jy3MHA1DnfDPPJU
+         JZNS+vyk7TTHMZDUIEyJeyvU5/9u3ThZv5mN3ai0A7YmXBIL5/a7CtGQOALeDmBJrkZ7
+         Xjzw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=QfdXWIDU;
-       spf=pass (google.com: domain of 3czafaqukctgyfpylaiiafy.wigeumuh-xypaiiafyaliojm.wig@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3CzAfaQUKCTgYfpYlaiiafY.WigeUmUh-XYpaiiafYaliojm.Wig@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=saJGhIHL;
+       spf=pass (google.com: domain of 3edafaqukct0dkudqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3EDAfaQUKCT0dkudqfnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1763651606; x=1764256406; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1763651604; x=1764256404; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=2eEcMbyzXEXzwzH4b331ZXwbAdwEGOUlhxFoMGVGnS4=;
-        b=CVCjPEXO50ylnU/p97p7jcr1zBU0LRu/+4fA6sIRvp1lL0G6XMtiLl8Z4gFkJB2+Qv
-         E2emyTSn8c7wn7ihmXfR8r1VbTiS8zbCmtgOxKELZ5EUYKnbHRuXKao+v7ByEjgrPq21
-         azbw5GztakniawaDrYgN/TY1lKCaIiiS+twndY+uaenWFwRqCi33RXoDK8saKKSn05pE
-         tOvNTj3SS3qcYKICYeN8ilFs4nExpQgRd8IaLzDae1VFWdgV7JYVivAfSM0p/rA46cek
-         m/TGYykYOmWSReehqJlXuDXBoGqgKvkAHtfnyj5Rfr/3qoA/KYNHd5WY2oGsSFRXKCmy
-         PDEw==
+        bh=UvRLr9fTiMu67/mz5dEhZUF3DUBMfI5CNKqTgUTFT2A=;
+        b=KliT+axeDWhs1L48er6e4uCvf5m7lGhzvAMUD7CXeeX+2bIxFQnSnNHP8WHRB+1qrG
+         za7q54RW6EZpkkS0rj/YzLQ0qbhfEQgihU7tMw/mUUQ8AP6LkU+vR9S4J6t9wnhEu+4X
+         SKeh45/HDcKZy7Flrowf5p4E08qqWhWZhRlfN2tSSMOxDsX7+g11Of5ttnkx5yNTn2tj
+         VRE9aGl5ud93X3XRFskPIGuqaP4XHnYDIvCYp0g6vR047Kp1aP1634jfqaAQkIyKZRT4
+         nYMfPAyRRy0vDkzVFzjjtuitg62dqbGH5//YzIMUbtwf605oXGnXkiLSV0vXRJL1AwOl
+         8FIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763651606; x=1764256406;
+        d=1e100.net; s=20230601; t=1763651604; x=1764256404;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2eEcMbyzXEXzwzH4b331ZXwbAdwEGOUlhxFoMGVGnS4=;
-        b=Ht5anD2mWRtA4WrMhXxy6Ra2gAKIXyPA28c+KcmSkxsKNT9th8/kMUMM2jn5UlUf2f
-         Q51piMUeXo8g/y1a2ymITRQbEgDDox3AxrcEsbvsAauDZaNwRopTzDSEQmB4rBipfafz
-         CesSPcoWdnhdoFEowIa4Xczef9OrHp8/S+VWI85K3Gby8re69jMwMOdThzJcLYH7nCcY
-         Es4P6X4gcofsv74UR29xXJ35asDBLUh9HBbztSchS1E5utMhVF/IZ6T6juy/i6RJl5n2
-         hBW+pCPxn0j9qa7P1xss5cHVPshbcvjdhqf3VR8kfFt2XoSFwiVqPbBjHLtEi/AOJkgE
-         lb2Q==
-X-Forwarded-Encrypted: i=2; AJvYcCUE4IxgZGqFp0SNZbmrBsQZCB7scWyFzh66nqlm6xpOWnktmabvtztqvACF744E7CQ1clGfWQ==@lfdr.de
-X-Gm-Message-State: AOJu0Yx/h7lWuyE5/K9zoxg9Eaayr353EQ5/oK16d8R64LnFFSmbkUG9
-	YkrbptUgjWjKPqIPcpp0PRAzGhG1l/uQlR0OiWIgOpb10Dp0IAZnIFta
-X-Google-Smtp-Source: AGHT+IFhHLhB+N0iqzHlnGXWSrkQ9/VDQREaAQzOgRbIwF8SwpMeWLA/qz/FSOPAid+peczLQqvgsg==
-X-Received: by 2002:a05:6512:3093:b0:594:3a5f:4e36 with SMTP id 2adb3069b0e04-5969f4d4a77mr811866e87.40.1763651606103;
-        Thu, 20 Nov 2025 07:13:26 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+aWoX8K7bXXEcxnmmOtgzPpH7JfHpentCVkKUmYvNb+pA=="
-Received: by 2002:a05:6512:250b:b0:595:958b:70b5 with SMTP id
- 2adb3069b0e04-5969dc109b2ls480361e87.0.-pod-prod-01-eu; Thu, 20 Nov 2025
- 07:13:23 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUus3tE/BqNjX7rrJ/nZHjbxARl/k2GPvmDOiN94kVPgkIlTLh/B5t0wMW5cu9Ia4jg2c10KYB25CI=@googlegroups.com
-X-Received: by 2002:a05:6512:401d:b0:594:51ac:138 with SMTP id 2adb3069b0e04-5969f273572mr825120e87.2.1763651602820;
-        Thu, 20 Nov 2025 07:13:22 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1763651602; cv=none;
+        bh=UvRLr9fTiMu67/mz5dEhZUF3DUBMfI5CNKqTgUTFT2A=;
+        b=krAXqDGGPIkInSa+x7OmpoIzWe9Up1q1iqSfSt9wPgPBuQvTDbRJrH0kTDsrTq6G41
+         iwI6/RAuk+Q/hCpet6WCzhVAI8PRWaDBlxgsfAfYzBkv/g7n1PnG26BtJDbOdVR5CuK7
+         ZAiOX/dmeo9ltvgoEla6DWApYaIMJDN6PCeQpl6GKHOIp9wKx2G30RooiFku+pyWvrYK
+         u6CrL9NLUOHRJC4a1RagRLNVxQrluIWvVPTMU+k846wSU/q6IPCvRDY93JhBEwAsdGdl
+         ERNeJKyO3xisc2136YZvx+Gc1jKnPDAAJ9n0NAr8dEDoWJE1HfQgy9z9cN4AOHzKSUpr
+         9EAw==
+X-Forwarded-Encrypted: i=2; AJvYcCW0w94WdQtmuTjsZNjBTlLwqru89s/v/RDa+p1yrDFK//gPNx7ZmwrjOOwzBmIHceXuHu0trQ==@lfdr.de
+X-Gm-Message-State: AOJu0YyCvRtn+3l/2d94UrWJYzx9aFKjeb2VOr5w2WdVCwQcxQaYVk3i
+	KLwfj8HcbVG0ajFrIOUypCs9gRwYoILMvWTgsyVDmQgot93zfVJ013Xn
+X-Google-Smtp-Source: AGHT+IHtDDZ+RrKH0n0WRm3zucLuCuYoEdzBe9IxvESA/7VkrbFKGV3YLMhGWXVTBQSoXUHyg60jNw==
+X-Received: by 2002:a05:6512:e84:b0:594:1957:a36b with SMTP id 2adb3069b0e04-5969e2d0657mr987694e87.2.1763651604314;
+        Thu, 20 Nov 2025 07:13:24 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+YDwhoF1wKMsBWqJkSw/w+MPmNnTUZ/vy0pUgc6HGC88g=="
+Received: by 2002:ac2:4f14:0:b0:596:a184:68b6 with SMTP id 2adb3069b0e04-596a1846964ls113683e87.1.-pod-prod-09-eu;
+ Thu, 20 Nov 2025 07:13:21 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWLYtWE3GqrCQU/rPawfPnC5+VvameuV3ktgulrD2MswaJeIkHvm+TMylB0x+M/7A/+GcRKMTtSUfs=@googlegroups.com
+X-Received: by 2002:a05:6512:1391:b0:595:9d6b:1174 with SMTP id 2adb3069b0e04-5969e30ab1amr1029888e87.35.1763651601062;
+        Thu, 20 Nov 2025 07:13:21 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1763651601; cv=none;
         d=google.com; s=arc-20240605;
-        b=hrKMzMSksVHpMIBCqwC609XL2ztU305nJFiX2BszZ6aC7Cjmfsl0iHMhepF9bF5vwv
-         xxsPTvvKIwueWIjH3OvI92FrEaGPjXPE+GDr7dODqEaDk5Jr09G8LaXmMm7IuqsSe54g
-         54/3t2Q11LOXjKRis41l2ZW3aUheZX9hMDF1hf4abMrrPX4dgG/cyOqz0mrldmSu8fea
-         sTZI0igTSQaFPKQWLpheEi0+HCN45qDzwQbF+BQ482BhkO0/OTJI+1piDu4zBKPSlGjQ
-         2C9Mg+Dzg8ZsYqL/pE53AikXYLOfbr7Rgee6pNq3mxUNQvWAV9xub1aapmqzIC5Y51VF
-         P9DQ==
+        b=X2/z9/gHMzbpzhjKgHiBumHZVj5NBzNG4ibP9v1W15iRsntdYBwi9Q3ghB2H29WH0Z
+         5FWIXtJjIRZRGuCSV+SHj8JP4RaUYkBFH3uAZDeGw7+FKxduQYFhBXkGW8g1lqq2yGDn
+         GRZYWZKGRuKjpuex/SAZoS42o9SDuIjqq8uq+Z2/jb/Q7kg/5OTzNF8jOFjiSPJiBBeZ
+         +73yxn4hWUOf/KxvTGTPmBI44iXRJRvLUk93a1KRXwRKbiGuDuxCBiCkoiz+5ekbUcnv
+         5rln0LCbI5Zr9JNIueDb1tJ5Q5Ppnhy6hJSaRy9x0njLt9CKrjyJGMk8CF4JYxWwPK2y
+         K1dA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=FM+v7kmKwxv6mQJTQvhb3JUsaW+ES8Jzb95oMtr52Zo=;
-        fh=+iFTkNm4FkBlHXbjD+OCAMoKLC3pHCLqgKGGgJGQrbI=;
-        b=UBb1cJRGkCYjWc+LdxM4o6lrtDpVExwGsaKF943zhurLiFSGskan5a0Yi5G2O3uT98
-         XL+/1OyvSqbvlmXLmleuBDEA92RjbPgwSwdfAAuJOt4H5YYJw/Vr/jPfOXb/A8ubVOZC
-         aPi0WrvvfAPCWIH3Kpylx0Z31n/A/S2XPuygUYVujB47/eS+vXVGibTIqCQdj2D/XFwk
-         RWcsE0JMxljVGVNyQTIBiWcE1jJysVLOn8eCkSrVTZ0Le8pkvXrhmupxZJauSVoKqzMe
-         5F9+MZsyj+1QFL6jbwN3533e/ciec+ZjhqpExx/68VDKScUqB8Z4kVwL0B3GdILHAE5w
-         BmMw==;
+        bh=hnrOsDiUA3Jbc7VaJ0HrkQb/VaIIv56J10QiPSfXr78=;
+        fh=hX+jMyQ5BgGOic9UGEQk/HeMuGYjdnEbn8xGd2zrXGg=;
+        b=BrFm0uSK+uLmcqDKenXqxEZ1/mpV+je2ixNm75RLlYcqjqYZ7r58orzTSv87DtRo/e
+         R2CTzJv4dfndHsWGej7BuQCZ3Dj9EFtBe6qei4PoRfeM2XlZncU2X3gdRRvtqRCFY3Ai
+         fShEdwtswweuS9DYnP2xChU2Pl6LngWHcxoijX9EPJvsVr/uy9XNSR+1gI0xW0fi6KbM
+         aNRwFLHjo79QqtYwR9klcfVNscA9UoxHIPbYso44rwMkVRm9cgxqL0fHPDYaqoP3Bk+r
+         R0NUK7SSbfbVbWNqePP1G7uQ1gBuodwZ/plLQLUbwnbFPs07AziPtP1qg1WBHGK0CoJP
+         NCpA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=QfdXWIDU;
-       spf=pass (google.com: domain of 3czafaqukctgyfpylaiiafy.wigeumuh-xypaiiafyaliojm.wig@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3CzAfaQUKCTgYfpYlaiiafY.WigeUmUh-XYpaiiafYaliojm.Wig@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=saJGhIHL;
+       spf=pass (google.com: domain of 3edafaqukct0dkudqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3EDAfaQUKCT0dkudqfnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com. [2a00:1450:4864:20::349])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-5969dba0852si45657e87.4.2025.11.20.07.13.22
+        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-5969dba093esi48140e87.3.2025.11.20.07.13.21
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Nov 2025 07:13:22 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3czafaqukctgyfpylaiiafy.wigeumuh-xypaiiafyaliojm.wig@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) client-ip=2a00:1450:4864:20::349;
-Received: by mail-wm1-x349.google.com with SMTP id 5b1f17b1804b1-477a11d9f89so5144095e9.3
-        for <kasan-dev@googlegroups.com>; Thu, 20 Nov 2025 07:13:22 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWYhPWCAnYlVKWz1DIofF/MyMo4bPPjG9I7OEyRTnTS5SZ2suniOVTUEMy396/xZTEtRhG0kMWHxN4=@googlegroups.com
-X-Received: from wmgi8.prod.google.com ([2002:a05:600c:2d88:b0:475:d94e:4d5d])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:458e:b0:46e:396b:f5ae
- with SMTP id 5b1f17b1804b1-477bac0cfb5mr29573045e9.16.1763651595671; Thu, 20
- Nov 2025 07:13:15 -0800 (PST)
-Date: Thu, 20 Nov 2025 16:09:47 +0100
+        Thu, 20 Nov 2025 07:13:21 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3edafaqukct0dkudqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) client-ip=2a00:1450:4864:20::349;
+Received: by mail-wm1-x349.google.com with SMTP id 5b1f17b1804b1-477563a0c75so5573575e9.1
+        for <kasan-dev@googlegroups.com>; Thu, 20 Nov 2025 07:13:21 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXMCNWhbD3O/9uKQfKb+uqJ2cJ3cxyNpJslhIYXq+fo+JTz0AqTQMvWj5e61UkE2KFE1ytf/8JskOg=@googlegroups.com
+X-Received: from wmo9.prod.google.com ([2002:a05:600c:2309:b0:477:81d8:54c6])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:4704:b0:477:7d94:5d0e
+ with SMTP id 5b1f17b1804b1-477b8a9ab58mr32475085e9.27.1763651600324; Thu, 20
+ Nov 2025 07:13:20 -0800 (PST)
+Date: Thu, 20 Nov 2025 16:09:48 +0100
 In-Reply-To: <20251120151033.3840508-7-elver@google.com>
 Mime-Version: 1.0
 References: <20251120145835.3833031-2-elver@google.com> <20251120151033.3840508-7-elver@google.com>
 X-Mailer: git-send-email 2.52.0.rc1.455.g30608eb744-goog
-Message-ID: <20251120151033.3840508-23-elver@google.com>
-Subject: [PATCH v4 22/35] compiler-context-analysis: Remove Sparse support
+Message-ID: <20251120151033.3840508-24-elver@google.com>
+Subject: [PATCH v4 23/35] compiler-context-analysis: Remove __cond_lock()
+ function-like helper
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, 
 	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>
@@ -146,9 +146,9 @@ Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenry
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=QfdXWIDU;       spf=pass
- (google.com: domain of 3czafaqukctgyfpylaiiafy.wigeumuh-xypaiiafyaliojm.wig@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3CzAfaQUKCTgYfpYlaiiafY.WigeUmUh-XYpaiiafYaliojm.Wig@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b=saJGhIHL;       spf=pass
+ (google.com: domain of 3edafaqukct0dkudqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3EDAfaQUKCT0dkudqfnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -165,291 +165,829 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Remove Sparse support as discussed at [1].
+As discussed in [1], removing __cond_lock() will improve the readability
+of trylock code. Now that Sparse context tracking support has been
+removed, we can also remove __cond_lock().
 
-The kernel codebase is still scattered with numerous places that try to
-appease Sparse's context tracking ("annotation for sparse", "fake out
-sparse", "work around sparse", etc.). Eventually, as more subsystems
-enable Clang's context analysis, these places will show up and need
-adjustment or removal of the workarounds altogether.
+Change existing APIs to either drop __cond_lock() completely, or make
+use of the __cond_acquires() function attribute instead.
 
-Link: https://lore.kernel.org/all/20250207083335.GW7145@noisy.programming.kicks-ass.net/ [1]
-Link: https://lore.kernel.org/all/Z6XTKTo_LMj9KmbY@elver.google.com/ [2]
-Cc: Chris Li <sparse@chrisli.org>
-Cc: "Luc Van Oostenryck" <luc.vanoostenryck@gmail.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
+In particular, spinlock and rwlock implementations required switching
+over to inline helpers rather than statement-expressions for their
+trylock_* variants.
+
+Link: https://lore.kernel.org/all/20250207082832.GU7145@noisy.programming.kicks-ass.net/ [1]
+Suggested-by: Peter Zijlstra <peterz@infradead.org>
 Signed-off-by: Marco Elver <elver@google.com>
 ---
-v4:
-* Rename capability -> context analysis.
-
 v2:
 * New patch.
 ---
- Documentation/dev-tools/sparse.rst        | 19 -----
- include/linux/compiler-context-analysis.h | 85 +++++++----------------
- include/linux/rcupdate.h                  | 15 +---
- 3 files changed, 28 insertions(+), 91 deletions(-)
+ Documentation/dev-tools/context-analysis.rst  |  2 -
+ Documentation/mm/process_addrs.rst            |  6 +-
+ .../net/wireless/intel/iwlwifi/iwl-trans.c    |  4 +-
+ .../net/wireless/intel/iwlwifi/iwl-trans.h    |  6 +-
+ .../intel/iwlwifi/pcie/gen1_2/internal.h      |  5 +-
+ .../intel/iwlwifi/pcie/gen1_2/trans.c         |  4 +-
+ include/linux/compiler-context-analysis.h     | 31 ----------
+ include/linux/mm.h                            | 33 ++--------
+ include/linux/rwlock.h                        | 11 +---
+ include/linux/rwlock_api_smp.h                | 14 ++++-
+ include/linux/rwlock_rt.h                     | 21 ++++---
+ include/linux/sched/signal.h                  | 14 +----
+ include/linux/spinlock.h                      | 45 +++++---------
+ include/linux/spinlock_api_smp.h              | 20 ++++++
+ include/linux/spinlock_api_up.h               | 61 ++++++++++++++++---
+ include/linux/spinlock_rt.h                   | 26 ++++----
+ kernel/signal.c                               |  4 +-
+ kernel/time/posix-timers.c                    | 13 +---
+ lib/dec_and_lock.c                            |  8 +--
+ mm/memory.c                                   |  4 +-
+ mm/pgtable-generic.c                          | 19 +++---
+ tools/include/linux/compiler_types.h          |  2 -
+ 22 files changed, 162 insertions(+), 191 deletions(-)
 
-diff --git a/Documentation/dev-tools/sparse.rst b/Documentation/dev-tools/sparse.rst
-index dc791c8d84d1..37b20170835d 100644
---- a/Documentation/dev-tools/sparse.rst
-+++ b/Documentation/dev-tools/sparse.rst
-@@ -53,25 +53,6 @@ sure that bitwise types don't get mixed up (little-endian vs big-endian
- vs cpu-endian vs whatever), and there the constant "0" really _is_
- special.
+diff --git a/Documentation/dev-tools/context-analysis.rst b/Documentation/dev-tools/context-analysis.rst
+index 2936666651f3..e53f089d0c52 100644
+--- a/Documentation/dev-tools/context-analysis.rst
++++ b/Documentation/dev-tools/context-analysis.rst
+@@ -113,10 +113,8 @@ Keywords
+                  __releases_shared
+                  __acquire
+                  __release
+-                 __cond_lock
+                  __acquire_shared
+                  __release_shared
+-                 __cond_lock_shared
+                  __acquire_ret
+                  __acquire_shared_ret
+                  context_unsafe
+diff --git a/Documentation/mm/process_addrs.rst b/Documentation/mm/process_addrs.rst
+index be49e2a269e4..25d551a01f16 100644
+--- a/Documentation/mm/process_addrs.rst
++++ b/Documentation/mm/process_addrs.rst
+@@ -582,7 +582,7 @@ To access PTE-level page tables, a helper like :c:func:`!pte_offset_map_lock` or
+ :c:func:`!pte_offset_map` can be used depending on stability requirements.
+ These map the page table into kernel memory if required, take the RCU lock, and
+ depending on variant, may also look up or acquire the PTE lock.
+-See the comment on :c:func:`!__pte_offset_map_lock`.
++See the comment on :c:func:`!pte_offset_map_lock`.
  
--Using sparse for lock checking
--------------------------------
--
--The following macros are undefined for gcc and defined during a sparse
--run to use the "context" tracking feature of sparse, applied to
--locking.  These annotations tell sparse when a lock is held, with
--regard to the annotated function's entry and exit.
--
--__must_hold - The specified lock is held on function entry and exit.
--
--__acquires - The specified lock is held on function exit, but not entry.
--
--__releases - The specified lock is held on function entry, but not exit.
--
--If the function enters and exits without the lock held, acquiring and
--releasing the lock inside the function in a balanced way, no
--annotation is needed.  The three annotations above are for cases where
--sparse would otherwise report a context imbalance.
--
- Getting sparse
- --------------
+ Atomicity
+ ^^^^^^^^^
+@@ -666,7 +666,7 @@ must be released via :c:func:`!pte_unmap_unlock`.
+ .. note:: There are some variants on this, such as
+    :c:func:`!pte_offset_map_rw_nolock` when we know we hold the PTE stable but
+    for brevity we do not explore this.  See the comment for
+-   :c:func:`!__pte_offset_map_lock` for more details.
++   :c:func:`!pte_offset_map_lock` for more details.
  
+ When modifying data in ranges we typically only wish to allocate higher page
+ tables as necessary, using these locks to avoid races or overwriting anything,
+@@ -685,7 +685,7 @@ At the leaf page table, that is the PTE, we can't entirely rely on this pattern
+ as we have separate PMD and PTE locks and a THP collapse for instance might have
+ eliminated the PMD entry as well as the PTE from under us.
+ 
+-This is why :c:func:`!__pte_offset_map_lock` locklessly retrieves the PMD entry
++This is why :c:func:`!pte_offset_map_lock` locklessly retrieves the PMD entry
+ for the PTE, carefully checking it is as expected, before acquiring the
+ PTE-specific lock, and then *again* checking that the PMD entry is as expected.
+ 
+diff --git a/drivers/net/wireless/intel/iwlwifi/iwl-trans.c b/drivers/net/wireless/intel/iwlwifi/iwl-trans.c
+index 5232f66c2d52..12016bb00596 100644
+--- a/drivers/net/wireless/intel/iwlwifi/iwl-trans.c
++++ b/drivers/net/wireless/intel/iwlwifi/iwl-trans.c
+@@ -548,11 +548,11 @@ int iwl_trans_read_config32(struct iwl_trans *trans, u32 ofs,
+ 	return iwl_trans_pcie_read_config32(trans, ofs, val);
+ }
+ 
+-bool _iwl_trans_grab_nic_access(struct iwl_trans *trans)
++bool iwl_trans_grab_nic_access(struct iwl_trans *trans)
+ {
+ 	return iwl_trans_pcie_grab_nic_access(trans);
+ }
+-IWL_EXPORT_SYMBOL(_iwl_trans_grab_nic_access);
++IWL_EXPORT_SYMBOL(iwl_trans_grab_nic_access);
+ 
+ void __releases(nic_access)
+ iwl_trans_release_nic_access(struct iwl_trans *trans)
+diff --git a/drivers/net/wireless/intel/iwlwifi/iwl-trans.h b/drivers/net/wireless/intel/iwlwifi/iwl-trans.h
+index a0cc5d7745e8..10b38d09cddf 100644
+--- a/drivers/net/wireless/intel/iwlwifi/iwl-trans.h
++++ b/drivers/net/wireless/intel/iwlwifi/iwl-trans.h
+@@ -1063,11 +1063,7 @@ int iwl_trans_sw_reset(struct iwl_trans *trans);
+ void iwl_trans_set_bits_mask(struct iwl_trans *trans, u32 reg,
+ 			     u32 mask, u32 value);
+ 
+-bool _iwl_trans_grab_nic_access(struct iwl_trans *trans);
+-
+-#define iwl_trans_grab_nic_access(trans)		\
+-	__cond_lock(nic_access,				\
+-		    likely(_iwl_trans_grab_nic_access(trans)))
++bool iwl_trans_grab_nic_access(struct iwl_trans *trans);
+ 
+ void __releases(nic_access)
+ iwl_trans_release_nic_access(struct iwl_trans *trans);
+diff --git a/drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/internal.h b/drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/internal.h
+index 207c56e338dd..7b7b35e442f9 100644
+--- a/drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/internal.h
++++ b/drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/internal.h
+@@ -553,10 +553,7 @@ void iwl_trans_pcie_free(struct iwl_trans *trans);
+ void iwl_trans_pcie_free_pnvm_dram_regions(struct iwl_dram_regions *dram_regions,
+ 					   struct device *dev);
+ 
+-bool __iwl_trans_pcie_grab_nic_access(struct iwl_trans *trans, bool silent);
+-#define _iwl_trans_pcie_grab_nic_access(trans, silent)		\
+-	__cond_lock(nic_access_nobh,				\
+-		    likely(__iwl_trans_pcie_grab_nic_access(trans, silent)))
++bool _iwl_trans_pcie_grab_nic_access(struct iwl_trans *trans, bool silent);
+ 
+ void iwl_trans_pcie_check_product_reset_status(struct pci_dev *pdev);
+ void iwl_trans_pcie_check_product_reset_mode(struct pci_dev *pdev);
+diff --git a/drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans.c b/drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans.c
+index 59307b5df441..a45358841243 100644
+--- a/drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans.c
++++ b/drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans.c
+@@ -2327,7 +2327,7 @@ EXPORT_SYMBOL(iwl_trans_pcie_reset);
+  * This version doesn't disable BHs but rather assumes they're
+  * already disabled.
+  */
+-bool __iwl_trans_pcie_grab_nic_access(struct iwl_trans *trans, bool silent)
++bool _iwl_trans_pcie_grab_nic_access(struct iwl_trans *trans, bool silent)
+ {
+ 	int ret;
+ 	struct iwl_trans_pcie *trans_pcie = IWL_TRANS_GET_PCIE_TRANS(trans);
+@@ -2415,7 +2415,7 @@ bool iwl_trans_pcie_grab_nic_access(struct iwl_trans *trans)
+ 	bool ret;
+ 
+ 	local_bh_disable();
+-	ret = __iwl_trans_pcie_grab_nic_access(trans, false);
++	ret = _iwl_trans_pcie_grab_nic_access(trans, false);
+ 	if (ret) {
+ 		/* keep BHs disabled until iwl_trans_pcie_release_nic_access */
+ 		return ret;
 diff --git a/include/linux/compiler-context-analysis.h b/include/linux/compiler-context-analysis.h
-index 935e59089d75..6990cab7a4a9 100644
+index 6990cab7a4a9..03056f87a86f 100644
 --- a/include/linux/compiler-context-analysis.h
 +++ b/include/linux/compiler-context-analysis.h
-@@ -250,57 +250,32 @@ static inline void _context_unsafe_alias(void **p) { }
- 	extern const struct __ctx_guard_##ctx *name
+@@ -329,24 +329,6 @@ static inline void _context_unsafe_alias(void **p) { }
+  */
+ #define __release(x)		__release_ctx_guard(x)
  
- /*
-- * Common keywords for static context analysis. Both Clang's "capability
-- * analysis" and Sparse's "context tracking" are currently supported.
+-/**
+- * __cond_lock() - function that conditionally acquires a context guard
+- *                 exclusively
+- * @x: context guard instance pinter
+- * @c: boolean expression
+- *
+- * Return: result of @c
+- *
+- * No-op function that conditionally acquires context guard instance @x
+- * exclusively, if the boolean expression @c is true. The result of @c is the
+- * return value; for example:
+- *
+- * .. code-block:: c
+- *
+- *	#define spin_trylock(l) __cond_lock(&lock, _spin_trylock(&lock))
 - */
--#ifdef __CHECKER__
+-#define __cond_lock(x, c)	__try_acquire_ctx_guard(x, c)
 -
--/* Sparse context/lock checking support. */
--# define __must_hold(x)		__attribute__((context(x,1,1)))
--# define __must_not_hold(x)
--# define __acquires(x)		__attribute__((context(x,0,1)))
--# define __cond_acquires(ret, x) __attribute__((context(x,0,-1)))
--# define __releases(x)		__attribute__((context(x,1,0)))
--# define __acquire(x)		__context__(x,1)
--# define __release(x)		__context__(x,-1)
--# define __cond_lock(x, c)	((c) ? ({ __acquire(x); 1; }) : 0)
--/* For Sparse, there's no distinction between exclusive and shared locks. */
--# define __must_hold_shared	__must_hold
--# define __acquires_shared	__acquires
--# define __cond_acquires_shared __cond_acquires
--# define __releases_shared	__releases
--# define __acquire_shared	__acquire
--# define __release_shared	__release
--# define __cond_lock_shared	__cond_acquire
--
--#else /* !__CHECKER__ */
-+ * Common keywords for static context analysis.
-+ */
- 
- /**
-  * __must_hold() - function attribute, caller must hold exclusive context guard
-- * @x: context guard instance pointer
-  *
-  * Function attribute declaring that the caller must hold the given context
-- * guard instance @x exclusively.
-+ * guard instance(s) exclusively.
-  */
--# define __must_hold(x)		__requires_ctx_guard(x)
-+#define __must_hold(...)	__requires_ctx_guard(__VA_ARGS__)
- 
- /**
-  * __must_not_hold() - function attribute, caller must not hold context guard
-- * @x: context guard instance pointer
-  *
-  * Function attribute declaring that the caller must not hold the given context
-- * guard instance @x.
-+ * guard instance(s).
-  */
--# define __must_not_hold(x)	__excludes_ctx_guard(x)
-+#define __must_not_hold(...)	__excludes_ctx_guard(__VA_ARGS__)
- 
- /**
-  * __acquires() - function attribute, function acquires context guard exclusively
-- * @x: context guard instance pointer
-  *
-  * Function attribute declaring that the function acquires the given context
-- * guard instance @x exclusively, but does not release it.
-+ * guard instance(s) exclusively, but does not release them.
-  */
--# define __acquires(x)		__acquires_ctx_guard(x)
-+#define __acquires(...)		__acquires_ctx_guard(__VA_ARGS__)
- 
- /*
-  * Clang's analysis does not care precisely about the value, only that it is
-@@ -327,17 +302,16 @@ static inline void _context_unsafe_alias(void **p) { }
-  *
-  * @ret may be one of: true, false, nonzero, 0, nonnull, NULL.
-  */
--# define __cond_acquires(ret, x) __cond_acquires_impl_##ret(x)
-+#define __cond_acquires(ret, x) __cond_acquires_impl_##ret(x)
- 
- /**
-  * __releases() - function attribute, function releases a context guard exclusively
-- * @x: context guard instance pointer
-  *
-  * Function attribute declaring that the function releases the given context
-- * guard instance @x exclusively. The associated context must be active on
-+ * guard instance(s) exclusively. The associated context(s) must be active on
-  * entry.
-  */
--# define __releases(x)		__releases_ctx_guard(x)
-+#define __releases(...)		__releases_ctx_guard(__VA_ARGS__)
- 
- /**
-  * __acquire() - function to acquire context guard exclusively
-@@ -345,7 +319,7 @@ static inline void _context_unsafe_alias(void **p) { }
-  *
-  * No-op function that acquires the given context guard instance @x exclusively.
-  */
--# define __acquire(x)		__acquire_ctx_guard(x)
-+#define __acquire(x)		__acquire_ctx_guard(x)
- 
- /**
-  * __release() - function to release context guard exclusively
-@@ -353,7 +327,7 @@ static inline void _context_unsafe_alias(void **p) { }
-  *
-  * No-op function that releases the given context guard instance @x.
-  */
--# define __release(x)		__release_ctx_guard(x)
-+#define __release(x)		__release_ctx_guard(x)
- 
- /**
-  * __cond_lock() - function that conditionally acquires a context guard
-@@ -371,25 +345,23 @@ static inline void _context_unsafe_alias(void **p) { }
-  *
-  *	#define spin_trylock(l) __cond_lock(&lock, _spin_trylock(&lock))
-  */
--# define __cond_lock(x, c)	__try_acquire_ctx_guard(x, c)
-+#define __cond_lock(x, c)	__try_acquire_ctx_guard(x, c)
- 
  /**
   * __must_hold_shared() - function attribute, caller must hold shared context guard
-- * @x: context guard instance pointer
   *
-  * Function attribute declaring that the caller must hold the given context
-- * guard instance @x with shared access.
-+ * guard instance(s) with shared access.
+@@ -405,19 +387,6 @@ static inline void _context_unsafe_alias(void **p) { }
   */
--# define __must_hold_shared(x)	__requires_shared_ctx_guard(x)
-+#define __must_hold_shared(...)	__requires_shared_ctx_guard(__VA_ARGS__)
+ #define __release_shared(x)	__release_shared_ctx_guard(x)
  
- /**
-  * __acquires_shared() - function attribute, function acquires context guard shared
-- * @x: context guard instance pointer
-  *
-  * Function attribute declaring that the function acquires the given
-- * context guard instance @x with shared access, but does not release it.
-+ * context guard instance(s) with shared access, but does not release them.
-  */
--# define __acquires_shared(x)	__acquires_shared_ctx_guard(x)
-+#define __acquires_shared(...)	__acquires_shared_ctx_guard(__VA_ARGS__)
- 
- /**
-  * __cond_acquires_shared() - function attribute, function conditionally
-@@ -398,23 +370,22 @@ static inline void _context_unsafe_alias(void **p) { }
-  * @x: context guard instance pointer
-  *
-  * Function attribute declaring that the function conditionally acquires the
-- * given context guard instance @x with shared access, but does not release it. The
-- * function return value @ret denotes when the context guard is acquired.
-+ * given context guard instance @x with shared access, but does not release it.
-+ * The function return value @ret denotes when the context guard is acquired.
-  *
-  * @ret may be one of: true, false, nonzero, 0, nonnull, NULL.
-  */
--# define __cond_acquires_shared(ret, x) __cond_acquires_impl_##ret(x, _shared)
-+#define __cond_acquires_shared(ret, x) __cond_acquires_impl_##ret(x, _shared)
- 
- /**
-  * __releases_shared() - function attribute, function releases a
-  *                       context guard shared
-- * @x: context guard instance pointer
-  *
-  * Function attribute declaring that the function releases the given context
-- * guard instance @x with shared access. The associated context must be active
-- * on entry.
-+ * guard instance(s) with shared access. The associated context(s) must be
-+ * active on entry.
-  */
--# define __releases_shared(x)	__releases_shared_ctx_guard(x)
-+#define __releases_shared(...)	__releases_shared_ctx_guard(__VA_ARGS__)
- 
- /**
-  * __acquire_shared() - function to acquire context guard shared
-@@ -423,7 +394,7 @@ static inline void _context_unsafe_alias(void **p) { }
-  * No-op function that acquires the given context guard instance @x with shared
-  * access.
-  */
--# define __acquire_shared(x)	__acquire_shared_ctx_guard(x)
-+#define __acquire_shared(x)	__acquire_shared_ctx_guard(x)
- 
- /**
-  * __release_shared() - function to release context guard shared
-@@ -432,7 +403,7 @@ static inline void _context_unsafe_alias(void **p) { }
-  * No-op function that releases the given context guard instance @x with shared
-  * access.
-  */
--# define __release_shared(x)	__release_shared_ctx_guard(x)
-+#define __release_shared(x)	__release_shared_ctx_guard(x)
- 
- /**
-  * __cond_lock_shared() - function that conditionally acquires a context guard shared
-@@ -445,9 +416,7 @@ static inline void _context_unsafe_alias(void **p) { }
-  * shared access, if the boolean expression @c is true. The result of @c is the
-  * return value.
-  */
--# define __cond_lock_shared(x, c) __try_acquire_shared_ctx_guard(x, c)
+-/**
+- * __cond_lock_shared() - function that conditionally acquires a context guard shared
+- * @x: context guard instance pinter
+- * @c: boolean expression
+- *
+- * Return: result of @c
+- *
+- * No-op function that conditionally acquires context guard instance @x with
+- * shared access, if the boolean expression @c is true. The result of @c is the
+- * return value.
+- */
+-#define __cond_lock_shared(x, c) __try_acquire_shared_ctx_guard(x, c)
 -
--#endif /* __CHECKER__ */
-+#define __cond_lock_shared(x, c) __try_acquire_shared_ctx_guard(x, c)
- 
  /**
   * __acquire_ret() - helper to acquire context guard of return value
-diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
-index 5cddb9019a99..dd12e738e073 100644
---- a/include/linux/rcupdate.h
-+++ b/include/linux/rcupdate.h
-@@ -1219,20 +1219,7 @@ rcu_head_after_call_rcu(struct rcu_head *rhp, rcu_callback_t f)
- extern int rcu_expedited;
- extern int rcu_normal;
+  * @call: call expression
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 7c79b3369b82..d0c89022a823 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -2813,15 +2813,8 @@ static inline pud_t pud_mkspecial(pud_t pud)
+ }
+ #endif	/* CONFIG_ARCH_SUPPORTS_PUD_PFNMAP */
  
--DEFINE_LOCK_GUARD_0(rcu,
--	do {
--		rcu_read_lock();
--		/*
--		 * sparse doesn't call the cleanup function,
--		 * so just release immediately and don't track
--		 * the context. We don't need to anyway, since
--		 * the whole point of the guard is to not need
--		 * the explicit unlock.
--		 */
--		__release(RCU);
--	} while (0),
--	rcu_read_unlock())
+-extern pte_t *__get_locked_pte(struct mm_struct *mm, unsigned long addr,
+-			       spinlock_t **ptl);
+-static inline pte_t *get_locked_pte(struct mm_struct *mm, unsigned long addr,
+-				    spinlock_t **ptl)
+-{
+-	pte_t *ptep;
+-	__cond_lock(*ptl, ptep = __get_locked_pte(mm, addr, ptl));
+-	return ptep;
+-}
++extern pte_t *get_locked_pte(struct mm_struct *mm, unsigned long addr,
++			     spinlock_t **ptl);
+ 
+ #ifdef __PAGETABLE_P4D_FOLDED
+ static inline int __p4d_alloc(struct mm_struct *mm, pgd_t *pgd,
+@@ -3116,31 +3109,15 @@ static inline bool pagetable_pte_ctor(struct mm_struct *mm,
+ 	return true;
+ }
+ 
+-pte_t *___pte_offset_map(pmd_t *pmd, unsigned long addr, pmd_t *pmdvalp);
+-static inline pte_t *__pte_offset_map(pmd_t *pmd, unsigned long addr,
+-			pmd_t *pmdvalp)
+-{
+-	pte_t *pte;
++pte_t *__pte_offset_map(pmd_t *pmd, unsigned long addr, pmd_t *pmdvalp);
+ 
+-	__cond_lock(RCU, pte = ___pte_offset_map(pmd, addr, pmdvalp));
+-	return pte;
+-}
+ static inline pte_t *pte_offset_map(pmd_t *pmd, unsigned long addr)
+ {
+ 	return __pte_offset_map(pmd, addr, NULL);
+ }
+ 
+-pte_t *__pte_offset_map_lock(struct mm_struct *mm, pmd_t *pmd,
+-			unsigned long addr, spinlock_t **ptlp);
+-static inline pte_t *pte_offset_map_lock(struct mm_struct *mm, pmd_t *pmd,
+-			unsigned long addr, spinlock_t **ptlp)
+-{
+-	pte_t *pte;
 -
-+DEFINE_LOCK_GUARD_0(rcu, rcu_read_lock(), rcu_read_unlock())
- DECLARE_LOCK_GUARD_0_ATTRS(rcu, __acquires_shared(RCU), __releases_shared(RCU))
+-	__cond_lock(RCU, __cond_lock(*ptlp,
+-			pte = __pte_offset_map_lock(mm, pmd, addr, ptlp)));
+-	return pte;
+-}
++pte_t *pte_offset_map_lock(struct mm_struct *mm, pmd_t *pmd,
++			   unsigned long addr, spinlock_t **ptlp);
  
- #endif /* __LINUX_RCUPDATE_H */
+ pte_t *pte_offset_map_ro_nolock(struct mm_struct *mm, pmd_t *pmd,
+ 				unsigned long addr, spinlock_t **ptlp);
+diff --git a/include/linux/rwlock.h b/include/linux/rwlock.h
+index a2f85a0356c4..53ba394e9c51 100644
+--- a/include/linux/rwlock.h
++++ b/include/linux/rwlock.h
+@@ -50,8 +50,8 @@ do {								\
+  * regardless of whether CONFIG_SMP or CONFIG_PREEMPT are set. The various
+  * methods are defined as nops in the case they are not required.
+  */
+-#define read_trylock(lock)	__cond_lock_shared(lock, _raw_read_trylock(lock))
+-#define write_trylock(lock)	__cond_lock(lock, _raw_write_trylock(lock))
++#define read_trylock(lock)	_raw_read_trylock(lock)
++#define write_trylock(lock)	_raw_write_trylock(lock)
+ 
+ #define write_lock(lock)	_raw_write_lock(lock)
+ #define read_lock(lock)		_raw_read_lock(lock)
+@@ -113,12 +113,7 @@ do {								\
+ 	} while (0)
+ #define write_unlock_bh(lock)		_raw_write_unlock_bh(lock)
+ 
+-#define write_trylock_irqsave(lock, flags)		\
+-	__cond_lock(lock, ({				\
+-		local_irq_save(flags);			\
+-		_raw_write_trylock(lock) ?		\
+-		1 : ({ local_irq_restore(flags); 0; });	\
+-	}))
++#define write_trylock_irqsave(lock, flags) _raw_write_trylock_irqsave(lock, &(flags))
+ 
+ #ifdef arch_rwlock_is_contended
+ #define rwlock_is_contended(lock) \
+diff --git a/include/linux/rwlock_api_smp.h b/include/linux/rwlock_api_smp.h
+index 6d5cc0b7be1f..d903b17c46ca 100644
+--- a/include/linux/rwlock_api_smp.h
++++ b/include/linux/rwlock_api_smp.h
+@@ -26,8 +26,8 @@ unsigned long __lockfunc _raw_read_lock_irqsave(rwlock_t *lock)
+ 							__acquires(lock);
+ unsigned long __lockfunc _raw_write_lock_irqsave(rwlock_t *lock)
+ 							__acquires(lock);
+-int __lockfunc _raw_read_trylock(rwlock_t *lock);
+-int __lockfunc _raw_write_trylock(rwlock_t *lock);
++int __lockfunc _raw_read_trylock(rwlock_t *lock)	__cond_acquires_shared(true, lock);
++int __lockfunc _raw_write_trylock(rwlock_t *lock)	__cond_acquires(true, lock);
+ void __lockfunc _raw_read_unlock(rwlock_t *lock)	__releases_shared(lock);
+ void __lockfunc _raw_write_unlock(rwlock_t *lock)	__releases(lock);
+ void __lockfunc _raw_read_unlock_bh(rwlock_t *lock)	__releases_shared(lock);
+@@ -41,6 +41,16 @@ void __lockfunc
+ _raw_write_unlock_irqrestore(rwlock_t *lock, unsigned long flags)
+ 							__releases(lock);
+ 
++static inline bool _raw_write_trylock_irqsave(rwlock_t *lock, unsigned long *flags)
++	__cond_acquires(true, lock)
++{
++	local_irq_save(*flags);
++	if (_raw_write_trylock(lock))
++		return true;
++	local_irq_restore(*flags);
++	return false;
++}
++
+ #ifdef CONFIG_INLINE_READ_LOCK
+ #define _raw_read_lock(lock) __raw_read_lock(lock)
+ #endif
+diff --git a/include/linux/rwlock_rt.h b/include/linux/rwlock_rt.h
+index 2723abbe0e7a..f5fd96e0800e 100644
+--- a/include/linux/rwlock_rt.h
++++ b/include/linux/rwlock_rt.h
+@@ -26,11 +26,11 @@ do {							\
+ } while (0)
+ 
+ extern void rt_read_lock(rwlock_t *rwlock)	__acquires_shared(rwlock);
+-extern int rt_read_trylock(rwlock_t *rwlock);
++extern int rt_read_trylock(rwlock_t *rwlock)	__cond_acquires_shared(true, rwlock);
+ extern void rt_read_unlock(rwlock_t *rwlock)	__releases_shared(rwlock);
+ extern void rt_write_lock(rwlock_t *rwlock)	__acquires(rwlock);
+ extern void rt_write_lock_nested(rwlock_t *rwlock, int subclass)	__acquires(rwlock);
+-extern int rt_write_trylock(rwlock_t *rwlock);
++extern int rt_write_trylock(rwlock_t *rwlock)	__cond_acquires(true, rwlock);
+ extern void rt_write_unlock(rwlock_t *rwlock)	__releases(rwlock);
+ 
+ static __always_inline void read_lock(rwlock_t *rwlock)
+@@ -59,7 +59,7 @@ static __always_inline void read_lock_irq(rwlock_t *rwlock)
+ 		flags = 0;				\
+ 	} while (0)
+ 
+-#define read_trylock(lock)	__cond_lock_shared(lock, rt_read_trylock(lock))
++#define read_trylock(lock)	rt_read_trylock(lock)
+ 
+ static __always_inline void read_unlock(rwlock_t *rwlock)
+ 	__releases_shared(rwlock)
+@@ -123,14 +123,15 @@ static __always_inline void write_lock_irq(rwlock_t *rwlock)
+ 		flags = 0;				\
+ 	} while (0)
+ 
+-#define write_trylock(lock)	__cond_lock(lock, rt_write_trylock(lock))
++#define write_trylock(lock)	rt_write_trylock(lock)
+ 
+-#define write_trylock_irqsave(lock, flags)		\
+-	__cond_lock(lock, ({				\
+-		typecheck(unsigned long, flags);	\
+-		flags = 0;				\
+-		rt_write_trylock(lock);			\
+-	}))
++static __always_inline bool _write_trylock_irqsave(rwlock_t *rwlock, unsigned long *flags)
++	__cond_acquires(true, rwlock)
++{
++	*flags = 0;
++	return rt_write_trylock(rwlock);
++}
++#define write_trylock_irqsave(lock, flags) _write_trylock_irqsave(lock, &(flags))
+ 
+ static __always_inline void write_unlock(rwlock_t *rwlock)
+ 	__releases(rwlock)
+diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
+index 7d6449982822..a63f65aa5bdd 100644
+--- a/include/linux/sched/signal.h
++++ b/include/linux/sched/signal.h
+@@ -737,18 +737,8 @@ static inline int thread_group_empty(struct task_struct *p)
+ #define delay_group_leader(p) \
+ 		(thread_group_leader(p) && !thread_group_empty(p))
+ 
+-extern struct sighand_struct *__lock_task_sighand(struct task_struct *task,
+-							unsigned long *flags);
+-
+-static inline struct sighand_struct *lock_task_sighand(struct task_struct *task,
+-						       unsigned long *flags)
+-{
+-	struct sighand_struct *ret;
+-
+-	ret = __lock_task_sighand(task, flags);
+-	(void)__cond_lock(&task->sighand->siglock, ret);
+-	return ret;
+-}
++extern struct sighand_struct *lock_task_sighand(struct task_struct *task,
++						unsigned long *flags);
+ 
+ static inline void unlock_task_sighand(struct task_struct *task,
+ 						unsigned long *flags)
+diff --git a/include/linux/spinlock.h b/include/linux/spinlock.h
+index 274d866a0be3..77b215c4124d 100644
+--- a/include/linux/spinlock.h
++++ b/include/linux/spinlock.h
+@@ -213,7 +213,7 @@ static inline void do_raw_spin_unlock(raw_spinlock_t *lock) __releases(lock)
+  * various methods are defined as nops in the case they are not
+  * required.
+  */
+-#define raw_spin_trylock(lock)	__cond_lock(lock, _raw_spin_trylock(lock))
++#define raw_spin_trylock(lock)	_raw_spin_trylock(lock)
+ 
+ #define raw_spin_lock(lock)	_raw_spin_lock(lock)
+ 
+@@ -284,22 +284,11 @@ static inline void do_raw_spin_unlock(raw_spinlock_t *lock) __releases(lock)
+ 	} while (0)
+ #define raw_spin_unlock_bh(lock)	_raw_spin_unlock_bh(lock)
+ 
+-#define raw_spin_trylock_bh(lock) \
+-	__cond_lock(lock, _raw_spin_trylock_bh(lock))
++#define raw_spin_trylock_bh(lock)	_raw_spin_trylock_bh(lock)
+ 
+-#define raw_spin_trylock_irq(lock)			\
+-	__cond_lock(lock, ({				\
+-		local_irq_disable();			\
+-		_raw_spin_trylock(lock) ?		\
+-		1 : ({ local_irq_enable(); 0;  });	\
+-	}))
++#define raw_spin_trylock_irq(lock)	_raw_spin_trylock_irq(lock)
+ 
+-#define raw_spin_trylock_irqsave(lock, flags)		\
+-	__cond_lock(lock, ({				\
+-		local_irq_save(flags);			\
+-		_raw_spin_trylock(lock) ?		\
+-		1 : ({ local_irq_restore(flags); 0; }); \
+-	}))
++#define raw_spin_trylock_irqsave(lock, flags) _raw_spin_trylock_irqsave(lock, &(flags))
+ 
+ #ifndef CONFIG_PREEMPT_RT
+ /* Include rwlock functions for !RT */
+@@ -433,8 +422,12 @@ static __always_inline int spin_trylock_irq(spinlock_t *lock)
+ 	return raw_spin_trylock_irq(&lock->rlock);
+ }
+ 
+-#define spin_trylock_irqsave(lock, flags)			\
+-	__cond_lock(lock, raw_spin_trylock_irqsave(spinlock_check(lock), flags))
++static __always_inline bool _spin_trylock_irqsave(spinlock_t *lock, unsigned long *flags)
++	__cond_acquires(true, lock) __no_context_analysis
++{
++	return raw_spin_trylock_irqsave(spinlock_check(lock), *flags);
++}
++#define spin_trylock_irqsave(lock, flags) _spin_trylock_irqsave(lock, &(flags))
+ 
+ /**
+  * spin_is_locked() - Check whether a spinlock is locked.
+@@ -512,23 +505,17 @@ static inline int rwlock_needbreak(rwlock_t *lock)
+  * Decrements @atomic by 1.  If the result is 0, returns true and locks
+  * @lock.  Returns false for all other cases.
+  */
+-extern int _atomic_dec_and_lock(atomic_t *atomic, spinlock_t *lock);
+-#define atomic_dec_and_lock(atomic, lock) \
+-		__cond_lock(lock, _atomic_dec_and_lock(atomic, lock))
++extern int atomic_dec_and_lock(atomic_t *atomic, spinlock_t *lock) __cond_acquires(true, lock);
+ 
+ extern int _atomic_dec_and_lock_irqsave(atomic_t *atomic, spinlock_t *lock,
+-					unsigned long *flags);
+-#define atomic_dec_and_lock_irqsave(atomic, lock, flags) \
+-		__cond_lock(lock, _atomic_dec_and_lock_irqsave(atomic, lock, &(flags)))
++					unsigned long *flags) __cond_acquires(true, lock);
++#define atomic_dec_and_lock_irqsave(atomic, lock, flags) _atomic_dec_and_lock_irqsave(atomic, lock, &(flags))
+ 
+-extern int _atomic_dec_and_raw_lock(atomic_t *atomic, raw_spinlock_t *lock);
+-#define atomic_dec_and_raw_lock(atomic, lock) \
+-		__cond_lock(lock, _atomic_dec_and_raw_lock(atomic, lock))
++extern int atomic_dec_and_raw_lock(atomic_t *atomic, raw_spinlock_t *lock) __cond_acquires(true, lock);
+ 
+ extern int _atomic_dec_and_raw_lock_irqsave(atomic_t *atomic, raw_spinlock_t *lock,
+-					unsigned long *flags);
+-#define atomic_dec_and_raw_lock_irqsave(atomic, lock, flags) \
+-		__cond_lock(lock, _atomic_dec_and_raw_lock_irqsave(atomic, lock, &(flags)))
++					    unsigned long *flags) __cond_acquires(true, lock);
++#define atomic_dec_and_raw_lock_irqsave(atomic, lock, flags) _atomic_dec_and_raw_lock_irqsave(atomic, lock, &(flags))
+ 
+ int __alloc_bucket_spinlocks(spinlock_t **locks, unsigned int *lock_mask,
+ 			     size_t max_size, unsigned int cpu_mult,
+diff --git a/include/linux/spinlock_api_smp.h b/include/linux/spinlock_api_smp.h
+index 7e7d7d373213..bda5e7a390cd 100644
+--- a/include/linux/spinlock_api_smp.h
++++ b/include/linux/spinlock_api_smp.h
+@@ -95,6 +95,26 @@ static inline int __raw_spin_trylock(raw_spinlock_t *lock)
+ 	return 0;
+ }
+ 
++static __always_inline bool _raw_spin_trylock_irq(raw_spinlock_t *lock)
++	__cond_acquires(true, lock)
++{
++	local_irq_disable();
++	if (_raw_spin_trylock(lock))
++		return true;
++	local_irq_enable();
++	return false;
++}
++
++static __always_inline bool _raw_spin_trylock_irqsave(raw_spinlock_t *lock, unsigned long *flags)
++	__cond_acquires(true, lock)
++{
++	local_irq_save(*flags);
++	if (_raw_spin_trylock(lock))
++		return true;
++	local_irq_restore(*flags);
++	return false;
++}
++
+ /*
+  * If lockdep is enabled then we use the non-preemption spin-ops
+  * even on CONFIG_PREEMPTION, because lockdep assumes that interrupts are
+diff --git a/include/linux/spinlock_api_up.h b/include/linux/spinlock_api_up.h
+index 018f5aabc1be..a9d5c7c66e03 100644
+--- a/include/linux/spinlock_api_up.h
++++ b/include/linux/spinlock_api_up.h
+@@ -24,14 +24,11 @@
+  * flags straight, to suppress compiler warnings of unused lock
+  * variables, and to add the proper checker annotations:
+  */
+-#define ___LOCK_void(lock) \
+-  do { (void)(lock); } while (0)
+-
+ #define ___LOCK_(lock) \
+-  do { __acquire(lock); ___LOCK_void(lock); } while (0)
++  do { __acquire(lock); (void)(lock); } while (0)
+ 
+ #define ___LOCK_shared(lock) \
+-  do { __acquire_shared(lock); ___LOCK_void(lock); } while (0)
++  do { __acquire_shared(lock); (void)(lock); } while (0)
+ 
+ #define __LOCK(lock, ...) \
+   do { preempt_disable(); ___LOCK_##__VA_ARGS__(lock); } while (0)
+@@ -78,10 +75,56 @@
+ #define _raw_spin_lock_irqsave(lock, flags)	__LOCK_IRQSAVE(lock, flags)
+ #define _raw_read_lock_irqsave(lock, flags)	__LOCK_IRQSAVE(lock, flags, shared)
+ #define _raw_write_lock_irqsave(lock, flags)	__LOCK_IRQSAVE(lock, flags)
+-#define _raw_spin_trylock(lock)			({ __LOCK(lock, void); 1; })
+-#define _raw_read_trylock(lock)			({ __LOCK(lock, void); 1; })
+-#define _raw_write_trylock(lock)			({ __LOCK(lock, void); 1; })
+-#define _raw_spin_trylock_bh(lock)		({ __LOCK_BH(lock, void); 1; })
++
++static __always_inline int _raw_spin_trylock(raw_spinlock_t *lock)
++	__cond_acquires(true, lock)
++{
++	__LOCK(lock);
++	return 1;
++}
++
++static __always_inline int _raw_spin_trylock_bh(raw_spinlock_t *lock)
++	__cond_acquires(true, lock)
++{
++	__LOCK_BH(lock);
++	return 1;
++}
++
++static __always_inline int _raw_spin_trylock_irq(raw_spinlock_t *lock)
++	__cond_acquires(true, lock)
++{
++	__LOCK_IRQ(lock);
++	return 1;
++}
++
++static __always_inline int _raw_spin_trylock_irqsave(raw_spinlock_t *lock, unsigned long *flags)
++	__cond_acquires(true, lock)
++{
++	__LOCK_IRQSAVE(lock, *(flags));
++	return 1;
++}
++
++static __always_inline int _raw_read_trylock(rwlock_t *lock)
++	__cond_acquires_shared(true, lock)
++{
++	__LOCK(lock, shared);
++	return 1;
++}
++
++static __always_inline int _raw_write_trylock(rwlock_t *lock)
++	__cond_acquires(true, lock)
++{
++	__LOCK(lock);
++	return 1;
++}
++
++static __always_inline int _raw_write_trylock_irqsave(rwlock_t *lock, unsigned long *flags)
++	__cond_acquires(true, lock)
++{
++	__LOCK_IRQSAVE(lock, *(flags));
++	return 1;
++}
++
+ #define _raw_spin_unlock(lock)			__UNLOCK(lock)
+ #define _raw_read_unlock(lock)			__UNLOCK(lock, shared)
+ #define _raw_write_unlock(lock)			__UNLOCK(lock)
+diff --git a/include/linux/spinlock_rt.h b/include/linux/spinlock_rt.h
+index 817a1e331cd1..348db067c318 100644
+--- a/include/linux/spinlock_rt.h
++++ b/include/linux/spinlock_rt.h
+@@ -37,8 +37,8 @@ extern void rt_spin_lock_nested(spinlock_t *lock, int subclass)	__acquires(lock)
+ extern void rt_spin_lock_nest_lock(spinlock_t *lock, struct lockdep_map *nest_lock) __acquires(lock);
+ extern void rt_spin_unlock(spinlock_t *lock)	__releases(lock);
+ extern void rt_spin_lock_unlock(spinlock_t *lock);
+-extern int rt_spin_trylock_bh(spinlock_t *lock);
+-extern int rt_spin_trylock(spinlock_t *lock);
++extern int rt_spin_trylock_bh(spinlock_t *lock) __cond_acquires(true, lock);
++extern int rt_spin_trylock(spinlock_t *lock) __cond_acquires(true, lock);
+ 
+ static __always_inline void spin_lock(spinlock_t *lock)
+ 	__acquires(lock)
+@@ -130,21 +130,19 @@ static __always_inline void spin_unlock_irqrestore(spinlock_t *lock,
+ 	rt_spin_unlock(lock);
+ }
+ 
+-#define spin_trylock(lock)				\
+-	__cond_lock(lock, rt_spin_trylock(lock))
++#define spin_trylock(lock)	rt_spin_trylock(lock)
+ 
+-#define spin_trylock_bh(lock)				\
+-	__cond_lock(lock, rt_spin_trylock_bh(lock))
++#define spin_trylock_bh(lock)	rt_spin_trylock_bh(lock)
+ 
+-#define spin_trylock_irq(lock)				\
+-	__cond_lock(lock, rt_spin_trylock(lock))
++#define spin_trylock_irq(lock)	rt_spin_trylock(lock)
+ 
+-#define spin_trylock_irqsave(lock, flags)		\
+-	__cond_lock(lock, ({				\
+-		typecheck(unsigned long, flags);	\
+-		flags = 0;				\
+-		rt_spin_trylock(lock);			\
+-	}))
++static __always_inline bool _spin_trylock_irqsave(spinlock_t *lock, unsigned long *flags)
++	__cond_acquires(true, lock)
++{
++	*flags = 0;
++	return rt_spin_trylock(lock);
++}
++#define spin_trylock_irqsave(lock, flags) _spin_trylock_irqsave(lock, &(flags))
+ 
+ #define spin_is_contended(lock)		(((void)(lock), 0))
+ 
+diff --git a/kernel/signal.c b/kernel/signal.c
+index fe9190d84f28..9ff96a341e42 100644
+--- a/kernel/signal.c
++++ b/kernel/signal.c
+@@ -1355,8 +1355,8 @@ int zap_other_threads(struct task_struct *p)
+ 	return count;
+ }
+ 
+-struct sighand_struct *__lock_task_sighand(struct task_struct *tsk,
+-					   unsigned long *flags)
++struct sighand_struct *lock_task_sighand(struct task_struct *tsk,
++					 unsigned long *flags)
+ {
+ 	struct sighand_struct *sighand;
+ 
+diff --git a/kernel/time/posix-timers.c b/kernel/time/posix-timers.c
+index 56e17b625c72..afb63b2cdc98 100644
+--- a/kernel/time/posix-timers.c
++++ b/kernel/time/posix-timers.c
+@@ -66,14 +66,7 @@ static const struct k_clock clock_realtime, clock_monotonic;
+ #error "SIGEV_THREAD_ID must not share bit with other SIGEV values!"
+ #endif
+ 
+-static struct k_itimer *__lock_timer(timer_t timer_id);
+-
+-#define lock_timer(tid)							\
+-({	struct k_itimer *__timr;					\
+-	__cond_lock(&__timr->it_lock, __timr = __lock_timer(tid));	\
+-	__timr;								\
+-})
+-
++static struct k_itimer *lock_timer(timer_t timer_id);
+ static inline void unlock_timer(struct k_itimer *timr)
+ {
+ 	if (likely((timr)))
+@@ -85,7 +78,7 @@ static inline void unlock_timer(struct k_itimer *timr)
+ 
+ #define scoped_timer				(scope)
+ 
+-DEFINE_CLASS(lock_timer, struct k_itimer *, unlock_timer(_T), __lock_timer(id), timer_t id);
++DEFINE_CLASS(lock_timer, struct k_itimer *, unlock_timer(_T), lock_timer(id), timer_t id);
+ DEFINE_CLASS_IS_COND_GUARD(lock_timer);
+ 
+ static struct timer_hash_bucket *hash_bucket(struct signal_struct *sig, unsigned int nr)
+@@ -600,7 +593,7 @@ COMPAT_SYSCALL_DEFINE3(timer_create, clockid_t, which_clock,
+ }
+ #endif
+ 
+-static struct k_itimer *__lock_timer(timer_t timer_id)
++static struct k_itimer *lock_timer(timer_t timer_id)
+ {
+ 	struct k_itimer *timr;
+ 
+diff --git a/lib/dec_and_lock.c b/lib/dec_and_lock.c
+index 1dcca8f2e194..8c7c398fd770 100644
+--- a/lib/dec_and_lock.c
++++ b/lib/dec_and_lock.c
+@@ -18,7 +18,7 @@
+  * because the spin-lock and the decrement must be
+  * "atomic".
+  */
+-int _atomic_dec_and_lock(atomic_t *atomic, spinlock_t *lock)
++int atomic_dec_and_lock(atomic_t *atomic, spinlock_t *lock)
+ {
+ 	/* Subtract 1 from counter unless that drops it to 0 (ie. it was 1) */
+ 	if (atomic_add_unless(atomic, -1, 1))
+@@ -32,7 +32,7 @@ int _atomic_dec_and_lock(atomic_t *atomic, spinlock_t *lock)
+ 	return 0;
+ }
+ 
+-EXPORT_SYMBOL(_atomic_dec_and_lock);
++EXPORT_SYMBOL(atomic_dec_and_lock);
+ 
+ int _atomic_dec_and_lock_irqsave(atomic_t *atomic, spinlock_t *lock,
+ 				 unsigned long *flags)
+@@ -50,7 +50,7 @@ int _atomic_dec_and_lock_irqsave(atomic_t *atomic, spinlock_t *lock,
+ }
+ EXPORT_SYMBOL(_atomic_dec_and_lock_irqsave);
+ 
+-int _atomic_dec_and_raw_lock(atomic_t *atomic, raw_spinlock_t *lock)
++int atomic_dec_and_raw_lock(atomic_t *atomic, raw_spinlock_t *lock)
+ {
+ 	/* Subtract 1 from counter unless that drops it to 0 (ie. it was 1) */
+ 	if (atomic_add_unless(atomic, -1, 1))
+@@ -63,7 +63,7 @@ int _atomic_dec_and_raw_lock(atomic_t *atomic, raw_spinlock_t *lock)
+ 	raw_spin_unlock(lock);
+ 	return 0;
+ }
+-EXPORT_SYMBOL(_atomic_dec_and_raw_lock);
++EXPORT_SYMBOL(atomic_dec_and_raw_lock);
+ 
+ int _atomic_dec_and_raw_lock_irqsave(atomic_t *atomic, raw_spinlock_t *lock,
+ 				     unsigned long *flags)
+diff --git a/mm/memory.c b/mm/memory.c
+index b59ae7ce42eb..1741953142e6 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -2215,8 +2215,8 @@ static pmd_t *walk_to_pmd(struct mm_struct *mm, unsigned long addr)
+ 	return pmd;
+ }
+ 
+-pte_t *__get_locked_pte(struct mm_struct *mm, unsigned long addr,
+-			spinlock_t **ptl)
++pte_t *get_locked_pte(struct mm_struct *mm, unsigned long addr,
++		      spinlock_t **ptl)
+ {
+ 	pmd_t *pmd = walk_to_pmd(mm, addr);
+ 
+diff --git a/mm/pgtable-generic.c b/mm/pgtable-generic.c
+index 567e2d084071..808f18d68279 100644
+--- a/mm/pgtable-generic.c
++++ b/mm/pgtable-generic.c
+@@ -278,7 +278,7 @@ static unsigned long pmdp_get_lockless_start(void) { return 0; }
+ static void pmdp_get_lockless_end(unsigned long irqflags) { }
+ #endif
+ 
+-pte_t *___pte_offset_map(pmd_t *pmd, unsigned long addr, pmd_t *pmdvalp)
++pte_t *__pte_offset_map(pmd_t *pmd, unsigned long addr, pmd_t *pmdvalp)
+ {
+ 	unsigned long irqflags;
+ 	pmd_t pmdval;
+@@ -330,13 +330,12 @@ pte_t *pte_offset_map_rw_nolock(struct mm_struct *mm, pmd_t *pmd,
+ }
+ 
+ /*
+- * pte_offset_map_lock(mm, pmd, addr, ptlp), and its internal implementation
+- * __pte_offset_map_lock() below, is usually called with the pmd pointer for
+- * addr, reached by walking down the mm's pgd, p4d, pud for addr: either while
+- * holding mmap_lock or vma lock for read or for write; or in truncate or rmap
+- * context, while holding file's i_mmap_lock or anon_vma lock for read (or for
+- * write). In a few cases, it may be used with pmd pointing to a pmd_t already
+- * copied to or constructed on the stack.
++ * pte_offset_map_lock(mm, pmd, addr, ptlp) is usually called with the pmd
++ * pointer for addr, reached by walking down the mm's pgd, p4d, pud for addr:
++ * either while holding mmap_lock or vma lock for read or for write; or in
++ * truncate or rmap context, while holding file's i_mmap_lock or anon_vma lock
++ * for read (or for write). In a few cases, it may be used with pmd pointing to
++ * a pmd_t already copied to or constructed on the stack.
+  *
+  * When successful, it returns the pte pointer for addr, with its page table
+  * kmapped if necessary (when CONFIG_HIGHPTE), and locked against concurrent
+@@ -387,8 +386,8 @@ pte_t *pte_offset_map_rw_nolock(struct mm_struct *mm, pmd_t *pmd,
+  * table, and may not use RCU at all: "outsiders" like khugepaged should avoid
+  * pte_offset_map() and co once the vma is detached from mm or mm_users is zero.
+  */
+-pte_t *__pte_offset_map_lock(struct mm_struct *mm, pmd_t *pmd,
+-			     unsigned long addr, spinlock_t **ptlp)
++pte_t *pte_offset_map_lock(struct mm_struct *mm, pmd_t *pmd,
++			   unsigned long addr, spinlock_t **ptlp)
+ {
+ 	spinlock_t *ptl;
+ 	pmd_t pmdval;
+diff --git a/tools/include/linux/compiler_types.h b/tools/include/linux/compiler_types.h
+index d09f9dc172a4..067a5b4e0f7b 100644
+--- a/tools/include/linux/compiler_types.h
++++ b/tools/include/linux/compiler_types.h
+@@ -20,7 +20,6 @@
+ # define __releases(x)	__attribute__((context(x,1,0)))
+ # define __acquire(x)	__context__(x,1)
+ # define __release(x)	__context__(x,-1)
+-# define __cond_lock(x,c)	((c) ? ({ __acquire(x); 1; }) : 0)
+ #else /* __CHECKER__ */
+ /* context/locking */
+ # define __must_hold(x)
+@@ -28,7 +27,6 @@
+ # define __releases(x)
+ # define __acquire(x)	(void)0
+ # define __release(x)	(void)0
+-# define __cond_lock(x,c) (c)
+ #endif /* __CHECKER__ */
+ 
+ /* Compiler specific macros. */
 -- 
 2.52.0.rc1.455.g30608eb744-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251120151033.3840508-23-elver%40google.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251120151033.3840508-24-elver%40google.com.
