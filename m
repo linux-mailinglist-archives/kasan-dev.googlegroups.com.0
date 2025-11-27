@@ -1,131 +1,134 @@
-Return-Path: <kasan-dev+bncBCT4XGV33UIBBH4HTXEQMGQEB5MH6YY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDTMJ55N44FBBFPEUDEQMGQEWX4VZCY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x137.google.com (mail-il1-x137.google.com [IPv6:2607:f8b0:4864:20::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCC40C8B66E
-	for <lists+kasan-dev@lfdr.de>; Wed, 26 Nov 2025 19:14:57 +0100 (CET)
-Received: by mail-il1-x137.google.com with SMTP id e9e14a558f8ab-434a83cd402sf546495ab.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 26 Nov 2025 10:14:57 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1764180896; cv=pass;
+Received: from mail-ej1-x63e.google.com (mail-ej1-x63e.google.com [IPv6:2a00:1450:4864:20::63e])
+	by mail.lfdr.de (Postfix) with ESMTPS id A754EC8DE97
+	for <lists+kasan-dev@lfdr.de>; Thu, 27 Nov 2025 12:12:22 +0100 (CET)
+Received: by mail-ej1-x63e.google.com with SMTP id a640c23a62f3a-b736bec949asf7241066b.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 27 Nov 2025 03:12:22 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1764241942; cv=pass;
         d=google.com; s=arc-20240605;
-        b=lSxZcobMjv3+e1OTklBog8CHkirphpPXVoIrcnD2lDxC35Qj7p+EjQLW8nEcBEhJWs
-         X4H6mixoo8wDFV04tamAl3ZW5cWjfL/a+5v8DBCh+u/gXXoeJbJMpVnADBaNqeURboS0
-         XghWjPAUmfXUZHfaFsxgFtHsax4KakHjvZGrvkbr/stutOSZ4k6jHG1osatGuqFIhjNC
-         Dhv9GxMXi1yE6KeFEgrnLwxVabEMu1So+OiNhpGwbBCHgDbcFdFOXGpubz0TTTbeeeXC
-         uRvH+mkAxzRT5SePu8dx7oLhVZOdBJBAAZlDB2FPKosBIjxgvyVPqgfNrCvts+uRN3rE
-         9HNQ==
+        b=ifNLZRrQh6r06MtLte0Tosiy92kbWow6pAFq9ff2tQBXyLdE0mvm3IGN1HfhAYVlpG
+         B4YhNO68VBAMNEUW2PtLaotMwYbfy7NDsrou9pPxDQMA1j1Fs7Z+csP+Q4xgYWceEI+2
+         DCPk3hbQArXklwprQv7tLqfQTWsDIObhnUBOu4xUpExjETZztux9+EKdUY4rqrEdBmJg
+         KH8MapkoFLSfjD2rpkJ248GKtUdcL5yTXcyoPUdl/LeChlQQISiTnhB4A8CuR1mW5ymf
+         5NMrr2CA0vAYixbz+cybb5CFDjUKVHrLUl+bAyHvUBmn/2KLyGJ2ZrNAWK+l/8mpcH4V
+         vugA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=1xmzP0lV+LXsLh3anFV0DWpNR0jcHYuKMWI/WlDq7yY=;
-        fh=SQsxGZaVktfFKlbVesRVpbArcmjfPv8EttEsaSVFTP8=;
-        b=f0AawWnLNW+ZrGiIXBPF/VVM8e9rU8+5s1bmi2uTlLk/vOlwHt3kztl8TP26+b565L
-         S8+YzoC9WqiaPgKl4NRagsbXqVmOnflxfQ4rTQMKxTZeGYEhkF5c1FNWioVtaDUNKCij
-         0yFAIz2dZ7BVnlPCQEU7Uy8bFhjCkqqjYZb2reAEEt5mY5vx+cd+aGClmlK1TqqNMVKm
-         uu4j8ijEQuKmOQUpbMOtfR2LJKUhF/+MFf3z8yATB5xnyymeVF3X2J8pgqwsSyw45V35
-         Egq0Bm5bZjmpH+CbcMfw4CmFT6BJR4T5C7DWG8eThtAnQPYnb4vVgqXN1xOpiyDf1+4Z
-         N/FQ==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=/42GyJ0Ly/PYphmtlkn4D61h5KuGIA+bP27szUKUF5Y=;
+        fh=3u36XFG0EEKqQ8N8WAEegf3p/vlnTdcWY+1EkjyR91s=;
+        b=gGAF9IgDuja8Zy0lZQtpAybvgbuF73fQ7px6c3NqHC7V8tfzNi6psd+KZfk7tgUwOg
+         NW2YPU4iJQyeQ2ps8BrymlqSBob6TqMuWOjD8dUHPZbG5TcEUQFzvCj+X6485W+UzQ5B
+         4Ibq7YBe/1lniCPYEklDGabUHLPaC2lcro/JdOr38bHEMcVWerWfI29vFAyoSlDE6b1q
+         T58rT1uupsBpxVsjHNBBls3pgXR6MysRsRLdrYw4ERnXgnFjkx36Kn46wZpmM082z5NJ
+         eanHlTECB/gZ7Rg3mEnsMfbnyHaShO+b7A8MrFD0E5heGfXvMSkja2t/0SEnOUd4a0HG
+         0yiw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=p7X5qj2O;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+       dkim=pass header.i=@debian.org header.s=smtpauto.stravinsky header.b=LXBPzZV0;
+       spf=none (google.com: leitao@debian.org does not designate permitted sender hosts) smtp.mailfrom=leitao@debian.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1764180896; x=1764785696; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1764241942; x=1764846742; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1xmzP0lV+LXsLh3anFV0DWpNR0jcHYuKMWI/WlDq7yY=;
-        b=NX4kLu7dcJMAopI0EfS/e5kYuK0QUeBR4vpHsp780GxSp1DJeT/5DOmH3aiX2NK4b0
-         LKISR6Q9R8kM3GoUJShQ1IcseMyPyQqk+zrcQiPrYnUcnYngn6dXt4JAqHU/X6ta3MzO
-         /peiZGA+up2ACOLUYuqC2EPTdA4AGkNbM/2a8/OBO2mw/BkJUV913sgOg9J0Ob24tnZ3
-         IM7U9XHhe9J4qXetS8Uf+SsA0q2E3dSKycO53q1hy/coS46fLDLx8obMRYvSoAbNo+D7
-         uq5gsIWROwSHlVq1+nvWm+3AXY/DiNmgKCcDNNaI8vk4PxtdTEr89PBX6qJZE81kcbiQ
-         DJRw==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/42GyJ0Ly/PYphmtlkn4D61h5KuGIA+bP27szUKUF5Y=;
+        b=EVRkJJGcHE7XO2E/7RHR4y/rcwjP+3ngiAaHRLMduPYBtEFGDT6Do4JrgI4JdwOYW+
+         a8yernzrUfSRt6BTR5TMiddt3dYhpWCrffKX9nll3R+ovbd2EiCZistjOufKEWyqFka2
+         LtFgO9Anj6WIsPd+Ph6iKc0zU8MTfH15gUN9MvF8h/qKIWLuMkFUVT6Hi4p2RAlAEjZv
+         TNmzvz1P8GYPCW1BHgYqadkKKcoyluf/5q/0P3TwEAEVz3x+HaO1qzD5LRHNsVl/YeGr
+         LCbdmnezxJPdxqD2z/t/VBKbhjrQYP6q2vBNBzBCCBEVSRY4PSnvEKQLHxiZsStNsCq2
+         pJUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764180896; x=1764785696;
+        d=1e100.net; s=20230601; t=1764241942; x=1764846742;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:subject:cc:to:from:date
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1xmzP0lV+LXsLh3anFV0DWpNR0jcHYuKMWI/WlDq7yY=;
-        b=fgqqmAsKs3fevverYVTPDByRXwD5Z3xY34XKtdYTbsWSUOIGulWVTTr3w5CyeYj2ds
-         In51D4or6SQ1VHpxyGsg/OYUVtPeZIFQSBW9rm+W+/kvyTmxgeVfND9QYi99IF0miWMn
-         Prx6Ahp12bNLurVNqnFqgl4rtourgWQ4uVNtSmltcOw8mnkchvRPXahY8UbJYyGlqbD9
-         dYaK7SA7JW7lwKkECoFPyh6PI+LUAzKRfYkYDgJGIuwUjT1VMGIHOTGspBRrmUCiJz01
-         bFs97xQd5Wmn8tPurr4v8Zh+aUfcBFXbTOXCrfWd/MltzdtRnN6ZDDOhqFsUF9pf79JV
-         ifSg==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/42GyJ0Ly/PYphmtlkn4D61h5KuGIA+bP27szUKUF5Y=;
+        b=r9BPdp2cFZ8/4JWPoQccDHjj7k6RouCsCEonFCzUDFlc/N9RjGCKPIplg+xKXXKRCn
+         Jm1PkhOn1jwT6eheqPT748y+6V6VefdMLOnzcRWKNAxL5dVreZEUu7DlgIaiM938H67X
+         jOVZOiLKuW/Rgt9PsVeSXZR9nbXdEXM7lv+VlPpBdDSmz7Mc3Qjy/QGd5Yw+DeEVMtc2
+         7pFPugqAdiQpF1GJto3EULlREVtOdQYdOCc/2zIYqOuvUEGJV0srT+3xjwhntvWk35yl
+         +LxaA0fn9pbKxfqO292UaiOHD1ec7HvtjfynHiEaJFQXuJjFtnUxKqIDkNziIvuU6q0c
+         6iKw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWCV0C70Xs4dYSD90M39JTR9eNa5taKKN3wqMwLP2N7zY2bWHRMWkfw7ce6uwDSm/rSrl8BiQ==@lfdr.de
-X-Gm-Message-State: AOJu0YwYz6dvB+LUmPR4tmwGH0wDrgzRVZTZ96V2cR9U2wMt/obI1Pc3
-	4QGqLGvzcHpqS3Z1NCSnryviuh1cPYZumGWi2I03sx/8VwhA78S/VFhV
-X-Google-Smtp-Source: AGHT+IE1/36CpESR5ggMSNo9hZbHr/o3rhhMrIEJOhC3uL5N8lbst2usTTLceqpyUGh8zRtbVFeBkA==
-X-Received: by 2002:a92:cece:0:b0:434:a88d:f805 with SMTP id e9e14a558f8ab-435dd043b35mr43372855ab.4.1764180896102;
-        Wed, 26 Nov 2025 10:14:56 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+bTgKUQCaI4wubP2HrDKQ9AEiBZRGxHK8VuSOV+VY9ZwA=="
-Received: by 2002:a05:6e02:1fe8:b0:42f:8b38:c20d with SMTP id
- e9e14a558f8ab-435ed40d634ls308305ab.0.-pod-prod-08-us; Wed, 26 Nov 2025
- 10:14:55 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCV5qM/rwAhPUkoggTPPXsVt2n2kX/2WPzoEMwUE0m5TdBOLUci59o7SPny2tXTr7Cs3/VBrERhlgR0=@googlegroups.com
-X-Received: by 2002:a92:cd8b:0:b0:430:c90d:10ae with SMTP id e9e14a558f8ab-435dd119d26mr83112635ab.32.1764180895003;
-        Wed, 26 Nov 2025 10:14:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1764180894; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCV7Lpfm/ld/Z+1mY2oXmlhCSUN65830h/ayrRGgLLWkleDqW15l0E+7KqkQlrZ4gp5XHInsrQ==@lfdr.de
+X-Gm-Message-State: AOJu0YwlAh1ljqYnzDRY5w7N2Qi5JkZUSCzI++vfs7PBzmEcd8iIbiB3
+	eA6UuAyKn3QCxfOPoKFWLYy25/QdvzHzK3mjzpCwfFgkNyvaDNns8/k6
+X-Google-Smtp-Source: AGHT+IFBZEx+d3e/4nZ4358ku1hCt98cvdW2G8l+a0cBKgpl4f4RdYTOIXYn+HDHaHsHeIRrAurdQg==
+X-Received: by 2002:a05:6402:f09:b0:645:e986:5f08 with SMTP id 4fb4d7f45d1cf-645e9865f6cmr3894863a12.8.1764241941807;
+        Thu, 27 Nov 2025 03:12:21 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+b3qyWal+HY+J2Sx/bAX4dsiKwX7dM6L+MNaIHIF4RCug=="
+Received: by 2002:a05:6402:4046:10b0:640:8bcf:e502 with SMTP id
+ 4fb4d7f45d1cf-647419cc626ls637729a12.0.-pod-prod-05-eu; Thu, 27 Nov 2025
+ 03:12:19 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWjCzGW93CpxK1lSubgDFFR5uDn/DDIIW8ywll37MqvMLFuNCEde+0alCKE5zGH+mJ6mm4NiXuD4Lw=@googlegroups.com
+X-Received: by 2002:a17:907:d05:b0:b73:7ca6:220d with SMTP id a640c23a62f3a-b7671a4728bmr2493812466b.59.1764241939136;
+        Thu, 27 Nov 2025 03:12:19 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1764241939; cv=none;
         d=google.com; s=arc-20240605;
-        b=TLuHXS5hKYbI2LJ//2iHrvKYzj09+Zf7fX0Fj07ScwVLXrEIwQDoS1O0uigyAvAB/F
-         mu0FhQaKEQ/6FJYZtYpFtkUN0jn6BLBnzU0qToPcNtItpCIi0qWItfCrTb/kR0m1Ma+E
-         Fk2tGQLCLju833QkDipBXZg9QBOHQ4+bAwv5+PRyup7vDHXuRTtdBzLRodnFPTamPVDR
-         aHIzFrAVhQNT9S925OkJ8PH3u2x2KAqPm/ZdKwWkOp8tlYhTH9kEOu6Dfm4JfEe2NaQq
-         BqrVwAEQEQDo2wvGmCntU09TV3a5EoXEOnqO04mmGfJSn3hXr/ercxfevTLNXNrrYT21
-         s+7Q==
+        b=bZmiWL+SFD0PvAevDBXy9NN7Ytgc1b78t895W2BeOAMDBqBAwLtYgocbs3G+ngRSr7
+         f/XTy3hyo/Hx7ziuJjwCZtSD+8vxoct1e0Ib21Q3p30lWfo3qbmasEQHc6dDth7kkutj
+         YW/EWNvGgE595et1JxTcpxiJGnKuUKxSBCDYRyIL+0bS9+pigMBVjVQEmiAG5y5l4Wvl
+         b0mQw5zT0fwybdjV7noQuqPmLBIXJBNgUlAjHvPG6fIJ55o5KMpSvHsxXa0+bG4E5Mez
+         e05YZkiCsBd9sitHT1LPCpiNmUiaQCR4rGn5Vst1T9SS+m3QnHWfDCuLSi6JUl8ynnnV
+         R0RQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=hpmpWmbnz8Thf8qOhc0rH9R++NsLdv8emSQl3kXPtik=;
-        fh=UaJGxuFybwe1NskxHfCsG66Q3oBYKTBpuGPjp82ZYLI=;
-        b=CHnlnqeadBNUrKrbHUBgoy1lerfKU3R0pB0qE/ixYCFlCAsVZwlsi3qH1uN5BV/U0P
-         HvFyGYXvyfQ1wAI1TLcpaZXq7J+u1v68CgHjlSLhhYramLG1fPzT8AvaHakIHPjv2IUN
-         Z5aC0zaTWrF0FcTp2jUOTF8o0p/B2mIHLX1ofLRD3LNiuLWS42B6LGJxCcxFZcPCQ6Mw
-         YnFDb1sSogKxt/sYtdDxRm9PBtGp5zf9GMhGpkvgjyTrM1hHmemhvilCpHuPip0eXKOy
-         wJqmQmMYlaiaXnimSuxA/G4GvQm2OJUrbUwtV+q2W8J8EAeO0HcwkjuuB2M7/EeGy50o
-         qdUw==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=t2lrLpSRcHNo+/6QyI3Yf/wIv62AmlzJCb3KPciCVus=;
+        fh=xNJQ/dfBGakZLGEwBYHwThAfIk3uBByzNlRxPpHpmLs=;
+        b=j+UHxnaoRZ9M60EIZzrjJGkkvqanwYz5uEzAUpTPKw23+Lc3qzWscjb/ClrddUhj2N
+         tdQlzMK90OeaTWd8rD7X0IY1ik3XKIFTAWqRDZkhqu2HoS2o8265qG+VlaH1LUU5ww0C
+         TLv1fTF/2ief46CE5lwC/UtERukybCYHFONWbV6f8eaUH/D+dCYdNjfjzbb00BefO2Bh
+         QyJ6VbtCBlnxmsEsIw5tSZyTqePcValiVH+Cplgg7P0t60RF7Lo24xFe2m62nQz7VqBG
+         jzWY8IIfQ78itA5z7X5AvGOaJ7XImUimxscAt0g+O6NM5NfUdAOdciqMJijTquKFdFkJ
+         bvfQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=p7X5qj2O;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
-Received: from sea.source.kernel.org (sea.source.kernel.org. [172.234.252.31])
-        by gmr-mx.google.com with ESMTPS id e9e14a558f8ab-435a90a9526si5444455ab.7.2025.11.26.10.14.54
+       dkim=pass header.i=@debian.org header.s=smtpauto.stravinsky header.b=LXBPzZV0;
+       spf=none (google.com: leitao@debian.org does not designate permitted sender hosts) smtp.mailfrom=leitao@debian.org
+Received: from stravinsky.debian.org (stravinsky.debian.org. [2001:41b8:202:deb::311:108])
+        by gmr-mx.google.com with ESMTPS id 4fb4d7f45d1cf-64750a3dd2asi18747a12.2.2025.11.27.03.12.19
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Nov 2025 10:14:54 -0800 (PST)
-Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 172.234.252.31 as permitted sender) client-ip=172.234.252.31;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 544A6435B9;
-	Wed, 26 Nov 2025 18:14:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFBC3C4CEF8;
-	Wed, 26 Nov 2025 18:14:53 +0000 (UTC)
-Date: Wed, 26 Nov 2025 10:14:53 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
+        Thu, 27 Nov 2025 03:12:19 -0800 (PST)
+Received-SPF: none (google.com: leitao@debian.org does not designate permitted sender hosts) client-ip=2001:41b8:202:deb::311:108;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <leitao@debian.org>)
+	id 1vOZv4-004zti-U0; Thu, 27 Nov 2025 11:12:15 +0000
+Date: Thu, 27 Nov 2025 03:12:10 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Alexander Potapenko <glider@google.com>, 
+	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
 Subject: Re: [PATCH] mm/kfence: add reboot notifier to disable KFENCE on
  shutdown
-Message-Id: <20251126101453.3ba9b3184aa6dd3c718287e6@linux-foundation.org>
-In-Reply-To: <20251126-kfence-v1-1-5a6e1d7c681c@debian.org>
+Message-ID: <nqzny5rxn27exzhfzaaxg4tfbshhmr5aum76ygficd46b54c4r@tqrelxeucsti>
 References: <20251126-kfence-v1-1-5a6e1d7c681c@debian.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+ <20251126101453.3ba9b3184aa6dd3c718287e6@linux-foundation.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: akpm@linux-foundation.org
+Content-Disposition: inline
+In-Reply-To: <20251126101453.3ba9b3184aa6dd3c718287e6@linux-foundation.org>
+X-Debian-User: leitao
+X-Original-Sender: leitao@debian.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux-foundation.org header.s=korg header.b=p7X5qj2O;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates
- 172.234.252.31 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+ header.i=@debian.org header.s=smtpauto.stravinsky header.b=LXBPzZV0;
+       spf=none (google.com: leitao@debian.org does not designate permitted
+ sender hosts) smtp.mailfrom=leitao@debian.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,31 +141,36 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 26 Nov 2025 09:46:18 -0800 Breno Leitao <leitao@debian.org> wrote:
+On Wed, Nov 26, 2025 at 10:14:53AM -0800, Andrew Morton wrote:
+> On Wed, 26 Nov 2025 09:46:18 -0800 Breno Leitao <leitao@debian.org> wrote:
+> 
+> > During system shutdown, KFENCE can cause IPI synchronization issues if
+> > it remains active through the reboot process. To prevent this, register
+> > a reboot notifier that disables KFENCE and cancels any pending timer
+> > work early in the shutdown sequence.
+> > 
+> > This is only necessary when CONFIG_KFENCE_STATIC_KEYS is enabled, as
+> > this configuration sends IPIs that can interfere with shutdown. Without
+> > static keys, no IPIs are generated and KFENCE can safely remain active.
+> > 
+> > The notifier uses maximum priority (INT_MAX) to ensure KFENCE shuts
+> > down before other subsystems that might still depend on stable memory
+> > allocation behavior.
+> > 
+> > This fixes a late kexec CSD lockup[1] when kfence is trying to IPI a CPU
+> > that is busy in a IRQ-disabled context printing characters to the
+> > console.
+> > 
+> > Link: https://lore.kernel.org/all/sqwajvt7utnt463tzxgwu2yctyn5m6bjwrslsnupfexeml6hkd@v6sqmpbu3vvu/ [1]
+> 
+> 6.13 kernels and earlier, so I assume we'll want a cc:stable on this. 
+> And I assume there's really no identifiable Fixes: target.
 
-> During system shutdown, KFENCE can cause IPI synchronization issues if
-> it remains active through the reboot process. To prevent this, register
-> a reboot notifier that disables KFENCE and cancels any pending timer
-> work early in the shutdown sequence.
-> 
-> This is only necessary when CONFIG_KFENCE_STATIC_KEYS is enabled, as
-> this configuration sends IPIs that can interfere with shutdown. Without
-> static keys, no IPIs are generated and KFENCE can safely remain active.
-> 
-> The notifier uses maximum priority (INT_MAX) to ensure KFENCE shuts
-> down before other subsystems that might still depend on stable memory
-> allocation behavior.
-> 
-> This fixes a late kexec CSD lockup[1] when kfence is trying to IPI a CPU
-> that is busy in a IRQ-disabled context printing characters to the
-> console.
-> 
-> Link: https://lore.kernel.org/all/sqwajvt7utnt463tzxgwu2yctyn5m6bjwrslsnupfexeml6hkd@v6sqmpbu3vvu/ [1]
-
-6.13 kernels and earlier, so I assume we'll want a cc:stable on this. 
-And I assume there's really no identifiable Fixes: target.
+This infrastructure showed up when kfence was created, so, a possible
+Fixes: target would point to commit 0ce20dd84089  ("mm: add Kernel
+Electric-Fence infrastructure")
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251126101453.3ba9b3184aa6dd3c718287e6%40linux-foundation.org.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/nqzny5rxn27exzhfzaaxg4tfbshhmr5aum76ygficd46b54c4r%40tqrelxeucsti.
