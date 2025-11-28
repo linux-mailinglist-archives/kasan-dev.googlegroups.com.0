@@ -1,124 +1,124 @@
-Return-Path: <kasan-dev+bncBCKPFB7SXUERBKNQUTEQMGQEKK6EHKI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKPFB7SXUERBMVQUTEQMGQEP3LQE2Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13a.google.com (mail-il1-x13a.google.com [IPv6:2607:f8b0:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20899C90C27
-	for <lists+kasan-dev@lfdr.de>; Fri, 28 Nov 2025 04:34:03 +0100 (CET)
-Received: by mail-il1-x13a.google.com with SMTP id e9e14a558f8ab-4337853ffbbsf11155345ab.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 27 Nov 2025 19:34:03 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1764300841; cv=pass;
+Received: from mail-oa1-x3c.google.com (mail-oa1-x3c.google.com [IPv6:2001:4860:4864:20::3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8AA7C90C2D
+	for <lists+kasan-dev@lfdr.de>; Fri, 28 Nov 2025 04:34:11 +0100 (CET)
+Received: by mail-oa1-x3c.google.com with SMTP id 586e51a60fabf-3ec7ae153fasf502993fac.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 27 Nov 2025 19:34:11 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1764300850; cv=pass;
         d=google.com; s=arc-20240605;
-        b=S3AQ16O9i/QPPDSgIdWB97dCk+XxnsRXdlcMpiyyGqV9Y0OkYsik9Qqc6StvZ2SJpT
-         og6/sWsX6lJ+CwyeiHkM/CmOJMqShbr0URJgTdUgOKdr4doPkho2Tpft+9rKj+NJdt4c
-         t+VbzcMBdbIJpo93lrqwrORJnYQrLR9nH4Zn75y/6UQCa+a9O8PX+GP41Swon0upBBbu
-         WqDhbAxtF6bW9fsyz5bJdtiFz2Kcg0RtKHmKPZJiHykf+CXqCN4/ch02AlsAkH2n13m1
-         mDwOBUTgT5FAX/ccjhcIX9pF5KRNHOAcHBELqiniJD6RVlOakBTSBi9aF9iey83GQJU3
-         Qgag==
+        b=QdOe4E7qZZguv4Io9dKI+7AaEmXgSyigoPENymLktfkrJNCwdr1Cb6nSbA57V3Guvh
+         TJqZD5L0Fd3LE/s+eVIUMZtgL7bXVU9ogZG02SEK2nXgsj2UaZqaJezSmxrBHjDz8uW+
+         NQ9ukOB7CXl3Lel/W+ejR9qZC6HuGKs0P1EpuARQowmx0GXQo6MyI1sJUhh4lIeTyY/c
+         /dl7alMY+xk7SfHNhuSWoyAwwEt8kbI9KNJ2Rv8OGXJCb0HipaoxqnPuXfRWw3rHRL4D
+         juB9N9/5GC9jO5mOWukFAJmF3If/5KcM44556yjixyyGU5mCw8OZPL/d63GJ8bG2yEJG
+         mr5w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=jd2izxMtfy5juqqV95orwnKfb3A3BK77G6cz0C6zdd8=;
-        fh=8tQF63GYK13hx2I2kkN1Cja67cCt2/S//Qz8zoOfYf0=;
-        b=ABKv2EyT+ReEENT0mEmJBWRCkBjSJtL3csi/xyxHTTc0g3ocyhSoK3M3ospLkASGan
-         ruRII55qd0yuXTf5J1o5aYV/Cd/inqZUy2PjX5OuKxuhVuQPhPHR0KrTRxqQA4DUgi0a
-         d1pTXVoFyD5mXym0fC6xsRYYWjYF0tyZvpVlC9Zxy0Qhl5yjpiMez5JhRJQep9s7hifj
-         /PGrFrkTJ+0QdALiZhhnAXOecXzwBSmn4Spv72FLuRnwbKUwnPNV+6AePvwGyaJ4VdU1
-         bokpYQfIQstfJml2mUT5QZBK/NOFtJXkF+ft2a6woXP4e1eV32R2o684IkZWjjLjkTZ+
-         tiHQ==;
+        bh=zpyFCZZqhGoooO1mmz2nHDjUWblF5EotWtZEyFyrC2M=;
+        fh=CAa43DPv3ej5BKnsAlhetjVmPJ5uBGZWrqFSNSdx2zc=;
+        b=Fmqb4Mab0qWeZHaKpBB5/RU+XdhK7PLzHRD5jyYwfSxP4JRByPOReGDhsFMGBzZsgU
+         sb6m/+u3x4w0ijWY0/qo3mvn2KEt5f7cEVF0CACHOqCmCSU6MrrRw8LfSVrMBCiJmmOv
+         hsVnLN2szFswDMAUBHL1iHnOUC2JYMGDM5yziPBSH6/3anut0ADVwgerRtpOoFs9JjpY
+         uat8Y9qzyrOY27yEYWAO24SsQmMzixG7EtFdhHllz8K9M78xQQghD05mATsY/x4pnu+n
+         /EgB9AoX9zaj8EEiwxOtmncU5+HHd2NveHpj1AC4Vb084KYiTQioaB63Rn5S41IjAN9s
+         cMLA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b="Z/ylJZF7";
-       spf=pass (google.com: domain of bhe@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=Rf86DUHD;
+       spf=pass (google.com: domain of bhe@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1764300841; x=1764905641; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1764300850; x=1764905650; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=jd2izxMtfy5juqqV95orwnKfb3A3BK77G6cz0C6zdd8=;
-        b=VPbOYlt3HLH75ban2nDV8QHkKdqpFyJsVqfIt89eAvMbPkyUjerV8Boal7hx6W1HaB
-         czLjyhahT5K7mIqRrqMcqEjB0Kky80JnvlUSoBiOj6yHEq0UJg0YJeL+33y5EErB12lV
-         q+q+JTOazEj7y7rulcVOD2K3SlL52kZYr+edksXV+RTg670HDYSYY+DGdlvEnaGW43QD
-         BCeQmgI53PJsEWJBhoQWXdgQ1M16ySYbPir2RKR4MBeogVxGBlH0rkMevZlKKeumZFNT
-         MXaOolypF745qRs4Un4x+xEpMXTn9Zd0JBs78tQ6SF5fut2+eN1teSoChUGRQtkUnCDc
-         5IQg==
+        bh=zpyFCZZqhGoooO1mmz2nHDjUWblF5EotWtZEyFyrC2M=;
+        b=rzyyACcFFRj3YmuN0y8SSyOpRLkpUmzu42AZK4cDABf9Cw+AfhHDWFQ6LzX6bqO9gH
+         4lqmByWWpAAf/Wf4zz8RhqgFbL+/tZ+L+6KA0asylLxr18E0t8ID7gGYJKjN1MqFGZiy
+         AHys/pxKN2l572dsFrBmDhtMczrFdnjzjpOOR2+2ufgcFQ8062fPGMshL62INWQtPPPE
+         DkRooR6uRc0GZj0yzOKa0tu4CLlx5dEyeyEzJZukfuYCpufSTf1NwrDwmIQHE+DohBb9
+         r4MPukdnxjnVkSXUmvRknoyJM3RtltELDp4H393W7KK3GbK6E8rM8gdLJAaDDjngjLjr
+         u09w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764300841; x=1764905641;
+        d=1e100.net; s=20230601; t=1764300850; x=1764905650;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jd2izxMtfy5juqqV95orwnKfb3A3BK77G6cz0C6zdd8=;
-        b=NJ//na//yLQDG3LL2aPTYPsCASmyRypgL+S2Pp1CeEwQAPk3fCxK9ST1Fpf0Pq1Acd
-         b+Ma3Jt8I6P0aGUfTEZRybNFm8InIumHdBZf9LUYvZ7P8Bnj+A58vQcM2NNzmEgwxNwl
-         4Q3SVpSKekCFoWpLqGwin+3s+k6mMejnqbdTkNCfVOUV8pSce87YJRVCceI+pnzbYDpR
-         HDGchco+InqbI9jTZ90AD+dWb7yi6UvUPwMb1lDJ+z1Uqx7WTsZvU/rb3f6KpOATUA3U
-         SvmJFWDo6gqEkwz/57J2NxQcpO71ReQ5tHQCJ1FiNznYqwXwaS3Y1EjWcEo3YS+gU+Em
-         6N/A==
-X-Forwarded-Encrypted: i=2; AJvYcCWHr4YiBxM4s4u06XCH9VOQjuK+6+ooLPQcB4OCYCCD45uZxPKGC9PP1IAxy2PCPvFAEybHqw==@lfdr.de
-X-Gm-Message-State: AOJu0Yy09J5MMemGfx9C89Bh8k+tBlV909tPC+29b989ZOdHx7+X0N7s
-	b/Euzwn7wYem9xx0p/uLBMWl88iHJxRqBBf4hFXRveneMJc4lY0sWlGE
-X-Google-Smtp-Source: AGHT+IEn8kLt+HrIyjE8gkpZDm8XCzmxa+poRqYTfHpfci9hOyYIMa+Xs5j/ASSNp7fXZ9EtkR2Qdw==
-X-Received: by 2002:a05:6e02:152b:b0:433:23f0:1ebf with SMTP id e9e14a558f8ab-435b8c181eamr224653365ab.9.1764300841514;
-        Thu, 27 Nov 2025 19:34:01 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+Zjuhp62hVAMwW2vh1T9N3KGhtET8l/1g4K5cempELE5g=="
-Received: by 2002:a05:6e02:152d:b0:42d:a925:aa25 with SMTP id
- e9e14a558f8ab-435ed4b4d55ls8181535ab.2.-pod-prod-01-us; Thu, 27 Nov 2025
- 19:34:00 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCWG9P5TseiET3Cuzs+XUGo//3CL+wMGW25tHMjx94L1xjjhO4hxvBndPTElZ27y//ajb0qrezO82UM=@googlegroups.com
-X-Received: by 2002:a05:6602:6301:b0:949:12e5:aa2d with SMTP id ca18e2360f4ac-949475350ccmr1850958139f.9.1764300840562;
-        Thu, 27 Nov 2025 19:34:00 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1764300840; cv=none;
+        bh=zpyFCZZqhGoooO1mmz2nHDjUWblF5EotWtZEyFyrC2M=;
+        b=pRChn3Nt20sqZg3yR6dmzR7tKTtz7VWVCSqnkljpaYAt8q7TBlGF2MLklzuPu+8RDL
+         67zkp3FKoFNb3nQF2eT8a3dSKWbWGRcX8srHqCyveEGBuf2i+8Ws85pDfh6cMyLUV24w
+         MG51N8h4wDzmZjR3BbNGkImYedWWPIWQnzX31u15jeny8txhIjYGjjPI+6nCvfnLrmiZ
+         uMBjPowQWM2C3UaDccPWli19vt7y1fEwIMXQuRUZapaDxIr9F/pe6fzN2QrykyHjPaBw
+         I+vvFKkc4n1rHtYG0OaCdG5dpwYLgqfGzCXnNvmH6uygEBo0dqJNktbtbHt/adU9IT2x
+         hF4Q==
+X-Forwarded-Encrypted: i=2; AJvYcCXn1cEbbmJ6QUBwFYHE9R4AqjlsY0jHENkeyph5jI552Y2khzgihxtlUUzjwtayxvQ/rUhbgw==@lfdr.de
+X-Gm-Message-State: AOJu0Ywahfy2woiTNQmFAX6rljxGjNiBiA6zLgejCh6CFzYvfo9/dboj
+	DTzN3lpaOmy04UXLQhlZyuKkjdz7YMe6/c4CA+6xnEJGDMJ6ipUamIw8
+X-Google-Smtp-Source: AGHT+IEr1IuvxxUADS+LAME9sSe/zeHBrx1DQfP/gWD3kpUU9B5Qa5Kmr6/7e2AvUxNxKLPxj91J8A==
+X-Received: by 2002:a05:6870:b418:b0:393:eccc:b557 with SMTP id 586e51a60fabf-3ecbe585c2fmr12854741fac.37.1764300850365;
+        Thu, 27 Nov 2025 19:34:10 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+aPvaZci7DIe2cZ/A7OU1bFAo28ybFvbQo1rRQFBYg9tg=="
+Received: by 2002:a05:6870:8101:b0:3d4:d703:74d7 with SMTP id
+ 586e51a60fabf-3f0d20f0be4ls554635fac.0.-pod-prod-02-us; Thu, 27 Nov 2025
+ 19:34:09 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVr+X4eYk5MjX5oBnU3Kvld6cC1iOK9tSjidtVG2IPraT3K+05E1T9enPW9i96XWsdlKU+ZD0Iis+k=@googlegroups.com
+X-Received: by 2002:a05:6808:14cf:b0:450:b3a:539e with SMTP id 5614622812f47-45112aaceb2mr8720184b6e.28.1764300849450;
+        Thu, 27 Nov 2025 19:34:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1764300849; cv=none;
         d=google.com; s=arc-20240605;
-        b=c2wBH+q3OL6CFbmsNysNPi5fpTu1l2CTabNM1lQibIhXMrJcKGUn2GJfL//TNIoWw6
-         qzKnODgleVl47YBBv0mKrZARQ3gqSLXoP5ocoujT3OplmR94Wc2j48ZiMxVpUPh2avlO
-         XsrRriZjWaqp2USrAeSAgTG7H8Gjkv7+37QStATdtpwh8Qh/J2BTnMIxNhzO9FgfyTaE
-         +NjK8jH5IuwgbUdw5JagmUgyZ9tS84Tq2kznWloRS2dGo01gVLJ2gHDUzNQRCcPDgQvL
-         +A1NNsLFLVC4iDyJKdSrWYRAbn7lax8H5QlyBdllbojO/SCddoteENsknMwWzaV1j1U4
-         E6sw==
+        b=BouJvKbJbPXqnQae6q0VXOVIdPlrEW3pjvVzzaDr/KS3uYIrDLOL5ntjx1Eq6oRygq
+         Lch6uXfo9DxiLp3oNRRWvpfSdwu0LDrIwY+4cR0KSzHiz6yZo1O7flYY3Zmr0QX4y8qI
+         MFaTkc+BMiBnPrxPmgTi0La1c+rQ4iSQOruzOgEtWzZs/YUwNaM45t6rIgifT0PP4iUh
+         y+3goQEZIp9xKaXv1O1UBvTlbuIqh5tuhAjV/N9i+MpIZB4DizpBohRjho2DwqG/xKl3
+         Xw55NgCF8KZImJRn4RuFNSw3pyuRFhfHE6B60WnjOprbyfBUEF4VBP+ZPGkhqSUw2YLI
+         FySQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=G3gPrOC7MauvGRj4YbxCiDaSAJrqi5DShDaS5sFXKjg=;
+        bh=/phgffaeGBCaBWv4I/S2l048MgyIWecznBSacZiKmGw=;
         fh=5SDByJ3Hs0yfOCoQGEuG1sRE6NAvqIWBUeJICelOz9U=;
-        b=kXJZrSrk1Am/wb1G3SZQzguaDXZSttn4KinZo4s95SsD657IhqGSeb3J4xwXVexwec
-         PX6NkoGWCkHv2FRtwnNOsJqO7jIlSHAW70/PBlT4A+OoSawZ2cZRwP8XOdcyi4FjbF5f
-         aPZmaZpL6iPXLS9xY+Iew/218bGWegqLcxcZfHTeeZY1+nx5QUiUIW20kGTIR/avMj5l
-         9zWUMURkF+h8AOOOy3DsOoILWgtVZGny1hpuWWWKjnOKgUq4miXrAS0MAoZCxHQh4oiW
-         s8F502CHVHD5Q175CCoH4uvnE3krSM8Fh1Vhbe7w42q/rCUeVwK6ZSVFmGo6QFEkzavX
-         pISg==;
+        b=eNh7tHXkdf0QUVACvasWWMw/EBkUhDs2tdDsKi8p83/dEVE00NB2IhnvcSeaEjsTF0
+         cu5htAwUnHQlrlGXl6RG1oTaiLSlc77UCtOrX8f31EfWrCwDgvWr0LitxNEdMImJiuAm
+         yf9BrU80NuAuOibUVcoA5z+ZqzSICsw/ccQz6F31wx4HXJy16sQLMzNQ5mW4QdDL7NVK
+         DJNLsvOR3mDyhPfZRmWkjZStufSGbl5e/pdpSKXGfdjVGGKAPeCXidYPB8TbvCRjm6VY
+         dzvnZ+SDGCxVxe9Gf2RSOPRUJER3P8iCy54JyUo1sftYDr8sIBaSlIZ4QsDGSUOpmCsh
+         lDiA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b="Z/ylJZF7";
-       spf=pass (google.com: domain of bhe@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=Rf86DUHD;
+       spf=pass (google.com: domain of bhe@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
-        by gmr-mx.google.com with ESMTPS id ca18e2360f4ac-949900613f0si6523239f.5.2025.11.27.19.34.00
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
+        by gmr-mx.google.com with ESMTPS id 5614622812f47-4531707bf1asi98706b6e.6.2025.11.27.19.34.09
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Nov 2025 19:34:00 -0800 (PST)
-Received-SPF: pass (google.com: domain of bhe@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
+        Thu, 27 Nov 2025 19:34:09 -0800 (PST)
+Received-SPF: pass (google.com: domain of bhe@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
 Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-346-uEumHcseO-e49imQKWSn1w-1; Thu,
- 27 Nov 2025 22:33:55 -0500
-X-MC-Unique: uEumHcseO-e49imQKWSn1w-1
-X-Mimecast-MFC-AGG-ID: uEumHcseO-e49imQKWSn1w_1764300833
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-591-g_ehcwKEPAiWXVHUWxLKOg-1; Thu,
+ 27 Nov 2025 22:34:02 -0500
+X-MC-Unique: g_ehcwKEPAiWXVHUWxLKOg-1
+X-Mimecast-MFC-AGG-ID: g_ehcwKEPAiWXVHUWxLKOg_1764300840
 Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 657891956088;
-	Fri, 28 Nov 2025 03:33:52 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id ABDB71956094;
+	Fri, 28 Nov 2025 03:34:00 +0000 (UTC)
 Received: from MiWiFi-R3L-srv.redhat.com (unknown [10.72.112.7])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A23FA19560B0;
-	Fri, 28 Nov 2025 03:33:44 +0000 (UTC)
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3203D19560B0;
+	Fri, 28 Nov 2025 03:33:52 +0000 (UTC)
 From: "'Baoquan He' via kasan-dev" <kasan-dev@googlegroups.com>
 To: linux-mm@kvack.org
 Cc: ryabinin.a.a@gmail.com,
@@ -136,9 +136,9 @@ Cc: ryabinin.a.a@gmail.com,
 	snovitoll@gmail.com,
 	christophe.leroy@csgroup.eu,
 	Baoquan He <bhe@redhat.com>
-Subject: [PATCH v4 02/12] mm/kasan: move kasan= code to common place
-Date: Fri, 28 Nov 2025 11:33:10 +0800
-Message-ID: <20251128033320.1349620-3-bhe@redhat.com>
+Subject: [PATCH v4 03/12] mm/kasan/sw_tags: don't initialize kasan if it's disabled
+Date: Fri, 28 Nov 2025 11:33:11 +0800
+Message-ID: <20251128033320.1349620-4-bhe@redhat.com>
 In-Reply-To: <20251128033320.1349620-1-bhe@redhat.com>
 References: <20251128033320.1349620-1-bhe@redhat.com>
 MIME-Version: 1.0
@@ -146,9 +146,9 @@ Content-type: text/plain; charset="UTF-8"
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-Original-Sender: bhe@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b="Z/ylJZF7";
+ header.i=@redhat.com header.s=mimecast20190719 header.b=Rf86DUHD;
        spf=pass (google.com: domain of bhe@redhat.com designates
- 170.10.133.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
+ 170.10.129.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
 X-Original-From: Baoquan He <bhe@redhat.com>
 Reply-To: Baoquan He <bhe@redhat.com>
@@ -164,151 +164,29 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This allows generic and sw_tags to be set in kernel cmdline too.
-
-When at it, rename 'kasan_arg' to 'kasan_arg_disabled' as a bool
-variable. And expose 'kasan_flag_enabled' to kasan common place
-too.
-
-This is prepared for later adding kernel parameter kasan=on|off for
-all three kasan modes.
-
 Signed-off-by: Baoquan He <bhe@redhat.com>
 ---
- include/linux/kasan-enabled.h |  4 +++-
- mm/kasan/common.c             | 20 ++++++++++++++++++--
- mm/kasan/hw_tags.c            | 28 ++--------------------------
- 3 files changed, 23 insertions(+), 29 deletions(-)
+ mm/kasan/sw_tags.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/linux/kasan-enabled.h b/include/linux/kasan-enabled.h
-index 9eca967d8526..b05ec6329fbe 100644
---- a/include/linux/kasan-enabled.h
-+++ b/include/linux/kasan-enabled.h
-@@ -4,13 +4,15 @@
- 
- #include <linux/static_key.h>
- 
--#if defined(CONFIG_ARCH_DEFER_KASAN) || defined(CONFIG_KASAN_HW_TAGS)
-+extern bool kasan_arg_disabled;
-+
- /*
-  * Global runtime flag for KASAN modes that need runtime control.
-  * Used by ARCH_DEFER_KASAN architectures and HW_TAGS mode.
-  */
- DECLARE_STATIC_KEY_FALSE(kasan_flag_enabled);
- 
-+#if defined(CONFIG_ARCH_DEFER_KASAN) || defined(CONFIG_KASAN_HW_TAGS)
- /*
-  * Runtime control for shadow memory initialization or HW_TAGS mode.
-  * Uses static key for architectures that need deferred KASAN or HW_TAGS.
-diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-index 1d27f1bd260b..ac14956986ee 100644
---- a/mm/kasan/common.c
-+++ b/mm/kasan/common.c
-@@ -32,14 +32,30 @@
- #include "kasan.h"
- #include "../slab.h"
- 
--#if defined(CONFIG_ARCH_DEFER_KASAN) || defined(CONFIG_KASAN_HW_TAGS)
- /*
-  * Definition of the unified static key declared in kasan-enabled.h.
-  * This provides consistent runtime enable/disable across KASAN modes.
-  */
- DEFINE_STATIC_KEY_FALSE(kasan_flag_enabled);
- EXPORT_SYMBOL_GPL(kasan_flag_enabled);
--#endif
-+
-+bool kasan_arg_disabled __ro_after_init;
-+/* kasan=off/on */
-+static int __init early_kasan_flag(char *arg)
-+{
-+	if (!arg)
-+		return -EINVAL;
-+
-+	if (!strcmp(arg, "off"))
-+		kasan_arg_disabled = true;
-+	else if (!strcmp(arg, "on"))
-+		kasan_arg_disabled = false;
-+	else
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+early_param("kasan", early_kasan_flag);
- 
- struct slab *kasan_addr_to_slab(const void *addr)
+diff --git a/mm/kasan/sw_tags.c b/mm/kasan/sw_tags.c
+index 6c1caec4261a..58edb68efc09 100644
+--- a/mm/kasan/sw_tags.c
++++ b/mm/kasan/sw_tags.c
+@@ -40,6 +40,9 @@ void __init kasan_init_sw_tags(void)
  {
-diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
-index 1c373cc4b3fa..709c91abc1b1 100644
---- a/mm/kasan/hw_tags.c
-+++ b/mm/kasan/hw_tags.c
-@@ -22,12 +22,6 @@
+ 	int cpu;
  
- #include "kasan.h"
- 
--enum kasan_arg {
--	KASAN_ARG_DEFAULT,
--	KASAN_ARG_OFF,
--	KASAN_ARG_ON,
--};
--
- enum kasan_arg_mode {
- 	KASAN_ARG_MODE_DEFAULT,
- 	KASAN_ARG_MODE_SYNC,
-@@ -41,7 +35,6 @@ enum kasan_arg_vmalloc {
- 	KASAN_ARG_VMALLOC_ON,
- };
- 
--static enum kasan_arg kasan_arg __ro_after_init;
- static enum kasan_arg_mode kasan_arg_mode __ro_after_init;
- static enum kasan_arg_vmalloc kasan_arg_vmalloc __initdata;
- 
-@@ -81,23 +74,6 @@ unsigned int kasan_page_alloc_sample_order = PAGE_ALLOC_SAMPLE_ORDER_DEFAULT;
- 
- DEFINE_PER_CPU(long, kasan_page_alloc_skip);
- 
--/* kasan=off/on */
--static int __init early_kasan_flag(char *arg)
--{
--	if (!arg)
--		return -EINVAL;
--
--	if (!strcmp(arg, "off"))
--		kasan_arg = KASAN_ARG_OFF;
--	else if (!strcmp(arg, "on"))
--		kasan_arg = KASAN_ARG_ON;
--	else
--		return -EINVAL;
--
--	return 0;
--}
--early_param("kasan", early_kasan_flag);
--
- /* kasan.mode=sync/async/asymm */
- static int __init early_kasan_mode(char *arg)
- {
-@@ -222,7 +198,7 @@ void kasan_init_hw_tags_cpu(void)
- 	 * When this function is called, kasan_flag_enabled is not yet
- 	 * set by kasan_init_hw_tags(). Thus, check kasan_arg instead.
- 	 */
--	if (kasan_arg == KASAN_ARG_OFF)
 +	if (kasan_arg_disabled)
- 		return;
++		return;
++
+ 	for_each_possible_cpu(cpu)
+ 		per_cpu(prng_state, cpu) = (u32)get_cycles();
  
- 	/*
-@@ -240,7 +216,7 @@ void __init kasan_init_hw_tags(void)
- 		return;
- 
- 	/* If KASAN is disabled via command line, don't initialize it. */
--	if (kasan_arg == KASAN_ARG_OFF)
-+	if (kasan_arg_disabled)
- 		return;
- 
- 	switch (kasan_arg_mode) {
 -- 
 2.41.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251128033320.1349620-3-bhe%40redhat.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251128033320.1349620-4-bhe%40redhat.com.
