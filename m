@@ -1,161 +1,130 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORB3VZYHEQMGQETWIYBLQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBTWIYHEQMGQEE6GADSA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02673C9FB09
-	for <lists+kasan-dev@lfdr.de>; Wed, 03 Dec 2025 16:53:20 +0100 (CET)
-Received: by mail-wm1-x339.google.com with SMTP id 5b1f17b1804b1-4779edba8f3sf46747165e9.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 03 Dec 2025 07:53:19 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1764777199; cv=pass;
+Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5159C9FED0
+	for <lists+kasan-dev@lfdr.de>; Wed, 03 Dec 2025 17:24:47 +0100 (CET)
+Received: by mail-wm1-x33f.google.com with SMTP id 5b1f17b1804b1-4775f51ce36sf52412385e9.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 03 Dec 2025 08:24:47 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1764779087; cv=pass;
         d=google.com; s=arc-20240605;
-        b=E5lfWUAmrGw7JQI/h6ul57L+K0H078JIq5jvSTKaFWFKVN/G+LF2J6DVSmQy97AZ/A
-         EweLbrz0hnBfot4Hzmk4JqBdjUuDNmnimHdhunFQaGzXr8z13dEvouNmeYpLmOWaH6b2
-         yjzpirkZZDcVtZ/z4YTz/vkNGnnXTddYPltscf5pg+Uie0+Oj6si31okLMUP0o4Rq0VT
-         OaP1f7q30z7/JzLo2hmnJW2MRW0xYbYxRzAX7kfVfZX8VA9NCFn1OE6fmizXj2fmFXJg
-         6DlMNP6uQURmF5mjwqhLrkXNuagUeee22lt3yaHDl8ipkvDftT0TqPGDUcZ4+HHV5hZG
-         325w==
+        b=XMJRY/TgpZ/Kl0Qx4KJ+Kcb16EJzMUAvkbI+FCmaVTkw2w2W5pbKZXEk0at79gS/sG
+         g+x50M7JN+6fngIT+ayQaW63wZZGHlStXHrSA784MSsTOjVLlBOcv320uu9W4GRNx7s+
+         JH5GbeTto+rHs33iQVtrjJnB1ef95PWEfXzqF5hX7h9oLODz0r40hU1cyNTWcejg6Wsh
+         b4YDNhSgFCEzyyDKjzJHyTN2q9KIaAEEQZHYPgTVFhYU/lzTwQba23dpv8DWRobGnRao
+         ym6PUgalS/HDE4ip0az5WymFZm+oRTsVOJB+tudnfnPI3VkyvZ2xLhxwRzwwruXmGyeA
+         B5JQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=+f9AyY0yfNd4RingbwG9Eadjii7Xfse3ScmQNF7X8vU=;
-        fh=MCM2DeNo2P333dFe20dekTeMt8MwlLJ37XxPjT5+k4I=;
-        b=LulPNS7ttQ2dvjMNsa37WThVhTo5aAP+EKTKInWxghzGWVky6vrdlvCU4ws5IAyyv2
-         gmZi3Llw/psu+4N6N3RsNb0OZxO/r5o1JAW43DK4HjYMjM/dLZOATmHMZ6n6IDq04LMs
-         QbelcMquBtbvLuiOuxShN6YDoqppx1S8YzrT4fqQ2sGTEg1u9e/syeC2TNx73dGaWQsV
-         BWePBG3N1hMqhP2LccJDbwnVWqUX16JxgNZtIA/MstLBthVyCEk844pmI0KRGhNt5SCO
-         s7ZTBuG0jzpDQvGiEc/HWKT2QDFkBnUSrldPkKo3xG7lmg/gQyfSR/hkReCkH3JFUUos
-         ocDA==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :mime-version:feedback-id:references:in-reply-to:message-id:subject
+         :cc:from:to:date:dkim-signature;
+        bh=Q7b6herwthvWJxo7k1OeZTv550r1WqBkyHZgbkmPvSg=;
+        fh=Q+gf+EQJVLMntOH4sRViZt9k//Oasl8C+bZ6iLHSXjo=;
+        b=PTHpgSlZJ/j4UsUjns16rSPGQ4HF0Zg5yBR9Fl+l58EGBc/XIWmzztgW4Lx1gJOq0l
+         5hKwQ+HxNW+ZQVvtr++3r6SGTv/NHCVYCgRb9mcd16nRjTmnx6OhM55TYNIZdIdO8F48
+         8LiMndqelPuFl7azvxawNJ1D1OsrwtOkNJEYB5OBJsUWZEEyzl/jdCbZrq/8RFaT7M1F
+         RBGfrsHDWspCCml9yQUH6lgF4Y9LHcIHlsPNffm78H/yXIuzimmqNPVC4KZMNJRmHLEE
+         ujFliBw1AFDr95qBc9+ZxZU07ncwnXjtkSjUHzYlNgunufjBw5atTMPSxb6BpIcR19ch
+         gZ7w==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=YWXbNUPB;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42a as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@pm.me header.s=protonmail3 header.b=lEgqJXRZ;
+       spf=pass (google.com: domain of m.wieczorretman@pm.me designates 79.135.106.31 as permitted sender) smtp.mailfrom=m.wieczorretman@pm.me;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=pm.me
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1764777199; x=1765381999; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1764779087; x=1765383887; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+f9AyY0yfNd4RingbwG9Eadjii7Xfse3ScmQNF7X8vU=;
-        b=aLUCoOXPe2tyjAyir6dIouwY0+IWbpbB+Bfc7Auc90ybl9pN8boFl7IxAvVQSssG7h
-         wGpFqvx0SG9eF0uhfiK6vS8bw0M2dhBL3AP1S3lJL+8fpFrCAJLpl9YLAev8mKkJw1W7
-         zL2VDwKiV57BKzwtr0NI44ZcRuRNHGBfK//rFmkyQoQASVFcv+DJ83FxYfqpYOsI0pFr
-         30ETm28AKVzxxVUmYkCMbQWMoAP6jZJWxryYuZeUoqpqC6rbU4qilsozVx64CoHGR4tW
-         vPk9XOkKFhYAG3bg1+k1Uz4b4jDToRxmTNN5UeT0XFYiNWr/zjiCrZJ360inMCRMNrNX
-         YtvA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764777199; x=1765381999; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+f9AyY0yfNd4RingbwG9Eadjii7Xfse3ScmQNF7X8vU=;
-        b=NEXCbKi5jHkVZqreKdtyt+2U9FEA8K4jNqnesWx/5E9jb05TLfnfpz68jVGVCQyEjz
-         X7FEoHgZUjF4Ay03zmKqiGBlBAc7domvOJ+mzn6c+KpOyarkkS0XTf7scE7QSmcyakLo
-         uoZycMizEvNnFjuUjAEL9778C5g+B8PoO+8eTC/VnHNxwp6Apk3Wnn2HBAOhxjbKAqXw
-         3IEAaEeDtq2gMgzzHI9EdgArxfYCarPdPAdpxw6QV9FoHcXfEMhYn4xqAxepm1KxOAsW
-         KkXA+zkLfAdWf8KB6hdWHOfshMNo3A6hyIgIvu4Zzup8W/sjsQI0MvG6NbWPimpIPYu2
-         GlfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764777199; x=1765381999;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+f9AyY0yfNd4RingbwG9Eadjii7Xfse3ScmQNF7X8vU=;
-        b=Z8TNfAXJb4sjSEhM+xTYhWCvQVkTxi8AFRr7JwO4rxXqJRKGwEHnNqpOWuvmzYVuhA
-         xTI2NFJVeluLaIhsguYp5ErL4rgDNtXl0sHgttTqm+9zmG/AaJzbRIbQF7yexqz8dtg0
-         3bnyyr0XyKJZip1JaL9LnDwDvkf5+iRlQdnN0xAyndcL3KXQ9DEp2BJv/EwAPpOrPBMP
-         LM7u8F19t3DVgDJ3Zr3jQ1beQJM6Qxduuh9Y1Oq4kMLac3YYVz4a0tGTA+Gz48JXxZ+7
-         AwvsKv4DgvF0M0aDg8P2FBN1jgH1o+H1gMg/UV5q1wRVMUaQTSwAAhdJpAvxJ8jQW9b6
-         jcDA==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXpfgilbdDQ3IViuWFwEaO69DANnxSwoq85GxSnAuUultTcSkFmQfPHv8IApyYvah0oxZMa6w==@lfdr.de
-X-Gm-Message-State: AOJu0YykUZq2wXfCY9Xu1glM+WAHbIZxxMn/q4/mIIOiGYku8nzp7jsF
-	Eq4EEJSXLFtUnPqXuhuoQzupT54aU46Hm9HXr66y2mCA5k+l22yuJ8Iu
-X-Google-Smtp-Source: AGHT+IE4ExBh2aQbe1385/fWFN01Ylr3GPWVSv1tUx1hqdnCmdYZW9acXHBda7xcUSNXeWI/ZxLotw==
-X-Received: by 2002:a05:600c:19ca:b0:477:94e3:8a96 with SMTP id 5b1f17b1804b1-4792af30f85mr30214815e9.20.1764777199229;
-        Wed, 03 Dec 2025 07:53:19 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+ZhxfNvSGhMGcdU9B5pz6Vdd6uzzZ+XSmqOTReC0FUyTw=="
-Received: by 2002:a05:600c:5297:b0:477:5582:def6 with SMTP id
- 5b1f17b1804b1-4790fd73f19ls27655235e9.1.-pod-prod-03-eu; Wed, 03 Dec 2025
- 07:53:16 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCV0Yr+G6bY568P8TOOY0vO7eoWOle8+6mOnnEfYoWWTTlpebxX3u8mrWv9mP7mhYpMgh6hQmkjY0H8=@googlegroups.com
-X-Received: by 2002:a05:600c:3152:b0:477:6d96:b3c8 with SMTP id 5b1f17b1804b1-4792af3d888mr26652585e9.23.1764777196321;
-        Wed, 03 Dec 2025 07:53:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1764777196; cv=none;
+         :content-transfer-encoding:mime-version:feedback-id:references
+         :in-reply-to:message-id:subject:cc:from:to:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Q7b6herwthvWJxo7k1OeZTv550r1WqBkyHZgbkmPvSg=;
+        b=c7I92yS0xzFBq3dnpqBRbW6gpOyUuF8c9Plyco26afx1yjjsb90y29OlWcaqfMdPL+
+         YqYwVS1D9CgAnJSb2hnK6DeMg4Dz+EpZ2ERCe+EGUW7v2GzEKHNrsVPYFOKfN44aGlJq
+         krt9w0vu7p+YZw3PfnglYIn6Oc+e2Em2t5yJOLiXcTZqnVoazMCrfRBPibKxeH7VOvf9
+         xuZo2mfaglU9GrZR7h7gjFO/zAhxCFX26MA8+yIX+LL1RRKFZcWFFW1gxF2i5cc+zned
+         4SBj3KGPkv2EQ8DjueCRN8Rhzp8CzJWehPfKyfRkfgD/6zP9zD9Oa476MZT4heu5H2+e
+         QFhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764779087; x=1765383887;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:feedback-id:references
+         :in-reply-to:message-id:subject:cc:from:to:date:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q7b6herwthvWJxo7k1OeZTv550r1WqBkyHZgbkmPvSg=;
+        b=RtZsGQiLV7vHiz8RyR5HEBl/gJzu9aEztiZ7Es6UrKjzjyu6dNTvLL+4zC1u1w76gC
+         1FdMulJFKy6BKJUHGHI9snDSpMSdC5O0aXA5q6nC4KwEXnJ20dIe3+qL0nn4pPZaChAY
+         NggES8UUFRDR5Aw22N42dVcUXO2WG6uiL49+R8QUehGsvH9NcBBUFQIFFSuuGZJ74UJu
+         Cl16VTMZOvZZ9QAHm/xXoF0j23pf3gUEwWF8X9vO5/uXuLd8z0xVWTIzpU5AIYoyYS06
+         t9B/kw0AbHpVLOtam+ruk4k3aae5QWDDMkUj0zbB0UZnA/cjWfrNY4iXyVlVr0Pocdno
+         au1w==
+X-Forwarded-Encrypted: i=2; AJvYcCVXQue+PdZPkI0xuY3ZTCYZVqk93Ft0WCuzV7FF7BBSdqA8r/uVN15aNic+/Ro8yzyR6iXpMA==@lfdr.de
+X-Gm-Message-State: AOJu0Yz4s5tP1VH8O49RQehvRVXTOPmad92FLaPVU0Fb2Fni4M+PS/dW
+	UuVix3teUR2K99Nb3+GRRIonDhSQLDzp/iywUOrt/TNQRU0iwoYeOKji
+X-Google-Smtp-Source: AGHT+IH0aWVIITvondhfWWsXJ7CgI4/7U4SD/OMwXhxcx4xhPSyU8/fGEkByrX2WgBwmHWSM3E1lvA==
+X-Received: by 2002:a05:6000:2c07:b0:42b:3ed2:c079 with SMTP id ffacd0b85a97d-42f731a2fccmr3364863f8f.48.1764779087043;
+        Wed, 03 Dec 2025 08:24:47 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+YImBdLftxDjrjUExZqvdX9skcIdAZMchd39rJkflWoeA=="
+Received: by 2002:a5d:64c7:0:b0:426:fc42:689f with SMTP id ffacd0b85a97d-42e1b4ac228ls4831290f8f.2.-pod-prod-05-eu;
+ Wed, 03 Dec 2025 08:24:45 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCW25tNCdk04O4I00xVY1/ghtF3t5YvirRTMZ67NTGUmL5SWV2RWl3db8Mhzj7RE8u/r4IURdEcbHWk=@googlegroups.com
+X-Received: by 2002:a05:6000:40cc:b0:42b:2e39:6d58 with SMTP id ffacd0b85a97d-42f731bc534mr2857666f8f.51.1764779084936;
+        Wed, 03 Dec 2025 08:24:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1764779084; cv=none;
         d=google.com; s=arc-20240605;
-        b=GLwxTItR0MHfjbkfeAClgcRAcr2f017uWB64QonYS/WeQ7jqCM3Y+pyt3v4f5bAuI9
-         8dsmy3eN7xHSdsAnN//EvViN0lWZAg8BlLAZPKO5zB1V7RBFmMH+g5tduHP6IPMvRjqH
-         OxwMURN0oUF0BzjMGT3vOjVH1ErDlF7yesFuOSIGwVp5rwjSgQLjjcpz+IRzbOSy5n5C
-         vSqdVQzmqbFeMLgo+VVcXfNiH59m7HnTEJx3IRFdo5HAKTVUZkRCo3Ix1GVZyZKViGpP
-         gcXJBBy0rJUTMMG3wX2gzRC3h3t3gDddbtXxfVEBf77B4pXhpBQgAPPYTUaMABesx8rs
-         9uRg==
+        b=jhNGQYlbDoEJH6WQaKPTCOR8wazLC/Pzn4j3/vEw5m6ZqEeV/7yBo1o3nPzbjOImXe
+         /17K50XZrv0FdQSXnS/pVonA+uVDqFBN5PyTaNeMU3MClUWbyI//I/d8m7wuXd7qpg04
+         s7v4d5QwT5WtX0xca/5d9PE8VTS0rRz9KGCUOoIWLosq10v8H5fAwp3FAAruMNEJivwN
+         flYyuRgGd+3HEOVOOKNAsg/W2k01JfOBPajhOXPWPMybEp87OAlmW7ubknUpzfP8oEy6
+         5kSqb3wHqA8NpMKUnr5GGzu3wUHGDopx+M82ESzmS0B5GvK33/JtgHjxHwX0G8qKBn44
+         zJZg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=UbCXDQ9SqAkNCyhh2J6cLNmuXbzuNKSafExnU4lsLPE=;
-        fh=oTpWcbl/SeBBtu4kEuxYUFmS1ZZYa89IJfl+vqFGhK8=;
-        b=XR8vskVXwdAtkbvYCDmXx17NxeNgVLCkiTAoQqFp2qfPujrHLVsoa9G+1IkmOPYudB
-         ycANEX46HBVCPULOIg12o4sK31ORzuRuaaylCMYFQseut9XMnjsajXLNrUoDvQqSu1LE
-         RUTQV5+OC+i2/0nZmtjiKMtDdn80zdl4OqXtvKzjf2HUH8/izXwmZQe5pziqlzP5Q78h
-         4C72hKYBexOjTJHLznjHKEi8w+jVowgwmpGW/B/6rOAImrnrJlFXsFcmpFTHCpqhLpnf
-         f+KQ9QmQMppcdcmeBBzK4c2bsBEsclh113RkNwVZufkCSxawdF22iXR7GEF7fMG+Pdle
-         evyw==;
+        h=content-transfer-encoding:mime-version:feedback-id:references
+         :in-reply-to:message-id:subject:cc:from:to:date:dkim-signature;
+        bh=uYhB0X4kqL3Bw7rIqDJ1oTSdN5flbXlU0EovctUC5cg=;
+        fh=QzcK2Dcdv6K6M4pd0fn+L+4VbdC8Fq6FyGZNcuDHObw=;
+        b=BzdomXVk9vkX0EvKwvxu78DBNdMJwDrz3MSYpNnU7T2bseFoXWz2frMDqgG/ZxYTZH
+         JwaZq8Sp9Mj+j+q0yljnAv46gZVt/O+yzzFjrcGGZNwvwUdBG8gk6lMdSWBMo7+0LTw4
+         tVf3M5csZnMslCsmx8R3WRcSv02JHbPJ8FfhMISdgvJWGst5HjMOZY6UXBcCifyxszV0
+         Lh3hOFbivlZsxXlMNQNsqrQwwNNR015r1bCDt4Kftbr4OGeu+kH/5na9GWVIf+XlS2WT
+         hlo+cM2R3UY9kVxTnvsa7usudff4HKhZhs6PGWFbTVsooRJA6tIQUk1OtqYJswA+EHZT
+         Qydg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=YWXbNUPB;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42a as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com. [2a00:1450:4864:20::42a])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-4792b02beedsi187175e9.1.2025.12.03.07.53.16
+       dkim=pass header.i=@pm.me header.s=protonmail3 header.b=lEgqJXRZ;
+       spf=pass (google.com: domain of m.wieczorretman@pm.me designates 79.135.106.31 as permitted sender) smtp.mailfrom=m.wieczorretman@pm.me;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=pm.me
+Received: from mail-10631.protonmail.ch (mail-10631.protonmail.ch. [79.135.106.31])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-42e1c5d1ce6si236639f8f.2.2025.12.03.08.24.44
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Dec 2025 07:53:16 -0800 (PST)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42a as permitted sender) client-ip=2a00:1450:4864:20::42a;
-Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-42e2d52c24dso2165286f8f.1
-        for <kasan-dev@googlegroups.com>; Wed, 03 Dec 2025 07:53:16 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUzH/SSmWiCqBcIxP4TegFbnL00NSyT1DpqVROZLcxerMnI7rSkjjPbgwpv55voLOElMvTQpNV7OvQ=@googlegroups.com
-X-Gm-Gg: ASbGnctPSV5tZhnouEtrE7KIEkVyar3fSrzEkVuOXWia9PukFqNE0y7LlKVl+x8lAAI
-	JrnRmZqwzqtq24CWDtrGc7+7HOtUyIV0zM2RlnxX9cl9XCqeEJsv+k4W1PgARoRwBsmxYTjFDG4
-	isDhqynynSECrWSfBjtwIHz7n7QSmB+sPetP8l2ZLdKfcyRSmd/ybHib+593tU+sRYp0j3tGE/P
-	UbposbizbclqVAEFGTwy+VSqOfegIRGUn0OfXHEyCL1xHnFLqa+uTLezzLwYkGlQmNqdNBkgE6Y
-	lkt5k+tIajrk8mYfBAFc2LJIpH+tyLe+mg==
-X-Received: by 2002:a05:6000:1449:b0:429:d170:b3d1 with SMTP id
- ffacd0b85a97d-42f7320bea0mr2896527f8f.59.1764777195326; Wed, 03 Dec 2025
- 07:53:15 -0800 (PST)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Dec 2025 08:24:44 -0800 (PST)
+Received-SPF: pass (google.com: domain of m.wieczorretman@pm.me designates 79.135.106.31 as permitted sender) client-ip=79.135.106.31;
+Date: Wed, 03 Dec 2025 16:24:36 +0000
+To: Andrey Konovalov <andreyknvl@gmail.com>
+From: =?UTF-8?Q?=27Maciej_Wiecz=C3=B3r=2DRetman=27_via_kasan=2Ddev?= <kasan-dev@googlegroups.com>
+Cc: jiayuan.chen@linux.dev, Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, Andrew Morton <akpm@linux-foundation.org>, Marco Elver <elver@google.com>, stable@vger.kernel.org, Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] kasan: Unpoison vms[area] addresses with a common tag
+Message-ID: <phrugqbctcakjmy2jhea56k5kwqszuua646cxfj4afrj5wk4wg@gdji4pf7kzhz>
+In-Reply-To: <CA+fCnZdzBdC4hdjOLa5U_9g=MhhBfNW24n+gHpYNqW8taY_Vzg@mail.gmail.com>
+References: <cover.1764685296.git.m.wieczorretman@pm.me> <325c5fa1043408f1afe94abab202cde9878240c5.1764685296.git.m.wieczorretman@pm.me> <CA+fCnZdzBdC4hdjOLa5U_9g=MhhBfNW24n+gHpYNqW8taY_Vzg@mail.gmail.com>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: 4ee2cb0b262a61c236058e955b9c6d1886736ca1
 MIME-Version: 1.0
-References: <cover.1764685296.git.m.wieczorretman@pm.me> <3907c330d802e5b86bfe003485220de972aaac18.1764685296.git.m.wieczorretman@pm.me>
-In-Reply-To: <3907c330d802e5b86bfe003485220de972aaac18.1764685296.git.m.wieczorretman@pm.me>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Wed, 3 Dec 2025 16:53:04 +0100
-X-Gm-Features: AWmQ_blEBUtF_kyhGwNBKkD8DFVrkg1o4JirX5I6i5HJ0Jf545_FnpPgl_CXx1E
-Message-ID: <CA+fCnZcNoLERGmjyVV=ykD62hPRkPua4AqKE083BBm6OHmGtPw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] kasan: Refactor pcpu kasan vmalloc unpoison
-To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
-	Marco Elver <elver@google.com>, stable@vger.kernel.org, 
-	Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: andreyknvl@gmail.com
+X-Original-Sender: m.wieczorretman@pm.me
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=YWXbNUPB;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42a
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+ header.i=@pm.me header.s=protonmail3 header.b=lEgqJXRZ;       spf=pass
+ (google.com: domain of m.wieczorretman@pm.me designates 79.135.106.31 as
+ permitted sender) smtp.mailfrom=m.wieczorretman@pm.me;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=pm.me
+X-Original-From: =?utf-8?Q?Maciej_Wiecz=C3=B3r-Retman?= <m.wieczorretman@pm.me>
+Reply-To: =?utf-8?Q?Maciej_Wiecz=C3=B3r-Retman?= <m.wieczorretman@pm.me>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -168,256 +137,110 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Dec 2, 2025 at 3:29=E2=80=AFPM Maciej Wieczor-Retman
-<m.wieczorretman@pm.me> wrote:
+On 2025-12-03 at 16:53:01 +0100, Andrey Konovalov wrote:
+>On Tue, Dec 2, 2025 at 3:29=E2=80=AFPM Maciej Wieczor-Retman
+><m.wieczorretman@pm.me> wrote:
+>>
+>> From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+>>
+>> A KASAN tag mismatch, possibly causing a kernel panic, can be observed
+>> on systems with a tag-based KASAN enabled and with multiple NUMA nodes.
+>> It was reported on arm64 and reproduced on x86. It can be explained in
+>> the following points:
+>>
+>>         1. There can be more than one virtual memory chunk.
+>>         2. Chunk's base address has a tag.
+>>         3. The base address points at the first chunk and thus inherits
+>>            the tag of the first chunk.
+>>         4. The subsequent chunks will be accessed with the tag from the
+>>            first chunk.
+>>         5. Thus, the subsequent chunks need to have their tag set to
+>>            match that of the first chunk.
+>>
+>> Use the modified __kasan_unpoison_vmalloc() to pass the tag of the first
+>> vm_struct's address when vm_structs are unpoisoned in
+>> pcpu_get_vm_areas(). Assigning a common tag resolves the pcpu chunk
+>> address mismatch.
+>>
+>> Fixes: 1d96320f8d53 ("kasan, vmalloc: add vmalloc tagging for SW_TAGS")
+>> Cc: <stable@vger.kernel.org> # 6.1+
+>> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+>> ---
+>> Changelog v2:
+>> - Revise the whole patch to match the fixed refactorization from the
+>>   first patch.
+>>
+>> Changelog v1:
+>> - Rewrite the patch message to point at the user impact of the issue.
+>> - Move helper to common.c so it can be compiled in all KASAN modes.
+>>
+>>  mm/kasan/common.c  |  3 ++-
+>>  mm/kasan/hw_tags.c | 12 ++++++++----
+>>  mm/kasan/shadow.c  | 15 +++++++++++----
+>>  3 files changed, 21 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+>> index 7884ea7d13f9..e5a867a5670b 100644
+>> --- a/mm/kasan/common.c
+>> +++ b/mm/kasan/common.c
+>> @@ -591,11 +591,12 @@ void kasan_unpoison_vmap_areas(struct vm_struct **=
+vms, int nr_vms,
+>>         unsigned long size;
+>>         void *addr;
+>>         int area;
+>> +       u8 tag =3D get_tag(vms[0]->addr);
+>>
+>>         for (area =3D 0 ; area < nr_vms ; area++) {
+>>                 size =3D vms[area]->size;
+>>                 addr =3D vms[area]->addr;
+>> -               vms[area]->addr =3D __kasan_unpoison_vmap_areas(addr, si=
+ze, flags);
+>> +               vms[area]->addr =3D __kasan_unpoison_vmap_areas(addr, si=
+ze, flags, tag);
 >
-> From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+>I'm thinking what you can do here is:
 >
-> A KASAN tag mismatch, possibly causing a kernel panic, can be observed
-> on systems with a tag-based KASAN enabled and with multiple NUMA nodes.
-> It was reported on arm64 and reproduced on x86. It can be explained in
-> the following points:
->
->         1. There can be more than one virtual memory chunk.
->         2. Chunk's base address has a tag.
->         3. The base address points at the first chunk and thus inherits
->            the tag of the first chunk.
->         4. The subsequent chunks will be accessed with the tag from the
->            first chunk.
->         5. Thus, the subsequent chunks need to have their tag set to
->            match that of the first chunk.
->
-> Refactor code by reusing __kasan_unpoison_vmalloc in a new helper in
-> preparation for the actual fix.
->
-> Changelog v1 (after splitting of from the KASAN series):
-> - Rewrite first paragraph of the patch message to point at the user
->   impact of the issue.
-> - Move helper to common.c so it can be compiled in all KASAN modes.
->
-> Fixes: 1d96320f8d53 ("kasan, vmalloc: add vmalloc tagging for SW_TAGS")
-> Cc: <stable@vger.kernel.org> # 6.1+
-> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-> ---
-> Changelog v2:
-> - Redo the whole patch so it's an actual refactor.
->
->  include/linux/kasan.h | 16 +++++++++++++---
->  mm/kasan/common.c     | 17 +++++++++++++++++
->  mm/kasan/hw_tags.c    | 15 +++++++++++++--
->  mm/kasan/shadow.c     | 16 ++++++++++++++--
->  mm/vmalloc.c          |  4 +---
->  5 files changed, 58 insertions(+), 10 deletions(-)
->
-> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> index d12e1a5f5a9a..4a3d3dba9764 100644
-> --- a/include/linux/kasan.h
-> +++ b/include/linux/kasan.h
-> @@ -595,14 +595,14 @@ static inline void kasan_release_vmalloc(unsigned l=
-ong start,
->
->  #endif /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS */
->
-> -void *__kasan_unpoison_vmalloc(const void *start, unsigned long size,
-> -                              kasan_vmalloc_flags_t flags);
-> +void *__kasan_random_unpoison_vmalloc(const void *start, unsigned long s=
-ize,
-> +                                     kasan_vmalloc_flags_t flags);
->  static __always_inline void *kasan_unpoison_vmalloc(const void *start,
->                                                 unsigned long size,
->                                                 kasan_vmalloc_flags_t fla=
-gs)
->  {
->         if (kasan_enabled())
-> -               return __kasan_unpoison_vmalloc(start, size, flags);
-> +               return __kasan_random_unpoison_vmalloc(start, size, flags=
-);
->         return (void *)start;
->  }
->
-> @@ -614,6 +614,11 @@ static __always_inline void kasan_poison_vmalloc(con=
-st void *start,
->                 __kasan_poison_vmalloc(start, size);
->  }
->
-> +void *__kasan_unpoison_vmap_areas(void *addr, unsigned long size,
-> +                                 kasan_vmalloc_flags_t flags, u8 tag);
-> +void kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms,
-> +                              kasan_vmalloc_flags_t flags);
-> +
->  #else /* CONFIG_KASAN_VMALLOC */
->
->  static inline void kasan_populate_early_vm_area_shadow(void *start,
-> @@ -638,6 +643,11 @@ static inline void *kasan_unpoison_vmalloc(const voi=
-d *start,
->  static inline void kasan_poison_vmalloc(const void *start, unsigned long=
- size)
->  { }
->
-> +static __always_inline void
-> +kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms,
-> +                         kasan_vmalloc_flags_t flags)
-> +{ }
-> +
->  #endif /* CONFIG_KASAN_VMALLOC */
->
->  #if (defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)) && =
-\
-> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> index d4c14359feaf..7884ea7d13f9 100644
-> --- a/mm/kasan/common.c
-> +++ b/mm/kasan/common.c
-> @@ -28,6 +28,7 @@
->  #include <linux/string.h>
->  #include <linux/types.h>
->  #include <linux/bug.h>
-> +#include <linux/vmalloc.h>
->
->  #include "kasan.h"
->  #include "../slab.h"
-> @@ -582,3 +583,19 @@ bool __kasan_check_byte(const void *address, unsigne=
-d long ip)
->         }
->         return true;
->  }
-> +
-> +#ifdef CONFIG_KASAN_VMALLOC
-> +void kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms,
-> +                              kasan_vmalloc_flags_t flags)
-
-kasan_unpoison_vmap_areas() needs to be defined in
-inclunde/linux/kasan.h and call __kasan_unpoison_vmap_areas() when
-kasan_enabled() =3D=3D true, similar to the other wrappers.
-
-And check my comment for patch #2: with that, you should not need to
-add so many new __helpers: just __kasan_unpoison_vmalloc and
-__kasan_unpoison_vmap_areas should suffice.
+>vms[area]->addr =3D set_tag(addr, tag);
+>__kasan_unpoison_vmalloc(addr, size, flags | KASAN_VMALLOC_KEEP_TAG);
 
 
-> +{
-> +       unsigned long size;
-> +       void *addr;
-> +       int area;
-> +
-> +       for (area =3D 0 ; area < nr_vms ; area++) {
-> +               size =3D vms[area]->size;
-> +               addr =3D vms[area]->addr;
-> +               vms[area]->addr =3D __kasan_unpoison_vmap_areas(addr, siz=
-e, flags);
-> +       }
-> +}
-> +#endif
-> diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
-> index 1c373cc4b3fa..4b7936a2bd6f 100644
-> --- a/mm/kasan/hw_tags.c
-> +++ b/mm/kasan/hw_tags.c
-> @@ -316,8 +316,8 @@ static void init_vmalloc_pages(const void *start, uns=
-igned long size)
->         }
->  }
+I noticed that something like this wouldn't work once I started trying
+to rebase my work onto Jiayuan's. The line:
++       u8 tag =3D get_tag(vms[0]->addr);
+is wrong and should be
++       u8 tag =3D kasan_random_tag();
+I was sure the vms[0]->addr was already tagged (I recall checking this
+so I'm not sure if something changed or my previous check was wrong) but
+the problem here is that vms[0]->addr, vms[1]->addr ... were unpoisoned
+with random addresses, specifically different random addresses. So then
+later in the pcpu chunk code vms[1] related pointers would get the tag
+from vms[0]->addr.
+
+So I think we still need a separate way to do __kasan_unpoison_vmalloc
+with a specific tag.
+
 >
-> -void *__kasan_unpoison_vmalloc(const void *start, unsigned long size,
-> -                               kasan_vmalloc_flags_t flags)
-> +static void *__kasan_unpoison_vmalloc(const void *start, unsigned long s=
-ize,
-> +                                     kasan_vmalloc_flags_t flags)
->  {
->         u8 tag;
->         unsigned long redzone_start, redzone_size;
-> @@ -387,6 +387,12 @@ void *__kasan_unpoison_vmalloc(const void *start, un=
-signed long size,
->         return (void *)start;
->  }
+>This is with the assumption that Jiayuan's patch is changed to add
+>KASAN_VMALLOC_KEEP_TAG to kasan_vmalloc_flags_t.
 >
-> +void *__kasan_random_unpoison_vmalloc(const void *start, unsigned long s=
-ize,
-> +                                     kasan_vmalloc_flags_t flags)
-> +{
-> +       return __kasan_unpoison_vmalloc(start, size, flags);
-> +}
-> +
->  void __kasan_poison_vmalloc(const void *start, unsigned long size)
->  {
->         /*
-> @@ -396,6 +402,11 @@ void __kasan_poison_vmalloc(const void *start, unsig=
-ned long size)
->          */
->  }
->
-> +void *__kasan_unpoison_vmap_areas(void *addr, unsigned long size,
-> +                                 kasan_vmalloc_flags_t flags, u8 tag)
-> +{
-> +       return __kasan_unpoison_vmalloc(addr, size, flags);
-> +}
->  #endif
->
->  void kasan_enable_hw_tags(void)
-> diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
-> index 5d2a876035d6..0a8d8bf6e9cf 100644
-> --- a/mm/kasan/shadow.c
-> +++ b/mm/kasan/shadow.c
-> @@ -624,8 +624,8 @@ void kasan_release_vmalloc(unsigned long start, unsig=
-ned long end,
->         }
->  }
->
-> -void *__kasan_unpoison_vmalloc(const void *start, unsigned long size,
-> -                              kasan_vmalloc_flags_t flags)
-> +static void *__kasan_unpoison_vmalloc(const void *start, unsigned long s=
-ize,
-> +                                     kasan_vmalloc_flags_t flags)
->  {
->         /*
->          * Software KASAN modes unpoison both VM_ALLOC and non-VM_ALLOC
-> @@ -653,6 +653,18 @@ void *__kasan_unpoison_vmalloc(const void *start, un=
-signed long size,
->         return (void *)start;
->  }
->
-> +void *__kasan_random_unpoison_vmalloc(const void *start, unsigned long s=
-ize,
-> +                                     kasan_vmalloc_flags_t flags)
-> +{
-> +       return __kasan_unpoison_vmalloc(start, size, flags);
-> +}
-> +
-> +void *__kasan_unpoison_vmap_areas(void *addr, unsigned long size,
-> +                                 kasan_vmalloc_flags_t flags, u8 tag)
-> +{
-> +       return __kasan_unpoison_vmalloc(addr, size, flags);
-> +}
-> +
->  /*
->   * Poison the shadow for a vmalloc region. Called as part of the
->   * freeing process at the time the region is freed.
-> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-> index 798b2ed21e46..32ecdb8cd4b8 100644
-> --- a/mm/vmalloc.c
-> +++ b/mm/vmalloc.c
-> @@ -4870,9 +4870,7 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned=
- long *offsets,
->          * With hardware tag-based KASAN, marking is skipped for
->          * non-VM_ALLOC mappings, see __kasan_unpoison_vmalloc().
->          */
-> -       for (area =3D 0; area < nr_vms; area++)
-> -               vms[area]->addr =3D kasan_unpoison_vmalloc(vms[area]->add=
-r,
-> -                               vms[area]->size, KASAN_VMALLOC_PROT_NORMA=
-L);
-> +       kasan_unpoison_vmap_areas(vms, nr_vms, KASAN_VMALLOC_PROT_NORMAL)=
-;
->
->         kfree(vas);
->         return vms;
-> --
-> 2.52.0
->
->
+>Then you should not need that extra __kasan_random_unpoison_vmalloc helper=
+.
+
+I already rewrote the patch rebased onto Jiayuan's patch. I was able to
+ditch the __kasan_random_unpoison_vmalloc but I needed to add
+__kasan_unpoison_vrealloc - so I can pass the tag of the start pointer
+to __kasan_unpoison_vmalloc. I was hoping to post it today/tomorrow so
+Jiayuan can check my changes don't break his solution. I'm just waiting
+to check it compiles against all the fun kernel configs.
+
+--=20
+kind regards
+Maciej Wiecz=C3=B3r-Retman
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-A%2BfCnZcNoLERGmjyVV%3DykD62hPRkPua4AqKE083BBm6OHmGtPw%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/p=
+hrugqbctcakjmy2jhea56k5kwqszuua646cxfj4afrj5wk4wg%40gdji4pf7kzhz.
