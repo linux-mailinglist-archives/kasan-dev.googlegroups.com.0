@@ -1,128 +1,181 @@
-Return-Path: <kasan-dev+bncBAABBR5FY3EQMGQESUSO3MQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDP53XW3ZQCBB4NNY3EQMGQELTRXSUY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33e.google.com (mail-wm1-x33e.google.com [IPv6:2a00:1450:4864:20::33e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89BF3CA3EA6
-	for <lists+kasan-dev@lfdr.de>; Thu, 04 Dec 2025 14:55:20 +0100 (CET)
-Received: by mail-wm1-x33e.google.com with SMTP id 5b1f17b1804b1-477cf25ceccsf10327645e9.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 04 Dec 2025 05:55:20 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1764856520; cv=pass;
+Received: from mail-ed1-x540.google.com (mail-ed1-x540.google.com [IPv6:2a00:1450:4864:20::540])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A3BCA3F42
+	for <lists+kasan-dev@lfdr.de>; Thu, 04 Dec 2025 15:13:07 +0100 (CET)
+Received: by mail-ed1-x540.google.com with SMTP id 4fb4d7f45d1cf-640ed3ad89bsf1440734a12.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 04 Dec 2025 06:13:07 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1764857587; cv=pass;
         d=google.com; s=arc-20240605;
-        b=b5v9AFbM8cKg+tp30V/FB4J8t05cCSck75DcfFXpeIgRAGBIxdSZMF9INIIDgh6Pge
-         XvbtQ87OvABglv1SPz6kvfaMB/Ypn0J79Pr+p2wjCMEyfLfKFnazMDfInaJRYjzsM+fk
-         ADydbqNXXA6/gh/P8E25MFjmBsxQcxFjDq8FQ5Oe86wQKoMb7IPOCGG9m+b43jpZmQ+E
-         V+RQL8szpTZHLstRSUyA8DXc0N0MqCd4m+HaUXtjwtf3QL1Uhdo+UpVZ2e9jiE53RiJ3
-         sGlJZ8EwKDQf61Z4T2Amqm0BOaVXi7Gv/bvNLas3iANJy49ninnUAPAibuHDN4XvdFJp
-         0CDA==
+        b=XSRSRgp2//UevVHFVMeYifbIQEHz489+s4Rvpwed0h3eF0FLAhH8CEbRc45kkjKVqm
+         rWVAA/a+NbzqH7yCUmSbZbSuIMSTkPNp4DI38uGramExpVhIEquDUAXJegT6293mDYCC
+         LFCFt0mi4PNh9ceL4Lz2HIkdq4Yk+/E0DDg2edw1DZuqKRrRtT7HLpcWBtNT2sggmWTW
+         Wogt9eBZ7/SMtdyfe19dxHy3jYLCR8JmS+SStHhMULUdH9nyOjaCtu8I4LZ/K0QrorkI
+         jkQ4UQ8a/hR1lfAyk9d1+JoS/PSz46vr60pkRAozduujCozjS+DW348+JQF8QvGSfHwP
+         RJxQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :mime-version:feedback-id:message-id:subject:cc:from:to:date
-         :dkim-signature;
-        bh=sQvqqT+rCg+FlNpj0rZWn7EvHKXy0zz4GnC9cNM5vwo=;
-        fh=BEv+dH7Gg45weRqGugYkkqljo5Or/xwAUgV9rK1MPhc=;
-        b=kukVmQn+EsQl/wjwa0Uj4zbn/PA3HA/bKHozLUoYcEMug08Yk24zV8vNUdLE3WlxfR
-         yhgypPIJGgBreoN/rC1C7ihg2AV9DCS9Jf1HyWKl86+viHdO9/8eS4sNPfVz+t6Tf3Jc
-         bMg7/8HlrCx9IGK7nSvs+lv6MM469C4nXEPuOfsYKKff6K8G0TiO0UXHZVL0aEFRozpy
-         c1WjJJKbGDkx9Vttfu2Hzh9/C9rffRSEKh4wZ/2XbBNEcrwXEHe67t+PtzRFTkq1RZB4
-         Nh7+CxUp84+cnrSPEMHIauhZ8jcD5zAzQCocwBqkHfJyEk5oW8jhTdICB3XXcErTSe5k
-         Vohg==;
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature:dkim-signature;
+        bh=KJiVYayfeK5UYYQAvEo3Vz2quNsEj4rKi6UcjWqBqeU=;
+        fh=CRCfzobcJJ5OthEwOzqGIiLE1OuZKd86CpgOJOGutq0=;
+        b=AFrDvGhSBzZVfVlIk3Gw9BHK8uvN/hYV1bhDbdZFRGB2WQT7lePyXfVlBm21BrDFHl
+         GSXCVMB/T1xb+HOSw3R1b/4zaP9KBj3HkWODruvP8FcLsZ5ybClemtdTU2GBM9icXrRd
+         qRMkl+rJNtM+nq3OxNozpsaqOYBBz4gPObGSko85JaOf4TZmNqydLRUz/qbft+douOol
+         spenz0kAhWb6QhCjNPzwTTOG5XwhP/JpcJ9posh7EqI6N5Q0gKNF8/g8vwQiCOBPqm5V
+         aC3ypCSjj1+/il1JkhrrpiCOnRMiU7FVpImBtaDXjuTrVDWqQueHNB5FFD8YdR+24ar/
+         dFMw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@pm.me header.s=protonmail3 header.b=Qcn4Mz1Q;
-       spf=pass (google.com: domain of m.wieczorretman@pm.me designates 79.135.106.118 as permitted sender) smtp.mailfrom=m.wieczorretman@pm.me;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=pm.me
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=dwuhr5Tp;
+       spf=pass (google.com: domain of ethan.w.s.graham@gmail.com designates 2a00:1450:4864:20::432 as permitted sender) smtp.mailfrom=ethan.w.s.graham@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1764856520; x=1765461320; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1764857587; x=1765462387; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:mime-version:feedback-id:message-id
-         :subject:cc:from:to:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sQvqqT+rCg+FlNpj0rZWn7EvHKXy0zz4GnC9cNM5vwo=;
-        b=nD6ZwJ9wDkg8wo4zrDbrsabe5dO6h4XX9djQdxXinLSnoV3HVKCDcxQ3+QJ3k/DZ/G
-         UINnfwCBakrGkARP8VaHIrSgFgDtHcG8DKIb0UeBWxfBI7Dc/h+rCmpOFJyDDjTFUV0z
-         ndzav8KpJhoMtiMkOz1SXQlDqHR5qn5V2vXrziVpKkrdS3NKjKPr810xfYkUn3hm1qbd
-         jt8Ld8Q2UL2am0dYihEfCqmQ5ei2En/srRsUantRmBtn6ZbCDI1/04Xjukpzib41+5KS
-         w0BsyuJZKMtdV99BPKMrzDIxPjOXBTJPPH4E1H0AvQOlI4uEGDhKvpd9tSNHPyxb8b6O
-         sMrw==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=KJiVYayfeK5UYYQAvEo3Vz2quNsEj4rKi6UcjWqBqeU=;
+        b=QrhxiCzB1FYBuUlccmOV5U1RndP1Azyg6bVZleBRyNamq9g3t9q5pU/g2b8bWKBXuB
+         YVTeLfGKLvGOOOiUm++rYAi2EL66XkNb7N1lg2sppSQLjrZvMRicPn8eLX6t+8c8Hp8y
+         hGjvjgYBqwAFyTXNDZOrMdEog1MxKquyHUSD/LOHlZr3YzgsZSW1lxqdL/QC07HEohkn
+         Bzf+1/CSD+YhR4TIV3PIFxWDnz4Db+Z54uC6Dgza4c2z/uAx9yZPSosmaIEOllDPmn1r
+         dMhU8C/iTtpOML6JudSuHjSXvI0WXrkuvVix/+eAB4Zqt2oYdxm+W6dGekgDULdq2qAj
+         sCdA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764857587; x=1765462387; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KJiVYayfeK5UYYQAvEo3Vz2quNsEj4rKi6UcjWqBqeU=;
+        b=cjbzgJeMEJtsP/D75vbrUgIczum+hJxeBgiyz8gXWb0Uqd2nVDt3tnFRM6F6n6Xvu8
+         A3GQcHAc3/zBtKu0BxcVnuVbv3Tsf6DvrHWYAv6TzS+fdWKJ646qAziRm88qVhQLrMIX
+         VunmBZ6vwOhJ2CzvfKQ8OGx1/1zOHsKSRe5Yi5QF573d3Gh4vjr4FsI0nJU/PaI/QPgW
+         MOctuGEOBN70FCr8aU+3f56jV3FSLddCMsGcwpR9IkMNIl2EO7lFRHIRfwuCA7Tc+MEz
+         D0OaNtniaONdflHzJKnaNnRom3fXTg5g6e2zpa6EOzs+Md4ApW10bvJbAW7xADut6/eD
+         /MYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764856520; x=1765461320;
+        d=1e100.net; s=20230601; t=1764857587; x=1765462387;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:mime-version:feedback-id:message-id
-         :subject:cc:from:to:date:x-beenthere:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sQvqqT+rCg+FlNpj0rZWn7EvHKXy0zz4GnC9cNM5vwo=;
-        b=afnnZLyy6cGs3DxnTbaQka0qEVu6/86SMYv1SCkyD9xdRoOQ3+ptommtySqcsZNqM9
-         CzOrRMEHCDOnTd6f97TyOUp542TSHF0Y8+lPAcaaY3l6/d23qeVA0wy9ZVN1yBc1Sc7S
-         GgJBPRaMoS1nqnrorHCjsaorzaRzr49aQbpJq5ufmTwpszkNAvQ3u+NOHzAFKM0IALJ/
-         llF8xFhRkEvbZIF1FRmSkyg5nUOFDuh1FM0eaEYcdSqPFSygmwDYdwhyDR3XGV4oS7vJ
-         qX657lnJaXpFRMtyw8YhYShqLIs8lbO0pWUp24eDQhMtOXlt7UltrtOy4l68JizKEUu0
-         Yrdw==
-X-Forwarded-Encrypted: i=2; AJvYcCUbIrzADL6L5zMiUHw0+BBaHvX6vj9x4fpFnBMAyrhdVqUN43YU77/H0OdAWiTWz85/U8bIKw==@lfdr.de
-X-Gm-Message-State: AOJu0YyUxuec3DVkvEg5FtCsQhJzOaJamRM9qzdEWsRFX7jxG+i2iAF5
-	FBrqbaDFwqCTFK3VpEeembshtU7tMtmZ9CnNVmaEEU5qgGg16jDMdWnG
-X-Google-Smtp-Source: AGHT+IEt0FCs9b4WTRFGSnHKMy7/GPMvjsr3A5KUhMyxwTSOF5JAWDXGCg603YeXL7Qxg/Kos92rvA==
-X-Received: by 2002:a05:600c:a45:b0:477:7bca:8b34 with SMTP id 5b1f17b1804b1-4792f244111mr26304825e9.6.1764856519712;
-        Thu, 04 Dec 2025 05:55:19 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+az5ePPkrrv2mJe0WF/v/A2qvAqFg2SCoNXzpgOEHLyng=="
-Received: by 2002:a05:600c:4509:b0:477:a1df:48a5 with SMTP id
- 5b1f17b1804b1-4792fcda86dls7007505e9.2.-pod-prod-07-eu; Thu, 04 Dec 2025
- 05:55:17 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCX1K77GZ3noNXkBU4mAY13v+5vI5n3sutX2QSfsYWTgMf4cT1EPzeOgi3Ioejo2DKZGNDGnPor0DO8=@googlegroups.com
-X-Received: by 2002:a05:600c:b8d:b0:477:6d96:b3e5 with SMTP id 5b1f17b1804b1-4792f244cdamr31541525e9.7.1764856517467;
-        Thu, 04 Dec 2025 05:55:17 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1764856517; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-beenthere
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KJiVYayfeK5UYYQAvEo3Vz2quNsEj4rKi6UcjWqBqeU=;
+        b=F13VQ4yeUC3HQuO9KTmO5xx++sYM4qbtKiwwOii8Q2h1iDowJVSMidYUjG5Pe2EPTh
+         TGLTtcy5Kdl94SDgatOlHV5nhqfdlx02zXFxQR6PRmXIjLVhR8IOkv7pmwKBPR0MkVeB
+         sOAnGzAJTpxx+zdLf+iXV/gs/a+vM+0+gw0ZCCx+fbgDPkoWRJkHkqlBGlYtitxH+L8L
+         qKUjunVXvaJQ3UvdsnTyyGccmoB/VXwDB7PeRnXoFppJeW3vH+P0fZUQ6TDVaVnkaFi0
+         rMCBVjrUfa+hEPUAYeXk4LLh7Im4p+FlnDr81tlY51syzxF14tph3YjT6Gscc3sOWQPH
+         QSQA==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCWbQwBJT4lnlSh9sX1DN0OpxQ5y2hqXiLNU4n37LomHcqsWSlQyx1XGFiB5/uhCgDjp+T5gvg==@lfdr.de
+X-Gm-Message-State: AOJu0YzA/qU+7CvtWrANfKvFuLo19NAVY5QEPdKVgu4yq8p5qSNDKr7s
+	OywoZO4Uq+hjve9/EkUX68ReOYvZkYsA1GqjXpRffFrWIEFsKWsv37P0
+X-Google-Smtp-Source: AGHT+IFR7eCx0ef4jUq80+4FDiZjYIvdlM731sDNfH9DIr0eS3d2yAyMY07y3vsZ5yGBpJ8xT1HGPA==
+X-Received: by 2002:a05:6402:520a:b0:645:dc9d:853b with SMTP id 4fb4d7f45d1cf-6479c4769d2mr5561376a12.12.1764857586692;
+        Thu, 04 Dec 2025 06:13:06 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+aT9f005zoMtM0N5CpF16xqRR2E3iM7rQjZ2PzH5jRL8Q=="
+Received: by 2002:a05:6402:1a45:b0:641:5a07:215b with SMTP id
+ 4fb4d7f45d1cf-647ad5c77d4ls817204a12.2.-pod-prod-06-eu; Thu, 04 Dec 2025
+ 06:13:03 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWaBbowEUFPwHZkgpRIaUMs81OOWpUaQdEmheX/BKtKZwRi9GoyWy2FYCX0qurjIZxcPPAigTCjwlI=@googlegroups.com
+X-Received: by 2002:a17:907:8687:b0:b73:7f1c:b8d8 with SMTP id a640c23a62f3a-b79db5ef7b2mr653888766b.0.1764857582907;
+        Thu, 04 Dec 2025 06:13:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1764857582; cv=none;
         d=google.com; s=arc-20240605;
-        b=lUIFG7PVe0arsCouLTdLGohYzx4t8WjG2Dz6LStDcipANUIH2MWu57woxbaFHFtD+k
-         cJw6GxGVJ11JJC5PBY7E3M6TxOfupJOKBXfe+wQY9gtwbFpvoqF3FjjYhDWP4MDb5Kn6
-         c44vGx1N5uK8APcgRRZAvGXGesHqJ9nFXRymKVEFf48CuMvg1tlEU5cV9nwqK6V3QjkP
-         7fR4A9Q/p7mUFDDNTth7Nlc7/Qwr63RHrqK+Nr2Zxzr/ClFr7A+MY1+9WeRyb4yE3JHa
-         edJ1wx5D3qBbMSdZurQaaMUbkESsbhNL8v0ffFxYDoBD2we/al1m9L1VytLXoUe/BNYt
-         /2zQ==
+        b=ZpZ/HNJo4uw2p3hmuFaiwFAqZxjuW9H99gfhMgXxjICxkctHTmKhob/3ztd4wKql71
+         Q0Nu5pElhAIgMpqR6TfMMjWgvGT26im4Rq8IOXILDKld5JI+YuM7et2YZIxVnL0A8+Ea
+         sg1xt4wXB1CC7L572Clc3NTANs1+x4mdt0fhcC4PrrlCAYfe6FdBEJ1gIyM1ybUq85o/
+         vZnG3Jhwd4UKTdv0+/u/lEHvNiJVf8a1RLR9Y2UZ1Lyh8i+Vv3ZctLDEub4Mds36lI3X
+         SDh/GUOTZJeAPLeSXsdgwm5MVDQ9X5WNjk10x/yBheuOvgOosos0BtC4avFo2OuRrmva
+         Xsdw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:feedback-id:message-id
-         :subject:cc:from:to:date:dkim-signature;
-        bh=VqP9yp4hG0Ar5q/skyCmb0EwxkUlO46my0VVgJ5cvP8=;
-        fh=i2t8z26IQvGJ7iyUcSnxdbY3r6+ayQmIC3mAzIr7w3s=;
-        b=TDH3X9U++ttJDiYe1r/UFY/63s0VKP+/iRzDrmzE2RnBJ1nlEMaRKYGMVT+WBr0Kgo
-         SqP/4zlsWN3vXOxa+v5ZQAFnboD1CyyHBStmsLLa6VfHQm+JFjRibd9RRs2PZD1IAqP6
-         jRwKrIM2OF5MuyBYZVoa7OaALolHAW19QE+Y7AJj0Y/styh7DZdcIqXnjeKs9SLq7dM5
-         bxWzfrvdNAvIf4qtlxeRCvdVlLe2LvaJuIIggW3jYiMD7HCMoxJfT36KO9sZVY+0TuSW
-         Q8+1Y4nhYUmJORB5/ghEwsfDwUyDDqiGJYcw8O4RArwITC/M+gKmIvRUlqJKnehwAqCl
-         g54w==;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=Zml3KS+UsrvHkR8m+pYaf5EprirpHcFq08V4fzn955Y=;
+        fh=z8gZuOEBvDqyNuIoNBiPlfZqZB5UrVE5Gkx6w/mbtkg=;
+        b=h1/gFpCcQMe2R8PRxggpfHXdeb/yHhklAYX/0aGXSSvvLrAZTfBxsErnCXgz0mAUBc
+         0TFJcvVsJsYNS3zx5oSTJfck8gjoqTilJWG7lGDIwDpvqU7HKHBKtk5c4vF97MGYSiq6
+         rgI0Nm/swwA2J96v/lv08yweBwO2eN8NetjVfaC29BVtdG3KuIYAfEzCFqxmnV7jPUFu
+         xAsAWcSC7HHgnlHD0vHWMu+O7rRpyZt4ov7pPSE4c5eUvfqR/+AVIN7EvUuQBVK9Smzr
+         Ylr+UmxuZrfQSHveUJnSk60ARoN5fGAKEcamvMKjVbUVKu/LbbRHP1VDV9TDD3ZJqCcd
+         WxxA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@pm.me header.s=protonmail3 header.b=Qcn4Mz1Q;
-       spf=pass (google.com: domain of m.wieczorretman@pm.me designates 79.135.106.118 as permitted sender) smtp.mailfrom=m.wieczorretman@pm.me;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=pm.me
-Received: from mail-106118.protonmail.ch (mail-106118.protonmail.ch. [79.135.106.118])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-42f7cbd50f5si24503f8f.2.2025.12.04.05.55.17
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=dwuhr5Tp;
+       spf=pass (google.com: domain of ethan.w.s.graham@gmail.com designates 2a00:1450:4864:20::432 as permitted sender) smtp.mailfrom=ethan.w.s.graham@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com. [2a00:1450:4864:20::432])
+        by gmr-mx.google.com with ESMTPS id 4fb4d7f45d1cf-647b2c51979si21636a12.0.2025.12.04.06.13.02
         for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Dec 2025 06:13:02 -0800 (PST)
+Received-SPF: pass (google.com: domain of ethan.w.s.graham@gmail.com designates 2a00:1450:4864:20::432 as permitted sender) client-ip=2a00:1450:4864:20::432;
+Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-42b3669ca3dso518471f8f.0
+        for <kasan-dev@googlegroups.com>; Thu, 04 Dec 2025 06:13:02 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXPLhhc35bzgDW4DrsLsc0a9+X/ScCxZoRnbAumuLQmbbL3Pn619XMUo1sf4wlSp/+n37Raj07JqHw=@googlegroups.com
+X-Gm-Gg: ASbGnctHaIxw7dY4vuL26Y9wF7vi41tVWaIEmzrWQbvW+uWVnzVpoQTStfYCB3KXzlO
+	J42MynSbJazhVSpOPggHqO07repBVbaa5Gco+nC/dh9DgmEy/F3h0CPBdpuk7UC4N5S3fQqbMXR
+	hBzWVbqcXAoeTgX8krAV76H8ffJldMNXr8MQbcWj/ZOyy76SM+JRRyYo5YRE3CfljTEDggolgbv
+	zn+9dh4c5xJsRmOEKCVyLEiaqEo7M7mqot4P1JNfSM6h8dXPIECWpqHCU+URr8wRsCGLD4KhR4A
+	S/g2BPPZ7MTVgNqmTHex27N4FPELi8I4hOdOBcuh9NYlhAyAqywjqDRa0NIo+JPJxD7tirSZy/R
+	uRf+slE+qDKDHAJYZBp+X+DF7mSQ5gUPS11GAHZxNBuZ+JT7Ao0i8b3POf0sWlyRyw8cd5344Zn
+	l6utJYkHDdSHlzEGCe2Or2IEaBqcCLvreCY9XiAjRTylvpx+Bf2/WePK/fWJWKn4mDBg==
+X-Received: by 2002:a05:6000:2507:b0:42b:3e0a:64af with SMTP id ffacd0b85a97d-42f7317205bmr6670197f8f.11.1764857582226;
+        Thu, 04 Dec 2025 06:13:02 -0800 (PST)
+Received: from ethan-tp.d.ethz.ch (2001-67c-10ec-5744-8000--626.net6.ethz.ch. [2001:67c:10ec:5744:8000::626])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7cbfeae9sm3605808f8f.13.2025.12.04.06.13.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Dec 2025 05:55:17 -0800 (PST)
-Received-SPF: pass (google.com: domain of m.wieczorretman@pm.me designates 79.135.106.118 as permitted sender) client-ip=79.135.106.118;
-Date: Thu, 04 Dec 2025 13:55:09 +0000
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-From: "'Maciej Wieczor-Retman' via kasan-dev" <kasan-dev@googlegroups.com>
-Cc: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, linux-mm@kvack.org, syzbot+997752115a851cb0cf36@syzkaller.appspotmail.com, Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, Danilo Krummrich <dakr@kernel.org>, Kees Cook <kees@kernel.org>, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] mm/kasan: Fix incorrect unpoisoning in vrealloc for KASAN
-Message-ID: <5o7owlr4ap5fridqlkerrnuvwwlgldr35gvkcf6df4fufatrr6@yn5rmfn54i62>
-Feedback-ID: 164464600:user:proton
-X-Pm-Message-ID: 03c4801ace3dadbee77e720f608d8e3c32b2382c
+        Thu, 04 Dec 2025 06:13:01 -0800 (PST)
+From: Ethan Graham <ethan.w.s.graham@gmail.com>
+To: ethan.w.s.graham@gmail.com,
+	glider@google.com
+Cc: andreyknvl@gmail.com,
+	andy@kernel.org,
+	andy.shevchenko@gmail.com,
+	brauner@kernel.org,
+	brendan.higgins@linux.dev,
+	davem@davemloft.net,
+	davidgow@google.com,
+	dhowells@redhat.com,
+	dvyukov@google.com,
+	elver@google.com,
+	herbert@gondor.apana.org.au,
+	ignat@cloudflare.com,
+	jack@suse.cz,
+	jannh@google.com,
+	johannes@sipsolutions.net,
+	kasan-dev@googlegroups.com,
+	kees@kernel.org,
+	kunit-dev@googlegroups.com,
+	linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	lukas@wunner.de,
+	rmoar@google.com,
+	shuah@kernel.org,
+	sj@kernel.org,
+	tarasmadan@google.com
+Subject: [PATCH v3 00/10] KFuzzTest: a new kernel fuzzing framework
+Date: Thu,  4 Dec 2025 15:12:39 +0100
+Message-ID: <20251204141250.21114-1-ethan.w.s.graham@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: m.wieczorretman@pm.me
+X-Original-Sender: ethan.w.s.graham@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@pm.me header.s=protonmail3 header.b=Qcn4Mz1Q;       spf=pass
- (google.com: domain of m.wieczorretman@pm.me designates 79.135.106.118 as
- permitted sender) smtp.mailfrom=m.wieczorretman@pm.me;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=pm.me
-X-Original-From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Reply-To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+ header.i=@gmail.com header.s=20230601 header.b=dwuhr5Tp;       spf=pass
+ (google.com: domain of ethan.w.s.graham@gmail.com designates
+ 2a00:1450:4864:20::432 as permitted sender) smtp.mailfrom=ethan.w.s.graham@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -135,136 +188,164 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 2025-12-03 at 02:05:11 +0000, Jiayuan Chen wrote:
->December 3, 2025 at 04:48, "Maciej Wieczor-Retman" <maciej.wieczor-retman@=
-intel.com mailto:maciej.wieczor-retman@intel.com?to=3D%22Maciej%20Wieczor-R=
-etman%22%20%3Cmaciej.wieczor-retman%40intel.com%3E > wrote:
->>=20
->> Hi, I'm working on [1]. As Andrew pointed out to me the patches are quit=
-e
->> similar. I was wondering if you mind if the reuse_tag was an actual tag =
-value?
->> Instead of just bool toggling the usage of kasan_random_tag()?
->>=20
->> I tested the problem I'm seeing, with your patch and the tags end up bei=
-ng reset.
->> That's because the vms[area] pointers that I want to unpoison don't have=
- a tag
->> set, but generating a different random tag for each vms[] pointer crashe=
-s the
->> kernel down the line. So __kasan_unpoison_vmalloc() needs to be called o=
-n each
->> one but with the same tag.
->>=20
->> Arguably I noticed my series also just resets the tags right now, but I'=
-m
->> working to correct it at the moment. I can send a fixed version tomorrow=
-. Just
->> wanted to ask if having __kasan_unpoison_vmalloc() set an actual predefi=
-ned tag
->> is a problem from your point of view?
->>=20
->> [1] https://lore.kernel.org/all/cover.1764685296.git.m.wieczorretman@pm.=
-me/
->>=20
->
->Hi Maciej,
->
->It seems we're focusing on different issues, but feel free to reuse or mod=
-ify the 'reuse_tag'.
->It's intended to preserve the tag in one 'vma'.
->
->I'd also be happy to help reproduce and test your changes to ensure the is=
-sue I encountered
->isn't regressed once you send a patch based on mine.=20
->
->Thanks.
+This patch series introduces KFuzzTest, a lightweight framework for
+creating in-kernel fuzz targets for internal kernel functions.
 
-After reading Andrey's comments on your patches and mine I tried applying a=
-ll
-the changes to test the flag approach. Now my patches don't modify any vrea=
-lloc
-related code. I came up with something like this below from your patch. Jus=
-t
-tested it and it works fine on my end, does it look okay to you?
+The primary motivation for KFuzzTest is to simplify the fuzzing of
+low-level, relatively stateless functions (e.g., data parsers, format
+converters) that are difficult to exercise effectively from the syscall
+boundary. It is intended for in-situ fuzzing of kernel code without
+requiring that it be built as a separate userspace library or that its
+dependencies be stubbed out. Using a simple macro-based API, developers
+can add a new fuzz target with minimal boilerplate code.
 
----
- include/linux/kasan.h | 1 +
- mm/kasan/hw_tags.c    | 3 ++-
- mm/kasan/shadow.c     | 4 +++-
- mm/vmalloc.c          | 6 ++++--
- 4 files changed, 10 insertions(+), 4 deletions(-)
+The core design consists of three main parts:
+1. The `FUZZ_TEST(name, struct_type)` and `FUZZ_TEST_SIMPLE(name)`
+   macros that allow developers to easily define a fuzz test.
+2. A binary input format that allows a userspace fuzzer to serialize
+   complex, pointer-rich C structures into a single buffer.
+3. Metadata for test targets, constraints, and annotations, which is
+   emitted into dedicated ELF sections to allow for discovery and
+   inspection by userspace tools. These are found in
+   ".kfuzztest_{targets, constraints, annotations}".
 
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index 03e263fb9fa1..068f62d07122 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -28,6 +28,7 @@ typedef unsigned int __bitwise kasan_vmalloc_flags_t;
- #define KASAN_VMALLOC_INIT		((__force kasan_vmalloc_flags_t)0x01u)
- #define KASAN_VMALLOC_VM_ALLOC		((__force kasan_vmalloc_flags_t)0x02u)
- #define KASAN_VMALLOC_PROT_NORMAL	((__force kasan_vmalloc_flags_t)0x04u)
-+#define KASAN_VMALLOC_KEEP_TAG		((__force kasan_vmalloc_flags_t)0x08u)
-=20
- #define KASAN_VMALLOC_PAGE_RANGE 0x1 /* Apply exsiting page range */
- #define KASAN_VMALLOC_TLB_FLUSH  0x2 /* TLB flush */
-diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
-index 1c373cc4b3fa..e6d7ee544c28 100644
---- a/mm/kasan/hw_tags.c
-+++ b/mm/kasan/hw_tags.c
-@@ -361,7 +361,8 @@ void *__kasan_unpoison_vmalloc(const void *start, unsig=
-ned long size,
- 		return (void *)start;
- 	}
-=20
--	tag =3D kasan_random_tag();
-+	tag =3D (flags & KASAN_VMALLOC_KEEP_TAG) ? get_tag(start) :
-+						 kasan_random_tag();
- 	start =3D set_tag(start, tag);
-=20
- 	/* Unpoison and initialize memory up to size. */
-diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
-index 5d2a876035d6..6dd61093d1d5 100644
---- a/mm/kasan/shadow.c
-+++ b/mm/kasan/shadow.c
-@@ -648,7 +648,9 @@ void *__kasan_unpoison_vmalloc(const void *start, unsig=
-ned long size,
- 	    !(flags & KASAN_VMALLOC_PROT_NORMAL))
- 		return (void *)start;
-=20
--	start =3D set_tag(start, kasan_random_tag());
-+	if (!(flags & KASAN_VMALLOC_KEEP_TAG))
-+		start =3D set_tag(start, kasan_random_tag());
-+
- 	kasan_unpoison(start, size, false);
- 	return (void *)start;
- }
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index ead22a610b18..c939dc04baa5 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -4180,8 +4180,10 @@ void *vrealloc_node_align_noprof(const void *p, size=
-_t size, unsigned long align
- 	 * We already have the bytes available in the allocation; use them.
- 	 */
- 	if (size <=3D alloced_size) {
--		kasan_unpoison_vmalloc(p + old_size, size - old_size,
--				       KASAN_VMALLOC_PROT_NORMAL);
-+		kasan_unpoison_vmalloc(p, size,
-+				       KASAN_VMALLOC_PROT_NORMAL |
-+				       KASAN_VMALLOC_VM_ALLOC |
-+				       KASAN_VMALLOC_KEEP_TAG);
- 		/*
- 		 * No need to zero memory here, as unused memory will have
- 		 * already been zeroed at initial allocation time or during
+As of September 2025, syzkaller supports KFuzzTest targets out of the
+box, and without requiring any hand-written descriptions - the fuzz
+target and its constraints + annotations are the sole source of truth.
 
---=20
-Kind regards
-Maciej Wiecz=C3=B3r-Retman
+To validate the framework's end-to-end effectiveness, we performed an
+experiment by manually introducing an off-by-one buffer over-read into
+pkcs7_parse_message, like so:
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/5=
-o7owlr4ap5fridqlkerrnuvwwlgldr35gvkcf6df4fufatrr6%40yn5rmfn54i62.
+- ret = asn1_ber_decoder(&pkcs7_decoder, ctx, data, datalen);
++ ret = asn1_ber_decoder(&pkcs7_decoder, ctx, data, datalen + 1);
+
+A syzkaller instance fuzzing the new test_pkcs7_parse_message target
+introduced in patch 7 successfully triggered the bug inside of
+asn1_ber_decoder in under 30 seconds from a cold start. Similar
+experiments on the other new fuzz targets (patches 8-9) also
+successfully identified injected bugs, proving that KFuzzTest is
+effective when paired with a coverage-guided fuzzing engine.
+
+
+The patch series is structured as follows:
+- Patch 1 adds and exposes kasan_poison_range for poisoning memory
+  ranges with an unaligned start address and KASAN_GRANULE_SIZE aligned
+  end address.
+- Patch 2 introduces the core KFuzzTest API and data structures.
+- Patch 3 introduces the FUZZ_TEST_SIMPLE API for blob-based fuzzing.
+- Patch 4 adds the runtime implementation for the framework.
+- Patch 5 adds a tool for sending structured inputs into a fuzz target.
+- Patch 6 adds documentation.
+- Patch 7 provides sample fuzz targets.
+- Patch 8 defines fuzz targets for several functions in /crypto.
+- Patch 9 defines a fuzz target for parse_xy in /drivers/auxdisplay.
+- Patch 10 adds maintainer information for KFuzzTest.
+
+Changes since PR v2:
+- Introduce the FUZZ_TEST_SIMPLE macro (patch 3) for blob-based fuzzing,
+  and update the module code (now patch 4) to initialize an input_simple
+  debugfs file for such targets. While not explicitly requested by
+  Johannes Berg, this was developed to address his concerns of the
+  serialization format representing a hard barrier for entry.
+- Update the crypto/ fuzz targets to use the FUZZ_TEST_SIMPLE macro.
+- Per feedback from Kees Cook, the fuzz target for binfmt_load_script
+  (previously patch 9/10) has been dropped as it is trivial to fuzz from
+  userspace and therefore not a good example of KFuzzTest in action.
+- Per feedback from Andrey Konovalov, introduce some WARN_ONs and remove
+  redundant checks from kasan_poison_range.
+- Per feedback from Andrey Konovalov, move kasan_poison_range's
+  implementation into mm/kasan/common.c so that it is built with HW_TAGS
+  mode enabled.
+- Per feedback from Andy Shevchenko and Lukas Wunner, address the build
+  system concerns.
+
+Ethan Graham (10):
+  mm/kasan: implement kasan_poison_range
+  kfuzztest: add user-facing API and data structures
+  kfuzztest: introduce the FUZZ_TEST_SIMPLE macro
+  kfuzztest: implement core module and input processing
+  tools: add kfuzztest-bridge utility
+  kfuzztest: add ReST documentation
+  kfuzztest: add KFuzzTest sample fuzz targets
+  crypto: implement KFuzzTest targets for PKCS7 and RSA parsing
+  drivers/auxdisplay: add a KFuzzTest for parse_xy()
+  MAINTAINERS: add maintainer information for KFuzzTest
+
+ Documentation/dev-tools/index.rst             |   1 +
+ Documentation/dev-tools/kfuzztest.rst         | 491 +++++++++++++++
+ MAINTAINERS                                   |   8 +
+ crypto/asymmetric_keys/Makefile               |   2 +
+ crypto/asymmetric_keys/tests/Makefile         |   4 +
+ crypto/asymmetric_keys/tests/pkcs7_kfuzz.c    |  17 +
+ .../asymmetric_keys/tests/rsa_helper_kfuzz.c  |  20 +
+ drivers/auxdisplay/Makefile                   |   3 +
+ drivers/auxdisplay/tests/charlcd_kfuzz.c      |  22 +
+ include/asm-generic/vmlinux.lds.h             |  26 +-
+ include/linux/kasan.h                         |  11 +
+ include/linux/kfuzztest.h                     | 573 ++++++++++++++++++
+ lib/Kconfig.debug                             |   1 +
+ lib/Makefile                                  |   2 +
+ lib/kfuzztest/Kconfig                         |  20 +
+ lib/kfuzztest/Makefile                        |   4 +
+ lib/kfuzztest/main.c                          | 278 +++++++++
+ lib/kfuzztest/parse.c                         | 236 ++++++++
+ mm/kasan/common.c                             |  37 ++
+ samples/Kconfig                               |   7 +
+ samples/Makefile                              |   1 +
+ samples/kfuzztest/Makefile                    |   3 +
+ samples/kfuzztest/overflow_on_nested_buffer.c |  71 +++
+ samples/kfuzztest/underflow_on_buffer.c       |  51 ++
+ tools/Makefile                                |  18 +-
+ tools/testing/kfuzztest-bridge/.gitignore     |   2 +
+ tools/testing/kfuzztest-bridge/Build          |   6 +
+ tools/testing/kfuzztest-bridge/Makefile       |  49 ++
+ tools/testing/kfuzztest-bridge/bridge.c       | 115 ++++
+ tools/testing/kfuzztest-bridge/byte_buffer.c  |  85 +++
+ tools/testing/kfuzztest-bridge/byte_buffer.h  |  31 +
+ tools/testing/kfuzztest-bridge/encoder.c      | 390 ++++++++++++
+ tools/testing/kfuzztest-bridge/encoder.h      |  16 +
+ tools/testing/kfuzztest-bridge/input_lexer.c  | 256 ++++++++
+ tools/testing/kfuzztest-bridge/input_lexer.h  |  58 ++
+ tools/testing/kfuzztest-bridge/input_parser.c | 425 +++++++++++++
+ tools/testing/kfuzztest-bridge/input_parser.h |  82 +++
+ .../testing/kfuzztest-bridge/kfuzztest-bridge | Bin 0 -> 911160 bytes
+ tools/testing/kfuzztest-bridge/rand_stream.c  |  77 +++
+ tools/testing/kfuzztest-bridge/rand_stream.h  |  57 ++
+ 40 files changed, 3552 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/dev-tools/kfuzztest.rst
+ create mode 100644 crypto/asymmetric_keys/tests/Makefile
+ create mode 100644 crypto/asymmetric_keys/tests/pkcs7_kfuzz.c
+ create mode 100644 crypto/asymmetric_keys/tests/rsa_helper_kfuzz.c
+ create mode 100644 drivers/auxdisplay/tests/charlcd_kfuzz.c
+ create mode 100644 include/linux/kfuzztest.h
+ create mode 100644 lib/kfuzztest/Kconfig
+ create mode 100644 lib/kfuzztest/Makefile
+ create mode 100644 lib/kfuzztest/main.c
+ create mode 100644 lib/kfuzztest/parse.c
+ create mode 100644 samples/kfuzztest/Makefile
+ create mode 100644 samples/kfuzztest/overflow_on_nested_buffer.c
+ create mode 100644 samples/kfuzztest/underflow_on_buffer.c
+ create mode 100644 tools/testing/kfuzztest-bridge/.gitignore
+ create mode 100644 tools/testing/kfuzztest-bridge/Build
+ create mode 100644 tools/testing/kfuzztest-bridge/Makefile
+ create mode 100644 tools/testing/kfuzztest-bridge/bridge.c
+ create mode 100644 tools/testing/kfuzztest-bridge/byte_buffer.c
+ create mode 100644 tools/testing/kfuzztest-bridge/byte_buffer.h
+ create mode 100644 tools/testing/kfuzztest-bridge/encoder.c
+ create mode 100644 tools/testing/kfuzztest-bridge/encoder.h
+ create mode 100644 tools/testing/kfuzztest-bridge/input_lexer.c
+ create mode 100644 tools/testing/kfuzztest-bridge/input_lexer.h
+ create mode 100644 tools/testing/kfuzztest-bridge/input_parser.c
+ create mode 100644 tools/testing/kfuzztest-bridge/input_parser.h
+ create mode 100755 tools/testing/kfuzztest-bridge/kfuzztest-bridge
+ create mode 100644 tools/testing/kfuzztest-bridge/rand_stream.c
+ create mode 100644 tools/testing/kfuzztest-bridge/rand_stream.h
+
+-- 
+2.51.0
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251204141250.21114-1-ethan.w.s.graham%40gmail.com.
