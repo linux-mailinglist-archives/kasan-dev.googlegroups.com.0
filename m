@@ -1,141 +1,141 @@
-Return-Path: <kasan-dev+bncBDP53XW3ZQCBBAFOY3EQMGQE4M6ZIVI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDP53XW3ZQCBBANOY3EQMGQEBW4RURA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43d.google.com (mail-wr1-x43d.google.com [IPv6:2a00:1450:4864:20::43d])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2505CA3F61
-	for <lists+kasan-dev@lfdr.de>; Thu, 04 Dec 2025 15:13:21 +0100 (CET)
-Received: by mail-wr1-x43d.google.com with SMTP id ffacd0b85a97d-42e2e448d01sf1000752f8f.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 04 Dec 2025 06:13:21 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1764857601; cv=pass;
+Received: from mail-ed1-x53e.google.com (mail-ed1-x53e.google.com [IPv6:2a00:1450:4864:20::53e])
+	by mail.lfdr.de (Postfix) with ESMTPS id F22A7CA3F64
+	for <lists+kasan-dev@lfdr.de>; Thu, 04 Dec 2025 15:13:22 +0100 (CET)
+Received: by mail-ed1-x53e.google.com with SMTP id 4fb4d7f45d1cf-6430d2da172sf57691a12.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 04 Dec 2025 06:13:22 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1764857602; cv=pass;
         d=google.com; s=arc-20240605;
-        b=RuqujSqY4xgFzGc3bSz/qm4XtxSdO5YQ78LghVxvntqHFZvN1ykI8TvIOgvASYVR+G
-         opl6meF7VfW8uzcoeMBrN7A3Eo2yp4LSlNMdHOoec6NoCBZHUNy2Sp3CFG37O45T0/Zp
-         FREurO04fI9xgpmxYHnzPUbT7u0M44sy4/NmAWjynlXd3fG/W6lHcoErmAms3Ecpy4Vb
-         of6lQc2e34x3NIJYniOBN88JvOWfpBSSGfvRb8XKxZPHM5WLzROFJ/L1/lPV2RKcRHHF
-         sqUQT1C4yMKF6yUy6I5uZFqJFk1EWHu/W7d1MQ7U4c/xgBKdGG9SRi9CUtzro1aJzwac
-         cYWA==
+        b=jtnR9DxXgIpx8eFVJNeXu4iCwD8ZB6X/UBuPNPX03Hzo4PkYwPSR2r5uyDVHxdjKww
+         ce8Wtec1oxTYVs3DN+XZ06u51bVGdcnz8fmgvBOFRRasLXhbKReyS0tN2dapjSbKpEcL
+         98zMeW1B8Pq/m6eEt9jxVa3+PmWK8hjbSa+CsEbC2Q2ALLlHPDPRarBWdwiGjBqrdMqk
+         oEZEG21ns1XhgjGufUbYz9z8dmGM6iyUDbqyhtIbRr5/DzAP2qfu/MfU1zUMCFSpsc37
+         KlkPZQNZPLKIGqxLdT9fUILTZpNg7oi/rqVm/MnNz+bmfZVaZg3fMEOtNvXYE8Oj+gxb
+         oKrw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature
          :dkim-signature;
-        bh=ftgowfFZW8ewMDMbtMy4rC0gHPk0RNF86CvNj4h5LPw=;
-        fh=hKxU0PGL+cY2hYqE0LnCwBBTfk5SQ3DXvZrZqcBexVU=;
-        b=JvOrtBCR/i8vK20/borwYzcqSOFuNe1BGvt7ADhvRKeLfuRiLh3mTRvUL//Wgbtq6Z
-         EJR7zweFR/NrDm7HS3MjHh/jaYtwITOFTXqSZCuCqlAWDSaE5qIyV8JjHuETmL8x5vWN
-         FjOZ7MNjZO+QujYpEgGKH5RWdTdYFOdcYquZ+da9ZkD7BS/KC8XipT5mYca5OOBq4VMs
-         Fc5j77QcP69NllKPOBnUJabqhOh2AuBg3FCY36ZsMEDUXynTVFVAIRX41VbQko7gvxfE
-         mexII5Qlm+tecCvPEy1+cZPeR9aWXHnWBDu8e5gtPSrOhAUzasuS2J7S1+d7B+8RrNiS
-         OKig==;
+        bh=YfnKsgHFNVHL97HWwhffBuzw6C+/sw451o4d5S+bV3Q=;
+        fh=TA5diJoteVBxDKIYRB1yRpZ0UuJjGVg1mxHoKVYOzHk=;
+        b=LZLlHUVjwZe6usXs3Q6s4MpTDK2t+D1eJzDOIzKS/Whzml4FPoEyX33aOM3SBOFETM
+         v1BlBkkR94STeJZPrsojxA8fDCNjqpmEhX0dpMMBr0GjYFzh6vsy+GMoA6Xf3rMFuSxP
+         oiQ2NuBVpB1Z058yTGnyvhl1p+2VE5gjwu9IDBtAyrteDwWk1Cvik0JDep5CkrmahGpi
+         2cvGB2GBI9lofDmpqqdS6gIYoeMz0Cbyd7lafvzZSm+bc1IY99oh7W9LCBe/x0cCqnhe
+         MHBoDMPc++rsoTkWzRhvxNjvpexTjbMg/9f+YkiY7V7ekIm7L+JWqND412CNSO8A1dty
+         dPlw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=At0C67Lt;
-       spf=pass (google.com: domain of ethan.w.s.graham@gmail.com designates 2a00:1450:4864:20::433 as permitted sender) smtp.mailfrom=ethan.w.s.graham@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b="Fu+2/7nI";
+       spf=pass (google.com: domain of ethan.w.s.graham@gmail.com designates 2a00:1450:4864:20::42a as permitted sender) smtp.mailfrom=ethan.w.s.graham@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1764857601; x=1765462401; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1764857602; x=1765462402; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ftgowfFZW8ewMDMbtMy4rC0gHPk0RNF86CvNj4h5LPw=;
-        b=F5JgeE6u6qY9aPhf4zJpZpHJ1OamEkxZe6GpgB6yWoBjfRtdg1Z/mj2re7wqmsfsO2
-         N34OGe8eOeutyLkJeRt+6mAYEGQmMr8q95HLw4xWgL8E/IUTmkV842qnTsKL+fZuTh8R
-         D0X3QvTJXeE2KxMm6P2BCRhK6slO+ZrawMMid3/omVgNczKmw01VKaylmx2toyTIjgOm
-         X1oHSadrqwT57sXII83MVeoDk80CBqMhjzTxTpM/3x7i1uMARdynJK0VgMcCnzRajL4y
-         5wY15Dm9Hz/e1jvUBnM2qrbuBb9H/3kSSBediyTTptuSdrRjhtORnTjl8m/ZRube6QNv
-         QfeQ==
+        bh=YfnKsgHFNVHL97HWwhffBuzw6C+/sw451o4d5S+bV3Q=;
+        b=whLTLwkIoWpW/NWlX88RXLCU6j7LL5QjcHr9P0fYVqjMfzrQzv7LkDI7UeBDhf/oed
+         /GqVkQPsnrH07B2JkDlhbe3uz/TcbxEIJ900lDnYVhqvwCn7iRn6SNoU1xFUcGBbiPdH
+         e7ulkm5acO9/2sTII3Xdc62lJWOUg+ZbwpD3ukgxlLFYIfXl+0/uaB/3jtwCyC9IxjbH
+         62GC2QlXjgAuwHCnfcyuWuz/NYBeDhX4EArvy1HR5+v8DPdZFjB9pOJMgr0TBiMEci0+
+         9DzIqbK0btkuY4zacDIdShCs31D81IuHufZK8ZaeHI02r1YauuHOx+XPZymS+A6C0nbX
+         nHeg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764857601; x=1765462401; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1764857602; x=1765462402; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ftgowfFZW8ewMDMbtMy4rC0gHPk0RNF86CvNj4h5LPw=;
-        b=SqEaucQkIKHNGxxPaxhIgeROTU0labjMDDlbzZrMFNPH82LXuZTYTuxpM5ST+hC60t
-         /BNQBEvF3tF73Fribh5J+9r229QrpJrQ+jBHVmm6QE9d+7JnRnI/RX9extc4vl5dOMCy
-         PYsDOi68OFHZIeCey3rgdXg8bxJHEtYLJYFCsnbLzo1dDyOysa0i2Unmi2pMuTI7lmR7
-         MUPm0bxzdf3kYl5QWyGSEhHZPG8i84MxADTp+NTL/8AG8qB3u57ojUI49BH9at5S5asq
-         k3FcslYxf6BeJOS7z7aou9VnnYBe/i36ge3RcsI0UKlW1271F8WuVtNvOyJOoS1LG02l
-         zbGQ==
+        bh=YfnKsgHFNVHL97HWwhffBuzw6C+/sw451o4d5S+bV3Q=;
+        b=BvosOdoCor1uEdQcJEKk0MvXlmgb+lLjX3S8WUTR4OBnfn0BGPHOJLdtY7CUARP/Gq
+         GAiJnU978sDhgPMolArCrXNRWzoYuQQ1DOa3Zrssdd5J1ZKgd2hrk8sry7ObbK4SB1p0
+         UILh5eBtvVuMGRRx2Ai4DnefWZcXhTRBtdeBlU6CkUJmsistB7v4DObRIZQVHq3J2DV7
+         vBEe0UNmx1giPJK1I+5x8dr/rQ+BK1r6ZVXf/Uu7SgVGbhF7GiekNHK+qwcAyKptnmlU
+         i9mj4iQA9BvkbUXgUkOt69aGofc4DA0ZEvXmIf0BPQIsHm52dR0W4L/G0cbc8R/UoPRc
+         uReg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764857601; x=1765462401;
+        d=1e100.net; s=20230601; t=1764857602; x=1765462402;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ftgowfFZW8ewMDMbtMy4rC0gHPk0RNF86CvNj4h5LPw=;
-        b=c4CMmqdPaM+wBmRBIOVhUgvInIeAV1cMzWqdkuafvfO9I19ezZb6JAtrSOU0kS+b/8
-         RWuGGaYDoouNQ/WpwAk7Clwy8+sgLQvUqCtlfUYTZfbMV1+QvL/hYTvq1Aw2BNzi27oN
-         CUjId314vJe9jsEXl0pBw/dC6PusjJz9uTL4SWjE9BbjmBKIB+J/5LtOrzUjg/JJY7EC
-         7CDD/5qbqOWxkyiKuUdnoEUAgiuErHblS+QiVfUTx5LIZdH1Gu8xgknT+76BcL3xCr7i
-         +PJDTJP9l23RwGs4fek71s1VHUpF1bThnC2D5d9Njo0Wrga0xcEleUiVqrCqq6UTDMuD
-         bEyQ==
+        bh=YfnKsgHFNVHL97HWwhffBuzw6C+/sw451o4d5S+bV3Q=;
+        b=bsPd31H1Gq5dq9ANHHJyFgF9dyLxJpdlX3IbD6veJX2UQfUFD5cnQARr0UMXW35MqT
+         V4Z1VfxtRQgf3JhNOMguZj46r+SFFiVfqmtJ0a2BROCtfIYTHXuN5JEWhqrDsmO0GGEr
+         M/R0lmu0oPI1lpFHJJj4S4yrb/XRpwTJv0HbkO6AFLrX3XJgQABVEe/oI0r2B7d+zt3g
+         c03C36L7WduglC3uXc6DiPsx/qBnvAfpHKSUJRaljihm8io203x7Huksxd2pHqTs1YuZ
+         Yfvh8VprUXfFRxtFTKzWQKPMRRoZUHWKW2SAWbfYP2PqnxX8rVLTRWW/apNGO+Jlsj7u
+         fYUQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWnPcIX6AYsInWzTayOZeErYeP3/0DmbO3wNBtwfzD0H0rAXWfWEDVSKmmtAuLEtYh9uMazhQ==@lfdr.de
-X-Gm-Message-State: AOJu0YxlLYiig+DFIjNWRo5YCF/VZTJDUvQJU/LJOlhss8t+3aIeZIEv
-	1G29Y0Ff1VwMaG27ydut0ifmKE9pw0J2AmQtxC0Pp61wZPOuNIFe93Zh
-X-Google-Smtp-Source: AGHT+IFlZOBEdRzEYDX9emIFgehuwdZv4qtK0awNtXZI2LhBNW8MlcZoP3H7K3CCwIBl/mCi6/GWOg==
-X-Received: by 2002:a05:6000:4305:b0:42b:40b5:e683 with SMTP id ffacd0b85a97d-42f797fe042mr3005256f8f.23.1764857600921;
-        Thu, 04 Dec 2025 06:13:20 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+ZSBWAdkDxTR44w1ueoJJ/3cUyuS4cjsiLHmHTyCIPUow=="
-Received: by 2002:a05:6000:3107:b0:429:bfb1:8a7f with SMTP id
- ffacd0b85a97d-42f7b2ed88dls487192f8f.2.-pod-prod-07-eu; Thu, 04 Dec 2025
- 06:13:18 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCU9tHxuiuqQ+1GaIvru9b8RGDk6psKukVBgjaohejM5kqtqrFvcrL1JIzARvxBodF8LtG9yeh1iQTA=@googlegroups.com
-X-Received: by 2002:a05:6000:144c:b0:3e8:b4cb:c3dc with SMTP id ffacd0b85a97d-42f79514872mr3363257f8f.3.1764857598019;
-        Thu, 04 Dec 2025 06:13:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1764857598; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCW30HG0V6IwcAGOQtqK8AyNhlu1XXahC535Du+OWbIlHfQQCPVrwLDK25BZQoUHaLQuThLVlw==@lfdr.de
+X-Gm-Message-State: AOJu0YyBO1rx3bs4PRyosN1RC1CHjTQ28ScjgikNZlN3740CF5s+spgu
+	oOQlCh0hQlgONyBYuknJivbGedwtBTOgcDfJJAUxG7xEWQ24wHtKiBsQ
+X-Google-Smtp-Source: AGHT+IHIlcAKrw/eRRPPmBk1uRRigtPD6CTLUjN8IwhiNpgf41PVdmlLOYnyix+Sioe5nOZfF4iDAw==
+X-Received: by 2002:a05:6402:430d:b0:645:5b52:2b04 with SMTP id 4fb4d7f45d1cf-647a0074480mr2710347a12.6.1764857602283;
+        Thu, 04 Dec 2025 06:13:22 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="Ae8XA+bu0oOrOWnAXD7JySlxd2sFPrbMrwlQhtfnrAoS+sgtgg=="
+Received: by 2002:a05:6402:f15:b0:640:cdaf:4226 with SMTP id
+ 4fb4d7f45d1cf-647ad5b16eals696739a12.1.-pod-prod-09-eu; Thu, 04 Dec 2025
+ 06:13:19 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXsQVQtdglffCXj0uobS9xGzL/dLph95/rIPzLrjprF5Un1OO9+xDxu1u6NL6FC82P6BOgO4uRAc2w=@googlegroups.com
+X-Received: by 2002:a05:6402:5213:b0:640:ef6e:e069 with SMTP id 4fb4d7f45d1cf-647abd896d4mr2552166a12.1.1764857599242;
+        Thu, 04 Dec 2025 06:13:19 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1764857599; cv=none;
         d=google.com; s=arc-20240605;
-        b=Lu6rcX9MDYOfTM/lwMWFPOV1uC58osxkOpK5IA9hgSqyfrm7hQ1uNYFDhNIyO5GLzz
-         vaTfeWhFwh6ZknBd48oaXsTlIsYDl4oCOlqZFMC754MHKUVlQdvVQEQ2c1RjxjKknuOX
-         ftbVKqPT8BFp+SNudyZYQ8IpdWlIBJaEWeOESn6/oqx3bA2+yYR3A8F3MzoWCLvpbpLO
-         2ba96Rs15oGY/BKSK3MBaIMGK9XiB50xpbBudlb67glX/Esnzyt4E3vmcE8ZgA1myiqZ
-         HU7weIquAaS33qSreDIRZN4W6NzlLCTS9FkePM5/Mz5LmTCieJFPEbbhSr6hVLG8Pt2V
-         jSBw==
+        b=Fyc1ffKHwN1apitf6+ji84U7eao05N5LQchaMYPc3AhM/CqTggURQjC8RP0OmscI2j
+         BHopRGMdf7cA9osHDjiyKet53kamPYsmFqnbh4K9jvOF7jqgm/H0+DJNap+1mY21ueJO
+         JBCE3QovrA62ONTJztBf5xvzfWak8aXLhbfA5PHX9f2ttiOluXVunZ9Rm79BMg+75sje
+         9QJWUSrURgV2Y4wu753jIeWp+hoaXItMpv4F9JN9zEM7CFsjFf/r1WTrg7wPhyl11Zql
+         i2qdtlTpcgR1Xyhk1IGyyrMETfyzDEVigUYaNzW4L7ZJGAjyFZmooCSR68M9tRAr9vaY
+         k4FQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=Ekn2DBIpCkQXanmNkedEYdcryjYDg+bStsY06P8Miig=;
-        fh=plOZ5MTtXb+7i+JYd11BpgfgFNbr/yyp/N9EG58dh1w=;
-        b=kAGlyaOtwUvEa4osL2m2uzExnfwAg545sbP6AWvmDyYFcfxkHNxA2SLcx//kNL5u96
-         dMTMfVOoWIo0Qvk3873KE/KM1SBHr9cWj4KxK1me+iKE6QLUSN6wFDW4N609TSN8myIo
-         AgwsO+dYX3ooEzlMUB5ZHXrvq9UH/Lu0LthtWh/gwpc3lMfNoFPv6HCKIiJHPhHsF0Ky
-         kPQhD3YaCNh7DhtA8/x1A1/gtm4vqvsHyHou7ihWj5P4WzOOhw1uZo/9jbd1JVSZa81K
-         wvzzTmrbhM/cRAViyeK9mUQHeGfEw6z3s9BPcdHYCEisjteWTcLCsA6l2jiV8CDyaWzW
-         BVcQ==;
+        bh=sGnt8bTKaac1K6msaRLVltkt9xGbtE5aMKqhuya716s=;
+        fh=DJaqOzPtEgAmMksiOeFTxjmXVHObVes2gBFr+4NJLqU=;
+        b=epZliclgLyofg34YxgRKPCBZNdZbU1LFC7UqNFPNks/n2M/Yy/GgBZCc5Bb+OGOxH7
+         Wm0+DHdLaIsQcq0L2jRcc+kCi0quT44SM8MMLDVO7BJ1om93NuEOyLSeb7GcRpEvoujw
+         BvKBdVwfA8JWiS514VWFZhqRfI8kNMUxQCg9nmJ+AH/lVABNwQHypyZo/0H2c14hn+Ky
+         ZZpBOTvwRwQELZqAM3haSwnyvAPYQSkRYDoTb5Q7t/BbbPQRx/YT0AYOfp62rylipmsd
+         ozmuaSfxQx4n8Ge2qcyZkV5ccCZYCtiqpVATN+Ygomr+In9jFZ9oZCKyr9A76guMf1N8
+         Ue/Q==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=At0C67Lt;
-       spf=pass (google.com: domain of ethan.w.s.graham@gmail.com designates 2a00:1450:4864:20::433 as permitted sender) smtp.mailfrom=ethan.w.s.graham@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b="Fu+2/7nI";
+       spf=pass (google.com: domain of ethan.w.s.graham@gmail.com designates 2a00:1450:4864:20::42a as permitted sender) smtp.mailfrom=ethan.w.s.graham@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com. [2a00:1450:4864:20::433])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-42f7d21e315si32705f8f.8.2025.12.04.06.13.18
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com. [2a00:1450:4864:20::42a])
+        by gmr-mx.google.com with ESMTPS id 4fb4d7f45d1cf-647b2ed8b0csi37357a12.3.2025.12.04.06.13.19
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Dec 2025 06:13:19 -0800 (PST)
+Received-SPF: pass (google.com: domain of ethan.w.s.graham@gmail.com designates 2a00:1450:4864:20::42a as permitted sender) client-ip=2a00:1450:4864:20::42a;
+Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-42e2e77f519so786485f8f.2
+        for <kasan-dev@googlegroups.com>; Thu, 04 Dec 2025 06:13:19 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWMpbNRtVXezV/M6iv8YyZGFUqGLY6sMv1pNhGcmQexIJG4aR1bAV+USZ+qzclqFqfH8f2BX8yYSxk=@googlegroups.com
+X-Gm-Gg: ASbGncuKPP7TTqq40UaddG4Sf+SuqDTRiwMVXBjdWbv84oPszB6mmqsbfNDMr8TQyD/
+	/bk0sZEZNbHZa0xijKqMM7jcsYApHwiNmEwIueuO3G2hL0a48C8+Y3I2kCU4Tn8+67V/8nCnbIg
+	O5lex59wZSpLA0wpp2hgBg51Dps3rEEj4iTlqVHkNlso9hEAzHaer7NkBJa6Ysqqpzo8ha1page
+	NzHHKVte7N03qgRS2GR4iyRI2gyKrfRLpAz0QDkEPQrOLZ3tXEf/ZGgRde/9NYdIn5MXMzhYbNU
+	srDwZABTnSozRCjV9FOrg4RkEC09QPic6ApFX25jyWyMRE4KVgoGE+NDlxmvjNbNwq4cULTnrWy
+	vQ+OanX+8iPprG8gzU6rvU1YVfMK/V8OWp/i1GFSMLqixfwyaOGBXaJfyBwjnf5/zEaENQJpbFS
+	uFpzukJypqwpxDKu5kXqLF93FwsPp17z10RbGbU3wzeY9oHDRtte2iKRWh2i/se6R6Mw==
+X-Received: by 2002:a05:6000:2510:b0:42b:3a1b:f71a with SMTP id ffacd0b85a97d-42f79800f02mr3172811f8f.23.1764857598697;
         Thu, 04 Dec 2025 06:13:18 -0800 (PST)
-Received-SPF: pass (google.com: domain of ethan.w.s.graham@gmail.com designates 2a00:1450:4864:20::433 as permitted sender) client-ip=2a00:1450:4864:20::433;
-Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-42e2e40582eso614467f8f.1
-        for <kasan-dev@googlegroups.com>; Thu, 04 Dec 2025 06:13:17 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUuog2bHApVYRrp0RimZA4XqePRJ/9yM7Dj/mIWQMFF47DZJsFDW3+VJTDvYs82S0Op5p2hWqA7SBY=@googlegroups.com
-X-Gm-Gg: ASbGncuG5LSTfRzrT+5+L4fi8bq7/S1bJVNAfM9R+zH7mRQM6UQ/8zv7unkOf56CUCO
-	kVBQgG6v4omxhMmEqIA2C3fHFvMHPjxbLDmdjEM8+0+LH9SslrEVMcdTtdVs1Pu1PMU6HYSFWby
-	ETU3+yQqcZSbe52V+EN6rSyrbVEL57OQZP9JfyCLvtzBxfH72KpKBwrxY5krW09YwAjcLK5uOjV
-	AGc28OhpTn7s/tRJ7SzAapk+XMO+yxfyYeHv9Kh11i7ukmi0s0jClFVEE+buyT0xFOzmCw9KFBG
-	sM8wTHVTBEbT4+Jxv8Qy7SSYl9QhEdOJi3l2FnZNWeDHqDIvpcWaWRW+KGg6WblcD/q8psq5PI2
-	426J6GwD13j3NfH+QADLdDQbb8dkYRkM3jc+u7nEPXcRyab2q4T4UTJ4OnehpOHfJqzxweOeBbd
-	qcC4Inubz+/qGp1Sj1h1gRr5q+TUJjZO1w5j1Xw4qksfcA4M9hjb100cGEYBU3Z0C80g==
-X-Received: by 2002:a05:6000:144c:b0:3e8:b4cb:c3dc with SMTP id ffacd0b85a97d-42f79514872mr3363210f8f.3.1764857597333;
-        Thu, 04 Dec 2025 06:13:17 -0800 (PST)
 Received: from ethan-tp.d.ethz.ch (2001-67c-10ec-5744-8000--626.net6.ethz.ch. [2001:67c:10ec:5744:8000::626])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7cbfeae9sm3605808f8f.13.2025.12.04.06.13.16
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7cbfeae9sm3605808f8f.13.2025.12.04.06.13.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Dec 2025 06:13:16 -0800 (PST)
+        Thu, 04 Dec 2025 06:13:18 -0800 (PST)
 From: Ethan Graham <ethan.w.s.graham@gmail.com>
 To: ethan.w.s.graham@gmail.com,
 	glider@google.com
@@ -166,18 +166,18 @@ Cc: andreyknvl@gmail.com,
 	sj@kernel.org,
 	tarasmadan@google.com,
 	Ethan Graham <ethangraham@google.com>
-Subject: [PATCH 09/10] drivers/auxdisplay: add a KFuzzTest for parse_xy()
-Date: Thu,  4 Dec 2025 15:12:48 +0100
-Message-ID: <20251204141250.21114-10-ethan.w.s.graham@gmail.com>
+Subject: [PATCH 10/10] MAINTAINERS: add maintainer information for KFuzzTest
+Date: Thu,  4 Dec 2025 15:12:49 +0100
+Message-ID: <20251204141250.21114-11-ethan.w.s.graham@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251204141250.21114-1-ethan.w.s.graham@gmail.com>
 References: <20251204141250.21114-1-ethan.w.s.graham@gmail.com>
 MIME-Version: 1.0
 X-Original-Sender: ethan.w.s.graham@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=At0C67Lt;       spf=pass
+ header.i=@gmail.com header.s=20230601 header.b="Fu+2/7nI";       spf=pass
  (google.com: domain of ethan.w.s.graham@gmail.com designates
- 2a00:1450:4864:20::433 as permitted sender) smtp.mailfrom=ethan.w.s.graham@gmail.com;
+ 2a00:1450:4864:20::42a as permitted sender) smtp.mailfrom=ethan.w.s.graham@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
@@ -195,19 +195,8 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Ethan Graham <ethangraham@google.com>
 
-Add a KFuzzTest fuzzer for the parse_xy() function, located in a new
-file under /drivers/auxdisplay/tests.
-
-To validate the correctness and effectiveness of this KFuzzTest target,
-a bug was injected into parse_xy() like so:
-
-drivers/auxdisplay/charlcd.c:179
-- s = p;
-+ s = p + 1;
-
-Although a simple off-by-one bug, it requires a specific input sequence
-in order to trigger it, thus demonstrating the power of pairing
-KFuzzTest with a coverage-guided fuzzer like syzkaller.
+Add myself as maintainer and Alexander Potapenko as reviewer for
+KFuzzTest.
 
 Signed-off-by: Ethan Graham <ethangraham@google.com>
 Signed-off-by: Ethan Graham <ethan.w.s.graham@gmail.com>
@@ -215,64 +204,36 @@ Acked-by: Alexander Potapenko <glider@google.com>
 
 ---
 PR v3:
-- Remove conditional inclusion of charlcd_kfuzz.c from charlcd.c, as
-  requested by Andy Shevchenko.
-- Update auxdisplay Makefile to conditionally build charlcd_kfuzz.c when
-  CONFIG_KFUZZTEST=y, as suggested by Lukas Wunner and Andy Shevchenko.
-- Foward declare parse_xy in charlcd_kfuzz.c.
+- Update MAINTAINERS to reflect the correct location of kfuzztest-bridge
+  under tools/testing as pointed out by SeongJae Park.
 ---
 ---
- drivers/auxdisplay/Makefile              |  3 +++
- drivers/auxdisplay/tests/charlcd_kfuzz.c | 22 ++++++++++++++++++++++
- 2 files changed, 25 insertions(+)
- create mode 100644 drivers/auxdisplay/tests/charlcd_kfuzz.c
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/auxdisplay/Makefile b/drivers/auxdisplay/Makefile
-index f5c13ed1cd4f..af00b0a173de 100644
---- a/drivers/auxdisplay/Makefile
-+++ b/drivers/auxdisplay/Makefile
-@@ -6,6 +6,9 @@
- obj-$(CONFIG_ARM_CHARLCD)	+= arm-charlcd.o
- obj-$(CONFIG_CFAG12864B)	+= cfag12864b.o cfag12864bfb.o
- obj-$(CONFIG_CHARLCD)		+= charlcd.o
-+ifeq ($(CONFIG_KFUZZTEST),y)
-+CFLAGS_charlcd.o += -include $(src)/tests/charlcd_kfuzz.c
-+endif
- obj-$(CONFIG_HD44780_COMMON)	+= hd44780_common.o
- obj-$(CONFIG_HD44780)		+= hd44780.o
- obj-$(CONFIG_HT16K33)		+= ht16k33.o
-diff --git a/drivers/auxdisplay/tests/charlcd_kfuzz.c b/drivers/auxdisplay/tests/charlcd_kfuzz.c
-new file mode 100644
-index 000000000000..3adf510f4356
---- /dev/null
-+++ b/drivers/auxdisplay/tests/charlcd_kfuzz.c
-@@ -0,0 +1,22 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * charlcd KFuzzTest target
-+ *
-+ * Copyright 2025 Google LLC
-+ */
-+#include <linux/kfuzztest.h>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6dcfbd11efef..3ad357477f92 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13641,6 +13641,14 @@ F:	include/linux/kfifo.h
+ F:	lib/kfifo.c
+ F:	samples/kfifo/
+ 
++KFUZZTEST
++M:  Ethan Graham <ethan.w.s.graham@gmail.com>
++R:  Alexander Potapenko <glider@google.com>
++F:  include/linux/kfuzztest.h
++F:  lib/kfuzztest/
++F:  Documentation/dev-tools/kfuzztest.rst
++F:  tools/testing/kfuzztest-bridge/
 +
-+struct parse_xy_arg {
-+	const char *s;
-+};
-+
-+static bool parse_xy(const char *s, unsigned long *x, unsigned long *y);
-+
-+FUZZ_TEST(test_parse_xy, struct parse_xy_arg)
-+{
-+	unsigned long x, y;
-+
-+	KFUZZTEST_EXPECT_NOT_NULL(parse_xy_arg, s);
-+	KFUZZTEST_ANNOTATE_STRING(parse_xy_arg, s);
-+	parse_xy(arg->s, &x, &y);
-+}
+ KGDB / KDB /debug_core
+ M:	Jason Wessel <jason.wessel@windriver.com>
+ M:	Daniel Thompson <danielt@kernel.org>
 -- 
 2.51.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251204141250.21114-10-ethan.w.s.graham%40gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251204141250.21114-11-ethan.w.s.graham%40gmail.com.
