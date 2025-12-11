@@ -1,117 +1,117 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRBG5K5LEQMGQEKLXDXAI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRBWW45LEQMGQEDZZUPVQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41117CB56B9
-	for <lists+kasan-dev@lfdr.de>; Thu, 11 Dec 2025 10:55:41 +0100 (CET)
-Received: by mail-lf1-x13b.google.com with SMTP id 2adb3069b0e04-59580c95819sf542864e87.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 11 Dec 2025 01:55:41 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1765446940; cv=pass;
+Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6CA6CB5AD1
+	for <lists+kasan-dev@lfdr.de>; Thu, 11 Dec 2025 12:43:23 +0100 (CET)
+Received: by mail-lf1-x137.google.com with SMTP id 2adb3069b0e04-5959d533486sf432122e87.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 11 Dec 2025 03:43:23 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1765453403; cv=pass;
         d=google.com; s=arc-20240605;
-        b=ND2+IYEb03O8DyxW2wo87nyLFHqGJnELulEmTiP/YMNj685s+WZVeiQG5aruhAMGdA
-         pkq4cakNSqKKeq6DLaxPC5womPEcsRih3qSxvUgXj48uqdf81unrHwYR/BmqHCjmsDGB
-         5AiRYLjSN6XeS5wlZdFOdMCLSIOz4A4fiI/P84BAaCtOiivJ0alhp/DX+6CNwl9lsNW6
-         90FY9QkG/Y83aUdTq1bfzTDdrGfnDEusoFDTQ8iBMFRjeyyv0zZlyhbt+HRct9ucaVnj
-         4YMuVxhvHzYKc3n4NAB9kRpHAOGzaxzvGMMiiRSFvoW42309fq5Yh205jPmXZ3liW4s5
-         Av1Q==
+        b=QKx0vL1ajuo3r8+YEMyVO2bKzTw7O8wu/zw/pWRZc8JukbtMMuKCVQP/a7/al3mgCX
+         LQpDoXU21kg/vVM1XqkNc2Pa0NbJXQqhECJy2R1SpOtF1tT+Tv4nVLuuRXGr29HusrT6
+         wpjzptErwEEJmdrUBsKHVvPVEj7f53keWrxFTxy5+7oVjxSo5O2aFoH9HsT2/MTS1u9J
+         oz2EvMksg7UfBZTTCxQc2LuKQqldqu6YQZuTSeHPmyt330nwyLsqVRS0B0CQZJ650K+k
+         H1ZAC1ucMa2+TIuX4J4bnWZG++2oPIfGZFajThJgj14JUok3YJF91ukNbISlBe/qhxjF
+         sm6w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=TFRyna31TP2hcN95GCHKRhEwf/Ffk4S1S8ZL4QDTayk=;
-        fh=n32e/Y+h7lR5OD/mXlUHqtnuKUtAattZ7rKCo9UAfy8=;
-        b=euG5AkCwpcMYdU3Y3avgzmoZIXeqgyMYCzHYYe3QCqBztqHpxhGuO2i3r1QpQDSpgf
-         MHi3C1Z+gJaqjsz2M84motV8/mhiwiGwafIe4uk5SkCp0r68Eclc9jajTR5IwYYJqnle
-         4PAWEizyYnFtzry/1MFuGxW3Xy2qqIB1TfsFm1FsTN5hyuwgQhWeiu6UQ5QrKHlm9gqw
-         ptPvdDcUXEafG5L6cE/jHBavM2/v+xviSB6B3vsYnSf85bzZa+SHT6gWlFC1ysDGak8I
-         SwCqLaCS06kuGAFA11AvVS0/DYpeLzzTvJSI6vxmFQYAWOkNREOYA+sLDUNUr5RvihMz
-         QD7A==;
+        bh=S+vYMfDF+1TcedhaxDZEc6U8Z1vA3vdu+fcUKU04Qv0=;
+        fh=JA2aVkqJUXhQ1IhIw6gqJmiLrC4SrzBmhzz3PHBQiaU=;
+        b=cuGE4cN257QcxNk1t/JWey2VPIRV8E9bJnaOCaFXkq5LjpGOoBGfZ8ky3HLGfTzRjT
+         PXZEab/yRWgyHi6LQsMLp+6bork0lpXsVqlTgTV/TnVSFL9BALdcXKiYp7HT8kJVOw7y
+         0FFoSrmx7fwuZsQaLaUaNXTU5NJHG2XAH03gIci2OrEZYYRkkN4LwHiL/B4IHzMsxFwr
+         hpVpUjulaXZNQb1M75vu4bohgygLSscTDPHoVKMqKd8uiBfSaQTEp63q5D9xuJa7n/o1
+         9Vj8d4ksjFMzRQsn4cp6v+6+/q4vvXvK9pHWOLGxpet0YbRyjrToWoBkyV+OYIT5Ggg8
+         LV5g==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=E3bZKCI1;
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=gC2D4Nn6;
        spf=none (google.com: peterz@infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1765446940; x=1766051740; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1765453403; x=1766058203; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TFRyna31TP2hcN95GCHKRhEwf/Ffk4S1S8ZL4QDTayk=;
-        b=gLJBv01Q4qVpGeWrYkKN/MO3mtcuJgi887DVsxXozKEbjX98rod/Qz7ySLASLdYhLY
-         fZa2+4FPpu62vgACXTRJ4dskMPSv2nT9Xc73BVx+1TGslMuRUAdFvvXVtjMI3K+j0vj6
-         wv04hj6GrBvpNb3hqE7Yf/+cyJvf9sKeIndqUKWzjz8Cexa9r0yOy53hY8V+8D93qySY
-         9KRdyCpCWJGmSEDIIqlLrpNW8C+AiwFcZ4IPLKCDGJ8pInxMmmjsiLxP+zK5otDLuEta
-         8e+KNIC+786IWhVsyVPVqxKznDewo7xYXRJ9gnbAD1AvGq0AjPcOI6s5hFLWBvCzH9EF
-         qCiQ==
+        bh=S+vYMfDF+1TcedhaxDZEc6U8Z1vA3vdu+fcUKU04Qv0=;
+        b=XuF7JGcf/8Qz4YpseCjjAjhx6QCpVhq+7aoJ9mGPJp9c4GTbN8qIkXO6IsmhW1e3gN
+         HaQJZXfQhao5BRGEThFZinodD4rzYhp31xPEj4tg5RfQwujhH2qnHpeNpj/WEmtL/Bk0
+         NVBc+P0ofJuZMFBJ2VRSBTVhTirLSVSsM00D4BfulPjGXjn3j0AXilnM89/s6bycczYY
+         C6hdr62cRbfQoHJqgObVJauC4HouMTdBElu02f9HJIjl2w5b5DUyRw916ugwgGBOiby5
+         paD27lwg6dgfVGFBWDbEGvpQn9WH/7QXm1YUGS4otxKYScYu74HCylON8WFPbhsIlLot
+         4hMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765446940; x=1766051740;
+        d=1e100.net; s=20230601; t=1765453403; x=1766058203;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TFRyna31TP2hcN95GCHKRhEwf/Ffk4S1S8ZL4QDTayk=;
-        b=HwGXwW0SLAk1ds7DfmPH9law/uotkt07EXWGDDnY3SvAvcnZzebHL3jM3RUhO8Hp6z
-         UJt2eUGy9gnTFQlXumdR7p5o3kpw6uOsdeDQOoYQaEz/95TovZL28Qtwb/ldiT8wkalI
-         tNQh9oTl6imc912nPXaQmL/cgROh/YG2IJyETT1k3RSes7nIvXsm6CJkAFQLYkUpe6j/
-         BeSobSeekCeRPFcSdAxChBZVY5Xoe3stk8yZYdztQHLPVWPCTtKFrSZ4+4JL2I65wGyN
-         Vms7bW9oFNR/UpLmFMMyxm+m2RWz3YtZSt1d5mWeZmYOERZuNiFS2EmCS5L3IDxSHwB+
-         PT4Q==
+        bh=S+vYMfDF+1TcedhaxDZEc6U8Z1vA3vdu+fcUKU04Qv0=;
+        b=DyK7e40gG1W+83udRzgFT68vQOOtScHJ8ODWvEFo/RDep6fQjh5aF1naK4PqkySwn0
+         NMHoy9AdPf3A/D7lj7s6pmf111krmsc4X6a9MaGtbEVawMp7FV3VGUUEgJdlvG0AOzDj
+         bGbOz/D7znl8nvHcO1UGH5MPNXMhX6AYQ+EZ2Kp/S/I//ycZyZoN96EM7M42sgq2SLgw
+         avjjixTFp8sZQQRqrcxVZmR5j/kfOYJcW0Jr10PtKmizaocjuq100YgqJu3aIWgAjkWT
+         X3dr88jjyAEACACCfaChrdDw4KSMWHj3+t097vJOVXDlSx1GfFrpD8TZFh7L7uAOMdj3
+         qsCw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWt3stai1PBoa5r6mfb/Jjlt0rzg3XBwVvQWDdAhzTjPHvH70380RmJqTlb6BHrY/p0hWmJ2w==@lfdr.de
-X-Gm-Message-State: AOJu0YzJp8qzj1S1zbWjebdVJQJL20+WtFl7NvqfX9eVjkk3xXqBRWUd
-	+Jm6w5W5RNpI/7UJ130CRpB9DK2Bsr2j2tcfvMLw5RiaY3dcBWsaqePe
-X-Google-Smtp-Source: AGHT+IH4wuZkHoco23Fjwc5tzbxNLbW8JHxhQuPsIOGKaIMp4ZqvWwg3q9wyvgiqIrVNSq5oct6dhA==
-X-Received: by 2002:a05:6512:4005:b0:598:ef92:d97 with SMTP id 2adb3069b0e04-598ef920dcfmr1765756e87.43.1765446940159;
-        Thu, 11 Dec 2025 01:55:40 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWbARgndPV798Or6YkkTZ1OHtjZYtNqJwmX9Zo3Htfa4Uw=="
-Received: by 2002:a05:6512:2c9b:b0:598:ec8d:f528 with SMTP id
- 2adb3069b0e04-598f32925e6ls191776e87.2.-pod-prod-03-eu; Thu, 11 Dec 2025
- 01:55:37 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCVwuLUux6vAXSiuN6qm7NkrCe6YWUntiiBsN6JBSeCvFt/Zv/5GjPcacm1Tw8LGGCC8nGLOB5c6ZXw=@googlegroups.com
-X-Received: by 2002:a05:6512:3f28:b0:594:2f72:2f7b with SMTP id 2adb3069b0e04-598ee45d63bmr1832331e87.6.1765446936843;
-        Thu, 11 Dec 2025 01:55:36 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1765446936; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCVeloTfi6AVr+rIgBznkzJJ26FwiBAEmRQh6GHnk5AXUK4w1353pw0pJS+O+Bpfsa9I/6QuVA==@lfdr.de
+X-Gm-Message-State: AOJu0YzjykwJa1opLd3qE2LI01YpXyByY9U5JI5i1wCtajxMd/D4RhQS
+	MPx+xsOT0gvqwAa6TwYNnJ3H6UM3VV1AXOjbV7w8SibwOdPh54gAaDh6
+X-Google-Smtp-Source: AGHT+IHz/VbeMN4HuwKy/28gTPRxGQIclfxxKLHTqUcnRytAbaJYNWd8XEG8cCfn2osTglSEu9F/MA==
+X-Received: by 2002:a05:6512:3b9b:b0:594:346f:4850 with SMTP id 2adb3069b0e04-598ee54eef2mr2354657e87.49.1765453402795;
+        Thu, 11 Dec 2025 03:43:22 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWYyab22qi9X/Iln++y6vu4pMco5ZPXP2AVr5EYhQExWtA=="
+Received: by 2002:a05:6512:2241:b0:598:f6cd:ee8a with SMTP id
+ 2adb3069b0e04-598f6cdef29ls122742e87.1.-pod-prod-06-eu; Thu, 11 Dec 2025
+ 03:43:19 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVzsfWbTySXU8zb1hwhD4jxE/tjspTXDyts5PWbNmK00Tlax6lUObGB9CY/5H1SduTBbHylOOVAxoE=@googlegroups.com
+X-Received: by 2002:a05:6512:b88:b0:594:248d:afa7 with SMTP id 2adb3069b0e04-598ee4e62f6mr2178599e87.13.1765453399392;
+        Thu, 11 Dec 2025 03:43:19 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1765453399; cv=none;
         d=google.com; s=arc-20240605;
-        b=NnVFa2NzZRfxvSmZ+3lf09/K7s+z+4KjpwL2fbm479kpn19AxUUCQUOJ/ZK1mt0F/u
-         TvdVK7RPqlk2YH5mcJ1XKMvWEOQ8AvV+RSlsAtup+N7dmfFKZnxWkHbd+1mtKt6aLE0h
-         vivbrW+qVsQJz+KEESRRqrjC/mKVWH3MUTjmUOZXfd/ai5RToLE8pq2vkvNHWBYig9G5
-         zXHINzaIqlnOHpHGTkK8Zlc3emczI78kefxo79urs3FCcGSWt5v3lSw+nDZfTh6F1wD3
-         5lQTgYWC324mkf3HjZJKrVx4YFvGfomU8l2GknDNzcz62wVvTRSG9ULkBj48XvEdU+n6
-         s8mA==
+        b=UEub+JWcFfNabTibjKCGvVSemVOc0SsJ2K3HOTUxqhWXjOgI+fXWRBDgo9wjSSOvbL
+         iOD9MQ9HpHwmadWNBcevh1j1Wp/UEVEMfK7b8XPdhewOf7UmGgOORgjYdi62+QMAS3B/
+         fQ0kaTIcVJtWW61DYIM3qnOxBS/NiAPPblXcm/YzEt53m6GkWqmpFDiKyxyT7J0oew41
+         j+FCIfSpuAf8BIwYqqmURClaJeUMPwyUfjfWD8RHpxaed6/fFPJbqRW3h9QMOH4v6pzS
+         o0KyRbb+JWwEvzMkaYpT1S57sheYwRIURioWlPxpiVhTeXxm0H4mZxt8v7LlSPxbkQLP
+         z+BQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=6WhymY9DTx4lwYH2yf2+tZtBM6CKMmmYYDOh50+lOZo=;
+        bh=uQ1t1in3MNz+55jGFoFlKgze5NqUmk6ITua4X7r2Yeo=;
         fh=0851L0nspSnj7qhIjXjlHLoAWeF01NCU66B65AWv7JQ=;
-        b=ejosvQgZdInO/z75De1XUWY26Xq56Y4F9Muho4barT/yqKWfQcbvBQokagmBSrQWcH
-         QgDmV5F7Tf7phsnEjo9ESjftLOTBCvHrWoabCBPa/OcuGj9Yb/oVV6KhevaxRNi442+m
-         1pwS3us6Ipamw+EdX2+vJCVbbYr59zru2cq07d6tFPOSM4w5a4anHWjcxjIzfF9jT7rE
-         7nX9eEM2foNqgRtnZHCibv9mFZcWdgQdlvegUKoZWWJhe3+p82XB5fVaF2wGXdPNVm+0
-         YJUAr5V2ofcPITOd4CLY77C/b5tPoPY60E16lawNR1LdMJaKy3Trnt9oeH2WVHNIdwCe
-         WWIA==;
+        b=gUvtGD/N4I8OOlReBW2LXTwQC8u3o4fJdzBjVIhLBiJyQ1LNxLzN/NOxojQxe/ijPf
+         U0Owe8WWI+hqbxbyzKedgkUf2zQsPtwT1FpuiQNaSAgmcwo/aoyBosT6WbBsdLAL0S4T
+         KIJ2wuU58eUdy7mwtjvYPfDC8Vy0OiVMTwqors9pVR4m3HFFIU4PcjDN1BL7NtK9ynBR
+         YFksLJTnm3w9DtBDrtStQUv7FLjX09uhw4W0eHm/Tz63jIjpV4LK04zEMAITkhwbfbOl
+         CEtD2EGSnX7J+pvqqkxBb8p9Eayv07kWTD7HS/EZLLBNqflAo4DcOJsJfEtC+eBK5LVK
+         /34g==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=E3bZKCI1;
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=gC2D4Nn6;
        spf=none (google.com: peterz@infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=infradead.org
-Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-37fc5ca6b40si144621fa.4.2025.12.11.01.55.36
+Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
+        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-598f2f7c242si38425e87.7.2025.12.11.03.43.19
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Dec 2025 01:55:36 -0800 (PST)
-Received-SPF: none (google.com: peterz@infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
-Received: from 2001-1c00-8d85-5700-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:5700:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vTcWn-0000000Eibk-2SDe;
-	Thu, 11 Dec 2025 09:00:02 +0000
+        Thu, 11 Dec 2025 03:43:19 -0800 (PST)
+Received-SPF: none (google.com: peterz@infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1236::1;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vTf4Z-0000000EBFr-2coJ;
+	Thu, 11 Dec 2025 11:43:03 +0000
 Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id DB9BD300566; Thu, 11 Dec 2025 10:55:16 +0100 (CET)
-Date: Thu, 11 Dec 2025 10:55:16 +0100
+	id 29E1230301A; Thu, 11 Dec 2025 12:43:02 +0100 (CET)
+Date: Thu, 11 Dec 2025 12:43:02 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: Marco Elver <elver@google.com>
 Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
@@ -151,18 +151,19 @@ Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
 	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
 	linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
 	llvm@lists.linux.dev, rcu@vger.kernel.org
-Subject: Re: [PATCH v4 06/35] cleanup: Basic compatibility with context
- analysis
-Message-ID: <20251211095516.GO3707837@noisy.programming.kicks-ass.net>
+Subject: Re: [PATCH v4 07/35] lockdep: Annotate lockdep assertions for
+ context analysis
+Message-ID: <20251211114302.GC3911114@noisy.programming.kicks-ass.net>
 References: <20251120145835.3833031-2-elver@google.com>
  <20251120151033.3840508-7-elver@google.com>
+ <20251120151033.3840508-8-elver@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20251120151033.3840508-7-elver@google.com>
+In-Reply-To: <20251120151033.3840508-8-elver@google.com>
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=desiato.20200630 header.b=E3bZKCI1;
+ header.i=@infradead.org header.s=casper.20170209 header.b=gC2D4Nn6;
        spf=none (google.com: peterz@infradead.org does not designate permitted
  sender hosts) smtp.mailfrom=peterz@infradead.org;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=infradead.org
@@ -178,40 +179,69 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Nov 20, 2025 at 04:09:31PM +0100, Marco Elver wrote:
-> Introduce basic compatibility with cleanup.h infrastructure: introduce
-> DECLARE_LOCK_GUARD_*_ATTRS() helpers to add attributes to constructors
-> and destructors respectively.
-> 
-> Note: Due to the scoped cleanup helpers used for lock guards wrapping
-> acquire and release around their own constructors/destructors that store
-> pointers to the passed locks in a separate struct, we currently cannot
-> accurately annotate *destructors* which lock was released. While it's
-> possible to annotate the constructor to say which lock was acquired,
-> that alone would result in false positives claiming the lock was not
-> released on function return.
-> 
-> Instead, to avoid false positives, we can claim that the constructor
-> "assumes" that the taken lock is held via __assumes_ctx_guard().
-> 
-> This will ensure we can still benefit from the analysis where scoped
-> guards are used to protect access to guarded variables, while avoiding
-> false positives. The only downside are false negatives where we might
-> accidentally lock the same lock again:
-> 
-> 	raw_spin_lock(&my_lock);
-> 	...
-> 	guard(raw_spinlock)(&my_lock);  // no warning
-> 
-> Arguably, lockdep will immediately catch issues like this.
-> 
-> While Clang's analysis supports scoped guards in C++ [1], there's no way
-> to apply this to C right now. Better support for Linux's scoped guard
-> design could be added in future if deemed critical.
+On Thu, Nov 20, 2025 at 04:09:32PM +0100, Marco Elver wrote:
 
-Moo, so the alias analysis didn't help here?
+>  include/linux/lockdep.h | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/include/linux/lockdep.h b/include/linux/lockdep.h
+> index 67964dc4db95..2c99a6823161 100644
+> --- a/include/linux/lockdep.h
+> +++ b/include/linux/lockdep.h
+> @@ -282,16 +282,16 @@ extern void lock_unpin_lock(struct lockdep_map *lock, struct pin_cookie);
+>  	do { WARN_ON_ONCE(debug_locks && !(cond)); } while (0)
+
+Since I typically read patches without first reading the Changelog --
+because when I read the code later, I also don't see changelogs.
+
+I must admit to getting most terribly confused here -- *again*, as I
+then search back to previous discussions and found I was previously also
+confused.
+
+As such, I think we want a comment here that explains that assume_ctx
+thing.
+
+It is *NOT* (as the clang naming suggests) an assertion of holding the
+lock (which is requires_ctx), but rather an annotation that forces the
+ctx to be considered held.
+
+>  
+>  #define lockdep_assert_held(l)		\
+> -	lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+> +	do { lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD); __assume_ctx_guard(l); } while (0)
+>  
+>  #define lockdep_assert_not_held(l)	\
+>  	lockdep_assert(lockdep_is_held(l) != LOCK_STATE_HELD)
+>  
+>  #define lockdep_assert_held_write(l)	\
+> -	lockdep_assert(lockdep_is_held_type(l, 0))
+> +	do { lockdep_assert(lockdep_is_held_type(l, 0)); __assume_ctx_guard(l); } while (0)
+>  
+>  #define lockdep_assert_held_read(l)	\
+> -	lockdep_assert(lockdep_is_held_type(l, 1))
+> +	do { lockdep_assert(lockdep_is_held_type(l, 1)); __assume_shared_ctx_guard(l); } while (0)
+>  
+>  #define lockdep_assert_held_once(l)		\
+>  	lockdep_assert_once(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+> @@ -389,10 +389,10 @@ extern int lockdep_is_held(const void *);
+>  #define lockdep_assert(c)			do { } while (0)
+>  #define lockdep_assert_once(c)			do { } while (0)
+>  
+> -#define lockdep_assert_held(l)			do { (void)(l); } while (0)
+> +#define lockdep_assert_held(l)			__assume_ctx_guard(l)
+>  #define lockdep_assert_not_held(l)		do { (void)(l); } while (0)
+> -#define lockdep_assert_held_write(l)		do { (void)(l); } while (0)
+> -#define lockdep_assert_held_read(l)		do { (void)(l); } while (0)
+> +#define lockdep_assert_held_write(l)		__assume_ctx_guard(l)
+> +#define lockdep_assert_held_read(l)		__assume_shared_ctx_guard(l)
+>  #define lockdep_assert_held_once(l)		do { (void)(l); } while (0)
+>  #define lockdep_assert_none_held_once()	do { } while (0)
+>  
+> -- 
+> 2.52.0.rc1.455.g30608eb744-goog
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251211095516.GO3707837%40noisy.programming.kicks-ass.net.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251211114302.GC3911114%40noisy.programming.kicks-ass.net.
