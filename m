@@ -1,226 +1,189 @@
-Return-Path: <kasan-dev+bncBC5I5WEMW4JBBVULQDFAMGQEEKRBBTA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB546QDFAMGQE4W3E3QA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE09CBDEA4
-	for <lists+kasan-dev@lfdr.de>; Mon, 15 Dec 2025 13:58:00 +0100 (CET)
-Received: by mail-lf1-x140.google.com with SMTP id 2adb3069b0e04-59584152ed3sf3298542e87.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 15 Dec 2025 04:58:00 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1765803479; cv=pass;
+Received: from mail-ej1-x639.google.com (mail-ej1-x639.google.com [IPv6:2a00:1450:4864:20::639])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A01CCBE187
+	for <lists+kasan-dev@lfdr.de>; Mon, 15 Dec 2025 14:39:05 +0100 (CET)
+Received: by mail-ej1-x639.google.com with SMTP id a640c23a62f3a-b70caafad59sf258405866b.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 15 Dec 2025 05:39:05 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1765805944; cv=pass;
         d=google.com; s=arc-20240605;
-        b=MpQWSJGmw3UP7YhEOOAsFyGd8Jb0Br1y5hidjawRemrQyqHmyZm4ROd1GdHDPURWem
-         InOCBnpOkv21cBlJnxysgVwsnOyLdfB/hxnGllt+fG1L7szQvM2W7CftvgQZtHQDJALC
-         RuLqCY413xJHN+tLXxaA8RmnRtYX+JP6nJ6gTHBy23cxRduNgVUW99OgBuhetloShXWk
-         U82CazwoAPDFD7pW7IYKfqwgG/EoYRkmRZQT4W+yPOt/RcL1sj+3J4CYAdqVi3powx7p
-         pcmZFjUaIeKSLJRRY87NLvvGjrwsAW238wrunk/oJa9BHPQuaP8Vq7TscSkvKZ72U/2t
-         +2Bg==
+        b=iYfKMdmsAK9H4YvhWPwcBspAFJ+jcIGVUBdrO1RKBRJGwNW/jiDTI734p53MGXL1Hl
+         YYGi7es959k6wL7GrWHWHOCyP6C354sg104q4Fr4bfeFgl9A/zmSbpLVaNxeLTrVFSNM
+         VMojfOW9AW7MD/H0ixnw9IL4bdJ19Jr49LvckAqV0z5IpXijdrEZfXZwOWV7iVh2KJyc
+         rVPlD8ZAE+i5kry/DE6GyX1rXix9Y3DvDqL7Ckd6PatC0m/6K/QRLQ1vMJEGOMsRdTfD
+         WmojWXvbVhtFmwNf36HMSJASKTZNl7Nt7d4TTvS5ZWSu5ei0+1keKp96xb8HuJNYD0uo
+         2ApA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=/D4ikWUMbHfdz++yspYp/OwKJJUqkfikB2x1MLl8LI8=;
-        fh=Or2akn5xs5/GVIxbq+t5lpaiP1TO4Ez305LSfEN09yI=;
-        b=BzVPVFz1j7Z76przVy6xhaKb17bpb6OmG+MMGqLEMP9fYyBLZF4/zBsRUAg71jG9zP
-         xMgsDh0mWde79ymaUhyDr952g8SF/FVWZGYWkCPO5kiHd90PVjJn6h7DrDpkwQeJ0C0a
-         4FV6r42VUA3O4Yxgw3npjrzXG6KX8QhnbiiNWGC3fiw0KHElBRm8XAyGynhIuogMiWI9
-         f7yB3tplqYcB3Nkt2jRTnkFLwhFEn+dB4PMti3u25ACbXz6qMgqUPWbtGS8GHRkwjc+g
-         ayWvJ6Syg+4rW8KeiytwcorqyZ6p8kSRUVnm2NTFvff0NvSiwXm9CxSbNZPXnrX1Ntec
-         /KOA==;
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=pbNuE4lm+9fayMXYwI/B6c8Zc5o7bWRBcKtp39PoVRk=;
+        fh=mOTpio16D0um6kDWnuHPCoWSjfsxS+N5aaeZf9YWwm8=;
+        b=UdREWaCT9/RVTKQ0cWbjLJQh9P2wx/aOXnUX7MZTQkhkOXKrJLjeJVmxIXg3ZIqwe1
+         LKHRdUWGW4NmCzDD/wXHCu076NaBSJstsX/viHGt6mn4Tg/pcY10uIs7GVFlAFKlMcM+
+         tn2rgqr5OArG4feVSn9rkXyVGllfFrAboXcvsGektioxlOHAWXowsn1orLby3BAGdUim
+         hOzwK5mWWI0mvF4jwoTKQchMb58ezntRYAQOQUhjXbcxenG3yJIv/EPlLYfzDAxQGYOm
+         jXJo7Om5CXaHqMs5vkz5ZiUYmtxmmVA/A8UBCN4o57fNOI9Sv5Nd0cEXdBwikjKAgJ7d
+         8S/A==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=wbudG5tR;
-       dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=wbudG5tR;
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=pass (google.com: domain of jack@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=jack@suse.cz
+       dkim=pass header.i=@google.com header.s=20230601 header.b=kMr19tp0;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::430 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1765803479; x=1766408279; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1765805944; x=1766410744; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/D4ikWUMbHfdz++yspYp/OwKJJUqkfikB2x1MLl8LI8=;
-        b=RyI8JSpnx0z4kp4zX/JHpB/UMygGwC/ZN8xJos5xmI9XwY43Aj7oW4OmAAnDb22H6c
-         4G075XfQjw0Ff51mfGVnah0mIUemVdCD1qkVgoYvsDX35IOt612d/8iVjGyg/cxUAugP
-         oRPkCt5FKlgq8MsNNu5N7HVY/iI9lMJq5kk4TJKj9GD0x4ZM28csI/57Goi4djmIP1tf
-         Kjq009BfEF/PxDqz/JggcXI3afH/9MU0YZH/47GqgoIczpvNgo/uYKdSGTaiysMt4ZSh
-         npa72BQDFA+3OiKIKUuqP51OL0wE2gg2pKX+mHTNR6ByZciVUm8HziJqywSO76to98Lm
-         /ZJw==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:user-agent
+         :in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pbNuE4lm+9fayMXYwI/B6c8Zc5o7bWRBcKtp39PoVRk=;
+        b=LMZhkn7nHEgwiJ2t4+eGykfpEbkoeZZVCt/bqqbpbw9LhEDqRJEOzjLXaiHx2hQSdA
+         gk0GhfFdX9DIxKzEPAhI8weIrSfsaHH5Hz8Or+9z/7P3nsZSO7dRfv9TaoNuYaLaLq20
+         w/E6IAvFI9DzZ6AeOdlZ5oeJ+or6a2ZNxleilEBqGLW1MFPcaLotM39UhixssYJx6l50
+         ebMjprFL9wA9Sf09dUGat2Ukp0kp9c/kOqqbs931RzoS0IxXsxHKJsqbN2Rrg5fnzXig
+         OLQ6wC9NaSG7ND7wRfM1P5SIt2cFwD1tcwQ33nNpcbLINVk7rDTQdneaRCfkn/l32AOb
+         WCDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765803479; x=1766408279;
+        d=1e100.net; s=20230601; t=1765805944; x=1766410744;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/D4ikWUMbHfdz++yspYp/OwKJJUqkfikB2x1MLl8LI8=;
-        b=F4bxhM9ryykQTpfNMIiS9aGw0VYyrF89p28vODRjEU2i4DpHHTLlpbr2nFYnB6qPtu
-         m0sytaiUPGu2Ri/YM2tWLS3TftSVTc4TBroA07JIXnjRav85y7DD2RdsaAm/bk4IVl/S
-         R0X/fCzMXEafqFwo99zA5F+UDRnfloJW3NfhtNZIPtGWhnslWQtMkNO/aIaj8ZUyj0dj
-         /ztZ4KGRvcYzuC3B2mN6j9M5S7xyXszXiCxHGk0MltF2S84XBREsWbrsM7iLxmuUpDNz
-         In92MuFmz0i0iXXDJXXBYsJZ4b2BRmWXhD0HUTfuVMnsHl+sUxQ3si3/y52cGVNKuZXv
-         jl7Q==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXp8aaUpxlaUnpONYcJ43m+UoaIQppawJFuyXIRMIaq8ce3mIZxgkG0jG+4Uqb4QLSCMxJfLw==@lfdr.de
-X-Gm-Message-State: AOJu0YwW+kO3BuGEVw0dZ5nGkdd59w9V1N6BPUl/NS+tO2sQw7xaYJKz
-	t2BQwdDIcE18XJ3nR1qlAPbYHF5o5z/zP7ftVCc5nYZdohQpuHymjUhq
-X-Google-Smtp-Source: AGHT+IHt/1N63bVQtUO4PU+lRw0hHHq/b74Ma/molL8oHFYt0454Npi5RuPgLIo3xbCJ2Gb/aGx8UQ==
-X-Received: by 2002:a05:6512:3d9e:b0:592:f27d:75d4 with SMTP id 2adb3069b0e04-598faa963ccmr3810744e87.45.1765803478980;
-        Mon, 15 Dec 2025 04:57:58 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWaocXPgS9qkLhSdWGYxwelJRbkmDvVORAtdfqcNA9tXVA=="
-Received: by 2002:a05:6512:ba2:b0:598:f802:e2dd with SMTP id
- 2adb3069b0e04-598fa391dcfls1254219e87.0.-pod-prod-04-eu; Mon, 15 Dec 2025
- 04:57:55 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUzZ7YE+B71x+rMMBIOcxmrZIo6ldi4uEAq18jHqrbZ8Cf+UrRBeVIxWY9ur4e0Y5KLIC3Lhzgj22U=@googlegroups.com
-X-Received: by 2002:a05:6512:1329:b0:595:7fa2:acf with SMTP id 2adb3069b0e04-598faa812femr3869813e87.31.1765803475637;
-        Mon, 15 Dec 2025 04:57:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1765803475; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:user-agent
+         :in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-beenthere:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pbNuE4lm+9fayMXYwI/B6c8Zc5o7bWRBcKtp39PoVRk=;
+        b=a0IKJI1bf+Xo6hGOjOKajgcEU5BjsfMWgo3lRoSv4W1exjIOcG+/MrpqzmF9yySmK7
+         CExREWTY3rDK5WYMN1jXoX+pkx1wr/3KR4mqynGJpNt5o2xARP91WLjEwPTCkeHg6QSJ
+         dMPoeXCvpjSAuXQHKowES0RydsIXzhBaUUfaKRzTxq17NatI3iGxcd8dwjqnLs3FcuUx
+         gZ7fKh9KbERyTiL7ZeNdyYEnxfYkbz7Q+rJ7LAgqsVHu9Err5RDLpT8pK3mnps/CcByU
+         a95983XsnhKSY6fiIWjdbFbxBrb5vVLDGkj676EeSjxwNGPQvgguRyWw0TMq4sB6NgCK
+         cD8Q==
+X-Forwarded-Encrypted: i=2; AJvYcCUtZz6LsoSPaQp3KM317CmITSoL0Km2AXeAHKPft7lNlQuMYBMbsWybfWkLBmpzIgfzu6VRgg==@lfdr.de
+X-Gm-Message-State: AOJu0YxwXwZBibRaW9i2XxiACCHjeMSf5+Bm1sgcz4EOj6GT3xGxE1RK
+	wtVL72aLuZOPBQFE6yTVPCAfZ1Y39cLi1Mj2dJXmT9uUZOUQLZstC7u0
+X-Google-Smtp-Source: AGHT+IHjJnLmw1Z9FOPoGPfH/6p1Bymk9JqysMSOWywhopy8TZXChmqIA7U6G8kVx1hfD0yUOvnzfQ==
+X-Received: by 2002:a17:907:9613:b0:b4c:137d:89bb with SMTP id a640c23a62f3a-b7d236ff023mr1301218366b.29.1765805944007;
+        Mon, 15 Dec 2025 05:39:04 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWYh7eDsOehDaOWyqC9WCsT++TK5aUtTQRKcaUe9DKwOfQ=="
+Received: by 2002:aa7:c702:0:b0:641:6610:6028 with SMTP id 4fb4d7f45d1cf-6499a47d183ls1426944a12.2.-pod-prod-03-eu;
+ Mon, 15 Dec 2025 05:39:01 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUwtJR3EshvFTLXwmxsqyVAQ2hPMKeV2kRS9eukG9Mw8WqcI64ka2aMurqzpwF+8IGTkBps6tyGYpQ=@googlegroups.com
+X-Received: by 2002:a05:6402:5256:b0:649:e5be:1b4e with SMTP id 4fb4d7f45d1cf-649e5be1b92mr617538a12.9.1765805940868;
+        Mon, 15 Dec 2025 05:39:00 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1765805940; cv=none;
         d=google.com; s=arc-20240605;
-        b=Ar53teTTQ8D1tf3335D0//Z7BVLt0VN7VZ4MxaSUwpoxz6zf6Ge+bIWwX1yDq74rk1
-         0Zhb4teo283G5v+4h8TgHLTleU15NK51dYVmSjZdcSkV2wP7FJvzPyuxXSi2GD/sgnzp
-         AR+No2OAOo96naaMbqwCyse0mDorzO7aMV2SKx6oc+a9gtv8YkqaXqejRxodxmCweL9B
-         1YI+QUn2ZKwyXIpLqqv30K+guJ0LDlCOyDpyLkndUelt+m0WaqpcEUMUIncoCtoy3uRI
-         1yopr1l+lPIa2f+dCnt7dZljMEZe5bQom3ePUbl5B/1ZQAF0uHVbOncX4rzhCfthLHdm
-         KHHA==
+        b=gPDfp1Qf2w/FgRaSv21BhmS59shU+QwFcc0gcYIFw0YnWjDlVQzBa20r07JiimLmYz
+         /SkEX4yGlHKvnNDlE6EV8LI8rH7wz4dgE+EuYx7erAyzxglpDYhZHmBPJEP0Xe+QF3i4
+         biUYUPyqQrCu24+UMghfhlXvJMDy9C74utKKQCgpiYri5H2b++9cW5R+9tAZ8r870eAq
+         DVS+BOV4Wh0yA/dmrJF5fdRk4GOgLJu23L7VmjyEyW7zh1jGABbSgCDC71Yj6UQASsSk
+         eJQXOIKAZGSEqurHa/Z2cndnNgW+k7T4XsOJIirQaKSe5raeRPhHEk3rvRbsaT/ae5uv
+         LHOw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature:dkim-signature
-         :dkim-signature:dkim-signature;
-        bh=+MMpU8iu26hMrIy/s70C2uUD4P60923K9CkgBqEJuQM=;
-        fh=Wjtrdi6kt+DV7g7IoT9YyWgpghdwa0WQKy5U4JKLHgs=;
-        b=Dn7e3OtN/5q41RaJKdOAc77+RNZ3uIyLt8n6GbifLpH111jILjvjQIBgvQn4Ve5+2l
-         4OqZEMYxUsLLXeAkSqOg2adWHAjKgJ5AUdP2ZyJ40RLroqLn+nt6/9fiJb/7w1rvwI+E
-         yEd5425/dI7Lb5VGFGI0Mxgxn9wke6s04d5TyZNFQZuzCPXotEvrQCKk22YPzvXm4mW6
-         Fcz4/BJl3A9lmtfbYaDNmcRV/ohG6MietSZhvaKCNR/HDNK1Kk8pFNYcWOYpH5Cq9qsw
-         gs8zzsi78BCUq4fAt/adznLB7K/pplkCpPWutpsc2Gwz59i2pTfNwzEp9oSFd69ZaCl/
-         sYGQ==;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=HP7wXZoAxj3YG64MFXhffqc9TkW1sld9ucKsb/6ZFh4=;
+        fh=hRESbI69cJ1BOLEwoqBMruLAHYVHnTtnJtS67XMGwvY=;
+        b=cDppZUDYReWJtxl9Ih5h3lotTKRRMAbAL1S4xS8tuk6dVKZu2ylYLkyZMhqIE1N7Ti
+         sX6pQoU4+IrdxiATJPCgjT2fbAzgSMxSIqkdkvKsRthTdl35XHIj2+WWlWahBzb0i3cK
+         uzlunN1/aeXN9TkLKFGKPpdWOtHAcNUHy881vp7BXTwMjk5hxI61hjmi+AeQUiUO2deE
+         nHeC6jrtGMg/SLxvxKTyD1s63+RRGrzDlbkVuXvscx4Zi3IJhp1oFAiEYaeKSXuFrVKy
+         /0WarYv96wvgrAcA21eBRQFmnstCSNJLyDNTW6BzdGRtx5vQEbHrsJIXqHNFEdgOaniO
+         39Qw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=wbudG5tR;
-       dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=wbudG5tR;
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=pass (google.com: domain of jack@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=jack@suse.cz
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.223.131])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-598f2edeb14si218571e87.0.2025.12.15.04.57.55
+       dkim=pass header.i=@google.com header.s=20230601 header.b=kMr19tp0;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::430 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com. [2a00:1450:4864:20::430])
+        by gmr-mx.google.com with ESMTPS id 4fb4d7f45d1cf-649820bbdf0si195928a12.3.2025.12.15.05.39.00
         for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Dec 2025 05:39:00 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::430 as permitted sender) client-ip=2a00:1450:4864:20::430;
+Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-42e2d5e119fso1567718f8f.2
+        for <kasan-dev@googlegroups.com>; Mon, 15 Dec 2025 05:39:00 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWApwbEzb18Iv85x9aCTOjr5Es+DvmtPBc920b0PIV/TEhSlJNPAIURFwhP30mjzQM52hJdztxfWYk=@googlegroups.com
+X-Gm-Gg: AY/fxX4g/eyG5QcouL2QmF6+GSQklzu37puZKx6dmE6XtQWMwAbIyr+IG0b/W874a3n
+	KbpqGZuux9exjfL0qi+vEyEkKXwLG62bmL+KQcGEy8v/NF35Au1MmERLWjWeMBsVfVsQV7y9m9L
+	LIuYreGQBfBA+KJdVYub0zAVHRnprhwUv6WRJqwYbyymuo4FBsm9QM9jgqfWgtk46TX27SojKmW
+	q4/Mh6BzNwrkT6MggFhQ18SLm139n65lkX5XFN81h2QeAHEbloXCmERNGDDvllBeW8mGuKdgIHa
+	rLzQtqGBVE2FdmguGW2XOh26TmsZeghf6STfXHSO2oD2wlZZanoHfQyKj6FECiv2VXwbW44aQ22
+	LkS11RHPiNWLi8dIi+kf6HYtg9OEobQiNH/VRWkOH4Ids831+s55dYAW+dMUaY948Tnp61h2DS/
+	uKw5OQfs/YaCl2LbVqYsBXJ8wIKHik8mwaLToWsnnGtd5k/L98
+X-Received: by 2002:a05:6000:310f:b0:430:f7dc:7e8e with SMTP id ffacd0b85a97d-430f7dc809cmr4594614f8f.34.1765805939977;
+        Mon, 15 Dec 2025 05:38:59 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:2834:9:5741:4422:4d1d:b335])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fb68866f3sm21319081f8f.36.2025.12.15.05.38.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 04:57:55 -0800 (PST)
-Received-SPF: pass (google.com: domain of jack@suse.cz designates 195.135.223.131 as permitted sender) client-ip=195.135.223.131;
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C48955BDB5;
-	Mon, 15 Dec 2025 12:57:54 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AD2CA3EA63;
-	Mon, 15 Dec 2025 12:57:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wPZAKtIFQGkgTQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 15 Dec 2025 12:57:54 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 6303FA0951; Mon, 15 Dec 2025 13:57:39 +0100 (CET)
-Date: Mon, 15 Dec 2025 13:57:39 +0100
-From: Jan Kara <jack@suse.cz>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux AMDGPU <amd-gfx@lists.freedesktop.org>, Linux DRI Development <dri-devel@lists.freedesktop.org>, 
-	Linux Filesystems Development <linux-fsdevel@vger.kernel.org>, Linux Media <linux-media@vger.kernel.org>, 
-	linaro-mm-sig@lists.linaro.org, kasan-dev@googlegroups.com, 
-	Linux Virtualization <virtualization@lists.linux.dev>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Network Bridge <bridge@lists.linux.dev>, Linux Networking <netdev@vger.kernel.org>, 
-	Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
-	Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Philipp Stanner <phasta@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, Nikolay Aleksandrov <razor@blackwall.org>, 
-	Ido Schimmel <idosch@nvidia.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Taimur Hassan <Syed.Hassan@amd.com>, Wayne Lin <Wayne.Lin@amd.com>, Alex Hung <alex.hung@amd.com>, 
-	Aurabindo Pillai <aurabindo.pillai@amd.com>, Dillon Varone <Dillon.Varone@amd.com>, 
-	George Shen <george.shen@amd.com>, Aric Cyr <aric.cyr@amd.com>, Cruise Hung <Cruise.Hung@amd.com>, 
-	Mario Limonciello <mario.limonciello@amd.com>, Sunil Khatri <sunil.khatri@amd.com>, 
-	Dominik Kaszewski <dominik.kaszewski@amd.com>, David Hildenbrand <david@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Max Kellermann <max.kellermann@ionos.com>, "Nysal Jan K.A." <nysal@linux.ibm.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Alexey Skidanov <alexey.skidanov@intel.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, Kent Overstreet <kent.overstreet@linux.dev>, 
-	Vitaly Wool <vitaly.wool@konsulko.se>, Harry Yoo <harry.yoo@oracle.com>, 
-	Mateusz Guzik <mjguzik@gmail.com>, NeilBrown <neil@brown.name>, Amir Goldstein <amir73il@gmail.com>, 
-	Jeff Layton <jlayton@kernel.org>, Ivan Lipski <ivan.lipski@amd.com>, Tao Zhou <tao.zhou1@amd.com>, 
-	YiPeng Chai <YiPeng.Chai@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>, 
-	Lyude Paul <lyude@redhat.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Luben Tuikov <luben.tuikov@amd.com>, Matthew Auld <matthew.auld@intel.com>, 
-	Roopa Prabhu <roopa@cumulusnetworks.com>, Mao Zhu <zhumao001@208suo.com>, 
-	Shaomin Deng <dengshaomin@cdjrlc.com>, Charles Han <hanchunchao@inspur.com>, 
-	Jilin Yuan <yuanjilin@cdjrlc.com>, Swaraj Gaikwad <swarajgaikwad1925@gmail.com>, 
-	George Anthony Vernon <contact@gvernon.com>
-Subject: Re: [PATCH 07/14] fs: Describe @isnew parameter in ilookup5_nowait()
-Message-ID: <qxbixswc7daxb3y7o7ebmy34dpa3uv6i5vc2fnj2p6f3sckulk@vcbuzldig7al>
-References: <20251215113903.46555-1-bagasdotme@gmail.com>
- <20251215113903.46555-8-bagasdotme@gmail.com>
+        Mon, 15 Dec 2025 05:38:59 -0800 (PST)
+Date: Mon, 15 Dec 2025 14:38:52 +0100
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+	Chris Li <sparse@chrisli.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
+	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
+	llvm@lists.linux.dev, rcu@vger.kernel.org
+Subject: Re: [PATCH v4 06/35] cleanup: Basic compatibility with context
+ analysis
+Message-ID: <aUAPbFJSv0alh_ix@elver.google.com>
+References: <20251120145835.3833031-2-elver@google.com>
+ <20251120151033.3840508-7-elver@google.com>
+ <20251211121659.GH3911114@noisy.programming.kicks-ass.net>
+ <CANpmjNOmAYFj518rH0FdPp=cqK8EeKEgh1ok_zFUwHU5Fu92=w@mail.gmail.com>
+ <20251212094352.GL3911114@noisy.programming.kicks-ass.net>
+ <CANpmjNP=s33L6LgYWHygEuLtWTq-s2n4yFDvvGcF3HjbGH+hqw@mail.gmail.com>
+ <20251212110928.GP3911114@noisy.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20251215113903.46555-8-bagasdotme@gmail.com>
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.linaro.org,googlegroups.com,lists.linux.dev,kvack.org,amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,intel.com,zeniv.linux.org.uk,suse.cz,linaro.org,google.com,redhat.com,linux.alibaba.com,linux-foundation.org,blackwall.org,nvidia.com,davemloft.net,infradead.org,oracle.com,ionos.com,linux.ibm.com,arm.com,linux.dev,konsulko.se,brown.name,collabora.com,cumulusnetworks.com,208suo.com,cdjrlc.com,inspur.com,gvernon.com];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_GT_50(0.00)[86];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLuzgdneaas1ufq3krk51sbiga)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.com:email]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Queue-Id: C48955BDB5
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Original-Sender: jack@suse.cz
+In-Reply-To: <20251212110928.GP3911114@noisy.programming.kicks-ass.net>
+User-Agent: Mutt/2.2.13 (2024-03-09)
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=wbudG5tR;       dkim=neutral
- (no key) header.i=@suse.cz;       dkim=pass header.i=@suse.cz
- header.s=susede2_rsa header.b=wbudG5tR;       dkim=neutral (no key)
- header.i=@suse.cz;       spf=pass (google.com: domain of jack@suse.cz
- designates 195.135.223.131 as permitted sender) smtp.mailfrom=jack@suse.cz
+ header.i=@google.com header.s=20230601 header.b=kMr19tp0;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::430 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -233,37 +196,136 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon 15-12-25 18:38:55, Bagas Sanjaya wrote:
-> Sphinx reports kernel-doc warning:
+On Fri, Dec 12, 2025 at 12:09PM +0100, Peter Zijlstra wrote:
+> On Fri, Dec 12, 2025 at 11:15:29AM +0100, Marco Elver wrote:
+> > On Fri, 12 Dec 2025 at 10:43, Peter Zijlstra <peterz@infradead.org> wrote:
+> > [..]
+> > > > Correct. We're trading false negatives over false positives at this
+> > > > point, just to get things to compile cleanly.
+> > >
+> > > Right, and this all 'works' right up to the point someone sticks a
+> > > must_not_hold somewhere.
+> > >
+> > > > > > Better support for Linux's scoped guard design could be added in
+> > > > > > future if deemed critical.
+> > > > >
+> > > > > I would think so, per the above I don't think this is 'right'.
+> > > >
+> > > > It's not sound, but we'll avoid false positives for the time being.
+> > > > Maybe we can wrangle the jigsaw of macros to let it correctly acquire
+> > > > and then release (via a 2nd cleanup function), it might be as simple
+> > > > as marking the 'constructor' with the right __acquires(..), and then
+> > > > have a 2nd __attribute__((cleanup)) variable that just does a no-op
+> > > > release via __release(..) so we get the already supported pattern
+> > > > above.
+> > >
+> > > Right, like I mentioned in my previous email; it would be lovely if at
+> > > the very least __always_inline would get a *very* early pass such that
+> > > the above could be resolved without inter-procedural bits. I really
+> > > don't consider an __always_inline as another procedure.
+> > >
+> > > Because as I already noted yesterday, cleanup is now all
+> > > __always_inline, and as such *should* all end up in the one function.
+> > >
+> > > But yes, if we can get a magical mash-up of __cleanup and __release (let
+> > > it be knows as __release_on_cleanup ?) that might also work I suppose.
+> > > But I vastly prefer __always_inline actually 'working' ;-)
+> > 
+> > The truth is that __always_inline working in this way is currently
+> > infeasible. Clang and LLVM's architecture simply disallow this today:
+> > the semantic analysis that -Wthread-safety does happens over the AST,
+> > whereas always_inline is processed by early passes in the middle-end
+> > already within LLVM's pipeline, well after semantic analysis. There's
+> > a complexity budget limit for semantic analysis (type checking,
+> > warnings, assorted other errors), and path-sensitive &
+> > intra-procedural analysis over the plain AST is outside that budget.
+> > Which is why tools like clang-analyzer exist (symbolic execution),
+> > where it's possible to afford that complexity since that's not
+> > something that runs for a normal compile.
+> > 
+> > I think I've pushed the current version of Clang's -Wthread-safety
+> > already far beyond what folks were thinking is possible (a variant of
+> > alias analysis), but even my healthy disregard for the impossible
+> > tells me that making path-sensitive intra-procedural analysis even if
+> > just for __always_inline functions is quite possibly a fool's errand.
 > 
-> WARNING: ./fs/inode.c:1607 function parameter 'isnew' not described in 'ilookup5_nowait'
+> Well, I had to propose it. Gotta push the envelope :-)
 > 
-> Describe the parameter.
+> > So either we get it to work with what we have, or give up.
 > 
-> Fixes: a27628f4363435 ("fs: rework I_NEW handling to operate without fences")
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> So I think as is, we can start. But I really do want the cleanup thing
+> sorted, even if just with that __release_on_cleanup mashup or so.
 
-...
+Working on rebasing this to v6.19-rc1 and saw this new scoped seqlock
+abstraction. For that one I was able to make it work like I thought we
+could (below). Some awkwardness is required to make it work in
+for-loops, which only let you define variables with the same type.
 
-> @@ -1593,6 +1593,7 @@ EXPORT_SYMBOL(igrab);
->   * @hashval:	hash value (usually inode number) to search for
->   * @test:	callback used for comparisons between inodes
->   * @data:	opaque data pointer to pass to @test
-> + * @isnew:	whether the inode is new or not
+For <linux/cleanup.h> it needs some more thought due to extra levels of
+indirection.
 
-I'm sorry but this is true but misleading at the same time. I'd write there
-something like:
+------ >8 ------
 
- * @isnew:    return argument telling whether I_NEW was set when the inode
-              was found in hash (the caller needs to wait for I_NEW to clear).
-
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
+index b5563dc83aba..5162962b4b26 100644
+--- a/include/linux/seqlock.h
++++ b/include/linux/seqlock.h
+@@ -1249,6 +1249,7 @@ struct ss_tmp {
+ };
+ 
+ static __always_inline void __scoped_seqlock_cleanup(struct ss_tmp *sst)
++	__no_context_analysis
+ {
+ 	if (sst->lock)
+ 		spin_unlock(sst->lock);
+@@ -1278,6 +1279,7 @@ extern void __scoped_seqlock_bug(void);
+ 
+ static __always_inline void
+ __scoped_seqlock_next(struct ss_tmp *sst, seqlock_t *lock, enum ss_state target)
++	__no_context_analysis
+ {
+ 	switch (sst->state) {
+ 	case ss_done:
+@@ -1320,9 +1322,18 @@ __scoped_seqlock_next(struct ss_tmp *sst, seqlock_t *lock, enum ss_state target)
+ 	}
+ }
+ 
++/*
++ * Context analysis helper to release seqlock at the end of the for-scope; the
++ * alias analysis of the compiler will recognize that the pointer @s is is an
++ * alias to @_seqlock passed to read_seqbegin(_seqlock) below.
++ */
++static __always_inline void __scoped_seqlock_cleanup_ctx(struct ss_tmp **s)
++	__releases_shared(*((seqlock_t **)s)) __no_context_analysis {}
++
+ #define __scoped_seqlock_read(_seqlock, _target, _s)			\
+ 	for (struct ss_tmp _s __cleanup(__scoped_seqlock_cleanup) =	\
+-	     { .state = ss_lockless, .data = read_seqbegin(_seqlock) };	\
++	     { .state = ss_lockless, .data = read_seqbegin(_seqlock) }, \
++	     *__UNIQUE_ID(ctx) __cleanup(__scoped_seqlock_cleanup_ctx) = (struct ss_tmp *)_seqlock; \
+ 	     _s.state != ss_done;					\
+ 	     __scoped_seqlock_next(&_s, _seqlock, _target))
+ 
+diff --git a/lib/test_context-analysis.c b/lib/test_context-analysis.c
+index 4612025a1065..3f72b1ab2300 100644
+--- a/lib/test_context-analysis.c
++++ b/lib/test_context-analysis.c
+@@ -261,6 +261,13 @@ static void __used test_seqlock_writer(struct test_seqlock_data *d)
+ 	write_sequnlock_irqrestore(&d->sl, flags);
+ }
+ 
++static void __used test_seqlock_scoped(struct test_seqlock_data *d)
++{
++	scoped_seqlock_read (&d->sl, ss_lockless) {
++		(void)d->counter;
++	}
++}
++
+ struct test_rwsem_data {
+ 	struct rw_semaphore sem;
+ 	int counter __guarded_by(&sem);
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/qxbixswc7daxb3y7o7ebmy34dpa3uv6i5vc2fnj2p6f3sckulk%40vcbuzldig7al.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aUAPbFJSv0alh_ix%40elver.google.com.
