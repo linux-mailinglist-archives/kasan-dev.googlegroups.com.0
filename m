@@ -1,233 +1,136 @@
-Return-Path: <kasan-dev+bncBDH33INIQEARBDGLQLFAMGQEWTFS3KI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBCELQPFAMGQEZ7HKH7I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43b.google.com (mail-pf1-x43b.google.com [IPv6:2607:f8b0:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7D64CC0552
-	for <lists+kasan-dev@lfdr.de>; Tue, 16 Dec 2025 01:19:26 +0100 (CET)
-Received: by mail-pf1-x43b.google.com with SMTP id d2e1a72fcca58-7c240728e2asf8347170b3a.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 15 Dec 2025 16:19:26 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1765844365; cv=pass;
+Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48232CC09C4
+	for <lists+kasan-dev@lfdr.de>; Tue, 16 Dec 2025 03:35:54 +0100 (CET)
+Received: by mail-lj1-x238.google.com with SMTP id 38308e7fff4ca-3800a9b1d12sf351361fa.3
+        for <lists+kasan-dev@lfdr.de>; Mon, 15 Dec 2025 18:35:54 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1765852553; cv=pass;
         d=google.com; s=arc-20240605;
-        b=A8Qu+VsuDbum8p2R/CBzZPLDMm1Juyf4up5U8iSlPdJhN9xy1hjaj2fM7n7i/7NXLh
-         9/4qKZBJY9li/uqui+aWoWALXt0Mc/S+ZmadDV774zNquKQdyeaPa8Stdz9XvZQ8Z/eT
-         lZd5rmasWn3GkBo2BNZnWDIjbjnrd/Nls30SWnIELhySLts6T7rRuzmL/+CCUYc7xsFP
-         M/RomsgkS4Oy6zKUUW2plyLKOpme+L9hb8j+NHtxAPmCcdZj4y9eShizzb3tfHDdW8Jn
-         re2ZGBYkzWFYct4TFdZw+l4iiRi9SWzU7sX8YXaDwQNokzZsvB8wLhiVUY4oMujb9j1V
-         ra/Q==
+        b=M90AIjeFZkOVsQwV59JlU3anzlumeMkQelSj6rBB1aB/EawhrB1szURx2dum14LG5q
+         fAOwE9qnH8pltFEIpKDBfcqyn/ANQeDf7s3CuomOc4f3T9zXL+nYxgjlxpiQEPOOtWcD
+         IKI80bL/hPFPTtTkQ6rpLVHSM79IAmXSXWnvcbxebjcE6HvjHZublPs+1FyKo9Y84vap
+         td28FetCU+qtV/A5QZmexFG7yaZS3u2VmxUvQhllT2XhYe0z19svwL4LU9sYhMZUjg+g
+         V94WC3kfKoZVifp5ASDLkOp4VPaT5WrnJONQh4OF/LIOflS/ubZEc8KGh6ojMWaygl8Q
+         sgzA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature:dkim-signature;
-        bh=J0oH4Sdc7luW61uRUfMw4dGorjYDDkBTu1VE7ilqCfM=;
-        fh=VW6/Vlk6LiDAtCZpkFZBtE+85gBSJGfRiZLHWhg7XX0=;
-        b=geWNeIFugDeiZk95x5WWDN0JJR8KxbWr69aM23dRauUJKwCGKrTuP0TbgFEhtGlJ4t
-         7R0lTCaHwo+M7lm/NcEPUGvGECKJ3IsMM823TWFtUfDLcSXAz6lVrfKYy9+TDJKsIb8p
-         ERQIbcpWzPriGD5Aw0WIfJ1jmNrDmXUXI4sYeQSsTeLIdP2VLNEDLQvJD0NqFs+9i5qe
-         RU5NehgLn2x7MXyHzosYqet/5/L4Xi3fcGPB6gL8o+m6dOdUF5grkq8fSux+JJTBfCF/
-         tmKiTXe+YLwHT8ST5mpNu7DRFylyFdUQTdKARx18OHsB5IUV3+pFNhqb5WMFP2YvM1rQ
-         G7sw==;
+         :dkim-signature;
+        bh=/DH/6Hgq1Uz5vrBZkneKmTZTzT7GlhFqPKUU99cq7N4=;
+        fh=Iy5kpIwyLmvo2sRIkKHfFgsxz4g8Vx/jC2aPXtOwAuU=;
+        b=L2XmSeu1ZOYqSSKLm/39Qrx7nbJVfEg2XXaTwedMpGgmMG8hHTD5DK8XIJJ8wlP0+K
+         lymQiY+fhglDOqelrGwTVdoOxb0BIeQQ1zftfvjWMB6eaGZuTsBRacEKRQPcDo2qJnFR
+         nY+G1BMaVJDHw01I26rkAz3/parAKA+xBa54Ga6X922yMiCrfJzCSYh5LYj6FbFU8eqN
+         IcRkFwUZZbKVo6DwgkqG0QuryM8FdClZkBczCZRJeoQBJxmU9p7ixKMcoMvBHCh2RUkI
+         e40P7If0UlTv/4O6f0Q+0YZN7EO1fJPfUT8WcPvjXwmLYNtBXccfrGJnYrMcfuPe4tNh
+         8d9w==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=UlInzzTf;
-       spf=pass (google.com: domain of vishal.moola@gmail.com designates 2607:f8b0:4864:20::536 as permitted sender) smtp.mailfrom=vishal.moola@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@linux.dev header.s=key1 header.b="TxI7E3/S";
+       spf=pass (google.com: domain of hao.li@linux.dev designates 2001:41d0:203:375::b7 as permitted sender) smtp.mailfrom=hao.li@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1765844365; x=1766449165; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1765852553; x=1766457353; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=J0oH4Sdc7luW61uRUfMw4dGorjYDDkBTu1VE7ilqCfM=;
-        b=i59EvMXAasGT0FeKf7no9ctiSw3PoMyq4Z5TI3ic0kiaR+fd3OEXXPWJDRLHdFfmLb
-         7ozucywM8nNv9EsNm9nioqwPlpHYOEeIYIkv1+RMwej5sEg2QtrAKhDeARo59a/N7psg
-         VxdRNKQ92PU7mwt12sSDbfJYHg+/3Ln2sktnhFpILczR8gemNCpNI4nIejK2Awpmb14S
-         WvngpKnsn0nca0Evy8qU2k/e7i9CFCXKPimCtHKe4Of9c+i+62a2MpN1+y2mHA4xw0+u
-         lAibs0EQ3+UydU25gEl6NCniboW8S6G26p6ShUjoOSu+v2xzV5idGvT9BTNHzYC4rhIe
-         Ybdg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765844365; x=1766449165; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=J0oH4Sdc7luW61uRUfMw4dGorjYDDkBTu1VE7ilqCfM=;
-        b=XD5fvI3LdogFKHixhJb+6PnzwjsxxEm85RB0HdLYrQQnuMIMpXpB4FecsXD78oZAZM
-         RB4rsUamwW9PsbLVxSrD1lLSXuUTLgyI+uqOaVmjQQuY0/gpuOVF6RXbVtuI1DjsBwwq
-         n5mbMIg0iSSxqeUa3fifq3nLq3/DDDl7Q0mR4r8nHoDr/CNEtQPA0GRxohy6quz2rAjF
-         XHqKW3yhIBIuQh9meBUmbvbDxn4cO1a1xdUAch52UAhtVClvoQzXean+140KC3k5KICe
-         ZuqwpeIjxZPv3B5XvVgu7/9hqbNkEVYZg7cSQbe9ljVz4bldeGPQRUy8jVmprGh8oFi9
-         IbAw==
+        bh=/DH/6Hgq1Uz5vrBZkneKmTZTzT7GlhFqPKUU99cq7N4=;
+        b=LZ1cTYrV+Wwl38coaPcDz4kG1EoQso17862iDTKGcQ79GV9OdDcAl/2eNSwTnsAjh3
+         EdApYNuffp/Bd7rLO0JcQvr8lGe1XgNBRRLMeDZ8lvd6iyS8Fz3gT7RDN9xbQHLr0lbz
+         OCQY4n/cY55gDyuHcLNnZD15paXWu11kyMQl86zWPAJqmBlO9cS9S+DPx8vIrt9Xxq+4
+         bv4Oos95r2pxiVNLa7onwEoaJKCAieEKZ3fHK5OPRTeUsKPl+HAPtfmqd/+BDAEm1E/C
+         xCTLQs5ftfebK/C3t8Ti0xBhH/bwsn/JnJyEltE4CUcffd2UFSoHOWdh3xHSk5g+ioKB
+         5bbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765844365; x=1766449165;
+        d=1e100.net; s=20230601; t=1765852553; x=1766457353;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-beenthere:x-gm-message-state:sender:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=J0oH4Sdc7luW61uRUfMw4dGorjYDDkBTu1VE7ilqCfM=;
-        b=M2fTCaLMNMdhf6PXGPI0eGi6R5lmvYwwH4MHjGNcRZ1JDLtq3h4w4AjqZFpzjUSyHv
-         9kYYCnLxXnRcoBKiBLt6BEjv8oZVlM447U8WNtWjNf7D03CAOEQ/pZ99VaTNIR8LMtGK
-         ppUEUAqQ2sVz4nQC/AyOJUoouYbtXki0zmr51VDBW0315ZCXH1D5zjZ0rdEkfc+SwVTD
-         w7aUYyYV8i4gyJU+GS/Pd1+4Ga47tvv26vKrZIjzGlbEh0YHpsO0gsyeurbflH1dlye5
-         qsMKLLhYDSoQWDqVTmjmC4T0TYY/LqLqnZfpTG558ZNarDy2bOm5kTBDnlcoRqqdJmFX
-         hP/Q==
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/DH/6Hgq1Uz5vrBZkneKmTZTzT7GlhFqPKUU99cq7N4=;
+        b=QBaJxd3+2qtZOSz9jVR8g14Zt6wWUZbzOliDEQUc2y/gn9WLUuO8CB9cuZDvND+v3Y
+         dzqfIJC56F0TR0/tj4rgH4iEMtFQYzgxe241C7vOOgVBK54QaPIP+/7jfILT7Ifhh8+v
+         qnQdVQbBFZi+wrikaJmKBS2GBUWuswVWBeH9E+uAssHw3Iqq/6koYu5RTN6eQeA2iKlM
+         dxLx4kqFKDIJ3w1uFDZfi91Xor2O4YobE2gXz+Pa84L1DdW5hLCpZlpPUA4s+OuVTzp+
+         Q2P6hRmud5V405CP+/IfK5GRbqQkVtAppm8Tp2NOamWWg2I0cMyBCP7JIdzlyS+j03Jp
+         UOaQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUAibynf8xGzlXD9qrknDWOeGiPt10zR5RdrEerFe74pFm4n7Istl7r5nYCSQ1v6ms2RneIWg==@lfdr.de
-X-Gm-Message-State: AOJu0YzazdOVB5r6Hx04dX1+e6QgYfT6ZvMa6HX3H0Rn7B0LFoYowB+B
-	J71X7pfgtjACu1RQxkXo1zqQUWYV4ZVka0QDb76a7RpQR+zRNeA4/gEH
-X-Google-Smtp-Source: AGHT+IGJGPh0mezwJwUto4GXqvKUQrJzNXJnhB0rPScR1o54RdnFXhgzjzLwgqfyiwfApS0Sy8UUlw==
-X-Received: by 2002:a05:6a00:27a2:b0:7e8:4398:b36a with SMTP id d2e1a72fcca58-7f669b8cdfdmr11671275b3a.61.1765844364651;
-        Mon, 15 Dec 2025 16:19:24 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWaW7BECk6s3KRbgbM+JDbgPcGt8kSINNXBpt2pdmnlGIw=="
-Received: by 2002:a05:6a00:14c2:b0:772:6b0d:37ce with SMTP id
- d2e1a72fcca58-7f647dca0b1ls3961875b3a.1.-pod-prod-02-us; Mon, 15 Dec 2025
- 16:19:23 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCWjGyUHUL8dB8TuWFDIOIE3ejHHhThFRVr6UriEukgGuFbU0hze8uIbcV3gFUj1xHZLEzXbfFYy67g=@googlegroups.com
-X-Received: by 2002:a05:6a20:3942:b0:350:b8e:f9a9 with SMTP id adf61e73a8af0-369afdf657emr12298810637.42.1765844363171;
-        Mon, 15 Dec 2025 16:19:23 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1765844363; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCVFJ8dpADaZOcGeJqM/s7x1wbY8mtB/bTkWOQssh0ZTDdgjs2ATms7Cw35VB/fBW9rR/NcbAw==@lfdr.de
+X-Gm-Message-State: AOJu0YwdPP+huGlm7goSMlTot1ocg4te31Mz14tdRoByEiWvWBnb/Oif
+	BPSyV+iZRaoxWHs13RqKBCUX9wA4T8FQSHCsH9PwsgEKpyFKD1W23svn
+X-Google-Smtp-Source: AGHT+IFNsU3+F2lYtByC+Ubyn+cQrJnonHa4OL9dDONVcgCrv6y/0wEzRSyUoKTu0+XjL+3H8R3Gfw==
+X-Received: by 2002:a2e:9a04:0:b0:37b:b00b:799d with SMTP id 38308e7fff4ca-37fd0874e13mr36855351fa.24.1765852553319;
+        Mon, 15 Dec 2025 18:35:53 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWZ7av08Wo2kGYpT607HhHEGLyvpX03YnkIyZbpfeRSt3g=="
+Received: by 2002:a05:651c:483:b0:37f:b4e0:a50c with SMTP id
+ 38308e7fff4ca-37fcef199b9ls2943371fa.0.-pod-prod-03-eu; Mon, 15 Dec 2025
+ 18:35:51 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVjiQED0ciK7viSv0dCznTYkeQBEN7RUX6u8TFyd75nuugvbfBhrrGPpU+KqJXdMbVHep0TytsSVUU=@googlegroups.com
+X-Received: by 2002:a2e:bcc5:0:b0:37a:d2e:4c07 with SMTP id 38308e7fff4ca-37fd0874e82mr40875201fa.20.1765852551096;
+        Mon, 15 Dec 2025 18:35:51 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1765852551; cv=none;
         d=google.com; s=arc-20240605;
-        b=gPjGio8mzhfaBB4Tcc7iBqAOQK6u923yEBknC6ZxJLz31sitkm5CLjhHBHBNjOPMp+
-         i89K0TWDVzYSY1DzerzAYwfcjy7jH23Gtrt9jMryb3ubyX6gBoRIHpZGbsM+u6RPuWd2
-         Qfl2Oh/x1xRwtOTVLpdHyQpLO6lWvG+USsKkS3LPtHxd5FwOy4ShQGHO8dOu0+6p+5J0
-         yZLKQfnk7AV6I9TofzXfPangcQjAQNxndBE78xXN9OB5Jy9HZxbrvLC1SOoUEXJm8KiD
-         ZbJqTZNWS/kgszs5SPAfDMstC4W2bIlE+V14d552+/AI5LnwoDkPq++1z+AVu79Fn0GQ
-         8qJA==
+        b=PMcG2AOpQwrxs8S0Coafj9zL+dJdRqZNT9OQRrZ6+yppTtAChKCQB5I0p+Rphd2U2+
+         tj7PbL7NCv/FvCHdSBjS57FQxtaW1R9+4SvrBKYjWzBzCCLtQVsF9TGx+bctOA2pAIYs
+         kCvvJxj2imOhgxwgj+JaYPBStKn0j6CQmtowjJZC24M8pkVS+KDMhwhe4iUz/IMnAR7o
+         d05bjvsxNZjgGpnVRvBGrANPLn0rNmlYGNw1rciiQKxrPS4OgL3THDJIqpgHAC81AITL
+         aU1+rBOJ0Do3xVrnnMtwWDuy84gbVIgrJsK1oqN+CTWAn0LEqk0u5YcD7wnJ5zO0rKlm
+         Oduw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=Sk1yhdZDsbmHyAUXRbfG+BCb5AaoOf6d28kSsthudBo=;
-        fh=/DeOpR92+ojeY3CM6EE2zqso0FRaOX/6Gg6Llc02Nz0=;
-        b=PZRrnGJ7lztzY5Ps7WEEXMQqGwjjPpNYNW7G16QGmuMsGRSK7P2OQChAd77sCIfaDT
-         Y+gFZKokiVGpYPFlNMUTPSh9KsnGIDMUoZvwd1PCk7icpGtK9mu383nIO62rJf7Uz0ER
-         xIOYZMUXeqjNgFbfVAWrxt14dFLqmilclm511oXEn0xADhSFdwCjp4qxs70mrVrIjPYX
-         WsMofhoEhpCkl9tq2SR/MyVnwi06yLwsRu7P93DKWQYsQHX1wtRezwxqvSR8bpL3hENQ
-         W7Uk3qtF9uSMLJIGslzhXGQAzGEVH/JsKQCpu/1uRm2zJ/ZlhQlNFYI61WqQmlGqtOHZ
-         Q4Pg==;
+         :subject:cc:to:from:dkim-signature:date;
+        bh=14Qnu6glJrs2grpIMzCNPU4lzsGBr4BJiAY7oS1kvoU=;
+        fh=UxK0f7Sg+Kvncwz8/Gj/XfKMLaSYI6WylwLy90nXgxM=;
+        b=MBsECTuo089Yra12BXFZlFtTvFInsPd4NIoDOZc2F8f+o1PsWFjGT59/pXrbzJ3GUL
+         AI/5XbcbJ/Axvl9jOH3ChU/Y5TxOzjF+hPCDYINvDr2+1Z3ZaqOTSNd9ck/jOeRSNPhU
+         kLt6tqziJ+8y0lgKM0OIPCQurpW09sYrVTdlmchW/hOlPS7iLA0y8XgY+Ffc/K43IHUR
+         oandaWvyKn7w7zAAqcPHY1/FryrreLfxFf9XSipMpv1yvcikL30cOEW8EQIa5qdGE3t8
+         akCfpEaJ4iqpjTKZyu3D9eQy695k0RMqZVAVLlV6CXdBE+UAn99f0Jebwzqtg6CF1AjM
+         RAnA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=UlInzzTf;
-       spf=pass (google.com: domain of vishal.moola@gmail.com designates 2607:f8b0:4864:20::536 as permitted sender) smtp.mailfrom=vishal.moola@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com. [2607:f8b0:4864:20::536])
-        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-c0c25b7e2aasi389133a12.2.2025.12.15.16.19.23
+       dkim=pass header.i=@linux.dev header.s=key1 header.b="TxI7E3/S";
+       spf=pass (google.com: domain of hao.li@linux.dev designates 2001:41d0:203:375::b7 as permitted sender) smtp.mailfrom=hao.li@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com. [2001:41d0:203:375::b7])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-37fded0c6fbsi1247191fa.4.2025.12.15.18.35.50
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Dec 2025 16:19:23 -0800 (PST)
-Received-SPF: pass (google.com: domain of vishal.moola@gmail.com designates 2607:f8b0:4864:20::536 as permitted sender) client-ip=2607:f8b0:4864:20::536;
-Received: by mail-pg1-x536.google.com with SMTP id 41be03b00d2f7-c0224fd2a92so3792541a12.2
-        for <kasan-dev@googlegroups.com>; Mon, 15 Dec 2025 16:19:23 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVcGND0RLOltC2/lrBv192HUNe2EJM1AIzFcUpMsOCp6+te/zumZXftiDXlU77IBzRuuQzTO+TNQM0=@googlegroups.com
-X-Gm-Gg: AY/fxX4tvyABQRtLp9RhXy0Y0HCxtvUqukF+O3wtWKJJkbP0+1jhblgwlUmpIRDbFzf
-	eJmdzEiCI4tfOZqxwRiTqj0GqdqNft3+q1ez4w4n1mgVAhnujCH4dHqkdxVVsPqqefOsaGDe9Tx
-	X5AAnsU7T7Z9GkUDrzpTZXI8I8TfV+G/hSsOJILXc5TfSWbBDY0mJV2Ew9bNU2b0Oj2fqE4Qcfh
-	8K3w/icQsEWtwJ8lEZof645iZi6fkYNj+9irqmIwt8JlK+NzgOrC0mkaAyj7kzI8tTv3TtFyolK
-	nWMq1orudo6rHCJZMV5A7HNFRNjKmm9jQpUfDTYVHjmeB7hHtwg3ep+ncilMf61tZULFnHTE2he
-	ORKZ4ZGuvv0tD6KFJUlsdSpCIu7RePBgF9n1pQh2nhx8+WYvDU36n747z1VFGUIV66RP+ycgwL8
-	L49+xygzu2JYMYcZAokPAw9gFc0EahohJbdSQxK0S7YNI=
-X-Received: by 2002:a05:7301:f84:b0:2a4:3593:6466 with SMTP id 5a478bee46e88-2ac300f729dmr7381219eec.22.1765844362545;
-        Mon, 15 Dec 2025 16:19:22 -0800 (PST)
-Received: from fedora (c-67-164-59-41.hsd1.ca.comcast.net. [67.164.59.41])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f2e30491dsm51066947c88.16.2025.12.15.16.19.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 16:19:21 -0800 (PST)
-Date: Mon, 15 Dec 2025 16:19:16 -0800
-From: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
-	Linux DRI Development <dri-devel@lists.freedesktop.org>,
-	Linux Filesystems Development <linux-fsdevel@vger.kernel.org>,
-	Linux Media <linux-media@vger.kernel.org>,
-	linaro-mm-sig@lists.linaro.org, kasan-dev@googlegroups.com,
-	Linux Virtualization <virtualization@lists.linux.dev>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linux Network Bridge <bridge@lists.linux.dev>,
-	Linux Networking <netdev@vger.kernel.org>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Philipp Stanner <phasta@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Ido Schimmel <idosch@nvidia.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Taimur Hassan <Syed.Hassan@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
-	Alex Hung <alex.hung@amd.com>,
-	Aurabindo Pillai <aurabindo.pillai@amd.com>,
-	Dillon Varone <Dillon.Varone@amd.com>,
-	George Shen <george.shen@amd.com>, Aric Cyr <aric.cyr@amd.com>,
-	Cruise Hung <Cruise.Hung@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Sunil Khatri <sunil.khatri@amd.com>,
-	Dominik Kaszewski <dominik.kaszewski@amd.com>,
-	David Hildenbrand <david@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Max Kellermann <max.kellermann@ionos.com>,
-	"Nysal Jan K.A." <nysal@linux.ibm.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Alexey Skidanov <alexey.skidanov@intel.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Vitaly Wool <vitaly.wool@konsulko.se>,
-	Harry Yoo <harry.yoo@oracle.com>, Mateusz Guzik <mjguzik@gmail.com>,
-	NeilBrown <neil@brown.name>, Amir Goldstein <amir73il@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>, Ivan Lipski <ivan.lipski@amd.com>,
-	Tao Zhou <tao.zhou1@amd.com>, YiPeng Chai <YiPeng.Chai@amd.com>,
-	Hawking Zhang <Hawking.Zhang@amd.com>,
-	Lyude Paul <lyude@redhat.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Luben Tuikov <luben.tuikov@amd.com>,
-	Matthew Auld <matthew.auld@intel.com>,
-	Roopa Prabhu <roopa@cumulusnetworks.com>,
-	Mao Zhu <zhumao001@208suo.com>,
-	Shaomin Deng <dengshaomin@cdjrlc.com>,
-	Charles Han <hanchunchao@inspur.com>,
-	Jilin Yuan <yuanjilin@cdjrlc.com>,
-	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
-	George Anthony Vernon <contact@gvernon.com>
-Subject: Re: [PATCH 04/14] mm: vmalloc: Fix up vrealloc_node_align()
- kernel-doc macro name
-Message-ID: <aUClhBdwQb83vN0o@fedora>
-References: <20251215113903.46555-1-bagasdotme@gmail.com>
- <20251215113903.46555-5-bagasdotme@gmail.com>
+        Mon, 15 Dec 2025 18:35:51 -0800 (PST)
+Received-SPF: pass (google.com: domain of hao.li@linux.dev designates 2001:41d0:203:375::b7 as permitted sender) client-ip=2001:41d0:203:375::b7;
+Date: Tue, 16 Dec 2025 10:35:33 +0800
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Hao Li <hao.li@linux.dev>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>, 
+	Uladzislau Rezki <urezki@gmail.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH RFC 14/19] slab: simplify kmalloc_nolock()
+Message-ID: <4ukrk3ziayvxrcfxm2izwrwt3qrmr4fcsefl4n7oodc4t2hxgt@ijk63r4f3rkr>
+References: <20251023-sheaves-for-all-v1-0-6ffa2c9941c0@suse.cz>
+ <20251023-sheaves-for-all-v1-14-6ffa2c9941c0@suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20251215113903.46555-5-bagasdotme@gmail.com>
-X-Original-Sender: vishal.moola@gmail.com
+In-Reply-To: <20251023-sheaves-for-all-v1-14-6ffa2c9941c0@suse.cz>
+X-Migadu-Flow: FLOW_OUT
+X-Original-Sender: hao.li@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=UlInzzTf;       spf=pass
- (google.com: domain of vishal.moola@gmail.com designates 2607:f8b0:4864:20::536
- as permitted sender) smtp.mailfrom=vishal.moola@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+ header.i=@linux.dev header.s=key1 header.b="TxI7E3/S";       spf=pass
+ (google.com: domain of hao.li@linux.dev designates 2001:41d0:203:375::b7 as
+ permitted sender) smtp.mailfrom=hao.li@linux.dev;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=linux.dev
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -240,21 +143,214 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Dec 15, 2025 at 06:38:52PM +0700, Bagas Sanjaya wrote:
-> Sphinx reports kernel-doc warning:
+On Thu, Oct 23, 2025 at 03:52:36PM +0200, Vlastimil Babka wrote:
+> The kmalloc_nolock() implementation has several complications and
+> restrictions due to SLUB's cpu slab locking, lockless fastpath and
+> PREEMPT_RT differences. With cpu slab usage removed, we can simplify
+> things:
 > 
-> WARNING: ./mm/vmalloc.c:4284 expecting prototype for vrealloc_node_align_noprof(). Prototype was for vrealloc_node_align() instead
+> - the local_lock_cpu_slab() macros became unused, remove them
 > 
-> Fix the macro name in vrealloc_node_align_noprof() kernel-doc comment.
+> - we no longer need to set up lockdep classes on PREEMPT_RT
 > 
-> Fixes: 4c5d3365882dbb ("mm/vmalloc: allow to set node and align in vrealloc")
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> - we no longer need to annotate ___slab_alloc as NOKPROBE_SYMBOL
+>   since there's no lockless cpu freelist manipulation anymore
+> 
+> - __slab_alloc_node() can be called from kmalloc_nolock_noprof()
+>   unconditionally
+> 
+> Note that we still need __CMPXCHG_DOUBLE, because while it was removed
+> we don't use cmpxchg16b on cpu freelist anymore, we still use it on
+> slab freelist, and the alternative is slab_lock() which can be
+> interrupted by a nmi. Clarify the comment to mention it specifically.
+> 
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 > ---
+>  mm/slab.h |   1 -
+>  mm/slub.c | 100 ++++----------------------------------------------------------
+>  2 files changed, 6 insertions(+), 95 deletions(-)
+> 
+> diff --git a/mm/slab.h b/mm/slab.h
+> index b2663cc594f3..7dde0b56a7b0 100644
+> --- a/mm/slab.h
+> +++ b/mm/slab.h
+> @@ -208,7 +208,6 @@ struct kmem_cache_order_objects {
+>   */
+>  struct kmem_cache {
+>  	struct kmem_cache_cpu __percpu *cpu_slab;
+> -	struct lock_class_key lock_key;
+>  	struct slub_percpu_sheaves __percpu *cpu_sheaves;
+>  	/* Used for retrieving partial slabs, etc. */
+>  	slab_flags_t flags;
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 6f5ca26bbb00..6dd7fd153391 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -3679,29 +3679,12 @@ static inline unsigned int init_tid(int cpu)
+>  
+>  static void init_kmem_cache_cpus(struct kmem_cache *s)
+>  {
+> -#ifdef CONFIG_PREEMPT_RT
+> -	/*
+> -	 * Register lockdep key for non-boot kmem caches to avoid
+> -	 * WARN_ON_ONCE(static_obj(key))) in lockdep_register_key()
+> -	 */
+> -	bool finegrain_lockdep = !init_section_contains(s, 1);
+> -#else
+> -	/*
+> -	 * Don't bother with different lockdep classes for each
+> -	 * kmem_cache, since we only use local_trylock_irqsave().
+> -	 */
+> -	bool finegrain_lockdep = false;
+> -#endif
+>  	int cpu;
+>  	struct kmem_cache_cpu *c;
+>  
+> -	if (finegrain_lockdep)
+> -		lockdep_register_key(&s->lock_key);
+>  	for_each_possible_cpu(cpu) {
+>  		c = per_cpu_ptr(s->cpu_slab, cpu);
+>  		local_trylock_init(&c->lock);
+> -		if (finegrain_lockdep)
+> -			lockdep_set_class(&c->lock, &s->lock_key);
+>  		c->tid = init_tid(cpu);
+>  	}
+>  }
+> @@ -3792,47 +3775,6 @@ static void deactivate_slab(struct kmem_cache *s, struct slab *slab,
+>  	}
+>  }
+>  
+> -/*
+> - * ___slab_alloc()'s caller is supposed to check if kmem_cache::kmem_cache_cpu::lock
+> - * can be acquired without a deadlock before invoking the function.
+> - *
+> - * Without LOCKDEP we trust the code to be correct. kmalloc_nolock() is
+> - * using local_lock_is_locked() properly before calling local_lock_cpu_slab(),
+> - * and kmalloc() is not used in an unsupported context.
+> - *
+> - * With LOCKDEP, on PREEMPT_RT lockdep does its checking in local_lock_irqsave().
+> - * On !PREEMPT_RT we use trylock to avoid false positives in NMI, but
+> - * lockdep_assert() will catch a bug in case:
+> - * #1
+> - * kmalloc() -> ___slab_alloc() -> irqsave -> NMI -> bpf -> kmalloc_nolock()
+> - * or
+> - * #2
+> - * kmalloc() -> ___slab_alloc() -> irqsave -> tracepoint/kprobe -> bpf -> kmalloc_nolock()
+> - *
+> - * On PREEMPT_RT an invocation is not possible from IRQ-off or preempt
+> - * disabled context. The lock will always be acquired and if needed it
+> - * block and sleep until the lock is available.
+> - * #1 is possible in !PREEMPT_RT only.
+> - * #2 is possible in both with a twist that irqsave is replaced with rt_spinlock:
+> - * kmalloc() -> ___slab_alloc() -> rt_spin_lock(kmem_cache_A) ->
+> - *    tracepoint/kprobe -> bpf -> kmalloc_nolock() -> rt_spin_lock(kmem_cache_B)
+> - *
+> - * local_lock_is_locked() prevents the case kmem_cache_A == kmem_cache_B
+> - */
+> -#if defined(CONFIG_PREEMPT_RT) || !defined(CONFIG_LOCKDEP)
+> -#define local_lock_cpu_slab(s, flags)	\
+> -	local_lock_irqsave(&(s)->cpu_slab->lock, flags)
+> -#else
+> -#define local_lock_cpu_slab(s, flags)					       \
+> -	do {								       \
+> -		bool __l = local_trylock_irqsave(&(s)->cpu_slab->lock, flags); \
+> -		lockdep_assert(__l);					       \
+> -	} while (0)
+> -#endif
+> -
+> -#define local_unlock_cpu_slab(s, flags)	\
+> -	local_unlock_irqrestore(&(s)->cpu_slab->lock, flags)
+> -
+>  static inline void flush_slab(struct kmem_cache *s, struct kmem_cache_cpu *c)
+>  {
+>  	unsigned long flags;
+> @@ -4320,19 +4262,6 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+>  
+>  	return freelist;
+>  }
+> -/*
+> - * We disallow kprobes in ___slab_alloc() to prevent reentrance
+> - *
+> - * kmalloc() -> ___slab_alloc() -> local_lock_cpu_slab() protected part of
+> - * ___slab_alloc() manipulating c->freelist -> kprobe -> bpf ->
+> - * kmalloc_nolock() or kfree_nolock() -> __update_cpu_freelist_fast()
+> - * manipulating c->freelist without lock.
+> - *
+> - * This does not prevent kprobe in functions called from ___slab_alloc() such as
+> - * local_lock_irqsave() itself, and that is fine, we only need to protect the
+> - * c->freelist manipulation in ___slab_alloc() itself.
+> - */
+> -NOKPROBE_SYMBOL(___slab_alloc);
+>  
+>  static __always_inline void *__slab_alloc_node(struct kmem_cache *s,
+>  		gfp_t gfpflags, int node, unsigned long addr, size_t orig_size)
+> @@ -5201,10 +5130,11 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
+>  	if (!(s->flags & __CMPXCHG_DOUBLE) && !kmem_cache_debug(s))
+>  		/*
+>  		 * kmalloc_nolock() is not supported on architectures that
+> -		 * don't implement cmpxchg16b, but debug caches don't use
+> -		 * per-cpu slab and per-cpu partial slabs. They rely on
+> -		 * kmem_cache_node->list_lock, so kmalloc_nolock() can
+> -		 * attempt to allocate from debug caches by
+> +		 * don't implement cmpxchg16b and thus need slab_lock()
+> +		 * which could be preempted by a nmi.
+> +		 * But debug caches don't use that and only rely on
+> +		 * kmem_cache_node->list_lock, so kmalloc_nolock() can attempt
+> +		 * to allocate from debug caches by
+>  		 * spin_trylock_irqsave(&n->list_lock, ...)
+>  		 */
+>  		return NULL;
+> @@ -5214,27 +5144,13 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
+>  	if (ret)
+>  		goto success;
+>  
+> -	ret = ERR_PTR(-EBUSY);
+> -
+>  	/*
+>  	 * Do not call slab_alloc_node(), since trylock mode isn't
+>  	 * compatible with slab_pre_alloc_hook/should_failslab and
+>  	 * kfence_alloc. Hence call __slab_alloc_node() (at most twice)
+>  	 * and slab_post_alloc_hook() directly.
+> -	 *
+> -	 * In !PREEMPT_RT ___slab_alloc() manipulates (freelist,tid) pair
+> -	 * in irq saved region. It assumes that the same cpu will not
+> -	 * __update_cpu_freelist_fast() into the same (freelist,tid) pair.
+> -	 * Therefore use in_nmi() to check whether particular bucket is in
+> -	 * irq protected section.
+> -	 *
+> -	 * If in_nmi() && local_lock_is_locked(s->cpu_slab) then it means that
+> -	 * this cpu was interrupted somewhere inside ___slab_alloc() after
+> -	 * it did local_lock_irqsave(&s->cpu_slab->lock, flags).
+> -	 * In this case fast path with __update_cpu_freelist_fast() is not safe.
+>  	 */
+> -	if (!in_nmi() || !local_lock_is_locked(&s->cpu_slab->lock))
+> -		ret = __slab_alloc_node(s, alloc_gfp, node, _RET_IP_, size);
+> +	ret = __slab_alloc_node(s, alloc_gfp, node, _RET_IP_, size);
+>  
+>  	if (PTR_ERR(ret) == -EBUSY) {
 
-LGTM.
-Reviewed-by: Vishal Moola (Oracle) <vishal.moola@gmail.com>
+After Patch 10 is applied, the logic that returns `EBUSY` has been
+removed along with the `s->cpu_slab` logic. As a result, it appears that
+`__slab_alloc_node` will no longer return `EBUSY`.
+
+>  		if (can_retry) {
+> @@ -7250,10 +7166,6 @@ void __kmem_cache_release(struct kmem_cache *s)
+>  {
+>  	cache_random_seq_destroy(s);
+>  	pcs_destroy(s);
+> -#ifdef CONFIG_PREEMPT_RT
+> -	if (s->cpu_slab)
+> -		lockdep_unregister_key(&s->lock_key);
+> -#endif
+>  	free_percpu(s->cpu_slab);
+>  	free_kmem_cache_nodes(s);
+>  }
+> 
+> -- 
+> 2.51.1
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aUClhBdwQb83vN0o%40fedora.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/4ukrk3ziayvxrcfxm2izwrwt3qrmr4fcsefl4n7oodc4t2hxgt%40ijk63r4f3rkr.
