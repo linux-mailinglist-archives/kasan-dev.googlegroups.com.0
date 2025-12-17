@@ -1,148 +1,152 @@
-Return-Path: <kasan-dev+bncBC6OLHHDVUOBBRX3RHFAMGQESQMVTOI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBQ4HRLFAMGQEQ3JPDOA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x437.google.com (mail-wr1-x437.google.com [IPv6:2a00:1450:4864:20::437])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3874CC6E4A
-	for <lists+kasan-dev@lfdr.de>; Wed, 17 Dec 2025 10:54:15 +0100 (CET)
-Received: by mail-wr1-x437.google.com with SMTP id ffacd0b85a97d-42fd46385c0sf1482768f8f.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 17 Dec 2025 01:54:15 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1765965255; cv=pass;
+Received: from mail-qt1-x83e.google.com (mail-qt1-x83e.google.com [IPv6:2607:f8b0:4864:20::83e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95FC8CC70C4
+	for <lists+kasan-dev@lfdr.de>; Wed, 17 Dec 2025 11:19:49 +0100 (CET)
+Received: by mail-qt1-x83e.google.com with SMTP id d75a77b69052e-4ee25cd2da3sf100463411cf.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 17 Dec 2025 02:19:49 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1765966788; cv=pass;
         d=google.com; s=arc-20240605;
-        b=f64knGuOKzOX1+hWjYUwQweScptF6J5ysLm1PYk35O6ziqeQA+szSjLodtiha/98AA
-         fBmWdrxFayjEnWFO/90L/o3lyVypNKDrQYWyiXSSn3Q7aCd7WA06tlVmlUOnSMINuDAt
-         +OKhMKXcrgi7cL+9ksNE+mgyTU7EwUkEgpuCbM94RW76rrUoBODGFoQgEwyCI8K4cvRF
-         0AYz6zsXE84TbSr5WHTBEoOBMuw/+GYeBQFMHiaaLd4oIpELy5PQtU0Bnl9CWik4G/3i
-         F83J5xngR+BdGJ33kG4gjf/s/bJUQ5QP/9ZuNAVIyMEGTP0Gp2k8oJCrIw7KBscHti43
-         D5xg==
+        b=fNtY4GL4rwidT+CUXKGj9WtHN8tAd6pk/qys29iUl11ggmNkqCUA7U4GFdNYvn0veT
+         2b7E1IfMPdneeEXzo9ooz052OJKRP0P/SDcyiLwdJ/QctYHZTofJGDV+tDsRPEvMvjh0
+         PzWJp7SyFPUexUPa2KpTeA29vb40nnCLYli0lqPkbZc6ioHzExc+UyBXrTq7PNO/xuFo
+         rGd4W6/zF5l+czsaelhoO25SyLXM4VkPhQ1TR/0pFwVPf1rLOkKoPhtENRxR6B5V1Dfz
+         QfTCKLl1B4YgfJwnVFj+vbrlvqLrZhBP6RjnbeHZuu8H7XtoHEq8BJwxyxxe75pnbxs6
+         rW8Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=aZAJ3yjtzNkbnKK7XStOdyLqcvZcsNRFSweEzADSzlk=;
-        fh=enouV2vA24fpBkvmtmCeHfdRTWQbOMh6TZU9knd6NNw=;
-        b=L+75bnB+HgH1syBR4+24Y35l9d8s4iq/eHDGCrgV0yrEl6D6MgJqsZcPVqmOZtCxDY
-         tb41TNhL0qRdMj6v4cTnl4PEGDs7rA4dBtqlnfzt4M1WhylzFDKPQZbMHLlFfz1tSvJp
-         b8ny8xtmY1w5v74OT6BbTos4/fte6I8lJ+GlFSYj6p10RBMEc2GDifvPuOj7cbRprKCg
-         R1hjfAAtYiA/tS20BhyCYuIuRl2SxMonGsQZOhz14P3Y1bK9EFXDvnUCNCZEiPbibuYZ
-         sK9WaMxRi2Se5wfFeo7E8kzsTVBw7Kq5ZxY8QfCuMcxmMX7rWXyUu8imAezbUvZZahYd
-         YXoA==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=063qb00Wqmrv8dzZdkDfwk9rCA2gk2Dmt7Cd7KOfwDk=;
+        fh=epWSrWJD8oagRifJ3fZAG1feOZ/a+uyMrZKF7G9Q5no=;
+        b=bewBp+1lSS2E9tWZgcZYsRWBIE7LWrIiUwWMap4uveFa1aDLJz/GYdWneWFPaTNhVF
+         RsJPLNkB45QPhd4gFwMSk0F+8lWc2mxEfnW4aW5Q5iEy9WBtlTyfDIEK3+PXXuDwzTKz
+         EreDR3VbFYi26I2HmQnaRW+TDaNPWEYS0ouDQK4PT/UlemT5dXT2RLG3H1muK/tw/ZY2
+         65FKwK2fH8UXTZJJUHNDyOHsiJvyx5PEkMMCjt6bPnN04aFqT4gQR5iboXrFZqbY2BVg
+         liFrXDkesu+zUzNzu1fv/FYWzrGfzJstqaA+yUcFuH2xCFt+tQGXV/hNZXJBumI7oiB2
+         7byw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=tGSqeNI0;
-       spf=pass (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::42f as permitted sender) smtp.mailfrom=davidgow@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=Sw+D2pVi;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::830 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1765965255; x=1766570055; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1765966788; x=1766571588; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aZAJ3yjtzNkbnKK7XStOdyLqcvZcsNRFSweEzADSzlk=;
-        b=BZrTVa7wkJuXT7MvYGt//YOCTdpRA7nlnUmlftMpTMxZuncKntqVCnYcLAEPYBRjgw
-         pAZ6Ne6yNlj/4AIRXe7CkCrRZRtE3uobtyGsyV47GelMTfXAlxN3NYYH3NpzdpPyoXz5
-         Jl36943AlOR9IXmbKZ0wrrkZRnvHlmoXY0b13A7JAq9BRCYN7/FLxmgpQdFd/xlSXOyI
-         7VfmG8Iv7JbtTJ71aS87ukB6FAwxNV8yiZUnzx163lnsebAMxa2/AASO6w7H0XGipWcX
-         TwrsnOG854IaqcfIGZaQp0IySWUSpzihSF6nXfDEcnMpS+BUHnoQAijwu8xOp8CJK7d9
-         aVtg==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=063qb00Wqmrv8dzZdkDfwk9rCA2gk2Dmt7Cd7KOfwDk=;
+        b=bRymgjoLunMOXntsE7xKyakc3bU7SKRa3TJKYGsn7EB/GeHK/JHYxdE8HTJyF41JP+
+         bs7mpAMjbG1AuRxVpx7ajpzn7iWPzQOgCVVDi+yPgDgxWXNjcKnH8Nmlf2QbO1horyOO
+         YnnWJk7D55Uj79cAx+cZT5qDdz/S2y6uufbT8DFfug6XPwtaOVjAAXrIbCOjYL94YII8
+         6AocpX+cOL7flUpWa1dRc7WXs/aGU++o6ME5GdIb3jwXI+xEREGJyhvVoOFWhRTcO4FY
+         n2RjxMHN66czECzQouU35zhUpcPil5rXMcrexoECO8m+6Y7U6tskN6v6Pv+XIRkVlChK
+         +evg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765965255; x=1766570055;
+        d=1e100.net; s=20230601; t=1765966788; x=1766571588;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aZAJ3yjtzNkbnKK7XStOdyLqcvZcsNRFSweEzADSzlk=;
-        b=waUdCxxFQOYrMANDNXoOfDAy9Ech1XJ6I64z4t2mGhfTsUrgt5UBBsttervLM10DY8
-         yNsgRghh9sKd2TIZVlKMCEN4ocOElTa3jP7vy6CJQzWya3OLoR6VXHvLPXYH9XtRC5T2
-         p+fuaPG27K+dINirlQWwMA4BUsbtVDMONiSZujgWfToUAR3SVO6mynYnZ+oxTQtN9qOG
-         804hgWS1NmihxHilrRjhzPmeuoOrvodvT4wNRyBrrEgdjpney4SaxMbHNCccPiaySblT
-         4R+GjqaR894II4kbgzJh5tgI98GYkfjCqhqgwn+pTg0qqmAUL0fTmNWWgmbsXGrWZSiR
-         mYWw==
-X-Forwarded-Encrypted: i=2; AJvYcCU+WH/taTYmNLNUoKVUeswmvpeeSDEg45d606+NOyheiXFO3Sqgk6zhkIvrYDUMbObGOOXkUQ==@lfdr.de
-X-Gm-Message-State: AOJu0Yz+Ls/f+plgNtkbELT1cDjg8OSDyTAMuilkirw2bRNC112QGiFi
-	gemjRj9PchIpAYaEO37CQEP3iWD9+4VIm8/ZTjQoB2iOcFX40TgMzvuW
-X-Google-Smtp-Source: AGHT+IG4HQXs7cd5iePBwguphwiOkxQzbX5SNGrP12/t0AQP1FxJBBgjiTPr5AzUE0pkryWUa3iurw==
-X-Received: by 2002:a5d:5f87:0:b0:430:fc63:8c1 with SMTP id ffacd0b85a97d-430fc630e4fmr10661524f8f.18.1765965254825;
-        Wed, 17 Dec 2025 01:54:14 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWa4KybOPK36EZptf5V7OgkIALS8g7BLfqPtfLkAWZWBTw=="
-Received: by 2002:a05:6000:603:b0:3fc:116b:d99b with SMTP id
- ffacd0b85a97d-42fb2c85a28ls2163686f8f.2.-pod-prod-01-eu; Wed, 17 Dec 2025
- 01:54:11 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUeXsyTWnII6D+0NDEa9B/ZcIGUrTKuFAhxk44rMrgo4ujZeV+R1Tcig7o+OdaxTbgpU6HphggS67w=@googlegroups.com
-X-Received: by 2002:a05:6000:25c1:b0:431:3a5:d9b0 with SMTP id ffacd0b85a97d-43103a5db88mr7080235f8f.56.1765965251497;
-        Wed, 17 Dec 2025 01:54:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1765965251; cv=none;
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=063qb00Wqmrv8dzZdkDfwk9rCA2gk2Dmt7Cd7KOfwDk=;
+        b=Z3lGLZGBj8KrZ5K0TAfzl9UMvpJxw6e/nzqQauq7AWdHWDiFCfi+Y5Wxh8/OuoXfuI
+         w4hvl5ysVBD7jOij1pT2IbLM5boMRftfl2T0FlbK02tbtzlHuoZx7PATatnmeZkGSFfU
+         jhEWS/WfxMBHPYs4RQ4t13U8vzgJVCe9BQjUgiky8apXVqGKheKDmdou6H603xJ6o6C6
+         kOIH14upHMdWG86VQ3ZJK1lFKhezXg4z/yRiJjfRRGEsEwxcvs/46JFYwFlok6qpefDT
+         Ol1n0jMU7uUcCSG/bvn4K8a+gTiZwdWHA37Ir9kPVkuO0VhQkvlTdtHJX7ggtxQXKAzj
+         eHhg==
+X-Forwarded-Encrypted: i=2; AJvYcCWoRJVSEQMgDnGcCXAxeNojRV1713SJ2KzrrJ7p766Mod4e4NZVirtwpH6I02Y9TK3FfvvU4g==@lfdr.de
+X-Gm-Message-State: AOJu0YxUW3k9gohHrf0ilT0KwUndg8owrBHh699nWGAqKJTWafQ0A2W2
+	KPfg6BIuVPWdc2FFY2ev8x9O5+iT2RaYSplkl2Mq3qyccUp8+cFnj2x2
+X-Google-Smtp-Source: AGHT+IHfKjNNIfLjHtCT4mX1P4XAV0NAGyWBhO7X+b1eiKjQwewfQh96sqDVofusc62tS/FZV5oFzQ==
+X-Received: by 2002:a05:622a:5e11:b0:4ed:df09:a6a6 with SMTP id d75a77b69052e-4f1d04b1dffmr237349451cf.25.1765966788257;
+        Wed, 17 Dec 2025 02:19:48 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWbNXcApAfuUxVMsdLpd7By0npkibdNLY//aNf8DJzXAYw=="
+Received: by 2002:a05:622a:1391:b0:4ee:1544:bc7e with SMTP id
+ d75a77b69052e-4f1ced6e0cbls139933361cf.1.-pod-prod-07-us; Wed, 17 Dec 2025
+ 02:19:47 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUvXNp7CEPTilWX9FIuYjjBjvH+wxLDGC5CMhpBmlP+wNALkXxYEhx27dyzAKUTXH0/6x4S8fmkH3M=@googlegroups.com
+X-Received: by 2002:a05:622a:4a09:b0:4ef:c5cf:ec0e with SMTP id d75a77b69052e-4f1d05e1649mr255238731cf.55.1765966787421;
+        Wed, 17 Dec 2025 02:19:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1765966787; cv=none;
         d=google.com; s=arc-20240605;
-        b=fGaTf1gkouDY/BREemOEBWLUrGLZILwhH69OE8LTmdIyehJQNYd2rllE1F7PHohDwc
-         ClDHIPXFgMPzU+ZmzRnWR+XRCZjgahDDHu/kq3m6ssyNULBdtaHgCcMJuA0QcBVzKnIz
-         wLqWQiKJ63SNV5/TQJVaEoEWcpaTigQSfjJtyT9GCIgQoiDzdpZruwhb6leD1n+rAnvG
-         DLtqU5fEGDGTAmX3mXQZb2xKrlCs20eRwv1ttN1X6JME6aGY1w1bJZyAXmI2qWPdcL3i
-         fDB+Kp73acD2NGedPvBGq6waqUpYIm5YD/+WcX43lnm34Cm+rydojXur+sZmg440HVNp
-         IF/w==
+        b=DIiYbHM7Is1YFhQ+U/i+mP6WiZA0IEd4zhkBsG1NksPKgvzXAHAZyt7FeunPijNUN9
+         +h4yZUKIJjFZkdtCmfUwKTfymgvkaDIJnZIyO5sud0TMx5U8GipcZK5mTFuIfF2FlNoP
+         VUkBXd4gAcB4iumJljTVXzdFS2Ow2frsW61AggGFAxhrSr8bo0ikKuyo3Fa1udsjjEj/
+         qsVooj8quN3onitSOBbJfSfreLDenrcytrk/uBW3+EqH6sFwAEQHh3mR54D0atUelDfM
+         avG019i7h8JEX5gmrEKtvvKTcX6F0Fn9HYeKH7bqNhnFu8wVVx5+uBa1kJt3jgy5Pkdx
+         kbTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=M4NjwtCrum2S3oQ8yNT2bV1PAXdZ/rFH/MlihXDcYXo=;
-        fh=yxzsRcOkJw6qOli8o3daTDdbJtgq52ETPWz/D4fqo9Y=;
-        b=jDdUlCoPloreQ/D9ul8S7LJGQxsjfGQDAQPuogN+0AlkP+fqP2eTV03i9MqRz6KFvW
-         K0IGe/pOtjdPDM66pBdQRIBw7eXR6j3fA4Qv8LdVeXTiO9bQKgtCbX1CjFD/ikBNW2jK
-         wVDKyXXc+bKTvI96rbsciuoG61M3XvaYcr6h6hdS4Om6ETCC1qhVGKU1sUBRTR244vuj
-         NKeIcybX7cJCuRY+iNY0+pUQ9UmL2VE91fP5CxjB6QgN/Uy+JwMOju9pN5HiXDZ9oK6U
-         jOMYv/XH1SiCEudMWFHO+hFuUqfwVB+eSMCBi5qr5Ojakd0P2pCMqrfTL3ovksofTgM4
-         z9Pg==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=23gqEg6vrrMOt95UIpPZRnWZYiatBfrUBDzMVbZzD8w=;
+        fh=AvZorF82mVB15V6gtO2P34agLcKs3rJzA5Eya0u38lA=;
+        b=AuA1fN8ddVxR7Ddnz+munTvTk6sDF88UsaPe6NMCcOLwb8l52LuZo0QCugsiGH1Kwp
+         a5wJe57nMAy82Dom9SmbwZ7ZmpMCtnCkN8kfQsFh602Cnt6uLRywUw+xvyMlRMO0fdo3
+         JgUTa4iqkJiGFBTXxCrzWjvTbMEzJ3R1eLQb9Fl+0ren6FmXQ05q1z9u6u4uwSnQlc4q
+         M02X4WQ+kDF4coB28FtVCBgF9o/FRS8587QJKadjmdc8OPFRWhzCDZHvvEUt0zhCJlNq
+         O0VHLyS8jKmPz9Om2SUtb1HbUakBCZ165oCTSpNoU4RN6VBcKNtiujgT02XdfwNGgpJh
+         yC/A==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=tGSqeNI0;
-       spf=pass (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::42f as permitted sender) smtp.mailfrom=davidgow@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=Sw+D2pVi;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::830 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com. [2a00:1450:4864:20::42f])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-4310adefabfsi30360f8f.10.2025.12.17.01.54.11
+Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com. [2607:f8b0:4864:20::830])
+        by gmr-mx.google.com with ESMTPS id d75a77b69052e-4f345c35307si2469381cf.3.2025.12.17.02.19.47
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Dec 2025 01:54:11 -0800 (PST)
-Received-SPF: pass (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::42f as permitted sender) client-ip=2a00:1450:4864:20::42f;
-Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-42e2ba54a6fso2203259f8f.3
-        for <kasan-dev@googlegroups.com>; Wed, 17 Dec 2025 01:54:11 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVwSLQqRNFg+C43/xq1h7BrwuW7NMjRjYKCFF7zOdxHDGWWer3hsXo7IrHdAQMSBEqbUaR6UBhK5D8=@googlegroups.com
-X-Gm-Gg: AY/fxX4spPAwLhl+PYS7AV5MZL6MyI9ih7AQcHHnZ9tK5gF6EgFaFpuOrcCo25EMXcP
-	S0O8YoHS3GIclx7dlmwxvEQeNo6b4Vc0GUEvnFNTrM33QsJQdW4DaGijqPOqOtECT4/DN3/bcLP
-	uzi6LXh6c2UOCutwVc5etenzd/YGFvuL8724k+z2VlVdsINIPcyv/0km3L7vtI5UXCZicffWd5R
-	XVtM4WdsyWC0EG1nesvyi41Jy6wlYuj9HlNN16SiTLXPYyeGBxVeir9GmCv2HCxZb7/Lg==
-X-Received: by 2002:a05:6000:25c1:b0:431:3a5:d9b0 with SMTP id
- ffacd0b85a97d-43103a5db88mr7080182f8f.56.1765965250556; Wed, 17 Dec 2025
- 01:54:10 -0800 (PST)
+        Wed, 17 Dec 2025 02:19:47 -0800 (PST)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::830 as permitted sender) client-ip=2607:f8b0:4864:20::830;
+Received: by mail-qt1-x830.google.com with SMTP id d75a77b69052e-4ee2014c228so39741241cf.2
+        for <kasan-dev@googlegroups.com>; Wed, 17 Dec 2025 02:19:47 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWnPxKxytDH+FZOaVJBQzKXS5msO8e0MiX0shPp/RdYp1H9Z8rsMsCpiCsnmBo48IWPPopUh8Y0ZG0=@googlegroups.com
+X-Gm-Gg: AY/fxX6jdVCN2lmv7rHr7TnqE7GL/ZLwQbyhFW2MlLhVO0l3M+VhvhGbjdwyRbrkYnB
+	TyNepfMyLJNyE/EFLmPmdBqh7+uH0piPBu18Ke3MZ+urwlzEUPitk/+6vTS1d9MgHSJ++PVGO3m
+	HBOPBpCyVPT+t/qkofvVH6M8nke1rEP6QyQmB1ZZTNKfNb60oH0EigwPbBhX707GTRomuok/6Ad
+	yJPpmv0x4QWvCZG+5u2MUOmDlmp3ktowTGZTtwbCPrjGxgvpE5dHGu+8PxHDd/IAY0DBxF5Ipne
+	d/OEhU90RIVcJouR3CD2ulEU
+X-Received: by 2002:a05:622a:5c94:b0:4ed:a6b0:5c26 with SMTP id
+ d75a77b69052e-4f1d05e102emr259116031cf.58.1765966786794; Wed, 17 Dec 2025
+ 02:19:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20251204141250.21114-1-ethan.w.s.graham@gmail.com> <cbc99cb2-4415-4757-8808-67bf7926fed4@linuxfoundation.org>
-In-Reply-To: <cbc99cb2-4415-4757-8808-67bf7926fed4@linuxfoundation.org>
-From: "'David Gow' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 17 Dec 2025 17:53:58 +0800
-X-Gm-Features: AQt7F2oC_jvvXkvPODN4WxlSQbR6kIlWyRO8BredDW5Okb-nVmRsiAtrJ3vkYco
-Message-ID: <CABVgOSkbV0idRzeMmsUEtDo=U5Tzqc116mt_=jqW-xsToec_wQ@mail.gmail.com>
+References: <20251204141250.21114-1-ethan.w.s.graham@gmail.com>
+ <cbc99cb2-4415-4757-8808-67bf7926fed4@linuxfoundation.org> <CABVgOSkbV0idRzeMmsUEtDo=U5Tzqc116mt_=jqW-xsToec_wQ@mail.gmail.com>
+In-Reply-To: <CABVgOSkbV0idRzeMmsUEtDo=U5Tzqc116mt_=jqW-xsToec_wQ@mail.gmail.com>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 17 Dec 2025 11:19:10 +0100
+X-Gm-Features: AQt7F2rCVoKiHzMLr5gq2Ln7RdeonRMo17AX2R1_t7knfurC9ARwqPf8_xuG9S0
+Message-ID: <CAG_fn=WvdKZgmkqa09kwLLH3P_j6GFYzopeD-PZ-Qt0-1KUaGw@mail.gmail.com>
 Subject: Re: [PATCH v3 00/10] KFuzzTest: a new kernel fuzzing framework
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Ethan Graham <ethan.w.s.graham@gmail.com>, glider@google.com, andreyknvl@gmail.com, 
-	andy@kernel.org, andy.shevchenko@gmail.com, brauner@kernel.org, 
-	brendan.higgins@linux.dev, davem@davemloft.net, dhowells@redhat.com, 
-	dvyukov@google.com, elver@google.com, herbert@gondor.apana.org.au, 
-	ignat@cloudflare.com, jack@suse.cz, jannh@google.com, 
-	johannes@sipsolutions.net, kasan-dev@googlegroups.com, kees@kernel.org, 
-	kunit-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
+To: David Gow <davidgow@google.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Ethan Graham <ethan.w.s.graham@gmail.com>, 
+	andreyknvl@gmail.com, andy@kernel.org, andy.shevchenko@gmail.com, 
+	brauner@kernel.org, brendan.higgins@linux.dev, davem@davemloft.net, 
+	dhowells@redhat.com, dvyukov@google.com, elver@google.com, 
+	herbert@gondor.apana.org.au, ignat@cloudflare.com, jack@suse.cz, 
+	jannh@google.com, johannes@sipsolutions.net, kasan-dev@googlegroups.com, 
+	kees@kernel.org, kunit-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org, lukas@wunner.de, 
 	rmoar@google.com, shuah@kernel.org, sj@kernel.org, tarasmadan@google.com
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000007dd7e5064622d3b6"
-X-Original-Sender: davidgow@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=tGSqeNI0;       spf=pass
- (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::42f
- as permitted sender) smtp.mailfrom=davidgow@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: David Gow <davidgow@google.com>
-Reply-To: David Gow <davidgow@google.com>
+ header.i=@google.com header.s=20230601 header.b=Sw+D2pVi;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::830 as
+ permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -155,176 +159,96 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---0000000000007dd7e5064622d3b6
-Content-Type: text/plain; charset="UTF-8"
-
-On Sat, 13 Dec 2025 at 08:07, Shuah Khan <skhan@linuxfoundation.org> wrote:
+On Wed, Dec 17, 2025 at 10:54=E2=80=AFAM David Gow <davidgow@google.com> wr=
+ote:
 >
-> On 12/4/25 07:12, Ethan Graham wrote:
-> > This patch series introduces KFuzzTest, a lightweight framework for
-> > creating in-kernel fuzz targets for internal kernel functions.
+> On Sat, 13 Dec 2025 at 08:07, Shuah Khan <skhan@linuxfoundation.org> wrot=
+e:
 > >
-> > The primary motivation for KFuzzTest is to simplify the fuzzing of
-> > low-level, relatively stateless functions (e.g., data parsers, format
-> > converters) that are difficult to exercise effectively from the syscall
-> > boundary. It is intended for in-situ fuzzing of kernel code without
-> > requiring that it be built as a separate userspace library or that its
-> > dependencies be stubbed out. Using a simple macro-based API, developers
-> > can add a new fuzz target with minimal boilerplate code.
+> > On 12/4/25 07:12, Ethan Graham wrote:
+> > > This patch series introduces KFuzzTest, a lightweight framework for
+> > > creating in-kernel fuzz targets for internal kernel functions.
+> > >
+> > > The primary motivation for KFuzzTest is to simplify the fuzzing of
+> > > low-level, relatively stateless functions (e.g., data parsers, format
+> > > converters) that are difficult to exercise effectively from the sysca=
+ll
+> > > boundary. It is intended for in-situ fuzzing of kernel code without
+> > > requiring that it be built as a separate userspace library or that it=
+s
+> > > dependencies be stubbed out. Using a simple macro-based API, develope=
+rs
+> > > can add a new fuzz target with minimal boilerplate code.
+> > >
+> > > The core design consists of three main parts:
+> > > 1. The `FUZZ_TEST(name, struct_type)` and `FUZZ_TEST_SIMPLE(name)`
+> > >     macros that allow developers to easily define a fuzz test.
+> > > 2. A binary input format that allows a userspace fuzzer to serialize
+> > >     complex, pointer-rich C structures into a single buffer.
+> > > 3. Metadata for test targets, constraints, and annotations, which is
+> > >     emitted into dedicated ELF sections to allow for discovery and
+> > >     inspection by userspace tools. These are found in
+> > >     ".kfuzztest_{targets, constraints, annotations}".
+> > >
+> > > As of September 2025, syzkaller supports KFuzzTest targets out of the
+> > > box, and without requiring any hand-written descriptions - the fuzz
+> > > target and its constraints + annotations are the sole source of truth=
+.
+> > >
+> > > To validate the framework's end-to-end effectiveness, we performed an
+> > > experiment by manually introducing an off-by-one buffer over-read int=
+o
+> > > pkcs7_parse_message, like so:
+> > >
+> > > - ret =3D asn1_ber_decoder(&pkcs7_decoder, ctx, data, datalen);
+> > > + ret =3D asn1_ber_decoder(&pkcs7_decoder, ctx, data, datalen + 1);
+> > >
+> > > A syzkaller instance fuzzing the new test_pkcs7_parse_message target
+> > > introduced in patch 7 successfully triggered the bug inside of
+> > > asn1_ber_decoder in under 30 seconds from a cold start. Similar
+> > > experiments on the other new fuzz targets (patches 8-9) also
+> > > successfully identified injected bugs, proving that KFuzzTest is
+> > > effective when paired with a coverage-guided fuzzing engine.
+> > >
 > >
-> > The core design consists of three main parts:
-> > 1. The `FUZZ_TEST(name, struct_type)` and `FUZZ_TEST_SIMPLE(name)`
-> >     macros that allow developers to easily define a fuzz test.
-> > 2. A binary input format that allows a userspace fuzzer to serialize
-> >     complex, pointer-rich C structures into a single buffer.
-> > 3. Metadata for test targets, constraints, and annotations, which is
-> >     emitted into dedicated ELF sections to allow for discovery and
-> >     inspection by userspace tools. These are found in
-> >     ".kfuzztest_{targets, constraints, annotations}".
+> > As discussed at LPC, the tight tie between one single external user-spa=
+ce
+> > tool isn't something I am in favor of. The reason being, if the userspa=
+ce
+> > app disappears all this kernel code stays with no way to trigger.
 > >
-> > As of September 2025, syzkaller supports KFuzzTest targets out of the
-> > box, and without requiring any hand-written descriptions - the fuzz
-> > target and its constraints + annotations are the sole source of truth.
-> >
-> > To validate the framework's end-to-end effectiveness, we performed an
-> > experiment by manually introducing an off-by-one buffer over-read into
-> > pkcs7_parse_message, like so:
-> >
-> > - ret = asn1_ber_decoder(&pkcs7_decoder, ctx, data, datalen);
-> > + ret = asn1_ber_decoder(&pkcs7_decoder, ctx, data, datalen + 1);
-> >
-> > A syzkaller instance fuzzing the new test_pkcs7_parse_message target
-> > introduced in patch 7 successfully triggered the bug inside of
-> > asn1_ber_decoder in under 30 seconds from a cold start. Similar
-> > experiments on the other new fuzz targets (patches 8-9) also
-> > successfully identified injected bugs, proving that KFuzzTest is
-> > effective when paired with a coverage-guided fuzzing engine.
+> > Ethan and I discussed at LPC and I asked Ethan to come up with a generi=
+c way
+> > to trigger the fuzz code that doesn't solely depend on a single users-s=
+pace
+> > application.
 > >
 >
-> As discussed at LPC, the tight tie between one single external user-space
-> tool isn't something I am in favor of. The reason being, if the userspace
-> app disappears all this kernel code stays with no way to trigger.
+> FWIW, the included kfuzztest-bridge utility works fine as a separate,
+> in-tree way of triggering the fuzz code. It's definitely not totally
+> standalone, but can be useful with some ad-hoc descriptions and piping
+> through /dev/urandom or similar. (Personally, I think it'd be a really
+> nice way of distributing reproducers.)
 >
-> Ethan and I discussed at LPC and I asked Ethan to come up with a generic way
-> to trigger the fuzz code that doesn't solely depend on a single users-space
-> application.
+> The only thing really missing would be having the kfuzztest-bridge
+> interface descriptions available (or, ideally, autogenerated somehow).
+> Maybe a simple wrapper to run it in a loop as a super-basic
+> (non-guided) fuzzer, if you wanted to be fancy.
 >
+> -- David
 
-FWIW, the included kfuzztest-bridge utility works fine as a separate,
-in-tree way of triggering the fuzz code. It's definitely not totally
-standalone, but can be useful with some ad-hoc descriptions and piping
-through /dev/urandom or similar. (Personally, I think it'd be a really
-nice way of distributing reproducers.)
+An alternative Ethan and I discussed was implementing only
+FUZZ_TEST_SIMPLE for the initial commit.
+It wouldn't even need the bridge tool, because the inputs are
+unstructured, and triggering them would involve running `head -c N
+/dev/urandom > /sys/kernel/debug/kfuzztest/TEST_NAME/input_simple`
+This won't let us pass complex data structures from the userspace, but
+we can revisit that when there's an actual demand for it.
 
-The only thing really missing would be having the kfuzztest-bridge
-interface descriptions available (or, ideally, autogenerated somehow).
-Maybe a simple wrapper to run it in a loop as a super-basic
-(non-guided) fuzzer, if you wanted to be fancy.
-
--- David
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CABVgOSkbV0idRzeMmsUEtDo%3DU5Tzqc116mt_%3DjqW-xsToec_wQ%40mail.gmail.com.
-
---0000000000007dd7e5064622d3b6
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIIUnQYJKoZIhvcNAQcCoIIUjjCCFIoCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ghIEMIIGkTCCBHmgAwIBAgIQfofDAVIq0iZG5Ok+mZCT2TANBgkqhkiG9w0BAQwFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSNjETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMzA0MTkwMzUzNDdaFw0zMjA0MTkwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFI2IFNNSU1FIENBIDIwMjMwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDYydcdmKyg
-4IBqVjT4XMf6SR2Ix+1ChW2efX6LpapgGIl63csmTdJQw8EcbwU9C691spkltzTASK2Ayi4aeosB
-mk63SPrdVjJNNTkSbTowej3xVVGnYwAjZ6/qcrIgRUNtd/mbtG7j9W80JoP6o2Szu6/mdjb/yxRM
-KaCDlloE9vID2jSNB5qOGkKKvN0x6I5e/B1Y6tidYDHemkW4Qv9mfE3xtDAoe5ygUvKA4KHQTOIy
-VQEFpd/ZAu1yvrEeA/egkcmdJs6o47sxfo9p/fGNsLm/TOOZg5aj5RHJbZlc0zQ3yZt1wh+NEe3x
-ewU5ZoFnETCjjTKz16eJ5RE21EmnCtLb3kU1s+t/L0RUU3XUAzMeBVYBEsEmNnbo1UiiuwUZBWiJ
-vMBxd9LeIodDzz3ULIN5Q84oYBOeWGI2ILvplRe9Fx/WBjHhl9rJgAXs2h9dAMVeEYIYkvW+9mpt
-BIU9cXUiO0bky1lumSRRg11fOgRzIJQsphStaOq5OPTb3pBiNpwWvYpvv5kCG2X58GfdR8SWA+fm
-OLXHcb5lRljrS4rT9MROG/QkZgNtoFLBo/r7qANrtlyAwPx5zPsQSwG9r8SFdgMTHnA2eWCZPOmN
-1Tt4xU4v9mQIHNqQBuNJLjlxvalUOdTRgw21OJAFt6Ncx5j/20Qw9FECnP+B3EPVmQIDAQABo4IB
-ZTCCAWEwDgYDVR0PAQH/BAQDAgGGMDMGA1UdJQQsMCoGCCsGAQUFBwMCBggrBgEFBQcDBAYJKwYB
-BAGCNxUGBgkrBgEEAYI3FQUwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQUM7q+o9Q5TSoZ
-18hmkmiB/cHGycYwHwYDVR0jBBgwFoAUrmwFo5MT4qLn4tcc1sfwf8hnU6AwewYIKwYBBQUHAQEE
-bzBtMC4GCCsGAQUFBzABhiJodHRwOi8vb2NzcDIuZ2xvYmFsc2lnbi5jb20vcm9vdHI2MDsGCCsG
-AQUFBzAChi9odHRwOi8vc2VjdXJlLmdsb2JhbHNpZ24uY29tL2NhY2VydC9yb290LXI2LmNydDA2
-BgNVHR8ELzAtMCugKaAnhiVodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL3Jvb3QtcjYuY3JsMBEG
-A1UdIAQKMAgwBgYEVR0gADANBgkqhkiG9w0BAQwFAAOCAgEAVc4mpSLg9A6QpSq1JNO6tURZ4rBI
-MkwhqdLrEsKs8z40RyxMURo+B2ZljZmFLcEVxyNt7zwpZ2IDfk4URESmfDTiy95jf856Hcwzdxfy
-jdwx0k7n4/0WK9ElybN4J95sgeGRcqd4pji6171bREVt0UlHrIRkftIMFK1bzU0dgpgLMu+ykJSE
-0Bog41D9T6Swl2RTuKYYO4UAl9nSjWN6CVP8rZQotJv8Kl2llpe83n6ULzNfe2QT67IB5sJdsrNk
-jIxSwaWjOUNddWvCk/b5qsVUROOuctPyYnAFTU5KY5qhyuiFTvvVlOMArFkStNlVKIufop5EQh6p
-jqDGT6rp4ANDoEWbHKd4mwrMtvrh51/8UzaJrLzj3GjdkJ/sPWkDbn+AIt6lrO8hbYSD8L7RQDqK
-C28FheVr4ynpkrWkT7Rl6npWhyumaCbjR+8bo9gs7rto9SPDhWhgPSR9R1//WF3mdHt8SKERhvtd
-NFkE3zf36V9Vnu0EO1ay2n5imrOfLkOVF3vtAjleJnesM/R7v5tMS0tWoIr39KaQNURwI//WVuR+
-zjqIQVx5s7Ta1GgEL56z0C5GJoNE1LvGXnQDyvDO6QeJVThFNgwkossyvmMAaPOJYnYCrYXiXXle
-A6TpL63Gu8foNftUO0T83JbV/e6J8iCOnGZwZDrubOtYn1QwggWDMIIDa6ADAgECAg5F5rsDgzPD
-hWVI5v9FUTANBgkqhkiG9w0BAQwFADBMMSAwHgYDVQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBS
-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
-Dxz3AgMBAAGjggHgMIIB3DAeBgNVHREEFzAVgRNkYXZpZGdvd0Bnb29nbGUuY29tMA4GA1UdDwEB
-/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIwHQYDVR0OBBYEFHZtY3XkWtC2
-e2Idfk+0JyK7BLzzMFgGA1UdIARRME8wCQYHZ4EMAQUBAjBCBgorBgEEAaAyCgMDMDQwMgYIKwYB
-BQUHAgEWJmh0dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQC
-MAAwgZoGCCsGAQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWdu
-LmNvbS9jYS9nc2F0bGFzcjZzbWltZWNhMjAyMzBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5n
-bG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NhdGxhc3I2c21pbWVjYTIwMjMuY3J0MB8GA1UdIwQYMBaA
-FDO6vqPUOU0qGdfIZpJogf3BxsnGMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFs
-c2lnbi5jb20vY2EvZ3NhdGxhc3I2c21pbWVjYTIwMjMuY3JsMA0GCSqGSIb3DQEBCwUAA4ICAQBo
-hqjbVaHxZoT6HHUuwQcTlbgXpuVi59bQPrSwb/6Pn1t3h3SLeuUCvOYpoQjxlWy/FexsPW+nWS0I
-PUmWpt6sxbIRTKPfb7cPk32XezfnA0jexucybiXzkZKTrbI7zoMOzDIWpTKYZAonB9Zzi7Dso4An
-ZOtz/E3yhdR/q1MK30d5fiCS0vorEd0Oy8Jzcc7TJ2HGMzEEXiFFvVrJYJHvfYOeXE4ywAG6YWO0
-x78+bXeB9vkeWHhOYKyYXuAXrnHASddEICg1QlJCHDAISMC1Wn/tjqTMTt3sDAe+dhi9V1FEGTbG
-g9PxPVP4huJEMIBu/MWNMzHfiW4E7eCHVPrmtX7CFDlMik7qsgQBbO5h6EcxBamhIflfMgoISsRJ
-Vyll2E5BNVwkNstMgU3WMg5yIaQcuGFgFnMTrQcaLEEFPV3cCP9pgXovYDirnB7FKNdCZNHfeBY1
-HEXJ2jIPDP6nWSbYoRry0TvPgxh5ZeM5+sc1L7kY75C8U4FV3t4qdC+p7rgqfAggdvDPa5BJbTRg
-KAzwyf3z7XUrYp38pXybmDnsEcRNBIOEqBXoiBxZXaKQqaY921nWAroMM/6I6CVpTnu6JEeQkoi4
-IgGIEaTFPcgAjvpDQ8waLJL84EP6rbLW6dop+97BXbeO9L/fFf40kBhve6IggpJSeU9RdCQ5czGC
-Al0wggJZAgEBMGgwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKjAo
-BgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMwIQAYQLf/BIzLow9kWqD8My
-PzANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQg8WSU37KJM6lEEw7My8LMCoVePdPU
-v5PCtno3l44i2vUwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUx
-MjE3MDk1NDExWjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
-YIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcN
-AQEBBQAEggEABmjx2K96q1SBsg3PYYnTVeEoaXlZFvs7uElaGpWLFc6y7d78VW6Mhwyxng8dkEED
-487yTPg6n/Hyla9aA3ISmIwdr7Z1eSfxgCBMUfJxrAolMhJlLGrqZJ7f8rY/wS2jLLtVN84rIL/c
-Wr7JYlUO8RnXNaSY3JExNpmVVBYq1PZR6vIJEaPuxQ460xloYSQwZgkbo9skBIZmNvLib2yOcmQU
-QDMlxBzdGMCBvSQuXd+Q2S/jnPMxHt/Lc+THDv8Kf6hWFuhkCfKrBP8PkVmivogt8aid6IU7m1XK
-S15pshmb7dKRdzdykfVbX2+5gygsW8nk4DhTK7E3leEwjcFSvg==
---0000000000007dd7e5064622d3b6--
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
+AG_fn%3DWvdKZgmkqa09kwLLH3P_j6GFYzopeD-PZ-Qt0-1KUaGw%40mail.gmail.com.
