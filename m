@@ -1,145 +1,158 @@
-Return-Path: <kasan-dev+bncBAABBM7JSLFAMGQEHWOJPUA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBN5MSPFAMGQET3DFRRI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83a.google.com (mail-qt1-x83a.google.com [IPv6:2607:f8b0:4864:20::83a])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5AFCCCE3E8
-	for <lists+kasan-dev@lfdr.de>; Fri, 19 Dec 2025 03:13:08 +0100 (CET)
-Received: by mail-qt1-x83a.google.com with SMTP id d75a77b69052e-4ee04f4c632sf23220361cf.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 18 Dec 2025 18:13:08 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1766110387; cv=pass;
+Received: from mail-qt1-x840.google.com (mail-qt1-x840.google.com [IPv6:2607:f8b0:4864:20::840])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC176CCE74D
+	for <lists+kasan-dev@lfdr.de>; Fri, 19 Dec 2025 05:36:08 +0100 (CET)
+Received: by mail-qt1-x840.google.com with SMTP id d75a77b69052e-4ed82af96fasf28233421cf.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 18 Dec 2025 20:36:08 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1766118967; cv=pass;
         d=google.com; s=arc-20240605;
-        b=DFvIDkzfAmwdYPxLu7XpphhhX6bvju2VWOqbzv2jbtMcSlBCPSHcF46h82VxkrfaVa
-         E8A83BUaECIS/CVl2PbjgNEq7AH9OSgqcfHHiCVKY1S3FuQLgYiiphj3rBWLokkLR6++
-         1GklqHvS0p4BblTUW2/tFv/Guazg4VNDDcE8YWaP3W5jDUP5YRHgFdiPlXW2rJdOPv6A
-         s5g20wlHzyMOfsKnh73HG7m3vXheEragUg3HracayUVULI/hj5qp5QVNaIa2bJ++DusK
-         GzUaJnWzqOlrdmxw+26BIJEdrHQMCXyvRcdro4sCwLOClUZSevXvdHqgz7FFM01s61gE
-         U48Q==
+        b=IKcXsOBI3/Yx6KoykqANets0doCWRsDQA4/8VcqLnQJKUj9SITG/ZR7yKcHufqkuF8
+         pvC3+63YOpT9WsU62pMVhZV6x14gOTN4RQyV3CzMdno9nXRuIOav6mnSu+dJKcqcpWYg
+         nIyzlHyCl3p4LLG47q1Cc0Ui2HmL4O1uF8zx95fGkP0UfnMZBYVFtKyN38OEwjO377re
+         r+lXcczbHG1mTc4iLVxAjcZO0jYM/+niHAi5ZkTKyvOgYlEO7lK5qMgJzf79RcKBg1FF
+         mupX9+akpc4RUKO5CzK7JlzAoVVjGe0g8amI8sKOkVy6U8ZAPNLDfitlIQi3lSvmSds3
+         FBRQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=kW91rMiMG5cyIsCx2aMjXoi/lJchOFyeIF8yEHdAoi4=;
-        fh=x6P7DGwTJm/oppljeIv6+hPxCDXGnApnSCnGG/JvZtI=;
-        b=ca0fT731Rz0b1dRWC8am/Wcq7X+WmC9cFZOwp+KjrCLLXzuByC1XiDCVFohmpAHxyL
-         U0B5pruHsZHDpFRngHbsmfdaIl9hbHK6o5+Ot1r4QsIOz2IQy/4ua1gQpGvbOMH5YwfC
-         KUF5gAMtK3TK2bLgbzJvb5DhCkOFxrHgGHOLDy7aAtz12lP0hDDvVxNfpjSWCTUhbpvk
-         phGFAXdDi96yuP0iCLVyK0uunYeN10vGod85go/t3TfCxgZ4mwnPBK/67P+Uzu5XzHjV
-         esBfM9z9upGi1YN+tJWtiV5TqumXkNm/+GetoRmDtyNpHzgiRQiWnwA1f2WA5QBculTB
-         wWBA==;
+         :list-id:mailing-list:precedence:mime-version:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:cc:to:from:sender:dkim-signature;
+        bh=PhxIp7RU46y3C3NbpD10OuEXAQJ82LsHQGoEi/IzY7c=;
+        fh=hlPrj2AzJraMCT6L1QBp8jjh3Fq1RsoLjSGkGpCP7MI=;
+        b=HNjTdG44315dUmhDw+bZL0tHS2qX8CS2uXuhFlTtQPUJN0JUl7Lcyvn9a+IUjc1M/z
+         637Lw0wBjPBE92mNRGi+6EGl1SF4GekRBQ1p1f0aUGiKtTHT91jbDUoOIeUBJdfOEa3Z
+         rXjUr0u9NmBPE1p2bUMVSDmBdalK2RqPThBzb/tKqSYtDeaLg5FwoPGvNTIWFne+Xkqr
+         8mf9Ios/MmIp88vLf3yfRhMa/1f+B7Oxi2KpSM8Iu0t+NlcjMvQhBBOGSnwa6rdO0xvY
+         NRoV1PvLwT5pui3AXj375VM2ttrZpCtnDlLosGwtE8JZuVa8ssrzZOSyHSfwBTiVYEVy
+         ZIdw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=cYb2Em5K;
-       spf=pass (google.com: domain of chenhuacai@kernel.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of yuanlinyu@honor.com designates 81.70.206.69 as permitted sender) smtp.mailfrom=yuanlinyu@honor.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=honor.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1766110387; x=1766715187; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1766118967; x=1766723767; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kW91rMiMG5cyIsCx2aMjXoi/lJchOFyeIF8yEHdAoi4=;
-        b=OA6U/scnANz5qgH9Wpw9ew+6BPQClH9wP6daL+Bb6jM/2BvgADPf6ymTO0eTpXu7V0
-         s53UILADkskaMFiHbxKL5azV3T2GBSakkWm+CO1C6O4KB9yy4eB59IRFjFqwbIvKFR9r
-         uqqZYrku/DDWkWh56Q5WNrEqvzQ2P2W12Gh3cqjeWACeZtg2EYG0mGP9xIDd02ev/UI+
-         i+OMl3tvFe50QAGcoZcpC9G4n9OD1NM9omAnywzW+4tusZPqy1uh4N6VvDY9A3NoGHlR
-         9kqE7EIcsYRd7I8KZg21dzgHzU5fvmnqbXJvbPf80ktdRSu62Z3wTX9AdbDryejo7aKv
-         eraQ==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:content-language:accept-language
+         :in-reply-to:references:message-id:date:thread-index:thread-topic
+         :subject:cc:to:from:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PhxIp7RU46y3C3NbpD10OuEXAQJ82LsHQGoEi/IzY7c=;
+        b=YI5Kn2vY3+DLtHcUkdn+kbzI5qFldRHb4DhFWWZ+53PYLzr8ae7lY7xjWr+ZvNNn9M
+         F3BQ/rqPlwCAEeN8WX/TJQXJQ/H5K23W9uWP4tP/zSQk2QmPaFG0d9zZMUhll+PwEjj5
+         liIXlg2eoRi+N66qgwFTv992Uz8rnMblheP2u981I3Fn25N8/KwMrRS36G2b3qUsruox
+         s9SA6ofvOn/+o158mev3ss3QGiNJpcr2TDVjipOfdSNMmrxIlImHM8Eht8NCdJr+7w7U
+         Yvx41P1PQOFFI1OFqhTNQ6suu6ZHWz8VYsEI/4u/Box81uSOMHBbFyVlfoG4Ams17yop
+         g64g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766110387; x=1766715187;
+        d=1e100.net; s=20230601; t=1766118967; x=1766723767;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kW91rMiMG5cyIsCx2aMjXoi/lJchOFyeIF8yEHdAoi4=;
-        b=kzkIdL7Mm0dNjWm58jdVc+SxJ84nDUTS7NnbSNZZTJaGxhhiQC8CZ+pmFZOUUAMD7j
-         SDCnoJwno1OTusOMi5nl9couTwM2AhDYto4/nNNacQWM9vDjMqYOLoDrxsUI2o6bI6ZJ
-         veWhHW5rffyGITEQop6mDvBF0oKWJzyCTWBhDuhlA7xlOlYOLbl/2/J7CFcLYaC4j5+e
-         uY8jw+MYI2EOPJUN1iowK8c8b2IX1sTNEiu36TTf39Odp5kfwWP3DOZeCgWzKxMUGHia
-         Z0i2SkaMdZIQuoaZK1vohFq2Ti2/2rwcdMM8HI7uyDTet/0JVwmo4WJLlauZjjHjbCq6
-         2t7Q==
-X-Forwarded-Encrypted: i=2; AJvYcCUMGpBLJE/djo1u8+xlK9diM7pL6rC5AYOj4v2rRLwyHRWEEXXj7DFj4UefRMljqRIiwoK+dg==@lfdr.de
-X-Gm-Message-State: AOJu0Yx7hdIsvN+cRJq91aGn0xNY3R37wJscEZHe0a3EvapgvLE3Fyy0
-	qXU0q9cQlzxqQ/Z7gp8HuQLEtLGqv9d9XooVyVSvlN68ecJIGBAOlk2x
-X-Google-Smtp-Source: AGHT+IHizJk0igFwJATKHD4eRUI3Br3FXWAsZEuUwpbxO/wDg8sgj+R+FG1cR54WOkaefS7K3FVTbw==
-X-Received: by 2002:a05:622a:130e:b0:4ee:26bd:13fa with SMTP id d75a77b69052e-4f4abdd147bmr21605791cf.80.1766110387426;
-        Thu, 18 Dec 2025 18:13:07 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWZfOWuzgoey3ug55dMgn5XEzSy7JSyoYkyxlBPPjG5BDA=="
-Received: by 2002:a05:6214:230b:b0:880:803b:bd47 with SMTP id
- 6a1803df08f44-88a525bca84ls51873516d6.1.-pod-prod-05-us; Thu, 18 Dec 2025
- 18:13:06 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUdjAkuGq0m6bE8fz0LEFXu2WlH3VqXCOzaROFUWtoCUiB1dhbCIJ5Bng2hhkAhxrrDmWamqUZ78aE=@googlegroups.com
-X-Received: by 2002:a05:6122:3d03:b0:559:6723:628c with SMTP id 71dfb90a1353d-5615bee5a59mr546524e0c.16.1766110386756;
-        Thu, 18 Dec 2025 18:13:06 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1766110386; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-language:accept-language:in-reply-to:references:message-id
+         :date:thread-index:thread-topic:subject:cc:to:from:x-beenthere
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PhxIp7RU46y3C3NbpD10OuEXAQJ82LsHQGoEi/IzY7c=;
+        b=vKX9z5w02eP4bGoANQh9sT7JY1OGjp+9Z4xhhjje2tPv0RZPEqHg/QEZbxrrZRTe6j
+         5Ek2DQTtGMydnTZ5m8Umiiq59hgYt0LZAKNfBjZyh0nsex+n8fqfjyj7mmu8e02T5a/v
+         ytoMkKXgVSHvapSS4q6wNl5Tp5UbA7TzfKtWZDQ0jpeVqHQkGKvXOEov06Dz6vkz9ZiH
+         hNglUz7Q+bCkEZ5CltLLGBUxYVuJRJ6U/NLvAwfGLnFih8oNREamNBp3fZuKukFwacaT
+         +akBjXw8ee77iDiSEOE9UoaaQLzvLgXppBcJ6EmgYtHJ9+hZY5ro7r/c/AxIMGjRcM9m
+         Nszw==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCVuMedthOJsBLN0wSb/jbKfHvS0cIbjp7O+OgH7kXD9UpePT2BO/pvKSLrOotAaZnJydaeSdw==@lfdr.de
+X-Gm-Message-State: AOJu0YxEzfrYdESwImn2O/SKYMtFJZODg8ylWvxnGa9XyJbt+uKALvJI
+	hgRS0uBRsH5SsLNsB4AlpvKEcYylgTdcCYjCUb+DmI1p0ipvD6b8JCfU
+X-Google-Smtp-Source: AGHT+IHBmkl1/zfHtmy7MZRYjXpDqGDxpQOL28xxryJkR0TfmcN25g6303uR6Wno1ja3O/n766PduA==
+X-Received: by 2002:ac8:5c81:0:b0:4ed:44a7:cf78 with SMTP id d75a77b69052e-4f4abcfc08cmr22976151cf.34.1766118967537;
+        Thu, 18 Dec 2025 20:36:07 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWaOijUmdtuCR6Eh9EM52PQABCxuoryQg8pywztP35h29Q=="
+Received: by 2002:ac8:5a4c:0:b0:4ed:7bbf:d2b with SMTP id d75a77b69052e-4f1ced48833ls90728711cf.1.-pod-prod-04-us;
+ Thu, 18 Dec 2025 20:36:06 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVCez6nhLxKKOs2IAIjLE2V/qKHgl00ldWrurPudq7KS7oTB0CsnRDvds/rRqZtpCkc3/wWCKkjr3U=@googlegroups.com
+X-Received: by 2002:a05:6122:1d91:b0:55b:305b:4e27 with SMTP id 71dfb90a1353d-5615bef2335mr729068e0c.19.1766118966710;
+        Thu, 18 Dec 2025 20:36:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1766118966; cv=none;
         d=google.com; s=arc-20240605;
-        b=kMyynsD8EXKDVMOXxMbpT2mLnm8XsbsrUnb8Vik2Ngc4udPu+urjBAuugpGnlYg8vq
-         5gWrshpz+fsIzhJNrnp7nO8GsbCnFlSwphe1ch4Tg4rHrUojURP985xBiSxeG//c4laz
-         FKIwwYtCEzcaVyLN+RLkheWWlsRcRV6r+Sg1kXn02IN+Gu2qd5M2L1T4ofTw6CoAbCRk
-         pLnuYJhyUKqHNsntCFDNYngqtWDED+8qYWgYkcci8fDuW7U6kBu1REPafItdjrMaV2zp
-         pIXHjnUpNl5gBb9sCfyoFWZKZJ52DFQAX9917FMbZNKRDXhHLssmXNDsjK8b7VNacUqA
-         RGYw==
+        b=GhYxm2c3TyDlV8sPMAgc4kKoUrRITdQG9CPt8MzCVGP69NfdF5EeiKSdJw7Lh+60yg
+         ItE/8J7EgQJ896H/73sUYgzVcAnjsiLR9cTuwOLVLpLGEKJ2GeDxkKNTO1/M+DuyET1Q
+         B8stAVm1iiHn01bozx7vwWA6TyU0zu73ZJhp26kWnZAfFp7XDjqKGrOSi5ZZHIaw/oR6
+         LRHDI4X+3m5/xiSt6VAbx9APz+uOxNOTQ8ObvZFbXV7kgpGvftbBBD83U/1lUg7cYowo
+         /Wc3rqwdFCevFRM/dm680e8m3FPtmj5BiNldIohSfNzi3Fea6XgRDMJmv7jXxM2/5GBA
+         CFWQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=EleYCXTllQ1Ksj0san+UXP+fimOICR25jVAXrgMxFYA=;
-        fh=QpExXpzmDBDYAz0IvQU+pffSzD6J3l8QtIvnU4Pkcbg=;
-        b=Y1N9g67ermTyxsq5xmIMYolNi23CS4t+db/a3u7hxtZPFN9pSrXMfLfVCfGump0EH+
-         3EHQzpxFuUk3N0bsJ2HXo8d7qWJqg8QnW9VS+QJaJpsugP2zKWwpskACJ7duhsE/aauO
-         606v3r9jlxG0Cmw9Dp+2PBopunuu9HYE6n/Noi8S9/py+Qp5gndJJ8098zkaCGqpyRU/
-         0SyHZoYL7bcQDeJXRcFocV085gmqzyEEGYXQGOKUAwA++kGdZFnv543NTREy4JjbTjVm
-         Z1ohMrPzVAXwAO1Wf/hCVZdUhNPPpHLheuKa+QWgExNMZpHUXi9Z5QqrQMPEFUkGvQWY
-         OFrg==;
+        h=mime-version:content-transfer-encoding:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:cc:to:from;
+        bh=TBeoBMXlMEVhwhMkEcXIUeqtkasMEWs5iVpIxMFXugQ=;
+        fh=sRLLPD1NR0EEBTnxwxNZlNZHRxniOboIlZTQ47sl21w=;
+        b=BI2SB5DdsRuqE+fQzW7zO4cNWwQjqzgKGYkDBOro72NCRakRUdYMTLl2J62x+yl7eH
+         HtXC2jZsyMNvqvA7zzDRWwJ9fEVWYpz86L1J5SY1fCLXWXO+IkUNZ9dCtqsZWQY980qF
+         20fkIX/ymNaVB5Gbxmkn7h2gIeKoxxMapHASdCmXoTF0Vuo4F/dZEOy+6T1jnLQUAhbr
+         71BrXcjPXVID46xc2LtXHFcvfqcJw2yZecIfpkIkXGzqoH++EtB6Btsajnm0/nUgrGVZ
+         WZGeYCslWqHxYzzxrQMzDwXxGSSEYpw9CkMhSFTmi/BiwYeM4dukKNcI3b0dsd7QxVku
+         xscg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=cYb2Em5K;
-       spf=pass (google.com: domain of chenhuacai@kernel.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from sea.source.kernel.org (sea.source.kernel.org. [172.234.252.31])
-        by gmr-mx.google.com with ESMTPS id 71dfb90a1353d-5615d225328si20554e0c.5.2025.12.18.18.13.06
+       spf=pass (google.com: domain of yuanlinyu@honor.com designates 81.70.206.69 as permitted sender) smtp.mailfrom=yuanlinyu@honor.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=honor.com
+Received: from mta20.hihonor.com (mta20.hihonor.com. [81.70.206.69])
+        by gmr-mx.google.com with ESMTPS id 71dfb90a1353d-5615f761dc8si11833e0c.0.2025.12.18.20.36.05
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 18:13:06 -0800 (PST)
-Received-SPF: pass (google.com: domain of chenhuacai@kernel.org designates 172.234.252.31 as permitted sender) client-ip=172.234.252.31;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id C78774442C
-	for <kasan-dev@googlegroups.com>; Fri, 19 Dec 2025 02:13:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FA12C19423
-	for <kasan-dev@googlegroups.com>; Fri, 19 Dec 2025 02:13:05 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b7ffa421f1bso415945366b.0
-        for <kasan-dev@googlegroups.com>; Thu, 18 Dec 2025 18:13:05 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVgZQNAy/BCepC9BkiOEPNjHmefCNUQog8lycMGizMZ+MFJ7ExFFnyRwn1ibjqNuTgwG2I1sZbKEQo=@googlegroups.com
-X-Received: by 2002:a17:907:7e85:b0:b3a:8070:e269 with SMTP id
- a640c23a62f3a-b8035649310mr195334766b.14.1766110384189; Thu, 18 Dec 2025
- 18:13:04 -0800 (PST)
-MIME-Version: 1.0
-References: <20251218063916.1433615-1-yuanlinyu@honor.com> <20251218063916.1433615-2-yuanlinyu@honor.com>
-In-Reply-To: <20251218063916.1433615-2-yuanlinyu@honor.com>
-From: "'Huacai Chen' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 19 Dec 2025 10:13:15 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H5n_3Ndk5yRm=S-9WktD9xivVF8-JLaycV8JB-pVuybbA@mail.gmail.com>
-X-Gm-Features: AQt7F2qrv-imhdGopLt1MPfdTK-Ic-3FPg_HSxVXBdw9KIsFQZQLPR-6ZFBiyC4
-Message-ID: <CAAhV-H5n_3Ndk5yRm=S-9WktD9xivVF8-JLaycV8JB-pVuybbA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] LoongArch: kfence: avoid use CONFIG_KFENCE_NUM_OBJECTS
-To: yuan linyu <yuanlinyu@honor.com>, Enze Li <lienze@kylinos.cn>
-Cc: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	WANG Xuerui <kernel@xen0n.name>, kasan-dev@googlegroups.com, linux-mm@kvack.org, 
-	loongarch@lists.linux.dev, linux-kernel@vger.kernel.org
+        Thu, 18 Dec 2025 20:36:06 -0800 (PST)
+Received-SPF: pass (google.com: domain of yuanlinyu@honor.com designates 81.70.206.69 as permitted sender) client-ip=81.70.206.69;
+Received: from w012.hihonor.com (unknown [10.68.27.189])
+	by mta20.hihonor.com (SkyGuard) with ESMTPS id 4dXZRC3cNKzYlLgM;
+	Fri, 19 Dec 2025 12:33:27 +0800 (CST)
+Received: from w022.hihonor.com (10.68.16.247) by w012.hihonor.com
+ (10.68.27.189) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.27; Fri, 19 Dec
+ 2025 12:36:01 +0800
+Received: from w025.hihonor.com (10.68.28.69) by w022.hihonor.com
+ (10.68.16.247) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.27; Fri, 19 Dec
+ 2025 12:36:01 +0800
+Received: from w025.hihonor.com ([fe80::5a3b:9b85:bbde:73b9]) by
+ w025.hihonor.com ([fe80::5a3b:9b85:bbde:73b9%14]) with mapi id
+ 15.02.2562.027; Fri, 19 Dec 2025 12:36:01 +0800
+From: yuanlinyu <yuanlinyu@honor.com>
+To: Marco Elver <elver@google.com>
+CC: Alexander Potapenko <glider@google.com>, Dmitry Vyukov
+	<dvyukov@google.com>, Andrew Morton <akpm@linux-foundation.org>, Huacai Chen
+	<chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>, "loongarch@lists.linux.dev"
+	<loongarch@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v2 2/2] kfence: allow change number of object by early
+ parameter
+Thread-Topic: [PATCH v2 2/2] kfence: allow change number of object by early
+ parameter
+Thread-Index: AQHcb+kJOevioCwokUWRSuHGy2xym7UmkpaAgACVZ/D//4LNgIABtVUA
+Date: Fri, 19 Dec 2025 04:36:01 +0000
+Message-ID: <a5937489d22f450eaecca610d8aef6c9@honor.com>
+References: <20251218063916.1433615-1-yuanlinyu@honor.com>
+ <20251218063916.1433615-3-yuanlinyu@honor.com>
+ <aUPB18Xeh1BhF9GS@elver.google.com>
+ <7334df3287534327a3e4a09c5c8d9432@honor.com>
+ <CANpmjNMmiXjifpc9LdCVi5jzzKU3sgb0iJn7P7TMFMNqDH7TbA@mail.gmail.com>
+In-Reply-To: <CANpmjNMmiXjifpc9LdCVi5jzzKU3sgb0iJn7P7TMFMNqDH7TbA@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.165.1.160]
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: chenhuacai@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=cYb2Em5K;       spf=pass
- (google.com: domain of chenhuacai@kernel.org designates 172.234.252.31 as
- permitted sender) smtp.mailfrom=chenhuacai@kernel.org;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: Huacai Chen <chenhuacai@kernel.org>
-Reply-To: Huacai Chen <chenhuacai@kernel.org>
+MIME-Version: 1.0
+X-Original-Sender: yuanlinyu@honor.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of yuanlinyu@honor.com designates 81.70.206.69 as
+ permitted sender) smtp.mailfrom=yuanlinyu@honor.com;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=honor.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -152,55 +165,64 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi, Enze,
+> From: Marco Elver <elver@google.com>
+> Sent: Thursday, December 18, 2025 6:24 PM
+> To: yuanlinyu <yuanlinyu@honor.com>
+> Cc: Alexander Potapenko <glider@google.com>; Dmitry Vyukov
+> <dvyukov@google.com>; Andrew Morton <akpm@linux-foundation.org>;
+> Huacai Chen <chenhuacai@kernel.org>; WANG Xuerui <kernel@xen0n.name>;
+> kasan-dev@googlegroups.com; linux-mm@kvack.org; loongarch@lists.linux.dev;
+> linux-kernel@vger.kernel.org
+> Subject: Re: [PATCH v2 2/2] kfence: allow change number of object by early
+> parameter
+> 
+> On Thu, 18 Dec 2025 at 11:18, yuanlinyu <yuanlinyu@honor.com> wrote:
+> >
+> > > From: Marco Elver <elver@google.com>
+> > Do you mean performance critical by access global data ?
+> > It already access __kfence_pool global data.
+> > Add one more global data acceptable here ?
+> >
+> > Other place may access global data indeed ?
+> 
+> is_kfence_address() is used in the slub fast path, and another load is
+> one more instruction in the fast path. We have avoided this thus far
+> for this reason.
+> 
+> > I don't know if all linux release like ubuntu enable kfence or not.
+> > I only know it turn on default on android device.
+> 
+> This is irrelevant.
+> 
+> > > While I think the change itself would be useful to have eventually, a
+> > > better design might be needed. It's unclear to me what the perf impact
+> >
+> > Could you share the better design idea ?
+> 
+> Hot-patchable constants, similar to static branches/jump labels. This
+> had been discussed in the past (can't find the link now), but it's not
+> trivial to implement unfortunately.
 
-On Thu, Dec 18, 2025 at 2:39=E2=80=AFPM yuan linyu <yuanlinyu@honor.com> wr=
-ote:
->
-> use common kfence macro KFENCE_POOL_SIZE for KFENCE_AREA_SIZE definition
->
-> Signed-off-by: yuan linyu <yuanlinyu@honor.com>
-> ---
->  arch/loongarch/include/asm/pgtable.h | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/loongarch/include/asm/pgtable.h b/arch/loongarch/includ=
-e/asm/pgtable.h
-> index f41a648a3d9e..e9966c9f844f 100644
-> --- a/arch/loongarch/include/asm/pgtable.h
-> +++ b/arch/loongarch/include/asm/pgtable.h
-> @@ -10,6 +10,7 @@
->  #define _ASM_PGTABLE_H
->
->  #include <linux/compiler.h>
-> +#include <linux/kfence.h>
->  #include <asm/addrspace.h>
->  #include <asm/asm.h>
->  #include <asm/page.h>
-> @@ -96,7 +97,7 @@ extern unsigned long empty_zero_page[PAGE_SIZE / sizeof=
-(unsigned long)];
->  #define MODULES_END    (MODULES_VADDR + SZ_256M)
->
->  #ifdef CONFIG_KFENCE
-> -#define KFENCE_AREA_SIZE       (((CONFIG_KFENCE_NUM_OBJECTS + 1) * 2 + 2=
-) * PAGE_SIZE)
-> +#define KFENCE_AREA_SIZE       (KFENCE_POOL_SIZE + (2 * PAGE_SIZE))
-Can you remember why you didn't use KFENCE_POOL_SIZE at the first place?
+is it possible add tag to kfence address and only check address itself ?
 
-Huacai
+> 
+> An option that would enable/disable the command-line changeable number
+> of objects, i.e one version that avoids the load in the fast path and
+> one version that enables all the bits that you added here. But I'd
+> rather avoid this if possible.
 
->  #else
->  #define KFENCE_AREA_SIZE       0
->  #endif
-> --
-> 2.25.1
->
->
+Yes, it should avoid, the purpose is without compile the kernel.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-AAhV-H5n_3Ndk5yRm%3DS-9WktD9xivVF8-JLaycV8JB-pVuybbA%40mail.gmail.com.
+> 
+> As such, please do benchmark and analyze the generated code in the
+> allocator fast path (you should see a load to the new global you
+> added). llvm-mca [1] might help you with analysis.
+> 
+> [1] https://llvm.org/docs/CommandGuide/llvm-mca.html
+
+Thanks, will learn it
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/a5937489d22f450eaecca610d8aef6c9%40honor.com.
