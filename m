@@ -1,130 +1,129 @@
-Return-Path: <kasan-dev+bncBD3JNNMDTMEBBXPPS3FAMGQEZRZYV6I@googlegroups.com>
+Return-Path: <kasan-dev+bncBD3JNNMDTMEBBBHUS3FAMGQE2QAM37Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3a.google.com (mail-oo1-xc3a.google.com [IPv6:2607:f8b0:4864:20::c3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40D37CD1C9C
-	for <lists+kasan-dev@lfdr.de>; Fri, 19 Dec 2025 21:38:55 +0100 (CET)
-Received: by mail-oo1-xc3a.google.com with SMTP id 006d021491bc7-65b2d43a899sf3116626eaf.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 19 Dec 2025 12:38:55 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1766176734; cv=pass;
+Received: from mail-yw1-x113f.google.com (mail-yw1-x113f.google.com [IPv6:2607:f8b0:4864:20::113f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0705ECD1D35
+	for <lists+kasan-dev@lfdr.de>; Fri, 19 Dec 2025 21:48:06 +0100 (CET)
+Received: by mail-yw1-x113f.google.com with SMTP id 00721157ae682-787cb36b60dsf28982817b3.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 19 Dec 2025 12:48:05 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1766177284; cv=pass;
         d=google.com; s=arc-20240605;
-        b=OqxI85Y3HL6VhQtYBGREj3A52mjxQacNI2Umz23IcnGzkdENSecx/Z8eoC3U8+EvO3
-         RtKZTn3/u6YBk4QNlcexgYPvvMD4PF5a6aRhJ9fL4c5aUDi/fWdeB/sQt1LTE/f9oPgf
-         iTSZsKA1jtZTyNuNnWobgBS1sddNTOMkMZptCr3zlY/w5YsMmR9FgTtLPrbN0dk5D8xG
-         sVqOANYhfeNzz/TvHssRxXJWSQjsx/QvFIB8p6JARCi1nh+AqUAN98ydZB/2h8rK6MBf
-         1P+qtfvLCgM16Fa6NXNZF3IIr48SEQdbdibyeWG6D5eh6LbmB0awfQ9oGxAl0bNbu1zF
-         udPQ==
+        b=Mqsi8FijIZNGHtphFnR05M7ZOj/VWphbU/9U4GYdpD2JMmdaX7r76Zl018dPN4SzWC
+         EulxrkRQuugkoLc5ifOGTurdc5F3plmJmQy/E0kIWOFn5nZxoXTJWXhzztNBUHddf6N/
+         4SSh6CpAgfbOuEpKNgIDJysUvnjgAeJGyJuWEVanTIXK7yiZ+psaikyv44Ohnyc92A+2
+         1Jua88P781ZuCXWg2dg36cR7V+JUsGbtxxCdbTlWAuMmSlHvTUbuMu9Z4Qi8jjHtfEvb
+         JLZD8T+lMULX/9dkjikxZpz6hIGE16SPCMAwAtClahBYTCN9j2LXilsAIFAQNsTHr8kB
+         JxqQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:dkim-signature;
-        bh=WpG+diFdOUFSPM+CMIaVDxS815JW6rkEGkK9laDY7Qc=;
-        fh=d3cG/kLEopSKpxJIUUQZgwPDu614Bdl7npeQp31h//A=;
-        b=OlD6lh3VyytWXANIiuQcpP4fmpPuf2IQOd8icb0JkeDYMq/XQGNRbdoJV+UrpGLlry
-         gPUHUMFpl+g2W7GtNHxEEGQV7ActEV3dnXjjlqmAxEc4Opmw5c9r4coHYcz8W+Pxi4a3
-         kJNRniNLFskfLupHwSMu6tqcWAcZ+iMJJy3roreu4tsWHsD+tP62ViBvQsJAxx5TcOxW
-         JjMAH8t+u0+6Ew0Y+fApRMWmdMuPsk3+HPHrnCPsVqP25h1N9fjiWPgHSD/fqqE5XRIE
-         cI+a5EjY6kF2PGjeDY67Xu6snnp1iVsUxGV0ZHruiefBVXK86GrlcPVxuOzUvNc/dCqe
-         XKKA==;
+        bh=yRubp3CgD8F/kuxUYSOkPDImev3HgLVmvwEbMFD/x/8=;
+        fh=eIOch9AG5LFsrma20HU7LoL6l8Hh6t4z33dDMMURHBg=;
+        b=CTXrJ8Y1taYLLfi/n1d63TiQG80WuZYjLFVclAnPXpE3py69FiffUKW4XYxZoPR7fe
+         eFxgVt7e9rU6gFXd9FbhibTtw5oRDNP8k6TUPgGiYQ6pNCxjT+5Ffnp4AZirGFwlqmiZ
+         qNRX3v2Tjg3+LxorpAeD6OzJ116m6Z1uNer4E59BnjisHXhRLIiRIyb2Z2gUsXD1ViHZ
+         UjudH8wg+doYSGwaBLV5N7AbAc3bMd0w84g/1seWogMT8bKK5IG+tzKlmyaO1Zt3J/1j
+         P0H5Kv33BmqvuJWjIx3CfFWEfwm562J+f1ySTalivaR+ZQAUudzvedz8W/fta2Es7rGj
+         C3nA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@acm.org header.s=mr01 header.b=23ejbMoW;
+       dkim=pass header.i=@acm.org header.s=mr01 header.b=yvRF6QOZ;
        spf=pass (google.com: domain of bvanassche@acm.org designates 199.89.1.16 as permitted sender) smtp.mailfrom=bvanassche@acm.org;
        dmarc=pass (p=REJECT sp=QUARANTINE dis=NONE) header.from=acm.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1766176734; x=1766781534; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1766177284; x=1766782084; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
          :from:content-language:references:cc:to:subject:user-agent
          :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WpG+diFdOUFSPM+CMIaVDxS815JW6rkEGkK9laDY7Qc=;
-        b=keD25LQqidktgE0vqopZigShVZIrimA/TotX75YpBtLzZIG/X5Qsj6zFJkzZyxu8ji
-         Tnx1MjOqCofpj/F8aJGNuqsnfQSsJ8+GERysU3fsaSvgzZJGXV2Lxr5t1NbT8EabB3Oe
-         9NGi3FGUjsW9AqCTgcplTspGxpGY/2PDPxBv/OabBdxQMV4iq62vtXPmIsLi5uld4jSe
-         ma0KDT2LykVZYmwYhhXwPJ0QpPuU/h2bX8FSUOe6j9tDasXkYBlxqQo4Zd0O810rv3Ac
-         Zy1xjYNaPOXvZmQmfjJPDdQeAYsT/v3ZASPnW0p8Ew/eYUQbCAfTpJM7mcWUKdF+cdgh
-         s7qg==
+        bh=yRubp3CgD8F/kuxUYSOkPDImev3HgLVmvwEbMFD/x/8=;
+        b=l3466FqqAPlKKRO1kRHHr1fYtPWGpuylFV8pb4iyZBGpDDnWuVyU+xbawVG8BYtxlk
+         r4FcWO92Skj0jYv3jR+RtYMzAKw6aly/N/UjcwxeG8MUO+zUl0skiZiuEytJaooGVJR3
+         nvk5upuLywg28ziCIBXY6U8faxpptuxBSxNi0gN9dlheeIbdbjgZFhLDHellKoXrw3R4
+         JDTepI4rSuOqkre7cCyTyldeWF71qELGzekYHePpyfgCEUGWcXDzgF9uX6jMPmfLWa2g
+         aVEgH9kXewtk72GdmhX29bGSYh4UZRLym/mFCQ+wTlGCKsxSTB3QiqmZ7aFst3jNBRrC
+         1DFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766176734; x=1766781534;
+        d=1e100.net; s=20230601; t=1766177284; x=1766782084;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
          :from:content-language:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-beenthere:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=WpG+diFdOUFSPM+CMIaVDxS815JW6rkEGkK9laDY7Qc=;
-        b=hJgtFUDQjFIUDnGH8zY9oj1WyQX9cJcw9pLzT6f16mT7E4u+X14yg41V2p7fEhZYZw
-         0BVji38k2PSWi+OPjVCue8c4L0NC5gFpDrS9bwMfTdZdyvmIneRjSBf66c8W56QPTBww
-         5sJvV4ZuqrpR8C3M4ejh326xD+SElZ3aSreEP8q8D0OkySgzg/mUFcJQNnf1Lon8KDQy
-         V4TV4hHVPYu5hZ1wO9H9QzKkqUmo2ov8jM1WwCJJ7+MhIhmgRvl7GdkKgtPq8WmrnFZ8
-         O/rQQUTBLBIOstbsLlUJ0Ex0MdAwkhYj80YuAYVb1rL5MwYBg6rTFg0wLHFR1w2z82Uy
-         rdLw==
-X-Forwarded-Encrypted: i=2; AJvYcCWkLBUYE/R/OFk+xYIM1UcQtlBKW3cnuI0rbvkqp8HOd8Ymxog04maT4P38ykvYDLboNWlS+A==@lfdr.de
-X-Gm-Message-State: AOJu0YxXvO7snMYtIcXqyuJYsOrBAgy/c+Pr0NmWWouuzS5Z71Z3oNRY
-	hs9wZ3AM45/2ok7jfq49a2AsksKEukelTpD+HG1vXaRFEaqxMQpEh5CS
-X-Google-Smtp-Source: AGHT+IELernoT6qH3Knvc1Yyc+z0FAYstuC2v1K5VV1+KynDSCD9hOnZE4J1nyEHM6Mmq+q39NtkJQ==
-X-Received: by 2002:a4a:bc84:0:b0:659:9a49:9072 with SMTP id 006d021491bc7-65d0ead135fmr1234173eaf.61.1766176733868;
-        Fri, 19 Dec 2025 12:38:53 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWaHVcyL6INxGdtql6lWjm03ECo/mQQeqpRiim117qXhfw=="
-Received: by 2002:a05:6820:530a:b0:65c:f65a:64d9 with SMTP id
- 006d021491bc7-65cf65a6716ls1322668eaf.0.-pod-prod-09-us; Fri, 19 Dec 2025
- 12:38:53 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCVVePlAZtKZSFuXdlMQVXi3orEeOjWBqS9P1CaMmKJIt8r9s+l7p6X8IVTlQEoI8i5jUrostKB6tFM=@googlegroups.com
-X-Received: by 2002:a05:6830:4426:b0:790:710f:60e3 with SMTP id 46e09a7af769-7cc66aada5emr2294940a34.23.1766176732970;
-        Fri, 19 Dec 2025 12:38:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1766176732; cv=none;
+        bh=yRubp3CgD8F/kuxUYSOkPDImev3HgLVmvwEbMFD/x/8=;
+        b=FmpeHM0ABTN5he495AwweCMqfOtN6q8e4Wq1MVVWn4o0G3KU5xeUZkAiMuGIlEIWv/
+         B7Jm3TPlngx/zCMbXMochacwvMsSKCMb4yDgxowXpJMCtA9Ix7v2PrQYAQ/cvJRNBVV6
+         NAP2q7j0rZQZo2WM13mJsZRo9k6s+P8FuGa1QcM5HpkQ/lFmGEM8760aDfVntbFmkuSU
+         VKT+e/NG99q1SohI3XKydiK/QUNpWKLKvkb3wEpHlzJ5hm1KsYmTcTuDr5wZWGRQf0m7
+         7XGS0HLjYJVkeFxYU+Zj7RVuKush/6p8NdSEZPQr+yvjRiKQBCdrYaI9BrQ+9V4TEUZz
+         PXoA==
+X-Forwarded-Encrypted: i=2; AJvYcCUucgA6yNmnJErmpRJN6XAXsPmmgQ5CBbux6HqeqqHzrDKTNdK3XEcSWAE6AkIjwee53ttfew==@lfdr.de
+X-Gm-Message-State: AOJu0YxuMYsAjD8aKzi3agJpPJ9j91RIEFpTXkVY2RHFwb+1aTMGAnbV
+	W+3RAeWrb/2z9SIk87GDOT/zLGpyoQdY8BCXCNZVWIIcvLvDN/vW4UXV
+X-Google-Smtp-Source: AGHT+IGIr/PLI6K6Rb96SWQddMPw4R4oHU0mEx69eu0rXAEvt+bxApdJqM7DiGM3T8lnnrsxdlV77Q==
+X-Received: by 2002:a05:690c:6010:b0:78d:6f35:bda3 with SMTP id 00721157ae682-78fb40922camr72441727b3.53.1766177284313;
+        Fri, 19 Dec 2025 12:48:04 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWZczGxjEJ06beN/IWODXgZkc576FCkm0LetTpVkxj4zfQ=="
+Received: by 2002:a53:b00b:0:b0:63f:ad1e:f1ae with SMTP id 956f58d0204a3-64554b3919fls5786528d50.2.-pod-prod-08-us;
+ Fri, 19 Dec 2025 12:48:03 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVfHfkLl3+XqohpgWZhtbCqtO/weNQYkCIbPnzLWYHvlXp8XwCXK1gh3slwTgupfNrWqQMMGNSUSnk=@googlegroups.com
+X-Received: by 2002:a05:690c:7208:b0:78a:722f:a7c9 with SMTP id 00721157ae682-78fb407b297mr72105977b3.47.1766177283333;
+        Fri, 19 Dec 2025 12:48:03 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1766177283; cv=none;
         d=google.com; s=arc-20240605;
-        b=DBZ90EEVTncrVH6rACRiJzKYKzHTEzz9LGwcsUR1fgGcUT+XTV4M/lyjFefalJSAjg
-         4BLgAck96cj+I6IFhcqQoPvGmjuMdNDVd9LwkiVj6uU0dYmx/6BSOhQDZm/UP8k5cLFc
-         iGHiU7Xwx8ZWzsRmHaUSaP+hwf8103eX46tNSoOSIUIfYO9e86fel9nIV5Zyt8k7ZpjG
-         lRVvDfPJyctw2DpOJJ9jzr4DYAkijzAykxdBM2zZ8M7RhzM93OJ0lb4xx6fc/OhhpPMp
-         jZCjPKeEBl0CghKcLAoxa4nm7oyocjmxsNF/8KLZlT5wZCiUOb4ke/UwaHY99ZHdHMZ/
-         Fqpw==
+        b=j/rI6REsA0UBrd5DPxm/38D0Dae0hCXtAOGqltmkuKTnfIiaLFkYJcRMYll6T+dl+2
+         LtmKhY24ql2hjyZ86hR/XrgjU3Zy54+HeA/tUCbkGw//Zb8RRIMysr6shtFt0K65kYGN
+         yAHEiCsT1fHmWj0iGEBYGpUGHdusDN9jVPFyiGPnoTCYB15PVSxt6uKXmNJGg5j2ojkO
+         nFRlZbyoRx+dv27X1+XOdVVGz5T4Cu5nELsTdITmmDGauBzfSEdyRcOhunV3J7l85Ybx
+         DkbUzPmf4SGCfgwweT/ngWMg7eD6bbw1tXHgUgteJZXjokHCoZUtzuLftArRTF1GxGLF
+         NhvQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :dkim-signature;
-        bh=M2FKNH25BsSSupvqYh8XNhufT7PJPLlufiLItK/K4/Q=;
+        bh=RpTDLGmqmvX91HRlulscWF8eEEmxcYbVfxnBODEf7Fc=;
         fh=oscsWGUi8qXSCGbxjzWMCAbvCbb+T4RkBriBWr6Vjhk=;
-        b=YtC3I34/ayQIIDdS36LswIXlBGRUrGhkq/R/IycW0BXLkoaD8yr/D24Azwi3u+tWGO
-         kSVCTRIrrpFOlSeyu7X6ij3g5L7gbOF8mZkRA/tLNaSWxwEzX1k6xKJLftl92FEceYuE
-         zOXqdS3mJwKx5OIUoqE0jpRWxEMNPxKyVLh64zdg2//r+hmVZrk1+A8WbmLYTotyuCv6
-         z3eS6WbHTdgiq3B0NdajERViC0Y47pckZk1jrWTk59Z86a/onYctNOKdPX8DbPLvp6Od
-         fg763PzPvXirzGgTvUd1XZx+0QL3v7wiEkVlQKGb4/A03X9qa4vh/O7g3pvbuyxb26iL
-         qaBQ==;
+        b=VU4J6PBl3xe2O6u4c/El0dSad8aO2NzX9BZWSAxm3YUpfdW4xj0oxwZ2dBTU+pu/iv
+         LjhROUjr07EvSGVC72yJNiE/jgfEXMk2Kq6IxAnRgJ/bfgDpxMtxSlYZq+qLCGN7HbNW
+         yKAia2r66hFsEFK8Gl8YAX1inNlcdYAl3AfxE3+fzPCUp4qtoiRpdKID6kZ0FinVFELs
+         KttPJuIo0nS/UrEHRGOsCwJ2057Ukgqqzk4mTlaFbJvqOlEH/BAco1Tpuq70T6C6c+5J
+         WcBkr6URuWKpKA9R6HaFiMVjYlMciBOtXROHqEPSLbgQNDPXmgxZnV3UEcYyLXXi0Wnk
+         8fvQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@acm.org header.s=mr01 header.b=23ejbMoW;
+       dkim=pass header.i=@acm.org header.s=mr01 header.b=yvRF6QOZ;
        spf=pass (google.com: domain of bvanassche@acm.org designates 199.89.1.16 as permitted sender) smtp.mailfrom=bvanassche@acm.org;
        dmarc=pass (p=REJECT sp=QUARANTINE dis=NONE) header.from=acm.org
 Received: from 013.lax.mailroute.net (013.lax.mailroute.net. [199.89.1.16])
-        by gmr-mx.google.com with ESMTPS id 46e09a7af769-7cc667c988esi339187a34.5.2025.12.19.12.38.52
+        by gmr-mx.google.com with ESMTPS id 00721157ae682-78fb452c466si499647b3.4.2025.12.19.12.48.03
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Dec 2025 12:38:52 -0800 (PST)
+        Fri, 19 Dec 2025 12:48:03 -0800 (PST)
 Received-SPF: pass (google.com: domain of bvanassche@acm.org designates 199.89.1.16 as permitted sender) client-ip=199.89.1.16;
 Received: from localhost (localhost [127.0.0.1])
-	by 013.lax.mailroute.net (Postfix) with ESMTP id 4dXzs815rqzlwqPy;
-	Fri, 19 Dec 2025 20:38:52 +0000 (UTC)
+	by 013.lax.mailroute.net (Postfix) with ESMTP id 4dY03k3PBFzlqfwx;
+	Fri, 19 Dec 2025 20:48:02 +0000 (UTC)
 X-Virus-Scanned: by MailRoute
 Received: from 013.lax.mailroute.net ([127.0.0.1])
  by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id MkJHsfOVfhWT; Fri, 19 Dec 2025 20:38:44 +0000 (UTC)
+ id RwSAk9NGYx7Z; Fri, 19 Dec 2025 20:47:55 +0000 (UTC)
 Received: from [100.119.48.131] (unknown [104.135.180.219])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: bvanassche@acm.org)
-	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4dXzrm6hBtzlwqPY;
-	Fri, 19 Dec 2025 20:38:32 +0000 (UTC)
-Message-ID: <61037092-ddfb-4504-9351-7f6a3e5e4616@acm.org>
-Date: Fri, 19 Dec 2025 12:38:32 -0800
+	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4dY03N45hpzlvrT5;
+	Fri, 19 Dec 2025 20:47:44 +0000 (UTC)
+Message-ID: <3b070057-5fda-410e-a047-d9061d56a82f@acm.org>
+Date: Fri, 19 Dec 2025 12:47:43 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 12/36] bit_spinlock: Include missing <asm/processor.h>
+Subject: Re: [PATCH v5 13/36] bit_spinlock: Support Clang's context analysis
 To: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>,
  Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
  Will Deacon <will@kernel.org>
@@ -156,14 +155,14 @@ Cc: "David S. Miller" <davem@davemloft.net>,
  linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org,
  linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
 References: <20251219154418.3592607-1-elver@google.com>
- <20251219154418.3592607-13-elver@google.com>
+ <20251219154418.3592607-14-elver@google.com>
 Content-Language: en-US
 From: "'Bart Van Assche' via kasan-dev" <kasan-dev@googlegroups.com>
-In-Reply-To: <20251219154418.3592607-13-elver@google.com>
+In-Reply-To: <20251219154418.3592607-14-elver@google.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 X-Original-Sender: bvanassche@acm.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@acm.org header.s=mr01 header.b=23ejbMoW;       spf=pass
+ header.i=@acm.org header.s=mr01 header.b=yvRF6QOZ;       spf=pass
  (google.com: domain of bvanassche@acm.org designates 199.89.1.16 as permitted
  sender) smtp.mailfrom=bvanassche@acm.org;       dmarc=pass (p=REJECT
  sp=QUARANTINE dis=NONE) header.from=acm.org
@@ -182,42 +181,24 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 On 12/19/25 7:40 AM, Marco Elver wrote:
-> Including <linux/bit_spinlock.h> into an empty TU will result in the
-> compiler complaining:
-> 
-> ./include/linux/bit_spinlock.h:34:4: error: call to undeclared function 'cpu_relax'; <...>
->     34 |                         cpu_relax();
->        |                         ^
-> 1 error generated.
-> 
-> Include <asm/processor.h> to allow including bit_spinlock.h where
-> <asm/processor.h> is not otherwise included.
-> 
-> Signed-off-by: Marco Elver <elver@google.com>
-> ---
->   include/linux/bit_spinlock.h | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/include/linux/bit_spinlock.h b/include/linux/bit_spinlock.h
-> index c0989b5b0407..59e345f74b0e 100644
-> --- a/include/linux/bit_spinlock.h
-> +++ b/include/linux/bit_spinlock.h
-> @@ -7,6 +7,8 @@
->   #include <linux/atomic.h>
->   #include <linux/bug.h>
->   
-> +#include <asm/processor.h>  /* for cpu_relax() */
-> +
->   /*
->    *  bit-based spin_lock()
->    *
+> +/*
+> + * For static context analysis, we need a unique token for each possible bit
+> + * that can be used as a bit_spinlock. The easiest way to do that is to create a
+> + * fake context that we can cast to with the __bitlock(bitnum, addr) macro
+> + * below, which will give us unique instances for each (bit, addr) pair that the
+> + * static analysis can use.
+> + */
+> +context_lock_struct(__context_bitlock) { };
+> +#define __bitlock(bitnum, addr) (struct __context_bitlock *)(bitnum + (addr))
 
-The abbreviation "TU" is uncommon so it's probably a good idea to expand
-it. Anyway:
+Will this cause static analyzers to complain about out-of-bounds
+accesses for (bitnum + (addr)), which is equivalent to &(addr)[bitnum]?
 
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+Thanks,
+
+Bart.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/61037092-ddfb-4504-9351-7f6a3e5e4616%40acm.org.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/3b070057-5fda-410e-a047-d9061d56a82f%40acm.org.
