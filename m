@@ -1,155 +1,154 @@
-Return-Path: <kasan-dev+bncBDT4VB4UQYHBBUUNS7FAMGQE2P3FWDY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDT4VB4UQYHBBAWDS7FAMGQE5HHZ2MA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1039.google.com (mail-pj1-x1039.google.com [IPv6:2607:f8b0:4864:20::1039])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08CB3CD205D
-	for <lists+kasan-dev@lfdr.de>; Fri, 19 Dec 2025 22:42:45 +0100 (CET)
-Received: by mail-pj1-x1039.google.com with SMTP id 98e67ed59e1d1-34c704d5d15sf4307816a91.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 19 Dec 2025 13:42:44 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1766180563; cv=pass;
+Received: from mail-ot1-x33d.google.com (mail-ot1-x33d.google.com [IPv6:2607:f8b0:4864:20::33d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43EE5CD230C
+	for <lists+kasan-dev@lfdr.de>; Sat, 20 Dec 2025 00:36:36 +0100 (CET)
+Received: by mail-ot1-x33d.google.com with SMTP id 46e09a7af769-7c70546acd9sf3980057a34.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 19 Dec 2025 15:36:36 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1766187394; cv=pass;
         d=google.com; s=arc-20240605;
-        b=FBcD7p94YU9FbPzSGss5lJSIyf18QesRLdU7hAY7FoMDJVLEfMkYto4Q51X3HLD2YH
-         /nLX255Nsd2ftEf4Q8ajUe+QHK3u6KpYK5uWQNNzXhbD990K+Jts65zau+1xd62qWQDg
-         DgnLTFIBznDb6fB2LG0T2HFE7ScYzMmB1WBxO6ygy6Qwf43N+88Q2jBXIeoLMN8tlVQS
-         W6C5No0J/BEW/gefE0YCCOlJaKT6BLW/kwiI8hOcYHoVsLI40PL6hnrXgMfZYlbsruzE
-         +7dCc4h4gl0s6PkRGjNL7WQe1PoLfdyu8gtDYUm4NdUIuvn9eHVRzGKWls05Z2PUyHKd
-         tLMA==
+        b=V/NtCXajD+WTcMXY4EGQUlMmrCDwArvwN4ajJNOKf+j6yZt4zOGsqfB3jzoEiUOsHO
+         u6AMxk+D/VgZce/b6jZQSPDeIsB8X6ReBLpdVyhgeCJJPhMVhVmSnUSbgKAeglE76BdV
+         zOr59yQApEEHxaYH1zRd593KK3x99zL4abjIDHcbZhkckearyXg6HkxxiNCjc3rIa1A8
+         7f7iqmN0DePUgiTYKrTA3c4AJD/FlwltN/72CRXb+qBzQoIo7qEliAw4JFYPkzXo1C41
+         RqnOJcLxsUoqpwCnBwBoT3Y82qegMUyVSAQoPsAzvckR/TEtoBBYEeOHpKXDDpdQiFO7
+         zlTQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature:dkim-signature;
-        bh=57N2c3OIpusCdHEjBa0PruRN/FwUwky0iilGCjpPyLE=;
-        fh=CS8Je+1uItx8DLJ5jFeebdNDoj40xxYDDGrs6av9zy8=;
-        b=Qf/eSUroTudIUdn8YxltxB7d9ucOkExQZ7yjxcVnxUe4AKR3oXnf28URWeZUYJp4rp
-         CTts/cHg6Fa+xXyeccdbp+gXnln1HIQTw4K39V7AnOFt2ObB/ImGQI6YhPmWlJ73xLip
-         cqGKQ8lSI9D47kMaHNYFHG3zT3AL7kuY1VS6HBTPeAn8s0R2lXOf2zYA5sX5UUupChP4
-         m31to6AO9OB7JUhZcVqvH6iBlwQmxo7w+H5CnfHukwQPN28U2rawwfgorLMHK+soLD/E
-         Qj2v95TZavyl7+GS17nvvxO2mqND4iTutsAE3EhRpOAHaxzZGDR6h4frz698sTgUjLro
-         526g==;
+         :list-id:mailing-list:precedence:in-reply-to:content-language
+         :references:cc:to:subject:from:user-agent:mime-version:date
+         :message-id:sender:dkim-signature:dkim-signature;
+        bh=1pW7IuHuvUsuawX9rClILR+HqX2M0iyfDb8bUpx3N0s=;
+        fh=Cq0n99M5TQMuBbwPVXQi3M2WDaOUbkiR2D90NPxNWVg=;
+        b=fNM1VO39vZa6DIKgpdhrkYk1jqaqFSGXcVrKVJNgFFM3wOdKdo+ia14G4NckhN9OuE
+         XQ4laKrDTlo3iM7ec7V5aZFyzFiqD4/xAtghD6KiQFUAkPNouw3zI5NpzlNpBdW9c8gP
+         WXmHdCdYFps7xQ9M/fvxddZgL9T93/tr4DYftyC+X/6QjxbpBlhdIvzYzVH8K+f3bYm1
+         52p0QB7LGx6sMOgSwSR7IxPCoU/mJVF9HZ46R7KZSErb7a1dyANxtHBuL36UJz9qVJAo
+         nNCYWQ4kJ9bWgqoWPlzIf+Cjv5SaxwtNUQE/pqWG4Md4xEG83YDZl3UP58lnjGBm4J0Q
+         ndHw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=gMu7boIN;
-       spf=pass (google.com: domain of bart.vanassche@gmail.com designates 2607:f8b0:4864:20::642 as permitted sender) smtp.mailfrom=bart.vanassche@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=JybvMGKe;
+       spf=pass (google.com: domain of bart.vanassche@gmail.com designates 2607:f8b0:4864:20::544 as permitted sender) smtp.mailfrom=bart.vanassche@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1766180563; x=1766785363; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1766187394; x=1766792194; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:content-language:references:cc
-         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
+         :x-original-sender:in-reply-to:content-language:references:cc:to
+         :subject:from:user-agent:mime-version:date:message-id:sender:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=57N2c3OIpusCdHEjBa0PruRN/FwUwky0iilGCjpPyLE=;
-        b=SUC2hPef74Rx7QL4HA0R8plq3QlBLH177gCS7prOEznZ4PecFTz7GqF/SUkF0RBpDv
-         068V2ekgQdZxmWDo0EFLjZcXErYLdryS5Sopffk5NgWSYDICbsf9/8RjaezICK+FZ5VI
-         TxW/caJZUCRw/1qVA4AKm1nH1uNSt9A/IIaMpXJ2qychPJQD9rBs8UlGZSXHWVh5WBIq
-         7Y14zDaBtJ4cKVRagGuwlMg33jLsOC8Xnkc1XD8k6dKX9P7+JloXvbnw+TaaRZfIvXcf
-         3aJEP0JzRL8DX7lt6vwwvGHCV5/P8cyWMdzB8z63XPGhxOVjBadzhkLZPBdSaXMyb231
-         YYPw==
+        bh=1pW7IuHuvUsuawX9rClILR+HqX2M0iyfDb8bUpx3N0s=;
+        b=xDftQXS4eFu+evoEJwgEcNrdOaiaka0Qw/fSTme58re1iHc6EWFVW7xY7qMzVuzPVg
+         uv0G9SkMVODoV+foJU3DeFE2qUBAA1eh5B0yuq+qZEeIIJuAIuvbTjHksWDyDHdeara+
+         ophoxW1yfHHBdvAzhLcGUByL4+SirQpA7bhy2cegX0GzBSanTrc7MAZ/Zhg0kCf/ueH2
+         SxSxxlgIWV62sOF87CbfGeIDXIscBeRv8+geNLSfiy1qYP/cEeNsr7BXvKK/IsMrxhgz
+         68Vmq0f4Sg/texsksPlSVXTTKvN6I2qwtCtkBxzZN3Q6A0eSv+dGcb3CA9TFoWCUsDsq
+         DPvg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766180563; x=1766785363; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1766187394; x=1766792194; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:content-language:references:cc
-         :to:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :x-original-sender:in-reply-to:content-language:references:cc:to
+         :subject:from:user-agent:mime-version:date:message-id:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=57N2c3OIpusCdHEjBa0PruRN/FwUwky0iilGCjpPyLE=;
-        b=FXwQyjPKNXv/yjspDJxhvWooZYMvrXNFLDgAE4GI2EM6hxvDoP/xsVo+bcbSjhc74T
-         ACCdfBJ3HAr6TRXJPJoC2ZrbntWN47Pi7uQE4KOXLI1ZGAoxBd0ZKfWICva3JhRe5pwk
-         02+5/ljx6dkC4hEIvuQKt//Qy7BfvzOsM7KuL3HWg0gtkxedgubxSn3Rx+yytJoe9hvq
-         1DBQvotPROvvNTQFvnM8ZglQaD8GGviC+KV8qasgJVrlEUgtMd7ZNgiu8qqlxPSt8GIu
-         mbkFN85+5hpaTtkJuKMEypZVpH1+j0aE0rp4eICru6cSItp01IscGECqXVukVUE0rFch
-         SYAA==
+        bh=1pW7IuHuvUsuawX9rClILR+HqX2M0iyfDb8bUpx3N0s=;
+        b=HZZpkRRvMi8yaetlmF21n+RzYTvXp+zYnzPrgbrAsOhOUn0YkjjY886SpclDbLeBxM
+         xT1YB3LH7F3ZZnjNjWqIjAqiXmYJ+uHHzVF/cmwBkSlREmtbzV1EEGJLJcMnrzbSWtFb
+         jbppNvQs8zIZ3Js+KY66zbCIRH5a++WPkTRZgm8mocTXcDB+im7Zz0VsjJ4vmW8pJ4s1
+         a0t0Mby6xBklxF7az1/EbjNJq4xMs/V2iDwSgxGHc67hFzZvxRnZ4TBFBIyp2UYop7fJ
+         K5Gtqi8b00YYM7ZEGktQl5TL5Byn7MHb45RFmni/MP8iBxY9ajHPt9saSyqUgJTWGbfu
+         /9Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766180563; x=1766785363;
+        d=1e100.net; s=20230601; t=1766187394; x=1766792194;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:content-language:references:cc:to:subject:user-agent
+         :content-language:references:cc:to:subject:from:user-agent
          :mime-version:date:message-id:x-gm-gg:x-beenthere:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=57N2c3OIpusCdHEjBa0PruRN/FwUwky0iilGCjpPyLE=;
-        b=pU/uxR3SdUo4k0hyLI6y9siRTqGUcQuBJLYeYeXuDwyMN0MkzoAVsdaoT2V02gs0FD
-         aYhyKPAZyPBEI1xtDoEeEEtDvEdVftMzT552ZwAMuu1I2hd/Mx43YH30OM/TMYobhmhW
-         UUPoR5uF9HuwF2qLoIPgjaI+wEFuvvPhgJsgyZQsCQdlf6F/J9r/m4Lvx/VYEGB1pxY6
-         SH+jLAz8nlNv9C1RpqjHw9FvRbrB9kvY80+LNBLuFm3Tur6WtPnBXsiDTeTtpqtOI/gQ
-         h98KmyyxvsY5NH8+mVH4p7TSfgDCpm91NZkyvXwcGejzx4Y5+6d1BHraAY5TY2MM4kaA
-         ZkLw==
+        bh=1pW7IuHuvUsuawX9rClILR+HqX2M0iyfDb8bUpx3N0s=;
+        b=PRTRkIBK6wPM5rSif76nZHAaH1FC3C0whFfZjLTQpXiWVymiGhWxm/7K9mYGjqoQVi
+         v+BORNW9+71LBvzbB/mVCPGEJHmfDvZRrqFVF8uR4dKkC4Pr+qpzZObAw4XmGiZzL223
+         cvmiMOS68pZunfqEYlnEWfW3pG53q/F/kSjtePz3ZOKQy29UpY1/WLnbvlA10V28wDuL
+         X+DGkTZqoLI6IiO0lU02eNIrcTW/DvOF1uEQuGeojqpJIU2cLFDYf2zXRqNhtFJR8GW6
+         Zmrtosbtugi2IggNHg7GfP2GhBBaAJMSEDCE4G+Iy4a/o0f78C/Q20aj7AdH7mwgI6xW
+         gCng==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXL2y47M5cgFZyt26iwK7w9ec+dOr3yvZYTpJFSYbL/sjJczsiabtr+ne5Nh+ppnV70Bk2IEA==@lfdr.de
-X-Gm-Message-State: AOJu0Ywj2Zqgk9texDRN9BnmOGe3wHY5FWhvzJVbCBvmSiEe29Ir0rLx
-	PowJHW8Y+whn7lJ5KLBZwDhm3Mxl67adGSDcOqMrH9gjiTsj2ZRziEaF
-X-Google-Smtp-Source: AGHT+IHcrJ9s2hFrXC+MBhu6yp0+1vKVZuaL78iCkf1evuRq/IMjWTVrEnsrronHWOlfhWSDsDyMYw==
-X-Received: by 2002:a17:90b:3d90:b0:349:3fe8:e7df with SMTP id 98e67ed59e1d1-34e921be5demr2656828a91.22.1766180563333;
-        Fri, 19 Dec 2025 13:42:43 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWaKojmSE9fa1QZlORqPXhaHlP35TRZyAb+YnDRuUagdKg=="
-Received: by 2002:a17:90a:db81:b0:34a:48fe:dff7 with SMTP id
- 98e67ed59e1d1-34abccf6207ls8270684a91.2.-pod-prod-03-us; Fri, 19 Dec 2025
- 13:42:42 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCV5Hw+dvOMSazRIej+nTHbY3IcZTa3DZ5Ye4UR+yxrwzFAUjad44sZT7k10oc6maq4QqtoJkcimCuo=@googlegroups.com
-X-Received: by 2002:a05:6a20:939f:b0:359:57d3:91e1 with SMTP id adf61e73a8af0-376a7fe5176mr4005190637.32.1766180561834;
-        Fri, 19 Dec 2025 13:42:41 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1766180561; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCXBYem5oZyaqXmJ6xrKQXAOkUTEgRlCZdOw0Bzzbl2pUY6bxuMMVtNw0kPR42lNy14hTHq1wg==@lfdr.de
+X-Gm-Message-State: AOJu0YxrkM8A0yEp/BEYm10wO0b3T3eLhrkPquhGLAPoXqW3qR0gMIA0
+	revAEZRk1ptE8A+3f2SCB1nY+MyHUDLGiMqHMGhemZSBZAVzYzeFbr4h
+X-Google-Smtp-Source: AGHT+IEayy6Ly9Ub/OUsyDKp7AbhQiJIqZRZU1RUhxGgQzjl8Hv/91pbN70KJA3zLeeG7kYFEu9H9w==
+X-Received: by 2002:a05:6820:f028:b0:65b:2944:731a with SMTP id 006d021491bc7-65d0e9f3097mr2216857eaf.16.1766187394409;
+        Fri, 19 Dec 2025 15:36:34 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWZl/DHoSFyViFIRLj1UPlV1Kd31wcUI5wjcQyX+CRK6+g=="
+Received: by 2002:a4a:e5c5:0:b0:657:59d0:735e with SMTP id 006d021491bc7-65b43986abals4346357eaf.2.-pod-prod-08-us;
+ Fri, 19 Dec 2025 15:36:33 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXXeDLXw8k1mZ98eGEphk1LW0aiggryLIXIN0s6odw4z0kKE0TUST5UxWdUKALakNWYpqGhqctSvrs=@googlegroups.com
+X-Received: by 2002:a05:6830:264a:b0:7c5:3045:6c79 with SMTP id 46e09a7af769-7cc668bdd63mr2222727a34.1.1766187393507;
+        Fri, 19 Dec 2025 15:36:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1766187393; cv=none;
         d=google.com; s=arc-20240605;
-        b=Mi0G7yc30MaXpj0w6R6N02Ys5dDHKnZtZDON/sECqGBR0cq3krgrG2HVbX3LaT52bR
-         4uLFSLEnER+VWsTJ39YycXM6G2NDBi+Nl+WgXeBIurIThDlaBAx6i30H0LUAH7wPLUx8
-         /+PpsxoUhsTV8VlPl8J1W8WMxr34ohvNJ3lWPCfFfdIP5Gzf0GnzPbgJR64Pr0lG+ptC
-         yN41p7FKKinSjYds+d+h7zV8h4N5UJP0kedBxUJuk8ZmjNbMnm7ORpDeWpJu78XTZdn+
-         IRdhj+Xnf0XGOIuxsuihG76RjSTaOAInwgJfPzJqgjnUr8ScpYo7r0o2UxLb8IW80M7C
-         ukag==
+        b=OU9/YirVSQWuP909zOblT8Fv9fTJSlpUxqPzVvgIr8LGv61YXKTrgnx+6ByzcVvoWH
+         V/LvBnSTul24wGIxhhpwOwSxI2i1YMV6pkQZe4l3pixwEAJsnBPgi8eF/H4JBJcs/oje
+         7KeghaujUh9ZVePcIb3vgOHF85ylbHC7dE+R3Tpj+Phy8ns0HCgLwkCjoLDH1RE/lVUS
+         k9jxpdDWB02vtBHNp37BVlJfUFlEgPpDXsZwjxVir10rcR0MPwJYelHYEemHB1vYA1/h
+         F2wnXEZLbL8GZVy1AHdyo5Llv58RaNhPY/3/v1CfDlxsNYbSbSM79ip/Uh+49wDL/xKd
+         yxeQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
          :dkim-signature;
-        bh=xhB1Fco/aAscGV7BUmHv+KRyMsa6iylEkhRycjuIJTw=;
-        fh=q/5z5AHQL61fmuC1qWxqCJseT6PO/jhgI8vjh7vaYFM=;
-        b=Lbt6GMQLTl1A69ApFTLZcxiXYUz/YSODBoIPhnsNhg8nSSzi1Ggh8j+3ac0FLRPSyl
-         EDGnFn45jF4wrYydwa2du5kk58rIN5lkRTkYwCNKX32GCzMBH55QYAPP3LQpEIjHSVt9
-         v4y3hfT8w69amdYDj4xADTpOm7tpSNslyYhZGIhLNisu7cLKYY+/s5t8eYECZvdFnMKJ
-         Z/SFw27gRGr982lnmTSqvuCx+Sy1q/094GCkShJhEttts6nT1baREr0+7JRlJtrpBbBO
-         xder+T1udtDeNciMzjMmpWnnPGvfZeVew9S+TMd3f7pjKGv1Bm/xxYK89XqCMoorJa2w
-         ufhg==;
+        bh=Xjhz9NvSIj1nkwStS3EsBbpnWvjG3hzX9yFNjSmaNpQ=;
+        fh=Sc0+VHtX7tb0BcUOGmnyoy3mMfWR/ER/JUccSuNBKOs=;
+        b=WtrZtZjxNYOsG+yCRpfuIUNf05PsF62klCwFliyyNQtlCq++HGKuPh2laBdfQQEx0V
+         5+jGTAB3VWY1ubNXV5NMaxS6eF6p8U0Cal5fCdbm7pagk8+k/3rPGcrJgak3VziQgMNr
+         ZOIyPUaJQByn8HTuubR5FtG+0a9mUatT3Vr85YK+pOXU26OMeFc9Sc/D8LTwTbOz3w2x
+         71c6gk75KuyZP2r3QqwsG887FtHmiTB+96XZCA330qlkKk/J+TUGuGerCzIkUnZ9mVp2
+         zykH65617jHJvp69iQ17dnd3ProR2DrH2ETYDxXFo5TyfRe/FuW3mdy5F8QGfhlkwlLh
+         tsig==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=gMu7boIN;
-       spf=pass (google.com: domain of bart.vanassche@gmail.com designates 2607:f8b0:4864:20::642 as permitted sender) smtp.mailfrom=bart.vanassche@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=JybvMGKe;
+       spf=pass (google.com: domain of bart.vanassche@gmail.com designates 2607:f8b0:4864:20::544 as permitted sender) smtp.mailfrom=bart.vanassche@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com. [2607:f8b0:4864:20::642])
-        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-c1e799193e1si83476a12.2.2025.12.19.13.42.41
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com. [2607:f8b0:4864:20::544])
+        by gmr-mx.google.com with ESMTPS id 46e09a7af769-7cc667c988esi373383a34.5.2025.12.19.15.36.33
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Dec 2025 13:42:41 -0800 (PST)
-Received-SPF: pass (google.com: domain of bart.vanassche@gmail.com designates 2607:f8b0:4864:20::642 as permitted sender) client-ip=2607:f8b0:4864:20::642;
-Received: by mail-pl1-x642.google.com with SMTP id d9443c01a7336-2a1388cdac3so20720735ad.0
-        for <kasan-dev@googlegroups.com>; Fri, 19 Dec 2025 13:42:41 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU85z62b5IPjLC0mO1lpFH85rMn4DxcEFffxtHqT+bv00Dnqei3pj7v6jtXcpDbL+DMNSu1L8JOcjA=@googlegroups.com
-X-Gm-Gg: AY/fxX6ut8MINdl5pUmulGYt1jGJ2Du/DvIx15qDyq2s649w/lvPUFQ7stGmlzoYQz+
-	NEVAgWe7D94ZmFI9QQb91BKVP+wK0O2ZrjGNnm24EZwCh7dDtigXscNYVBjhuTSSZg9Zdo9pA4i
-	ob5z9IndcoOY7A8iRT9KziU7AvFvCbHiYi96qlGEbnb22PjeQCN3lHPVcDo1DLr1WRiQYZekvWb
-	9Qf22bFqcwBNbblGzcoqpVe4LnAwBzhirWsBAPk6eTP30As/e7qLhpM5f2CGQKojMGR75wj9WGs
-	fqTg8ur1gkLPxr7fmzP7HCJy2Nd+cTfBKQK4gYFNe0pZYro67WUdFyL5uYuHlM5Jl+BWlGT1/Fw
-	uRIZabTKkvLjnNerOnHRh8+YMswZxz1MbYVz9Mjo0cnuEetmDgYWJnhAFf9lCrRZG413rcRNdWo
-	ZXfZD3NqrsLCTwvRUXebStiEKbTHsrtocGlt0CWFu84VnOgutw/97MJynp9sMPXLMQWYAG+2wTH
-	lwXVouXXUrtYoJ04WMZbp/B8FJJin0TOH+v0B6P8IrGaPVanVw3VSbM5oUJ9K3CH3qgmik3UZGb
-	LzE=
-X-Received: by 2002:a05:7022:62a9:b0:11b:78e6:8323 with SMTP id a92af1059eb24-121722fd212mr4438541c88.37.1766180561251;
-        Fri, 19 Dec 2025 13:42:41 -0800 (PST)
+        Fri, 19 Dec 2025 15:36:33 -0800 (PST)
+Received-SPF: pass (google.com: domain of bart.vanassche@gmail.com designates 2607:f8b0:4864:20::544 as permitted sender) client-ip=2607:f8b0:4864:20::544;
+Received: by mail-pg1-x544.google.com with SMTP id 41be03b00d2f7-c227206e6dcso180269a12.2
+        for <kasan-dev@googlegroups.com>; Fri, 19 Dec 2025 15:36:33 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVcuDjh3h982Q3xkkG78ME7q0jhxae5FhKSaquRt4N5uo0/7WiREc/GpNjxTHPwCXgSJlE5efVOJGw=@googlegroups.com
+X-Gm-Gg: AY/fxX5vmjGN0WG+yd+dLMN44msJdYx6oBGllWzPHucO3y9AoRjumHjHxuxBYj21xv+
+	RXJnAFNphXclbXVdZnp1eBIbWVI5zS/y9znrAWpiQm8OfU7aAFPkj130u0UrHqsK342uN+WaPJW
+	hYfuUZsC7tRKh1iducdJuqtg8En8hxbth7BravVLOqNTpbMY9f4Y1n8tOwoZkY9OZY5GMi8Data
+	SjS7EHijGKcbjmNO4VJDMg1ewvTR3/DpukRiTcIr69nmsojapQBgAYjzxLjSLgegNPwYeF5pj0M
+	LiPndqRhmvnsYDvoFfAGy6nMBmN5C50EsVHXT44sVgNAcWcMtr5DDQVCpPjKpGiQ3CyYIaLDs1l
+	DG51QQTPWYm0VjiushJ0x4V3IG8keS2Qmu1Or6EALTxBX8xXGJoE709HOGyAqL7aD583matI4Dk
+	zpuCzcoveVUuRne0M/+hdF/rEPTY+8zW39R3XSfRVGVkgsIuRdZvpQXamEVkOKT0YFvk8kgBK3b
+	Eu6rUkEApdOndQtZey0lZIosDvXCkEP7b3JweNCvNwnyJflsl8baJe03Rc9sPKsAEu8FJtwZDjz
+	uYs=
+X-Received: by 2002:a05:7022:3a83:b0:11c:b397:2657 with SMTP id a92af1059eb24-121722be81emr4954809c88.22.1766180747284;
+        Fri, 19 Dec 2025 13:45:47 -0800 (PST)
 Received: from ?IPV6:2a00:79e0:2e7c:8:5874:79f3:80da:a7a3? ([2a00:79e0:2e7c:8:5874:79f3:80da:a7a3])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1217254c734sm11636083c88.13.2025.12.19.13.42.39
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b05fe99410sm10260116eec.2.2025.12.19.13.45.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Dec 2025 13:42:40 -0800 (PST)
-Message-ID: <9af0d949-45f5-45cd-b49d-d45d53f5d8f6@gmail.com>
-Date: Fri, 19 Dec 2025 14:42:38 -0700
+        Fri, 19 Dec 2025 13:45:46 -0800 (PST)
+Message-ID: <ae957ee5-cb47-433f-b0b3-f4ac8ec7116b@gmail.com>
+Date: Fri, 19 Dec 2025 14:45:45 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 24/36] compiler-context-analysis: Remove __cond_lock()
- function-like helper
-To: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>,
- Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
- Will Deacon <will@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
+From: Bart Van Assche <bart.vanassche@gmail.com>
+Subject: Re: [PATCH v5 08/36] locking/rwlock, spinlock: Support Clang's
+ context analysis
+To: Peter Zijlstra <peterz@infradead.org>, Marco Elver <elver@google.com>
+Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+ Will Deacon <will@kernel.org>, "David S. Miller" <davem@davemloft.net>,
  Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
  Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>,
  Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>,
@@ -168,7 +167,7 @@ Cc: "David S. Miller" <davem@davemloft.net>,
  Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
  Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
  Steven Rostedt <rostedt@goodmis.org>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
  Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
  Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>,
  kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org,
@@ -177,16 +176,17 @@ Cc: "David S. Miller" <davem@davemloft.net>,
  linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org,
  linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
 References: <20251219154418.3592607-1-elver@google.com>
- <20251219154418.3592607-25-elver@google.com>
+ <20251219154418.3592607-9-elver@google.com>
+ <17723ae6-9611-4731-905c-60dab9fb7102@acm.org>
+ <CANpmjNO0B_BBse12kAobCRBK0D2pKkSu7pKa5LQAbdzBZa2xcw@mail.gmail.com>
 Content-Language: en-US
-From: Bart Van Assche <bart.vanassche@gmail.com>
-In-Reply-To: <20251219154418.3592607-25-elver@google.com>
+In-Reply-To: <CANpmjNO0B_BBse12kAobCRBK0D2pKkSu7pKa5LQAbdzBZa2xcw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 X-Original-Sender: bart.vanassche@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=gMu7boIN;       spf=pass
+ header.i=@gmail.com header.s=20230601 header.b=JybvMGKe;       spf=pass
  (google.com: domain of bart.vanassche@gmail.com designates
- 2607:f8b0:4864:20::642 as permitted sender) smtp.mailfrom=bart.vanassche@gmail.com;
+ 2607:f8b0:4864:20::544 as permitted sender) smtp.mailfrom=bart.vanassche@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 Precedence: list
@@ -201,46 +201,46 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 12/19/25 8:40 AM, Marco Elver wrote:
->   Documentation/dev-tools/context-analysis.rst  |  2 -
->   Documentation/mm/process_addrs.rst            |  6 +-
->   .../net/wireless/intel/iwlwifi/iwl-trans.c    |  4 +-
->   .../net/wireless/intel/iwlwifi/iwl-trans.h    |  6 +-
->   .../intel/iwlwifi/pcie/gen1_2/internal.h      |  5 +-
->   .../intel/iwlwifi/pcie/gen1_2/trans.c         |  4 +-
->   include/linux/compiler-context-analysis.h     | 31 ----------
->   include/linux/lockref.h                       |  4 +-
->   include/linux/mm.h                            | 33 ++--------
->   include/linux/rwlock.h                        | 11 +---
->   include/linux/rwlock_api_smp.h                | 14 ++++-
->   include/linux/rwlock_rt.h                     | 21 ++++---
->   include/linux/sched/signal.h                  | 14 +----
->   include/linux/spinlock.h                      | 45 +++++---------
->   include/linux/spinlock_api_smp.h              | 20 ++++++
->   include/linux/spinlock_api_up.h               | 61 ++++++++++++++++---
->   include/linux/spinlock_rt.h                   | 26 ++++----
->   kernel/signal.c                               |  4 +-
->   kernel/time/posix-timers.c                    | 13 +---
->   lib/dec_and_lock.c                            |  8 +--
->   lib/lockref.c                                 |  1 -
->   mm/memory.c                                   |  4 +-
->   mm/pgtable-generic.c                          | 19 +++---
->   tools/include/linux/compiler_types.h          |  2 -
+On 12/19/25 1:02 PM, Marco Elver wrote:
+> On Fri, 19 Dec 2025 at 21:26, Bart Van Assche <bvanassche@acm.org> wrote:
+>> On 12/19/25 7:39 AM, Marco Elver wrote:
+>>> - extern void do_raw_read_lock(rwlock_t *lock) __acquires(lock);
+>>> + extern void do_raw_read_lock(rwlock_t *lock) __acquires_shared(lock);
+>>
+>> Given the "one change per patch" rule, shouldn't the annotation fixes
+>> for rwlock operations be moved into a separate patch?
+>>
+>>> -typedef struct {
+>>> +context_lock_struct(rwlock) {
+>>>        arch_rwlock_t raw_lock;
+>>>    #ifdef CONFIG_DEBUG_SPINLOCK
+>>>        unsigned int magic, owner_cpu;
+>>> @@ -31,7 +31,8 @@ typedef struct {
+>>>    #ifdef CONFIG_DEBUG_LOCK_ALLOC
+>>>        struct lockdep_map dep_map;
+>>>    #endif
+>>> -} rwlock_t;
+>>> +};
+>>> +typedef struct rwlock rwlock_t;
+>>
+>> This change introduces a new globally visible "struct rwlock". Although
+>> I haven't found any existing "struct rwlock" definitions, maybe it's a
+>> good idea to use a more unique name instead.
+> 
+> This doesn't actually introduce a new globally visible "struct
+> rwlock", it's already the case before.
+> An inlined struct definition in a typedef is available by its struct
+> name, so this is not introducing a new name
+> (https://godbolt.org/z/Y1jf66e1M).
 
-This patch should be split into one patch per subsystem or driver.
-E.g. one patch for the iwlwifi driver, another patch for the mm
-subsystem, one patch for the rwlock primitive, one patch for the
-spinlock primitive, etc.
-
-The tools/include/linux/compiler_types.h change probably should be
-left out because it is user space code instead of kernel code and
-the rest of the series applies to kernel code only.
-
-Thanks,
+Please take another look. The godbolt example follows the pattern
+"typedef struct name { ... } name_t;". The "name" part is missing from
+the rwlock_t definition. This is why I wrote that the above code
+introduces a new global struct name.
 
 Bart.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/9af0d949-45f5-45cd-b49d-d45d53f5d8f6%40gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/ae957ee5-cb47-433f-b0b3-f4ac8ec7116b%40gmail.com.
