@@ -1,124 +1,124 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBRHGSXFAMGQE3XGBDKA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBWHGSXFAMGQEARETDIY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ej1-x637.google.com (mail-ej1-x637.google.com [IPv6:2a00:1450:4864:20::637])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C26CCD0956
-	for <lists+kasan-dev@lfdr.de>; Fri, 19 Dec 2025 16:46:13 +0100 (CET)
-Received: by mail-ej1-x637.google.com with SMTP id a640c23a62f3a-b801784f406sf201217466b.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 19 Dec 2025 07:46:13 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1766159173; cv=pass;
+Received: from mail-ed1-x53b.google.com (mail-ed1-x53b.google.com [IPv6:2a00:1450:4864:20::53b])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECACFCD0974
+	for <lists+kasan-dev@lfdr.de>; Fri, 19 Dec 2025 16:46:34 +0100 (CET)
+Received: by mail-ed1-x53b.google.com with SMTP id 4fb4d7f45d1cf-64b5d8c0c9csf2669368a12.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 19 Dec 2025 07:46:34 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1766159194; cv=pass;
         d=google.com; s=arc-20240605;
-        b=b5j62C0y/OKwJTJYJWU/jNy7qPwp1r+zBL5KJ+J4rofLnpvilV73vDlZeuMCGmeB+J
-         u0H/WO6n0M3LLa0PShXjU08m/DGTZPobNkRkMmvHYS7/Tib56QCmTTZg4vqepxikt4Qq
-         A3OKa+Duy1VaQPKjJZfH6yjoEJdDx4xwV/B6REYYGhV/1lh9MsV0rg3XisyosA4bvxQ4
-         xVo3rux2stmEBfnbVrpWIkYAGcU18HC+McTYar/QsDLH/ySQ5OCjEoQBsNREKKKxSEAX
-         2gwMHU5uq/TUggoNz7qWvfIxUuNeqR3eU7ioHCPvZNle8cL5Hukm/XpNFJ6RQAnMhUz3
-         Uorw==
+        b=QLA+Y1mleKPkQcgnQA05ME2rCO26ciURCkkecoR28u1EocwH489QfXKYWUL/a9Xjxv
+         ep0z9hD9W2tTSwl+2gik8NFn2M8fD69lk1PnxiQRCafxkYCWeJCm9DlhV4ajKWUqF3Nc
+         KtghyfmqCpWwHvGjDPl7A8AY2iffX4DguxZxsYejDjyrMAMpdWUTk0FO1CsNaoBNczb9
+         B0TdNqYmikdMFkqAk9UCWejwm4jey+rk7OugNLwlQls/JVYvcL3i9UP63CvCq7Bp1cRL
+         3EEArqyx3Pi7Ud+1qPDGgSm/Q7sgSw65zeiJnmsoUW1MKAjU5oHJ6HhATRH37z23x2zF
+         iiIQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=ZLIQQBuVbU4EdB7EVEiK+NJYjg6PD8M40lpTZEAAtMs=;
-        fh=LpNhtpX9UAixAyHJ57NOw5SkK/1u1khGrbrfER4SCz4=;
-        b=EABHXsVBgWlIF7dNVCmlyiPUXojNhiY9RI3NedOuR6du8hc0mZmmVyd0w+t7P/9TjL
-         Bv5hEATOlU9PD3ADA3Z38VyTvZttqdFGcI9U2EN3q4nLF2tVk7zL3GnaIF41+O41rOlf
-         Nhy78dmdYlftSYf4wVexhfItTJqyVhfF3JlTJRWGQ8SoYEBPz+rKU9m64nKB9JoUO9/m
-         7J9Ovdo8o97Ygjpef1rNsUiQOW2ATAB5q1ASQ9k1Y6ATp2Gi08YxdRm7w8Irnv7kxPRD
-         YH87apRVJWpZxMgNBZB+yGOOmRAwrdwjuaIJ2t5ObuxA2d9xlY54sj7Q5pkW+wscUSy3
-         +Pvw==;
+        bh=VX6jLL7PauXQEkf7MPPXQULeP9e7g4kfaMabp1TaKpU=;
+        fh=1kzQoqOZgGnG+h5qsLZ6mtlPTXxd0sbU9OkWZNILQmk=;
+        b=We6yYyvFdyrg9skPqOqvlgPhnZ6DNMblOHwLfhp2Z2GQjDvkQSK9M3aErsnuJ4Akcn
+         GA18a2cL4++gyQumceiUCL2iJUjaFsAzteb6wUyv4zuSQYj9d7X6o7I6Km8/v5kcAy2T
+         1zReal0KUXI+/W5BccV4QbwNOWMNPrrfLdXfdXFsZHS9xtCAjfocaeHRHp4c1sAnmite
+         pYOdTTYYQ80ZMe33gFW7R3oadskAjYlaBcmp7K3gpJp+0XjdVv9F5nCAA4fLzNxIqawI
+         gHlIrwsQo5vN92dSa089wmNVY4gmNbXHg8xGp0crxXpQX5qHMVMINZndMXS3mTZ25dhg
+         1gmQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=ruDjQs1l;
-       spf=pass (google.com: domain of 3qxnfaqukcy4w3dw9y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3QXNFaQUKCY4w3Dw9y66y3w.u642sAs5-vwDy66y3wy96C7A.u64@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=XsqWunDA;
+       spf=pass (google.com: domain of 3rxnfaqukczi07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3RXNFaQUKCZI07H0D2AA270.yA86wEw9-z0H2AA2702DAGBE.yA8@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1766159173; x=1766763973; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1766159194; x=1766763994; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ZLIQQBuVbU4EdB7EVEiK+NJYjg6PD8M40lpTZEAAtMs=;
-        b=FFww2P0THYrd+vOJwdGr1Hx2TY3g/3U2t9igumkZvPEkaStazCLdizFkBrN9Kg1FT5
-         O2gYje8r7kTsEI3GsDAZVztW+Ckuw8x45NDEs1JDMaQpnmW5mVM+ZFpXrCLKesTurrQr
-         XyZH4u8koq5c2x1tlM5MGVFjr9swKeKcmOl8DVCNBOfIgvVUTifutsL2TJOLgVzKigGr
-         WkZRS9UM0f1AreBWnoF/sOs3iwOxCjqE/VzmoPvvsi6qB+e4JqHrqmbAcGmkuH2zYQHQ
-         Dd1GLu6/8tV7ymzbsdqpBr/MMNZcio27lzEsaUnHPPMIpZJj1dMbQBqRHIsFBeqaOBgO
-         ytiA==
+        bh=VX6jLL7PauXQEkf7MPPXQULeP9e7g4kfaMabp1TaKpU=;
+        b=hUksmHtWffvt4ZBjP+SOHPKWzID5oeXUqS1ojPb1tdzWjUYtRKGewdhBnUGxY9IlYr
+         X6iHnkCgid5NvDxUhukNd4CyAIb2tqekmKn1w7U128LwTxN46AUe7YRyanPX3iIZ2ELI
+         HS9nmjgCOqRV1EEt4BhNHhS2YU4yVJjKFpSZSyD09fxZ4DGenDRF8HQpYnwggaHiJWYW
+         dxwPK8cA9Gl4VgaVu8TzmMKgZV9VTtR/S8hhx6nRGm1k+JBaWWamybbt17KukBggdrkD
+         tPoxE764+9Bs3mRDxkGSyF6ZJZJZOjk6AhCAeQCYmkvX8L7Ro6kcokMNHthxkjnNiPlF
+         dE1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766159173; x=1766763973;
+        d=1e100.net; s=20230601; t=1766159194; x=1766763994;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZLIQQBuVbU4EdB7EVEiK+NJYjg6PD8M40lpTZEAAtMs=;
-        b=TdRApiONpnCb9kjQONeZ5xTAk+mtLasaaOkit+H+oc2DPhwxNe//fTaTAVxe9Q8Up6
-         9dc3LMHMnoH6hL8v/Pjuxb9kkgwAkpQ5iQR4Sb1QsaQf/CCHl8XG00+LZjmsK7G21Nn1
-         in6tSAwZKjZMh2+ufoMKdzfn5wBna28sUYsIFJj/3qi3Bbm4SV5l1Iuagh3nxEdqj6Ab
-         /SxAz9lk3g4KutatRx7r/1ptWx5wxd6DCI6Qnt5kw5hvTLmOmSK6GK2pqDDRIZWPpzus
-         WUT85tzaCzG3IQsAseyjLje/x8SrD/qzgpM3JRoNi8OFWDTuBUymfZWlqdTtzKKSv08I
-         TAig==
-X-Forwarded-Encrypted: i=2; AJvYcCUZbqNhbLaElwyHnmAHmDoWg+CeA/FafUBDsh37bA2Pz+mjYmIiJIM7uNbdaxEqYcX12xqh6Q==@lfdr.de
-X-Gm-Message-State: AOJu0YxrePWzi/L2FRchHwokSW+oHz98x00W7HfRBpz8AILB+v7uYyeA
-	mK39r4dUB0qKgp7xxUk+O9nSVj0iv2r7RxBh+AZn42WHugVoE6krQl2h
-X-Google-Smtp-Source: AGHT+IE2yne3E47qzFJGFDmorsZ5rV4pmRfgFwWVfBPFr8m9up9kmoRifLXoRwQMC9iBloZPn5zpIA==
-X-Received: by 2002:a17:907:9691:b0:b80:2315:b4ca with SMTP id a640c23a62f3a-b80371f956fmr357716666b.46.1766159172590;
-        Fri, 19 Dec 2025 07:46:12 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWZIurf07JUYxXXEZ9lvGQ1Z+TmOolUamcGfEAxzjcxvsw=="
-Received: by 2002:a05:6402:1850:b0:64b:aa13:8b3e with SMTP id
- 4fb4d7f45d1cf-64baa138bb1ls639308a12.1.-pod-prod-02-eu; Fri, 19 Dec 2025
- 07:46:10 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCWERdYC8gMx4BZqmvgo9XuKc/Ebyyyb+bsLrw+21fuQ7EHo/Y3YrlnB9pAV9G9CUIk3fdHlQar2sqU=@googlegroups.com
-X-Received: by 2002:a17:907:72c1:b0:b73:7158:d9cd with SMTP id a640c23a62f3a-b80372300cdmr298871566b.52.1766159170058;
-        Fri, 19 Dec 2025 07:46:10 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1766159170; cv=none;
+        bh=VX6jLL7PauXQEkf7MPPXQULeP9e7g4kfaMabp1TaKpU=;
+        b=rmIMzncybTIvio21+lHxQFh4e10s2e1fvwufT/ugId/PZfGiB0hUcv8SZsxq8MQHnG
+         qXjnSbAGR4OT2n8pN79dDMl5Xk+C1y/CfalfdxdqdZSL+On4UbPZo+lhI805ZA/8uqUD
+         1iKA5FxKZQ5XqZ7qiyGL9A+YKWlO25CkRwEyr3HfuJuooFbuzfOG3jFyYppdVcVZjitd
+         9phN6dIkslSa5npSjdDqawFZ1DB7GTgqIaAjrBDEhZyilMD8RN01Dvtp1j+DHEKZJysJ
+         XsNHksCDSwt5rqVqEYh7DxzXPdYkymN2UuvmE2SmFAbDafqoMdt8fPc7INQnbKvsAi9K
+         RfvQ==
+X-Forwarded-Encrypted: i=2; AJvYcCUMKgYRGMeNixW5hRivo3SD1HyTcM3AAfwoDkMplLUycu8qUR1OU8aD5FNNCXRnxNaVTSjCaA==@lfdr.de
+X-Gm-Message-State: AOJu0YyhTwz0ulei/W6ubOABzIyIbZgzvrCvM4D4nt7rYUEAUEStrVKE
+	kKq84s55FvuFkD3Ewm2l2DKZ+brc5uDQThjRytb4tTqUSuroaWlrPnCf
+X-Google-Smtp-Source: AGHT+IE0uilBYe5/zgogtKTlJWpM6minbWLB6YzxAK30ln0/iwAdXGTn97dozsleA50LFeGxErqW4w==
+X-Received: by 2002:a05:6402:146f:b0:64b:7ab2:9f83 with SMTP id 4fb4d7f45d1cf-64b8edb758emr3054267a12.31.1766159194242;
+        Fri, 19 Dec 2025 07:46:34 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWYIdPjRZhDzN+uI8EiXJgZ+/RvtLkXiHjF9u0mNZvwT7A=="
+Received: by 2002:a05:6402:5351:20b0:647:a4b1:7993 with SMTP id
+ 4fb4d7f45d1cf-6499a4150b3ls6770421a12.1.-pod-prod-03-eu; Fri, 19 Dec 2025
+ 07:46:14 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUHesW/aWtx6W8rvaur1nw55rtNhyGPlJd8X+p2bZR86W6d68COBNyG/Ff7v6ZTwRxyRhVLqvO8Ask=@googlegroups.com
+X-Received: by 2002:a50:fb10:0:b0:64b:4333:1ece with SMTP id 4fb4d7f45d1cf-64b8edba915mr2519945a12.34.1766159174084;
+        Fri, 19 Dec 2025 07:46:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1766159174; cv=none;
         d=google.com; s=arc-20240605;
-        b=QTY8roVRAVCjodpNbG5YSEx4sbEGJGFNR9eA3pQDwr+xaVIqKi0LMAxDhNEiPI8z2n
-         ATHKWP9sStmyNXD0r26+w5yMWiPsZDHsx0rTnaivB5Ihfn8utYErCY+XDkaReUEcN8e+
-         lfBgwB6JcpD25jzK7hGsFkOsID+4Wfkzp3Z15y9ss5jQmTkEs2k89ih7uMc0WywZfLe3
-         AWUGDKhpQx+Q6IObU84yw6S/rTbKRDJjEj55dUzMHmhMLeqr3bD1HWOkVO+9qk9fk6r7
-         CILci8aF+3xxObJ+XZ7wA3PTca6n4jRD/UvkxH/2AxXDqM0t/BOiSoJnp6jmosrtcbE5
-         3ybA==
+        b=c311y3DbcL5+7E4XH3C+ije/H0PAtwrZey+tEi6cUsjujiDVuwn0tiE+zP3MaRhuG7
+         tW05rJcPG6/f8rGOrArItXE20W0ppkP/Du+UCYZ4UqxCDA+RZec+9rmmJYwZP7rhpw67
+         OAF01FC30q1UWGRZdvBMnjKYxs7fMtPQ/1rKLeSOrkusgP/ZqYasaeuHlCzpSqZc8GaW
+         qpn5ZM2o5WYjbEHM72EWeV9EwawtNRNufqWp0st0XhPtiiC18T6U7iKh7sG6nwX8jWfc
+         Q2kJG0jLGbVBZXRyQffVfojP0mveLfgzsUf32gopuL5pPgIUBFrzvVuCIaqzcmYMr7Tx
+         cSeg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=amWxerODEEoCfIoX62derQiE7p5loIvVLHROm1A4vmY=;
-        fh=Qvi8Q4xySBVsYof5Ti8pmj1TNuawxQ+4uGcwM6554+o=;
-        b=f8g68F5OUDCHMXUzb1Q6LqxrbuR/ULsgBl+/uZr9W81NvJ+q9oSCiatPdMifVsiBRd
-         duyG+e4Jckj38qpKhZFpCW+MaT+7+gPwyPug87tQG1mZj93Stva1YTpSJ1TWAJCs2oNS
-         7CMqqlrlTCdstTtM4s66wnf5m4KQKfjt2b9UIDKmJLdEthh39vGzFpl7d/OHgqJyumrw
-         D3OxL0tSEhEIZlLidyQjMj6sY3JbaXPPQofU0+hYLoUotqSnFKaTZLk4uL8h7WaJFmaI
-         YiUzNSjM1ZNB4Ymi0qkaqcUDBeznC+GWJQvfxqH/Uw9b5q1WxmcHeitxLp9mIzjK9uYd
-         wecg==;
+        bh=GzqxblqNylMZssrhkzyYMNb717UQfTl85zNKlM2THvo=;
+        fh=kj4U9aHdq0frONzARVXQDOWQEvSFmn5MVRXtrNCQwP8=;
+        b=hu3yHGaiWi9C2Z9xtBzOmup6zWX9oX6QBi8o/yHflvCgywMpEMHk5GuGfeEtCy20iJ
+         4eqkde9LgWujdGqx5KoiOzd5mcj3IV8bmQu/UgTP9TGYstDLYn6wcjCEzcAaImwbhCD1
+         jFsyz+Ox5Qk2jeTV725zQMNh+pT1VkH8M8aV9GRq9GvQdsm3LvJ6tUDbOFOTD5gmtlEp
+         Xc5LsYTrUOd2riZp5efJDgDjW46SXJgadWU/J4P85PH0EqQh52H2Db43nh/1JvAZvTRQ
+         ER6hZbxqenrsklhdxXlzZhhLDSBNtXPsJhuS1nRuFKtBrxf6uxL6C4pKuxGVvPG7RHbp
+         gE7w==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=ruDjQs1l;
-       spf=pass (google.com: domain of 3qxnfaqukcy4w3dw9y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3QXNFaQUKCY4w3Dw9y66y3w.u642sAs5-vwDy66y3wy96C7A.u64@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=XsqWunDA;
+       spf=pass (google.com: domain of 3rxnfaqukczi07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3RXNFaQUKCZI07H0D2AA270.yA86wEw9-z0H2AA2702DAGBE.yA8@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com. [2a00:1450:4864:20::34a])
-        by gmr-mx.google.com with ESMTPS id 4fb4d7f45d1cf-64b915992d5si41365a12.8.2025.12.19.07.46.10
+Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com. [2a00:1450:4864:20::349])
+        by gmr-mx.google.com with ESMTPS id 4fb4d7f45d1cf-64b913840e5si39730a12.5.2025.12.19.07.46.14
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Dec 2025 07:46:10 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3qxnfaqukcy4w3dw9y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) client-ip=2a00:1450:4864:20::34a;
-Received: by mail-wm1-x34a.google.com with SMTP id 5b1f17b1804b1-4788112ec09so18333625e9.3
-        for <kasan-dev@googlegroups.com>; Fri, 19 Dec 2025 07:46:10 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUSk5qFI47neZopFWkydyX9UBfSQgFDgyDCqaTE/sYt1augGnPR3/A3aG4rzYQqM1NxMw3MTK4ogGM=@googlegroups.com
-X-Received: from wmot12.prod.google.com ([2002:a05:600c:450c:b0:46f:b153:bfb7])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:3b2a:b0:477:7ab8:aba
- with SMTP id 5b1f17b1804b1-47d1953bd8bmr31823715e9.1.1766159169275; Fri, 19
- Dec 2025 07:46:09 -0800 (PST)
-Date: Fri, 19 Dec 2025 16:40:00 +0100
+        Fri, 19 Dec 2025 07:46:14 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3rxnfaqukczi07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) client-ip=2a00:1450:4864:20::349;
+Received: by mail-wm1-x349.google.com with SMTP id 5b1f17b1804b1-477bf8c1413so11133695e9.1
+        for <kasan-dev@googlegroups.com>; Fri, 19 Dec 2025 07:46:14 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWgO19grXDywZnWW6LiJnNyHYYyUI3A63KiZOlFtb8DQUSw5voX1kD0c32rtONpEqfIrWZXOj8xjU8=@googlegroups.com
+X-Received: from wmqn17.prod.google.com ([2002:a05:600c:4f91:b0:47d:1d7a:6d40])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:c494:b0:479:35e7:a0e3
+ with SMTP id 5b1f17b1804b1-47d19582aacmr29774555e9.30.1766159173561; Fri, 19
+ Dec 2025 07:46:13 -0800 (PST)
+Date: Fri, 19 Dec 2025 16:40:01 +0100
 In-Reply-To: <20251219154418.3592607-1-elver@google.com>
 Mime-Version: 1.0
 References: <20251219154418.3592607-1-elver@google.com>
 X-Mailer: git-send-email 2.52.0.322.g1dd061c0dc-goog
-Message-ID: <20251219154418.3592607-12-elver@google.com>
-Subject: [PATCH v5 11/36] locking/seqlock: Support Clang's context analysis
+Message-ID: <20251219154418.3592607-13-elver@google.com>
+Subject: [PATCH v5 12/36] bit_spinlock: Include missing <asm/processor.h>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, 
 	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>
@@ -146,9 +146,9 @@ Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenry
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=ruDjQs1l;       spf=pass
- (google.com: domain of 3qxnfaqukcy4w3dw9y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3QXNFaQUKCY4w3Dw9y66y3w.u642sAs5-vwDy66y3wy96C7A.u64@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b=XsqWunDA;       spf=pass
+ (google.com: domain of 3rxnfaqukczi07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3RXNFaQUKCZI07H0D2AA270.yA86wEw9-z0H2AA2702DAGBE.yA8@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -165,356 +165,39 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Add support for Clang's context analysis for seqlock_t.
+Including <linux/bit_spinlock.h> into an empty TU will result in the
+compiler complaining:
+
+./include/linux/bit_spinlock.h:34:4: error: call to undeclared function 'cpu_relax'; <...>
+   34 |                         cpu_relax();
+      |                         ^
+1 error generated.
+
+Include <asm/processor.h> to allow including bit_spinlock.h where
+<asm/processor.h> is not otherwise included.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
-v5:
-* Support scoped_seqlock_read().
-* Rename "context guard" -> "context lock".
+ include/linux/bit_spinlock.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-v3:
-* __assert -> __assume rename
----
- Documentation/dev-tools/context-analysis.rst |  2 +-
- include/linux/seqlock.h                      | 38 ++++++++++++++-
- include/linux/seqlock_types.h                |  5 +-
- lib/test_context-analysis.c                  | 50 ++++++++++++++++++++
- 4 files changed, 91 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/dev-tools/context-analysis.rst b/Documentation/dev-tools/context-analysis.rst
-index 1864b6cba4d1..690565910084 100644
---- a/Documentation/dev-tools/context-analysis.rst
-+++ b/Documentation/dev-tools/context-analysis.rst
-@@ -79,7 +79,7 @@ Supported Kernel Primitives
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+diff --git a/include/linux/bit_spinlock.h b/include/linux/bit_spinlock.h
+index c0989b5b0407..59e345f74b0e 100644
+--- a/include/linux/bit_spinlock.h
++++ b/include/linux/bit_spinlock.h
+@@ -7,6 +7,8 @@
+ #include <linux/atomic.h>
+ #include <linux/bug.h>
  
- Currently the following synchronization primitives are supported:
--`raw_spinlock_t`, `spinlock_t`, `rwlock_t`, `mutex`.
-+`raw_spinlock_t`, `spinlock_t`, `rwlock_t`, `mutex`, `seqlock_t`.
- 
- For context locks with an initialization function (e.g., `spin_lock_init()`),
- calling this function before initializing any guarded members or globals
-diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
-index 221123660e71..113320911a09 100644
---- a/include/linux/seqlock.h
-+++ b/include/linux/seqlock.h
-@@ -816,6 +816,7 @@ static __always_inline void write_seqcount_latch_end(seqcount_latch_t *s)
- 	do {								\
- 		spin_lock_init(&(sl)->lock);				\
- 		seqcount_spinlock_init(&(sl)->seqcount, &(sl)->lock);	\
-+		__assume_ctx_lock(sl);					\
- 	} while (0)
- 
- /**
-@@ -832,6 +833,7 @@ static __always_inline void write_seqcount_latch_end(seqcount_latch_t *s)
-  * Return: count, to be passed to read_seqretry()
-  */
- static inline unsigned read_seqbegin(const seqlock_t *sl)
-+	__acquires_shared(sl) __no_context_analysis
- {
- 	return read_seqcount_begin(&sl->seqcount);
- }
-@@ -848,6 +850,7 @@ static inline unsigned read_seqbegin(const seqlock_t *sl)
-  * Return: true if a read section retry is required, else false
-  */
- static inline unsigned read_seqretry(const seqlock_t *sl, unsigned start)
-+	__releases_shared(sl) __no_context_analysis
- {
- 	return read_seqcount_retry(&sl->seqcount, start);
- }
-@@ -872,6 +875,7 @@ static inline unsigned read_seqretry(const seqlock_t *sl, unsigned start)
-  * _irqsave or _bh variants of this function instead.
-  */
- static inline void write_seqlock(seqlock_t *sl)
-+	__acquires(sl) __no_context_analysis
- {
- 	spin_lock(&sl->lock);
- 	do_write_seqcount_begin(&sl->seqcount.seqcount);
-@@ -885,6 +889,7 @@ static inline void write_seqlock(seqlock_t *sl)
-  * critical section of given seqlock_t.
-  */
- static inline void write_sequnlock(seqlock_t *sl)
-+	__releases(sl) __no_context_analysis
- {
- 	do_write_seqcount_end(&sl->seqcount.seqcount);
- 	spin_unlock(&sl->lock);
-@@ -898,6 +903,7 @@ static inline void write_sequnlock(seqlock_t *sl)
-  * other write side sections, can be invoked from softirq contexts.
-  */
- static inline void write_seqlock_bh(seqlock_t *sl)
-+	__acquires(sl) __no_context_analysis
- {
- 	spin_lock_bh(&sl->lock);
- 	do_write_seqcount_begin(&sl->seqcount.seqcount);
-@@ -912,6 +918,7 @@ static inline void write_seqlock_bh(seqlock_t *sl)
-  * write_seqlock_bh().
-  */
- static inline void write_sequnlock_bh(seqlock_t *sl)
-+	__releases(sl) __no_context_analysis
- {
- 	do_write_seqcount_end(&sl->seqcount.seqcount);
- 	spin_unlock_bh(&sl->lock);
-@@ -925,6 +932,7 @@ static inline void write_sequnlock_bh(seqlock_t *sl)
-  * other write sections, can be invoked from hardirq contexts.
-  */
- static inline void write_seqlock_irq(seqlock_t *sl)
-+	__acquires(sl) __no_context_analysis
- {
- 	spin_lock_irq(&sl->lock);
- 	do_write_seqcount_begin(&sl->seqcount.seqcount);
-@@ -938,12 +946,14 @@ static inline void write_seqlock_irq(seqlock_t *sl)
-  * seqlock_t write side section opened with write_seqlock_irq().
-  */
- static inline void write_sequnlock_irq(seqlock_t *sl)
-+	__releases(sl) __no_context_analysis
- {
- 	do_write_seqcount_end(&sl->seqcount.seqcount);
- 	spin_unlock_irq(&sl->lock);
- }
- 
- static inline unsigned long __write_seqlock_irqsave(seqlock_t *sl)
-+	__acquires(sl) __no_context_analysis
- {
- 	unsigned long flags;
- 
-@@ -976,6 +986,7 @@ static inline unsigned long __write_seqlock_irqsave(seqlock_t *sl)
-  */
- static inline void
- write_sequnlock_irqrestore(seqlock_t *sl, unsigned long flags)
-+	__releases(sl) __no_context_analysis
- {
- 	do_write_seqcount_end(&sl->seqcount.seqcount);
- 	spin_unlock_irqrestore(&sl->lock, flags);
-@@ -998,6 +1009,7 @@ write_sequnlock_irqrestore(seqlock_t *sl, unsigned long flags)
-  * The opened read section must be closed with read_sequnlock_excl().
-  */
- static inline void read_seqlock_excl(seqlock_t *sl)
-+	__acquires_shared(sl) __no_context_analysis
- {
- 	spin_lock(&sl->lock);
- }
-@@ -1007,6 +1019,7 @@ static inline void read_seqlock_excl(seqlock_t *sl)
-  * @sl: Pointer to seqlock_t
-  */
- static inline void read_sequnlock_excl(seqlock_t *sl)
-+	__releases_shared(sl) __no_context_analysis
- {
- 	spin_unlock(&sl->lock);
- }
-@@ -1021,6 +1034,7 @@ static inline void read_sequnlock_excl(seqlock_t *sl)
-  * from softirq contexts.
-  */
- static inline void read_seqlock_excl_bh(seqlock_t *sl)
-+	__acquires_shared(sl) __no_context_analysis
- {
- 	spin_lock_bh(&sl->lock);
- }
-@@ -1031,6 +1045,7 @@ static inline void read_seqlock_excl_bh(seqlock_t *sl)
-  * @sl: Pointer to seqlock_t
-  */
- static inline void read_sequnlock_excl_bh(seqlock_t *sl)
-+	__releases_shared(sl) __no_context_analysis
- {
- 	spin_unlock_bh(&sl->lock);
- }
-@@ -1045,6 +1060,7 @@ static inline void read_sequnlock_excl_bh(seqlock_t *sl)
-  * hardirq context.
-  */
- static inline void read_seqlock_excl_irq(seqlock_t *sl)
-+	__acquires_shared(sl) __no_context_analysis
- {
- 	spin_lock_irq(&sl->lock);
- }
-@@ -1055,11 +1071,13 @@ static inline void read_seqlock_excl_irq(seqlock_t *sl)
-  * @sl: Pointer to seqlock_t
-  */
- static inline void read_sequnlock_excl_irq(seqlock_t *sl)
-+	__releases_shared(sl) __no_context_analysis
- {
- 	spin_unlock_irq(&sl->lock);
- }
- 
- static inline unsigned long __read_seqlock_excl_irqsave(seqlock_t *sl)
-+	__acquires_shared(sl) __no_context_analysis
- {
- 	unsigned long flags;
- 
-@@ -1089,6 +1107,7 @@ static inline unsigned long __read_seqlock_excl_irqsave(seqlock_t *sl)
-  */
- static inline void
- read_sequnlock_excl_irqrestore(seqlock_t *sl, unsigned long flags)
-+	__releases_shared(sl) __no_context_analysis
- {
- 	spin_unlock_irqrestore(&sl->lock, flags);
- }
-@@ -1125,6 +1144,7 @@ read_sequnlock_excl_irqrestore(seqlock_t *sl, unsigned long flags)
-  * parameter of the next read_seqbegin_or_lock() iteration.
-  */
- static inline void read_seqbegin_or_lock(seqlock_t *lock, int *seq)
-+	__acquires_shared(lock) __no_context_analysis
- {
- 	if (!(*seq & 1))	/* Even */
- 		*seq = read_seqbegin(lock);
-@@ -1140,6 +1160,7 @@ static inline void read_seqbegin_or_lock(seqlock_t *lock, int *seq)
-  * Return: true if a read section retry is required, false otherwise
-  */
- static inline int need_seqretry(seqlock_t *lock, int seq)
-+	__releases_shared(lock) __no_context_analysis
- {
- 	return !(seq & 1) && read_seqretry(lock, seq);
- }
-@@ -1153,6 +1174,7 @@ static inline int need_seqretry(seqlock_t *lock, int seq)
-  * with read_seqbegin_or_lock() and validated by need_seqretry().
-  */
- static inline void done_seqretry(seqlock_t *lock, int seq)
-+	__no_context_analysis
- {
- 	if (seq & 1)
- 		read_sequnlock_excl(lock);
-@@ -1180,6 +1202,7 @@ static inline void done_seqretry(seqlock_t *lock, int seq)
-  */
- static inline unsigned long
- read_seqbegin_or_lock_irqsave(seqlock_t *lock, int *seq)
-+	__acquires_shared(lock) __no_context_analysis
- {
- 	unsigned long flags = 0;
- 
-@@ -1205,6 +1228,7 @@ read_seqbegin_or_lock_irqsave(seqlock_t *lock, int *seq)
-  */
- static inline void
- done_seqretry_irqrestore(seqlock_t *lock, int seq, unsigned long flags)
-+	__no_context_analysis
- {
- 	if (seq & 1)
- 		read_sequnlock_excl_irqrestore(lock, flags);
-@@ -1225,6 +1249,7 @@ struct ss_tmp {
- };
- 
- static __always_inline void __scoped_seqlock_cleanup(struct ss_tmp *sst)
-+	__no_context_analysis
- {
- 	if (sst->lock)
- 		spin_unlock(sst->lock);
-@@ -1254,6 +1279,7 @@ extern void __scoped_seqlock_bug(void);
- 
- static __always_inline void
- __scoped_seqlock_next(struct ss_tmp *sst, seqlock_t *lock, enum ss_state target)
-+	__no_context_analysis
- {
- 	switch (sst->state) {
- 	case ss_done:
-@@ -1296,9 +1322,19 @@ __scoped_seqlock_next(struct ss_tmp *sst, seqlock_t *lock, enum ss_state target)
- 	}
- }
- 
-+/*
-+ * Context analysis no-op helper to release seqlock at the end of the for-scope;
-+ * the alias analysis of the compiler will recognize that the pointer @s is an
-+ * alias to @_seqlock passed to read_seqbegin(_seqlock) below.
-+ */
-+static __always_inline void __scoped_seqlock_cleanup_ctx(struct ss_tmp **s)
-+	__releases_shared(*((seqlock_t **)s)) __no_context_analysis {}
++#include <asm/processor.h>  /* for cpu_relax() */
 +
- #define __scoped_seqlock_read(_seqlock, _target, _s)			\
- 	for (struct ss_tmp _s __cleanup(__scoped_seqlock_cleanup) =	\
--	     { .state = ss_lockless, .data = read_seqbegin(_seqlock) };	\
-+	     { .state = ss_lockless, .data = read_seqbegin(_seqlock) }, \
-+	     *__UNIQUE_ID(ctx) __cleanup(__scoped_seqlock_cleanup_ctx) =\
-+		(struct ss_tmp *)_seqlock;				\
- 	     _s.state != ss_done;					\
- 	     __scoped_seqlock_next(&_s, _seqlock, _target))
- 
-diff --git a/include/linux/seqlock_types.h b/include/linux/seqlock_types.h
-index dfdf43e3fa3d..2d5d793ef660 100644
---- a/include/linux/seqlock_types.h
-+++ b/include/linux/seqlock_types.h
-@@ -81,13 +81,14 @@ SEQCOUNT_LOCKNAME(mutex,        struct mutex,    true,     mutex)
-  *    - Comments on top of seqcount_t
-  *    - Documentation/locking/seqlock.rst
-  */
--typedef struct {
-+context_lock_struct(seqlock) {
- 	/*
- 	 * Make sure that readers don't starve writers on PREEMPT_RT: use
- 	 * seqcount_spinlock_t instead of seqcount_t. Check __SEQ_LOCK().
- 	 */
- 	seqcount_spinlock_t seqcount;
- 	spinlock_t lock;
--} seqlock_t;
-+};
-+typedef struct seqlock seqlock_t;
- 
- #endif /* __LINUX_SEQLOCK_TYPES_H */
-diff --git a/lib/test_context-analysis.c b/lib/test_context-analysis.c
-index 2b28d20c5f51..53abea0008f2 100644
---- a/lib/test_context-analysis.c
-+++ b/lib/test_context-analysis.c
-@@ -6,6 +6,7 @@
- 
- #include <linux/build_bug.h>
- #include <linux/mutex.h>
-+#include <linux/seqlock.h>
- #include <linux/spinlock.h>
- 
  /*
-@@ -208,3 +209,52 @@ static void __used test_mutex_cond_guard(struct test_mutex_data *d)
- 		d->counter++;
- 	}
- }
-+
-+struct test_seqlock_data {
-+	seqlock_t sl;
-+	int counter __guarded_by(&sl);
-+};
-+
-+static void __used test_seqlock_init(struct test_seqlock_data *d)
-+{
-+	seqlock_init(&d->sl);
-+	d->counter = 0;
-+}
-+
-+static void __used test_seqlock_reader(struct test_seqlock_data *d)
-+{
-+	unsigned int seq;
-+
-+	do {
-+		seq = read_seqbegin(&d->sl);
-+		(void)d->counter;
-+	} while (read_seqretry(&d->sl, seq));
-+}
-+
-+static void __used test_seqlock_writer(struct test_seqlock_data *d)
-+{
-+	unsigned long flags;
-+
-+	write_seqlock(&d->sl);
-+	d->counter++;
-+	write_sequnlock(&d->sl);
-+
-+	write_seqlock_irq(&d->sl);
-+	d->counter++;
-+	write_sequnlock_irq(&d->sl);
-+
-+	write_seqlock_bh(&d->sl);
-+	d->counter++;
-+	write_sequnlock_bh(&d->sl);
-+
-+	write_seqlock_irqsave(&d->sl, flags);
-+	d->counter++;
-+	write_sequnlock_irqrestore(&d->sl, flags);
-+}
-+
-+static void __used test_seqlock_scoped(struct test_seqlock_data *d)
-+{
-+	scoped_seqlock_read (&d->sl, ss_lockless) {
-+		(void)d->counter;
-+	}
-+}
+  *  bit-based spin_lock()
+  *
 -- 
 2.52.0.322.g1dd061c0dc-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251219154418.3592607-12-elver%40google.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251219154418.3592607-13-elver%40google.com.
