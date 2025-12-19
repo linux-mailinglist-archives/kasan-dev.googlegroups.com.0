@@ -1,130 +1,130 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBKP6S3FAMGQECJ6OQJI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBW4BS7FAMGQELDFDDSQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x838.google.com (mail-qt1-x838.google.com [IPv6:2607:f8b0:4864:20::838])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1B4CD1EC8
-	for <lists+kasan-dev@lfdr.de>; Fri, 19 Dec 2025 22:10:03 +0100 (CET)
-Received: by mail-qt1-x838.google.com with SMTP id d75a77b69052e-4ed74e6c468sf30022921cf.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 19 Dec 2025 13:10:03 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1766178602; cv=pass;
+Received: from mail-pj1-x103e.google.com (mail-pj1-x103e.google.com [IPv6:2607:f8b0:4864:20::103e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D6EECD1F1C
+	for <lists+kasan-dev@lfdr.de>; Fri, 19 Dec 2025 22:17:17 +0100 (CET)
+Received: by mail-pj1-x103e.google.com with SMTP id 98e67ed59e1d1-34aa6655510sf3183530a91.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 19 Dec 2025 13:17:17 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1766179036; cv=pass;
         d=google.com; s=arc-20240605;
-        b=QFSqRSRu7fg4k1GQs+txvMpGVal/o9AkqLm+00XMnBw2k4CWfDcV9MMTWGpVzhxaf6
-         CKTAufCIGs1vycnRk81UkmhHCeDB2bKsWHlYWW8RKMV9xL0rpbC9qHfq7vSEk2QC3142
-         NOaKDyQBAUFzSfFP3E7OGbjIp3M3CT1XylOU8ikymktJjKN4zZohDkKqRMHCP1m6ZtRF
-         Mp4IT0qIeGWeBSVKqdk+NcKc8KKxwVPfvDMSeKIf1Y6aDajPkK3vhczyk49cRLUcRsEe
-         zw/ZQgWyci3tTKpzPMKXWh+gjI61aNsWqM1uV6bNHXRY3rR81Mdmq0xRsZj2Cd9IiAwX
-         kHDg==
+        b=AmBTVCPigP3O3Lh2tUbEeDj3xqg90t1kEBMpqpJF8foJRvbwxu0BWCTjI/QsuPG/9a
+         5vb+rlIKmuKK8+63ejcr8FblrrlyIDbXS6JfhKkYRYeIEK3y6OVh2vIH00IRwbRhaxAr
+         ertsGXXFGX09S+fo6apU59LWj58CLjObHcaC0ahxdHKyRBNGdTH1EVzMuWOwXKGg0P1K
+         iPZ61/vmKPnNdRkYSWXLGSCN85EUzjsHhzPyEO9Vmk9pPyehl0MgBf9wcDG03zDBipIM
+         2jnDXxB7dYjUa+shGnP8fIjZ6S2X8xGU2scWob4CGfFqZW1eORGqzhRoEfthQCWt0r67
+         Wrug==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=C9m31yFGOl1vU945iZ/kxqfH4WCzbdwrj4+AnchJkQ0=;
-        fh=xLPgvO67AbOpubB25KXBnYgXxSIxClGntIVfJoXYXTA=;
-        b=gT5PAqzo8DrQ0EawV7XdNbPDqOi1UuUU3beepBRdhHnpBRrVVSw1ZX0mmdffWnQrQC
-         g/aLOMX6R46Kj0CZqw2U2QVqCHhHx6upvYTz6HgVFq0ocwMPCR1iNbSE0YQTtcKhVshh
-         DK3YLhwCny0NJyo9D4PD9dLGhD6nSQGqnA/iKMHv1aAwgFWe6pTltpBFczeQGzaKyLei
-         bgoqlKq1ojr7dXVmd2RyA+Ex6aEhWhkB67sDhuAXXIUTdH3CaYXdWAB/V/XhVapnQArW
-         fASbhGY6IBXjx1Qh4mVaN2iapRrrb+2hDMI68jtR/fPJqkNpw81xJII0pJvQ3JnW7Da7
-         W8nw==;
+        bh=zLeoDZZIzeSOkMlAORZOUJz4IWeU8HrenIpeNTLCs9Y=;
+        fh=bkxt+/JX7zb++8tV1f7WtEVaa71EQHjzU0q3kmA34iU=;
+        b=XkPgSe1QdpWc6ju3F7v3+tBo2oZgCf1kLEzEDLNNEIVhrXQ/t0AOgqUlaSWRmYAt2R
+         szagGr912P83p9B4M9l3WL0Rtc1QO9W5HWVMgmuJX4+W4joEDf6n0Hm5paPQgmQoOh6n
+         0PA0cXIOAl/a1Bon/b86nB3Jvb1108ZhZr4UXz+V8T+pT5Mjpjy7jbnA4XjlrxDptOts
+         N/ul+16rHeylUr8h8HMrRMbmTziVrmm2SfhLcQYh3uyrGCP04eAwto239r0qSdp9gOhB
+         mBdBauazTPcjAZWGYOBKgQJ020hn7lg5yTfhnUdIZ4auSmNEHGK92nkNgkqSI+/1huJS
+         WMKw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=2ydPqv4K;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1035 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=lj4UMLbp;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::42e as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1766178602; x=1766783402; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1766179036; x=1766783836; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=C9m31yFGOl1vU945iZ/kxqfH4WCzbdwrj4+AnchJkQ0=;
-        b=EVYV/snMcKtZHgfVnRHT01B1ODLlZTbnn0AH50yCgKcbQyW9KwPjrdjRfXlKSLKppS
-         N3+CJjwY3agcldcS+2m87biYF3P8Tc+p0Mt+1etQb8q6KKU1zRFzKoswMrumzu1Bh42j
-         VrydJKyhKExuJH38OE18a4uJtllCJ6GGlyhcZ/Ls9oUiHhbgFoeze8A97KQGfIDooEJJ
-         8NMJ9bp5PX6KhOaLRP6pywxO5t/bCd0/xm8Yihy/i8LmTQ65Vx5WVaf2Sh7E1KADXWmm
-         wtsW9dQhortaxKcgHUIotKSGhaCC0T1dNUdWiALOtCPRflN/UkW3ob8OPnMmKwKmr/n7
-         CIwQ==
+        bh=zLeoDZZIzeSOkMlAORZOUJz4IWeU8HrenIpeNTLCs9Y=;
+        b=uOKvD51LETZ+lFWNk43A9xCCIy9saOFg5OtYF4uDikzKynfS4iSkXKBbDwJAECECFH
+         pggj5h2GsYvca0vmnOA/Qi6JVlNS+ZLn6Ml0D9Bn/UUQlrCguidjxk5JHKXiIM9a0mKb
+         5qLyWGk51cX0WH+lqcCER4Pf817sOK89dCGD4rkwowTzw9ufhACV5FiFP53P6xNBF34+
+         nBGk7KkpaNxyH+Km78Ai6I/JxJxorBE/q0fofuCbROq/1QirW6RS/Os+Dc74jPfmpH4W
+         D1CrsD3ZzKxcO1I2Zz1MeF5Nh4cj3EcU9ucjw0QKjfnkbrNlm8/ecgoS+vxdFmKHa+kp
+         SGkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766178602; x=1766783402;
+        d=1e100.net; s=20230601; t=1766179036; x=1766783836;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=C9m31yFGOl1vU945iZ/kxqfH4WCzbdwrj4+AnchJkQ0=;
-        b=wZj9cw83ySrZcOD3gZjyTcHTNmOMNqIrMssuK1uq9EtZySJhVCFo7a32+Q3SDKzcRX
-         0PdaSeFTkl3UG/hApuK1Zc459tslMB0FbPFBkAJ3r0szjr845OCMuFbGydUeG9jzmRFV
-         YmVB3fxHpuaMfr4mX9soK7diSn1EjGDpP6L/X3FqOfQOUTyUFYJNdgjdOwaooXsGxAsg
-         jnx4H/BjkwRYXm9OPbUxt+rLQ6/GNKnjPmE2ypWcBGx6Z6X9SB3yNv3nRorkplucmKq3
-         lsns5kUiVWa9OM2E4VhdBQ+Vjrfn1pPmSl3mreTr+pYGHTi2IH77uoRrNvsSWL95g4y2
-         2hxA==
-X-Forwarded-Encrypted: i=2; AJvYcCVPY6mFpnoeJf//UsEwja/cF/811Q8NMJ1OBZeB5Cvj4FEbiG1i9ximhRdlW1YOxbvUqEjePA==@lfdr.de
-X-Gm-Message-State: AOJu0YwuS0idCY4mC0ul92CgIyx1VeLhWXvy9rDtWMUsDiBJmdKbYxnv
-	4DzY/YmYACH5OWNnH3RizlVxPVt4RR8RYkHsMO6EhJUq59s4Xc/pGbYi
-X-Google-Smtp-Source: AGHT+IGCar3UNdYkj8oNEwIc5hkYVjOatlWouAlXvCvIBT8VgAGFaN0nzZ2LIXGtIp2Mx67UQsm69A==
-X-Received: by 2002:a05:622a:3cc:b0:4ee:11bc:bc9c with SMTP id d75a77b69052e-4f4abdc5595mr63690731cf.74.1766178601595;
-        Fri, 19 Dec 2025 13:10:01 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWZzxnXn+Y8vL88biwFtjChcrrCISwxmvghrbed1+JDhmQ=="
-Received: by 2002:a05:622a:1391:b0:4ee:1b36:aec4 with SMTP id
- d75a77b69052e-4f1ce9673ddls168542011cf.0.-pod-prod-08-us; Fri, 19 Dec 2025
- 13:10:00 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUCi25DcwwbnPfbtU7a8EUegyDR6ig04HOC8IkqlS+xrDBHJydnOTHZp6QKdS7oRGypuUAT9BVFpyo=@googlegroups.com
-X-Received: by 2002:a05:620a:4488:b0:8a2:e1db:f442 with SMTP id af79cd13be357-8c08fbef6fbmr704487785a.30.1766178600660;
-        Fri, 19 Dec 2025 13:10:00 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1766178600; cv=none;
+        bh=zLeoDZZIzeSOkMlAORZOUJz4IWeU8HrenIpeNTLCs9Y=;
+        b=ZeNcc7OJV9KaFZ18KwQPPs8Sf1Pp8guYL/ZpmkWskfK+S3dOT+bOURUGnzar0fVlm3
+         B6darCpK7Vq/0+Iyegb4/TzlFihBKZXFtxqrkqpMQITkOqiGoGHG/EWP0vG0lPn4nLAT
+         IftkmDIOfP5hVDifIxyapRi5NU/S2vayZoBLg/pFSwqel+xR6GykEpaFJ6MszLPRM0Vv
+         c1doTFUPP5qy8erLHAjBfouUFUTOTftqOvqOvvAjPm7YEH4CSeNctX3dW/NBXwvMyajo
+         o3pXN+syv+YMIXPMa00SRkIhp8KAMlCRoy9+LSmcMO2B5rV97brs9u6csFye+jwtV0f3
+         dZiA==
+X-Forwarded-Encrypted: i=2; AJvYcCVWwLuXsXTLrT2IdI8HbZaBmorIRquROEgWOzExIvlr6rOSUADNnk9sSf+JPGN63NksFScCNQ==@lfdr.de
+X-Gm-Message-State: AOJu0YwBm96ajJD1AIhlg7EPbvTiYy5uCMVB5VPv5AWv6HRc7NnJGmMj
+	qBPT1nhJVeVEtaW/86CEYKlhSkclU1zcIublpd9X9Vvd5dF4xKimBH0c
+X-Google-Smtp-Source: AGHT+IEQqhpCbcmglwICuC0/RaIvcV79h/wTS4TTMtwOQIlKQMwNjJW0qdZtZgQF+FVTt1HDkrlwOQ==
+X-Received: by 2002:a17:90b:3c4d:b0:32e:3829:a71c with SMTP id 98e67ed59e1d1-34e9212a361mr3011017a91.16.1766179035518;
+        Fri, 19 Dec 2025 13:17:15 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWb6yUilBkUOmIoZliBgfsKXL0V5KGM09ZojPGQy2M/gFw=="
+Received: by 2002:a17:90b:4c90:b0:330:4949:15b5 with SMTP id
+ 98e67ed59e1d1-34abcc5d730ls8751226a91.1.-pod-prod-07-us; Fri, 19 Dec 2025
+ 13:17:14 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWrxr+YKjYzHwVRGN3a2kj8WNQf2S8vgyEcMc/LszGDeUjMcR2iNRH4zDJaZPfNcymnEqSAWROHM50=@googlegroups.com
+X-Received: by 2002:a17:90b:49:b0:340:ec8f:82d8 with SMTP id 98e67ed59e1d1-34e9212a245mr3720980a91.12.1766179033756;
+        Fri, 19 Dec 2025 13:17:13 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1766179033; cv=none;
         d=google.com; s=arc-20240605;
-        b=KPI+4fNQkh6baxA3Uq9V4vUAf2o7mc4E+AG7o41XWQ2VqJofbVSuUn5Q8WtJ7YHX/C
-         eYlAHbitOAHp11uV/ouVEoVdN4t/IOA/gPZ7CiuC48JoC7i2b4FEPb9PDKwkGDBXVGHE
-         qFTbco1fT0pfRb7FQGU2UPM67vceOmrf9Olg780xbswntv+9zsZE+7aQLovtwyeESRfd
-         yfLSGva0fyNa6OocosQ33G6+74TfVFJXfOoMBLbo4rafJmFWxjdYPBcMTS/43GuNLUrk
-         MAnnKvS5QA7hIiHhYNpo/KLDCYWHdJSp9vcxOD9l56z4i2upytc42aOgJwDokseWNadv
-         DAZQ==
+        b=LHHo2Qc03nJSR9hi+RTE9/ymEfn7wMf26C3OwmjWEbflrhEb1Nxasbdh0jTQeo/2yR
+         r3cLwAh8zJ/nK/lUBnBIMxYe498jkkd3wEoiUBukFNNA6KXzYrSqaJMBUIyAvyom2g9f
+         JiSM2/kq09Ct/f2Qjtq8DUeVxsY1l6c8DAgtSCH+s2ZVvbEjzf7EWgdOSBA3caC3o38A
+         XeF1vw5KakOXco2tBPfXFjhdsUS+irrvzMgTif26vLvHabWEgSQRzihxBuQUGNHW0A4Y
+         Y8CjdeQP6dfWb8dzkfmEcHx+Z/0+ifWZwJ0B4pnpvE6suD5GFk0Xb8mU3wraa2DBTt6v
+         hbiQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=iqhEYrpWgm5Yfz8pxMwX3Z8XLhEcxpfARdS1KcSLhis=;
-        fh=j145VQ0u6hoNxheLFv6YFVMVnKYUKyqfvrDT1bROVJ4=;
-        b=h4CnLTSqEIMPGPpLp5v6PzYuLJBH++DlJgX9cDba/6/9VvaVY3cc3cdP/qlf56f6ZY
-         VTRIc45k20L90EAYyq5xZDA+SOH6ZQCOqvrYU6jraIh1bT3r1heTFLhmwEPqcrb50jVE
-         MM1Qho/RI/2PEr7YQ2DMXHfVBBQw9VGe7OFPcwBbdBOWqh11UE/+ovV9Qyh7Lrk39xej
-         I2OvURQ79V9jwVWe60P8IcFZqCshv0RcJvghKo6kxC0YsUJUx/m8kaP7KAUHR4pI55dE
-         nOjdmzCC8itdrkjw2Jxfe6hAszpOy6EegG7Exj/zb/dneQ3cgVINKpADjJA49EWYQfPg
-         jQSQ==;
+        bh=0rK9w1Snx+IiOS1yyTvDXywJSRfl2rZ6jIui6kPmEaA=;
+        fh=CWkm5g6so/CzysEu7JiakPwkswjvwx/JqYyybF2hFVM=;
+        b=NrpLiHseILKlO/IRHYeSPKmeaht6VZa7qUmFG7zsOMw0N3r9fb7JxYxteAVw7ZZbRz
+         L43kDknGjEmV0e6GFuMvzWwNo+7HEknAU/zVlLVV7efzxfLCNE84HIbLj/zRwndf5uf7
+         ua+AtLrs0/0WTYjeJWbd6bFi9eMHqVpl2alVGKRe7pZM3vJNKu7hH950xa1WjWWxXWn8
+         4y++JkJ44n2rGWxBpj1uXwhsQRKyh9qcU0aB6P4+St9HdDVgD6JnPqq9vwA/PCetTxMO
+         tYGTeP1X7dafdCEdcADkIGsV4go8bZA9bKw/SH9OLLfp/N4QHBRlB0PG79SPAHfpAXK0
+         HOXQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=2ydPqv4K;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1035 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=lj4UMLbp;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::42e as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com. [2607:f8b0:4864:20::1035])
-        by gmr-mx.google.com with ESMTPS id af79cd13be357-8c09658e696si21377585a.1.2025.12.19.13.10.00
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com. [2607:f8b0:4864:20::42e])
+        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-34e76ee8e09si79449a91.1.2025.12.19.13.17.13
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Dec 2025 13:10:00 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1035 as permitted sender) client-ip=2607:f8b0:4864:20::1035;
-Received: by mail-pj1-x1035.google.com with SMTP id 98e67ed59e1d1-34e730f5fefso2178377a91.0
-        for <kasan-dev@googlegroups.com>; Fri, 19 Dec 2025 13:10:00 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXGd59gw2gFQk3nBGDzN4W5E6plapD9qB5f9zYE9D5EhB8Gb7BsAGnZPZ/E3RW8wruobk+O7BL41Uc=@googlegroups.com
-X-Gm-Gg: AY/fxX5QDaBBMweyFXWBsyrQVSKuDJvGN7SxAfgg0Mro+NIq470JxtmxbGG3HFcC/tz
-	uBk4Om0k0ZvAPbQvHQC9hSNFb/ilNxA2fvp5zeiEB/Gmv7b63phnqw8cGBmeZuwdA6/pRu5djGK
-	sMWJQUmFpJaDxInGZAL/a0tq7pCjpLWCtEAMvEc8qkTaVKz/ynaqrp+Eup0LF0HsIPLzfDIE6dy
-	lEnozZQAM2mpazdSC5J/qUCnuMAvApLrhOvkKdJiOI+lcW8Cn1IqhYboFjdcoShKVW6OpSwKkZx
-	BngN4I/apfgOqGfni1xhvHoQHvg=
-X-Received: by 2002:a05:7022:ef0b:b0:11b:9386:7ece with SMTP id
- a92af1059eb24-12172309509mr4284248c88.43.1766178599422; Fri, 19 Dec 2025
- 13:09:59 -0800 (PST)
+        Fri, 19 Dec 2025 13:17:13 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::42e as permitted sender) client-ip=2607:f8b0:4864:20::42e;
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-7b9c17dd591so1994507b3a.3
+        for <kasan-dev@googlegroups.com>; Fri, 19 Dec 2025 13:17:13 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWX4TVuuUpXsIIX6utj9ccWPljoOU6/o2yyh75EoLU63sPcPD3ZBthO/+G/qNSchccbyu9m2Y9EYrQ=@googlegroups.com
+X-Gm-Gg: AY/fxX5S0zxJgZynb9Rdb8P2IhxwSPYeToSHwcV8KyWFgcqWaYXs00cd8pMk3lVVJ7+
+	qutD8LrTX7CyJpBEC/z0vOYW2zeJKDcTQyeGoXcG4GNNV8dgPC8/y9vnqODPm8R+rmXIAUBUbKZ
+	PnF22u6GYZZpJfl1/rJC3030nUwGElDsikPZV9zDwvEONydPELsQ95sjOyHwXCByQlXE/lK737K
+	9ZfQI/R4m33tDtDlfY0TzCT1tf7tbnZ/tzA71Sd7b6f+U5xCWfu6lQaOFfZWUgFtt/Oj6Qh5gFs
+	sBlxqM8YwPsCISEkV2mtipF6Lpi1vhsMHdRbUQ==
+X-Received: by 2002:a05:7022:2586:b0:11d:f037:891c with SMTP id
+ a92af1059eb24-12172311ffamr3088830c88.44.1766179032817; Fri, 19 Dec 2025
+ 13:17:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20251219154418.3592607-1-elver@google.com> <20251219154418.3592607-14-elver@google.com>
- <3b070057-5fda-410e-a047-d9061d56a82f@acm.org>
-In-Reply-To: <3b070057-5fda-410e-a047-d9061d56a82f@acm.org>
+References: <20251219154418.3592607-1-elver@google.com> <20251219154418.3592607-8-elver@google.com>
+ <cdde6c60-7f6f-4715-a249-5aab39438b57@acm.org>
+In-Reply-To: <cdde6c60-7f6f-4715-a249-5aab39438b57@acm.org>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 19 Dec 2025 22:09:23 +0100
-X-Gm-Features: AQt7F2racRCVQBtX1XHCEqHFLvRozCqLgqx9fCp_0Wp28A2qceHYZ0Bj23R_eEk
-Message-ID: <CANpmjNN6QrxwUUkpAopTfxLwUqGfB53J96dwOWHNcoYrOrEocQ@mail.gmail.com>
-Subject: Re: [PATCH v5 13/36] bit_spinlock: Support Clang's context analysis
+Date: Fri, 19 Dec 2025 22:16:36 +0100
+X-Gm-Features: AQt7F2oJirW61gdd7JR_kO6v8Pm8LYFzp_d0WJmR_my_E34K94emt-YaA94Rukg
+Message-ID: <CANpmjNPJXVtZgT96PP--eNAkHNOvw1MrYzWt5f2aA0LUeK8iGA@mail.gmail.com>
+Subject: Re: [PATCH v5 07/36] lockdep: Annotate lockdep assertions for context analysis
 To: Bart Van Assche <bvanassche@acm.org>
 Cc: Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>, 
 	Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, 
@@ -152,8 +152,8 @@ Cc: Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=2ydPqv4K;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1035 as
+ header.i=@google.com header.s=20230601 header.b=lj4UMLbp;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::42e as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -170,32 +170,76 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 19 Dec 2025 at 21:48, 'Bart Van Assche' via kasan-dev
+On Fri, 19 Dec 2025 at 21:54, 'Bart Van Assche' via kasan-dev
 <kasan-dev@googlegroups.com> wrote:
 >
-> On 12/19/25 7:40 AM, Marco Elver wrote:
-> > +/*
-> > + * For static context analysis, we need a unique token for each possible bit
-> > + * that can be used as a bit_spinlock. The easiest way to do that is to create a
-> > + * fake context that we can cast to with the __bitlock(bitnum, addr) macro
-> > + * below, which will give us unique instances for each (bit, addr) pair that the
-> > + * static analysis can use.
-> > + */
-> > +context_lock_struct(__context_bitlock) { };
-> > +#define __bitlock(bitnum, addr) (struct __context_bitlock *)(bitnum + (addr))
+> On 12/19/25 7:39 AM, Marco Elver wrote:
+> > diff --git a/include/linux/lockdep.h b/include/linux/lockdep.h
+> > index dd634103b014..621566345406 100644
+> > --- a/include/linux/lockdep.h
+> > +++ b/include/linux/lockdep.h
+> > @@ -282,16 +282,16 @@ extern void lock_unpin_lock(struct lockdep_map *lock, struct pin_cookie);
+> >       do { WARN_ON_ONCE(debug_locks && !(cond)); } while (0)
+> >
+> >   #define lockdep_assert_held(l)              \
+> > -     lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+> > +     do { lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD); __assume_ctx_lock(l); } while (0)
+> >
+> >   #define lockdep_assert_not_held(l)  \
+> >       lockdep_assert(lockdep_is_held(l) != LOCK_STATE_HELD)
+> >
+> >   #define lockdep_assert_held_write(l)        \
+> > -     lockdep_assert(lockdep_is_held_type(l, 0))
+> > +     do { lockdep_assert(lockdep_is_held_type(l, 0)); __assume_ctx_lock(l); } while (0)
+> >
+> >   #define lockdep_assert_held_read(l) \
+> > -     lockdep_assert(lockdep_is_held_type(l, 1))
+> > +     do { lockdep_assert(lockdep_is_held_type(l, 1)); __assume_shared_ctx_lock(l); } while (0)
+> >
+> >   #define lockdep_assert_held_once(l)         \
+> >       lockdep_assert_once(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+> > @@ -389,10 +389,10 @@ extern int lockdep_is_held(const void *);
+> >   #define lockdep_assert(c)                   do { } while (0)
+> >   #define lockdep_assert_once(c)                      do { } while (0)
+> >
+> > -#define lockdep_assert_held(l)                       do { (void)(l); } while (0)
+> > +#define lockdep_assert_held(l)                       __assume_ctx_lock(l)
+> >   #define lockdep_assert_not_held(l)          do { (void)(l); } while (0)
+> > -#define lockdep_assert_held_write(l)         do { (void)(l); } while (0)
+> > -#define lockdep_assert_held_read(l)          do { (void)(l); } while (0)
+> > +#define lockdep_assert_held_write(l)         __assume_ctx_lock(l)
+> > +#define lockdep_assert_held_read(l)          __assume_shared_ctx_lock(l)
+> >   #define lockdep_assert_held_once(l)         do { (void)(l); } while (0)
+> >   #define lockdep_assert_none_held_once()     do { } while (0)
 >
-> Will this cause static analyzers to complain about out-of-bounds
-> accesses for (bitnum + (addr)), which is equivalent to &(addr)[bitnum]?
+> I think these macros should use __must_hold() instead of __assume...().
+> lockdep_assert_held() emits a runtime warning if 'l' is not held. Hence,
+> I think that code where lockdep_assert_held() is used should not compile
+> if it cannot be verified at compile time that 'l' is held.
 
-Only if they decide to interpret never-executed code (i think the
-kernel has various dead code that's optimized out that might trigger
-static analyzers if they analyzed it).
-But this could probably be improved by using a different idiom, and
-using an empty inline function that takes bitnum, addr as args, and
-Clang simply takes the call to that function as the context lock
-identity.
+That's not the purpose of this - if a function or variable should have
+a lock held, we mark them explicitly with __must_hold() or
+__guarded_by(), and we don't really need to use lockdep_assert,
+because the compiler helped us out. In an ideal world, every function
+or variable that requires a lock held is annotated, and we don't need
+to ever worry about explicitly checking if a lock is held (but we'll
+be far from that for a while).
+
+The purpose is described in the commit message:
+
+> Presence of these annotations causes the analysis to assume the context
+> lock is held after calls to the annotated function, and avoid false
+> positives with complex control-flow; [...]
+
+It's basically an escape hatch to defer to dynamic analysis where the
+limits of the static analysis are reached. This is also the original
+purpose of the "assert"/"assume" attributes:
+https://clang.llvm.org/docs/ThreadSafetyAnalysis.html#assert-capability-and-assert-shared-capability
+
+Without this escape hatch, and deferral to dynamic analysis, we'd be
+stuck in some cases.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNN6QrxwUUkpAopTfxLwUqGfB53J96dwOWHNcoYrOrEocQ%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPJXVtZgT96PP--eNAkHNOvw1MrYzWt5f2aA0LUeK8iGA%40mail.gmail.com.
