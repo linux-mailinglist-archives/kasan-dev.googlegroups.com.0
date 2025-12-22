@@ -1,159 +1,135 @@
-Return-Path: <kasan-dev+bncBAABBXFCUTFAMGQEDEB2XGQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBFF2UXFAMGQEUDCYNSQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63e.google.com (mail-pl1-x63e.google.com [IPv6:2607:f8b0:4864:20::63e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50569CD558F
-	for <lists+kasan-dev@lfdr.de>; Mon, 22 Dec 2025 10:37:34 +0100 (CET)
-Received: by mail-pl1-x63e.google.com with SMTP id d9443c01a7336-29da1ea0b97sf105486715ad.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 22 Dec 2025 01:37:34 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1766396252; cv=pass;
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D960CD6749
+	for <lists+kasan-dev@lfdr.de>; Mon, 22 Dec 2025 16:00:38 +0100 (CET)
+Received: by mail-lf1-x13f.google.com with SMTP id 2adb3069b0e04-5959d533486sf2931229e87.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 22 Dec 2025 07:00:38 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1766415637; cv=pass;
         d=google.com; s=arc-20240605;
-        b=FvC60dh2zcpe2b4UpBjw8StxVO1NxQXbf3r9XFYMaLTXE1+xUOPk/O/2lY2kGnNOUV
-         giiKKaXjDC7kSYhFyBXwy6spxrcuYOvTnC+irPxua++xL9yt/S1p1sKIraryUQ1kThjB
-         ui1Y6lEvvyLSVAVrloYl5byAg4u1hIXlfOeYa4JWXZTtXO31EFIO9qDGufCiFsc9U6ut
-         MvjovFy67Gfly3uMIwx8U9dAywdusx+rcCickAZe2/JKVrh3NhjP8GHOA7Rr8ytmmtlU
-         VvOGfXuSqr0OEEaDGby7LzYikXig4dISIyQzrQt5IwppVH/3FHw+Dx54FRvXFGS+nw/+
-         uG0A==
+        b=YqyxMGkorOjwHyszX0gpZMN0dwkN/1WpSabbGPvKNHsOYb1yGqGJoDNvCr+RSFnuih
+         kuN0CDIQ9HegMco0UnUTduGM4b9tDswu4iaPIyQEetvDpbfHBhSc75Ciahu77RbX+skW
+         7i0+fBVBQsL66YIBGoBGF2+Nte3BFB+RCcSGh/8RcgqoVkJAsbs1WVqU/KRL9mel/1je
+         KJF7io68sRKXyDJ6/KuEPLprYqcN9NdlNTKBiISuGYzzE/8JwhP8Fwa0/ts19Bo0J42I
+         109I7PfGFNGDGAfyJA4L8De27MccBN9ms4fqG1U6qkT8vI0yJ9yn2d6+SgwL1bvZ9yM9
+         kTlA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:sender:dkim-signature;
-        bh=3R7VwZ3bWyTXNmvxkVomP7kAsNYLq12/ec67rfBbiYg=;
-        fh=H1LRtXpqB+JYrF4lo48KP0aDTcIMxMPhZ3wvpIhQb68=;
-        b=PqM4Cv2LvUXLBI4dhc1Go+QK7vcGaKcLNcC3ddjD7qmjjnm+9SDrtMNRAGm/5LqWQC
-         CMle6o426IcwYLDDbC+loBoyXrifRfiH8L7u15obz/uC58DpqNWQSFbOdVcaxaJR0Mon
-         +HAnReinLZI8gVpJak4vNZJCmI44oIlgkM2kpfNhRRkq/OLeDYOrwdTeY9mdKEBbAY7C
-         6mw08hDS4+9FeTkKQvxu+UMcGs6LtFMkWJmoPcRfP4e/6y0+O/1lG2rUYp5VNxqdtqXK
-         s0Hgqm22z46+5S9VVizfhtxxKc2PSGg3e6k6aT861Mq80VQdhqcJicnADxeGpC5d/w4Y
-         pEUQ==;
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :message-id:mime-version:date:dkim-signature;
+        bh=oFuArCbsDDeunzEqR7GD1nglfEvbqFAWac9mM3QeGFs=;
+        fh=o9+HNTT4TxcAFghhe5qz3rbxNdySxOV/7ma7bt3Zffo=;
+        b=aHs2XCAYafEuX7TOXTHlSBT3RCVHc2J3y4RW8yp+uM369GPOn2fgjMTxsADiy2m3az
+         LNvyAtqsdLYgcxRlAgqfly5veMeoZvZs4GM5bRioBWm3jjZqQDQLHabCXCVS3z8OF4up
+         0MSg+0/zcHGe9xpocXTvtTnuHLwej6z9gK2VFSZbwjemp0HVZfgQXOifohhxrrKsPYF5
+         /ItylBAeY+rkmCbRs+6PiVkNMlHxOH4gdOQ6Z90sCItPCB8OhmGaZgCGJYV9dAfoqPyL
+         2HQV0A6MQwF/E0GVvdfzfGocASPP7szGn6gnDWXClQ2dLjeWaDqq++gA+yXo8yZ9jpMf
+         CXQQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as permitted sender) smtp.mailfrom=lienze@kylinos.cn
+       dkim=pass header.i=@google.com header.s=20230601 header.b=InvtYTMc;
+       spf=pass (google.com: domain of 3ev1jaqukcuiipzivksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3EV1JaQUKCUIipzivksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1766396252; x=1767001052; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1766415637; x=1767020437; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=3R7VwZ3bWyTXNmvxkVomP7kAsNYLq12/ec67rfBbiYg=;
-        b=dmKuUBZCj1oZxJiIVH5TXL1x7dfuvzY6xbqFhDCRhaSse2z6cQ/k52yl1gwqlaxWq6
-         dP7t4Ai0hwAxE9zXi4d+R8kPFUCcCsUUxv+S4Td3rLoInSaUs+gYulR+IR0urVYU2I5A
-         KABzsr0fYsK78lWA9gH5hUEutDLrgxiTKb4mri7TnHMiwd8EFWY+BXlym/ihMcAvD1Lf
-         Sxr9oDYN34KrGaxZ5mSBeCuGq6qzUbyckowmnDJDv4nJCuycrjI//dH4Z7jzA1krdXZn
-         oNqFz4ZRBlu/S5XCiBjAUsCNldSJ+aZxjnlWZQUhQUbJYGFK11GySZdLiHcA4PJMcY+o
-         YiZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766396252; x=1767001052;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3R7VwZ3bWyTXNmvxkVomP7kAsNYLq12/ec67rfBbiYg=;
-        b=iNiWxS/w8GlEyKBtD9UcZ/PPcwffbjzZ7Gl+wl4VdZNilwXiEi6c4hk2J5dJdYpx3J
-         sdfj5AXJLU6Ae11+QVodAjtVmNe+aMGEWOMUl2/W4y2F2gVwQ+zmSpSaVxklKqRFOMlQ
-         LIrB/9m6tITLfu/7Evrz2LLpBiUFPptEK4WGyj+osRW2nEQksXiBT1cZvBI+lL6qim3r
-         UJMIODFbn5a8h249n4yNC9fdvBvyBtws3yhNCjCShSoDB9DisgPdBAVNr5Yap1Ah7l6r
-         cqYaiEM6QHZNcPKgYDYe63IfcIibHYK0kGsWCDCGQFiq4c0n8ffGOqoMTSU62XysDTZi
-         Vnqw==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVrcWL10xUsdMBDP+TTFOi7x/8h8u7FlRrfIVCol/4h805Nw4+LIVS96umLDIifvWwF1jbDWQ==@lfdr.de
-X-Gm-Message-State: AOJu0Yworvb5Puczpxz47KCL4VqMbVf9W1JUP7bmL6HaCBcd7OcYXiUR
-	QaqsUZQS91CQFV1nyr36nYOs3S1hxFlYw59FSyzeGniHGglEg54pM89y
-X-Google-Smtp-Source: AGHT+IGrkqP/e2qkTzRvMDKaBp0UjMybML25EZ/PwRrODyVZ7UrCWE5QiVP3qclvEvT5NA02UuQDzQ==
-X-Received: by 2002:a05:6a20:7489:b0:366:14ac:e1e7 with SMTP id adf61e73a8af0-376ab6d2a8fmr10458669637.77.1766396252522;
-        Mon, 22 Dec 2025 01:37:32 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWYnWJ7ogAEc98nOJnFI0GHXao6urskftTsC63p07ctDiA=="
-Received: by 2002:a17:90b:5288:b0:340:d06d:7e42 with SMTP id
- 98e67ed59e1d1-34abccaec2bls12209017a91.2.-pod-prod-06-us; Mon, 22 Dec 2025
- 01:37:31 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCVC8gZKQnhCQ7Qr2UKiYfY0d+fosZMwyQJVbWSRPDCw2LQbCh0lFFppVSg+PYaIv2a4Jvwf+rxXcKM=@googlegroups.com
-X-Received: by 2002:a05:6a20:94c7:b0:35d:c68e:1b08 with SMTP id adf61e73a8af0-376aaaf67f5mr10120361637.53.1766396251182;
-        Mon, 22 Dec 2025 01:37:31 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1766396251; cv=none;
+        bh=oFuArCbsDDeunzEqR7GD1nglfEvbqFAWac9mM3QeGFs=;
+        b=uBL8WlKXiGi7w3+3HrWY26lk+qLmpU3MKJpmznzz2ggcS+3RIIYRK1OXVPb3bfKC+F
+         jaP1wAtSvHLd9UlQFH/Rx73TrMgLn0L4koHlEY6wGblTPCVpdaGl17g9FYT9a1lmGGnB
+         K5UsxQb9XnrvgQXGrT+rgDvhbp6fepUUZY9NRm7kVQ1e0RxxlaJNsRGNo9jJv0FCeX8n
+         Fp/P/RDZqh0eQYiW1UFWYTktz5KxPb+YLAQYKPSuQ74pU2lt42Jx4mihrFvDk6MawKu9
+         LeYeWsUi7WPieII/sUteYv9RGVErUqdCGwrmDKnUWz+eGca9ejpZNhe4Vw1FNB8ao8Rb
+         Zr0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766415637; x=1767020437;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oFuArCbsDDeunzEqR7GD1nglfEvbqFAWac9mM3QeGFs=;
+        b=JhTcWat3WXw/d+T2gteUJoOonAXW+3TWFC3+5a1ZbtMmXjUY+0wKZT6WSPpffwB6Dv
+         7me9Sudc32HBQMOQkYWQ6WXgUDbgMSmvE20anO8g10JXWrheJBQl+vP0tiO7SyZSs8RV
+         65qkMOZ2syG4w63UL1lS6am7mPV1GV8W4WrD/90l39iL4/uA9I1l5bXyBmlqu5ooTz2H
+         jRla6XRrJuCySvRQOamJSn6meyVUBPhRdqY5l6J/p8vxckX0Gt3b0YfgUamFsz3Z8jtt
+         iW4GYoYAJQ43iknTZ21CJdNmJcvKgUX5WYullyvULizWMPup82ZUHLzrtsJWxPcr6XN/
+         ncYQ==
+X-Forwarded-Encrypted: i=2; AJvYcCX86HY31PUTEjmYZxctDAGqAzMD8R8eOa+3jogfjoP6qStCehuyq/6e8xsELRhvVJld2nQl+A==@lfdr.de
+X-Gm-Message-State: AOJu0YxSurjjNMHcNZWcR8dw5XhIp/uVEW/ACrXZdEVlotH8ai58oYPw
+	56cgjMquEHlzCia5bSl98w2wn+9pYRoN1gAuYj0ayHxt+TKTThNycU5/
+X-Google-Smtp-Source: AGHT+IHi33CIkvzEKDWAq7wg8hv9xM4Do56dA0yikqdISZzsP00jGVMpNh6b/VY3aleJqgJsyDh2Vg==
+X-Received: by 2002:a05:6512:4006:b0:594:248d:afa7 with SMTP id 2adb3069b0e04-59a17d58ee3mr3997935e87.13.1766415637010;
+        Mon, 22 Dec 2025 07:00:37 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWZnAlqzGso6o4ZVNVmaKrM/sJI3evEGMvRG8FFPCDqczw=="
+Received: by 2002:a05:6512:1113:b0:598:f445:11e4 with SMTP id
+ 2adb3069b0e04-598fa405c7cls1056763e87.2.-pod-prod-06-eu; Mon, 22 Dec 2025
+ 07:00:34 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCV2ykWb/xTVXqy0rOPPsKefXY8dqqW1mz8H0b9+eJ0Joy9DgSmiCbtMZsvYqHeTDK5WvYMKoCYbapU=@googlegroups.com
+X-Received: by 2002:a05:6512:3c9e:b0:595:9d6b:1175 with SMTP id 2adb3069b0e04-59a17d5905dmr4231991e87.14.1766415633919;
+        Mon, 22 Dec 2025 07:00:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1766415633; cv=none;
         d=google.com; s=arc-20240605;
-        b=OKEt4lzf7N7qxf5HXcwQeBvKxsEhph88+VrGiz0RW7bzAAEevNVbliIM6rFg7jAtmp
-         dFb6DZdX+Cq4SqqzCMN2qCrAtsvaayXcDmjfXmDf0zCRrR8CnlYLz0lUypfDzi4VDCwa
-         Do9ItSx3AZvHl0rVpsdvJxonrB1dyQ3k9GXhFpSzbEOTAMol/anZtj/xFXGuVdMNq67n
-         k/f2wLwDgodKDlpSibwI6hP5NFlZieet6TOiCvdRopzngRVu3CkUqz/guKX+U3xxxHVl
-         Mlt0+RQRG7ibcHeVNFdV90WnK7b7iotYkyboI9uwh+pqP8fGjAaopBVXrt9YnDkiTwQ4
-         FuUQ==
+        b=bRdZYWIcRCnA4VyKAaWxs528cHvjPBahJp3hoJjMFJ94zGvYEts3yKN15USPvknocv
+         zIghn3DQ/k7RQ37ILtcCRv8VGx7/fmdBnuj6P2qkeKhrcR3Gu4coKu1Z3/qCOXMqEAmS
+         VAHDBwUeTcI/3mhI5/wThRAllG+VPZpQl5z9G2yOWhCRyKnDQyLxAxnqfgMVLw8E+kOF
+         wPLB7PtH350qPU5u54khGLzydZsvwdBblw+RB0IVjxIYn32oRtVxJxPfgNfuWJZKZNpS
+         AP3qdoeCJa8/Ak3T5O5TVrW/aG2adcVo3OrSy8OjP5yRK/U0HLOiixdpkKzKC8y8Gnda
+         jIXw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id;
-        bh=8aimI8FiNIO7ZgQp7ZWhdgpnUgUlmkdtRi5vbPLo3vA=;
-        fh=lco16A81y41nmYjl13SnRrZ8BqBPyTyssTDvWyMHasM=;
-        b=eB4eY2SWXyw7gXVukXaL7u4sMUNCuUo+qEcis7tGsZgc1/Sr3r1efqiICES5v7dUOM
-         grxfyEcKa2OxpEeVr0Lu6IKven5dfS9OO5m0xw2tc6sJiCVW/3TdzxnQlxvKPnzH8QEt
-         k9ZxAl/D5wDjWjgUp0oA3zTLs97c3bacUo9RAES/lL+4OwZZjL8qQnOKqjIjAuf3io7I
-         vJ11nfZIb8MS3guaoHoVK+zuP+fSLPAF24WSV6uvQd8AF/jzfiGc1wQ7+5LsMwbZJjEK
-         0+awIeUrZNKZRUSugs4Ba4BToGHQz40yM6glvdZFnEhrWv2VuIXL3cTHxfJcS8XSzm7X
-         Yl2g==;
+        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
+        bh=SLecpNCzVXawwP8cx0xrGTVH2kk35JOIvedfHtD8OOw=;
+        fh=FNWSLXKidKpTXFwoqVPpp++E7modzozwBd0gkS2jLak=;
+        b=cgOYez8Zre8Igsj6DU0W4yQOUkosXQitQ5McsmFaYY/lk72a1QT8tulUIxTzarUh0S
+         wodKq8iyEPm20gPXfyzGBkvOLeT2woG3bZAbCT2W5Lf0lt6GyuNYFahdJ8HNZlNhQ83T
+         czFbx+YKFKYkOl/BW5/sbE5fRz64sEQVE3hSqRgc3KAss/0dX8whCXa2yqlxLeOhv06j
+         IOi3f0+Sisbk4zeMkZd2X7X0NeWWy8TITbdAweDJnDDu2o45M6PLbSHWhtBsDQEH98CQ
+         nwbDigb6tM+UYWuXU0NSEdPK5tm/VV/9oxU4H81fW8+jucSmq12BWWjT1sJ1KpF4sOmm
+         AGBA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as permitted sender) smtp.mailfrom=lienze@kylinos.cn
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn. [124.126.103.232])
-        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-c1e7bb66b95si319138a12.3.2025.12.22.01.37.29
+       dkim=pass header.i=@google.com header.s=20230601 header.b=InvtYTMc;
+       spf=pass (google.com: domain of 3ev1jaqukcuiipzivksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3EV1JaQUKCUIipzivksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-wr1-x44a.google.com (mail-wr1-x44a.google.com. [2a00:1450:4864:20::44a])
+        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-59a1860cf52si216268e87.3.2025.12.22.07.00.33
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 01:37:30 -0800 (PST)
-Received-SPF: pass (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as permitted sender) client-ip=124.126.103.232;
-X-UUID: d11e6e98df1911f0a38c85956e01ac42-20251222
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6,REQID:de4d8268-dc8d-48f1-805e-f682d3a06cd1,IP:10,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:5
-X-CID-INFO: VERSION:1.3.6,REQID:de4d8268-dc8d-48f1-805e-f682d3a06cd1,IP:10,URL
-	:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:5
-X-CID-META: VersionHash:a9d874c,CLOUDID:ccaa6ce40de7d863f75bdf900ecd0ee9,BulkI
-	D:251219101318D8IDDZQS,BulkQuantity:6,Recheck:0,SF:17|19|38|64|66|78|80|81
-	|82|83|102|127|841|898,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:0,File:nil,
-	RT:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DK
-	P:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: d11e6e98df1911f0a38c85956e01ac42-20251222
-X-User: lienze@kylinos.cn
-Received: from [192.168.31.182] [(183.242.174.20)] by mailgw.kylinos.cn
-	(envelope-from <lienze@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 1610835472; Mon, 22 Dec 2025 17:37:22 +0800
-Message-ID: <44d4cf82-982c-455b-85c1-138e8c37cc8f@kylinos.cn>
-Date: Mon, 22 Dec 2025 17:37:19 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] LoongArch: kfence: avoid use
- CONFIG_KFENCE_NUM_OBJECTS
-To: yuanlinyu <yuanlinyu@honor.com>, Huacai Chen <chenhuacai@kernel.org>
-Cc: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- Dmitry Vyukov <dvyukov@google.com>, Andrew Morton
- <akpm@linux-foundation.org>, WANG Xuerui <kernel@xen0n.name>,
- "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "enze.li@gmx.com" <enze.li@gmx.com>
-References: <20251218063916.1433615-1-yuanlinyu@honor.com>
- <20251218063916.1433615-2-yuanlinyu@honor.com>
- <CAAhV-H5n_3Ndk5yRm=S-9WktD9xivVF8-JLaycV8JB-pVuybbA@mail.gmail.com>
- <b2e84054-bf3b-4a1a-b946-bd024f341512@kylinos.cn>
- <ab69f5a942824394af6010f75a06c5f7@honor.com>
-Content-Language: en-US
-From: Enze Li <lienze@kylinos.cn>
-In-Reply-To: <ab69f5a942824394af6010f75a06c5f7@honor.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Dec 2025 07:00:33 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3ev1jaqukcuiipzivksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) client-ip=2a00:1450:4864:20::44a;
+Received: by mail-wr1-x44a.google.com with SMTP id ffacd0b85a97d-430fc83f58dso2319956f8f.2
+        for <kasan-dev@googlegroups.com>; Mon, 22 Dec 2025 07:00:33 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXdPBE587EeHJ0dHtkGFc3WzjYgBNHYJHr1XEGLbBEkM8yJ7uves+DQ/hQOrteZ0gU1XfVQCWMN524=@googlegroups.com
+X-Received: from wmco23.prod.google.com ([2002:a05:600c:a317:b0:477:93dd:bbb1])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:46c4:b0:477:7bd2:693f
+ with SMTP id 5b1f17b1804b1-47d1953b80bmr128913385e9.6.1766415633343; Mon, 22
+ Dec 2025 07:00:33 -0800 (PST)
+Date: Mon, 22 Dec 2025 16:00:06 +0100
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.52.0.322.g1dd061c0dc-goog
+Message-ID: <20251222150018.1349672-1-elver@google.com>
+Subject: [PATCH] docs: kernel-parameters: add kfence parameters
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: elver@google.com, Andrew Morton <akpm@linux-foundation.org>
+Cc: Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: lienze@kylinos.cn
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as
- permitted sender) smtp.mailfrom=lienze@kylinos.cn
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20230601 header.b=InvtYTMc;       spf=pass
+ (google.com: domain of 3ev1jaqukcuiipzivksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3EV1JaQUKCUIipzivksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -166,203 +142,64 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 12/22/25 5:16 PM, yuanlinyu wrote:
->> From: Enze Li <lienze@kylinos.cn>
->> Sent: Saturday, December 20, 2025 1:44 PM
->> To: Huacai Chen <chenhuacai@kernel.org>; yuanlinyu <yuanlinyu@honor.com>
->> Cc: Alexander Potapenko <glider@google.com>; Marco Elver
->> <elver@google.com>; Dmitry Vyukov <dvyukov@google.com>; Andrew Morton
->> <akpm@linux-foundation.org>; WANG Xuerui <kernel@xen0n.name>;
->> kasan-dev@googlegroups.com; linux-mm@kvack.org; loongarch@lists.linux.de=
-v;
->> linux-kernel@vger.kernel.org; enze.li@gmx.com
->> Subject: Re: [PATCH v2 1/2] LoongArch: kfence: avoid use
->> CONFIG_KFENCE_NUM_OBJECTS
->>
->> On 2025/12/19 10:13, Huacai Chen wrote:
->>> Hi, Enze,
->>>
->>> On Thu, Dec 18, 2025 at 2:39=E2=80=AFPM yuan linyu <yuanlinyu@honor.com=
-> wrote:
->>>>
->>>> use common kfence macro KFENCE_POOL_SIZE for KFENCE_AREA_SIZE
->>>> definition
->>>>
->>>> Signed-off-by: yuan linyu <yuanlinyu@honor.com>
->>>> ---
->>>>  arch/loongarch/include/asm/pgtable.h | 3 ++-
->>>>  1 file changed, 2 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/arch/loongarch/include/asm/pgtable.h
->>>> b/arch/loongarch/include/asm/pgtable.h
->>>> index f41a648a3d9e..e9966c9f844f 100644
->>>> --- a/arch/loongarch/include/asm/pgtable.h
->>>> +++ b/arch/loongarch/include/asm/pgtable.h
->>>> @@ -10,6 +10,7 @@
->>>>  #define _ASM_PGTABLE_H
->>>>
->>>>  #include <linux/compiler.h>
->>>> +#include <linux/kfence.h>
->>>>  #include <asm/addrspace.h>
->>>>  #include <asm/asm.h>
->>>>  #include <asm/page.h>
->>>> @@ -96,7 +97,7 @@ extern unsigned long empty_zero_page[PAGE_SIZE /
->> sizeof(unsigned long)];
->>>>  #define MODULES_END    (MODULES_VADDR + SZ_256M)
->>>>
->>>>  #ifdef CONFIG_KFENCE
->>>> -#define KFENCE_AREA_SIZE       (((CONFIG_KFENCE_NUM_OBJECTS + 1)
->> * 2 + 2) * PAGE_SIZE)
->>>> +#define KFENCE_AREA_SIZE       (KFENCE_POOL_SIZE + (2 *
->> PAGE_SIZE))
->>> Can you remember why you didn't use KFENCE_POOL_SIZE at the first place=
-?
->>
->> I don't recall the exact reason off the top of my head, but I believe it=
- was due to
->> complex dependency issues with the header files where KFENCE_POOL_SIZE i=
-s
->> defined.  To avoid those complications, we likely opted to use
->> KFENCE_NUM_OBJECTS directly.
->>
->> I checked out the code at commit
->> (6ad3df56bb199134800933df2afcd7df3b03ef33 "LoongArch: Add KFENCE
->> (Kernel
->> Electric-Fence) support") and encountered the following errors when comp=
-iling
->> with this patch applied.
->>
->> 8<------------------------------------------------------
->>   CC      arch/loongarch/kernel/asm-offsets.s
->> In file included from ./arch/loongarch/include/asm/pgtable.h:13,
->>                  from ./include/linux/pgtable.h:6,
->>                  from ./include/linux/mm.h:29,
->>                  from arch/loongarch/kernel/asm-offsets.c:9:
->> ./include/linux/kfence.h:93:35: warning: 'struct kmem_cache' declared in=
-side
->> parameter list will n ot be visible outside of this definition or declar=
-ation
->>    93 | void kfence_shutdown_cache(struct kmem_cache *s);
->>       |                                   ^~~~~~~~~~
->> ./include/linux/kfence.h:99:29: warning: 'struct kmem_cache' declared in=
-side
->> parameter list will n ot be visible outside of this definition or declar=
-ation
->>    99 | void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t fl=
-ags);
->>       |                             ^~~~~~~~~~
->> ./include/linux/kfence.h:117:50: warning: 'struct kmem_cache' declared i=
-nside
->> parameter list will not be visible outside of this definition or declara=
-tion
->>   117 | static __always_inline void *kfence_alloc(struct kmem_cache *s, =
-size_t
->> size, gfp_t flags)
->>       |
->> ^~~~~~~~~~
->> ./include/linux/kfence.h: In function 'kfence_alloc':
->> ./include/linux/kfence.h:128:31: error: passing argument 1 of '__kfence_=
-alloc'
->> from incompatible p ointer type [-Wincompatible-pointer-types]
->>   128 |         return __kfence_alloc(s, size, flags);
->>       |                               ^
->>       |                               |
->>       |                               struct kmem_cache *
->> ./include/linux/kfence.h:99:41: note: expected 'struct kmem_cache *' but
->> argument is of type 'stru ct kmem_cache *'
->>    99 | void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t fl=
-ags);
->>       |                      ~~~~~~~~~~~~~~~~~~~^
->> ------------------------------------------------------>8
->>
->> Similarly, after applying this patch to the latest code
->> (dd9b004b7ff3289fb7bae35130c0a5c0537266af "Merge tag 'trace-v6.19-rc1'")
->> from the master branch of the Linux repository and enabling KFENCE, I
->> encountered the following compilation errors.
->>
->> 8<------------------------------------------------------
->>   CC      arch/loongarch/kernel/asm-offsets.s
->> In file included from ./arch/loongarch/include/asm/pgtable.h:13,
->>                  from ./include/linux/pgtable.h:6,
->>                  from ./include/linux/mm.h:31,
->>                  from arch/loongarch/kernel/asm-offsets.c:11:
->> ./include/linux/kfence.h:97:35: warning: 'struct kmem_cache' declared in=
-side
->> parameter list will n ot be visible outside of this definition or declar=
-ation
->>    97 | void kfence_shutdown_cache(struct kmem_cache *s);
->>       |                                   ^~~~~~~~~~
->> ./include/linux/kfence.h:103:29: warning: 'struct kmem_cache' declared i=
-nside
->> parameter list will not be visible outside of this definition or declara=
-tion
->>   103 | void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t fl=
-ags);
->>       |                             ^~~~~~~~~~
->> ./include/linux/kfence.h:121:50: warning: 'struct kmem_cache' declared i=
-nside
->> parameter list will not be visible outside of this definition or declara=
-tion
->>   121 | static __always_inline void *kfence_alloc(struct kmem_cache *s, =
-size_t
->> size, gfp_t flags)
->>       |
->> ^~~~~~~~~~
->> ./include/linux/kfence.h: In function 'kfence_alloc':
->> ./include/linux/kfence.h:132:31: error: passing argument 1 of '__kfence_=
-alloc'
->> from incompatible p ointer type [-Wincompatible-pointer-types]
->>   132 |         return __kfence_alloc(s, size, flags);
->>       |                               ^
->>       |                               |
->>       |                               struct kmem_cache *
->> ./include/linux/kfence.h:103:41: note: expected 'struct kmem_cache *'
->> but argument is of type 'str
->> uct kmem_cache *'
->>   103 | void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t fl=
-ags);
->>       |                      ~~~~~~~~~~~~~~~~~~~^
->> ------------------------------------------------------>8
->>
->> So, this patch currently runs into compilation issues.  linyu probably d=
-idn't have
->> KFENCE enabled when compiling locally, which is why this error was misse=
-d.
->> You can enable it as follows:
->>
->>   Kernel hacking
->>     Memory Debugging
->>       [*] KFENCE: low-overhead sampling-based memory safety
->=20
-> Hi Enze,
->=20
-> Sorry only test on arm64.
->=20
-> Could you help fix the compile issue and provide a correct change ?
->=20
-> Or I need sometime to resolve the issue.
->=20
+Add a brief summary for KFENCE's kernel command-line parameters in
+admin-guide/kernel-parameters.
 
-Thanks for pointing out this issue.  I've taken a look at the
-compilation problem you mentioned.  Based on my current understanding,
-the header dependencies are quite complex, and I couldn't find a
-straightforward fix without potentially affecting other parts of the
-codebase.
+Signed-off-by: Marco Elver <elver@google.com>
+---
+ .../admin-guide/kernel-parameters.txt         | 35 +++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
-Given the risk of introducing broader compilation errors, I think it
-might be safer to hold off on using the KFENCE_POOL_SIZE macro for now,
-unless there's a clear and safe path forward that I might have missed.
-I'm happy to discuss this further if you have any insights or suggestions.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index a8d0afde7f85..1058f2a6d6a8 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2917,6 +2917,41 @@ Kernel parameters
+ 			for Movable pages.  "nn[KMGTPE]", "nn%", and "mirror"
+ 			are exclusive, so you cannot specify multiple forms.
+ 
++	kfence.burst=	[MM,KFENCE] The number of additional successive
++			allocations to be attempted through KFENCE for each
++			sample interval.
++			Format: <unsigned integer>
++			Default: 0
++
++	kfence.check_on_panic=
++			[MM,KFENCE] Whether to check all KFENCE-managed objects'
++			canaries on panic.
++			Format: <bool>
++			Default: false
++
++	kfence.deferrable=
++			[MM,KFENCE] Whether to use a deferrable timer to trigger
++			allocations. This avoids forcing CPU wake-ups if the
++			system is idle, at the risk of a less predictable
++			sample interval.
++			Format: <bool>
++			Default: CONFIG_KFENCE_DEFERRABLE
++
++	kfence.sample_interval=
++			[MM,KFENCE] KFENCE's sample interval in milliseconds.
++			Format: <unsigned integer>
++			 0 - Disable KFENCE.
++			>0 - Enabled KFENCE with given sample interval.
++			Default: CONFIG_KFENCE_SAMPLE_INTERVAL
++
++	kfence.skip_covered_thresh=
++			[MM,KFENCE] If pool utilization reaches this threshold
++			(pool usage%), KFENCE limits currently covered
++			allocations of the same source from further filling
++			up the pool.
++			Format: <unsigned integer>
++			Default: 75
++
+ 	kgdbdbgp=	[KGDB,HW,EARLY] kgdb over EHCI usb debug port.
+ 			Format: <Controller#>[,poll interval]
+ 			The controller # is the number of the ehci usb debug
+-- 
+2.52.0.322.g1dd061c0dc-goog
 
-Thanks,
-Enze
-
-
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/4=
-4d4cf82-982c-455b-85c1-138e8c37cc8f%40kylinos.cn.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20251222150018.1349672-1-elver%40google.com.
