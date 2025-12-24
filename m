@@ -1,153 +1,171 @@
-Return-Path: <kasan-dev+bncBAABBCFWV3FAMGQE4B2AQZI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCSL7B6LWYHBB2VXV7FAMGQE52FKACQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3d.google.com (mail-qv1-xf3d.google.com [IPv6:2607:f8b0:4864:20::f3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42926CDBA01
-	for <lists+kasan-dev@lfdr.de>; Wed, 24 Dec 2025 08:49:30 +0100 (CET)
-Received: by mail-qv1-xf3d.google.com with SMTP id 6a1803df08f44-88a2ea47fa5sf154864426d6.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 23 Dec 2025 23:49:30 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1766562569; cv=pass;
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F592CDC334
+	for <lists+kasan-dev@lfdr.de>; Wed, 24 Dec 2025 13:26:20 +0100 (CET)
+Received: by mail-lf1-x13f.google.com with SMTP id 2adb3069b0e04-597c376d9a9sf6938515e87.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 24 Dec 2025 04:26:20 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1766579179; cv=pass;
         d=google.com; s=arc-20240605;
-        b=gdXVeXxlhZ99hV4ItVCHqXL0koSqWzpFoxsGQ4VU0OfEMPEjB0Ogm5iVGcEypWu3bA
-         QL2YyFWwZkeyC38fGDzBxD7ZrnPd46jI9fVfcC1evBmSYZy0foaf6PxL5SuvHC1jQ2rd
-         wOSl48jmSvxqYO/HsZaUbxI3uwejL0u2DMGbqE5XbJANUa7/9/6kAapMkQWofeOYPpCl
-         f81aHMBQWleCdaZ1519PSWpMxkaEvcxPqE/IazdC1hjdGIOJtBKmU02DVhasdy1/iaZr
-         bEVTCoV/pQHXlK/Bb+R4HXYL7nCInkZzsIki4cD5brPEusXG/pSTZaXhL9JmJGZjJ1TI
-         /uOw==
+        b=BtMwvZ7yWNu4fcm9CLmbFNtDqkUl7qSFuz8+spy4JKebJA5tUHAaQGD3XxtBvj2pf2
+         diTlQsL42gDzZPdCCI9gGHSWole762AQvFZ1X/7Id+HPDwoZb24nHPvYaMno5/mlBqZe
+         87RXYDfLN5vtj7xtcXwI/mnK3itBHo96/zfv+wMhWBByuwedFiQtYWEEes9zNn3KGLh8
+         jj9BnnfFaiTm6NWND54CjlaGZ0ZBIwfhR4cq/DrJZ8/EwogGfApmS2ZcL0Swo/3nVwb+
+         CHS5OouBSVOU44r7UqpdjVcTcKlYQHGtK5opXlAEO+q+tMPPSmUWIrQirytdffy7/slc
+         wMSQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-transfer-encoding
-         :in-reply-to:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:dkim-signature;
-        bh=WOkYf7yQz2qNfFvi/FL8TdrlZjpU+syf5T7bEKMwY/s=;
-        fh=9WSpMYwTxFN+zT5vo536xo+MGvXB41hpu0oqRE6Y1Eo=;
-        b=DEB7N2fH3SBu9xBC/EwH4uXbfOp/rTICpTQJr2qBPIdwAQhlecr9ohO+xpMR+vGmv5
-         dppG0Y76FlG9V2QqaJMtFJh90fr6U2ETHs0hSbSaAa3qBAidpeRxY0fIsLm1d7UHKFjq
-         PIuVK4XZDWvL5dqN/ySy19JIheE/LRRZZQvb+AANQTafWDAVD9pcctb/RMYlBO7dL/Oh
-         tqf+Z2DiT9xI2dF/MmZ3l12gyUzLjA35DmfuvmNzwdttvTehvFX8kLXUgAMa0AyRTrNT
-         o+48KtOX8BGCAwyi5fX8EeD6tmbOLoIa+FRwzgj/hOg+VuGkgII0sIEWPCYAunV4f+3Q
-         ntkQ==;
+         :in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:sender:dkim-signature
+         :dkim-signature;
+        bh=lGn6pWTlmDTzucdYmNgxhcdOGjKDWxZ6G+2xPniGZ0Q=;
+        fh=WQAnXOjizYNZizw799i9wtFOZMjboIlr9EDLdEEkdH4=;
+        b=SjsEgmtaBLbGbIXEcmgUc7kBHWrFdjhmcHBYHP2mfbNPc0xRecV++D/ZX9haO5SDny
+         lNgkKKjhyLhEYWDRAc53DAAC8o3F4p6o05HbleJdUMAKPRE9fz4+vpAVIVFou/1HRxVh
+         P+SHvQPrnTcWOFrVtiICBArXtmbCvE3FaN0FiP3hnAIot3BEO4Mt+38R2k306D8O3Qug
+         g13FwEpPUvdgn6YR9zNfH7Qg6+/bWTs60KNNpt2Xnz6oM5xnTDGo1G+66E3id70WfBNl
+         iuzLLrKwy5pVW2B6KPxGiWaTcAiBHpu1gUeJWiBh7i1tB6cO4ieZDCVwsl+eLj2Xj/ZU
+         7fdw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.alibaba.com header.s=default header.b=CGbaVs09;
-       spf=pass (google.com: domain of tianruidong@linux.alibaba.com designates 115.124.30.101 as permitted sender) smtp.mailfrom=tianruidong@linux.alibaba.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.alibaba.com
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=RQLxnbOX;
+       spf=pass (google.com: domain of ryabinin.a.a@gmail.com designates 2a00:1450:4864:20::333 as permitted sender) smtp.mailfrom=ryabinin.a.a@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1766562569; x=1767167369; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1766579179; x=1767183979; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:content-transfer-encoding:in-reply-to:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=WOkYf7yQz2qNfFvi/FL8TdrlZjpU+syf5T7bEKMwY/s=;
-        b=P/BBrRds2dbHPM8uQEQxKOtuN3ZwXIxfOvK3Pf/k3prQMTOE+WGE3/dNMs7KoBG2Me
-         wY0LKubtyLkLUTAYr8oyyvHw00J9MXlkNULFTONM6cQUs1qEwzvy16jOZPgE5EOb52i/
-         c4hKLda/BzHa+ebVgDaeksc5PlzuIcwqCWqLo54MkykBG5GczlaisRHZv0022H5IBy2k
-         OIB4MqTr6/xumcDgLUNba9FYP4xAfV86kpUbejDpqkuPopdy4Q5Df6mnCTCuJ98T2+x2
-         PPcU6XEisXL3ctucwg+UebuNXDmNxnt0cYt2dwATt+M/i0AvkSUOSt9v7f0WtsNvYRfV
-         tvkw==
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=lGn6pWTlmDTzucdYmNgxhcdOGjKDWxZ6G+2xPniGZ0Q=;
+        b=kAzlVDHGD8U9lUhwkpciz/P+jQJSWUNVveLPe5MyZlCbnWrof3QKP3tr3kF1H5eeZN
+         xl8wTpKFYebn4aZHITygHddi1OtRRt1P6al8odEd3/17Akkfwa/6acULnStIht3ye91A
+         01/9iWfg+ISsCwtni4c9rzIHkqnfXGPlqz9s7Nt4+Net4AN78Z9MsijqQD1WEyayHMKo
+         1OFWOqoypcUvWIZa1Edv0BPpUj9NVriCjQyC0dIFFyE59CPys6gZ0y83NHrwxwZ+bSXZ
+         1XvZcbNEFF3Efp6evlE1aX+FTPHTnPHgckhM4LQ5TtTR3SX7SJkHjRu5TPHRMJyZTiI8
+         no3A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766579179; x=1767183979; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=lGn6pWTlmDTzucdYmNgxhcdOGjKDWxZ6G+2xPniGZ0Q=;
+        b=OIuwdsf2tM8UGmL5TA2WdurhABObp0rEcyf2Z9MvCxCareLxmU9Ztm5jau2XdyA6zm
+         IvfQUUgI7z0i0YwelXCVDiktr/RKHoVPalCXcJDwnjdB0djnFkoJJCxVpsky6dq6h2cD
+         bl5X+Yb0FdkgsrAlYnpE7yFxmcqxutAS/rzExwP6q1jYkDqKPKJMmmg2S2nzZzx59ght
+         CIJu4+Iy/WJPYznIhbNCetFR1p0r9A6CdDQ8YmK8i4qjMcWCPgZKrXBWvIrUf6U7CjuC
+         WH7ZoMYkp6ygCKytWtOYQHV2xj4a0/JI56zBndWWubeLfvxBt9SaY4jzm9tmugnDNZW8
+         rjEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766562569; x=1767167369;
+        d=1e100.net; s=20230601; t=1766579179; x=1767183979;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WOkYf7yQz2qNfFvi/FL8TdrlZjpU+syf5T7bEKMwY/s=;
-        b=NUQNWdotPBH33IOeeu1mXhoz4JcVG8K1VbNANsMX9MwAgSfWph6+3D61gQUppxoIfm
-         TNOAI6ghweRmWOgNseCaMOvlXth1+FSO4fzLhMjMsSmqIp9QTWm7MwHwKkd7p5prRcoM
-         /TBxYhBBZoAAq4R9SWH7r1n4MPtcI2oGpdVrD52c88ihY1d8nRXJWanWXczAgr22gexv
-         UyujlNXjXK4IX2KC7bEMjchL8k59TmDfarfugRcuaKzTeS94Ne5HIko9bfPD9JAMMgVJ
-         eeUd3gbjMGR81meX0o5hU9ZZfsuGMx+LMUZMCpROzoJ1VANNkgPq0plUhl/n7/afnB+S
-         HHDg==
+         :content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-beenthere:x-gm-message-state:sender:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=lGn6pWTlmDTzucdYmNgxhcdOGjKDWxZ6G+2xPniGZ0Q=;
+        b=jWk9Cp/oYS3037Ws6qVbS4OeH1Z++hW8TufBtSj6UScamrs9sY7mta6yxmvjE4j1Vv
+         KbxcOX5MFeDbFF6oNQ3zcQQFvDIWK+jsiq71MHBdcbUjA8fJuLKmzHTnlNFQv15vKBlB
+         WasJpuLhGZ4pHydEK90MCKgTE/hgOanWhKJDd8KUXPZxXEhvN7eX4Fv8l4jhxBQXQc2o
+         OT1r9iB5JgLIFkJoZTV1RRbAJyOK96QeMmIgqLPNrWQiC6GDQxw2V2cglTCz/7DIcsG+
+         JCcDMUv380uFZDenKToyB4QOFmh5MaZHtDl59e+OCvlaC99nj5z4snkFDM6saQ4bQsWc
+         Kjuw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCU0508x8nCwB3vIaGEZVKeTNcNp5zoUEaQ6iFq7Xhoz492CxNNj+AcwfK3tMfohQLGWoZnF2Q==@lfdr.de
-X-Gm-Message-State: AOJu0Yxq5EfMSkvN5tDz8ul5Kyje65L7Hy1gmdmgiw6sg+g+InT3qOrz
-	tPS3TtyLA/WEcMfYBcjZIQOgzRBMkbrizi9gMftcl7b/Krihh3M8lHDO
-X-Google-Smtp-Source: AGHT+IHa5wUMvJXWdvyybZiRqu2HIsd0NuV9UDQefyxfHiRyrv4S8vPIaHB52df8FnFVL/VfhAsLOw==
-X-Received: by 2002:a05:6214:19c9:b0:88a:3255:716b with SMTP id 6a1803df08f44-88c5252e7d6mr324293596d6.24.1766562568961;
-        Tue, 23 Dec 2025 23:49:28 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWaNRth6rj86vJ9i/6oMfQMriyXUTNq/4C+Nejh9zZ8nqw=="
-Received: by 2002:a05:6214:a08:b0:880:21ca:d7b1 with SMTP id
- 6a1803df08f44-8887cd5b503ls98452426d6.2.-pod-prod-00-us-canary; Tue, 23 Dec
- 2025 23:49:28 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXYKE9CBws8sOABS5DjqA0XCfWDigVFP7Qv9Q/e5ju3rJXIAJxhE99LtBYVb+7KTXNlCI0BP+JALHs=@googlegroups.com
-X-Received: by 2002:a05:6122:d97:b0:54a:8deb:21a7 with SMTP id 71dfb90a1353d-5614f6a578amr7146196e0c.4.1766562568223;
-        Tue, 23 Dec 2025 23:49:28 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1766562568; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCVcnELwoY4oPOexylVYh4zw4MgQ2GJQi1HtxgtRN1fwr/k3VktAv1BJybJ6rqVb4NXsR4NkuQ==@lfdr.de
+X-Gm-Message-State: AOJu0YyE6BbMMYAJG8ygZZUuauz1XINw0J27FqIUvcFR+fVxlTopmegk
+	ZFfdmYfM9i0nOXrRtfGp8vd4A++djxJRfTv+fvTqAFkcOl9z6ka1lGRm
+X-Google-Smtp-Source: AGHT+IHN5jwaCmjVWgUXot9vTjCKkivXXn5b1LJ3dbjToeaVofB1XyiVKaoFm687XUCeOYQ6WukLHg==
+X-Received: by 2002:a05:6512:e93:b0:59a:1272:30d9 with SMTP id 2adb3069b0e04-59a17d667c6mr5266394e87.53.1766579179042;
+        Wed, 24 Dec 2025 04:26:19 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWZVVUXmkLnKThepz/BVAkNDhfAtknLDg9i5vX4Ppi2txw=="
+Received: by 2002:a05:6512:2389:b0:59a:10df:3574 with SMTP id
+ 2adb3069b0e04-59a10df362dls1799450e87.2.-pod-prod-02-eu; Wed, 24 Dec 2025
+ 04:26:16 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVSasdE7OHs3luqSQ3xWIiXeDqps3q8Z1OVq9SrEfMYB/AvfDsMUS70TDqGs3ke850NLYBJIWW+uqg=@googlegroups.com
+X-Received: by 2002:a05:651c:19aa:b0:37a:7a9c:5c14 with SMTP id 38308e7fff4ca-38121652283mr54384911fa.34.1766579176060;
+        Wed, 24 Dec 2025 04:26:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1766579176; cv=none;
         d=google.com; s=arc-20240605;
-        b=O5iK7O+IBFr6Jb3CWaGQn1bB967wNpYXxf/2/DAKqyGZ62sL+UfbR9SWXLNg5tz4iT
-         fWdyl329zUJw20ATefje3gRAwHVkqTOo8/iEaNwo4XfqkGetIp+oJ0OTnzTJh8V5QxR3
-         cwBRstjymza4hmGEPH0G9BlnFgaLjYPqkIviMbDqcIs07dAVi5AQ/aRltvoAqBugXekX
-         n5BJfAdOcPPJX9aeQ0Zzd3dKUCFG/ot6ruLtxnmu2KIzYJ2MOkI6+bTqtP3rrSlCYIA7
-         KJYgCOnOqhZWZjVBj+K3eHK6Mngx9bCSjUoMWKCrl3div/199iyuOb1HtEUXb/LOU1XQ
-         1hBw==
+        b=dglMoAm75CTdxeN+AoKAdnsEhiR9gaLmw2XKnccu9XU50EE6Vxrq7mxz14ku8O2XoN
+         xENkXyYRqziPB6nGV6Z/Zu+ICae1TxEjrjmo9s+CO+UqnlZrgRK7nJMfMxkZDlLJTUFz
+         JfL0tRXjGeqTGOvfFUeKP72/RfpWlI0oA014jeXGLYkq42S19GAqgjgaMuzViJ6tDEQB
+         eEmlSLAlIgrQzkzd14Xc/0IsXkU7zuqnOIr7CCvfXEHwMLb1XJDuATYe8tCc8xRQDuP+
+         YPVGmOnqd6r+QKYKJR2X5uyjHIotIYdvqewouhluASXjyfP/hMLc+LNJGgG1iPY6AyFm
+         qXdw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:dkim-signature;
-        bh=h0/Sg9vEcVPykAL4iwpmTNn0DtmSkFDaeo8PJsZs1/M=;
-        fh=/ISY5QufQnTfO4TkdL6fMd5umtr0f1Aq3646za2abyA=;
-        b=j1k1qKkSMmkTM8SkSlRExw8l32IDzoG73gSCiDnyACO51/2JEa/tvesmNsHkppW4mZ
-         gkfwnJ3hxI6IC3AyaMUDp3gT6hkaF7/66/rW8d8f9FW6C9ubhjXkQeoIGJOaX6SiyveI
-         I5zsuewQypqTHI3BR+lm45kCKVzGMqGrGhQW35uCJ42mLGXS5Vk3MQoyJQ3yaFer5U68
-         NcRRXZWkJZE+X/bjtNC8ro6wmUZdxpyeWgyg6GKd04LEiHH5Vh63ef/r7bz2qxZG9tnx
-         nsCodwVt2TPxXaEMBdPjirC4iDMnlrZXHvebCjCwmyhTNrIZJ3OSQcarulCqVfL1LzFa
-         A5Rg==;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :dkim-signature;
+        bh=kFaMyaLN7ofb8ca0IqdWrpz34r7dd+k0wM2WCDT3KaE=;
+        fh=QEI+kcUkGKVbx9raQkg8JuMdWnWDX+/wSpJ/tVdB01s=;
+        b=Ho9TX/MShsF+LqMCV5XXHcemYnsJKSfGh3dhpGvUKGia9bnbnOuoM2nby1AYL66ZkO
+         EMPzAsmSUiQ3lR0G2CJW8vgqYwWTIsOXoJHnpzpL8eaHXHF47i2Hb9HROsAnC3K8p/aU
+         WY31H2GJqNwinOPZ1Pjif3PyJxVSTttkD4BMyQ+OXU4cYk00qD34TARCJ75jNeqLj8KJ
+         NtGwCCShr0CM4LbA0Qm3M9fYzpli2n/mOQwoD4ElAZskorRauPjyFAQxCMWXBX45a0eV
+         kVHrGUgPrQwJUau34+AmUaWkC/TNRbZ0V8nViOHu5OCPkNYV3Vs/190MkmPRgEuSaOAU
+         Ttag==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.alibaba.com header.s=default header.b=CGbaVs09;
-       spf=pass (google.com: domain of tianruidong@linux.alibaba.com designates 115.124.30.101 as permitted sender) smtp.mailfrom=tianruidong@linux.alibaba.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.alibaba.com
-Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com. [115.124.30.101])
-        by gmr-mx.google.com with ESMTPS id 71dfb90a1353d-5615d225328si409055e0c.5.2025.12.23.23.49.27
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=RQLxnbOX;
+       spf=pass (google.com: domain of ryabinin.a.a@gmail.com designates 2a00:1450:4864:20::333 as permitted sender) smtp.mailfrom=ryabinin.a.a@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com. [2a00:1450:4864:20::333])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-3812235da7bsi1860881fa.0.2025.12.24.04.26.16
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Dec 2025 23:49:27 -0800 (PST)
-Received-SPF: pass (google.com: domain of tianruidong@linux.alibaba.com designates 115.124.30.101 as permitted sender) client-ip=115.124.30.101;
-Received: from 30.221.132.102(mailfrom:tianruidong@linux.alibaba.com fp:SMTPD_---0WvaN3qJ_1766562562 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 24 Dec 2025 15:49:23 +0800
-Message-ID: <db72933f-cda7-4196-8e54-73cbefbf1a26@linux.alibaba.com>
-Date: Wed, 24 Dec 2025 15:49:21 +0800
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Dec 2025 04:26:16 -0800 (PST)
+Received-SPF: pass (google.com: domain of ryabinin.a.a@gmail.com designates 2a00:1450:4864:20::333 as permitted sender) client-ip=2a00:1450:4864:20::333;
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-4779c9109ceso4678505e9.1
+        for <kasan-dev@googlegroups.com>; Wed, 24 Dec 2025 04:26:16 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWwpaNPqbsRdC1TUllY0IZo/bpuUmTz1SN7afWs/6tkuX4Wa4+3ShS5HB0ZmN+2WZPFTVRzjKLsoAc=@googlegroups.com
+X-Gm-Gg: AY/fxX6FjgoAAI6PmxxY0Y9qv0hzUuREbi9TnI8tBzoCuGH1ovltENvIhubTdeFvdw9
+	N0NdnwBTvEXLPAg6WL1MdLDgQkv6uxddp146oGE1COZxjU0DITdatrdDf719pVR5v05I34mDbPj
+	v6o85aZmu/niFB1AZ4TkKv2Qasmfk1GDftf4kJv//ltMZ434CfUYpE1dDn+BkyO5MmMoFbx5lkx
+	noQEK99JabwQzm85DU7UZvhxS7HMlGx5a2GZSfdd2vjnUpFAcKCiLwZRY7iBglTkSoMvLefaOug
+	E4qzRswSBz4nOOnpE6M6tWQRyOcjgvNclaVR7YVrGt5ETOIczTMF5K2OExa5H1Du94SkRNUKMc6
+	jy2OR7mLtLMMiHEmb/IyNmxveBVP3IZq/24l64uRw/liItm4CI1h0BLCw3gCHmPABgZq8MhyNrj
+	w0HUW+c/Yo53cPm2gP3g==
+X-Received: by 2002:a05:600c:348e:b0:477:5b01:7d42 with SMTP id 5b1f17b1804b1-47d19599f8cmr103586685e9.5.1766579175264;
+        Wed, 24 Dec 2025 04:26:15 -0800 (PST)
+Received: from [172.22.153.25] ([80.93.240.67])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be3a204e9sm132695265e9.2.2025.12.24.04.26.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Dec 2025 04:26:14 -0800 (PST)
+Message-ID: <edd6e350-5482-4551-aa94-e1ab8d2f9774@gmail.com>
+Date: Wed, 24 Dec 2025 13:25:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 2/5] arm64: add support for ARCH_HAS_COPY_MC
-To: Tong Tiangen <tongtiangen@huawei.com>, Mark Rutland
- <mark.rutland@arm.com>, Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, James Morse
- <james.morse@arm.com>, Robin Murphy <robin.murphy@arm.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
- "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- kasan-dev@googlegroups.com, wangkefeng.wang@huawei.com,
- Guohanjun <guohanjun@huawei.com>
-References: <20241209024257.3618492-1-tongtiangen@huawei.com>
- <20241209024257.3618492-3-tongtiangen@huawei.com>
-From: Ruidong Tian <tianruidong@linux.alibaba.com>
-In-Reply-To: <20241209024257.3618492-3-tongtiangen@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Subject: Re: [PATCH v4 00/12] mm/kasan: make kasan=on|off work for all three
+ modes
+To: Baoquan He <bhe@redhat.com>, Andrey Konovalov <andreyknvl@gmail.com>
+Cc: linux-mm@kvack.org, glider@google.com, dvyukov@google.com,
+ vincenzo.frascino@arm.com, akpm@linux-foundation.org,
+ kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+ kexec@lists.infradead.org, elver@google.com, sj@kernel.org,
+ lorenzo.stoakes@oracle.com, snovitoll@gmail.com, christophe.leroy@csgroup.eu
+References: <20251128033320.1349620-1-bhe@redhat.com>
+ <CA+fCnZcVV5=AJUNfy6G2T-UZCbAL=7NivmWkBr6LMSnzzTZ8Kg@mail.gmail.com>
+ <aUtd6es8UC0lNf/9@MiWiFi-R3L-srv>
+Content-Language: en-US
+From: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+In-Reply-To: <aUtd6es8UC0lNf/9@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: tianruidong@linux.alibaba.com
+X-Original-Sender: Ryabinin.A.A@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.alibaba.com header.s=default header.b=CGbaVs09;
-       spf=pass (google.com: domain of tianruidong@linux.alibaba.com
- designates 115.124.30.101 as permitted sender) smtp.mailfrom=tianruidong@linux.alibaba.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.alibaba.com
+ header.i=@gmail.com header.s=20230601 header.b=RQLxnbOX;       spf=pass
+ (google.com: domain of ryabinin.a.a@gmail.com designates 2a00:1450:4864:20::333
+ as permitted sender) smtp.mailfrom=ryabinin.a.a@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -160,284 +178,51 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Tong:
 
-I applied this path on 6.18 and tested on Kunpeng920, system still alive=20
-when i inject a error in copy from user context, but I found that user=20
-application receive a SIGBUS, this action is different with x86 machine=20
-which return -EFAULT rather than send SIGBUS.
 
-I added a patch to fix this behavior[0]. Feel free to incorporate it=20
-into your series, or I can send it as a formal follow-up patch,=20
-whichever you prefer.
-
-[0]: https://github.com/winterddd/linux/tree/arm-copyin
-
-Best regards,
-Ruidong
-
-=E5=9C=A8 2024/12/9 10:42, Tong Tiangen =E5=86=99=E9=81=93:
-> For the arm64 kernel, when it processes hardware memory errors for
-> synchronize notifications(do_sea()), if the errors is consumed within the
-> kernel, the current processing is panic. However, it is not optimal.
+On 12/24/25 4:28 AM, Baoquan He wrote:
+> Hi Andrey,
 >=20
-> Take copy_from/to_user for example, If ld* triggers a memory error, even =
-in
-> kernel mode, only the associated process is affected. Killing the user
-> process and isolating the corrupt page is a better choice.
+> On 12/04/25 at 05:38pm, Andrey Konovalov wrote:
+>> On Fri, Nov 28, 2025 at 4:33=E2=80=AFAM Baoquan He <bhe@redhat.com> wrot=
+e:
+>>>
+> ...snip...
+>>> Testing:
+>>> =3D=3D=3D=3D=3D=3D=3D=3D
+>>> - Testing on x86_64 and arm64 for generic mode passed when kasan=3Don o=
+r
+>>>   kasan=3Doff.
+>>>
+>>> - Testing on arm64 with sw_tags mode passed when kasan=3Doff is set. Bu=
+t
+>>>   when I tried to test sw_tags on arm64, the system bootup failed. It's
+>>>   not introduced by my patchset, the original code has the bug. I have
+>>>   reported it to upstream.
+>>>   - System is broken in KASAN sw_tags mode during bootup
+>>>     - https://lore.kernel.org/all/aSXKqJTkZPNskFop@MiWiFi-R3L-srv/T/#u
+>>
+>> This will hopefully be fixed soon, so you'll be able to test.
 >=20
-> Add new fixup type EX_TYPE_KACCESS_ERR_ZERO_MEM_ERR to identify insn
-> that can recover from memory errors triggered by access to kernel memory,
-> and this fixup type is used in __arch_copy_to_user(), This make the regul=
-ar
-> copy_to_user() will handle kernel memory errors.
+> Do you have the patch link of the fix on sw_tags breakage?
+
+I think this one  should fix it - https://lkml.kernel.org/r/cover.176597896=
+9.git.m.wieczorretman@pm.me
+
 >=20
-> Signed-off-by: Tong Tiangen <tongtiangen@huawei.com>
-> ---
->   arch/arm64/Kconfig                   |  1 +
->   arch/arm64/include/asm/asm-extable.h | 31 +++++++++++++++++++++++-----
->   arch/arm64/include/asm/asm-uaccess.h |  4 ++++
->   arch/arm64/include/asm/extable.h     |  1 +
->   arch/arm64/lib/copy_to_user.S        | 10 ++++-----
->   arch/arm64/mm/extable.c              | 19 +++++++++++++++++
->   arch/arm64/mm/fault.c                | 30 ++++++++++++++++++++-------
->   7 files changed, 78 insertions(+), 18 deletions(-)
+> I am organizing patches and testing them for reposting, but still see
+> the sw_tags breakage during boot on arm64 system. If you have the
+> pointer about the fix, I can grab the possible unmature code change to
+> make sw_tags mode work to finish my testing.
 >=20
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 100570a048c5..5fa54d31162c 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -21,6 +21,7 @@ config ARM64
->   	select ARCH_ENABLE_THP_MIGRATION if TRANSPARENT_HUGEPAGE
->   	select ARCH_HAS_CACHE_LINE_SIZE
->   	select ARCH_HAS_CC_PLATFORM
-> +	select ARCH_HAS_COPY_MC if ACPI_APEI_GHES
->   	select ARCH_HAS_CURRENT_STACK_POINTER
->   	select ARCH_HAS_DEBUG_VIRTUAL
->   	select ARCH_HAS_DEBUG_VM_PGTABLE
-> diff --git a/arch/arm64/include/asm/asm-extable.h b/arch/arm64/include/as=
-m/asm-extable.h
-> index b8a5861dc7b7..0f9123efca0a 100644
-> --- a/arch/arm64/include/asm/asm-extable.h
-> +++ b/arch/arm64/include/asm/asm-extable.h
-> @@ -5,11 +5,13 @@
->   #include <linux/bits.h>
->   #include <asm/gpr-num.h>
->  =20
-> -#define EX_TYPE_NONE			0
-> -#define EX_TYPE_BPF			1
-> -#define EX_TYPE_UACCESS_ERR_ZERO	2
-> -#define EX_TYPE_KACCESS_ERR_ZERO	3
-> -#define EX_TYPE_LOAD_UNALIGNED_ZEROPAD	4
-> +#define EX_TYPE_NONE				0
-> +#define EX_TYPE_BPF				1
-> +#define EX_TYPE_UACCESS_ERR_ZERO		2
-> +#define EX_TYPE_KACCESS_ERR_ZERO		3
-> +#define EX_TYPE_LOAD_UNALIGNED_ZEROPAD		4
-> +/* kernel access memory error safe */
-> +#define EX_TYPE_KACCESS_ERR_ZERO_MEM_ERR	5
->  =20
->   /* Data fields for EX_TYPE_UACCESS_ERR_ZERO */
->   #define EX_DATA_REG_ERR_SHIFT	0
-> @@ -51,6 +53,17 @@
->   #define _ASM_EXTABLE_UACCESS(insn, fixup)				\
->   	_ASM_EXTABLE_UACCESS_ERR_ZERO(insn, fixup, wzr, wzr)
->  =20
-> +#define _ASM_EXTABLE_KACCESS_ERR_ZERO_MEM_ERR(insn, fixup, err, zero)	\
-> +	__ASM_EXTABLE_RAW(insn, fixup, 					\
-> +			  EX_TYPE_KACCESS_ERR_ZERO_MEM_ERR,		\
-> +			  (						\
-> +			    EX_DATA_REG(ERR, err) |			\
-> +			    EX_DATA_REG(ZERO, zero)			\
-> +			  ))
-> +
-> +#define _ASM_EXTABLE_KACCESS_MEM_ERR(insn, fixup)			\
-> +	_ASM_EXTABLE_KACCESS_ERR_ZERO_MEM_ERR(insn, fixup, wzr, wzr)
-> +
->   /*
->    * Create an exception table entry for uaccess `insn`, which will branc=
-h to `fixup`
->    * when an unhandled fault is taken.
-> @@ -69,6 +82,14 @@
->   	.endif
->   	.endm
->  =20
-> +/*
-> + * Create an exception table entry for kaccess `insn`, which will branch=
- to
-> + * `fixup` when an unhandled fault is taken.
-> + */
-> +	.macro          _asm_extable_kaccess_mem_err, insn, fixup
-> +	_ASM_EXTABLE_KACCESS_MEM_ERR(\insn, \fixup)
-> +	.endm
-> +
->   #else /* __ASSEMBLY__ */
->  =20
->   #include <linux/stringify.h>
-> diff --git a/arch/arm64/include/asm/asm-uaccess.h b/arch/arm64/include/as=
-m/asm-uaccess.h
-> index 5b6efe8abeeb..19aa0180f645 100644
-> --- a/arch/arm64/include/asm/asm-uaccess.h
-> +++ b/arch/arm64/include/asm/asm-uaccess.h
-> @@ -57,6 +57,10 @@ alternative_else_nop_endif
->   	.endm
->   #endif
->  =20
-> +#define KERNEL_MEM_ERR(l, x...)			\
-> +9999:	x;					\
-> +	_asm_extable_kaccess_mem_err	9999b, l
-> +
->   #define USER(l, x...)				\
->   9999:	x;					\
->   	_asm_extable_uaccess	9999b, l
-> diff --git a/arch/arm64/include/asm/extable.h b/arch/arm64/include/asm/ex=
-table.h
-> index 72b0e71cc3de..bc49443bc502 100644
-> --- a/arch/arm64/include/asm/extable.h
-> +++ b/arch/arm64/include/asm/extable.h
-> @@ -46,4 +46,5 @@ bool ex_handler_bpf(const struct exception_table_entry =
-*ex,
->   #endif /* !CONFIG_BPF_JIT */
->  =20
->   bool fixup_exception(struct pt_regs *regs);
-> +bool fixup_exception_me(struct pt_regs *regs);
->   #endif
-> diff --git a/arch/arm64/lib/copy_to_user.S b/arch/arm64/lib/copy_to_user.=
-S
-> index 802231772608..bedab1678431 100644
-> --- a/arch/arm64/lib/copy_to_user.S
-> +++ b/arch/arm64/lib/copy_to_user.S
-> @@ -20,7 +20,7 @@
->    *	x0 - bytes not copied
->    */
->   	.macro ldrb1 reg, ptr, val
-> -	ldrb  \reg, [\ptr], \val
-> +	KERNEL_MEM_ERR(9998f, ldrb  \reg, [\ptr], \val)
->   	.endm
->  =20
->   	.macro strb1 reg, ptr, val
-> @@ -28,7 +28,7 @@
->   	.endm
->  =20
->   	.macro ldrh1 reg, ptr, val
-> -	ldrh  \reg, [\ptr], \val
-> +	KERNEL_MEM_ERR(9998f, ldrh  \reg, [\ptr], \val)
->   	.endm
->  =20
->   	.macro strh1 reg, ptr, val
-> @@ -36,7 +36,7 @@
->   	.endm
->  =20
->   	.macro ldr1 reg, ptr, val
-> -	ldr \reg, [\ptr], \val
-> +	KERNEL_MEM_ERR(9998f, ldr \reg, [\ptr], \val)
->   	.endm
->  =20
->   	.macro str1 reg, ptr, val
-> @@ -44,7 +44,7 @@
->   	.endm
->  =20
->   	.macro ldp1 reg1, reg2, ptr, val
-> -	ldp \reg1, \reg2, [\ptr], \val
-> +	KERNEL_MEM_ERR(9998f, ldp \reg1, \reg2, [\ptr], \val)
->   	.endm
->  =20
->   	.macro stp1 reg1, reg2, ptr, val
-> @@ -64,7 +64,7 @@ SYM_FUNC_START(__arch_copy_to_user)
->   9997:	cmp	dst, dstin
->   	b.ne	9998f
->   	// Before being absolutely sure we couldn't copy anything, try harder
-> -	ldrb	tmp1w, [srcin]
-> +KERNEL_MEM_ERR(9998f, ldrb	tmp1w, [srcin])
->   USER(9998f, sttrb tmp1w, [dst])
->   	add	dst, dst, #1
->   9998:	sub	x0, end, dst			// bytes not copied
-> diff --git a/arch/arm64/mm/extable.c b/arch/arm64/mm/extable.c
-> index 228d681a8715..9ad2b6473b60 100644
-> --- a/arch/arm64/mm/extable.c
-> +++ b/arch/arm64/mm/extable.c
-> @@ -72,7 +72,26 @@ bool fixup_exception(struct pt_regs *regs)
->   		return ex_handler_uaccess_err_zero(ex, regs);
->   	case EX_TYPE_LOAD_UNALIGNED_ZEROPAD:
->   		return ex_handler_load_unaligned_zeropad(ex, regs);
-> +	case EX_TYPE_KACCESS_ERR_ZERO_MEM_ERR:
-> +		return false;
->   	}
->  =20
->   	BUG();
->   }
-> +
-> +bool fixup_exception_me(struct pt_regs *regs)
-> +{
-> +	const struct exception_table_entry *ex;
-> +
-> +	ex =3D search_exception_tables(instruction_pointer(regs));
-> +	if (!ex)
-> +		return false;
-> +
-> +	switch (ex->type) {
-> +	case EX_TYPE_UACCESS_ERR_ZERO:
-> +	case EX_TYPE_KACCESS_ERR_ZERO_MEM_ERR:
-> +		return ex_handler_uaccess_err_zero(ex, regs);
-> +	}
-> +
-> +	return false;
-> +}
-> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-> index ef63651099a9..278e67357f49 100644
-> --- a/arch/arm64/mm/fault.c
-> +++ b/arch/arm64/mm/fault.c
-> @@ -801,21 +801,35 @@ static int do_bad(unsigned long far, unsigned long =
-esr, struct pt_regs *regs)
->   	return 1; /* "fault" */
->   }
->  =20
-> +/*
-> + * APEI claimed this as a firmware-first notification.
-> + * Some processing deferred to task_work before ret_to_user().
-> + */
-> +static int do_apei_claim_sea(struct pt_regs *regs)
-> +{
-> +	int ret;
-> +
-> +	ret =3D apei_claim_sea(regs);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!user_mode(regs) && IS_ENABLED(CONFIG_ARCH_HAS_COPY_MC)) {
-> +		if (!fixup_exception_me(regs))
-> +			return -ENOENT;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->   static int do_sea(unsigned long far, unsigned long esr, struct pt_regs =
-*regs)
->   {
->   	const struct fault_info *inf;
->   	unsigned long siaddr;
->  =20
-> -	inf =3D esr_to_fault_info(esr);
-> -
-> -	if (user_mode(regs) && apei_claim_sea(regs) =3D=3D 0) {
-> -		/*
-> -		 * APEI claimed this as a firmware-first notification.
-> -		 * Some processing deferred to task_work before ret_to_user().
-> -		 */
-> +	if (do_apei_claim_sea(regs) =3D=3D 0)
->   		return 0;
-> -	}
->  =20
-> +	inf =3D esr_to_fault_info(esr);
->   	if (esr & ESR_ELx_FnV) {
->   		siaddr =3D 0;
->   	} else {
+> Thanks
+> Baoquan
+>=20
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/d=
-b72933f-cda7-4196-8e54-73cbefbf1a26%40linux.alibaba.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/e=
+dd6e350-5482-4551-aa94-e1ab8d2f9774%40gmail.com.
