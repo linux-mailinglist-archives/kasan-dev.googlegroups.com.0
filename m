@@ -1,162 +1,151 @@
-Return-Path: <kasan-dev+bncBDIYVEU5R4JBBHXNZXFAMGQERKFWKNQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBV54Z3FAMGQE5UG7TWQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73d.google.com (mail-qk1-x73d.google.com [IPv6:2607:f8b0:4864:20::73d])
-	by mail.lfdr.de (Postfix) with ESMTPS id C02A8CE8D3D
-	for <lists+kasan-dev@lfdr.de>; Tue, 30 Dec 2025 07:52:15 +0100 (CET)
-Received: by mail-qk1-x73d.google.com with SMTP id af79cd13be357-8bc4493d315sf2351068485a.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 29 Dec 2025 22:52:15 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1767077534; cv=pass;
+Received: from mail-pj1-x103d.google.com (mail-pj1-x103d.google.com [IPv6:2607:f8b0:4864:20::103d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 921C5CE93DC
+	for <lists+kasan-dev@lfdr.de>; Tue, 30 Dec 2025 10:41:45 +0100 (CET)
+Received: by mail-pj1-x103d.google.com with SMTP id 98e67ed59e1d1-34ac814f308sf22419968a91.3
+        for <lists+kasan-dev@lfdr.de>; Tue, 30 Dec 2025 01:41:45 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1767087704; cv=pass;
         d=google.com; s=arc-20240605;
-        b=H0QW7LsqG6x/uc7nOyt5KH1DtQJ9kGnGHxBLNALTPMRqLBxRaAhpr5aNqMlBKe4MAy
-         zT+NEisjdvjM4q/mg9mS/6h4EuOpJulDB3sxMCPz/hPa+djyoTcRapl5Y5AcqFXrC7Dl
-         1Vm053+je7KbiUoT91HKyYf+K0XRkSym3ApKSoZ+zFllMXZQrmf+3HVgXsqlFMPHhT7O
-         Ni/wrafV5i3oYVeqdxwUP5NhLowgkEF9IoyS4SRP9VG5AyhBXI0YeL0ma2EqqHNPQvTW
-         NEgSioKE1+Z46K6tNplLBFxrwfaiSlxoVro/3v+kEu7Xyw7RgaRTTPct6Lx65dhjfxUf
-         ZVwQ==
+        b=CIwMEFMlsKCLwmyP+Dhajb4URDljqZXTTnyE2f1W66TIIkKaWa+FmNGpgQM2lnYo5T
+         s5bAcKyeNzw3tZFMW3qgAWV97xXKAo4tW6bBzG+CpXMS0HEjpzl0d4tLGh0IlYouGK/i
+         n/4kQHyxJY9hCLiItn6uQW16gyBfolm5K9r1es4aA0v5y63iYNlsn3tL6Ykfiik1Xnh7
+         7xOsJoChAI+nAbQSoJm2Wb+e3BCEip7DJnhzbzDsCdjwQcxeSXwiijzM3Vpr4iInGHgd
+         PXC31Z4iPc0eyXGyqCaMdb+tv/vqO9D4wLRxPuUCK3oT1fpjxkPJ+BPSP5oeqwwRUT+Z
+         WTkQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:user-agent:references
-         :in-reply-to:date:cc:to:from:subject:message-id:sender
-         :dkim-signature:dkim-signature;
-        bh=VBnZJZDGhdRNGBjMDRL9eG9GcLcP9jl+sUTup0CuxvU=;
-        fh=NlcJpG5FhdaMiQfcwmASQUWMz5BSF9gqhLkiAiIYkRo=;
-        b=NQJYEyVWmCVg/ajbraDaFommzGS/0dD/S/WSTetKlZaH295pzQkWfNCVqycoUtmUey
-         xvl54XxZ4NLmgwuD6X3G3s/M7kEqs78qrbDQcM91hMQw1+6RxI3Td3xmakKmv91BnTz/
-         TcWnoRto18mT02mK98fc7UjokibOvH4nBiWgCH3ua0jur/JGo0M9Hjewno6fQoHgUocz
-         5rgPMk/UMI+B8Iv3TLsY4yxA5rLqIAe25xc/k4Br89lWu4ZFrzP5u0wuEkx9F0cV57g9
-         1z6yEGYrGVLXB+8H9mY2djjlGQM6ebL3BgbCURCaOoBzsx572H5lt1OIawYeElkxqFdb
-         O6Tw==;
+         :list-id:mailing-list:precedence:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=ZpnAvQOx9of0gcSDimgyTIX4eF5Be0Ae5uoAr7HlVHw=;
+        fh=QCSAa8H3UkIQVUe+zpmxTr+ctDQappaYn+iMQMgJbxc=;
+        b=klNApzzPiWaYW60so/mKHMt/vkN0ep85KBNIkSZRnmPhqBNHU//yeAl51NeuOpmuzx
+         rAeCxkAApVdzMNZG/SldZPnE4lI65a8sTN6dvEvJMu5TeZMF4LRJeJl+MXABGGUxmfG4
+         4wXMoD+aVt4Fwq9LqyFpZZ4E3Xo3SpIbS8XdaOkx1bwnfDtnwErHooBmm/ZyadCYKWGp
+         c5dT5tCl7YNs4liVqcxOZKg0SHtyPMSTyqrXLjy4GGlTTaiWQQ6QbTQkjlJKuO2UzRGe
+         kLzRhoPFljytOgF7LRFwrs9pJmBI0c/XftpAytdyqLQJ62OJyiuVl71vG4YWxufByGmC
+         X9FA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=JmO9eH9o;
-       spf=pass (google.com: domain of eddyz87@gmail.com designates 2607:f8b0:4864:20::62d as permitted sender) smtp.mailfrom=eddyz87@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+       spf=pass (google.com: domain of xukuohai@huaweicloud.com designates 45.249.212.56 as permitted sender) smtp.mailfrom=xukuohai@huaweicloud.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1767077534; x=1767682334; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1767087704; x=1767692504; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:user-agent:references:in-reply-to
-         :date:cc:to:from:subject:message-id:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VBnZJZDGhdRNGBjMDRL9eG9GcLcP9jl+sUTup0CuxvU=;
-        b=fpOl60WNdt2/AxMFdPa4aCXU/FGo28dAvuVEOxmyPGJedhOwHZUoFafXjb6dIZsKoB
-         5rFFeVWATKoiLcHDCIPecRt/7BHJQ4cBmR+zTNtfGDSbvoARLi4jpmVc5WHcQnWlXzTM
-         txvoLJonV4Pmu9iKv+D1Fhh41zbpCo9JQz5pncwtws1F2svznNnfVhgzn3yc35b+rbp5
-         PykteRJ9C5nN7QODGI7TlmkeV4pmZWsh8GIPOwBeQCpH0ZRH+ODj/lluMvvCK3+Z26ED
-         9MBzTk1bxmqAlUXnuZR29FSmIw/wdNxMAZ/QAgNx4qyaDQXHrzamMooUrDMQkJeEMhpK
-         IUvg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767077534; x=1767682334; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:user-agent:references:in-reply-to
-         :date:cc:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VBnZJZDGhdRNGBjMDRL9eG9GcLcP9jl+sUTup0CuxvU=;
-        b=XVIOzf7lf2fyCKOFxhkZ5hPlJUQIfQoBtKRf4DsO5SvGSwPLW+BX5/3vuZb7Cfan5y
-         XxEOprDDIdH3mAWhO6b/6diLA4O20VNfxkhZIi12clWH34p00v65a+qyacvxb1DT+mbJ
-         flbG7EikpfgTiSEWL/1yk9gujhGabRZI+fRuJTRgK+161kDOqGYkyffphrnblMaCnY0I
-         cMZSOKqef8agobwNhh+XiQaDqIo/UKOCxMeA0VDo8fIYfdGj2XpQp26/Z3MJsH25oF0K
-         h4XdERKsFAQwh+1wjmJkNvxMEK0JTsfZ2gSJYOjPq8oGRfxQkaGLTO3LoMpcMNfXMX5e
-         L2Ww==
+         :x-original-sender:in-reply-to:from:content-language:references:cc
+         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ZpnAvQOx9of0gcSDimgyTIX4eF5Be0Ae5uoAr7HlVHw=;
+        b=JUqH2KJ/iNkV7sSrd5aMex4jYOQYdr6ZweFaqHiFQZVk6jmfevqho7NyDT+rUHLoiS
+         Hdjuc2DAiRJugtvQr6sESkE+sNkf7CUQ8wX+bYVqMwjlDi5oWm4yGmyEi+WjiqCpIUAA
+         TDiN0WdUsIsTx8v4Jx3LvM+43xsKtJs2beBpcR9NgwCy14MuXUOzitUSzmTCgtazb131
+         sUF5nja6polswqFnMZqSIrma77yElbkosn94PQtHH6/bEt0IPbGKjl1A1e/xwuSAzi++
+         GG7Ve7nqO+Dj0WbqeNaPbftZowka5vpBFr7+xcqCwh7L0tJbBEZD6hfJoVxVHzHL+tf8
+         Xc4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767077534; x=1767682334;
+        d=1e100.net; s=20230601; t=1767087704; x=1767692504;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :user-agent:references:in-reply-to:date:cc:to:from:subject
-         :message-id:x-gm-gg:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VBnZJZDGhdRNGBjMDRL9eG9GcLcP9jl+sUTup0CuxvU=;
-        b=btzhhLnb+5E37xt5dQYWG18wEkIXIfSsHhtcdlowfQt44salvUfz+UlB6p2M9U5+Q+
-         rE9EhrhTIRvPmO5bov5koUlrIFQzmAEPncd8aCfin+JMJg7pk0s1ydyWZag7E+7f3d4n
-         i9dWV9yKocak9dQfKFkvVsVvYjPWfDmcIdmgTgQu0VW5aQkrGL2U76EaZfzABXNDubpv
-         YyPCb83D2E9CeqnHLw0gI1LyN4HNSC5AHVKO91jzkipco+hu7T04e/gBmltr+IktfmCe
-         QbKq0lfZo+Cj1eFCzcq7rqcPXFRcc/jfsRx8tChyGwZxaGN0eCZ9ttSwIqs/m6WhnVIo
-         YTpg==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:content-language:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZpnAvQOx9of0gcSDimgyTIX4eF5Be0Ae5uoAr7HlVHw=;
+        b=nsmBm8ZDw+aJXr5DCeiFKSnfSsav7txzV+YW3ZpeHCXqofWSpbSvEFr5mcCuCd56sj
+         W2scELDR5TJJGm5ldaOhFIDil257dAowZAwkQjGzJIxntwACcRjLzjSULYYO8ShfVr+7
+         art/lshSlACW0qQFveMW8aq0U6mNqLu0XNQju9DH0HBfoTyrUkQriGzYLKB1yR4LWUHB
+         XCOhD74+n/U4Hf6In3G+/3PJrXy2gUFk0bY5qQicjVHIt8Lg+NdQw4Dr0EbIkY7bvpUk
+         Yj5LAOO6675Em+R3EoDygvyJsLLNKtsIZoP6X9A5HeLmYEsUdaPdwtNfuXUsJjhndDJU
+         ofxA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWaKg/GYiTZ5CC+9m/s4EJAh8VuqxoNIf18pkaomHrJCJmMyKOX+zMGZdPcYN/5AaogN8mYeA==@lfdr.de
-X-Gm-Message-State: AOJu0YzxgFFtKd2zLOTSieOrOh2EusgTlbYHjNHdvmFeIhMw3u6w6lgu
-	GGbfJUPep02WK0Nh3xduquE7U6ojkGYd63HObNpabKofn5YQNRp+2Me8
-X-Google-Smtp-Source: AGHT+IHBiMtjPg1AlYHdxnEABNatADHbRLjxhDOXxsK1wVZ2SL8596U30rUF4mKfEkvevB3FZjDM0Q==
-X-Received: by 2002:a05:620a:2910:b0:8b2:f26e:3226 with SMTP id af79cd13be357-8c08f6580ccmr5147708385a.2.1767077534187;
-        Mon, 29 Dec 2025 22:52:14 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWZOUORIKsxP80T+uY2MRn3ifv7tiJNc+/s6wi6mZRfoNg=="
-Received: by 2002:a05:6214:33c3:b0:88f:ca81:d5ee with SMTP id
- 6a1803df08f44-88fca81d95fls129987196d6.2.-pod-prod-05-us; Mon, 29 Dec 2025
- 22:52:13 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXjGkR9XdOUXDssrkAz9VIc+PyDI4tRTmy2I71jbYj+FgvdSxzf1uJKnEmNUFfSpsRCl75In3i+4iI=@googlegroups.com
-X-Received: by 2002:ad4:5ce8:0:b0:890:1b3:e3f3 with SMTP id 6a1803df08f44-89001b3e5fdmr190565336d6.51.1767077533252;
-        Mon, 29 Dec 2025 22:52:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1767077533; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCWmjjHnqYHAB6ry6b+pRLhwf7uZROqbJPck/V6asO1gMJNbhS2AlNG2ncNzfVoIind8bHVDFw==@lfdr.de
+X-Gm-Message-State: AOJu0YxjbdDvMiB6QHIbNaqHCCmj6cB7ADrkVQOxiYKZbpWTMlOgI1xc
+	3LLe/jKguC54g5dq0jNbxuvNJ6RYxMKnphOdDZdudYesGLp+tZ0PVs+w
+X-Google-Smtp-Source: AGHT+IF6Bpl6i+fTdgyI3SZof7mHAjuccXhTylg9QTjo0eOBj33A+NFxPjjsB2oSRy0ct7rrT8I0QA==
+X-Received: by 2002:a17:90b:3015:b0:34a:b4a2:f0c8 with SMTP id 98e67ed59e1d1-34e921ccb4cmr20574285a91.30.1767087703612;
+        Tue, 30 Dec 2025 01:41:43 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWYOcSbTgGTnaEuP0nV0m0BC+tMs4P2gijDSlXTMJ7YCOg=="
+Received: by 2002:a05:6a00:1988:b0:7a4:b41c:6e3f with SMTP id
+ d2e1a72fcca58-80b97ececeals2030264b3a.0.-pod-prod-08-us; Tue, 30 Dec 2025
+ 01:41:42 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXxnolD4gET+uFCG7sZ0yKfPpTnuSHI6GFRN9rQFOtaesWaVhMleBYhCSAcgqiB4ouWlAKXbtRYQg8=@googlegroups.com
+X-Received: by 2002:a05:6a00:8014:b0:7aa:e5f2:617d with SMTP id d2e1a72fcca58-7ff651c3519mr31597643b3a.30.1767087702285;
+        Tue, 30 Dec 2025 01:41:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1767087702; cv=none;
         d=google.com; s=arc-20240605;
-        b=JIPFp/Sj+C3Saf2snMEFTz1TlT1LdRbBScnwMIDg2Ls5KZp8OwBh+1l5gR+6i8utDP
-         vgC9Dx6/4I6PHGA+IA8NX/0JW/yle8jRAOGQ1HvYcCXYXRk6rWixvpebiXcu4ZwOubHk
-         ZlXIY6bEyTL122bKjjN3qAGWV2AqVmsco3aPRpjcIqjV/32LuzEpq6l6BpZlQCyHShUP
-         NpAR8/OImx+RWBPK+xexKteXatBt6BQ1qWmm2URDRWm9ZsH5rs+CJM3UmQu3SZbM5ITL
-         YNyNxz6yPP5WDbVnzAh+NLfOBmm9ftjxllpl9jxiQDA6ayYlhwOmA9Ywx39bU71+1ggi
-         Mpeg==
+        b=g67f6wGCtDNxvpt0eRMQ9zFXvD4+4MOkdXkP1m3lYeH0OfGTGjaEvVXv3tXu7dwBeq
+         LORzHjhcA+7PHBA7XNPeSIUqAJWCwZNmh7x9GUq8TV9BUFID17CrQCd69m9/N27+w8Oy
+         NvACVvuMqqMfTbwxjlYdHPUejfJ8YlTkdlqHGhYQ3YfyC+ab6E1d904tYKRzlc6B5DXb
+         YOfPF8rbcno9FnvQC5uhRVv4eWiHX4s4bMpG2i08+P/tTvmqjOb+gXrl5tooTBI14ShJ
+         7cYHsLgNFfMcRIDkFqhgHx9u1+g/baLZ06lGUtlp+38qxA6I/ryJoYg6ky6tGL+q7s0C
+         04gQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:dkim-signature;
-        bh=6U9rLwZNIYS9DVA5ViRqLHmiyAVD8oKnKmSgx7+9CoU=;
-        fh=0nm2cq1/q5wqqq6tA2DvE1Ei9//TSEErLckiLxKr8AU=;
-        b=GzzS7Tuwzrc6mUXTESQkGQDKifreelQ1yuZ39wPyCaKWCdl1SigMovboR4KibGdUn9
-         Jc3cOxakjMovYfhao7hrjO2NthIAgPmE+6992cs6znyUNLYMALCE2keWF+9J9pqzsMPZ
-         YRrhhjmMBe0ftATk0CBJj3LkgVaxgXJDHaAtkO/a/2ZlguN6GLhsMYe+6eIp2YW3yA5E
-         IiYSuMEzZi1cf4R9Czh7to81/ZGLizk1uMKP3flRs8ChKRsjQx9nlLLikRL4YQqFyq2T
-         woRpM3dpv15VyMeHP/olviZ8I1mZwYk/Bc8fA+Vs2cy5deL4VJvxRmM2mIxFzHHRVXPK
-         DaWg==;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id;
+        bh=B0r+O9YiNdWgUscH2a/GSABYlfKEPre75pSvsVvBMRw=;
+        fh=gMFyD/zSKxfyivq0+sNdcixS30XUULxcgd1+86gO0Ic=;
+        b=REffTBn2xHN9j1hJOK9oiH1M4GcQAlxFtuKD5rjRXqiOh+Sm+dvxea5feuRYvYWikR
+         AiMFUSqAxeorEZlk/tQ2UZ3aUrPvTCYOVfT16Oi92SH7HnX9kKbxT7/elygvHVSbPFWw
+         zDUrj+rrh1mBLX5GPHZ8SOdAhh6rAQrZwt8Rl52Sa7v72bSOGpdIVljZj46hScMeNU4V
+         6zeAbruEb8qiqJKvZmjsd8SqAB4DyC0z5tBbUbVqzeLqQJA0uBMrRxHaeIHrY8J3PdT4
+         y1AcuLh3YaV6ptTBxVZyMhIvUUe8FOUIl6xtYn5gU4J8etTeqBqW86Nei3UZkiaFDseH
+         IkPw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=JmO9eH9o;
-       spf=pass (google.com: domain of eddyz87@gmail.com designates 2607:f8b0:4864:20::62d as permitted sender) smtp.mailfrom=eddyz87@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com. [2607:f8b0:4864:20::62d])
-        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-88d971b69a2si14893166d6.6.2025.12.29.22.52.13
+       spf=pass (google.com: domain of xukuohai@huaweicloud.com designates 45.249.212.56 as permitted sender) smtp.mailfrom=xukuohai@huaweicloud.com
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com. [45.249.212.56])
+        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-7ff7cfdba52si1081220b3a.7.2025.12.30.01.41.41
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Dec 2025 22:52:13 -0800 (PST)
-Received-SPF: pass (google.com: domain of eddyz87@gmail.com designates 2607:f8b0:4864:20::62d as permitted sender) client-ip=2607:f8b0:4864:20::62d;
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-2a0d67f1877so123963415ad.2
-        for <kasan-dev@googlegroups.com>; Mon, 29 Dec 2025 22:52:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXFFtGS/0VUTy8BhTm/CKgZwinWJrFgVq5CWIb1b70CbLm9/MS1C++50uzoH7+X9OLKh90o4QoTvK4=@googlegroups.com
-X-Gm-Gg: AY/fxX64WQjiloiiDoQYZiMP7We1h895O5kfTIMy3f7Fz1a0BgvdoflVBCKsx6z6BSm
-	Nd1dQjr53An9i4ysjRbP4Tx2o9FNRpYc1vbU1akRxuR2CyrLgLGK1tGWCoWyXMOaVuIWg5/VIfd
-	TaMluNVY5d3s256oE+OYZa4vbEqFzIKXBqLCQi+rH9x7olD53XtwZLilS66Ut6o8Jv2ToVM0ILq
-	keSjJS1wP69wH1jxyE/s0xu7MADzWcvQaghdhrfIxi8YDDEx3Jp8V5c0nefnQR9y7fwHJG14JIJ
-	qfycEqKeZ71fE2azaaaumoW8XBGfabrrmzeudvot/8OKbTXJ/NRD7jxQu509HWBwBeRGM7FRzR3
-	mg+Z7O/7EKCQ00fmRFZuRnlSUctXbC7efeg/enYHPziATOv07bIoZH9x5faLSVoUjuLdSkvJ4KY
-	1L3v8FwnXM
-X-Received: by 2002:a17:903:41cd:b0:298:55c8:eb8d with SMTP id d9443c01a7336-2a2f272bd8fmr294469855ad.35.1767077532151;
-        Mon, 29 Dec 2025 22:52:12 -0800 (PST)
-Received: from [192.168.0.226] ([38.34.87.7])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d5d20dsm291184545ad.67.2025.12.29.22.52.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Dec 2025 22:52:11 -0800 (PST)
-Message-ID: <e3c26c7c9a74240b1fad2237ea0b4e205f3c1f0d.camel@gmail.com>
+        Tue, 30 Dec 2025 01:41:42 -0800 (PST)
+Received-SPF: pass (google.com: domain of xukuohai@huaweicloud.com designates 45.249.212.56 as permitted sender) client-ip=45.249.212.56;
+Received: from mail.maildlp.com (unknown [172.19.163.177])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4dgSl916BhzKHMS1
+	for <kasan-dev@googlegroups.com>; Tue, 30 Dec 2025 17:41:09 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.75])
+	by mail.maildlp.com (Postfix) with ESMTP id F26E64058D
+	for <kasan-dev@googlegroups.com>; Tue, 30 Dec 2025 17:41:37 +0800 (CST)
+Received: from [10.67.111.192] (unknown [10.67.111.192])
+	by APP2 (Coremail) with SMTP id Syh0CgBXcYBNnlNpAr7tBw--.22205S2;
+	Tue, 30 Dec 2025 17:41:34 +0800 (CST)
+Message-ID: <d2c23a07-7072-4f10-856c-dab02e3ed15c@huaweicloud.com>
+Date: Tue, 30 Dec 2025 17:41:33 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [QUESTION] KASAN: invalid-access in
  bpf_patch_insn_data+0x22c/0x2f0
-From: Eduard Zingerman <eddyz87@gmail.com>
-To: Jeongho Choi <jh1012.choi@samsung.com>, bpf@vger.kernel.org, 
-	kasan-dev@googlegroups.com
+To: Jeongho Choi <jh1012.choi@samsung.com>, bpf@vger.kernel.org,
+ kasan-dev@googlegroups.com
 Cc: joonki.min@samsung.com, hajun.sung@samsung.com
-Date: Mon, 29 Dec 2025 22:52:08 -0800
-In-Reply-To: <20251229110431.GA2243991@tiffany>
 References: <CGME20251229105858epcas2p26c433715e7955d20072e72964e83c3e7@epcas2p2.samsung.com>
-	 <20251229110431.GA2243991@tiffany>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42)
-MIME-Version: 1.0
-X-Original-Sender: eddyz87@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=JmO9eH9o;       spf=pass
- (google.com: domain of eddyz87@gmail.com designates 2607:f8b0:4864:20::62d as
- permitted sender) smtp.mailfrom=eddyz87@gmail.com;       dmarc=pass (p=NONE
- sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+ <20251229110431.GA2243991@tiffany>
+Content-Language: en-US
+From: Xu Kuohai <xukuohai@huaweicloud.com>
+In-Reply-To: <20251229110431.GA2243991@tiffany>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-CM-TRANSID: Syh0CgBXcYBNnlNpAr7tBw--.22205S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxZw4ftryUur43AF1xZr1rtFb_yoW7Jw43pr
+	1qk34Ikw4kJ3y5uw4av3ZrCw12va1a93W3Gr4xJ3yFqr13Zrn3JF15tFy8Jr13u34qkr13
+	AryDKr1aqryUZaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUylb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAK
+	I48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
+	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xII
+	jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
+	0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
+	67AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU7IJmUUUUU
+X-CM-SenderInfo: 50xn30hkdlqx5xdzvxpfor3voofrz/
+X-Original-Sender: xukuohai@huaweicloud.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of xukuohai@huaweicloud.com designates 45.249.212.56 as
+ permitted sender) smtp.mailfrom=xukuohai@huaweicloud.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -169,39 +158,22 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 2025-12-29 at 20:05 +0900, Jeongho Choi wrote:
+On 12/29/2025 7:05 PM, Jeongho Choi wrote:
 > Hello
 > I'm jeongho Choi from samsung System LSI.
 > I'm developing kernel BSP for exynos SoC.
 > 
-> I'm asking a question because I've recently been experiencing 
+> I'm asking a question because I've recently been experiencing
 > issues after enable SW KASAN in Android17 kernel 6.18 environment.
-
-Hi Jeongho,
-
-I'd like to reproduce this locally, is this particular kernel version
-open source? Could you please post a link to git repository and a
-commit hash you see the error at?
-Is the BPF program being loaded open source?
-
-(Also, could you please post the output of
- scripts/decode_stacktrace.sh for the stack trace you attached?).
-
+> 
 > Context:
->  - Kernel version: v6.18
->  - Architecture: ARM64
+>   - Kernel version: v6.18
+>   - Architecture: ARM64
 > 
 > Question:
 > When SW tag KASAN is enabled, we got kernel crash from bpf/verifier.
 > I found that it occurred only from 6.18, not 6.12 LTS we're working on.
-
-I don't think that commit "bpf: use realloc in bpf_patch_insn_data"
-had been backported to 6.12, it is a performance optimization,
-not a security fix.
-
-Thanks,
-Eduard
-
+> 
 > After some tests, I found that the device is booted when 2 commits are reverted.
 > 
 > bpf: potential double-free of env->insn_aux_data
@@ -214,7 +186,7 @@ Eduard
 > [   79.419177] [4:     netbpfload:  825] BUG: KASAN: invalid-access in bpf_patch_insn_data+0x22c/0x2f0
 > [   79.419415] [4:     netbpfload:  825] Write of size 27896 at addr 25ffffc08e6314d0 by task netbpfload/825
 > [   79.419984] [4:     netbpfload:  825] Pointer tag: [25], memory tag: [fa]
-> [   79.425193] [4:     netbpfload:  825] 
+> [   79.425193] [4:     netbpfload:  825]
 > [   79.427365] [4:     netbpfload:  825] CPU: 4 UID: 0 PID: 825 Comm: netbpfload Tainted: G           OE       6.18.0-rc6-android17-0-gd28deb424356-4k #1 PREEMPT  92293e52a7788dc6ec1b9dff6625aaee925f3475
 > [   79.427374] [4:     netbpfload:  825] Tainted: [O]=OOT_MODULE, [E]=UNSIGNED_MODULE
 > [   79.427378] [4:     netbpfload:  825] Hardware name: Samsung ERD9965 board based on S5E9965 (DT)
@@ -238,7 +210,7 @@ Eduard
 > [   79.427484] [4:     netbpfload:  825]  el0_svc+0x38/0x8c
 > [   79.427491] [4:     netbpfload:  825]  el0t_64_sync_handler+0x68/0xdc
 > [   79.427497] [4:     netbpfload:  825]  el0t_64_sync+0x1b8/0x1bc
-> [   79.427502] [4:     netbpfload:  825] 
+> [   79.427502] [4:     netbpfload:  825]
 > [   79.545586] [4:     netbpfload:  825] The buggy address belongs to a 8-page vmalloc region starting at 0x25ffffc08e631000 allocated at bpf_patch_insn_data+0x8c/0x2f0
 > [   79.558777] [4:     netbpfload:  825] The buggy address belongs to the physical page:
 > [   79.565029] [4:     netbpfload:  825] page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x8b308b
@@ -247,7 +219,7 @@ Eduard
 > [   79.584042] [4:     netbpfload:  825] raw: 6f80000000000000 0000000000000000 dead000000000122 0000000000000000
 > [   79.592460] [4:     netbpfload:  825] raw: 0000000000000000 0000000000000000 00000001ffffffff c6ffff882d1d6402
 > [   79.600877] [4:     netbpfload:  825] page dumped because: kasan: bad access detected
-> [   79.607126] [4:     netbpfload:  825] 
+> [   79.607126] [4:     netbpfload:  825]
 > [   79.609296] [4:     netbpfload:  825] Memory state around the buggy address:
 > [   79.614766] [4:     netbpfload:  825]  ffffffc08e637f00: 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25
 > [   79.622665] [4:     netbpfload:  825]  ffffffc08e638000: 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25
@@ -257,11 +229,17 @@ Eduard
 > [   79.652089] [4:     netbpfload:  825]  ffffffc08e638300: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
 > [   79.659987] [4:     netbpfload:  825] ==================================================================
 > 
+
+Seems it is the same as the second issue fixed by the following patch:
+https://lore.kernel.org/all/3f851f7704ab8468530f384b901b22cdef94aa43.1765978969.git.m.wieczorretman@pm.me
+
 > I have a question about the above phenomenon.
 > Thanks,
 > Jeongho Choi
+> 
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/e3c26c7c9a74240b1fad2237ea0b4e205f3c1f0d.camel%40gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/d2c23a07-7072-4f10-856c-dab02e3ed15c%40huaweicloud.com.
