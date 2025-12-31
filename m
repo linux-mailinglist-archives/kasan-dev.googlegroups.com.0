@@ -1,151 +1,183 @@
-Return-Path: <kasan-dev+bncBAABBV54Z3FAMGQE5UG7TWQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDA55KXUYEOBBE6C2LFAMGQEN2MHP4Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103d.google.com (mail-pj1-x103d.google.com [IPv6:2607:f8b0:4864:20::103d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 921C5CE93DC
-	for <lists+kasan-dev@lfdr.de>; Tue, 30 Dec 2025 10:41:45 +0100 (CET)
-Received: by mail-pj1-x103d.google.com with SMTP id 98e67ed59e1d1-34ac814f308sf22419968a91.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 30 Dec 2025 01:41:45 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1767087704; cv=pass;
+Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
+	by mail.lfdr.de (Postfix) with ESMTPS id E71F4CEB36B
+	for <lists+kasan-dev@lfdr.de>; Wed, 31 Dec 2025 05:05:41 +0100 (CET)
+Received: by mail-wm1-x33d.google.com with SMTP id 5b1f17b1804b1-47d5bd981c8sf12350445e9.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 30 Dec 2025 20:05:41 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1767153941; cv=pass;
         d=google.com; s=arc-20240605;
-        b=CIwMEFMlsKCLwmyP+Dhajb4URDljqZXTTnyE2f1W66TIIkKaWa+FmNGpgQM2lnYo5T
-         s5bAcKyeNzw3tZFMW3qgAWV97xXKAo4tW6bBzG+CpXMS0HEjpzl0d4tLGh0IlYouGK/i
-         n/4kQHyxJY9hCLiItn6uQW16gyBfolm5K9r1es4aA0v5y63iYNlsn3tL6Ykfiik1Xnh7
-         7xOsJoChAI+nAbQSoJm2Wb+e3BCEip7DJnhzbzDsCdjwQcxeSXwiijzM3Vpr4iInGHgd
-         PXC31Z4iPc0eyXGyqCaMdb+tv/vqO9D4wLRxPuUCK3oT1fpjxkPJ+BPSP5oeqwwRUT+Z
-         WTkQ==
+        b=KGz1D3YaRwk3EDDaA7NR376p/u709G+ppwU9wBaPe0tn+MlCv8oEbTSAQ9ov2ezaf9
+         BLphXq7isRWajVwh0E2Rs7mW1JkjhVMppP7bNpxNRKIEHAe+wfLd7r0Iz3EI+7gC28Ni
+         rp7lqJzCgPFXCFaLEjPGxS2azPYTMSeQ04JPOgs0OyuShN9NOMqWe6/0+FNkujlUBTnG
+         R5VFTkD0RjSAREgZDklivHiRd5pwpjUMw6k2T4Ql8ksmqvkFi5kN2VyEXXshHqUG0hdu
+         dU5MZib8tx282lFa6HXc0bHczjlHE/HmHhE0WfUMeSgDlK4zUbWr2ULZpomkh0uT1AiF
+         m6+Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=ZpnAvQOx9of0gcSDimgyTIX4eF5Be0Ae5uoAr7HlVHw=;
-        fh=QCSAa8H3UkIQVUe+zpmxTr+ctDQappaYn+iMQMgJbxc=;
-        b=klNApzzPiWaYW60so/mKHMt/vkN0ep85KBNIkSZRnmPhqBNHU//yeAl51NeuOpmuzx
-         rAeCxkAApVdzMNZG/SldZPnE4lI65a8sTN6dvEvJMu5TeZMF4LRJeJl+MXABGGUxmfG4
-         4wXMoD+aVt4Fwq9LqyFpZZ4E3Xo3SpIbS8XdaOkx1bwnfDtnwErHooBmm/ZyadCYKWGp
-         c5dT5tCl7YNs4liVqcxOZKg0SHtyPMSTyqrXLjy4GGlTTaiWQQ6QbTQkjlJKuO2UzRGe
-         kLzRhoPFljytOgF7LRFwrs9pJmBI0c/XftpAytdyqLQJ62OJyiuVl71vG4YWxufByGmC
-         X9FA==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:dkim-signature;
+        bh=+gsZU6oy/1JyDuUFzjzjs4EzANemc1OLI5NtQUBrIlk=;
+        fh=0Czm4lp1MF+etEvFCM4rjwzvHMMSmBO4d30HyVg+JY0=;
+        b=QJkoy6EMRoDZK1DBwJ2h9xpwhllD0jWkMWj7InjgpfHrP2FOEsR3oNQPV9AGSgwoxk
+         GSPbZYNKtm5yRuG1TVuw/VkpML11hTQmWBUfElCCScqtBlnKl4hF3ufkBlTg+Tt3L1xX
+         6it23ouDxtORWYBghCoucBPP/t4ma6Iecir2eMJUX3uONbHxu62KxlLXXMxieiM2/sQ9
+         7LHzAv9V3h0wa7JL8NKBokWnrNhQRPttHNk5DR3+lTMhagQX6hhmGw06ari34/gey3u9
+         inOnK9gwJX7iuuR49/PvclcebZez/CAJVQ/5MMLMththQNoR59XRAWjClwAyhAzVRIKF
+         kPhw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of xukuohai@huaweicloud.com designates 45.249.212.56 as permitted sender) smtp.mailfrom=xukuohai@huaweicloud.com
+       dkim=pass header.i=@suse.com header.s=google header.b=MYpat0uR;
+       spf=pass (google.com: domain of wqu@suse.com designates 2a00:1450:4864:20::32e as permitted sender) smtp.mailfrom=wqu@suse.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1767087704; x=1767692504; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1767153941; x=1767758741; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:content-language:references:cc
-         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ZpnAvQOx9of0gcSDimgyTIX4eF5Be0Ae5uoAr7HlVHw=;
-        b=JUqH2KJ/iNkV7sSrd5aMex4jYOQYdr6ZweFaqHiFQZVk6jmfevqho7NyDT+rUHLoiS
-         Hdjuc2DAiRJugtvQr6sESkE+sNkf7CUQ8wX+bYVqMwjlDi5oWm4yGmyEi+WjiqCpIUAA
-         TDiN0WdUsIsTx8v4Jx3LvM+43xsKtJs2beBpcR9NgwCy14MuXUOzitUSzmTCgtazb131
-         sUF5nja6polswqFnMZqSIrma77yElbkosn94PQtHH6/bEt0IPbGKjl1A1e/xwuSAzi++
-         GG7Ve7nqO+Dj0WbqeNaPbftZowka5vpBFr7+xcqCwh7L0tJbBEZD6hfJoVxVHzHL+tf8
-         Xc4Q==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=+gsZU6oy/1JyDuUFzjzjs4EzANemc1OLI5NtQUBrIlk=;
+        b=Wz0i/8qaop22/kagduxfVq6IPNUfjU2kfeyb/dAt2E4VizFjBzk9F0z8mALOeYeAZ0
+         FGqRfhaP8/y6puC2OBB5MC3HDwKHb1YkH+2zCxzD6SoZmFLcAholwC1EeCMwqKswnADS
+         5+ylAWv+jn8+QdeWJxHz7BxVkdaQ6Qg+RZz7lLT1AbINCDiSAnLqt9sgtnGhmbSaL9Gi
+         dmhXqcjj9FmOlU22JKiliEjw03Mfkfg5k9zm4Fkl75ugKnKyAozM5a2Q/cWB7TvKGQqe
+         vTucaU7sIh/M6i5CvBEhQVSYSpLGFU18D90pzq92fIjVyZCrPFFZV8Sq1vEO4tpxYP6e
+         5WsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767087704; x=1767692504;
+        d=1e100.net; s=20230601; t=1767153941; x=1767758741;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:content-language:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZpnAvQOx9of0gcSDimgyTIX4eF5Be0Ae5uoAr7HlVHw=;
-        b=nsmBm8ZDw+aJXr5DCeiFKSnfSsav7txzV+YW3ZpeHCXqofWSpbSvEFr5mcCuCd56sj
-         W2scELDR5TJJGm5ldaOhFIDil257dAowZAwkQjGzJIxntwACcRjLzjSULYYO8ShfVr+7
-         art/lshSlACW0qQFveMW8aq0U6mNqLu0XNQju9DH0HBfoTyrUkQriGzYLKB1yR4LWUHB
-         XCOhD74+n/U4Hf6In3G+/3PJrXy2gUFk0bY5qQicjVHIt8Lg+NdQw4Dr0EbIkY7bvpUk
-         Yj5LAOO6675Em+R3EoDygvyJsLLNKtsIZoP6X9A5HeLmYEsUdaPdwtNfuXUsJjhndDJU
-         ofxA==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWmjjHnqYHAB6ry6b+pRLhwf7uZROqbJPck/V6asO1gMJNbhS2AlNG2ncNzfVoIind8bHVDFw==@lfdr.de
-X-Gm-Message-State: AOJu0YxjbdDvMiB6QHIbNaqHCCmj6cB7ADrkVQOxiYKZbpWTMlOgI1xc
-	3LLe/jKguC54g5dq0jNbxuvNJ6RYxMKnphOdDZdudYesGLp+tZ0PVs+w
-X-Google-Smtp-Source: AGHT+IF6Bpl6i+fTdgyI3SZof7mHAjuccXhTylg9QTjo0eOBj33A+NFxPjjsB2oSRy0ct7rrT8I0QA==
-X-Received: by 2002:a17:90b:3015:b0:34a:b4a2:f0c8 with SMTP id 98e67ed59e1d1-34e921ccb4cmr20574285a91.30.1767087703612;
-        Tue, 30 Dec 2025 01:41:43 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWYOcSbTgGTnaEuP0nV0m0BC+tMs4P2gijDSlXTMJ7YCOg=="
-Received: by 2002:a05:6a00:1988:b0:7a4:b41c:6e3f with SMTP id
- d2e1a72fcca58-80b97ececeals2030264b3a.0.-pod-prod-08-us; Tue, 30 Dec 2025
- 01:41:42 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXxnolD4gET+uFCG7sZ0yKfPpTnuSHI6GFRN9rQFOtaesWaVhMleBYhCSAcgqiB4ouWlAKXbtRYQg8=@googlegroups.com
-X-Received: by 2002:a05:6a00:8014:b0:7aa:e5f2:617d with SMTP id d2e1a72fcca58-7ff651c3519mr31597643b3a.30.1767087702285;
-        Tue, 30 Dec 2025 01:41:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1767087702; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-beenthere:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+gsZU6oy/1JyDuUFzjzjs4EzANemc1OLI5NtQUBrIlk=;
+        b=YiUgap5W5FAJEBdxXn1kNpw/15couQGcxcVxMrHtkskZ7Q51lSba6EEg5mLKr+/xP4
+         pBClfVcMHAJh91EyF4iMaSx6PEbjBsBcp1lY4/oGa0Yx+2Ji48oFlDhjf940E2FrZvgH
+         w7GbFXxRCvfe2+mqXPOh/5rD3inWqXNd1EJXJ+lNHJMmgCtDl5vGs5H3ymswgYM+rKO5
+         58z36N7dT9CRt9iIuQz1UNXDJ3Zna3uIPR23mioGMXyRc1JmNTg6r0ZEPo5ZV9Srb6OE
+         o+gffa0It7DO6b/FKlui1ltV6zyfPTlPlJEWIk8k2gG4dsjcXEh1xeqYETTXh2xSrn7y
+         NVkg==
+X-Forwarded-Encrypted: i=2; AJvYcCUSHGPLOyTNmn1VhMfYz0wriLT1vBreMHKv6FEUnfzobNnwKOGxaBMw0Hw8LQ9gpSXRdC33hg==@lfdr.de
+X-Gm-Message-State: AOJu0YwWIk0McEgyB3eKRLt6r/8M+mZwc6ol2cavlRu0ogv/SlyrA9K3
+	1LaoKi2xM5TuMWh5ONFJHAJBSBfWpBJOuadoWLhCez1mjwNsdb63F9Wx
+X-Google-Smtp-Source: AGHT+IH1xc/2/dlbeVjCrNhoifx/LCrsXB0UCxHoxLSP6NpuwdmJurD//CubrEZtqr4i3lodFDunSg==
+X-Received: by 2002:a05:600c:1d1d:b0:47a:94fc:d057 with SMTP id 5b1f17b1804b1-47d19538d98mr336211455e9.2.1767153940455;
+        Tue, 30 Dec 2025 20:05:40 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWZICeMuZhlc9YnCTFf1uVNTcdflCjqWhkLpO1A9Cu+2Kw=="
+Received: by 2002:a05:600c:1c05:b0:477:a1df:48a2 with SMTP id
+ 5b1f17b1804b1-47d5083858cls23839215e9.2.-pod-prod-04-eu; Tue, 30 Dec 2025
+ 20:05:37 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUbSOvwxdDppqpW8NTIhfOCwOwp+MFcVQBTzGZZk7lazwX4Z/kg+Q3FXoHSIZVcTYxUjtVgXIpMXUw=@googlegroups.com
+X-Received: by 2002:a05:600c:c493:b0:477:8b2e:aa7d with SMTP id 5b1f17b1804b1-47d19586cd4mr400402165e9.30.1767153937494;
+        Tue, 30 Dec 2025 20:05:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1767153937; cv=none;
         d=google.com; s=arc-20240605;
-        b=g67f6wGCtDNxvpt0eRMQ9zFXvD4+4MOkdXkP1m3lYeH0OfGTGjaEvVXv3tXu7dwBeq
-         LORzHjhcA+7PHBA7XNPeSIUqAJWCwZNmh7x9GUq8TV9BUFID17CrQCd69m9/N27+w8Oy
-         NvACVvuMqqMfTbwxjlYdHPUejfJ8YlTkdlqHGhYQ3YfyC+ab6E1d904tYKRzlc6B5DXb
-         YOfPF8rbcno9FnvQC5uhRVv4eWiHX4s4bMpG2i08+P/tTvmqjOb+gXrl5tooTBI14ShJ
-         7cYHsLgNFfMcRIDkFqhgHx9u1+g/baLZ06lGUtlp+38qxA6I/ryJoYg6ky6tGL+q7s0C
-         04gQ==
+        b=g1KJBmopT9aVPz74wQaD4rc734tkU1mIg0jRamG3bluZm0NRKYc8i+xcGnV6Oz2Ljj
+         KhuMs8i+PYUytJMFqKTRHXtOO5cvz6p4ew1+gZZuPycaz0aBKA7tSRlAvqw0pvy+0DO9
+         ppgCOFKT4OBi1tReczhdusEGkbKk1hAbng9lxA6zxvYIpPhP/uX5xM36NaWJmggheeI8
+         sY3jL+epbUSOtNs0IOwryLg1WuRDbylM8wHLhxtxgg2cmSH4ln5wLVRzfGlg4CnN2Ltg
+         j8kYqYsenHLiAaltuV3xOHgkFoFBe6R3s+M/0DUIB13X3RuqOv+50SVhYv2hjHEnQZy8
+         AyEA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id;
-        bh=B0r+O9YiNdWgUscH2a/GSABYlfKEPre75pSvsVvBMRw=;
-        fh=gMFyD/zSKxfyivq0+sNdcixS30XUULxcgd1+86gO0Ic=;
-        b=REffTBn2xHN9j1hJOK9oiH1M4GcQAlxFtuKD5rjRXqiOh+Sm+dvxea5feuRYvYWikR
-         AiMFUSqAxeorEZlk/tQ2UZ3aUrPvTCYOVfT16Oi92SH7HnX9kKbxT7/elygvHVSbPFWw
-         zDUrj+rrh1mBLX5GPHZ8SOdAhh6rAQrZwt8Rl52Sa7v72bSOGpdIVljZj46hScMeNU4V
-         6zeAbruEb8qiqJKvZmjsd8SqAB4DyC0z5tBbUbVqzeLqQJA0uBMrRxHaeIHrY8J3PdT4
-         y1AcuLh3YaV6ptTBxVZyMhIvUUe8FOUIl6xtYn5gU4J8etTeqBqW86Nei3UZkiaFDseH
-         IkPw==;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:dkim-signature;
+        bh=QDjH5wbfhxPfj+6uM2hu7o/MrYmh6JDGhunKWeqrN+4=;
+        fh=z6etdtOkY0gLYfZNixvaBQaLwQJ2JLk9+Rb1TkxNavE=;
+        b=fyU1LpNUoflauUPYEPKqWQvLviEYfy1cSCqWjyfMpebgdXOryOH/WM3ZTvNl35Azu8
+         mPSf/fL9GkKfZ0y46hlb3vEpihLM2za+UnDomR1oGLULijq1y1+ZbkfjqxapEG3EF7oV
+         CuhRe4LCtFA7jyibgibquZ9UZuoiPKBXuPEICKxcpYftlzUIbsA49dURSACekhzfSg6p
+         HsAcq/YYO/d7NgraeZr8ZVZC4i5H42tqEdvg5eVRVDlAWzvymkLdXXjMZiKnMZfp3wq1
+         Eil7j3QfmQDIpto8TGW4haeNKlCe627HSfJfaet+g6RtZdLS3jag+g1+vQ0rfhqUDNqv
+         BJFQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of xukuohai@huaweicloud.com designates 45.249.212.56 as permitted sender) smtp.mailfrom=xukuohai@huaweicloud.com
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com. [45.249.212.56])
-        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-7ff7cfdba52si1081220b3a.7.2025.12.30.01.41.41
+       dkim=pass header.i=@suse.com header.s=google header.b=MYpat0uR;
+       spf=pass (google.com: domain of wqu@suse.com designates 2a00:1450:4864:20::32e as permitted sender) smtp.mailfrom=wqu@suse.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com. [2a00:1450:4864:20::32e])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-4324ea208c0si522532f8f.3.2025.12.30.20.05.37
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Dec 2025 01:41:42 -0800 (PST)
-Received-SPF: pass (google.com: domain of xukuohai@huaweicloud.com designates 45.249.212.56 as permitted sender) client-ip=45.249.212.56;
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4dgSl916BhzKHMS1
-	for <kasan-dev@googlegroups.com>; Tue, 30 Dec 2025 17:41:09 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.75])
-	by mail.maildlp.com (Postfix) with ESMTP id F26E64058D
-	for <kasan-dev@googlegroups.com>; Tue, 30 Dec 2025 17:41:37 +0800 (CST)
-Received: from [10.67.111.192] (unknown [10.67.111.192])
-	by APP2 (Coremail) with SMTP id Syh0CgBXcYBNnlNpAr7tBw--.22205S2;
-	Tue, 30 Dec 2025 17:41:34 +0800 (CST)
-Message-ID: <d2c23a07-7072-4f10-856c-dab02e3ed15c@huaweicloud.com>
-Date: Tue, 30 Dec 2025 17:41:33 +0800
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Dec 2025 20:05:37 -0800 (PST)
+Received-SPF: pass (google.com: domain of wqu@suse.com designates 2a00:1450:4864:20::32e as permitted sender) client-ip=2a00:1450:4864:20::32e;
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-47aa03d3326so66688155e9.3
+        for <kasan-dev@googlegroups.com>; Tue, 30 Dec 2025 20:05:37 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXn+wRn4d1ZE03BavFeSPOp+PPUxcjojDMkWRoMqmvtHbh8mcrx/gieSs1nKg4DAcDV99FhLcInt50=@googlegroups.com
+X-Gm-Gg: AY/fxX7kHw4SNbnDCkCPLGjzRJhJU2XZg2A0OiswcvwueJgTZrzX2pBYQxQhj2q9Lba
+	NzmKugTTK1ltbJnte0PYuaK3fm9alxCpUzk4ArUDQoqzTdyKJ5OLt3k50Bzwym5fPqe5Q9u3zvV
+	AaYtEsnpqYVJX4vG6uescUMYfVy7sy44on6doVtp/zscCNynZfgC3UsB3orjbvYi86K0hJSImTO
+	zOBDR6L6KkiM8fuppDeA8A/zmbG9F+5H74ebWBNcJAODTyRNNJsKku7VHDLdaJSQualbkbzHShp
+	DKc+TDxh5AA76urW4U7cTGg/X6EUbVvn0eBYjcnjJpy4cAuxSBIpha7IDZoG4UyuIWY1PhHRXGv
+	58+sqdgxoLkz2vhGkbNG4uU4LGXYcUNx9O6XYUQcbPawNDOrK694eZ2k+4fYGq48BHlsGeeO/2R
+	blIFe7ovCO76t2Ryod5CvXTKhz5XIk5191QKI0/5I=
+X-Received: by 2002:a05:600c:3489:b0:477:7ae0:cd6e with SMTP id 5b1f17b1804b1-47d206a9856mr367047315e9.5.1767153936756;
+        Tue, 30 Dec 2025 20:05:36 -0800 (PST)
+Received: from ?IPV6:2403:580d:fda1::299? (2403-580d-fda1--299.ip6.aussiebb.net. [2403:580d:fda1::299])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c1e7961fbb9sm28972790a12.2.2025.12.30.20.05.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Dec 2025 20:05:36 -0800 (PST)
+Message-ID: <17bf8f85-9a9c-4d7d-add7-cd92313f73f1@suse.com>
+Date: Wed, 31 Dec 2025 14:35:31 +1030
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [QUESTION] KASAN: invalid-access in
- bpf_patch_insn_data+0x22c/0x2f0
-To: Jeongho Choi <jh1012.choi@samsung.com>, bpf@vger.kernel.org,
- kasan-dev@googlegroups.com
-Cc: joonki.min@samsung.com, hajun.sung@samsung.com
-References: <CGME20251229105858epcas2p26c433715e7955d20072e72964e83c3e7@epcas2p2.samsung.com>
- <20251229110431.GA2243991@tiffany>
+Subject: Soft tag and inline kasan triggering NULL pointer dereference, but
+ not for hard tag and outline mode (was Re: [6.19-rc3] xxhash invalid access
+ during BTRFS mount)
+To: Daniel J Blueman <daniel@quora.org>
+Cc: David Sterba <dsterba@suse.com>, Chris Mason <clm@fb.com>,
+ Linux BTRFS <linux-btrfs@vger.kernel.org>, linux-crypto@vger.kernel.org,
+ Linux Kernel <linux-kernel@vger.kernel.org>, kasan-dev@googlegroups.com,
+ ryabinin.a.a@gmail.com
+References: <CAMVG2svM0G-=OZidTONdP6V7AjKiLLLYgwjZZC_fU7_pWa=zXQ@mail.gmail.com>
+ <01d84dae-1354-4cd5-97ce-4b64a396316a@suse.com>
+ <642a3e9a-f3f1-4673-8e06-d997b342e96b@suse.com>
+ <CAMVG2suYnp-D9EX0dHB5daYOLT++v_kvyY8wV-r6g36T6DZhzg@mail.gmail.com>
 Content-Language: en-US
-From: Xu Kuohai <xukuohai@huaweicloud.com>
-In-Reply-To: <20251229110431.GA2243991@tiffany>
+From: "'Qu Wenruo' via kasan-dev" <kasan-dev@googlegroups.com>
+Autocrypt: addr=wqu@suse.com; keydata=
+ xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
+ 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
+ 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
+ 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
+ gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
+ AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
+ FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXVgBQkQ/lqxAAoJEMI9kfOh
+ Jf6o+jIH/2KhFmyOw4XWAYbnnijuYqb/obGae8HhcJO2KIGcxbsinK+KQFTSZnkFxnbsQ+VY
+ fvtWBHGt8WfHcNmfjdejmy9si2jyy8smQV2jiB60a8iqQXGmsrkuR+AM2V360oEbMF3gVvim
+ 2VSX2IiW9KERuhifjseNV1HLk0SHw5NnXiWh1THTqtvFFY+CwnLN2GqiMaSLF6gATW05/sEd
+ V17MdI1z4+WSk7D57FlLjp50F3ow2WJtXwG8yG8d6S40dytZpH9iFuk12Sbg7lrtQxPPOIEU
+ rpmZLfCNJJoZj603613w/M8EiZw6MohzikTWcFc55RLYJPBWQ+9puZtx1DopW2jOwE0EWdWB
+ rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
+ Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
+ E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
+ vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
+ g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
+ AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXWBBQkQ/lrSAAoJEMI9kfOhJf6o
+ cakH+QHwDszsoYvmrNq36MFGgvAHRjdlrHRBa4A1V1kzd4kOUokongcrOOgHY9yfglcvZqlJ
+ qfa4l+1oxs1BvCi29psteQTtw+memmcGruKi+YHD7793zNCMtAtYidDmQ2pWaLfqSaryjlzR
+ /3tBWMyvIeWZKURnZbBzWRREB7iWxEbZ014B3gICqZPDRwwitHpH8Om3eZr7ygZck6bBa4MU
+ o1XgbZcspyCGqu1xF/bMAY2iCDcq6ULKQceuKkbeQ8qxvt9hVxJC2W3lHq8dlK1pkHPDg9wO
+ JoAXek8MF37R8gpLoGWl41FIUb3hFiu3zhDDvslYM4BmzI18QgQTQnotJH8=
+In-Reply-To: <CAMVG2suYnp-D9EX0dHB5daYOLT++v_kvyY8wV-r6g36T6DZhzg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-CM-TRANSID: Syh0CgBXcYBNnlNpAr7tBw--.22205S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxZw4ftryUur43AF1xZr1rtFb_yoW7Jw43pr
-	1qk34Ikw4kJ3y5uw4av3ZrCw12va1a93W3Gr4xJ3yFqr13Zrn3JF15tFy8Jr13u34qkr13
-	AryDKr1aqryUZaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUylb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAK
-	I48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
-	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xII
-	jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
-	0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
-	67AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU7IJmUUUUU
-X-CM-SenderInfo: 50xn30hkdlqx5xdzvxpfor3voofrz/
-X-Original-Sender: xukuohai@huaweicloud.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of xukuohai@huaweicloud.com designates 45.249.212.56 as
- permitted sender) smtp.mailfrom=xukuohai@huaweicloud.com
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: wqu@suse.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@suse.com header.s=google header.b=MYpat0uR;       spf=pass
+ (google.com: domain of wqu@suse.com designates 2a00:1450:4864:20::32e as
+ permitted sender) smtp.mailfrom=wqu@suse.com;       dmarc=pass (p=QUARANTINE
+ sp=QUARANTINE dis=NONE) header.from=suse.com;       dara=pass header.i=@googlegroups.com
+X-Original-From: Qu Wenruo <wqu@suse.com>
+Reply-To: Qu Wenruo <wqu@suse.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -158,88 +190,206 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 12/29/2025 7:05 PM, Jeongho Choi wrote:
-> Hello
-> I'm jeongho Choi from samsung System LSI.
-> I'm developing kernel BSP for exynos SoC.
-> 
-> I'm asking a question because I've recently been experiencing
-> issues after enable SW KASAN in Android17 kernel 6.18 environment.
-> 
-> Context:
->   - Kernel version: v6.18
->   - Architecture: ARM64
-> 
-> Question:
-> When SW tag KASAN is enabled, we got kernel crash from bpf/verifier.
-> I found that it occurred only from 6.18, not 6.12 LTS we're working on.
-> 
-> After some tests, I found that the device is booted when 2 commits are reverted.
-> 
-> bpf: potential double-free of env->insn_aux_data
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b13448dd64e27752fad252cec7da1a50ab9f0b6f
-> 
-> bpf: use realloc in bpf_patch_insn_data
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=77620d1267392b1a34bfc437d2adea3006f95865
-> 
-> ==================================================================
-> [   79.419177] [4:     netbpfload:  825] BUG: KASAN: invalid-access in bpf_patch_insn_data+0x22c/0x2f0
-> [   79.419415] [4:     netbpfload:  825] Write of size 27896 at addr 25ffffc08e6314d0 by task netbpfload/825
-> [   79.419984] [4:     netbpfload:  825] Pointer tag: [25], memory tag: [fa]
-> [   79.425193] [4:     netbpfload:  825]
-> [   79.427365] [4:     netbpfload:  825] CPU: 4 UID: 0 PID: 825 Comm: netbpfload Tainted: G           OE       6.18.0-rc6-android17-0-gd28deb424356-4k #1 PREEMPT  92293e52a7788dc6ec1b9dff6625aaee925f3475
-> [   79.427374] [4:     netbpfload:  825] Tainted: [O]=OOT_MODULE, [E]=UNSIGNED_MODULE
-> [   79.427378] [4:     netbpfload:  825] Hardware name: Samsung ERD9965 board based on S5E9965 (DT)
-> [   79.427382] [4:     netbpfload:  825] Call trace:
-> [   79.427385] [4:     netbpfload:  825]  show_stack+0x18/0x28 (C)
-> [   79.427394] [4:     netbpfload:  825]  __dump_stack+0x28/0x3c
-> [   79.427401] [4:     netbpfload:  825]  dump_stack_lvl+0x7c/0xa8
-> [   79.427407] [4:     netbpfload:  825]  print_address_description+0x7c/0x20c
-> [   79.427414] [4:     netbpfload:  825]  print_report+0x70/0x8c
-> [   79.427421] [4:     netbpfload:  825]  kasan_report+0xb4/0x114
-> [   79.427427] [4:     netbpfload:  825]  kasan_check_range+0x94/0xa0
-> [   79.427432] [4:     netbpfload:  825]  __asan_memmove+0x54/0x88
-> [   79.427437] [4:     netbpfload:  825]  bpf_patch_insn_data+0x22c/0x2f0
-> [   79.427442] [4:     netbpfload:  825]  bpf_check+0x2b44/0x8c34
-> [   79.427449] [4:     netbpfload:  825]  bpf_prog_load+0x8dc/0x990
-> [   79.427453] [4:     netbpfload:  825]  __sys_bpf+0x300/0x4c8
-> [   79.427458] [4:     netbpfload:  825]  __arm64_sys_bpf+0x48/0x64
-> [   79.427465] [4:     netbpfload:  825]  invoke_syscall+0x6c/0x13c
-> [   79.427471] [4:     netbpfload:  825]  el0_svc_common+0xf8/0x138
-> [   79.427478] [4:     netbpfload:  825]  do_el0_svc+0x30/0x40
-> [   79.427484] [4:     netbpfload:  825]  el0_svc+0x38/0x8c
-> [   79.427491] [4:     netbpfload:  825]  el0t_64_sync_handler+0x68/0xdc
-> [   79.427497] [4:     netbpfload:  825]  el0t_64_sync+0x1b8/0x1bc
-> [   79.427502] [4:     netbpfload:  825]
-> [   79.545586] [4:     netbpfload:  825] The buggy address belongs to a 8-page vmalloc region starting at 0x25ffffc08e631000 allocated at bpf_patch_insn_data+0x8c/0x2f0
-> [   79.558777] [4:     netbpfload:  825] The buggy address belongs to the physical page:
-> [   79.565029] [4:     netbpfload:  825] page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x8b308b
-> [   79.573710] [4:     netbpfload:  825] memcg:c6ffff882d1d6402
-> [   79.577791] [4:     netbpfload:  825] flags: 0x6f80000000000000(zone=1|kasantag=0xbe)
-> [   79.584042] [4:     netbpfload:  825] raw: 6f80000000000000 0000000000000000 dead000000000122 0000000000000000
-> [   79.592460] [4:     netbpfload:  825] raw: 0000000000000000 0000000000000000 00000001ffffffff c6ffff882d1d6402
-> [   79.600877] [4:     netbpfload:  825] page dumped because: kasan: bad access detected
-> [   79.607126] [4:     netbpfload:  825]
-> [   79.609296] [4:     netbpfload:  825] Memory state around the buggy address:
-> [   79.614766] [4:     netbpfload:  825]  ffffffc08e637f00: 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25
-> [   79.622665] [4:     netbpfload:  825]  ffffffc08e638000: 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25 25
-> [   79.630562] [4:     netbpfload:  825] >ffffffc08e638100: 25 25 25 25 25 25 25 fa fa fa fa fa fa fe fe fe
-> [   79.638463] [4:     netbpfload:  825]                                         ^
-> [   79.644190] [4:     netbpfload:  825]  ffffffc08e638200: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
-> [   79.652089] [4:     netbpfload:  825]  ffffffc08e638300: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
-> [   79.659987] [4:     netbpfload:  825] ==================================================================
-> 
 
-Seems it is the same as the second issue fixed by the following patch:
-https://lore.kernel.org/all/3f851f7704ab8468530f384b901b22cdef94aa43.1765978969.git.m.wieczorretman@pm.me
 
-> I have a question about the above phenomenon.
+=E5=9C=A8 2025/12/31 13:59, Daniel J Blueman =E5=86=99=E9=81=93:
+> On Tue, 30 Dec 2025 at 17:28, Qu Wenruo <wqu@suse.com> wrote:
+>> =E5=9C=A8 2025/12/30 19:26, Qu Wenruo =E5=86=99=E9=81=93:
+>>> =E5=9C=A8 2025/12/30 18:02, Daniel J Blueman =E5=86=99=E9=81=93:
+>>>> When mounting a BTRFS filesystem on 6.19-rc3 on ARM64 using xxhash
+>>>> checksumming and KASAN, I see invalid access:
+>>>
+>>> Mind to share the page size? As aarch64 has 3 different supported pages
+>>> size (4K, 16K, 64K).
+>>>
+>>> I'll give it a try on that branch. Although on my rc1 based development
+>>> branch it looks OK so far.
+>>
+>> Tried both 4K and 64K page size with KASAN enabled, all on 6.19-rc3 tag,
+>> no reproduce on newly created fs with xxhash.
+>>
+>> My environment is aarch64 VM on Orion O6 board.
+>>
+>> The xxhash implementation is the same xxhash64-generic:
+>>
+>> [   17.035933] BTRFS: device fsid 260364b9-d059-410c-92de-56243c346d6d
+>> devid 1 transid 8 /dev/mapper/test-scratch1 (253:2) scanned by mount (62=
+9)
+>> [   17.038033] BTRFS info (device dm-2): first mount of filesystem
+>> 260364b9-d059-410c-92de-56243c346d6d
+>> [   17.038645] BTRFS info (device dm-2): using xxhash64
+>> (xxhash64-generic) checksum algorithm
+>> [   17.041303] BTRFS info (device dm-2): checking UUID tree
+>> [   17.041390] BTRFS info (device dm-2): turning on async discard
+>> [   17.041393] BTRFS info (device dm-2): enabling free space tree
+>> [   19.032109] BTRFS info (device dm-2): last unmount of filesystem
+>> 260364b9-d059-410c-92de-56243c346d6d
+>>
+>> So there maybe something else involved, either related to the fs or the
+>> hardware.
+>=20
+> Thanks for checking Wenruo!
+>=20
+> With KASAN_GENERIC or KASAN_HW_TAGS, I don't see "kasan:
+> KernelAddressSanitizer initialized", so please ensure you are using
+> KASAN_SW_TAGS, KASAN_OUTLINE and 4KB pages. Full config at
+> https://gist.github.com/dblueman/cb4113f2cf880520081cf3f7c8dae13f
+
+Thanks a lot for the detailed configs.
+
+Unfortunately with that KASAN_SW_TAGS and KASAN_INLINE, the kernel can=20
+no longer boot, will always crash at boot with the following call trace,=20
+thus not even able to reach btrfs:
+
+[    3.938722]=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[    3.938739] BUG: KASAN: invalid-access in bpf_patch_insn_data+0x178/0x3b=
+0
+[    3.938766] Write of size 6720 at addr 96ff80008024b120 by task systemd/=
+1
+[    3.938772] Pointer tag: [96], memory tag: [08]
+[    3.938775]
+[    3.938791] CPU: 5 UID: 0 PID: 1 Comm: systemd Not tainted=20
+6.19.0-rc3-custom #159 PREEMPT(voluntary)
+[    3.938801] Hardware name: QEMU KVM Virtual Machine, BIOS unknown=20
+2/2/2022
+[    3.938805] Call trace:
+[    3.938808]  show_stack+0x20/0x38 (C)
+[    3.938827]  dump_stack_lvl+0x60/0x80
+[    3.938846]  print_report+0x17c/0x488
+[    3.938860]  kasan_report+0xbc/0x108
+[    3.938887]  kasan_check_range+0x7c/0xa0
+[    3.938895]  __asan_memmove+0x54/0x98
+[    3.938904]  bpf_patch_insn_data+0x178/0x3b0
+[    3.938912]  bpf_check+0x2720/0x49d8
+[    3.938920]  bpf_prog_load+0xbd0/0x13e8
+[    3.938928]  __sys_bpf+0xba0/0x2dc8
+[    3.938935]  __arm64_sys_bpf+0x50/0x70
+[    3.938943]  invoke_syscall.constprop.0+0x88/0x148
+[    3.938957]  el0_svc_common.constprop.0+0x7c/0x148
+[    3.938964]  do_el0_svc+0x38/0x50
+[    3.938970]  el0_svc+0x3c/0x198
+[    3.938984]  el0t_64_sync_handler+0xa0/0xe8
+[    3.938993]  el0t_64_sync+0x198/0x1a0
+[    3.939001]
+[    3.939003] The buggy address belongs to a 2-page vmalloc region=20
+starting at 0x96ff80008024b000 allocated at bpf_check+0x158/0x49d8
+[    3.939015] The buggy address belongs to the physical page:
+[    3.939026] page: refcount:1 mapcount:0 mapping:0000000000000000=20
+index:0x0 pfn:0x10cede
+[    3.939035] flags: 0x2d600000000000(node=3D0|zone=3D2|kasantag=3D0xd6)
+[    3.939047] raw: 002d600000000000 0000000000000000 dead000000000122=20
+0000000000000000
+[    3.939053] raw: 0000000000000000 0000000000000000 00000001ffffffff=20
+0000000000000000
+[    3.939057] raw: 00000000000fffff 0000000000000000
+[    3.939060] page dumped because: kasan: bad access detected
+[    3.939064]
+[    3.939065] Memory state around the buggy address:
+[    3.939069]  ffff80008024c900: 96 96 96 96 96 96 96 96 96 96 96 96 96=20
+96 96 96
+[    3.939073]  ffff80008024ca00: 96 96 96 96 96 96 96 96 96 96 96 96 96=20
+96 96 96
+[    3.939076] >ffff80008024cb00: 08 08 08 08 08 08 fe fe fe fe fe fe fe=20
+fe fe fe
+[    3.939079]                    ^
+[    3.939082]  ffff80008024cc00: fe fe fe fe fe fe fe fe fe fe fe fe fe=20
+fe fe fe
+[    3.939086]  ffff80008024cd00: fe fe fe fe fe fe fe fe fe fe fe fe fe=20
+fe fe fe
+[    3.939089]=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[    3.939107] Disabling lock debugging due to kernel taint
+[    3.939134] Unable to handle kernel NULL pointer dereference at=20
+virtual address 0000000000000020
+
+
+Considering this is only showing up in KASAN_SW_TAGS, not HW_TAGS or the=20
+default generic mode, I'm wondering if this is a bug in KASAN itself.
+
+Adding KASAN people to the thread, meanwhile I'll check more KASAN +=20
+hardware combinations including x86_64 (since it's still 4K page size).
+
+Thanks,
+Qu
+
+
+>=20
+> Also ensure your mount options resolve similar to
+> "rw,relatime,compress=3Dzstd:3,ssd,discard=3Dasync,space_cache=3Dv2,subvo=
+lid=3D5,subvol=3D/".
+>=20
+> Failing that, let me know of any significant filesystem differences from:
+> # btrfs inspect-internal dump-super /dev/nvme0n1p5
+> superblock: bytenr=3D65536, device=3D/dev/nvme0n1p5
+> ---------------------------------------------------------
+> csum_type        1 (xxhash64)
+> csum_size        8
+> csum            0x97ec1a3695ae35d0 [match]
+> bytenr            65536
+> flags            0x1
+>              ( WRITTEN )
+> magic            _BHRfS_M [match]
+> fsid            f99f2753-0283-4f93-8f5d-7a9f59f148cc
+> metadata_uuid        00000000-0000-0000-0000-000000000000
+> label
+> generation        34305
+> root            586579968
+> sys_array_size        129
+> chunk_root_generation    33351
+> root_level        0
+> chunk_root        19357892608
+> chunk_root_level    0
+> log_root        0
+> log_root_transid (deprecated)    0
+> log_root_level        0
+> total_bytes        83886080000
+> bytes_used        14462930944
+> sectorsize        4096
+> nodesize        16384
+> leafsize (deprecated)    16384
+> stripesize        4096
+> root_dir        6
+> num_devices        1
+> compat_flags        0x0
+> compat_ro_flags        0x3
+>              ( FREE_SPACE_TREE |
+>                FREE_SPACE_TREE_VALID )
+> incompat_flags        0x361
+>              ( MIXED_BACKREF |
+>                BIG_METADATA |
+>                EXTENDED_IREF |
+>                SKINNY_METADATA |
+>                NO_HOLES )
+> cache_generation    0
+> uuid_tree_generation    34305
+> dev_item.uuid        86166b5f-2258-4ab9-aac6-0d0e37ffbdb6
+> dev_item.fsid        f99f2753-0283-4f93-8f5d-7a9f59f148cc [match]
+> dev_item.type        0
+> dev_item.total_bytes    83886080000
+> dev_item.bytes_used    22624075776
+> dev_item.io_align    4096
+> dev_item.io_width    4096
+> dev_item.sector_size    4096
+> dev_item.devid        1
+> dev_item.dev_group    0
+> dev_item.seek_speed    0
+> dev_item.bandwidth    0
+> dev_item.generation    0
+>=20
 > Thanks,
-> Jeongho Choi
-> 
-> 
+>    Dan
+> --
+> Daniel J Blueman
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/d2c23a07-7072-4f10-856c-dab02e3ed15c%40huaweicloud.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/1=
+7bf8f85-9a9c-4d7d-add7-cd92313f73f1%40suse.com.
