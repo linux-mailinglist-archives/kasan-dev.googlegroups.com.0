@@ -1,137 +1,138 @@
-Return-Path: <kasan-dev+bncBDA55KXUYEOBBAHA2LFAMGQET2BMN7A@googlegroups.com>
+Return-Path: <kasan-dev+bncBDA55KXUYEOBBN4V27FAMGQEMJJTTCY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAFEFCEB481
-	for <lists+kasan-dev@lfdr.de>; Wed, 31 Dec 2025 06:09:22 +0100 (CET)
-Received: by mail-lf1-x13e.google.com with SMTP id 2adb3069b0e04-5959d533486sf7388782e87.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 30 Dec 2025 21:09:22 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1767157762; cv=pass;
+Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DB0BCECBA4
+	for <lists+kasan-dev@lfdr.de>; Thu, 01 Jan 2026 02:15:36 +0100 (CET)
+Received: by mail-wm1-x33d.google.com with SMTP id 5b1f17b1804b1-4775d110fabsf95777835e9.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 31 Dec 2025 17:15:36 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1767230136; cv=pass;
         d=google.com; s=arc-20240605;
-        b=aWYL6qbLGGnf1GqwPo5maWVoWl6W2E6U2mD/Z+5aP/aB3bv8xNMHtIuC7AT3mb6vj1
-         qvpPxx7VHUIShEUbNJ9hQkEdDH0n2tz2FemhsxDEv6a97B8W17SjLm1x+RVXBjMdi7e6
-         AXGbWaHtKpGCgxpPKSC1g7RKGBWdtZvaNiFo07gqtwtHtYBzKDY4s6lJcQj9ZeA+SSNA
-         HGpZCY5ZxxireNgxYhobslin7+o4xFPRLRIe49/sCCn30GEQqsTNauVrRfadLBbWeukl
-         vYZaf+Cr3p3HmcR81snEjxNaMUpbb2MIQ8daI9MqqHaul98m92ZTieDH9CtY48FSU7wS
-         aVQA==
+        b=IUjUf+F8iaQeuBByK+wLTuWzT6dl2NsussmELbxXJEYPd+MohlR4mWdkdJ7Pc9sSBd
+         4KUXrtaqLRgGok2UH5mY1ft80FQzrDze6MOThhwFhjzrJC31dFaQYQKe5hXWVLzTno/q
+         JoaStDFiYvcysSYTEavwBwTXZL4dzjH+4RH0Ie+Bjbt4BuOk1mXWdgG0NUKKyA2eD5ao
+         o45CNcKSyI9GzfW5nTIKiGSjFQLJO8IP2lq9xeYLsQpakwKJ4+PP+mfII79nAT0CIEpW
+         eZ+frxhIQmKRpFToByWGGUiDErzmPk2nlCYFkAUk/xDflb9lMGTsPrTmatiM0wcra1+O
+         gNTw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :in-reply-to:autocrypt:from:content-language:references:cc:to
+         :in-reply-to:autocrypt:content-language:references:cc:to:from
          :subject:user-agent:mime-version:date:message-id:dkim-signature;
-        bh=11M+EPmVb2N6u9TUmSVhIVy6CMi5NrH9oz2rLalzX60=;
-        fh=2kKE+C55CIBvujOLzra7NCDMp85qyjsQyOj1WZ/UbZA=;
-        b=Bw8nOgbxC7SFRjUvqF9zb9sJzKlOBVtx3c0vmx9vwaHyNjwXKq9H4EC54aRxl9UJLY
-         QFIcZQWNazXk6oBjH/MhOiNbwJkKkXNIG46T0jx8C0moeSaDh7OslCyWe5dia5QwFO8P
-         Urr8lCO3+pdLSYY8k0grq4hsFgdBYXbsfA0PI0O6bQ/SjouD5yWrD6vq3Iu9ucIacyAm
-         F6I5an5N2cRh+Xxme3nmv7yQHrEzknYwZtG7xmrPlbeFMJf8L++Dmdqp0i2f7g7jpMrc
-         jyQ8SUK+5P+QhJCH3OUGCIteEJv+O+a+ayUCKci4forC7ZCaDRTp/Y/FfGjbhWjourAg
-         LdVQ==;
+        bh=x1RDQG2MZE+DxecMa6+CbjK/zgUxrWoM1m/CmBF3ot8=;
+        fh=s+PFYCe7ll4DgwTAf8SfL6iObgBMqkuXMjUqhRDDc5U=;
+        b=KDi2yMtAZOe9qu87xdqwPTPt2pieIGPWIDRYMpgy9HSENDaqXJUaItSqyoA2+fvTyu
+         92NGrMgBfjuLdDpYlxXeA7HnuPabgP4X4a5/zBsLRA0DGxhX+obPwmZd8Tah4iR+Bf2q
+         fg/9+T5YWs9jEqzQojbP7FK4n0CjbQbO53Md58kn5oZ5JDvOwEx8UaMj5ZpU1tfwLXA6
+         Ly2obyxMyxTXbc4njFv7igj4EKMYFb9zTjwIz1fstbTbT2vgPq0t7bKXSo1RAAn+phN+
+         mI9/m1co6Kj7TDjhjpeeMg14SQIJ3isICb2HBFJdHfJlMZwq79s/513uz5m3OVbS0AVy
+         omqg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.com header.s=google header.b=UVbWD64a;
-       spf=pass (google.com: domain of wqu@suse.com designates 2a00:1450:4864:20::334 as permitted sender) smtp.mailfrom=wqu@suse.com;
+       dkim=pass header.i=@suse.com header.s=google header.b=HyaVcdx4;
+       spf=pass (google.com: domain of wqu@suse.com designates 2a00:1450:4864:20::32a as permitted sender) smtp.mailfrom=wqu@suse.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1767157762; x=1767762562; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1767230136; x=1767834936; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=11M+EPmVb2N6u9TUmSVhIVy6CMi5NrH9oz2rLalzX60=;
-        b=C8OnKOFmoVu7lYoFmtylo5R51A8n97Z3GOE5EvrRNW8nYastki/a2Br8rEludO+7Xy
-         cIuepd9uTONVF+hAUSPD3XSnkxeiS/zm1UcZeh5fEW+zWs5gxPpfTkVI6jyCvtdDVH8j
-         A9/5V3SfLKU3aFrvIHvEtztZbt9YarLawnzIoR/X0QgjVEdDHqZz8HkIQ9n9mkhoVW6U
-         OqI8UN696clLDaCG89FC0CeIMaiL/SUL7psxxdSvJ7BEWv/Vqzvrs3+HFmJu8afa+COn
-         tzZ23Xtyi8Iua5giSRm9tAkVfqvFvG/4vFfivhgNPjTcOLSF7UsZjoVNrAM8KIc9L3Ks
-         WB2Q==
+         :content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=x1RDQG2MZE+DxecMa6+CbjK/zgUxrWoM1m/CmBF3ot8=;
+        b=pF7lrsYc3dkolYwj6GKmwxX1LN2gOsS9JAvQGDWGz4eC//JcNVMw2FVan1qpB2A8XK
+         enXWZu+OtklxV/9eUeMfC6FFXorJu/QdB1/texYe/p0WHvKT6A762Hq789rnFn1IFCoW
+         UphD4sVG2zFdRrJ+/Ev8j2uEnpZYWdJjRR+UZ2qkdAr3t4iA+D6Wh6Mi2PwqkS/uO/wI
+         nJpx+nehDKsEPmHoRS3u5uT40kU/lQXET19myBI7Nou6MPMDPqF1iiW4X7UDwwZUTWLc
+         FrF3tHK1JndQwV4ovqw7MENjaIeOFON0VbAIKuGuAnHuZCej+aXyzmBgC1Nx92U6Z9Ks
+         1Xzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767157762; x=1767762562;
+        d=1e100.net; s=20230601; t=1767230136; x=1767834936;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-beenthere:x-gm-message-state:from:to:cc
+         :content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-beenthere:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=11M+EPmVb2N6u9TUmSVhIVy6CMi5NrH9oz2rLalzX60=;
-        b=ErDm0KRzlkfq+37w17V2TzZTGy4ormSRG9wHbt7Fpi4Gw0QoXkUrJkQaEWYFZGTeID
-         O2LP/Vlfn10NwDsM74omdYSma+Orpjuw+SounVt/27Yu0fy9UjVx20TkNv2mIJAjNt5S
-         wUp+gPHGRB6VHDzMy4NHWti4YPgswchWTnrm762XVbgCUW7JcXwB1U+hKswKCydQsziR
-         Me27IO3oxDD9AzEkjLmt/Eb+vZbZ+rmFV/xCxXo4JSU9FvqB1z8gAxGx8Sq9/ZRA9Rt4
-         RHQNpjDdw2rEqmFqBXq2sBnnssJzZdYKj8JssBbCXikW5qUiJAFy0ql3OqgZfJqZ0c8A
-         UCOA==
-X-Forwarded-Encrypted: i=2; AJvYcCX+H5JkMG0rURu4Y50VME9vTiEwq3drA3akRqCA8CJLv/tf/Ei8tjjIRz6fVZAhEYm12AGUZQ==@lfdr.de
-X-Gm-Message-State: AOJu0YyPrc1MHMQXvmOtBgb3RjGJJN0NXykBiN/yTS06gf2Zdi7ehwpN
-	bdZ1Z8yT7YQdb3ta7cCBJKT2wikdCb+G7Hb+AyQgG0ydxwcfssBbImFn
-X-Google-Smtp-Source: AGHT+IGUMoyPZ8qopnqSqkM2C7Qb7YfndqTuou1QkjG7qRStVNfA9j5cBDp6vv30MR2nMc0Be7CGjw==
-X-Received: by 2002:a05:6512:31d1:b0:598:853e:871f with SMTP id 2adb3069b0e04-59a17de08e2mr12660857e87.51.1767157761399;
-        Tue, 30 Dec 2025 21:09:21 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWbCpPK9mBMaWrEuOTUdsutLksSXYJI85asVyXGdjcvv9g=="
-Received: by 2002:a05:6512:1113:b0:598:f445:11e4 with SMTP id
- 2adb3069b0e04-598fa405c7cls2861883e87.2.-pod-prod-06-eu; Tue, 30 Dec 2025
- 21:09:18 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXmeWIXkXzrGJymFxI16yXg92HYnZahgs/isdSd2Hh5jM9aI0L3BxrxHGC+3XsBFHmgGNXYSpu/Lag=@googlegroups.com
-X-Received: by 2002:a05:6512:3c9e:b0:595:9d6b:1175 with SMTP id 2adb3069b0e04-59a17d5905dmr12461631e87.14.1767157758199;
-        Tue, 30 Dec 2025 21:09:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1767157758; cv=none;
+        bh=x1RDQG2MZE+DxecMa6+CbjK/zgUxrWoM1m/CmBF3ot8=;
+        b=gF6cS4Din927o7YtHlDLdyOK+KHnDkONISzIoHvhTCT2KXqkRnT/6TlVJSAU1RHese
+         LSHrBJ1FsEwsJv6/xgGQMfHgVrw2hwtj59Uy1jr3/8INOhyb6ojqZ7oANlZ3myLe2CyZ
+         GweiGlHb6vum7L5lQW6lUeEx81z0gcEBbE/xh/BEbOI7Gs+VNSqH+JtR6sQrfaUVI3cQ
+         Uzqo07EI6MQ+ve0UKW/HahXg+sHNYzlSPm8QBu+2+IHVvvAlyJYqVowg0Y6II4/7GpVa
+         Jk7dsuTidlMt9Gn2LwKDzsZ3jBrFmbR3vZduGRtG3xwIeCSvy7sMUlMfF4BvPoP/m29Y
+         f4YA==
+X-Forwarded-Encrypted: i=2; AJvYcCU8WjFq0dAVK4cjmR5IL10WAIF+XlPQ20O1L/Hd3i13ImNPZWF1mdVIbIljEljepKsvEyI3MA==@lfdr.de
+X-Gm-Message-State: AOJu0YxKilxxB/IIFk2LZt/Y7NiUZlc/fTUyGIF3Y9W5BvJTc1x1P5Md
+	0vMvTr2ip73FdEtcoYEPfwlrHlp4zq0DPP7oGKhunwxioMrDExj0zlxy
+X-Google-Smtp-Source: AGHT+IHdraVO14NLdjVL+etSqdJwj2DyDia+/HD13GMKZmV9nSy6PYGlMaBJ5n5ISGcLco5+wzk1Pw==
+X-Received: by 2002:a05:600c:1d1d:b0:477:9eb8:97d2 with SMTP id 5b1f17b1804b1-47d1953b8acmr409004955e9.8.1767230135826;
+        Wed, 31 Dec 2025 17:15:35 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWZEFCvAUxYny8neR3b8AXqCoJi2m2mXFr02ackaZPrWRQ=="
+Received: by 2002:a05:600c:1389:b0:477:980b:baeb with SMTP id
+ 5b1f17b1804b1-47d50853995ls25162405e9.2.-pod-prod-09-eu; Wed, 31 Dec 2025
+ 17:15:33 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUu9rVQd/HzPPbG8AwKTTHfHJtkeMHDFEPcdkKVgT6jx1XFk5YiSWK9yih0IOvekxObRN4TDaBu9pQ=@googlegroups.com
+X-Received: by 2002:a05:600c:3b8f:b0:475:e09c:960e with SMTP id 5b1f17b1804b1-47d19593d0dmr584119955e9.32.1767230132962;
+        Wed, 31 Dec 2025 17:15:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1767230132; cv=none;
         d=google.com; s=arc-20240605;
-        b=LwG4Pr3oYc4gSsMO2JFqNCO5JcHz3w0r9SSsHIWlqkRRzCrLDb1ZCEBhCb879lbD7G
-         P9ggVM6a3hRL2ChT04h/5psrdmEUnqS+ARwQ77qix6ktP9XakMi1PoOFWuoLH+HnZB9J
-         quJwJeb3TFUU9L8NUTn7C9IRq4TZvUL9NwM6rZiSHWQ1sae8yI/JtiMtJVM0g+Y2eIIT
-         ulrYyuInpOvcD5JpHTPpAtrm54fkcMmMaNymWVa4QrlFbfTXKsAUEyyRlfBRRMjz5nZu
-         vGjM76LQ3spKvM/+uFott2fK8+JbBuDiTIuoM7HKw6+aKGw6Z3cqVYahG9d5X0IT9qRu
-         3LjQ==
+        b=EpPzSM3IGpjz2KP/YKCxgMUIHas6AdG4orIQsMIMdeMG9fYIKg1cMOMgE2EscDg6uS
+         k56RNn3V3egECbdau/afcIDn3Mv+lcUWq9mCxKIlH1GvzcSQKnIpdZEMC1wEKZONpyRA
+         BMQfRBKcgyENvRVH8cKU/VmuV77TZD9qULJYRiER/O1raC7a/0+KH0pRq6E7iEgLh88K
+         PltTJc2ir7BMLgok68DMhqeiy/BSzBRfB4ypTziAiHu5tuWGTAPYDd6a4In1jjejBRI0
+         JOurEiKc19uRKo3e4/XO5XhFNlGa9kFwCFx20b2EsQqeaV+fFyJ+9gf0j8Wzocz6iFjs
+         +QCw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:dkim-signature;
-        bh=DI0k7hgIOB6FXoBmvQUNmPn4Ay/YstMhbmqFpQgeUc0=;
-        fh=NjVKhFabVOhDqMTA9y+BtTNQnKXcZ/TSiXlRsvKy0e8=;
-        b=PLHZUgY8r967LsD/UA+Xscu9o71oKgFUSGc7DXyf7RmxSIbd8e2gLYNfTqqZAZuOkr
-         Kba2I1kPg5SgYqLOzY2zUPUgF/vc8GRUhPf66bTfTF2fo/HrrLShZKm7XJ9O2lZpjzlF
-         0RXcbdYmhScROXI+WDgjQPu9rrzDZP1+8mnYjH8vQsqwZztGRK+1Kfo3v4WwKAkgvrB0
-         ASAmZKyKeDXUqo6Is9VBOWImdYCw4f5mNC0Ha8XsbdqDVk9ku4cbd3TaX499cWtZ2qee
-         P3wJZzxvLp+CPCJf/9HiPbCqoG8NNwqj3tlPVQFNb3Sf/SB5nJp+diX4i5DmySi7rpvi
-         QFKg==;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:dkim-signature;
+        bh=xkwY3h33tWtBnJzkbT/5FUlQ2yKG1xK3b/1V8KgcBKA=;
+        fh=D/DIEkpupZXaqUE27bjNsOypmN/1sMcU9AX4Orwy3p8=;
+        b=BVO1+JRzmaMhTlQ9Jq6RYUqXIEAO039ovH+3FnSPh5q5rCxoiSQOb8bz9cpbD9cyIp
+         +aNtkJc/uIB5O+aTyXPK8VLoMSQqP0CzwyRr9Usr9mS+Tn9RPWGH1CmD2Y+2X2pPmjhC
+         LpKmkL7KfsH5265QWx9IHBc303Ll4FNgJeXKhuoWkYzlvbqBISzTUUUkQcq2muw+VyG8
+         1R8BwADLXmyEGRbp67NsBTdzgV8qStGrNGHdYWyG78AyTJTszhfXN5OgTePBCvEgm5Dg
+         j/Zuma4k6+QIE7hOLuznlBFxKpj0FB71GKdRMJmi33B1+as+qUjA2xgw0WCKIR0hwduV
+         UlgQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.com header.s=google header.b=UVbWD64a;
-       spf=pass (google.com: domain of wqu@suse.com designates 2a00:1450:4864:20::334 as permitted sender) smtp.mailfrom=wqu@suse.com;
+       dkim=pass header.i=@suse.com header.s=google header.b=HyaVcdx4;
+       spf=pass (google.com: domain of wqu@suse.com designates 2a00:1450:4864:20::32a as permitted sender) smtp.mailfrom=wqu@suse.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com. [2a00:1450:4864:20::334])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-59a1861b956si545717e87.7.2025.12.30.21.09.18
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com. [2a00:1450:4864:20::32a])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-47be3a7801fsi5241095e9.3.2025.12.31.17.15.32
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Dec 2025 21:09:18 -0800 (PST)
-Received-SPF: pass (google.com: domain of wqu@suse.com designates 2a00:1450:4864:20::334 as permitted sender) client-ip=2a00:1450:4864:20::334;
-Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-47d3ba3a4deso27227155e9.2
-        for <kasan-dev@googlegroups.com>; Tue, 30 Dec 2025 21:09:18 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWgY4UW8oraFvYcsl0TcPggro+wLXFbc7k8KdVtq6Nl9euV+ibyLIf0B0greRJm0ZfFWt2ZnwHMwXE=@googlegroups.com
-X-Gm-Gg: AY/fxX60IS2gYpuI8O2cihH8aEKPNzbFRHR+tn7N4E9gLvw0nBQrV5FsWb5d09A4WRv
-	qNJY1AgmsKzMPkM/8j5hqZ4NdyLF9+f72ScBS27ALs81l7jer6rF23ERiisNUZCaKFQ/aOWm9w0
-	MIwkplxnOuo9HA7dHXstBahpNEcmmdUiMol7DC/MTDChNhx/9LteyAPWq2LsETbuFAqIydoVdpJ
-	Viq94nfHITSExtTG6ywOjKYRLiNBkVaAm45vzelTkPoYGNympbyZv8b9qGF+eivhYFiUWs0tCGU
-	X5U/YUaQ9RBKLMoZn0dqktMovC6gGbhfyhUMgbp1TB0uJPWww+LSBlsYfDhsEP3m4C6AFep4rBE
-	RDTsvNKDz5GXo7EM5mjHNog6jKqxn9aSXpUKf2i3DxYFiW5TuFENg2MVqDG5Yl1jwUiSzI4aqbo
-	x+Q9s0UOcOOhpSwQySAT/bxEHlEM+Tl4LDKzgONHU=
-X-Received: by 2002:a05:600c:6388:b0:477:63db:c718 with SMTP id 5b1f17b1804b1-47d19557cd2mr408312175e9.16.1767157757357;
-        Tue, 30 Dec 2025 21:09:17 -0800 (PST)
+        Wed, 31 Dec 2025 17:15:32 -0800 (PST)
+Received-SPF: pass (google.com: domain of wqu@suse.com designates 2a00:1450:4864:20::32a as permitted sender) client-ip=2a00:1450:4864:20::32a;
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-4779aa4f928so111875115e9.1
+        for <kasan-dev@googlegroups.com>; Wed, 31 Dec 2025 17:15:32 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVzk5sYh9yoGLdiSXk9VhXhKIfNERuxyVad1RK4xOp6MwLvqzXHTNTEOKAqCL0nFHVINiC92aIJAho=@googlegroups.com
+X-Gm-Gg: AY/fxX7d/5e5HVOvLuSzFFZ/SysTXBWgy/JDJGKApnh9Vsu3Jo2jAqKgSoGuhQEmLJM
+	T6yKxc6rBbC+OOqs9OrHnF7sarMzpyjdatrCHvWVt17RiIHu+opSc85nTGCX9TjmimPNMwWPIGi
+	lxM6uwD3XKGYbyBSdLyUQtSqn5HqGF0Kiqy6K1eCtRI5AXNyXQvrdRPi5u4VSSzOi6YrN7iy4W/
+	QZhRRnRmjkRKlS23Dsva/y2G+MmOR6+c4Of3WOVeZz9VLupmwUcTcCoWgXDfHfCuOsrJsLUYh8x
+	kT0w7Ndvlpqc0MeyuL9UhiY94dud/vzyGWmgTH+uKqR6q4X6I/HbG6SpHBf1p5XbLjvm1djRpw7
+	9D/wPCPanj0Pp1Aqea92/AjrhPNC+HqiGqEKo5HE/x4daHRCdN1JOeKGCzfGKeAZXkRZTl8SPn7
+	ANUA7M+s0MZs6kwl28YKh2stBz6mVaz7uqbADTDkkvaxjopcis9w==
+X-Received: by 2002:a05:600c:4f4a:b0:477:58:7cf4 with SMTP id 5b1f17b1804b1-47d1953b79dmr511779605e9.4.1767230132347;
+        Wed, 31 Dec 2025 17:15:32 -0800 (PST)
 Received: from ?IPV6:2403:580d:fda1::299? (2403-580d-fda1--299.ip6.aussiebb.net. [2403:580d:fda1::299])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c65d71sm320207135ad.17.2025.12.30.21.09.14
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c8a8e3sm332310245ad.41.2025.12.31.17.15.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Dec 2025 21:09:16 -0800 (PST)
-Message-ID: <eb8d0d62-f8a3-4198-b230-94f72028ac4e@suse.com>
-Date: Wed, 31 Dec 2025 15:39:11 +1030
+        Wed, 31 Dec 2025 17:15:31 -0800 (PST)
+Message-ID: <03cb035e-e34b-4b95-b1df-c8dc6db5a6b0@suse.com>
+Date: Thu, 1 Jan 2026 11:45:26 +1030
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: Soft tag and inline kasan triggering NULL pointer dereference,
  but not for hard tag and outline mode (was Re: [6.19-rc3] xxhash invalid
  access during BTRFS mount)
+From: "'Qu Wenruo' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Daniel J Blueman <daniel@quora.org>
 Cc: David Sterba <dsterba@suse.com>, Chris Mason <clm@fb.com>,
  Linux BTRFS <linux-btrfs@vger.kernel.org>, linux-crypto@vger.kernel.org,
@@ -144,8 +145,8 @@ References: <CAMVG2svM0G-=OZidTONdP6V7AjKiLLLYgwjZZC_fU7_pWa=zXQ@mail.gmail.com>
  <17bf8f85-9a9c-4d7d-add7-cd92313f73f1@suse.com>
  <9d21022d-5051-4165-b8fa-f77ec7e820ab@suse.com>
  <CAMVG2subBHEZ4e8vFT7cQM5Ub=WfUmLqAQ4WO1B=Gk2bC3BtdQ@mail.gmail.com>
+ <eb8d0d62-f8a3-4198-b230-94f72028ac4e@suse.com>
 Content-Language: en-US
-From: "'Qu Wenruo' via kasan-dev" <kasan-dev@googlegroups.com>
 Autocrypt: addr=wqu@suse.com; keydata=
  xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
  8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
@@ -170,13 +171,13 @@ Autocrypt: addr=wqu@suse.com; keydata=
  /3tBWMyvIeWZKURnZbBzWRREB7iWxEbZ014B3gICqZPDRwwitHpH8Om3eZr7ygZck6bBa4MU
  o1XgbZcspyCGqu1xF/bMAY2iCDcq6ULKQceuKkbeQ8qxvt9hVxJC2W3lHq8dlK1pkHPDg9wO
  JoAXek8MF37R8gpLoGWl41FIUb3hFiu3zhDDvslYM4BmzI18QgQTQnotJH8=
-In-Reply-To: <CAMVG2subBHEZ4e8vFT7cQM5Ub=WfUmLqAQ4WO1B=Gk2bC3BtdQ@mail.gmail.com>
+In-Reply-To: <eb8d0d62-f8a3-4198-b230-94f72028ac4e@suse.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: wqu@suse.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.com header.s=google header.b=UVbWD64a;       spf=pass
- (google.com: domain of wqu@suse.com designates 2a00:1450:4864:20::334 as
+ header.i=@suse.com header.s=google header.b=HyaVcdx4;       spf=pass
+ (google.com: domain of wqu@suse.com designates 2a00:1450:4864:20::32a as
  permitted sender) smtp.mailfrom=wqu@suse.com;       dmarc=pass (p=QUARANTINE
  sp=QUARANTINE dis=NONE) header.from=suse.com;       dara=pass header.i=@googlegroups.com
 X-Original-From: Qu Wenruo <wqu@suse.com>
@@ -195,135 +196,91 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 
 
-=E5=9C=A8 2025/12/31 15:30, Daniel J Blueman =E5=86=99=E9=81=93:
-> On Wed, 31 Dec 2025 at 12:55, Qu Wenruo <wqu@suse.com> wrote:
->> =E5=9C=A8 2025/12/31 14:35, Qu Wenruo =E5=86=99=E9=81=93:
->>> =E5=9C=A8 2025/12/31 13:59, Daniel J Blueman =E5=86=99=E9=81=93:
->>>> On Tue, 30 Dec 2025 at 17:28, Qu Wenruo <wqu@suse.com> wrote:
->>>>> =E5=9C=A8 2025/12/30 19:26, Qu Wenruo =E5=86=99=E9=81=93:
->>>>>> =E5=9C=A8 2025/12/30 18:02, Daniel J Blueman =E5=86=99=E9=81=93:
->>>>>>> When mounting a BTRFS filesystem on 6.19-rc3 on ARM64 using xxhash
->>>>>>> checksumming and KASAN, I see invalid access:
->>>>>>
->>>>>> Mind to share the page size? As aarch64 has 3 different supported pa=
-ges
->>>>>> size (4K, 16K, 64K).
->>>>>>
->>>>>> I'll give it a try on that branch. Although on my rc1 based developm=
-ent
->>>>>> branch it looks OK so far.
->>>>>
->>>>> Tried both 4K and 64K page size with KASAN enabled, all on 6.19-rc3 t=
-ag,
->>>>> no reproduce on newly created fs with xxhash.
->>>>>
->>>>> My environment is aarch64 VM on Orion O6 board.
->>>>>
->>>>> The xxhash implementation is the same xxhash64-generic:
->>>>>
->>>>> [   17.035933] BTRFS: device fsid 260364b9-d059-410c-92de-56243c346d6=
-d
->>>>> devid 1 transid 8 /dev/mapper/test-scratch1 (253:2) scanned by mount
->>>>> (629)
->>>>> [   17.038033] BTRFS info (device dm-2): first mount of filesystem
->>>>> 260364b9-d059-410c-92de-56243c346d6d
->>>>> [   17.038645] BTRFS info (device dm-2): using xxhash64
->>>>> (xxhash64-generic) checksum algorithm
->>>>> [   17.041303] BTRFS info (device dm-2): checking UUID tree
->>>>> [   17.041390] BTRFS info (device dm-2): turning on async discard
->>>>> [   17.041393] BTRFS info (device dm-2): enabling free space tree
->>>>> [   19.032109] BTRFS info (device dm-2): last unmount of filesystem
->>>>> 260364b9-d059-410c-92de-56243c346d6d
->>>>>
->>>>> So there maybe something else involved, either related to the fs or t=
-he
->>>>> hardware.
->>>>
->>>> Thanks for checking Wenruo!
->>>>
->>>> With KASAN_GENERIC or KASAN_HW_TAGS, I don't see "kasan:
->>>> KernelAddressSanitizer initialized", so please ensure you are using
->>>> KASAN_SW_TAGS, KASAN_OUTLINE and 4KB pages. Full config at
->>>> https://gist.github.com/dblueman/cb4113f2cf880520081cf3f7c8dae13f
+=E5=9C=A8 2025/12/31 15:39, Qu Wenruo =E5=86=99=E9=81=93:
+>=20
+>=20
+> =E5=9C=A8 2025/12/31 15:30, Daniel J Blueman =E5=86=99=E9=81=93:
+>> On Wed, 31 Dec 2025 at 12:55, Qu Wenruo <wqu@suse.com> wrote:
+[...]
 >>>
->>> Thanks a lot for the detailed configs.
->>>
->>> Unfortunately with that KASAN_SW_TAGS and KASAN_INLINE, the kernel can
->>> no longer boot, will always crash at boot with the following call trace=
-,
->>> thus not even able to reach btrfs:
->>>
->>> [    3.938722]
->>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>> [    3.938739] BUG: KASAN: invalid-access in
->>> bpf_patch_insn_data+0x178/0x3b0
->> [...]
->>> Considering this is only showing up in KASAN_SW_TAGS, not HW_TAGS or th=
-e
->>> default generic mode, I'm wondering if this is a bug in KASAN itself.
->>>
->>> Adding KASAN people to the thread, meanwhile I'll check more KASAN +
->>> hardware combinations including x86_64 (since it's still 4K page size).
+>>> x86_64 + generic + inline:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PASS
+>>> x86_64 + generic + outline:=C2=A0=C2=A0=C2=A0=C2=A0 PASS
+>> [..]
+>>> arm64 + hard tag:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PASS
+>>> arm64 + generic + inline:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PASS
+>>> arm64 + generic + outline:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PASS
 >>
->> I tried the following combinations, with a simple workload of mounting a
->> btrfs with xxhash checksum.
+>> Do you see "KernelAddressSanitizer initialized" with KASAN_GENERIC
+>> and/or KASAN_HW_TAGS?
+>=20
+> Yes. For my current running one using generic and inline, it shows at=20
+> boot time:
+>=20
+> [=C2=A0=C2=A0=C2=A0 0.000000] cma: Reserved 64 MiB at 0x00000000fc000000
+> [=C2=A0=C2=A0=C2=A0 0.000000] crashkernel reserved: 0x00000000dc000000 -=
+=20
+> 0x00000000fc000000 (512 MB)
+> [=C2=A0=C2=A0=C2=A0 0.000000] KernelAddressSanitizer initialized (generic=
+) <<<
+> [=C2=A0=C2=A0=C2=A0 0.000000] psci: probing for conduit method from ACPI.
+> [=C2=A0=C2=A0=C2=A0 0.000000] psci: PSCIv1.3 detected in firmware.
+>=20
+>=20
 >>
->> According to the original report, the KASAN is triggered as btrfs
->> metadata verification time, thus mount option/workload shouldn't cause
->> any different, as all metadata will use the same checksum algorithm.
+>> I didn't see it in either case, suggesting it isn't implemented or
+>> supported on my system.
 >>
->> x86_64 + generic + inline:      PASS
->> x86_64 + generic + outline:     PASS
-> [..]
->> arm64 + hard tag:               PASS
->> arm64 + generic + inline:       PASS
->> arm64 + generic + outline:      PASS
+>>> arm64 + soft tag + inline:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 KASAN error at=
+ boot
+>>> arm64 + soft tag + outline:=C2=A0=C2=A0=C2=A0=C2=A0 KASAN error at boot
+>>
+>> Please retry with CONFIG_BPF unset.
 >=20
-> Do you see "KernelAddressSanitizer initialized" with KASAN_GENERIC
-> and/or KASAN_HW_TAGS?
-
-Yes. For my current running one using generic and inline, it shows at=20
-boot time:
-
-[    0.000000] cma: Reserved 64 MiB at 0x00000000fc000000
-[    0.000000] crashkernel reserved: 0x00000000dc000000 -=20
-0x00000000fc000000 (512 MB)
-[    0.000000] KernelAddressSanitizer initialized (generic) <<<
-[    0.000000] psci: probing for conduit method from ACPI.
-[    0.000000] psci: PSCIv1.3 detected in firmware.
-
-
+> I will retry but I believe this (along with your reports about hardware=
+=20
+> tags/generic not reporting the error) has already proven the problem is=
+=20
+> inside KASAN itself.
 >=20
-> I didn't see it in either case, suggesting it isn't implemented or
-> supported on my system.
->=20
->> arm64 + soft tag + inline:      KASAN error at boot
->> arm64 + soft tag + outline:     KASAN error at boot
->=20
-> Please retry with CONFIG_BPF unset.
+> Not to mention the checksum verification/calculation is very critical=20
+> part of btrfs, although in v6.19 there is a change in the crypto=20
+> interface, I still doubt about whether we have a out-of-boundary access=
+=20
+> not exposed in such hot path until now.
 
-I will retry but I believe this (along with your reports about hardware=20
-tags/generic not reporting the error) has already proven the problem is=20
-inside KASAN itself.
+BTW, I tried to bisect the cause, and indeed got the same KASAN warning=20
+during some runs just mounting a newly created btrfs, and the csum=20
+algorithm doesn't seem to matter.
+Both xxhash and sha256 can trigger it randomly.
 
-Not to mention the checksum verification/calculation is very critical=20
-part of btrfs, although in v6.19 there is a change in the crypto=20
-interface, I still doubt about whether we have a out-of-boundary access=20
-not exposed in such hot path until now.
+Unfortunately there is no reliable way to reproduce the kasan warning, I=20
+have to cancel the bisection.
+
+For now I strongly doubt if this is a bug in software tag-based KASAN=20
+itself, and that's the only combination resulting the warning.
+
+If KASAN people has some clue I'm very happy to test, meanwhile I'll=20
+keep using hardware tag-based kasan on arm64 and generic one on x86_64=20
+to test btrfs, to make sure no obvious bad memory access.
 
 Thanks,
 Qu
 
 >=20
 > Thanks,
->    Dan
+> Qu
+>=20
+>>
+>> Thanks,
+>> =C2=A0=C2=A0 Dan
+>=20
+>=20
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/e=
-b8d0d62-f8a3-4198-b230-94f72028ac4e%40suse.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/0=
+3cb035e-e34b-4b95-b1df-c8dc6db5a6b0%40suse.com.
