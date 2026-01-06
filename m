@@ -1,154 +1,165 @@
-Return-Path: <kasan-dev+bncBC6ZNIURTQNRBM456XFAMGQELFB7MCI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCS4VDMYRUNBB7VD6XFAMGQEY5MP6OI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53c.google.com (mail-ed1-x53c.google.com [IPv6:2a00:1450:4864:20::53c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DC59CF9EC7
-	for <lists+kasan-dev@lfdr.de>; Tue, 06 Jan 2026 19:04:37 +0100 (CET)
-Received: by mail-ed1-x53c.google.com with SMTP id 4fb4d7f45d1cf-64cfe5a2147sf1751773a12.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 06 Jan 2026 10:04:37 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1767722677; cv=pass;
+Received: from mail-oa1-x38.google.com (mail-oa1-x38.google.com [IPv6:2001:4860:4864:20::38])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B40CCFA0CC
+	for <lists+kasan-dev@lfdr.de>; Tue, 06 Jan 2026 19:18:40 +0100 (CET)
+Received: by mail-oa1-x38.google.com with SMTP id 586e51a60fabf-3e82af7316bsf2191881fac.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 06 Jan 2026 10:18:40 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1767723519; cv=pass;
         d=google.com; s=arc-20240605;
-        b=lL6dlkdy+LmrfQyOa6U06CLOwAx0RS1pBDgvYBr+r8ZPWCNGQVqnj/4UAbCVO593Ya
-         gRd0Kt3w2kv2Htu8tTgO4UKagNXwT1rsyBP0GW5HIkXin042Tbe9HmgJ+qQzpakzd0Jt
-         /fpKTyrXfAZxC5ZbFfZXzz815lvNYCvnxa1e803Fpu9FAGwvcbJ0ksgc4vB9YXgfeeZm
-         cdboV/yC8ngFC/vT9N6hTUW092oVl+MZHbpuzehqM8Djv96appIDR5yFo5hJa9RHtWmU
-         dT3bt8GbCmtrhSC+qiomAwp2bvpo7dfD3YGRt76thROZclOmz4TFhfKmfuTE6l0tOr9z
-         YqwA==
+        b=da5GcALDNQucc8uTbk617gkUzJYRpiU8SyjfwIEfdfn+z+XKWJLefTpqu72iTxrVW2
+         J4wBBcxE2AwPSJlt7DyxQ8PRN8910bWAYLq8FqUnmx9GZSSJ19rpy4DdbYvsQFhVi5ks
+         rujutbRh+C+Jck30bFOBnf/WEx9bmfeLG4th+M879rPjXPXwMQIS0dHPVa2SKvVq3ate
+         EMQaAoQqsyvgyK3M3ZcUY4s9VTvBIFQckxh7yj1pRMv/HTkMYHhc0Z0kRJte2OZnGqnt
+         FdOwoeDVG6HeqlQkHE3C2CgiqVmriAJtml8b+h89U5teSHcXlnnLIll1nCB+vwahu1CS
+         QMmA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
-         :date:subject:cc:to:from:dkim-signature;
-        bh=Ga0NabSdJyH/qw08FWB4DhB0HG+ONWkvrU/MaxmDOc4=;
-        fh=s6iGvl8fcmX91d7UXMw1fWwxajqUQtiqCzn5nl4NGzc=;
-        b=gNwMTy5KtWJtDh44mL2mio46s/FdgxinBXsdZcHDFVERy7QBsitgExOvS6vk46MnZ0
-         9YJL15CNCfDWoUXoPxtMUfWbTPER8TSEI3ZKuhShH5SKWFbA6pFixuJLtV5YQ/a7uxye
-         RBU9Lz0xbpwoN+XCIGgq94xacK8C/ZsSTzEC2W7fLsacWEqtYpQYQxKYXXrkQXZISCnl
-         cJxN5z+Qh/bJ0vNUL/1TMVRZMgQsFiuLpyqBXsln/iuYC/1D9uN5QpuTU9kyQr9QSXPx
-         nC2GoNq3OKgOFeNPbGFnEyH18wP5XAfoBWAcDOh4SXqzjL6yAooQyGL0VxoSGiJJdXNc
-         8KWA==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=NfwF5nBDxYcpL1LeC9SsiaJHawQ5x31vHKar7W7KfzE=;
+        fh=M0RNbxo0j3hDBBBtrjwLDn6T2m9eFDwhBzgt5aqrlbI=;
+        b=ciQEJ7xewHoOCSWhnoHEoq0vMCPnVjzn6synkBuCVwuiplHCiOlA1+DcqIGCT3lm5I
+         wXzdCaMTDrS6+AVy9ZnBL4vbs103V3Wy7YHK5bWsP7dkowj24+FX3IwHQ+bLcM3na4dv
+         OHmL40odATF07KhbqV0jINtoGqt3Pn9BMGXUJ6TQnjNGjqZun69jfKyZGIzKEIZaPmUO
+         mCyg8xEWaflVYoJYv1PxDB0RlxLM4+gmWcHENZDVuo3RpSxTMWGkEWrY/d8TueHjtzDJ
+         UjoJ1DOi5zZqarCwwaYLs7L8Z0AOATdS2Au+jHyb9k9eKoyQt1bQ2+8eU5wN9tIhnOEi
+         b6ZA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@citrix.com header.s=google header.b=EPKUh3AH;
-       spf=pass (google.com: domain of andrew.cooper3@citrix.com designates 2a00:1450:4864:20::329 as permitted sender) smtp.mailfrom=andrew.cooper3@citrix.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=citrix.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=tzz8m5do;
+       spf=pass (google.com: domain of srs0=tqzs=7l=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) smtp.mailfrom="SRS0=tQzs=7L=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1767722677; x=1768327477; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1767723519; x=1768328319; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ga0NabSdJyH/qw08FWB4DhB0HG+ONWkvrU/MaxmDOc4=;
-        b=LFS/QOMgY5vtI/KVQ2iR4nlyCfzI+x8gmpZwpqsU146SdL7fDIqVQVT37swJSe3e5x
-         C9PtL4d83G4yhTyxwpxIQQ6T+UwOyk5Gplv14pc5gYxSc5iJjjOiZB4PdCkQhLTjD6M3
-         OFujoOesMYWjNadMoHv1vHOEy9XRBmWx6UPiB11z/Xj5TYnkHoiXaLB1be5FWENYh2re
-         a3FqiNkp1UFWJqgsBfcaO/DF5tlpE50bWV50/UZcCpwKuxs9l+KeZ9u2iBZ23cQe9dcW
-         9SJIDG8Ly0KTrGVrxPQ6+xyWZedGf2beNFJA6DLr4ngwY0YvgMcaiT9QMS9psnw04tdX
-         NXHg==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:reply-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NfwF5nBDxYcpL1LeC9SsiaJHawQ5x31vHKar7W7KfzE=;
+        b=DjeRtqQubfPnpR7HGguHCH3jQhLxHHvRO3z4uV3nYQ1YXWdPdZp3WLphcN5XZhB7XC
+         jBcO05AJ6HGEdjNad2UXikwQ4AVhVzSmVQ4CWJL6SiDca8DAMhpwBBQ4xfzW00ks0LF9
+         fiiiRDKrY6j+FfW+j4bPbY7Q3yvxxK5w0/3YhPpOsxyn2YmZ9sk/VEuqwWljHBn4chP8
+         cXyZGgTo1vq2gwmzLGZxCtw7XM7Wt2P8QLTk2T7eihe+h7sz7NbpgVO3A6P1+PcAXv+b
+         +ADOEsobVEpgK9Wf/5thQtDwHLUde7uNtgVOS+wd5v9U3YztNEj6kCPw2IeSFXib1oX4
+         Voow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767722677; x=1768327477;
+        d=1e100.net; s=20230601; t=1767723519; x=1768328319;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-beenthere
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ga0NabSdJyH/qw08FWB4DhB0HG+ONWkvrU/MaxmDOc4=;
-        b=K75VYjVLMYAwi+qMPOd7Mnz8hGqHysqp0+vJRpSZ3R4DnjzH001mvqN3NZUy38pwB6
-         I5I3txv2KDLKy6vWtN/5eJPpveMLC8dTi0xbCNOEJlLcq34mcf1ET2HdW2KlKdAyBl16
-         KUcN8PwLpmws3Jsb46b/Mhmtku7eVudLlKzH86hflQOsQ95Z1TM9rhkG/Hb74+cJonwN
-         wPQ1drB05Rjm8B0JxSTgqU/yfqpuKywYZuNISWhfDauvfMTbnPy+2UEYT4164ShbJSIU
-         AyrKjTsWwx50yavwRgX5Y+rHf1zhW6CViN0TeQuGzSgA4Yu/b7R0V23dvxogxE1apIrd
-         zvkQ==
-X-Forwarded-Encrypted: i=2; AJvYcCVEteyM777T/gaiq+AP3gKo+K6z3YO0LE2K8BvKYURZwNylrQKgVuHDtUMeViAzMNrVgBfUtA==@lfdr.de
-X-Gm-Message-State: AOJu0Yy6qQIWxolgPIs3KPk/+wNiAOyuiYqvvYPHOE/77kCBL5wMuME8
-	wKgMjJhu65AlyIKTCdrobmF8Jhq8QIZ4F0sazrmA+z+OlgMU9DcAwlXr
-X-Google-Smtp-Source: AGHT+IEn2wwXGiN4Z5oOrcfUpMsNvJjqNsOnZCUCbQC4OVmFNDWyIPw2yp2jKeZkWc+gAtQM1MKDjA==
-X-Received: by 2002:a05:6402:234d:b0:63c:3c63:75ed with SMTP id 4fb4d7f45d1cf-65079674a7dmr3715025a12.22.1767722676602;
-        Tue, 06 Jan 2026 10:04:36 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWYiQD/kzHFWdBu4C+s/qhHU8hSRfw8BtQhKpgSKJ9rpeQ=="
-Received: by 2002:aa7:de15:0:b0:644:fc33:37b6 with SMTP id 4fb4d7f45d1cf-65074900007ls1232563a12.1.-pod-prod-08-eu;
- Tue, 06 Jan 2026 10:04:33 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCVES8bhjDUOZRKu9beFozEEDGSal/M37PUXNeH4dsfsxwXmqC8gUGVhlkRLbBxqMH7kaPzSLYIRFaE=@googlegroups.com
-X-Received: by 2002:a17:907:e90:b0:b80:2b9b:39e4 with SMTP id a640c23a62f3a-b844501195dmr1456866b.55.1767722673563;
-        Tue, 06 Jan 2026 10:04:33 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1767722673; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NfwF5nBDxYcpL1LeC9SsiaJHawQ5x31vHKar7W7KfzE=;
+        b=Kr665PXUmf5mORI0URcKLLnmzgmoxW6DZ96u9MaN9RFgIYaivYF4iKhgTU3Yd3uMZ8
+         FOBHNFbgNBI/SLsGINmaQQRNmG6hXEkbolcflellU0AHCjpzqY8ltr5cvW6qv1c1jy+i
+         kZ40CRxLf2Ckhd/vHid8jUTYpOeBrj0gYTmm07UAd2n+l6SblXGpxgR4mpQHQtgWp0gk
+         iq/NP8aAGJ7SjWcoz0YfsRZHHHkYeI1Y5EqUceOoPNF3GAKZspaMKOVuIHejoAEEbYHZ
+         dQGwDkyvQ/EUxhBLL2CRXviWY8GABTDNLIObEphc6teLG/+cJpaTHR+xtuaSjxJb48QN
+         YW8w==
+X-Forwarded-Encrypted: i=2; AJvYcCVYEyFhLemciM1eBobvCnzggCdclLEzx01FMSrD0LiTf+EAvJBH9OJfQIvmwEm8/RCVKZkpQw==@lfdr.de
+X-Gm-Message-State: AOJu0YxYZsPL6hpRgvNexpbwnysYlwzYVZSHQOXsTYMiS2INj+qVk62G
+	SDYjQxUS5j5JImk682BMZn4vMCf9iVGlDJVad1sswGwPC5rV7WA/mBcc
+X-Google-Smtp-Source: AGHT+IFciaHuTgGEwpEiEvnLOC0b25anc7A+pqRB+lhfZsBaEMB6Wva+SLCGKaRqM1uajvr6BgY/Fw==
+X-Received: by 2002:a05:6820:807:b0:659:9a49:8f13 with SMTP id 006d021491bc7-65f47a14e2emr2029588eaf.36.1767723518736;
+        Tue, 06 Jan 2026 10:18:38 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWYzKtJ2AIwY4U3twBgrsi/C8aEFJUB5SWBYmk9ApHiUag=="
+Received: by 2002:a4a:d113:0:b0:656:d601:dbcd with SMTP id 006d021491bc7-65f47308d21ls538785eaf.0.-pod-prod-07-us;
+ Tue, 06 Jan 2026 10:18:37 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCV+8ROwDSODIhSngKDfO6+GH7z8m/gGdkZooNtZ9wXdqz2jL3obSkmMAFqmMgqbRWV9onkqs2/6CeQ=@googlegroups.com
+X-Received: by 2002:a05:6830:4109:b0:7ca:c897:fc5c with SMTP id 46e09a7af769-7ce50a29fd5mr40500a34.20.1767723517621;
+        Tue, 06 Jan 2026 10:18:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1767723517; cv=none;
         d=google.com; s=arc-20240605;
-        b=BzqF8y/QeTT+74KGyq0YG4O87CSXfUHzCbFbtDerkRN8HygO95f707AwAdHQlmdbah
-         VCpdb4RSKvZL5k121NGSq9hGg8SSSXwGXIM6LoCmWI+BFFbip5fk9BIDKjHLeih++OJb
-         lybbuP/3Z9XEk8qXJ2p0LyEXi2OvTfLjVPmDo9iSskbTA6F8o3JZ329XXs7WNwEXNeNN
-         Q5saNBcDsMR4Hh8NUI2XpKwv4tyk3SIWu/jJ0WKqJ5VjZ+lP7GlTfmGJY2Oj8GNkFsEk
-         mTa9IG+fJVIU20nuwEvVq93jR+4z034UJPQe6BmBbAhTbJwpjNYPgVi24Eaz9oqeyY6R
-         g8BA==
+        b=aY808gFH6WBBuwFacXPzXs8HYTtnfGkyEQnwYEXLGnlTkseubtAOoZ609ycECg2WtX
+         kL4cHQJp6zMASVOURA8ha4EB2BTbEoyam9k8cdRkbWfMlr42WDWJ/mS/BMhHkQhZTTGq
+         zg/enAnH1DMqOZnNyOdQTLgcK7hYJ61Z1TFhrZjtm2UynVsBfDYbGXxPZvx0/MhyZygn
+         lR7RyBYUCUOj+/sqWRxmtlmX6r/OOfXOYO2QngQSqj9w6xFD9S+z3XWM9EC3tWxbU3c5
+         lbQZt+CBoWmoohsgKdzuZwLbGURApvUBgmyZsXuyV4NNdr4XN00uokXCwchXH8ONlbf6
+         LlQg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=Var1b/I8bDakbx+YOmwdIeXekCHIb3hIZrcAPdgbBnI=;
-        fh=3vXzI7kTdcSSif8qbAK+YnfciThpy1Uq7JN/KbRH27s=;
-        b=Slbg8fSjpazxxidYgLHOME8woEPoklS+dnWhLly2c2zwVoNDnmSkhm+6nsE8Aml31D
-         sPsZiAdR/GxRLIZYzphrm2Nk0CsQR3DKpLUeUF4aEvnyhfEochfT1ykPAVoXsmknehjN
-         NRlASbCIVW9PtkHDshiwh7Mp8BHTJpUpSIhdpWeH0o2Ua73biMncVrGqnW9c+tMGNoz6
-         fa+h9IEbSc+AaUqcmAeHt7a9ATEs/Zp07filPmhMUFuM3YIA8Fo3L8Vd98pDx6tPi+1j
-         XzeaQcIP4qZXJhLNE7QbOFv9tJ8SsJeD8A6s9bdvw4Mm23woZq1sfEuTnAI1URmBmVYX
-         o8vg==;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=W7MtjLRkxuXa/oxgkoHv/9IRUda5kTR8D5KCIwmfrHA=;
+        fh=M91/4o6ZDmglamdio9PadT+TMBvC/sSSP6UJGcNQcHI=;
+        b=K558dJFJXw0wmj2sZu8Z1O3s5xPZvaJ6ZALIGKdUA6v+5he4U9k1nUhmjLhii6+gI6
+         NrkCc0R8qrHaqJqBvUwj/Jxcl4yM7iz7H/tX21Ji201NaCppLR3Qm/s53mXkIat1yzMo
+         w9vkKPOHrLsQTET7c07qNdse/R31xShQ/ehMXPJ9ZuSn8j4DqnqBsx8YWq3B/a8AY+sx
+         jWOWbF2xZgvFXU2lz6PGZSskvk2+PUo8g46sBWiCRpN+11fNcD2CnzTPnDiDAit3CTCu
+         bqzIByMVstRJliae8ryptL9G0S0yjSaNhdfevUtybqkyRVeHgM0CJNCmT3muSlKWKcS0
+         PrtA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@citrix.com header.s=google header.b=EPKUh3AH;
-       spf=pass (google.com: domain of andrew.cooper3@citrix.com designates 2a00:1450:4864:20::329 as permitted sender) smtp.mailfrom=andrew.cooper3@citrix.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=citrix.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com. [2a00:1450:4864:20::329])
-        by gmr-mx.google.com with ESMTPS id a640c23a62f3a-b8440e5c9desi3487966b.4.2026.01.06.10.04.33
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=tzz8m5do;
+       spf=pass (google.com: domain of srs0=tqzs=7l=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) smtp.mailfrom="SRS0=tQzs=7L=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from tor.source.kernel.org (tor.source.kernel.org. [2600:3c04:e001:324:0:1991:8:25])
+        by gmr-mx.google.com with ESMTPS id 46e09a7af769-7ce481d629esi203506a34.3.2026.01.06.10.18.37
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Jan 2026 10:04:33 -0800 (PST)
-Received-SPF: pass (google.com: domain of andrew.cooper3@citrix.com designates 2a00:1450:4864:20::329 as permitted sender) client-ip=2a00:1450:4864:20::329;
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-47d1d8a49f5so8566815e9.3
-        for <kasan-dev@googlegroups.com>; Tue, 06 Jan 2026 10:04:33 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUkXxSr6yrLM9liIiX4FGOarXCSyyicZ2MuufjyDA247fJLIcQK8kZ28mJofpvVMM2LSf/LHgJxIXk=@googlegroups.com
-X-Gm-Gg: AY/fxX5VdfW4V+nCsgjevHb5tfv4HgTiGK514CXdlE4kx9T9HgYunwvV5eJFwv/v0w9
-	dsA3RZT6QUGweH/wYD/2Ll+e1GAgeccJz09sSnYF1rJSi2x69hMSnhth+2mAMXEQE5xQ2By4En5
-	YqrauRK68M89qeege8/qlUcC7O8BR2tw0ltLNe2ICXgWsqGLaPySJiC21wvfnfNXAwcTFiCkZqe
-	DkJaoECPjAWlb9sVFWMT1B0skPbDEq+/xIRk64gtbipR14Nh/7rOvnZaeOMp2FKNosBQGPHeioV
-	7rtY2h9atIPhF4lwaYUffHeu4NDopV1oImdogibz4dWThJHHHoGON5a/PFxMrH3f8xAg/VYqr+e
-	0vQUJRSBQ9kAP+9R0KcpQGNYaMJrWuElFn6Guwvr+NUtgWLnYDft65bfHekU9RhgC3eqqjRa+zR
-	QHdsvpl+eTCeUuNCxL3keCSc5ymrIjk5GWrIoYqoZdcM1a7vJ17nVLCKT0Lr5WJQQEP1EAXxiU
-X-Received: by 2002:a05:600c:34c6:b0:47d:3ffa:980e with SMTP id 5b1f17b1804b1-47d7f09b759mr35979615e9.28.1767722672877;
-        Tue, 06 Jan 2026 10:04:32 -0800 (PST)
-Received: from localhost.localdomain (host-92-26-102-188.as13285.net. [92.26.102.188])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5ee243sm5519630f8f.31.2026.01.06.10.04.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 10:04:32 -0800 (PST)
-From: "'Andrew Cooper' via kasan-dev" <kasan-dev@googlegroups.com>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: Andrew Cooper <andrew.cooper3@citrix.com>,
-	Marco Elver <elver@google.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jann Horn <jannh@google.com>,
+        Tue, 06 Jan 2026 10:18:37 -0800 (PST)
+Received-SPF: pass (google.com: domain of srs0=tqzs=7l=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender) client-ip=2600:3c04:e001:324:0:1991:8:25;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id C7D3F60007;
+	Tue,  6 Jan 2026 18:18:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74CC6C116C6;
+	Tue,  6 Jan 2026 18:18:36 +0000 (UTC)
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id D8D24CE0F95; Tue,  6 Jan 2026 10:18:35 -0800 (PST)
+Date: Tue, 6 Jan 2026 10:18:35 -0800
+From: "'Paul E. McKenney' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Boqun Feng <boqun.feng@gmail.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Gary Guo <gary@garyguo.net>,
+	Will Deacon <will@kernel.org>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Matt Turner <mattst88@gmail.com>,
+	Magnus Lindholm <linmag7@gmail.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	FUJITA Tomonori <fujita.tomonori@gmail.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Lyude Paul <lyude@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	rust-for-linux@vger.kernel.org, linux-fsdevel@vger.kernel.org,
 	kasan-dev@googlegroups.com
-Subject: [PATCH] x86/kfence: Avoid writing L1TF-vulnerable PTEs
-Date: Tue,  6 Jan 2026 18:04:26 +0000
-Message-Id: <20260106180426.710013-1-andrew.cooper3@citrix.com>
-X-Mailer: git-send-email 2.39.5
+Subject: Re: [PATCH 0/5] Add READ_ONCE and WRITE_ONCE to Rust
+Message-ID: <7fa2c07e-acf9-4f9a-b056-4d4254ea61e5@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20251231-rwonce-v1-0-702a10b85278@google.com>
+ <20251231151216.23446b64.gary@garyguo.net>
+ <aVXFk0L-FegoVJpC@google.com>
+ <OFUIwAYmy6idQxDq-A3A_s2zDlhfKE9JmkSgcK40K8okU1OE_noL1rN6nUZD03AX6ixo4Xgfhi5C4XLl5RJlfA==@protonmail.internalid>
+ <aVXKP8vQ6uAxtazT@tardis-2.local>
+ <87fr8ij4le.fsf@t14s.mail-host-address-is-not-set>
+ <aV0JkZdrZn97-d7d@tardis-2.local>
+ <20260106145622.GB3707837@noisy.programming.kicks-ass.net>
 MIME-Version: 1.0
-X-Original-Sender: andrew.cooper3@citrix.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@citrix.com header.s=google header.b=EPKUh3AH;       spf=pass
- (google.com: domain of andrew.cooper3@citrix.com designates
- 2a00:1450:4864:20::329 as permitted sender) smtp.mailfrom=andrew.cooper3@citrix.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=citrix.com;
-       dara=pass header.i=@googlegroups.com
-X-Original-From: Andrew Cooper <andrew.cooper3@citrix.com>
-Reply-To: Andrew Cooper <andrew.cooper3@citrix.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20260106145622.GB3707837@noisy.programming.kicks-ass.net>
+X-Original-Sender: paulmck@kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@kernel.org header.s=k20201202 header.b=tzz8m5do;       spf=pass
+ (google.com: domain of srs0=tqzs=7l=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
+ designates 2600:3c04:e001:324:0:1991:8:25 as permitted sender)
+ smtp.mailfrom="SRS0=tQzs=7L=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: "Paul E. McKenney" <paulmck@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -161,122 +172,53 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-For native, the choice of PTE is fine.  There's real memory backing the
-non-present PTE.  However, for XenPV, Xen complains:
+On Tue, Jan 06, 2026 at 03:56:22PM +0100, Peter Zijlstra wrote:
+> On Tue, Jan 06, 2026 at 09:09:37PM +0800, Boqun Feng wrote:
+> 
+> > Some C code believes a plain write to a properly aligned location is
+> > atomic (see KCSAN_ASSUME_PLAIN_WRITES_ATOMIC, and no, this doesn't mean
+> > it's recommended to assume such), and I guess that's the case for
+> > hrtimer, if it's not much a trouble you can replace the plain write with
+> > WRITE_ONCE() on C side ;-)
+> 
+> GCC used to provide this guarantee, some of the older code was written
+> on that. GCC no longer provides that guarantee (there are known cases
+> where it breaks and all that) and newer code should not rely on this.
+> 
+> All such places *SHOULD* be updated to use READ_ONCE/WRITE_ONCE.
 
-  (XEN) d1 L1TF-vulnerable L1e 8010000018200066 - Shadowing
+Agreed!
 
-To explain, some background on XenPV pagetables:
+In that vein, any objections to the patch shown below?
 
-  Xen PV guests are control their own pagetables; they choose the new PTE
-  value, and use hypercalls to make changes so Xen can audit for safety.
+							Thanx, Paul
 
-  In addition to a regular reference count, Xen also maintains a type
-  reference count.  e.g. SegDesc (referenced by vGDT/vLDT),
-  Writable (referenced with _PAGE_RW) or L{1..4} (referenced by vCR3 or a
-  lower pagetable level).  This is in order to prevent e.g. a page being
-  inserted into the pagetables for which the guest has a writable mapping.
+------------------------------------------------------------------------
 
-  For non-present mappings, all other bits become software accessible, and
-  typically contain metadata rather a real frame address.  There is nothing
-  that a reference count could sensibly be tied to.  As such, even if Xen
-  could recognise the address as currently safe, nothing would prevent that
-  frame from changing owner to another VM in the future.
-
-  When Xen detects a PV guest writing a L1TF-PTE, it responds by activating
-  shadow paging. This is normally only used for the live phase of
-  migration, and comes with a reasonable overhead.
-
-KFENCE only cares about getting #PF to catch wild accesses; it doesn't care
-about the value for non-present mappings.  Use a fully inverted PTE, to
-avoid hitting the slow path when running under Xen.
-
-While adjusting the logic, take the opportunity to skip all actions if the
-PTE is already in the right state, half the number PVOps callouts, and skip
-TLB maintenance on a !P -> P transition which benefits non-Xen cases too.
-
-Fixes: 1dc0da6e9ec0 ("x86, kfence: enable KFENCE for x86")
-Tested-by: Marco Elver <elver@google.com>
-Signed-off-by: Andrew Cooper <andrew.cooper3@citrix.com>
----
-CC: Alexander Potapenko <glider@google.com>
-CC: Marco Elver <elver@google.com>
-CC: Dmitry Vyukov <dvyukov@google.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Ingo Molnar <mingo@redhat.com>
-CC: Borislav Petkov <bp@alien8.de>
-CC: Dave Hansen <dave.hansen@linux.intel.com>
-CC: x86@kernel.org
-CC: "H. Peter Anvin" <hpa@zytor.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Jann Horn <jannh@google.com>
-CC: kasan-dev@googlegroups.com
-CC: linux-kernel@vger.kernel.org
-
-v1:
- * First public posting.  This went to security@ first just in case, and
-   then I got districted with other things ahead of public posting.
----
- arch/x86/include/asm/kfence.h | 29 ++++++++++++++++++++++++-----
- 1 file changed, 24 insertions(+), 5 deletions(-)
-
-diff --git a/arch/x86/include/asm/kfence.h b/arch/x86/include/asm/kfence.h
-index ff5c7134a37a..acf9ffa1a171 100644
---- a/arch/x86/include/asm/kfence.h
-+++ b/arch/x86/include/asm/kfence.h
-@@ -42,10 +42,34 @@ static inline bool kfence_protect_page(unsigned long addr, bool protect)
- {
- 	unsigned int level;
- 	pte_t *pte = lookup_address(addr, &level);
-+	pteval_t val;
+diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
+index 4ce4b0c0109cb..e827e24ab5d42 100644
+--- a/lib/Kconfig.kcsan
++++ b/lib/Kconfig.kcsan
+@@ -199,7 +199,7 @@ config KCSAN_WEAK_MEMORY
  
- 	if (WARN_ON(!pte || level != PG_LEVEL_4K))
- 		return false;
+ config KCSAN_REPORT_VALUE_CHANGE_ONLY
+ 	bool "Only report races where watcher observed a data value change"
+-	default y
++	default n
+ 	depends on !KCSAN_STRICT
+ 	help
+ 	  If enabled and a conflicting write is observed via a watchpoint, but
+@@ -208,7 +208,7 @@ config KCSAN_REPORT_VALUE_CHANGE_ONLY
  
-+	val = pte_val(*pte);
-+
-+	/*
-+	 * protect requires making the page not-present.  If the PTE is
-+	 * already in the right state, there's nothing to do.
-+	 */
-+	if (protect != !!(val & _PAGE_PRESENT))
-+		return true;
-+
-+	/*
-+	 * Otherwise, invert the entire PTE.  This avoids writing out an
-+	 * L1TF-vulnerable PTE (not present, without the high address bits
-+	 * set).
-+	 */
-+	set_pte(pte, __pte(~val));
-+
-+	/*
-+	 * If the page was protected (non-present) and we're making it
-+	 * present, there is no need to flush the TLB at all.
-+	 */
-+	if (!protect)
-+		return true;
-+
- 	/*
- 	 * We need to avoid IPIs, as we may get KFENCE allocations or faults
- 	 * with interrupts disabled. Therefore, the below is best-effort, and
-@@ -53,11 +77,6 @@ static inline bool kfence_protect_page(unsigned long addr, bool protect)
- 	 * lazy fault handling takes care of faults after the page is PRESENT.
- 	 */
- 
--	if (protect)
--		set_pte(pte, __pte(pte_val(*pte) & ~_PAGE_PRESENT));
--	else
--		set_pte(pte, __pte(pte_val(*pte) | _PAGE_PRESENT));
--
- 	/*
- 	 * Flush this CPU's TLB, assuming whoever did the allocation/free is
- 	 * likely to continue running on this CPU.
-
-base-commit: 7f98ab9da046865d57c102fd3ca9669a29845f67
--- 
-2.39.5
+ config KCSAN_ASSUME_PLAIN_WRITES_ATOMIC
+ 	bool "Assume that plain aligned writes up to word size are atomic"
+-	default y
++	default n
+ 	depends on !KCSAN_STRICT
+ 	help
+ 	  Assume that plain aligned writes up to word size are atomic by
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260106180426.710013-1-andrew.cooper3%40citrix.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/7fa2c07e-acf9-4f9a-b056-4d4254ea61e5%40paulmck-laptop.
