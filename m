@@ -1,169 +1,222 @@
-Return-Path: <kasan-dev+bncBCS4VDMYRUNBBY6GQHFQMGQE2PWFO7A@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXYDPH3S4OBB2PSQLFQMGQE44LBUTA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3f.google.com (mail-qv1-xf3f.google.com [IPv6:2607:f8b0:4864:20::f3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD895D06CAE
-	for <lists+kasan-dev@lfdr.de>; Fri, 09 Jan 2026 03:09:40 +0100 (CET)
-Received: by mail-qv1-xf3f.google.com with SMTP id 6a1803df08f44-88a37ca7ffdsf55699036d6.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 08 Jan 2026 18:09:40 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1767924579; cv=pass;
+Received: from mail-ed1-x53c.google.com (mail-ed1-x53c.google.com [IPv6:2a00:1450:4864:20::53c])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADED3D07BF4
+	for <lists+kasan-dev@lfdr.de>; Fri, 09 Jan 2026 09:16:42 +0100 (CET)
+Received: by mail-ed1-x53c.google.com with SMTP id 4fb4d7f45d1cf-64b735f514dsf4975751a12.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 09 Jan 2026 00:16:42 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1767946602; cv=pass;
         d=google.com; s=arc-20240605;
-        b=ihJm8Bd7fywxqpshK1hp///EWHxpJ+0eWXHRYbH2Af4Ef5/tPkeB9LACXnOJeoBloW
-         pxp/Dp3aInGVdfny5NASDPvgyIm+6k4rufEXW0t/cHhxHoQdHTAczMFdUEkXt949Cpo6
-         PdG/FRknPmWMrCH+dAagpSmJboXzMuvuiH3GaDHx05VPTwAnxCGlQherY+Sc68uB3ICc
-         OM6uBMfRf87Ab9EKNdX/R4ZPP0aDlISEzBbTvfgcT18xLZ9qv6VEvEhKSKF9yG6XJgnu
-         1muh/HYeFFUcoNcvWLY/t8NNW3B11Qy6Q8fEAwCuEbHMZt2Nd9xwbleiDFI2OL2W+2wp
-         +Qqg==
+        b=lgXLB4ddArwFtY4Q85x6MxSaIYK9z+2jX1oglIB3o9mhHH9/SGGCb5FLWQGHjYk3gL
+         8aAl3hdPhRVa2GnveWEFP9sGOkl9/DlCRy594KqEAS2tzKDUlyUyMsb9WInw0LLugRi1
+         S7UnOkX3y7sznNpDZVFhOk+QcOe0AsRtRqe9yEGHJkCIIx98y6YEn+s/xU1fAbtsLICx
+         OlYsfxVNTsOPQ3ANqKPY6CkTxIyHfqIvAVxv8QAvwcggZwssarcaU5RaYjOhZ2IiEl8p
+         mhZjsokYKTnrMrE8nLsWeLpEejz4SDry4JAfbehntiDMfJ+VnfzCiNoB35vV0d1MaqjJ
+         2qlA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=MXkysPTkCtoUCxmYIM7JekJOdK+Hehg6dKSOxrKQWoY=;
-        fh=ceH8K+6JB20//cRGrmmQ/+gdtJZ1hVvhjUgZBu5xHog=;
-        b=bWB1tGjwZhk2yn3uQP/JavirI9uLVUxvhMJHhET9g8FzOFRz4gNb9HGZzo9o0ykBX7
-         e7OYGgc3YiXSIAt3HczbszZU27MKJo+00pI4RfqMlMrBVBD5ESMGjVpIXh6fv+cwJ4T2
-         e6ps8FMOgXckeRLR3ZyxqR1vV5zFjnu8Yl4owxif9ENEhUmDCOJT0FQUo13i/P0u21FS
-         BhBl5INJfIPHoh8XQ5vGKJdvO9s0Ex0FhYn/CzNxaQlm6LgiJKvAbBuiF4Osy4Y0ui9d
-         Og46w2j+WFEapn+wNxLkxwaHqmB6qsBIq8XbWLyz+PhgsjiMTq5Ei82o9phMnP1gf5sn
-         VUdA==;
+         :list-id:mailing-list:precedence:in-reply-to:autocrypt:from
+         :references:cc:to:content-language:subject:user-agent:mime-version
+         :date:message-id:sender:dkim-signature;
+        bh=wpYLnjgVp8N6SAnsqN12aMSLhiydQpxZAVujeOOKX9I=;
+        fh=0uPAvKLMm8/lX7ZRVPUN/l7YONJDuufMNDJPwRDfTt4=;
+        b=UG4AloAtt4+CBhZt3pYT5dU4S2WoP0hXUaIVjDrNwvZQMib5KKUoJpNPQmzPMUwN+M
+         fAAi5hSr1kv0s2tCqSSa2RO+kH7TBRVt/vgq6dfgKw6Qq+gXctNCEoxnLPBQnUOtBIAm
+         Ltw0jUfnRg6aeVZeE8nGxPHpoKBjonJA4YyOyN+3Dbk7RnFEMtf8ur2xwnVoL0REAd4G
+         WNPI8hba+HbFa0/zNUqMcQuF1SKNELXKPWRElf4HrFh2pXUOl0WFGHIBYG0+7bfd73Nq
+         6jE0DTULNIH45+CdX6YsI2SESFVe9TFfkLkYec2FH5NUa1/EMXvpM3+1n6PjTyt2WMEW
+         9OHg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Ovo2tZCR;
-       spf=pass (google.com: domain of srs0=o6/j=7o=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom="SRS0=O6/j=7O=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=FkPvOdy0;
+       dkim=neutral (no key) header.i=@suse.cz;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=FkPvOdy0;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1767924579; x=1768529379; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1767946602; x=1768551402; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:reply-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MXkysPTkCtoUCxmYIM7JekJOdK+Hehg6dKSOxrKQWoY=;
-        b=d9qo2Qq7BBdyqGQ5Wj2SEBKsAGVrVynkOFdpkOyYdpM4XBvbe4St+HHWyrn+Cm3ajv
-         c8DaOkL/y4ke08kHCRsWDz4vY9qxL6yR423JR7Zo7aSFvG5O4oYsgSGTzpWTosw+ctQ7
-         rmvevLssPq7dUmesHdrSyiSXaiC6ESkPEhFmG+h812Dmoj2L2AfrezBnbBLTfub0kkZF
-         SqIXt+yKqG/AOhf6o6qrlQHqQPJGdTA3/Mv3ZL/SstZGuAFbPfrTG4PTypwp8Ih7xYcy
-         5mLsRsMR5722ss3OVGHAGCCO2YbsMWTelCoycgGCwf2OTxNOl0A8evCDLKcdTRqbBgey
-         5U8Q==
+         :x-original-sender:in-reply-to:autocrypt:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=wpYLnjgVp8N6SAnsqN12aMSLhiydQpxZAVujeOOKX9I=;
+        b=rBmQ4aCjZdNoNdWFBr5A2bpQXYkO7bofffKplo9Y+/CE6iOZRGxhb1XYgTWDs1gJVS
+         Amo4o9s+kPpQMuEmLLOe5+1CQhHH/5MaFpEslQAVqu9F3AsdexolbZqR/mQMR2zbLzJd
+         f4V5fBt4ICvymYNcRZPfup+JQysSc84URz5BaBoPHLQsejRuqeOFDj7qTb53OoMiVQnX
+         t1UWvyBXi/KFSTl5A7Hdmo3dlOs3sD7QMHY4uuKg5IZGRXDq1p4V0WXvDdWzIAuBFbOo
+         F52wTy30V7wOjktjQ+fjDWPIHhNdu6I6hyBzlBkybnh1pGPw8x55bk3Yvx9bJvlJRKCd
+         bMeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767924579; x=1768529379;
+        d=1e100.net; s=20230601; t=1767946602; x=1768551402;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MXkysPTkCtoUCxmYIM7JekJOdK+Hehg6dKSOxrKQWoY=;
-        b=soJ1WI5WGogk/cSe+Y0ysOAM5/HVT0RiiYxRXg0VUkc49rwHblU9V7vQ2mM5fEYjYl
-         IiKtMIXsklImN4C3jKMkn+EvMlVGTjmLzTpj8vPa0yrcVmWt6og+crpeMwWZc0TjRvYd
-         gCZh2g8JaYW7JX1lTCunskFQxtRkYZGBRO0yQBoLC6XX+1Y0b6eysoWrTLe9lGImev9r
-         kGj+pGFGNO3gNfZ3tfLMuP/90AbRqsPpV9tW9jtgQY6fUNjDaHeewhnP1hqeG5rNcyES
-         CyV/AecVcMt6SC7l77xYmSCD45ZrzB6XI5vhcNwnpHWLqjd0tLlkTWhOBJHSMn9FSm8l
-         MYGA==
-X-Forwarded-Encrypted: i=2; AJvYcCWpjpqu1rUY0FJXtkUXwCwzs8ZM8lj8io4H8tmyZqMwnEy+7g2a2SBblA3k3p8KzPz71qB0Gg==@lfdr.de
-X-Gm-Message-State: AOJu0Yw9puQGvKgTexsgoa5oVlairLdZK2RtHfmYwG6+RazeE5DSwcUK
-	D3NHbWWCefAPW4qlqMcviJlGlDByRNfsmU5S4fWx9eXmgmRG9E0KTIcs
-X-Google-Smtp-Source: AGHT+IH+EbbcCvvshnIQfXNitHTo22rFInT34u1CsR4jttE6uMlbarbaWrxhh9F5bfTmLeQaSlDS/g==
-X-Received: by 2002:a05:6214:570d:b0:888:7ba5:6b35 with SMTP id 6a1803df08f44-89084197a1amr114876476d6.19.1767924579508;
-        Thu, 08 Jan 2026 18:09:39 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWZHoNR0xYglVGcSC01WxYDIcnNxIn+74tGaaUmrGrBL5Q=="
-Received: by 2002:a05:6214:212e:b0:888:3ab3:a46f with SMTP id
- 6a1803df08f44-89075557aebls64231426d6.0.-pod-prod-08-us; Thu, 08 Jan 2026
- 18:09:38 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXvc63+o0UMwC3eI8fGPFNWf8/mEfBUdrmxUHgq7Llw8Wqfl3yZ6L1NQlzclDbQ/3x1If5lxeXPQj8=@googlegroups.com
-X-Received: by 2002:a05:6214:3199:b0:890:259c:80ff with SMTP id 6a1803df08f44-89084183bc4mr112168606d6.11.1767924578380;
-        Thu, 08 Jan 2026 18:09:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1767924578; cv=none;
+         :autocrypt:from:references:cc:to:content-language:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wpYLnjgVp8N6SAnsqN12aMSLhiydQpxZAVujeOOKX9I=;
+        b=kRCftUsWcPwReIDbxgwRqXYA384PEZg610xwZbwuRC1nQFjRIvgtaaThS1jnnw4DBc
+         xlGHEpbLEk5XoFrfG+0Vke6+0NZQ650vY75VSWegWIMKaXg7PVYmaxFnq2Pn368Vj1pg
+         pJWdjVXviR2XGSVzg+x6uB3KSLlluwXoAULmq7Jzi5dTSN+fOqtkQWJjZx5EB7fITUsa
+         mC5u3fmz9GN5AqisgYKvY617+fQxuAiK6auANsWn4Tpja63+IYkNN82Ux8oqyqjkE6j3
+         rdDkDtaONKXVmvlFFE+k/Tuc5zjyWRfyvK37ZpsMbkTHoBqXrCZin1xDZg71cM+vDpEK
+         TDHg==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCW6hu/wLFPN7Dyal205L/6Qzc50Xg2j1eDA/KEgDIzxl5ZWdmSk9nGofmn+AxMQ6XMMl1OBpQ==@lfdr.de
+X-Gm-Message-State: AOJu0Yz5xiWhOg9UB+4WE1+0S74CmFnfVN5YTB8gQMCqpLRHermXw7ol
+	cUNEjajZ0wvBSCrGy4G0YOHkTifGyrLz4vTuH+vPmn7M/fzztJbbyJ4Z
+X-Google-Smtp-Source: AGHT+IGlt14gaxcrDtE30eL5pVDQ/qKKBrsHteURJhZxYCcsV8NHMj3SL+ejwGjsIF9yO1LGzDpmFQ==
+X-Received: by 2002:a05:6402:5206:b0:640:ebe3:dd55 with SMTP id 4fb4d7f45d1cf-65097dcd89fmr7761529a12.6.1767946601850;
+        Fri, 09 Jan 2026 00:16:41 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AWVwgWbS1wsqjh3FFPlifDu+aUehdBqPIuK7c+YgTmm5tWeTPQ=="
+Received: by 2002:a50:fc13:0:b0:64b:643e:9559 with SMTP id 4fb4d7f45d1cf-650748c9c1dls825112a12.1.-pod-prod-07-eu;
+ Fri, 09 Jan 2026 00:16:39 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVd1zH6+mDdqo18B79xekAT7cNAb+vIavPr1sg7srtlcplMf/XP3DA6kqTFch3PLvHCKV3MCT7HDhU=@googlegroups.com
+X-Received: by 2002:a05:6402:3494:b0:649:69da:6218 with SMTP id 4fb4d7f45d1cf-65097ce4f19mr8110549a12.0.1767946599182;
+        Fri, 09 Jan 2026 00:16:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1767946599; cv=none;
         d=google.com; s=arc-20240605;
-        b=elAuLhB15Bu+GYzlWXafufBDsoEZBPIpm6tlX/Dcwi9/m8UnPrsMQ0L0nWtsPsyh81
-         IuVskCOf1RcJZ/0cI/VijagEd2OHKHUGioxPCWOdVQvsqGtDozMhUJo2E9PheaMk3Eaf
-         z4TRjudgf+WzxMRDnVX9YiHwKB1HAZyS3+pRnF8LebVuvcHAUySnYIPkX/nbeGCyNiHX
-         DOzXubm/QriKOFZUOW+CmfJmXwc5E6B7JCPXJlosDPcrIti++kUodDE8UIVcspxNQbKS
-         ifL42wBKtw/FgwOiPZTCa9VO1mfD0vu+KjZNT2KIShPz3bf7nrRxZPUzTYQ1ZTqPoLI0
-         5vqQ==
+        b=iEOuBYwB39K+WOT/sasArZza7NI+rVmzyFsMoNLFOVOc1azqkQkxF6g54DWHOZCtQ6
+         J80A3WmwYJHOqg38HCSEnlEJ6a7v5W57hC1MJf+NOHStdY2h6+4R/D4g34lJE6xCQRgD
+         oeWU0kQ9nP2n4mO71Wkgwpmv4L6HLqRL7FAHw+EFqI6JcidNm6e6qALAYHAb6QBMEk6m
+         x01FqeYvVW9lW0iJJ3/D13KKyGS+5MtZLYAF0A0hT6yqjVbvcRtSkTCG5PelOmCb2os7
+         +fbnLVenN2mD2EWPOTJU5vSI50KxB79NRw0IERiodf5xnUSr9+d7vOg5huOddpef5kKf
+         cQFQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=RyyZXYReJ8JTaDe4XBVpIGWKtnPK8oE5Ye9PwPzS6Ck=;
-        fh=WNM7B8O9WQm03a+uVrpoKd22xKpnFrXdFN8iGam+sXY=;
-        b=LV5Eq0e2v7sR/bXagxQCTQfzo8bCzyaRcGCozUOJ2INe4HYGBj5amQCnZwfRvoSbTL
-         lryDIIKPXx3adlOGaKsyqHwx+NL2m3Yqyh+bQmcL5DaQmwwyKj8GTyDTb7593hlRmgS9
-         S5Z1epQsAlFUDa61xKNiPzIPR1bKV/VUtxXTGxL37VJSz2RYHJb7IvtnstIwSqaB0jVP
-         iuZ+KtudkQgYdlj/emi33WIKor5gGxqJyPhkK4AlNkBJpkURcsPXJIqati+IxYrI3AYd
-         ZqPFct4kDibQjVL8j4qMhp1bsf7TgZYnOGWi/T1Iaw2GUjIqhlCjxPX5DPPSECvxmO6q
-         IBnQ==;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :dkim-signature:dkim-signature:dkim-signature:dkim-signature;
+        bh=G1ZOpYG1RRBOh0980GoYceIDOSrHq5NcrrJc5uKkl0U=;
+        fh=JXcTcagT4qpq4la91joDZG8MPM9MnBisU8vfXW5myog=;
+        b=UZptw/xF9GhFgi/VRQVyW0U4udXDUXuW4v1+bf7mjNjypddH63zfwuAZyX5GAPXbQ9
+         jOjVNG1mtRNuGbEoYyAeK95Vz/F9GSqeyVQH7H4oloWvBnPt6bxyvaXGJWkqyZZG1Zaw
+         GzzVlkoe/3hxhELVqEITT/Vuo3imgtvQzz1K8CBa9Emq+6JeqtBBSVFoG9MomoHrH3Fg
+         YLKP0EooiNFybqUHvoTR2LzAonWMunbqil72JMzxZyKGAMWQ0QKu5reFS5CZqLRTLtXT
+         Ew8LkjjPmw72bDU974aCkb1x/4tQzj09USSrQYkUwlozMRN1JfT2iFr+wmnVXRWPk/po
+         BEVg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Ovo2tZCR;
-       spf=pass (google.com: domain of srs0=o6/j=7o=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) smtp.mailfrom="SRS0=O6/j=7O=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from sea.source.kernel.org (sea.source.kernel.org. [2600:3c0a:e001:78e:0:1991:8:25])
-        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-89082ca863dsi1814246d6.4.2026.01.08.18.09.38
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=FkPvOdy0;
+       dkim=neutral (no key) header.i=@suse.cz;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=FkPvOdy0;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.223.131])
+        by gmr-mx.google.com with ESMTPS id 4fb4d7f45d1cf-6508d70535dsi193769a12.3.2026.01.09.00.16.39
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 18:09:38 -0800 (PST)
-Received-SPF: pass (google.com: domain of srs0=o6/j=7o=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender) client-ip=2600:3c0a:e001:78e:0:1991:8:25;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 4094F43360;
-	Fri,  9 Jan 2026 02:09:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EB2EC116C6;
-	Fri,  9 Jan 2026 02:09:37 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 9E3ECCE1690; Thu,  8 Jan 2026 18:09:36 -0800 (PST)
-Date: Thu, 8 Jan 2026 18:09:36 -0800
-From: "'Paul E. McKenney' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Marco Elver <elver@google.com>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Gary Guo <gary@garyguo.net>,
-	Will Deacon <will@kernel.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Matt Turner <mattst88@gmail.com>,
-	Magnus Lindholm <linmag7@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Lyude Paul <lyude@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	rust-for-linux@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	kasan-dev@googlegroups.com
-Subject: Re: [PATCH 0/5] Add READ_ONCE and WRITE_ONCE to Rust
-Message-ID: <b0f3b2a6-e69c-4718-9f05-607b8c02d745@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20251231-rwonce-v1-0-702a10b85278@google.com>
- <20251231151216.23446b64.gary@garyguo.net>
- <aVXFk0L-FegoVJpC@google.com>
- <OFUIwAYmy6idQxDq-A3A_s2zDlhfKE9JmkSgcK40K8okU1OE_noL1rN6nUZD03AX6ixo4Xgfhi5C4XLl5RJlfA==@protonmail.internalid>
- <aVXKP8vQ6uAxtazT@tardis-2.local>
- <87fr8ij4le.fsf@t14s.mail-host-address-is-not-set>
- <aV0JkZdrZn97-d7d@tardis-2.local>
- <20260106145622.GB3707837@noisy.programming.kicks-ass.net>
- <7fa2c07e-acf9-4f9a-b056-4d4254ea61e5@paulmck-laptop>
- <CANpmjNPdnuCNTfo=q5VPxAfdvpeAt8DhesQu0jy+9ZpH3DcUnQ@mail.gmail.com>
+        Fri, 09 Jan 2026 00:16:39 -0800 (PST)
+Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.223.131 as permitted sender) client-ip=195.135.223.131;
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5C7B55D26F;
+	Fri,  9 Jan 2026 08:16:38 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3D9E33EA63;
+	Fri,  9 Jan 2026 08:16:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rTO2Dma5YGnkOwAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Fri, 09 Jan 2026 08:16:38 +0000
+Message-ID: <28e6827e-f689-45d9-b2b5-804a8aafad2e@suse.cz>
+Date: Fri, 9 Jan 2026 09:16:37 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 10/19] slab: remove cpu (partial) slabs usage from
+ allocation paths
+Content-Language: en-US
+To: Chris Mason <clm@meta.com>, Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Harry Yoo <harry.yoo@oracle.com>, Uladzislau Rezki <urezki@gmail.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ bpf@vger.kernel.org, kasan-dev@googlegroups.com,
+ Petr Tesarik <ptesarik@suse.com>, "Paul E . McKenney" <paulmck@kernel.org>
+References: <20251024142927.780367-1-clm@meta.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
+ KxRWDHX0R2tgpFDXHnzZcQywawu8eSq0LxzxFNYMvtB7sV1pxYwej2qx9B75qW2plBs+7+YB
+ 87tMFA+u+L4Z5xAzIimfLD5EKC56kJ1CsXlM8S/LHcmdD9Ctkn3trYDNnat0eoAcfPIP2OZ+
+ 9oe9IF/R28zmh0ifLXyJQQz5ofdj4bPf8ecEW0rhcqHfTD8k4yK0xxt3xW+6Exqp9n9bydiy
+ tcSAw/TahjW6yrA+6JhSBv1v2tIm+itQc073zjSX8OFL51qQVzRFr7H2UQG33lw2QrvHRXqD
+ Ot7ViKam7v0Ho9wEWiQOOZlHItOOXFphWb2yq3nzrKe45oWoSgkxKb97MVsQ+q2SYjJRBBH4
+ 8qKhphADYxkIP6yut/eaj9ImvRUZZRi0DTc8xfnvHGTjKbJzC2xpFcY0DQbZzuwsIZ8OPJCc
+ LM4S7mT25NE5kUTG/TKQCk922vRdGVMoLA7dIQrgXnRXtyT61sg8PG4wcfOnuWf8577aXP1x
+ 6mzw3/jh3F+oSBHb/GcLC7mvWreJifUL2gEdssGfXhGWBo6zLS3qhgtwjay0Jl+kza1lo+Cv
+ BB2T79D4WGdDuVa4eOrQ02TxqGN7G0Biz5ZLRSFzQSQwLn8fbwARAQABzSBWbGFzdGltaWwg
+ QmFia2EgPHZiYWJrYUBzdXNlLmN6PsLBlAQTAQoAPgIbAwULCQgHAwUVCgkICwUWAgMBAAIe
+ AQIXgBYhBKlA1DSZLC6OmRA9UCJPp+fMgqZkBQJnyBr8BQka0IFQAAoJECJPp+fMgqZkqmMQ
+ AIbGN95ptUMUvo6aAdhxaOCHXp1DfIBuIOK/zpx8ylY4pOwu3GRe4dQ8u4XS9gaZ96Gj4bC+
+ jwWcSmn+TjtKW3rH1dRKopvC07tSJIGGVyw7ieV/5cbFffA8NL0ILowzVg8w1ipnz1VTkWDr
+ 2zcfslxJsJ6vhXw5/npcY0ldeC1E8f6UUoa4eyoskd70vO0wOAoGd02ZkJoox3F5ODM0kjHu
+ Y97VLOa3GG66lh+ZEelVZEujHfKceCw9G3PMvEzyLFbXvSOigZQMdKzQ8D/OChwqig8wFBmV
+ QCPS4yDdmZP3oeDHRjJ9jvMUKoYODiNKsl2F+xXwyRM2qoKRqFlhCn4usVd1+wmv9iLV8nPs
+ 2Db1ZIa49fJet3Sk3PN4bV1rAPuWvtbuTBN39Q/6MgkLTYHb84HyFKw14Rqe5YorrBLbF3rl
+ M51Dpf6Egu1yTJDHCTEwePWug4XI11FT8lK0LNnHNpbhTCYRjX73iWOnFraJNcURld1jL1nV
+ r/LRD+/e2gNtSTPK0Qkon6HcOBZnxRoqtazTU6YQRmGlT0v+rukj/cn5sToYibWLn+RoV1CE
+ Qj6tApOiHBkpEsCzHGu+iDQ1WT0Idtdynst738f/uCeCMkdRu4WMZjteQaqvARFwCy3P/jpK
+ uvzMtves5HvZw33ZwOtMCgbpce00DaET4y/UzsBNBFsZNTUBCACfQfpSsWJZyi+SHoRdVyX5
+ J6rI7okc4+b571a7RXD5UhS9dlVRVVAtrU9ANSLqPTQKGVxHrqD39XSw8hxK61pw8p90pg4G
+ /N3iuWEvyt+t0SxDDkClnGsDyRhlUyEWYFEoBrrCizbmahOUwqkJbNMfzj5Y7n7OIJOxNRkB
+ IBOjPdF26dMP69BwePQao1M8Acrrex9sAHYjQGyVmReRjVEtv9iG4DoTsnIR3amKVk6si4Ea
+ X/mrapJqSCcBUVYUFH8M7bsm4CSxier5ofy8jTEa/CfvkqpKThTMCQPNZKY7hke5qEq1CBk2
+ wxhX48ZrJEFf1v3NuV3OimgsF2odzieNABEBAAHCwXwEGAEKACYCGwwWIQSpQNQ0mSwujpkQ
+ PVAiT6fnzIKmZAUCZ8gcVAUJFhTonwAKCRAiT6fnzIKmZLY8D/9uo3Ut9yi2YCuASWxr7QQZ
+ lJCViArjymbxYB5NdOeC50/0gnhK4pgdHlE2MdwF6o34x7TPFGpjNFvycZqccSQPJ/gibwNA
+ zx3q9vJT4Vw+YbiyS53iSBLXMweeVV1Jd9IjAoL+EqB0cbxoFXvnjkvP1foiiF5r73jCd4PR
+ rD+GoX5BZ7AZmFYmuJYBm28STM2NA6LhT0X+2su16f/HtummENKcMwom0hNu3MBNPUOrujtW
+ khQrWcJNAAsy4yMoJ2Lw51T/5X5Hc7jQ9da9fyqu+phqlVtn70qpPvgWy4HRhr25fCAEXZDp
+ xG4RNmTm+pqorHOqhBkI7wA7P/nyPo7ZEc3L+ZkQ37u0nlOyrjbNUniPGxPxv1imVq8IyycG
+ AN5FaFxtiELK22gvudghLJaDiRBhn8/AhXc642/Z/yIpizE2xG4KU4AXzb6C+o7LX/WmmsWP
+ Ly6jamSg6tvrdo4/e87lUedEqCtrp2o1xpn5zongf6cQkaLZKQcBQnPmgHO5OG8+50u88D9I
+ rywqgzTUhHFKKF6/9L/lYtrNcHU8Z6Y4Ju/MLUiNYkmtrGIMnkjKCiRqlRrZE/v5YFHbayRD
+ dJKXobXTtCBYpLJM4ZYRpGZXne/FAtWNe4KbNJJqxMvrTOrnIatPj8NhBVI0RSJRsbilh6TE
+ m6M14QORSWTLRg==
+In-Reply-To: <20251024142927.780367-1-clm@meta.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CANpmjNPdnuCNTfo=q5VPxAfdvpeAt8DhesQu0jy+9ZpH3DcUnQ@mail.gmail.com>
-X-Original-Sender: paulmck@kernel.org
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux-foundation.org,gentwo.org,google.com,oracle.com,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com,suse.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Original-Sender: vbabka@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=Ovo2tZCR;       spf=pass
- (google.com: domain of srs0=o6/j=7o=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 2600:3c0a:e001:78e:0:1991:8:25 as permitted sender)
- smtp.mailfrom="SRS0=O6/j=7O=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: "Paul E. McKenney" <paulmck@kernel.org>
+ header.i=@suse.cz header.s=susede2_rsa header.b=FkPvOdy0;       dkim=neutral
+ (no key) header.i=@suse.cz;       dkim=pass header.i=@suse.cz
+ header.s=susede2_rsa header.b=FkPvOdy0;       dkim=neutral (no key)
+ header.i=@suse.cz header.s=susede2_ed25519;       spf=pass (google.com:
+ domain of vbabka@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -176,94 +229,154 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jan 06, 2026 at 08:28:41PM +0100, Marco Elver wrote:
-> On Tue, 6 Jan 2026 at 19:18, 'Paul E. McKenney' via kasan-dev
-> <kasan-dev@googlegroups.com> wrote:
-> > On Tue, Jan 06, 2026 at 03:56:22PM +0100, Peter Zijlstra wrote:
-> > > On Tue, Jan 06, 2026 at 09:09:37PM +0800, Boqun Feng wrote:
-> > >
-> > > > Some C code believes a plain write to a properly aligned location is
-> > > > atomic (see KCSAN_ASSUME_PLAIN_WRITES_ATOMIC, and no, this doesn't mean
-> > > > it's recommended to assume such), and I guess that's the case for
-> > > > hrtimer, if it's not much a trouble you can replace the plain write with
-> > > > WRITE_ONCE() on C side ;-)
-> > >
-> > > GCC used to provide this guarantee, some of the older code was written
-> > > on that. GCC no longer provides that guarantee (there are known cases
-> > > where it breaks and all that) and newer code should not rely on this.
-> > >
-> > > All such places *SHOULD* be updated to use READ_ONCE/WRITE_ONCE.
-> >
-> > Agreed!
-> >
-> > In that vein, any objections to the patch shown below?
+On 10/24/25 16:29, Chris Mason wrote:
+> On Thu, 23 Oct 2025 15:52:32 +0200 Vlastimil Babka <vbabka@suse.cz> wrote:
 > 
-> I'd be in favor, as that's what we did in the very initial version of
-> KCSAN (we started strict and then loosened things up).
+>> We now rely on sheaves as the percpu caching layer and can refill them
+>> directly from partial or newly allocated slabs. Start removing the cpu
+>> (partial) slabs code, first from allocation paths.
+>> 
+>> This means that any allocation not satisfied from percpu sheaves will
+>> end up in ___slab_alloc(), where we remove the usage of cpu (partial)
+>> slabs, so it will only perform get_partial() or new_slab().
+>> 
+>> In get_partial_node() we used to return a slab for freezing as the cpu
+>> slab and to refill the partial slab. Now we only want to return a single
+>> object and leave the slab on the list (unless it became full). We can't
+>> simply reuse alloc_single_from_partial() as that assumes freeing uses
+>> free_to_partial_list(). Instead we need to use __slab_update_freelist()
+>> to work properly against a racing __slab_free().
+>> 
+>> The rest of the changes is removing functions that no longer have any
+>> callers.
+>>
 > 
-> However, the fallout will be even more perceived "noise", despite
-> being legitimate data races. These config knobs were added after much
-> discussion in 2019/2020, somewhere around this discussion (I think
-> that's the one that spawned KCSAN_REPORT_VALUE_CHANGE_ONLY, can't find
-> the source for KCSAN_ASSUME_PLAIN_WRITES_ATOMIC):
-> https://lore.kernel.org/all/CAHk-=wgu-QXU83ai4XBnh7JJUo2NBW41XhLWf=7wrydR4=ZP0g@mail.gmail.com/
-
-Fair point!
-
-> While the situation has gotten better since 2020, we still have latent
-> data races that need some thought (given papering over things blindly
-> with *ONCE is not right either). My recommendation these days is to
-> just set CONFIG_KCSAN_STRICT=y for those who care (although I'd wish
-> everyone cared the same amount :-)).
+> Hi Vlastimil,
 > 
-> Should you feel the below change is appropriate for 2026, feel free to
-> carry it (consider this my Ack).
+> We're trying out the AI patch review automation on the BPF commits and it had
+> some questions about a few of these.  Since the goal is to actually test the
+> automation, I'm putting them in unedited, but I did try and make sure they
+> were valid before sending.
 > 
-> However, I wasn't thinking of tightening the screws until the current
-> set of known data races has gotten to a manageable amount (say below
-> 50)
-> https://syzkaller.appspot.com/upstream?manager=ci2-upstream-kcsan-gce
-> Then again, on syzbot the config can remain unchanged.
-
-Is there an easy way to map from a report to the SHA-1 that the
-corresponding test ran against?  Probably me being blind, but I am not
-seeing it.  Though I do very much like the symbolic names in those
-stack traces!
-
-							Thanx, Paul
-
-> Thanks,
-> -- Marco
+> This one seems pretty unlikely but still worth fixing:
 > 
-> >                                                         Thanx, Paul
-> >
-> > ------------------------------------------------------------------------
-> >
-> > diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
-> > index 4ce4b0c0109cb..e827e24ab5d42 100644
-> > --- a/lib/Kconfig.kcsan
-> > +++ b/lib/Kconfig.kcsan
-> > @@ -199,7 +199,7 @@ config KCSAN_WEAK_MEMORY
-> >
-> >  config KCSAN_REPORT_VALUE_CHANGE_ONLY
-> >         bool "Only report races where watcher observed a data value change"
-> > -       default y
-> > +       default n
-> >         depends on !KCSAN_STRICT
-> >         help
-> >           If enabled and a conflicting write is observed via a watchpoint, but
-> > @@ -208,7 +208,7 @@ config KCSAN_REPORT_VALUE_CHANGE_ONLY
-> >
-> >  config KCSAN_ASSUME_PLAIN_WRITES_ATOMIC
-> >         bool "Assume that plain aligned writes up to word size are atomic"
-> > -       default y
-> > +       default n
-> >         depends on !KCSAN_STRICT
-> >         help
-> >           Assume that plain aligned writes up to word size are atomic by
-> >
+>>
+>> diff --git a/mm/slub.c b/mm/slub.c
+>> index e2b052657d11..bd67336e7c1f 100644
+>> --- a/mm/slub.c
+>> +++ b/mm/slub.c
+> 
+> [ ... ]
+> 
+>> @@ -3575,15 +3532,15 @@ static bool get_partial_node_bulk(struct kmem_cache *s,
+>>  }
+>>
+>>  /*
+>> - * Try to allocate a partial slab from a specific node.
+>> + * Try to allocate object from a partial slab on a specific node.
+>>   */
+>> -static struct slab *get_partial_node(struct kmem_cache *s,
+>> -				     struct kmem_cache_node *n,
+>> -				     struct partial_context *pc)
+>> +static void *get_partial_node(struct kmem_cache *s,
+>> +			      struct kmem_cache_node *n,
+>> +			      struct partial_context *pc)
+>>  {
+>> -	struct slab *slab, *slab2, *partial = NULL;
+>> +	struct slab *slab, *slab2;
+>>  	unsigned long flags;
+>> -	unsigned int partial_slabs = 0;
+>> +	void *object;
+>>
+>>  	/*
+>>  	 * Racy check. If we mistakenly see no partial slabs then we
+>> @@ -3599,54 +3556,54 @@ static struct slab *get_partial_node(struct kmem_cache *s,
+>>  	else if (!spin_trylock_irqsave(&n->list_lock, flags))
+>>  		return NULL;
+>>  	list_for_each_entry_safe(slab, slab2, &n->partial, slab_list) {
+>> +
+>> +		unsigned long counters;
+>> +		struct slab new;
+>> +
+>>  		if (!pfmemalloc_match(slab, pc->flags))
+>>  			continue;
+> 
+> Can get_partial_node() return an uninitialized pointer? The variable
+> 'object' is declared but never initialized. If all slabs in the partial
+> list fail the pfmemalloc_match() check, the loop completes without
+> setting 'object', then returns it at the end of the function.
+> 
+> In the previous version, the equivalent 'partial' variable was explicitly
+> initialized to NULL. When all slabs were skipped, NULL was returned.
+
+By the way, there was another bug in this patch, causing a severe memory
+leak, which the AI unfortunately didn't flag. Petr reported it during
+performance testing and it took me more than a day to find it. Oh well :)
+
+Wonder if things got better since then perhaps, and your or Roman's tools
+would find it today? :)
+
+>>
+>>  		if (IS_ENABLED(CONFIG_SLUB_TINY) || kmem_cache_debug(s)) {
+>> -			void *object = alloc_single_from_partial(s, n, slab,
+>> +			object = alloc_single_from_partial(s, n, slab,
+>>  							pc->orig_size);
+>> -			if (object) {
+>> -				partial = slab;
+>> -				pc->object = object;
+>> +			if (object)
+>>  				break;
+>> -			}
+>>  			continue;
+>>  		}
+>>
+>> -		remove_partial(n, slab);
+>> -
+>> -		if (!partial) {
+>> -			partial = slab;
+>> -			stat(s, ALLOC_FROM_PARTIAL);
+>> -
+>> -			if ((slub_get_cpu_partial(s) == 0)) {
+>> -				break;
+>> -			}
+>> -		} else {
+>> -			put_cpu_partial(s, slab, 0);
+>> -			stat(s, CPU_PARTIAL_NODE);
+>> -
+>> -			if (++partial_slabs > slub_get_cpu_partial(s) / 2) {
+>> -				break;
+>> -			}
+>> -		}
+>> +		/*
+>> +		 * get a single object from the slab. This might race against
+>> +		 * __slab_free(), which however has to take the list_lock if
+>> +		 * it's about to make the slab fully free.
+>> +		 */
+>> +		do {
+>> +			object = slab->freelist;
+>> +			counters = slab->counters;
+>> +			new.freelist = get_freepointer(s, object);
+>> +			new.counters = counters;
+>> +			new.inuse++;
+>> +		} while (!__slab_update_freelist(s, slab,
+>> +			object, counters,
+>> +			new.freelist, new.counters,
+>> +			"get_partial_node"));
+>> +
+>> +		if (!new.freelist)
+>> +			remove_partial(n, slab);
+>>  	}
+>>  	spin_unlock_irqrestore(&n->list_lock, flags);
+>> -	return partial;
+>> +	return object;
+>>  }
+> 
+> [ ... ]
+> 
+> 
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/b0f3b2a6-e69c-4718-9f05-607b8c02d745%40paulmck-laptop.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/28e6827e-f689-45d9-b2b5-804a8aafad2e%40suse.cz.
