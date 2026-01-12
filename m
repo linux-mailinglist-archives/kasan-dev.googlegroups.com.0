@@ -1,126 +1,137 @@
-Return-Path: <kasan-dev+bncBDXYDPH3S4OBBANBSTFQMGQETS5OHZI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXYDPH3S4OBBBFBSTFQMGQEPUZ7VDY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
-	by mail.lfdr.de (Postfix) with ESMTPS id 547B0D138FE
-	for <lists+kasan-dev@lfdr.de>; Mon, 12 Jan 2026 16:17:22 +0100 (CET)
-Received: by mail-wm1-x337.google.com with SMTP id 5b1f17b1804b1-47d3ba3a49csf60709705e9.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 12 Jan 2026 07:17:22 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1768231042; cv=pass;
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FEB8D13901
+	for <lists+kasan-dev@lfdr.de>; Mon, 12 Jan 2026 16:17:26 +0100 (CET)
+Received: by mail-lf1-x13f.google.com with SMTP id 2adb3069b0e04-59b67b93cf5sf5111214e87.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 12 Jan 2026 07:17:26 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1768231045; cv=pass;
         d=google.com; s=arc-20240605;
-        b=djsuQfBJnySpi6RbPUYOcJu3duuUIjqbAjRoBq7JVQDKo4R9RTZqiTAHYlIPtYhZkT
-         /Srvb3/DRwbmFwnT3ZSwdU/Kak3A5h2kcl9eBY2EzCRFH11FIuk5FM4D98iBkUyWYSAR
-         Hq65iSUnvec+sk5Su1SFMtcrmxWehyS1A4UbhYFGWWLhINw5Tmo9HNagh/TaS6giViGZ
-         IbK6YflNRLA9eUvEvfSdYJDiyF2E80OZjcy96LpQEWY9l18YKGrLoXMEBsoc7qe9av3R
-         HCLNGe0uaPjhuw+GvXG6MJo3f3G0yCrWLxMUU7voA+XsgN5+GOucdJqPlcC0hp6YsXWv
-         rDQw==
+        b=ILsuLVPN5gPrtfmQGqD4v6xLSGb4DnEqOpIYwlJaSa/1uAxf5IieNIx4wNH0X1hBtB
+         xCFmRXgx0lX5n3+YLLv3GKAFirx1k+0+QHz0/HA382Lz7p4HKoaYn+mJQcg+NMjuKYTA
+         RL2G1zGuTX4vPzm5Wli9uAVio5RXndxpkPUEhJ3iz/zcQnHbfAlTm26UZTkt6ndjnz+n
+         8WNmL2uQy/kP3Dmt1UHwOydu9RWNDvGTcqJsp8u5YSw8nVl6ffy3X6jZ9mKoKqwZe12e
+         oZ6ceaLqRYXatIHkerJFVACQ2vtR3ABxqGNcI8nz2iqrko+PWVeEviUQPSnAI8rBgHfJ
+         hLKA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:cc:to:in-reply-to:references
          :message-id:mime-version:subject:date:from:sender:dkim-signature;
-        bh=yp0RS/oXsUvBQ1KO8Ukt0iAOCzquRwmc0n8Mj/y5Wfg=;
-        fh=7YpllrOB5TRrtqJQR61uhXDFbetvUeOAb+2fnP9ws98=;
-        b=ZK6AP/sNfDkEar8NP0Lw3pD3sl+rct4M11h9LGbVDLd6S/x0xAzn7qthuAAOJDWZOX
-         fm2fJB2lCu6Es3I0qvgiZLF1GP0vCFGL+VG6in8ruGMzER6bz4VI3D1x3g1thB9DXXGi
-         osm3t1i3/ty+Uh/evlZa44c0/zEUub97k87wOKDhQGnCiv9qxEmI45Ose+hYeoHEcOWr
-         /GsVUszfoZRtIS6TvnKGaGL0S7B6lyby9/ofjl6irokOP0M74ifFReCfKmwayaFk5qG2
-         om7W1dJ9lvZgfnjNCpso2NFOSbGasS0+sRzm51C3SV5R3tYyyTUmoTbewkYDu90qpGsg
-         2K8A==;
+        bh=tjNu64nkcyR7NvhzIbwq27P06n7utyNDeDa97KD58iA=;
+        fh=7/KQa61gpxQ7nHTYlvtjqLciSDhuXZP76646WlJzCSo=;
+        b=ExgzXAK9UD3RubNvekJwY9InAY2qN2JuThRYp3fyDJ97/VZqVRCGUeb6X0lCMCIeYt
+         Q0tliSinbm3quC6sboKrWwdJb3I4JkHN6UmnOdm3pnopcmyPnhsRinI7u97weOr+VXp6
+         3K2lBYLy3A6twfcUGz9jfHzou4snjU16qU+DBV3Qp5yPwcdQHVKaGlosOI2/SB6EGyBX
+         0HXyk2I5mZ08eh3fJge3QojK0i+lb+A/u1sLGKJE+ZDD7qoSF32zqFrDzjMtPOpsEZyr
+         UcS0A4a1XhcQhPj1Wwpeg/YEdCaYMGC+O7FHgkRLAcQrXjFK4/nFZ08F0LwwmCkJjBdf
+         Hz/A==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=BvgqrFK6;
+       dkim=neutral (no key) header.i=@suse.cz;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=BvgqrFK6;
+       dkim=neutral (no key) header.i=@suse.cz;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1768231042; x=1768835842; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1768231045; x=1768835845; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:cc:to:in-reply-to:references:message-id
          :mime-version:subject:date:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yp0RS/oXsUvBQ1KO8Ukt0iAOCzquRwmc0n8Mj/y5Wfg=;
-        b=ufGKtRgpTq1OnPRUL/3i+Mt74p7+zUJV7A7IBgRl1Eys3PONMNG6tMCoHpiyObLqFm
-         LJkeGBgZVRFQWtXHbsqpmaCGEjh0yL6wU70fXrhqu4EheHMprIsi8KFCek7ric1aA1oI
-         +ByyiDZvnxX0sHr9THYX9dt+PahdMsKi/tRhXVhc5w09AAttFmlhZ7p8Lo7mCBdNFJd6
-         Trl9l7/eDIPfzOFhoSmxJ0PgbNDd1WM0A0UsNpER28C1Kus69NC01wmfep6uzUXIdp04
-         vyfLC7TAvNHwf+mTsjzW2WtoPfALGWU3Bn1Fgll8QFg43TwH5TtJW3SdS9NrtqNblxT4
-         v8NA==
+        bh=tjNu64nkcyR7NvhzIbwq27P06n7utyNDeDa97KD58iA=;
+        b=eMRixfKq0WnTFyVMB4kILMQhF4pRwp8hsdkxbm6ciSrVBBRMBKXaqltThKtzL7baTp
+         /NRfl7LADZ9N8UY57SDOiEvkYgJ0Bsqht9LF9Bdya4gdKgDl7hQPoWP81fGuOCN/NekZ
+         faaSwKLrVIqeYN0UPwr45cnMctR8SSFWz+g7PjI5Lv4URqZbt7yW4Zr26ph++KEq12fn
+         km0DMAxm+x9Sjgqr2A/+8Z/d7DxZiZ9iMmvrlczqmWdnYFJCCQ1TGENbTqXErtRHoqB8
+         OEVO9rJWpGowXIR4cqv67YJ7/2VEhqDQg1bhl9CqcSrVZ5TY8E8sBpn/hIiqGP0igFDz
+         BYtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768231042; x=1768835842;
+        d=1e100.net; s=20230601; t=1768231045; x=1768835845;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:cc:to
          :in-reply-to:references:message-id:mime-version:subject:date:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yp0RS/oXsUvBQ1KO8Ukt0iAOCzquRwmc0n8Mj/y5Wfg=;
-        b=YQIYOaW6GuZ8z0wDBRygL2GeJqYmU1TCy7oAQkYCgCVH3EhxKTiRkBGaJfN/xYGK2u
-         7kipZV1Fae9Heiw8W914svp4WAsehfwJ44L+YWUCTsHlsat6tbQHka2GTAXq2usxKffG
-         7jelFTeqqVG+JjHeMhNor/L2RWcVEqUr1fM4UI94/qDQM9r5L0gUCu+psexEn5bXzjTj
-         RAJUnoPRVpKcqZNesHQR6m2tlg7HAPXqLRECDzcLPAVp0/BgjJ9UWu118p6ibzHIumfW
-         tbr7zyfsPK+2ECqFg/9+X2BsKY/AB9OXaWxZgWfvAnLmpGj9/ZrbsYlCHFZet/X8JfT2
-         xMSg==
+        bh=tjNu64nkcyR7NvhzIbwq27P06n7utyNDeDa97KD58iA=;
+        b=TbjmRUqEgu0IV543cDET10fyRiMlqxCAl1C6Yrd/AspzcEKC9QNC19qPpBxb3wxGjm
+         4cvAGbOFpArBD/zbZvb7SKmrWq156DYQGgLDgGEBU8u6uymHV7uh00XFRuJ+qzr4wcCV
+         anufvj2tmPvK2tWolavTjEJRDIVhCF/Q9lAaGUjn31YQ3pY6bvHLeXnpXNrYXzK0bOJe
+         +2Sg7p0hBYCZUOfyzg521sFEr/5zIZoYKmAVJKjE9itfNL5lvV+3oTgBb4M7zPk1KE7X
+         9qjFh1GjaYGDaFi/Fu9UuJd6yC8OsDQvnMqssAIM34S0kHPy1VW3XCCy0unLbzNbKQKy
+         1mdA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXGvV3xLIfsDQDCqTVwSMhuuLrWJFLJs1eO/Ta7eQSg84GnxJd6TzF420ZcTjM7HrslPyrtGQ==@lfdr.de
-X-Gm-Message-State: AOJu0YzLwvzuyvyRzbdtUgWc6jis4x3T+hmYYCYYJDo4dsR/A5yUKdoF
-	OEHcMwoEZa11DEUGImnRhfaSkrrMp6ZzhLzwgclibn0l9+z2Y1SMJpCO
-X-Google-Smtp-Source: AGHT+IG1FEhjKE9yWwU1QBbXqCA34rtpSlAS+pKHcEh9/7djhXJhMsW9TUE+xKJ7bPfshaFCvLRpBw==
-X-Received: by 2002:a05:600c:4fd0:b0:47b:da85:b9f3 with SMTP id 5b1f17b1804b1-47d84b34a73mr213795655e9.23.1768231041512;
-        Mon, 12 Jan 2026 07:17:21 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+Glrt560FBkAYRtZ4XXRXXVHD5m6rLtjBKX0o9VQ6S1Xw=="
-Received: by 2002:a5d:5f43:0:b0:432:84f4:e9d6 with SMTP id ffacd0b85a97d-432bc9216f2ls3643594f8f.1.-pod-prod-05-eu;
- Mon, 12 Jan 2026 07:17:19 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUT+MALm66mT3tVGl9G9835hVKtYotZeusl3JoEntSXwMHoC3ThmRBGAVFwdShuYFW6uljFEt0k5s0=@googlegroups.com
-X-Received: by 2002:a05:6000:2511:b0:430:f41f:bd5a with SMTP id ffacd0b85a97d-432c37a2fe5mr23158615f8f.57.1768231039312;
-        Mon, 12 Jan 2026 07:17:19 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768231039; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCUrZv/NxKeaKUwfgEM7x5pZdp92r4QYegecPFrGaby3Ix70ZJnC1uXc9sbkaEXaBSk2771e+A==@lfdr.de
+X-Gm-Message-State: AOJu0YwPSeu32GXGlbPrtIigkz8RqeOmlz1aKTp3NpyCPGgaSdJZOjHG
+	G+bQTGSI67IVlUUDvmGx/moQ6R+JvrAgg1V3H+ZuRqtZA6ynnKlZmDXj
+X-Google-Smtp-Source: AGHT+IGDXjvYqRvG39ukyFlxobFfBkSt+pX+mVZLps23FeijQOy31y4CfK8u/agvLtypm5ZJBrFapw==
+X-Received: by 2002:ac2:4e0b:0:b0:59b:8264:ba46 with SMTP id 2adb3069b0e04-59b8264bb80mr3166843e87.42.1768231045340;
+        Mon, 12 Jan 2026 07:17:25 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+HGV/gIzHoPgO30xwmhyszzAeLnvlV0cvPS+dg4JcMUMQ=="
+Received: by 2002:a05:6512:3d0c:b0:59b:6a98:7132 with SMTP id
+ 2adb3069b0e04-59b6a987291ls83531e87.2.-pod-prod-05-eu; Mon, 12 Jan 2026
+ 07:17:22 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXm35x3zpkc0zRdGIo8dobqCotrY27eY3rBOB+ky1RHk3I1zOK9EOUCSWNyXWDM1q/Jzw91lOXI5AY=@googlegroups.com
+X-Received: by 2002:a05:6512:3f0f:b0:598:faf1:3c95 with SMTP id 2adb3069b0e04-59b6f04f7ddmr4542696e87.36.1768231042515;
+        Mon, 12 Jan 2026 07:17:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768231042; cv=none;
         d=google.com; s=arc-20240605;
-        b=JGrJFNXLgBQah/8FUTZasJxMheIC9U47JDxVru0iYb64gkv3lL4tudKc8BSPOYqnSc
-         TWPMySYWzS1JjDhRAszwbc7gJWNLAQbO+sVBsO6UsZHD04SkNkmYjaPDPsrbzvEbMwNw
-         WwAUuAs/A3zSu+0gUYBlKPnbLPFiLF1p/o4DwPL+el62EeHgZGFuDFK2qx2id9rMtIFq
-         4G3o/cZ5Yi1NTdY0Ln16UY2nt2Ci5TeOTsjIGYNgNvgWWGxgt5rDnKTi7+rTpU8Fbkee
-         7ytggzxkwBAOOBxKpSkwvbDI8pqudRmYlZY3i8DM7k8Ssbt2VzldTlkMhPGjkZozfgZu
-         aqCQ==
+        b=QImoSYC88NYdOT+MbIcl3KUA+QxXwBuG9r82dTxPUVz8ZvW/hpiAlw9650IMcRrVcb
+         VTjN4R0Jn2u+h51DjFHondmd99+gJc5Mnbmqi53in8SmXvHbV9dYkNUUVR2oEH2MFb4M
+         PyDTU3aPFKa48O5Erxwj2jrA7+mKwpZyxgC1pBh50DxWNXG7gHfItyleCkwDokPtRGHg
+         OIsodAjP4jDwdlSZhf+k1XYIUyumLEtlQ3FyBhvPhbx19+sRqBEDNuLVRxaDfyW6/D6B
+         Ndnd0KqRp1oSpVuzb8cNlZk9wG9Jf24X28JvLIHeCfQVzQ53y4f3goyH6M0Oh9Myyylv
+         KJFw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from;
-        bh=j2JQu2pafvIycdznp2G0O4mrDR9UXeav0J7qRhN6tDg=;
+         :mime-version:subject:date:from:dkim-signature:dkim-signature
+         :dkim-signature:dkim-signature;
+        bh=RB7Ucfc9JWHOv3Ic49uJAd7t2evzS3bLNSohJ8k5FrU=;
         fh=+YiR3k2M4/hjhpad8/hMpDOxCdG92wPg4T+KQWP+jEY=;
-        b=YD4TRatfH11TplO4ogTsZh3QtaJV7rqDBx2lUqW5Gvda8grXdZtJFpUvFNmXLDmwKY
-         6ft2DzLibGkLbg/5OKqFjykjLqwBHJrG1oDCIlVQ6/cOvK6TfbqaRuZbmMUQLtqtIQ89
-         7gKlYsJicPGUvqb7ST0MoXSTVwekSUdiHUnT2o8icpcwtWD6HS6n5FEBrh6XSuN8HeD6
-         6gRsJRSbWNwSVVFQUjPTWpsGUQbJZJmhIXSNXnz9B9EmZfZAebBJr5agCLd6mFq7Bii+
-         1SuyJ6+fMGZ92d33chp3/TD3qDPfv/YDMcyhiO8GCoZv9MJqpnzXtDUVuijllug5GAZL
-         LP6g==;
+        b=MYwmCZ3quqSYZHjG+PDSfj/59LuzbgnRTm14hOYzA+RmzJ+XXxXl2lOZIsyWieZHLf
+         DFeoalp7LfVVVj34N2suqY1i5RyAmRegTcxWL6IYawEPc9PFp/AJbKgYDXAPo5q6/fm4
+         /YzRXQX1F/a6tv4bk4+5qPcf5Mzwifi/Jmnvk8d3R1WuY+Kr18QWgCy1oib6YqDlRrNE
+         LsGcnamfyngRyivCz69DTUWtUCE5PRB/F1FLEPlCOWRGmDB0HruAetmgTg8472r3RRrz
+         Oo3osscld9BcCX4kjYAf6BWtl8f94Z1yU6+xkht/8rGOlKOid5lPY2h9LkxoOhoeYeu/
+         jQdg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out1.suse.de (smtp-out1.suse.de. [2a07:de40:b251:101:10:150:64:1])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-432c1a1bca1si267596f8f.5.2026.01.12.07.17.19
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=BvgqrFK6;
+       dkim=neutral (no key) header.i=@suse.cz;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=BvgqrFK6;
+       dkim=neutral (no key) header.i=@suse.cz;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2a07:de40:b251:101:10:150:64:2])
+        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-59b6f504593si238542e87.4.2026.01.12.07.17.22
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jan 2026 07:17:19 -0800 (PST)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:1;
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+        Mon, 12 Jan 2026 07:17:22 -0800 (PST)
+Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:2;
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 075C33369A;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 21F445BCD6;
 	Mon, 12 Jan 2026 15:16:59 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DF6E73EA65;
-	Mon, 12 Jan 2026 15:16:58 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 05AB23EA63;
+	Mon, 12 Jan 2026 15:16:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id WKlFNmoQZWn7FgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Mon, 12 Jan 2026 15:16:58 +0000
+	id +GoZAWsQZWn7FgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Mon, 12 Jan 2026 15:16:59 +0000
 From: Vlastimil Babka <vbabka@suse.cz>
-Date: Mon, 12 Jan 2026 16:17:08 +0100
-Subject: [PATCH RFC v2 14/20] slab: remove struct kmem_cache_cpu
+Date: Mon, 12 Jan 2026 16:17:09 +0100
+Subject: [PATCH RFC v2 15/20] slab: remove unused PREEMPT_RT specific
+ macros
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Message-Id: <20260112-sheaves-for-all-v2-14-98225cfb50cf@suse.cz>
+Message-Id: <20260112-sheaves-for-all-v2-15-98225cfb50cf@suse.cz>
 References: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz>
 In-Reply-To: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz>
 To: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
@@ -136,24 +147,39 @@ Cc: Hao Li <hao.li@linux.dev>, Andrew Morton <akpm@linux-foundation.org>,
  bpf@vger.kernel.org, kasan-dev@googlegroups.com, 
  Vlastimil Babka <vbabka@suse.cz>
 X-Mailer: b4 0.14.3
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spam-Score: -4.00
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 075C33369A
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
+X-Spamd-Result: default: False [-8.30 / 50.00];
+	REPLY(-4.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	R_RATELIMIT(0.00)[to_ip_from(RLwn5r54y1cp81no5tmbbew5oc)];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux.dev,linux-foundation.org,gmail.com,oracle.com,google.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com,suse.cz];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid,suse.cz:email]
 X-Spam-Flag: NO
+X-Spam-Score: -8.30
+X-Spam-Level: 
 X-Original-Sender: vbabka@suse.cz
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1
- as permitted sender) smtp.mailfrom=vbabka@suse.cz
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@suse.cz header.s=susede2_rsa header.b=BvgqrFK6;       dkim=neutral
+ (no key) header.i=@suse.cz;       dkim=pass header.i=@suse.cz
+ header.s=susede2_rsa header.b=BvgqrFK6;       dkim=neutral (no key)
+ header.i=@suse.cz;       spf=pass (google.com: domain of vbabka@suse.cz
+ designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -166,494 +192,59 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The cpu slab is not used anymore for allocation or freeing, the
-remaining code is for flushing, but it's effectively dead.  Remove the
-whole struct kmem_cache_cpu, the flushing code and other orphaned
-functions.
-
-The remaining used field of kmem_cache_cpu is the stat array with
-CONFIG_SLUB_STATS. Put it instead in a new struct kmem_cache_stats.
-In struct kmem_cache, the field is cpu_stats and placed near the
-end of the struct.
+The macros slub_get_cpu_ptr()/slub_put_cpu_ptr() are now unused, remove
+them. USE_LOCKLESS_FAST_PATH() has lost its true meaning with the code
+being removed. The only remaining usage is in fact testing whether we
+can assert irqs disabled, because spin_lock_irqsave() only does that on
+!RT. Test for CONFIG_PREEMPT_RT instead.
 
 Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 ---
- mm/slab.h |   7 +-
- mm/slub.c | 298 +++++---------------------------------------------------------
- 2 files changed, 24 insertions(+), 281 deletions(-)
+ mm/slub.c | 24 +-----------------------
+ 1 file changed, 1 insertion(+), 23 deletions(-)
 
-diff --git a/mm/slab.h b/mm/slab.h
-index e9a0738133ed..87faeb6143f2 100644
---- a/mm/slab.h
-+++ b/mm/slab.h
-@@ -21,14 +21,12 @@
- # define system_has_freelist_aba()	system_has_cmpxchg128()
- # define try_cmpxchg_freelist		try_cmpxchg128
- # endif
--#define this_cpu_try_cmpxchg_freelist	this_cpu_try_cmpxchg128
- typedef u128 freelist_full_t;
- #else /* CONFIG_64BIT */
- # ifdef system_has_cmpxchg64
- # define system_has_freelist_aba()	system_has_cmpxchg64()
- # define try_cmpxchg_freelist		try_cmpxchg64
- # endif
--#define this_cpu_try_cmpxchg_freelist	this_cpu_try_cmpxchg64
- typedef u64 freelist_full_t;
- #endif /* CONFIG_64BIT */
- 
-@@ -189,7 +187,6 @@ struct kmem_cache_order_objects {
-  * Slab cache management.
-  */
- struct kmem_cache {
--	struct kmem_cache_cpu __percpu *cpu_slab;
- 	struct slub_percpu_sheaves __percpu *cpu_sheaves;
- 	/* Used for retrieving partial slabs, etc. */
- 	slab_flags_t flags;
-@@ -238,6 +235,10 @@ struct kmem_cache {
- 	unsigned int usersize;		/* Usercopy region size */
- #endif
- 
-+#ifdef CONFIG_SLUB_STATS
-+	struct kmem_cache_stats __percpu *cpu_stats;
-+#endif
-+
- 	struct kmem_cache_node *node[MAX_NUMNODES];
- };
- 
 diff --git a/mm/slub.c b/mm/slub.c
-index 07d977e12478..882f607fb4ad 100644
+index 882f607fb4ad..088b4f6f81fa 100644
 --- a/mm/slub.c
 +++ b/mm/slub.c
-@@ -400,28 +400,11 @@ enum stat_item {
- 	NR_SLUB_STAT_ITEMS
+@@ -201,28 +201,6 @@ enum slab_flags {
+ 	SL_pfmemalloc = PG_active,	/* Historical reasons for this bit */
  };
  
--struct freelist_tid {
--	union {
--		struct {
--			void *freelist;		/* Pointer to next available object */
--			unsigned long tid;	/* Globally unique transaction id */
--		};
--		freelist_full_t freelist_tid;
--	};
--};
--
 -/*
-- * When changing the layout, make sure freelist and tid are still compatible
-- * with this_cpu_cmpxchg_double() alignment requirements.
+- * We could simply use migrate_disable()/enable() but as long as it's a
+- * function call even on !PREEMPT_RT, use inline preempt_disable() there.
 - */
--struct kmem_cache_cpu {
--	struct freelist_tid;
--	struct slab *slab;	/* The slab from which we are allocating */
--	local_trylock_t lock;	/* Protects the fields above */
- #ifdef CONFIG_SLUB_STATS
-+struct kmem_cache_stats {
- 	unsigned int stat[NR_SLUB_STAT_ITEMS];
--#endif
- };
-+#endif
- 
- static inline void stat(const struct kmem_cache *s, enum stat_item si)
- {
-@@ -430,7 +413,7 @@ static inline void stat(const struct kmem_cache *s, enum stat_item si)
- 	 * The rmw is racy on a preemptible kernel but this is acceptable, so
- 	 * avoid this_cpu_add()'s irq-disable overhead.
- 	 */
--	raw_cpu_inc(s->cpu_slab->stat[si]);
-+	raw_cpu_inc(s->cpu_stats->stat[si]);
- #endif
- }
- 
-@@ -438,7 +421,7 @@ static inline
- void stat_add(const struct kmem_cache *s, enum stat_item si, int v)
- {
- #ifdef CONFIG_SLUB_STATS
--	raw_cpu_add(s->cpu_slab->stat[si], v);
-+	raw_cpu_add(s->cpu_stats->stat[si], v);
- #endif
- }
- 
-@@ -1148,20 +1131,6 @@ static void object_err(struct kmem_cache *s, struct slab *slab,
- 	WARN_ON(1);
- }
- 
--static bool freelist_corrupted(struct kmem_cache *s, struct slab *slab,
--			       void **freelist, void *nextfree)
--{
--	if ((s->flags & SLAB_CONSISTENCY_CHECKS) &&
--	    !check_valid_pointer(s, slab, nextfree) && freelist) {
--		object_err(s, slab, *freelist, "Freechain corrupt");
--		*freelist = NULL;
--		slab_fix(s, "Isolate corrupted freechain");
--		return true;
--	}
--
--	return false;
--}
--
- static void __slab_err(struct slab *slab)
- {
- 	if (slab_in_kunit_test())
-@@ -1943,11 +1912,6 @@ static inline void inc_slabs_node(struct kmem_cache *s, int node,
- 							int objects) {}
- static inline void dec_slabs_node(struct kmem_cache *s, int node,
- 							int objects) {}
--static bool freelist_corrupted(struct kmem_cache *s, struct slab *slab,
--			       void **freelist, void *nextfree)
--{
--	return false;
--}
- #endif /* CONFIG_SLUB_DEBUG */
- 
- /*
-@@ -3638,191 +3602,6 @@ static void *get_partial(struct kmem_cache *s, int node,
- 	return get_any_partial(s, pc);
- }
- 
--#ifdef CONFIG_PREEMPTION
--/*
-- * Calculate the next globally unique transaction for disambiguation
-- * during cmpxchg. The transactions start with the cpu number and are then
-- * incremented by CONFIG_NR_CPUS.
-- */
--#define TID_STEP  roundup_pow_of_two(CONFIG_NR_CPUS)
+-#ifndef CONFIG_PREEMPT_RT
+-#define slub_get_cpu_ptr(var)		get_cpu_ptr(var)
+-#define slub_put_cpu_ptr(var)		put_cpu_ptr(var)
+-#define USE_LOCKLESS_FAST_PATH()	(true)
 -#else
--/*
-- * No preemption supported therefore also no need to check for
-- * different cpus.
-- */
--#define TID_STEP 1
--#endif /* CONFIG_PREEMPTION */
--
--static inline unsigned long next_tid(unsigned long tid)
--{
--	return tid + TID_STEP;
--}
--
--#ifdef SLUB_DEBUG_CMPXCHG
--static inline unsigned int tid_to_cpu(unsigned long tid)
--{
--	return tid % TID_STEP;
--}
--
--static inline unsigned long tid_to_event(unsigned long tid)
--{
--	return tid / TID_STEP;
--}
+-#define slub_get_cpu_ptr(var)		\
+-({					\
+-	migrate_disable();		\
+-	this_cpu_ptr(var);		\
+-})
+-#define slub_put_cpu_ptr(var)		\
+-do {					\
+-	(void)(var);			\
+-	migrate_enable();		\
+-} while (0)
+-#define USE_LOCKLESS_FAST_PATH()	(false)
 -#endif
 -
--static inline unsigned int init_tid(int cpu)
--{
--	return cpu;
--}
--
--static void init_kmem_cache_cpus(struct kmem_cache *s)
--{
--	int cpu;
--	struct kmem_cache_cpu *c;
--
--	for_each_possible_cpu(cpu) {
--		c = per_cpu_ptr(s->cpu_slab, cpu);
--		local_trylock_init(&c->lock);
--		c->tid = init_tid(cpu);
--	}
--}
--
--/*
-- * Finishes removing the cpu slab. Merges cpu's freelist with slab's freelist,
-- * unfreezes the slabs and puts it on the proper list.
-- * Assumes the slab has been already safely taken away from kmem_cache_cpu
-- * by the caller.
-- */
--static void deactivate_slab(struct kmem_cache *s, struct slab *slab,
--			    void *freelist)
--{
--	struct kmem_cache_node *n = get_node(s, slab_nid(slab));
--	int free_delta = 0;
--	void *nextfree, *freelist_iter, *freelist_tail;
--	int tail = DEACTIVATE_TO_HEAD;
--	unsigned long flags = 0;
--	struct freelist_counters old, new;
--
--	if (READ_ONCE(slab->freelist)) {
--		stat(s, DEACTIVATE_REMOTE_FREES);
--		tail = DEACTIVATE_TO_TAIL;
--	}
--
--	/*
--	 * Stage one: Count the objects on cpu's freelist as free_delta and
--	 * remember the last object in freelist_tail for later splicing.
--	 */
--	freelist_tail = NULL;
--	freelist_iter = freelist;
--	while (freelist_iter) {
--		nextfree = get_freepointer(s, freelist_iter);
--
--		/*
--		 * If 'nextfree' is invalid, it is possible that the object at
--		 * 'freelist_iter' is already corrupted.  So isolate all objects
--		 * starting at 'freelist_iter' by skipping them.
--		 */
--		if (freelist_corrupted(s, slab, &freelist_iter, nextfree))
--			break;
--
--		freelist_tail = freelist_iter;
--		free_delta++;
--
--		freelist_iter = nextfree;
--	}
--
--	/*
--	 * Stage two: Unfreeze the slab while splicing the per-cpu
--	 * freelist to the head of slab's freelist.
--	 */
--	do {
--		old.freelist = READ_ONCE(slab->freelist);
--		old.counters = READ_ONCE(slab->counters);
--		VM_BUG_ON(!old.frozen);
--
--		/* Determine target state of the slab */
--		new.counters = old.counters;
--		new.frozen = 0;
--		if (freelist_tail) {
--			new.inuse -= free_delta;
--			set_freepointer(s, freelist_tail, old.freelist);
--			new.freelist = freelist;
--		} else {
--			new.freelist = old.freelist;
--		}
--	} while (!slab_update_freelist(s, slab, &old, &new, "unfreezing slab"));
--
--	/*
--	 * Stage three: Manipulate the slab list based on the updated state.
--	 */
--	if (!new.inuse && n->nr_partial >= s->min_partial) {
--		stat(s, DEACTIVATE_EMPTY);
--		discard_slab(s, slab);
--		stat(s, FREE_SLAB);
--	} else if (new.freelist) {
--		spin_lock_irqsave(&n->list_lock, flags);
--		add_partial(n, slab, tail);
--		spin_unlock_irqrestore(&n->list_lock, flags);
--		stat(s, tail);
--	} else {
--		stat(s, DEACTIVATE_FULL);
--	}
--}
--
--static inline void flush_slab(struct kmem_cache *s, struct kmem_cache_cpu *c)
--{
--	unsigned long flags;
--	struct slab *slab;
--	void *freelist;
--
--	local_lock_irqsave(&s->cpu_slab->lock, flags);
--
--	slab = c->slab;
--	freelist = c->freelist;
--
--	c->slab = NULL;
--	c->freelist = NULL;
--	c->tid = next_tid(c->tid);
--
--	local_unlock_irqrestore(&s->cpu_slab->lock, flags);
--
--	if (slab) {
--		deactivate_slab(s, slab, freelist);
--		stat(s, CPUSLAB_FLUSH);
--	}
--}
--
--static inline void __flush_cpu_slab(struct kmem_cache *s, int cpu)
--{
--	struct kmem_cache_cpu *c = per_cpu_ptr(s->cpu_slab, cpu);
--	void *freelist = c->freelist;
--	struct slab *slab = c->slab;
--
--	c->slab = NULL;
--	c->freelist = NULL;
--	c->tid = next_tid(c->tid);
--
--	if (slab) {
--		deactivate_slab(s, slab, freelist);
--		stat(s, CPUSLAB_FLUSH);
--	}
--}
--
--static inline void flush_this_cpu_slab(struct kmem_cache *s)
--{
--	struct kmem_cache_cpu *c = this_cpu_ptr(s->cpu_slab);
--
--	if (c->slab)
--		flush_slab(s, c);
--}
--
--static bool has_cpu_slab(int cpu, struct kmem_cache *s)
--{
--	struct kmem_cache_cpu *c = per_cpu_ptr(s->cpu_slab, cpu);
--
--	return c->slab;
--}
--
- static bool has_pcs_used(int cpu, struct kmem_cache *s)
+ #ifndef CONFIG_SLUB_TINY
+ #define __fastpath_inline __always_inline
+ #else
+@@ -707,7 +685,7 @@ static inline bool __slab_update_freelist(struct kmem_cache *s, struct slab *sla
  {
- 	struct slub_percpu_sheaves *pcs;
-@@ -3836,7 +3615,7 @@ static bool has_pcs_used(int cpu, struct kmem_cache *s)
- }
+ 	bool ret;
  
- /*
-- * Flush cpu slab.
-+ * Flush percpu sheaves
-  *
-  * Called from CPU work handler with migration disabled.
-  */
-@@ -3851,8 +3630,6 @@ static void flush_cpu_slab(struct work_struct *w)
+-	if (USE_LOCKLESS_FAST_PATH())
++	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
+ 		lockdep_assert_irqs_disabled();
  
- 	if (s->sheaf_capacity)
- 		pcs_flush_all(s);
--
--	flush_this_cpu_slab(s);
- }
- 
- static void flush_all_cpus_locked(struct kmem_cache *s)
-@@ -3865,7 +3642,7 @@ static void flush_all_cpus_locked(struct kmem_cache *s)
- 
- 	for_each_online_cpu(cpu) {
- 		sfw = &per_cpu(slub_flush, cpu);
--		if (!has_cpu_slab(cpu, s) && !has_pcs_used(cpu, s)) {
-+		if (!has_pcs_used(cpu, s)) {
- 			sfw->skip = true;
- 			continue;
- 		}
-@@ -3975,7 +3752,6 @@ static int slub_cpu_dead(unsigned int cpu)
- 
- 	mutex_lock(&slab_mutex);
- 	list_for_each_entry(s, &slab_caches, list) {
--		__flush_cpu_slab(s, cpu);
- 		if (s->sheaf_capacity)
- 			__pcs_flush_all_cpu(s, cpu);
- 	}
-@@ -7115,26 +6891,21 @@ init_kmem_cache_node(struct kmem_cache_node *n, struct node_barn *barn)
- 		barn_init(barn);
- }
- 
--static inline int alloc_kmem_cache_cpus(struct kmem_cache *s)
-+#ifdef CONFIG_SLUB_STATS
-+static inline int alloc_kmem_cache_stats(struct kmem_cache *s)
- {
- 	BUILD_BUG_ON(PERCPU_DYNAMIC_EARLY_SIZE <
- 			NR_KMALLOC_TYPES * KMALLOC_SHIFT_HIGH *
--			sizeof(struct kmem_cache_cpu));
-+			sizeof(struct kmem_cache_stats));
- 
--	/*
--	 * Must align to double word boundary for the double cmpxchg
--	 * instructions to work; see __pcpu_double_call_return_bool().
--	 */
--	s->cpu_slab = __alloc_percpu(sizeof(struct kmem_cache_cpu),
--				     2 * sizeof(void *));
-+	s->cpu_stats = alloc_percpu(struct kmem_cache_stats);
- 
--	if (!s->cpu_slab)
-+	if (!s->cpu_stats)
- 		return 0;
- 
--	init_kmem_cache_cpus(s);
--
- 	return 1;
- }
-+#endif
- 
- static int init_percpu_sheaves(struct kmem_cache *s)
- {
-@@ -7246,7 +7017,9 @@ void __kmem_cache_release(struct kmem_cache *s)
- 	cache_random_seq_destroy(s);
- 	if (s->cpu_sheaves)
- 		pcs_destroy(s);
--	free_percpu(s->cpu_slab);
-+#ifdef CONFIG_SLUB_STATS
-+	free_percpu(s->cpu_stats);
-+#endif
- 	free_kmem_cache_nodes(s);
- }
- 
-@@ -7938,12 +7711,6 @@ static struct kmem_cache * __init bootstrap(struct kmem_cache *static_cache)
- 
- 	memcpy(s, static_cache, kmem_cache->object_size);
- 
--	/*
--	 * This runs very early, and only the boot processor is supposed to be
--	 * up.  Even if it weren't true, IRQs are not up so we couldn't fire
--	 * IPIs around.
--	 */
--	__flush_cpu_slab(s, smp_processor_id());
- 	for_each_kmem_cache_node(s, node, n) {
- 		struct slab *p;
- 
-@@ -8158,8 +7925,10 @@ int do_kmem_cache_create(struct kmem_cache *s, const char *name,
- 	if (!init_kmem_cache_nodes(s))
- 		goto out;
- 
--	if (!alloc_kmem_cache_cpus(s))
-+#ifdef CONFIG_SLUB_STATS
-+	if (!alloc_kmem_cache_stats(s))
- 		goto out;
-+#endif
- 
- 	err = init_percpu_sheaves(s);
- 	if (err)
-@@ -8478,33 +8247,6 @@ static ssize_t show_slab_objects(struct kmem_cache *s,
- 	if (!nodes)
- 		return -ENOMEM;
- 
--	if (flags & SO_CPU) {
--		int cpu;
--
--		for_each_possible_cpu(cpu) {
--			struct kmem_cache_cpu *c = per_cpu_ptr(s->cpu_slab,
--							       cpu);
--			int node;
--			struct slab *slab;
--
--			slab = READ_ONCE(c->slab);
--			if (!slab)
--				continue;
--
--			node = slab_nid(slab);
--			if (flags & SO_TOTAL)
--				x = slab->objects;
--			else if (flags & SO_OBJECTS)
--				x = slab->inuse;
--			else
--				x = 1;
--
--			total += x;
--			nodes[node] += x;
--
--		}
--	}
--
- 	/*
- 	 * It is impossible to take "mem_hotplug_lock" here with "kernfs_mutex"
- 	 * already held which will conflict with an existing lock order:
-@@ -8875,7 +8617,7 @@ static int show_stat(struct kmem_cache *s, char *buf, enum stat_item si)
- 		return -ENOMEM;
- 
- 	for_each_online_cpu(cpu) {
--		unsigned x = per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
-+		unsigned x = per_cpu_ptr(s->cpu_stats, cpu)->stat[si];
- 
- 		data[cpu] = x;
- 		sum += x;
-@@ -8901,7 +8643,7 @@ static void clear_stat(struct kmem_cache *s, enum stat_item si)
- 	int cpu;
- 
- 	for_each_online_cpu(cpu)
--		per_cpu_ptr(s->cpu_slab, cpu)->stat[si] = 0;
-+		per_cpu_ptr(s->cpu_stats, cpu)->stat[si] = 0;
- }
- 
- #define STAT_ATTR(si, text) 					\
+ 	if (s->flags & __CMPXCHG_DOUBLE)
 
 -- 
 2.52.0
@@ -661,4 +252,4 @@ index 07d977e12478..882f607fb4ad 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260112-sheaves-for-all-v2-14-98225cfb50cf%40suse.cz.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260112-sheaves-for-all-v2-15-98225cfb50cf%40suse.cz.
