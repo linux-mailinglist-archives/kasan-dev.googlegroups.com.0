@@ -1,136 +1,131 @@
-Return-Path: <kasan-dev+bncBAABB7OPTHFQMGQEJD2G7XY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBOGYTHFQMGQESUSRZSQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B0D1D19F8A
-	for <lists+kasan-dev@lfdr.de>; Tue, 13 Jan 2026 16:42:55 +0100 (CET)
-Received: by mail-lj1-x23b.google.com with SMTP id 38308e7fff4ca-38306501f14sf35410181fa.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 13 Jan 2026 07:42:55 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1768318974; cv=pass;
+Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D62D1A0E9
+	for <lists+kasan-dev@lfdr.de>; Tue, 13 Jan 2026 17:01:01 +0100 (CET)
+Received: by mail-lf1-x13c.google.com with SMTP id 2adb3069b0e04-59b6a97e566sf5672531e87.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 13 Jan 2026 08:01:01 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1768320061; cv=pass;
         d=google.com; s=arc-20240605;
-        b=lhsqfYYujibPgSX/3Zh8+IBd6DJkADVfT93k4E2Dbf3n7hsJzIIbkQ4uhhylj94Jle
-         9oiJ3s+Ps/COP0ncZ2+EsO/IJekQRJa+sOQopVJ7+BhlZGHQthOhmOJUqmwUS4JSdNHt
-         fPfIblflXJpmeAVn3AnyxWyZacyGdeDdlswbO0rIxlI9Nta5csaIs+Ano1fGs48Xcitw
-         pebbHf9gm1QFR29XbegRdHC6/13PbdFZbOMj523I4a0VuXptY1XM4HJBstg48Vs/sCYf
-         P7gwNwbFCYTHUu2NseM/KTQmuyc7euyye05BxLd83FrDczFc0OhOPujbfHeCfowIq4sd
-         ZW7A==
+        b=C11dPC3al8cQRzJFtJQQPos2sLG7U9M+t3zWIuBpldqX6tX37NxlJ2mV8Pu+nWgcul
+         mEryS3TIfKjmEpCx7qMBB7Ehd+/dlkXQSIzvG5s/WAeSIZbBJtILdtBeKX5rZ7bEmDvH
+         Umukr30YaSa3EfL+82zP1npGurXZeD5ZmUlSV0uvOa+jqBtAHRks7UQu3sH0N03c7Vbk
+         CMZy3Z2HiHrXvxnBcV6pwrXXx8kZpl4Vb4xsDEKySkaem8linQUlXFeGAqgA2ccwTv9b
+         D58FbKT1lvZEoun+hX1Tt0DCC7c+D2cIzyU9E6ieNk2Ph4GSYwXrT48TWJPvoNbKK2OV
+         6ELA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=lGn+1omZzV3b8/jksJ0wwCmmwl6UJctTyjpxLDUS2mI=;
-        fh=fJp7PHR/qBfwpAvhc3WPsKAiUATzMEh8SrrNLOsbSks=;
-        b=PbNiit79HuPhFEHrmwsMWlvL/96Pt7VNz6p37ldd705RtxNI4kqkVfWXbnwevAJY3q
-         MLhIX5GKlg8Skd9IAMtFsp1OgUbgwRUj8CN6aVe2Uyah8+aR7SsunV8yA/ONeoD7icgj
-         at9SzUNy+7HK1CFFk0akfKYEIwEzGV3DoEXo1VGdMchBVeJXOHXLmOS5x2qTeM6g/kf3
-         xkWZgnIMX35jCcWuiu2b65kUFYYudcFzkB5SN6iW+B0Ik3BFw96LqsmfreFxctoWaUk+
-         yBtqFUcvSsbhOiL1l49KxQfJ2W7zMgfJeyI2s0bZyLCbxjejQ7ssxl0wrhcHE833E4m5
-         Atlw==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :mime-version:feedback-id:references:in-reply-to:message-id:subject
+         :cc:from:to:date:dkim-signature;
+        bh=mqfpXLhHOVa2LPkC9Neos80meqTEsR6PNeNE0ZAl9S4=;
+        fh=NWtvVocBS9PNnpm/VkpIWZrJEm0qjf1WaKHl4TtSxj8=;
+        b=Y0DXpogHpd8yWZFFm36pR4pcFm7UeVqCM5yR3/RK/lpPgljxz/A1zdATLFwFfwllhI
+         DB48CALKj9hRInsHcfGUsmOva0xm6YKCCBqo4icQIAOy+Pg0QT7jLEv08maxhafF6WRI
+         rH+3JpvR/IcXrLpIpQLzRJ60HieRBg872UY4vgEbuykGDPc3xDvLyIvMpk4xJB9PW7SE
+         CS4NJp446PoPW2Chc2g3ILOaGISzEH8uph5onKzhe3VCw5KHemNPpQvjUulNqvMpQpIU
+         WQvCkmk7rsp8H0J7PKKQDYD9yUeGjJUyT8D7BES/Dx1iqGO10SClsXqnCMFysGC0s5Ov
+         QWgw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=eCIGcp39;
-       spf=pass (google.com: domain of hao.li@linux.dev designates 2001:41d0:1004:224b::b5 as permitted sender) smtp.mailfrom=hao.li@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+       dkim=pass header.i=@pm.me header.s=protonmail3 header.b=WIPKkONR;
+       spf=pass (google.com: domain of m.wieczorretman@pm.me designates 185.70.43.16 as permitted sender) smtp.mailfrom=m.wieczorretman@pm.me;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=pm.me
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1768318974; x=1768923774; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1768320061; x=1768924861; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lGn+1omZzV3b8/jksJ0wwCmmwl6UJctTyjpxLDUS2mI=;
-        b=X1VTdZ3+bdwouMWZhwFurcaFDPaaZVgNIeD8VhRMs6RNZkJB8g+7bXsqt3TfXnA8b9
-         LnHsXBSeiQBqdwB2cMvCqZrEYG5df9oGPrckOut8foWXaUFJ1GC6ahgCugNTvYaWVn1K
-         8zHO/K7Gv8iTW+OD7WLCzvg6TeKJF1smrSumYd/HRsY1KXf9MGUp9lQNl1WC0FwhhXVT
-         htD2H2OZYC3riUCoOT9ZoKpd+4RL4y7G71jsquDDfy7WGYqCdRClz+FnRyrCcGsjT45L
-         MJnUelaa6g/hnE4LN2RVhIdgFCqvT2R0Vx6r072C7bdnEjVrXztbuuvhUR0xtVhVWAd5
-         Z3Aw==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:feedback-id:references
+         :in-reply-to:message-id:subject:cc:from:to:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=mqfpXLhHOVa2LPkC9Neos80meqTEsR6PNeNE0ZAl9S4=;
+        b=Y3EjI+hVskKEPSJE/SuVfbhdG2PT1NYzMyo3qD9P3Jh9tcP/3Kx+YFLFlCRXYMPVVd
+         XkbilV4tOIkWfVyNnzk7BNGtCS3JRli9Ws9pkJtu7btkzqpU3CLdk4Z+g4fCnYTTEa9c
+         m0oEt8IuyHYqv3IkrBWgvpsOGw87jSJMY1Hf5sYVyjFmNcqJveWWWujVtGbOY9NLTfus
+         Np4HKRzY6q+wil8q37jPN7NEhNY/+27rc9m66UsvE4JHbZAaGUHXdL7MqGmy9LVEzpSZ
+         XjwAalHbzxwC6DnDuAloUo6Dy8DHPAIbh8h4e7ncIb0kCZxoq7apeMBWO10ZfWGbShT+
+         NMwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768318974; x=1768923774;
+        d=1e100.net; s=20230601; t=1768320061; x=1768924861;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lGn+1omZzV3b8/jksJ0wwCmmwl6UJctTyjpxLDUS2mI=;
-        b=UGfYtoImwWojhE4nKsh70C0BFfECp6hqusTZ9ZPo7P9zp+vpRVrsIGMNyO5thaUqX9
-         3A61KDSnT0Bnliv4NcfLFhnMfvwSp3lTHXqDF078CARq2NVmMpL6LIi2b+BB+4t7j3eS
-         omlBZFhgV085yPyUaC60dk2fzULY5tT+8eLBIHZUI/QkCZppYzMwSyvM/kjcjNh/A9Ft
-         TKL5nYi+B6FYBPfAxokN75NtUlOyP0WDKh5VF0TrwzYWrOeMK71wW1F3GGs6beM5VwJ1
-         DlhhmcI5LaCeN5wmrzKH5gfJsu7xB4YPnkQT47tZ1slQwlulLoCl2Wgf/gXerKT5NGdI
-         uE9A==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXbX4FaVzZ3rt7oOkzAuaGsrxUrN02cMzWeUbwr5u4VhPO2br9zMuxQ4wuuJZMjGkrEywQw+A==@lfdr.de
-X-Gm-Message-State: AOJu0Yze9HLTqBmRtBsLLzXZupLLBMnrhnFS9p+fnzZ6Rvs6BOOcNd5J
-	XV192n5g1IgEaenaAu9/Yww/K8PMAhHnkrDKIxSs1MNemqdO5wRDbtBl
-X-Google-Smtp-Source: AGHT+IHFttgN84Gt36ltb6cMgyHoFCDkTDZX227SSEdDIuBWOmOdO5c2mh1QdWOD70T2YDdHggwy+g==
-X-Received: by 2002:a05:651c:1ca:b0:383:1832:9586 with SMTP id 38308e7fff4ca-3831832a6a1mr47049371fa.1.1768318974328;
-        Tue, 13 Jan 2026 07:42:54 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+GkQLpQknWorHIr4thuMWdg6tgvxZ4BQjlyQK2MBwa2iA=="
-Received: by 2002:a2e:b008:0:b0:383:1306:64b5 with SMTP id 38308e7fff4ca-383130665bcls4102131fa.2.-pod-prod-05-eu;
- Tue, 13 Jan 2026 07:42:52 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXYPiOef857BVAxm8m5P4N7F2a1cKaUcnzel+4Fdat9lF3l8/IRBYmT3kAecnR9AIHv6AUvuXPcepo=@googlegroups.com
-X-Received: by 2002:a2e:b8c8:0:b0:37b:aa90:1f5 with SMTP id 38308e7fff4ca-382ff829ea5mr57409151fa.39.1768318972160;
-        Tue, 13 Jan 2026 07:42:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768318972; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:feedback-id:references
+         :in-reply-to:message-id:subject:cc:from:to:date:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mqfpXLhHOVa2LPkC9Neos80meqTEsR6PNeNE0ZAl9S4=;
+        b=L1PV7u3Q8cnWQNEDvIlpKeK53M8W3tfC0IQLKOIfeDhescud7fwblwXoPLBrXOVKFV
+         ZQoR5LmCEkZMfvtZVijZhdnbm947uEGX0op6XB15P1Pb/QXzUdGnT1AWLIXSnNoFOgMK
+         VrSQ56OqQxJ2wrrLgvpd9NinFndZ7lDQpmTHI/Gc4hTxM3tHFXRBF9rQxnlVXtWFhBOw
+         2+77CqkiowKp8D7H2DngzB6yZOdj/WNg/+3dIBGmqSpDDXjKjd85qnWqvPr993d72ZTn
+         fnO5FacDvDXx4zE/x1jfKyEj2yMcaVHKVM24BUyjYRMCSZLPH+GB6Or7vlRPm0Qka5Qw
+         vcNw==
+X-Forwarded-Encrypted: i=2; AJvYcCWddDNA4q/zo9QomeKSYpIItqCdCKg4hhUqGRiCRu6r/YzBclw7WfNqpefVuOJDhSW89tlOBg==@lfdr.de
+X-Gm-Message-State: AOJu0Yy7Ma4E043DXhIvPQNSefTQgARcijNlrun0Jc2gH1UEkgVCSFV6
+	KctnCBAxSSdWZNBdr9FaexC170Bi3YKYCy8/DfkT4O5z/KizV2K9tIZt
+X-Google-Smtp-Source: AGHT+IGI+5/m72cuo8me7rOB4Wh1wAD0PcplHPNIZmXPwIgMPac+fFpqLELqKd4maV7pvSseNY1NRw==
+X-Received: by 2002:a05:6512:4010:b0:59b:7aa9:35fa with SMTP id 2adb3069b0e04-59b7aa93644mr5694457e87.44.1768320057272;
+        Tue, 13 Jan 2026 08:00:57 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+Gycgr3Huvc+MeZlqqNtNVPSB2vyIWgdNUyGdo5eGSOFQ=="
+Received: by 2002:a05:6512:1042:b0:598:e361:cc93 with SMTP id
+ 2adb3069b0e04-59b6cba0ff2ls2664696e87.0.-pod-prod-05-eu; Tue, 13 Jan 2026
+ 08:00:55 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCX2ksDv8IK6COrV3tw7HiOSpUOG2WZPnz6+9QxvD7ezN+f0g2DJQS4PxnF2f2AMLnKqAMLPiTrricU=@googlegroups.com
+X-Received: by 2002:a05:6512:34c4:b0:59b:6fa8:bc80 with SMTP id 2adb3069b0e04-59b6fa8bf87mr4664310e87.32.1768320054797;
+        Tue, 13 Jan 2026 08:00:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768320054; cv=none;
         d=google.com; s=arc-20240605;
-        b=bbhuUPdZhFJJ1U49odqHD87i137V94OKKonUzsKPPQePNjQHQh0K66Ow2wMyQb8BuT
-         Vd8oe1nuxMs8urE2d5uVDGFKlKkmjxZqTdlmRGOdILhykYl3UOQ2Y/R3YFoiCMVVpaOo
-         whxqdCix+CIkiBBbQZT4lMWcBHfmlXuz6bXU1p9ExwBeBWR7jZN/EpEFmgq+TJra2eaI
-         oeNsKuNk3OMA8wKPDw9viKVEBKR6gjs+aqAFVn1ZG3NUCWMJhy/Z4o2tInbvQNyxW5ZJ
-         9wAK8Q+a6cpOMTWR6mJDYTc5gZ/ALdwsn0D0urVrsyJ5wjDYhi2kmS1XWeyPrFTVqbPJ
-         Cu5g==
+        b=NwsOtmatb09z3or3wdw3upwrcMNn7An0z/okNaecSo6BzpXOs4Kt7jPb1/2hzktHlN
+         hl/xv+3OW8WzUJvO7v5uXuj4VOijZRo9oUN4V1Qt5DLochSS8426PlurT2oIl6b2bK7N
+         hFneKRIFrojZ0Nygt7M4xQp78R7sJVGFpLCvONVdYnxpOZUp1TZzPXzacwf1/EnA5Enz
+         G208UsvcQ5gjjODWY6HzrSSv2VQIsyh2T2i/qSFdDJYGCZl3xIqtUR+JJ2XbQTl9+qUd
+         6sCV5fBYR8UQxqmph9cSoRf4iuI117Ti3QbVbaadplP5jdJHgnZ8MYAz33hlLFgGPOhW
+         shlQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:dkim-signature:date;
-        bh=kcT0Rq2eZ+lNzxPFLAdKQnxD9hPonR7DRC64KveBJ74=;
-        fh=2eNRZ9ECquILDe9T7DsfDKzbtYQIgOYM00xcI0sJ8bg=;
-        b=dVXLgZGs24vOaaQnCROhRGmrTec4RQ3XCBoI406qvk8dH1tEKzWhq2VbVMFGEhS5AR
-         OxaiVT8n9T/dsAG+6vuRQvynxJi8XOgpLNUj7nrCiSKiXqTLS7GU1KDLDO4OsCQbWxLX
-         pT89YLhw6QCSYAd5BeD7BWaUFzy/4Ba+Y14V5H/OqyXmayk9Pw/IlAniO88zvVUlrVUR
-         7eWk/7UDfJMMLcFuYNySP6QmtAg2nSYRb7QyP9m6jf1SQXKFr5kTl2Mekd/ghqRcDy6/
-         sI5CDmmkNOCiIDuNZMENddJm7R8X/+x/qHOeFWlX52m+dNuoNVdaoap2jwyGKYLYCkeP
-         roPg==;
+        h=content-transfer-encoding:mime-version:feedback-id:references
+         :in-reply-to:message-id:subject:cc:from:to:date:dkim-signature;
+        bh=hFHCrVEHjXRF7hyUvHIW1j8LKpUAszN9uEePsrS4udM=;
+        fh=65vZcx55jeWm1wcJtzwIioTsH5cMnUyp/oR9NseI7W0=;
+        b=EmeDsA1krtDQ+HALTwybNoGrwQTuA0copcNJxUMKW8BZr1b0Pq1UiTmZ0/MO+WunYf
+         hH8kTWyrPsQGRSLqCxEi+7SJeqCSG/NctQe06nDypICXvBPt6AqRHiY5n6bih61Zf4HU
+         OV2QrxL0zNogINzoE8HFu/1DVfoqiDGfQt8S3DrgM6rrVWpF5Op5HqTdQCQXY85ACEfb
+         wbF601RCf8O2OPGPp7LFMdpH70ny+nY+VB4ksP5mH/HQbvNyH48iMJBH0vnCmZfDIKHX
+         9ScPmdAFdeankAhjqN1wsdcF/Vl/Y14ie5zzot4/pRAzif1x6oA6JkHNuHKFX3+GGxgs
+         hviQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=eCIGcp39;
-       spf=pass (google.com: domain of hao.li@linux.dev designates 2001:41d0:1004:224b::b5 as permitted sender) smtp.mailfrom=hao.li@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com. [2001:41d0:1004:224b::b5])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-382fc3b94f2si3297171fa.7.2026.01.13.07.42.52
+       dkim=pass header.i=@pm.me header.s=protonmail3 header.b=WIPKkONR;
+       spf=pass (google.com: domain of m.wieczorretman@pm.me designates 185.70.43.16 as permitted sender) smtp.mailfrom=m.wieczorretman@pm.me;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=pm.me
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch. [185.70.43.16])
+        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-59b662c0faesi304873e87.1.2026.01.13.08.00.54
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jan 2026 07:42:52 -0800 (PST)
-Received-SPF: pass (google.com: domain of hao.li@linux.dev designates 2001:41d0:1004:224b::b5 as permitted sender) client-ip=2001:41d0:1004:224b::b5;
-Date: Tue, 13 Jan 2026 23:42:29 +0800
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Hao Li <hao.li@linux.dev>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Suren Baghdasaryan <surenb@google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH RFC v2 06/20] slab: make percpu sheaves compatible with
- kmalloc_nolock()/kfree_nolock()
-Message-ID: <2hsm2byyftzi2d4xxdtkakqnfggtyemr23ofrnqgkzhkh7q7vc@zoqqfr7hba6f>
-References: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz>
- <20260112-sheaves-for-all-v2-6-98225cfb50cf@suse.cz>
+        Tue, 13 Jan 2026 08:00:54 -0800 (PST)
+Received-SPF: pass (google.com: domain of m.wieczorretman@pm.me designates 185.70.43.16 as permitted sender) client-ip=185.70.43.16;
+Date: Tue, 13 Jan 2026 16:00:47 +0000
+To: Borislav Petkov <bp@alien8.de>
+From: "'Maciej Wieczor-Retman' via kasan-dev" <kasan-dev@googlegroups.com>
+Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH v8 14/14] x86/kasan: Make software tag-based kasan available
+Message-ID: <aWZlpjwMXgdtZGMQ@wieczorr-mobl1.localdomain>
+In-Reply-To: <20260113114539.GIaWYwY9q4QuC-J66e@fat_crate.local>
+References: <cover.1768233085.git.m.wieczorretman@pm.me> <5b46822936bf9bf7e5cf5d1b57f936345c45a140.1768233085.git.m.wieczorretman@pm.me> <20260113114539.GIaWYwY9q4QuC-J66e@fat_crate.local>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: 9480566bf693106aafa213f58581fafcda1e4f76
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20260112-sheaves-for-all-v2-6-98225cfb50cf@suse.cz>
-X-Migadu-Flow: FLOW_OUT
-X-Original-Sender: hao.li@linux.dev
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: m.wieczorretman@pm.me
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=eCIGcp39;       spf=pass
- (google.com: domain of hao.li@linux.dev designates 2001:41d0:1004:224b::b5 as
- permitted sender) smtp.mailfrom=hao.li@linux.dev;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=linux.dev
+ header.i=@pm.me header.s=protonmail3 header.b=WIPKkONR;       spf=pass
+ (google.com: domain of m.wieczorretman@pm.me designates 185.70.43.16 as
+ permitted sender) smtp.mailfrom=m.wieczorretman@pm.me;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=pm.me
+X-Original-From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+Reply-To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,299 +138,142 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Jan 12, 2026 at 04:17:00PM +0100, Vlastimil Babka wrote:
-> Before we enable percpu sheaves for kmalloc caches, we need to make sure
-> kmalloc_nolock() and kfree_nolock() will continue working properly and
-> not spin when not allowed to.
-> 
-> Percpu sheaves themselves use local_trylock() so they are already
-> compatible. We just need to be careful with the barn->lock spin_lock.
-> Pass a new allow_spin parameter where necessary to use
-> spin_trylock_irqsave().
-> 
-> In kmalloc_nolock_noprof() we can now attempt alloc_from_pcs() safely,
-> for now it will always fail until we enable sheaves for kmalloc caches
-> next. Similarly in kfree_nolock() we can attempt free_to_pcs().
-> 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> ---
->  mm/slub.c | 79 +++++++++++++++++++++++++++++++++++++++++++++------------------
->  1 file changed, 57 insertions(+), 22 deletions(-)
-> 
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 06d5cf794403..0177a654a06a 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -2881,7 +2881,8 @@ static void pcs_destroy(struct kmem_cache *s)
->  	s->cpu_sheaves = NULL;
->  }
->  
-> -static struct slab_sheaf *barn_get_empty_sheaf(struct node_barn *barn)
-> +static struct slab_sheaf *barn_get_empty_sheaf(struct node_barn *barn,
-> +					       bool allow_spin)
->  {
->  	struct slab_sheaf *empty = NULL;
->  	unsigned long flags;
-> @@ -2889,7 +2890,10 @@ static struct slab_sheaf *barn_get_empty_sheaf(struct node_barn *barn)
->  	if (!data_race(barn->nr_empty))
->  		return NULL;
->  
-> -	spin_lock_irqsave(&barn->lock, flags);
-> +	if (likely(allow_spin))
-> +		spin_lock_irqsave(&barn->lock, flags);
-> +	else if (!spin_trylock_irqsave(&barn->lock, flags))
-> +		return NULL;
->  
->  	if (likely(barn->nr_empty)) {
->  		empty = list_first_entry(&barn->sheaves_empty,
-> @@ -2966,7 +2970,8 @@ static struct slab_sheaf *barn_get_full_or_empty_sheaf(struct node_barn *barn)
->   * change.
->   */
->  static struct slab_sheaf *
-> -barn_replace_empty_sheaf(struct node_barn *barn, struct slab_sheaf *empty)
-> +barn_replace_empty_sheaf(struct node_barn *barn, struct slab_sheaf *empty,
-> +			 bool allow_spin)
->  {
->  	struct slab_sheaf *full = NULL;
->  	unsigned long flags;
-> @@ -2974,7 +2979,10 @@ barn_replace_empty_sheaf(struct node_barn *barn, struct slab_sheaf *empty)
->  	if (!data_race(barn->nr_full))
->  		return NULL;
->  
-> -	spin_lock_irqsave(&barn->lock, flags);
-> +	if (likely(allow_spin))
-> +		spin_lock_irqsave(&barn->lock, flags);
-> +	else if (!spin_trylock_irqsave(&barn->lock, flags))
-> +		return NULL;
->  
->  	if (likely(barn->nr_full)) {
->  		full = list_first_entry(&barn->sheaves_full, struct slab_sheaf,
-> @@ -2995,7 +3003,8 @@ barn_replace_empty_sheaf(struct node_barn *barn, struct slab_sheaf *empty)
->   * barn. But if there are too many full sheaves, reject this with -E2BIG.
->   */
->  static struct slab_sheaf *
-> -barn_replace_full_sheaf(struct node_barn *barn, struct slab_sheaf *full)
-> +barn_replace_full_sheaf(struct node_barn *barn, struct slab_sheaf *full,
-> +			bool allow_spin)
->  {
->  	struct slab_sheaf *empty;
->  	unsigned long flags;
-> @@ -3006,7 +3015,10 @@ barn_replace_full_sheaf(struct node_barn *barn, struct slab_sheaf *full)
->  	if (!data_race(barn->nr_empty))
->  		return ERR_PTR(-ENOMEM);
->  
-> -	spin_lock_irqsave(&barn->lock, flags);
-> +	if (likely(allow_spin))
-> +		spin_lock_irqsave(&barn->lock, flags);
-> +	else if (!spin_trylock_irqsave(&barn->lock, flags))
-> +		return ERR_PTR(-EBUSY);
->  
->  	if (likely(barn->nr_empty)) {
->  		empty = list_first_entry(&barn->sheaves_empty, struct slab_sheaf,
-> @@ -5000,7 +5012,8 @@ __pcs_replace_empty_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
->  		return NULL;
->  	}
->  
-> -	full = barn_replace_empty_sheaf(barn, pcs->main);
-> +	full = barn_replace_empty_sheaf(barn, pcs->main,
-> +					gfpflags_allow_spinning(gfp));
->  
->  	if (full) {
->  		stat(s, BARN_GET);
-> @@ -5017,7 +5030,7 @@ __pcs_replace_empty_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
->  			empty = pcs->spare;
->  			pcs->spare = NULL;
->  		} else {
-> -			empty = barn_get_empty_sheaf(barn);
-> +			empty = barn_get_empty_sheaf(barn, true);
->  		}
->  	}
->  
-> @@ -5157,7 +5170,8 @@ void *alloc_from_pcs(struct kmem_cache *s, gfp_t gfp, int node)
->  }
->  
->  static __fastpath_inline
-> -unsigned int alloc_from_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
-> +unsigned int alloc_from_pcs_bulk(struct kmem_cache *s, gfp_t gfp, size_t size,
-> +				 void **p)
->  {
->  	struct slub_percpu_sheaves *pcs;
->  	struct slab_sheaf *main;
-> @@ -5191,7 +5205,8 @@ unsigned int alloc_from_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
->  			return allocated;
->  		}
->  
-> -		full = barn_replace_empty_sheaf(barn, pcs->main);
-> +		full = barn_replace_empty_sheaf(barn, pcs->main,
-> +						gfpflags_allow_spinning(gfp));
->  
->  		if (full) {
->  			stat(s, BARN_GET);
-> @@ -5700,7 +5715,7 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
->  	gfp_t alloc_gfp = __GFP_NOWARN | __GFP_NOMEMALLOC | gfp_flags;
->  	struct kmem_cache *s;
->  	bool can_retry = true;
-> -	void *ret = ERR_PTR(-EBUSY);
-> +	void *ret;
->  
->  	VM_WARN_ON_ONCE(gfp_flags & ~(__GFP_ACCOUNT | __GFP_ZERO |
->  				      __GFP_NO_OBJ_EXT));
-> @@ -5727,6 +5742,12 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
->  		 */
->  		return NULL;
->  
-> +	ret = alloc_from_pcs(s, alloc_gfp, node);
-> +	if (ret)
-> +		goto success;
-> +
-> +	ret = ERR_PTR(-EBUSY);
-> +
->  	/*
->  	 * Do not call slab_alloc_node(), since trylock mode isn't
->  	 * compatible with slab_pre_alloc_hook/should_failslab and
-> @@ -5763,6 +5784,7 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
->  		ret = NULL;
->  	}
->  
-> +success:
->  	maybe_wipe_obj_freeptr(s, ret);
->  	slab_post_alloc_hook(s, NULL, alloc_gfp, 1, &ret,
->  			     slab_want_init_on_alloc(alloc_gfp, s), size);
-> @@ -6083,7 +6105,8 @@ static void __pcs_install_empty_sheaf(struct kmem_cache *s,
->   * unlocked.
->   */
->  static struct slub_percpu_sheaves *
-> -__pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
-> +__pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
-> +			bool allow_spin)
->  {
->  	struct slab_sheaf *empty;
->  	struct node_barn *barn;
-> @@ -6107,7 +6130,7 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
->  	put_fail = false;
->  
->  	if (!pcs->spare) {
-> -		empty = barn_get_empty_sheaf(barn);
-> +		empty = barn_get_empty_sheaf(barn, allow_spin);
->  		if (empty) {
->  			pcs->spare = pcs->main;
->  			pcs->main = empty;
-> @@ -6121,7 +6144,7 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
->  		return pcs;
->  	}
->  
-> -	empty = barn_replace_full_sheaf(barn, pcs->main);
-> +	empty = barn_replace_full_sheaf(barn, pcs->main, allow_spin);
->  
->  	if (!IS_ERR(empty)) {
->  		stat(s, BARN_PUT);
-> @@ -6129,6 +6152,17 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
->  		return pcs;
->  	}
->  
-> +	if (!allow_spin) {
-> +		/*
-> +		 * sheaf_flush_unused() or alloc_empty_sheaf() don't support
-> +		 * !allow_spin and instead of trying to support them it's
-> +		 * easier to fall back to freeing the object directly without
-> +		 * sheaves
-> +		 */
-> +		local_unlock(&s->cpu_sheaves->lock);
-> +		return NULL;
-> +	}
+On 2026-01-13 at 12:45:39 +0100, Borislav Petkov wrote:
+>For all your $Subjects: make sure they have a verb in the name.
+>
+>For that consult:
+>
+>https://kernel.org/doc/html/latest/process/maintainer-tip.html#patch-subje=
+ct
+>
+>and the following "Changelog" section.
 
-It looks like when "allow_spin" is false, __pcs_replace_full_main() can
-still end up calling alloc_empty_sheaf() if pcs->spare is NULL (via the
-"goto alloc_empty" path). Would it make sense to bail out a bit earlier
-in that case?
+Sure, I'll revise these.
 
--- 
-Thanks
-Hao
+>
+>On Mon, Jan 12, 2026 at 05:28:35PM +0000, Maciej Wieczor-Retman wrote:
+>> From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+>
+>...
+>
+>>  Documentation/arch/x86/x86_64/mm.rst | 6 ++++--
+>>  arch/x86/Kconfig                     | 4 ++++
+>>  arch/x86/boot/compressed/misc.h      | 1 +
+>>  arch/x86/include/asm/kasan.h         | 5 +++++
+>>  arch/x86/mm/kasan_init_64.c          | 6 ++++++
+>>  lib/Kconfig.kasan                    | 3 ++-
+>>  6 files changed, 22 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/Documentation/arch/x86/x86_64/mm.rst b/Documentation/arch/x=
+86/x86_64/mm.rst
+>> index a6cf05d51bd8..ccbdbb4cda36 100644
+>> --- a/Documentation/arch/x86/x86_64/mm.rst
+>> +++ b/Documentation/arch/x86/x86_64/mm.rst
+>> @@ -60,7 +60,8 @@ Complete virtual memory map with 4-level page tables
+>>     ffffe90000000000 |  -23    TB | ffffe9ffffffffff |    1 TB | ... unu=
+sed hole
+>>     ffffea0000000000 |  -22    TB | ffffeaffffffffff |    1 TB | virtual=
+ memory map (vmemmap_base)
+>>     ffffeb0000000000 |  -21    TB | ffffebffffffffff |    1 TB | ... unu=
+sed hole
+>> -   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN s=
+hadow memory
+>> +   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN s=
+hadow memory (generic mode)
+>> +   fffff40000000000 |   -8    TB | fffffbffffffffff |    8 TB | KASAN s=
+hadow memory (software tag-based mode)
+>
+>These here are non-overlapping ranges. Yours are overlapping. Why?
 
-> +
->  	if (PTR_ERR(empty) == -E2BIG) {
->  		/* Since we got here, spare exists and is full */
->  		struct slab_sheaf *to_flush = pcs->spare;
-> @@ -6196,7 +6230,7 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
->   * The object is expected to have passed slab_free_hook() already.
->   */
->  static __fastpath_inline
-> -bool free_to_pcs(struct kmem_cache *s, void *object)
-> +bool free_to_pcs(struct kmem_cache *s, void *object, bool allow_spin)
->  {
->  	struct slub_percpu_sheaves *pcs;
->  
-> @@ -6207,7 +6241,7 @@ bool free_to_pcs(struct kmem_cache *s, void *object)
->  
->  	if (unlikely(pcs->main->size == s->sheaf_capacity)) {
->  
-> -		pcs = __pcs_replace_full_main(s, pcs);
-> +		pcs = __pcs_replace_full_main(s, pcs, allow_spin);
->  		if (unlikely(!pcs))
->  			return false;
->  	}
-> @@ -6314,7 +6348,7 @@ bool __kfree_rcu_sheaf(struct kmem_cache *s, void *obj)
->  			goto fail;
->  		}
->  
-> -		empty = barn_get_empty_sheaf(barn);
-> +		empty = barn_get_empty_sheaf(barn, true);
->  
->  		if (empty) {
->  			pcs->rcu_free = empty;
-> @@ -6435,7 +6469,7 @@ static void free_to_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
->  		goto no_empty;
->  
->  	if (!pcs->spare) {
-> -		empty = barn_get_empty_sheaf(barn);
-> +		empty = barn_get_empty_sheaf(barn, true);
->  		if (!empty)
->  			goto no_empty;
->  
-> @@ -6449,7 +6483,7 @@ static void free_to_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
->  		goto do_free;
->  	}
->  
-> -	empty = barn_replace_full_sheaf(barn, pcs->main);
-> +	empty = barn_replace_full_sheaf(barn, pcs->main, true);
->  	if (IS_ERR(empty)) {
->  		stat(s, BARN_PUT_FAIL);
->  		goto no_empty;
-> @@ -6699,7 +6733,7 @@ void slab_free(struct kmem_cache *s, struct slab *slab, void *object,
->  
->  	if (likely(!IS_ENABLED(CONFIG_NUMA) || slab_nid(slab) == numa_mem_id())
->  	    && likely(!slab_test_pfmemalloc(slab))) {
-> -		if (likely(free_to_pcs(s, object)))
-> +		if (likely(free_to_pcs(s, object, true)))
->  			return;
->  	}
->  
-> @@ -6960,7 +6994,8 @@ void kfree_nolock(const void *object)
->  	 * since kasan quarantine takes locks and not supported from NMI.
->  	 */
->  	kasan_slab_free(s, x, false, false, /* skip quarantine */true);
-> -	do_slab_free(s, slab, x, x, 0, _RET_IP_);
-> +	if (!free_to_pcs(s, x, false))
-> +		do_slab_free(s, slab, x, x, 0, _RET_IP_);
->  }
->  EXPORT_SYMBOL_GPL(kfree_nolock);
->  
-> @@ -7512,7 +7547,7 @@ int kmem_cache_alloc_bulk_noprof(struct kmem_cache *s, gfp_t flags, size_t size,
->  		size--;
->  	}
->  
-> -	i = alloc_from_pcs_bulk(s, size, p);
-> +	i = alloc_from_pcs_bulk(s, flags, size, p);
->  
->  	if (i < size) {
->  		/*
-> 
-> -- 
-> 2.52.0
-> 
+The two added lines are two alternative ranges based on which mode is chose=
+n
+during compile time. Is there some neater way to note this down here?
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2hsm2byyftzi2d4xxdtkakqnfggtyemr23ofrnqgkzhkh7q7vc%40zoqqfr7hba6f.
+>> +   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN s=
+hadow memory (generic mode)
+>> +   or
+>> +   fffff40000000000 |   -8    TB | fffffbffffffffff |    8 TB | KASAN s=
+hadow memory (software tag-based mode)
+
+Something like this maybe ^ ? Or is the first take okay?
+
+>
+>>    __________________|____________|__________________|_________|________=
+____________________________________________________
+>>                                                                |
+>>                                                                | Identic=
+al layout to the 56-bit one from here on:
+>> @@ -130,7 +131,8 @@ Complete virtual memory map with 5-level page tables
+>>     ffd2000000000000 |  -11.5  PB | ffd3ffffffffffff |  0.5 PB | ... unu=
+sed hole
+>>     ffd4000000000000 |  -11    PB | ffd5ffffffffffff |  0.5 PB | virtual=
+ memory map (vmemmap_base)
+>>     ffd6000000000000 |  -10.5  PB | ffdeffffffffffff | 2.25 PB | ... unu=
+sed hole
+>> -   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN s=
+hadow memory
+>> +   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN s=
+hadow memory (generic mode)
+>> +   ffeffc0000000000 |   -6    PB | fffffbffffffffff |    4 PB | KASAN s=
+hadow memory (software tag-based mode)
+>>    __________________|____________|__________________|_________|________=
+____________________________________________________
+>>                                                                |
+>
+>...
+>
+>> diff --git a/arch/x86/mm/kasan_init_64.c b/arch/x86/mm/kasan_init_64.c
+>> index 7f5c11328ec1..3a5577341805 100644
+>> --- a/arch/x86/mm/kasan_init_64.c
+>> +++ b/arch/x86/mm/kasan_init_64.c
+>> @@ -465,4 +465,10 @@ void __init kasan_init(void)
+>>
+>>  	init_task.kasan_depth =3D 0;
+>>  	kasan_init_generic();
+>> +	pr_info("KernelAddressSanitizer initialized\n");
+>
+>Why?
+
+My mistake, that string is already printed by kasan_init_generic(), I'll re=
+move
+it.
+
+>
+>> +
+>> +	if (boot_cpu_has(X86_FEATURE_LAM))
+>
+>cpu_feature_enabled()
+
+Sure, thanks!
+
+>
+>> +		kasan_init_sw_tags();
+>> +	else
+>> +		pr_info("KernelAddressSanitizer not initialized (sw-tags): hardware d=
+oesn't support LAM\n");
+>
+>You just said "initialized". Now it is not? How about we make up our minds
+>first and then issue one single true statement?
+
+Yes, I'll keep this one since the "initialized" pr_info() are called from i=
+nside
+kasan_init_generic() and kasan_init_sw_tags().
+
+>
+>--
+>Regards/Gruss,
+>    Boris.
+>
+>https://people.kernel.org/tglx/notes-about-netiquette
+
+--=20
+Kind regards
+Maciej Wiecz=C3=B3r-Retman
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/a=
+WZlpjwMXgdtZGMQ%40wieczorr-mobl1.localdomain.
