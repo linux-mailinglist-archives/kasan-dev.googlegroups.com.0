@@ -1,166 +1,142 @@
-Return-Path: <kasan-dev+bncBDP53XW3ZQCBBA4YT3FQMGQEKKU6GYI@googlegroups.com>
+Return-Path: <kasan-dev+bncBD2NJ5WGSUOBBE44T3FQMGQEY5FDX4Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63c.google.com (mail-pl1-x63c.google.com [IPv6:2607:f8b0:4864:20::63c])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E66D1EBE2
-	for <lists+kasan-dev@lfdr.de>; Wed, 14 Jan 2026 13:28:53 +0100 (CET)
-Received: by mail-pl1-x63c.google.com with SMTP id d9443c01a7336-2a377e15716sf189562995ad.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 14 Jan 2026 04:28:53 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1768393732; cv=pass;
+Received: from mail-ed1-x53d.google.com (mail-ed1-x53d.google.com [IPv6:2a00:1450:4864:20::53d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 672E0D1ECE4
+	for <lists+kasan-dev@lfdr.de>; Wed, 14 Jan 2026 13:37:40 +0100 (CET)
+Received: by mail-ed1-x53d.google.com with SMTP id 4fb4d7f45d1cf-64cfe5a2147sf13500277a12.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 14 Jan 2026 04:37:40 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1768394260; cv=pass;
         d=google.com; s=arc-20240605;
-        b=bk+2gI4xkrR9e5dodq032Ylx0Qbn+KVYCG21sDqK88fEoMRwdge9Ldz3sNlyADwVEm
-         KMIWJ3yJHttjTDopRi9oOFrQZJI7LOSnbd9cs05gFW0/S/P6dg8jdLzEkG3ruIRd8hQN
-         wPIaaW+/AM7yW0OcmmnNFZ6LYHNjJxQgfxkNjkhP4yK7B/y8cxfMkqfKbxXByo58EHIE
-         Sg/vsHSLLCGnQWe9noEVV/LwAYXExtgHojYPfW8pMPLfwh2CfJjP+THp2PedTKJRV57B
-         MOEkiZOHpBczCFtgUXoHQqIE3gauaB6HxwDcbT3Es1KL/ihcl7aqqWyXknS6f4w3PlzV
-         QxrA==
+        b=E7XY4rPg7ajBKk15ZI9VEhjJw4P4+krOuZ087zPvOfeiZhLGbyAycUiHu1Xm+OeoLr
+         8Z24KE1VhdqxttvZzJFojKnA+9BGtSAf+tFLXDqLSlMF3ufgZMXWjxq4R6FdoGoGjCKS
+         s7Z1riZ9OEJNBsP0twEApiW8EzXxzSB6VGGIvi5rtQLIiymUYSJXcDwBtnzx9ldDXOHx
+         5skt7h0U5dAmO2T/Q1hNeZjTMvH380ScfFnnQCSOPFpH95E1JXKCze3c0YvRF09bjbSo
+         fo0hvsF1uaVA0UkjNv4WBx+KnKX+vX+NTPyBArGdZk+3659knjKHnb8OFWWpE4H/jVrv
+         ObWw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=HyHUUba3uX4lgNJcgKx3npwtKDgOoc0I7OBmOYWCQkI=;
-        fh=5iChJK7edyX7coKZbZmMqMEkf2Ls6SlSkE+L98be6kc=;
-        b=MF+6AEp6VCwgjaEt5CLS+jvnbyRX9iu9Vv96fqfrLB6Q0EQbnbFOpSXsUxNPZyU+aE
-         E3VXXwT15kz8g7oceujkJUFX8gNPXpF65W1ZO7zXNSZkvz51jC7ejLDmjK7y0gfqqU47
-         3LtetB1lfaqjOEV4YEhKN0z/5Wu/m4ddIPoeGITP9LsRAB5ulodYX1f8J6N7X/ieDP+5
-         LIZb5Wvd8ERkDbM/JvB8BAb/EMwp38b0PHbUjNkL+y6wz+fIZHevwMfECcQiXfwPmVee
-         Yd7MqZ/wUNJ33j6TjEwGHVl/fdUXatO6JmxWW1fBFrziTAMBg7SkL1W//YoJuwOLYY3/
-         cRzg==;
+         :list-id:mailing-list:precedence:mime-version:user-agent:references
+         :in-reply-to:date:cc:to:from:subject:message-id:sender
+         :dkim-signature;
+        bh=si1RXXvXR4tGYE9NEHXOSr7LImuSav3G+kjOdVLePjQ=;
+        fh=7nxmpq/7UA+JreGprahknGv8c1KgqkjtXCvFWX+ZhaQ=;
+        b=UYo/5dWyd+DfXR9FiHDmfDaSDOrh25XWrdHSWw9ruorlCjXFD7RryTWobUdHFxYQ6w
+         D2xZg+kiAw+dXcKQM3EHImcI5jTPZ6+4iPoD54QPoA3h16Tcd9KaAWnYltr9/TFE7/WB
+         jKxz/EJBvxH8vzJt9iGTwVSaTlg0tOTmdR77aNOiEBPcFGbfVGpBIEnNZm504Xumv21E
+         p2wsozeAU80DONDJGOB4tJ4Q3S0gdYCEE8JNEc4U4QmO2SV4gdZ+PHudbvPsqkJmuymu
+         gMw7dBY2qVQI+bqqaB7rXd4VNORWTPmfOaFqwVzsfpJ2oZQ3iJwV7X0JCYX+a8uBXG6P
+         SXzg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=N5oCndTK;
-       spf=pass (google.com: domain of ethan.w.s.graham@gmail.com designates 2607:f8b0:4864:20::1234 as permitted sender) smtp.mailfrom=ethan.w.s.graham@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@sipsolutions.net header.s=mail header.b=hvqmi7d7;
+       spf=pass (google.com: domain of johannes@sipsolutions.net designates 2a01:4f8:242:246e::2 as permitted sender) smtp.mailfrom=johannes@sipsolutions.net;
+       dmarc=pass (p=NONE sp=REJECT dis=NONE) header.from=sipsolutions.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1768393732; x=1768998532; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1768394260; x=1768999060; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HyHUUba3uX4lgNJcgKx3npwtKDgOoc0I7OBmOYWCQkI=;
-        b=itetMC9fTGySMM7tHx5n9eXy/ms0KwZAL+/GMrUD8KE8kWAPaKfKvaMJKDpIYqx22K
-         3XMUXiJXWHVT7nhpfHIiO6LG8ZMHyuKOW+0BdxKnOnmFAjmfSwfsh0fFA+l3PeKiE6Zq
-         95U/w8i3p4JAtObn4ntpiaGv7ztLfg6tzv7ZRQ3Bq1bUknafuUjl/YcptzwI1UBskE8B
-         peAIEEI6tXzxTg7GbnsIrDtGRLbQ/7hhBmOYzOqspGf6cAb6TJOIgNVlNl82KTXRGutS
-         gaFgqnPlFGS1uB/+uu+10TqFUT86Ss7l64653uEzM47JrhMUXmhS814bcAGruKR3aBrb
-         +r8Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768393732; x=1768998532; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HyHUUba3uX4lgNJcgKx3npwtKDgOoc0I7OBmOYWCQkI=;
-        b=GwVkppgk0VAru2HpauuKLrvSI1sKGh0CQaqcgEjaatSTVkVtcqmchJ9+91DicaPg55
-         Md7qV6vNy8aNRCn89OEszueh46WkaVj7gIHaGy/zDKNTrI4Bjhq/l7EOOvcYIfzFpofE
-         XtiST8aGEq4W28uzDZ46g0Dqe0FTEQrBgfpnZTc9/cD80OOqex85YYXTFWFdK3DftL1X
-         +J0RIDY5GlZZvB1ULBKq/BYdhwdHnNZ854Wq/jEu2EHLCBjIPdWZLTP70HpH/a8zQulW
-         ro3q4a0cT2RhFEG7AGBn3zQ73AVONY+VSN/fUJhhFdaFzCK4Upm0zkO3OEBEmVvWijhO
-         LYqA==
+         :x-original-sender:mime-version:user-agent:references:in-reply-to
+         :date:cc:to:from:subject:message-id:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=si1RXXvXR4tGYE9NEHXOSr7LImuSav3G+kjOdVLePjQ=;
+        b=Z3iGT1kFtpgiysuw8wsldGy0rOXzlx57dlHJDN3dtEdJJ43ULZA6TTUPv8Tf7+Cgdn
+         9A2dDiq77mS7uGFlylwZuxKdQB8ZebY7WjmvkuqvAqBAfwIsHO1QzeaQiLOldzyC79o5
+         SK9LrBsZUZRIPrEE3RkdC4TP5x+Of2P/l0+CLyd6dl8lzGjK9U5ftHWXVfjtH+w7WVGw
+         s/AckKBfGZoUPZLk8nF0H8AZ1sBiUo7+dLgic8iIIIbtqhUqZX69g1BgcNhNECRY7snR
+         32+GQdeD0X+h0OV+l+P2vsX1/h3vSEEfpyDMAbZSfjNdHkclX8XMcy6dFrRA2dNumZVh
+         m1xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768393732; x=1768998532;
+        d=1e100.net; s=20230601; t=1768394260; x=1768999060;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HyHUUba3uX4lgNJcgKx3npwtKDgOoc0I7OBmOYWCQkI=;
-        b=UvK7UpC1MQq3KHto6oNqmWjehrpibjAQyB/X5iKCXpJHNLVyIQiOGIL2dHoBDOMHiV
-         wpQunW6cte87fD0n2esuasBtAVlnqLFe9dj0XDcspG/64EEjtzFvy8Lwhhv9GHS6CnCS
-         +/s2FVBj96yXydy+wZUcIt8EREaqb7EF9l5t4anmz19Ew92cySVDeBQgx6p8iUFhI5P+
-         y+bM9+iEgqbQzjyeqiyU4N/MP59BB/hV1CP1AufJWVdiNuubFv0hkPCmCH1hEbR/68PU
-         aNOEEnjK2aJ8mpao46lE4yFSzSDW3ex+AQLMXMecYP+m8u1cFfYqeqdzIdfvsO8KxLmX
-         L3lA==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :user-agent:references:in-reply-to:date:cc:to:from:subject
+         :message-id:x-beenthere:x-gm-message-state:sender:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=si1RXXvXR4tGYE9NEHXOSr7LImuSav3G+kjOdVLePjQ=;
+        b=AyJ4tM5mNNP36O/pfuvzmM34ZebgRe5XtkrhgsnUiWDH68vLqfDQ8obAec+7KiQuhH
+         4B9ToTXTSO1ePrV/bkdTXqy+FuiX1Kzoas+wa7fys+oR24EyFnMzkG0U6RD6i8SUpC3T
+         HQCpcjcElxi6nGrJUczdiZM9OI2HWCgaIQ0h1DJtZeM7vwY+OaS3qfG4hwM2WVnLqR/4
+         gB5KWJ13gzfDJdo5HPqhwmhKwywa7euTLN/13mglOrjyLZ061Kog4S0Ez8Y3ybU+CdNQ
+         DpMWwNaZ9XdGCYJUybBdr4yZGFi/E3pinp3mf+c454FYYjC0VYNMUHfjSlJxIjdVp+K+
+         7vfA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCW6aeSvqpP9u+t7sS+zRtzRju5lckRzpZe2uFk1iFlWg74h0DhCNUEwCUML8t61gHZPPE/8IA==@lfdr.de
-X-Gm-Message-State: AOJu0Yzro4Bb0vfYjWCr2kyYgR94hOm8cXP01Z+GkWAO1GhmUmJzw0/o
-	X8ETIUVUd8riDkw1/hKqr9t8vTGcY9C0fbahwo6VtdC96p4JvZ7Am0rl
-X-Received: by 2002:a17:903:3c2c:b0:258:f033:3ff9 with SMTP id d9443c01a7336-2a599e3dbbamr23601335ad.48.1768393732145;
-        Wed, 14 Jan 2026 04:28:52 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+G/IQSwoxm6d+cssMPwfnpyAa3mGw0zbtVe6AbXpfsalw=="
-Received: by 2002:a17:902:6b09:b0:297:d9d1:1fb3 with SMTP id
- d9443c01a7336-2a3e2b1869cls67352705ad.2.-pod-prod-06-us; Wed, 14 Jan 2026
- 04:28:50 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCWLBLW9CRtPLj+biN2hXOW5RUoBm4M2YxHz1zios3ZInz7Z1fv23qVvs2MuIypNhJejcNXU2acD+GI=@googlegroups.com
-X-Received: by 2002:a17:902:cf4a:b0:29f:1bf:642a with SMTP id d9443c01a7336-2a599d85e59mr23928265ad.12.1768393730542;
-        Wed, 14 Jan 2026 04:28:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768393730; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCXcx4Jzh0sDV3l/2NGx4v+vwzHnf4Za95RzIAg5W/+P2sMZ7KyNjG0T11L8PZd88ryfQsUKTA==@lfdr.de
+X-Gm-Message-State: AOJu0YwzF/wYEhX7DOn7u6W8fcyaNJEpuBCDKZto6c0xR0dikd7GDvVy
+	yppgDUOMEdH2iKWcUdC2Lr5CmSwqsjZIZRu207KWFueU9+vAvVh1A5ZS
+X-Received: by 2002:a05:6402:3492:b0:64d:2822:cf68 with SMTP id 4fb4d7f45d1cf-653ec44ad5bmr1843155a12.21.1768394259607;
+        Wed, 14 Jan 2026 04:37:39 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+HX1ljDCgidBrAY0TCCT++8rKzluuPTb0ObAsXTDUm5Dw=="
+Received: by 2002:aa7:de15:0:b0:644:fc33:37b6 with SMTP id 4fb4d7f45d1cf-65074900007ls9398728a12.1.-pod-prod-08-eu;
+ Wed, 14 Jan 2026 04:37:37 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCX80bltoZRpHEc0UJ6YnQa/EWBi7TaCvjTjFxxSSxMaqTlDhY6Ge/wnDxV8rXuEakUjgXg1NOKkBgc=@googlegroups.com
+X-Received: by 2002:a17:907:3c90:b0:b87:3809:6982 with SMTP id a640c23a62f3a-b87612daed9mr227028066b.57.1768394257177;
+        Wed, 14 Jan 2026 04:37:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768394257; cv=none;
         d=google.com; s=arc-20240605;
-        b=jKfy+76lt/GeJZTzWKlRiI7IJjrqRhynTrUL7ujLe+0a0St+cb/xeQA9/KN5LUykVx
-         9XFTMAdjfRaLQnGcMf6jH6lUWZPG2SBbTqPXhK2ve63CeAFIO+bAhIM3XvXa4jVjJCDl
-         Pq+i5ILFvwT2FvEn3G/K+9/uYhq7ovcxNvcbt0mWnpqubz0ys/EvVOJgXbLHGaHB/Nav
-         5pIQqL0CThBwYkAnV34+UFJA2xKgYpRNbUhQPvYlQ91m66XAdJqbv1xELER7075kYd4Q
-         RiGQPTlsPSewVhH8ad2CDFjqxjnQ0kS8K0j1FPDpxFlA9WfxA5W36k8RmrveMauLwj4s
-         4WlQ==
+        b=IZd1lURd21Eo6czfl0elJVNFGXQD6KmiDcwRROFsPJAHCWo9cgWm1qADE2xzZ3cPcV
+         +oW+MyhrAJWi5qeNYQzQxRWlMQq7uhs0+bJK0V86ou82VnNcilyCYcJiq4QChJhkhR/3
+         FpVnEGg9h2vH9tjCW0QJO1Y1lwQ2ZCwFUoc3ysoWPr/j+rg1zxRCb5y5pY1waYIFwOlY
+         xNHDHTukjQcy0OHQ4jqucoFp0vt37C/TnngjjTVnaUQdmMQWV8qBOltE68fcNMAbYzFw
+         Zr4h3cYXTleoeF8xRwW0x3ABXj/SJ5BCdstIimXD8Wc5f4c8wZ+E8XZc5ZYpWLZ6yj6k
+         aVtw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LRMIFkzXb5IBhiTKdWbjWhp1Z2C8Xy7d3z7GyFAcX9o=;
-        fh=qie3GeYuRojmpbTzitSg9LCSjPyrjM1UvbYcCqZ2DfQ=;
-        b=ZceJsRdV1nPlZBWQ83JU8uWkIO9JTsLj1iL6zMRJU6otDMAV6+LbXW4lE2BLG0+p1Q
-         HNBumxlU5qj98LuEe4yUm/SUV4Gxvu9k+E6Oq6zjJ6aoq48ao3ArEvp4YAWrXS8CtSvY
-         KqFCEyfNfYPUHeBn+9P0TMcumt5smi8GnD8o/nsuXpsEcZhS1a5r8oncPNIIwK1hr0a5
-         NibdkeiBLbnn7zk2lvlyquq4ykSS1VhJY2JN866Jy5FaV7Owc3FR42av6xPb/69JS5DD
-         zFiMPjn/FOO/M66hF66+SsfFNo8W/2VNoK6PsCDx2hicoXQJ7Hqk+yqxBqa6IcIt/0rv
-         B39w==;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:dkim-signature;
+        bh=ivImLx0IMwWptsei2EtrkPEC8sK7x+WsxIR0q4hvYGs=;
+        fh=3Nj/6S7DE791Ov/IphzOcOkqPMoFMhU71B0S18FPhC4=;
+        b=TMHg1/djoci/GNTBpMCGAdZEwq0/Cxpj4tq9kVrNOStjmSsGLz7I1tVWauzqpJJ0wL
+         wfWhHSYBo4pQoao+XTd/aP5iSyIf4I+CB/3ikrJUc2QZRv6fhrqJRcT1twZVReRvR35B
+         Yza/SzJNzgiqxpeOrrdt79+cyJD+Jb3L9CJbV9OHA0Axy/iPBxdnfRZNnp03cGC+JbiF
+         /WVCuDTbITr7lT27KeJXhXJ3yKBK8faIR7rqCHVnTsJ2qd3YPbyvreX6vzZeaq551oqv
+         RQ4HfXXGutq37LEcovvzZTWRA32j5YDNnf4rHZF3zzP0l3fAOxc+t9r2tAM9UbpY6ZuU
+         aegg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=N5oCndTK;
-       spf=pass (google.com: domain of ethan.w.s.graham@gmail.com designates 2607:f8b0:4864:20::1234 as permitted sender) smtp.mailfrom=ethan.w.s.graham@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-dl1-x1234.google.com (mail-dl1-x1234.google.com. [2607:f8b0:4864:20::1234])
-        by gmr-mx.google.com with ESMTPS id d9443c01a7336-2a3e474be76si8700535ad.8.2026.01.14.04.28.50
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Jan 2026 04:28:50 -0800 (PST)
-Received-SPF: pass (google.com: domain of ethan.w.s.graham@gmail.com designates 2607:f8b0:4864:20::1234 as permitted sender) client-ip=2607:f8b0:4864:20::1234;
-Received: by mail-dl1-x1234.google.com with SMTP id a92af1059eb24-11f3a10dcbbso7991725c88.1
-        for <kasan-dev@googlegroups.com>; Wed, 14 Jan 2026 04:28:50 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX5uFFFdCa9N3AMI7E10v7edBfEaGMeYuQxRPBkuJhDnHfhWCFd4ZWTQiLnW8mh+JyW7i2/e3h8ALU=@googlegroups.com
-X-Gm-Gg: AY/fxX6ztEMx6PkvtqmGnO6emzlsaxYKSSVYSLhPjkocafUxE7hoE/N8B9BmXBRgebm
-	LlAk2XItK2L4mP12+ShMV5j5CxVTHO4QzQ8RD4rReo1+1N/yQsSfncsylB9Me+Tac/i+7DCBx5d
-	5tkQ6Yas2KdjbXHgguwXt5KTTEX9qsR5u/HfQ/G/z+WVfYBXFbwENptOL8qmkQbV6GDfW0cd02Z
-	A37+vKTvLuNd8bbx5ZKseVKeVsPMVu1zg6MHuR2+bAOm5OB8wxGYLIZ4dxt+KOQMNrMlHj8CeWs
-	aarER9j9LCI8PcUBI/GJEyJE
-X-Received: by 2002:a05:701b:231a:b0:11d:f440:b757 with SMTP id
- a92af1059eb24-12336a8ac7cmr2122254c88.26.1768393729717; Wed, 14 Jan 2026
- 04:28:49 -0800 (PST)
-MIME-Version: 1.0
-References: <20260112192827.25989-1-ethan.w.s.graham@gmail.com>
-In-Reply-To: <20260112192827.25989-1-ethan.w.s.graham@gmail.com>
-From: Ethan Graham <ethan.w.s.graham@gmail.com>
-Date: Wed, 14 Jan 2026 13:28:38 +0100
-X-Gm-Features: AZwV_QgmF4HyCsXk2jh6zEFc90ih1bVBX_Jk6twBkZMZEi05K-WZZcMS9j7S7Fc
-Message-ID: <CANgxf6yGDGAD9VCqZyqJ8__dqHOk-ywfSdhXL5qATfxnT-QGFA@mail.gmail.com>
+       dkim=pass header.i=@sipsolutions.net header.s=mail header.b=hvqmi7d7;
+       spf=pass (google.com: domain of johannes@sipsolutions.net designates 2a01:4f8:242:246e::2 as permitted sender) smtp.mailfrom=johannes@sipsolutions.net;
+       dmarc=pass (p=NONE sp=REJECT dis=NONE) header.from=sipsolutions.net
+Received: from sipsolutions.net (s3.sipsolutions.net. [2a01:4f8:242:246e::2])
+        by gmr-mx.google.com with ESMTPS id a640c23a62f3a-b870059843csi20805266b.1.2026.01.14.04.37.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jan 2026 04:37:37 -0800 (PST)
+Received-SPF: pass (google.com: domain of johannes@sipsolutions.net designates 2a01:4f8:242:246e::2 as permitted sender) client-ip=2a01:4f8:242:246e::2;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.98.2)
+	(envelope-from <johannes@sipsolutions.net>)
+	id 1vg07s-0000000Be2H-0lg3;
+	Wed, 14 Jan 2026 13:37:28 +0100
+Message-ID: <27c35b1f39c4cfaaf3b8322bbeb793c268fe4b6e.camel@sipsolutions.net>
 Subject: Re: [PATCH v4 0/6] KFuzzTest: a new kernel fuzzing framework
-To: ethan.w.s.graham@gmail.com, glider@google.com
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Ethan Graham <ethan.w.s.graham@gmail.com>, glider@google.com
 Cc: akpm@linux-foundation.org, andreyknvl@gmail.com, andy@kernel.org, 
 	andy.shevchenko@gmail.com, brauner@kernel.org, brendan.higgins@linux.dev, 
-	davem@davemloft.net, davidgow@google.com, dhowells@redhat.com, 
-	dvyukov@google.com, ebiggers@kernel.org, elver@google.com, 
-	gregkh@linuxfoundation.org, herbert@gondor.apana.org.au, ignat@cloudflare.com, 
-	jack@suse.cz, jannh@google.com, johannes@sipsolutions.net, 
+	davem@davemloft.net, davidgow@google.com, dhowells@redhat.com,
+ dvyukov@google.com, 	ebiggers@kernel.org, elver@google.com,
+ gregkh@linuxfoundation.org, 	herbert@gondor.apana.org.au,
+ ignat@cloudflare.com, jack@suse.cz, jannh@google.com, 
 	kasan-dev@googlegroups.com, kees@kernel.org, kunit-dev@googlegroups.com, 
-	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, lukas@wunner.de, mcgrof@kernel.org, shuah@kernel.org, 
-	sj@kernel.org, skhan@linuxfoundation.org, tarasmadan@google.com, 
-	wentaoz5@illinois.edu, raemoar63@gmail.com
+	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, 	lukas@wunner.de, mcgrof@kernel.org, shuah@kernel.org,
+ sj@kernel.org, 	skhan@linuxfoundation.org, tarasmadan@google.com,
+ wentaoz5@illinois.edu, 	raemoar63@gmail.com
+Date: Wed, 14 Jan 2026 13:37:26 +0100
+In-Reply-To: <CANgxf6yGDGAD9VCqZyqJ8__dqHOk-ywfSdhXL5qATfxnT-QGFA@mail.gmail.com> (sfid-20260114_132852_914833_479AECE9)
+References: <20260112192827.25989-1-ethan.w.s.graham@gmail.com>
+	 <CANgxf6yGDGAD9VCqZyqJ8__dqHOk-ywfSdhXL5qATfxnT-QGFA@mail.gmail.com>
+	 (sfid-20260114_132852_914833_479AECE9)
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: ethan.w.s.graham@gmail.com
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42)
+MIME-Version: 1.0
+X-malware-bazaar: not-scanned
+X-Original-Sender: johannes@sipsolutions.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=N5oCndTK;       spf=pass
- (google.com: domain of ethan.w.s.graham@gmail.com designates
- 2607:f8b0:4864:20::1234 as permitted sender) smtp.mailfrom=ethan.w.s.graham@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+ header.i=@sipsolutions.net header.s=mail header.b=hvqmi7d7;       spf=pass
+ (google.com: domain of johannes@sipsolutions.net designates
+ 2a01:4f8:242:246e::2 as permitted sender) smtp.mailfrom=johannes@sipsolutions.net;
+       dmarc=pass (p=NONE sp=REJECT dis=NONE) header.from=sipsolutions.net
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -173,132 +149,51 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Johannes,
+Hi Ethan,
 
-I wanted to check if this v4 aligns with your previous feedback regarding
-the tight coupling with userspace tools.
+> I wanted to check if this v4 aligns with your previous feedback regarding
+> the tight coupling with userspace tools.
+> 
+> The custom serialization has been removed entirely along with the bridge
+> tool. This series now focuses exclusively on passing raw binary inputs
+> via debugfs with the FUZZ_TEST_SIMPLE macro.
+> 
+> The decoupling eliminates any dependency on syzkaller and should help
+> remove some of the blockers that you previously encountered when
+> considering integration with other fuzzing engines.
+> 
+> Does this simplified design look closer to what you need?
 
-The custom serialization has been removed entirely along with the bridge
-tool. This series now focuses exclusively on passing raw binary inputs
-via debugfs with the FUZZ_TEST_SIMPLE macro.
+Thanks for reaching out!
 
-The decoupling eliminates any dependency on syzkaller and should help
-remove some of the blockers that you previously encountered when
-considering integration with other fuzzing engines.
+We're doing some changes here and I also need to focus on some WiFi
+features, so I don't really know when (if?) I'll continue working on
+this, but yes, this definitely aligns much better with what I had in
+mind.
 
-Does this simplified design look closer to what you need?
+FWIW, maybe for new people on the thread, last time I was considering
+building ARCH=um in a way that it would run into a (selectable) fuzz
+test, fork, and then feed it fuzzer input coming from honggfuzz [1]. I'm
+handwaving a bit [2], but this would basically bypass userspace
+completely and let us fuzz any of the tests in the kernel with "reset"
+for each fuzzing round.
 
-Thanks,
-Ethan
+[1] selected because it's compatible with what the kernel does now with
+kcov for coverage feedback, afl++ currently cannot deal with this for
+some reason
 
-On Mon, Jan 12, 2026 at 8:28=E2=80=AFPM Ethan Graham <ethan.w.s.graham@gmai=
-l.com> wrote:
->
-> This patch series introduces KFuzzTest, a lightweight framework for
-> creating in-kernel fuzz targets for internal kernel functions.
->
-> The primary motivation for KFuzzTest is to simplify the fuzzing of
-> low-level, relatively stateless functions (e.g., data parsers, format
-> converters) that are difficult to exercise effectively from the syscall
-> boundary. It is intended for in-situ fuzzing of kernel code without
-> requiring that it be built as a separate userspace library or that its
-> dependencies be stubbed out.
->
-> Following feedback from the Linux Plumbers Conference and mailing list
-> discussions, this version of the framework has been significantly
-> simplified. It now focuses exclusively on handling raw binary inputs,
-> removing the complexity of the custom serialization format and DWARF
-> parsing found in previous iterations.
->
-> The core design consists of two main parts:
-> 1. The `FUZZ_TEST_SIMPLE(name)` macro, which allows developers to define
->    a fuzz test that accepts a buffer and its length.
-> 2. A simplified debugfs interface that allows userspace fuzzers (or
->    simple command-line tools) to pass raw binary blobs directly to the
->    target function.
->
-> To validate the framework's end-to-end effectiveness, we performed an
-> experiment by manually introducing an off-by-one buffer over-read into
-> pkcs7_parse_message, like so:
->
-> - ret =3D asn1_ber_decoder(&pkcs7_decoder, ctx, data, datalen);
-> + ret =3D asn1_ber_decoder(&pkcs7_decoder, ctx, data, datalen + 1);
->
-> A syzkaller instance fuzzing the new test_pkcs7_parse_message target
-> introduced in patch 7 successfully triggered the bug inside of
-> asn1_ber_decoder in under 30 seconds from a cold start. Similar
-> experiments on the other new fuzz targets (patches 8-9) also
-> successfully identified injected bugs, proving that KFuzzTest is
-> effective when paired with a coverage-guided fuzzing engine.
->
-> This patch series is structured as follows:
-> - Patch 1 introduces the core KFuzzTest API, including the main
->   FUZZ_TEST_SIMPLE macro.
-> - Patch 2 adds the runtime implementation for the framework
-> - Patch 3 adds documentation.
-> - Patch 4 provides sample fuzz targets.
-> - Patch 5 defines fuzz targets for several functions in crypto/.
-> - Patch 6 adds maintainer information for KFuzzTest.
->
-> Changes since PR v3:
-> - Major simplification of the architecture, removing the complex
->   `FUZZ_TEST` macro, the custom serialization format, domain
->   constraints, annotations, and associated DWARF metadata regions.
-> - The framework now only supports `FUZZ_TEST_SIMPLE` targets, which
->   accept raw binary data.
-> - Removed the userspace bridge tool as it is no longer required for
->   serializing inputs.
-> - Updated documentation and samples to reflect the "simple-only"
->   approach.
->
-> Ethan Graham (6):
->   kfuzztest: add user-facing API and data structures
->   kfuzztest: implement core module and input processing
->   kfuzztest: add ReST documentation
->   kfuzztest: add KFuzzTest sample fuzz targets
->   crypto: implement KFuzzTest targets for PKCS7 and RSA parsing
->   MAINTAINERS: add maintainer information for KFuzzTest
->
->  Documentation/dev-tools/index.rst             |   1 +
->  Documentation/dev-tools/kfuzztest.rst         | 152 ++++++++++++++++++
->  MAINTAINERS                                   |   7 +
->  crypto/asymmetric_keys/Makefile               |   2 +
->  crypto/asymmetric_keys/tests/Makefile         |   4 +
->  crypto/asymmetric_keys/tests/pkcs7_kfuzz.c    |  18 +++
->  .../asymmetric_keys/tests/rsa_helper_kfuzz.c  |  24 +++
->  include/asm-generic/vmlinux.lds.h             |  14 +-
->  include/linux/kfuzztest.h                     |  90 +++++++++++
->  lib/Kconfig.debug                             |   1 +
->  lib/Makefile                                  |   2 +
->  lib/kfuzztest/Kconfig                         |  16 ++
->  lib/kfuzztest/Makefile                        |   4 +
->  lib/kfuzztest/input.c                         |  47 ++++++
->  lib/kfuzztest/main.c                          | 142 ++++++++++++++++
->  samples/Kconfig                               |   7 +
->  samples/Makefile                              |   1 +
->  samples/kfuzztest/Makefile                    |   3 +
->  samples/kfuzztest/underflow_on_buffer.c       |  52 ++++++
->  19 files changed, 586 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/dev-tools/kfuzztest.rst
->  create mode 100644 crypto/asymmetric_keys/tests/Makefile
->  create mode 100644 crypto/asymmetric_keys/tests/pkcs7_kfuzz.c
->  create mode 100644 crypto/asymmetric_keys/tests/rsa_helper_kfuzz.c
->  create mode 100644 include/linux/kfuzztest.h
->  create mode 100644 lib/kfuzztest/Kconfig
->  create mode 100644 lib/kfuzztest/Makefile
->  create mode 100644 lib/kfuzztest/input.c
->  create mode 100644 lib/kfuzztest/main.c
->  create mode 100644 samples/kfuzztest/Makefile
->  create mode 100644 samples/kfuzztest/underflow_on_buffer.c
->
-> --
-> 2.51.0
->
+[2] because I hadn't quite figured out how to make UML a single thread
+only and get rid of the userspace running inside of it
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-ANgxf6yGDGAD9VCqZyqJ8__dqHOk-ywfSdhXL5qATfxnT-QGFA%40mail.gmail.com.
+
+Regardless, definitely yes, I think the design is much simpler and even
+if I don't end up integrating honggfuzz this specific way, I do believe
+it will make it much simpler (and more performant) to integrate with
+other fuzzers.
+
+johannes
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/27c35b1f39c4cfaaf3b8322bbeb793c268fe4b6e.camel%40sipsolutions.net.
