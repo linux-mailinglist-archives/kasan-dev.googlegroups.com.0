@@ -1,154 +1,154 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBLG4VHFQMGQEUNOU5GA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERB5G4VHFQMGQE43A7J7I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3c.google.com (mail-qv1-xf3c.google.com [IPv6:2607:f8b0:4864:20::f3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03933D339A8
-	for <lists+kasan-dev@lfdr.de>; Fri, 16 Jan 2026 17:58:22 +0100 (CET)
-Received: by mail-qv1-xf3c.google.com with SMTP id 6a1803df08f44-88a43d4cd2bsf28962816d6.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 16 Jan 2026 08:58:21 -0800 (PST)
-ARC-Seal: i=3; a=rsa-sha256; t=1768582701; cv=pass;
+Received: from mail-pl1-x63c.google.com (mail-pl1-x63c.google.com [IPv6:2607:f8b0:4864:20::63c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB56D339C9
+	for <lists+kasan-dev@lfdr.de>; Fri, 16 Jan 2026 17:59:34 +0100 (CET)
+Received: by mail-pl1-x63c.google.com with SMTP id d9443c01a7336-2a07fa318fdsf18148055ad.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 16 Jan 2026 08:59:34 -0800 (PST)
+ARC-Seal: i=3; a=rsa-sha256; t=1768582773; cv=pass;
         d=google.com; s=arc-20240605;
-        b=RbUziMtkYUarz5TS7Qh+5Bw3nMRYlNMksJvDiwonR/G6WIzuz0pk+VDKEagwpQtfmX
-         qnqg+n4pYMSXwyXiEtWCZnzwJBQp6R7kvQ0JCTgXaKfJvOHWy2jEWLYSlKmrDQu6EHsp
-         cJnA18n9kxM4w5dZMxtBQvLjGf43o1+t3jKNHCezeo+5Gc8MAE1Pqn7lOSpuNI6rIy/Q
-         SBxxHOZRYGYr49T8cZ3ou2Q0ykHGJsTjzW+nMZBLkBiVH92jffEnbu7J66VzZ1Kx8fNM
-         k0hMeEPTzk1695maRlmpLVLZbA9lkYWb1q77LCUIglsFEA0azEBB44q8gIe0LT4SagN7
-         UV2Q==
+        b=JTVI2Z56PQ4266YjzMjc3bv5Cg9zuWm5n8VSbvlsMn3i5V0mNbSW2O8OeZ64QQJfd5
+         yQklNAvoi1jUpJEVMTqEv30fAcGkJIbLLRDooxrkdBwdGrP0kAF7KN+t4/1Xg0Ni9f3k
+         hlNh9pcf9lb4Bw9wNKYwWKt9jqIIkm43C8ljOAn2r+XU3ekSlnQA1tduN8rp6nxRPK7H
+         FMN4fS6/nmH6nw/KEJKvZL8tHrBw8TccOUvW0nVatuELH7qqshKckaH3Pc7j7GVcWWkK
+         fU6aQ5VTwh8q7FYTrdqqF1/bTqM5iNvBPNoEfCGPstN+05FvBHT68fcgOzScaGTpySPJ
+         21+A==
 ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=uDSDYS/XbMes99VRBUbsHLUre0glI/2qGbtWPAoJ7yk=;
-        fh=e7kZENlCdndkUOc4UUhdOf2THG67lwIOBvvwK5xwvaY=;
-        b=TVUtHFo4q9VIL4pqdKzR8E9eNJYg53UCqePmW+SGZwobH39e2l2pXNAzfajf6/Je5g
-         xWhGvf58wV9nMpc9M8dZgWTg+M+tQY5eBv32k+G4PYM5Y3ExS2y0Ip0wZ6x+9n4ZcFoL
-         zDdGWLoDUBTUb0mYFYGyUc98eud9XMuvenqwuM/LVWMR7tDcvYZ/iZlFLyWlfa/3fDqH
-         9NFduCg6XmQEJP6KMZTslWjZuiWdP5ffbwGiO+3xkqDuylWbq8dX9w4n8E/XgDf2mAcT
-         nrRJ8wfBAUU3WTAL49AirqHs55bnJBt+IMDJ61Th035OxlF+eBblD/llMtEfJ3aPzeKF
-         9d6g==;
+        bh=WXFak1BJWpIXTB+kNbLTcFhRGIlctoUlrdkSCuSYLTU=;
+        fh=kiCrFwaTSIskSfuIO+eqewx0S2qJSpts68Ui4Es3vrE=;
+        b=WttF89q4noAVyYU4DPLR9lL858XJp3lXeBrrZrWnOzWN5lnPX1qZOm/aiv7Tibi4sa
+         /oD+Sln19UukZGqcuftcAJnF2d9b5fKxqhTu393kKzgIbmZNI3aauhLmaWP7BOz5DuI2
+         rx2FBf2KykOkXeRWoLnolLkZlsIPnRdlk4OBSMBkiBRr3UFRH7lipwZjtJpZRizh3Rgp
+         k4LhmlmKNmTJ62SHIfIKt3Y20g1EDKF9hBbHICc9UPAwzRhnIY3d7AV3xfGyjzimmlWu
+         XsFJrxMl59mOmBUGv+hgW842Fqeb8pAPfw8P4cqVm914syIu7RyF8u4IpKOMm/XUnHTY
+         5NFA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=0jnCPqtJ;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=Kumt09QY;
        arc=pass (i=1);
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::82d as permitted sender) smtp.mailfrom=surenb@google.com;
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::829 as permitted sender) smtp.mailfrom=surenb@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1768582701; x=1769187501; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1768582773; x=1769187573; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uDSDYS/XbMes99VRBUbsHLUre0glI/2qGbtWPAoJ7yk=;
-        b=NwWbprjp0sfKjRZ+A2vX1tQxGRZtJ4qXYQgPJCOGolh9rq4r+z4GQ00UYLf3e71Eu8
-         TzReiu8wyO/PL4BuKjq7sKwCxrFTaNQe2uPIHJVHKb2WHC3Amf5OyLRZQZG0YZIvg35A
-         u/ltrBz921OCAr7i6fHkr2d2jyBESqlLZlzGxm+dKxBVOFrxZoUk/bqux7Fwv6t+pl/3
-         L4//PeAIWAFAC1qepB4fUIibccc8XEChf6FYu+JCKYtzQ1UA/KX+wLwXdoCOvKYjvMbs
-         vOuCB7mAQyM9w/f8DqEDQMvmOGyXw77X7jz4MEANYe7F/xOF/nPSHy9Q5t3HHlMg7QKy
-         rYpA==
+        bh=WXFak1BJWpIXTB+kNbLTcFhRGIlctoUlrdkSCuSYLTU=;
+        b=kdDck6/F0q/YAVi6mSZpZj0GZrz0F9Jy0LHgCqAUsQUWzV+DnU/rtstEvCbNg91Xef
+         y+U1fYs1gMbngJOBjis95UVF0Sy6uvgb1zR2NfvQcg7TLGOW0vLGDHmtvK9+pwlSodKG
+         GpjD0eyVipizT78KWh2UTKXhowNkDeA9Cx7ahJal7Rgq3MI234XoiRkBcUz0e8rJOop9
+         x1BYlWmR2atBs4GtTP1cmDQFHh6VWdL/ZzddMd2Je5FDaKI8hHTjlmDoS5GorhikTGxc
+         2y3R0u/peo+lDlw8lZJV0Sm2hfGYMysgLbhESo1fhnJ4pszNB/LG8Aw4pGdTY2rmiJuB
+         hfKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768582701; x=1769187501;
+        d=1e100.net; s=20230601; t=1768582773; x=1769187573;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-beenthere
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uDSDYS/XbMes99VRBUbsHLUre0glI/2qGbtWPAoJ7yk=;
-        b=apdi8N/F1sitrH5SpCzbl9KBcIZQzsVE6pmHn0F+eYxvFoEmNh/NERRbMkTOKi24N9
-         58HJ+ln0LD8jiU3UcDkthc89/b0uK3+HjcKBE/cXTQJUPRQPXEeQfpVcKS84Jiz8xsVb
-         Ff5ODhsYnKl+JjeeeDwoyDiWp98h0x18XNEHivIXxf4XRlVuJLhEvNBQp/rrZ56ep8tB
-         mxl/c84VEMaNMd0Cjc3bLtonLMAh2m6jG6cNRRjjLa2tMLqWQecvGwgzH5zxQRqw+zA9
-         slxOIW15hQTV2/aKp+aaSkonEKNZi/pprQoQjFLJFI7bvqqgNsKPSah31BeA5J+KJ2OO
-         ZAPg==
-X-Forwarded-Encrypted: i=3; AJvYcCUyJMOLpNFuDE0p5RZBLon0z1p+ZZ6mRdsH1+v6FYm1ioV7Pl0RkGlAPo+h1J+nMORpdwX45g==@lfdr.de
-X-Gm-Message-State: AOJu0YwXUc+NtfXOkc1ql4k43p5c/COZjRoSd5tLTtqf9O7XJP29Wder
-	bZ+pETB8hO9dI4Qc+qFhR586Hyc7Qhkyz2PHJ3Ay5DVhlIxIUn/7nzGx
-X-Received: by 2002:a05:622a:1902:b0:501:51fb:622c with SMTP id d75a77b69052e-502a16d2f7amr48703001cf.37.1768582700628;
-        Fri, 16 Jan 2026 08:58:20 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+EvsoXsZBNBFkgfSkalAsxPx6m7niVpHesgjnwdHRnNfw=="
-Received: by 2002:a05:6214:1947:b0:888:3ab3:a46f with SMTP id
- 6a1803df08f44-894221e2904ls31797016d6.0.-pod-prod-08-us; Fri, 16 Jan 2026
- 08:58:19 -0800 (PST)
-X-Forwarded-Encrypted: i=3; AJvYcCW2vIPA3ZJB+aFuBeJ1SulrfznEkKlBExpPXcdwW7NfQl2dnEJ5gDTTrBdLKawdkqMQSSx4uwm4Qkw=@googlegroups.com
-X-Received: by 2002:a05:6102:a52:b0:5ef:aeff:82f9 with SMTP id ada2fe7eead31-5f1a55c0311mr1174574137.35.1768582699715;
-        Fri, 16 Jan 2026 08:58:19 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1768582699; cv=pass;
+        bh=WXFak1BJWpIXTB+kNbLTcFhRGIlctoUlrdkSCuSYLTU=;
+        b=D65eushivNo3fGqs09jeyGi10I/WgQB12bToUVrAnGoK71xwrgcIoZzdU+7pJIKk1g
+         jCKPfK/DLZy5eBcrkQrGydWaec2+tTZovwZToR9UScXR1vagZF64oncHtWg6zygYd17A
+         ROf6A9L8tMKlcx5aDr1yCiRbPkTCMxd//bhHCVYVYD9H2ZFlu/IEImjiMIfhTOaP6AF4
+         9i4H9Ckbt+vD1eiGeIcmoUhk0XGpvXGkniwNOOzKip9syFRyoYEJuyfppfbDpjLi9g3D
+         L0U/RnD1/c2WigG+JVdn6TGZt2PsFOfji/jbcJIR2nfCXl2Yi9DmkdSU1WBbllqJz4nN
+         gl3A==
+X-Forwarded-Encrypted: i=3; AJvYcCWvB0xKZPWKsdZ/iqAIfxu58mJCCgGa3oQRIkxbVfTX7wJl08aELVtB5pMqXQDQ2dlijzI0ww==@lfdr.de
+X-Gm-Message-State: AOJu0YzcBGobJRWWTSUjBvn5ti2GK+mhGp0hgHZSJFKO5a+s4b9DPZrs
+	88Kqi/+lOWgSOSv6BZjh8kPrpVuajzDE0ezDgn3eT8+5HD21nacpVted
+X-Received: by 2002:a17:902:da8c:b0:2a0:bb0a:a5dd with SMTP id d9443c01a7336-2a7177e99eamr30682685ad.57.1768582772599;
+        Fri, 16 Jan 2026 08:59:32 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+FOw6R2jIBEgyZWHaFTLwU9r3uPZEkTevm1kJzQ/vVNJg=="
+Received: by 2002:a17:902:a50d:b0:295:68e4:74d5 with SMTP id
+ d9443c01a7336-2a70331ad01ls15631595ad.1.-pod-prod-01-us; Fri, 16 Jan 2026
+ 08:59:31 -0800 (PST)
+X-Forwarded-Encrypted: i=3; AJvYcCUQSB6vPpdiA5Xl4mT3T7nybFhMNiu/XqeyYC6g5e+uyPLe1KVqfmq0mUfrt6KG9739FgjPq7598f0=@googlegroups.com
+X-Received: by 2002:a17:903:2ed0:b0:2a0:e80e:b118 with SMTP id d9443c01a7336-2a717517031mr32112575ad.7.1768582771216;
+        Fri, 16 Jan 2026 08:59:31 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1768582771; cv=pass;
         d=google.com; s=arc-20240605;
-        b=G4pvbxHlThPdNLKlqI7fSEMIZh2NgfHfHFXsGEdKHyozE8BN5rbNqFUJfpvZqz20Z4
-         13iBLYXDQm++R6Ve3daca8K9YTLuR99UEz5DzJxjlAlG5+qGGJhxm9o4eMon5aUQZaKv
-         0h8TrJ7+dnctbaFszDvKN7hQRhRye3BLtrjOqeApfsfIKLkepi1i7UUJTbOaM5XD51kZ
-         QxZGveetYTnjmVx5TUVvvtFrjJIBpF4mEk/gBD+fm4ateu6sUg2J7b2VZpy/ldT/9jmc
-         vMfZXdlqHRrZLrRsdbtVpAOCOButkYsGvZe5QdcFqOe5vIZ/pcRl2+ciRlIc6EsPsJwP
-         WILg==
+        b=e7GXr8LrNou/NnF62IEji08FVAuQW+H6WrBT3gcu1rKrl1epAOZja77FR8za3qerlX
+         tDldeLseq10CA0JFuq32qO3QuaETkz8efCmb3Lz63u0Or+8HW2kdRiWdGBvaZGYVXLiV
+         maC/VmIbHNjW678owx3b9DqMGsY78oJz7uPYFc5vvpEzRmCqLg0Nfs3F73nkDWkmbYjD
+         jfeq0hbw0eiNOehfOFTgszI1axKSJ3/JMrj7Qhh2sp+oQJblstfsJcIOKNMvWohXX5xX
+         DALLoqSvJNv2xFOKXJ6LAYv1Ysuawr4SDhKaGNG0DepAGKy3Fn6LSl8VdC6+p1fd8RSa
+         z9mA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=UaTAsxPYTCPWjwQ4mQCkSgV5i6jSjH4fHwMIaU55o8I=;
-        fh=H630gUxdfYP7zI3HkqIH+9XB9sjncIGjWGvJP0DZlJY=;
-        b=MSEuUukclE8WE6G+zTfr531XYHLAftfyN7Ba510EvhruhbAFZZa/Q0xFypJJ09P4+A
-         5oHW/q/ekzjQQAIlFNtJZGAozDYAwR7o0NeRJ9tiYDGspwxHmcXbSUrtHMv7NiOsXAxY
-         VJM965kyFMDUfEwq4Xe+WFhWU0/SXoSA/JQTXilY6tlI2OcvU7b8BRKPPIKAlR8Xdvv8
-         l9GUfb8Fpg9tk53LH8iRL2wwDVesMH8rk3bNuFHfw8y6SST187XDrTt3avEQTZThb89K
-         NuKDz1zxfJXa3G7wqqIGz0L3G5NZMNzNlTK6dgVDx+oBLnOCfgt7yhltPzLJyYaz3s0R
-         dFgg==;
+        bh=s1BTvLdErVOVTXbojE/mp4bn56MJT1unyCMZ/1mKqI8=;
+        fh=gDRl2G3njCaciLcvpfv3+sRdlzyJ3xAro0h17JtYncQ=;
+        b=Hf1u1uff1zD0xXid0LcTVVzGQMnuA3c1qX0sOpFTeFb3p6WCVQT1/IpuH+PACMm61N
+         l0I9JmJVjoIxNIjN+YYP6Icza1zk7vv0TBEZRjdD4T6RdOvoPlyuv+MQJ5OkqxJNGPVL
+         4B3C13IuAQz9xEUMmY7bouy1puvoWLCdwfjPxzl2BFRedosaJyRdIfTeuLiFXj1QBe6+
+         mDtnlQlHHzK/CQkynRhbd33szJbHFauXG76jrtX3KE8/wnjBWwMpPIy6VPViVUCwEdYf
+         8k6V+Ab1KsjJHKm7BE47/YXdgzW9/luouEkSrmyWPnfANs4TXARIl4zNKWRGMljscKPW
+         gRQA==;
         dara=google.com
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=0jnCPqtJ;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=Kumt09QY;
        arc=pass (i=1);
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::82d as permitted sender) smtp.mailfrom=surenb@google.com;
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::829 as permitted sender) smtp.mailfrom=surenb@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com. [2607:f8b0:4864:20::82d])
-        by gmr-mx.google.com with ESMTPS id ada2fe7eead31-5f1a6f4c6c3si93760137.3.2026.01.16.08.58.19
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com. [2607:f8b0:4864:20::829])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-2a7190b674csi902435ad.4.2026.01.16.08.59.31
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Jan 2026 08:58:19 -0800 (PST)
-Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::82d as permitted sender) client-ip=2607:f8b0:4864:20::82d;
-Received: by mail-qt1-x82d.google.com with SMTP id d75a77b69052e-5014acad6f2so537221cf.1
-        for <kasan-dev@googlegroups.com>; Fri, 16 Jan 2026 08:58:19 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768582699; cv=none;
+        Fri, 16 Jan 2026 08:59:31 -0800 (PST)
+Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::829 as permitted sender) client-ip=2607:f8b0:4864:20::829;
+Received: by mail-qt1-x829.google.com with SMTP id d75a77b69052e-5014b5d8551so534671cf.0
+        for <kasan-dev@googlegroups.com>; Fri, 16 Jan 2026 08:59:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768582770; cv=none;
         d=google.com; s=arc-20240605;
-        b=WHyCaHuc6sm+kCMcLmlFFlYBXa9N0J9nzyMv0LVYXsP7FS5ky8AKNMM4j+Ygu7dJnP
-         s3XhNy7+A1+U1r7Hbu6K+BRDGj/x7eu6GktkLKFRDx/B+/Kd7bDzqh1Z0ML0i7hvLwp4
-         dLCt+m6aOUGXvrZd93fBnleCJQ7Pgefj9TiBA1ZfvImL7P07Yp/32DovgESxnJsTU/7O
-         dkn7JYSmyynfRdgmiDRqKQ/fhdDm8+2S2bmuZqZC8/cturjuWim49Gq91+cLp1wFxWzp
-         dd1fA5ZsjmbvC7cu7z2FFD4vqruEkfFKf5rJeaCOt3eUT+n8N9FXl+wDISj/hWVfnWpV
-         536g==
+        b=PuPJbmPgVcL47Cuj1uE0xqvg2GFsh2Km4izXpcFpnMr14xZLFytxZquSqXMMN9iHSb
+         It/C8hiHAQcDUWHeqKnRF8D5XIxtr+yCxJ1BNLW7i68APrtKkGXnHU/7EOmwuLYsSW6m
+         0ztZSU5bZGD0ZV1HbFnoaGdWdie6yAI+zEy7eTMHzdUvKdHnw3YtrSaTLL6NLj8/a3+v
+         dEANcHnq1AeKtfF2ahLJqkBpWH0sWXVyTvT+wTGBp/wsD905fKpvoB7f+4pXQ1QVDNfr
+         MZgcqMIhVz3v2VzYj/vZvpSETmaGMagNQq+IatYehytx69KM7M6J6xPKzHWAsOnPRqs+
+         zJCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=UaTAsxPYTCPWjwQ4mQCkSgV5i6jSjH4fHwMIaU55o8I=;
-        fh=H630gUxdfYP7zI3HkqIH+9XB9sjncIGjWGvJP0DZlJY=;
-        b=ejTA3eE8XAYil8zeg+yCCvd/fjmMxMfyLmYK/dqyuDzJQCv9FdOdLmLvsGSXTYN9W+
-         UtF6xqdFEQ5oXnsbvdTtQpksu2H5bVPGkbLlsXx5HCMjvdDtto3jAoFdUNyRv/Jf9zKa
-         3hWg+YNFdw5ivRpA37OapFX0o2lA4hGGxhqaxGyyhBC0f5M5nC1mieDtWOIEUHT6iKEs
-         /uTr5B4AfW58x9ndbHqh10XWsfVCgvd2DdnbHyx8a1C61jKY56dyQemXC7sFfbXFPcsB
-         i3Cxiwe/4+qge6joEuzNny4uPQTHFY+Ehb2snYM9B+9iSYe4Lxq7j6Lw0Tv53u2u3P4M
-         xwaw==;
+        bh=s1BTvLdErVOVTXbojE/mp4bn56MJT1unyCMZ/1mKqI8=;
+        fh=gDRl2G3njCaciLcvpfv3+sRdlzyJ3xAro0h17JtYncQ=;
+        b=hnrSLZguIL5pigpJOn6wVkgz32cY+qv/u/NBD+se652rB/07tfqpmM8I8Bf9Lf7wMd
+         z/o99tNMZYJPuC6fMi9LXlUuK5ZD78lYKyUDMnKLbJ+sFjslnkk3eAvhonarg8ptLKr8
+         72wWz1PowiWQmrB9usvGwxO+p0M5gIYOlw3art6weVxExBipcPqye7/KsDuGyV/DSYh3
+         WYpHY0YEJ2rowxBMcto3+o5XgLH4D3ufM3UN5RhSdzNpvlgIxbHiQxEl9sSsWwUBpq8L
+         syskENQlOaf1354W4vyOQAZJczr/L34zpD65cdrKqS4rQk7U+iFrxKaJGb0pf8ZySZTv
+         H76Q==;
         dara=google.com
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
-X-Forwarded-Encrypted: i=1; AJvYcCV+6E11nUncnC9/vufm6GbTDLcvjp7ppKUoud+CjYwY83UgrevjuHKorKBiMgixi6CYKu1lA7vqs4o=@googlegroups.com
-X-Gm-Gg: AY/fxX52/RQkCOQqkoopbuq/RvG3od/+1v/cXN/gitX4sL4EtTe0d7CpCnm4rGOe2Cd
-	YBhZvjnG+HsvkLSuOR9M+efrX/Yp6HeWlCfjkWmffiiqfWppSoGj3x+VY4DaTuOMHgNpwJQ4MU0
-	6ygNtedbAcQilvJaFlirI8xoI86GDTEL2jagg5whRbZjLOesZdHfdcF28T+uoYoCRRFZ5J4RR7G
-	Nja/WXas67tbi0X/RNfiYn719gTztYfVtE+29irUjPNwpihwEJaq2E6wUKRYrSczsBVTw==
-X-Received: by 2002:a05:622a:4c6:b0:4f1:9c3f:2845 with SMTP id
- d75a77b69052e-502a36feeefmr9677951cf.9.1768582698713; Fri, 16 Jan 2026
- 08:58:18 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXkCW8RZ3iNw3yOYOnMp25anVCJicOgB7SmXGZadv5KUiDV/Qf8Xybgskr/whZeiq/JZUFrbiqsWk8=@googlegroups.com
+X-Gm-Gg: AY/fxX5MNRaqcHux8zPWagY37zvByPyczP2bhLjEC2IHHy8LWKC/iC+RAfbwpxz11hO
+	s9/2xmlrA3w5lm4+OI6bSz0Uuw+votKIETiUePm1dFSSIdg/1cOwXptLElxRQVm/kCSEZ855tAI
+	pBnKVxn+aP347dVl6XXQ28FrdG+sl4a4hYujCiMkhOFVbRLFSVHGknteIVNFIX0tiDjEkKaFBse
+	1xEioV18NSu1wv447ogKxLA2uFF6+e3GmSnjJwSCR3woo/RxP/Zuq2+wNqJFXqLDgNdhA==
+X-Received: by 2002:a05:622a:4c:b0:4f3:7b37:81b with SMTP id
+ d75a77b69052e-502a23a54c0mr4530661cf.18.1768582769172; Fri, 16 Jan 2026
+ 08:59:29 -0800 (PST)
 MIME-Version: 1.0
 References: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz>
- <20260112-sheaves-for-all-v2-3-98225cfb50cf@suse.cz> <CAJuCfpHowLbqn7ex1COBTZBchhWFy=C3sgD0Uo=J-nKX+NYBvA@mail.gmail.com>
- <4e73da60-b58d-40bd-86ed-a0243967017b@suse.cz>
-In-Reply-To: <4e73da60-b58d-40bd-86ed-a0243967017b@suse.cz>
+ <20260112-sheaves-for-all-v2-4-98225cfb50cf@suse.cz> <CAJuCfpFKKtxB2mREuOSa4oQu=MBGkbQRQNYSSnubAAgPENcO-Q@mail.gmail.com>
+ <d310d788-b6df-47dc-9557-643813351838@suse.cz>
+In-Reply-To: <d310d788-b6df-47dc-9557-643813351838@suse.cz>
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 16 Jan 2026 08:58:07 -0800
-X-Gm-Features: AZwV_QiGfwWS_a1m6Zzi_yFSpjGioLT9sSjsdK1eWkPIvYtSYBlLySU-l0-N1MQ
-Message-ID: <CAJuCfpGikJpueGo1hW8ONimHOALnpftT22F7xYuL5CpnphJu+A@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 03/20] mm/slab: make caches with sheaves mergeable
+Date: Fri, 16 Jan 2026 08:59:18 -0800
+X-Gm-Features: AZwV_QgPp527tGrUgX7CIcyuFqzTixlPtSEyPVxRBLdI9BmrU9Axe1wzPof38j0
+Message-ID: <CAJuCfpEqZwgB65y3zbm0Pwb_sVLjMbmHbTmJY6SdiVvvOPq+2A@mail.gmail.com>
+Subject: Re: [PATCH RFC v2 04/20] slab: add sheaves to most caches
 To: Vlastimil Babka <vbabka@suse.cz>
 Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
 	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
@@ -162,9 +162,9 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=0jnCPqtJ;       arc=pass
+ header.i=@google.com header.s=20230601 header.b=Kumt09QY;       arc=pass
  (i=1);       spf=pass (google.com: domain of surenb@google.com designates
- 2607:f8b0:4864:20::82d as permitted sender) smtp.mailfrom=surenb@google.com;
+ 2607:f8b0:4864:20::829 as permitted sender) smtp.mailfrom=surenb@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
@@ -181,83 +181,187 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Jan 15, 2026 at 11:24=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> w=
-rote:
+On Fri, Jan 16, 2026 at 3:24=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
+ote:
 >
-> On 1/16/26 01:22, Suren Baghdasaryan wrote:
+> On 1/16/26 06:45, Suren Baghdasaryan wrote:
 > > On Mon, Jan 12, 2026 at 3:17=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz=
 > wrote:
 > >>
-> >> Before enabling sheaves for all caches (with automatically determined
-> >> capacity), their enablement should no longer prevent merging of caches=
-.
-> >> Limit this merge prevention only to caches that were created with a
-> >> specific sheaf capacity, by adding the SLAB_NO_MERGE flag to them.
+> >> In the first step to replace cpu (partial) slabs with sheaves, enable
+> >> sheaves for almost all caches. Treat args->sheaf_capacity as a minimum=
+,
+> >> and calculate sheaf capacity with a formula that roughly follows the
+> >> formula for number of objects in cpu partial slabs in set_cpu_partial(=
+).
+> >>
+> >> This should achieve roughly similar contention on the barn spin lock a=
+s
+> >> there's currently for node list_lock without sheaves, to make
+> >> benchmarking results comparable. It can be further tuned later.
+> >>
+> >> Don't enable sheaves for bootstrap caches as that wouldn't work. In
+> >> order to recognize them by SLAB_NO_OBJ_EXT, make sure the flag exists
+> >> even for !CONFIG_SLAB_OBJ_EXT.
+> >>
+> >> This limitation will be lifted for kmalloc caches after the necessary
+> >> bootstrapping changes.
 > >>
 > >> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> >> ---
-> >>  mm/slab_common.c | 13 +++++++------
-> >>  1 file changed, 7 insertions(+), 6 deletions(-)
-> >>
-> >> diff --git a/mm/slab_common.c b/mm/slab_common.c
-> >> index 52591d9c04f3..54c17dc6d5ec 100644
-> >> --- a/mm/slab_common.c
-> >> +++ b/mm/slab_common.c
-> >> @@ -163,9 +163,6 @@ int slab_unmergeable(struct kmem_cache *s)
-> >>                 return 1;
-> >>  #endif
-> >>
-> >> -       if (s->cpu_sheaves)
-> >> -               return 1;
-> >> -
-> >>         /*
-> >>          * We may have set a slab to be unmergeable during bootstrap.
-> >>          */
-> >> @@ -190,9 +187,6 @@ static struct kmem_cache *find_mergeable(unsigned =
-int size, slab_flags_t flags,
-> >>         if (IS_ENABLED(CONFIG_HARDENED_USERCOPY) && args->usersize)
-> >>                 return NULL;
-> >>
-> >> -       if (args->sheaf_capacity)
-> >> -               return NULL;
-> >> -
-> >>         flags =3D kmem_cache_flags(flags, name);
-> >>
-> >>         if (flags & SLAB_NEVER_MERGE)
-> >> @@ -337,6 +331,13 @@ struct kmem_cache *__kmem_cache_create_args(const=
- char *name,
-> >>         flags &=3D ~SLAB_DEBUG_FLAGS;
-> >>  #endif
-> >>
-> >> +       /*
-> >> +        * Caches with specific capacity are special enough. It's simp=
-ler to
-> >> +        * make them unmergeable.
-> >> +        */
-> >> +       if (args->sheaf_capacity)
-> >> +               flags |=3D SLAB_NO_MERGE;
 > >
-> > So, this is very subtle and maybe not that important but the comment
-> > for kmem_cache_args.sheaf_capacity claims "When slub_debug is enabled
-> > for the cache, the sheaf_capacity argument is ignored.". With this
-> > change this argument is not completely ignored anymore... It sets
-> > SLAB_NO_MERGE even if slub_debug is enabled, doesn't it?
+> > One nit but otherwise LGTM.
+> >
+> > Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 >
-> True, but the various debug flags set by slub_debug also prevent merging =
-so
-> it doesn't change the outcome.
-
-Yeah, I thought that would not matter much but wanted to make sure.
-
-After finishing the review I'll have to remember to verify if that
-comment on slub_debug/sheaf interplay stays true even after
-args->sheaf_capacity becomes the min sheaf capacity.
-
+> Thanks.
 >
-> >> +
-> >>         mutex_lock(&slab_mutex);
+> >> ---
+> >>  include/linux/slab.h |  6 ------
+> >>  mm/slub.c            | 51 +++++++++++++++++++++++++++++++++++++++++++=
+++++----
+> >>  2 files changed, 47 insertions(+), 10 deletions(-)
 > >>
-> >>         err =3D kmem_cache_sanity_check(name, object_size);
+> >> diff --git a/include/linux/slab.h b/include/linux/slab.h
+> >> index 2482992248dc..2682ee57ec90 100644
+> >> --- a/include/linux/slab.h
+> >> +++ b/include/linux/slab.h
+> >> @@ -57,9 +57,7 @@ enum _slab_flag_bits {
+> >>  #endif
+> >>         _SLAB_OBJECT_POISON,
+> >>         _SLAB_CMPXCHG_DOUBLE,
+> >> -#ifdef CONFIG_SLAB_OBJ_EXT
+> >>         _SLAB_NO_OBJ_EXT,
+> >> -#endif
+> >>         _SLAB_FLAGS_LAST_BIT
+> >>  };
+> >>
+> >> @@ -238,11 +236,7 @@ enum _slab_flag_bits {
+> >>  #define SLAB_TEMPORARY         SLAB_RECLAIM_ACCOUNT    /* Objects are=
+ short-lived */
+> >>
+> >>  /* Slab created using create_boot_cache */
+> >> -#ifdef CONFIG_SLAB_OBJ_EXT
+> >>  #define SLAB_NO_OBJ_EXT                __SLAB_FLAG_BIT(_SLAB_NO_OBJ_E=
+XT)
+> >> -#else
+> >> -#define SLAB_NO_OBJ_EXT                __SLAB_FLAG_UNUSED
+> >> -#endif
+> >>
+> >>  /*
+> >>   * ZERO_SIZE_PTR will be returned for zero sized kmalloc requests.
+> >> diff --git a/mm/slub.c b/mm/slub.c
+> >> index 8ffeb3ab3228..6e05e3cc5c49 100644
+> >> --- a/mm/slub.c
+> >> +++ b/mm/slub.c
+> >> @@ -7857,6 +7857,48 @@ static void set_cpu_partial(struct kmem_cache *=
+s)
+> >>  #endif
+> >>  }
+> >>
+> >> +static unsigned int calculate_sheaf_capacity(struct kmem_cache *s,
+> >> +                                            struct kmem_cache_args *a=
+rgs)
+> >> +
+> >> +{
+> >> +       unsigned int capacity;
+> >> +       size_t size;
+> >> +
+> >> +
+> >> +       if (IS_ENABLED(CONFIG_SLUB_TINY) || s->flags & SLAB_DEBUG_FLAG=
+S)
+> >> +               return 0;
+> >> +
+> >> +       /* bootstrap caches can't have sheaves for now */
+> >> +       if (s->flags & SLAB_NO_OBJ_EXT)
+> >> +               return 0;
+> >> +
+> >> +       /*
+> >> +        * For now we use roughly similar formula (divided by two as t=
+here are
+> >> +        * two percpu sheaves) as what was used for percpu partial sla=
+bs, which
+> >> +        * should result in similar lock contention (barn or list_lock=
+)
+> >> +        */
+> >> +       if (s->size >=3D PAGE_SIZE)
+> >> +               capacity =3D 4;
+> >> +       else if (s->size >=3D 1024)
+> >> +               capacity =3D 12;
+> >> +       else if (s->size >=3D 256)
+> >> +               capacity =3D 26;
+> >> +       else
+> >> +               capacity =3D 60;
+> >> +
+> >> +       /* Increment capacity to make sheaf exactly a kmalloc size buc=
+ket */
+> >> +       size =3D struct_size_t(struct slab_sheaf, objects, capacity);
+> >> +       size =3D kmalloc_size_roundup(size);
+> >> +       capacity =3D (size - struct_size_t(struct slab_sheaf, objects,=
+ 0)) / sizeof(void *);
+> >> +
+> >> +       /*
+> >> +        * Respect an explicit request for capacity that's typically m=
+otivated by
+> >> +        * expected maximum size of kmem_cache_prefill_sheaf() to not =
+end up
+> >> +        * using low-performance oversize sheaves
+> >> +        */
+> >> +       return max(capacity, args->sheaf_capacity);
+> >> +}
+> >> +
+> >>  /*
+> >>   * calculate_sizes() determines the order and the distribution of dat=
+a within
+> >>   * a slab object.
+> >> @@ -7991,6 +8033,10 @@ static int calculate_sizes(struct kmem_cache_ar=
+gs *args, struct kmem_cache *s)
+> >>         if (s->flags & SLAB_RECLAIM_ACCOUNT)
+> >>                 s->allocflags |=3D __GFP_RECLAIMABLE;
+> >>
+> >> +       /* kmalloc caches need extra care to support sheaves */
+> >> +       if (!is_kmalloc_cache(s))
+> >
+> > nit: All the checks for the cases when sheaves should not be used
+> > (like SLAB_DEBUG_FLAGS and SLAB_NO_OBJ_EXT) are done inside
+> > calculate_sheaf_capacity(). Only this is_kmalloc_cache() one is here.
+> > It would be nice to have all of them in the same place but maybe you
+> > have a reason for keeping it here?
+>
+> Yeah, in "slab: handle kmalloc sheaves bootstrap" we call
+> calculate_sheaf_capacity() from another place for kmalloc normal caches s=
+o
+> the check has to be outside.
+
+Ok, I suspected the answer will be in the later patches. Thanks!
+
+>
+> >> +               s->sheaf_capacity =3D calculate_sheaf_capacity(s, args=
+);
+> >> +
+> >>         /*
+> >>          * Determine the number of objects per slab
+> >>          */
+> >> @@ -8595,15 +8641,12 @@ int do_kmem_cache_create(struct kmem_cache *s,=
+ const char *name,
+> >>
+> >>         set_cpu_partial(s);
+> >>
+> >> -       if (args->sheaf_capacity && !IS_ENABLED(CONFIG_SLUB_TINY)
+> >> -                                       && !(s->flags & SLAB_DEBUG_FLA=
+GS)) {
+> >> +       if (s->sheaf_capacity) {
+> >>                 s->cpu_sheaves =3D alloc_percpu(struct slub_percpu_she=
+aves);
+> >>                 if (!s->cpu_sheaves) {
+> >>                         err =3D -ENOMEM;
+> >>                         goto out;
+> >>                 }
+> >> -               // TODO: increase capacity to grow slab_sheaf up to ne=
+xt kmalloc size?
+> >> -               s->sheaf_capacity =3D args->sheaf_capacity;
+> >>         }
+> >>
+> >>  #ifdef CONFIG_NUMA
 > >>
 > >> --
 > >> 2.52.0
@@ -270,4 +374,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-AJuCfpGikJpueGo1hW8ONimHOALnpftT22F7xYuL5CpnphJu%2BA%40mail.gmail.com.
+AJuCfpEqZwgB65y3zbm0Pwb_sVLjMbmHbTmJY6SdiVvvOPq%2B2A%40mail.gmail.com.
