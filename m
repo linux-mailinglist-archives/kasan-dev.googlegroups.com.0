@@ -1,226 +1,130 @@
-Return-Path: <kasan-dev+bncBDXYDPH3S4OBBCWAVDFQMGQEDZKLJ2Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBDHSVDFQMGQECXQR66I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53f.google.com (mail-ed1-x53f.google.com [IPv6:2a00:1450:4864:20::53f])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1F09D30550
-	for <lists+kasan-dev@lfdr.de>; Fri, 16 Jan 2026 12:24:59 +0100 (CET)
-Received: by mail-ed1-x53f.google.com with SMTP id 4fb4d7f45d1cf-64d1b2784besf2411586a12.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 16 Jan 2026 03:24:59 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1768562699; cv=pass;
+Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2D7BD31954
+	for <lists+kasan-dev@lfdr.de>; Fri, 16 Jan 2026 14:11:42 +0100 (CET)
+Received: by mail-lj1-x240.google.com with SMTP id 38308e7fff4ca-3832fbb70a1sf11268001fa.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 16 Jan 2026 05:11:42 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1768569102; cv=pass;
         d=google.com; s=arc-20240605;
-        b=KKY8W9AAU/gkSOTasJYOaODVPkkNdIHQoNnBugkdqN6vZcyKpd61u1XjRMKEWPwH3K
-         gxOBlvTxOAPkXC0gNI3jaQlxa43qpGiFn0rrXFCayc6XfEofRLAqj/2ZOopO4OyUylB6
-         GwTBCDEjxn8/3L0WhjBTpNb80fDfNUG8j6N5Yd0Au2L/Bc6sdv1s1IwHWV4f/q/g4QeL
-         LfXdpB7nJtsM+co07e3OewCjspeAvGSL61vN79ZbQNMv7H1cmJY8WLGfsvpvCPE+U4/s
-         gK2tQxNPrsHbPMQCQF3Cna505kAeEPRc/JviLbhcwX2oFcbK/lJbVCbAxwv+KeeaZSn8
-         k2bw==
+        b=UikVnfbMHykt6h7oNtO0+lF7YbZuFjkJkcvlPFmmWy1ztt9lxSSQW240NLK7lRkXJu
+         hSGTyJvaxZ0RKsnnq8+RxywU+auApnpqti9uEyUlsabIhhKFeikMakzv5BsCcuL4+Q/c
+         D7G72uQoE9NwNu7UXAdtXscMeCvKOTVCVSBcMnjL35JNTjNm5hWfTVGGj+kAlwxRXgyI
+         GLJLsBlVAmRUjVo9hzNRIdCCqCT9lXromqCrFzzGTcv3W60WWlqNvy0EkyVZdkgZSGzs
+         7Zpk0mSSr/OuEinWIwwVGL0GVU68HgwP/ItaqmBCa9Iog6SojQFI3uVpCkgVgzShcUPM
+         UnxA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :in-reply-to:autocrypt:from:references:cc:to:content-language
-         :subject:user-agent:mime-version:date:message-id:sender
-         :dkim-signature;
-        bh=2tE9HRm3zk0dn2e0+7yfAB9fX1dgXXwN2ZE4qPTkJCw=;
-        fh=mvKCCu82yVbfHjTEBDxnE7TEienaXCm5cI5X7xfW1Q8=;
-        b=hQ3FOfqpkksJ9T4wWQQ8nrCytxtK6ZQxZCOY+vschvhFQ7QtiZGsfWcBd14eXE94/K
-         Brh8b/Y88lox6jcy2tU5V8KkANrKc+kTW62YcUwavXeTWxXnVQb2UF2isxkOqKU1vt81
-         VYmp/oLzZ0S3SyFlXLWajYOJuqEUU9bvnw12/5w++APycAkLSM80rWI5OhYyT74NPenh
-         2Y0YAJ7fcGpDpDnl7DjVTPG2VlYds1600Qz04LwzG1LKMX/z3KNBcD0hz0sN9gfMf59L
-         Gz6/FZ5mwylt+06VDOPRVxMoc9ewudd01g/ZuXxy0yXHsS+/vzBFT6UCploq+oIYvqsc
-         9a5g==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :mime-version:feedback-id:references:in-reply-to:message-id:subject
+         :cc:from:to:date:dkim-signature;
+        bh=CYmI+VDJXPMl8X8GCLmzRKKyO6RJ9SBONEgdjsxbM/E=;
+        fh=gkMUu0WX92rWEltKiA/M3w72QIzfDKU/+NEMlTFHkZ0=;
+        b=VIOts/aX5qu8LLzMBDfIkE7X+KUYtGPERZWmW2wFtcSrWDrjOONPqAeOlur2SF5HNc
+         uSb5kwFbBHRqNNhXzDxBm6yGJsn3VQ2ixJQuy4iDjcW7O/+OvlpxNvJeCRUImuSTBBCO
+         jCgDpLi28ID9kksYqUHVvnur+5GMt1O2RoDgf1CxSvQul2lETKMDASom/x0ZpNwLgQTc
+         ri7g9D7fVYztGqLbF/eZj6k0sF7pAPM9Yb+z5mqoDbJw5v7nnNA4i5VJZcJjy9K9Rm0i
+         bi6B8lOCXNr2jB/KioWd9PYJjKWWhqQ1YhB1cQVRFydANNRh6RAQXExaqnBiBpCa0/+4
+         sxPg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=biNtuGN7;
-       dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=biNtuGN7;
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.130 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       dkim=pass header.i=@pm.me header.s=protonmail3 header.b=NsW4vNWI;
+       spf=pass (google.com: domain of m.wieczorretman@pm.me designates 185.70.43.103 as permitted sender) smtp.mailfrom=m.wieczorretman@pm.me;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=pm.me
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1768562699; x=1769167499; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1768569102; x=1769173902; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:in-reply-to:autocrypt
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2tE9HRm3zk0dn2e0+7yfAB9fX1dgXXwN2ZE4qPTkJCw=;
-        b=dzR7NyE/MaAZFjD6jgyE92jnciE2+A70kxg6iDQ0Pvjw1zWYx42G8Q1/Cr8npYhw1m
-         E9rE7ybi+v1Fep/dZbVIecFH6OGg0nPk1lkW2Wv2hcDdianVIvII2J6GydzVMJxUsBy5
-         h8kkFISmYefbzjVYPkoyK4LkYt/ktaFp77Z09L5ca/OnaBznzd2EWRMxP8G9rCptiymw
-         ZQWQAxobTThgQLtruhMDylLIE7iRydyOlK1ZS2L5FmSwt7hgSiY9v49lNDDRC2wthGmR
-         ks2gPEz9jQN/W5GHlRJsEidDY+dhZYQYGbBMszzVMqfLAOu9gpAgm4PuMZbNINniO+qE
-         nZMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768562699; x=1769167499;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2tE9HRm3zk0dn2e0+7yfAB9fX1dgXXwN2ZE4qPTkJCw=;
-        b=gF4l9nJeShv55dhR3FYaIdBwlKK4tCISz+R/focS8nELcCgLXV9u3FLt8N40lbBnyg
-         B1ESkOmXoa04OxkdrH1AGO/b5E81M8QN9XT3FETRLR6G0u0l67BFPudlDON2GyRDT4u3
-         NuZ21IDwAFuHHWGO8aelpmhWWpl/KxNLkyCpjskkCSvzsexEkdUrf/rij1hr5LuHxi+4
-         fmYjF1Yu1KGcbZSYv/hiLbTDBIztuKLzmsKzXhmJWpU8Duabh4KJW2dYfQDZ9RVAkMFc
-         j9z+M//unI9iKyQ6RacB+6Kw95uDfCdiwiYv/S4sj06AIsW2j25kRJdxWTFSpp+bJZlJ
-         Eswg==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWE2AKpEx46O+aR7tdK13DM37YsZHp74tqFL+tHrZ4qDLF/wb+vjZhhfytkBwmJxwJugCfO6g==@lfdr.de
-X-Gm-Message-State: AOJu0YxxEZgfnNVl2Zko/q7ri/qsrZxhh/hVIDAKl6+Wf0SuiDLK1Q4E
-	8XEVwvi00K1oyycqGNtKwzDIWzG5g2HNASU7SaJi4eAccdRGAzrQSDnQ
-X-Received: by 2002:a05:6402:401b:b0:655:c395:457b with SMTP id 4fb4d7f45d1cf-655c395480cmr662515a12.21.1768562699371;
-        Fri, 16 Jan 2026 03:24:59 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+HjY/oYV6ZeRYU6pdL6XksygTC9QOexjS4OS22GuHEqMQ=="
-Received: by 2002:a05:6402:a25b:20b0:649:7861:d7d7 with SMTP id
- 4fb4d7f45d1cf-6541c6e10bfls1642129a12.2.-pod-prod-04-eu; Fri, 16 Jan 2026
- 03:24:56 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCVCW3+10rsRP3gK04bblZBXQCRnCVzbMNMmRBcmF7BCIhsDEF+/1w5S9m9mE22wPLtl3qvQtWKqSys=@googlegroups.com
-X-Received: by 2002:a17:907:7f91:b0:b87:12ad:d4d3 with SMTP id a640c23a62f3a-b8796bb1bc0mr177753666b.55.1768562696589;
-        Fri, 16 Jan 2026 03:24:56 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768562696; cv=none;
+         :content-transfer-encoding:mime-version:feedback-id:references
+         :in-reply-to:message-id:subject:cc:from:to:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=CYmI+VDJXPMl8X8GCLmzRKKyO6RJ9SBONEgdjsxbM/E=;
+        b=pRrxVVhrJQwQ1oehk47GbZJUfkkHtSb/x2aGC5+T+uCqo+iguodgHK/6OtZD9qooGs
+         5WxvNUMIjzHSRki+urEvf4w3pVpMXoO6huUD/7cIVmOQLM2ezFHcu4a5b2N5cO00/drX
+         JXA5xCGCswLGghvUwEipHzU7RGv1r17q9zQaSpDMneArHcU5qg8LBAHWTRlCAbCRJIH9
+         Aq+LQlGOLOsri4LHSf2Tv2RbiQ2e0z3NRQKQvkjSU0glCJWv9o8rIbFKiQ8TbOFQ0nin
+         CO+GkWAAAD36s9zCZsov31RYPf+EifvzA5USuI8Zp9/akvTPBhFUB4QGaNHvxEsmbjnk
+         dRZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768569102; x=1769173902;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:feedback-id:references
+         :in-reply-to:message-id:subject:cc:from:to:date:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CYmI+VDJXPMl8X8GCLmzRKKyO6RJ9SBONEgdjsxbM/E=;
+        b=IJegkB9P40KW+UoIeJLJVWWzcJN5zS5xAuLwxZPyU+vgQscwSk05+BtBnY1AlVhLhn
+         h6lf16wAEtEwiO/wo30zDfT1ZmwvHs+//7zedcK0XicZ4SoLSqzpHu0YI4nWsXp32qn8
+         +TKAU5s6xuzhLMYrnDmPw5cfJkb6QMK133KbdaF3gbUcy4Mhims6vLc7h1pLGDgWgusQ
+         AjtkA3SSkQed2SmeXwTNeE3XUQegAsQHpOsr1J944xwrmYBQw+ZuDuvOGVySl1AXB5/Z
+         eSqV33JPAwogwLWjOwttnJXXsldFUaHP1dYnoXKC5hNYM7OBKExlLawH76Q0NjgqIlYB
+         kBJQ==
+X-Forwarded-Encrypted: i=2; AJvYcCUsydKICY4GYdV/Pq5nIk4nEuPJtzb6yvHaSc+uO8hbteBgjmibIGC3N0sPQTgIZI42UWyV1g==@lfdr.de
+X-Gm-Message-State: AOJu0YxnHw6owZ5W1NVDwUYVHo1UpSFOQ+NmZvHZQAY77lev9rEsoRM6
+	0TTJHBYcN2PYU3UZ7kUp9XhV6C7yEfYN55X3iNFzI69aT/HY1cTdwpvP
+X-Received: by 2002:a05:6512:2252:b0:59b:701e:c75a with SMTP id 2adb3069b0e04-59bafdc130emr866818e87.15.1768569101508;
+        Fri, 16 Jan 2026 05:11:41 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+EEO67+6bP+L65qA58Yq94teTSQfJJnumlcEL5wD5B21g=="
+Received: by 2002:a05:6512:31d2:b0:59b:7bbc:799e with SMTP id
+ 2adb3069b0e04-59ba6b4b064ls765541e87.1.-pod-prod-04-eu; Fri, 16 Jan 2026
+ 05:11:39 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWAsXDuYz/liVt1IgN/ReaVTBU6/E6Zb4NykQ830fD2HYo3F4kbUwh+HEfxLcwt2TVm96RS4ZGvaT4=@googlegroups.com
+X-Received: by 2002:a05:6512:2c94:b0:595:7c47:cd47 with SMTP id 2adb3069b0e04-59bafdb5454mr743945e87.2.1768569099393;
+        Fri, 16 Jan 2026 05:11:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768569099; cv=none;
         d=google.com; s=arc-20240605;
-        b=IOnUzQfXTY5qy6gjDgsB2v4hqfuFQjNlqRaSNviYiLbxsApJMc3u4frijWfCMKUOrn
-         ICFo65nTQvl0XMBPlxJQKaXbxKG4fodXdjegpg2POr9PelaOpo3ZbKAu+LQM69zad3ik
-         hs7ZfrLFJD9BXgcbovOnM7+h3tJrDoD9x7OopK+o+REaXwbi+RwdFH+uRCXM+uX34M2j
-         ubJbslqO6pTmiCakMrp5STyEp0oGaPueiBLy3SCFeCpG4wFQpM6Bw22LFGYA7/sPgChT
-         +soGRGVvafdTLiLDQdkpkkROf5gp+gdUAy4UU/UyYNrZCQQnh7FO0Y57ALjo6fHww/sN
-         FgCQ==
+        b=B5jV1GVVaVhxQKlVArOth0GmOrYbyZTwmSNSmHpSMugipu4jOV1dkLcaUy/7YLXIMp
+         qYOId6U6AXMNCogcf+ZiYM6a2pfbLIS6qjULqKmG5z2tKa5b2C6hG/BxO44NnuuxuBVe
+         yeZf9LWa49ZqGkJ6DN6v88KP0yc827Zm+eKHF4zSPVIUnUhVSGlNb5s8BFF73xZhFjsQ
+         zWf7LAsvm7zYCL0Lc4ON1ZBXcQrd+7rtvLBPYxIbjVmCyTn1JK/kicc0Ap04zvqHwoCC
+         1pQN4asu3VcH8iNWjYoPSSJIza+7vo3OUAOldkiuFJyxduse6pmcSve5JQg+NLFrjXW9
+         WgTQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :dkim-signature:dkim-signature:dkim-signature:dkim-signature;
-        bh=EPxWoGREDJBDCfaaqNFnAl/rLl9XxuU79MPtOoauRfg=;
-        fh=cQEqfC/HNDeYlLQ+tf+O8CAK70FYEW4o+eW5yVM5K4o=;
-        b=OgacYY4JRnx6f5mexpLavebd9YuwhKFwtcMzl3d/FTgijqu41DInPEH/tbTIpdFrA7
-         TeQ3A9a7lowOLK105NOee4EuRlyGN9eK1bPtOWaIC9XYz0dAZtMioqYD6aESMQbd9Q0/
-         X928FW64EbosOY2aRLqP8M/HCTnbtDBiuIubraqobAAR4K+y98OQNrghX9v2PG9BCiPC
-         fMozwMkKmD/ZFD8jTR2BARBjWCsFftjgc/cHYdX2o1FTFqqpSF++O7q8/Zaan/A+J4br
-         9PtKA6Hh/8SWDfFDjk83E6EgiTTss02mTbmyDLy9SFGDfB9I5XIUWfGG+wWlUghVPwJw
-         g6Lw==;
+        h=content-transfer-encoding:mime-version:feedback-id:references
+         :in-reply-to:message-id:subject:cc:from:to:date:dkim-signature;
+        bh=VUy6Z0nl3UN06uLRlgqbdTzfRq3/0KilXmceKHyT+FA=;
+        fh=5fPtkNbNe79niuQswbjC0Rjam1MSXdsDhVEZDqUvzT4=;
+        b=DRex+UsZEonAF6+MoguQ4/SFUP+tZj/VPMkD3MSdcwxoBFe/Qrk7B9tXjXG3lsHU0Q
+         UIzRS015qc9IyDy5gDzL0h88QZlOWrvL2QAatIGUOpyKj8GDclVVNCu+kt8/LkwKH7sC
+         b5Z81+ul0LHV9pZTzjumiI9PnLzs0W9WGDe4W/ows5a9XU2x3AEQ5aY5f69lmFXfpG4+
+         RHZts2NXWLSncQzXwSHaaTeQKIir7Wlj/5DM/0m4K8aI9OsXgoiAJv2E6zC0ZfJqLfZJ
+         MZET18BCNcVFck/mN65Rk81WN8qzGOorQJIG8MP91vyH8ngKHsbE0YCDufh+MbyrrR5o
+         8Mfw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=biNtuGN7;
-       dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=biNtuGN7;
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.130 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.223.130])
-        by gmr-mx.google.com with ESMTPS id a640c23a62f3a-b87959b318fsi4940566b.3.2026.01.16.03.24.56
+       dkim=pass header.i=@pm.me header.s=protonmail3 header.b=NsW4vNWI;
+       spf=pass (google.com: domain of m.wieczorretman@pm.me designates 185.70.43.103 as permitted sender) smtp.mailfrom=m.wieczorretman@pm.me;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=pm.me
+Received: from mail-43103.protonmail.ch (mail-43103.protonmail.ch. [185.70.43.103])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-38384e27d7bsi378821fa.4.2026.01.16.05.11.39
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 03:24:56 -0800 (PST)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.223.130 as permitted sender) client-ip=195.135.223.130;
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0C47D336A7;
-	Fri, 16 Jan 2026 11:24:56 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D44ED3EA63;
-	Fri, 16 Jan 2026 11:24:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 45r3MQcgamlWMQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Fri, 16 Jan 2026 11:24:55 +0000
-Message-ID: <d310d788-b6df-47dc-9557-643813351838@suse.cz>
-Date: Fri, 16 Jan 2026 12:24:55 +0100
+        Fri, 16 Jan 2026 05:11:39 -0800 (PST)
+Received-SPF: pass (google.com: domain of m.wieczorretman@pm.me designates 185.70.43.103 as permitted sender) client-ip=185.70.43.103;
+Date: Fri, 16 Jan 2026 13:11:32 +0000
+To: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+From: "'Maciej Wieczor-Retman' via kasan-dev" <kasan-dev@googlegroups.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, Andrew Morton <akpm@linux-foundation.org>, Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Samuel Holland <samuel.holland@sifive.com>, Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, linux-mm@kvack.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v8 01/14] kasan: sw_tags: Use arithmetic shift for shadow computation
+Message-ID: <aWo31aytvelldfiE@wieczorr-mobl1.localdomain>
+In-Reply-To: <2592f303-05f5-4646-b59f-38cb7549834e@gmail.com>
+References: <cover.1768233085.git.m.wieczorretman@pm.me> <4f31939d55d886f21c91272398fe43a32ea36b3f.1768233085.git.m.wieczorretman@pm.me> <2592f303-05f5-4646-b59f-38cb7549834e@gmail.com>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: 3ed341666d06b561ea7c217cda5b5d4311dd5d20
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 04/20] slab: add sheaves to most caches
-Content-Language: en-US
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- bpf@vger.kernel.org, kasan-dev@googlegroups.com
-References: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz>
- <20260112-sheaves-for-all-v2-4-98225cfb50cf@suse.cz>
- <CAJuCfpFKKtxB2mREuOSa4oQu=MBGkbQRQNYSSnubAAgPENcO-Q@mail.gmail.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <CAJuCfpFKKtxB2mREuOSa4oQu=MBGkbQRQNYSSnubAAgPENcO-Q@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.994];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FROM_EQ_ENVFROM(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_SOME(0.00)[]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Original-Sender: vbabka@suse.cz
+X-Original-Sender: m.wieczorretman@pm.me
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=biNtuGN7;       dkim=neutral
- (no key) header.i=@suse.cz;       dkim=pass header.i=@suse.cz
- header.s=susede2_rsa header.b=biNtuGN7;       dkim=neutral (no key)
- header.i=@suse.cz;       spf=pass (google.com: domain of vbabka@suse.cz
- designates 195.135.223.130 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+ header.i=@pm.me header.s=protonmail3 header.b=NsW4vNWI;       spf=pass
+ (google.com: domain of m.wieczorretman@pm.me designates 185.70.43.103 as
+ permitted sender) smtp.mailfrom=m.wieczorretman@pm.me;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=pm.me
+X-Original-From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+Reply-To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -233,182 +137,101 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 1/16/26 06:45, Suren Baghdasaryan wrote:
-> On Mon, Jan 12, 2026 at 3:17=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> =
-wrote:
->>
->> In the first step to replace cpu (partial) slabs with sheaves, enable
->> sheaves for almost all caches. Treat args->sheaf_capacity as a minimum,
->> and calculate sheaf capacity with a formula that roughly follows the
->> formula for number of objects in cpu partial slabs in set_cpu_partial().
->>
->> This should achieve roughly similar contention on the barn spin lock as
->> there's currently for node list_lock without sheaves, to make
->> benchmarking results comparable. It can be further tuned later.
->>
->> Don't enable sheaves for bootstrap caches as that wouldn't work. In
->> order to recognize them by SLAB_NO_OBJ_EXT, make sure the flag exists
->> even for !CONFIG_SLAB_OBJ_EXT.
->>
->> This limitation will be lifted for kmalloc caches after the necessary
->> bootstrapping changes.
->>
->> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
->=20
-> One nit but otherwise LGTM.
->=20
-> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+Thanks for looking at the patches :)
 
-Thanks.
+On 2026-01-15 at 23:42:02 +0100, Andrey Ryabinin wrote:
+>
+>
+>On 1/12/26 6:27 PM, Maciej Wieczor-Retman wrote:
+> =20
+>> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+>> index 62c01b4527eb..b5beb1b10bd2 100644
+>> --- a/mm/kasan/report.c
+>> +++ b/mm/kasan/report.c
+>> @@ -642,11 +642,39 @@ void kasan_non_canonical_hook(unsigned long addr)
+>>  	const char *bug_type;
+>> =20
+>>  	/*
+>> -	 * All addresses that came as a result of the memory-to-shadow mapping
+>> -	 * (even for bogus pointers) must be >=3D KASAN_SHADOW_OFFSET.
+>> +	 * For Generic KASAN, kasan_mem_to_shadow() uses the logical right shi=
+ft
+>> +	 * and never overflows with the chosen KASAN_SHADOW_OFFSET values (on
+>> +	 * both x86 and arm64). Thus, the possible shadow addresses (even for
+>> +	 * bogus pointers) belong to a single contiguous region that is the
+>> +	 * result of kasan_mem_to_shadow() applied to the whole address space.
+>>  	 */
+>> -	if (addr < KASAN_SHADOW_OFFSET)
+>> -		return;
+>> +	if (IS_ENABLED(CONFIG_KASAN_GENERIC)) {
+>> +		if (addr < (unsigned long)kasan_mem_to_shadow((void *)(0ULL)) ||
+>> +		    addr > (unsigned long)kasan_mem_to_shadow((void *)(~0ULL)))
+>> +			return;
+>> +	}
+>> +
+>> +	/*
+>> +	 * For Software Tag-Based KASAN, kasan_mem_to_shadow() uses the
+>> +	 * arithmetic shift. Normally, this would make checking for a possible
+>> +	 * shadow address complicated, as the shadow address computation
+>> +	 * operation would overflow only for some memory addresses. However, d=
+ue
+>> +	 * to the chosen KASAN_SHADOW_OFFSET values and the fact the
+>> +	 * kasan_mem_to_shadow() only operates on pointers with the tag reset,
+>> +	 * the overflow always happens.
+>> +	 *
+>> +	 * For arm64, the top byte of the pointer gets reset to 0xFF. Thus, th=
+e
+>> +	 * possible shadow addresses belong to a region that is the result of
+>> +	 * kasan_mem_to_shadow() applied to the memory range
+>> +	 * [0xFF000000000000, 0xFFFFFFFFFFFFFFFF]. Despite the overflow, the
+>                  ^ Missing couple 00 here
+>
+>> +	 * resulting possible shadow region is contiguous, as the overflow
+>> +	 * happens for both 0xFF000000000000 and 0xFFFFFFFFFFFFFFFF.
+>                                  ^ same as above
 
->> ---
->>  include/linux/slab.h |  6 ------
->>  mm/slub.c            | 51 +++++++++++++++++++++++++++++++++++++++++++++=
-++----
->>  2 files changed, 47 insertions(+), 10 deletions(-)
->>
->> diff --git a/include/linux/slab.h b/include/linux/slab.h
->> index 2482992248dc..2682ee57ec90 100644
->> --- a/include/linux/slab.h
->> +++ b/include/linux/slab.h
->> @@ -57,9 +57,7 @@ enum _slab_flag_bits {
->>  #endif
->>         _SLAB_OBJECT_POISON,
->>         _SLAB_CMPXCHG_DOUBLE,
->> -#ifdef CONFIG_SLAB_OBJ_EXT
->>         _SLAB_NO_OBJ_EXT,
->> -#endif
->>         _SLAB_FLAGS_LAST_BIT
->>  };
->>
->> @@ -238,11 +236,7 @@ enum _slab_flag_bits {
->>  #define SLAB_TEMPORARY         SLAB_RECLAIM_ACCOUNT    /* Objects are s=
-hort-lived */
->>
->>  /* Slab created using create_boot_cache */
->> -#ifdef CONFIG_SLAB_OBJ_EXT
->>  #define SLAB_NO_OBJ_EXT                __SLAB_FLAG_BIT(_SLAB_NO_OBJ_EXT=
-)
->> -#else
->> -#define SLAB_NO_OBJ_EXT                __SLAB_FLAG_UNUSED
->> -#endif
->>
->>  /*
->>   * ZERO_SIZE_PTR will be returned for zero sized kmalloc requests.
->> diff --git a/mm/slub.c b/mm/slub.c
->> index 8ffeb3ab3228..6e05e3cc5c49 100644
->> --- a/mm/slub.c
->> +++ b/mm/slub.c
->> @@ -7857,6 +7857,48 @@ static void set_cpu_partial(struct kmem_cache *s)
->>  #endif
->>  }
->>
->> +static unsigned int calculate_sheaf_capacity(struct kmem_cache *s,
->> +                                            struct kmem_cache_args *arg=
-s)
->> +
->> +{
->> +       unsigned int capacity;
->> +       size_t size;
->> +
->> +
->> +       if (IS_ENABLED(CONFIG_SLUB_TINY) || s->flags & SLAB_DEBUG_FLAGS)
->> +               return 0;
->> +
->> +       /* bootstrap caches can't have sheaves for now */
->> +       if (s->flags & SLAB_NO_OBJ_EXT)
->> +               return 0;
->> +
->> +       /*
->> +        * For now we use roughly similar formula (divided by two as the=
-re are
->> +        * two percpu sheaves) as what was used for percpu partial slabs=
-, which
->> +        * should result in similar lock contention (barn or list_lock)
->> +        */
->> +       if (s->size >=3D PAGE_SIZE)
->> +               capacity =3D 4;
->> +       else if (s->size >=3D 1024)
->> +               capacity =3D 12;
->> +       else if (s->size >=3D 256)
->> +               capacity =3D 26;
->> +       else
->> +               capacity =3D 60;
->> +
->> +       /* Increment capacity to make sheaf exactly a kmalloc size bucke=
-t */
->> +       size =3D struct_size_t(struct slab_sheaf, objects, capacity);
->> +       size =3D kmalloc_size_roundup(size);
->> +       capacity =3D (size - struct_size_t(struct slab_sheaf, objects, 0=
-)) / sizeof(void *);
->> +
->> +       /*
->> +        * Respect an explicit request for capacity that's typically mot=
-ivated by
->> +        * expected maximum size of kmem_cache_prefill_sheaf() to not en=
-d up
->> +        * using low-performance oversize sheaves
->> +        */
->> +       return max(capacity, args->sheaf_capacity);
->> +}
->> +
->>  /*
->>   * calculate_sizes() determines the order and the distribution of data =
-within
->>   * a slab object.
->> @@ -7991,6 +8033,10 @@ static int calculate_sizes(struct kmem_cache_args=
- *args, struct kmem_cache *s)
->>         if (s->flags & SLAB_RECLAIM_ACCOUNT)
->>                 s->allocflags |=3D __GFP_RECLAIMABLE;
->>
->> +       /* kmalloc caches need extra care to support sheaves */
->> +       if (!is_kmalloc_cache(s))
->=20
-> nit: All the checks for the cases when sheaves should not be used
-> (like SLAB_DEBUG_FLAGS and SLAB_NO_OBJ_EXT) are done inside
-> calculate_sheaf_capacity(). Only this is_kmalloc_cache() one is here.
-> It would be nice to have all of them in the same place but maybe you
-> have a reason for keeping it here?
+Hah, right, thank you!
 
-Yeah, in "slab: handle kmalloc sheaves bootstrap" we call
-calculate_sheaf_capacity() from another place for kmalloc normal caches so
-the check has to be outside.
+>
+>> +	 */
+>> +	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS) && IS_ENABLED(CONFIG_ARM64)) {
+>> +		if (addr < (unsigned long)kasan_mem_to_shadow((void *)(0xFFULL << 56)=
+) ||
+>
+>This will not work for inline mode because compiler uses logical shift.
+>Consider NULL-ptr derefernce. Compiler will calculate shadow address for 0=
+ as:
+>      (((0x0 | 0xffULL) << 56) >> 4)+0xffff800000000000ULL =3D 0x0fef8000.=
+...0
+>Which is less than ((0xFF00...00LL) >> 4) +  0xffff800000000000ULL =3D 0xf=
+fff800...0
+>So we will bail out here.
+>Perhaps we could do addr |=3D 0xFFLL to fix this
 
->> +               s->sheaf_capacity =3D calculate_sheaf_capacity(s, args);
->> +
->>         /*
->>          * Determine the number of objects per slab
->>          */
->> @@ -8595,15 +8641,12 @@ int do_kmem_cache_create(struct kmem_cache *s, c=
-onst char *name,
->>
->>         set_cpu_partial(s);
->>
->> -       if (args->sheaf_capacity && !IS_ENABLED(CONFIG_SLUB_TINY)
->> -                                       && !(s->flags & SLAB_DEBUG_FLAGS=
-)) {
->> +       if (s->sheaf_capacity) {
->>                 s->cpu_sheaves =3D alloc_percpu(struct slub_percpu_sheav=
-es);
->>                 if (!s->cpu_sheaves) {
->>                         err =3D -ENOMEM;
->>                         goto out;
->>                 }
->> -               // TODO: increase capacity to grow slab_sheaf up to next=
- kmalloc size?
->> -               s->sheaf_capacity =3D args->sheaf_capacity;
->>         }
->>
->>  #ifdef CONFIG_NUMA
->>
->> --
->> 2.52.0
->>
+I suppose it should work; tried it in a python script by shoving various
+addresses into this check. Pushing addresses through a logical shift
+memory_to_shadow normally would return early as you noticed, and after 'add=
+r |=3D
+0xFFLL' it seems to work as expected. And I didn't really catch any incorre=
+ct
+address slipping by this scheme either. Thanks, I'll correct it.
+
+>
+>> +		    addr > (unsigned long)kasan_mem_to_shadow((void *)(~0ULL)))
+>> +			return;
+>> +	}
+>> =20
+>>  	orig_addr =3D (unsigned long)kasan_shadow_to_mem((void *)addr);
+>> =20
+
+--=20
+Kind regards
+Maciej Wiecz=C3=B3r-Retman
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/d=
-310d788-b6df-47dc-9557-643813351838%40suse.cz.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/a=
+Wo31aytvelldfiE%40wieczorr-mobl1.localdomain.
