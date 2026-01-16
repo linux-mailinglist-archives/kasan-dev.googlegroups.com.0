@@ -1,154 +1,174 @@
-Return-Path: <kasan-dev+bncBDTMJ55N44FBBT55VHFQMGQE5I7TSOQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBLG4VHFQMGQEUNOU5GA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3a.google.com (mail-qv1-xf3a.google.com [IPv6:2607:f8b0:4864:20::f3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0D1D33537
-	for <lists+kasan-dev@lfdr.de>; Fri, 16 Jan 2026 16:52:49 +0100 (CET)
-Received: by mail-qv1-xf3a.google.com with SMTP id 6a1803df08f44-88a2cff375bsf45893306d6.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 16 Jan 2026 07:52:49 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1768578768; cv=pass;
+Received: from mail-qv1-xf3c.google.com (mail-qv1-xf3c.google.com [IPv6:2607:f8b0:4864:20::f3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03933D339A8
+	for <lists+kasan-dev@lfdr.de>; Fri, 16 Jan 2026 17:58:22 +0100 (CET)
+Received: by mail-qv1-xf3c.google.com with SMTP id 6a1803df08f44-88a43d4cd2bsf28962816d6.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 16 Jan 2026 08:58:21 -0800 (PST)
+ARC-Seal: i=3; a=rsa-sha256; t=1768582701; cv=pass;
         d=google.com; s=arc-20240605;
-        b=X1URgPnX/ffAEcBS3GwK28FFKu9laS4RwPEKGqQZ4M4VoFe5PmQ7nLv+OPSIeRdnfi
-         /fW8osVc5MMcz2LlZwPhi89bH7YEo844TynQ5AwUeFrGL3L8B8I91LIgSPncZyXCrNY2
-         PY9SlYApLe2KH26F7PHB5dCBbGWyFCHQE8RZiVCQObXAEJZbAkyZeiCLTVVNph5kbnWM
-         hThzUCqF3bH2IYl2T5jDHa+u3tewjd7Vq9Hvq1rI+OYFJJatt5xH5xOQEiv3USR1Usqc
-         SIM4VsYWFWMlRT84tFmqrL8Uged0YeMOwl+dG2dhovlT1MJ3Qxqqey0SNJejvL2cxTJt
-         9RrA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        b=RbUziMtkYUarz5TS7Qh+5Bw3nMRYlNMksJvDiwonR/G6WIzuz0pk+VDKEagwpQtfmX
+         qnqg+n4pYMSXwyXiEtWCZnzwJBQp6R7kvQ0JCTgXaKfJvOHWy2jEWLYSlKmrDQu6EHsp
+         cJnA18n9kxM4w5dZMxtBQvLjGf43o1+t3jKNHCezeo+5Gc8MAE1Pqn7lOSpuNI6rIy/Q
+         SBxxHOZRYGYr49T8cZ3ou2Q0ykHGJsTjzW+nMZBLkBiVH92jffEnbu7J66VzZ1Kx8fNM
+         k0hMeEPTzk1695maRlmpLVLZbA9lkYWb1q77LCUIglsFEA0azEBB44q8gIe0LT4SagN7
+         UV2Q==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:message-id:mime-version
-         :subject:date:from:sender:dkim-signature;
-        bh=gBrUeaf9XO/mykkAVb1Rl0u3lesU2cX1Cn7FgOC/9Rw=;
-        fh=0xJZ9yHMIJvLi6qYZJfTP3MbpUGbvuatGV68a/1UE+A=;
-        b=Wnxq9yt55rrMlt4iREjY9fWOqnlNm2162BxmgnzPk0aC3x4+3qz03o7bd4L6fXfksq
-         TihB8Y/dEAqKQoioLMBIJlcWh4rxMMvpNimPwRX98zjEoQ2sowAgKPLoV9Ugr82tMwo2
-         cvJpie+EAlQaCw+2xHJd2ijCJgYq8E5fXllBuxp+jlBluYbMrdx+wOqxIpLeC63o5kmC
-         2tBX5eeXSisA4Gi5aInmiODANQUxL59YzcQTicfq0lDaJSoOKSSvL5hWFNnRoSXqPGOF
-         7go3hp7q0kDHk9FdLyCJAvkwHCYpGSR/ekgJO0K6W2XA2GL6U3geR2lc0DXahInKwgHD
-         pMBg==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=uDSDYS/XbMes99VRBUbsHLUre0glI/2qGbtWPAoJ7yk=;
+        fh=e7kZENlCdndkUOc4UUhdOf2THG67lwIOBvvwK5xwvaY=;
+        b=TVUtHFo4q9VIL4pqdKzR8E9eNJYg53UCqePmW+SGZwobH39e2l2pXNAzfajf6/Je5g
+         xWhGvf58wV9nMpc9M8dZgWTg+M+tQY5eBv32k+G4PYM5Y3ExS2y0Ip0wZ6x+9n4ZcFoL
+         zDdGWLoDUBTUb0mYFYGyUc98eud9XMuvenqwuM/LVWMR7tDcvYZ/iZlFLyWlfa/3fDqH
+         9NFduCg6XmQEJP6KMZTslWjZuiWdP5ffbwGiO+3xkqDuylWbq8dX9w4n8E/XgDf2mAcT
+         nrRJ8wfBAUU3WTAL49AirqHs55bnJBt+IMDJ61Th035OxlF+eBblD/llMtEfJ3aPzeKF
+         9d6g==;
         darn=lfdr.de
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of breno.debian@gmail.com designates 209.85.222.170 as permitted sender) smtp.mailfrom=breno.debian@gmail.com
+ARC-Authentication-Results: i=3; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=0jnCPqtJ;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::82d as permitted sender) smtp.mailfrom=surenb@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1768578768; x=1769183568; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1768582701; x=1769187501; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:message-id:mime-version:subject:date:from
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=gBrUeaf9XO/mykkAVb1Rl0u3lesU2cX1Cn7FgOC/9Rw=;
-        b=TdDkSjnHd1MsrLxdZG7d1NSs73Rda4EI/VRql7VRt6oEdNV5edG9EUcPiUrAAsBdwy
-         0xJ/wSyTc4skgg4fhNrJUCv1p2yMdoDrlWYfR/qLCji5tYs9KjKN83br3nVUfJTKVjid
-         lJBzve4r3Qe1DiQUcRGT3Vi/SkL7gKGr/tvmBSGqI/P1jKynODHgKbJmDcNVaKBHZnZ5
-         HtiqTP/MKUNfiRrmGFKUmYM8rxh7Kt69KLlq0B6JRC+i/o35Z2o0nY4QQn0TRAcyjlwy
-         QiLxI0Oh06JC6kKQZKmTXcF1YNAJJcDoQrnm+tC4PtGmuxAad3rg7K13d7AVuoO7VhEb
-         mMZw==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uDSDYS/XbMes99VRBUbsHLUre0glI/2qGbtWPAoJ7yk=;
+        b=NwWbprjp0sfKjRZ+A2vX1tQxGRZtJ4qXYQgPJCOGolh9rq4r+z4GQ00UYLf3e71Eu8
+         TzReiu8wyO/PL4BuKjq7sKwCxrFTaNQe2uPIHJVHKb2WHC3Amf5OyLRZQZG0YZIvg35A
+         u/ltrBz921OCAr7i6fHkr2d2jyBESqlLZlzGxm+dKxBVOFrxZoUk/bqux7Fwv6t+pl/3
+         L4//PeAIWAFAC1qepB4fUIibccc8XEChf6FYu+JCKYtzQ1UA/KX+wLwXdoCOvKYjvMbs
+         vOuCB7mAQyM9w/f8DqEDQMvmOGyXw77X7jz4MEANYe7F/xOF/nPSHy9Q5t3HHlMg7QKy
+         rYpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768578768; x=1769183568;
+        d=1e100.net; s=20230601; t=1768582701; x=1769187501;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:cc:to
-         :message-id:mime-version:subject:date:from:x-gm-gg:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gBrUeaf9XO/mykkAVb1Rl0u3lesU2cX1Cn7FgOC/9Rw=;
-        b=C4w7uTcBvBKc5WFrc0NAFvbjE27TaL8y+vPibIi6Gs59loVs1QwYTWYmMKdsT15IJx
-         pxst53D/8xOgEqhJTSlrJMJFa/S86MYcrn2Gi7o96rfmnyW2KecEJTDsyGyv6dkcBBmR
-         qvngCzB3p4mNkNCTkm/v8OK0M4J5NJcUe00P/pltGL8mv02snmLZm5J3+ua7TdA/zstt
-         I7SxvMS1qdAZENxmgItWXHHShBcG6EEpHIrXZFtmXLCZjySVoWi2ydpjjVEZJ/4nvFrI
-         AB8CJ5nM9/MMT9+5EyxKoNo2oSaFRWqeNNm3prru/P1bVicWemPGXy1TFTkZ07PLuIId
-         6FSw==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUmzjP1/PyiVUgK16D7oQ6594qlZnCv8AfDGDJmpVNbYCsoz3R7BijBiABQ2Lo92vGXCYu4cA==@lfdr.de
-X-Gm-Message-State: AOJu0YzDaaHF32j4Kpu1O8wNINCA3kgNgFsiS5MgCoR8CntVIFBFvKd5
-	tkl3x5/1dwr6vqnZpWqQI5v7lSyhXTMA7c6UpSMm0O6Qr9QKTx7tOGgu
-X-Received: by 2002:ac8:580e:0:b0:4ff:c61a:c8a5 with SMTP id d75a77b69052e-502a1f0d315mr41935181cf.49.1768578767673;
-        Fri, 16 Jan 2026 07:52:47 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+F5AKIv4hUfRfK/DU8G3/ffLx3GMLM+JPYa9syA0oKa4A=="
-Received: by 2002:a05:622a:91:b0:501:47f4:eaf7 with SMTP id
- d75a77b69052e-50214a1714als35068381cf.2.-pod-prod-05-us; Fri, 16 Jan 2026
- 07:52:46 -0800 (PST)
-X-Received: by 2002:a05:622a:38a:b0:501:4ff5:ae3 with SMTP id d75a77b69052e-502a1f0d883mr45318941cf.42.1768578766552;
-        Fri, 16 Jan 2026 07:52:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768578766; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uDSDYS/XbMes99VRBUbsHLUre0glI/2qGbtWPAoJ7yk=;
+        b=apdi8N/F1sitrH5SpCzbl9KBcIZQzsVE6pmHn0F+eYxvFoEmNh/NERRbMkTOKi24N9
+         58HJ+ln0LD8jiU3UcDkthc89/b0uK3+HjcKBE/cXTQJUPRQPXEeQfpVcKS84Jiz8xsVb
+         Ff5ODhsYnKl+JjeeeDwoyDiWp98h0x18XNEHivIXxf4XRlVuJLhEvNBQp/rrZ56ep8tB
+         mxl/c84VEMaNMd0Cjc3bLtonLMAh2m6jG6cNRRjjLa2tMLqWQecvGwgzH5zxQRqw+zA9
+         slxOIW15hQTV2/aKp+aaSkonEKNZi/pprQoQjFLJFI7bvqqgNsKPSah31BeA5J+KJ2OO
+         ZAPg==
+X-Forwarded-Encrypted: i=3; AJvYcCUyJMOLpNFuDE0p5RZBLon0z1p+ZZ6mRdsH1+v6FYm1ioV7Pl0RkGlAPo+h1J+nMORpdwX45g==@lfdr.de
+X-Gm-Message-State: AOJu0YwXUc+NtfXOkc1ql4k43p5c/COZjRoSd5tLTtqf9O7XJP29Wder
+	bZ+pETB8hO9dI4Qc+qFhR586Hyc7Qhkyz2PHJ3Ay5DVhlIxIUn/7nzGx
+X-Received: by 2002:a05:622a:1902:b0:501:51fb:622c with SMTP id d75a77b69052e-502a16d2f7amr48703001cf.37.1768582700628;
+        Fri, 16 Jan 2026 08:58:20 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+EvsoXsZBNBFkgfSkalAsxPx6m7niVpHesgjnwdHRnNfw=="
+Received: by 2002:a05:6214:1947:b0:888:3ab3:a46f with SMTP id
+ 6a1803df08f44-894221e2904ls31797016d6.0.-pod-prod-08-us; Fri, 16 Jan 2026
+ 08:58:19 -0800 (PST)
+X-Forwarded-Encrypted: i=3; AJvYcCW2vIPA3ZJB+aFuBeJ1SulrfznEkKlBExpPXcdwW7NfQl2dnEJ5gDTTrBdLKawdkqMQSSx4uwm4Qkw=@googlegroups.com
+X-Received: by 2002:a05:6102:a52:b0:5ef:aeff:82f9 with SMTP id ada2fe7eead31-5f1a55c0311mr1174574137.35.1768582699715;
+        Fri, 16 Jan 2026 08:58:19 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1768582699; cv=pass;
         d=google.com; s=arc-20240605;
-        b=RfSd8eO+m+qw4tjVzs0ubd19IAiUkZ3ZN4EwUMjX67m3+vsEGm86Ou9EiD0eVbLNXF
-         yYAypWdQqY2+jNMMYNk0jMN8R82V5JG9Rx8WdbTBzFeCCS2BGK0ZGXdzQIK926LDJe3e
-         mB9jCaW2ZVTC6dzoqggN5PznbKyUUqOBt/N1Hv/zCsu5fs/Bmk9ISVoORtDyvK/xhdLK
-         P9rRHb5cSlgK3hh5zGOUHPyqS7+whels5QlNhKgqK1TLiVTeuIv19eJBXoGTq/XZaJBI
-         NqNB9XoakAjlHagR5TE+tK4PPgqbCbRhS6nrAppLgyvjTYfc4O2X92QK+2iwTmFO/xg/
-         l1SA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from;
-        bh=pvIuhV9+sNv3iCssx0o0Pe32iUx/gKwQFY7jwtHcvQU=;
-        fh=7Y7efXs7CCA8DCyj4bvhXlKc9cl0fzXdIR4iQCodwR8=;
-        b=G+ywj1STJoSskbreMhtft4Q7YQI5EeGgLqRfuYjaGASHS2h8Ub7DoGhgOMq+WZyQUZ
-         HDDQT7ctgyUUYneBS5aWqI4GWBZGQ7Z0pCYbQyCGOdMQ1vDlAS7V9q49I3q8+HwJhasg
-         6X72DpdPhWcF9c2JNgMTGlZJGKvwivQ+zLL+RzGRGfJ8kJy0zPm5zOLIR99IZY/xorB9
-         +i2wxDD9oGBpUKmCEajWERQeDBOAFYmcK9kKxpSBkC/KP/8luSnxBO9seJ7EgHjpf+dv
-         YG+JNAflmZycdIwp+XeMjrc7X2nXm9pX2sMvGuWyMT3IeCN3wnSVY+4Zbh3ptqrJCUfZ
-         NUPQ==;
+        b=G4pvbxHlThPdNLKlqI7fSEMIZh2NgfHfHFXsGEdKHyozE8BN5rbNqFUJfpvZqz20Z4
+         13iBLYXDQm++R6Ve3daca8K9YTLuR99UEz5DzJxjlAlG5+qGGJhxm9o4eMon5aUQZaKv
+         0h8TrJ7+dnctbaFszDvKN7hQRhRye3BLtrjOqeApfsfIKLkepi1i7UUJTbOaM5XD51kZ
+         QxZGveetYTnjmVx5TUVvvtFrjJIBpF4mEk/gBD+fm4ateu6sUg2J7b2VZpy/ldT/9jmc
+         vMfZXdlqHRrZLrRsdbtVpAOCOButkYsGvZe5QdcFqOe5vIZ/pcRl2+ciRlIc6EsPsJwP
+         WILg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=UaTAsxPYTCPWjwQ4mQCkSgV5i6jSjH4fHwMIaU55o8I=;
+        fh=H630gUxdfYP7zI3HkqIH+9XB9sjncIGjWGvJP0DZlJY=;
+        b=MSEuUukclE8WE6G+zTfr531XYHLAftfyN7Ba510EvhruhbAFZZa/Q0xFypJJ09P4+A
+         5oHW/q/ekzjQQAIlFNtJZGAozDYAwR7o0NeRJ9tiYDGspwxHmcXbSUrtHMv7NiOsXAxY
+         VJM965kyFMDUfEwq4Xe+WFhWU0/SXoSA/JQTXilY6tlI2OcvU7b8BRKPPIKAlR8Xdvv8
+         l9GUfb8Fpg9tk53LH8iRL2wwDVesMH8rk3bNuFHfw8y6SST187XDrTt3avEQTZThb89K
+         NuKDz1zxfJXa3G7wqqIGz0L3G5NZMNzNlTK6dgVDx+oBLnOCfgt7yhltPzLJyYaz3s0R
+         dFgg==;
         dara=google.com
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of breno.debian@gmail.com designates 209.85.222.170 as permitted sender) smtp.mailfrom=breno.debian@gmail.com
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com. [209.85.222.170])
-        by gmr-mx.google.com with ESMTPS id d75a77b69052e-502a1c1786esi988511cf.0.2026.01.16.07.52.46
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=0jnCPqtJ;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::82d as permitted sender) smtp.mailfrom=surenb@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com. [2607:f8b0:4864:20::82d])
+        by gmr-mx.google.com with ESMTPS id ada2fe7eead31-5f1a6f4c6c3si93760137.3.2026.01.16.08.58.19
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Jan 2026 07:52:46 -0800 (PST)
-Received-SPF: pass (google.com: domain of breno.debian@gmail.com designates 209.85.222.170 as permitted sender) client-ip=209.85.222.170;
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-8c52e25e644so207619785a.0
-        for <kasan-dev@googlegroups.com>; Fri, 16 Jan 2026 07:52:46 -0800 (PST)
-X-Gm-Gg: AY/fxX7C4EDwJn66f4VJ6xDbSLHwEcZ+N6JXHSn8BXQrjdpDx0Q2DaJB0h1EQ/pb81e
-	m0NwWVQND3cTmrc7AEvkUVS1rPsrX01KmQUIzej19jk4sm7KNlEiVctqV4GZPBveSJ2eH836joS
-	gSFaUu+B4VE0X3MkWOMzEkzYmeWFLSnsUzcBkH096YCSNwrNID6067nhF5x738KQMSW2mNB/aeF
-	9EQBKkUdB8M4fnOEsBhr+Ayk6v6Tuctwy6CtnQtmRpEGDaicj+KYmTb3jBxYCtlonu3q97vwpwJ
-	IFP31TrvgGbFw1FR+9hpdoGEjTJOVH3YkpB1Z8zP+3d7t4WrPhWfKRV+7iqeAIjpHkWszOJGToq
-	AI3rKSpyb21k+qCTVGAvVJBSsYcRTZf0uwipRCzRdKLbhBX9FyhVq5OmLg97AbDwbU3VXQa2YSQ
-	5WhQ==
-X-Received: by 2002:a4a:bb17:0:b0:661:1cbc:45c2 with SMTP id 006d021491bc7-6611cbc4928mr409451eaf.16.1768572623144;
-        Fri, 16 Jan 2026 06:10:23 -0800 (PST)
-Received: from localhost ([2a03:2880:10ff:57::])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-661186dc702sm1263388eaf.6.2026.01.16.06.10.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 06:10:22 -0800 (PST)
-From: Breno Leitao <leitao@debian.org>
-Date: Fri, 16 Jan 2026 06:10:11 -0800
-Subject: [PATCH] mm/kfence: fix potential deadlock in reboot notifier
+        Fri, 16 Jan 2026 08:58:19 -0800 (PST)
+Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::82d as permitted sender) client-ip=2607:f8b0:4864:20::82d;
+Received: by mail-qt1-x82d.google.com with SMTP id d75a77b69052e-5014acad6f2so537221cf.1
+        for <kasan-dev@googlegroups.com>; Fri, 16 Jan 2026 08:58:19 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768582699; cv=none;
+        d=google.com; s=arc-20240605;
+        b=WHyCaHuc6sm+kCMcLmlFFlYBXa9N0J9nzyMv0LVYXsP7FS5ky8AKNMM4j+Ygu7dJnP
+         s3XhNy7+A1+U1r7Hbu6K+BRDGj/x7eu6GktkLKFRDx/B+/Kd7bDzqh1Z0ML0i7hvLwp4
+         dLCt+m6aOUGXvrZd93fBnleCJQ7Pgefj9TiBA1ZfvImL7P07Yp/32DovgESxnJsTU/7O
+         dkn7JYSmyynfRdgmiDRqKQ/fhdDm8+2S2bmuZqZC8/cturjuWim49Gq91+cLp1wFxWzp
+         dd1fA5ZsjmbvC7cu7z2FFD4vqruEkfFKf5rJeaCOt3eUT+n8N9FXl+wDISj/hWVfnWpV
+         536g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=UaTAsxPYTCPWjwQ4mQCkSgV5i6jSjH4fHwMIaU55o8I=;
+        fh=H630gUxdfYP7zI3HkqIH+9XB9sjncIGjWGvJP0DZlJY=;
+        b=ejTA3eE8XAYil8zeg+yCCvd/fjmMxMfyLmYK/dqyuDzJQCv9FdOdLmLvsGSXTYN9W+
+         UtF6xqdFEQ5oXnsbvdTtQpksu2H5bVPGkbLlsXx5HCMjvdDtto3jAoFdUNyRv/Jf9zKa
+         3hWg+YNFdw5ivRpA37OapFX0o2lA4hGGxhqaxGyyhBC0f5M5nC1mieDtWOIEUHT6iKEs
+         /uTr5B4AfW58x9ndbHqh10XWsfVCgvd2DdnbHyx8a1C61jKY56dyQemXC7sFfbXFPcsB
+         i3Cxiwe/4+qge6joEuzNny4uPQTHFY+Ehb2snYM9B+9iSYe4Lxq7j6Lw0Tv53u2u3P4M
+         xwaw==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+X-Forwarded-Encrypted: i=1; AJvYcCV+6E11nUncnC9/vufm6GbTDLcvjp7ppKUoud+CjYwY83UgrevjuHKorKBiMgixi6CYKu1lA7vqs4o=@googlegroups.com
+X-Gm-Gg: AY/fxX52/RQkCOQqkoopbuq/RvG3od/+1v/cXN/gitX4sL4EtTe0d7CpCnm4rGOe2Cd
+	YBhZvjnG+HsvkLSuOR9M+efrX/Yp6HeWlCfjkWmffiiqfWppSoGj3x+VY4DaTuOMHgNpwJQ4MU0
+	6ygNtedbAcQilvJaFlirI8xoI86GDTEL2jagg5whRbZjLOesZdHfdcF28T+uoYoCRRFZ5J4RR7G
+	Nja/WXas67tbi0X/RNfiYn719gTztYfVtE+29irUjPNwpihwEJaq2E6wUKRYrSczsBVTw==
+X-Received: by 2002:a05:622a:4c6:b0:4f1:9c3f:2845 with SMTP id
+ d75a77b69052e-502a36feeefmr9677951cf.9.1768582698713; Fri, 16 Jan 2026
+ 08:58:18 -0800 (PST)
 MIME-Version: 1.0
+References: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz>
+ <20260112-sheaves-for-all-v2-3-98225cfb50cf@suse.cz> <CAJuCfpHowLbqn7ex1COBTZBchhWFy=C3sgD0Uo=J-nKX+NYBvA@mail.gmail.com>
+ <4e73da60-b58d-40bd-86ed-a0243967017b@suse.cz>
+In-Reply-To: <4e73da60-b58d-40bd-86ed-a0243967017b@suse.cz>
+From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Fri, 16 Jan 2026 08:58:07 -0800
+X-Gm-Features: AZwV_QiGfwWS_a1m6Zzi_yFSpjGioLT9sSjsdK1eWkPIvYtSYBlLySU-l0-N1MQ
+Message-ID: <CAJuCfpGikJpueGo1hW8ONimHOALnpftT22F7xYuL5CpnphJu+A@mail.gmail.com>
+Subject: Re: [PATCH RFC v2 03/20] mm/slab: make caches with sheaves mergeable
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, 
+	kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Message-Id: <20260116-kfence_fix-v1-1-4165a055933f@debian.org>
-X-B4-Tracking: v=1; b=H4sIAMNGamkC/yXMQQqDMBAF0KsMf20gCa3UXEWk1OmkHYUoiS2Ce
- PeiXb7N21AkqxQE2pDlq0WnhECuIvD7kV5i9IlA8NbX1rnajFESyz3qaprGXnt/u0THjIowZ4m
- 6nlnb/V0+/SC8HAP2/QeVxSfzbgAAAA==
-X-Change-ID: 20260116-kfence_fix-9905b284f1cc
-To: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
- Dmitry Vyukov <dvyukov@google.com>, 
- Andrew Morton <akpm@linux-foundation.org>
-Cc: kasan-dev@googlegroups.com, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, clm@meta.com, kernel-team@meta.com, 
- Breno Leitao <leitao@debian.org>
-X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3280; i=leitao@debian.org;
- h=from:subject:message-id; bh=6c0reEst+EIZA2PaSJbeOygkyAUIcKW0sGGQ6IOzV48=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpakbN6YhptWCcXUtZJrdJi0Sq9v6y2NypuVlhA
- yll/P7R01+JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaWpGzQAKCRA1o5Of/Hh3
- bbf8D/4oIWJVhIsaxEVusMGtLueC27JQrU8Qczg0pBer7m8PD7bV1s+HYYH5xxfhf8jnL+fwFX/
- Y5UKCbWen/HKE7lnSDIjQRFp/XpFIWYk9cMBu1/yItTsV0deSxajEFTHSHlBvGREXJ2gfntDAVN
- pJ3sXJrRxGeKsW0ElHzjSOFrwKeYpDHPMb4s0aXMOThEUZYboel+XK+nB1ulTaP+FkFlBiyMcM2
- hQG6b7KGmqi7hMUdiHUDm4k9nfdNECUObvqOdVyiJ8NOLs5GwyiIFMWvEjxMzHUTTB7a3IyeIce
- oK6u/BNhCT5AMpJf+QHz7DTQO2WfSJOb9rXCqe+7B5x+WiOQDWH1AyNVpLDVm8jo+LYFma+XwKN
- xCOUE9yJlAItKA3dOqNKhYhmgRJlJdRgNlEj2gU4sD3R1IsB4rBx6HLaVWgYYKe8ZAxGPNVE+3q
- KlF6sEG3hSFkc6foQrKPjVbFGqfcwh5yvRjUJ/k2CzRAA5vWGwRXkDcOSiAgFXbi+BW9WeNJMGO
- R+ntiHljO8OBuvxiDFIbPQPYiAPZaOLsgkxsMZl3ySAaavBcVryqykSbLsbyVGVsonEY83pEhoh
- mX9DqV2Q/qGcKbYsBMsGNxYlhe5beqgS7pyFd8rsBc62nZ/tf8S/piARqgtqyC6Mioj3jg3I9rx
- phWuOGd9v3zpcWw==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Original-Sender: leitao@debian.org
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of breno.debian@gmail.com designates 209.85.222.170 as
- permitted sender) smtp.mailfrom=breno.debian@gmail.com
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: surenb@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20230601 header.b=0jnCPqtJ;       arc=pass
+ (i=1);       spf=pass (google.com: domain of surenb@google.com designates
+ 2607:f8b0:4864:20::82d as permitted sender) smtp.mailfrom=surenb@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+X-Original-From: Suren Baghdasaryan <surenb@google.com>
+Reply-To: Suren Baghdasaryan <surenb@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -161,94 +181,93 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The reboot notifier callback can deadlock when calling
-cancel_delayed_work_sync() if toggle_allocation_gate() is blocked
-in wait_event_idle() waiting for allocations, that might not happen on
-shutdown path.
+On Thu, Jan 15, 2026 at 11:24=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> w=
+rote:
+>
+> On 1/16/26 01:22, Suren Baghdasaryan wrote:
+> > On Mon, Jan 12, 2026 at 3:17=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz=
+> wrote:
+> >>
+> >> Before enabling sheaves for all caches (with automatically determined
+> >> capacity), their enablement should no longer prevent merging of caches=
+.
+> >> Limit this merge prevention only to caches that were created with a
+> >> specific sheaf capacity, by adding the SLAB_NO_MERGE flag to them.
+> >>
+> >> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> >> ---
+> >>  mm/slab_common.c | 13 +++++++------
+> >>  1 file changed, 7 insertions(+), 6 deletions(-)
+> >>
+> >> diff --git a/mm/slab_common.c b/mm/slab_common.c
+> >> index 52591d9c04f3..54c17dc6d5ec 100644
+> >> --- a/mm/slab_common.c
+> >> +++ b/mm/slab_common.c
+> >> @@ -163,9 +163,6 @@ int slab_unmergeable(struct kmem_cache *s)
+> >>                 return 1;
+> >>  #endif
+> >>
+> >> -       if (s->cpu_sheaves)
+> >> -               return 1;
+> >> -
+> >>         /*
+> >>          * We may have set a slab to be unmergeable during bootstrap.
+> >>          */
+> >> @@ -190,9 +187,6 @@ static struct kmem_cache *find_mergeable(unsigned =
+int size, slab_flags_t flags,
+> >>         if (IS_ENABLED(CONFIG_HARDENED_USERCOPY) && args->usersize)
+> >>                 return NULL;
+> >>
+> >> -       if (args->sheaf_capacity)
+> >> -               return NULL;
+> >> -
+> >>         flags =3D kmem_cache_flags(flags, name);
+> >>
+> >>         if (flags & SLAB_NEVER_MERGE)
+> >> @@ -337,6 +331,13 @@ struct kmem_cache *__kmem_cache_create_args(const=
+ char *name,
+> >>         flags &=3D ~SLAB_DEBUG_FLAGS;
+> >>  #endif
+> >>
+> >> +       /*
+> >> +        * Caches with specific capacity are special enough. It's simp=
+ler to
+> >> +        * make them unmergeable.
+> >> +        */
+> >> +       if (args->sheaf_capacity)
+> >> +               flags |=3D SLAB_NO_MERGE;
+> >
+> > So, this is very subtle and maybe not that important but the comment
+> > for kmem_cache_args.sheaf_capacity claims "When slub_debug is enabled
+> > for the cache, the sheaf_capacity argument is ignored.". With this
+> > change this argument is not completely ignored anymore... It sets
+> > SLAB_NO_MERGE even if slub_debug is enabled, doesn't it?
+>
+> True, but the various debug flags set by slub_debug also prevent merging =
+so
+> it doesn't change the outcome.
 
-The issue is that cancel_delayed_work_sync() waits for the work to
-complete, but the work is waiting for kfence_allocation_gate > 0
-which requires allocations to happen (each allocation is increated by 1)
-- allocations that may have stopped during shutdown.
+Yeah, I thought that would not matter much but wanted to make sure.
 
-Fix this by:
-1. Using cancel_delayed_work() (non-sync) to avoid blocking. Now the
-   callback succeeds and return.
-2. Adding wake_up() to unblock any waiting toggle_allocation_gate()
-3. Adding !kfence_enabled to the wait condition so the wake succeeds
+After finishing the review I'll have to remember to verify if that
+comment on slub_debug/sheaf interplay stays true even after
+args->sheaf_capacity becomes the min sheaf capacity.
 
-The static_branch_disable() IPI will still execute after the wake,
-but at this early point in shutdown (reboot notifier runs with
-INT_MAX priority), the system is still functional and CPUs can
-respond to IPIs.
+>
+> >> +
+> >>         mutex_lock(&slab_mutex);
+> >>
+> >>         err =3D kmem_cache_sanity_check(name, object_size);
+> >>
+> >> --
+> >> 2.52.0
+> >>
+>
 
-Reported-by: Chris Mason <clm@meta.com>
-Closes: https://lore.kernel.org/all/20260113140234.677117-1-clm@meta.com/
-Fixes: ce2bba89566b ("mm/kfence: add reboot notifier to disable KFENCE on shutdown")
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- mm/kfence/core.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
-
-diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-index 577a1699c553..da0f5b6f5744 100644
---- a/mm/kfence/core.c
-+++ b/mm/kfence/core.c
-@@ -823,6 +823,9 @@ static struct notifier_block kfence_check_canary_notifier = {
- static struct delayed_work kfence_timer;
- 
- #ifdef CONFIG_KFENCE_STATIC_KEYS
-+/* Wait queue to wake up allocation-gate timer task. */
-+static DECLARE_WAIT_QUEUE_HEAD(allocation_wait);
-+
- static int kfence_reboot_callback(struct notifier_block *nb,
- 				  unsigned long action, void *data)
- {
-@@ -832,7 +835,12 @@ static int kfence_reboot_callback(struct notifier_block *nb,
- 	 */
- 	WRITE_ONCE(kfence_enabled, false);
- 	/* Cancel any pending timer work */
--	cancel_delayed_work_sync(&kfence_timer);
-+	cancel_delayed_work(&kfence_timer);
-+	/*
-+	 * Wake up any blocked toggle_allocation_gate() so it can complete
-+	 * early while the system is still able to handle IPIs.
-+	 */
-+	wake_up(&allocation_wait);
- 
- 	return NOTIFY_OK;
- }
-@@ -842,9 +850,6 @@ static struct notifier_block kfence_reboot_notifier = {
- 	.priority = INT_MAX, /* Run early to stop timers ASAP */
- };
- 
--/* Wait queue to wake up allocation-gate timer task. */
--static DECLARE_WAIT_QUEUE_HEAD(allocation_wait);
--
- static void wake_up_kfence_timer(struct irq_work *work)
- {
- 	wake_up(&allocation_wait);
-@@ -873,7 +878,9 @@ static void toggle_allocation_gate(struct work_struct *work)
- 	/* Enable static key, and await allocation to happen. */
- 	static_branch_enable(&kfence_allocation_key);
- 
--	wait_event_idle(allocation_wait, atomic_read(&kfence_allocation_gate) > 0);
-+	wait_event_idle(allocation_wait,
-+			atomic_read(&kfence_allocation_gate) > 0 ||
-+			!READ_ONCE(kfence_enabled));
- 
- 	/* Disable static key and reset timer. */
- 	static_branch_disable(&kfence_allocation_key);
-
----
-base-commit: 983d014aafb14ee5e4915465bf8948e8f3a723b5
-change-id: 20260116-kfence_fix-9905b284f1cc
-
-Best regards,
---  
-Breno Leitao <leitao@debian.org>
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260116-kfence_fix-v1-1-4165a055933f%40debian.org.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
+AJuCfpGikJpueGo1hW8ONimHOALnpftT22F7xYuL5CpnphJu%2BA%40mail.gmail.com.
