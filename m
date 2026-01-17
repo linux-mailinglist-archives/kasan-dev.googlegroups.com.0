@@ -1,164 +1,172 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBKGIVPFQMGQEAT6I33A@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBQW7VPFQMGQEN3IRGBQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A69DD38B32
-	for <lists+kasan-dev@lfdr.de>; Sat, 17 Jan 2026 02:21:46 +0100 (CET)
-Received: by mail-lf1-x13e.google.com with SMTP id 2adb3069b0e04-59b6a97e566sf2398913e87.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 16 Jan 2026 17:21:46 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1768612905; cv=pass;
+Received: from mail-qt1-x839.google.com (mail-qt1-x839.google.com [IPv6:2607:f8b0:4864:20::839])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79A54D38B7A
+	for <lists+kasan-dev@lfdr.de>; Sat, 17 Jan 2026 03:11:16 +0100 (CET)
+Received: by mail-qt1-x839.google.com with SMTP id d75a77b69052e-5013d63b3f1sf73442461cf.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 16 Jan 2026 18:11:16 -0800 (PST)
+ARC-Seal: i=3; a=rsa-sha256; t=1768615875; cv=pass;
         d=google.com; s=arc-20240605;
-        b=gDRwAR/xol+/c712nvwJZC/ngqyQEB7O1YiOFUoGJw+2haRvtnFb35I/LF2HA9gceG
-         EhAHDkxNM4IJJjL6kVS5KyIOIKfmAzllh/8NysFPzjQwzhV7EbXw91McMv4t/w8tbBDL
-         s1nMerlqrsjUvLRMhRqN6uPAA4y/A/ODF+qsRZAelpWFycNKGfAV6Orx6AWGJeGO/2dk
-         FWWQDlLVGiC6DXMdaJvAGI9LKyMUe32bkUs2ahhmHG1pK8Oe8XrHLJz8JXr8APaU4EGB
-         E+8sfkjqXtIN3Kohgf9bgnZJ72dqJ1YPCrSMamTVNm2pyXZOaHEg1eb6IX/yByqdJ8ZH
-         oC0w==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        b=GrImBHK82CQM997c3q5NId3aZcJSHAvjmx7sMr2jsP3JEbwtXMeWNpoTNc2bE1CnAg
+         rUrDOKw00QbleU4xVvo5prw+/7l4p0pcsG5kbztbU1xiFklCARRKOWXYMM7Cz4/1nO+d
+         kAyBaneYRVePvNjmVdyeYCa4eGMQ9lhHyUh1v67988K7Bm4rDJCf4W3G0nYFXe3a/VxC
+         KZkKUewI5p0TPF7UWbOuU+E/Kxhcnjx2IlEZFBsBTX9amQ6wG2D9nz9ypaImNW4iurFX
+         RR0CZ50X9kXBUm/CvncSCcc7s3wjSrN6d0Ov0c8J+siOMbJ0BpFHx7dFn6NOy26V4pJx
+         4yBQ==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=22EKCGmB9JUVTbr+gYaHX3Zykltu1d6atA93hy2q7SU=;
-        fh=TG9jl3JwRvM927dJEKFV0wrgKwbu3DgfM3bdj5qkFo4=;
-        b=PkMzaWUK0UfqRqKtvXVofO/b+qyfdtvjjw9/zxPZza7IbyA4gCaZgk+90ZIzNdrmrk
-         bwXSMVwXFCiVo8jSUHHondVdLxs/N1H5I/msHwVb6NStuJy7Q0aVW2hG45Fah7d71EEB
-         KSG+KPzEyiocwNisczTrGb1cEVpgXYlzMcgWLyjNfsw0nBTYQx9v259TqQ1KfVdL/B+R
-         xlW9h9d7oYNtKKNfobMyU6J7gHIR6sMOUIIDnsRb8RHqSnqunSIh1I1KBlFzH2Q4phEg
-         g1jfVnEl0JdggJYGaeXubJ5hsbhhOUsQWDuvYk7FuVRMii9BGBpvr4LJpaJKgsGFR1/d
-         zh+w==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ntEPM+fqUn2yQcbNK0eLmAgimyZMqfo7jkvJaWLJDUY=;
+        fh=gPrVZoKB/jnaRwVUYtfVIqJsVqOjOllawWVkcv64yuM=;
+        b=DG/OgSDXS3tIpotlFI3ci1wn6BUdLITOT9O1ZRrrAQE9aM6yqW/mKO0DJHcN01fH05
+         TYZrnLA0ndjTSJ125jeGofdgtAR2oQt2Jtf1ufgRmqx2ZNiOuIzxuTpf30Cfrl7Y3ugL
+         XwPT5Wq4b+UFIUD58y1OrGdvWQEzNB6nkeft3pCwWdt895hNJI6sokAYTK0fWEiQu8/2
+         9dj3s0kqYXZ9D4JQDfeK+YOoiQB9+nVGf4BNHvZvvHNOWqOUYbFN3oNnX/7LAQPIyj+w
+         fiAz/YjPKwahf1U/ibSxYnEv7e44co+kgnfp6+XBOpiLcmTA1E1xYBLpD1GyVdQySLQf
+         PFBQ==;
         darn=lfdr.de
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b="cyJt/FsY";
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::429 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+ARC-Authentication-Results: i=3; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=cpK5lFFW;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::836 as permitted sender) smtp.mailfrom=surenb@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1768612905; x=1769217705; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1768615875; x=1769220675; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=22EKCGmB9JUVTbr+gYaHX3Zykltu1d6atA93hy2q7SU=;
-        b=nnQcx4UirLm4KPcOM3EgT7y8yKFwGWhvsNt6AYDj/2h5VChpF/N4fXshKTFMAmqk2s
-         XhfV3P2kKHcrKySGySpldJqSlMNRenF5ueAXTbg6whNjWKxKHrgN77l3cOU0I0sle65w
-         P9H2d+Dve2WG8WTQIGNXa30QisS5bTCTlTfwfcYPddt+V+8UDPhww13O8yZhk1FSUsmp
-         t+YLdL2v1Aib9lanfjAWi1dwRh1QQocLPOwC8f6TG0Do5iepWe2g+FN4c97rB+nSUuur
-         Fx4LJF+KhfJCVOVBnpENzUHBr+iKfpKZDZUPgDcTcndirgw85jzW8GqWbJ9yRVLwdKgm
-         tEVQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768612905; x=1769217705; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=22EKCGmB9JUVTbr+gYaHX3Zykltu1d6atA93hy2q7SU=;
-        b=llJyaveiWNH0Cv2hlnYzn8+KhPMZWtbf0jz1QH4j5oQhne0ZQ+aGLYPviuZSdhCcPe
-         vSzIOpklw6m4T9WOTPobDO3yDqr94FjzLZSCEtm4q6mFfxKgd9du7jw1wmaT2eyC0og1
-         onnssVditPrycNA4eIxhXu7r8aEoY17dORFDhEjz6UBzxujs9VZMUEJWsGSRVHHTKwf0
-         xX5yHetwsl9AO5Uhyiomua6r4lV+s9ARlIiz95JIsmDU9Dy4QZ58+Ma3U6bddbzmVeOL
-         M2pwIGBJBVHYAR/XoI24O2YhibCB4ZCLgd2SCPGEuCTFNWsj6KeY8Uy0nSJShfXvSH5o
-         mt0w==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ntEPM+fqUn2yQcbNK0eLmAgimyZMqfo7jkvJaWLJDUY=;
+        b=DovfneOiebd65Rm+ZlgwPB33+Ws1oLxWyj0sH6p6S0RNqIVUXjDFOTXjLTJlbJNEZR
+         nEnluy7vAqJcCQh0Qs6vZj5pen/YGGBYqniMvuTILMn7kh+hk0yllKn1L237DCxCvSOe
+         OycFdYyqv5jv2toLJSGjq8iQrqBWsMA5fN+5LY5lAKbqZufreUsZWK5lOb0oFFeyrzx5
+         vTi5l8XVHwLt/wHs79apI2DDPGTy6sYCAecorqoLnDGjZTEWVkCzi3C/2n1Uu9LO5lKW
+         3Qlk8YivRLADvWMdXeSNUe4XFFzAiTQEXFcAN6RWhJjfrfPaKHgoJjGftGfd+n2s/SHc
+         mO2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768612905; x=1769217705;
+        d=1e100.net; s=20230601; t=1768615875; x=1769220675;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=22EKCGmB9JUVTbr+gYaHX3Zykltu1d6atA93hy2q7SU=;
-        b=f47x8+PETELWQAUI4nrqwZxeZbjQ2P/Hu9ZyQWGXzeCQ6Li9JhrFF65RufrRzy2qOP
-         +tRO9DnDD4JoRofBS+OEduEvAWq2+7LHG0c0h283xi9hso/YCI+fkIRQVJknGD0TfQax
-         7US9J/a8aHTwcgKLB7x13qU8FOLC0FZ6GRFR/CiRFyPSFx/cTdakq7oXotzZHP2STE6A
-         ZuLU7S8rGVU77V/ZfUYejviHC63yKVlIpJ9t9KHpzjdS+yuyL7b6oVWfT9dPRtaVyfOR
-         p7LIK+pOcvJfvqUhNNAhgoWliycrKLikBuW+zD/QAs9bWh1f3vArrtcG4nyn5mqVhX9p
-         HVkA==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWPtwMT6A9prTFhHh09MhE0Bgg3njBbp95o73xKRRjffhE2wIx9NitDIW/kN/gWzNK0FQjxnA==@lfdr.de
-X-Gm-Message-State: AOJu0YxPiKPR2wSQxdwnowxWUnW3IZVpnJWjiaqbqyCdaxyiqLW+JC0T
-	ofJ4Zwag8jLTLbs9apIgj2SMs6f+l4C5c1/ud2KJOaklC5ojtDjkCeiL
-X-Received: by 2002:a05:6512:1191:b0:59b:af9f:33f5 with SMTP id 2adb3069b0e04-59bafb87d4fmr1516838e87.0.1768612905283;
-        Fri, 16 Jan 2026 17:21:45 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+F7pgGXxweetMc686/q8IYsUOLIQVjCkvAgKaC3usfDCQ=="
-Received: by 2002:a05:6512:3409:b0:598:e361:cc93 with SMTP id
- 2adb3069b0e04-59ba6b00f98ls830212e87.0.-pod-prod-05-eu; Fri, 16 Jan 2026
- 17:21:43 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCV4rF1k9122vjkzhOHzzjilXoIm74FecIEnVhtMGKEfQ9Cp23eAp8ZrRVuFUF4R8uHa+Xj34VToNW4=@googlegroups.com
-X-Received: by 2002:a2e:be0e:0:b0:383:1994:8d with SMTP id 38308e7fff4ca-38386c5da7dmr15271271fa.40.1768612902681;
-        Fri, 16 Jan 2026 17:21:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768612902; cv=none;
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ntEPM+fqUn2yQcbNK0eLmAgimyZMqfo7jkvJaWLJDUY=;
+        b=NMmDZrhLOVn4iPuc5fU8ud08o18hlInGy6M6JXDKWVmdzXsP9iaWqOESQ0NLNMYFiC
+         ECLonNpspapgbpJeDIdHGAfhyGCpmCYuZzfgZ7oz3+MK2oNW+GTXRk9CxyNRT6CVguUd
+         2DRE3TTWECYOf5WCMbXR21XRNjAhL2zZW6Mh2KsdUCIT4sBTM3vElCHPGKlmUym7J51z
+         1Ao/YariJmQSZGYMAMyZ0SVw+J4Vgp7uds6dJK8dF+vbVY5x6ZxAmzky1YJkjNzxWDuc
+         7TMoeiPpFbfWxhr4QWn1ZbUrkTl/JHdIlOBU4Dgobhxoi2GGlWeIWLgs6wqs5KSjhlo5
+         jH0Q==
+X-Forwarded-Encrypted: i=3; AJvYcCVsDjP9L6Bx9B0Bc4tcfocdOLPOqdCAgfy38xPdFQPWhhzXuK+1/ebpGgtuTA1kBkfUq9EpQQ==@lfdr.de
+X-Gm-Message-State: AOJu0YxVAC7z2AZolLmwXrLPxvdLX/WDEMrmNQ17OLPdxEHoq9hu6U7a
+	K2bqw8UtArXZshz5TPAJVB8UO8qzcqGCnoYUMKO2gXQOcDzK9ErjyZ8y
+X-Received: by 2002:ac8:5d8e:0:b0:4ff:ca75:70ec with SMTP id d75a77b69052e-502a15747d7mr73330461cf.13.1768615874943;
+        Fri, 16 Jan 2026 18:11:14 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+HT2/k26/zA9Lfa27hH9dZlD+VVxHl85KCzxaNjDgywtw=="
+Received: by 2002:ac8:6c9:0:b0:4f3:4bef:4924 with SMTP id d75a77b69052e-50147ce0f1fls23971231cf.0.-pod-prod-00-us-canary;
+ Fri, 16 Jan 2026 18:11:14 -0800 (PST)
+X-Forwarded-Encrypted: i=3; AJvYcCWQWw7/CUbGrOI16nNqnA0i4ZUVD6eoythPIX/8z2YiZUQzRKCFTkIKoK9F86MGAdcQTfKMX2Rk3Tc=@googlegroups.com
+X-Received: by 2002:a05:620a:1707:b0:8bb:7886:7e1f with SMTP id af79cd13be357-8c6a650e2e4mr746424385a.36.1768615874025;
+        Fri, 16 Jan 2026 18:11:14 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1768615874; cv=pass;
         d=google.com; s=arc-20240605;
-        b=YirFS/wERxY9PGi2hS9yjzFO1LXMqV7Xqn/djN2kaGzBDlRGwyZdgvTC6FoCCNI2/c
-         2RlEBse2g/w4owp+gHh5/K3MSIYrxXX3ggBptNQZMq5arl6WirjR54biXKYpVL6A+lDa
-         XnqYP7xP/ls0rJ0j1Dgo8EMCKZQddeXNr0W1JHDGm8RNUxjyFOXj8EXmkdP3AXS67U+7
-         mqS8bVtPc9a4yWkemQVswmpaMste/+a93iFNI+bRorcoY8QuosYEPIjkz7dHT3MR+YiD
-         x8enRCFZa8u5ll1Bl3rwANppB+9wVKeTlyu9Aul9KffckcewBtwKdIF9hggrg74hOpaR
-         3QOQ==
+        b=STg2uVZMZ/dEUENw/xOs3Q8Ulvu3J45KRSJ+Yw8AnOLA4dAyFk5vO8jwik++4+i/fK
+         70m7kvGVUY6e7xhWwcL8+3aEKvfCPvdoWj/k6dkBBvuiiv29GLSI/1b+ZZRCGkf4S7vN
+         MzkbYH2DVCYJ0uYRTLyYnTxzaMDJYlG3Lp4mOAmhif6ef7ifPBYATB6MyNrsxlcX1IJf
+         a77958+fB34mYs43H84AOTez38lYg2JNOAINtQ11yQQ5eyQI4VbeWn+5ep71JNMHrGLl
+         9UcHdg/T1T317DhiHez4H6WErrnkq+Oi1ZsGNAFxAHSI9xboLCtPpuRUH/l371nADiKk
+         1tUg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Z8XfzdTcYbKXbttOZYCkhexZVaSChWM1LNoqV+hh1gE=;
+        fh=Vglgy7ak3fw9lWqJML3IHVFI8LNgn7YsDbrVHtuuqWk=;
+        b=jmrIi9X/kCl3aQI9novYma3K3WXzLbgDiz9FdORa2HtdsD6Jndbm9+foMmhjPRNIc3
+         poUYZFpqQVofctcs8MGHHwa2hx8s1GxZTYn33FMMgycRA3/LySThc3C9Fk8txo/uRBEb
+         b4pu9OTIACLvOPYnJCozSeo7gqBeI360pg5wy6dxRWKyhvDZjG74ifFfdH2fAE93iTcR
+         j35yCFiiZbhFnBsHxGcj1ko9VywucDRVKr1f//+XlfELTH0oFtZGi32RA4VeufU8PDg5
+         AFmaKYHJCMNzdl3d7ff6+2TsSsnzV6lm2jjsAGN1Z2w9od2lJjB1xn20a2Dcc+uGT6Ly
+         JMww==;
+        dara=google.com
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=cpK5lFFW;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::836 as permitted sender) smtp.mailfrom=surenb@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com. [2607:f8b0:4864:20::836])
+        by gmr-mx.google.com with ESMTPS id af79cd13be357-8c6a72419besi13752085a.6.2026.01.16.18.11.13
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Jan 2026 18:11:14 -0800 (PST)
+Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::836 as permitted sender) client-ip=2607:f8b0:4864:20::836;
+Received: by mail-qt1-x836.google.com with SMTP id d75a77b69052e-5014b5d8551so157291cf.0
+        for <kasan-dev@googlegroups.com>; Fri, 16 Jan 2026 18:11:13 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768615873; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GdimHFCbtvuyV4dM18iwqBdt6NTLtHsF/W2nnCN46xFXpfRVqYJALylqnpqZ/T2Ciq
+         OibIEyf3Po2DJfhCG1Q1/beREyyIDv//805qNdZkXhaXFtCc+YOAEoA7+ci6C5XVLIZg
+         tvmWUBzBWyLaBheq40bMghaCetf3izcs5FebzmLUzTKHPV86ee+ZWATotCA/7nPzmp4b
+         ESQfKsR6B1q67SFyntwcWRGslFiJSee2VzsjQdOW/lk0jo3yxCe3pmJXqvVOZyCAO+v2
+         p8k91XnQgYUt6coDOt2x0/f7S+gsb3wy4t5cZZ9Rqt50RCaUX4NfgaXIcC1hX4EDRc2t
+         zD4Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=4ZoieeAq320wYXZiN7yy2TmOrY+yh5Mr8oDFBIEecDc=;
-        fh=VbOHIuO4E7q1oZjxY8luZBHqaEZaEz2AMJNrzoszr1o=;
-        b=dQjyk9MNbJKCoT3+zLsKtPZzp+WbJoV6gzJykHEQVIRW0tsFWdHvNWqumrraexy406
-         zuHFZhUbuycQ7W71yOu8uPFrVEyu55uI/cf1kU8yz+wYsa5GHjwzFg6rx9KHV3QtskmI
-         PLU9C/3q9ROutLDBuaPCZW6B0KPZUfwLdH4d08GdvgYLiL30+9bz2pZG/Qigf+wr3eov
-         F5aWcowa6A02iIeSjZgH7OmCJaihzf0mG9Ge83HEjfbKYPBA8vJznWHYxfDvqoMOakU1
-         P/thcrkXILl8BLSykZ5rTWGRGRvyhSGVO93/zRgv7GGBNXhmZONtkKnOUIGv/UGrwxs5
-         yekg==;
+        bh=Z8XfzdTcYbKXbttOZYCkhexZVaSChWM1LNoqV+hh1gE=;
+        fh=Vglgy7ak3fw9lWqJML3IHVFI8LNgn7YsDbrVHtuuqWk=;
+        b=arS/wF5vq/ksafFFtgwoWH21LmnR/FCa4XFX7iLZeWo/Vp//CvLEJVwK9fX8lXrl69
+         ji4oAm3jmxorN1LfH4iq78k2b+TwOsOlXv7Twh47t5UrOiDDLEuIF+sHB+oRrC23ezBJ
+         wu7AsvRPFF+bUBSq2k+rzSMmgDToP5qN1yS+VSyCMSY0oHy/FkS4CNuVNW7EGm8F5QTu
+         3hADN0rxTidkaMRnHSMSoKkFPxTKrtWmj0qjWtvpn+T1EJ9ZsZ4T5wNSZ8ML5/u8kuAN
+         IqXVwDZFBSuHzOm/ausY11ftL6eS7Uv7yy2fZj8q0EE6PTR8GgeU/uIaJj7G6qlU1bWO
+         fFTg==;
         dara=google.com
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b="cyJt/FsY";
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::429 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com. [2a00:1450:4864:20::429])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-38384d35eabsi700971fa.3.2026.01.16.17.21.42
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Jan 2026 17:21:42 -0800 (PST)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::429 as permitted sender) client-ip=2a00:1450:4864:20::429;
-Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-432d256c2a9so2560343f8f.3
-        for <kasan-dev@googlegroups.com>; Fri, 16 Jan 2026 17:21:42 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVIi5cA+QTRXvd7EZZa8Z56FLqnYUx93wkpf3q24EHiS4ihml+2dgf5vWOh73dSfjgp0FU6VY930ws=@googlegroups.com
-X-Gm-Gg: AY/fxX4TzF71/Uc1SUaqtM99nFVejBl9h8lZk2qpjwD6uaoHiFRLjZLY+oakTq3nzxP
-	uLJW79F+JtO5j4TFU1z8EvOcltk1+KZcuWUdNnOaT3OIP2PuYszLOQudGiuNPvtVKFO1t1ZWWde
-	Lx3cJs6ybL9a37XG9YhICtNezWF+6Kee6T4ByHv4ym8JJBEwol6aG5a7v+JGRou18yE8gE53y4E
-	QnkYtq04S0cGsLRAic06bGBZB/638f4WRd1sYub3IYjv/sJOZ/Nk/eN9JaKhmODCY1is+X5FW7a
-	/9Veoi24GdZjkI5IUJy7QkqOcMcA
-X-Received: by 2002:a05:6000:1861:b0:42b:4267:83e3 with SMTP id
- ffacd0b85a97d-4356a0330a6mr6681825f8f.5.1768612902135; Fri, 16 Jan 2026
- 17:21:42 -0800 (PST)
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+X-Forwarded-Encrypted: i=1; AJvYcCWWeBFrksIkZClj53Ad0DJwkfJQYR1eG/kQOmONTdLLC/vwaJc19VVZaKMfx8C49RSmET36Mj8hvWo=@googlegroups.com
+X-Gm-Gg: AY/fxX4rh2rj+/6R2ZYWnoQni2rPICxKaX43ve3dJ30b0SSX9AXm2fcFpNW8Dk2Dhm+
+	RHwsThhtg3mDqToXRVf0LlfKiOX34WLQjWBIOVP9U2T24g/F0gOBMDu2p0jW8PD+3NRByXCodON
+	a6tL1sHDPf3fQNdYh6e1cbcYgKr9Weu92mDo5B2rvq5kXCOGvhRzBTK4ZdlNvgE96MHbaSTXxQW
+	3/IxDH2ZpZUP+AV7n7NMNOSoGVo06+x9yo9HFV3FFyqOpbtz2BJSjhm7SfXorWTMzfTSt1UpRLH
+	zYbZ22JkVS1AStv93BQsC3/oVhrsQuhv4g==
+X-Received: by 2002:a05:622a:607:b0:4ff:cb25:998b with SMTP id
+ d75a77b69052e-502afa038cbmr4649721cf.12.1768615873084; Fri, 16 Jan 2026
+ 18:11:13 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1768233085.git.m.wieczorretman@pm.me> <b1dcc32aa58fd94196885842e0e7f7501182a7c4.1768233085.git.m.wieczorretman@pm.me>
- <CA+fCnZd+ANJ2w4R7ww7GTM=92UGGFKpaL1h56iRMN2Lr14QN5w@mail.gmail.com>
- <aWfDiNl9-9bVrc7U@wieczorr-mobl1.localdomain> <CA+fCnZd4rJvKzdMPmpYmNSto_dbJ_v6fdNYv-13_vC2+bu-4bg@mail.gmail.com>
- <aWkVn8iY27APFYy_@wieczorr-mobl1.localdomain>
-In-Reply-To: <aWkVn8iY27APFYy_@wieczorr-mobl1.localdomain>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Sat, 17 Jan 2026 02:21:31 +0100
-X-Gm-Features: AZwV_Qg_yxoV1caCuXx4uiUVJpxmUSikYvM_SoJc_MuJvTE1bQn56yiQmf6n8wA
-Message-ID: <CA+fCnZewHBm+qR=zeJ4DG6RJ-mHhLhF9G7f_xSaNt_PAogJv2A@mail.gmail.com>
-Subject: Re: [PATCH v8 13/14] x86/kasan: Logical bit shift for kasan_mem_to_shadow
-To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz> <20260116-sheaves-for-all-v3-6-5595cb000772@suse.cz>
+In-Reply-To: <20260116-sheaves-for-all-v3-6-5595cb000772@suse.cz>
+From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Sat, 17 Jan 2026 02:11:02 +0000
+X-Gm-Features: AZwV_QgrFpJPgQWV97FWxIc0ZsJ8CltGCxNFZv_PPGY8cU_AH1jVOdq1pMTHKpM
+Message-ID: <CAJuCfpERcCzBysPVh63g7d0FpUBNQeq9nCL+ycem1iR08gDmaQ@mail.gmail.com>
+Subject: Re: [PATCH v3 06/21] slab: introduce percpu sheaves bootstrap
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, 
+	kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: andreyknvl@gmail.com
+X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b="cyJt/FsY";       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::429
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+ header.i=@google.com header.s=20230601 header.b=cpK5lFFW;       arc=pass
+ (i=1);       spf=pass (google.com: domain of surenb@google.com designates
+ 2607:f8b0:4864:20::836 as permitted sender) smtp.mailfrom=surenb@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+X-Original-From: Suren Baghdasaryan <surenb@google.com>
+Reply-To: Suren Baghdasaryan <surenb@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -171,152 +179,393 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Jan 15, 2026 at 5:43=E2=80=AFPM Maciej Wieczor-Retman
-<m.wieczorretman@pm.me> wrote:
+On Fri, Jan 16, 2026 at 2:40=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> wr=
+ote:
 >
-> x86 was easy to do because the kasan_mem_to_shadow() was already in the
-> asm/kasan.h. arm64 took a bit more changes since I had to write the
-> arch_kasan_non_canonical_hook in a separate file that would import the
-> linux/kasan.h header in order to use kasan_mem_to_shadow(). Anyway below =
-are the
-> relevant bits from the patch - does that look okay? Or would you prefer s=
-ome
-> different names/placements?
+> Until now, kmem_cache->cpu_sheaves was !NULL only for caches with
+> sheaves enabled. Since we want to enable them for almost all caches,
+> it's suboptimal to test the pointer in the fast paths, so instead
+> allocate it for all caches in do_kmem_cache_create(). Instead of testing
+> the cpu_sheaves pointer to recognize caches (yet) without sheaves, test
+> kmem_cache->sheaf_capacity for being 0, where needed, using a new
+> cache_has_sheaves() helper.
+>
+> However, for the fast paths sake we also assume that the main sheaf
+> always exists (pcs->main is !NULL), and during bootstrap we cannot
+> allocate sheaves yet.
+>
+> Solve this by introducing a single static bootstrap_sheaf that's
+> assigned as pcs->main during bootstrap. It has a size of 0, so during
+> allocations, the fast path will find it's empty. Since the size of 0
+> matches sheaf_capacity of 0, the freeing fast paths will find it's
+> "full". In the slow path handlers, we use cache_has_sheaves() to
+> recognize that the cache doesn't (yet) have real sheaves, and fall back.
 
-One comment below, otherwise looks fine to me, thanks!
+I don't think kmem_cache_prefill_sheaf() handles this case, does it?
+Or do you rely on the caller to never try prefilling a bootstrapped
+sheaf?
+kmem_cache_refill_sheaf() and kmem_cache_return_sheaf() operate on a
+sheaf obtained by calling kmem_cache_prefill_sheaf(), so if
+kmem_cache_prefill_sheaf() never returns a bootstrapped sheaf we don't
+need special handling there.
 
+> Thus sharing the single bootstrap sheaf like this for multiple caches
+> and cpus is safe.
 >
-> diff --git a/arch/arm64/include/asm/kasan.h b/arch/arm64/include/asm/kasa=
-n.h
-> index b167e9d3da91..16b1f2ca3ea8 100644
-> --- a/arch/arm64/include/asm/kasan.h
-> +++ b/arch/arm64/include/asm/kasan.h
-> @@ -17,6 +17,8 @@
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
+>  mm/slub.c | 119 ++++++++++++++++++++++++++++++++++++++++++--------------=
+------
+>  1 file changed, 81 insertions(+), 38 deletions(-)
 >
->  asmlinkage void kasan_early_init(void);
->  void kasan_init(void);
-> +bool __arch_kasan_non_canonical_hook(unsigned long addr);
-> +#define arch_kasan_non_canonical_hook(addr) __arch_kasan_non_canonical_h=
-ook(addr)
+> diff --git a/mm/slub.c b/mm/slub.c
+> index edf341c87e20..706cb6398f05 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -501,6 +501,18 @@ struct kmem_cache_node {
+>         struct node_barn *barn;
+>  };
 >
->  #else
->  static inline void kasan_init(void) { }
->
-> diff --git a/arch/arm64/mm/Makefile b/arch/arm64/mm/Makefile
-> index c26489cf96cd..a122ea67eced 100644
-> --- a/arch/arm64/mm/Makefile
-> +++ b/arch/arm64/mm/Makefile
-> @@ -15,4 +15,6 @@ obj-$(CONFIG_ARM64_GCS)               +=3D gcs.o
->  KASAN_SANITIZE_physaddr.o      +=3D n
->
->  obj-$(CONFIG_KASAN)            +=3D kasan_init.o
-> +obj-$(CONFIG_KASAN)            +=3D kasan.o
->  KASAN_SANITIZE_kasan_init.o    :=3D n
-> +KASAN_SANITIZE_kasan.o         :=3D n
-> diff --git a/arch/arm64/mm/kasan.c b/arch/arm64/mm/kasan.c
-> new file mode 100644
-> index 000000000000..b94d5fb480ca
-> --- /dev/null
-> +++ b/arch/arm64/mm/kasan.c
-> @@ -0,0 +1,31 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
 > +/*
-> + * This file contains ARM64 specific KASAN code.
+> + * Every cache has !NULL s->cpu_sheaves but they may point to the
+> + * bootstrap_sheaf temporarily during init, or permanently for the boot =
+caches
+> + * and caches with debugging enabled, or all caches with CONFIG_SLUB_TIN=
+Y. This
+> + * helper distinguishes whether cache has real non-bootstrap sheaves.
 > + */
-> +
-> +#include <linux/kasan.h>
-> +
-> +bool __arch_kasan_non_canonical_hook(unsigned long addr) {
-> +       /*
-> +        * For Software Tag-Based KASAN, kasan_mem_to_shadow() uses the
-> +        * arithmetic shift. Normally, this would make checking for a pos=
-sible
-> +        * shadow address complicated, as the shadow address computation
-> +        * operation would overflow only for some memory addresses. Howev=
-er, due
-> +        * to the chosen KASAN_SHADOW_OFFSET values and the fact the
-> +        * kasan_mem_to_shadow() only operates on pointers with the tag r=
-eset,
-> +        * the overflow always happens.
-> +        *
-> +        * For arm64, the top byte of the pointer gets reset to 0xFF. Thu=
-s, the
-> +        * possible shadow addresses belong to a region that is the resul=
-t of
-> +        * kasan_mem_to_shadow() applied to the memory range
-> +        * [0xFF000000000000, 0xFFFFFFFFFFFFFFFF]. Despite the overflow, =
-the
-> +        * resulting possible shadow region is contiguous, as the overflo=
-w
-> +        * happens for both 0xFF000000000000 and 0xFFFFFFFFFFFFFFFF.
-> +        */
-> +       if (IS_ENABLED(CONFIG_KASAN_SW_TAGS)) {
-> +               if (addr < (unsigned long)kasan_mem_to_shadow((void *)(0x=
-FFULL << 56)) ||
-> +                   addr > (unsigned long)kasan_mem_to_shadow((void *)(~0=
-ULL)))
-> +                       return true;
-> +       }
-> +       return false;
-> +}
-> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> index 9c6ac4b62eb9..146eecae4e9c 100644
-> --- a/include/linux/kasan.h
-> +++ b/include/linux/kasan.h
-> ...
-> @@ -403,6 +409,13 @@ static __always_inline bool kasan_check_byte(const v=
-oid *addr)
->         return true;
->  }
->
-> +#ifndef arch_kasan_non_canonical_hook
-> +static inline bool arch_kasan_non_canonical_hook(unsigned long addr)
+> +static inline bool cache_has_sheaves(struct kmem_cache *s)
 > +{
-> +       return false;
+> +       /* Test CONFIG_SLUB_TINY for code elimination purposes */
+> +       return !IS_ENABLED(CONFIG_SLUB_TINY) && s->sheaf_capacity;
 > +}
-> +#endif
+> +
+>  static inline struct kmem_cache_node *get_node(struct kmem_cache *s, int=
+ node)
+>  {
+>         return s->node[node];
+> @@ -2855,6 +2867,10 @@ static void pcs_destroy(struct kmem_cache *s)
+>                 if (!pcs->main)
+>                         continue;
+>
+> +               /* bootstrap or debug caches, it's the bootstrap_sheaf */
+> +               if (!pcs->main->cache)
+> +                       continue;
 
-Let's put this next to kasan_non_canonical_hook declaration.
+I wonder why we can't simply check cache_has_sheaves(s) at the
+beginning and skip the loop altogether.
+I realize that __kmem_cache_release()->pcs_destroy() is called in the
+failure path of do_kmem_cache_create() and s->cpu_sheaves might be
+partially initialized if alloc_empty_sheaf() fails somewhere in the
+middle of the loop inside init_percpu_sheaves(). But for that,
+s->sheaf_capacity should still be non-zero, so checking
+cache_has_sheaves() at the beginning of pcs_destroy() should still
+work, no?
+
+BTW, I see one last check for s->cpu_sheaves that you didn't replace
+with cache_has_sheaves() inside __kmem_cache_release(). I think that's
+because it's also in the failure path of do_kmem_cache_create() and
+it's possible that s->sheaf_capacity > 0 while s->cpu_sheaves =3D=3D NULL
+(if alloc_percpu(struct slub_percpu_sheaves) fails). It might be
+helpful to add a comment inside __kmem_cache_release() to explain why
+cache_has_sheaves() can't be used there.
 
 > +
->  #else /* CONFIG_KASAN */
+>                 /*
+>                  * We have already passed __kmem_cache_shutdown() so ever=
+ything
+>                  * was flushed and there should be no objects allocated f=
+rom
+> @@ -4030,7 +4046,7 @@ static bool has_pcs_used(int cpu, struct kmem_cache=
+ *s)
+>  {
+>         struct slub_percpu_sheaves *pcs;
 >
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index 62c01b4527eb..1c4893729ff6 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -642,10 +642,19 @@ void kasan_non_canonical_hook(unsigned long addr)
->         const char *bug_type;
+> -       if (!s->cpu_sheaves)
+> +       if (!cache_has_sheaves(s))
+>                 return false;
 >
->         /*
-> -        * All addresses that came as a result of the memory-to-shadow ma=
-pping
-> -        * (even for bogus pointers) must be >=3D KASAN_SHADOW_OFFSET.
-> +        * For Generic KASAN, kasan_mem_to_shadow() uses the logical righ=
-t shift
-> +        * and never overflows with the chosen KASAN_SHADOW_OFFSET values=
-. Thus,
-> +        * the possible shadow addresses (even for bogus pointers) belong=
- to a
-> +        * single contiguous region that is the result of kasan_mem_to_sh=
-adow()
-> +        * applied to the whole address space.
->          */
-> -       if (addr < KASAN_SHADOW_OFFSET)
-> +       if (IS_ENABLED(CONFIG_KASAN_GENERIC)) {
-> +               if (addr < (unsigned long)kasan_mem_to_shadow((void *)(0U=
-LL)) ||
-> +                   addr > (unsigned long)kasan_mem_to_shadow((void *)(~0=
-ULL)))
-> +                       return;
+>         pcs =3D per_cpu_ptr(s->cpu_sheaves, cpu);
+> @@ -4052,7 +4068,7 @@ static void flush_cpu_slab(struct work_struct *w)
+>
+>         s =3D sfw->s;
+>
+> -       if (s->cpu_sheaves)
+> +       if (cache_has_sheaves(s))
+>                 pcs_flush_all(s);
+>
+>         flush_this_cpu_slab(s);
+> @@ -4157,7 +4173,7 @@ void flush_all_rcu_sheaves(void)
+>         mutex_lock(&slab_mutex);
+>
+>         list_for_each_entry(s, &slab_caches, list) {
+> -               if (!s->cpu_sheaves)
+> +               if (!cache_has_sheaves(s))
+>                         continue;
+>                 flush_rcu_sheaves_on_cache(s);
+>         }
+> @@ -4179,7 +4195,7 @@ static int slub_cpu_dead(unsigned int cpu)
+>         mutex_lock(&slab_mutex);
+>         list_for_each_entry(s, &slab_caches, list) {
+>                 __flush_cpu_slab(s, cpu);
+> -               if (s->cpu_sheaves)
+> +               if (cache_has_sheaves(s))
+>                         __pcs_flush_all_cpu(s, cpu);
+>         }
+>         mutex_unlock(&slab_mutex);
+> @@ -4979,6 +4995,12 @@ __pcs_replace_empty_main(struct kmem_cache *s, str=
+uct slub_percpu_sheaves *pcs,
+>
+>         lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
+>
+> +       /* Bootstrap or debug cache, back off */
+> +       if (unlikely(!cache_has_sheaves(s))) {
+> +               local_unlock(&s->cpu_sheaves->lock);
+> +               return NULL;
 > +       }
 > +
-> +       if(arch_kasan_non_canonical_hook(addr))
+>         if (pcs->spare && pcs->spare->size > 0) {
+>                 swap(pcs->main, pcs->spare);
+>                 return pcs;
+> @@ -5165,6 +5187,11 @@ unsigned int alloc_from_pcs_bulk(struct kmem_cache=
+ *s, size_t size, void **p)
+>                 struct slab_sheaf *full;
+>                 struct node_barn *barn;
+>
+> +               if (unlikely(!cache_has_sheaves(s))) {
+> +                       local_unlock(&s->cpu_sheaves->lock);
+> +                       return allocated;
+> +               }
+> +
+>                 if (pcs->spare && pcs->spare->size > 0) {
+>                         swap(pcs->main, pcs->spare);
+>                         goto do_alloc;
+> @@ -5244,8 +5271,7 @@ static __fastpath_inline void *slab_alloc_node(stru=
+ct kmem_cache *s, struct list
+>         if (unlikely(object))
+>                 goto out;
+>
+> -       if (s->cpu_sheaves)
+> -               object =3D alloc_from_pcs(s, gfpflags, node);
+> +       object =3D alloc_from_pcs(s, gfpflags, node);
+>
+>         if (!object)
+>                 object =3D __slab_alloc_node(s, gfpflags, node, addr, ori=
+g_size);
+> @@ -5355,17 +5381,6 @@ kmem_cache_prefill_sheaf(struct kmem_cache *s, gfp=
+_t gfp, unsigned int size)
+>
+>         if (unlikely(size > s->sheaf_capacity)) {
+>
+> -               /*
+> -                * slab_debug disables cpu sheaves intentionally so all
+> -                * prefilled sheaves become "oversize" and we give up on
+> -                * performance for the debugging. Same with SLUB_TINY.
+> -                * Creating a cache without sheaves and then requesting a
+> -                * prefilled sheaf is however not expected, so warn.
+> -                */
+> -               WARN_ON_ONCE(s->sheaf_capacity =3D=3D 0 &&
+> -                            !IS_ENABLED(CONFIG_SLUB_TINY) &&
+> -                            !(s->flags & SLAB_DEBUG_FLAGS));
+> -
+>                 sheaf =3D kzalloc(struct_size(sheaf, objects, size), gfp)=
+;
+>                 if (!sheaf)
+>                         return NULL;
+> @@ -6082,6 +6097,12 @@ __pcs_replace_full_main(struct kmem_cache *s, stru=
+ct slub_percpu_sheaves *pcs)
+>  restart:
+>         lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
+>
+> +       /* Bootstrap or debug cache, back off */
+> +       if (unlikely(!cache_has_sheaves(s))) {
+> +               local_unlock(&s->cpu_sheaves->lock);
+> +               return NULL;
+> +       }
+> +
+>         barn =3D get_barn(s);
+>         if (!barn) {
+>                 local_unlock(&s->cpu_sheaves->lock);
+> @@ -6280,6 +6301,12 @@ bool __kfree_rcu_sheaf(struct kmem_cache *s, void =
+*obj)
+>                 struct slab_sheaf *empty;
+>                 struct node_barn *barn;
+>
+> +               /* Bootstrap or debug cache, fall back */
+> +               if (unlikely(!cache_has_sheaves(s))) {
+> +                       local_unlock(&s->cpu_sheaves->lock);
+> +                       goto fail;
+> +               }
+> +
+>                 if (pcs->spare && pcs->spare->size =3D=3D 0) {
+>                         pcs->rcu_free =3D pcs->spare;
+>                         pcs->spare =3D NULL;
+> @@ -6674,9 +6701,8 @@ void slab_free(struct kmem_cache *s, struct slab *s=
+lab, void *object,
+>         if (unlikely(!slab_free_hook(s, object, slab_want_init_on_free(s)=
+, false)))
 >                 return;
 >
+> -       if (s->cpu_sheaves && likely(!IS_ENABLED(CONFIG_NUMA) ||
+> -                                    slab_nid(slab) =3D=3D numa_mem_id())
+> -                          && likely(!slab_test_pfmemalloc(slab))) {
+> +       if (likely(!IS_ENABLED(CONFIG_NUMA) || slab_nid(slab) =3D=3D numa=
+_mem_id())
+> +           && likely(!slab_test_pfmemalloc(slab))) {
+>                 if (likely(free_to_pcs(s, object)))
+>                         return;
+>         }
+> @@ -7379,7 +7405,7 @@ void kmem_cache_free_bulk(struct kmem_cache *s, siz=
+e_t size, void **p)
+>          * freeing to sheaves is so incompatible with the detached freeli=
+st so
+>          * once we go that way, we have to do everything differently
+>          */
+> -       if (s && s->cpu_sheaves) {
+> +       if (s && cache_has_sheaves(s)) {
+>                 free_to_pcs_bulk(s, size, p);
+>                 return;
+>         }
+> @@ -7490,8 +7516,7 @@ int kmem_cache_alloc_bulk_noprof(struct kmem_cache =
+*s, gfp_t flags, size_t size,
+>                 size--;
+>         }
+>
+> -       if (s->cpu_sheaves)
+> -               i =3D alloc_from_pcs_bulk(s, size, p);
+> +       i =3D alloc_from_pcs_bulk(s, size, p);
+
+Doesn't the above change make this fastpath a bit longer? IIUC,
+instead of bailing out right here we call alloc_from_pcs_bulk() and
+bail out from there because pcs->main->size is 0.
+
+>
+>         if (i < size) {
+>                 /*
+> @@ -7702,6 +7727,7 @@ static inline int alloc_kmem_cache_cpus(struct kmem=
+_cache *s)
+>
+>  static int init_percpu_sheaves(struct kmem_cache *s)
+>  {
+> +       static struct slab_sheaf bootstrap_sheaf =3D {};
+>         int cpu;
+>
+>         for_each_possible_cpu(cpu) {
+> @@ -7711,7 +7737,28 @@ static int init_percpu_sheaves(struct kmem_cache *=
+s)
+>
+>                 local_trylock_init(&pcs->lock);
+>
+> -               pcs->main =3D alloc_empty_sheaf(s, GFP_KERNEL);
+> +               /*
+> +                * Bootstrap sheaf has zero size so fast-path allocation =
+fails.
+> +                * It has also size =3D=3D s->sheaf_capacity, so fast-pat=
+h free
+> +                * fails. In the slow paths we recognize the situation by
+> +                * checking s->sheaf_capacity. This allows fast paths to =
+assume
+> +                * s->cpu_sheaves and pcs->main always exists and is vali=
+d.
+
+s/is/are
+
+> +                * It's also safe to share the single static bootstrap_sh=
+eaf
+> +                * with zero-sized objects array as it's never modified.
+> +                *
+> +                * bootstrap_sheaf also has NULL pointer to kmem_cache so=
+ we
+> +                * recognize it and not attempt to free it when destroyin=
+g the
+> +                * cache
+
+missing a period at the end of the above sentence.
+
+> +                *
+> +                * We keep bootstrap_sheaf for kmem_cache and kmem_cache_=
+node,
+> +                * caches with debug enabled, and all caches with SLUB_TI=
+NY.
+> +                * For kmalloc caches it's used temporarily during the in=
+itial
+> +                * bootstrap.
+> +                */
+> +               if (!s->sheaf_capacity)
+> +                       pcs->main =3D &bootstrap_sheaf;
+> +               else
+> +                       pcs->main =3D alloc_empty_sheaf(s, GFP_KERNEL);
+>
+>                 if (!pcs->main)
+>                         return -ENOMEM;
+> @@ -7809,7 +7856,7 @@ static int init_kmem_cache_nodes(struct kmem_cache =
+*s)
+>                         continue;
+>                 }
+>
+> -               if (s->cpu_sheaves) {
+> +               if (cache_has_sheaves(s)) {
+>                         barn =3D kmalloc_node(sizeof(*barn), GFP_KERNEL, =
+node);
+>
+>                         if (!barn)
+> @@ -8127,7 +8174,7 @@ int __kmem_cache_shutdown(struct kmem_cache *s)
+>         flush_all_cpus_locked(s);
+>
+>         /* we might have rcu sheaves in flight */
+> -       if (s->cpu_sheaves)
+> +       if (cache_has_sheaves(s))
+>                 rcu_barrier();
+>
+>         /* Attempt to free all objects */
+> @@ -8439,7 +8486,7 @@ static int slab_mem_going_online_callback(int nid)
+>                 if (get_node(s, nid))
+>                         continue;
+>
+> -               if (s->cpu_sheaves) {
+> +               if (cache_has_sheaves(s)) {
+>                         barn =3D kmalloc_node(sizeof(*barn), GFP_KERNEL, =
+nid);
+>
+>                         if (!barn) {
+> @@ -8647,12 +8694,10 @@ int do_kmem_cache_create(struct kmem_cache *s, co=
+nst char *name,
+>
+>         set_cpu_partial(s);
+>
+> -       if (s->sheaf_capacity) {
+> -               s->cpu_sheaves =3D alloc_percpu(struct slub_percpu_sheave=
+s);
+> -               if (!s->cpu_sheaves) {
+> -                       err =3D -ENOMEM;
+> -                       goto out;
+> -               }
+> +       s->cpu_sheaves =3D alloc_percpu(struct slub_percpu_sheaves);
+> +       if (!s->cpu_sheaves) {
+> +               err =3D -ENOMEM;
+> +               goto out;
+>         }
+>
+>  #ifdef CONFIG_NUMA
+> @@ -8671,11 +8716,9 @@ int do_kmem_cache_create(struct kmem_cache *s, con=
+st char *name,
+>         if (!alloc_kmem_cache_cpus(s))
+>                 goto out;
+>
+> -       if (s->cpu_sheaves) {
+> -               err =3D init_percpu_sheaves(s);
+> -               if (err)
+> -                       goto out;
+> -       }
+> +       err =3D init_percpu_sheaves(s);
+> +       if (err)
+> +               goto out;
+>
+>         err =3D 0;
+>
+>
 > --
-> Kind regards
-> Maciej Wiecz=C3=B3r-Retman
+> 2.52.0
 >
 
 --=20
@@ -325,4 +574,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-A%2BfCnZewHBm%2BqR%3DzeJ4DG6RJ-mHhLhF9G7f_xSaNt_PAogJv2A%40mail.gmail.com.
+AJuCfpERcCzBysPVh63g7d0FpUBNQeq9nCL%2Bycem1iR08gDmaQ%40mail.gmail.com.
