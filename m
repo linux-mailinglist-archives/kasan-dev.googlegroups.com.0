@@ -1,166 +1,216 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBI6YX3FQMGQERJG677Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBC6LHPWNU4DBB5WYXXFQMGQE7VP2HRQ@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IMP5MSWsb2mhEwAAu9opvQ
-	(envelope-from <kasan-dev+bncBC7OBJGL2MHBBI6YX3FQMGQERJG677Y@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Tue, 20 Jan 2026 17:24:05 +0100
+	id 0DmYCNuub2lBGgAAu9opvQ
+	(envelope-from <kasan-dev+bncBC6LHPWNU4DBB5WYXXFQMGQE7VP2HRQ@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Tue, 20 Jan 2026 17:35:39 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x439.google.com (mail-wr1-x439.google.com [IPv6:2a00:1450:4864:20::439])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62250476C8
-	for <lists+kasan-dev@lfdr.de>; Tue, 20 Jan 2026 17:24:05 +0100 (CET)
-Received: by mail-wr1-x439.google.com with SMTP id ffacd0b85a97d-432a9ef3d86sf2622612f8f.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 20 Jan 2026 08:24:05 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1768926244; cv=pass;
+Received: from mail-vs1-xe3f.google.com (mail-vs1-xe3f.google.com [IPv6:2607:f8b0:4864:20::e3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94ADF47B03
+	for <lists+kasan-dev@lfdr.de>; Tue, 20 Jan 2026 17:35:38 +0100 (CET)
+Received: by mail-vs1-xe3f.google.com with SMTP id ada2fe7eead31-5ec96023d46sf14378370137.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 20 Jan 2026 08:35:38 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1768926937; cv=pass;
         d=google.com; s=arc-20240605;
-        b=biE+4onwKWDSZp6thrrcNKQX7O61so26za6RqX246hFJl3qqy69+zQRnnC5IBo3xTa
-         3ovsdO5W1/C1zswAU1gM70b6HQEu1jXw1f30PGZdHpbn5429ZRf/no0Lq0SI7/H4n6zh
-         qYhp/xHL6w0q5ghaf8zkrW16LtJcAzod6t+bsmjYY6eKwK03tMOQVNrLMH2fMyXc65uW
-         gy+1z3YL0T3SAopb08EI9L1uCQBnfSx3i/4O6KegVXXuSDgigRHaOu/QYzUA8njZBykE
-         UrlHAvYutiHFQvv7zFYkxFevCnJZ1tf9f6+QLaG5y31ANZY0bthkfaTRB/CeRfcfj4Zr
-         2/Tw==
+        b=Ri4EUWASxjA6rl0jdXpQH02hPTMZmm5u4jwIg4KsHhnsFeazligwCEAafXW8lMk56R
+         W2o/YUAZJfvs/KS3fnSoTBooqhq9tG6EMr36ZvDEa+yplxmoo1a5ym/kELvagxhz3ugN
+         OxPIbNppxFs3dSiXrbbVZ/BFbuZ/PVoUzb2ZWb91CyS6UonIpqbTzXYR0b6OLBaNMuST
+         r5ZyHvJ/vs2RTuVQs2fmlkgp4Kh5Dp7lNYO0p1w0nWhL+4m22RhoAdks5JbdBqYC/JNS
+         Hwy+7E3ZE3fef+fmGmA2NA7ToYoo83tmyJ2Zk8if0kiTn//jKrcB2JejZl5JTzuZNZ1m
+         H/FA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=HE/ocmu03pqnx/1k+ZWVK4nohMOYiN4x56s/Ka2bmTA=;
-        fh=2j2F3WPnhpN6dbnFFudlViyPhxZbfF03InIGhjIWD04=;
-        b=e18jzNDj3ew/MdMLK175q/1Rvc90tJmQCV5WByz7OhLFNJw3ERQ+7IrBAarfR+HZEh
-         ccrOHyBRyDOli5mGS1F50/ZAd8m9yt8msNojtlvkg3XBtTml8Xv0gspvdCl6rsDQuZfS
-         4Ph/nf4gsenugH68kyc3lV4my9MBnEZPGc/wrSxBv8uwBCq847kbzDU+BZwNHOQ9YJJo
-         eG+MHlww88elkc/Tv0/WA1qGR71k2TvB8ys/zCgQ5pYwN9xi7B+bHedEB54ifcHXpEMU
-         Oc/fRlWkwuWt925SRj4aK9b3jl57QOk0VHqhA0rezSf/lELZW0ICF7NlVyK/6gqMlHV/
-         kEgQ==;
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:feedback-id:sender
+         :dkim-signature:dkim-signature;
+        bh=z3vph7IAQ/YXdwOzc69vnC53Nw8cfBBEURy78rm7eb8=;
+        fh=luKkh9VQN3bAAOQZsKR/blveYRjjdHiuYnwC7nIKWFg=;
+        b=FAsMeRXWoartfvt4rbA1vXpbukxKrB3Ga76p2hk8b1AZf7cil0UhVIRhmA0R6TEuH+
+         HOVG/a0cjY8uXIz7T6lOGSj5lZfKGlwwNU7joHAMtc+tWvC2cxIhopLyaeQvklq+TZKk
+         Cp8+nB6TKxGgh9v/vAh/zz1+nkXTw6pt7SMe9lBF+PH0R8dYFhSqu1YYhd7FqmyN5Zft
+         5sFFK6bCL7+HhV266JVDvrTe2KHbp3PA+l6Uo+DvBaZ4RV4QNpzyY0DBG9YKwJMd0Y+H
+         smThxDt4n0l72AKWwOPrx+vflZ4FyhrdblhPgMDVzw+yN7CgIsqcZ7BgzSfnF0exJyNI
+         lXaA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=p5bwPL2y;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32a as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=m+X30Bjk;
+       spf=pass (google.com: domain of boqun.feng@gmail.com designates 2607:f8b0:4864:20::f2b as permitted sender) smtp.mailfrom=boqun.feng@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1768926244; x=1769531044; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1768926937; x=1769531737; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:user-agent
-         :in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HE/ocmu03pqnx/1k+ZWVK4nohMOYiN4x56s/Ka2bmTA=;
-        b=QhHUOstpO1aTUAkPac1uHJ2c2ybzZmQBvTE9BhKO8YJOBWZeJF6mzY57vR8RT5Kr6q
-         FNV8PWO5PPa+C/vjRYbL2IERMfdSdIU9zZMO8TRT411nFjfigReUNMFl9LHUsZfouw2H
-         AtoqkgZyjpDna8tg1zjOkDyV2oBXh6yair8rbFLFF4hNzr6h+atYI4dMCbq2QDpKVk4w
-         boDJxVEPdAmlLWbX4Dq6Vis+imA+VNhc3ARIAK/TIIraF4UlSiBesiSKqEQ20fbURsNK
-         SDpNC5avUJ9Wy3TNY+rWeqBCjgaH75wxULIuZndOQulQSy9wBsUO4yEpnUY6C0cneOZQ
-         GiNw==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :date:subject:cc:to:from:feedback-id:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z3vph7IAQ/YXdwOzc69vnC53Nw8cfBBEURy78rm7eb8=;
+        b=VRCLG8749IOWdMu9fsfS2gcQYbxcoRhihMHMIXwCtfYc2NYrPXP0r4fd6rOaCa2f4T
+         Xb0hliDQ2gYWGoMglEfvA4Ky0rk+kgSO6RPHxYew1DdfHWqETPv+xzrBgqFRi17EVYL9
+         kaBds+17AIHZYqglD5JCimmAKiGxPuoqsccZO+rkrDc9LiU+iZySWVMkgvHKkwCBgieq
+         18Gy918VQxZkUH5aTVjlyZM44xNq6lIOR8pCbc1qm+RBo0BKI8Kkst8asIAaMcbEacuW
+         yvB8NeCzRYTjZ49lgnduFHI8uw0mD48/INFOgKBu5tyqwSjqA+i2Bfnd8KrGEB4zFgs7
+         Laxw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768926937; x=1769531737; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :date:subject:cc:to:from:feedback-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z3vph7IAQ/YXdwOzc69vnC53Nw8cfBBEURy78rm7eb8=;
+        b=YUchtU4ndUtt8AjkOx88suVTceTM/ndIKJLtINv77LtDS/+Y6/lmhyIUZqJQHt09Gh
+         n6GGmtLYsXkmZxNDjCRvFiAC2KsBkpmhRp4IomCYCSaM2HIGEZfW5MezOv2ZNeQPgm8/
+         GzkYD+FPwGwgxaavemjP2drrwSWhvZLw+aWgMdznhUAPBYTakA06d8GiMQ+a42nx0YxJ
+         Vg64qwFld9Xmi0T1PzcAWBcwsiJcqm2DgF9Y5HW8yS9ohw/8gIRwDae5wAcQuya0ThAq
+         1DOcWrVuAoXj5rd74BOhNZ5gZ9cwsJGy9KcHtyCnRcnwQxhvS+FMpdxASQWfoJA+7l6j
+         DFmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768926244; x=1769531044;
+        d=1e100.net; s=20230601; t=1768926937; x=1769531737;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:user-agent
-         :in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-beenthere:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=HE/ocmu03pqnx/1k+ZWVK4nohMOYiN4x56s/Ka2bmTA=;
-        b=va6xRzo4zdF/4ZSQ84wGs7iWOpx0r2Wj4QEuHqondrFBpTSu4MfYlJkO56WaWgJBiF
-         XsuLpDXs35gkqTbn9P/i8BqIjV0N4GKSTmbERnZPudjZbeAXSmBRH23kbYPy12LM4UtF
-         +mW1JhjG/Est+FvbuLRjVLErK2hYESKM+hRD7XGK/L4Lrif3OlClZ6HM6EysXx4Fyrq5
-         K/vHuzt1VRiObOce2smAyzaoRZEsvzK3c13J7qbWBhf2KatvTR0rVYFVbbz9s9zUK/um
-         LXAvo1IJQRDvhKaWkdHDPqdWV/X1BBsbmyJyq4Uii7gp21+G/qBAfuRdckjEAheZqiv1
-         XtJg==
-X-Forwarded-Encrypted: i=2; AJvYcCXB39l8PDaIvhMYRJMYcsAwbSD7fBBCwhhLtd0duznU2G3HNl9iJZFuPcPKfRmO2hVU3XaDsQ==@lfdr.de
-X-Gm-Message-State: AOJu0YzM1VqKIU11Hp/TaljX7Y/SnN44RWtcETe3A6W/YQjsNElnVYXa
-	SYFbHIXJb3KMmKeQXjEJkSaa3co7ThU8RRi4cCs0mgv1eVcdqFLqx2jB
-X-Received: by 2002:a05:6000:4304:b0:432:8504:b8a9 with SMTP id ffacd0b85a97d-4356a06769cmr22416905f8f.62.1768926244434;
-        Tue, 20 Jan 2026 08:24:04 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+HhDC+chBux5Jztsf3GVx+TF4gOYkX6hAp293n1f6S60Q=="
-Received: by 2002:a05:6000:2f84:b0:426:cb20:6c35 with SMTP id
- ffacd0b85a97d-43563e18a25ls3352483f8f.0.-pod-prod-06-eu; Tue, 20 Jan 2026
- 08:24:02 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUSamYN4NZX0QZ7SRY8czBvP2EVVQzzn3PB6OjKGrU2EgetPO5EvCdhiLSemGfWknHpeqftyXG9Oe0=@googlegroups.com
-X-Received: by 2002:a5d:588d:0:b0:42f:8816:a506 with SMTP id ffacd0b85a97d-4356a067764mr20289027f8f.63.1768926241765;
-        Tue, 20 Jan 2026 08:24:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768926241; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :feedback-id:x-gm-gg:x-beenthere:x-gm-message-state:sender:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=z3vph7IAQ/YXdwOzc69vnC53Nw8cfBBEURy78rm7eb8=;
+        b=CX3WjXYhtaDT2F0EiYVLm7uvgVX0qvtHD6AY6WR8eNtuafSiamaG9Vj1RWSPyT+L0x
+         wkpQFM/aYw4+6XM/z+d9jxMdTqaxxMA/9IqmG5nwsdkmU+IBxcjrPUha4hz4FtK03DTB
+         1tkvYbtveNJQU6mqthkwYlDfM8xEW5Ii/Fw1hiY6HU+6gs9CS4MxM3RLduaJw4HY2+3Q
+         2okAX6FYXohOaMvmoYc7tAp1uL6Q6/QelV5EsdONjhkFJJ8mq8pxjF4WPn/15lYpFezd
+         K7ncju2QoMFwJuisx81bTeZzy5jzXV7r0e04FExOTsxJd4AmPk9xU1Y+/jUfO9Lxsp9s
+         sB1w==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCWFnesH46bJ2BgEg6cXa0qYfqHl5SLnSPix/zp31TzVn6hpt67e57pEtYLq3rmH3sCjHNvovg==@lfdr.de
+X-Gm-Message-State: AOJu0YwoW8kyAEbx69rZMOJMlTBlBPYB4vYg2K/ohX1k53CnEEGThHhO
+	NBW99qcA1ET8w2LRXqVCmtS0ktauzgx05KHIOggbvvZepZeh9S/OPwFf
+X-Received: by 2002:a05:622a:546:b0:4ff:a6b7:6c9d with SMTP id d75a77b69052e-502a1660944mr193156891cf.38.1768909943193;
+        Tue, 20 Jan 2026 03:52:23 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+Fheutp84512VqdxNJyYkAWmx/casOIMqG/8VxMfEMYQA=="
+Received: by 2002:ac8:73cf:0:b0:4f1:83e4:6f59 with SMTP id d75a77b69052e-50147dd1cedls36064371cf.2.-pod-prod-00-us-canary;
+ Tue, 20 Jan 2026 03:52:22 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUv7Aa1T8R5HUb5OvoXSM7KN47cFZQWgEDzlec63HIvO9980GwN3lHB7p8BR+PcXrh5cJcSgaBucGg=@googlegroups.com
+X-Received: by 2002:a05:620a:10b4:b0:8c5:ee3b:db47 with SMTP id af79cd13be357-8c5ee3bdb6cmr1733701285a.15.1768909942184;
+        Tue, 20 Jan 2026 03:52:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768909942; cv=none;
         d=google.com; s=arc-20240605;
-        b=QEhsgz5oh3wuDQt20k1MoaF2LExnmyUI+iW+EIUcs2Q3UksewjUWbX3d7uRFAowTdT
-         IzdDSFfBVITmNNn4EfLKGm3WamgZpdbvVtag1jCniiud7yAvv5YNyiRJ6kiFP393GMlb
-         MkIVUfJodV+EyfCYfCYBd54QhtwAuhO8tEZEgJfGWsNLgRf2umKwHT6ICxHq0OYBl1kE
-         dJ7d4KIenmOyzJsuH3fbXbfSSd1cQ6dTCnn2mvQSslqtFgoqaAirxRm7Sk5Qb5I9J8WA
-         GM+LJBJFT+r7hYPb/ozbkQOJikGmkhUe7o515MX44db3ujv+XbcRd0ozfr3y24aw1YQM
-         /iBg==
+        b=AsI2KlVb6gqHWV/hD1pRg3NBCBxEsThIrwYHitQy6uFYUgqpcZePBx2sv7/R+3Ol0F
+         y2pLMp29To6uGB6SxkFWjMdPYtgL3ww/zZhJPLPna+Xp8EPcbm72pYZOsKYqedT2IdDs
+         QFq/5jcez7tKRt82NVZUNl16Ad8GejLDUWR+GIVLPkd2TfvUbkZL8nelWemEeufi03nO
+         oZFAKb8WneEtNpEvNd8yySJlIGsfbZ9vkLP1tKxzE6Cr1z6IeNzT6JGOlofudZLgzbVk
+         BJL9pfOUNf6aZRTzepC7S8uYuKb3HInaRyxLKdfHrJyJ7Hv+xueLAX/G3oi2HUyLk/Qy
+         iqhg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=kNTcrrXAP9aiDb63ILRilIlxrZ3yFdWvD8IViTWFwuw=;
-        fh=m8zERS8uy/9ZY8XHaNxcTUdgPGj//kF+uyQw+O0oDV0=;
-        b=a/s4xat542Jno19/pZHsrQM2GJA3VdRGkn8dJ1yAj6mEKyND0dSvDwWaULIR2IqNX6
-         jJiSOkhEDKkUF5uNRnDAs+OaAYQShB2d7804OdrJjiZh4aVqDMIMmwfy4aUrPj5P7+Jz
-         OXVUOchfdWt/Lxq+l6nLmv5IprMOG191lCssJC9ucxTWC+Eqd71/VfXOlUNOWD7rLYYO
-         hXcVVF2PFo9NDGsQd3IKlhPx1z18KTFUJPQXVFkgUbwbaMWGKoCjKZyg1gsXl282QJaz
-         naDFyq4ZJzbmLJDJIJxknpyHVQ+4xdbmtW58dc0W4TurPNxqq/K6ui+dlFf5yS10LHwP
-         BvGg==;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:feedback-id:dkim-signature;
+        bh=1M3E4UxKfMJ+dI/l+/VVbPQmnjuaMV2kWf95M7jFT9o=;
+        fh=si4VKKSZd9OPrbNLmGmTrJI3sph7qraILxr9/fzaYDc=;
+        b=aADAc2KPXo648Af+dsTg/D/zhMXVTEKOeF+OLMGBZv/KViUVXC4YJ/Hfd9XXi+dbaE
+         puGLIH7n+UW9qMGxU2yqvqsPh5xankLnnQWDOn+CZfDZ/2hTlfVjEUD879jNObEI51/u
+         ObNBRsnfXiESW7yom9+uDFfMuKGJHBH2ScVtN+PknaNmPYjF0AAGL2oevEJUn4uvaBwU
+         sLM1ZhbrSScMqFswKrMknMKg8NWRJ4GvwnevOpbOnoPvfgkV4k0eq2R16kksXwMiwF9Q
+         8xHmYQ67eDm/G8sJ0+j4lXrJd1baQJp9XtI2hD1gc7lDeIP9FkZCYKjpV1DBQ8emMiGE
+         IFgw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=p5bwPL2y;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32a as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=m+X30Bjk;
+       spf=pass (google.com: domain of boqun.feng@gmail.com designates 2607:f8b0:4864:20::f2b as permitted sender) smtp.mailfrom=boqun.feng@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com. [2a00:1450:4864:20::32a])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-4356996ed8asi283754f8f.7.2026.01.20.08.24.01
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com. [2607:f8b0:4864:20::f2b])
+        by gmr-mx.google.com with ESMTPS id af79cd13be357-8c6a71ac4dfsi41999985a.1.2026.01.20.03.52.22
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jan 2026 08:24:01 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32a as permitted sender) client-ip=2a00:1450:4864:20::32a;
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-47ee07570deso38829425e9.1
-        for <kasan-dev@googlegroups.com>; Tue, 20 Jan 2026 08:24:01 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVDYcSSwUguu6BmQY4bVJY9fHQm1+S0Oy2oz/BCmxmGe0XA085qUic3M9MLonJYj9UQKZGqc9lw6fM=@googlegroups.com
-X-Gm-Gg: AY/fxX5HrxNxLUPZp+dbhADfl+opGmv27y2nRB+3utYihieTFUD3OXV2iacOGxOF1+d
-	vnHGFbGskWWh2j1W6VOb+tlYCYukF3X8ZavjrstfUNH5+ZbFt1afQCmRctq4j5PIo/jdndxMRAC
-	ZlgSQLvavt3C4WTJ3jzMMQtoVfcryf9mo3lfISXzCqYrjmYhS17MuoQVV8mBbQ3By8i+MZqskeh
-	HvQS8CZE10rLWOLd1nIerqL5HJ8uXrEL7KjVPLNAHpXgsvP4aaFPyjM8wmu3jeNJIeSX7KHT7Zm
-	dwBWzTYkzmroI7PJhXlQ4P8MwqDvmZrLlh68cUFH8YbXfaYZ+BAPSPI1hR+9fg/4YW1DhZVv06T
-	RnBvnZFyONDLBitJ+2Er+ygMpH4Lb9Vw4s0urPLy6/BXsdudYmhtEkhy9oj0EefKInmRQpxTG4X
-	Wrm0TxDYc9DkDxzfrSiv7Q5lAnhq87KdlMJu6Jr15ktxhTWkk=
-X-Received: by 2002:a05:600c:548a:b0:477:1bb6:17e5 with SMTP id 5b1f17b1804b1-4801eb10f27mr172875965e9.30.1768926240817;
-        Tue, 20 Jan 2026 08:24:00 -0800 (PST)
-Received: from elver.google.com ([2a00:79e0:2834:9:7c8:a22a:d5aa:54db])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569926ffcsm29599978f8f.18.2026.01.20.08.23.59
+        Tue, 20 Jan 2026 03:52:22 -0800 (PST)
+Received-SPF: pass (google.com: domain of boqun.feng@gmail.com designates 2607:f8b0:4864:20::f2b as permitted sender) client-ip=2607:f8b0:4864:20::f2b;
+Received: by mail-qv1-xf2b.google.com with SMTP id 6a1803df08f44-88a37cb5afdso87188596d6.0
+        for <kasan-dev@googlegroups.com>; Tue, 20 Jan 2026 03:52:22 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVEiTkfemj4iJbWXviOlYJEWhfrbIiKHtbcT49bNErrllgT+6mGq01WEGOXcKJnn0j8zXGnWvAHjU8=@googlegroups.com
+X-Gm-Gg: AZuq6aIKnOUykfsvJY2ZygHspp0q1/a4kazzdknGlmuNavBHoUNlp4STD1DYb7Fw2fd
+	qZewH1FgqyFvOZCmP2IyWiLnevHmO0bVjxGkwKgaWBzGcq/1OBIsfIOmKXvqvCFXQcXRgOh7Yb/
+	T7iqGw/ddeEtetQUB2O7xawJU0CP75UNztX9bAgnavFAt7XcFwNtzDRuHmhW07PzZpMXfHEVLOB
+	JsWP3MVAKeMjGSYq9jBFaG+fmu1joDCW3QCvLF4bLpL3spTuTUvKZw+JYLdyhun8dDbDkuH4rcf
+	l6LCWsfpoPdcd/uqDsGKVRQnYz9VlvPXebnukK25YExiV35waVbuGHOSTgSGSvvTR/Z7FywBhwb
+	sew6CARzj/5vKfkMAeocPcqRLCZeTvIsFag/v69GlrPYWOHxcyuD/pPSGDy+VyxHyrgpfMoHpG/
+	0gWI8dkJMqGZqjvQUNBqsvzZc8yQzZ9O2IbxBvYvzM31QXhNdDsTJFwbiqR6MkoCtPfs7OBMcvY
+	DcelyKlSNNyWVQ=
+X-Received: by 2002:a05:6214:da6:b0:88a:375b:ed7c with SMTP id 6a1803df08f44-89398273c7cmr206650326d6.35.1768909941648;
+        Tue, 20 Jan 2026 03:52:21 -0800 (PST)
+Received: from fauth-a2-smtp.messagingengine.com (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8942e6214c5sm100416876d6.25.2026.01.20.03.52.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 08:24:00 -0800 (PST)
-Date: Tue, 20 Jan 2026 17:23:54 +0100
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Boqun Feng <boqun.feng@gmail.com>
-Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, kasan-dev@googlegroups.com,
-	Will Deacon <will@kernel.org>,
+        Tue, 20 Jan 2026 03:52:21 -0800 (PST)
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 45E7EF40068;
+	Tue, 20 Jan 2026 06:52:20 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Tue, 20 Jan 2026 06:52:20 -0500
+X-ME-Sender: <xms:dGxvaeqkIaxe-HgSJlZ-XdYMXejqbWoVC6UThHAb-Rvic93GdQubJA>
+    <xme:dGxvaSa8gav2xX32Oy285vSFg7ByFOIkpt2RK0DzHdiMZ8fTzzLqNBx5e_FUfMpdi
+    q34jZJ9pgSsoNGFH4kULx4XuYenM8xrxCzOzpnI7_mYQrejR5fx8w>
+X-ME-Received: <xmr:dGxvaRSPUthtjWaovyWv9pjjrE3aB0mWKVLe1ItVXOUhdQ5PqESJVUhy>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddugedtfeegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepuehoqhhunhcu
+    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtth
+    gvrhhnpeegleejiedthedvheeggfejveefjeejkefgveffieeujefhueeigfegueehgeeg
+    gfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsoh
+    hquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedq
+    udejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmh
+    gvrdhnrghmvgdpnhgspghrtghpthhtohepvddtpdhmohguvgepshhmthhpohhuthdprhgt
+    phhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
+    gtphhtthhopehruhhsthdqfhhorhdqlhhinhhugiesvhhgvghrrdhkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrd
+    horhhgpdhrtghpthhtohepkhgrshgrnhdquggvvhesghhoohhglhgvghhrohhuphhsrdgt
+    ohhmpdhrtghpthhtohepfihilhhlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehpvg
+    htvghriiesihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopegsohhquhhnrdhfvghn
+    ghesghhmrghilhdrtghomhdprhgtphhtthhopehmrghrkhdrrhhuthhlrghnugesrghrmh
+    drtghomhdprhgtphhtthhopehgrghrhiesghgrrhihghhuohdrnhgvth
+X-ME-Proxy: <xmx:dGxvaYfKNo8QDwLYM9CXeiISh2_oldLP9KNgBPMv_C14CM-1i-LTMw>
+    <xmx:dGxvaYlvME6F5NCUZJYEaj9oEaPojavelmjuY8g2-7LJ489XKk0xQA>
+    <xmx:dGxvaVhMjOriFRdNi62qvTsp8VlSSPfzz_4B3_23vklb-14ShEa8zg>
+    <xmx:dGxvaREoz1sQ_A-5H57v0CBmy4qsl47VgFTj2JbsxHXyWG7Ei8Jxwg>
+    <xmx:dGxvacx2qewmct1PBt13iNre5_XJTp0BvOBLUs-Wl3WS5g1zXfe541fl>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 20 Jan 2026 06:52:19 -0500 (EST)
+From: Boqun Feng <boqun.feng@gmail.com>
+To: linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	kasan-dev@googlegroups.com
+Cc: Will Deacon <will@kernel.org>,
 	Peter Zijlstra <peterz@infradead.org>,
-	Mark Rutland <mark.rutland@arm.com>, Gary Guo <gary@garyguo.net>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Gary Guo <gary@garyguo.net>,
 	Miguel Ojeda <ojeda@kernel.org>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
 	Benno Lossin <lossin@kernel.org>,
 	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
 	Danilo Krummrich <dakr@kernel.org>,
 	Elle Rhumsaa <elle@weathered-steel.dev>,
 	"Paul E. McKenney" <paulmck@kernel.org>,
+	Marco Elver <elver@google.com>,
 	FUJITA Tomonori <fujita.tomonori@gmail.com>
-Subject: Re: [PATCH 2/2] rust: sync: atomic: Add atomic operation helpers
- over raw pointers
-Message-ID: <aW-sGiEQg1mP6hHF@elver.google.com>
+Subject: [PATCH 2/2] rust: sync: atomic: Add atomic operation helpers over raw pointers
+Date: Tue, 20 Jan 2026 19:52:07 +0800
+Message-ID: <20260120115207.55318-3-boqun.feng@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260120115207.55318-1-boqun.feng@gmail.com>
 References: <20260120115207.55318-1-boqun.feng@gmail.com>
- <20260120115207.55318-3-boqun.feng@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20260120115207.55318-3-boqun.feng@gmail.com>
-User-Agent: Mutt/2.2.13 (2024-03-09)
-X-Original-Sender: elver@google.com
+X-Original-Sender: boqun.feng@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=p5bwPL2y;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32a as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@gmail.com header.s=20230601 header.b=m+X30Bjk;       spf=pass
+ (google.com: domain of boqun.feng@gmail.com designates 2607:f8b0:4864:20::f2b
+ as permitted sender) smtp.mailfrom=boqun.feng@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -175,107 +225,246 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[googlegroups.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2607:f8b0:4000::/36:c];
+	R_DKIM_ALLOW(-0.20)[googlegroups.com:s=20230601,gmail.com:s=20230601];
 	MAILLIST(-0.20)[googlegroups];
-	R_DKIM_ALLOW(-0.20)[googlegroups.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2a00:1450:4000::/36];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bncBC7OBJGL2MHBBI6YX3FQMGQERJG677Y];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bncBC6LHPWNU4DBB5WYXXFQMGQE7VP2HRQ];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[googlegroups.com:email,googlegroups.com:dkim];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FREEMAIL_CC(0.00)[vger.kernel.org,googlegroups.com,kernel.org,infradead.org,arm.com,garyguo.net,protonmail.com,google.com,umich.edu,weathered-steel.dev,gmail.com];
-	DKIM_TRACE(0.00)[googlegroups.com:+];
-	HAS_REPLYTO(0.00)[elver@google.com];
-	TAGGED_RCPT(0.00)[kasan-dev];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,infradead.org,gmail.com,arm.com,garyguo.net,protonmail.com,google.com,umich.edu,weathered-steel.dev];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:15169, ipnet:2a00:1450::/32, country:US];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lpc.events:url,mail-wr1-x439.google.com:rdns,mail-wr1-x439.google.com:helo]
-X-Rspamd-Queue-Id: 62250476C8
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[boqunfeng@gmail.com,kasan-dev@googlegroups.com];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[googlegroups.com:+,gmail.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[kasan-dev];
+	ASN(0.00)[asn:15169, ipnet:2607:f8b0::/32, country:US];
+	RCVD_COUNT_SEVEN(0.00)[8]
+X-Rspamd-Queue-Id: 94ADF47B03
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Jan 20, 2026 at 07:52PM +0800, Boqun Feng wrote:
-> In order to synchronize with C or external, atomic operations over raw
-> pointers, althought previously there is always an `Atomic::from_ptr()`
-> to provide a `&Atomic<T>`. However it's more convenient to have helpers
-> that directly perform atomic operations on raw pointers. Hence a few are
-> added, which are basically a `Atomic::from_ptr().op()` wrapper.
-> 
-> Note: for naming, since `atomic_xchg()` and `atomic_cmpxchg()` has a
-> conflict naming to 32bit C atomic xchg/cmpxchg, hence they are just
-> named as `xchg()` and `cmpxchg()`. For `atomic_load()` and
-> `atomic_store()`, their 32bit C counterparts are `atomic_read()` and
-> `atomic_set()`, so keep the `atomic_` prefix.
-> 
-> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-> ---
->  rust/kernel/sync/atomic.rs           | 104 +++++++++++++++++++++++++++
->  rust/kernel/sync/atomic/predefine.rs |  46 ++++++++++++
->  2 files changed, 150 insertions(+)
-> 
-> diff --git a/rust/kernel/sync/atomic.rs b/rust/kernel/sync/atomic.rs
-> index d49ee45c6eb7..6c46335bdb8c 100644
-> --- a/rust/kernel/sync/atomic.rs
-> +++ b/rust/kernel/sync/atomic.rs
-> @@ -611,3 +611,107 @@ pub fn cmpxchg<Ordering: ordering::Ordering>(
->          }
->      }
->  }
-> +
-> +/// Atomic load over raw pointers.
-> +///
-> +/// This function provides a short-cut of `Atomic::from_ptr().load(..)`, and can be used to work
-> +/// with C side on synchronizations:
-> +///
-> +/// - `atomic_load(.., Relaxed)` maps to `READ_ONCE()` when using for inter-thread communication.
-> +/// - `atomic_load(.., Acquire)` maps to `smp_load_acquire()`.
+In order to synchronize with C or external, atomic operations over raw
+pointers, althought previously there is always an `Atomic::from_ptr()`
+to provide a `&Atomic<T>`. However it's more convenient to have helpers
+that directly perform atomic operations on raw pointers. Hence a few are
+added, which are basically a `Atomic::from_ptr().op()` wrapper.
 
-I'm late to the party and may have missed some discussion, but it might
-want restating in the documentation and/or commit log:
+Note: for naming, since `atomic_xchg()` and `atomic_cmpxchg()` has a
+conflict naming to 32bit C atomic xchg/cmpxchg, hence they are just
+named as `xchg()` and `cmpxchg()`. For `atomic_load()` and
+`atomic_store()`, their 32bit C counterparts are `atomic_read()` and
+`atomic_set()`, so keep the `atomic_` prefix.
 
-READ_ONCE is meant to be a dependency-ordering primitive, i.e. be more
-like memory_order_consume than it is memory_order_relaxed. This has, to
-the best of my knowledge, not changed; otherwise lots of kernel code
-would be broken. It is known to be brittle [1]. So the recommendation
-above is unsound; well, it's as unsound as implementing READ_ONCE with a
-volatile load.
+Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+---
+ rust/kernel/sync/atomic.rs           | 104 +++++++++++++++++++++++++++
+ rust/kernel/sync/atomic/predefine.rs |  46 ++++++++++++
+ 2 files changed, 150 insertions(+)
 
-While Alice's series tried to expose READ_ONCE as-is to the Rust side
-(via volatile), so that Rust inherits the exact same semantics (including
-its implementation flaw), the recommendation above is doubling down on
-the unsoundness by proposing Relaxed to map to READ_ONCE.
-
-[1] https://lpc.events/event/16/contributions/1174/attachments/1108/2121/Status%20Report%20-%20Broken%20Dependency%20Orderings%20in%20the%20Linux%20Kernel.pdf
-
-Furthermore, LTO arm64 promotes READ_ONCE to an acquire (see
-arch/arm64/include/asm/rwonce.h):
-
-        /*
-         * When building with LTO, there is an increased risk of the compiler
-         * converting an address dependency headed by a READ_ONCE() invocation
-         * into a control dependency and consequently allowing for harmful
-         * reordering by the CPU.
-         *
-         * Ensure that such transformations are harmless by overriding the generic
-         * READ_ONCE() definition with one that provides RCpc acquire semantics
-         * when building with LTO.
-         */
-
-So for all intents and purposes, the only sound mapping when pairing
-READ_ONCE() with an atomic load on the Rust side is to use Acquire
-ordering.
+diff --git a/rust/kernel/sync/atomic.rs b/rust/kernel/sync/atomic.rs
+index d49ee45c6eb7..6c46335bdb8c 100644
+--- a/rust/kernel/sync/atomic.rs
++++ b/rust/kernel/sync/atomic.rs
+@@ -611,3 +611,107 @@ pub fn cmpxchg<Ordering: ordering::Ordering>(
+         }
+     }
+ }
++
++/// Atomic load over raw pointers.
++///
++/// This function provides a short-cut of `Atomic::from_ptr().load(..)`, and can be used to work
++/// with C side on synchronizations:
++///
++/// - `atomic_load(.., Relaxed)` maps to `READ_ONCE()` when using for inter-thread communication.
++/// - `atomic_load(.., Acquire)` maps to `smp_load_acquire()`.
++///
++/// # Safety
++///
++/// - `ptr` is a valid pointer to `T` and aligned to `align_of::<T>()`.
++/// - If there is a concurrent store from kernel (C or Rust), it has to be atomic.
++#[doc(alias("READ_ONCE", "smp_load_acquire"))]
++#[inline(always)]
++pub unsafe fn atomic_load<T: AtomicType, Ordering: ordering::AcquireOrRelaxed>(
++    ptr: *mut T,
++    o: Ordering,
++) -> T
++where
++    T::Repr: AtomicBasicOps,
++{
++    // SAFETY: Per the function safety requirement, `ptr` is valid and aligned to
++    // `align_of::<T>()`, and all concurrent stores from kernel are atomic, hence no data race per
++    // LKMM.
++    unsafe { Atomic::from_ptr(ptr) }.load(o)
++}
++
++/// Atomic store over raw pointers.
++///
++/// This function provides a short-cut of `Atomic::from_ptr().load(..)`, and can be used to work
++/// with C side on synchronizations:
++///
++/// - `atomic_store(.., Relaxed)` maps to `WRITE_ONCE()` when using for inter-thread communication.
++/// - `atomic_load(.., Release)` maps to `smp_store_release()`.
++///
++/// # Safety
++///
++/// - `ptr` is a valid pointer to `T` and aligned to `align_of::<T>()`.
++/// - If there is a concurrent access from kernel (C or Rust), it has to be atomic.
++#[doc(alias("WRITE_ONCE", "smp_store_release"))]
++#[inline(always)]
++pub unsafe fn atomic_store<T: AtomicType, Ordering: ordering::ReleaseOrRelaxed>(
++    ptr: *mut T,
++    v: T,
++    o: Ordering,
++) where
++    T::Repr: AtomicBasicOps,
++{
++    // SAFETY: Per the function safety requirement, `ptr` is valid and aligned to
++    // `align_of::<T>()`, and all concurrent accesses from kernel are atomic, hence no data race
++    // per LKMM.
++    unsafe { Atomic::from_ptr(ptr) }.store(v, o);
++}
++
++/// Atomic exchange over raw pointers.
++///
++/// This function provides a short-cut of `Atomic::from_ptr().xchg(..)`, and can be used to work
++/// with C side on synchronizations.
++///
++/// # Safety
++///
++/// - `ptr` is a valid pointer to `T` and aligned to `align_of::<T>()`.
++/// - If there is a concurrent access from kernel (C or Rust), it has to be atomic.
++#[inline(always)]
++pub unsafe fn xchg<T: AtomicType, Ordering: ordering::Ordering>(
++    ptr: *mut T,
++    new: T,
++    o: Ordering,
++) -> T
++where
++    T::Repr: AtomicExchangeOps,
++{
++    // SAFETY: Per the function safety requirement, `ptr` is valid and aligned to
++    // `align_of::<T>()`, and all concurrent accesses from kernel are atomic, hence no data race
++    // per LKMM.
++    unsafe { Atomic::from_ptr(ptr) }.xchg(new, o)
++}
++
++/// Atomic compare and exchange over raw pointers.
++///
++/// This function provides a short-cut of `Atomic::from_ptr().cmpxchg(..)`, and can be used to work
++/// with C side on synchronizations.
++///
++/// # Safety
++///
++/// - `ptr` is a valid pointer to `T` and aligned to `align_of::<T>()`.
++/// - If there is a concurrent access from kernel (C or Rust), it has to be atomic.
++#[doc(alias("try_cmpxchg"))]
++#[inline(always)]
++pub unsafe fn cmpxchg<T: AtomicType, Ordering: ordering::Ordering>(
++    ptr: *mut T,
++    old: T,
++    new: T,
++    o: Ordering,
++) -> Result<T, T>
++where
++    T::Repr: AtomicExchangeOps,
++{
++    // SAFETY: Per the function safety requirement, `ptr` is valid and aligned to
++    // `align_of::<T>()`, and all concurrent accesses from kernel are atomic, hence no data race
++    // per LKMM.
++    unsafe { Atomic::from_ptr(ptr) }.cmpxchg(old, new, o)
++}
+diff --git a/rust/kernel/sync/atomic/predefine.rs b/rust/kernel/sync/atomic/predefine.rs
+index 5faa2fe2f4b6..11bc67ab70a3 100644
+--- a/rust/kernel/sync/atomic/predefine.rs
++++ b/rust/kernel/sync/atomic/predefine.rs
+@@ -235,6 +235,14 @@ fn atomic_basic_tests() {
+ 
+             assert_eq!(v, x.load(Relaxed));
+         });
++
++        for_each_type!(42 in [i8, i16, i32, i64, u32, u64, isize, usize] |v| {
++            let x = Atomic::new(v);
++            let ptr = x.as_ptr();
++
++            // SAFETY: `ptr` is a valid pointer and no concurrent access.
++            assert_eq!(v, unsafe { atomic_load(ptr, Relaxed) });
++        });
+     }
+ 
+     #[test]
+@@ -245,6 +253,17 @@ fn atomic_acquire_release_tests() {
+             x.store(v, Release);
+             assert_eq!(v, x.load(Acquire));
+         });
++
++        for_each_type!(42 in [i8, i16, i32, i64, u32, u64, isize, usize] |v| {
++            let x = Atomic::new(0);
++            let ptr = x.as_ptr();
++
++            // SAFETY: `ptr` is a valid pointer and no concurrent access.
++            unsafe { atomic_store(ptr, v, Release) };
++
++            // SAFETY: `ptr` is a valid pointer and no concurrent access.
++            assert_eq!(v, unsafe { atomic_load(ptr, Acquire) });
++        });
+     }
+ 
+     #[test]
+@@ -258,6 +277,18 @@ fn atomic_xchg_tests() {
+             assert_eq!(old, x.xchg(new, Full));
+             assert_eq!(new, x.load(Relaxed));
+         });
++
++        for_each_type!(42 in [i8, i16, i32, i64, u32, u64, isize, usize] |v| {
++            let x = Atomic::new(v);
++            let ptr = x.as_ptr();
++
++            let old = v;
++            let new = v + 1;
++
++            // SAFETY: `ptr` is a valid pointer and no concurrent access.
++            assert_eq!(old, unsafe { xchg(ptr, new, Full) });
++            assert_eq!(new, x.load(Relaxed));
++        });
+     }
+ 
+     #[test]
+@@ -273,6 +304,21 @@ fn atomic_cmpxchg_tests() {
+             assert_eq!(Ok(old), x.cmpxchg(old, new, Relaxed));
+             assert_eq!(new, x.load(Relaxed));
+         });
++
++        for_each_type!(42 in [i8, i16, i32, i64, u32, u64, isize, usize] |v| {
++            let x = Atomic::new(v);
++            let ptr = x.as_ptr();
++
++            let old = v;
++            let new = v + 1;
++
++            // SAFETY: `ptr` is a valid pointer and no concurrent access.
++            assert_eq!(Err(old), unsafe { cmpxchg(ptr, new, new, Full) });
++            assert_eq!(old, x.load(Relaxed));
++            // SAFETY: `ptr` is a valid pointer and no concurrent access.
++            assert_eq!(Ok(old), unsafe { cmpxchg(ptr, old, new, Relaxed) });
++            assert_eq!(new, x.load(Relaxed));
++        });
+     }
+ 
+     #[test]
+-- 
+2.51.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aW-sGiEQg1mP6hHF%40elver.google.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260120115207.55318-3-boqun.feng%40gmail.com.
