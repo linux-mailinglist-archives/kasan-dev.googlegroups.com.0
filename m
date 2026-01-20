@@ -1,148 +1,140 @@
-Return-Path: <kasan-dev+bncBCG5FM426MMRBWXOXXFQMGQEX4U6CII@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB2HPXXFQMGQEOYRQVDY@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SM0sBACub2nxEwAAu9opvQ
-	(envelope-from <kasan-dev+bncBCG5FM426MMRBWXOXXFQMGQEX4U6CII@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Tue, 20 Jan 2026 17:32:00 +0100
+	id yBGiGrizb2nHMAAAu9opvQ
+	(envelope-from <kasan-dev+bncBAABB2HPXXFQMGQEOYRQVDY@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Tue, 20 Jan 2026 17:56:24 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-ej1-x640.google.com (mail-ej1-x640.google.com [IPv6:2a00:1450:4864:20::640])
-	by mail.lfdr.de (Postfix) with ESMTPS id A95F247985
-	for <lists+kasan-dev@lfdr.de>; Tue, 20 Jan 2026 17:31:55 +0100 (CET)
-Received: by mail-ej1-x640.google.com with SMTP id a640c23a62f3a-b8704795d25sf582153666b.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 20 Jan 2026 08:31:55 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1768926715; cv=pass;
+Received: from mail-wr1-x440.google.com (mail-wr1-x440.google.com [IPv6:2a00:1450:4864:20::440])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DE06480FD
+	for <lists+kasan-dev@lfdr.de>; Tue, 20 Jan 2026 17:56:24 +0100 (CET)
+Received: by mail-wr1-x440.google.com with SMTP id ffacd0b85a97d-43101a351c7sf5120263f8f.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 20 Jan 2026 08:56:24 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1768928183; cv=pass;
         d=google.com; s=arc-20240605;
-        b=F0ZhMbVZsiAQah51K3kqj2mQ7vQs3LUY+Dm+d3MkC74P6lHY/UTMz/CL1aLBGMxgYD
-         GgDsQwsg3936ruH8Bon/xmO/t1+mfcjCjFZ2ngEYsjELFoQbb0sOWXJBTtDe8WWBsgwL
-         asKEs8knIb9aq0lYo7MEh3RI7R746ZnSVkEINpsde9oqJS30D249bVZKNeO1i9vPfSVv
-         f+/n/xRSI3o8wqHUbEnVqdTU9eAewQ4H1zCk0FgLJn6n5sxLZJMOF6ZaNodMZ5f+g4R3
-         HqE50qSmTS9nzvH+DuZR+Rhmtg4eHDL5GgS2aDeh9yAanb6qK4/JQYckEiI0xNHapElG
-         VJTQ==
+        b=TXicaEga7CrHFhPoL0U3kM/xDOyCIxqHqF/nuSPSjWPIIm3InaQPYBjSxuTTKNWLjF
+         /yO1eBuqb7DFWOeqYdLQqzmrTwMHzDBZ8wELmzc6ZDygpZtMixTQIKEp4loeNsG8Jrab
+         UId/URdePSgV4v5I6pqHLkriVFC4/g/r0BQ/ZOdlXkevNU6SGef/8MJG5+TOCYnJ0V5U
+         bQqWyRlJsEl6YE9OUSUWgi7W691CvWZG58qkRKRs8KOAg9ifYduPncAhODtLFoUCziUg
+         ZX1/o4Ag+DiFoUOLpBnt3fk826L+R/x3/3iMpT4x8FzpwNFGEJY4nZasxFDa+yfHpBhP
+         oV5Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=Oi2JC+AnFKPWXi+J/O4DBh7B81kCVUVE6LzYFmsdjTg=;
-        fh=AW+nFF8W/yMFntPSzZyj03mxHq/J8I8s8dfQjxqyhP8=;
-        b=K/9QT/Ruq7xcOhIhNbqG01wSuQ7xOng7PiGk88ikcrPU6t1HeDjzV+150shC4tscHo
-         RVZZ3aU5A8rgxUjtFqXw6NQ6/E9xYq6kOdJoEV1AMPTsHWaoxJ2sxVShK7e5TzZ37j/B
-         Klx7oGat/+WlNtwo0/5mD/vClAiugPU5EB/noazaY2X7GF9Vd6HLx8qhzgluqzzsHkDM
-         CouX8rQI/aZBtn3Vp3YWJR0R/Toa0suC8qSr3cKf2y+opk6Ei52xI/X1lS/bAKWWk7gx
-         4z09nhdgF5VbKO4NjvpjVevyCHE9ZPyfSaeuHz8TDpLTFUo8vJ2dAtqiCnt2LbD/fJoH
-         Gafw==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=SwENxqIcQFJ7ZQPOM/zRzbUpLUnsjxipsKer7zF3iEU=;
+        fh=NTLDUoM3wQXXJLkHE65G5cdJwdMxdvZ3pyBVmduIk7g=;
+        b=S6P8qM8yadqAQsAYzdCs6/WePhmluRtJ8N7kEjrVXhocrV85fMD+8jfBYivMPv0ECo
+         nj+atb9gkLxPuWuXeLfAXpml6w+c/6uNt95QzpyD3Cg9E5Azqc5X9gvVS/o0h7rVXskF
+         52P0TYTVELsGb4MePKjsCJmOxrf/l24CZmN48biEv+DHnBWtddQ92jZi6O08RkB8ds48
+         VCkdYNcdJzMGCcQe9IuohB1phWNzc1HrUPgflYnA9cAN+WB8E+1p6f7hMMZU+9vK9sUU
+         iiUGGMtpTj1MMuiZ0vjvrbcs+evMbpCmSvQ21S/856E02NpB2Ny3GbDsllfw3Z3LaXof
+         P4Tw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=3fVx9iZw;
-       spf=pass (google.com: domain of 3whdvaqkkcvcza713gn6a5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--aliceryhl.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3WHdvaQkKCVczA713GN6A5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--aliceryhl.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@linux.dev header.s=key1 header.b="r8EHeJ3/";
+       spf=pass (google.com: domain of hao.li@linux.dev designates 2001:41d0:1004:224b::b8 as permitted sender) smtp.mailfrom=hao.li@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1768926715; x=1769531515; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1768928183; x=1769532983; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:references:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Oi2JC+AnFKPWXi+J/O4DBh7B81kCVUVE6LzYFmsdjTg=;
-        b=xnEAuOms5U13WzBCQrBYUCa3KynQcVbI7YEzbV8/hN69plcKP8b6u5krKY8zq26hQO
-         m8N+Irgn5G3Qn/yCdzbwjKsizJS0Z+2kokGn+R1CC9fcg5Vvt1WCV+INSyU+Ym4BlVdV
-         ZhjRzEJLaEL9l8yZDQPSdzaFOzCNVZcjHEas6s7PeQSbgANQFlnyV1pmXQ8RKrokK/qC
-         D6OAi41OrUc+nMWTmfzCWmJ/u2jhb7Vh0y4d7/8MuathT8n5cBfack3yVfZZg8KxwyqY
-         USJdYadqSnb13J8MDYvc9Vi2hh/BiHiCJOgYCwghCkbVKEzjcVAgrc2wtqeAG3fhFOTJ
-         d6DQ==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SwENxqIcQFJ7ZQPOM/zRzbUpLUnsjxipsKer7zF3iEU=;
+        b=jPp2ri0W4cpwMxV5ki5YFY/IjXYA0F2T151+m1PHqsGGeCe6pFmLjW2fi8BWLCR0JA
+         EuwgaeenGitDzmFOz7l8LCUWe6Ree8ciRzL84546AiTNxjnNxrX+UiUAWnDhBSiss8Gk
+         81vH7FUBCTPbluLnDWAallhrYS331m5T3FL9AtAJflywRlUG4EK8kyFXnE/Fs86ImTxF
+         5L7tTeZ+yvI9I0fILcSq0kGi5BpzmGh1FBpM9/pdjl7Qz5fpx3cuBUzQ2D8twwveVuBV
+         1DW/RIaaacBBTwBj58f9pqmf3y2Yy0DXydlE+K/FpUzRc/KZMhIaFRmBS/37xWOicqDr
+         PUtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768926715; x=1769531515;
+        d=1e100.net; s=20230601; t=1768928183; x=1769532983;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:references:mime-version:in-reply-to:date
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Oi2JC+AnFKPWXi+J/O4DBh7B81kCVUVE6LzYFmsdjTg=;
-        b=jUBp6YcOl/vN+6r5xG/yYf+Hk2jh4lll0I6hkvlTAQKJf598pjcPm/PrUBRoVH41B4
-         DR7twJLiiHjy0zqogZGPRuSBy6WnHyyVFoWrqsCJKtcZ8pl5vFa6gcraxY2XO/feIHMi
-         Qm2OsO1rjQyuN1wO9U1lrR4BhLDJLC8AUvYGE6gDMen2XdPO2yGSaVpxyCsHflpEJjgY
-         5U38EbaSYsBEuLqGy3k/XZZ2JZuiYpcmuNGTHcbvDXM+4VZmxJ0fjy13rV5RVlNc939W
-         jAdqhZU6uCP3v8moONBcOaZR7zGQnlQPFSoYltmU4bYlFFrkpemcnbcKJdb9qKz8B4KR
-         UEfQ==
-X-Forwarded-Encrypted: i=2; AJvYcCVBBcezxxTt9s4zH5mt5grWYsM4lciKVIx4Bg7esvHr3xzj2U4b86F5Jb2is0XAoY+A3V+wDQ==@lfdr.de
-X-Gm-Message-State: AOJu0YxOzW1euD2GMSV7fFH+s0pW3EAcYpDEMW7UXUfSglr/WS1i/urY
-	4inZNcT4ZGgkUvwfv8o4qIHHgOle3RXylbXLDWOTNTqc+nxgAMlYH5Gk
-X-Received: by 2002:a05:6000:604:b0:430:f41f:bd5a with SMTP id ffacd0b85a97d-4356a089a52mr19953310f8f.57.1768912730734;
-        Tue, 20 Jan 2026 04:38:50 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+HTlqa2pk3TW6Cm5BxZqMnpYUAc7RWggKIxVtYaiUBlrA=="
-Received: by 2002:a05:6000:2484:b0:426:fc42:689f with SMTP id
- ffacd0b85a97d-435641701e9ls3899080f8f.2.-pod-prod-05-eu; Tue, 20 Jan 2026
- 04:38:48 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCVlGJmovRdQFpjM03aM5zmSE/md/QG29ulnOKi5yeTbJYake7a/No7zhW127H7UZr6wv46YC+pMx8U=@googlegroups.com
-X-Received: by 2002:a5d:5d81:0:b0:430:8583:d19b with SMTP id ffacd0b85a97d-4356a07722bmr19441455f8f.33.1768912728505;
-        Tue, 20 Jan 2026 04:38:48 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768912728; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SwENxqIcQFJ7ZQPOM/zRzbUpLUnsjxipsKer7zF3iEU=;
+        b=OWvdqZfY4CEUg5faWRvGN5pSpVR5Dl/+U3Ze/DSfzG0jb8M9QM6aUHW7ge2WFAWL7j
+         KMh2T20CY6wbn820tkFlGBbg1MINFUnR/wSTOIq9nytAjUOA4ZfRgwTaWrBud5r1B8Jx
+         K3bwN7+n/n3klwaElOhTOnIEf3gt3R+Jk92CxJdrLZyH+6MOBGYryrdWHLCs2f7wAO9e
+         7hZvddwsuW15LGw35fBhF70y5UIWl3t5et7tmb/URb2r5JNIb8SBaDu3guyOVPIu9wPt
+         Dz6U4JmQ5AMGuUM+RTYfjafEGx1afU/G9evDcGo/yqG4yuY3n8kyq+oWAT7BVPFaSc84
+         SNcQ==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCW+HJWBvfpJlEly437EjFoJm+xOSvFirlUIzF8Cg0FDpYlCgUxCDPdf7qcjscnl1Uo+GS8xGg==@lfdr.de
+X-Gm-Message-State: AOJu0YzR7Fw4WLDEKiO3INpT6Lb8HRstQQBkWkv+LbqYdfpbR5buancU
+	VJf4FBynj2L1OCg136GVk3T1IztC3xvl0B8RUO0EkrL1Q/XX0kZiMfly
+X-Received: by 2002:a05:600c:1c13:b0:47e:e414:b915 with SMTP id 5b1f17b1804b1-48028a65fb7mr129476805e9.2.1768912872586;
+        Tue, 20 Jan 2026 04:41:12 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+Hcq5V2DlPBtZsPBNPWJictc3wH95B7FwV6e10PpgPehA=="
+Received: by 2002:a05:600c:3510:b0:47a:74d9:db with SMTP id
+ 5b1f17b1804b1-47fb730a4a5ls31331945e9.1.-pod-prod-02-eu; Tue, 20 Jan 2026
+ 04:41:10 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVJ7fZklD6FnYHsVMe+W4YEa6h41AgtpY0AUgBjF//YaWHvLufyVDveBLlBK30ab1Lx8hs0fEPjAME=@googlegroups.com
+X-Received: by 2002:a05:600d:644f:10b0:47b:da85:b9ef with SMTP id 5b1f17b1804b1-4801e2fef40mr162099765e9.16.1768912870561;
+        Tue, 20 Jan 2026 04:41:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768912870; cv=none;
         d=google.com; s=arc-20240605;
-        b=gcWcSAAvzxb/H6GwThPQ0SHbDYXkAHXHQbMuFxd1qQNX3zAVeW4ZB8D7Wgj4BndR8J
-         kY2+OeVp1+vHn+5uSlYv93U4dn0i6mQZ2+mVMgUALwe3HE1sToU+OaO7R0LmFlMxHrM6
-         +XCEmuvj0h/fjdSTpAWqidywXmGUes9onm292XL/YutFiDMuDDtGgDg+oQ7S5gpLAKau
-         UqFSGB8Iee5GqqwBd4qkOfWiPMNHrYBrTdGGsPAcbYz/IfoQK4kZZf+0Wur1IA/XoORD
-         5npvWeYk7/lpZl5zxMoWhqKRJkFwvjjNG+OBnLxiimha8R8wJnL8H5KLg3bB+IjyuOYR
-         XMnQ==
+        b=EevpsRLGNhb1hZL3q3xZRdWG9JpTNd84GDjfhf/hvv+fDiMMPzgI1V2/8HeMe6NmxD
+         gHR+Lx2DDCfDLyc4Os//X9RBdQ04bE04DwkTcWMKogUPtr9p0fQWXSDyEgouzrc+VJon
+         SY/DTPdOrv/Vi6kFGOQgW7jl/hKY/HOhOCUirfmL5kqzN1myaalPtd5mtlOSmabncNcA
+         TAtyEHS2+tQk+GFyJpk4wju2mWoLHiZVURv32S01hxnLmPhRvqCYpEbW8rwXW65opRXB
+         LgFfwljIOyiTqbuIoBUetftAifGhXC7hEZqJEalI65zq3OxOdBpkS4MCosJ5sSI19ieK
+         TIBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:dkim-signature;
-        bh=v5uBS89EprhTXTMtWy33Byzr1DNzGriqxZMXGCf0cIw=;
-        fh=g2mbsMI6j+dizjGSbjsiJYbOVPquzvqNiWc2fRzBOCg=;
-        b=RJSn0VvopeZV0bS2xHepnVEu3NAWJ8d+wsoFsh4dgm/Fn5ny8PRBZTQhzZlWTSh2mM
-         Yj/ackB69tWTNR8a/Z9V4DCB/MgKKYu9+KK0n5oZ4G/nzJUOxbEI6hKEJtXr7YBfnFZX
-         5+WARHiosnECWdSSE77IMn1Ac0Rtlv4RnyRwYxI7QUNqexDeX2zbzFZfJERe9OTWmiR9
-         /s9EkTf3emvg78qVrlnueIVn79J3ZyUHy1ICqp6LWGjLpbuSf9Aibms6Vh9rGf/TkQAg
-         iBEarn/IATAjKKunro6QhQ+pIQp3aBon+4TcPDD6M2+E4LpUjzIgSwCKIpYwJGVA4Izh
-         Wseg==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:dkim-signature:date;
+        bh=SXI4I+Ibj/Ldc6/+dbWsvhs8PZ/UM4pm3iJ+tzviRtk=;
+        fh=2eNRZ9ECquILDe9T7DsfDKzbtYQIgOYM00xcI0sJ8bg=;
+        b=YFM85yOlouJqR3xACIQM6Y5AWuroEf3xABSVrv6j+tC3x0u/5HVdE1DPQ6+KLndpYO
+         Jhght9QTxpvynIhfgw54j9Pkd8MjFqUAzGvS6t1z5hh5wRmbs3IQGMEboJvrXkkpA7kx
+         33x4LEWtjuN9Py4RzrKVEG21g+6DVoWkFF98J6SjzZHPcWMxpJxoTviaswvO1325HnJX
+         wVH8C/tRhwrQVLzgxwWX714vZ7Ms79bF8XskWhRjtX19e0lVaFLrMJZFDen96J2KM2og
+         Pbe+DKH9078ZX4GacegUEob9zKVvsTVeQgXBW8ykqGoEVS5gDqYFMOdQCuAfgFn4+nwm
+         FGrg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=3fVx9iZw;
-       spf=pass (google.com: domain of 3whdvaqkkcvcza713gn6a5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--aliceryhl.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3WHdvaQkKCVczA713GN6A5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--aliceryhl.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-wr1-x44a.google.com (mail-wr1-x44a.google.com. [2a00:1450:4864:20::44a])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-4356992141csi256266f8f.2.2026.01.20.04.38.48
+       dkim=pass header.i=@linux.dev header.s=key1 header.b="r8EHeJ3/";
+       spf=pass (google.com: domain of hao.li@linux.dev designates 2001:41d0:1004:224b::b8 as permitted sender) smtp.mailfrom=hao.li@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com. [2001:41d0:1004:224b::b8])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-4358dd61998si42517f8f.9.2026.01.20.04.41.10
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jan 2026 04:38:48 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3whdvaqkkcvcza713gn6a5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--aliceryhl.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) client-ip=2a00:1450:4864:20::44a;
-Received: by mail-wr1-x44a.google.com with SMTP id ffacd0b85a97d-4325aa61c6bso3187203f8f.0
-        for <kasan-dev@googlegroups.com>; Tue, 20 Jan 2026 04:38:48 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV1XpHueGFzBp6LSGw3CnH2IJtTiRMdt65h6u8mHFdCK+Nl10kIO2jhE1EfGz7rIUCi0Mtr0XOkAx0=@googlegroups.com
-X-Received: from wrp4.prod.google.com ([2002:a05:6000:41e4:b0:435:948f:2ec0])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:2885:b0:430:fd84:317a with SMTP id ffacd0b85a97d-4356a051d68mr21671610f8f.38.1768912728086;
- Tue, 20 Jan 2026 04:38:48 -0800 (PST)
-Date: Tue, 20 Jan 2026 12:38:47 +0000
-In-Reply-To: <20260120115207.55318-2-boqun.feng@gmail.com>
-Mime-Version: 1.0
-References: <20260120115207.55318-1-boqun.feng@gmail.com> <20260120115207.55318-2-boqun.feng@gmail.com>
-Message-ID: <aW93VwfgkHpJfjVs@google.com>
-Subject: Re: [PATCH 1/2] rust: sync: atomic: Remove bound `T: Sync` for `Atomci::from_ptr()`
-From: "'Alice Ryhl' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Boqun Feng <boqun.feng@gmail.com>
-Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, kasan-dev@googlegroups.com, 
-	Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Gary Guo <gary@garyguo.net>, Miguel Ojeda <ojeda@kernel.org>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Elle Rhumsaa <elle@weathered-steel.dev>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Marco Elver <elver@google.com>, 
-	FUJITA Tomonori <fujita.tomonori@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jan 2026 04:41:10 -0800 (PST)
+Received-SPF: pass (google.com: domain of hao.li@linux.dev designates 2001:41d0:1004:224b::b8 as permitted sender) client-ip=2001:41d0:1004:224b::b8;
+Date: Tue, 20 Jan 2026 20:40:39 +0800
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Hao Li <hao.li@linux.dev>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Uladzislau Rezki <urezki@gmail.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH v3 15/21] slab: remove struct kmem_cache_cpu
+Message-ID: <dxrm4m545d4pzxmxjve34qwxwlw4kbmuz3xwdhvjheyeosa6y7@2zezo6xejama>
+References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz>
+ <20260116-sheaves-for-all-v3-15-5595cb000772@suse.cz>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: aliceryhl@google.com
+Content-Disposition: inline
+In-Reply-To: <20260116-sheaves-for-all-v3-15-5595cb000772@suse.cz>
+X-Migadu-Flow: FLOW_OUT
+X-Original-Sender: hao.li@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=3fVx9iZw;       spf=pass
- (google.com: domain of 3whdvaqkkcvcza713gn6a5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--aliceryhl.bounces.google.com
- designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3WHdvaQkKCVczA713GN6A5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--aliceryhl.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-X-Original-From: Alice Ryhl <aliceryhl@google.com>
-Reply-To: Alice Ryhl <aliceryhl@google.com>
+ header.i=@linux.dev header.s=key1 header.b="r8EHeJ3/";       spf=pass
+ (google.com: domain of hao.li@linux.dev designates 2001:41d0:1004:224b::b8 as
+ permitted sender) smtp.mailfrom=hao.li@linux.dev;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=linux.dev
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -154,55 +146,542 @@ List-Archive: <https://groups.google.com/group/kasan-dev
 List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:kasan-dev+subscribe@googlegroups.com>
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
-X-Spamd-Result: default: False [-0.21 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.11 / 15.00];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=2];
-	MV_CASE(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[googlegroups.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2a00:1450:4000::/36];
 	MAILLIST(-0.20)[googlegroups];
 	R_DKIM_ALLOW(-0.20)[googlegroups.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2a00:1450:4000::/36];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[linux.dev : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bncBCG5FM426MMRBWXOXXFQMGQEX4U6CII];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	RCVD_COUNT_THREE(0.00)[3];
 	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	RCVD_TLS_LAST(0.00)[];
 	DKIM_TRACE(0.00)[googlegroups.com:+];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	ASN(0.00)[asn:15169, ipnet:2a00:1450::/32, country:US];
+	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
 	TAGGED_RCPT(0.00)[kasan-dev];
-	FROM_EQ_ENVFROM(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,googlegroups.com,kernel.org,infradead.org,arm.com,garyguo.net,protonmail.com,umich.edu,weathered-steel.dev,google.com,gmail.com];
-	MISSING_XM_UA(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hao.li@linux.dev,kasan-dev@googlegroups.com];
+	TAGGED_FROM(0.00)[bncBAABB2HPXXFQMGQEOYRQVDY];
+	ASN(0.00)[asn:15169, ipnet:2a00:1450::/32, country:US];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	HAS_REPLYTO(0.00)[aliceryhl@google.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[googlegroups.com:email,googlegroups.com:dkim]
-X-Rspamd-Queue-Id: A95F247985
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[googlegroups.com:email,googlegroups.com:dkim,linux.dev:email,mail-wr1-x440.google.com:rdns,mail-wr1-x440.google.com:helo,suse.cz:email]
+X-Rspamd-Queue-Id: 0DE06480FD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Jan 20, 2026 at 07:52:06PM +0800, Boqun Feng wrote:
-> Originally, `Atomic::from_ptr()` requires `T` being a `Sync` because I
-> thought having the ability to do `from_ptr()` meant multiplle
-> `&Atomic<T>`s shared by different threads, which was identical (or
-> similar) to multiple `&T`s shared by different threads. Hence `T` was
-> required to be `Sync`. However this is not true, since `&Atomic<T>` is
-> not the same at `&T`. Moreover, having this bound makes `Atomic::<*mut
-> T>::from_ptr()` impossible, which is definitely not intended. Therefore
-> remove the `T: Sync` bound.
+On Fri, Jan 16, 2026 at 03:40:35PM +0100, Vlastimil Babka wrote:
+> The cpu slab is not used anymore for allocation or freeing, the
+> remaining code is for flushing, but it's effectively dead.  Remove the
+> whole struct kmem_cache_cpu, the flushing code and other orphaned
+> functions.
 > 
-> Fixes: 29c32c405e53 ("rust: sync: atomic: Add generic atomics")
-> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+> The remaining used field of kmem_cache_cpu is the stat array with
+> CONFIG_SLUB_STATS. Put it instead in a new struct kmem_cache_stats.
+> In struct kmem_cache, the field is cpu_stats and placed near the
+> end of the struct.
+> 
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
+>  mm/slab.h |   7 +-
+>  mm/slub.c | 298 +++++---------------------------------------------------------
+>  2 files changed, 24 insertions(+), 281 deletions(-)
+> 
+> diff --git a/mm/slab.h b/mm/slab.h
+> index e9a0738133ed..87faeb6143f2 100644
+> --- a/mm/slab.h
+> +++ b/mm/slab.h
+> @@ -21,14 +21,12 @@
+>  # define system_has_freelist_aba()	system_has_cmpxchg128()
+>  # define try_cmpxchg_freelist		try_cmpxchg128
+>  # endif
+> -#define this_cpu_try_cmpxchg_freelist	this_cpu_try_cmpxchg128
+>  typedef u128 freelist_full_t;
+>  #else /* CONFIG_64BIT */
+>  # ifdef system_has_cmpxchg64
+>  # define system_has_freelist_aba()	system_has_cmpxchg64()
+>  # define try_cmpxchg_freelist		try_cmpxchg64
+>  # endif
+> -#define this_cpu_try_cmpxchg_freelist	this_cpu_try_cmpxchg64
+>  typedef u64 freelist_full_t;
+>  #endif /* CONFIG_64BIT */
+>  
+> @@ -189,7 +187,6 @@ struct kmem_cache_order_objects {
+>   * Slab cache management.
+>   */
+>  struct kmem_cache {
+> -	struct kmem_cache_cpu __percpu *cpu_slab;
+>  	struct slub_percpu_sheaves __percpu *cpu_sheaves;
+>  	/* Used for retrieving partial slabs, etc. */
+>  	slab_flags_t flags;
+> @@ -238,6 +235,10 @@ struct kmem_cache {
+>  	unsigned int usersize;		/* Usercopy region size */
+>  #endif
+>  
+> +#ifdef CONFIG_SLUB_STATS
+> +	struct kmem_cache_stats __percpu *cpu_stats;
+> +#endif
+> +
+>  	struct kmem_cache_node *node[MAX_NUMNODES];
+>  };
+>  
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 8746d9d3f3a3..bb72cfa2d7ec 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -400,28 +400,11 @@ enum stat_item {
+>  	NR_SLUB_STAT_ITEMS
+>  };
+>  
+> -struct freelist_tid {
+> -	union {
+> -		struct {
+> -			void *freelist;		/* Pointer to next available object */
+> -			unsigned long tid;	/* Globally unique transaction id */
+> -		};
+> -		freelist_full_t freelist_tid;
+> -	};
+> -};
+> -
+> -/*
+> - * When changing the layout, make sure freelist and tid are still compatible
+> - * with this_cpu_cmpxchg_double() alignment requirements.
+> - */
+> -struct kmem_cache_cpu {
+> -	struct freelist_tid;
+> -	struct slab *slab;	/* The slab from which we are allocating */
+> -	local_trylock_t lock;	/* Protects the fields above */
+>  #ifdef CONFIG_SLUB_STATS
+> +struct kmem_cache_stats {
+>  	unsigned int stat[NR_SLUB_STAT_ITEMS];
+> -#endif
+>  };
+> +#endif
+>  
+>  static inline void stat(const struct kmem_cache *s, enum stat_item si)
+>  {
+> @@ -430,7 +413,7 @@ static inline void stat(const struct kmem_cache *s, enum stat_item si)
+>  	 * The rmw is racy on a preemptible kernel but this is acceptable, so
+>  	 * avoid this_cpu_add()'s irq-disable overhead.
+>  	 */
+> -	raw_cpu_inc(s->cpu_slab->stat[si]);
+> +	raw_cpu_inc(s->cpu_stats->stat[si]);
+>  #endif
+>  }
+>  
+> @@ -438,7 +421,7 @@ static inline
+>  void stat_add(const struct kmem_cache *s, enum stat_item si, int v)
+>  {
+>  #ifdef CONFIG_SLUB_STATS
+> -	raw_cpu_add(s->cpu_slab->stat[si], v);
+> +	raw_cpu_add(s->cpu_stats->stat[si], v);
+>  #endif
+>  }
+>  
+> @@ -1160,20 +1143,6 @@ static void object_err(struct kmem_cache *s, struct slab *slab,
+>  	WARN_ON(1);
+>  }
+>  
+> -static bool freelist_corrupted(struct kmem_cache *s, struct slab *slab,
+> -			       void **freelist, void *nextfree)
+> -{
+> -	if ((s->flags & SLAB_CONSISTENCY_CHECKS) &&
+> -	    !check_valid_pointer(s, slab, nextfree) && freelist) {
+> -		object_err(s, slab, *freelist, "Freechain corrupt");
+> -		*freelist = NULL;
+> -		slab_fix(s, "Isolate corrupted freechain");
+> -		return true;
+> -	}
+> -
+> -	return false;
+> -}
+> -
+>  static void __slab_err(struct slab *slab)
+>  {
+>  	if (slab_in_kunit_test())
+> @@ -1955,11 +1924,6 @@ static inline void inc_slabs_node(struct kmem_cache *s, int node,
+>  							int objects) {}
+>  static inline void dec_slabs_node(struct kmem_cache *s, int node,
+>  							int objects) {}
+> -static bool freelist_corrupted(struct kmem_cache *s, struct slab *slab,
+> -			       void **freelist, void *nextfree)
+> -{
+> -	return false;
+> -}
+>  #endif /* CONFIG_SLUB_DEBUG */
+>  
+>  /*
+> @@ -3655,191 +3619,6 @@ static void *get_partial(struct kmem_cache *s, int node,
+>  	return get_any_partial(s, pc);
+>  }
+>  
+> -#ifdef CONFIG_PREEMPTION
+> -/*
+> - * Calculate the next globally unique transaction for disambiguation
+> - * during cmpxchg. The transactions start with the cpu number and are then
+> - * incremented by CONFIG_NR_CPUS.
+> - */
+> -#define TID_STEP  roundup_pow_of_two(CONFIG_NR_CPUS)
+> -#else
+> -/*
+> - * No preemption supported therefore also no need to check for
+> - * different cpus.
+> - */
+> -#define TID_STEP 1
+> -#endif /* CONFIG_PREEMPTION */
+> -
+> -static inline unsigned long next_tid(unsigned long tid)
+> -{
+> -	return tid + TID_STEP;
+> -}
+> -
+> -#ifdef SLUB_DEBUG_CMPXCHG
+> -static inline unsigned int tid_to_cpu(unsigned long tid)
+> -{
+> -	return tid % TID_STEP;
+> -}
+> -
+> -static inline unsigned long tid_to_event(unsigned long tid)
+> -{
+> -	return tid / TID_STEP;
+> -}
+> -#endif
+> -
+> -static inline unsigned int init_tid(int cpu)
+> -{
+> -	return cpu;
+> -}
+> -
+> -static void init_kmem_cache_cpus(struct kmem_cache *s)
+> -{
+> -	int cpu;
+> -	struct kmem_cache_cpu *c;
+> -
+> -	for_each_possible_cpu(cpu) {
+> -		c = per_cpu_ptr(s->cpu_slab, cpu);
+> -		local_trylock_init(&c->lock);
+> -		c->tid = init_tid(cpu);
+> -	}
+> -}
+> -
+> -/*
+> - * Finishes removing the cpu slab. Merges cpu's freelist with slab's freelist,
+> - * unfreezes the slabs and puts it on the proper list.
+> - * Assumes the slab has been already safely taken away from kmem_cache_cpu
+> - * by the caller.
+> - */
+> -static void deactivate_slab(struct kmem_cache *s, struct slab *slab,
+> -			    void *freelist)
+> -{
+> -	struct kmem_cache_node *n = get_node(s, slab_nid(slab));
+> -	int free_delta = 0;
+> -	void *nextfree, *freelist_iter, *freelist_tail;
+> -	int tail = DEACTIVATE_TO_HEAD;
+> -	unsigned long flags = 0;
+> -	struct freelist_counters old, new;
+> -
+> -	if (READ_ONCE(slab->freelist)) {
+> -		stat(s, DEACTIVATE_REMOTE_FREES);
+> -		tail = DEACTIVATE_TO_TAIL;
+> -	}
+> -
+> -	/*
+> -	 * Stage one: Count the objects on cpu's freelist as free_delta and
+> -	 * remember the last object in freelist_tail for later splicing.
+> -	 */
+> -	freelist_tail = NULL;
+> -	freelist_iter = freelist;
+> -	while (freelist_iter) {
+> -		nextfree = get_freepointer(s, freelist_iter);
+> -
+> -		/*
+> -		 * If 'nextfree' is invalid, it is possible that the object at
+> -		 * 'freelist_iter' is already corrupted.  So isolate all objects
+> -		 * starting at 'freelist_iter' by skipping them.
+> -		 */
+> -		if (freelist_corrupted(s, slab, &freelist_iter, nextfree))
+> -			break;
+> -
+> -		freelist_tail = freelist_iter;
+> -		free_delta++;
+> -
+> -		freelist_iter = nextfree;
+> -	}
+> -
+> -	/*
+> -	 * Stage two: Unfreeze the slab while splicing the per-cpu
+> -	 * freelist to the head of slab's freelist.
+> -	 */
+> -	do {
+> -		old.freelist = READ_ONCE(slab->freelist);
+> -		old.counters = READ_ONCE(slab->counters);
+> -		VM_BUG_ON(!old.frozen);
+> -
+> -		/* Determine target state of the slab */
+> -		new.counters = old.counters;
+> -		new.frozen = 0;
+> -		if (freelist_tail) {
+> -			new.inuse -= free_delta;
+> -			set_freepointer(s, freelist_tail, old.freelist);
+> -			new.freelist = freelist;
+> -		} else {
+> -			new.freelist = old.freelist;
+> -		}
+> -	} while (!slab_update_freelist(s, slab, &old, &new, "unfreezing slab"));
+> -
+> -	/*
+> -	 * Stage three: Manipulate the slab list based on the updated state.
+> -	 */
+> -	if (!new.inuse && n->nr_partial >= s->min_partial) {
+> -		stat(s, DEACTIVATE_EMPTY);
+> -		discard_slab(s, slab);
+> -		stat(s, FREE_SLAB);
+> -	} else if (new.freelist) {
+> -		spin_lock_irqsave(&n->list_lock, flags);
+> -		add_partial(n, slab, tail);
+> -		spin_unlock_irqrestore(&n->list_lock, flags);
+> -		stat(s, tail);
+> -	} else {
+> -		stat(s, DEACTIVATE_FULL);
+> -	}
+> -}
+> -
+> -static inline void flush_slab(struct kmem_cache *s, struct kmem_cache_cpu *c)
+> -{
+> -	unsigned long flags;
+> -	struct slab *slab;
+> -	void *freelist;
+> -
+> -	local_lock_irqsave(&s->cpu_slab->lock, flags);
+> -
+> -	slab = c->slab;
+> -	freelist = c->freelist;
+> -
+> -	c->slab = NULL;
+> -	c->freelist = NULL;
+> -	c->tid = next_tid(c->tid);
+> -
+> -	local_unlock_irqrestore(&s->cpu_slab->lock, flags);
+> -
+> -	if (slab) {
+> -		deactivate_slab(s, slab, freelist);
+> -		stat(s, CPUSLAB_FLUSH);
+> -	}
+> -}
+> -
+> -static inline void __flush_cpu_slab(struct kmem_cache *s, int cpu)
+> -{
+> -	struct kmem_cache_cpu *c = per_cpu_ptr(s->cpu_slab, cpu);
+> -	void *freelist = c->freelist;
+> -	struct slab *slab = c->slab;
+> -
+> -	c->slab = NULL;
+> -	c->freelist = NULL;
+> -	c->tid = next_tid(c->tid);
+> -
+> -	if (slab) {
+> -		deactivate_slab(s, slab, freelist);
+> -		stat(s, CPUSLAB_FLUSH);
+> -	}
+> -}
+> -
+> -static inline void flush_this_cpu_slab(struct kmem_cache *s)
+> -{
+> -	struct kmem_cache_cpu *c = this_cpu_ptr(s->cpu_slab);
+> -
+> -	if (c->slab)
+> -		flush_slab(s, c);
+> -}
+> -
+> -static bool has_cpu_slab(int cpu, struct kmem_cache *s)
+> -{
+> -	struct kmem_cache_cpu *c = per_cpu_ptr(s->cpu_slab, cpu);
+> -
+> -	return c->slab;
+> -}
+> -
+>  static bool has_pcs_used(int cpu, struct kmem_cache *s)
+>  {
+>  	struct slub_percpu_sheaves *pcs;
+> @@ -3853,7 +3632,7 @@ static bool has_pcs_used(int cpu, struct kmem_cache *s)
+>  }
+>  
+>  /*
+> - * Flush cpu slab.
+> + * Flush percpu sheaves
+>   *
+>   * Called from CPU work handler with migration disabled.
+>   */
+> @@ -3868,8 +3647,6 @@ static void flush_cpu_slab(struct work_struct *w)
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Nit: Would it make sense to rename flush_cpu_slab to flush_cpu_sheaf for better
+clarity?
+
+Other than that, looks good to me. Thanks.
+
+Reviewed-by: Hao Li <hao.li@linux.dev>
+
+-- 
+Thanks,
+Hao
+
+>  
+>  	if (cache_has_sheaves(s))
+>  		pcs_flush_all(s);
+> -
+> -	flush_this_cpu_slab(s);
+>  }
+>  
+>  static void flush_all_cpus_locked(struct kmem_cache *s)
+> @@ -3882,7 +3659,7 @@ static void flush_all_cpus_locked(struct kmem_cache *s)
+>  
+>  	for_each_online_cpu(cpu) {
+>  		sfw = &per_cpu(slub_flush, cpu);
+> -		if (!has_cpu_slab(cpu, s) && !has_pcs_used(cpu, s)) {
+> +		if (!has_pcs_used(cpu, s)) {
+>  			sfw->skip = true;
+>  			continue;
+>  		}
+> @@ -3992,7 +3769,6 @@ static int slub_cpu_dead(unsigned int cpu)
+>  
+>  	mutex_lock(&slab_mutex);
+>  	list_for_each_entry(s, &slab_caches, list) {
+> -		__flush_cpu_slab(s, cpu);
+>  		if (cache_has_sheaves(s))
+>  			__pcs_flush_all_cpu(s, cpu);
+>  	}
+> @@ -7121,26 +6897,21 @@ init_kmem_cache_node(struct kmem_cache_node *n, struct node_barn *barn)
+>  		barn_init(barn);
+>  }
+>  
+> -static inline int alloc_kmem_cache_cpus(struct kmem_cache *s)
+> +#ifdef CONFIG_SLUB_STATS
+> +static inline int alloc_kmem_cache_stats(struct kmem_cache *s)
+>  {
+>  	BUILD_BUG_ON(PERCPU_DYNAMIC_EARLY_SIZE <
+>  			NR_KMALLOC_TYPES * KMALLOC_SHIFT_HIGH *
+> -			sizeof(struct kmem_cache_cpu));
+> +			sizeof(struct kmem_cache_stats));
+>  
+> -	/*
+> -	 * Must align to double word boundary for the double cmpxchg
+> -	 * instructions to work; see __pcpu_double_call_return_bool().
+> -	 */
+> -	s->cpu_slab = __alloc_percpu(sizeof(struct kmem_cache_cpu),
+> -				     2 * sizeof(void *));
+> +	s->cpu_stats = alloc_percpu(struct kmem_cache_stats);
+>  
+> -	if (!s->cpu_slab)
+> +	if (!s->cpu_stats)
+>  		return 0;
+>  
+> -	init_kmem_cache_cpus(s);
+> -
+>  	return 1;
+>  }
+> +#endif
+>  
+>  static int init_percpu_sheaves(struct kmem_cache *s)
+>  {
+> @@ -7252,7 +7023,9 @@ void __kmem_cache_release(struct kmem_cache *s)
+>  	cache_random_seq_destroy(s);
+>  	if (s->cpu_sheaves)
+>  		pcs_destroy(s);
+> -	free_percpu(s->cpu_slab);
+> +#ifdef CONFIG_SLUB_STATS
+> +	free_percpu(s->cpu_stats);
+> +#endif
+>  	free_kmem_cache_nodes(s);
+>  }
+>  
+> @@ -7944,12 +7717,6 @@ static struct kmem_cache * __init bootstrap(struct kmem_cache *static_cache)
+>  
+>  	memcpy(s, static_cache, kmem_cache->object_size);
+>  
+> -	/*
+> -	 * This runs very early, and only the boot processor is supposed to be
+> -	 * up.  Even if it weren't true, IRQs are not up so we couldn't fire
+> -	 * IPIs around.
+> -	 */
+> -	__flush_cpu_slab(s, smp_processor_id());
+>  	for_each_kmem_cache_node(s, node, n) {
+>  		struct slab *p;
+>  
+> @@ -8164,8 +7931,10 @@ int do_kmem_cache_create(struct kmem_cache *s, const char *name,
+>  	if (!init_kmem_cache_nodes(s))
+>  		goto out;
+>  
+> -	if (!alloc_kmem_cache_cpus(s))
+> +#ifdef CONFIG_SLUB_STATS
+> +	if (!alloc_kmem_cache_stats(s))
+>  		goto out;
+> +#endif
+>  
+>  	err = init_percpu_sheaves(s);
+>  	if (err)
+> @@ -8484,33 +8253,6 @@ static ssize_t show_slab_objects(struct kmem_cache *s,
+>  	if (!nodes)
+>  		return -ENOMEM;
+>  
+> -	if (flags & SO_CPU) {
+> -		int cpu;
+> -
+> -		for_each_possible_cpu(cpu) {
+> -			struct kmem_cache_cpu *c = per_cpu_ptr(s->cpu_slab,
+> -							       cpu);
+> -			int node;
+> -			struct slab *slab;
+> -
+> -			slab = READ_ONCE(c->slab);
+> -			if (!slab)
+> -				continue;
+> -
+> -			node = slab_nid(slab);
+> -			if (flags & SO_TOTAL)
+> -				x = slab->objects;
+> -			else if (flags & SO_OBJECTS)
+> -				x = slab->inuse;
+> -			else
+> -				x = 1;
+> -
+> -			total += x;
+> -			nodes[node] += x;
+> -
+> -		}
+> -	}
+> -
+>  	/*
+>  	 * It is impossible to take "mem_hotplug_lock" here with "kernfs_mutex"
+>  	 * already held which will conflict with an existing lock order:
+> @@ -8881,7 +8623,7 @@ static int show_stat(struct kmem_cache *s, char *buf, enum stat_item si)
+>  		return -ENOMEM;
+>  
+>  	for_each_online_cpu(cpu) {
+> -		unsigned x = per_cpu_ptr(s->cpu_slab, cpu)->stat[si];
+> +		unsigned int x = per_cpu_ptr(s->cpu_stats, cpu)->stat[si];
+>  
+>  		data[cpu] = x;
+>  		sum += x;
+> @@ -8907,7 +8649,7 @@ static void clear_stat(struct kmem_cache *s, enum stat_item si)
+>  	int cpu;
+>  
+>  	for_each_online_cpu(cpu)
+> -		per_cpu_ptr(s->cpu_slab, cpu)->stat[si] = 0;
+> +		per_cpu_ptr(s->cpu_stats, cpu)->stat[si] = 0;
+>  }
+>  
+>  #define STAT_ATTR(si, text) 					\
+> 
+> -- 
+> 2.52.0
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aW93VwfgkHpJfjVs%40google.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/dxrm4m545d4pzxmxjve34qwxwlw4kbmuz3xwdhvjheyeosa6y7%402zezo6xejama.
