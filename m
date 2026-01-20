@@ -1,177 +1,262 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBSXSX3FQMGQELKQ3LZY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDRYTJUOSUERBRPYX3FQMGQEHXWEV6Q@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +DUpJk65b2kOMQAAu9opvQ
-	(envelope-from <kasan-dev+bncBC7OD3FKWUERBSXSX3FQMGQELKQ3LZY@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Tue, 20 Jan 2026 18:20:14 +0100
+	id YFLuIke8b2kOMQAAu9opvQ
+	(envelope-from <kasan-dev+bncBDRYTJUOSUERBRPYX3FQMGQEHXWEV6Q@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Tue, 20 Jan 2026 18:32:55 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x738.google.com (mail-qk1-x738.google.com [IPv6:2607:f8b0:4864:20::738])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D7CB48743
-	for <lists+kasan-dev@lfdr.de>; Tue, 20 Jan 2026 18:20:14 +0100 (CET)
-Received: by mail-qk1-x738.google.com with SMTP id af79cd13be357-8ba026720eesf1615220385a.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 20 Jan 2026 09:20:13 -0800 (PST)
-ARC-Seal: i=3; a=rsa-sha256; t=1768929613; cv=pass;
+Received: from mail-qv1-xf39.google.com (mail-qv1-xf39.google.com [IPv6:2607:f8b0:4864:20::f39])
+	by mail.lfdr.de (Postfix) with ESMTPS id 096FA489DA
+	for <lists+kasan-dev@lfdr.de>; Tue, 20 Jan 2026 18:32:55 +0100 (CET)
+Received: by mail-qv1-xf39.google.com with SMTP id 6a1803df08f44-888825e6423sf119827646d6.3
+        for <lists+kasan-dev@lfdr.de>; Tue, 20 Jan 2026 09:32:54 -0800 (PST)
+ARC-Seal: i=3; a=rsa-sha256; t=1768930374; cv=pass;
         d=google.com; s=arc-20240605;
-        b=O/Kccui81hOUA10gqyiWu+hwKmytyXab2kvRYjt2FrR73E6MlC9VEunQttKLaq24vL
-         42MYyMFsRvdIBxlekXAd7VH7nLJ60HzyuIWWH/rJs9Vix3jAkdzF6JiAepjc9RvUuEq2
-         sidOxjonFlRkfLZQAABDPkzJHzjqj5w8Sb2SNMpL4Prk4nH8KrHSEUqWZSV3bm78Vs7s
-         KPVXpUHKRv2xwrPJLhxkfHBErBTW5ZKqamxaZDOuG1KmqeUxIX5lBCNz1kkU2oBojk8X
-         S7kHyMxazDY27b0GI7ZQaSdq3Tv9qZEl0l3hzZdaINkLylgMt3SGn9OATXMvaMAwUh/t
-         PoOg==
+        b=DqbpoHV8vY7C/fEA3Nu5DBpwBLlBPairwkAAqsvQgR+0V4PTf6D3kyNlDV7boNPtyU
+         KkIhF2l3D9lOlZwW0//5mDqCxmbH/QH92F+U6lAFDnDG2BVOqPN9SUq5xCzuaZ4+gqEn
+         kluHJYKGPFGHVSV4WV3PNP4+/oyBbqvWMcRNcox/ItPg5Bwx2iQpWpFo/Cv1gxoRqXSy
+         /QFmxBVDDHVTbwapvt4y6Pi1EdLDPOBcrZeWTYQndXzEEbcFhMuB63rNuXKhfMUyKtE+
+         JPJoRIOjDpf8gsJcuf/nub2R75GkLSjxS6uv3PCKfDkibBxPdK+GReicPHUhet6G2ADe
+         vXHQ==
 ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=+N92Jt57wtB3rH2J4Z8Ah6ezL0+q3WGMDMtOUrJcYwY=;
-        fh=R7xeRbW1Y3kGqlN2wW+u+1qOD8IityjIt7eCXc/qz58=;
-        b=SlNPcXNCanTGM38bY6cCNo4apc176jyLvYtdFuV65bROvrcf4qjkIABPfDSzguOSYr
-         LRZ+AtkLLl6i42mJmoNSGswbsR3+WFVvlpaPe2tMGN3u1Xny+yUPlTqyIEh+gSpCy/rW
-         FkiW7MVv8IvNrwQCqDbkK/yg5vd4b+Xh7XJKNGNYEf6RImIV1O8WvL/a4fZMin2PMwkn
-         V4D6wQEO21BL0c/RXJnNNAgvp5pTCrePjLter4ew0Yk23fpK2v+0s3Rud7GfAkHQGX5s
-         ZelY9WfTmd0QAB/FqENuweXZjfwuflk8a0NuFDfCucJTMsUYHiRVhQWaDcwKwaXNJzhh
-         +TzA==;
+         :list-id:mailing-list:precedence:mime-version:in-reply-to:references
+         :subject:cc:to:from:message-id:date:sender:dkim-signature;
+        bh=1gouCjon8H0BVkzbpZPfoAbA/Nmcdqc4LDfHJjK3FCg=;
+        fh=fwM3iEz39d5GhU2NJWdaTFHEYTNnsqQgxCJ69Klky5g=;
+        b=RkF1slGRXZh9WAvCVnrBjwpB6GFnKYQGeUh8wOb8ZbMWGniSFJ+Uw1A8oQAY5dVw6m
+         Y1Rhcq1X5IkzowbO83GEexk24FooBFz/zEQ+Ji6vINXAAWLQB1bNT3mQsNGbfFAEYNUt
+         hdhXyDX0oL1xKkDSnjYLqBMNtTwCDk5iv30KKtVMu+UsZXIL2zoU6Aktm7WNLSxNRIR5
+         Vyx0SBdwFywT/7+7GcX6nNPiuOD7Kb1mVerT9U3gx8nlPf/nrLMV7OE47ewSt3ddpdZN
+         BU4Eh6iHKDXRjmYpTAMdBHpFZocRVScc6kIWPBMb/79nFj2eXfj59t81iYUAWYMwJ+0g
+         Toyg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=oO4La249;
-       arc=pass (i=1);
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::832 as permitted sender) smtp.mailfrom=surenb@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@garyguo.net header.s=selector1 header.b=qNDpBUIt;
+       arc=pass (i=1 spf=pass spfdomain=garyguo.net dkim=pass dkdomain=garyguo.net dmarc=pass fromdomain=garyguo.net);
+       spf=pass (google.com: domain of gary@garyguo.net designates 2a01:111:f403:c205::3 as permitted sender) smtp.mailfrom=gary@garyguo.net;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=garyguo.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1768929613; x=1769534413; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1768930374; x=1769535174; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+N92Jt57wtB3rH2J4Z8Ah6ezL0+q3WGMDMtOUrJcYwY=;
-        b=jUgyOwCwNLyqtefO/79Xa5WzQqGTukN5JKw9yCTodjxHY9ScChO9A6o+ICC2XkASZx
-         qZz8rfpSTCGUOAtYUwM1SOhBVduBWy2cuC73RRZUi7bJkkwIRaGR07ory22VXFkAlK0i
-         ZL38HcyRrlHPFsofFtoLyxykvFtX8eGuGXUVwKoz4ObATAzFXS0dlCe6jeBAHXMM6wCe
-         GLAvjxcWZHaiGNakG3e32ECHxUaJiSAyb3nnuXARTqbE+jje2Sde370VUEe3uX7Cmzec
-         QmK6kSZjr8gqSsmRsNRafKiWd/3xrBaiLC0FojBFVdOp06hkLJ3WNPgC94o9NhcdMCJH
-         qBLg==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:in-reply-to:references:subject:cc:to
+         :from:message-id:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1gouCjon8H0BVkzbpZPfoAbA/Nmcdqc4LDfHJjK3FCg=;
+        b=NLe7dsLikcKY/xwiwiNN3lxmB3w0ZJkmPQs/SiV2mxhz9sy7i4FAm20VB4xkFCdYTW
+         fn3Rf3tz+Y7wFqJc4wjCSAKnGbwCmNGo0KoaAVyvof2cbN0hG8gEOGKhOu1v2JHDKK7v
+         CibQM1ge9EAsFaZB7f0aDxazExVuMhRydMD00xtg/WsBpWD/t94I6G7DSCYQKf6MWQZI
+         XoIIZwuTmDSoFao6uFZoA5v8f2KIDexmFf879IRetNaoHUiHrDTiUTDmHBpssMvGdkOF
+         C+r8VPeqvbTVDp89Uuvt6qvOpfqSYnc4NOK70Hb8u/fxEUpdzpiFmcAP2k5h/gexHDc1
+         9Ilg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768929613; x=1769534413;
+        d=1e100.net; s=20230601; t=1768930374; x=1769535174;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-beenthere
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+N92Jt57wtB3rH2J4Z8Ah6ezL0+q3WGMDMtOUrJcYwY=;
-        b=w0/DncnXxbRX2vHmKHXk48GdE0Muu98oKJMv+ObsCm2fX+iuomf5BnG3FJOW7TsW3b
-         Twv+VPq5C50m/b/Mxj9oOKI/EcXFKQwhruk+MKk5UDsY5uPM7/GCTtgzEijaaz+yckf5
-         zyUyHtrQMZltSFG94zEpFRbSra1W2hQFz89EV5HpGzKgX5UsMk8iaYECsfVI1uXp2xDR
-         COJQ6s2SWtUd9megsDq5N6NgHmmPvSPSPmm5SWgCk0nlIFyJnYMAKbsiY4gms6KEr213
-         Ft+z7DbMAJr/2HtYSWAJV4EtpCGF84hdYRapuoVWMS6hTkokgGyTI6G/RVHi5pHpjpL7
-         Lb/w==
-X-Forwarded-Encrypted: i=3; AJvYcCVUjz4ZZpGKmzmLGxBMmHq551tKsTYuPR//sZOzX7V2vdIvmUsDDUm2tZkRJfWC70y3Kpj+WA==@lfdr.de
-X-Gm-Message-State: AOJu0Yx9QaSRgoFLK/CG0S72cUICDZo+mzjc/062nBuLd90Gh4FDBJ9L
-	+5hb7c2pJY4XnY4BeVpyAOc71hnXZ0mJTqPNQq2edwKCvKy2f0UXPFFZ
-X-Received: by 2002:a05:620a:1a1d:b0:8b2:e5da:d316 with SMTP id af79cd13be357-8c6a67a4241mr2072161585a.87.1768929611157;
-        Tue, 20 Jan 2026 09:20:11 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+EmI2VdCa/vH5uMVCe7dQXIGlObCb4Y1NeUlZRQ7BRrSg=="
-Received: by 2002:ac8:7f4f:0:b0:501:51fc:c16f with SMTP id d75a77b69052e-50200b1378els86772841cf.0.-pod-prod-03-us;
- Tue, 20 Jan 2026 09:20:09 -0800 (PST)
-X-Forwarded-Encrypted: i=3; AJvYcCXJIsrgM6vgEDeeecNrbXpg+NDbh1WmOD0pXwudjoDKq9u+tZCXb4fMEBNR7PAS13MnJP+Xbnf/sQ4=@googlegroups.com
-X-Received: by 2002:a05:622a:1649:b0:4ed:b94c:774a with SMTP id d75a77b69052e-502a1648dbemr233518501cf.5.1768929608743;
-        Tue, 20 Jan 2026 09:20:08 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1768929608; cv=pass;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :in-reply-to:references:subject:cc:to:from:message-id:date
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1gouCjon8H0BVkzbpZPfoAbA/Nmcdqc4LDfHJjK3FCg=;
+        b=X6Xs92dPosEDAJkC+n3F8ringL3nP4UpEjapWoPi0Fm4fmTbpL+iyBjkUUn2TK/iMP
+         68TXjo8nuOzPr/W9FCTYUDDElZHICdQxnPaViJZMW8OJ92D4Tg7lbFJRktWbgK9vdnIC
+         pnFm8dOmR7E6QlmNyRKq9tjm8YlO6uPqK0H1OYAeBRg5VNLpQX3D9B26euPw8Rx23GFt
+         fdD34h+82u/UEfdHodeSANZpouXj7OeHsuLPL+pNBqDwfzDzdqwiXsbBlwnPSoVQRKa8
+         eP4P+8WT9BaWBD+r2SHEfNjWx2CvxI6wSqS5H3530Q98MNqyoAHGji3DxYEDANSaMsYK
+         2ZLw==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=3; AJvYcCXa/PN2VUwSybkUSG2pNAazGtrWGVCDUCjiaRaMpMAAZxqBdntkq0YxCTyMKBnWmu3Ji+tFmA==@lfdr.de
+X-Gm-Message-State: AOJu0YyKPUBns5BJw84pM2ZJ/vHkrCDXIQ0/Rv3alSKoAe7cB0052YWg
+	yj5PnBoTo0087JjZSmU0xqCOqepA9e7NzuyPvqUx3ZkOV5TCzVnK6jPM
+X-Received: by 2002:a05:6214:2687:b0:894:647c:d044 with SMTP id 6a1803df08f44-894647cd2e3mr34186276d6.19.1768930373581;
+        Tue, 20 Jan 2026 09:32:53 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+GCGiGZviGLVNFBUaodRVyPWRR1tUO39xp2ei4UceV2+A=="
+Received: by 2002:a05:6214:1c09:b0:880:57b3:cd12 with SMTP id
+ 6a1803df08f44-894222e7986ls101096246d6.1.-pod-prod-03-us; Tue, 20 Jan 2026
+ 09:32:52 -0800 (PST)
+X-Forwarded-Encrypted: i=3; AJvYcCVss0TeGeZLVEx07Vkn6s98ceaO9/yy7Zs9SwG29z91Tx4SHffzOXJf4ECbI0gdp7i1OLRvmjd9aT8=@googlegroups.com
+X-Received: by 2002:a05:6102:54a6:b0:5ed:8e3:b674 with SMTP id ada2fe7eead31-5f1a5525af2mr5066804137.20.1768930372596;
+        Tue, 20 Jan 2026 09:32:52 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1768930372; cv=pass;
         d=google.com; s=arc-20240605;
-        b=HjwoyX18Vl6MHpmn3V2lG4CFnjv68iWFtUtQEphdjUqsJjJ54sVml5ledNYJHZoogm
-         1iGqrJj9nDHR2WDFlHxo3TkhuwacZqSddBqazJaoN4k6Hky4EjWqxzihobAxB7tJ6HA6
-         u02nuycNQ2jQRnvvUSLZd2kvxKxmlhGa6Pkw+DK5gYBlv0zUCG3ZxmdpsU2kOrTvl4Pt
-         A1Tg3tshTOFfi4D8kZ+aXkDJ9BOp/u+kQmdgP0mhcUGVw/SalIrGMeXGlCDjMSIgtx2H
-         RONYQ+VfZqv5i2rNLZcK1qwQkCpGu9hG8J4EJF5bkHfNwIbU36f3f/sVEXhhq/EHjE9t
-         alTA==
+        b=Wg4s0OLOslETmcGZyNcX8FJHVQ4Pv9nvTBga804grM2iVtZgiBhzFxZnmuquFBp7hC
+         +bRuBfT3YnP+aY2gIrRItH7xeg7Ppks+DzfAovbmvOukikKJzLqmxIsOpmJz7blooedP
+         YiO5QiU/OaW4VL0FlRf+fFfBE+TaJOlt+QHrbmVewXKh00sOdpXaIVrKpw/TLRILI8ZF
+         FM4MtVO22uPZa5GVWRHX7f04XtntjuHXbDS3yc83+rPIOovSoZv2SpoJaIfY21Nl1b70
+         6hS59o7JmYUXZ5Ppol/OYOdvYJkImm8/vPcslgLKz7DOuDZgcHlJMFYbRp+mXZGfsla+
+         Ul8A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=XjgInJxzHZA1FL2RVNq/kScJMYVHdTMpDmOcyNlB2Pg=;
-        fh=UuEQbJn9VXIQPHRIrT7E+w2OJFLjqDsX9s0/fabtKr4=;
-        b=M/DZlNuGcR+cy0u3FKdZUzUq9B3gtliTNiOFiH5xXJX/5eO9An6ReRMByrbxbwRUR7
-         xQMjeZwSKzTaqrGQ5ob4vGFMLzy4pl2P5AA5D9E03hoXqniTGq79lIumrkRQsdvKiABw
-         1801MCSQvZ8AifDP2ciFympCw//TNKO6ruH9Y9kLkNtrZTy8+sow50wmvQFa9q5zMRlD
-         I+g7xivz2H0KRg7BDSY/YSmvm7a05ti0zUNpLVxPk7y+6uTsEKFdye//Hg6bQqzgTi0J
-         b3vSsgosJpC3s5nEgkDn9/0K6ZwKZwewc5DXaA3v/Jnjw4166uUZHXjQx7E+FzseQjyd
-         UFxw==;
+        h=mime-version:in-reply-to:references:subject:cc:to:from:message-id
+         :date:content-transfer-encoding:dkim-signature;
+        bh=U0yLaB0JaizwBpWq4+GDYEd45+XXiQPzUgSVMgeIzno=;
+        fh=GxOVJFYZhLUUWUnqYvVCH3g+eb/b8CRMGklKYQxEwSE=;
+        b=CZhmpnGSN3x4Xe7PDLd830HLUaHEIKet5NS3AnSaMie8kMfZM/YiVaAiAPvGZZV825
+         2w0VBa4qlzHODCaijE7qbcPNOPs1djp0EZzqoWxm8b+Hs3+J5c/IIlFG1KYFmmUofgFc
+         uLqRP4AlTVeFsJUcxtHucBNXWezVuYEU8IFLADS2oe1cjOuZSfO5aLkw1YAwBSUaZOQb
+         12ActV9yQiGaK0k81K/j/UD3N/cA1MZPCP6tdKBXS3P2HTnCNDHNkNwUqnZ1yqC49dww
+         ILrpty5DF96gabFaCxHc4cNmN6YaVZI+RB8W+Am+KH/i8CX3EIvW70OWiyvedOu7kJuI
+         W9hg==;
         dara=google.com
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=oO4La249;
-       arc=pass (i=1);
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::832 as permitted sender) smtp.mailfrom=surenb@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com. [2607:f8b0:4864:20::832])
-        by gmr-mx.google.com with ESMTPS id d75a77b69052e-502a1ea3767si4311941cf.7.2026.01.20.09.20.08
+       dkim=pass header.i=@garyguo.net header.s=selector1 header.b=qNDpBUIt;
+       arc=pass (i=1 spf=pass spfdomain=garyguo.net dkim=pass dkdomain=garyguo.net dmarc=pass fromdomain=garyguo.net);
+       spf=pass (google.com: domain of gary@garyguo.net designates 2a01:111:f403:c205::3 as permitted sender) smtp.mailfrom=gary@garyguo.net;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=garyguo.net
+Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazlp170110003.outbound.protection.outlook.com. [2a01:111:f403:c205::3])
+        by gmr-mx.google.com with ESMTPS id ada2fe7eead31-5f1a689ba91si409829137.0.2026.01.20.09.32.52
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jan 2026 09:20:08 -0800 (PST)
-Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::832 as permitted sender) client-ip=2607:f8b0:4864:20::832;
-Received: by mail-qt1-x832.google.com with SMTP id d75a77b69052e-5014b5d8551so1542991cf.0
-        for <kasan-dev@googlegroups.com>; Tue, 20 Jan 2026 09:20:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768929608; cv=none;
-        d=google.com; s=arc-20240605;
-        b=XNnY5h/oFGAa8nlfJo/IHC69mKKkNIu9A0RgAW0COby/N6f/0R4ACyaC8e5QWGJ2wX
-         3puI5hixp5cV2IdQy/xZ8nI/fCs/PV/BnvgF7djnzqu6VCGn0MZqB4hFvpB6TObwcsXn
-         Ho42VmV7K4Je8k4BbljpmNXe24VjbWOOSJuc8CBMSPLof4YJCEvCmhjBm1nOChryAuz1
-         6EUd/uiRTK1Lk48w77p1lNHuCwaqSKyIsfYhhuKDX8c1ttNxjU0FS9Rpur8zE1bwfR6E
-         LCqOBPKkENJFDt0W7xNLdK5cIyX4h76JAq7DTFfmypydbvMBczVCn9+jr3jeFV+gSyYd
-         OX3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=XjgInJxzHZA1FL2RVNq/kScJMYVHdTMpDmOcyNlB2Pg=;
-        fh=UuEQbJn9VXIQPHRIrT7E+w2OJFLjqDsX9s0/fabtKr4=;
-        b=A4P8ynDZNntDI6Xq3glnmRY2FnaT+3JCiRsPf9LYm5oHZEcMx3QBK02IhiyG54hY41
-         L8OllM21DaZIkPhgg+jEuxWZ5QSwD37s9mcipsaqq4oUG7oVUltUCXcQeqMSj7d1BqtS
-         zpCbi8BHlvLw7I9csdb4HjNi/Asworgxac/gUBh9vfcWT3agX+9CMniAoYq00qQXWrwD
-         kyq+Jt8o4NcqiZDrWzwqQ69bOMFLH20pXTBorN1srYwKAm8W4040FdPWXkgPxbRHy8zo
-         OTK1qA6oV/UG8ygn43RU6JjraGMEhFscEh9MPy2kBHa64asBpA9AUNoiXRlZoQJ9DQ9I
-         Rstg==;
-        dara=google.com
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-X-Forwarded-Encrypted: i=1; AJvYcCUGiIQVxqzC57ZXD60TpGZ5XeIP6PAOuZRLkyU8SIuiNP5tK4KsjqhGtUyxgirXvcJmn0Lrdnje+54=@googlegroups.com
-X-Gm-Gg: AY/fxX4z13GoJ1oYaMPmu+WUmKQZiQUb+USnJ3xOmvnYTZci/2QpqJUjJexW+JL3NIY
-	zauV2IJhOdtQEUqjfzLqornXZeOcg5/6IAjvubWpB/EJznR8u4FFWC2AkG2WjE728GWAcdMUbv4
-	cduPMYmYVDYJ46eLK4JdwplRSUzo6S2TzlnNO2hhJEIto6bn8HtGq32Ewqm8gNG7mdpmiyTc01o
-	ppSJfgMDo126MD59SiPExNfX+lAIkiIHj0Ec9rFIfMI/MfdqqWxIMS9xmybca5BP3anGyZ/G7Dg
-	gyBep0eRYOMlcaW6pQ+TNVRPGaVBcFa/9Q==
-X-Received: by 2002:ac8:7f49:0:b0:4ed:ff77:1a85 with SMTP id
- d75a77b69052e-502b07275d9mr30014031cf.17.1768929607523; Tue, 20 Jan 2026
- 09:20:07 -0800 (PST)
-MIME-Version: 1.0
-References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz> <20260116-sheaves-for-all-v3-9-5595cb000772@suse.cz>
-In-Reply-To: <20260116-sheaves-for-all-v3-9-5595cb000772@suse.cz>
-From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 20 Jan 2026 17:19:56 +0000
-X-Gm-Features: AZwV_Qi9JsdZs4u4zpyMKVEbr1yatFKMUCA5FvcV_dcEEUthHo8JPVRpfNJYn0g
-Message-ID: <CAJuCfpErRjMi2aCCThHiS1F_LvaXjkVQvX9kJjqrpw8YnXoNBA@mail.gmail.com>
-Subject: Re: [PATCH v3 09/21] slab: add optimized sheaf refill from partial list
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, 
-	kasan-dev@googlegroups.com
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jan 2026 09:32:52 -0800 (PST)
+Received-SPF: pass (google.com: domain of gary@garyguo.net designates 2a01:111:f403:c205::3 as permitted sender) client-ip=2a01:111:f403:c205::3;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OFfh5SDmrNeXmuwpoctfTir27HV3fyFgrQvzpFtlK1NzCcjoykRCxp6CcmYweSZZ7zCJklN8DgEObuY52hOhTkibWmBsvvVpHBfarPZA6y8LXBG0ac91F5iUxgQVicMLW2jFtz0proNQGQLlTFkSLa3wKr0XGG4LSFfkNQfUktD3wXchBn9SV4PqjYq0iZEFcOlD91+tByZSlFnaEyD+GIwUdPU1T/PEqRWO4kJRuGuM0iB3YyF5Hv1J3FctZ7z5y3B8Uhj/L4YItErQznyE1jxiJT9VVgIxc23i3EEdr0Qjg2QEQ7dBWEhSKsKT0kARSQjUPJOuEMClVntHX9Fhcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=U0yLaB0JaizwBpWq4+GDYEd45+XXiQPzUgSVMgeIzno=;
+ b=kWApWPIKldD2fFO42EJZML6g10zV+HyDc1WbeEZLIaBZ6GfEcODWu0+HAtPdlmfo0dIxvTF7CiuFJwbGfR7OvQGj59OGzFr1f19ZqfcxrTecJFQNlIILH/9YF1ZLDluMQljCnQRdYp1DOSvXx0te14v6pY2U3LlLfbW97DLioiwLwzmZWg2suIhlnOWnhgMgex9mqXCemBMrhJ85xDpM9jmjXUB1aet2/2JUoBXlXkofV2Ys/tPATk5Wv5f6wLfFD6DOeZGF3hIoqU74wjzLTYpI8biRQsVOaU4c+OjRvS4pWx04ybFvyId6lPAC7GaXIAFVIUhUbhUUTurX0/Zq0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO0P265MB5455.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:245::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.13; Tue, 20 Jan
+ 2026 17:32:48 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9520.012; Tue, 20 Jan 2026
+ 17:32:48 +0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: surenb@google.com
+Date: Tue, 20 Jan 2026 17:32:48 +0000
+Message-Id: <DFTLHCJKPBRM.2G76Y35NCHNZM@garyguo.net>
+From: "Gary Guo" <gary@garyguo.net>
+To: "Marco Elver" <elver@google.com>, "Gary Guo" <gary@garyguo.net>
+Cc: "Boqun Feng" <boqun.feng@gmail.com>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <kasan-dev@googlegroups.com>, "Will Deacon" <will@kernel.org>, "Peter
+ Zijlstra" <peterz@infradead.org>, "Mark Rutland" <mark.rutland@arm.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
+ "Elle Rhumsaa" <elle@weathered-steel.dev>, "Paul E. McKenney"
+ <paulmck@kernel.org>, "FUJITA Tomonori" <fujita.tomonori@gmail.com>
+Subject: Re: [PATCH 2/2] rust: sync: atomic: Add atomic operation helpers
+ over raw pointers
+X-Mailer: aerc 0.21.0
+References: <20260120115207.55318-1-boqun.feng@gmail.com>
+ <20260120115207.55318-3-boqun.feng@gmail.com>
+ <aW-sGiEQg1mP6hHF@elver.google.com>
+ <DFTKIA3DYRAV.18HDP8UCNC8NM@garyguo.net>
+ <CANpmjNN=ug+TqKdeJu1qY-_-PUEeEGKW28VEMNSpChVLi8o--A@mail.gmail.com>
+In-Reply-To: <CANpmjNN=ug+TqKdeJu1qY-_-PUEeEGKW28VEMNSpChVLi8o--A@mail.gmail.com>
+X-ClientProxiedBy: LO4P123CA0133.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:193::12) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO0P265MB5455:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8d8212fc-b26d-4465-10bb-08de5849ee48
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|10070799003|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Z2VJcENGSmNnSWNkS2M1NkthSFVmaUlVbzkraE9oMUdqT1M4R1ZBb3ZEVUJa?=
+ =?utf-8?B?d2c4VGpQMXlYbm9ja3VrSHhiN0tGQjBwaDVFbkNoVGlIMklOYStWcGJZKzRt?=
+ =?utf-8?B?bjZ6bkFoclFMczlJRm5LMWc4OGZSbFZOa0pJemFBa1pmTkVOMC84NTNNWDY5?=
+ =?utf-8?B?NHpuTG4vbHYzY2VJM0Q1NUJ4NjZNT0gxaXBBOFRjTVVHaGpwalNwTjdLbDg0?=
+ =?utf-8?B?TlVVMVlzSW16QUJ0c3NuaWZvV2dtZDRmcFVqVTErMnJDeUdlY2pJS2w0K2FI?=
+ =?utf-8?B?RzNKODFqWWt2VWtaelVlV3FNc1R4U2FmeStzZjIrWkNJQTZLcVptVlhKREtF?=
+ =?utf-8?B?YUM1R3QvNjBzdzk3V3JDU3VyY2V3aXk1a2ZMZ1daUytMUngvN0N4R1RWWGp4?=
+ =?utf-8?B?UDQyQ0c3T09SbXJsWW5NWmgvMHpMV0RaQnFOR2pMZTRiY1dOdHNaVzN6dm9j?=
+ =?utf-8?B?ZTdqMmdabVNNd2ErdG9nVHZBSTV5bURRdGFOeW12Y1JZVVVVMnh5QkFRTTZ0?=
+ =?utf-8?B?b1M1WXNsTEFvRE1oQ1VIRmhCdkFVV1R2ZWkxcWV2ODI4TXhNYzR5NFZaNDRG?=
+ =?utf-8?B?SERvRUxvWjNzMEZYYitOUnl0T21CVjdEYU5oNkZnSFAyR3liSXR4T29pSGZw?=
+ =?utf-8?B?QS94NDMwZlRtcjAvL0tjbjNpYnVXOXVxY1JRaFNMaSsyQ2VVVm5ZbzlUTWRW?=
+ =?utf-8?B?NDR4NVZWSklPc0ZVMkJuN3hTbjR0ZitEakxwYW16Uy84Qzlna0lyN0hBTTNW?=
+ =?utf-8?B?dWpjUzJDMWZBdFhWOHFVL1ppMHdQaWFQeTNxWjVVR0FualhYc3RObzF1YUJY?=
+ =?utf-8?B?c3k2RmsyV2gyckQvVkJUSjNGWldNNjRiVkZyK2RMcmdYZnB5d2JRRVRXSnlu?=
+ =?utf-8?B?M0o0Tml2NVB4TUdOVFlCaDhpVUFuU0JFdGNQUEZHN1NnL0FWVXdrTTVqWWZH?=
+ =?utf-8?B?L0drd3J1ckZUVWJlWENVd3hOZVlBVDVQUituc0EyUExvV2NWV2x3V25oZTdw?=
+ =?utf-8?B?T09ab3lDQTNldUIrYkxSOGdMd2hDTk13cmRtb0xyZVh0UUZJRXppVWhJS1Ix?=
+ =?utf-8?B?Qkh1aVBiWGtNVTRtUlBkNytQTWxHRkZBSmE1eHJwOXk4YVJldTAydytNTkxZ?=
+ =?utf-8?B?cUFGMitRQ2lpQlBHd1hzTmRKUnN4NHQrZmFiclMzcnJKNjVRV0UxOGdEOFlP?=
+ =?utf-8?B?UW5zSWFkWFVaek1qMENScmNYaFE2dkxwZWxMMUg4K0tNRnpUQzRhN28xZ3lm?=
+ =?utf-8?B?cGxSS1gzeU9uOW9PeDg2NXo2elBuYW9VQ1IrMlgyTDlzb0R5QUphSFQ2NEJv?=
+ =?utf-8?B?YkJsdkJmZWJZRG8yR1BtNnVQTFpVZUhZQzdGcnlKK1Jtd2lGQ0tMMHRLTmpp?=
+ =?utf-8?B?YU1TTldCSTJqNXJwTHRmbzU5eWRaUUhPN2VNOVpzTlJYV0diYnQ2dEh3QlpJ?=
+ =?utf-8?B?K1NaSFdSNi9IcWFwK3BFQnIrc2hKcG53SDNoZXhvQkdvOE41U2hFaTlUWEtw?=
+ =?utf-8?B?U2hndSs1M0wvTEtCTnpPM0ZJdEFLN3hvMUNYaUFDWTNmSDMyZjN1TFJvK3dW?=
+ =?utf-8?B?YWlHSWZQckp4N043bzhRUk5Fdm1DcEdWQmY0RnI3S0xTQVdyc3M5MDdmVlp6?=
+ =?utf-8?B?TDcyeHNYZXptd2Z4OEhmQzhQdXZLUmkydmRUcjJFbUJVbldPZTRKbmRaR3hD?=
+ =?utf-8?B?NjNncGVDZytGSDUwbXJvdVNmMmNGNGREK21aSnc0K2dpT213M3NUcWJnNk5C?=
+ =?utf-8?B?RW5PeDROVC9CZFV4OTdTNnU0Z3FRMnl2bXlaZlZpR2RTZk9Qa21UM3lpRkI5?=
+ =?utf-8?B?RzVtRHpJRStmVjFiVTVSMFE0TTZNRFFzd01HVk5iMHFCZU5Td2ZQY1JaRXY3?=
+ =?utf-8?B?U004MjdLRGFGNjg1NjYxbitCdjZtSWhCakFWeGV0MmxScGVFby8wOUtkUFJR?=
+ =?utf-8?B?eWVIbmRUb3dSNElZb1ZqZW1yMVdCR2k0bnBsVVJ5b3VSV2t3OGFtWng4VENO?=
+ =?utf-8?B?ay91THhob1Q4Wi8reFNxbWdCNm90TVZvVmdURkoxOTFkSjcyeVVvSDJWbFNo?=
+ =?utf-8?Q?c2j6km?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eEEwQzRQU3NHMXUyNU1QRDhhV1l1RnlTYUZtMXlaK0g5OEVxV1FNbklSU3Bw?=
+ =?utf-8?B?L2xJeitPSlJxQ2trV2p2bGRPUGpGQmVQbmYyWXVQaXdnWHVLaXFRWjJjbHpN?=
+ =?utf-8?B?empmSmhWV0lKMU03ZjNBbDNiZ1NpVmgwcGdHbnJFL2FjbEJXREQ3OEdkdGRJ?=
+ =?utf-8?B?UXBybnMzTUR4bVFVVHVpOUd3Rk4zYUY5ejRZZXIwUFZRSjd5aGFMVHVrMGVs?=
+ =?utf-8?B?b1lzeDZqYXBiaFdCVTFocnNSWkhlY2NjTmJYcHFvS2RWYzJFS1BCVW0yRHdD?=
+ =?utf-8?B?Mm1qQ0pCMlVmK201OWZuWWNXakVDTUZyN05aZXJLWkpMUUJaYi9KVWdwbmQ1?=
+ =?utf-8?B?UnJ3dnlCcEZORWp3dXowb1dYSkxybmo0aGIwNU1GZk5VRzE4cXk2N3FrUFhm?=
+ =?utf-8?B?bEREb0ZsWm1Yd01GNVhZdlhERzYwZXRqM2Z6bmpmRWJramRSQTBBY08rOVJQ?=
+ =?utf-8?B?MFpMYzl0d1FYWUttdkxVZVhFQnZzQzY3U2dTT2N3SllZVjBiL3BBRDhqT2h4?=
+ =?utf-8?B?L0VMcXBkMWREdkN3MzNUc3M2UmxBcVlFWmRVZ1RtcktqYkdXSE45Nnp5WkFt?=
+ =?utf-8?B?NkhYODdLSVV1S0I3MVphQWlCYkttK3NuL3gwTTFtN3BRL25vNmNndVFtUnpX?=
+ =?utf-8?B?eCt2b1lod2hrZURwQ3BSQWRQV1gzQkFEUVRsbFNOUE9ZNVFTUmFLVnFBUmJy?=
+ =?utf-8?B?WDFhVldrRURxbDA5Q1B6aVlLOU1UYlhOZWx5L3lKSlFCNkV0d0ttVmVYMkVM?=
+ =?utf-8?B?a2l3U2Y4NEttV3M5aExZaDlUWDIxaGxOL2VCRXBkenRlY3IrTG5zWjhYSHdM?=
+ =?utf-8?B?ZDJIWTBydWtnbVlDaVloYk5mclk2TlhOV1BxYlRNVnhFRjZkQ01FZDNLcXZp?=
+ =?utf-8?B?c3NMOXRJaGxVTWN2RzFSQWcvODUxaHlYWDdaMWVielM4aTZkM2owMXlhc2to?=
+ =?utf-8?B?bzZOL1hXR2x4NlpLRm9DdmdzMThaUVY2LzVHVXlKd2xtMTFjaXB5aFYvYzd3?=
+ =?utf-8?B?aG1UM01SRStKZklnTXFUbWptOWJleUlZWTZjdXp2NDB6TVhBZzkyVlYrSGR1?=
+ =?utf-8?B?S0NBV3BpUm5ZM1ozY3pwS2xVdW5wMDNWdzQvdUxiWW1tZ1VhWUh3OWduQXoz?=
+ =?utf-8?B?VFpMZ0RPRnJtYWVVZnF0WHhOdlVwQnloam1aSkw2YUdLRUNJUjRFU1l4cXJU?=
+ =?utf-8?B?eVlqM0hVUVcxZ3FTNmRvcFJSYTM1MzkreGU3anYzb0lWVkgwYS9CT1I4NjhN?=
+ =?utf-8?B?NEdUTHBmVEpzNEQyOG9pZUFVaXdFang5ZnRJbzhuTUdiUXowOXg4alZUazlj?=
+ =?utf-8?B?Vmtrb0JFNEpVVi9kQ0FtR01IMmxNR0ZwR0xMOFQyUUZvOFEvSEk0aVhsQTlX?=
+ =?utf-8?B?VjI5c2E4NGdQdVBDSzRLcjdUaCtQTGVwcklUS2tzaWhPaWdOUG9TemdmL1hT?=
+ =?utf-8?B?Q0crVzA0K2dIYkovUStqbUpORldWYzVtN2taeDN3eDJwVlJWMkRzUE5mR0R2?=
+ =?utf-8?B?YWw4bWtsREhmbUJuZjZzK2FYdm5TQVAxdTdYWmE1ME44ZFk4cUM3c05JL2w3?=
+ =?utf-8?B?K0lzMnJCRExCREV3NmZibDRHV0xLN1BBWGZ6RlRiRkxJdSs0VlhvYVZ6L1Nu?=
+ =?utf-8?B?T2xmSndlaXdybnFOazdjc2pWZjJaMnN4L2VNSmhjZHdEYlNoUTJYd3doalBx?=
+ =?utf-8?B?TWUrbWxPckxnNk9SV3BpcU9aNGkxY0NoYVpQUGxvKy9LbXVnK0JjWVF2MTla?=
+ =?utf-8?B?eU91N2RSZ3FxR1JmUXpTaVVqbkVaVENVbWd4c3Q4dnJSY0tFTWlWZkdqbjVa?=
+ =?utf-8?B?QTlZNVkyVmxXL3dLaGwwaEtjR3BLZzFpbzdKY2VlOU02TFUvV3V5TlY2V2xu?=
+ =?utf-8?B?cEI3endETWMwN1lSTjRDdjNRcEV0NUY0NFZBL0dzTG1LcFZtUHlkcy93MUcw?=
+ =?utf-8?B?bkZEa2ZNbTBlRzhhdm01LzBHY3IyWndmYklWYW8xcXl6MXpUUm9tOXV1aGI4?=
+ =?utf-8?B?ZTFmMU9OOEFnY0grMXo4UmdNYTI1ZXhMZFFUNndYYVFQbTRJQ25kOTJpNVRa?=
+ =?utf-8?B?SmlxRTNnQlBVZFRWUDlVekJCTnRPWTBqakh4S2tzUDZGSUJZeXlqWTZjM1dm?=
+ =?utf-8?B?M1drNnRibk81ZE83QlJWckpQL0g3VmZ3Q2hIWjJsWWw3Q2s5U2dNQk1pbjhU?=
+ =?utf-8?B?bDBtZjhhbm9Cd3hERGdMSzJHTU1sc1A3VStVYWJ0Q2xaOEZGR0N6dmdwcGg5?=
+ =?utf-8?B?R3gxTkxHc05CSnR6cnh5R0JpamFKejJnMlRxSU5MbXRVRVA5WHJ6aWl2N3Jp?=
+ =?utf-8?B?b05XZHVXZkYvRW01NUZUM0JiZXlXK0JKam5TOHN4aWdUMmpRUURTUT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d8212fc-b26d-4465-10bb-08de5849ee48
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 17:32:48.7448
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4b3nXy8P4x+v5T0PfFwx6oVUg9vZ2xpgBLh76ARh9sX4Hg8+qXZYYOIPG6DiQka85GgnhfuNyfijUEpG20zatg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB5455
+X-Original-Sender: gary@garyguo.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=oO4La249;       arc=pass
- (i=1);       spf=pass (google.com: domain of surenb@google.com designates
- 2607:f8b0:4864:20::832 as permitted sender) smtp.mailfrom=surenb@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-X-Original-From: Suren Baghdasaryan <surenb@google.com>
-Reply-To: Suren Baghdasaryan <surenb@google.com>
+ header.i=@garyguo.net header.s=selector1 header.b=qNDpBUIt;       arc=pass
+ (i=1 spf=pass spfdomain=garyguo.net dkim=pass dkdomain=garyguo.net dmarc=pass
+ fromdomain=garyguo.net);       spf=pass (google.com: domain of
+ gary@garyguo.net designates 2a01:111:f403:c205::3 as permitted sender)
+ smtp.mailfrom=gary@garyguo.net;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=garyguo.net
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -183,504 +268,162 @@ List-Archive: <https://groups.google.com/group/kasan-dev
 List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:kasan-dev+subscribe@googlegroups.com>
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
-X-Spamd-Result: default: False [-2.21 / 15.00];
+X-Spamd-Result: default: False [-0.11 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=3];
-	DMARC_POLICY_ALLOW(-0.50)[googlegroups.com,none];
+	MAILLIST(-0.20)[googlegroups];
 	R_SPF_ALLOW(-0.20)[+ip6:2607:f8b0:4000::/36];
 	R_DKIM_ALLOW(-0.20)[googlegroups.com:s=20230601];
-	MAILLIST(-0.20)[googlegroups];
+	DMARC_POLICY_SOFTFAIL(0.10)[garyguo.net : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bncBC7OD3FKWUERBSXSX3FQMGQELKQ3LZY];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	HAS_REPLYTO(0.00)[surenb@google.com];
-	TAGGED_RCPT(0.00)[kasan-dev];
-	FROM_EQ_ENVFROM(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	ASN(0.00)[asn:15169, ipnet:2607:f8b0::/32, country:US];
+	TAGGED_FROM(0.00)[bncBDRYTJUOSUERBRPYX3FQMGQEHXWEV6Q];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	DKIM_TRACE(0.00)[googlegroups.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,suse.cz:email,mail-qk1-x738.google.com:rdns,mail-qk1-x738.google.com:helo]
-X-Rspamd-Queue-Id: 0D7CB48743
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,kasan-dev@googlegroups.com];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,googlegroups.com,kernel.org,infradead.org,arm.com,protonmail.com,google.com,umich.edu,weathered-steel.dev];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:15169, ipnet:2607:f8b0::/32, country:US];
+	TAGGED_RCPT(0.00)[kasan-dev];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[garyguo.net:email,garyguo.net:mid,lpc.events:url,googlegroups.com:email,googlegroups.com:dkim]
+X-Rspamd-Queue-Id: 096FA489DA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Jan 16, 2026 at 2:40=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> wr=
-ote:
+On Tue Jan 20, 2026 at 5:10 PM GMT, Marco Elver wrote:
+> On Tue, 20 Jan 2026 at 17:47, Gary Guo <gary@garyguo.net> wrote:
+>>
+>> > I'm late to the party and may have missed some discussion, but it might
+>> > want restating in the documentation and/or commit log:
+>> >
+>> > READ_ONCE is meant to be a dependency-ordering primitive, i.e. be more
+>> > like memory_order_consume than it is memory_order_relaxed. This has, to
+>> > the best of my knowledge, not changed; otherwise lots of kernel code
+>> > would be broken.
+>>
+>> On the Rust-side documentation we mentioned that `Relaxed` always preserve
+>> dependency ordering, so yes, it is closer to `consume` in the C11 model.
 >
-> At this point we have sheaves enabled for all caches, but their refill
-> is done via __kmem_cache_alloc_bulk() which relies on cpu (partial)
-> slabs - now a redundant caching layer that we are about to remove.
+> Alright, I missed this.
+> Is this actually enforced, or like the C side's use of "volatile",
+> relies on luck?
 >
-> The refill will thus be done from slabs on the node partial list.
-> Introduce new functions that can do that in an optimized way as it's
-> easier than modifying the __kmem_cache_alloc_bulk() call chain.
+>> > It is known to be brittle [1]. So the recommendation
+>> > above is unsound; well, it's as unsound as implementing READ_ONCE with a
+>> > volatile load.
+>>
+>> Sorry, which part of this is unsound? You mean that the dependency ordering is
+>> actually lost when it's not supposed to be? Even so, it'll be only a problem on
+>> specific users that uses `Relaxed` to carry ordering?
 >
-> Extend struct partial_context so it can return a list of slabs from the
-> partial list with the sum of free objects in them within the requested
-> min and max.
+> Correct.
 >
-> Introduce get_partial_node_bulk() that removes the slabs from freelist
-> and returns them in the list.
+>> Users that use `Relaxed` for things that don't require any ordering would still
+>> be fine?
 >
-> Introduce get_freelist_nofreeze() which grabs the freelist without
-> freezing the slab.
+> Yes.
 >
-> Introduce alloc_from_new_slab() which can allocate multiple objects from
-> a newly allocated slab where we don't need to synchronize with freeing.
-> In some aspects it's similar to alloc_single_from_new_slab() but assumes
-> the cache is a non-debug one so it can avoid some actions.
+>> > While Alice's series tried to expose READ_ONCE as-is to the Rust side
+>> > (via volatile), so that Rust inherits the exact same semantics (including
+>> > its implementation flaw), the recommendation above is doubling down on
+>> > the unsoundness by proposing Relaxed to map to READ_ONCE.
+>> >
+>> > [1] https://lpc.events/event/16/contributions/1174/attachments/1108/2121/Status%20Report%20-%20Broken%20Dependency%20Orderings%20in%20the%20Linux%20Kernel.pdf
+>> >
+>>
+>> I think this is a longstanding debate on whether we should actually depend on
+>> dependency ordering or just upgrade everything needs it to acquire. But this
+>> isn't really specific to Rust, and whatever is decided is global to the full
+>> LKMM.
 >
-> Introduce __refill_objects() that uses the functions above to fill an
-> array of objects. It has to handle the possibility that the slabs will
-> contain more objects that were requested, due to concurrent freeing of
-> objects to those slabs. When no more slabs on partial lists are
-> available, it will allocate new slabs. It is intended to be only used
-> in context where spinning is allowed, so add a WARN_ON_ONCE check there.
->
-> Finally, switch refill_sheaf() to use __refill_objects(). Sheaves are
-> only refilled from contexts that allow spinning, or even blocking.
->
+> Indeed, but the implementation on the C vs. Rust side differ
+> substantially, so assuming it'll work on the Rust side just because
+> "volatile" works more or less on the C side is a leap I wouldn't want
+> to take in my codebase.
 
-Some nits, but otherwise LGTM.
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+Ultimately it's down to same LLVM IR as ClangBuiltLinux, so if it works for C,
+it'll work for Rust.
 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> ---
->  mm/slub.c | 284 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
-+-----
->  1 file changed, 264 insertions(+), 20 deletions(-)
 >
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 9bea8a65e510..dce80463f92c 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -246,6 +246,9 @@ struct partial_context {
->         gfp_t flags;
->         unsigned int orig_size;
->         void *object;
-> +       unsigned int min_objects;
-> +       unsigned int max_objects;
-> +       struct list_head slabs;
->  };
+>> > Furthermore, LTO arm64 promotes READ_ONCE to an acquire (see
+>> > arch/arm64/include/asm/rwonce.h):
+>> >
+>> >         /*
+>> >          * When building with LTO, there is an increased risk of the compiler
+>> >          * converting an address dependency headed by a READ_ONCE() invocation
+>> >          * into a control dependency and consequently allowing for harmful
+>> >          * reordering by the CPU.
+>> >          *
+>> >          * Ensure that such transformations are harmless by overriding the generic
+>> >          * READ_ONCE() definition with one that provides RCpc acquire semantics
+>> >          * when building with LTO.
+>> >          */
+>> >
+>> > So for all intents and purposes, the only sound mapping when pairing
+>> > READ_ONCE() with an atomic load on the Rust side is to use Acquire
+>> > ordering.
+>>
+>> LLVM handles address dependency much saner than GCC does. It for example won't
+>> turn address comparing equal into meaning that the pointer can be interchanged
+>> (as provenance won't match). Currently only address comparision to NULL or
+>> static can have effect on pointer provenance.
+>>
+>> Although, last time I asked if we can rely on this for address dependency, I
+>> didn't get an affirmitive answer -- but I think in practice it won't be lost (as
+>> currently implemented).
 >
->  static inline bool kmem_cache_debug(struct kmem_cache *s)
-> @@ -2650,9 +2653,9 @@ static void free_empty_sheaf(struct kmem_cache *s, =
-struct slab_sheaf *sheaf)
->         stat(s, SHEAF_FREE);
->  }
->
-> -static int __kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags,
-> -                                  size_t size, void **p);
-> -
-> +static unsigned int
-> +__refill_objects(struct kmem_cache *s, void **p, gfp_t gfp, unsigned int=
- min,
-> +                unsigned int max);
->
->  static int refill_sheaf(struct kmem_cache *s, struct slab_sheaf *sheaf,
->                          gfp_t gfp)
-> @@ -2663,8 +2666,8 @@ static int refill_sheaf(struct kmem_cache *s, struc=
-t slab_sheaf *sheaf,
->         if (!to_fill)
->                 return 0;
->
-> -       filled =3D __kmem_cache_alloc_bulk(s, gfp, to_fill,
-> -                                        &sheaf->objects[sheaf->size]);
-> +       filled =3D __refill_objects(s, &sheaf->objects[sheaf->size], gfp,
-> +                       to_fill, to_fill);
->
->         sheaf->size +=3D filled;
->
-> @@ -3522,6 +3525,63 @@ static inline void put_cpu_partial(struct kmem_cac=
-he *s, struct slab *slab,
->  #endif
->  static inline bool pfmemalloc_match(struct slab *slab, gfp_t gfpflags);
->
-> +static bool get_partial_node_bulk(struct kmem_cache *s,
-> +                                 struct kmem_cache_node *n,
-> +                                 struct partial_context *pc)
-> +{
-> +       struct slab *slab, *slab2;
-> +       unsigned int total_free =3D 0;
-> +       unsigned long flags;
-> +
-> +       /* Racy check to avoid taking the lock unnecessarily. */
-> +       if (!n || data_race(!n->nr_partial))
-> +               return false;
-> +
-> +       INIT_LIST_HEAD(&pc->slabs);
-> +
-> +       spin_lock_irqsave(&n->list_lock, flags);
-> +
-> +       list_for_each_entry_safe(slab, slab2, &n->partial, slab_list) {
-> +               struct freelist_counters flc;
-> +               unsigned int slab_free;
-> +
-> +               if (!pfmemalloc_match(slab, pc->flags))
-> +                       continue;
-> +
-> +               /*
-> +                * determine the number of free objects in the slab racil=
-y
-> +                *
-> +                * due to atomic updates done by a racing free we should =
-not
-> +                * read an inconsistent value here, but do a sanity check=
- anyway
-> +                *
-> +                * slab_free is a lower bound due to subsequent concurren=
-t
-> +                * freeing, the caller might get more objects than reques=
-ted and
-> +                * must deal with it
-> +                */
-> +               flc.counters =3D data_race(READ_ONCE(slab->counters));
-> +               slab_free =3D flc.objects - flc.inuse;
-> +
-> +               if (unlikely(slab_free > oo_objects(s->oo)))
-> +                       continue;
-> +
-> +               /* we have already min and this would get us over the max=
- */
-> +               if (total_free >=3D pc->min_objects
-> +                   && total_free + slab_free > pc->max_objects)
-> +                       break;
-> +
-> +               remove_partial(n, slab);
-> +
-> +               list_add(&slab->slab_list, &pc->slabs);
-> +
-> +               total_free +=3D slab_free;
-> +               if (total_free >=3D pc->max_objects)
-> +                       break;
+> There is no guarantee here, and this can change with every new
+> release. In most cases where it matters it works today, but the
+> compiler (specifically LLVM) does break dependencies even if rarely
+> [1].
 
-From the above code it seems like you are trying to get at least
-pc->min_objects and as close as possible to the pc->max_objects
-without exceeding it (with a possibility that we will exceed both
-min_objects and max_objects in one step). Is that indeed the intent?
-Because otherwise could could simplify these conditions to stop once
-you crossed pc->min_objects.
+This is a 2022 slide, how much of it is still true today? Nikita has improved
+how LLVM handles pointers quite significant in the past few years, so this might
+not even apply anymore?
 
-> +       }
-> +
-> +       spin_unlock_irqrestore(&n->list_lock, flags);
-> +       return total_free > 0;
-> +}
-> +
->  /*
->   * Try to allocate a partial slab from a specific node.
->   */
-> @@ -4448,6 +4508,33 @@ static inline void *get_freelist(struct kmem_cache=
- *s, struct slab *slab)
->         return old.freelist;
->  }
+I'd like to see examples of LLVM still breaking address dependencies today, so
+at least I'm aware when writing code that depends on them.
+
 >
-> +/*
-> + * Get the slab's freelist and do not freeze it.
-> + *
-> + * Assumes the slab is isolated from node partial list and not frozen.
-> + *
-> + * Assumes this is performed only for caches without debugging so we
-> + * don't need to worry about adding the slab to the full list
-
-nit: Missing a period sign at the end of the above sentence.
-
-> + */
-> +static inline void *get_freelist_nofreeze(struct kmem_cache *s, struct s=
-lab *slab)
-
-I was going to comment on similarities between
-get_freelist_nofreeze(), get_freelist() and freeze_slab() and
-possibility of consolidating them but then I saw you removing the
-other functions in the next patch. So, I'm mentioning it here merely
-for other reviewers not to trip on this.
-
-> +{
-> +       struct freelist_counters old, new;
-> +
-> +       do {
-> +               old.freelist =3D slab->freelist;
-> +               old.counters =3D slab->counters;
-> +
-> +               new.freelist =3D NULL;
-> +               new.counters =3D old.counters;
-> +               VM_WARN_ON_ONCE(new.frozen);
-> +
-> +               new.inuse =3D old.objects;
-> +
-> +       } while (!slab_update_freelist(s, slab, &old, &new, "get_freelist=
-_nofreeze"));
-> +
-> +       return old.freelist;
-> +}
-> +
->  /*
->   * Freeze the partial slab and return the pointer to the freelist.
->   */
-> @@ -4471,6 +4558,65 @@ static inline void *freeze_slab(struct kmem_cache =
-*s, struct slab *slab)
->         return old.freelist;
->  }
+>> Furthermore, Rust code currently does not participate in LTO.
 >
-> +/*
-> + * If the object has been wiped upon free, make sure it's fully initiali=
-zed by
-> + * zeroing out freelist pointer.
-> + *
-> + * Note that we also wipe custom freelist pointers.
-> + */
-> +static __always_inline void maybe_wipe_obj_freeptr(struct kmem_cache *s,
-> +                                                  void *obj)
-> +{
-> +       if (unlikely(slab_want_init_on_free(s)) && obj &&
-> +           !freeptr_outside_object(s))
-> +               memset((void *)((char *)kasan_reset_tag(obj) + s->offset)=
-,
-> +                       0, sizeof(void *));
-> +}
-> +
-> +static unsigned int alloc_from_new_slab(struct kmem_cache *s, struct sla=
-b *slab,
-> +               void **p, unsigned int count, bool allow_spin)
-> +{
-> +       unsigned int allocated =3D 0;
-> +       struct kmem_cache_node *n;
-> +       unsigned long flags;
-> +       void *object;
-> +
-> +       if (!allow_spin && (slab->objects - slab->inuse) > count) {
-> +
-> +               n =3D get_node(s, slab_nid(slab));
-> +
-> +               if (!spin_trylock_irqsave(&n->list_lock, flags)) {
-> +                       /* Unlucky, discard newly allocated slab */
-> +                       defer_deactivate_slab(slab, NULL);
-> +                       return 0;
-> +               }
-> +       }
-> +
-> +       object =3D slab->freelist;
-> +       while (object && allocated < count) {
-> +               p[allocated] =3D object;
-> +               object =3D get_freepointer(s, object);
-> +               maybe_wipe_obj_freeptr(s, p[allocated]);
-> +
-> +               slab->inuse++;
-> +               allocated++;
-> +       }
-> +       slab->freelist =3D object;
-> +
-> +       if (slab->freelist) {
+> LTO is not the problem, aggressive compiler optimizations (as
+> discussed in [1]) are. And Rust, by virtue of its strong type system,
+> appears to give the compiler a lot more leeway how it optimizes code.
+> So I think the Rust side is in greater danger here than the C with LTO
+> side. But I'm speculating (pun intended) ...
 
-nit: It's a bit subtle that the checks for slab->freelist here and the
-earlier one for ((slab->objects - slab->inuse) > count) are
-effectively equivalent. That's because this is a new slab and objects
-can't be freed into it concurrently. I would feel better if both
-checks were explicitly the same, like having "bool extra_objs =3D
-(slab->objects - slab->inuse) > count;" and use it for both checks.
-But this is minor, so feel free to ignore.
+That's actually not the case. Rust people have long recognize that provenance is
+a thing and it actually matters. The pointers have a full set of
+provenance-aware APIs, and pointer-integer casts are discouraged.
 
-> +
-> +               if (allow_spin) {
-> +                       n =3D get_node(s, slab_nid(slab));
-> +                       spin_lock_irqsave(&n->list_lock, flags);
-> +               }
-> +               add_partial(n, slab, DEACTIVATE_TO_HEAD);
-> +               spin_unlock_irqrestore(&n->list_lock, flags);
-> +       }
-> +
-> +       inc_slabs_node(s, slab_nid(slab), slab->objects);
-> +       return allocated;
-> +}
-> +
->  /*
->   * Slow path. The lockless freelist is empty or we need to perform
->   * debugging duties.
-> @@ -4913,21 +5059,6 @@ static __always_inline void *__slab_alloc_node(str=
-uct kmem_cache *s,
->         return object;
->  }
->
-> -/*
-> - * If the object has been wiped upon free, make sure it's fully initiali=
-zed by
-> - * zeroing out freelist pointer.
-> - *
-> - * Note that we also wipe custom freelist pointers.
-> - */
-> -static __always_inline void maybe_wipe_obj_freeptr(struct kmem_cache *s,
-> -                                                  void *obj)
-> -{
-> -       if (unlikely(slab_want_init_on_free(s)) && obj &&
-> -           !freeptr_outside_object(s))
-> -               memset((void *)((char *)kasan_reset_tag(obj) + s->offset)=
-,
-> -                       0, sizeof(void *));
-> -}
-> -
->  static __fastpath_inline
->  struct kmem_cache *slab_pre_alloc_hook(struct kmem_cache *s, gfp_t flags=
-)
->  {
-> @@ -5388,6 +5519,9 @@ static int __prefill_sheaf_pfmemalloc(struct kmem_c=
-ache *s,
->         return ret;
->  }
->
-> +static int __kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags,
-> +                                  size_t size, void **p);
-> +
->  /*
->   * returns a sheaf that has at least the requested size
->   * when prefilling is needed, do so with given gfp flags
-> @@ -7463,6 +7597,116 @@ void kmem_cache_free_bulk(struct kmem_cache *s, s=
-ize_t size, void **p)
->  }
->  EXPORT_SYMBOL(kmem_cache_free_bulk);
->
-> +static unsigned int
-> +__refill_objects(struct kmem_cache *s, void **p, gfp_t gfp, unsigned int=
- min,
-> +                unsigned int max)
-> +{
-> +       struct slab *slab, *slab2;
-> +       struct partial_context pc;
-> +       unsigned int refilled =3D 0;
-> +       unsigned long flags;
-> +       void *object;
-> +       int node;
-> +
-> +       pc.flags =3D gfp;
-> +       pc.min_objects =3D min;
-> +       pc.max_objects =3D max;
-> +
-> +       node =3D numa_mem_id();
-> +
-> +       if (WARN_ON_ONCE(!gfpflags_allow_spinning(gfp)))
-> +               return 0;
-> +
-> +       /* TODO: consider also other nodes? */
-> +       if (!get_partial_node_bulk(s, get_node(s, node), &pc))
-> +               goto new_slab;
-> +
-> +       list_for_each_entry_safe(slab, slab2, &pc.slabs, slab_list) {
-> +
-> +               list_del(&slab->slab_list);
-> +
-> +               object =3D get_freelist_nofreeze(s, slab);
-> +
-> +               while (object && refilled < max) {
-> +                       p[refilled] =3D object;
-> +                       object =3D get_freepointer(s, object);
-> +                       maybe_wipe_obj_freeptr(s, p[refilled]);
-> +
-> +                       refilled++;
-> +               }
-> +
-> +               /*
-> +                * Freelist had more objects than we can accommodate, we =
-need to
-> +                * free them back. We can treat it like a detached freeli=
-st, just
-> +                * need to find the tail object.
-> +                */
-> +               if (unlikely(object)) {
-> +                       void *head =3D object;
-> +                       void *tail;
-> +                       int cnt =3D 0;
-> +
-> +                       do {
-> +                               tail =3D object;
-> +                               cnt++;
-> +                               object =3D get_freepointer(s, object);
-> +                       } while (object);
-> +                       do_slab_free(s, slab, head, tail, cnt, _RET_IP_);
-> +               }
-> +
-> +               if (refilled >=3D max)
-> +                       break;
-> +       }
-> +
-> +       if (unlikely(!list_empty(&pc.slabs))) {
-> +               struct kmem_cache_node *n =3D get_node(s, node);
-> +
-> +               spin_lock_irqsave(&n->list_lock, flags);
-> +
-> +               list_for_each_entry_safe(slab, slab2, &pc.slabs, slab_lis=
-t) {
-> +
-> +                       if (unlikely(!slab->inuse && n->nr_partial >=3D s=
-->min_partial))
-> +                               continue;
-> +
-> +                       list_del(&slab->slab_list);
-> +                       add_partial(n, slab, DEACTIVATE_TO_HEAD);
-> +               }
-> +
-> +               spin_unlock_irqrestore(&n->list_lock, flags);
-> +
-> +               /* any slabs left are completely free and for discard */
-> +               list_for_each_entry_safe(slab, slab2, &pc.slabs, slab_lis=
-t) {
-> +
-> +                       list_del(&slab->slab_list);
-> +                       discard_slab(s, slab);
-> +               }
-> +       }
-> +
-> +
-> +       if (likely(refilled >=3D min))
-> +               goto out;
-> +
-> +new_slab:
-> +
-> +       slab =3D new_slab(s, pc.flags, node);
-> +       if (!slab)
-> +               goto out;
-> +
-> +       stat(s, ALLOC_SLAB);
-> +
-> +       /*
-> +        * TODO: possible optimization - if we know we will consume the w=
-hole
-> +        * slab we might skip creating the freelist?
-> +        */
-> +       refilled +=3D alloc_from_new_slab(s, slab, p + refilled, max - re=
-filled,
-> +                                       /* allow_spin =3D */ true);
-> +
-> +       if (refilled < min)
-> +               goto new_slab;
+Pointer comparison, for example, is explicitly defined as comparing address and
+ignore the provenance, so it's invalid for compiler to do GVN on pointers.
 
-Ok, allow_spin=3Dtrue saves us from a potential infinite loop here. LGTM.
+Implementation side, Rust is extremely conservative in optimizing anything that
+relates to the memory model currently and when pointers are involved, currently
+it's up to LLVM to do most of work. This is mostly due to the lack of full
+specification on the memory model, so may change in the future, but I am
+optimisitc overall.
 
-> +out:
-> +
-> +       return refilled;
-> +}
-> +
->  static inline
->  int __kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t si=
-ze,
->                             void **p)
->
-> --
-> 2.52.0
->
+Best,
+Gary
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-AJuCfpErRjMi2aCCThHiS1F_LvaXjkVQvX9kJjqrpw8YnXoNBA%40mail.gmail.com.
+> However, given "Relaxed" for the Rust side is already defined to
+> "carry dependencies" then in isolation my original comment is moot and
+> does not apply to this particular patch. At face value the promised
+> semantics are ok, but the implementation (just like "volatile" for C)
+> probably are not. But that appears to be beyond this patch, so feel
+> free to ignore.
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/DFTLHCJKPBRM.2G76Y35NCHNZM%40garyguo.net.
