@@ -1,158 +1,157 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBPHKYXFQMGQEAX5FZ6I@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBSPMYXFQMGQEDCCJDVI@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AIbRET91cWm3HAAAu9opvQ
-	(envelope-from <kasan-dev+bncBC7OD3FKWUERBPHKYXFQMGQEAX5FZ6I@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Thu, 22 Jan 2026 01:54:23 +0100
+	id UOSKMUt2cWngHgAAu9opvQ
+	(envelope-from <kasan-dev+bncBC7OD3FKWUERBSPMYXFQMGQEDCCJDVI@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Thu, 22 Jan 2026 01:58:51 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-yx1-xb137.google.com (mail-yx1-xb137.google.com [IPv6:2607:f8b0:4864:20::b137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98105601C0
-	for <lists+kasan-dev@lfdr.de>; Thu, 22 Jan 2026 01:54:22 +0100 (CET)
-Received: by mail-yx1-xb137.google.com with SMTP id 956f58d0204a3-64680de9f05sf969958d50.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 21 Jan 2026 16:54:22 -0800 (PST)
-ARC-Seal: i=3; a=rsa-sha256; t=1769043261; cv=pass;
+Received: from mail-yw1-x113c.google.com (mail-yw1-x113c.google.com [IPv6:2607:f8b0:4864:20::113c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53D786021F
+	for <lists+kasan-dev@lfdr.de>; Thu, 22 Jan 2026 01:58:51 +0100 (CET)
+Received: by mail-yw1-x113c.google.com with SMTP id 00721157ae682-78fac0d55f1sf6681597b3.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 21 Jan 2026 16:58:51 -0800 (PST)
+ARC-Seal: i=3; a=rsa-sha256; t=1769043530; cv=pass;
         d=google.com; s=arc-20240605;
-        b=M8Xnys53s1Tbf7sW9OSCzj6CTkSZ6Popypa4f8vgKrk6Arr28A0pg3lGYGE7VNEUF0
-         +041FPHHFdKUnzeULAllV/QH9vUDsmJnJrTuArjFDG4gZTDF6Q2BzSEx4zfSsLpV4RcC
-         9xnOh23TxB87E0BBlxKdhVBEMlGss6Q26EuHOTExK4kLP+FG/gufe1yFv17Z/eh72anY
-         siv+iP2jB1MvvDRgIvQkz+2bEPkDzw0vEsk7majIPiZyb4sNxO1wHPzN6Gr2ZIPz/OA7
-         gHujyu6vOTXQFx6oDKAtJr4dcg5Yj5gm22xfnuVHLy7cQQe9lXkMQ0cu/4zBdiWstDwv
-         +mkg==
+        b=bfn5FD2uXs9cA1cZf2p+SYk9je8rweTOhtIgKlOwJZBfGhVKPS9AKG4yXkPRWATPwn
+         Qj1fO4qWvQrshm3sOEjfgeKwo6h1L09cgCtWLTq1fvuwSzWWNWt/Uify+8YHUWvoqzJB
+         TqFI6a3LMon+6VMN6SoS0v+QVhPfs1eisKrQda/5BlscLbaAvsFnoH6Bby/MpeKboncK
+         zx8Ez0AFe92Muw0fahMWw3UqQgbm0Xj43pGSnD6RLCPw+JG1CwItmeyXnhWHiisukr8Z
+         OHs7pVTNUbzYzYRbehVBkyNyRG+7+UuSVgNBcb7/kxPUkgzUmTV9K09gCK4c7xR2dmjJ
+         DbfQ==
 ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=xBwHqkmX5GnlZAROp2NHNrkA+//GzpQ3+8czBebUa6g=;
-        fh=kbxYxOSh0PGovzOYEGDkl/NKO5MLA7iyvpT8oQlew18=;
-        b=FM4r1Se8glz0Ufi3BUVXydNN33hWTGfmVjV2rAXK6d6PV74rxZ91Bghkt0ZmABAX+Y
-         SOYwYNkDFJ6wM4W9wv7POMJL+4fZF0THDuxSX9BTYOd2YL8EQHXjSxfGFURxzbGcyEly
-         dtNzY3QKS1cC/jfRc98Yz0+4n7DQPRhCWqM/7Zn5q3/hzhrICTQQ7dXt458jgyn7oPvZ
-         H5PJdmxRhg+gET6gs51vcooUWAXm5btclXx6nfbGJtwmnN/0DoAX7o+auu8XZwLtm4Hw
-         q5687BdwZ+dYK7652dHvNa4GXbRGKyKyjZUI4j8YHi9XIGwAWLam5o0qjINRG6gMENMq
-         bjkQ==;
+        bh=oEjTcr5JfXSReYRcVv8hihARhDwDbVQaFY7M7kbws4k=;
+        fh=euLvuU61YOuKBrcW2AsHwuiWyPqXWQWWUhw5FhrvvuQ=;
+        b=gIEFIJ/zAyYzVO0Ee4v1x9YI9IuI8GmvztS05d2ny1FYuFHEB9o5sQ6BHoIIRnooEb
+         aq6OmBWeG+W1x28rV+BQKd8i3MycRUsOsMHs10nB9XdtrsxU6HfiPZcjsMFmfWjaERVR
+         lvpvvMirXtsvpq3Vc/i+0ji29x0j8HZ26eOQInguQZZKMnBHrp6F9fEKKQgyRdGIyEc3
+         rfiwYpqmf15WNYKL8uOO3pyOSY4TpsP9UfWxU/17cVOVlckqWiKIlNtNHD3RQxNRooSq
+         pwPOrO2xsJNS2A4R2UfodaFha2PDMVv89BAICNnZGw2kBsoLf0f+cSZyJ5rLMWMduFgS
+         gdsQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=CLw0b0oR;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=Etn+cVnm;
        arc=pass (i=1);
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::830 as permitted sender) smtp.mailfrom=surenb@google.com;
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::829 as permitted sender) smtp.mailfrom=surenb@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1769043261; x=1769648061; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1769043530; x=1769648330; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xBwHqkmX5GnlZAROp2NHNrkA+//GzpQ3+8czBebUa6g=;
-        b=MsuK3t/0fNxlSBwmj8/advy2twoWRWdIYhk7zcDryap129yDmRBCZcjk2WF4zp2+6c
-         wlI9reFlBGYAGY4h9l3yCUqxy1yGINI99iW27i26FDWkMgnjPeGDKsdSZT/VqWoAJ0N2
-         s52iktblWJsb5zT+p0ownBWHUW7w5+ko17upVn1QjRCb5gFhb0Ufb4nL5HpaUl3NlWLd
-         m0z/LXyya/tHKRwAXD+O3BoK5wDpb4Zjh2qX3Xl6TaA1/wtliCNtYiM3EA5yDKxhLYKg
-         aAcc1xNn8Hm3LWetZSIblWLxgSg83uJ9wdx+UJWDAdJtJS3X/VEfQvEweRP2XX+hcwlG
-         LHeQ==
+        bh=oEjTcr5JfXSReYRcVv8hihARhDwDbVQaFY7M7kbws4k=;
+        b=P+L21VFNq5r4LMm43fPFKjB5KZpQjJRJFrKaRu+0gj/MVAKDKd3zfj/vEy2OC17nsl
+         a6OK9cHutlGKEAVAmPnsiYPhFccr+Y2JlZwhKTbpLc+Dwz7MtchM6I7u4PfoXoV00f0i
+         CmCj8H1juwhpqnHGUT4vIbxMfpey1GkStyWQe1eqt5O0ILdGuggfSSz5CqEH0PCKpC8l
+         UfF/IWDUNMm4No3pZg67X9XvkwWObOL8fy+gzX4eVMrOSoDJkTMcNmkMb1hvDTFklpg6
+         iVQuXLXcb4l5xyZrsXLwnwgO2Jfits/IzSXpYrkJEFtINZDFrYFRGc6msQwq4nLRooIp
+         uqSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769043261; x=1769648061;
+        d=1e100.net; s=20230601; t=1769043530; x=1769648330;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-beenthere
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xBwHqkmX5GnlZAROp2NHNrkA+//GzpQ3+8czBebUa6g=;
-        b=gOBiM4LGR1iRLwkO/XkzJ21sUZCaE3ecjaCB29+uByKMEBa5SjS9KHN7GR2pc+3I7M
-         DSsngJ1gXGd34BNf2b4OyrR3Kx5EZKaoJIcOK8JfxoCTceu8aUTVD7idRIKNpF++3qcq
-         zXwTK9fZcJ4V5YmiY/FI9/exbjq5bJ+1nk+j/fcJshEqSTakjkMBLqPaFj4Bt4WtRQIR
-         FHD1+vIwjXw3F45IA7233+uSj5psRUC2Dn3Jr7eyEX7qVNr2/zh7DW3SxMKw+UmrYm0Q
-         Alv99tHfeQJzKAd6pyXjx14GF62ITws0zje7aXAq8+zFDy8/02ipRklHSqKRJuRUUDQy
-         xhVQ==
-X-Forwarded-Encrypted: i=3; AJvYcCXqYs34PPlFC11KGfPJZp0g64tUN8rTug+PGmxiPhHZtAIL1P0P/FePQXjHiNZy+6/iNK2VCg==@lfdr.de
-X-Gm-Message-State: AOJu0YxZQdfTO1OQoFWQhEnLya3lW9j+w3dCiSYurJY/NJ0RCD1bKHHa
-	2g8nIb/QrufhCu9/k2uANy0FUI2pe4jvxUY73dXIwWvkRXwUAg5YbGKb
-X-Received: by 2002:a05:690e:4183:b0:644:4259:9b64 with SMTP id 956f58d0204a3-6493c849223mr5447368d50.59.1769043261081;
-        Wed, 21 Jan 2026 16:54:21 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+EwHpHomgcL7CoBq+LdlWNnP5hpbOs2OlHmOR3Yq+D7tw=="
-Received: by 2002:a05:690e:210:b0:644:6e7f:f254 with SMTP id
- 956f58d0204a3-649513bc1a7ls278012d50.0.-pod-prod-07-us; Wed, 21 Jan 2026
- 16:54:20 -0800 (PST)
-X-Forwarded-Encrypted: i=3; AJvYcCVZxF10dSorST1T52HUR3qS8ZrncK41S8c4t1Wj1JNz3MgnMsiIrFyzltkIiwGw1+BnOmDQv4PceT0=@googlegroups.com
-X-Received: by 2002:a05:690c:4d0a:b0:786:7017:9511 with SMTP id 00721157ae682-7940a122c2emr56945047b3.23.1769043260229;
-        Wed, 21 Jan 2026 16:54:20 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1769043260; cv=pass;
+        bh=oEjTcr5JfXSReYRcVv8hihARhDwDbVQaFY7M7kbws4k=;
+        b=q0Itn8GXU3AahBWJXZfd0uPriJQr5ZZtRyxl+JOPkMxiAJ+2Pl4yIRYRIuuZ6oy82G
+         tqydnuHPqKLrOwcBXa6rYHit2yW7R7btqyajSAxqbO9BWOJsRgrHNyLVDfZHSOMLBT2T
+         6xv+T7REXHPoIDTZSPDSaaMn793b36uZjNq6xSq4XVikufX+DtnfP8inf9Y52ALkrX6s
+         fK8E7EMy6YgyO3xR+h47TJlYFf39x7Sk3WDBwpjV9lzFabGuAFsnDn1YPFv2HuGQ+UVW
+         7IicAac6I1Wgn9fljJYFc1ARzoryQpDosWgkdjF+FrEAScdOf3X7SJH2HKxBDH2uiy/5
+         cOEA==
+X-Forwarded-Encrypted: i=3; AJvYcCXWrlYNjwJLTKg5VIbGgSBBtuc2n0N4O1MTmwpOsu9w0aI+LUjsl3l0C6zXfA192vFCASOsfA==@lfdr.de
+X-Gm-Message-State: AOJu0Yz+ex2Bznesdn7mv/RJgkd6VenrprRKDTr1VFz9a0sHBfOAIATS
+	63Gj2qWF48CesgDoL/DKPpq6A4foRQHq2YI6WiIfQQ7oX5XKqWpBrf5n
+X-Received: by 2002:a53:c40e:0:b0:646:7a2e:5963 with SMTP id 956f58d0204a3-64916520506mr11498296d50.92.1769043529819;
+        Wed, 21 Jan 2026 16:58:49 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+Heh08Pa1KCpTOSqLq6irRVSyvniIx8WFiFAO/LIfDrnQ=="
+Received: by 2002:a53:b005:0:b0:607:623b:bb59 with SMTP id 956f58d0204a3-649516a33f4ls299388d50.2.-pod-prod-02-us;
+ Wed, 21 Jan 2026 16:58:48 -0800 (PST)
+X-Forwarded-Encrypted: i=3; AJvYcCWCsaddnK30EOs7RTjZKtIkq3FggA2keskWUrWZEC1T86FvS3Ldl4ml8QxP+9tHEzOpTcfjkx8aheg=@googlegroups.com
+X-Received: by 2002:a05:690e:1344:b0:646:7ae4:11e9 with SMTP id 956f58d0204a3-6491648afe7mr16532755d50.15.1769043528790;
+        Wed, 21 Jan 2026 16:58:48 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1769043528; cv=pass;
         d=google.com; s=arc-20240605;
-        b=ZjP0PLsqgL8oYbRzRYDAPgNQqVI3DbU1AYgC200RtzQDTlfDi3YRyLWHQaz14T4DVy
-         YfNTNbLyhaLouds6y9syfUliRqa5LumdSERYTe8FFCpKNvPyKDj/KmQ5kWhiIpC8WDsl
-         EFlvYirQl/8vr1/e6n/roNovJxlu2qsUSFPndKV/MtxyeYUqFG7Ysh6Yy7Pkie/4pNge
-         uohi4xfY1gcwkl1XD2i8yaTs/Dijn46PAwDalf5lxOCgUiCnuGLiWU/jFF/xpyT+cQsQ
-         ZalAhkB7/dPRJV4RGxribgGG7gd9XQ6D9IrGKpkCGV3QXHL457jOxcPfeSBqUynZc2Gs
-         8BQg==
+        b=JVtyWiQyB/yKoJuCvMl8sqH0qCi5qsWjsRMMfuGx6+0Hlo2UMQ77FpfOI2D83Gsq+o
+         MJpFuK50HtDnnOrPZ1M2BZmeOMRN3sHGIzUPkmPmEUSR48n3S37uhihz0i0HWwWfLIDC
+         g+ZCg05JnTcDcv2nG7lBLvlxhChz3J0FvxJHfEQAfR+Y8TA3P0dqAurMoFiOeV3BbjPP
+         cfc0VdJqJ+nmW/P1NiMQMVZg7L/Tu4yFI34b918UgBGa2y6BHTdqP245wOrmsfAham67
+         JHUPVpqyy5Tf1wQ+z+J9J+F/nnklwTUsSDYvo5Gw641iXYFZbJYjO+3k7GEalvzMZGjZ
+         6p2w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=+NqFR4vEi17NIt2eo657HYzQ+UfH+loYG1rnphf1kfI=;
-        fh=dn+5fMpmDM0Xk4LqfMz8zTJfSnwJ+hXY9310ud8kV/s=;
-        b=kjBlWQ+fH9sm4KG8Gs2YMNLcSREi13yCiQopKzTZeWLcjwhq82yR7oN8NQREyBZ7BB
-         jifg4P7IMPmm72sKD3pbBfEMSoFBjjXYw/Xj4PhsLPmKYeBWyOlS57WfsZFL7NPdGXhD
-         NvpPuUqQ5EfPqSLl0Mi34Xtc3ymdSqVGTBTcQaOETmaKtNsQSgOmhu5iec1lK0FVCspK
-         WAwMgKq3m5QiGFAGfhIrYfDOHXi+nXWQeIo9LXGWs6AaHdvZkKsxUxMVWItY34sJuUQU
-         5KWQh4XBrxLwVKbDEfSWcdIOheYDYZ8z1wZSUmrKAzTSvdvNrreTO+5+zL8S+roc2b6o
-         QmNg==;
+        bh=VLIh79S7FhXMOMoT5i8cYC6nflwvZaP3UE034p5mOJs=;
+        fh=o3W8ZS1DUvf/hKuvgY1WWVWEsiIXHHdL7Pn6WjJNfgs=;
+        b=MMGU1bEwyXDFFT5Hpa+QvD7KyfWQjCOz9EVAcUVowGc21fKPqr/r0pa+cwYl0n/8Xe
+         Q5WJwogmbRQHYlNB9hdIoyVXv8i39xxjkf4qrp4Hw2R1Aw5qXWD8iU5Z8zrVXouEjDA/
+         9/47ahaLzUNJwGd/olcTGrTqgP8n7KLXr98ctU2VRMGXgJbI7dcOajWnC2Yl/gYUdec1
+         f/qPK7duhzE48peqyLJG/KQh+KvSqhqbuU1TAl0yQy9GZovEpfigd2RxZ5RbQ3oaVeHR
+         KnF2uZZ+MfenAN2ALqlsNJ3T6v70Rr6ujw4NBKQ7f7QnUyFNLT//WE7JFxxivX867GHs
+         NBsg==;
         dara=google.com
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=CLw0b0oR;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=Etn+cVnm;
        arc=pass (i=1);
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::830 as permitted sender) smtp.mailfrom=surenb@google.com;
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::829 as permitted sender) smtp.mailfrom=surenb@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com. [2607:f8b0:4864:20::830])
-        by gmr-mx.google.com with ESMTPS id 00721157ae682-793c6835018si5816307b3.7.2026.01.21.16.54.20
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com. [2607:f8b0:4864:20::829])
+        by gmr-mx.google.com with ESMTPS id 956f58d0204a3-649170a0c2csi523654d50.5.2026.01.21.16.58.48
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Jan 2026 16:54:20 -0800 (PST)
-Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::830 as permitted sender) client-ip=2607:f8b0:4864:20::830;
-Received: by mail-qt1-x830.google.com with SMTP id d75a77b69052e-50299648ae9so71101cf.1
-        for <kasan-dev@googlegroups.com>; Wed, 21 Jan 2026 16:54:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769043260; cv=none;
+        Wed, 21 Jan 2026 16:58:48 -0800 (PST)
+Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::829 as permitted sender) client-ip=2607:f8b0:4864:20::829;
+Received: by mail-qt1-x829.google.com with SMTP id d75a77b69052e-50299648ae9so73301cf.1
+        for <kasan-dev@googlegroups.com>; Wed, 21 Jan 2026 16:58:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769043528; cv=none;
         d=google.com; s=arc-20240605;
-        b=V3qX1yWztjmvwLK23d+1n0yZcc/8fXBWPl2Ip32DLG3GioCFTEmBO6psEqOrpIl/57
-         XVz61dncsyx7M5mNDqXPtR1gMDAcTQATuMcS6bEsiueKdYd2LwlHIQPe1c5SoaecVu9R
-         RLn5hzhS47YQaZjrquedkt/XhgwD4+RMscYGQDy6b4GPH9sJwlpDClTfWF+u5UC0MlFz
-         fRQx1H3W7S5hJ0IpSV6a9gHOiCBQeELN8dVDZ/RxH/WqRFGovRYU9Qyqtn7OsDe0TNLo
-         /OrBPLNWXLklYKDZnEv73AbJ/q3D9YVujz8HNYtm34etAg6sHwjJAbzUEa0jispqm+AK
-         GdCQ==
+        b=MrTrjv0+5lFDaAnm8pvTFeA3xpEqrJtlxRQ5sP7qXDgWCP29BKDveGJxbghLPYlSov
+         0LFaIcFnWEYoFBKGe582QBDqGHNw92D10aldx36e7tUDQrdinfB0CRugpbL/O9Z5R6e4
+         flEAzVwC4CdqhRtTApUH3iQzg5XL+lKWFYoYBSnxSljnclAIZaQOHoxOH+o7MOWgPtsn
+         paMF2slJe/uixp06YLr8Zi9RV3cLIHcA1JrBJmpuQmWgPRE9XhrGmLU7CZge7SkYsZ0f
+         doLPv2FRvQ7z2sKeJAMXrOLtRz0UvbybDU8GBY0zfkxfh1c933oH75MW/ScdCsrbqMN2
+         gQXg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=+NqFR4vEi17NIt2eo657HYzQ+UfH+loYG1rnphf1kfI=;
-        fh=dn+5fMpmDM0Xk4LqfMz8zTJfSnwJ+hXY9310ud8kV/s=;
-        b=AyTLXsBRFOoUaZdXcq6XEZKZMvKCZZADvUmMOfwwt4FxJCOY/xOnbIDSKSfanwW3oh
-         +8g+kY4RUvt17S6jwjytWh0FyjCmW5hIOpjBo+qJh45GLktAUh7LiSkSjW/FE9/BSqUW
-         HtJolQ2eiZgRaYgGIXSYapowhS9RmCQU69LcjquvaNJHXF+cFv3C1DzwoBGLf4/+lPlJ
-         Qt7HeOANrJyUZNeo6BEZQ4VIOGddxw8srvZzzkrK4f1N678wqLlrEQzbB614UvPICqVi
-         Rrj49nfmaLNF5/Kbo8471iOLOs7jt3zn4qRMSZfxAREOtKoKWiZCX32TU+fwjr1HfGHm
-         lYfw==;
+        bh=VLIh79S7FhXMOMoT5i8cYC6nflwvZaP3UE034p5mOJs=;
+        fh=o3W8ZS1DUvf/hKuvgY1WWVWEsiIXHHdL7Pn6WjJNfgs=;
+        b=VswfuA8Ta5nPafKBevp4UMqW+nZv5Ym2GbmBo+ORJj1NdI9T+9EtgbNmdCwCfjhC5S
+         RNFbSNqgpThyuOw0hh/5NZZ10rAuC4+qfVwPoGEdpan2SF+8QzQr+JXSvh+0bI9nLSA6
+         mzzNGo2H8p/cMGg+SJAM2oPbBBUjnM/O/EPR4452MFrR/nsmjGzjhj0EhnT6wB4zsUap
+         +QO13F/uo2s6WcTyPOeH2HUpSy1Alg6LAbsxUaD0Oe26xIa7cK/u97KHghA8uewEj363
+         IoyBNthBH94fxoKdiHlBzZCrQVxaUfc73yNjoSwYy6b8Q9mm+ONOzHOjTOivJjGp1PnD
+         ojAw==;
         dara=google.com
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
-X-Forwarded-Encrypted: i=1; AJvYcCUVsW4z40evfpYTU2e/V61slVcIerLEQmvsd/mihIPLwI9v1FgEznjq0DkHH5vgkDRaeM/N4tp1IVo=@googlegroups.com
-X-Gm-Gg: AZuq6aLUnDjScnTKMtIps1Kb7ZbtdI1PPzrysCXfYpvXxQ6z8lm0sey/Wq1cx3/j4nz
-	RM0gJO9LI84ekkPaiYGAqAEBk7hd2Lq/yC18isADUxb8P6cXTNdh/vZfUmjmgx7AsnNOco+7SX1
-	QV3qV23y9lXEw2xRu0OjCroA8S8JexJbN1m9drsA7Gr9ru/OfIFFvgzV1HcObF2Oks7/mCfLBv3
-	EI0vnQmdtLrnXP9/WKSEqUGsgrKfRgmVHHuGSWTV2yH+A5wZC48qaHxpVAdot/aU/G6E34Nj6X0
-	VjVeFPi0bUeP1SN7kqp3rLizvA4vs6nQYA==
-X-Received: by 2002:ac8:7f11:0:b0:501:3b94:bcae with SMTP id
- d75a77b69052e-502ebd67f28mr5244541cf.8.1769043259374; Wed, 21 Jan 2026
- 16:54:19 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWvF/IBOam6Y8der7TIecbCbVkEIeQ1y5OQWUPpIwlxN0R1d93S9cxizN8sartHPkrNDTrpfEf9M/c=@googlegroups.com
+X-Gm-Gg: AZuq6aKPd38TPeBIBkaaQl98xAyp5SVrKoS1Yq8afTNayKuvDfS+cKVvmeSZYpxNYeW
+	jyhmgdev1j//+cjMZB11Y7fO6YJl27PmSWnNcWCNl+Jb5BN9dcZGUI7Ze9E+8JEd10e+8yiPXyz
+	7IyMvcgR9HmgZMKmbNeYh/0+aivNRqUmsQqW63MgTD3G5j2lk/1tjYg5Wphlm3T385/RELloOlP
+	ELeKJGNA1CL0VX7bCMxb2lotr8Qy36FrqsKG+my6ASLEB6YzQppBmjCs1BAeQMza4JKCgM5HnHr
+	xRmi2HZJ4mynZPUuhbOWRoU=
+X-Received: by 2002:a05:622a:15cb:b0:4ed:ff77:1a85 with SMTP id
+ d75a77b69052e-502ece4dbc5mr3059331cf.17.1769043527916; Wed, 21 Jan 2026
+ 16:58:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz> <20260116-sheaves-for-all-v3-19-5595cb000772@suse.cz>
-In-Reply-To: <20260116-sheaves-for-all-v3-19-5595cb000772@suse.cz>
+References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz> <20260116-sheaves-for-all-v3-20-5595cb000772@suse.cz>
+In-Reply-To: <20260116-sheaves-for-all-v3-20-5595cb000772@suse.cz>
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 22 Jan 2026 00:54:08 +0000
-X-Gm-Features: AZwV_QiKaqX658yaaNclaMUDJFMuWaWyjwe3fGXZJxanEvpjJyRl1f7lSqjnfpQ
-Message-ID: <CAJuCfpHggP+iefwGTOWnSxDma5U=uMROYNs8KS0A=u2w=1rq_w@mail.gmail.com>
-Subject: Re: [PATCH v3 19/21] slab: remove frozen slab checks from __slab_free()
+Date: Thu, 22 Jan 2026 00:58:36 +0000
+X-Gm-Features: AZwV_Qgalo5BT2cF8nB5P98paznJER_XoJhiYL5n6D0vsto2yVGgbP9TwAgaUBk
+Message-ID: <CAJuCfpF8xYb2j57HzO_-cfaTrOd-+jyv8pr4uFV1KwaSxKvghg@mail.gmail.com>
+Subject: Re: [PATCH v3 20/21] mm/slub: remove DEACTIVATE_TO_* stat items
 To: Vlastimil Babka <vbabka@suse.cz>
 Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
 	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
@@ -166,9 +165,9 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=CLw0b0oR;       arc=pass
+ header.i=@google.com header.s=20230601 header.b=Etn+cVnm;       arc=pass
  (i=1);       spf=pass (google.com: domain of surenb@google.com designates
- 2607:f8b0:4864:20::830 as permitted sender) smtp.mailfrom=surenb@google.com;
+ 2607:f8b0:4864:20::829 as permitted sender) smtp.mailfrom=surenb@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
@@ -188,20 +187,20 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.21 / 15.00];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=3];
 	DMARC_POLICY_ALLOW(-0.50)[googlegroups.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2607:f8b0:4000::/36];
+	R_SPF_ALLOW(-0.20)[+ip6:2607:f8b0:4000::/36:c];
 	R_DKIM_ALLOW(-0.20)[googlegroups.com:s=20230601];
 	MAILLIST(-0.20)[googlegroups];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bncBC7OD3FKWUERBPHKYXFQMGQEAX5FZ6I];
+	TAGGED_FROM(0.00)[bncBC7OD3FKWUERBSPMYXFQMGQEDCCJDVI];
 	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[17];
 	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
 	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	DKIM_TRACE(0.00)[googlegroups.com:+];
 	HAS_REPLYTO(0.00)[surenb@google.com];
 	TAGGED_RCPT(0.00)[kasan-dev];
 	FROM_EQ_ENVFROM(0.00)[];
@@ -209,117 +208,164 @@ X-Spamd-Result: default: False [-2.21 / 15.00];
 	ASN(0.00)[asn:15169, ipnet:2607:f8b0::/32, country:US];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DKIM_TRACE(0.00)[googlegroups.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[googlegroups.com:email,googlegroups.com:dkim,mail.gmail.com:mid,suse.cz:email]
-X-Rspamd-Queue-Id: 98105601C0
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[googlegroups.com:email,googlegroups.com:dkim,mail.gmail.com:mid,mail-yw1-x113c.google.com:helo,mail-yw1-x113c.google.com:rdns]
+X-Rspamd-Queue-Id: 53D786021F
 X-Rspamd-Action: no action
 
 On Fri, Jan 16, 2026 at 2:41=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> wr=
 ote:
 >
-> Currently slabs are only frozen after consistency checks failed. This
-> can happen only in caches with debugging enabled, and those use
-> free_to_partial_list() for freeing. The non-debug operation of
-> __slab_free() can thus stop considering the frozen field, and we can
-> remove the FREE_FROZEN stat.
+> The cpu slabs and their deactivations were removed, so remove the unused
+> stat items. Weirdly enough the values were also used to control
+> __add_partial() adding to head or tail of the list, so replace that with
+> a new enum add_mode, which is cleaner.
 >
 > Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 > Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 
-Functionally looks fine to me. Do we need to do something about the
-UAPI breakage that removal of a sysfs node might cause?
+Same question about UAPI breakage, but otherwise LGTM.
 
 Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 
 > ---
->  mm/slub.c | 22 ++++------------------
->  1 file changed, 4 insertions(+), 18 deletions(-)
+>  mm/slub.c | 31 +++++++++++++++----------------
+>  1 file changed, 15 insertions(+), 16 deletions(-)
 >
 > diff --git a/mm/slub.c b/mm/slub.c
-> index 476a279f1a94..7ec7049c0ca5 100644
+> index 7ec7049c0ca5..c12e90cb2fca 100644
 > --- a/mm/slub.c
 > +++ b/mm/slub.c
-> @@ -333,7 +333,6 @@ enum stat_item {
->         FREE_RCU_SHEAF_FAIL,    /* Failed to free to a rcu_free sheaf */
->         FREE_FASTPATH,          /* Free to cpu slab */
->         FREE_SLOWPATH,          /* Freeing not to cpu slab */
-> -       FREE_FROZEN,            /* Freeing to frozen slab */
->         FREE_ADD_PARTIAL,       /* Freeing moves slab to partial list */
->         FREE_REMOVE_PARTIAL,    /* Freeing removes last object */
->         ALLOC_FROM_PARTIAL,     /* Cpu slab acquired from node partial li=
-st */
-> @@ -5103,7 +5102,7 @@ static void __slab_free(struct kmem_cache *s, struc=
-t slab *slab,
->                         unsigned long addr)
+> @@ -324,6 +324,11 @@ static void debugfs_slab_add(struct kmem_cache *);
+>  static inline void debugfs_slab_add(struct kmem_cache *s) { }
+>  #endif
 >
+> +enum add_mode {
+> +       ADD_TO_HEAD,
+> +       ADD_TO_TAIL,
+> +};
+> +
+>  enum stat_item {
+>         ALLOC_PCS,              /* Allocation from percpu sheaf */
+>         ALLOC_FASTPATH,         /* Allocation from cpu slab */
+> @@ -343,8 +348,6 @@ enum stat_item {
+>         CPUSLAB_FLUSH,          /* Abandoning of the cpu slab */
+>         DEACTIVATE_FULL,        /* Cpu slab was full when deactivated */
+>         DEACTIVATE_EMPTY,       /* Cpu slab was empty when deactivated */
+> -       DEACTIVATE_TO_HEAD,     /* Cpu slab was moved to the head of part=
+ials */
+> -       DEACTIVATE_TO_TAIL,     /* Cpu slab was moved to the tail of part=
+ials */
+>         DEACTIVATE_REMOTE_FREES,/* Slab contained remotely freed objects =
+*/
+>         DEACTIVATE_BYPASS,      /* Implicit deactivation */
+>         ORDER_FALLBACK,         /* Number of times fallback was necessary=
+ */
+> @@ -3268,10 +3271,10 @@ static inline void slab_clear_node_partial(struct=
+ slab *slab)
+>   * Management of partially allocated slabs.
+>   */
+>  static inline void
+> -__add_partial(struct kmem_cache_node *n, struct slab *slab, int tail)
+> +__add_partial(struct kmem_cache_node *n, struct slab *slab, enum add_mod=
+e mode)
 >  {
-> -       bool was_frozen, was_full;
-> +       bool was_full;
->         struct freelist_counters old, new;
->         struct kmem_cache_node *n =3D NULL;
->         unsigned long flags;
-> @@ -5126,7 +5125,6 @@ static void __slab_free(struct kmem_cache *s, struc=
-t slab *slab,
->                 old.counters =3D slab->counters;
+>         n->nr_partial++;
+> -       if (tail =3D=3D DEACTIVATE_TO_TAIL)
+> +       if (mode =3D=3D ADD_TO_TAIL)
+>                 list_add_tail(&slab->slab_list, &n->partial);
+>         else
+>                 list_add(&slab->slab_list, &n->partial);
+> @@ -3279,10 +3282,10 @@ __add_partial(struct kmem_cache_node *n, struct s=
+lab *slab, int tail)
+>  }
 >
->                 was_full =3D (old.freelist =3D=3D NULL);
-> -               was_frozen =3D old.frozen;
+>  static inline void add_partial(struct kmem_cache_node *n,
+> -                               struct slab *slab, int tail)
+> +                               struct slab *slab, enum add_mode mode)
+>  {
+>         lockdep_assert_held(&n->list_lock);
+> -       __add_partial(n, slab, tail);
+> +       __add_partial(n, slab, mode);
+>  }
 >
->                 set_freepointer(s, tail, old.freelist);
+>  static inline void remove_partial(struct kmem_cache_node *n,
+> @@ -3375,7 +3378,7 @@ static void *alloc_single_from_new_slab(struct kmem=
+_cache *s, struct slab *slab,
+>         if (slab->inuse =3D=3D slab->objects)
+>                 add_full(s, n, slab);
+>         else
+> -               add_partial(n, slab, DEACTIVATE_TO_HEAD);
+> +               add_partial(n, slab, ADD_TO_HEAD);
 >
-> @@ -5139,7 +5137,7 @@ static void __slab_free(struct kmem_cache *s, struc=
-t slab *slab,
->                  * to (due to not being full anymore) the partial list.
->                  * Unless it's frozen.
->                  */
-> -               if ((!new.inuse || was_full) && !was_frozen) {
-> +               if (!new.inuse || was_full) {
->
+>         inc_slabs_node(s, nid, slab->objects);
+>         spin_unlock_irqrestore(&n->list_lock, flags);
+> @@ -3996,7 +3999,7 @@ static unsigned int alloc_from_new_slab(struct kmem=
+_cache *s, struct slab *slab,
 >                         n =3D get_node(s, slab_nid(slab));
->                         /*
-> @@ -5158,20 +5156,10 @@ static void __slab_free(struct kmem_cache *s, str=
-uct slab *slab,
->         } while (!slab_update_freelist(s, slab, &old, &new, "__slab_free"=
-));
->
->         if (likely(!n)) {
-> -
-> -               if (likely(was_frozen)) {
-> -                       /*
-> -                        * The list lock was not taken therefore no list
-> -                        * activity can be necessary.
-> -                        */
-> -                       stat(s, FREE_FROZEN);
-> -               }
-> -
->                 /*
-> -                * In other cases we didn't take the list_lock because th=
-e slab
-> -                * was already on the partial list and will remain there.
-> +                * We didn't take the list_lock because the slab was alre=
-ady on
-> +                * the partial list and will remain there.
->                  */
-> -
->                 return;
+>                         spin_lock_irqsave(&n->list_lock, flags);
+>                 }
+> -               add_partial(n, slab, DEACTIVATE_TO_HEAD);
+> +               add_partial(n, slab, ADD_TO_HEAD);
+>                 spin_unlock_irqrestore(&n->list_lock, flags);
 >         }
 >
-> @@ -8721,7 +8709,6 @@ STAT_ATTR(FREE_RCU_SHEAF, free_rcu_sheaf);
->  STAT_ATTR(FREE_RCU_SHEAF_FAIL, free_rcu_sheaf_fail);
->  STAT_ATTR(FREE_FASTPATH, free_fastpath);
->  STAT_ATTR(FREE_SLOWPATH, free_slowpath);
-> -STAT_ATTR(FREE_FROZEN, free_frozen);
->  STAT_ATTR(FREE_ADD_PARTIAL, free_add_partial);
->  STAT_ATTR(FREE_REMOVE_PARTIAL, free_remove_partial);
->  STAT_ATTR(ALLOC_FROM_PARTIAL, alloc_from_partial);
-> @@ -8826,7 +8813,6 @@ static struct attribute *slab_attrs[] =3D {
->         &free_rcu_sheaf_fail_attr.attr,
->         &free_fastpath_attr.attr,
->         &free_slowpath_attr.attr,
-> -       &free_frozen_attr.attr,
->         &free_add_partial_attr.attr,
->         &free_remove_partial_attr.attr,
->         &alloc_from_partial_attr.attr,
+> @@ -5064,7 +5067,7 @@ static noinline void free_to_partial_list(
+>                         /* was on full list */
+>                         remove_full(s, n, slab);
+>                         if (!slab_free) {
+> -                               add_partial(n, slab, DEACTIVATE_TO_TAIL);
+> +                               add_partial(n, slab, ADD_TO_TAIL);
+>                                 stat(s, FREE_ADD_PARTIAL);
+>                         }
+>                 } else if (slab_free) {
+> @@ -5184,7 +5187,7 @@ static void __slab_free(struct kmem_cache *s, struc=
+t slab *slab,
+>          * then add it.
+>          */
+>         if (unlikely(was_full)) {
+> -               add_partial(n, slab, DEACTIVATE_TO_TAIL);
+> +               add_partial(n, slab, ADD_TO_TAIL);
+>                 stat(s, FREE_ADD_PARTIAL);
+>         }
+>         spin_unlock_irqrestore(&n->list_lock, flags);
+> @@ -6564,7 +6567,7 @@ __refill_objects_node(struct kmem_cache *s, void **=
+p, gfp_t gfp, unsigned int mi
+>                                 continue;
+>
+>                         list_del(&slab->slab_list);
+> -                       add_partial(n, slab, DEACTIVATE_TO_HEAD);
+> +                       add_partial(n, slab, ADD_TO_HEAD);
+>                 }
+>
+>                 spin_unlock_irqrestore(&n->list_lock, flags);
+> @@ -7031,7 +7034,7 @@ static void early_kmem_cache_node_alloc(int node)
+>          * No locks need to be taken here as it has just been
+>          * initialized and there is no concurrent access.
+>          */
+> -       __add_partial(n, slab, DEACTIVATE_TO_HEAD);
+> +       __add_partial(n, slab, ADD_TO_HEAD);
+>  }
+>
+>  static void free_kmem_cache_nodes(struct kmem_cache *s)
+> @@ -8719,8 +8722,6 @@ STAT_ATTR(FREE_SLAB, free_slab);
+>  STAT_ATTR(CPUSLAB_FLUSH, cpuslab_flush);
+>  STAT_ATTR(DEACTIVATE_FULL, deactivate_full);
+>  STAT_ATTR(DEACTIVATE_EMPTY, deactivate_empty);
+> -STAT_ATTR(DEACTIVATE_TO_HEAD, deactivate_to_head);
+> -STAT_ATTR(DEACTIVATE_TO_TAIL, deactivate_to_tail);
+>  STAT_ATTR(DEACTIVATE_REMOTE_FREES, deactivate_remote_frees);
+>  STAT_ATTR(DEACTIVATE_BYPASS, deactivate_bypass);
+>  STAT_ATTR(ORDER_FALLBACK, order_fallback);
+> @@ -8823,8 +8824,6 @@ static struct attribute *slab_attrs[] =3D {
+>         &cpuslab_flush_attr.attr,
+>         &deactivate_full_attr.attr,
+>         &deactivate_empty_attr.attr,
+> -       &deactivate_to_head_attr.attr,
+> -       &deactivate_to_tail_attr.attr,
+>         &deactivate_remote_frees_attr.attr,
+>         &deactivate_bypass_attr.attr,
+>         &order_fallback_attr.attr,
 >
 > --
 > 2.52.0
@@ -331,5 +377,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-AJuCfpHggP%2BiefwGTOWnSxDma5U%3DuMROYNs8KS0A%3Du2w%3D1rq_w%40mail.gmail.com=
-.
+AJuCfpF8xYb2j57HzO_-cfaTrOd-%2Bjyv8pr4uFV1KwaSxKvghg%40mail.gmail.com.
