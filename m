@@ -1,148 +1,147 @@
-Return-Path: <kasan-dev+bncBAABBW6LZTFQMGQE5OFR7HI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBYOLZTFQMGQEOYT6EKY@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SIR8Ed8lc2nCsgAAu9opvQ
-	(envelope-from <kasan-dev+bncBAABBW6LZTFQMGQE5OFR7HI@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 08:40:15 +0100
+	id yJ8+BOQlc2nCsgAAu9opvQ
+	(envelope-from <kasan-dev+bncBAABBYOLZTFQMGQEOYT6EKY@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 08:40:20 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3f.google.com (mail-oa1-x3f.google.com [IPv6:2001:4860:4864:20::3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B82171D9F
-	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 08:40:13 +0100 (CET)
-Received: by mail-oa1-x3f.google.com with SMTP id 586e51a60fabf-40422dd039dsf4611897fac.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 22 Jan 2026 23:40:13 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1769154012; cv=pass;
+Received: from mail-pl1-x639.google.com (mail-pl1-x639.google.com [IPv6:2607:f8b0:4864:20::639])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8607C71DB1
+	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 08:40:19 +0100 (CET)
+Received: by mail-pl1-x639.google.com with SMTP id d9443c01a7336-2a7b8fe7c71sf5228775ad.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 22 Jan 2026 23:40:19 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1769154018; cv=pass;
         d=google.com; s=arc-20240605;
-        b=D+WQO04YbGAK0NelxVqrXMS3ecgU7zAcwN5X9rFTO3j0bTgZTBx6XWZi1E+MZFiH9/
-         fP5ihFTHMUdw9JL/X9pPt9MxntGYOb8YaF44k0ra182wzDRSjOGE6RgxRw/G2JI2AvOn
-         8qBE9S1qxEzm45fPAdIUCqF3JBEvfqD5JZAm88F+LV7aWuN9Zg8zSJWvPdONyDYv24J+
-         F+TokBETejYX6Qmy4YAOFg/JwKu1YVoocjOCIXfCiSA7f6LDl+pw6ifKNkee+JeUvQzV
-         JwNPQXnP9UZJtmP/yrEl/sUgyhEnGrRN74GjDkPBLAx6gSuxW8mdehJQC+LXvhZ47pwT
-         Tx7Q==
+        b=WPctO8hCNkOVU+T6q1Ykd6MmIL2IobiIA7vjcRttTWKft8dFyLH6rUXeXBIbJZCGpO
+         CtL+D3TBw3sUeeCtBJg/xggovZ4L4MjRINoXeS01lzUzil8ab0Rz0l/SbCzaIjeEu2BJ
+         c8GBwnzg5tAATux5EqEAHG2yUKOZDkwXfaq8hx3DyaKHVJ5aQF4y5O1NoFiScfUVaGMm
+         Fg4GpIZng9C6eLL67dNiDbs+mnXoDYzgFEwuXWtC5vOfyt5sPcQgi3nN42Y6JNl0TSYq
+         ozDIYkOJLMbtj8z/e+YD45INccxSRrGQ4H/q26LKVPSwHwPXP407okRyAfxLItJqswIx
+         Olxw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:references:in-reply-to:message-id:date:subject:to:from
-         :sender:dkim-signature;
-        bh=1CkokzljBSrCXgWCu4XzrFGOlJqOQJXB+LMazbVwHUs=;
-        fh=ivtzCQ5cwUIbaUkaeezHdI2r1+VEKQ5Hm44jPH73aLc=;
-        b=ePFmj3jBEbx4F/EUyR9MPX+Wd8jwP8NK0yt/MSm1krp9uOnRFQMwNUAXj7/9fE74aR
-         VgTGuUa2lGoNr1QHT1FNWdUJMTIQgFU3L6xTK96TKMtJ9TxVE4hHRZ/tqH8yk2R0JwkV
-         DEuA9SvWCb6jxUm+Dp1R3UIV7NJAxYDf1klll5HVA0NuhMUydhkXozw3055GW94QfcKA
-         PW6Xpw/u+Rs78Uea8MPleSlxIhLUobm8QO2qgDquJuOrwoy5lUwSg+O7HNVKQmU+9Mpw
-         VzukqD8qDi5f50b9/eAB8fmJ9kcnF4wRhmTm/KnCMGMtqq5ys0yG3lQCTaYtnLGb8NTu
-         cnRw==;
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:sender:dkim-signature;
+        bh=e3n2n4v39kczqU5ulhmwNvUMuEf5STZFtKEWwgKBJqc=;
+        fh=jKsEw0070FNjlt6JIEQUuGw5FCICalZbd1sq4psz2X0=;
+        b=N3q0KtEDR3slQB2r66fX0d9aoXOX3V1PUJJBw6RHgIrqhuVz750ATzSRFha+ev9SHN
+         BX0wIT50r8ZuiZaghul9KxLsgRfgJSAg0i9zJKM2FIUC0NN7PaMcWEWmU4ByvBSWS4Xi
+         Exbat0KQjRHkzOQDjanqDs6Nn0bw3sajUDqp6Y1XZEdvk391MguH0smt0+/y25MNguKL
+         YFEUEZ3qWlT+1xWpKcB+iaFVQ43cdzgy7T6yWQEX11bbSOakOiHz4aWze3OPJhLdvcKo
+         CQHCTYWOYO4KXqLnZe9gZvju4ZlUj2QaVJAHUS0C6nmiCqkKsq1XRIO9MP27bw5EtwQq
+         w7GA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=WbAVleIh;
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=sQShysjE;
        spf=pass (google.com: domain of mkchauras@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=mkchauras@linux.ibm.com;
        dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1769154012; x=1769758812; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1769154018; x=1769758818; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1CkokzljBSrCXgWCu4XzrFGOlJqOQJXB+LMazbVwHUs=;
-        b=cSYT9n3vTZ4Rx99ungG3toXfmDcfJ4U8z82NU3jFBzIpZdVa1TMcuz/I7AewLjwlQL
-         TxIoI1EnwI1wexwXvsjE0v0EQ65rpGx6LqxKzqK6O96ONLRiiqLoY92hA2qxTQm3eyHS
-         V/CLS8RC2eDhVGQwqx10sVDGl7c6rysd5VBltT0TUy/MWamEGQxDISJL50yobIKIdKyv
-         IWzUgbskfTj5z20qb6LFTMpeCJobktva8WbISjYcrgkUHgxt6T8pE3QdZAZhWg0j6SWA
-         ABlizOXx5ZqwZ9bx22YsaYXiMZraexpIoszysU2dPk7ByGvQJaZf9QJkHzSWOsJc4j5+
-         NhLQ==
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :date:subject:to:from:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e3n2n4v39kczqU5ulhmwNvUMuEf5STZFtKEWwgKBJqc=;
+        b=Cq2bmTL0/zbgFRR8SlD//2AEE2H9iV/RJZw5WHs71orHp+Gkrb9y+w4kbfT+5Y2yDV
+         Vr0rJpE1mx5RKyqkrJbseh3XoV4s9hA89KcQfgmhuyg9v4hOi9QUgQZsDBv/Ci3t7rmC
+         kwOxkCyGlCYXRCFaTomT1HEfWS04+khWlrtBXYH9cp4t5j2PnDMd1JPugrVLzvuGTcpn
+         SVJRRepwb5rzVUGhtz5zXYoi5Ob1HC/MBWENd/VJhaBvZD83Ix/7eKNwpZ70zb8mui5c
+         VtGTP7Vn4+S91aNsaSbQdU4ZtVZ16HUTRFQ+qRIdEjhbMk5RVHGIlJuaCfJbXTLF0xK4
+         7+yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769154012; x=1769758812;
+        d=1e100.net; s=20230601; t=1769154018; x=1769758818;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=1CkokzljBSrCXgWCu4XzrFGOlJqOQJXB+LMazbVwHUs=;
-        b=CSdSeNBwWomQ/tWkS2g4q567hhYZ8jsrZL24bD4NNOg/y6JbZXwE7JarL+T9Ug6QCd
-         8KBgHNiWpm9Q81duvcInEpkgDpUH5OuxwEg6MgyT37ydji002TPMVnbUnAsbwi9p8Oii
-         z0LNIp0ZcxkrczKu6SbF/8REe1RwviTLx+CuFTKiYnoToqI6hWcwqyujGFAmpZjGP0qt
-         EWUSeznytH1aGzHvlsmPGSHlFzK/JRubCyiTwQ6KFZROkZRzIlgP8cmEzcTpmzbGzgTn
-         7jPv+Ff/4Z9gXASmyPy3+G8xuiygfvhiCVtvXiwmzbrVYP1p5Rsiq85E7csYgjYYrzLB
-         CgMQ==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:in-reply-to:message-id:date:subject:to:from:x-beenthere
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e3n2n4v39kczqU5ulhmwNvUMuEf5STZFtKEWwgKBJqc=;
+        b=CjNZ5TVVks5A+MroeLt5fMcpazxkbkXJPf9A/mCn984tDIenQQrRpBi1J/X4IBPDJb
+         Vql8A9WWbGbjtna3b07pXVRplk6SBnBa8wiWmXkOIZbAdUaC8OYCIHwSdzGQwatB7V9W
+         kg8nqMy+NGKotQwAh8R4kbOa7N4LQWcy4cPMu2uJodhVDorUQuBDscC0vQgSRda4qfOL
+         g6FiaEc5499E/g3JDhiamKipf9dxBeXkPgMGjUcZSdLOr/YutZlKF2yd6BH7PNDdPO4d
+         DpOodmHFqzpgPRBg+sZJfQdcM3MN02zo5kaelC29Np3dpUUxZALwXFipO9fL2XD4vK7S
+         MZHQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWGiILS3Cp+7+fZK+WUETfNG0nUrrG/6iBwHvOHNGoMsZtL79lIuw1wfobx51ATE/hLmfGXEA==@lfdr.de
-X-Gm-Message-State: AOJu0Yz6lZI7q8ZeAYJQAoeKjuIq1sNPThQNpkvBNu8yT1kGcycQrAeO
-	Exotb22L1f9MD40tGdRA+mBtTdTarJqNKqFa6UCTXvfdGiuJjDH5idM/
-X-Received: by 2002:a05:6871:c7:b0:3f5:b761:5234 with SMTP id 586e51a60fabf-40882f2a468mr3088161fac.28.1769154011676;
-        Thu, 22 Jan 2026 23:40:11 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+FGarbhCRKEmfbcaSbZ7jrP/TktKFeWDdxzZKB+lL81qA=="
-Received: by 2002:a05:6870:8917:b0:3fa:9f2:b79b with SMTP id
- 586e51a60fabf-40882083c11ls781334fac.0.-pod-prod-00-us; Thu, 22 Jan 2026
- 23:40:11 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUOIXuSJOcUJAi2bysaNR5sIZhxIJptG1EkXM+JqsnGP9xx1XqIODtlMvXBPG/OX9Zxrjx9l36VkXI=@googlegroups.com
-X-Received: by 2002:a05:6870:a24d:b0:404:1ec2:562c with SMTP id 586e51a60fabf-40882a48cdamr2934450fac.6.1769154010909;
-        Thu, 22 Jan 2026 23:40:10 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769154010; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCXhFiY1pfN0UFjH7Y+bMOrNUnjqMdeX8eG5H9qpdyQCBXz4bMhLeCeBijrPV5oFoC81ig0V3g==@lfdr.de
+X-Gm-Message-State: AOJu0YxJfaKtjzQjTfqSfHOr/8nXJOtXQvV9rsa5ArpbjuCxL1+v8W2j
+	lVD21OJvmTRPErfnt2wW5y6MSMGV6nTI06qZTwUnt06ksYG5Z5BJzawE
+X-Received: by 2002:a17:903:17c5:b0:297:df7c:ed32 with SMTP id d9443c01a7336-2a7fdeb3878mr14922485ad.0.1769154017838;
+        Thu, 22 Jan 2026 23:40:17 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+FJfSMPB3xFd+b05F1OsubwjtKU4vx6YjFevUmfANynBw=="
+Received: by 2002:a17:902:fb4f:b0:298:f12:862a with SMTP id
+ d9443c01a7336-2a7d2f95fdfls10923405ad.0.-pod-prod-03-us; Thu, 22 Jan 2026
+ 23:40:16 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVuAFQr38c9eREzT0xYfldncLfLmtu9hsvK+HUl3M/YDwqi2Iw4UNPn2Lp3GIo1zYLGI1Tez1ZCo24=@googlegroups.com
+X-Received: by 2002:a17:902:e846:b0:290:cd9c:1229 with SMTP id d9443c01a7336-2a7fe55ed02mr19080215ad.19.1769154016721;
+        Thu, 22 Jan 2026 23:40:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769154016; cv=none;
         d=google.com; s=arc-20240605;
-        b=e9TLYP3xON5ApM8s1TBbYysl7a4cZyIKEdlm51ddaMa1+qhw7EnRe5sskiHusyynZ6
-         mhoRfjvtFdCR1LKshCsylFilmeGZUpVFiMWgYRwD7ieC7pBXymeiNmNFt7lwu+jWXv9l
-         I7e6zTM/d/vdMYIsnXLgX2K5xe3CfU22yXQeRpmA7w4U06wtjahlzjyejRLsifCy43pK
-         JJB56b6QwKeLOXRcX7Md97X4JhweV3svhj2NE7ZKkybnzgkCl84yUgEwt9VFdA2AHsmw
-         Jl1+R9BGgaNRXBLlHrAXv7SSJ7H5khvR+8gLeOMB0IXkKylIMtm2/4VnJ2n5Jomxk1R5
-         NBGw==
+        b=fW1hKJKOQPhQ17yDzuBLTyAHet09T1E0pW+85ufqPvhHBnMyoDaxqmUW+bOBkNGCqP
+         5lpvJL2qfXyyPYI+UwClgBtdDI2DJJOzMbwxQg8NapzC+iR+Kun17nQcOqNSCav8xoOW
+         uecxcMVLKiT6CCOaAtXNTjKZ1zNWCrQSFlrUmSvpNa8g+7LvU2CmfPvuZI13QD3JjeGx
+         eJT3Z9Ts2e00naBrTJi7d6uuJ7F6Fn7mt2hgdw9I5dVtjlTyfAA5F7AiZ3WEV4R3dpDp
+         uLN1sWJY2OhpeN6GRDzyC40gw2fGtJ0Wnth0piUYKlFNnEI8Tbz5c+8mT9yBRdZdQoRH
+         WxUA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:dkim-signature;
-        bh=3/4eib+xpLvUzfwQLFLDzDvh/omm20aA/cPzLNpHvRY=;
+        bh=+dbv/uGTY2AYT4LIOG+sW6cKxWYy/xnUhN6G2aQANWM=;
         fh=4dZC5b+GxnxvIHnzjVMCNym7rZ5j81Xogzb8TUs6Lt0=;
-        b=VU9dmb2kvlLkwB8PuAtdbgRj5YCUe7W1byeABEN5+ENdXn6xp/Kay4nr99IiIMKTO1
-         IYQukra3oHaTXXSSOLqsXGP7UaNz6Br4dFTH4cIVQ92+zY8wKAsZw+FPtm3gwaaUbTix
-         Ldexj+hgIMawfocDYS9zJPg0ucTinN+suSB23bsrChKqiHUvuS5WuhK8H5lCfLL9Rj3a
-         SzCRFsWSKh5cODsrwC2MSQYsYyqaYMsR65BLZUt/BlchYe0ahG6PdQKKnR4MIL2SJmdj
-         3kZCR9gl384Ta9xSLyXzyt41EdbQUEyFObqXRz2WWytzEgLPojfjclg9NyPdOOzVPUOK
-         tvdg==;
+        b=KXzJKeqk3QWDVA6RduDoLkVFBPVwNKRx4WiOroqJPp2L3nAvdcK3mO/6tOb8lpc46W
+         8LNzRNRubfsgOfaKHv6aGvLvn9WvqBvXqdjDkGZlAjwtj6y0luOqWSWUFmdeXirpiIV0
+         TjGAZkYCmw+5UJ8BKhkVls9dwNwdy3Rm9ZQRDUcMQ9ZldqWhHp2JvdjC4GkRU3wq3r92
+         kaCl6oUS+EwhinYQ5++ONHUXNxVJ5sDerPHnEVuFwAjFUjdExLYstGNzGFELYLnaxiym
+         Po8uvKF+JQnk36h58x7hmoflt4s5WoV9Gg5Vl6WTjNTriPKjKgXpw0yF+u8D1gPOKgBD
+         9zZQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=WbAVleIh;
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=sQShysjE;
        spf=pass (google.com: domain of mkchauras@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=mkchauras@linux.ibm.com;
        dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
 Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com. [148.163.158.5])
-        by gmr-mx.google.com with ESMTPS id 586e51a60fabf-408afc039fasi54965fac.7.2026.01.22.23.40.10
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-2a802fe6fffsi554235ad.9.2026.01.22.23.40.16
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 22 Jan 2026 23:40:10 -0800 (PST)
+        Thu, 22 Jan 2026 23:40:16 -0800 (PST)
 Received-SPF: pass (google.com: domain of mkchauras@linux.ibm.com designates 148.163.158.5 as permitted sender) client-ip=148.163.158.5;
 Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 60N2HhiR021317;
-	Fri, 23 Jan 2026 07:40:01 GMT
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 60N2HcKF021309;
+	Fri, 23 Jan 2026 07:40:07 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4bt612ha38-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4bt612ha3w-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 23 Jan 2026 07:40:01 +0000 (GMT)
+	Fri, 23 Jan 2026 07:40:07 +0000 (GMT)
 Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 60N7e0US011041;
-	Fri, 23 Jan 2026 07:40:00 GMT
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 60N7e62p012063;
+	Fri, 23 Jan 2026 07:40:06 GMT
 Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4bt612ha35-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4bt612ha3t-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 23 Jan 2026 07:40:00 +0000 (GMT)
+	Fri, 23 Jan 2026 07:40:06 +0000 (GMT)
 Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 60N6bXj5027298;
-	Fri, 23 Jan 2026 07:39:59 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4brnrnfspa-1
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 60N7VTmk027293;
+	Fri, 23 Jan 2026 07:40:05 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4brnrnfspf-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 23 Jan 2026 07:39:59 +0000
+	Fri, 23 Jan 2026 07:40:05 +0000
 Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 60N7dtcj38601128
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 60N7e1OK23724734
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 23 Jan 2026 07:39:55 GMT
+	Fri, 23 Jan 2026 07:40:01 GMT
 Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9DF422004B;
-	Fri, 23 Jan 2026 07:39:55 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id ACD552004B;
+	Fri, 23 Jan 2026 07:40:01 +0000 (GMT)
 Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C594320043;
-	Fri, 23 Jan 2026 07:39:49 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 0D71520043;
+	Fri, 23 Jan 2026 07:39:56 +0000 (GMT)
 Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com.com (unknown [9.124.222.171])
 	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 23 Jan 2026 07:39:49 +0000 (GMT)
+	Fri, 23 Jan 2026 07:39:55 +0000 (GMT)
 From: Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>
 To: maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
         chleroy@kernel.org, ryabinin.a.a@gmail.com, glider@google.com,
@@ -156,30 +155,28 @@ To: maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
         tglx@linutronix.de, mark.barnett@arm.com,
         linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
         kasan-dev@googlegroups.com
-Subject: [PATCH v4 2/8] powerpc: Prepare to build with generic entry/exit framework
-Date: Fri, 23 Jan 2026 13:09:10 +0530
-Message-ID: <20260123073916.956498-3-mkchauras@linux.ibm.com>
+Subject: [PATCH v4 3/8] powerpc: introduce arch_enter_from_user_mode
+Date: Fri, 23 Jan 2026 13:09:11 +0530
+Message-ID: <20260123073916.956498-4-mkchauras@linux.ibm.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260123073916.956498-1-mkchauras@linux.ibm.com>
 References: <20260123073916.956498-1-mkchauras@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: QFzIB8v5osvdoZ0BbGLVSG0g9IifkH2n
-X-Authority-Analysis: v=2.4 cv=LaIxKzfi c=1 sm=1 tr=0 ts=697325d1 cx=c_pps
+X-Proofpoint-GUID: qrbpVO3rl70azuk5utvgyyZcZ4ho3sGF
+X-Authority-Analysis: v=2.4 cv=LaIxKzfi c=1 sm=1 tr=0 ts=697325d7 cx=c_pps
  a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VnNF1IyMAAAA:8 a=-TJU0OSysTv48yDGXSgA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: uIZUXHrmeQnPdbkQ9oHd1eIwYKWxfSrG
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIzMDA1NSBTYWx0ZWRfXwLKASYox5Xxp
- ccGuhy2n0WNj6J8qhjlvJpsqOUcVsjlqDLzuPJLxMnBfMeWZrf0By6bnRUIHAKeYRoaAUyGR+N8
- z+/Xy8i7zKNY8f1eUHbFPmxeVabMJWQaHY/dxidcSi30ZcFux3rLrG+o6p9TbYbcdD5KT3NN/1b
- QOXD5KaG84ZuDMBDROu8MFrvI9+D0NwJ8boFYIbUeA7KkEwBEpSfynV8PAYhTOBtZVTd6bN9P27
- l1V5llOXYHzYHl/7YGNqt0MHkNbhmwnKIgoLshJM3DyrLqcamqIrAQTuBsdqq0DCnWUcLEQI5HE
- zfahrRrcJZTx58DCAmD4skBsw9bDkSB4FiDcgif9sAH6jv6c0MhDwokn6CxvzyYA3YsMkO8pqda
- ncOta2GZN3iJJeqd4T9ZWeqppkpPmuKYbuJxMTAbTVG9rwWmn78FbBGD1AGQevxGhsPRZJrm4ht
- YBMCd4MfQexvGOnnGRw==
+ a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VnNF1IyMAAAA:8
+ a=hdW59ek6rJpVHQNvHwAA:9
+X-Proofpoint-ORIG-GUID: iCWsJd0cUjvJE0H8H5t-LDLDWzcHY5g8
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIzMDA1NSBTYWx0ZWRfX29J/mZte8N+u
+ n8SBCPAT3vDCn8isSeenjxmqI2FbsPJaCB3DIHx8Uw7xsO8OPXR54luvxKPgWze0Fu/ZQW3zVlv
+ U35R96jIJhH3zbJxdl3POGAjZrvgbag3NQlxCqRKvHS8wVFswS5Y+vUJQltLPU1Kw74vZVokrMX
+ ojG7tTY/MEgu3EFZA8n/XVeGZ9S/69z/5k2p0B1TpQYPQU9IiB8QZIk3FME7Tp7L7Uwe3/qG04T
+ skET614B5OGMD0/mh86aDmpsZoKuXPh/8/215koWiqo7p5jYUjqV4vGacrvXtQqTgwowLJuE5UI
+ TiMUNr3Y4OkKXZmv7SborLF7sboppl6KPYKzkiIfm/b0cbiD200CI3JJRMjBOg8lsLEq6cEpXj+
+ Xus6QS3hS61xIocX+aarIhc7Hs1qvZ4OC2Pw/JAkXqRBveGGuoWBeaMmLeYo40k8+17X8nNQA1Q
+ +3ay+b4Qfsjc9mFLF9w==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
  definitions=2026-01-22_06,2026-01-22_02,2025-10-01_01
@@ -190,10 +187,11 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  reason=mlx scancount=1 engine=8.19.0-2601150000 definitions=main-2601230055
 X-Original-Sender: mkchauras@linux.ibm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ibm.com header.s=pp1 header.b=WbAVleIh;       spf=pass (google.com:
+ header.i=@ibm.com header.s=pp1 header.b=sQShysjE;       spf=pass (google.com:
  domain of mkchauras@linux.ibm.com designates 148.163.158.5 as permitted
  sender) smtp.mailfrom=mkchauras@linux.ibm.com;       dmarc=pass (p=REJECT
  sp=NONE dis=NONE) header.from=ibm.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -211,13 +209,13 @@ X-Spamd-Result: default: False [0.89 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=2];
 	R_DKIM_ALLOW(-0.20)[googlegroups.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2001:4860:4000::/36:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2607:f8b0:4000::/36:c];
 	MAILLIST(-0.20)[googlegroups];
 	DMARC_POLICY_SOFTFAIL(0.10)[ibm.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_TO(0.00)[linux.ibm.com,ellerman.id.au,gmail.com,kernel.org,google.com,arm.com,redhat.com,amacapital.net,chromium.org,huawei.com,linux-foundation.org,rivosinc.com,gmx.de,strace.io,orcam.me.uk,kernel.crashing.org,infradead.org,linutronix.de,lists.ozlabs.org,vger.kernel.org,googlegroups.com];
-	TAGGED_FROM(0.00)[bncBAABBW6LZTFQMGQE5OFR7HI];
+	TAGGED_FROM(0.00)[bncBAABBYOLZTFQMGQEOYT6EKY];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -230,106 +228,159 @@ X-Spamd-Result: default: False [0.89 / 15.00];
 	RCVD_COUNT_TWELVE(0.00)[13];
 	TAGGED_RCPT(0.00)[kasan-dev];
 	NEURAL_HAM(-0.00)[-0.998];
-	ASN(0.00)[asn:15169, ipnet:2001:4860:4864::/48, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.ibm.com:mid,mail-oa1-x3f.google.com:helo,mail-oa1-x3f.google.com:rdns]
-X-Rspamd-Queue-Id: 5B82171D9F
+	ASN(0.00)[asn:15169, ipnet:2607:f8b0::/32, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.ibm.com:mid]
+X-Rspamd-Queue-Id: 8607C71DB1
 X-Rspamd-Action: no action
 
 From: Mukesh Kumar Chaurasiya <mchauras@linux.ibm.com>
 
-This patch introduces preparatory changes needed to support building
-PowerPC with the generic entry/exit (irqentry) framework.
+Implement the arch_enter_from_user_mode() hook required by the generic
+entry/exit framework. This helper prepares the CPU state when entering
+the kernel from userspace, ensuring correct handling of KUAP/KUEP,
+transactional memory, and debug register state.
 
-The following infrastructure updates are added:
- - Add a syscall_work field to struct thread_info to hold SYSCALL_WORK_* fl=
-ags.
- - Provide a stub implementation of arch_syscall_is_vdso_sigreturn(),
-   returning false for now.
- - Introduce on_thread_stack() helper to detect if the current stack pointe=
-r
-   lies within the task=E2=80=99s kernel stack.
-
-These additions enable later integration with the generic entry/exit
-infrastructure while keeping existing PowerPC behavior unchanged.
-
-No functional change is intended in this patch.
+This patch contains no functional changes, it is purely preparatory for
+enabling the generic syscall and interrupt entry path on PowerPC.
 
 Signed-off-by: Mukesh Kumar Chaurasiya <mchauras@linux.ibm.com>
 ---
- arch/powerpc/include/asm/entry-common.h | 8 ++++++++
- arch/powerpc/include/asm/stacktrace.h   | 6 ++++++
- arch/powerpc/include/asm/syscall.h      | 5 +++++
- arch/powerpc/include/asm/thread_info.h  | 1 +
- 4 files changed, 20 insertions(+)
- create mode 100644 arch/powerpc/include/asm/entry-common.h
+ arch/powerpc/include/asm/entry-common.h | 118 ++++++++++++++++++++++++
+ 1 file changed, 118 insertions(+)
 
-diff --git a/arch/powerpc/include/asm/entry-common.h b/arch/powerpc/include=
-/asm/entry-common.h
-new file mode 100644
-index 000000000000..05ce0583b600
---- /dev/null
+diff --git a/arch/powerpc/include/asm/entry-common.h b/arch/powerpc/include/asm/entry-common.h
+index 05ce0583b600..837a7e020e82 100644
+--- a/arch/powerpc/include/asm/entry-common.h
 +++ b/arch/powerpc/include/asm/entry-common.h
-@@ -0,0 +1,8 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
+@@ -3,6 +3,124 @@
+ #ifndef _ASM_PPC_ENTRY_COMMON_H
+ #define _ASM_PPC_ENTRY_COMMON_H
+ 
++#include <asm/cputime.h>
++#include <asm/interrupt.h>
+ #include <asm/stacktrace.h>
++#include <asm/tm.h>
 +
-+#ifndef _ASM_PPC_ENTRY_COMMON_H
-+#define _ASM_PPC_ENTRY_COMMON_H
-+
-+#include <asm/stacktrace.h>
-+
-+#endif /* _ASM_PPC_ENTRY_COMMON_H */
-diff --git a/arch/powerpc/include/asm/stacktrace.h b/arch/powerpc/include/a=
-sm/stacktrace.h
-index 6149b53b3bc8..987f2e996262 100644
---- a/arch/powerpc/include/asm/stacktrace.h
-+++ b/arch/powerpc/include/asm/stacktrace.h
-@@ -10,4 +10,10 @@
-=20
- void show_user_instructions(struct pt_regs *regs);
-=20
-+static __always_inline bool on_thread_stack(void)
++static __always_inline void booke_load_dbcr0(void)
 +{
-+	return !(((unsigned long)(current->stack) ^ current_stack_pointer)
-+			& ~(THREAD_SIZE - 1));
++#ifdef CONFIG_PPC_ADV_DEBUG_REGS
++	unsigned long dbcr0 = current->thread.debug.dbcr0;
++
++	if (likely(!(dbcr0 & DBCR0_IDM)))
++		return;
++
++	/*
++	 * Check to see if the dbcr0 register is set up to debug.
++	 * Use the internal debug mode bit to do this.
++	 */
++	mtmsr(mfmsr() & ~MSR_DE);
++	if (IS_ENABLED(CONFIG_PPC32)) {
++		isync();
++		global_dbcr0[smp_processor_id()] = mfspr(SPRN_DBCR0);
++	}
++	mtspr(SPRN_DBCR0, dbcr0);
++	mtspr(SPRN_DBSR, -1);
++#endif
 +}
 +
- #endif /* _ASM_POWERPC_STACKTRACE_H */
-diff --git a/arch/powerpc/include/asm/syscall.h b/arch/powerpc/include/asm/=
-syscall.h
-index 4b3c52ed6e9d..834fcc4f7b54 100644
---- a/arch/powerpc/include/asm/syscall.h
-+++ b/arch/powerpc/include/asm/syscall.h
-@@ -139,4 +139,9 @@ static inline int syscall_get_arch(struct task_struct *=
-task)
- 	else
- 		return AUDIT_ARCH_PPC64;
- }
-+
-+static inline bool arch_syscall_is_vdso_sigreturn(struct pt_regs *regs)
++static __always_inline void arch_enter_from_user_mode(struct pt_regs *regs)
 +{
-+	return false;
++	kuap_lock();
++
++	if (IS_ENABLED(CONFIG_PPC_IRQ_SOFT_MASK_DEBUG))
++		BUG_ON(irq_soft_mask_return() != IRQS_ALL_DISABLED);
++
++	BUG_ON(regs_is_unrecoverable(regs));
++	BUG_ON(!user_mode(regs));
++	BUG_ON(regs_irqs_disabled(regs));
++
++#ifdef CONFIG_PPC_PKEY
++	if (mmu_has_feature(MMU_FTR_PKEY) && trap_is_syscall(regs)) {
++		unsigned long amr, iamr;
++		bool flush_needed = false;
++		/*
++		 * When entering from userspace we mostly have the AMR/IAMR
++		 * different from kernel default values. Hence don't compare.
++		 */
++		amr = mfspr(SPRN_AMR);
++		iamr = mfspr(SPRN_IAMR);
++		regs->amr  = amr;
++		regs->iamr = iamr;
++		if (mmu_has_feature(MMU_FTR_KUAP)) {
++			mtspr(SPRN_AMR, AMR_KUAP_BLOCKED);
++			flush_needed = true;
++		}
++		if (mmu_has_feature(MMU_FTR_BOOK3S_KUEP)) {
++			mtspr(SPRN_IAMR, AMR_KUEP_BLOCKED);
++			flush_needed = true;
++		}
++		if (flush_needed)
++			isync();
++	}
++#endif
++	kuap_assert_locked();
++	booke_restore_dbcr0();
++	account_cpu_user_entry();
++	account_stolen_time();
++
++	/*
++	 * This is not required for the syscall exit path, but makes the
++	 * stack frame look nicer. If this was initialised in the first stack
++	 * frame, or if the unwinder was taught the first stack frame always
++	 * returns to user with IRQS_ENABLED, this store could be avoided!
++	 */
++	irq_soft_mask_regs_set_state(regs, IRQS_ENABLED);
++
++	/*
++	 * If system call is called with TM active, set _TIF_RESTOREALL to
++	 * prevent RFSCV being used to return to userspace, because POWER9
++	 * TM implementation has problems with this instruction returning to
++	 * transactional state. Final register values are not relevant because
++	 * the transaction will be aborted upon return anyway. Or in the case
++	 * of unsupported_scv SIGILL fault, the return state does not much
++	 * matter because it's an edge case.
++	 */
++	if (IS_ENABLED(CONFIG_PPC_TRANSACTIONAL_MEM) &&
++	    unlikely(MSR_TM_TRANSACTIONAL(regs->msr)))
++		set_bits(_TIF_RESTOREALL, &current_thread_info()->flags);
++
++	/*
++	 * If the system call was made with a transaction active, doom it and
++	 * return without performing the system call. Unless it was an
++	 * unsupported scv vector, in which case it's treated like an illegal
++	 * instruction.
++	 */
++#ifdef CONFIG_PPC_TRANSACTIONAL_MEM
++	if (unlikely(MSR_TM_TRANSACTIONAL(regs->msr)) &&
++	    !trap_is_unsupported_scv(regs)) {
++		/* Enable TM in the kernel, and disable EE (for scv) */
++		hard_irq_disable();
++		mtmsr(mfmsr() | MSR_TM);
++
++		/* tabort, this dooms the transaction, nothing else */
++		asm volatile(".long 0x7c00071d | ((%0) << 16)"
++			     :: "r"(TM_CAUSE_SYSCALL | TM_CAUSE_PERSISTENT));
++
++		/*
++		 * Userspace will never see the return value. Execution will
++		 * resume after the tbegin. of the aborted transaction with the
++		 * checkpointed register state. A context switch could occur
++		 * or signal delivered to the process before resuming the
++		 * doomed transaction context, but that should all be handled
++		 * as expected.
++		 */
++		return;
++	}
++#endif /* CONFIG_PPC_TRANSACTIONAL_MEM */
 +}
- #endif	/* _ASM_SYSCALL_H */
-diff --git a/arch/powerpc/include/asm/thread_info.h b/arch/powerpc/include/=
-asm/thread_info.h
-index b0f200aba2b3..9c8270354f0b 100644
---- a/arch/powerpc/include/asm/thread_info.h
-+++ b/arch/powerpc/include/asm/thread_info.h
-@@ -57,6 +57,7 @@ struct thread_info {
- #ifdef CONFIG_SMP
- 	unsigned int	cpu;
- #endif
-+	unsigned long	syscall_work;		/* SYSCALL_WORK_ flags */
- 	unsigned long	local_flags;		/* private flags for thread */
- #ifdef CONFIG_LIVEPATCH_64
- 	unsigned long *livepatch_sp;
---=20
++
++#define arch_enter_from_user_mode arch_enter_from_user_mode
+ 
+ #endif /* _ASM_PPC_ENTRY_COMMON_H */
+-- 
 2.52.0
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
-0260123073916.956498-3-mkchauras%40linux.ibm.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260123073916.956498-4-mkchauras%40linux.ibm.com.
