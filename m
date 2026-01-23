@@ -1,144 +1,138 @@
-Return-Path: <kasan-dev+bncBDXYDPH3S4OBBWNVZTFQMGQEJG7CFTA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXYDPH3S4OBBX5VZTFQMGQEWCN36FQ@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +LcBMNsac2mwsAAAu9opvQ
-	(envelope-from <kasan-dev+bncBDXYDPH3S4OBBWNVZTFQMGQEJG7CFTA@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 07:53:15 +0100
+	id YK88CeEac2mwsAAAu9opvQ
+	(envelope-from <kasan-dev+bncBDXYDPH3S4OBBX5VZTFQMGQEWCN36FQ@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 07:53:21 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64ED0712A7
-	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 07:53:15 +0100 (CET)
-Received: by mail-lf1-x13f.google.com with SMTP id 2adb3069b0e04-59b6dfc0cbasf870239e87.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 22 Jan 2026 22:53:15 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1769151194; cv=pass;
+Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BCD1712C2
+	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 07:53:20 +0100 (CET)
+Received: by mail-wm1-x33a.google.com with SMTP id 5b1f17b1804b1-47fff4fd76dsf14005265e9.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 22 Jan 2026 22:53:20 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1769151200; cv=pass;
         d=google.com; s=arc-20240605;
-        b=VarrEVB2yfGy8roKILcg02/q2yFBg9KW43gLJAoS0XaNN2YGqX+qpAlkWHsYDduD74
-         axmyJVJRpGsDppoObuMrG4VZMg75YzjCKabPptX4g2kuWH4RISuX2agrPJi/OJD+J5pw
-         PaUmH8tkie6M7jZZ9PV3hG8f//H0WwWIkOpSGNNypjZh37wQC/fl5gp7hIkfrOa40hWs
-         63zZGgVCqRxkJnlrn+iApZ0VSs85lwjWh+llrtzjkMfv7uvrsX3RVnyIIFjbCx0r4HIT
-         4bIcp5LOGBWsXONz+Az9NA6XKVnKM/4xdxexcirZDv97UgD4ZxZFd9G1WjgXXwEsoRHM
-         cFCg==
+        b=QQdFLyCFY4GBqlkTpr29+1oEJs9/do8jrfoDIiUY9b2KECpVdVk2/C3/JwKLznZu9X
+         4Whr6QAQjX8x0Bgjmoym2TsahVRLryUkUyf3dLxwQdL3GUhBZIIe34ZjPLQ9IoDh3J6o
+         ikp4qDK6So7M/Y2VpZgmc0NVUEF0ghXOg8OdsPmkIWT0xpAZI0arfhBoHjUWFwvlajTk
+         002iJvNzLkdWVQ6y8rklDh9EhxxlCqlbUy952f+qw5F5dTxeHfvQGIMO+S35Nmo1Bw0k
+         PgbBq0pAgzYRNxkYkiH+zErg7Z0LFHZAfykQSvVT9GeMO+nL2G0IlquqRVtjjmsmmBlx
+         VxMg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:mime-version:message-id:date
-         :subject:from:sender:dkim-signature;
-        bh=UQRujvuBovm0EYkwg7Trez8MjTDB4oCw8ARvCFE2CNo=;
-        fh=/Z2RsiJxOuGCi5ArJaA0BPNrBYwomBSsh+mBWFaw/4Y=;
-        b=eb/XQYAf290dt9b14xRH/ZBiO1x7DJFdUI8j1D5CwV+V3V+Ws270sSifk7fdoJaQa2
-         fEF7fhmugxl0F+JRy0oUOXGLD2jl+ZJ90wYUtHQDbFivlK2E2gkB3g57X6BNW60+txYg
-         lhddQ+x6Sp5LD4gDWibm2yfKJXRHPUFz+/Z8PNXKyXKl6KKwv5CB4QaxE51aDj/Xwrkh
-         tU9f7OFss5LAql5wXjEN7tsKXXgwpM896yQRlCxERmXyZMEqXfBSKDSX9GxcgcexZeod
-         dTRO3J6jkkGXG0GQ4p1vJL/J2hbg865+HFEgzcl8mFM3xVOIqTk6AZ1Gf3wKGClKGuZU
-         oHkQ==;
+         :list-id:mailing-list:precedence:cc:to:in-reply-to:references
+         :message-id:mime-version:subject:date:from:sender:dkim-signature;
+        bh=NJ7Roe/BPRBlbL+CPxjwHMRNkkyPDDepxlzP2862RRI=;
+        fh=jwVcqVLdTazAw+sMEgNFebjOetsy0p/AEhpHdmwa3vU=;
+        b=kqx5RfqDEwPuiKZPzmEKUkBvvc9LyceqKJqDHXmjuRldHf26e5KUFCZpzDh9TooOBK
+         QUZdjynw299wOQbchVGYMCHaBH+mKEfViv/YeZCwqE/LKrs60UqaAU6u0TgfnXVYc0Yw
+         iByFybdkQA1GAQT20Ys67cJwbGeFNPm+EqYWGE4oHTsPH6W4xPlYwt49P9h28aGdvPts
+         rMqyMAGFJ7c2+UMnkOTwKHD/lXbqTVyAYa3LBCl6j5igThSLm8WqPeaWdd1EPo70YVYF
+         W5PeAv1ZlAFXj/TpNZieTPvOm4nH76XCPIF0eeApY8IQznUEfcvVTMHBjX/S7KyJPQ5R
+         QNrQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=zgvEHHPy;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=TwaNSJ22;
        dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="ToZZ/BfT";
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.130 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1769151194; x=1769755994; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1769151200; x=1769756000; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:mime-version:message-id:date:subject:from
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=UQRujvuBovm0EYkwg7Trez8MjTDB4oCw8ARvCFE2CNo=;
-        b=LzcWC3TY08R7UAooeNU9U9z0AsXb896LwuqDJ+c7AEsraBbkyG6uJqS9eR441+naZ0
-         Zr1PARWm5y3w44N3t4XaLft73+6o1yz3SqLlCMOj8QJpsJ16ALWkSczl0OxfOozT2KKw
-         OGxdVUr2XCAX5weBj4gJIP++Qga1YyovBLJeXNdegNf4AEOZjHd6/zYOnlk2rs/FLGfY
-         2j4hYDZsDtbbG3fhRXbOP9s97mLGAF8b1CXONZyuGODzuLQaRsh2V0j7znq7veSDLlPQ
-         UETSk27wXpJ+6jCkb8zp/9++1oPdbhjfVTsAzb2b+h9CVGaJJ2eN3Gy/n+JhfXCvpvvn
-         K6RQ==
+         :x-original-sender:cc:to:in-reply-to:references:message-id
+         :mime-version:subject:date:from:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NJ7Roe/BPRBlbL+CPxjwHMRNkkyPDDepxlzP2862RRI=;
+        b=OWt6sHB+dL3kF6TUS9Kd1tDL8QmnyiuFABgWdhsQSuCD3R6076nCNNjpZyqRZEZsto
+         uNor4RLhz1uexqAIRI88Q8pYlvEQTCZ5Ik4GAzdFDp5b20jaXvVtrSBMwP+wDrmuc231
+         MP9GCA0Q02ZoHc8B3RBAnwLNCbu3lR/5pux3Nyh/R6H3AxEV4mma3Y9XOezRPY364GDn
+         GQqTvlrZJR83lqQi/X52WbvGrqEKh0DSkdVIrT5HbOJP47jGda2AgEEfvAHUttTOPlX4
+         GQ/P7kYAwNQSSI5HCkoYPTemt33r0ATvuTeu7Lwy3e4aaW7h//68ENFnt3ipkQPtS02a
+         xy+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769151194; x=1769755994;
+        d=1e100.net; s=20230601; t=1769151200; x=1769756000;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:cc:to
-         :mime-version:message-id:date:subject:from:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UQRujvuBovm0EYkwg7Trez8MjTDB4oCw8ARvCFE2CNo=;
-        b=Hq7oN7pNeB7MPk73yRWEJhZCON5z2kOBSBl/QE0COL2UxxMM4Swj9BcdQXmiJ3A9Z6
-         TcfjVt+Gx6/JPn8qevTXOFgaNveuTIDOxIBKIpjALc3FyBZJ/Aw2UH3ncJUwyKTEJOIi
-         9aFj3zv31mvUdc2jjWEmEFwI5+nh8BLGlJ9AMApqFU1UoENUC9GTRTDYhVqT/LDixC2d
-         QXFNhGvevLVgx94n+1BOFkEHllgvhFB1TZHBG55eFITcgUweKYlcm1FCZxb72SdhhNYS
-         lOfIQLdUN4tQbxo+eBoGLpKuzxoq+MofFoe7gNh0NNf2cN8I+RxC927b8U4+Q+6y9v4d
-         umlQ==
+         :in-reply-to:references:message-id:mime-version:subject:date:from
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NJ7Roe/BPRBlbL+CPxjwHMRNkkyPDDepxlzP2862RRI=;
+        b=BUyqRABhAUE5/x2PwoCQeTjBuiEo5HDNan52iJa/t6G9NbLVgDxaT+KB8xjh3aJXy7
+         wvDQLo3Rt3qP+gulNiRZxkckiZ8yPcFqsAJZLKadRzJTOt0LLSb3jh6yJH18pczRBIvV
+         F9XkuTWbfHhtEbmhJWyFfMOxMJZeWRMhsSTUXda0jg7Smp2+zDq0ei4uwJK43dESnnSF
+         ofpJAmsG0cM8pWkoYBmRFk6xn1MCRzri+rAEumu+RtbRSqxqSGNbE9Uz3fUsmHNrmIhQ
+         gspBbeVWQ/pPSmQJrw2ga5izSq9Ts2M3thqkZ/FirgB4ND5cXXw+YwOA3Uk4TuBmckQn
+         jpOg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWrUrIgm4ZoocJTuAgvQ3XjsoodpZDMmDgHoiHzTht1l4z7w/pHPq5qOxDX5ekHUQyRRib8yA==@lfdr.de
-X-Gm-Message-State: AOJu0YzOKca+I/DJqyXCQvVPtRiBztDzAaIR4Qgyf7p8ipfWkgKe+Uty
-	CwoCouPiFIQxbgmxjKi+UoL8Lvhyq+xcmDXns0YUcUOGLexrFI5oGz8g
-X-Received: by 2002:a05:6512:1255:b0:595:9d6b:1178 with SMTP id 2adb3069b0e04-59de4a2b43fmr554215e87.40.1769151194207;
-        Thu, 22 Jan 2026 22:53:14 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+ET4KeGOF0WCreWAOK2OoIilth/gWs/zbWqb7xREUUemQ=="
-Received: by 2002:a05:6512:3e1f:b0:59b:6cb9:a212 with SMTP id
- 2adb3069b0e04-59dd783f5abls549408e87.0.-pod-prod-04-eu; Thu, 22 Jan 2026
- 22:53:11 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUrlA3PXC+femeciWS5jOG1nHiUfyEQEgEI788qOrkhhk+BGlbvg7dyFZ/+o7cOW4S91nJLD6sjlzw=@googlegroups.com
-X-Received: by 2002:a05:651c:f11:b0:383:55c:89d4 with SMTP id 38308e7fff4ca-385d9f53342mr6460571fa.12.1769151191331;
-        Thu, 22 Jan 2026 22:53:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769151191; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCU+4ivWUrdnHSWfKGNNSOr8w9/1a3hfKrrwDX5qVrlbEmRI6Yfd41mPvUw9HVONja4FLZ/79g==@lfdr.de
+X-Gm-Message-State: AOJu0YwSk9cBJgBUEqlfCNIeehb82BLnDaUeZSYUa0awVJHVq0YqG4oO
+	8/m4/MaYgSkOW4FgM7Re2EA9zFOCGqknMv3o7cj9TuuTSea2FvpYNF7r
+X-Received: by 2002:a05:600c:1992:b0:47a:810f:1d06 with SMTP id 5b1f17b1804b1-480511e40ebmr5675005e9.4.1769151199817;
+        Thu, 22 Jan 2026 22:53:19 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+GGkQxW0aSFr9co+s0i1Crw1hFEL7I3l6IiybhCB02Z9w=="
+Received: by 2002:a05:600c:4fd0:b0:477:a036:8e7b with SMTP id
+ 5b1f17b1804b1-48046e38567ls10638695e9.0.-pod-prod-01-eu; Thu, 22 Jan 2026
+ 22:53:17 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXp0DKxvReWkHwdGhS0+jqYmEYPCNwhsfxXzoBdhiBzdRsaiAQ4Qz8n3caZLvumLSj7Q/LSiX9+abk=@googlegroups.com
+X-Received: by 2002:a05:600c:46ca:b0:480:4a4f:c36f with SMTP id 5b1f17b1804b1-48051249f8bmr4853065e9.21.1769151197364;
+        Thu, 22 Jan 2026 22:53:17 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769151197; cv=none;
         d=google.com; s=arc-20240605;
-        b=cmbbMiLjMPPkYDMfrQGeWqwZezkpEQJOAwqSCPTmvzn5DW24CtKMHwlUFNyBxMRckd
-         Jdn1qSOftWOYQ1eTyVD5t6ZAwCYp767JBKRZwCVOsxUa/+IsZ2IBEFGZSto2SyC9UD1e
-         rVr05E8mXxJiauw1ty0MgiGJrw2wHOh78qM0ehANpOICCIPSStG6lqOBJzKzeNX2RN5Z
-         ebMtEV9puJmcIN0gEGZ27AUetRM3S7EED4n1APLII9XQRgaTzbf8AXLZyHyTQdze+I/i
-         hY5rG4TS3nu8JWqjWD2bjJApwJXJuNEoNek3Yd7TprWPpxVQ3EoHqs+SNb3Tk9+ds/x9
-         4C2w==
+        b=FX0oIPw9+PvyPOfFUgzvfxE/fHjpWYD/zT20ChZ/ZQaxL5I8A/bFtdXUHHGP4rMSAM
+         db3OS6b9w6xqQlxAcbaBezrDQxGYojR0yTXzUid8p+td31IQfNNHlK8EQTCmP9rmxIU6
+         KK+s8x0GQ0kgKQe/C4u95VEwrlmfBC1Kb43HNLj3xuQrmX1xDaHRQsNBe1Bthjab3kaK
+         uTbZxk2DB74PqpG//2xBE2Fw3v6sXRRzZkyzO1pd1oXwTUThBLK/vqMlbY64Yd7f4v49
+         xT+xD83dG1/iN02S0lD9xDEftwZbboYM8omHY3mYzrAMMlMbSNBkEtHYEaLzWz40oBi2
+         9waw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:dkim-signature:dkim-signature:dkim-signature
-         :dkim-signature;
-        bh=xHBC7+XIDKcDoXobVjIIeaJAGTBPlExl+xM4MpgZv40=;
-        fh=n1p7BjDwAYNKIQExgIWyR/GTqCxJhEWfWswE+b65/G0=;
-        b=lWIs5TNryE16B5ey3Xrv59bd8c/R6Np6NqpLJ/nAAOo7kw1VIVnIAZSj6kRCLF21XG
-         vI9DuLZ5bNZ1pqN2lssSubn3gF0OvZimNOdFS3LN7AfeNQM9VOz80A/2AWLx9BsPwKEs
-         ZAuGWK/USh+UkyrvPtZDG1lZqZ0dIaWzKrJm4rR0e5J4Npvc/paKiS5IiCOoMTTXZXyw
-         yuOwmahnZwiKxLfIo0qZkA6G06Lm1L0qyO5ITmAsmNEPWVbIA9i3mazPLdpfQvBl0aZq
-         l6ZBtgPbE24hsT5/sKnTuhq1yu/3NTE2SYxg4bv1fvdy4bQxD3g7zuC4oiHvzWQPmqUa
-         ZcWQ==;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:dkim-signature:dkim-signature;
+        bh=N3DPRc87aFtnpwc8583i8li1YmCTDsn4GBRi/xoPavM=;
+        fh=ZDxAv8XPBkZG++ei96Z+swcHRAJrJtblU7Ri5E43an0=;
+        b=EQHTcxATEP+l8eRKiLRTzzPbRgp2AIhrKIpic4dgLfS77+AqMNhDVN8Xb/OF6w4XBQ
+         UCENOyWTi0p6iwvRBWyd0jxcDeZ5LGmNzYJatFpA05ZGfAMw/SdgMyCsoF1DKB5zBPnk
+         Z+reY5FmF/wr0BRQxkWs9zyvr6oZUQZezXYTx2AMDy7PSdQT3Ifvhhx+uv74C5N5vFFH
+         ky6ca3Zg6JfJcjyYq3+1lgIPbn77VMJ0YyI3H6r2gQchO9CDQ74rDUjNQBZtPEdPxF9C
+         RS5Nfr6QYmg1xySUV/29+75eUScKYafFr8H3NbhcDEaMvFL8Mii3TmM0/IpRBW9/4K1O
+         66Sg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=zgvEHHPy;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=TwaNSJ22;
        dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="ToZZ/BfT";
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.130 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.223.130])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-385d9e542a4si304361fa.0.2026.01.22.22.53.11
+       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2a07:de40:b251:101:10:150:64:2])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-435b1c06e32si34452f8f.3.2026.01.22.22.53.17
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jan 2026 22:53:11 -0800 (PST)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.223.130 as permitted sender) client-ip=195.135.223.130;
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+        Thu, 22 Jan 2026 22:53:17 -0800 (PST)
+Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:2;
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3953C33768;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5590D5BCC7;
 	Fri, 23 Jan 2026 06:53:09 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 06A8B1395E;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 277A7139E8;
 	Fri, 23 Jan 2026 06:53:09 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +aDbANUac2k4YgAAD6G6ig
+	id 0O5fCdUac2k4YgAAD6G6ig
 	(envelope-from <vbabka@suse.cz>); Fri, 23 Jan 2026 06:53:09 +0000
 From: Vlastimil Babka <vbabka@suse.cz>
-Subject: [PATCH v4 00/22] slab: replace cpu (partial) slabs with sheaves
-Date: Fri, 23 Jan 2026 07:52:38 +0100
-Message-Id: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
+Date: Fri, 23 Jan 2026 07:52:39 +0100
+Subject: [PATCH v4 01/22] mm/slab: add rcu_barrier() to
+ kvfree_rcu_barrier_on_cache()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-B4-Tracking: v=1; b=H4sIALYac2kC/2XOTQ7CIBCG4as0rMUMQ+mPK+9hXNApWJLGGlCiN
- r27tNGo6fIjed5hZMF4ZwLbZSPzJrrghnMa+SZj1OnzyXDXps0QUAkA5KEzOprA7eC57nteFZq
- EbCkvtWJJXbyx7r4UD8e0Oxeug38sB6KYX98tlKtWFBx4Ya1GqutcEOzDLZgtPdlcivjRBQix/
- knEpOsKUZFtFJD91/JXF2stk1aqVtQAQFniV0/T9AKIqE+lKAEAAA==
-X-Change-ID: 20251002-sheaves-for-all-86ac13dc47a5
+Message-Id: <20260123-sheaves-for-all-v4-1-041323d506f7@suse.cz>
+References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
+In-Reply-To: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
 To: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
  Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
  Roman Gushchin <roman.gushchin@linux.dev>
@@ -151,18 +145,19 @@ Cc: Hao Li <hao.li@linux.dev>, Andrew Morton <akpm@linux-foundation.org>,
  linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
  bpf@vger.kernel.org, kasan-dev@googlegroups.com, 
  Vlastimil Babka <vbabka@suse.cz>, kernel test robot <oliver.sang@intel.com>, 
- stable@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>
+ stable@vger.kernel.org
 X-Mailer: b4 0.14.3
-X-Spam-Score: -4.30
-X-Spam-Level: 
 X-Spam-Flag: NO
+X-Spam-Score: -4.00
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spam-Level: 
 X-Original-Sender: vbabka@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=zgvEHHPy;       dkim=neutral
- (no key) header.i=@suse.cz;       dkim=pass header.i=@suse.cz
- header.s=susede2_rsa header.b="ToZZ/BfT";       dkim=neutral (no key)
- header.i=@suse.cz;       spf=pass (google.com: domain of vbabka@suse.cz
- designates 195.135.223.130 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+ header.i=@suse.cz header.s=susede2_rsa header.b=TwaNSJ22;       dkim=neutral
+ (no key) header.i=@suse.cz;       spf=pass (google.com: domain of
+ vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -182,13 +177,13 @@ X-Spamd-Result: default: False [-1.71 / 15.00];
 	R_SPF_ALLOW(-0.20)[+ip6:2a00:1450:4000::/36:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bncBDXYDPH3S4OBBWNVZTFQMGQEJG7CFTA];
+	TAGGED_FROM(0.00)[bncBDXYDPH3S4OBBX5VZTFQMGQEWCN36FQ];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	DMARC_NA(0.00)[suse.cz];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_CC(0.00)[linux.dev,linux-foundation.org,gmail.com,oracle.com,google.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com,suse.cz,intel.com];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[googlegroups.com:+];
 	ASN(0.00)[asn:15169, ipnet:2a00:1450::/32, country:US];
@@ -196,166 +191,75 @@ X-Spamd-Result: default: False [-1.71 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[6];
 	FROM_NEQ_ENVFROM(0.00)[vbabka@suse.cz,kasan-dev@googlegroups.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.985];
+	NEURAL_HAM(-0.00)[-0.975];
 	TAGGED_RCPT(0.00)[kasan-dev];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:email,mail-lf1-x13f.google.com:helo,mail-lf1-x13f.google.com:rdns,msgid.link:url]
-X-Rspamd-Queue-Id: 64ED0712A7
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,oracle.com:email,suse.cz:mid,suse.cz:email]
+X-Rspamd-Queue-Id: 9BCD1712C2
 X-Rspamd-Action: no action
 
-Percpu sheaves caching was introduced as opt-in but the goal was to
-eventually move all caches to them. This is the next step, enabling
-sheaves for all caches (except the two bootstrap ones) and then removing
-the per cpu (partial) slabs and lots of associated code.
+After we submit the rcu_free sheaves to call_rcu() we need to make sure
+the rcu callbacks complete. kvfree_rcu_barrier() does that via
+flush_all_rcu_sheaves() but kvfree_rcu_barrier_on_cache() doesn't. Fix
+that.
 
-Besides (hopefully) improved performance, this removes the rather
-complicated code related to the lockless fastpaths (using
-this_cpu_try_cmpxchg128/64) and its complications with PREEMPT_RT or
-kmalloc_nolock().
+This currently causes no issues because the caches with sheaves we have
+are never destroyed. The problem flagged by kernel test robot was
+reported for a patch that enables sheaves for (almost) all caches, and
+occurred only with CONFIG_KASAN. Harry Yoo found the root cause [1]:
 
-The lockless slab freelist+counters update operation using
-try_cmpxchg128/64 remains and is crucial for freeing remote NUMA objects
-without repeating the "alien" array flushing of SLUB, and to allow
-flushing objects from sheaves to slabs mostly without the node
-list_lock.
+  It turns out the object freed by sheaf_flush_unused() was in KASAN
+  percpu quarantine list (confirmed by dumping the list) by the time
+  __kmem_cache_shutdown() returns an error.
 
-Sending this v4 because various changes accumulated in the branch due to
-review and -next exposure (see the list below). Thanks for all the
-reviews!
+  Quarantined objects are supposed to be flushed by kasan_cache_shutdown(),
+  but things go wrong if the rcu callback (rcu_free_sheaf_nobarn()) is
+  processed after kasan_cache_shutdown() finishes.
 
-Git branch for the v4
-  https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git/log/?h=sheaves-for-all-v4
+  That's why rcu_barrier() in __kmem_cache_shutdown() didn't help,
+  because it's called after kasan_cache_shutdown().
 
-Which is a snapshot of:
-  https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git/log/?h=b4/sheaves-for-all
+  Calling rcu_barrier() in kvfree_rcu_barrier_on_cache() guarantees
+  that it'll be added to the quarantine list before kasan_cache_shutdown()
+  is called. So it's a valid fix!
 
-Based on:
-  https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git/log/?h=slab/for-7.0/sheaves-base
-  - includes a sheaves optimization that seemed minor but there was lkp
-    test robot result with significant improvements:
-    https://lore.kernel.org/all/202512291555.56ce2e53-lkp@intel.com/
-    (could be an uncommon corner case workload though)
-  - includes the kmalloc_nolock() fix commit a4ae75d1b6a2 that is undone
-    as part of this series
+[1] https://lore.kernel.org/all/aWd6f3jERlrB5yeF@hyeyoo/
 
-Significant (but not critical) remaining TODOs:
-- Integration of rcu sheaves handling with kfree_rcu batching.
-  - Currently the kfree_rcu batching is almost completely bypassed. I'm
-    thinking it could be adjusted to handle rcu sheaves in addition to
-    individual objects, to get the best of both.
-- Performance evaluation. Petr Tesarik has been doing that on the RFC
-  with some promising results (thanks!) and also found a memory leak.
-
-Note that as many things, this caching scheme change is a tradeoff, as
-summarized by Christoph:
-
-  https://lore.kernel.org/all/f7c33974-e520-387e-9e2f-1e523bfe1545@gentwo.org/
-
-- Objects allocated from sheaves should have better temporal locality
-  (likely recently freed, thus cache hot) but worse spatial locality
-  (likely from many different slabs, increasing memory usage and
-  possibly TLB pressure on kernel's direct map).
-
+Reported-by: kernel test robot <oliver.sang@intel.com>
+Closes: https://lore.kernel.org/oe-lkp/202601121442.c530bed3-lkp@intel.com
+Fixes: 0f35040de593 ("mm/slab: introduce kvfree_rcu_barrier_on_cache() for cache destruction")
+Cc: stable@vger.kernel.org
+Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
+Tested-by: Harry Yoo <harry.yoo@oracle.com>
+Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 ---
-Changes in v4:
-- Fix up both missing and spurious r-b tags from v3, and add new ones
-  (big thanks to Hao Li, Harry, and Suren!)
-- Fix infinite recursion with kmemleak (Breno Leitao)
-- Use cache_has_sheaves() in pcs_destroy() (Suren)
-- Use cache_has_sheaves() in kvfree_rcu_barrier_on_cache() (Hao Li)
-- Bypass sheaf for remote object free also in kfree_nolock() (Harry)
-- WRITE_ONCE slab->counters in __update_freelist_slow() so
-  get_partial_node_bulk() can stop being paranoid (Harry)
-- Tweak conditions in alloc_from_new_slab() (Hao Li, Suren)
-- Rename get_partial*() functions to get_from_partial*() (Suren)
-- Rename variable freelist to object in ___slab_alloc() (Suren)
-- Separate struct partial_bulk_context instead of extending.
-- Rename flush_cpu_slab() to flush_cpu_sheaves() (Hao Li)
-- Add "mm/slab: fix false lockdep warning in __kfree_rcu_sheaf()" from
-  Harry.
-- Add counting of FREE_SLOWPATH stat to some missing places (Suren, Hao
-  Li)
-- Link to v3: https://patch.msgid.link/20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz
+ mm/slab_common.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Changes in v3:
-- Rebase to current slab/for-7.0/sheaves which itself is rebased to
-  slab/for-next-fixes to include commit a4ae75d1b6a2 ("slab: fix
-  kmalloc_nolock() context check for PREEMPT_RT")
-- Revert a4ae75d1b6a2 as part of "slab: simplify kmalloc_nolock()" as
-  it's no longer necessary.
-- Add cache_has_sheaves() helper to test for s->sheaf_capacity, use it
-  in more places instead of s->cpu_sheaves tests that were missed
-  (Hao Li)
-- Fix a bug where kmalloc_nolock() could end up trying to allocate empty
-  sheaf (not compatible with !allow_spin) in __pcs_replace_full_main()
-  (Hao Li)
-- Fix missing inc_slabs_node() in ___slab_alloc() ->
-  alloc_from_new_slab() path. (Hao Li)
-  - Also a bug where refill_objects() -> alloc_from_new_slab ->
-    free_new_slab_nolock() (previously defer_deactivate_slab()) would
-    do inc_slabs_node() without matching dec_slabs_node()
-- Make __free_slab call free_frozen_pages_nolock() when !allow_spin.
-  This was correct in the first RFC. (Hao Li)
-- Add patch to make SLAB_CONSISTENCY_CHECKS prevent merging.
-- Add tags from sveral people (thanks!)
-- Fix checkpatch warnings.
-- Link to v2: https://patch.msgid.link/20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index eed7ea556cb1..ee994ec7f251 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -2133,8 +2133,11 @@ EXPORT_SYMBOL_GPL(kvfree_rcu_barrier);
+  */
+ void kvfree_rcu_barrier_on_cache(struct kmem_cache *s)
+ {
+-	if (s->cpu_sheaves)
++	if (s->cpu_sheaves) {
+ 		flush_rcu_sheaves_on_cache(s);
++		rcu_barrier();
++	}
++
+ 	/*
+ 	 * TODO: Introduce a version of __kvfree_rcu_barrier() that works
+ 	 * on a specific slab cache.
 
-Changes in v2:
-- Rebased to v6.19-rc1+slab.git slab/for-7.0/sheaves
-  - Some of the preliminary patches from the RFC went in there.
-- Incorporate feedback/reports from many people (thanks!), including:
-  - Make caches with sheaves mergeable.
-  - Fix a major memory leak.
-- Cleanup of stat items.
-- Link to v1: https://patch.msgid.link/20251023-sheaves-for-all-v1-0-6ffa2c9941c0@suse.cz
-
----
-Harry Yoo (1):
-      mm/slab: fix false lockdep warning in __kfree_rcu_sheaf()
-
-Vlastimil Babka (21):
-      mm/slab: add rcu_barrier() to kvfree_rcu_barrier_on_cache()
-      slab: add SLAB_CONSISTENCY_CHECKS to SLAB_NEVER_MERGE
-      mm/slab: move and refactor __kmem_cache_alias()
-      mm/slab: make caches with sheaves mergeable
-      slab: add sheaves to most caches
-      slab: introduce percpu sheaves bootstrap
-      slab: make percpu sheaves compatible with kmalloc_nolock()/kfree_nolock()
-      slab: handle kmalloc sheaves bootstrap
-      slab: add optimized sheaf refill from partial list
-      slab: remove cpu (partial) slabs usage from allocation paths
-      slab: remove SLUB_CPU_PARTIAL
-      slab: remove the do_slab_free() fastpath
-      slab: remove defer_deactivate_slab()
-      slab: simplify kmalloc_nolock()
-      slab: remove struct kmem_cache_cpu
-      slab: remove unused PREEMPT_RT specific macros
-      slab: refill sheaves from all nodes
-      slab: update overview comments
-      slab: remove frozen slab checks from __slab_free()
-      mm/slub: remove DEACTIVATE_TO_* stat items
-      mm/slub: cleanup and repurpose some stat items
-
- include/linux/slab.h |    6 -
- mm/Kconfig           |   11 -
- mm/internal.h        |    1 +
- mm/page_alloc.c      |    5 +
- mm/slab.h            |   65 +-
- mm/slab_common.c     |   61 +-
- mm/slub.c            | 2689 ++++++++++++++++++--------------------------------
- 7 files changed, 1031 insertions(+), 1807 deletions(-)
----
-base-commit: a66f9c0f1ba2dd05fa994c800ebc63f265155f91
-change-id: 20251002-sheaves-for-all-86ac13dc47a5
-
-Best regards,
 -- 
-Vlastimil Babka <vbabka@suse.cz>
+2.52.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260123-sheaves-for-all-v4-0-041323d506f7%40suse.cz.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260123-sheaves-for-all-v4-1-041323d506f7%40suse.cz.
