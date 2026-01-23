@@ -1,140 +1,131 @@
-Return-Path: <kasan-dev+bncBDXYDPH3S4OBB3VVZTFQMGQEXWCOMBY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXYDPH3S4OBB2FVZTFQMGQEBRPXNCQ@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SKxwBPAac2mwsAAAu9opvQ
-	(envelope-from <kasan-dev+bncBDXYDPH3S4OBB3VVZTFQMGQEXWCOMBY@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 07:53:36 +0100
+	id 8AcHAeoac2mwsAAAu9opvQ
+	(envelope-from <kasan-dev+bncBDXYDPH3S4OBB2FVZTFQMGQEBRPXNCQ@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 07:53:30 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3B6A71322
-	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 07:53:35 +0100 (CET)
-Received: by mail-lf1-x13a.google.com with SMTP id 2adb3069b0e04-59b6ab3cceesf1457980e87.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 22 Jan 2026 22:53:35 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1769151215; cv=pass;
+Received: from mail-ed1-x538.google.com (mail-ed1-x538.google.com [IPv6:2a00:1450:4864:20::538])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F7B712F7
+	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 07:53:29 +0100 (CET)
+Received: by mail-ed1-x538.google.com with SMTP id 4fb4d7f45d1cf-658188b600asf1990747a12.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 22 Jan 2026 22:53:29 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1769151209; cv=pass;
         d=google.com; s=arc-20240605;
-        b=fTLV7716PcQv/4jvYzLc98aQtaiFmBFTt5zWw/Lv7LbAYoVNGeMaPgAZsU1eji4C+5
-         Y1rv142olPjlAuq1iWj6f+g3hiFvdwM65S+T/hbc2ntcfejhSftkYR7UBXSKox0mSQis
-         R30zndCXKL+iwpYNO2BjPaQjfkVW1d5t4RcrNsummtnaE9IsxSafMhFnPe2AfrYULPry
-         uV5VnR/QWKggLrHmxTV7EwAIE69OLIQaGNzq/UOxYyD+SHW9bOfhM5e1idlUPz7btRQ0
-         6fxK66yQytTDpGflwniDhR/UlHPLsJRoDGdNLwl5awhABPYaHey+GmKTdjQ50BLJY223
-         j4Jw==
+        b=Uycn7h+R9TOG7B7ZKfLrsXNABL2T5ftE0/5jwB5F8ZC+V3m2q341K+xLg99XvVPrLa
+         Rr05E4mZLxWoP1iFMTqWT4Rjpe5fqTE0vIqa2lFbTBJLck5dblByEZrg9lSvEpfdZagm
+         ElwwWYEREj40zjofB3R+DSnxAXR59iivsHAhUoTQsX9DIb7nS0tgjnT6J+vJ+sfBNrGU
+         dcJkTSt1nAzMgGoIqf43PrKDHy/cmaLSaNu+pEFFKotBwRelxdm3qdN3GtZhjb/9d+Cr
+         V78Lx3MrIfqUD4HQkBrOyDPCs9yDUsMmdt/wkscLo0n7UNTrW29Qvzbis2sa+k0oIm7g
+         /Y0w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:cc:to:in-reply-to:references
          :message-id:mime-version:subject:date:from:sender:dkim-signature;
-        bh=onk/yXwf5amqDJTB6gSmeefa1/MzWrcOqKcpAvSqB4o=;
-        fh=8FEXkj0aR52qzkNgcgcG2TVR0zbXbAmhroj/GkFKr2A=;
-        b=JB+Of9nQnH+PpdLH/T1YiI3X2Zgn+z8JiHOPJbcecvYzQfmSlYukSfAl14vh3wblrT
-         P5V6NKZgMEh/Q7s0nDIyuRyXdBzD9TO1aBVzN7tlKc4LBk93jmX+tuA2FcR5HEZzaQNk
-         7s88/YRRgfGdOrixubGyydZ+J109qL2K+G8aN2GAyqlZWETSxUVkgplODIq3kAxMJtkh
-         eMbd+QagmahOxuD55QAh1ysdgwySI4gJfml+WFZJe6aBVt3+OXllLl7D4ZE7woHmRAIG
-         msXwo5xcxEoDvNTh9VpkgO4oHMMsfFqZZQo/MruV0sPp8Cos/rQIM5ti5P4gpJHxXQCW
-         jxaA==;
+        bh=Fi4pjEGFOIUO8fXKXrGOwoHmkRkA7kFxHIPl0jCzuxs=;
+        fh=tX9WC8ox5ZBd5n/xcoKysp6mji3ElDz0OTAM/bMXrUE=;
+        b=dYBtb5j2kCwIabVtMJQXBbKCCqkWz2aBMWWHgu60WoW45dWL/BKp9eT68fbvuXUc9p
+         H7diT4Y3xuuB2pS9weeAVcflPpC6aMP+qyZi1EfEE4iX7zRFAuZnh6mjK15mX12Ngm5e
+         ODLiGeAPq5F/pmTvlVPUl0Bt9900s275H9WogY9VNa5WI9SZ8Eb4MFxNXovquZEmv+7g
+         1kDh8q28qlisA8xhb4ihvqY7p5D4K5GPMNOBuYhCAW7uXHY8UMJbDUFghqz1tbIhCE/X
+         x0ltArt+r6autnwlVfrwLY0Jb+b3o2b46XuHVqauk2dAmcruPAjdIZ2R/uKIBQs95UeE
+         TMSQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="Z2g9m/rc";
-       dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="Z2g9m/rc";
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1769151215; x=1769756015; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1769151209; x=1769756009; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:cc:to:in-reply-to:references:message-id
          :mime-version:subject:date:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=onk/yXwf5amqDJTB6gSmeefa1/MzWrcOqKcpAvSqB4o=;
-        b=SDC0JnjyQzY7Q7jGLe4K8tU2zp6uAIlR2+zh6NyHMJc69h5NRVPPlfM6k3JjwK06Dd
-         97XLrxqsczim+DmTYayk1PvOS6hLUSRBpZW6yB0f9S7PiLkOFP3OaF6DlS7mD1JzNYDN
-         Qjms1A9pQdNbxtHMpJ0Y2WPp/weqtR8tsmRiJU31YKKJslaabXn/71AfgVRYxX842suU
-         TFQ/EH12oD0Jpa3VOTRcQkdh+B55kQKVuALkQpOR/Jt0TxnVKKY77+CqAc8GFqn83dcP
-         QXMTMotTwAsCFu82P1UXCUenv/skCpts6ZLYoLFKHEOazD6JHz37/n1Qbt2wp3sbg0pK
-         fiMA==
+        bh=Fi4pjEGFOIUO8fXKXrGOwoHmkRkA7kFxHIPl0jCzuxs=;
+        b=m6CB1Tn6i3cRaOFLsnU5acbT780F4FwX3XQKB5bHtiQwj4lTjs/aL/PTHEdZDLZWnM
+         vtn1GX43rZfauscG+hfjge4+0ABF813Cj2b60g5NQquwqh1TTJ7jp6s/X1/p2Lbt06fx
+         K4NyEHlSgCuyF8qhnOrBZm1O3ufwA6++FYqngto04FCMo6pFnSxwh2MWBm1rUIySmF4e
+         +XQ6csIfa2uVr1pDhFlToB/B01TOwSns1hgv0YUKG20s688gvAOjUveE5rPCTlxsx7NW
+         t6VL2QjJnnEZh9FqoRBQA+ytNVSApFNz1PLem9ebKwkR9s6wanS9/kWPeiXphrw7P0w6
+         avTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769151215; x=1769756015;
+        d=1e100.net; s=20230601; t=1769151209; x=1769756009;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:cc:to
          :in-reply-to:references:message-id:mime-version:subject:date:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=onk/yXwf5amqDJTB6gSmeefa1/MzWrcOqKcpAvSqB4o=;
-        b=V+mUDF46lzEpkoU+7mhdNYnSYlidiYBZxaWQSN1XYzQ+9eBT/1wXKNuIs1wOh3VhPt
-         7OwouF9ytSIU4N+Ro8yZOcy1fEazAN5HY43IxHLnr0a4QtXRsNTnFyhjnvhIXYlbkg+j
-         W8q7FhxB5260ER37xaCSsIFQw5PA4hWMwORM5ZO9TL000HMoQcxe3PVPgWWv1JwSQnqq
-         ZLt+qDssoVIQDizdLWNH4prpXYSjUvQnb1SBp7rrRmOn/aB4YGJc7NpTin8xfSjXcjjh
-         IEiUwBRdGBtCo1RqJOG4TVYhIRlDZGcbRCNv28M8mi0N6rcNdNUNFY7fsA26wIGugxKM
-         2DBQ==
+        bh=Fi4pjEGFOIUO8fXKXrGOwoHmkRkA7kFxHIPl0jCzuxs=;
+        b=huWAGHZ4W6Mrr/kyxG3RFD1/MBNyM4UWREe+kETVndnDRX86C4BL5Kan7B95gyudsi
+         G50ag1J0q3YKPPJoc/bxFVdiUSsii1Nvy+3c+Y4PSyzjvBD0Mdl66MMBENm0nox773VZ
+         7JRDYn+C4EX0JM4ZQLPDTxcuEUeSVWSRz0yyI0iCxXhvWMF+/3WzopydzItXZpUYK2dp
+         Xun7bRn7QgUSEgA+swQ3zesHrvjceb/cdI3pppgMPLRLNQJlECZIP8hbvyrOKAuGboFJ
+         phNd+Z1nxphgZz+CjMchwCKJMkaPMMxT4GqGHux3TZBjZ0jXgl9xaizKucRKNuLsbSnJ
+         GL4A==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCW5k4A18wnOJ1uTS14OTtI+n/oeieMEApLUsGHJRCt6H/uNBvIXC7iZqBzufrVYycgrFmziMw==@lfdr.de
-X-Gm-Message-State: AOJu0YzwV5Ng20my2Do14UpvJfwDbyY8TuilomqMg3l0S/up3Dnp8g5C
-	EDf/pW40vZLjeGZU2gCbEJd3yZdjDMnWHu411F8DGC6VdH3imwi0bcM8
-X-Received: by 2002:a05:6512:108c:b0:59d:d64e:b3d7 with SMTP id 2adb3069b0e04-59de492be2amr548967e87.46.1769151214809;
-        Thu, 22 Jan 2026 22:53:34 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+E1Ap65DSHlr0t84kSoFGPC1HXOBW71JakA6KX6fdsyYQ=="
-Received: by 2002:a05:6512:1242:b0:59b:7324:a12c with SMTP id
- 2adb3069b0e04-59dd79861b2ls534942e87.2.-pod-prod-07-eu; Thu, 22 Jan 2026
- 22:53:32 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXAcF4m8GkpW2WL0JLasJZqsA1AtFxmg4wouSbagJjpnDCOZWTHpdgzamiu7vAlfcnliMhs7GyJRgY=@googlegroups.com
-X-Received: by 2002:a2e:beab:0:b0:37c:d689:7e1c with SMTP id 38308e7fff4ca-385da028e64mr5899221fa.23.1769151212041;
-        Thu, 22 Jan 2026 22:53:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769151212; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCXqID/xsZQN6RkiY4IZxzol95f3qs68fDFUf+uskpuA92k9JxnNKKe9YkAY25ZrMuiSDucMQw==@lfdr.de
+X-Gm-Message-State: AOJu0YxDotsqmk4da/FO8iZAB1USggvfkarjQ68RNyiGJnAi4GEjP/da
+	rYX4uQ39g/WMg7Vf9qFKwJWTRa3NX6jMMT8DC8KvuITtQxbUSmyCrsY7
+X-Received: by 2002:a05:6402:278f:b0:653:eb48:7e4d with SMTP id 4fb4d7f45d1cf-6584876feeemr1376731a12.15.1769151208976;
+        Thu, 22 Jan 2026 22:53:28 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+HVCgdW+7MDCKxk5AnzOUi44sMcTl27Eqhe83zwtxzv5Q=="
+Received: by 2002:a05:6402:42c2:b0:64d:faf4:f73e with SMTP id
+ 4fb4d7f45d1cf-658329fa78bls1624542a12.0.-pod-prod-05-eu; Thu, 22 Jan 2026
+ 22:53:27 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUoeGgQW3j35LcD38kp0gBlt3U+gYGSYVYfnqgydIr6w2yKSaPMiIbTJakw2FZh1TZJG4xGiY8ylpE=@googlegroups.com
+X-Received: by 2002:a05:6402:2713:b0:650:8a2c:43de with SMTP id 4fb4d7f45d1cf-658487cb113mr1207268a12.29.1769151206777;
+        Thu, 22 Jan 2026 22:53:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769151206; cv=none;
         d=google.com; s=arc-20240605;
-        b=G2RdzVM+FHY/AptawhR/BD9kz5LvV1rPhNZS/qUuRTPQf/dNoyr0Tm0CcJjxc98Ei4
-         29MpVliyqgalB8XgGGdie2ewHDEZ53HREeB3SIc67vFzdB+eYxDCq3p5/Z2dkpjBUq50
-         lIW0uHd+DdVFBCnfgN7YsDdTiH615Hqb7A++28xMHYZ1FdWmwS5qPOtk0zuygBHZOPcb
-         fdiFPO35LlAn0AlfD5zcS13YALakokZm0Mihgt/26zDCsXb8chcuPGSOQMPMm+S8N96s
-         uzBp90tufJAhMegFl9FoNlWA6gPm1IdO05N+6Fqaxc4NhONWCdY36KgkbuttLzvN5qSl
-         k5iw==
+        b=YRfKlCv0yXlavvIih9IlprYGKwWtH9c5aB+E0zBCiCH+Y4FMRj0PfcG6qpAkcdNmyg
+         RtGG8agn3mF3C0rvyZvi7vb8zY72vjRtcYz3NtvaOq8IEleizd+T4AnO4+7wClAkMMYI
+         z7QrxiN8krV5yYUguDoBwebJ/43KUJS0T/zzpt/dx1MSodoXZb74lqNWVhfZ2bc6L5Zf
+         jVIM0E7wYsPYnt+PN/T+kTM61Ja0PPZIvhefMSqYYyA49CnBM6IMbRT2s12GzU1qjvBj
+         7BsQS4cowMnRMUvKterMGa0O5OS8kI56Pbeeybyy6Fke6NvaeJLPcGUq8xYX6TDUliZP
+         rhOQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:dkim-signature:dkim-signature
-         :dkim-signature:dkim-signature;
-        bh=Lz6+CfboTVUMod3u7B664uLDJDmXudIqpgLE6OkuCxw=;
+         :mime-version:subject:date:from;
+        bh=Iq7UWdW4QXI0XgzbTe6sxpLmaSn9uxzUuTNcFry6wsI=;
         fh=+YiR3k2M4/hjhpad8/hMpDOxCdG92wPg4T+KQWP+jEY=;
-        b=PZ+cg3bswaAw836GOSQGyBIS6kosklnFfMrOv3JEUQpvIFyipqxUxGJaVGwl5w+m6i
-         UToeR8U2cLA/hy8t0OYZrPgMNs/lO+IDi6qZLgkwQ4V0C5hCZwHJSu6s6706iNgqZ+eb
-         P4zQqJJ5/meeyg9mJeOC0yN4rs1ySDtNPZT+RMVedZn3nn5Sc/p/fW01ShOjNqrhyV9t
-         pidLA+7xufLGfdhuOWN8XFGVaAId9Y3aGVyQpzoGJIfruHpVB1MQuIoEpSSFI5BgmT69
-         NbsVipEwMS23Rsyh00IQOm8E9Z2LWG+8R0qmn9GjCR1J/k9G81vcyVMBPlCvh3mZCofE
-         kFow==;
+        b=NK3ZuTwaHfvB1Cd5OgKE7i9G/VThEuVeGR+3khmvBRMg1Nj7hAQfkbJda68MM0De4M
+         wQb1ehMf15vpXlvm6QLOVeyZus3qDGdJTRCBuWOl1I7olRrPsC+dC88nI/V+MegxCZtu
+         vzGVis8oHKu1LEdGIROkUiun14GoklMdwiDOLCiyqvclWjrENT4hIpJ29NFn0QWw21Il
+         k6ccd4u1+se2REwekM38p7M42WerqxtNNTlqyC85bkoMHgpcFiu39ecqm1TGg1Awi7i6
+         utl76YUGtJhM4E4aSFVq5ux0oeIln2W5Uv71WbjcY299+ir0EqeLrPuEPOLjRpvLjA/w
+         1ehg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="Z2g9m/rc";
-       dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="Z2g9m/rc";
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out1.suse.de (smtp-out1.suse.de. [2a07:de40:b251:101:10:150:64:1])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-385d9e542a4si304551fa.0.2026.01.22.22.53.31
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.223.131])
+        by gmr-mx.google.com with ESMTPS id 4fb4d7f45d1cf-6584b526f12si25717a12.3.2026.01.22.22.53.26
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jan 2026 22:53:32 -0800 (PST)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:1;
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+        Thu, 22 Jan 2026 22:53:26 -0800 (PST)
+Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.223.131 as permitted sender) client-ip=195.135.223.131;
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C9F8033772;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C79315BCD0;
 	Fri, 23 Jan 2026 06:53:10 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7C249139F7;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9539D13A01;
 	Fri, 23 Jan 2026 06:53:10 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2McKHtYac2k4YgAAD6G6ig
+	id yBQnJNYac2k4YgAAD6G6ig
 	(envelope-from <vbabka@suse.cz>); Fri, 23 Jan 2026 06:53:10 +0000
 From: Vlastimil Babka <vbabka@suse.cz>
-Date: Fri, 23 Jan 2026 07:52:51 +0100
-Subject: [PATCH v4 13/22] slab: remove the do_slab_free() fastpath
+Date: Fri, 23 Jan 2026 07:52:52 +0100
+Subject: [PATCH v4 14/22] slab: remove defer_deactivate_slab()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Message-Id: <20260123-sheaves-for-all-v4-13-041323d506f7@suse.cz>
+Message-Id: <20260123-sheaves-for-all-v4-14-041323d506f7@suse.cz>
 References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
 In-Reply-To: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
 To: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
@@ -150,17 +141,19 @@ Cc: Hao Li <hao.li@linux.dev>, Andrew Morton <akpm@linux-foundation.org>,
  bpf@vger.kernel.org, kasan-dev@googlegroups.com, 
  Vlastimil Babka <vbabka@suse.cz>
 X-Mailer: b4 0.14.3
-X-Spam-Flag: NO
-X-Spam-Score: -8.30
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spam-Score: -4.00
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
 X-Spam-Level: 
+X-Spam-Flag: NO
 X-Original-Sender: vbabka@suse.cz
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b="Z2g9m/rc";
-       dkim=neutral (no key) header.i=@suse.cz;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b="Z2g9m/rc";
-       dkim=neutral (no key) header.i=@suse.cz;       spf=pass (google.com:
- domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as
- permitted sender) smtp.mailfrom=vbabka@suse.cz
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of vbabka@suse.cz designates 195.135.223.131 as permitted
+ sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -180,7 +173,7 @@ X-Spamd-Result: default: False [-1.71 / 15.00];
 	R_SPF_ALLOW(-0.20)[+ip6:2a00:1450:4000::/36:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bncBDXYDPH3S4OBB3VVZTFQMGQEXWCOMBY];
+	TAGGED_FROM(0.00)[bncBDXYDPH3S4OBB2FVZTFQMGQEBRPXNCQ];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	DMARC_NA(0.00)[suse.cz];
@@ -194,261 +187,234 @@ X-Spamd-Result: default: False [-1.71 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[6];
 	FROM_NEQ_ENVFROM(0.00)[vbabka@suse.cz,kasan-dev@googlegroups.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.974];
+	NEURAL_HAM(-0.00)[-0.975];
 	TAGGED_RCPT(0.00)[kasan-dev];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:email,oracle.com:email,mail-lf1-x13a.google.com:helo,mail-lf1-x13a.google.com:rdns]
-X-Rspamd-Queue-Id: C3B6A71322
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:email,oracle.com:email]
+X-Rspamd-Queue-Id: B7F7B712F7
 X-Rspamd-Action: no action
 
-We have removed cpu slab usage from allocation paths. Now remove
-do_slab_free() which was freeing objects to the cpu slab when
-the object belonged to it. Instead call __slab_free() directly,
-which was previously the fallback.
+There are no more cpu slabs so we don't need their deferred
+deactivation. The function is now only used from places where we
+allocate a new slab but then can't spin on node list_lock to put it on
+the partial list. Instead of the deferred action we can free it directly
+via __free_slab(), we just need to tell it to use _nolock() freeing of
+the underlying pages and take care of the accounting.
 
-This simplifies kfree_nolock() - when freeing to percpu sheaf
-fails, we can call defer_free() directly.
-
-Also remove functions that became unused.
+Since free_frozen_pages_nolock() variant does not yet exist for code
+outside of the page allocator, create it as a trivial wrapper for
+__free_frozen_pages(..., FPI_TRYLOCK).
 
 Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
 Reviewed-by: Hao Li <hao.li@linux.dev>
 Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 ---
- mm/slub.c | 149 ++++++--------------------------------------------------------
- 1 file changed, 13 insertions(+), 136 deletions(-)
+ mm/internal.h   |  1 +
+ mm/page_alloc.c |  5 +++++
+ mm/slab.h       |  8 +-------
+ mm/slub.c       | 58 +++++++++++++++++++++------------------------------------
+ 4 files changed, 28 insertions(+), 44 deletions(-)
 
+diff --git a/mm/internal.h b/mm/internal.h
+index e430da900430..1f44ccb4badf 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -846,6 +846,7 @@ static inline struct page *alloc_frozen_pages_noprof(gfp_t gfp, unsigned int ord
+ struct page *alloc_frozen_pages_nolock_noprof(gfp_t gfp_flags, int nid, unsigned int order);
+ #define alloc_frozen_pages_nolock(...) \
+ 	alloc_hooks(alloc_frozen_pages_nolock_noprof(__VA_ARGS__))
++void free_frozen_pages_nolock(struct page *page, unsigned int order);
+ 
+ extern void zone_pcp_reset(struct zone *zone);
+ extern void zone_pcp_disable(struct zone *zone);
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index c380f063e8b7..0127e9d661ad 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -2981,6 +2981,11 @@ void free_frozen_pages(struct page *page, unsigned int order)
+ 	__free_frozen_pages(page, order, FPI_NONE);
+ }
+ 
++void free_frozen_pages_nolock(struct page *page, unsigned int order)
++{
++	__free_frozen_pages(page, order, FPI_TRYLOCK);
++}
++
+ /*
+  * Free a batch of folios
+  */
+diff --git a/mm/slab.h b/mm/slab.h
+index 0fbe13bec864..37090a7dffb6 100644
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -71,13 +71,7 @@ struct slab {
+ 	struct kmem_cache *slab_cache;
+ 	union {
+ 		struct {
+-			union {
+-				struct list_head slab_list;
+-				struct { /* For deferred deactivate_slab() */
+-					struct llist_node llnode;
+-					void *flush_freelist;
+-				};
+-			};
++			struct list_head slab_list;
+ 			/* Double-word boundary */
+ 			struct freelist_counters;
+ 		};
 diff --git a/mm/slub.c b/mm/slub.c
-index 914b51aedb25..a63a0eed2c55 100644
+index a63a0eed2c55..82950c2bc26d 100644
 --- a/mm/slub.c
 +++ b/mm/slub.c
-@@ -3678,29 +3678,6 @@ static inline unsigned int init_tid(int cpu)
- 	return cpu;
+@@ -3262,7 +3262,7 @@ static struct slab *new_slab(struct kmem_cache *s, gfp_t flags, int node)
+ 		flags & (GFP_RECLAIM_MASK | GFP_CONSTRAINT_MASK), node);
  }
  
--static inline void note_cmpxchg_failure(const char *n,
--		const struct kmem_cache *s, unsigned long tid)
--{
--#ifdef SLUB_DEBUG_CMPXCHG
--	unsigned long actual_tid = __this_cpu_read(s->cpu_slab->tid);
--
--	pr_info("%s %s: cmpxchg redo ", n, s->name);
--
--	if (IS_ENABLED(CONFIG_PREEMPTION) &&
--	    tid_to_cpu(tid) != tid_to_cpu(actual_tid)) {
--		pr_warn("due to cpu change %d -> %d\n",
--			tid_to_cpu(tid), tid_to_cpu(actual_tid));
--	} else if (tid_to_event(tid) != tid_to_event(actual_tid)) {
--		pr_warn("due to cpu running other code. Event %ld->%ld\n",
--			tid_to_event(tid), tid_to_event(actual_tid));
--	} else {
--		pr_warn("for unknown reason: actual=%lx was=%lx target=%lx\n",
--			actual_tid, tid, next_tid(tid));
--	}
--#endif
--	stat(s, CMPXCHG_DOUBLE_CPU_FAIL);
--}
--
- static void init_kmem_cache_cpus(struct kmem_cache *s)
+-static void __free_slab(struct kmem_cache *s, struct slab *slab)
++static void __free_slab(struct kmem_cache *s, struct slab *slab, bool allow_spin)
  {
- #ifdef CONFIG_PREEMPT_RT
-@@ -4239,18 +4216,6 @@ static inline bool pfmemalloc_match(struct slab *slab, gfp_t gfpflags)
- 	return true;
+ 	struct page *page = slab_page(slab);
+ 	int order = compound_order(page);
+@@ -3273,14 +3273,26 @@ static void __free_slab(struct kmem_cache *s, struct slab *slab)
+ 	__ClearPageSlab(page);
+ 	mm_account_reclaimed_pages(pages);
+ 	unaccount_slab(slab, order, s);
+-	free_frozen_pages(page, order);
++	if (allow_spin)
++		free_frozen_pages(page, order);
++	else
++		free_frozen_pages_nolock(page, order);
++}
++
++static void free_new_slab_nolock(struct kmem_cache *s, struct slab *slab)
++{
++	/*
++	 * Since it was just allocated, we can skip the actions in
++	 * discard_slab() and free_slab().
++	 */
++	__free_slab(s, slab, false);
  }
  
--static inline bool
--__update_cpu_freelist_fast(struct kmem_cache *s,
--			   void *freelist_old, void *freelist_new,
--			   unsigned long tid)
--{
--	struct freelist_tid old = { .freelist = freelist_old, .tid = tid };
--	struct freelist_tid new = { .freelist = freelist_new, .tid = next_tid(tid) };
--
--	return this_cpu_try_cmpxchg_freelist(s->cpu_slab->freelist_tid,
--					     &old.freelist_tid, new.freelist_tid);
--}
+ static void rcu_free_slab(struct rcu_head *h)
+ {
+ 	struct slab *slab = container_of(h, struct slab, rcu_head);
+ 
+-	__free_slab(slab->slab_cache, slab);
++	__free_slab(slab->slab_cache, slab, true);
+ }
+ 
+ static void free_slab(struct kmem_cache *s, struct slab *slab)
+@@ -3296,7 +3308,7 @@ static void free_slab(struct kmem_cache *s, struct slab *slab)
+ 	if (unlikely(s->flags & SLAB_TYPESAFE_BY_RCU))
+ 		call_rcu(&slab->rcu_head, rcu_free_slab);
+ 	else
+-		__free_slab(s, slab);
++		__free_slab(s, slab, true);
+ }
+ 
+ static void discard_slab(struct kmem_cache *s, struct slab *slab)
+@@ -3389,8 +3401,6 @@ static void *alloc_single_from_partial(struct kmem_cache *s,
+ 	return object;
+ }
+ 
+-static void defer_deactivate_slab(struct slab *slab, void *flush_freelist);
 -
  /*
-  * Get the slab's freelist and do not freeze it.
-  *
-@@ -6185,99 +6150,6 @@ void defer_free_barrier(void)
- 		irq_work_sync(&per_cpu_ptr(&defer_free_objects, cpu)->work);
+  * Called only for kmem_cache_debug() caches to allocate from a freshly
+  * allocated slab. Allocate a single object instead of whole freelist
+@@ -3406,8 +3416,8 @@ static void *alloc_single_from_new_slab(struct kmem_cache *s, struct slab *slab,
+ 	void *object;
+ 
+ 	if (!allow_spin && !spin_trylock_irqsave(&n->list_lock, flags)) {
+-		/* Unlucky, discard newly allocated slab */
+-		defer_deactivate_slab(slab, NULL);
++		/* Unlucky, discard newly allocated slab. */
++		free_new_slab_nolock(s, slab);
+ 		return NULL;
+ 	}
+ 
+@@ -4279,7 +4289,7 @@ static unsigned int alloc_from_new_slab(struct kmem_cache *s, struct slab *slab,
+ 
+ 		if (!spin_trylock_irqsave(&n->list_lock, flags)) {
+ 			/* Unlucky, discard newly allocated slab */
+-			defer_deactivate_slab(slab, NULL);
++			free_new_slab_nolock(s, slab);
+ 			return 0;
+ 		}
+ 	}
+@@ -6056,7 +6066,6 @@ static void free_to_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
+ 
+ struct defer_free {
+ 	struct llist_head objects;
+-	struct llist_head slabs;
+ 	struct irq_work work;
+ };
+ 
+@@ -6064,23 +6073,21 @@ static void free_deferred_objects(struct irq_work *work);
+ 
+ static DEFINE_PER_CPU(struct defer_free, defer_free_objects) = {
+ 	.objects = LLIST_HEAD_INIT(objects),
+-	.slabs = LLIST_HEAD_INIT(slabs),
+ 	.work = IRQ_WORK_INIT(free_deferred_objects),
+ };
+ 
+ /*
+  * In PREEMPT_RT irq_work runs in per-cpu kthread, so it's safe
+- * to take sleeping spin_locks from __slab_free() and deactivate_slab().
++ * to take sleeping spin_locks from __slab_free().
+  * In !PREEMPT_RT irq_work will run after local_unlock_irqrestore().
+  */
+ static void free_deferred_objects(struct irq_work *work)
+ {
+ 	struct defer_free *df = container_of(work, struct defer_free, work);
+ 	struct llist_head *objs = &df->objects;
+-	struct llist_head *slabs = &df->slabs;
+ 	struct llist_node *llnode, *pos, *t;
+ 
+-	if (llist_empty(objs) && llist_empty(slabs))
++	if (llist_empty(objs))
+ 		return;
+ 
+ 	llnode = llist_del_all(objs);
+@@ -6104,16 +6111,6 @@ static void free_deferred_objects(struct irq_work *work)
+ 
+ 		__slab_free(s, slab, x, x, 1, _THIS_IP_);
+ 	}
+-
+-	llnode = llist_del_all(slabs);
+-	llist_for_each_safe(pos, t, llnode) {
+-		struct slab *slab = container_of(pos, struct slab, llnode);
+-
+-		if (slab->frozen)
+-			deactivate_slab(slab->slab_cache, slab, slab->flush_freelist);
+-		else
+-			free_slab(slab->slab_cache, slab);
+-	}
  }
  
--/*
-- * Fastpath with forced inlining to produce a kfree and kmem_cache_free that
-- * can perform fastpath freeing without additional function calls.
-- *
-- * The fastpath is only possible if we are freeing to the current cpu slab
-- * of this processor. This typically the case if we have just allocated
-- * the item before.
-- *
-- * If fastpath is not possible then fall back to __slab_free where we deal
-- * with all sorts of special processing.
-- *
-- * Bulk free of a freelist with several objects (all pointing to the
-- * same slab) possible by specifying head and tail ptr, plus objects
-- * count (cnt). Bulk free indicated by tail pointer being set.
-- */
--static __always_inline void do_slab_free(struct kmem_cache *s,
--				struct slab *slab, void *head, void *tail,
--				int cnt, unsigned long addr)
+ static void defer_free(struct kmem_cache *s, void *head)
+@@ -6129,19 +6126,6 @@ static void defer_free(struct kmem_cache *s, void *head)
+ 		irq_work_queue(&df->work);
+ }
+ 
+-static void defer_deactivate_slab(struct slab *slab, void *flush_freelist)
 -{
--	/* cnt == 0 signals that it's called from kfree_nolock() */
--	bool allow_spin = cnt;
--	struct kmem_cache_cpu *c;
--	unsigned long tid;
--	void **freelist;
+-	struct defer_free *df;
 -
--redo:
--	/*
--	 * Determine the currently cpus per cpu slab.
--	 * The cpu may change afterward. However that does not matter since
--	 * data is retrieved via this pointer. If we are on the same cpu
--	 * during the cmpxchg then the free will succeed.
--	 */
--	c = raw_cpu_ptr(s->cpu_slab);
--	tid = READ_ONCE(c->tid);
+-	slab->flush_freelist = flush_freelist;
 -
--	/* Same with comment on barrier() in __slab_alloc_node() */
--	barrier();
+-	guard(preempt)();
 -
--	if (unlikely(slab != c->slab)) {
--		if (unlikely(!allow_spin)) {
--			/*
--			 * __slab_free() can locklessly cmpxchg16 into a slab,
--			 * but then it might need to take spin_lock
--			 * for further processing.
--			 * Avoid the complexity and simply add to a deferred list.
--			 */
--			defer_free(s, head);
--		} else {
--			__slab_free(s, slab, head, tail, cnt, addr);
--		}
--		return;
--	}
--
--	if (unlikely(!allow_spin)) {
--		if ((in_nmi() || !USE_LOCKLESS_FAST_PATH()) &&
--		    local_lock_is_locked(&s->cpu_slab->lock)) {
--			defer_free(s, head);
--			return;
--		}
--		cnt = 1; /* restore cnt. kfree_nolock() frees one object at a time */
--	}
--
--	if (USE_LOCKLESS_FAST_PATH()) {
--		freelist = READ_ONCE(c->freelist);
--
--		set_freepointer(s, tail, freelist);
--
--		if (unlikely(!__update_cpu_freelist_fast(s, freelist, head, tid))) {
--			note_cmpxchg_failure("slab_free", s, tid);
--			goto redo;
--		}
--	} else {
--		__maybe_unused unsigned long flags = 0;
--
--		/* Update the free list under the local lock */
--		local_lock_cpu_slab(s, flags);
--		c = this_cpu_ptr(s->cpu_slab);
--		if (unlikely(slab != c->slab)) {
--			local_unlock_cpu_slab(s, flags);
--			goto redo;
--		}
--		tid = c->tid;
--		freelist = c->freelist;
--
--		set_freepointer(s, tail, freelist);
--		c->freelist = head;
--		c->tid = next_tid(tid);
--
--		local_unlock_cpu_slab(s, flags);
--	}
--	stat_add(s, FREE_FASTPATH, cnt);
+-	df = this_cpu_ptr(&defer_free_objects);
+-	if (llist_add(&slab->llnode, &df->slabs))
+-		irq_work_queue(&df->work);
 -}
 -
- static __fastpath_inline
- void slab_free(struct kmem_cache *s, struct slab *slab, void *object,
- 	       unsigned long addr)
-@@ -6294,7 +6166,7 @@ void slab_free(struct kmem_cache *s, struct slab *slab, void *object,
- 			return;
- 	}
- 
--	do_slab_free(s, slab, object, object, 1, addr);
-+	__slab_free(s, slab, object, object, 1, addr);
- }
- 
- #ifdef CONFIG_MEMCG
-@@ -6303,7 +6175,7 @@ static noinline
- void memcg_alloc_abort_single(struct kmem_cache *s, void *object)
+ void defer_free_barrier(void)
  {
- 	if (likely(slab_free_hook(s, object, slab_want_init_on_free(s), false)))
--		do_slab_free(s, virt_to_slab(object), object, object, 1, _RET_IP_);
-+		__slab_free(s, virt_to_slab(object), object, object, 1, _RET_IP_);
- }
- #endif
- 
-@@ -6318,7 +6190,7 @@ void slab_free_bulk(struct kmem_cache *s, struct slab *slab, void *head,
- 	 * to remove objects, whose reuse must be delayed.
- 	 */
- 	if (likely(slab_free_freelist_hook(s, &head, &tail, &cnt)))
--		do_slab_free(s, slab, head, tail, cnt, addr);
-+		__slab_free(s, slab, head, tail, cnt, addr);
- }
- 
- #ifdef CONFIG_SLUB_RCU_DEBUG
-@@ -6344,14 +6216,14 @@ static void slab_free_after_rcu_debug(struct rcu_head *rcu_head)
- 
- 	/* resume freeing */
- 	if (slab_free_hook(s, object, slab_want_init_on_free(s), true))
--		do_slab_free(s, slab, object, object, 1, _THIS_IP_);
-+		__slab_free(s, slab, object, object, 1, _THIS_IP_);
- }
- #endif /* CONFIG_SLUB_RCU_DEBUG */
- 
- #ifdef CONFIG_KASAN_GENERIC
- void ___cache_free(struct kmem_cache *cache, void *x, unsigned long addr)
- {
--	do_slab_free(cache, virt_to_slab(x), x, x, 1, addr);
-+	__slab_free(cache, virt_to_slab(x), x, x, 1, addr);
- }
- #endif
- 
-@@ -6557,7 +6429,12 @@ void kfree_nolock(const void *object)
- 			return;
- 	}
- 
--	do_slab_free(s, slab, x, x, 0, _RET_IP_);
-+	/*
-+	 * __slab_free() can locklessly cmpxchg16 into a slab, but then it might
-+	 * need to take spin_lock for further processing.
-+	 * Avoid the complexity and simply add to a deferred list.
-+	 */
-+	defer_free(s, x);
- }
- EXPORT_SYMBOL_GPL(kfree_nolock);
- 
-@@ -6983,7 +6860,7 @@ static void __kmem_cache_free_bulk(struct kmem_cache *s, size_t size, void **p)
- 		if (kfence_free(df.freelist))
- 			continue;
- 
--		do_slab_free(df.s, df.slab, df.freelist, df.tail, df.cnt,
-+		__slab_free(df.s, df.slab, df.freelist, df.tail, df.cnt,
- 			     _RET_IP_);
- 	} while (likely(size));
- }
-@@ -7069,7 +6946,7 @@ __refill_objects(struct kmem_cache *s, void **p, gfp_t gfp, unsigned int min,
- 				cnt++;
- 				object = get_freepointer(s, object);
- 			} while (object);
--			do_slab_free(s, slab, head, tail, cnt, _RET_IP_);
-+			__slab_free(s, slab, head, tail, cnt, _RET_IP_);
- 		}
- 
- 		if (refilled >= max)
+ 	int cpu;
 
 -- 
 2.52.0
@@ -456,4 +422,4 @@ index 914b51aedb25..a63a0eed2c55 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260123-sheaves-for-all-v4-13-041323d506f7%40suse.cz.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260123-sheaves-for-all-v4-14-041323d506f7%40suse.cz.
