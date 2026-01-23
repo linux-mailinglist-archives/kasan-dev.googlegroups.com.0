@@ -1,141 +1,130 @@
-Return-Path: <kasan-dev+bncBDXYDPH3S4OBB4NVZTFQMGQEXQKZEAI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXYDPH3S4OBBZVVZTFQMGQE2LJQJSY@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gNGFBfMac2mwsAAAu9opvQ
-	(envelope-from <kasan-dev+bncBDXYDPH3S4OBB4NVZTFQMGQEXQKZEAI@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 07:53:39 +0100
+	id qCEnHucac2mwsAAAu9opvQ
+	(envelope-from <kasan-dev+bncBDXYDPH3S4OBBZVVZTFQMGQE2LJQJSY@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 07:53:27 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33b.google.com (mail-wm1-x33b.google.com [IPv6:2a00:1450:4864:20::33b])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA0057132A
-	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 07:53:38 +0100 (CET)
-Received: by mail-wm1-x33b.google.com with SMTP id 5b1f17b1804b1-47ee1fe7b24sf17366535e9.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 22 Jan 2026 22:53:38 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1769151218; cv=pass;
+Received: from mail-ed1-x53e.google.com (mail-ed1-x53e.google.com [IPv6:2a00:1450:4864:20::53e])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED365712E9
+	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 07:53:26 +0100 (CET)
+Received: by mail-ed1-x53e.google.com with SMTP id 4fb4d7f45d1cf-65805f976cdsf2595994a12.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 22 Jan 2026 22:53:26 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1769151206; cv=pass;
         d=google.com; s=arc-20240605;
-        b=MgJeioQ2iwOf3odoeY9vA0nUgEC6oIjX3hUbVmloAqSiZSCS2EZ/cb5bMFw1MeWgQZ
-         jYL/kN1KN2NGDMKZSQvq30X1KWpLgSMn+MrW6Ymg3dN4Rabb1TTRXGo7LDuK6By9zyJv
-         0meVFSR2gGGke5mqyUEeFEu9tfkqEpEuy0+t8V9U1geT0efGYftP/VoJuP31Bm7hZYWM
-         q8GHE5bwd1ncXygjspeXN3BBpcgLkzl5hIh/+gLjIba179u1arsIM31oD+OpnAZLFj8D
-         jlES7Elld2S2yqD973hdE2gm7U3b0uibkvAx+D2mLRbAqcLcp3r6IBkBtvJD0I0czSLe
-         AXuA==
+        b=bFRQx3WeDNKPkqS8BFVchb0qfbzhuaU1ozFA/27zDxGNDr/A1oMSExKYCQriI0e2B2
+         GOgI8YXGfyaMEeq+Wu+GliqA+iyBZQ2ahZyUZqB0XB7zMS75W57L4Ssu5fk40XSbef/S
+         NYl1W/1TZkvLXQO6yUSOFMwlkKMFZi6NC552GBP6Rgl8zLBFhjMsyMQSDb3D0jnTajCX
+         8lDOniZiO9gw3wrEcuFl83mncolMvkXyTb7AOrQwdnZ7ubSRsn8QWBeO/5DWIe9LLYFf
+         1hhxeikKPYLF1n38HXIi4PtRCLuQwTVKKNOVTy+w0fQfQl8wnWzTbKVrjTh4vaHucMEO
+         vc6g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:cc:to:in-reply-to:references
          :message-id:mime-version:subject:date:from:sender:dkim-signature;
-        bh=UJF5SOt/Et8uZqsWnr/nlvH8rh0qiX3EIIE2d353RgY=;
-        fh=6eGj9LRESy0D5YPYcTzfqQ2kNcq3YFFudq0in5au5jY=;
-        b=TVQvH7TjE2P6216RZT+D8jLkxZbQpG8jrH0aemTmjiRsilN3/Wp9zNYPXiia/NvBKu
-         fr8Uzd8hSxIPRZE8/J8qJoRrB1dQM5eMTzQjrIWXMCKV+PlAk31P5joHpCy+xQiqYhOl
-         9oqgoZoHbUjCdbvCa20exsvZn0tY6XC+NQqCFC2agGAM6vVO3piox+VonHkB3L9VPNiA
-         eUqTJq4aqPbVLV13j1Qk1+6t2Zl3ty1tIb7CR0Y9CYx8bIesCZGeNc4p7PQPxBNXAw7t
-         gIYX1KCa1l0ZaHubK2NvEHzOTiwaVBQZqGd86e5y9zqjZxggndKKCxXp/kPpeAJ/sILc
-         Lxqg==;
+        bh=dtdg+1RXstVY7m4dZFdOnPa2eiy3IQsDjbdqzV5vBjI=;
+        fh=tWrwGyZ0sXXgNDzTjNs5C7fCrlUCoSisMfWELJgv8ms=;
+        b=bjk2QJvs50JCv/iZkyuW8lWMu88+dFnrK9O8i+7QtS6adbmpPH/badJ9OMh3Z2jm3U
+         1924syB538iXpxvujPAdxKh1DMbkm8Ul3VriimK4oBrzX/3MGRIaRLOe3ImLPEw5hsye
+         hDdWwof5NM2x6twWjVmI/JW1vb2fYirc/3RAPmnW6WAdIuMVEeXStuftoltBwDK0EaF2
+         RNLyAaPxFzsdZb6iRWFMK6sKDIMwg3IIHAekGfnktLmW5yvKIZkWwsU0PgFpkEPbGbi2
+         9zOZsT0lJC5w8sRB4RHgtGRVzMpmQ3kg1cDcLKdXiXdBfyA9MiaSg35WM8ZKHKsBFADL
+         9YRA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=AenYz2Wq;
-       dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=AenYz2Wq;
-       dkim=neutral (no key) header.i=@suse.cz;
        spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.130 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1769151218; x=1769756018; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1769151206; x=1769756006; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:cc:to:in-reply-to:references:message-id
          :mime-version:subject:date:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UJF5SOt/Et8uZqsWnr/nlvH8rh0qiX3EIIE2d353RgY=;
-        b=CwhgbaKawIShmXs/jzHc/wMdtN5TZBKskH27LhrOEeOKkrfrwtphVIQzB8NYxkV9RD
-         czuxezw+a47woqCJhjOAJoEelIXZzYPvG0XEtkYMd7DOaQiQ4ltvtGD8t9iuoaY9/7sj
-         DaVvk0avgIvh9Iq7aOipk0DWCxIffxcjyffEzVbTzSMQff61OCt6axXFjcHlUcng+YrO
-         WcXuTcSRVX4xauG65kM55loDquhuv7oNV2EY7+38vlOcJkkxETcJA5Ff6gwyfIAfJ4U3
-         QFvzZueV5Fvu1XXiV35X+2CZg+I9w6odNiDjL5YNfKBCXf4eMUJALJxWbF+XqW5PLueK
-         bHug==
+        bh=dtdg+1RXstVY7m4dZFdOnPa2eiy3IQsDjbdqzV5vBjI=;
+        b=OOzdHgD2UoBjJITSPxbuQN0ClXynWCG0BcK7ZZjshSSFlAegYMpx6NtZWsg7lTGkoR
+         eaKVgOAGsUhqe9mLPUSYLDXbwSbBB4QfS3bkNJPSb6z+CMTu1+HsuoPOC0dGk6NAgMmH
+         aAn/NQWxq3OwbCL9zzvbe9et5nnpdh/wiRAUexKXSm8mm6GT2vplRwdEEdTG4nkIviUa
+         W9mdO3FILh4tgFK4ZUAR8LQNyPedlYoJEPM3+kSx8kTabKZiu58nixEhqOoLF6y5Wbyw
+         VvjN+Qd4MND1h0lvsYjIaV3+IeZXWl+potQgzdin+wm0tZ+YSHYON/jFqvDfY2djWbt6
+         BTHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769151218; x=1769756018;
+        d=1e100.net; s=20230601; t=1769151206; x=1769756006;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:cc:to
          :in-reply-to:references:message-id:mime-version:subject:date:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UJF5SOt/Et8uZqsWnr/nlvH8rh0qiX3EIIE2d353RgY=;
-        b=xRc4J55CBzlL3QjYwFA2CzGxQMl/fduejrj+1a5g6cKJ46pWcaZu3OKLlanEaScC3L
-         PbcIujAZqcosYaii8x7qBbECnw7nalp5c+KrBOq9ix7fKp8M2IM1OuHWqoGy6b06RqsG
-         YRiEV43qsahcJCH4/WXvTuycUXX1VcXWDy18CQWgkR3x2A0R/STWosebeyKR+yUJa8ze
-         pcqiHnj0QNGmyXpO409970tib6wGRlyWHAqkxjwMEaLIpu2cCIphVq/yoP+Dznax8lXN
-         +HNE82JeAn5DYrbChdIbC2ZVLwFt/QvqH/uvD3Y6B4GLtumNSJglnFNsD9GOTyfNRmzb
-         Nwjw==
+        bh=dtdg+1RXstVY7m4dZFdOnPa2eiy3IQsDjbdqzV5vBjI=;
+        b=mX5HNfLec1LEqBzSGddCqmcHxpcTFxNsSOSWrP2G0wr058SjhPPzjVZZPSguSSQjKy
+         eVJnN08XmB728I+LNMkjOt0zG4Qb8niW/wMYnqLHf6pSu/5CiUkKz0WzWTw/R6ScDGee
+         uAeu4529WT28vAUqeS0cIFIP13THIy0MJNMzUABVT/4Dy71hKvcX/uLcu4Q+sAxAp00B
+         PNG4nc1YxRNW7p9SHfX7KsJFUwUNP8VAhodSfSk5m4/uXtGbp+yervyWCXYg0C32m1Cu
+         p29YltxVcaUpL9lm2nkN2qFHe4uKecJ6MDMOOG8v/Wj3fLNkjDH/Ihc7NnehE4YZxI4N
+         aTqw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWxEPzjhX+UYncoZJqWDrL+0Qff3TS2P4sZ79P7VQdrTCbOcE039SmEogf+xyveW/eYmT1Kew==@lfdr.de
-X-Gm-Message-State: AOJu0YwP+OSc/w1ntLyCql8yYt1TUb+D9YlcdqyQ589OMby804v1h3aa
-	ZmIJ+CUJ9lBX3oCXdrSdSuy2EkrLbx128PA6e8gmwfr0Ogjc+hppP7Eq
-X-Received: by 2002:a05:600c:468e:b0:477:af07:dd1c with SMTP id 5b1f17b1804b1-4804c9dbb88mr34225995e9.35.1769151218037;
-        Thu, 22 Jan 2026 22:53:38 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+GyylYcXIpjilG9Jz2kI5eqVBMxlqnZ+sV9Qsvdh4Inug=="
-Received: by 2002:a05:600c:3593:b0:47a:74d9:db with SMTP id
- 5b1f17b1804b1-48047d49ffels12130155e9.1.-pod-prod-02-eu; Thu, 22 Jan 2026
- 22:53:35 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCX6VSpiR/y4ViYM8f+5z7Kqe5fJ2+x4JuH29GZTLdzZgIhjKxpOZIx/PIyy11yobe/DLVUkuJ6gfvU=@googlegroups.com
-X-Received: by 2002:a05:600c:4e45:b0:480:3a72:5238 with SMTP id 5b1f17b1804b1-4804c9cdc51mr28902735e9.30.1769151215703;
-        Thu, 22 Jan 2026 22:53:35 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769151215; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCU4f73Ekc2rel6YNxDpGdik36Fl+qVqfwIbSzJLgq+tw8ZmH2IvFz5taWTSz+fG9bMgEfFyEw==@lfdr.de
+X-Gm-Message-State: AOJu0YyBWC3lOAWVPFd4nfl+WQ4bswtROK2ZX0lx9ILnVsepEYlwsKce
+	Zx1Y4uuL4HDeS06Unm4Jl7fHGhPmdEs3/RtIgrqx8qnZhC0vObM1VNlu
+X-Received: by 2002:a05:6402:2116:b0:64b:58df:cf24 with SMTP id 4fb4d7f45d1cf-6584b1a38c0mr1182877a12.11.1769151206475;
+        Thu, 22 Jan 2026 22:53:26 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+HcK4i9lzQ1EI44toOZBlgvYFCom489azfNJhFkeN157g=="
+Received: by 2002:aa7:d817:0:b0:64b:aa45:7bfa with SMTP id 4fb4d7f45d1cf-65813470ecfls1409833a12.1.-pod-prod-00-eu-canary;
+ Thu, 22 Jan 2026 22:53:24 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVDtZTfqQrHYFSnNbQpc4XdHSQEFNx3OMmHyvMhFpfxsdVUB8Z9IfCxG3/Pm6YA0hDcJblZCz4N+Bc=@googlegroups.com
+X-Received: by 2002:a17:906:c109:b0:b88:4224:815b with SMTP id a640c23a62f3a-b885a262cacmr149555866b.3.1769151204367;
+        Thu, 22 Jan 2026 22:53:24 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769151204; cv=none;
         d=google.com; s=arc-20240605;
-        b=IYC5eMCslLdj2tX6QClDM0gWUlP7CSXjP33KlCA55n5o8mlXGBLqhz9b+/Fx5QTUak
-         V5t3ym4jB7iAS+9jsE1VEgLpIneQFicCmu16zl56FXL17CfGV5k8TwD/0lMuVZyBjYfc
-         LyrSkQNrW5gpmMOmOakZnzuvkIsUWCpoAxuwfagWGM91wgPJCBCeweSXD5aVjNup9SxI
-         9qPMJRW+n7egScyQ4fUxhgi92DbE5MdJ6wKguyYaD7NyzQqmWhvMFGljA/LOBhqXzHWR
-         MbXZAhgcOlO1hsyAGQko4lFEL1roh3v9jkfbK/XO5+nIrmHEl8jpvGn/JPDO22o5WqDQ
-         IZIg==
+        b=YZv6VeXFsBM6s0qJRMgp2FWYUjgF8DqV4Jo6/pbS3tP6ll+EsWqOoYcLG9sufBleDI
+         KpozFtlS5SJb8xmRfhTAS583gcWYPx8wxe30DiwVj230OjAA7N7QtEKTcADVKr7EyHdC
+         Ag+3Rvs1X7M/J4qpQ8fMDJ8ZHweyKe60BLqrLvk8KyN3cJG6UQe/s7yxDM4yP9W5dQFc
+         YWWDUFJIFoZVnAjS5YBS9Bg7H3vELmTo+0CTNIWMXvzE3vqEqcHhxj+rGBAOm+yYwWvp
+         SIiG/xuquPinlFBQv2SSiVsmmSgi284t0cyJ7z161vj5102QI8oBbW3Ja50nQeSEBshu
+         UzTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:dkim-signature:dkim-signature
-         :dkim-signature:dkim-signature;
-        bh=rV01kHooLadLBYTqNh94OxZ2PfqtzMHrFv9yp7Y7yLs=;
+         :mime-version:subject:date:from;
+        bh=R3tMPeH9Ipw8jVs85e3Pd4lK1yV/xqf8NCU0KSfX1vE=;
         fh=+YiR3k2M4/hjhpad8/hMpDOxCdG92wPg4T+KQWP+jEY=;
-        b=Tr+7s3u30u7yB7LIu9ysv6NaEAe1YiEIKvx9QRfiilb6kmmBRMiMjRaQa6GrZpceTi
-         yWmaYb9IJl/3U5R1yG1EbwZKZS0qUSuNZVKZz2+JarNdXF8pLYSCU23kOPx1JMTPuuwk
-         BNDA7ACmPwQt0DEkwoQID5L1zeluS1eXELUVSGtA6CjL/3wYLmLVyxM91Wi7V5ZNAF1D
-         ++0vkf3ASMMSHPqhSKrFD0mmhOD1p0QC4RvWtG8HpWnvt0yy7JFvsyuvrASE5HC7rBv7
-         LwsCY+HcAxprRIMgCKWF+BRp8wVwp3kWsU0LQ2e9F1JvxbOMclA9eUuQEbtH7gaWEohf
-         ZNkQ==;
+        b=V1TLbAwmTk+4E0saARzv9t/7m7j1DbQyb6t7Y7MExgYx8x4JCVKSL+RwAcV8aDo4LU
+         jVZbKz0Pk0xCt86xso8cojBw9qw5V39m6v7VFfzYEGORu+3a5SX880FTfa9Q3eKpISph
+         pQ/pdTRNvu/wym37kCgF9DlTlJ4Exwn3IhERtaPTQ7rPyHK+LvnFsBIw4gxA+Q8cESlM
+         eOE1go/SmFWSLFh0XYPhglAR90YeiP6XoleF1yvt+B8CdLp/dxq5b9rMWkkWSlG0W48N
+         +irDEK+yKfi5/b983VxXTF9pi5/q1+RMDXmwtVNZ5Etx+/M38Zx/EWRXVVJah2mS+KkQ
+         Lw3g==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=AenYz2Wq;
-       dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=AenYz2Wq;
-       dkim=neutral (no key) header.i=@suse.cz;
        spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.130 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.223.130])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-435b1c06e32si34465f8f.3.2026.01.22.22.53.35
+        by gmr-mx.google.com with ESMTPS id a640c23a62f3a-b885b7076d7si1962466b.3.2026.01.22.22.53.24
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jan 2026 22:53:35 -0800 (PST)
+        Thu, 22 Jan 2026 22:53:24 -0800 (PST)
 Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.223.130 as permitted sender) client-ip=195.135.223.130;
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C13383376E;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D0DD833775;
 	Fri, 23 Jan 2026 06:53:10 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E6A43139EF;
-	Fri, 23 Jan 2026 06:53:09 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0FF1D139F0;
+	Fri, 23 Jan 2026 06:53:10 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sH8GONUac2k4YgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Fri, 23 Jan 2026 06:53:09 +0000
+	id CKtxA9Yac2k4YgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Fri, 23 Jan 2026 06:53:10 +0000
 From: Vlastimil Babka <vbabka@suse.cz>
-Date: Fri, 23 Jan 2026 07:52:46 +0100
-Subject: [PATCH v4 08/22] slab: make percpu sheaves compatible with
- kmalloc_nolock()/kfree_nolock()
+Date: Fri, 23 Jan 2026 07:52:47 +0100
+Subject: [PATCH v4 09/22] slab: handle kmalloc sheaves bootstrap
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Message-Id: <20260123-sheaves-for-all-v4-8-041323d506f7@suse.cz>
+Message-Id: <20260123-sheaves-for-all-v4-9-041323d506f7@suse.cz>
 References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
 In-Reply-To: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
 To: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
@@ -151,16 +140,19 @@ Cc: Hao Li <hao.li@linux.dev>, Andrew Morton <akpm@linux-foundation.org>,
  bpf@vger.kernel.org, kasan-dev@googlegroups.com, 
  Vlastimil Babka <vbabka@suse.cz>
 X-Mailer: b4 0.14.3
-X-Spam-Score: -8.30
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spam-Score: -4.00
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
 X-Spam-Level: 
 X-Spam-Flag: NO
 X-Original-Sender: vbabka@suse.cz
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=AenYz2Wq;       dkim=neutral
- (no key) header.i=@suse.cz;       dkim=pass header.i=@suse.cz
- header.s=susede2_rsa header.b=AenYz2Wq;       dkim=neutral (no key)
- header.i=@suse.cz;       spf=pass (google.com: domain of vbabka@suse.cz
- designates 195.135.223.130 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of vbabka@suse.cz designates 195.135.223.130 as permitted
+ sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -180,7 +172,7 @@ X-Spamd-Result: default: False [-1.71 / 15.00];
 	R_SPF_ALLOW(-0.20)[+ip6:2a00:1450:4000::/36:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bncBDXYDPH3S4OBB4NVZTFQMGQEXQKZEAI];
+	TAGGED_FROM(0.00)[bncBDXYDPH3S4OBBZVVZTFQMGQE2LJQJSY];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	DMARC_NA(0.00)[suse.cz];
@@ -194,303 +186,170 @@ X-Spamd-Result: default: False [-1.71 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[6];
 	FROM_NEQ_ENVFROM(0.00)[vbabka@suse.cz,kasan-dev@googlegroups.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.974];
+	NEURAL_HAM(-0.00)[-0.975];
 	TAGGED_RCPT(0.00)[kasan-dev];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:email,oracle.com:email,googlegroups.com:email,googlegroups.com:dkim]
-X-Rspamd-Queue-Id: AA0057132A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail-ed1-x53e.google.com:helo,mail-ed1-x53e.google.com:rdns,oracle.com:email,suse.cz:mid,suse.cz:email]
+X-Rspamd-Queue-Id: ED365712E9
 X-Rspamd-Action: no action
 
-Before we enable percpu sheaves for kmalloc caches, we need to make sure
-kmalloc_nolock() and kfree_nolock() will continue working properly and
-not spin when not allowed to.
+Enable sheaves for kmalloc caches. For other types than KMALLOC_NORMAL,
+we can simply allow them in calculate_sizes() as they are created later
+than KMALLOC_NORMAL caches and can allocate sheaves and barns from
+those.
 
-Percpu sheaves themselves use local_trylock() so they are already
-compatible. We just need to be careful with the barn->lock spin_lock.
-Pass a new allow_spin parameter where necessary to use
-spin_trylock_irqsave().
+For KMALLOC_NORMAL caches we perform additional step after first
+creating them without sheaves. Then bootstrap_cache_sheaves() simply
+allocates and initializes barns and sheaves and finally sets
+s->sheaf_capacity to make them actually used.
 
-In kmalloc_nolock_noprof() we can now attempt alloc_from_pcs() safely,
-for now it will always fail until we enable sheaves for kmalloc caches
-next. Similarly in kfree_nolock() we can attempt free_to_pcs().
+Afterwards the only caches left without sheaves (unless SLUB_TINY or
+debugging is enabled) are kmem_cache and kmem_cache_node. These are only
+used when creating or destroying other kmem_caches. Thus they are not
+performance critical and we can simply leave it that way.
 
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
 Reviewed-by: Hao Li <hao.li@linux.dev>
 Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 ---
- mm/slub.c | 82 ++++++++++++++++++++++++++++++++++++++++++++++-----------------
- 1 file changed, 60 insertions(+), 22 deletions(-)
+ mm/slub.c | 88 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 84 insertions(+), 4 deletions(-)
 
 diff --git a/mm/slub.c b/mm/slub.c
-index 41e1bf35707c..4ca6bd944854 100644
+index 4ca6bd944854..22acc249f9c0 100644
 --- a/mm/slub.c
 +++ b/mm/slub.c
-@@ -2889,7 +2889,8 @@ static void pcs_destroy(struct kmem_cache *s)
- 	s->cpu_sheaves = NULL;
+@@ -2593,7 +2593,8 @@ static void *setup_object(struct kmem_cache *s, void *object)
+ 	return object;
  }
  
--static struct slab_sheaf *barn_get_empty_sheaf(struct node_barn *barn)
-+static struct slab_sheaf *barn_get_empty_sheaf(struct node_barn *barn,
-+					       bool allow_spin)
+-static struct slab_sheaf *alloc_empty_sheaf(struct kmem_cache *s, gfp_t gfp)
++static struct slab_sheaf *__alloc_empty_sheaf(struct kmem_cache *s, gfp_t gfp,
++					      unsigned int capacity)
  {
- 	struct slab_sheaf *empty = NULL;
- 	unsigned long flags;
-@@ -2897,7 +2898,10 @@ static struct slab_sheaf *barn_get_empty_sheaf(struct node_barn *barn)
- 	if (!data_race(barn->nr_empty))
- 		return NULL;
+ 	struct slab_sheaf *sheaf;
+ 	size_t sheaf_size;
+@@ -2611,7 +2612,7 @@ static struct slab_sheaf *alloc_empty_sheaf(struct kmem_cache *s, gfp_t gfp)
+ 	if (s->flags & SLAB_KMALLOC)
+ 		gfp |= __GFP_NO_OBJ_EXT;
  
--	spin_lock_irqsave(&barn->lock, flags);
-+	if (likely(allow_spin))
-+		spin_lock_irqsave(&barn->lock, flags);
-+	else if (!spin_trylock_irqsave(&barn->lock, flags))
-+		return NULL;
+-	sheaf_size = struct_size(sheaf, objects, s->sheaf_capacity);
++	sheaf_size = struct_size(sheaf, objects, capacity);
+ 	sheaf = kzalloc(sheaf_size, gfp);
  
- 	if (likely(barn->nr_empty)) {
- 		empty = list_first_entry(&barn->sheaves_empty,
-@@ -2974,7 +2978,8 @@ static struct slab_sheaf *barn_get_full_or_empty_sheaf(struct node_barn *barn)
-  * change.
-  */
- static struct slab_sheaf *
--barn_replace_empty_sheaf(struct node_barn *barn, struct slab_sheaf *empty)
-+barn_replace_empty_sheaf(struct node_barn *barn, struct slab_sheaf *empty,
-+			 bool allow_spin)
- {
- 	struct slab_sheaf *full = NULL;
- 	unsigned long flags;
-@@ -2982,7 +2987,10 @@ barn_replace_empty_sheaf(struct node_barn *barn, struct slab_sheaf *empty)
- 	if (!data_race(barn->nr_full))
- 		return NULL;
- 
--	spin_lock_irqsave(&barn->lock, flags);
-+	if (likely(allow_spin))
-+		spin_lock_irqsave(&barn->lock, flags);
-+	else if (!spin_trylock_irqsave(&barn->lock, flags))
-+		return NULL;
- 
- 	if (likely(barn->nr_full)) {
- 		full = list_first_entry(&barn->sheaves_full, struct slab_sheaf,
-@@ -3003,7 +3011,8 @@ barn_replace_empty_sheaf(struct node_barn *barn, struct slab_sheaf *empty)
-  * barn. But if there are too many full sheaves, reject this with -E2BIG.
-  */
- static struct slab_sheaf *
--barn_replace_full_sheaf(struct node_barn *barn, struct slab_sheaf *full)
-+barn_replace_full_sheaf(struct node_barn *barn, struct slab_sheaf *full,
-+			bool allow_spin)
- {
- 	struct slab_sheaf *empty;
- 	unsigned long flags;
-@@ -3014,7 +3023,10 @@ barn_replace_full_sheaf(struct node_barn *barn, struct slab_sheaf *full)
- 	if (!data_race(barn->nr_empty))
- 		return ERR_PTR(-ENOMEM);
- 
--	spin_lock_irqsave(&barn->lock, flags);
-+	if (likely(allow_spin))
-+		spin_lock_irqsave(&barn->lock, flags);
-+	else if (!spin_trylock_irqsave(&barn->lock, flags))
-+		return ERR_PTR(-EBUSY);
- 
- 	if (likely(barn->nr_empty)) {
- 		empty = list_first_entry(&barn->sheaves_empty, struct slab_sheaf,
-@@ -5008,7 +5020,8 @@ __pcs_replace_empty_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
- 		return NULL;
- 	}
- 
--	full = barn_replace_empty_sheaf(barn, pcs->main);
-+	full = barn_replace_empty_sheaf(barn, pcs->main,
-+					gfpflags_allow_spinning(gfp));
- 
- 	if (full) {
- 		stat(s, BARN_GET);
-@@ -5025,7 +5038,7 @@ __pcs_replace_empty_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
- 			empty = pcs->spare;
- 			pcs->spare = NULL;
- 		} else {
--			empty = barn_get_empty_sheaf(barn);
-+			empty = barn_get_empty_sheaf(barn, true);
- 		}
- 	}
- 
-@@ -5165,7 +5178,8 @@ void *alloc_from_pcs(struct kmem_cache *s, gfp_t gfp, int node)
+ 	if (unlikely(!sheaf))
+@@ -2624,6 +2625,12 @@ static struct slab_sheaf *alloc_empty_sheaf(struct kmem_cache *s, gfp_t gfp)
+ 	return sheaf;
  }
  
- static __fastpath_inline
--unsigned int alloc_from_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
-+unsigned int alloc_from_pcs_bulk(struct kmem_cache *s, gfp_t gfp, size_t size,
-+				 void **p)
- {
- 	struct slub_percpu_sheaves *pcs;
- 	struct slab_sheaf *main;
-@@ -5199,7 +5213,8 @@ unsigned int alloc_from_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
- 			return allocated;
- 		}
- 
--		full = barn_replace_empty_sheaf(barn, pcs->main);
-+		full = barn_replace_empty_sheaf(barn, pcs->main,
-+						gfpflags_allow_spinning(gfp));
- 
- 		if (full) {
- 			stat(s, BARN_GET);
-@@ -5700,7 +5715,7 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
- 	gfp_t alloc_gfp = __GFP_NOWARN | __GFP_NOMEMALLOC | gfp_flags;
- 	struct kmem_cache *s;
- 	bool can_retry = true;
--	void *ret = ERR_PTR(-EBUSY);
-+	void *ret;
- 
- 	VM_WARN_ON_ONCE(gfp_flags & ~(__GFP_ACCOUNT | __GFP_ZERO |
- 				      __GFP_NO_OBJ_EXT));
-@@ -5731,6 +5746,12 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
- 		 */
- 		return NULL;
- 
-+	ret = alloc_from_pcs(s, alloc_gfp, node);
-+	if (ret)
-+		goto success;
++static inline struct slab_sheaf *alloc_empty_sheaf(struct kmem_cache *s,
++						   gfp_t gfp)
++{
++	return __alloc_empty_sheaf(s, gfp, s->sheaf_capacity);
++}
 +
-+	ret = ERR_PTR(-EBUSY);
-+
- 	/*
- 	 * Do not call slab_alloc_node(), since trylock mode isn't
- 	 * compatible with slab_pre_alloc_hook/should_failslab and
-@@ -5767,6 +5788,7 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
- 		ret = NULL;
- 	}
- 
-+success:
- 	maybe_wipe_obj_freeptr(s, ret);
- 	slab_post_alloc_hook(s, NULL, alloc_gfp, 1, &ret,
- 			     slab_want_init_on_alloc(alloc_gfp, s), size);
-@@ -6087,7 +6109,8 @@ static void __pcs_install_empty_sheaf(struct kmem_cache *s,
-  * unlocked.
-  */
- static struct slub_percpu_sheaves *
--__pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
-+__pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
-+			bool allow_spin)
+ static void free_empty_sheaf(struct kmem_cache *s, struct slab_sheaf *sheaf)
  {
- 	struct slab_sheaf *empty;
- 	struct node_barn *barn;
-@@ -6111,7 +6134,7 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
- 	put_fail = false;
+ 	kfree(sheaf);
+@@ -8144,8 +8151,11 @@ static int calculate_sizes(struct kmem_cache_args *args, struct kmem_cache *s)
+ 	if (s->flags & SLAB_RECLAIM_ACCOUNT)
+ 		s->allocflags |= __GFP_RECLAIMABLE;
  
- 	if (!pcs->spare) {
--		empty = barn_get_empty_sheaf(barn);
-+		empty = barn_get_empty_sheaf(barn, allow_spin);
- 		if (empty) {
- 			pcs->spare = pcs->main;
- 			pcs->main = empty;
-@@ -6125,7 +6148,7 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
- 		return pcs;
- 	}
- 
--	empty = barn_replace_full_sheaf(barn, pcs->main);
-+	empty = barn_replace_full_sheaf(barn, pcs->main, allow_spin);
- 
- 	if (!IS_ERR(empty)) {
- 		stat(s, BARN_PUT);
-@@ -6133,7 +6156,8 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
- 		return pcs;
- 	}
- 
--	if (PTR_ERR(empty) == -E2BIG) {
-+	/* sheaf_flush_unused() doesn't support !allow_spin */
-+	if (PTR_ERR(empty) == -E2BIG && allow_spin) {
- 		/* Since we got here, spare exists and is full */
- 		struct slab_sheaf *to_flush = pcs->spare;
- 
-@@ -6158,6 +6182,14 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
- alloc_empty:
- 	local_unlock(&s->cpu_sheaves->lock);
- 
+-	/* kmalloc caches need extra care to support sheaves */
+-	if (!is_kmalloc_cache(s))
 +	/*
-+	 * alloc_empty_sheaf() doesn't support !allow_spin and it's
-+	 * easier to fall back to freeing directly without sheaves
-+	 * than add the support (and to sheaf_flush_unused() above)
++	 * For KMALLOC_NORMAL caches we enable sheaves later by
++	 * bootstrap_kmalloc_sheaves() to avoid recursion
 +	 */
-+	if (!allow_spin)
-+		return NULL;
++	if (!is_kmalloc_normal(s))
+ 		s->sheaf_capacity = calculate_sheaf_capacity(s, args);
+ 
+ 	/*
+@@ -8640,6 +8650,74 @@ static struct kmem_cache * __init bootstrap(struct kmem_cache *static_cache)
+ 	return s;
+ }
+ 
++/*
++ * Finish the sheaves initialization done normally by init_percpu_sheaves() and
++ * init_kmem_cache_nodes(). For normal kmalloc caches we have to bootstrap it
++ * since sheaves and barns are allocated by kmalloc.
++ */
++static void __init bootstrap_cache_sheaves(struct kmem_cache *s)
++{
++	struct kmem_cache_args empty_args = {};
++	unsigned int capacity;
++	bool failed = false;
++	int node, cpu;
 +
- 	empty = alloc_empty_sheaf(s, GFP_NOWAIT);
- 	if (empty)
- 		goto got_empty;
-@@ -6200,7 +6232,7 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
-  * The object is expected to have passed slab_free_hook() already.
-  */
- static __fastpath_inline
--bool free_to_pcs(struct kmem_cache *s, void *object)
-+bool free_to_pcs(struct kmem_cache *s, void *object, bool allow_spin)
- {
- 	struct slub_percpu_sheaves *pcs;
- 
-@@ -6211,7 +6243,7 @@ bool free_to_pcs(struct kmem_cache *s, void *object)
- 
- 	if (unlikely(pcs->main->size == s->sheaf_capacity)) {
- 
--		pcs = __pcs_replace_full_main(s, pcs);
-+		pcs = __pcs_replace_full_main(s, pcs, allow_spin);
- 		if (unlikely(!pcs))
- 			return false;
- 	}
-@@ -6333,7 +6365,7 @@ bool __kfree_rcu_sheaf(struct kmem_cache *s, void *obj)
- 			goto fail;
- 		}
- 
--		empty = barn_get_empty_sheaf(barn);
-+		empty = barn_get_empty_sheaf(barn, true);
- 
- 		if (empty) {
- 			pcs->rcu_free = empty;
-@@ -6453,7 +6485,7 @@ static void free_to_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
- 		goto no_empty;
- 
- 	if (!pcs->spare) {
--		empty = barn_get_empty_sheaf(barn);
-+		empty = barn_get_empty_sheaf(barn, true);
- 		if (!empty)
- 			goto no_empty;
- 
-@@ -6467,7 +6499,7 @@ static void free_to_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
- 		goto do_free;
- 	}
- 
--	empty = barn_replace_full_sheaf(barn, pcs->main);
-+	empty = barn_replace_full_sheaf(barn, pcs->main, true);
- 	if (IS_ERR(empty)) {
- 		stat(s, BARN_PUT_FAIL);
- 		goto no_empty;
-@@ -6719,7 +6751,7 @@ void slab_free(struct kmem_cache *s, struct slab *slab, void *object,
- 
- 	if (likely(!IS_ENABLED(CONFIG_NUMA) || slab_nid(slab) == numa_mem_id())
- 	    && likely(!slab_test_pfmemalloc(slab))) {
--		if (likely(free_to_pcs(s, object)))
-+		if (likely(free_to_pcs(s, object, true)))
- 			return;
- 	}
- 
-@@ -6980,6 +7012,12 @@ void kfree_nolock(const void *object)
- 	 * since kasan quarantine takes locks and not supported from NMI.
- 	 */
- 	kasan_slab_free(s, x, false, false, /* skip quarantine */true);
++	capacity = calculate_sheaf_capacity(s, &empty_args);
 +
-+	if (likely(!IS_ENABLED(CONFIG_NUMA) || slab_nid(slab) == numa_mem_id())) {
-+		if (likely(free_to_pcs(s, x, false)))
-+			return;
++	/* capacity can be 0 due to debugging or SLUB_TINY */
++	if (!capacity)
++		return;
++
++	for_each_node_mask(node, slab_nodes) {
++		struct node_barn *barn;
++
++		barn = kmalloc_node(sizeof(*barn), GFP_KERNEL, node);
++
++		if (!barn) {
++			failed = true;
++			goto out;
++		}
++
++		barn_init(barn);
++		get_node(s, node)->barn = barn;
 +	}
 +
- 	do_slab_free(s, slab, x, x, 0, _RET_IP_);
- }
- EXPORT_SYMBOL_GPL(kfree_nolock);
-@@ -7532,7 +7570,7 @@ int kmem_cache_alloc_bulk_noprof(struct kmem_cache *s, gfp_t flags, size_t size,
- 		size--;
- 	}
++	for_each_possible_cpu(cpu) {
++		struct slub_percpu_sheaves *pcs;
++
++		pcs = per_cpu_ptr(s->cpu_sheaves, cpu);
++
++		pcs->main = __alloc_empty_sheaf(s, GFP_KERNEL, capacity);
++
++		if (!pcs->main) {
++			failed = true;
++			break;
++		}
++	}
++
++out:
++	/*
++	 * It's still early in boot so treat this like same as a failure to
++	 * create the kmalloc cache in the first place
++	 */
++	if (failed)
++		panic("Out of memory when creating kmem_cache %s\n", s->name);
++
++	s->sheaf_capacity = capacity;
++}
++
++static void __init bootstrap_kmalloc_sheaves(void)
++{
++	enum kmalloc_cache_type type;
++
++	for (type = KMALLOC_NORMAL; type <= KMALLOC_RANDOM_END; type++) {
++		for (int idx = 0; idx < KMALLOC_SHIFT_HIGH + 1; idx++) {
++			if (kmalloc_caches[type][idx])
++				bootstrap_cache_sheaves(kmalloc_caches[type][idx]);
++		}
++	}
++}
++
+ void __init kmem_cache_init(void)
+ {
+ 	static __initdata struct kmem_cache boot_kmem_cache,
+@@ -8683,6 +8761,8 @@ void __init kmem_cache_init(void)
+ 	setup_kmalloc_cache_index_table();
+ 	create_kmalloc_caches();
  
--	i = alloc_from_pcs_bulk(s, size, p);
-+	i = alloc_from_pcs_bulk(s, flags, size, p);
++	bootstrap_kmalloc_sheaves();
++
+ 	/* Setup random freelists for each cache */
+ 	init_freelist_randomization();
  
- 	if (i < size) {
- 		/*
 
 -- 
 2.52.0
@@ -498,4 +357,4 @@ index 41e1bf35707c..4ca6bd944854 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260123-sheaves-for-all-v4-8-041323d506f7%40suse.cz.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260123-sheaves-for-all-v4-9-041323d506f7%40suse.cz.
