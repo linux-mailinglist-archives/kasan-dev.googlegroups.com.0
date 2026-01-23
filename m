@@ -1,147 +1,148 @@
-Return-Path: <kasan-dev+bncBAABBVOLZTFQMGQERURWF4Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBW6LZTFQMGQE5OFR7HI@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oI14J9glc2nCsgAAu9opvQ
-	(envelope-from <kasan-dev+bncBAABBVOLZTFQMGQERURWF4Y@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 08:40:08 +0100
+	id SIR8Ed8lc2nCsgAAu9opvQ
+	(envelope-from <kasan-dev+bncBAABBW6LZTFQMGQE5OFR7HI@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 08:40:15 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63c.google.com (mail-pl1-x63c.google.com [IPv6:2607:f8b0:4864:20::63c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0706E71D98
-	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 08:40:08 +0100 (CET)
-Received: by mail-pl1-x63c.google.com with SMTP id d9443c01a7336-29f25e494c2sf21506205ad.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 22 Jan 2026 23:40:07 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1769154006; cv=pass;
+Received: from mail-oa1-x3f.google.com (mail-oa1-x3f.google.com [IPv6:2001:4860:4864:20::3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B82171D9F
+	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jan 2026 08:40:13 +0100 (CET)
+Received: by mail-oa1-x3f.google.com with SMTP id 586e51a60fabf-40422dd039dsf4611897fac.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 22 Jan 2026 23:40:13 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1769154012; cv=pass;
         d=google.com; s=arc-20240605;
-        b=B8iCP6TpAmaDcDZI1JV2zvjC253FUwZaQQK+xf+ZBi8tB6HYhsFT1L33dSG48xchYB
-         r71TRr7sDJC409OrmvyGW8v97sklEnEa0Zxd+ZlEq0NwWAID1SJ599mjJLqS9F5rpRk2
-         iFPA9EW1VKTDFXZwtN4FpqY0DGCL3Z9vYOdYOhwTi525xib8p30V1W12gb6bxOb0c2d+
-         MiGdJrxSP8dzumXuCRd8hbtITWlwcmwnejDAVQ0e+m5Jkl8W08EN1P8olnSu6lwkRXWz
-         7updiR+4g4lG1KTAF8tnCnXAsppO/20/UTbhb4oBF8kseUvABDBhJzS8dWyxTAsbyKWO
-         ud6Q==
+        b=D+WQO04YbGAK0NelxVqrXMS3ecgU7zAcwN5X9rFTO3j0bTgZTBx6XWZi1E+MZFiH9/
+         fP5ihFTHMUdw9JL/X9pPt9MxntGYOb8YaF44k0ra182wzDRSjOGE6RgxRw/G2JI2AvOn
+         8qBE9S1qxEzm45fPAdIUCqF3JBEvfqD5JZAm88F+LV7aWuN9Zg8zSJWvPdONyDYv24J+
+         F+TokBETejYX6Qmy4YAOFg/JwKu1YVoocjOCIXfCiSA7f6LDl+pw6ifKNkee+JeUvQzV
+         JwNPQXnP9UZJtmP/yrEl/sUgyhEnGrRN74GjDkPBLAx6gSuxW8mdehJQC+LXvhZ47pwT
+         Tx7Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:sender:dkim-signature;
-        bh=1Qelumvfu4b6mAhrvsf1Jg4Sc/qvXB+89TvMFF+B8LM=;
-        fh=/mYExgnsB/jubKs8oBdEHP+0ia2t0jwlx81DcayMx50=;
-        b=YV1QrQ7ZklELWxxqmt/oGXE+/TOQA5sNc36nx7Xeuynfv3GyWgr51R1wEqMHUPjuOl
-         VUKN+N7VTkLWBfUuyCSH9YBpaUikwZfOrb2YOEP+GJPIEHAVm/JWwJEof8NQdvrinC4g
-         9xrNnpKXrMq46iNTNILR8wj2NFsC437+x4xa8COxUJ7E6JShvnHd2y3oNndPiV2WMctx
-         xMvAtZNINq5Acq/sL3z6FBkj1USljvWeDcS+z6lXUhh0Laah3mc3/UQpbJT5V/MYcD2d
-         jorA4XXbZTIyko62rsH5JFH4ve6sZuiV2l8jtUk3rYIqp6JHvGdpCEPAV3MYkxyfjrbG
-         ZXlg==;
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :mime-version:references:in-reply-to:message-id:date:subject:to:from
+         :sender:dkim-signature;
+        bh=1CkokzljBSrCXgWCu4XzrFGOlJqOQJXB+LMazbVwHUs=;
+        fh=ivtzCQ5cwUIbaUkaeezHdI2r1+VEKQ5Hm44jPH73aLc=;
+        b=ePFmj3jBEbx4F/EUyR9MPX+Wd8jwP8NK0yt/MSm1krp9uOnRFQMwNUAXj7/9fE74aR
+         VgTGuUa2lGoNr1QHT1FNWdUJMTIQgFU3L6xTK96TKMtJ9TxVE4hHRZ/tqH8yk2R0JwkV
+         DEuA9SvWCb6jxUm+Dp1R3UIV7NJAxYDf1klll5HVA0NuhMUydhkXozw3055GW94QfcKA
+         PW6Xpw/u+Rs78Uea8MPleSlxIhLUobm8QO2qgDquJuOrwoy5lUwSg+O7HNVKQmU+9Mpw
+         VzukqD8qDi5f50b9/eAB8fmJ9kcnF4wRhmTm/KnCMGMtqq5ys0yG3lQCTaYtnLGb8NTu
+         cnRw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=la5vWGSb;
-       spf=pass (google.com: domain of mkchauras@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=mkchauras@linux.ibm.com;
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=WbAVleIh;
+       spf=pass (google.com: domain of mkchauras@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=mkchauras@linux.ibm.com;
        dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1769154006; x=1769758806; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1769154012; x=1769758812; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:to:from:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1Qelumvfu4b6mAhrvsf1Jg4Sc/qvXB+89TvMFF+B8LM=;
-        b=DPSnkcgwPNnYCmwaNUJsK7wEbOW7WPX+TdmtkcSZIKG21mhnx49pKiik0QHfo9wVQ8
-         Nuy0Ev8xBGtQK5ishnHadl6WiANMf1hBOA9+7exPFqFd7aITbS3SNP1FbA9rrfu0TFWJ
-         Msy0nA2b4oiy7EB+VNY1yWvhh9tSXNCL2zSt9+/9O2SbngaDvTLHAu3qjwMZJjs8gbvH
-         iQ5RvWdhsUiljv7hq30477ZZG3z8hwAvKagoJpZ7eF8dFM0FljtpWPiIyS//tcoms3fI
-         /Sesb4SxXG5+UInj/LWy73KdqPSjMwMscHaaacOoGYv/iwa7EeSBOvcxa+SwXcS5DTOD
-         dJ1Q==
+         :x-original-sender:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1CkokzljBSrCXgWCu4XzrFGOlJqOQJXB+LMazbVwHUs=;
+        b=cSYT9n3vTZ4Rx99ungG3toXfmDcfJ4U8z82NU3jFBzIpZdVa1TMcuz/I7AewLjwlQL
+         TxIoI1EnwI1wexwXvsjE0v0EQ65rpGx6LqxKzqK6O96ONLRiiqLoY92hA2qxTQm3eyHS
+         V/CLS8RC2eDhVGQwqx10sVDGl7c6rysd5VBltT0TUy/MWamEGQxDISJL50yobIKIdKyv
+         IWzUgbskfTj5z20qb6LFTMpeCJobktva8WbISjYcrgkUHgxt6T8pE3QdZAZhWg0j6SWA
+         ABlizOXx5ZqwZ9bx22YsaYXiMZraexpIoszysU2dPk7ByGvQJaZf9QJkHzSWOsJc4j5+
+         NhLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769154006; x=1769758806;
+        d=1e100.net; s=20230601; t=1769154012; x=1769758812;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:to:from:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1Qelumvfu4b6mAhrvsf1Jg4Sc/qvXB+89TvMFF+B8LM=;
-        b=VV+xJrGdwwezitQjuU5FrEycGKh4tgCZjYqnf49mX8K1jRH27uKvMcuiLYWgd4pmbR
-         BBR5kN+KqPTKaxA9CHJ08YLGB56k5F76r5ZKbdNpCTknn3uINZ8najRo1Jlo/bLQ3Pap
-         ESC9fmPqqxpE4+Q5EMaQ+rJ/G+OZ53El6AYI5La/pPnJq+Uc85aBjKG0eIcc+Ov/MUnB
-         8fIIKYkljkoVkm5Cvc7rAox+zeEGj4jmML6myJwRJTWROYxA9UIQORt1cYm7XxqZPfWS
-         YGzfBV27sN20hQeeu31L7jHjcDsyWeSkxzwrODDkWZC5AF/SsyY2Iywgs5ZAezhfMphy
-         XleQ==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=1CkokzljBSrCXgWCu4XzrFGOlJqOQJXB+LMazbVwHUs=;
+        b=CSdSeNBwWomQ/tWkS2g4q567hhYZ8jsrZL24bD4NNOg/y6JbZXwE7JarL+T9Ug6QCd
+         8KBgHNiWpm9Q81duvcInEpkgDpUH5OuxwEg6MgyT37ydji002TPMVnbUnAsbwi9p8Oii
+         z0LNIp0ZcxkrczKu6SbF/8REe1RwviTLx+CuFTKiYnoToqI6hWcwqyujGFAmpZjGP0qt
+         EWUSeznytH1aGzHvlsmPGSHlFzK/JRubCyiTwQ6KFZROkZRzIlgP8cmEzcTpmzbGzgTn
+         7jPv+Ff/4Z9gXASmyPy3+G8xuiygfvhiCVtvXiwmzbrVYP1p5Rsiq85E7csYgjYYrzLB
+         CgMQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCX/9EHIjEYSCT3+2Eq2McJa75Yddo7MKwXtPWBtWXyUMbOHhW2yrIPF7oE3FZuWub7Kw122Cg==@lfdr.de
-X-Gm-Message-State: AOJu0YzsrxMKIolk9J4j/iE+V0Fc6knnJ7c2d2z3gbF5sTNnlROfDVAT
-	LTVVBoN/s7X7DoUbgEaDIc+S4vMJvfOebRhVAxiz9G9DyWlcJoUBEucs
-X-Received: by 2002:a17:903:603:b0:2a7:8865:a1cc with SMTP id d9443c01a7336-2a7fe75bf21mr12862955ad.9.1769154005903;
-        Thu, 22 Jan 2026 23:40:05 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+EwQgneEw6NBimLqRjnG3uHARB0cj9DhJjKdizItyzNQQ=="
-Received: by 2002:a17:902:e844:b0:298:1573:8be3 with SMTP id
- d9443c01a7336-2a7d30338d8ls8412665ad.0.-pod-prod-00-us; Thu, 22 Jan 2026
- 23:40:04 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCU2y5zWsIfEcJySAZ4IJdEM5rs848eogNI0uJqgjmAlMhQcgZ94XiuIHKNl77XS1R5sU17LzGM7j3Q=@googlegroups.com
-X-Received: by 2002:a17:902:f60b:b0:295:55f:8ebb with SMTP id d9443c01a7336-2a7fe809fe7mr17605065ad.21.1769154004473;
-        Thu, 22 Jan 2026 23:40:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769154004; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCWGiILS3Cp+7+fZK+WUETfNG0nUrrG/6iBwHvOHNGoMsZtL79lIuw1wfobx51ATE/hLmfGXEA==@lfdr.de
+X-Gm-Message-State: AOJu0Yz6lZI7q8ZeAYJQAoeKjuIq1sNPThQNpkvBNu8yT1kGcycQrAeO
+	Exotb22L1f9MD40tGdRA+mBtTdTarJqNKqFa6UCTXvfdGiuJjDH5idM/
+X-Received: by 2002:a05:6871:c7:b0:3f5:b761:5234 with SMTP id 586e51a60fabf-40882f2a468mr3088161fac.28.1769154011676;
+        Thu, 22 Jan 2026 23:40:11 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+FGarbhCRKEmfbcaSbZ7jrP/TktKFeWDdxzZKB+lL81qA=="
+Received: by 2002:a05:6870:8917:b0:3fa:9f2:b79b with SMTP id
+ 586e51a60fabf-40882083c11ls781334fac.0.-pod-prod-00-us; Thu, 22 Jan 2026
+ 23:40:11 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUOIXuSJOcUJAi2bysaNR5sIZhxIJptG1EkXM+JqsnGP9xx1XqIODtlMvXBPG/OX9Zxrjx9l36VkXI=@googlegroups.com
+X-Received: by 2002:a05:6870:a24d:b0:404:1ec2:562c with SMTP id 586e51a60fabf-40882a48cdamr2934450fac.6.1769154010909;
+        Thu, 22 Jan 2026 23:40:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769154010; cv=none;
         d=google.com; s=arc-20240605;
-        b=iWaw7BuEumKMBqFkG3k8CTpS3fqJ2pS7ywR1+5s8VYCdZmKX5F0zZaYrzk4+u/Cbpa
-         i8mHzakKXzLM04H8h/CX5ds/NoG+TVw0/Jay43Id/sgKhssT9EAAQeQWLNplSun7xup3
-         xEABhpHcQulfb3LaorP/LmGa7nR2W43MKzcelV5/k3wpphLLZ1K1jWYeyQkDQ5pUM4hF
-         4LSrDgJILKuDsV0cfOqhqZ1RMs6ivo40zyNw5dNAz5TD3qHepukc3pq+nxm1DXyLeFbA
-         veUJNTXMvfIHmgmGju9Aohuk1jZiRqHuPTeKCOAQCn+I7j9q+pzKM0AexgZG+QUmCzHn
-         Uchg==
+        b=e9TLYP3xON5ApM8s1TBbYysl7a4cZyIKEdlm51ddaMa1+qhw7EnRe5sskiHusyynZ6
+         mhoRfjvtFdCR1LKshCsylFilmeGZUpVFiMWgYRwD7ieC7pBXymeiNmNFt7lwu+jWXv9l
+         I7e6zTM/d/vdMYIsnXLgX2K5xe3CfU22yXQeRpmA7w4U06wtjahlzjyejRLsifCy43pK
+         JJB56b6QwKeLOXRcX7Md97X4JhweV3svhj2NE7ZKkybnzgkCl84yUgEwt9VFdA2AHsmw
+         Jl1+R9BGgaNRXBLlHrAXv7SSJ7H5khvR+8gLeOMB0IXkKylIMtm2/4VnJ2n5Jomxk1R5
+         NBGw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:dkim-signature;
-        bh=Ua+jLJZ3utO7LvETB/ynLEgAHt0rBss1SJxQRu2GIfY=;
+        bh=3/4eib+xpLvUzfwQLFLDzDvh/omm20aA/cPzLNpHvRY=;
         fh=4dZC5b+GxnxvIHnzjVMCNym7rZ5j81Xogzb8TUs6Lt0=;
-        b=P2RfdMtS9jvBUYItqzKSV1i9Acc6Frw1XTbh9ZjksY7Xd4q6JzWEBaHdoeMsQPrMwp
-         PZMvBNxsZ0wepJoAsJJ+pT+cip8Y1TMWjycJTYPKmMPQrakHeRVGdcLFDwLV07jjk5Es
-         Rac0lOItaTB6uRordgxynFWEgIgrQkKVMpLTYDcRDMlHBltQFO/VBJU53xoDl/ouaId/
-         wID5KCuK8bycNflILN8ot1Y4/k/g4m7jOYy/2gTmTffkAmj5Ko3dL5aKh5eV+zbBb3rF
-         GVihYNc8w1cDq/SbyQ0r+e7Dcphfi5iPkLS2etA9Rw3ATP7rfFr8ajYVe4Y66tqWcv52
-         kyAQ==;
+        b=VU9dmb2kvlLkwB8PuAtdbgRj5YCUe7W1byeABEN5+ENdXn6xp/Kay4nr99IiIMKTO1
+         IYQukra3oHaTXXSSOLqsXGP7UaNz6Br4dFTH4cIVQ92+zY8wKAsZw+FPtm3gwaaUbTix
+         Ldexj+hgIMawfocDYS9zJPg0ucTinN+suSB23bsrChKqiHUvuS5WuhK8H5lCfLL9Rj3a
+         SzCRFsWSKh5cODsrwC2MSQYsYyqaYMsR65BLZUt/BlchYe0ahG6PdQKKnR4MIL2SJmdj
+         3kZCR9gl384Ta9xSLyXzyt41EdbQUEyFObqXRz2WWytzEgLPojfjclg9NyPdOOzVPUOK
+         tvdg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=la5vWGSb;
-       spf=pass (google.com: domain of mkchauras@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=mkchauras@linux.ibm.com;
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=WbAVleIh;
+       spf=pass (google.com: domain of mkchauras@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=mkchauras@linux.ibm.com;
        dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com. [148.163.156.1])
-        by gmr-mx.google.com with ESMTPS id d9443c01a7336-2a802dc3b10si590585ad.1.2026.01.22.23.40.04
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com. [148.163.158.5])
+        by gmr-mx.google.com with ESMTPS id 586e51a60fabf-408afc039fasi54965fac.7.2026.01.22.23.40.10
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 22 Jan 2026 23:40:04 -0800 (PST)
-Received-SPF: pass (google.com: domain of mkchauras@linux.ibm.com designates 148.163.156.1 as permitted sender) client-ip=148.163.156.1;
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 60MNlacA019492;
-	Fri, 23 Jan 2026 07:39:55 GMT
+        Thu, 22 Jan 2026 23:40:10 -0800 (PST)
+Received-SPF: pass (google.com: domain of mkchauras@linux.ibm.com designates 148.163.158.5 as permitted sender) client-ip=148.163.158.5;
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 60N2HhiR021317;
+	Fri, 23 Jan 2026 07:40:01 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4br256ekmf-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4bt612ha38-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 23 Jan 2026 07:39:54 +0000 (GMT)
-Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 60N7drE0027568;
-	Fri, 23 Jan 2026 07:39:54 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4br256ekma-1
+	Fri, 23 Jan 2026 07:40:01 +0000 (GMT)
+Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 60N7e0US011041;
+	Fri, 23 Jan 2026 07:40:00 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4bt612ha35-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 23 Jan 2026 07:39:53 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 60N6UglK016600;
-	Fri, 23 Jan 2026 07:39:52 GMT
+	Fri, 23 Jan 2026 07:40:00 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 60N6bXj5027298;
+	Fri, 23 Jan 2026 07:39:59 GMT
 Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4brn4yfxfv-1
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4brnrnfspa-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 23 Jan 2026 07:39:52 +0000
+	Fri, 23 Jan 2026 07:39:59 +0000
 Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 60N7dmq138601110
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 60N7dtcj38601128
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 23 Jan 2026 07:39:48 GMT
+	Fri, 23 Jan 2026 07:39:55 GMT
 Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2590A20040;
-	Fri, 23 Jan 2026 07:39:48 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 9DF422004B;
+	Fri, 23 Jan 2026 07:39:55 +0000 (GMT)
 Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AE9EC20043;
-	Fri, 23 Jan 2026 07:39:41 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id C594320043;
+	Fri, 23 Jan 2026 07:39:49 +0000 (GMT)
 Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com.com (unknown [9.124.222.171])
 	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 23 Jan 2026 07:39:41 +0000 (GMT)
+	Fri, 23 Jan 2026 07:39:49 +0000 (GMT)
 From: Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>
 To: maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
         chleroy@kernel.org, ryabinin.a.a@gmail.com, glider@google.com,
@@ -155,44 +156,44 @@ To: maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
         tglx@linutronix.de, mark.barnett@arm.com,
         linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
         kasan-dev@googlegroups.com
-Subject: [PATCH v4 1/8] powerpc: rename arch_irq_disabled_regs
-Date: Fri, 23 Jan 2026 13:09:09 +0530
-Message-ID: <20260123073916.956498-2-mkchauras@linux.ibm.com>
+Subject: [PATCH v4 2/8] powerpc: Prepare to build with generic entry/exit framework
+Date: Fri, 23 Jan 2026 13:09:10 +0530
+Message-ID: <20260123073916.956498-3-mkchauras@linux.ibm.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260123073916.956498-1-mkchauras@linux.ibm.com>
 References: <20260123073916.956498-1-mkchauras@linux.ibm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIzMDA1NSBTYWx0ZWRfXwRQ2CGv0bRSG
- IyIvY0qB2QJMxumK7PFc4MZ98IcVsNRB0an/i10mk1E2EI6FTN54d0jYea4O+9s8aHEIiBfodgb
- jH1t97dXlZ8xxCCPz4bO+LL33b4/duV+GjTZFJxaxNmdypTKsurbi5/FLy/1w3qYvxCnGpknY59
- gqQHFGmImaXB9hweGy7tBIadp//gtnF9Zr5HSi7FwJ4/g1pnHRgGkHjD+F++TVuWVIKfiKhT3m7
- OteeDFzmjNRCqYQM3VNAhVJ8FAJZsAoy/6fulRnIN1F9n+N8poGG4JQNeJJBi0W0xIogFeex9eq
- 61Om6WAdlODYXEFMwB7QJcusYjMdefyRq4hrYMFMnAOzYVh6HcWujGLFHZkELlhkDNXd3s4aDTU
- G4ercLWX92nNyNSh4tR0meIzLq+Hf8D9FNAQGUckDzGLsVRMBb0lNRBsFI6N0wKP/47ThigJkt+
- 865UV1BqZC4yuCegSuQ==
-X-Authority-Analysis: v=2.4 cv=BpSQAIX5 c=1 sm=1 tr=0 ts=697325ca cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VnNF1IyMAAAA:8 a=i0EeH86SAAAA:8
- a=8txWmKPpaVdEF_iBmVcA:9
-X-Proofpoint-GUID: bzmnmhPke45yDArNZyuzxS6kuZ7viVlr
-X-Proofpoint-ORIG-GUID: GH71FTZ7yDcgY7miAsEKod3H72_OT0VQ
+X-Proofpoint-GUID: QFzIB8v5osvdoZ0BbGLVSG0g9IifkH2n
+X-Authority-Analysis: v=2.4 cv=LaIxKzfi c=1 sm=1 tr=0 ts=697325d1 cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VnNF1IyMAAAA:8 a=-TJU0OSysTv48yDGXSgA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: uIZUXHrmeQnPdbkQ9oHd1eIwYKWxfSrG
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIzMDA1NSBTYWx0ZWRfXwLKASYox5Xxp
+ ccGuhy2n0WNj6J8qhjlvJpsqOUcVsjlqDLzuPJLxMnBfMeWZrf0By6bnRUIHAKeYRoaAUyGR+N8
+ z+/Xy8i7zKNY8f1eUHbFPmxeVabMJWQaHY/dxidcSi30ZcFux3rLrG+o6p9TbYbcdD5KT3NN/1b
+ QOXD5KaG84ZuDMBDROu8MFrvI9+D0NwJ8boFYIbUeA7KkEwBEpSfynV8PAYhTOBtZVTd6bN9P27
+ l1V5llOXYHzYHl/7YGNqt0MHkNbhmwnKIgoLshJM3DyrLqcamqIrAQTuBsdqq0DCnWUcLEQI5HE
+ zfahrRrcJZTx58DCAmD4skBsw9bDkSB4FiDcgif9sAH6jv6c0MhDwokn6CxvzyYA3YsMkO8pqda
+ ncOta2GZN3iJJeqd4T9ZWeqppkpPmuKYbuJxMTAbTVG9rwWmn78FbBGD1AGQevxGhsPRZJrm4ht
+ YBMCd4MfQexvGOnnGRw==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
  definitions=2026-01-22_06,2026-01-22_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 clxscore=1011 adultscore=0 phishscore=0
- malwarescore=0 impostorscore=0 suspectscore=0 priorityscore=1501
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2601150000
- definitions=main-2601230055
+ bulkscore=0 adultscore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0
+ suspectscore=0 clxscore=1015 impostorscore=0 spamscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2601150000 definitions=main-2601230055
 X-Original-Sender: mkchauras@linux.ibm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ibm.com header.s=pp1 header.b=la5vWGSb;       spf=pass (google.com:
- domain of mkchauras@linux.ibm.com designates 148.163.156.1 as permitted
+ header.i=@ibm.com header.s=pp1 header.b=WbAVleIh;       spf=pass (google.com:
+ domain of mkchauras@linux.ibm.com designates 148.163.158.5 as permitted
  sender) smtp.mailfrom=mkchauras@linux.ibm.com;       dmarc=pass (p=REJECT
  sp=NONE dis=NONE) header.from=ibm.com
-Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -210,13 +211,13 @@ X-Spamd-Result: default: False [0.89 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=2];
 	R_DKIM_ALLOW(-0.20)[googlegroups.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2607:f8b0:4000::/36:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2001:4860:4000::/36:c];
 	MAILLIST(-0.20)[googlegroups];
 	DMARC_POLICY_SOFTFAIL(0.10)[ibm.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_TO(0.00)[linux.ibm.com,ellerman.id.au,gmail.com,kernel.org,google.com,arm.com,redhat.com,amacapital.net,chromium.org,huawei.com,linux-foundation.org,rivosinc.com,gmx.de,strace.io,orcam.me.uk,kernel.crashing.org,infradead.org,linutronix.de,lists.ozlabs.org,vger.kernel.org,googlegroups.com];
-	TAGGED_FROM(0.00)[bncBAABBVOLZTFQMGQERURWF4Y];
+	TAGGED_FROM(0.00)[bncBAABBW6LZTFQMGQE5OFR7HI];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -229,190 +230,106 @@ X-Spamd-Result: default: False [0.89 / 15.00];
 	RCVD_COUNT_TWELVE(0.00)[13];
 	TAGGED_RCPT(0.00)[kasan-dev];
 	NEURAL_HAM(-0.00)[-0.998];
-	ASN(0.00)[asn:15169, ipnet:2607:f8b0::/32, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.ibm.com:mid]
-X-Rspamd-Queue-Id: 0706E71D98
+	ASN(0.00)[asn:15169, ipnet:2001:4860:4864::/48, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.ibm.com:mid,mail-oa1-x3f.google.com:helo,mail-oa1-x3f.google.com:rdns]
+X-Rspamd-Queue-Id: 5B82171D9F
 X-Rspamd-Action: no action
 
 From: Mukesh Kumar Chaurasiya <mchauras@linux.ibm.com>
 
-Rename arch_irq_disabled_regs() to regs_irqs_disabled() to align with the
-naming used in the generic irqentry framework. This makes the function
-available for use both in the PowerPC architecture code and in the
-common entry/exit paths shared with other architectures.
+This patch introduces preparatory changes needed to support building
+PowerPC with the generic entry/exit (irqentry) framework.
 
-This is a preparatory change for enabling the generic irqentry framework
-on PowerPC.
+The following infrastructure updates are added:
+ - Add a syscall_work field to struct thread_info to hold SYSCALL_WORK_* fl=
+ags.
+ - Provide a stub implementation of arch_syscall_is_vdso_sigreturn(),
+   returning false for now.
+ - Introduce on_thread_stack() helper to detect if the current stack pointe=
+r
+   lies within the task=E2=80=99s kernel stack.
+
+These additions enable later integration with the generic entry/exit
+infrastructure while keeping existing PowerPC behavior unchanged.
+
+No functional change is intended in this patch.
 
 Signed-off-by: Mukesh Kumar Chaurasiya <mchauras@linux.ibm.com>
-Reviewed-by: Shrikanth Hegde <sshegde@linux.ibm.com>
-Reviewed-by: Jinjie Ruan <ruanjinjie@huawei.com>
 ---
- arch/powerpc/include/asm/hw_irq.h    |  4 ++--
- arch/powerpc/include/asm/interrupt.h | 16 ++++++++--------
- arch/powerpc/kernel/interrupt.c      |  4 ++--
- arch/powerpc/kernel/syscall.c        |  2 +-
- arch/powerpc/kernel/traps.c          |  2 +-
- arch/powerpc/kernel/watchdog.c       |  2 +-
- arch/powerpc/perf/core-book3s.c      |  2 +-
- 7 files changed, 16 insertions(+), 16 deletions(-)
+ arch/powerpc/include/asm/entry-common.h | 8 ++++++++
+ arch/powerpc/include/asm/stacktrace.h   | 6 ++++++
+ arch/powerpc/include/asm/syscall.h      | 5 +++++
+ arch/powerpc/include/asm/thread_info.h  | 1 +
+ 4 files changed, 20 insertions(+)
+ create mode 100644 arch/powerpc/include/asm/entry-common.h
 
-diff --git a/arch/powerpc/include/asm/hw_irq.h b/arch/powerpc/include/asm/hw_irq.h
-index 9cd945f2acaf..b7eee6385ae5 100644
---- a/arch/powerpc/include/asm/hw_irq.h
-+++ b/arch/powerpc/include/asm/hw_irq.h
-@@ -393,7 +393,7 @@ static inline void do_hard_irq_enable(void)
- 	__hard_irq_enable();
- }
- 
--static inline bool arch_irq_disabled_regs(struct pt_regs *regs)
-+static inline bool regs_irqs_disabled(struct pt_regs *regs)
- {
- 	return (regs->softe & IRQS_DISABLED);
- }
-@@ -466,7 +466,7 @@ static inline bool arch_irqs_disabled(void)
- 
- #define hard_irq_disable()		arch_local_irq_disable()
- 
--static inline bool arch_irq_disabled_regs(struct pt_regs *regs)
-+static inline bool regs_irqs_disabled(struct pt_regs *regs)
- {
- 	return !(regs->msr & MSR_EE);
- }
-diff --git a/arch/powerpc/include/asm/interrupt.h b/arch/powerpc/include/asm/interrupt.h
-index eb0e4a20b818..0e2cddf8bd21 100644
---- a/arch/powerpc/include/asm/interrupt.h
-+++ b/arch/powerpc/include/asm/interrupt.h
-@@ -172,7 +172,7 @@ static inline void interrupt_enter_prepare(struct pt_regs *regs)
- 	/* Enable MSR[RI] early, to support kernel SLB and hash faults */
- #endif
- 
--	if (!arch_irq_disabled_regs(regs))
-+	if (!regs_irqs_disabled(regs))
- 		trace_hardirqs_off();
- 
- 	if (user_mode(regs)) {
-@@ -192,11 +192,11 @@ static inline void interrupt_enter_prepare(struct pt_regs *regs)
- 			CT_WARN_ON(ct_state() != CT_STATE_KERNEL &&
- 				   ct_state() != CT_STATE_IDLE);
- 		INT_SOFT_MASK_BUG_ON(regs, is_implicit_soft_masked(regs));
--		INT_SOFT_MASK_BUG_ON(regs, arch_irq_disabled_regs(regs) &&
--					   search_kernel_restart_table(regs->nip));
-+		INT_SOFT_MASK_BUG_ON(regs, regs_irqs_disabled(regs) &&
-+				     search_kernel_restart_table(regs->nip));
- 	}
--	INT_SOFT_MASK_BUG_ON(regs, !arch_irq_disabled_regs(regs) &&
--				   !(regs->msr & MSR_EE));
-+	INT_SOFT_MASK_BUG_ON(regs, !regs_irqs_disabled(regs) &&
-+			     !(regs->msr & MSR_EE));
- 
- 	booke_restore_dbcr0();
- }
-@@ -298,7 +298,7 @@ static inline void interrupt_nmi_enter_prepare(struct pt_regs *regs, struct inte
- 		 * Adjust regs->softe to be soft-masked if it had not been
- 		 * reconcied (e.g., interrupt entry with MSR[EE]=0 but softe
- 		 * not yet set disabled), or if it was in an implicit soft
--		 * masked state. This makes arch_irq_disabled_regs(regs)
-+		 * masked state. This makes regs_irqs_disabled(regs)
- 		 * behave as expected.
- 		 */
- 		regs->softe = IRQS_ALL_DISABLED;
-@@ -372,7 +372,7 @@ static inline void interrupt_nmi_exit_prepare(struct pt_regs *regs, struct inter
- 
- #ifdef CONFIG_PPC64
- #ifdef CONFIG_PPC_BOOK3S
--	if (arch_irq_disabled_regs(regs)) {
-+	if (regs_irqs_disabled(regs)) {
- 		unsigned long rst = search_kernel_restart_table(regs->nip);
- 		if (rst)
- 			regs_set_return_ip(regs, rst);
-@@ -661,7 +661,7 @@ void replay_soft_interrupts(void);
- 
- static inline void interrupt_cond_local_irq_enable(struct pt_regs *regs)
- {
--	if (!arch_irq_disabled_regs(regs))
-+	if (!regs_irqs_disabled(regs))
- 		local_irq_enable();
- }
- 
-diff --git a/arch/powerpc/kernel/interrupt.c b/arch/powerpc/kernel/interrupt.c
-index e63bfde13e03..666eadb589a5 100644
---- a/arch/powerpc/kernel/interrupt.c
-+++ b/arch/powerpc/kernel/interrupt.c
-@@ -347,7 +347,7 @@ notrace unsigned long interrupt_exit_user_prepare(struct pt_regs *regs)
- 	unsigned long ret;
- 
- 	BUG_ON(regs_is_unrecoverable(regs));
--	BUG_ON(arch_irq_disabled_regs(regs));
-+	BUG_ON(regs_irqs_disabled(regs));
- 	CT_WARN_ON(ct_state() == CT_STATE_USER);
- 
- 	/*
-@@ -396,7 +396,7 @@ notrace unsigned long interrupt_exit_kernel_prepare(struct pt_regs *regs)
- 
- 	local_irq_disable();
- 
--	if (!arch_irq_disabled_regs(regs)) {
-+	if (!regs_irqs_disabled(regs)) {
- 		/* Returning to a kernel context with local irqs enabled. */
- 		WARN_ON_ONCE(!(regs->msr & MSR_EE));
- again:
-diff --git a/arch/powerpc/kernel/syscall.c b/arch/powerpc/kernel/syscall.c
-index be159ad4b77b..9f03a6263fb4 100644
---- a/arch/powerpc/kernel/syscall.c
-+++ b/arch/powerpc/kernel/syscall.c
-@@ -32,7 +32,7 @@ notrace long system_call_exception(struct pt_regs *regs, unsigned long r0)
- 
- 	BUG_ON(regs_is_unrecoverable(regs));
- 	BUG_ON(!user_mode(regs));
--	BUG_ON(arch_irq_disabled_regs(regs));
-+	BUG_ON(regs_irqs_disabled(regs));
- 
- #ifdef CONFIG_PPC_PKEY
- 	if (mmu_has_feature(MMU_FTR_PKEY)) {
-diff --git a/arch/powerpc/kernel/traps.c b/arch/powerpc/kernel/traps.c
-index cb8e9357383e..629f2a2d4780 100644
---- a/arch/powerpc/kernel/traps.c
-+++ b/arch/powerpc/kernel/traps.c
-@@ -1956,7 +1956,7 @@ DEFINE_INTERRUPT_HANDLER_RAW(performance_monitor_exception)
- 	 * prevent hash faults on user addresses when reading callchains (and
- 	 * looks better from an irq tracing perspective).
- 	 */
--	if (IS_ENABLED(CONFIG_PPC64) && unlikely(arch_irq_disabled_regs(regs)))
-+	if (IS_ENABLED(CONFIG_PPC64) && unlikely(regs_irqs_disabled(regs)))
- 		performance_monitor_exception_nmi(regs);
+diff --git a/arch/powerpc/include/asm/entry-common.h b/arch/powerpc/include=
+/asm/entry-common.h
+new file mode 100644
+index 000000000000..05ce0583b600
+--- /dev/null
++++ b/arch/powerpc/include/asm/entry-common.h
+@@ -0,0 +1,8 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef _ASM_PPC_ENTRY_COMMON_H
++#define _ASM_PPC_ENTRY_COMMON_H
++
++#include <asm/stacktrace.h>
++
++#endif /* _ASM_PPC_ENTRY_COMMON_H */
+diff --git a/arch/powerpc/include/asm/stacktrace.h b/arch/powerpc/include/a=
+sm/stacktrace.h
+index 6149b53b3bc8..987f2e996262 100644
+--- a/arch/powerpc/include/asm/stacktrace.h
++++ b/arch/powerpc/include/asm/stacktrace.h
+@@ -10,4 +10,10 @@
+=20
+ void show_user_instructions(struct pt_regs *regs);
+=20
++static __always_inline bool on_thread_stack(void)
++{
++	return !(((unsigned long)(current->stack) ^ current_stack_pointer)
++			& ~(THREAD_SIZE - 1));
++}
++
+ #endif /* _ASM_POWERPC_STACKTRACE_H */
+diff --git a/arch/powerpc/include/asm/syscall.h b/arch/powerpc/include/asm/=
+syscall.h
+index 4b3c52ed6e9d..834fcc4f7b54 100644
+--- a/arch/powerpc/include/asm/syscall.h
++++ b/arch/powerpc/include/asm/syscall.h
+@@ -139,4 +139,9 @@ static inline int syscall_get_arch(struct task_struct *=
+task)
  	else
- 		performance_monitor_exception_async(regs);
-diff --git a/arch/powerpc/kernel/watchdog.c b/arch/powerpc/kernel/watchdog.c
-index 2429cb1c7baa..6111cbbde069 100644
---- a/arch/powerpc/kernel/watchdog.c
-+++ b/arch/powerpc/kernel/watchdog.c
-@@ -373,7 +373,7 @@ DEFINE_INTERRUPT_HANDLER_NMI(soft_nmi_interrupt)
- 	u64 tb;
- 
- 	/* should only arrive from kernel, with irqs disabled */
--	WARN_ON_ONCE(!arch_irq_disabled_regs(regs));
-+	WARN_ON_ONCE(!regs_irqs_disabled(regs));
- 
- 	if (!cpumask_test_cpu(cpu, &wd_cpus_enabled))
- 		return 0;
-diff --git a/arch/powerpc/perf/core-book3s.c b/arch/powerpc/perf/core-book3s.c
-index 8b0081441f85..f7518b7e3055 100644
---- a/arch/powerpc/perf/core-book3s.c
-+++ b/arch/powerpc/perf/core-book3s.c
-@@ -2482,7 +2482,7 @@ static void __perf_event_interrupt(struct pt_regs *regs)
- 	 * will trigger a PMI after waking up from idle. Since counter values are _not_
- 	 * saved/restored in idle path, can lead to below "Can't find PMC" message.
- 	 */
--	if (unlikely(!found) && !arch_irq_disabled_regs(regs))
-+	if (unlikely(!found) && !regs_irqs_disabled(regs))
- 		printk_ratelimited(KERN_WARNING "Can't find PMC that caused IRQ\n");
- 
- 	/*
--- 
+ 		return AUDIT_ARCH_PPC64;
+ }
++
++static inline bool arch_syscall_is_vdso_sigreturn(struct pt_regs *regs)
++{
++	return false;
++}
+ #endif	/* _ASM_SYSCALL_H */
+diff --git a/arch/powerpc/include/asm/thread_info.h b/arch/powerpc/include/=
+asm/thread_info.h
+index b0f200aba2b3..9c8270354f0b 100644
+--- a/arch/powerpc/include/asm/thread_info.h
++++ b/arch/powerpc/include/asm/thread_info.h
+@@ -57,6 +57,7 @@ struct thread_info {
+ #ifdef CONFIG_SMP
+ 	unsigned int	cpu;
+ #endif
++	unsigned long	syscall_work;		/* SYSCALL_WORK_ flags */
+ 	unsigned long	local_flags;		/* private flags for thread */
+ #ifdef CONFIG_LIVEPATCH_64
+ 	unsigned long *livepatch_sp;
+--=20
 2.52.0
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260123073916.956498-2-mkchauras%40linux.ibm.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
+0260123073916.956498-3-mkchauras%40linux.ibm.com.
