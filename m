@@ -1,142 +1,178 @@
-Return-Path: <kasan-dev+bncBDTMJ55N44FBBYXG3XFQMGQEKLN5MGA@googlegroups.com>
+Return-Path: <kasan-dev+bncBD3JNNMDTMEBB5WJ33FQMGQEUWXI77I@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sGZ0FWVzd2n7ggEAu9opvQ
-	(envelope-from <kasan-dev+bncBDTMJ55N44FBBYXG3XFQMGQEKLN5MGA@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Mon, 26 Jan 2026 15:00:05 +0100
+	id uMnYMfmkd2k9jwEAu9opvQ
+	(envelope-from <kasan-dev+bncBD3JNNMDTMEBB5WJ33FQMGQEUWXI77I@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Mon, 26 Jan 2026 18:31:37 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id E438B893AB
-	for <lists+kasan-dev@lfdr.de>; Mon, 26 Jan 2026 15:00:04 +0100 (CET)
-Received: by mail-lf1-x140.google.com with SMTP id 2adb3069b0e04-59df09e2560sf816221e87.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 26 Jan 2026 06:00:04 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1769436004; cv=pass;
+Received: from mail-qv1-xf39.google.com (mail-qv1-xf39.google.com [IPv6:2607:f8b0:4864:20::f39])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBA858B7CB
+	for <lists+kasan-dev@lfdr.de>; Mon, 26 Jan 2026 18:31:36 +0100 (CET)
+Received: by mail-qv1-xf39.google.com with SMTP id 6a1803df08f44-89462dd72a6sf149960026d6.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 26 Jan 2026 09:31:36 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1769448695; cv=pass;
         d=google.com; s=arc-20240605;
-        b=iUePCT7BiN5UWgdtC2CEQEz4SD0JM6MQa1kVT/xNlEk+CaFfbMb41VS2q/kofg7ILR
-         ws331Fk9UyPgJLYE1EcAsh8xQoY9vtH720fMS7vy9mN2CaBwqt9F3b5MPdpk19T7RHyw
-         YfrvZm3KdeXluryxFnjLPy02w23kAF7KsqbfF8nSk1zIDE7pJzIR8RfOqVQfAHmjQvMs
-         s0YtKPZfvvAN6ENpOe5Jq0oc3TEAlpIdp0/45OyPSh3cjeZlhJfL2gllgnOTJIrq/46Q
-         /G9CLl4wTd+bJgAipPzX2wD5JkBP3HbU2EfVC8K23kKA5z1lBS3nGLS+iJR8ugzv3DjP
-         0ziw==
+        b=C5kZXJaQJtpybjYLOsPCHUqyhDw1CFmCI6nflUVgnexcnmPmLdYdfErlCCZTVn8T+f
+         DxpousJw3hd01dj6y6zl4aEO0bD7uo4K4AXR+Vtj0NiyNArOk/uz3Ab8i2hbu1GE2wZM
+         Ii/MdDZztws57btXkfOTLJXs9bd3T6thfzSYAdTpqAdXhdqJdA90kWVQiWi4DB+YBFPt
+         Pn7GlI97WrHM+2dP6qztOxCnEp+huMcpn9RG+nKf4DtygRUKrAtsWtQUqeO0k5+Nb9qw
+         buxykhTclN1tz/Sb7PnPuTX1cE/UroZGBMiktoVE4iCh2OS0FHipIDvyzzC73m5gawVn
+         CZew==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=r+Qaswa9K7eDgX7HzCuWrmYaPWViMm/lAsGTduzUAHI=;
-        fh=DsEKaJCUpQWqYAhsves29W6KL3LBIRBXVZQZN8kqkJY=;
-        b=JL2A11cfzNiQrNjaz2yukC19e7FMqwbpw98jpopCtJ7txeAnc+nZVGAjJom5Es29LB
-         T6e5O2d9nDHTa1gAi7llNY+SIWeEPZfQjcaGqjtlKLf5RQnNntESHMnFWCv/hRiV6684
-         2QjJ2IDTP6RGOWP9AfleWtRSoipWbnyivRVjbeMsEPY7N/HvSUPUTj8e9TCnRr9E3L81
-         G3jBnvYyV5TYRMb5OTFOh/6WHEc31g1iU+azCPLJIVizv9FK2vEYFgd1t8+PN9qnwsws
-         RohnYG7/mHGZY/QEtgXfJtWeGshZy8/ROMIPxfqHE7Sq+D7UMMHNmS2kLuvJM5CC9H1G
-         nmMw==;
+         :list-id:mailing-list:precedence:reply-to:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:dkim-signature;
+        bh=hKaDcvTVUmlepA18rEXuYfQVBToXV0rdXXNW8l9mC14=;
+        fh=nVrCCAb6sv9xoWdwYRjA13vVuc2rtBZ0x7+bgYXFU3c=;
+        b=GQOf/fbq7uBDTiKrFhssvtprcLC6bFaUnC+XXi1dg8kPSq2yR8UN+mWo4A0HcA6HUU
+         1EykTnKhekO+S97rCMOCev1W4xm1ZTgJ9BRK9SfOA9IaWPfljknucMCrh+ecl1K3wqtb
+         VJ6o1Xmcp0cNEvcRV3T8KF7nHsCB8RD5FaR0/uu8ddamZy7pTYXJLGZU7T4FbRSsATaj
+         p6Ys8RAgJzCDkNT67wep6UDAdhy8JMU3tBoeZnK9CEZsMBPueM2hkO81A3RrTGEAx+TN
+         n24mLLs107lzYZQ+qHLqMI9OlQp9ZIybNOaPyDDPWx+AQWnMrDmikxoHgcg2B32/Xf0c
+         e5ug==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@debian.org header.s=smtpauto.stravinsky header.b=Q7sbxvHC;
-       spf=none (google.com: leitao@debian.org does not designate permitted sender hosts) smtp.mailfrom=leitao@debian.org
+       dkim=pass header.i=@acm.org header.s=mr01 header.b=Jfjqa2A5;
+       spf=pass (google.com: domain of bvanassche@acm.org designates 199.89.1.14 as permitted sender) smtp.mailfrom=bvanassche@acm.org;
+       dmarc=pass (p=REJECT sp=QUARANTINE dis=NONE) header.from=acm.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1769436004; x=1770040804; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1769448695; x=1770053495; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=r+Qaswa9K7eDgX7HzCuWrmYaPWViMm/lAsGTduzUAHI=;
-        b=u08pWN3lb8jwy+5nQ4AlgN395MitwxBzJKXnq1249VAKmFSJUIb2DHVt6ADcNN1FfY
-         094uR+um++X51PMFWLxCf4eHUvqOpCppSbS6rLrK2uy57iW6jMYH/zDC+14wZygWl1fm
-         qowFJpvaOaEpaRULaNWmAaYvgBRWy/t+/Zqtl+0dahvjwyShHiaucERlULS8K+YWNvtz
-         DtD2SLL4RQL+7GAweLuweuIU6huD/H1ejLNhWBIswFkxk4jLdQPnYw5J9TEBlyrS4eTR
-         UbJ0z5xeBVNpZbe4j8KecfwVS+MTd4V+PmxtRtUCJVaWHF3qA6IBaFxnsXQCpAnIqBCO
-         hdkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769436004; x=1770040804;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=r+Qaswa9K7eDgX7HzCuWrmYaPWViMm/lAsGTduzUAHI=;
-        b=n2fl+NBaR8GiBJkAL9bzQtdnVBwMHTDeyEqhBBI9rRc7uoeuRJZ2caugY35cfkiOKu
-         /h/qV5v1meUwvrU7rMAOStfTtMOoN3EFDiHEiGKTRmVT5N+fEywodbJROQuhB7jlmMgw
-         /omwaxnNJkkUC3vc9QDOgjIy08rPpa+ug/eI+CyWBzI1Q3LFNZftcozoivdB5s49iKvT
-         0ysbWfwt+PFvbMmDPyuymQZT8wjzlwYw8PQfqzbjzTR9RuPJlIm+Rpt/mt75ozUgDbJ9
-         lOaKSbLHrddZjRWdTZ1LctBhB0ZthwHAOyl/7tLUvj4uI4GwFGRFVmbioMYr3JAI+Gff
-         YIrw==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUHI98oQJayLiiTjw1rWeb4FBMkBGMcSBt0JisHMe1vMFfKnpijJ5GK//zq3B3ex4F3gSzf+g==@lfdr.de
-X-Gm-Message-State: AOJu0YxKmgj/TcUDkAa9DyMiX55GlZnMUcft161jX7CXCXvdMlSdLi7G
-	qt8q1Vydvy8jdmiMuN+7/86tDYPbEGimFcjkjN4JiAevJogWF5lGw8eA
-X-Received: by 2002:a05:6512:10c6:b0:59d:e7b4:f9e5 with SMTP id 2adb3069b0e04-59df3a393d9mr1263416e87.38.1769436003511;
-        Mon, 26 Jan 2026 06:00:03 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+GOSAuAGNIzLn/PNqcxMXd+Ufaj9urLo0F5IxZbRuddEw=="
-Received: by 2002:a05:6512:4005:b0:59b:6ead:861e with SMTP id
- 2adb3069b0e04-59dd79718c0ls1516942e87.1.-pod-prod-05-eu; Mon, 26 Jan 2026
- 06:00:00 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCX0qPHni5JmxDNkVSiU0nVF7eoskmyCiB5uvl6vRu6nmzA1EclfnuV2FTzOdLxksfdU7mvx3gbDnQU=@googlegroups.com
-X-Received: by 2002:a05:6512:ba7:b0:59d:f2f3:7e9a with SMTP id 2adb3069b0e04-59df3a34f73mr1455280e87.36.1769436000612;
-        Mon, 26 Jan 2026 06:00:00 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769436000; cv=none;
+         :from:content-language:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hKaDcvTVUmlepA18rEXuYfQVBToXV0rdXXNW8l9mC14=;
+        b=Fz3xPda6MjvSAnwWltzY8DD9wFeysSU+RWq6c7KZ3CUgdVEqH0rP2w0zUEwuklGckN
+         5Vk1GH2s51i8pDzsBflC3mvWvqyjCu8h9ZAp0CFWxqaWI/DLRoQLT7FN4Zxhnovk8I3o
+         x0dx0yQloo34pMUP9w9kYseSRO3B8UoumeV7yGYm7AxOA+bdon9CKDQ0MFluK+bFRCHm
+         nKlanrpES/IQQoUfWn3R7ZKGGzKQC1lqssYRoq97AqeVO4cLeGF/K1plrCgXDTui/I8v
+         ja40V0dFXieRjZ9atAonSZBsAIE+L9+c4ZjrIHHqEFX7cvExe7Q1MUjuqklKRsnoBXLt
+         qB+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769448695; x=1770053495;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:content-language:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hKaDcvTVUmlepA18rEXuYfQVBToXV0rdXXNW8l9mC14=;
+        b=KXSpyrhgfwgRFeVLPOCS+9PfkBhU2nnHjTcW89P3MFdaZC1hURbJW663bJX7k9u9z2
+         fKqthAIWD32XKz5t+fvkr0LwPriYohZPxhCfR0+9Y8J8fYcTepq0p4hHbMwpogIM0jB1
+         GOGMZZjXTjdpFRgfM7aP7XzgxWQXa+GXqVSkFbnHl5IsXsHrJY2NKkM4Wk0Y9VxlmaIr
+         HLiN1TDnttcIi1cmnLC6YPl0xos9czegOITVOEtj9GI2Z5ZZ0xQs1Q+7R62HkZ7prFsE
+         SDj+7q4LUgDwMgl8PVRjfwvnCJGRoptOCEUa872Col9vYa94ZONi3AhCZRYwj/e3xWJ0
+         Rgow==
+X-Forwarded-Encrypted: i=2; AJvYcCU2JOnOlm9GfR18JbERn1ArUW/Se3l3T6Jor4aqfYdvsGOXeCjSIRK44Lfwb+hlGbMddK+qJA==@lfdr.de
+X-Gm-Message-State: AOJu0Yz3/BlNkdtcA5oePlhnjDEEBsjfQLknV4Vw0HoSdnNFEQJvJ6lk
+	1eg7l+oaeuKBSDrgStJMZqnBMUWsFCKtJz9f2Smxwh+a6HZflOPZw215
+X-Received: by 2002:a05:6214:c23:b0:890:586e:4c93 with SMTP id 6a1803df08f44-894b06c67c1mr71671836d6.15.1769448694971;
+        Mon, 26 Jan 2026 09:31:34 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+Hj89mZ1iEHmbECwGE5ZTRjIOSEeuu8chscvXI+wdDU2A=="
+Received: by 2002:a05:6214:c43:b0:882:63fc:f004 with SMTP id
+ 6a1803df08f44-8947deb64cdls96424346d6.2.-pod-prod-03-us; Mon, 26 Jan 2026
+ 09:31:34 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXoQx99ntkQmsvw8MIt7sEwvfemAcNWIjfKg9Pnsv7j1tA63SGVWjT+2FTWJ+PjaTKcP8A1OZgCwrE=@googlegroups.com
+X-Received: by 2002:a05:6214:e47:b0:894:6e23:3c3f with SMTP id 6a1803df08f44-894b06e382amr71433836d6.20.1769448692915;
+        Mon, 26 Jan 2026 09:31:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769448692; cv=none;
         d=google.com; s=arc-20240605;
-        b=bKNGtE8r5RK7fsXko4Hqy43ZANY9+scqco8G3av0l4PFRsfQTFM097So1UdYi94vcm
-         OLwebGG/+RLkBPAx3cXnYaCL18NyRhLbE3qtVLnSggLDKGkbT2IncySlQ5T9WQtUdti7
-         yndQUzR/utfY1SUMdDM5sJTED5UmuhhqiemkfDYcMY487Y00fg9e1qdk5rMaBui7ApTp
-         /d3/SMc/EhLuCS/uBNdpplCEFeF+qFjnjVTBC1Bg6ZjgFVs0hoFiVmNdx6wDeIwVYmHo
-         7b5v+YwWcsEmxkYUKT1c2QH8l1QPZEqryc/W8nw/Ws1cSFk4KSzQrZNfJNC3pFhjJHHe
-         Lz9w==
+        b=OQL7YFCo3GzkINRP6XRfEKO2C7GQunLc7zVDxGWglf0LGk3hddiYM1p1Q1/kCJXZeY
+         uyssITrLlL1GTsnVXK9BIml+eFb+UJ7UIqptUJwI0ededkaNXAYEGAqjS8mljQEa+/O7
+         h0yDTG3S6qLj2wbTijHIIaRTvFbHS9/rwoI8Kg1BfqpIWeVyTyu8OJavEf3o77tNTVjA
+         DQ0IQxL9FLcKL/pIaqKhUIsk43sX2+i+ot+USIL0Pi8zRac1xGAICYui1Q8f3bnS9e1c
+         vo7mvUu5FJFk67PKKEmyABYRPMvNi1asS6ECL5ZS3X2Ddi5MYUYbMLgSuVTcak3cTYIU
+         +Z0w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=CA7ZM6arGeM7G5r4XYd+i+HkxrAcrO5ouJ48DYGWkxk=;
-        fh=KwC7Jum6N/o025Yv5BbBtrdUqOkm0+yynzCyRrsFo/Q=;
-        b=Dli+ARzmqjdLNCtdtdfn/gv+lEEYQgNr6tMY9fW1erFpb9RCtTTUh230kCvqbL74Mi
-         wZcx9pmlrpJHe/5hiKmxnAw/XOfheqV3Ct5YA9i/6aOWnyreR+dhWyDHDSOIxo2b1r7E
-         qYzs+70z7C8mOkQv+smk+YAdOf27uFvzdaHYx6haHhUpAJLcAZvk3D4ddHpeC844y508
-         /imlzQmOoB6qfq/DIIvQE97SVSJev+TnbJRoKeRLWUc237f1SAfyIwCyClpCweEs62DX
-         UsENIJhIShE5RmyvjEbmuwvoEKFdhPHS69dfGc8RbuOMqTnSFayu4Qt+HdRIAcHnSWZP
-         plQQ==;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :dkim-signature;
+        bh=cqyCB6D2UZUFPhod4jHX3yXa2CT5+Aq6RptHuHLLwP4=;
+        fh=oscsWGUi8qXSCGbxjzWMCAbvCbb+T4RkBriBWr6Vjhk=;
+        b=DDOHuTWw2w4VSMBrlBpRomiZkGDh9AaJosPuNlzE5TEITaC8+STH4/jeTss+Mgko51
+         /RHpT4iSxubIo9IxDfx6J6nP71Oa2H1LFzm5GmsnXuee4W5168y6eS6nniAVTKyxCs0E
+         5StykxPNnlsav7OT4tIGAiYKCt8BtOp1JtEft0QojwcSdigEvfDvQlYU1av5wF5H6py2
+         +uZZkR5JqX7uF7oCecX/ZIc+/2XTRPiKfCFzz9hx07iprczyyswJ5b5mU95wfIaSVzi8
+         dJzVCBQIUf+mobKfZtv9bECGswTXiOu2xjphA3PzC3PXaNEU9XVJpL2ak63onvRSExiB
+         3tbg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@debian.org header.s=smtpauto.stravinsky header.b=Q7sbxvHC;
-       spf=none (google.com: leitao@debian.org does not designate permitted sender hosts) smtp.mailfrom=leitao@debian.org
-Received: from stravinsky.debian.org (stravinsky.debian.org. [2001:41b8:202:deb::311:108])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-59de5ab3aa4si194928e87.4.2026.01.26.06.00.00
+       dkim=pass header.i=@acm.org header.s=mr01 header.b=Jfjqa2A5;
+       spf=pass (google.com: domain of bvanassche@acm.org designates 199.89.1.14 as permitted sender) smtp.mailfrom=bvanassche@acm.org;
+       dmarc=pass (p=REJECT sp=QUARANTINE dis=NONE) header.from=acm.org
+Received: from 011.lax.mailroute.net (011.lax.mailroute.net. [199.89.1.14])
+        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-8949188e9f3si3663336d6.9.2026.01.26.09.31.32
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jan 2026 06:00:00 -0800 (PST)
-Received-SPF: none (google.com: leitao@debian.org does not designate permitted sender hosts) client-ip=2001:41b8:202:deb::311:108;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <leitao@debian.org>)
-	id 1vkN7t-00GDx9-Lb; Mon, 26 Jan 2026 13:59:33 +0000
-Date: Mon, 26 Jan 2026 05:59:28 -0800
-From: Breno Leitao <leitao@debian.org>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Suren Baghdasaryan <surenb@google.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, 
-	kasan-dev@googlegroups.com
-Subject: Re: [PATCH v4 06/22] slab: add sheaves to most caches
-Message-ID: <aXdzLk010qbTNbUh@gmail.com>
-References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
- <20260123-sheaves-for-all-v4-6-041323d506f7@suse.cz>
+        Mon, 26 Jan 2026 09:31:32 -0800 (PST)
+Received-SPF: pass (google.com: domain of bvanassche@acm.org designates 199.89.1.14 as permitted sender) client-ip=199.89.1.14;
+Received: from localhost (localhost [127.0.0.1])
+	by 011.lax.mailroute.net (Postfix) with ESMTP id 4f0FvS0HvMz1XM5kt;
+	Mon, 26 Jan 2026 17:31:32 +0000 (UTC)
+X-Virus-Scanned: by MailRoute
+Received: from 011.lax.mailroute.net ([127.0.0.1])
+ by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id XReqotH7_hjc; Mon, 26 Jan 2026 17:31:22 +0000 (UTC)
+Received: from [100.119.48.131] (unknown [104.135.180.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4f0Fv22xNsz1XLyhK;
+	Mon, 26 Jan 2026 17:31:10 +0000 (UTC)
+Message-ID: <dd65bb7b-0dac-437a-a370-38efeb4737ba@acm.org>
+Date: Mon, 26 Jan 2026 09:31:09 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20260123-sheaves-for-all-v4-6-041323d506f7@suse.cz>
-X-Debian-User: leitao
-X-Original-Sender: leitao@debian.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 15/36] srcu: Support Clang's context analysis
+To: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+ Will Deacon <will@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+ Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>,
+ Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
+ Eric Dumazet <edumazet@google.com>, Frederic Weisbecker
+ <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>,
+ Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>,
+ Johannes Berg <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Josh Triplett <josh@joshtriplett.org>, Justin Stitt
+ <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+ Kentaro Takeda <takedakn@nttdata.co.jp>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Mark Rutland
+ <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+ Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>,
+ kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org,
+ linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
+References: <20251219154418.3592607-1-elver@google.com>
+ <20251219154418.3592607-16-elver@google.com>
+Content-Language: en-US
+From: "'Bart Van Assche' via kasan-dev" <kasan-dev@googlegroups.com>
+In-Reply-To: <20251219154418.3592607-16-elver@google.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Original-Sender: bvanassche@acm.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@debian.org header.s=smtpauto.stravinsky header.b=Q7sbxvHC;
-       spf=none (google.com: leitao@debian.org does not designate permitted
- sender hosts) smtp.mailfrom=leitao@debian.org
+ header.i=@acm.org header.s=mr01 header.b=Jfjqa2A5;       spf=pass
+ (google.com: domain of bvanassche@acm.org designates 199.89.1.14 as permitted
+ sender) smtp.mailfrom=bvanassche@acm.org;       dmarc=pass (p=REJECT
+ sp=QUARANTINE dis=NONE) header.from=acm.org
+X-Original-From: Bart Van Assche <bvanassche@acm.org>
+Reply-To: Bart Van Assche <bvanassche@acm.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,60 +185,84 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.71 / 15.00];
+X-Spamd-Result: default: False [-0.71 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[googlegroups.com,none];
 	MAILLIST(-0.20)[googlegroups];
 	R_DKIM_ALLOW(-0.20)[googlegroups.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2a00:1450:4000::/36];
+	R_SPF_ALLOW(-0.20)[+ip6:2607:f8b0:4000::/36];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_RCPT(0.00)[kasan-dev];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	DMARC_NA(0.00)[debian.org];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[leitao@debian.org,kasan-dev@googlegroups.com];
 	FROM_HAS_DN(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
-	TAGGED_FROM(0.00)[bncBDTMJ55N44FBBYXG3XFQMGQEKLN5MGA];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,oracle.com:email,googlegroups.com:email,googlegroups.com:dkim];
+	TAGGED_FROM(0.00)[bncBD3JNNMDTMEBB5WJ33FQMGQEUWXI77I];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[googlegroups.com:+]
-X-Rspamd-Queue-Id: E438B893AB
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FREEMAIL_TO(0.00)[google.com,infradead.org,gmail.com,kernel.org];
+	FREEMAIL_CC(0.00)[davemloft.net,gmail.com,chrisli.org,kernel.org,google.com,arndb.de,lst.de,linuxfoundation.org,gondor.apana.org.au,nvidia.com,intel.com,lwn.net,joshtriplett.org,nttdata.co.jp,arm.com,efficios.com,goodmis.org,I-love.SAKURA.ne.jp,linutronix.de,suug.ch,redhat.com,googlegroups.com,vger.kernel.org,kvack.org,lists.linux.dev];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	DKIM_TRACE(0.00)[googlegroups.com:+];
+	HAS_REPLYTO(0.00)[bvanassche@acm.org];
+	RCPT_COUNT_GT_50(0.00)[50];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[kasan-dev,lkml];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:15169, ipnet:2607:f8b0::/32, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[googlegroups.com:email,googlegroups.com:dkim,acm.org:mid,acm.org:replyto,mail-qv1-xf39.google.com:helo,mail-qv1-xf39.google.com:rdns]
+X-Rspamd-Queue-Id: EBA858B7CB
 X-Rspamd-Action: no action
 
-On Fri, Jan 23, 2026 at 07:52:44AM +0100, Vlastimil Babka wrote:
-> In the first step to replace cpu (partial) slabs with sheaves, enable
-> sheaves for almost all caches. Treat args->sheaf_capacity as a minimum,
-> and calculate sheaf capacity with a formula that roughly follows the
-> formula for number of objects in cpu partial slabs in set_cpu_partial().
-> 
-> This should achieve roughly similar contention on the barn spin lock as
-> there's currently for node list_lock without sheaves, to make
-> benchmarking results comparable. It can be further tuned later.
-> 
-> Don't enable sheaves for bootstrap caches as that wouldn't work. In
-> order to recognize them by SLAB_NO_OBJ_EXT, make sure the flag exists
-> even for !CONFIG_SLAB_OBJ_EXT.
-> 
-> This limitation will be lifted for kmalloc caches after the necessary
-> bootstrapping changes.
-> 
-> Also do not enable sheaves for SLAB_NOLEAKTRACE caches to avoid
-> recursion with kmemleak tracking (thanks to Breno Leitao).
-> 
-> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-> Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+On 12/19/25 7:40 AM, Marco Elver wrote:
+> +/*
+> + * No-op helper to denote that ssp must be held. Because SRCU-protected pointers
+> + * should still be marked with __rcu_guarded, and we do not want to mark them
+> + * with __guarded_by(ssp) as it would complicate annotations for writers, we
+> + * choose the following strategy: srcu_dereference_check() calls this helper
+> + * that checks that the passed ssp is held, and then fake-acquires 'RCU'.
+> + */
+> +static inline void __srcu_read_lock_must_hold(const struct srcu_struct *ssp) __must_hold_shared(ssp) { }
+>   
+>   /**
+>    * srcu_dereference_check - fetch SRCU-protected pointer for later dereferencing
+> @@ -223,9 +233,15 @@ static inline int srcu_read_lock_held(const struct srcu_struct *ssp)
+>    * to 1.  The @c argument will normally be a logical expression containing
+>    * lockdep_is_held() calls.
+>    */
+> -#define srcu_dereference_check(p, ssp, c) \
+> -	__rcu_dereference_check((p), __UNIQUE_ID(rcu), \
+> -				(c) || srcu_read_lock_held(ssp), __rcu)
+> +#define srcu_dereference_check(p, ssp, c)					\
+> +({										\
+> +	__srcu_read_lock_must_hold(ssp);					\
+> +	__acquire_shared_ctx_lock(RCU);					\
+> +	__auto_type __v = __rcu_dereference_check((p), __UNIQUE_ID(rcu),	\
+> +				(c) || srcu_read_lock_held(ssp), __rcu);	\
+> +	__release_shared_ctx_lock(RCU);					\
+> +	__v;									\
+> +})
 
-Tested-by: Breno Leitao <leitao@debian.org>
+Hi Marco,
+
+The above change is something I'm not happy about. The original
+implementation of the srcu_dereference_check() macro shows that it is
+sufficient to either hold an SRCU reader lock or the updater lock ('c').
+The addition of "__srcu_read_lock_must_hold()" will cause compilation to
+fail if the caller doesn't hold an SRCU reader lock. I'm concerned that
+this will either lead to adding __no_context_analysis to SRCU updater
+code that uses srcu_dereference_check() or to adding misleading
+__assume_ctx_lock(ssp) annotations in SRCU updater code.
+
+Thanks,
+
+Bart.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aXdzLk010qbTNbUh%40gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/dd65bb7b-0dac-437a-a370-38efeb4737ba%40acm.org.
