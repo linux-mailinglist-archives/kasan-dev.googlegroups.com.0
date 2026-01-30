@@ -1,143 +1,142 @@
-Return-Path: <kasan-dev+bncBAABB6HL6DFQMGQEHRC47GY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBFHR6DFQMGQEZTBT2NA@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UZMaJPo1fGmvLQIAu9opvQ
-	(envelope-from <kasan-dev+bncBAABB6HL6DFQMGQEHRC47GY@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Fri, 30 Jan 2026 05:39:22 +0100
+	id SOO3CJY4fGnSLQIAu9opvQ
+	(envelope-from <kasan-dev+bncBAABBFHR6DFQMGQEZTBT2NA@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Fri, 30 Jan 2026 05:50:30 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
 Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2683CB71DE
-	for <lists+kasan-dev@lfdr.de>; Fri, 30 Jan 2026 05:39:22 +0100 (CET)
-Received: by mail-lf1-x140.google.com with SMTP id 2adb3069b0e04-59b77f5f4cbsf1124337e87.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 29 Jan 2026 20:39:21 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1769747961; cv=pass;
+	by mail.lfdr.de (Postfix) with ESMTPS id C8587B7286
+	for <lists+kasan-dev@lfdr.de>; Fri, 30 Jan 2026 05:50:29 +0100 (CET)
+Received: by mail-lf1-x140.google.com with SMTP id 2adb3069b0e04-59e149ccc86sf565175e87.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 29 Jan 2026 20:50:29 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1769748629; cv=pass;
         d=google.com; s=arc-20240605;
-        b=TuNSIHo4Ad976T5ta0ymEF1pwnrLbeGFQ1xI2SW5YUEKZfH/9ANasSGM/d/0RNCyWq
-         gWNCG0F1AO0nXoiSKUf/XSYe23i40Rhl7WUABLaSEWbtg/tHWSPs9zg+p5i2COHwzQRI
-         +zbZbi6CfDR4z9eGD/hNX0aQnuEs0Tui0SyWKP7o6K4ubn9aqZK872DI6Nk8v+4ErkXX
-         Nwq76B5qqbRU6CmoQxfzhsAGTSdllUxfQ5fUJ12lvxMgqlHGzhY0hAmUbafV9IZTG3Rw
-         NWquaKwi1I8HmUyDsw3nwvVbSPBGYAwJJqNvn7bMjBQnfahPNzPnonu4mOkHOZNcXBRR
-         ieCw==
+        b=DISpw9aOzz/WnNM4ofVaev43nDJgXKF4lHsBjJk4h1fSQ1WPbNmM99GxpwWZ/boAYd
+         V45KoCyS4a0m14astIaTTUfY5XOC8L2Ye41LS7QgrvXsqFqhClA5UAf5rCMMtR5K5W6y
+         T/EippTT/M+WogN0aHQHGLLQ3OuZzmnoSArOlxMYzl1u+AMqy/wa6K2N+0J2v4m8i39V
+         jWz4HCQ1jr7JyKSVk0hYgmHY0I0QNjRUdUn+/yv9WS31VMxPm0QbeYqdg4G4aWZ1u4np
+         U//qm0hYhTGbBgpNMepcejekEdZfvYXPEKDYyb07WDIBzMvcHd4IhHcDG9NSicv55sKV
+         Yq4Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=/1ovJifGqMiwpfVLzl/NNwmVU6tKoMaDlcLQRhmQrds=;
-        fh=+UFukJzfk2wgwPZbdoI1VMQWpbto8DOb2A9imM7NAuk=;
-        b=O09mPlPT8Hm7mN+naCoYYQUowD98KnG3WLYYlxT4zsrnoQrJJq0GSXCMImAaODGI32
-         JSvVophGuN6uQSMq3Neww/VVQUa24hL7svUw3hOEio4s8lhSE+U8Ouv/fxC9NoWHboRv
-         dCCgXoLEv4mAOfYWwW21S6HGIS+GJmfmerXngB2X0ppjuxUvr3DrA9W24Umhoz6UKo1z
-         zoNDpSAuQL4T9zNeKTzI67dL9dBMsY32PTp12kZYrTbUafrpWhoLmk4HQmddhBpFmyGh
-         fKU/GocWPG+zZ0TjsDOmrZjEXh4ei091Tpfmk3sqhHPmmh6reNlPJ6XaY7pLV/51+Sk9
-         StaA==;
+        bh=qCBgrTA4JiEFdROuJ6/b4izTnDdtj0kx8amZofRmV+I=;
+        fh=t/by15tfbqNXQnHeCSZThvJx7EjukysRxPrr2u1hOCA=;
+        b=IWt4Hdi5lKbMWCYdym6gNJ00LD6d02hSgtajYZN173Wo1weXpZJS2qKMCbSBw2Idb0
+         ul2R8nielmnQ6B/TCNMdpLF5pihnIx89hTvmtEQRgJOUIyxOGDrqzqLMcctQ8dPDNagC
+         UqXfo9phzOLQXP0+3SUl1zu9HZCZ3kZlr5/vZMYDn0r/TmLUO8oCA5k2097m9YFdUWQd
+         NhwTJ/HG5pMxt/TuJ6ACfrhO4bQspeWtKy6a4gVqlvozFHQWnLcdOPKlHNBSQ3tnxjtn
+         9rEGaG79MCByzlDLJDrnW1vmpATq66ENEE8+Nmh63zkwDOO53oOt4IVFtybO5wrHIg+y
+         MJ8A==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=OyHEYLJr;
-       spf=pass (google.com: domain of hao.li@linux.dev designates 95.215.58.173 as permitted sender) smtp.mailfrom=hao.li@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=MTZFazTp;
+       spf=pass (google.com: domain of hao.li@linux.dev designates 2001:41d0:203:375::ba as permitted sender) smtp.mailfrom=hao.li@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1769747961; x=1770352761; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1769748629; x=1770353429; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/1ovJifGqMiwpfVLzl/NNwmVU6tKoMaDlcLQRhmQrds=;
-        b=IaIrSKR2f1dkQhDEH/M3bcHxqqEz8oVktLLja3PB1b5UKmj2ONm+J6I/qd1saZivrC
-         uOPwKjdyoCdL6MXl0McnXw+exzuNPDOUGVMdeXvpcObJkn4DWXh6trEq3ww8ILzwhKVa
-         1WO6da4iDsgDnC3idlgEJksj+P0pLno4l+nYle/ZSsNDHuVUj/ZDwCu3z8WAjgF4ovMX
-         ykjdugZhhmpgUWrAQ2IS12vVcqTC697h3bgb/gRFwMRmN3hvx7hTBpJKiTlWlzM2rmMH
-         iKp3SrOJuZO8fb6t7chv/wLMQ2Rm0e8jWUN3r395OrJ/TPgBmwSWQrT0sjWK2v9SNGJO
-         qhbA==
+        bh=qCBgrTA4JiEFdROuJ6/b4izTnDdtj0kx8amZofRmV+I=;
+        b=J+TQvQZGYkGcc/6c3A0dXi29df4WPXCqw2ViEe8ms93JWR3ub3842sBHqHm2j08h8S
+         U8kAqS4wyrb9fMjnavSrjtUKmLudWZFDLd4a8QqmYkwYxJFfmHtVLbYBXH8F+WugwUCA
+         s0d5lT5YmT5YBxHiMl8syIDH5hiTWuRWEjQH8NqH01hr74IEJT6akWZv7FHLl7Bk1ZdR
+         3CPwbjeX61Zv+dB/Eok8epIs93bDlOdsCr+mJf4IXOs4iUadAc0S7uRfNpvNPfSpve1D
+         PwgI9wJTTYEq9e7vUs/pcgrvuW7jSrZEaqjwQWDo/1k4LZAJNYZTsHoOQBDhwmZ94ulr
+         mlGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769747961; x=1770352761;
+        d=1e100.net; s=20230601; t=1769748629; x=1770353429;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/1ovJifGqMiwpfVLzl/NNwmVU6tKoMaDlcLQRhmQrds=;
-        b=Lg27uY7LX3cwwdKkZ8uGnsgnWIhW/5sQgq2pusTYzpZ8ZHqxBYaBp7h2KO1bOKLpFV
-         rx0bFPVACfqaryDeAYB4LIE3UQ/tEp5bIUWy3hC4khafhaTzrN7dUNOyg1GAqjTDRWQl
-         GYaPTtFbfFMhc44rbKztQA1G1fo1cafcI+9wWHMwUCZ5ajyvgTe9A799tBmjzCb8vwJu
-         dnhWuqHlUxeQFj8RkIznovBajEUJjkqPzfKXUfdqhlC0HY7qsW9b9coi8IIP9EzZyZAm
-         MaXd3U07X+cDM00tHHzSeEzoBNw6fd7iRiwFlljU/WlMRkEPGmaGqQccsl2YQLiqpNN+
-         wOUA==
+        bh=qCBgrTA4JiEFdROuJ6/b4izTnDdtj0kx8amZofRmV+I=;
+        b=so5zXmBd1augtCp8T/2+hwlmS6ZdmERQhsWDOrqL3n2LpfBaNtGQ9THWtl+OoNBm86
+         i2oxTyoApLX+LQwQMVD8YfxX8uC3ala6zXSH/FgEBu9diCmEhdfT3GAtOZcfiR1vtBvW
+         8kyGuAi1EYUVX0SPAz5zPp0h2KNG5gJJFrjEHYyOdluIdZgHiFPKqe+fRYHaA8TEJkAN
+         zLkLPAqGeOjYUcrj/LeppIzXRsS0MfCRabAcPoVVcAlNkYJSIx8UXe+9AOsemsGun2fj
+         sf8XF3zCMCkClsNy0MrSZGhXDYRjyOpujz4qMBPB79KiY5sckzzVvJbB/w9ztEMH6bP7
+         CLWg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUj592poY//eEPjT3pErqTDCEdiZO+e4yQfNUWyqu3hpdRI6Ar0QCO8w/9XL7JzoqF8Ey/W1A==@lfdr.de
-X-Gm-Message-State: AOJu0YyqTwe9rpkAsWvosGiXSAwbTJ5jVhFrveujL7uqhQPcis/FsDsD
-	V4g7g5gGm8ghNK3qhyMU6uGtXZgd2pDz6ovRRYfUnt+37v+RivuV3RQN
-X-Received: by 2002:a05:6512:3b95:b0:59e:a44:1b5d with SMTP id 2adb3069b0e04-59e16405e54mr463358e87.25.1769747960852;
-        Thu, 29 Jan 2026 20:39:20 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+FBIyWEDtgOdCOVRnmPUW+hD4lyy5jzwMyhjurQ4SmAXA=="
-Received: by 2002:ac2:4c46:0:b0:59b:a3bb:9e0f with SMTP id 2adb3069b0e04-59e0f1ead61ls658729e87.2.-pod-prod-01-eu;
- Thu, 29 Jan 2026 20:39:19 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXTFaRJLPp9mMBSR7qHtJID7wE2Ra8HLAZXlSbFCUtoRb6MQTAKu3fL37ZKSKTKqBRxqLzwI3L/Cgk=@googlegroups.com
-X-Received: by 2002:a05:6512:2394:b0:59b:83fb:45df with SMTP id 2adb3069b0e04-59e164162ebmr490474e87.47.1769747958795;
-        Thu, 29 Jan 2026 20:39:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769747958; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCXXKyb8EhejBm6od2yF6fdOYfI86Y3ThzbW75X4ovH7kxmGzaZfUWAx6cp4OynkzU9nqUbrNw==@lfdr.de
+X-Gm-Message-State: AOJu0YyUuHPrdsgdQnI8WcHLcFfh28csPrXHfHF4JF/0wDiZhqAxmnAE
+	GTcJx54zLG3Q2/qs8Tpc2uShdUXUtvzDtB+eP72bcRkaTOpcvEhUgVgO
+X-Received: by 2002:ac2:4c52:0:b0:59e:340:e557 with SMTP id 2adb3069b0e04-59e1640219bmr538076e87.19.1769748628891;
+        Thu, 29 Jan 2026 20:50:28 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+GECWEw6qNN0PY9H4vzs5H6ht1jprwQEqq5JWv8f+nUhQ=="
+Received: by 2002:a05:6512:318f:b0:59b:6d59:3201 with SMTP id
+ 2adb3069b0e04-59e0f1ae924ls605900e87.0.-pod-prod-06-eu; Thu, 29 Jan 2026
+ 20:50:27 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUCSLMWIPVpNI8oBOTMLRT/FLTUwwGEbFeqpvLFh6Al4cD3VKEzaJu+hQX+C611b0QCcROUvMo4kIQ=@googlegroups.com
+X-Received: by 2002:a05:6512:639a:20b0:59e:19e3:f724 with SMTP id 2adb3069b0e04-59e19e3f72cmr33814e87.42.1769748626832;
+        Thu, 29 Jan 2026 20:50:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769748626; cv=none;
         d=google.com; s=arc-20240605;
-        b=ln8RDD1GaxNM3w44yGnCXcpffojKRqp3t0RMcuv4RJ9WlxRC2Lc5aUNBEQp/ZeDvJ4
-         PUjdXGigfFqdlxbt7NmH8W2JJYoNMHvcRfQ783OG5C7b+1Ohkm21ruK74wZR9+3gg68U
-         FBtqqLviQpydarJQNvJkuZLFN0eZ8A142U60p8HPdS9D4ld1CXGCNAGXte/inJOGRxrp
-         LXwZEh5hQSn54A2IsN+sY+c7RjtXeVe4Mi1I1Qa7NEELcqwzWY0IBlO+7OXDuUJP4Jic
-         6kP2aMsqQCDftK3z0fjpzHavqa+nIMOchtOT2Q91ZPBBqKH1A/IJfMoSxT1A4h+hd1HU
-         S8KQ==
+        b=CjFfMCnFUzfWV175mvpgycusj1dGloak1bW80vntSjD1v42Og+hkugC+zrt5f95z+8
+         EB7xaHg/fWIvmrM4IXB1l/1dMV0PxEJ5JA5MR09JXwdl8z94sgJ6H5Qfw+ElQIz/K07s
+         Kfob5pdQTEbG+j6Q7GnxjnD1xqYdx4NDjQaGlRosJCrwVLFoBy95UYdTtpgTZU8qrnDO
+         r6alCxxgSx3YkfVDGOwzu4b21Uonop/2DK2IAFKIzEc3w2Gl5/Qvcdt30R2nIld4pGIn
+         ZSgKwhoUf84FFD4yMPMCPsPyvAVgkhgxGc3ce5jiBWoevZFHS+trOY2SrPb27KyK6KAW
+         hYCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:dkim-signature:date;
-        bh=HsyA5AueEdtbE5hLH2TKuJN9cYQD6jVv3ixFrefE5Z8=;
-        fh=agRXbVNQGOKBu11WQmGmkekI6pUXT8WkqqmRVu8hwyU=;
-        b=U+Zt58+pMwnN8zhqh+05RPvPuz7Au5zxY2KCGjGP+nv1FpJKejAR3tLeSVFjokvAzJ
-         KWKmiUykMH7K6y2VUeBVWvv2hLJ/MxUcrsC5PaLLhH6nW9aQw04oX1R+6ZEb1HkQSCZN
-         yFST2ht9oOZjNmPOGC/44hifoQL28cUevJPeRkoAo7nxs5mrDgWV9u3Ee1iGjbaDVNPU
-         Q6UYwksaHW+2iM4Btdl1QoCKmpHx5AlHespX4X8qjga65j9k5h/c0f8QiCKiLhpVF41H
-         9tLD6wjRfVRe6o06f+hFiwP/Peo8tide5LmyYak4M89lxlslluSJBH29bF8KTTgykVHb
-         bcdw==;
+        bh=o0LolDkIeVgydx+lUvvnJuU5rTPe49ECMjoBW0cqVvs=;
+        fh=IJc/xULCf01o48qWj7VfHKXKmbbWC8yCQEzHfREZ7bs=;
+        b=g303fNXRQBUxtXmFbgFfwnexJ2WtyhA7O9iKetqxsd8LUj48Er4+CpE3CJD2MB+q1E
+         r+DUSH9+8AG5F/mhlNMhs3n+jYccfmJYCTVZIWSVREdX57bcSuexvzu0Sx3Gs8cU0f83
+         gJN1nngnRBX2vdMPOtvRGeAXyDmQriRQobm9p73L98DMJsCDHI5ZXDYYkWPhG8Nlh9o3
+         YO6hd9hVCJmRUCSB5yN2TcqpQ/2LXyaALAI7/KoUsns0dm/ig/H4O1JFzN7xBCMPCzGg
+         35ADbR+rP3POKQxWEhySo8BjuN5vX0V95WhWBU8oFv/Aff4GuREWg6NCyWG4/FH5mA5H
+         VwBA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=OyHEYLJr;
-       spf=pass (google.com: domain of hao.li@linux.dev designates 95.215.58.173 as permitted sender) smtp.mailfrom=hao.li@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=MTZFazTp;
+       spf=pass (google.com: domain of hao.li@linux.dev designates 2001:41d0:203:375::ba as permitted sender) smtp.mailfrom=hao.li@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com. [95.215.58.173])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-38625c5e831si1739001fa.2.2026.01.29.20.39.18
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com. [2001:41d0:203:375::ba])
+        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-59e0736afcasi181570e87.0.2026.01.29.20.50.25
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jan 2026 20:39:18 -0800 (PST)
-Received-SPF: pass (google.com: domain of hao.li@linux.dev designates 95.215.58.173 as permitted sender) client-ip=95.215.58.173;
-Date: Fri, 30 Jan 2026 12:38:48 +0800
+        Thu, 29 Jan 2026 20:50:25 -0800 (PST)
+Received-SPF: pass (google.com: domain of hao.li@linux.dev designates 2001:41d0:203:375::ba as permitted sender) client-ip=2001:41d0:203:375::ba;
+Date: Fri, 30 Jan 2026 12:50:14 +0800
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Hao Li <hao.li@linux.dev>
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>, Harry Yoo <harry.yoo@oracle.com>, 
-	Petr Tesarik <ptesarik@suse.com>, Christoph Lameter <cl@gentwo.org>, 
-	David Rientjes <rientjes@google.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Uladzislau Rezki <urezki@gmail.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
 	Suren Baghdasaryan <surenb@google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
 	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
 	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com, 
 	kernel test robot <oliver.sang@intel.com>, stable@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>
 Subject: Re: [PATCH v4 00/22] slab: replace cpu (partial) slabs with sheaves
-Message-ID: <k3ntrr6kyekjwh2yeawk2pvtiilnoltsxipdzdgzaby2cdon6c@yknpymvklz4y>
+Message-ID: <pdmjsvpkl5nsntiwfwguplajq27ak3xpboq3ab77zrbu763pq7@la3hyiqigpir>
 References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
  <imzzlzuzjmlkhxc7hszxh5ba7jksvqcieg5rzyryijkkdhai5q@l2t4ye5quozb>
  <390d6318-08f3-403b-bf96-4675a0d1fe98@suse.cz>
- <aozlag7qiwbdezzjgw3bq73ihnkeppmc5iy4hq7zosg3zyalih@ieo3a4qecfxg>
- <aewj4cm6qojpm25qbn5pf75jg3xdd5zue2t4lvxtvgjbhoc3rx@b5u5pysccldy>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <aewj4cm6qojpm25qbn5pf75jg3xdd5zue2t4lvxtvgjbhoc3rx@b5u5pysccldy>
+In-Reply-To: <390d6318-08f3-403b-bf96-4675a0d1fe98@suse.cz>
 X-Migadu-Flow: FLOW_OUT
 X-Original-Sender: hao.li@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=OyHEYLJr;       spf=pass
- (google.com: domain of hao.li@linux.dev designates 95.215.58.173 as permitted
- sender) smtp.mailfrom=hao.li@linux.dev;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=linux.dev
+ header.i=@linux.dev header.s=key1 header.b=MTZFazTp;       spf=pass
+ (google.com: domain of hao.li@linux.dev designates 2001:41d0:203:375::ba as
+ permitted sender) smtp.mailfrom=hao.li@linux.dev;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=linux.dev
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -165,156 +164,76 @@ X-Spamd-Result: default: False [-1.11 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bncBAABB6HL6DFQMGQEHRC47GY];
+	TAGGED_FROM(0.00)[bncBAABBFHR6DFQMGQEZTBT2NA];
 	DKIM_TRACE(0.00)[googlegroups.com:+];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	FROM_NEQ_ENVFROM(0.00)[hao.li@linux.dev,kasan-dev@googlegroups.com];
-	FREEMAIL_CC(0.00)[suse.cz,oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com,intel.com];
+	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com,intel.com];
 	TAGGED_RCPT(0.00)[kasan-dev];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:15169, ipnet:2a00:1450::/32, country:US];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[googlegroups.com:email,googlegroups.com:dkim]
-X-Rspamd-Queue-Id: 2683CB71DE
+X-Rspamd-Queue-Id: C8587B7286
 X-Rspamd-Action: no action
 
-On Thu, Jan 29, 2026 at 11:44:21AM -0500, Liam R. Howlett wrote:
-> * Hao Li <hao.li@linux.dev> [260129 11:07]:
-> > On Thu, Jan 29, 2026 at 04:28:01PM +0100, Vlastimil Babka wrote:
-> > > On 1/29/26 16:18, Hao Li wrote:
-> > > > Hi Vlastimil,
-> > > > 
-> > > > I conducted a detailed performance evaluation of the each patch on my setup.
-> > > 
-> > > Thanks! What was the benchmark(s) used?
+On Thu, Jan 29, 2026 at 04:28:01PM +0100, Vlastimil Babka wrote:
 > 
-> Yes, Thank you for running the benchmarks!
+> So previously those would become kind of double
+> cached by both sheaves and cpu (partial) slabs (and thus hopefully benefited
+> more than they should) since sheaves introduction in 6.18, and now they are
+> not double cached anymore?
 > 
-> > 
-> > I'm currently using the mmap2 test case from will-it-scale. The machine is still
-> > an AMD 2-socket system, with 2 nodes per socket, totaling 192 CPUs, with SMT
-> > disabled. For each test run, I used 64, 128, and 192 processes respectively.
-> 
-> What about the other tests you ran in the detailed evaluation, were
-> there other regressions?  It might be worth including the list of tests
-> that showed issues and some of the raw results (maybe at the end of your
-> email) to show what you saw more clearly.  I did notice you had done
-> this previously.
 
-Hi, Liam
+I've conducted new tests, and here are the details of three scenarios:
 
-I only ran the mmap2 use case of will-it-scale. And now I have some new test results, and
-I will share the raw data later.
+  1. Checked out commit 9d4e6ab865c4, which represents the state before the
+     introduction of the sheaves mechanism.
+  2. Tested with 6.19-rc5, which includes sheaves but does not yet apply the
+     "sheaves for all" patchset.
+  3. Applied the "sheaves for all" patchset and also included the "avoid
+     list_lock contention" patch.
 
-> 
-> Was the regression in the threaded or processes version of mmap2?
 
-It's processes version.
+Results:
 
-> 
-> > 
-> > > Importantly, does it rely on vma/maple_node objects?
-> > 
-> > Yes, this test primarily puts a lot of pressure on maple_node.
-> > 
-> > > So previously those would become kind of double
-> > > cached by both sheaves and cpu (partial) slabs (and thus hopefully benefited
-> > > more than they should) since sheaves introduction in 6.18, and now they are
-> > > not double cached anymore?
-> > 
-> > Exactly, since version 6.18, maple_node has indeed benefited from a dual-layer
-> > cache.
-> > 
-> > I did wonder if this isn't a performance regression but rather the
-> > performance returning to its baseline after removing one layer of caching.
-> > 
-> > However, verifying this idea would require completely disabling the sheaf
-> > mechanism on version 6.19-rc5 while leaving the rest of the SLUB code untouched.
-> > It would be great to hear any suggestions on how this might be approached.
-> 
-> You could use perf record to capture the differences on the two kernels.
-> You could also user perf to look at the differences between three kernel
-> versions:
-> 1. pre-sheaves entirely
-> 2. the 'dual layer' cache
-> 3. The final version
+For scenario 2 (with sheaves but without "sheaves for all"), there is a
+noticeable performance improvement compared to scenario 1:
 
-That's right, this is exactly the test I just completed. I will send a separate
-email later.
+will-it-scale.128.processes +34.3%
+will-it-scale.192.processes +35.4%
+will-it-scale.64.processes +31.5%
+will-it-scale.per_process_ops +33.7%
 
-> 
-> In these scenarios, it's not worth looking at the numbers, but just the
-> differences since the debug required to get meaningful information makes
-> the results hugely slow and, potentially, not as consistent.  Sometimes
-> I run them multiple time to ensure what I'm seeing makes sense for a
-> particular comparison (and the server didn't just rotate the logs or
-> whatever..)
+For scenario 3 (after applying "sheaves for all"), performance slightly
+regressed compared to scenario 1:
 
-Yes, that's right. This is important. I also ran it multiple times to observe
-data stability and took the average value.
+will-it-scale.128.processes -1.3%
+will-it-scale.192.processes -4.2%
+will-it-scale.64.processes -1.2%
+will-it-scale.per_process_ops -2.1%
 
-> 
-> > 
-> > > 
-> > > > During my tests, I observed two points in the series where performance
-> > > > regressions occurred:
-> > > > 
-> > > >     Patch 10: I noticed a ~16% regression in my environment. My hypothesis is
-> > > >     that with this patch, the allocation fast path bypasses the percpu partial
-> > > >     list, leading to increased contention on the node list.
-> > > 
-> > > That makes sense.
-> > > 
-> > > >     Patch 12: This patch seems to introduce an additional ~9.7% regression. I
-> > > >     suspect this might be because the free path also loses buffering from the
-> > > >     percpu partial list, further exacerbating node list contention.
-> > > 
-> > > Hmm yeah... we did put the previously full slabs there, avoiding the lock.
-> > > 
-> > > > These are the only two patches in the series where I observed noticeable
-> > > > regressions. The rest of the patches did not show significant performance
-> > > > changes in my tests.
-> > > > 
-> > > > I hope these test results are helpful.
-> > > 
-> > > They are, thanks. I'd however hope it's just some particular test that has
-> > > these regressions,
-> > 
-> > Yes, I hope so too. And the mmap2 test case is indeed quite extreme.
-> > 
-> > > which can be explained by the loss of double caching.
-> > 
-> > If we could compare it with a version that only uses the
-> > CPU partial list, the answer might become clearer.
-> 
-> In my experience, micro-benchmarks are good at identifying specific
-> failure points of a patch set, but unless an entire area of benchmarks
-> regress (ie all mmap threaded), then they rarely tell the whole story.
+Analysis:
 
-Yes. This make sense to me.
+So when the sheaf size for maple nodes is set to 32 by default, the performance
+of fully adopting the sheaves mechanism roughly matches the performance of the
+previous approach that relied solely on the percpu slab partial list.
 
-> 
-> Are the benchmarks consistently slower?  This specific test is sensitive
-> to alignment because of the 128MB mmap/munmap operation.  Sometimes, you
-> will see a huge spike at a particular process/thread count that moves
-> around in tests like this.  Was your run consistently lower?
+The performance regression observed with the "sheaves for all" patchset can
+actually be explained as follows: moving from scenario 1 to scenario 2
+introduces an additional cache layer, which boosts performance temporarily.
+When moving from scenario 2 to scenario 3, this additional cache layer is
+removed, then performance reverted to its original level.
 
-Yes, my test results have been quite stable, probably because the machine was
-relatively idle.
-
-Thanks for your reply and discuss!
+So I think the performance of the percpu partial list and the sheaves mechanism
+is roughly the same, which is consistent with our expectations.
 
 -- 
 Thanks,
 Hao
 
-> 
-> Thanks,
-> Liam
-> 
-
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/k3ntrr6kyekjwh2yeawk2pvtiilnoltsxipdzdgzaby2cdon6c%40yknpymvklz4y.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/pdmjsvpkl5nsntiwfwguplajq27ak3xpboq3ab77zrbu763pq7%40la3hyiqigpir.
