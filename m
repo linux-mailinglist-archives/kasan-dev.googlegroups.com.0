@@ -1,265 +1,183 @@
-Return-Path: <kasan-dev+bncBCR6PUHQH4IKTONNZQDBUBA5N3SZI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDOLFNPTXIORBZFVWHGAMGQEATJLT6A@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YMu9G6xci2mcUAAAu9opvQ
-	(envelope-from <kasan-dev+bncBCR6PUHQH4IKTONNZQDBUBA5N3SZI@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Tue, 10 Feb 2026 17:28:28 +0100
+	id GPwyNudajGkOlwAAu9opvQ
+	(envelope-from <kasan-dev+bncBDOLFNPTXIORBZFVWHGAMGQEATJLT6A@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Wed, 11 Feb 2026 11:33:11 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-dl1-x123a.google.com (mail-dl1-x123a.google.com [IPv6:2607:f8b0:4864:20::123a])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0CB311D297
-	for <lists+kasan-dev@lfdr.de>; Tue, 10 Feb 2026 17:28:27 +0100 (CET)
-Received: by mail-dl1-x123a.google.com with SMTP id a92af1059eb24-124627fc58dsf1276944c88.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 10 Feb 2026 08:28:27 -0800 (PST)
-ARC-Seal: i=3; a=rsa-sha256; t=1770740906; cv=pass;
+Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 248CC123691
+	for <lists+kasan-dev@lfdr.de>; Wed, 11 Feb 2026 11:33:10 +0100 (CET)
+Received: by mail-lf1-x13a.google.com with SMTP id 2adb3069b0e04-59e53b0ffa5sf1352184e87.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 11 Feb 2026 02:33:10 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1770805990; cv=pass;
         d=google.com; s=arc-20240605;
-        b=d9lrdgQG/L7C+Lb8PEK+IYNxL1SMju/tudXYHEGBlcGr9DLKnLKmks2EsACv3ZuUPa
-         Qx5ZsT6eXKX6bDBcYVQj3RFh0P9d01Wul2ARTxZnJ7l7q7PcaznQjUe64zVvKzEYRFYQ
-         t8A+id0nLeI8SMflEw7PXK+7JSqO5HAjbAPnCfK/OGtgavBEo+fTgysP2TNioNnSLvSR
-         o+tisid3Ms/QnEheYYSUFH9lpLIHBJQqlUFUatlOaWi79oELxHiRnXVyKrPBM6ZpOl+E
-         tgCMv26yhekS5A7uLIWK0J2MNwyBpTygwIZuiIJEoXV9hXHwDT0vhCh4n80NNkXJNvPV
-         wA1Q==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        b=Q38uDD4LuN2oJJr3EZkJvXFpcVRY5Pf+NX1tanP+/s6OJaz/fMjAeKbb06fqfMtYrh
+         bh55CFkFovAVHy4swXyLENAfQM01DtE0URskaxTrCOx4qBXdUFft149jPqcdEED0Dugr
+         k5jCsAq0swlYl2fDA+hoAkbKRKHX83woFtd/doyJKdLCJ9nYVnMPgjdN+3+kzkn7Doe/
+         4ALkTAErWCOf6fd9V1HdKVip4ggh987nfzAxwBbdP0Xp1YtJ2+tuVS0bratfQKrDwdFF
+         LZzkKl/ZUBylXn5VdpZOwsMnucg43uYy6eAyyTMXtmTw3zjfXAGAyGBpXQ1ehdVSkvWn
+         QY2w==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:in-reply-to
-         :content-language:from:references:cc:to:subject:user-agent:date
-         :message-id:sender:dkim-signature;
-        bh=efvOBK25fOa1IaTs8o+c5nrRq3NZsKYihF2cItlRq5Q=;
-        fh=gpjPmQqGIh4P6rY5HwKlcpT1MblKzkXGzZ62klP4QLw=;
-        b=gDgd6NpUqz8CF0I8c2pX4Cnt+wUbJPR4etWrtQBpcV/91GP94lx5ArYmzLtZWdop7M
-         B7Iwm9Caq9f9rv+6H65qfuTN4pmYcnD2RGT+tRo8M8+YdergIFeyP62zS2qeDGc++jye
-         vm4rcguSlFIXP60pLywcjo6gO1A3IUUs3gza0SQKE8NFOsVYlSAE4+4uZwkOY88ijPWb
-         LHv4xR1Z/OSd5ZjtCen7350GHZDO6iRM65ceqE+liUFHkQH2RiWFDkPeST2pWoA7/PJ0
-         lklm6qWtly/8HmGBa6JxcIky/WulMwbvm2ii9D41ILapjirbxgEi2Xo75fsJtIgjR2AG
-         X3NA==;
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :mime-version:user-agent:references:in-reply-to:subject:cc:to:from
+         :message-id:date:sender:dkim-signature;
+        bh=NQqNFzChnugTCQ6GTbo/Z0SN8xUPsl+t9/GjsiIvnyc=;
+        fh=MJFyJIubrSgqom53xVr7/L7ZeHlvsg2ULlTHmEbDxPo=;
+        b=lkeB7x7qJAki3WHHtVEmMKnz7Vn7v0B+LTo5hkI1f5cExL547omMJqnSZPObZBl9Kj
+         F15QvUtfvv/GLiUtMkOkcfCelGAt7icxjWCzbh3/mAzYspHHkYBsL0M56GFjASVVRyGS
+         YHEBNtL1d5Z1GWIvts64ScMqFzBA6nRrvFxd6zZZ94xrJP85brKhOzPPlV3+NV257BKC
+         3lqXF3JNkAqe1WRPGN6gyKpgaJ6HxUW8Q7TcAObYhnBnxoQETdCcW+E100D3sY2oAXvk
+         eJLXY2cqdS0iLm7hcUn4vjByn1HahpiNaXXVe2Azpg7l7fUb6zh6u/kkcdV8qXtsKZyQ
+         UKFQ==;
         darn=lfdr.de
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@efficios.com header.s=selector1 header.b=YEz4RpAu;
-       arc=pass (i=1 spf=pass spfdomain=efficios.com dkim=pass dkdomain=efficios.com dmarc=pass fromdomain=efficios.com);
-       spf=pass (google.com: domain of mathieu.desnoyers@efficios.com designates 2a01:111:f403:c103::1 as permitted sender) smtp.mailfrom=mathieu.desnoyers@efficios.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=efficios.com
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=U7PRbHY8;
+       dkim=neutral (no key) header.i=@suse.de;
+       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=U7PRbHY8;
+       dkim=neutral (no key) header.i=@suse.de;
+       spf=pass (google.com: domain of tiwai@suse.de designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=tiwai@suse.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1770740906; x=1771345706; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1770805990; x=1771410790; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:date:message-id:sender:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=efvOBK25fOa1IaTs8o+c5nrRq3NZsKYihF2cItlRq5Q=;
-        b=w9eCeg/sHQgHmr3EpjkxVzzInHj+wHq5NE9L5E9thOtwc/JpC1NLrgbmsiURdwJBhl
-         MXAN8ltggXbOmJwFxkdjfBwM4iwMxMqz6XL/rPDKpawkGvKBETe5gApXj2HN+JcjHgHY
-         vdXBQ4xCFJ1jM34W8MqMXBPWzrx7I/Zo6TyFw9j/UoTaHwfNzMY0zvbfEOK/c27voLqV
-         YFOBSoxjSaNkcXPqbFAF5b/vpgk7SwvRfp388uH9EfM/9aKbl28SdFg8sy486EeXDj5W
-         F0jD9RfrSFWOyAv3uREDBwGOfR9j3fsNjrQ46F58SoeBXLaAqcHCh8ztnnJB5DaKc6xb
-         VptA==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :x-original-authentication-results:x-original-sender:mime-version
+         :user-agent:references:in-reply-to:subject:cc:to:from:message-id
+         :date:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=NQqNFzChnugTCQ6GTbo/Z0SN8xUPsl+t9/GjsiIvnyc=;
+        b=r7JQclZWO+eZ70CE4eKBzMf2yVnOy/GpwksesnhoqEqJORfwMG0dEzqn6n275UrVjr
+         8mVK2jU9FHpylVjzNG/eH4xyksPnireStbdgHhUet82hOKVOGwqSjjHlJ23i/10LjPhV
+         Gztb7k2ggc6TwUiD+e+isTjDLrG7JJxiNyPUYq3EvmGTLvOG6RRfKmrGFNAn9PGo7319
+         lTqBT09UFalpHEOokaEv62J7b3T/ZA1sZKyd15UwLr+lPuh5qjcW4GwZeFs3NI+LDyzF
+         ij3dhcrLlckO8InYf54tBcKmPSte5Q22fxHWtNBhdd4uiPsPYXkxR4VH6XYcmUGbjJrI
+         fQuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770740906; x=1771345706;
+        d=1e100.net; s=20230601; t=1770805990; x=1771410790;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=efvOBK25fOa1IaTs8o+c5nrRq3NZsKYihF2cItlRq5Q=;
-        b=vjhjk8DNLRnfzVw544pboSJ/oCOoVZGsIxX8h4GOKz4J+wY/Kh8RGZmH+FsmVBS8xG
-         89Tvt1m68A5ppFU9Ayto+sTMfijyhtLS1IwqeDU837dLf+g0notfC9sk2yfnlt7Bcy9F
-         D+v5GY/lHlYkzYY0j8kNlbbHwL3E4LqX2D0yhOJk1ygV5ezh5q5mEkGuvotbKj/mFvSR
-         ljbfN/MGUFOKnZR5N1PrjY0RwHZLCIN+lC2mtOODnMzdioEU3ZQ4udL0Bzzt39WyB8ED
-         ivqwSYBdKa9/IUZ01e3VzL8l+zj614VpOShJm9qeZhlp/vALp8z53w2sPMxqBuhaxwuy
-         CytQ==
+         :content-transfer-encoding:x-original-authentication-results
+         :x-original-sender:mime-version:user-agent:references:in-reply-to
+         :subject:cc:to:from:message-id:date:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=NQqNFzChnugTCQ6GTbo/Z0SN8xUPsl+t9/GjsiIvnyc=;
+        b=ZfM3joCaQWG3fwC1haeCUvDQ0mcH0aJeUcfl9bsA9ox4aJ54f7pInjGwutIOOxjZOk
+         Ge12XZSNM8QQh06jaqb9zarFHDoYVdWllsK8xdBddGvcmtPtAjipuljpDe38tS4SjGu0
+         Y2VT18NqRhLt7QS/iTcU+soJKiWqdgGhA7cZiN3184L1OfiubsG9DRx95yutn/ftb4Fy
+         35n+ciy9W1mfojBH8tuxm8Eu1kwiQiCIPZWeycuX0/azimRzDNySLUvz9MpRwBkhbMWK
+         UcWigsQnGm9oGGLqJBEpUgdlkSymjxVdtLqjEVh1UJCzxhqoDTlHiYVJQbLKSqXH1EOt
+         aQTg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=3; AJvYcCU+IZSq9xV8elw3/k+tBT6zN7AHorVZxAPFViDPl3KNsXYuYkAoHce6Wbp6BLlrhUJUl990Gw==@lfdr.de
-X-Gm-Message-State: AOJu0YyZsVrLvyEevFtzjl6yuxbILlIQIwc2hJK+b21I0l2kQLBijgcX
-	L/mHX1NgzyZiueB4ey8tVbPDmg9pMnFOZx6czrh6rscod/lJV82y6dnu
-X-Received: by 2002:a05:7022:41a7:b0:124:9acd:328e with SMTP id a92af1059eb24-12704049e2cmr5389710c88.27.1770740905679;
-        Tue, 10 Feb 2026 08:28:25 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+FDyRxVDHqsHbSIQWK0dXjDuWdzQ27hboGXrd/JWeA35w=="
-Received: by 2002:a05:7022:ba1:b0:124:ad27:e005 with SMTP id
- a92af1059eb24-126fc0b4fa5ls2498866c88.0.-pod-prod-07-us; Tue, 10 Feb 2026
- 08:28:24 -0800 (PST)
-X-Forwarded-Encrypted: i=3; AJvYcCXUlYhaWIQDDSjz58uV5b3065ZeXHCL+6hcb/jKS5I5XFAo/IU2rkDSiSX/+iwe/ETlOyLN9wieFSk=@googlegroups.com
-X-Received: by 2002:a05:7022:a94:b0:11a:61df:252a with SMTP id a92af1059eb24-12703fcdcdamr6791189c88.6.1770740904031;
-        Tue, 10 Feb 2026 08:28:24 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1770740904; cv=pass;
+X-Forwarded-Encrypted: i=2; AJvYcCVcX9KAnlDQS28q16JVhj/qgFbSuF3JO6ZEn1iSdo59+bRIclXGTLvhHk0u3Ev0ah2aVzZjcg==@lfdr.de
+X-Gm-Message-State: AOJu0YwOly7USUNAKOk4pRGfJ8GHAFyCHjT9L+agMkwBoKj7Lewy8G0k
+	NhpZLwel4YkITHZDnD7JrMtH5jgy2oejvpt9RRVzLOBXNl3K9WJIXv2X
+X-Received: by 2002:ac2:4c4e:0:b0:59e:1954:1d4d with SMTP id 2adb3069b0e04-59e5df466ffmr547272e87.7.1770805989691;
+        Wed, 11 Feb 2026 02:33:09 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+FLx4TIDYAMKEuiUVx8Sbv9jYm5cXeiyQSr4HjPF3xrsA=="
+Received: by 2002:a05:6512:3b99:b0:59b:a3bb:9e0f with SMTP id
+ 2adb3069b0e04-59e3c47e64als2317166e87.2.-pod-prod-01-eu; Wed, 11 Feb 2026
+ 02:33:06 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCU9KwJrOfdRoHOoMHra59PwBkE2iFkSIx0xVEqc5x3BLXpi9nwHlGIeBGvc1T23nD6Egfhj3WbwWt8=@googlegroups.com
+X-Received: by 2002:a05:6512:220e:b0:59d:e9df:c101 with SMTP id 2adb3069b0e04-59e5e06d9famr533293e87.26.1770805986284;
+        Wed, 11 Feb 2026 02:33:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770805986; cv=none;
         d=google.com; s=arc-20240605;
-        b=Sqg7vZlTVYjFQ1NKPzaQNmD26XmVe0ck9ULKkrnnmAz5jdXx/hI+kxGnaSSYMvywXE
-         izWJOlJMyG6HfHdtGX7qDXU7SBSw3fmRP4WY7NEs/jN0We3D0jKN8VFiCpnPfLLfkOgB
-         8+BKewh8cp26JuCqDZ2djWE3SnhYaboOFTBfRp5CcJA8Yfb4eovbKEA8LZp69bL1aMFH
-         4BmqiWEoa3lgE+7A1mQ/fPSXkpPC50oBtawgnVdNDFdxfzhPhKHwNE3+dFsJuq0tThG9
-         1F6+/sKt6DYnC00qhkWnhVHbvjADoVZo+5ukLqVR1KUc03aKF9NJjCephbUERUSTKJlw
-         Qqkg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=mime-version:content-transfer-encoding:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:date:message-id
+        b=eNTjiMt1gYLu0GJXqxbZEazOdkNHCvXpUn1HYr7yv4n7uEeWvZLHA+LxEWJKU0ljCt
+         PflDgXRj8loFPkOIlWOqO7ZvurXbzvKOPvO5eyIyzCDUjSabjqByk+ekv4wGP75GzpaD
+         SSoTs/fP5w0u3ucLCW4yxNxg127pafL60Xh50RCWDSxJG4UDXaC9OzVJ41ge3lUztd3s
+         a4vXtdaIbTAA3rKDKoCptYC0acaCJ4E41HqY23V+mHDVIzfShngq5l5S/iXbIVXPlX7K
+         nAjFo8xzpvSDsAsww5yIqjKGZnXVaI10Ch995IRhAuJYgJTrZ5ajbTr552yepwnzibxS
+         BmUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=mime-version:user-agent:references:in-reply-to:subject:cc:to:from
+         :message-id:date:dkim-signature:dkim-signature:dkim-signature
          :dkim-signature;
-        bh=5eEv8ldeSGNRFeI2BxZaB+gBsXBfVVPzuNy4RvUShrQ=;
-        fh=yV5NmzImx30YqsAlezGGJRt8qxUb41APYCPtnNktsIA=;
-        b=ENDWerLy7se1Ii6kUivV+wl6u4NGbA/TN1aG8P04YIApjlZ0U++54o41yNRO42kj94
-         zbETr/Aam6tpeW40lkTK6LkqcgGcgmVESSG3PjAXkwEVd+1HvnbpvxFPzY4Uk5JOZWFP
-         wuSkAYFes/VXbDA3/oaJvjwTq+14VwDX+VVibPq7iPFcbnZAtjKWp/Vp7BsT4P5gUJxL
-         rkEwmD/xzao3qOJ945gSu9FmEwFHmO9nJvik7Nk/D9oCy4HLxkD9guiyQiZUMmnSzQXn
-         +/uELUc6LvXBDgUqPQPBedrlegMSBDfoYJbeLh+1+rjFLEyPKN0ukG6tUtZMgTmNKv++
-         6dCQ==;
+        bh=fuaM3HdeKUPerQ0jxZXZZPlq4it5iX6lCBVZ/FmlUZ8=;
+        fh=MWdgKlpWIJZe29ZRK9JSaablYEqEqaF00eHHeDTx3Q8=;
+        b=lLweNMSNY/nzsGwditTJ66bPzGo8KcJ6Rn4x/r+jQqk7zF0WgWl7zAMdkfWYvGFzLB
+         rSUrxt1/SUehdjnicjtRpnwPpGh/ZQF+asR6k6PpJv7wyhH7zYH/eLS21SLuO3pyQZnq
+         yfjRiahx14myOEF5FGfUZhRfVm7DeCgTsPFWQBFUWZrQnQE5jTsSBzFgq1Fg4+JKqUuK
+         V0nxEbGjpmz5Hi0REcOzxI09EvOWB+lSTAxIyy43h0n7S6PsK8eT0B/bQfy/3L22pgBI
+         i4O01Cbi7wgwEgk2VLWkgmNZauG0ZUvgWbVb5ImE8uRPwctZex7Pr77H+69c1w2Nb3YG
+         7fiA==;
         dara=google.com
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@efficios.com header.s=selector1 header.b=YEz4RpAu;
-       arc=pass (i=1 spf=pass spfdomain=efficios.com dkim=pass dkdomain=efficios.com dmarc=pass fromdomain=efficios.com);
-       spf=pass (google.com: domain of mathieu.desnoyers@efficios.com designates 2a01:111:f403:c103::1 as permitted sender) smtp.mailfrom=mathieu.desnoyers@efficios.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=efficios.com
-Received: from YT3PR01CU008.outbound.protection.outlook.com (mail-canadacentralazlp170100001.outbound.protection.outlook.com. [2a01:111:f403:c103::1])
-        by gmr-mx.google.com with ESMTPS id a92af1059eb24-12714a0cfadsi287448c88.6.2026.02.10.08.28.23
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=U7PRbHY8;
+       dkim=neutral (no key) header.i=@suse.de;
+       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=U7PRbHY8;
+       dkim=neutral (no key) header.i=@suse.de;
+       spf=pass (google.com: domain of tiwai@suse.de designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=tiwai@suse.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
+Received: from smtp-out1.suse.de (smtp-out1.suse.de. [2a07:de40:b251:101:10:150:64:1])
+        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-59e5f59f11esi19767e87.6.2026.02.11.02.33.06
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 08:28:23 -0800 (PST)
-Received-SPF: pass (google.com: domain of mathieu.desnoyers@efficios.com designates 2a01:111:f403:c103::1 as permitted sender) client-ip=2a01:111:f403:c103::1;
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dH+KgpcQ6H62+eTFVCf2DiIXVK9dFYSQL5wSFPrMIl043a72ETMv+BwOpyg1PieNnA0RYVmuHCUSviHFTlhZwqAcWuhijRziSYz2Sef+c427yTOsrju9lHcARS0Odll9ZOEjtWqXdyUHb7ezzv0BJ7JL+lDMpfwDCP66yAwiY9tWLspV/ERO8Nf1ZdBlpX5LJR2cHfS94deVDYsvbb4W3b/K1Fk3VDkRIx2yaSfxH+d5lf4ta17ArbTiqqItQYqe4VxkfIGit7j2YI51VwSifpUOsxeVL0+scItiirSmz1rqFH6pN75fEI8/3K2jKcZKuccM7i4VDOYJDlNwin3meg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5eEv8ldeSGNRFeI2BxZaB+gBsXBfVVPzuNy4RvUShrQ=;
- b=xUBNbg5zvb4uoGlhNbkRG76DuKpFY7gEQ/ZpA7F7wx2by1AYvxAQn78omWk5qCYOWq3E7/FSRz9C3w7G5tSKkEwNlSAIOoj6eXJBKgqcoE8izta3m3yV1qmfA5vXTTu7huneOb6Fdxzo5TXzABrLEjoPtXemLkM0Lol53bwirhY8zeOta7IxrQBlFJGwNlciYqj1tBcqGWzVW3vWtekyJ2y6WR1CmPN5zqtLLzhroS7naAeoLv583p3b7bertoGRHe4IihkqeNCQnW9e9cXBVzNUfV/OkPQIepfslvQ4fXn3OyLgeti8/tNfTMogZinjBFh+CLWhcjQLo+8BGumrnw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
- dkim=pass header.d=efficios.com; arc=none
-Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:be::5)
- by YQBPR0101MB6427.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01:4a::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.19; Tue, 10 Feb
- 2026 16:28:18 +0000
-Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6004:a862:d45d:90c1]) by YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6004:a862:d45d:90c1%5]) with mapi id 15.20.9611.006; Tue, 10 Feb 2026
- 16:28:18 +0000
-Message-ID: <38368f67-c5e4-495c-bc07-f18aac985c0a@efficios.com>
-Date: Tue, 10 Feb 2026 11:28:17 -0500
-User-Agent: Mozilla Thunderbird
+        Wed, 11 Feb 2026 02:33:06 -0800 (PST)
+Received-SPF: pass (google.com: domain of tiwai@suse.de designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:1;
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3EEE03E73F;
+	Wed, 11 Feb 2026 10:33:05 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B786E139F2;
+	Wed, 11 Feb 2026 10:33:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id edNlK+BajGmpRwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 11 Feb 2026 10:33:04 +0000
+Date: Wed, 11 Feb 2026 11:33:04 +0100
+Message-ID: <87fr77tvrz.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	Linus Torvalds
+ <torvalds@linux-foundation.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Ihor Solodrai
+ <ihor.solodrai@linux.dev>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Peter
+ Zijlstra <peterz@infradead.org>,
+	Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>,
+	Michael Jeanson <mjeanson@efficios.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko
+ <glider@google.com>,
+	"kasan-dev@googlegroups.com"
+ <kasan-dev@googlegroups.com>
 Subject: Re: [PATCH] sched/mmcid: Don't assume CID is CPU owned on mode switch
-To: Thomas Gleixner <tglx@kernel.org>,
- Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- Linus Torvalds <torvalds@linux-foundation.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Ihor Solodrai <ihor.solodrai@linux.dev>,
- Shrikanth Hegde <sshegde@linux.ibm.com>,
- Peter Zijlstra <peterz@infradead.org>,
- Michael Jeanson <mjeanson@efficios.com>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>
-References: <20260201192234.380608594@kernel.org>
- <20260201192835.032221009@kernel.org> <aYrewLd7QNiPUJT1@shinmob>
- <873438c1zc.ffs@tglx> <aYsZrixn9b6s_2zL@shinmob> <87wm0kafk2.ffs@tglx>
- <aYtE2xHG2A8DWWmD@shinmob> <87tsvoa7to.ffs@tglx>
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Content-Language: en-US
 In-Reply-To: <87tsvoa7to.ffs@tglx>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-ClientProxiedBy: YQBPR01CA0156.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:7e::20) To YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:be::5)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: YT2PR01MB9175:EE_|YQBPR0101MB6427:EE_
-X-MS-Office365-Filtering-Correlation-Id: 05900d66-2faa-4804-2965-08de68c165fa
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024|10070799003|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?V2pWdVFJSkZrQUxMTmY4a3VvcEVTdUJTNHNtZys4STFGRjRKS29QbTg0SzJO?=
- =?utf-8?B?VHpYeExzL2xpdmRmWjdULzBLQzhxckpBQk9UdnkvU2U2RVZiblZFN3FYN1Fz?=
- =?utf-8?B?NHh6bUZiaElReklXRzhVcFZ0Ung4RWlaak9ZTGJ4WFJCa3pHbmlpb1BnNTk5?=
- =?utf-8?B?bFpMQ0FRYXUrNXpPOW9ncUxNdkQwVmlwWFJPMmZqOXorUDNnbk93ZENvVDlX?=
- =?utf-8?B?WUx2dkZuZWNOU1VUSTFvTzdnNFl4c2tsZkovbUpxVkttTWI1dCtTM1Uwb3h6?=
- =?utf-8?B?TFZ1bXE0S29PMTRlaHZOMFJQR3FncTllMGFPQnhEK3BYb0VnSzc3Nk5lL1Jn?=
- =?utf-8?B?Z1kxY2grNFpEc0l2eEJ1WS9MS2txL2hQaTY3WERwcXRkYWladks0RzE1dEto?=
- =?utf-8?B?S2FETHBmLzdJbk1nRThMbkhsTmNrcVRxNCt3ZVk4LytSdlR0K3RiUGpFOWUy?=
- =?utf-8?B?NHhZWmhUL2hMeEtCSC9obTROc21zQUt3L2VVUXh6MzVCSlZWeENRYmplY3E0?=
- =?utf-8?B?N2oxcDBqYldVcmkxd2FPdE8wZmxveEFFdTZpcksxRXlERTZOWXFCRjR1cVQy?=
- =?utf-8?B?cktWdTErT05PSEROUTdSaWNJQnJmanV6OG9GNS82MkFUckdoZit6U241WjlQ?=
- =?utf-8?B?eHBaRlFVcElsbmt6NWRwUU1KdHdhamVwMnR0UG5BNVlrQnRITSsyKy9QOGxx?=
- =?utf-8?B?TlJGRlBVdDZKbHpReHlWd2xBM1RTV0I0aHdmZkozYWtxNzdSdFJIdXZzdjBm?=
- =?utf-8?B?UXpOS0o2T01vbk5VNU9iVDMwKzRuWW9aSlVRVWVLa0R5VFRwMDgxYWI0Skdk?=
- =?utf-8?B?Y1RnZzRlbUdIM0tTZWRVWHovZmFYS2dDblVRYldyVWh5dldiZkdDWDlzaHpr?=
- =?utf-8?B?TzZLc3RHSGdvTTZKWGh6dmppVEZMemNpLzFkUmV0MlJIamtkb1RhMHR5S0Nq?=
- =?utf-8?B?YWh6SjZSQ3ZuZzVyMlhVektzQVNRTVZDRE9wTzIwS2NQYmM5MDhqVHZkQUxW?=
- =?utf-8?B?ZllObWJwVHkwNGdzYW14UGRJNU45WmNZTUpNTmttVTBKcFlXWm4vTFBSM09B?=
- =?utf-8?B?NEFQRkwycUNvU2JqdWxHc1RETlpwOFRET1IwQ2lDZFQva3JWZjBPS0NWMTNS?=
- =?utf-8?B?OWZRZ2dMb1VVbTJzLy9rdmNuMGtwMDRIZXFaa0JRSHZ0dWFBZDdSbTlCMGZ6?=
- =?utf-8?B?azlIWHd0cHZ0Q0t3NjZ0L05LL1FseVJ1UkRRVWtCMkpuQlMzM09YbHpGU1Rm?=
- =?utf-8?B?UmxvMFk0cGhKRnUwY0tWaVg3MnZtUGoyaXY1TzFKTERpbXpZNzRFOCtxVTl0?=
- =?utf-8?B?cnFJYm5sNkE3MXpYaWdwMUZOVU5GMitjaysrZkU3ZGF4THh5b1Z0aStKNTN1?=
- =?utf-8?B?RHZsWi9DOHEzZE4yRHdvRDBuTnRtQzd1dkhSNG5qdU9aNXlLNzhzNFlnNno4?=
- =?utf-8?B?b1EwU1E4R2dvbk9oTDdGR1Mzd3dGMGRJYmxoNjJtUi8wN1ZsNlhnOVdDaXQz?=
- =?utf-8?B?Y2pURVNJTDBhR2V1NUpHd21IaUJOazhtYkFYZWZpYlhyRzJHV3gyU3V2aEcy?=
- =?utf-8?B?aXJ3dWxsd09NN2hieEtRd2hLekxCK2M5VHFzaHlsWWVpcUlmT080ZjcrQjlV?=
- =?utf-8?B?TnEvT3I2Zk54TlZyVlh5TGFCNTRJbGNMWVZrbS9RekF2bkRlMlBmWXptNXpq?=
- =?utf-8?B?aS9TdmgreXNZdnhtYTFudURRdmM2ZlgrVXpGQVhGRDIwd1hRZ21jb0VReTli?=
- =?utf-8?B?d3RUeW1XMm82TE1hLzBLbEl5RWlYak54RzN5Sk85Z20zdUthc0VxZ2t1dFk2?=
- =?utf-8?B?eVZPeEhUd0ROVDN1a1QvZExvYWdhT3FuRVVLZ1k2eEZRMEJ3MloxbFdGbHhD?=
- =?utf-8?B?a2pMa2MyVHdJMWtnRUxudmNGTEZMWjFCYkQ1UmJGZG9jOWJlL1pvYll4VmVk?=
- =?utf-8?B?M2syMnpxSlB4c1JCVzk3cktCVk9xNHBwWEVpM25tT3dxdHRuTE5nUWF4WjNR?=
- =?utf-8?Q?FF2KBFhFs+vyq3eDrrrLtk+d9l1ipY=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(10070799003)(7053199007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q3VrcHh3bEtSa1U1ODdkdnhIQzFLTDVyL1NTWEF2cU5TeHFYUklLNUlHUXly?=
- =?utf-8?B?MXhERTUxZ0Z3UDhQallMWDZKQUVLUU5aY1g2MjhZLzBjQ3JhUmprTHRMUzNT?=
- =?utf-8?B?bkxldmx6RXl4aFRkQ01IS3hWT1NBams0RDlreVh0QmFkRVFLVGNFem5GNXhL?=
- =?utf-8?B?RjVSVzFoU1J0N1hUelU1MmM4b0RzYmdEbWdLbTFjeWpsa0dTZzFBSmhjU0sz?=
- =?utf-8?B?MnVXRFVIVFF3RS9LYnpKY0ZESkVQTERXNzRoR0FIZmVNNkE2aDNldkkydUNP?=
- =?utf-8?B?N3ZhbDVrMzQxOForYitieHNOd1pMb3JRM3RCOTRsMTRGUGY5SW1VK2lyRnJT?=
- =?utf-8?B?NVA5MlZST0czK1VZbVpMRkwxWE5OMjdRbjdPK1FWQy9YT08wL3lrVSt2UWpa?=
- =?utf-8?B?cHpOcmx0aGlxZmkyNnh0ajJSVnhKM2hjMmFhVXBWcDVUZ2ZZTUEzR3lVdXZv?=
- =?utf-8?B?TEhLRVdncnk1a1FFUWc3YmQ0UjZrMnVjQjloWElXUCs2K2RObHh5OVh0a1lE?=
- =?utf-8?B?YVlWcVhUdmdXZzF2azJaM3J6dnhoWXA5bk9mWHpDRno0cXRPSXM1K0NreFpG?=
- =?utf-8?B?MTB6KzhwT2p2ZFRaUG9KZ21NUDhMMmRNOGxBKys4a1p3K01wNXlZUFQzNEtk?=
- =?utf-8?B?bW9EaG5nb1pvaUdXYVVKYXgzSjROb01UbUNJeHhoU3NwQTVyUnRweEhvck1q?=
- =?utf-8?B?U2l0czkzZmdsSi82eHQxRjdtM1lJSDc3ek1Gd2lXdEltS09OZzllT1VaSnV0?=
- =?utf-8?B?dENTOHR1SWh1c3JYaEpVZ04rT2RWZTU3YW1qMVBXczFDb093elpiVE0wOHVl?=
- =?utf-8?B?VXV5a21vbUJGV0FBYUR5WGdLcXhkbzVXNFVQU2FxNHhnNXhhTEg4V055MXZk?=
- =?utf-8?B?TnJ2UFIwVUV6eExWNVdGUWhmaFMxRmQzY3JyT3hCZ09adDNqVjNkWGdJa3Qv?=
- =?utf-8?B?WWZWdy9vZUZ0a2Q0aGgwa0xrK0VjWmhEaTNwQlQxUzlOUkphR2lqN1VHcHA4?=
- =?utf-8?B?R202SWZlUlYxZS9NVCt0OUdYeXV2dzl1OWhKblloOHRjYUQvMnlsVjZlVG00?=
- =?utf-8?B?NU11Zk91V3B2NElzSTg4NUNRcWc5MWVMb05xZktTNlJuaENKYXlMOEI4Q1Vs?=
- =?utf-8?B?MzZ5T3h2bVVlc3Z5bVJJaXpUT2Z4UzVVZEtibzI3MWlHd2pFTDRxVWltd1B1?=
- =?utf-8?B?WWp0dDhaUnBlQXBzK2VVTWM1cjdrNzFJUjcyaklqV1JwdFJyZm5sZmxVNENx?=
- =?utf-8?B?Nk1BN2dFaHQveTRCYjcwNmxYd1NYL0srbUxuSjduZEhRbkpyeXY2Qyt1VjVI?=
- =?utf-8?B?dG95aVUyK3EyRmx0ckd6akE2aFBBMHhyeThwUWxmUzNCMWFhUGhMa3pVNkhv?=
- =?utf-8?B?cEd1ZzBwaEdMTXNKZ05TdHlOc3hMRlhxNTVOTDFwTnlGWVNvQW1Mc09HTWo1?=
- =?utf-8?B?T2pUOEtYaGRLOTFxL2R2ZVhpR2Fqcko1dDFTZmRnOGdTYm9sYWRSSWlxa2Er?=
- =?utf-8?B?dWxraVZ6UnZnVmZ0ZnAwbFVwRjVhQkoxT01pdE1nMEpFWE5wUmdMTEtWWUpG?=
- =?utf-8?B?eWdobGxLdmd5eFExK3NtQUZpbXdyM0krL3RDU0l0a2c1ZnVsakt6dE1KQlls?=
- =?utf-8?B?eEdjWjdsUmp1NkdQV1ZZa21iTTlTUHdwYXIrMEY4cVFQYkFPa0tjS2FSWE9v?=
- =?utf-8?B?ZHh6dEdSUWRRRTlxZlZ4eHVqSXpCRGxPcHNEdlJlS21ZZ3k1MlNSR2tvellD?=
- =?utf-8?B?UkVhc1VyQ3VQVCtINmdLdnVhZEx6UExJZmhuYUlVS0trRzlpQ2tLNXVzTEU4?=
- =?utf-8?B?eXdhT29ybEJpdUtBblBOQnlZNWhGMVlPZHZrSFNlYmdZSlNoODc0aWRDbkgv?=
- =?utf-8?B?c0RrTFA1QkxmZlZYd1B4TnBQeVl3UnpFWnI4MHplWE1nTFQ5OU9DeW04NU1D?=
- =?utf-8?B?NWZjTnRhOWNWdEliVkkzc2ZMbk5Ja0Fqczg0QTh2SFo5MStZblhWQnV1ZkZG?=
- =?utf-8?B?RnpldVZoL1ZPcmhEM3NqVGRhWUZPTUxMOVBxZTVrQ1lWNGYxNnBSSjA5d01x?=
- =?utf-8?B?cG1lYkFyeWw2SFZPQmlmYUEwWHhaa0FNN0VSbk0raDBxQ1pTc2hwUlFHbjFG?=
- =?utf-8?B?czJtdGlCdVBpWlI4WDZ0cEJzSlFWQ0JBdVRycjZQa3dzaXg1T3J1M0N5RndQ?=
- =?utf-8?B?WldacGttMmVhUUpqMUtyWnU5UThBQ0grMmFTdnl6Rzh5bXlMdGlCQytwUkJY?=
- =?utf-8?B?OFBLaEpFUHMzNmxCd2d2TVZqczdZTjVQbXNQWllFQ3NTbjFsaXRkRGtDbUc1?=
- =?utf-8?B?NWFZOEFtakVkQm1GRFA3MTFsd0M1Vmx4aVYvRjVjVU9BUjlXN0hObHcrUUdj?=
- =?utf-8?Q?fDzn/tv1HLnO0khx3dAk4k6E7JuffU5WjB/FKIZdAWXay?=
-X-MS-Exchange-AntiSpam-MessageData-1: w2VEvlv3CFpsgl4tWq4WK7gWGrWhiZ/cy48=
-X-OriginatorOrg: efficios.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 05900d66-2faa-4804-2965-08de68c165fa
-X-MS-Exchange-CrossTenant-AuthSource: YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2026 16:28:18.4142
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ieT/HA1MuIswsguAGFheg1dQ6/kHFNPjmEWZA28uVyXOQJdi/9W1IMpn7h1X3TpDnRhWYWZSlE8PPb/INN0aylhjhDNTDu+vKlPe0hiNsTE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: YQBPR0101MB6427
-X-Original-Sender: mathieu.desnoyers@efficios.com
+References: <20260201192234.380608594@kernel.org>
+	<20260201192835.032221009@kernel.org>
+	<aYrewLd7QNiPUJT1@shinmob>
+	<873438c1zc.ffs@tglx>
+	<aYsZrixn9b6s_2zL@shinmob>
+	<87wm0kafk2.ffs@tglx>
+	<aYtE2xHG2A8DWWmD@shinmob>
+	<87tsvoa7to.ffs@tglx>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Score: -2.01
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Original-Sender: tiwai@suse.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@efficios.com header.s=selector1 header.b=YEz4RpAu;       arc=pass
- (i=1 spf=pass spfdomain=efficios.com dkim=pass dkdomain=efficios.com
- dmarc=pass fromdomain=efficios.com);       spf=pass (google.com: domain of
- mathieu.desnoyers@efficios.com designates 2a01:111:f403:c103::1 as permitted
- sender) smtp.mailfrom=mathieu.desnoyers@efficios.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=efficios.com
+ header.i=@suse.de header.s=susede2_rsa header.b=U7PRbHY8;       dkim=neutral
+ (no key) header.i=@suse.de;       dkim=pass header.i=@suse.de
+ header.s=susede2_rsa header.b=U7PRbHY8;       dkim=neutral (no key)
+ header.i=@suse.de;       spf=pass (google.com: domain of tiwai@suse.de
+ designates 2a07:de40:b251:101:10:150:64:1 as permitted sender)
+ smtp.mailfrom=tiwai@suse.de;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
+Content-Transfer-Encoding: quoted-printable
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -272,58 +190,245 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.11 / 15.00];
+X-Spamd-Result: default: False [0.89 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=3];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=2];
+	MID_CONTAINS_FROM(1.00)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2a00:1450:4000::/36];
 	MAILLIST(-0.20)[googlegroups];
-	R_SPF_ALLOW(-0.20)[+ip6:2607:f8b0:4000::/36];
 	R_DKIM_ALLOW(-0.20)[googlegroups.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[efficios.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
+	DMARC_POLICY_SOFTFAIL(0.10)[suse.de : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bncBCR6PUHQH4IKTONNZQDBUBA5N3SZI];
+	TAGGED_FROM(0.00)[bncBDOLFNPTXIORBZFVWHGAMGQEATJLT6A];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,linux.dev,linux.ibm.com,infradead.org,efficios.com,gmail.com,google.com,googlegroups.com];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_CC(0.00)[wdc.com,linux-foundation.org,vger.kernel.org,linux.dev,linux.ibm.com,infradead.org,efficios.com,gmail.com,google.com,googlegroups.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[mathieu.desnoyers@efficios.com,kasan-dev@googlegroups.com];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tiwai@suse.de,kasan-dev@googlegroups.com];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[googlegroups.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[kasan-dev];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:15169, ipnet:2607:f8b0::/32, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[wdc.com:email]
-X-Rspamd-Queue-Id: E0CB311D297
+	ASN(0.00)[asn:15169, ipnet:2a00:1450::/32, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[googlegroups.com:email,googlegroups.com:dkim,suse.de:mid]
+X-Rspamd-Queue-Id: 248CC123691
 X-Rspamd-Action: no action
 
-On 2026-02-10 11:20, Thomas Gleixner wrote:
-> Shinichiro reported a KASAN UAF, which is actually an out of bounds access
+On Tue, 10 Feb 2026 17:20:51 +0100,
+Thomas Gleixner wrote:
+>=20
+> Shinichiro reported a KASAN UAF, which is actually an out of bounds acces=
+s
 > in the MMCID management code.
-[...]
-> 
-> Fixes: 007d84287c74 ("sched/mmcid: Drop per CPU CID immediately when switching to per task mode")
+>=20
+>    CPU0						CPU1
+>    						T1 runs in userspace
+>    T0: fork(T4) -> Switch to per CPU CID mode
+>          fixup() set MM_CID_TRANSIT on T1/CPU1
+>    T4 exit()
+>    T3 exit()
+>    T2 exit()
+> 						T1 exit() switch to per task mode
+> 						 ---> Out of bounds access.
+>=20
+> As T1 has not scheduled after T0 set the TRANSIT bit, it exits with the
+> TRANSIT bit set. sched_mm_cid_remove_user() clears the TRANSIT bit in
+> the task and drops the CID, but it does not touch the per CPU storage.
+> That's functionally correct because a CID is only owned by the CPU when
+> the ONCPU bit is set, which is mutually exclusive with the TRANSIT flag.
+>=20
+> Now sched_mm_cid_exit() assumes that the CID is CPU owned because the
+> prior mode was per CPU. It invokes mm_drop_cid_on_cpu() which clears the
+> not set ONCPU bit and then invokes clear_bit() with an insanely large
+> bit number because TRANSIT is set (bit 29).
+>=20
+> Prevent that by actually validating that the CID is CPU owned in
+> mm_drop_cid_on_cpu().
+>=20
+> Fixes: 007d84287c74 ("sched/mmcid: Drop per CPU CID immediately when swit=
+ching to per task mode")
 > Reported-by: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 > Signed-off-by: Thomas Gleixner <tglx@kernel.org>
 > Tested-by: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 > Cc: stable@vger.kernel.org
 > Closes: https://lore.kernel.org/aYsZrixn9b6s_2zL@shinmob
-> ---
-> 
-> Linus, can you please take that directly?
 
-Reviewed-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+FWIW, I actually hit this bug yesterday on my laptop with 6.19 kernel,
+so it's not only theoretical.
 
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
+---- 8< ----
+Feb 10 12:35:20 valkyrie kernel: BUG: unable to handle page fault for addre=
+ss: ffff8ec348b322d0
+Feb 10 12:35:20 valkyrie kernel: #PF: supervisor write access in kernel mod=
+e
+Feb 10 12:35:20 valkyrie kernel: #PF: error_code(0x0003) - permissions viol=
+ation
+Feb 10 12:35:20 valkyrie kernel: PGD 345801067 P4D 345801067 PUD 107790063 =
+PMD 146391063 PTE 8000000148b32121
+Feb 10 12:35:20 valkyrie kernel: Oops: Oops: 0003 [#1] SMP NOPTI
+Feb 10 12:35:20 valkyrie kernel: CPU: 5 UID: 1000 PID: 17173 Comm: git Tain=
+ted: G            E       6.19.0-test+ #679 PREEMPT(voluntary)  18755027502=
+f5b378a0509f6d0a6ba52d8674d8b
+Feb 10 12:35:20 valkyrie kernel: Tainted: [E]=3DUNSIGNED_MODULE
+Feb 10 12:35:20 valkyrie kernel: Hardware name: LENOVO 21M2S03K00/21M2S03K0=
+0, BIOS R2NET42W (1.16 ) 10/10/2025
+Feb 10 12:35:20 valkyrie kernel: RIP: 0010:sched_mm_cid_exit+0xdf/0x1f0
+Feb 10 12:35:20 valkyrie kernel: Code: 48 03 05 8c e9 48 02 8b 08 81 e1 ff =
+ff ff bf 89 08 8b 05 34 74 b7 01 83 c0 3f c1 e8 03 25 f8 ff ff 1f 48 8d 84 =
+43 c0 06 00 00 <f0> 48 0f b3 08 48 81 fe ff ef ff ff 77 08 48 89 d7 e8 4b a=
+7 cc 00
+Feb 10 12:35:20 valkyrie kernel: RSP: 0018:ffffd4358bea3c08 EFLAGS: 0001000=
+2
+Feb 10 12:35:20 valkyrie kernel: RAX: ffff8ec344b322d0 RBX: ffff8ec344b31c0=
+0 RCX: 0000000020000008
+Feb 10 12:35:20 valkyrie kernel: RDX: ffff8ec344b31d10 RSI: ffff8ec344b31d0=
+f RDI: 0000000000000007
+Feb 10 12:35:20 valkyrie kernel: RBP: 0000000000000000 R08: 000000000000001=
+0 R09: 0000000000000001
+Feb 10 12:35:20 valkyrie kernel: R10: 0000000000000000 R11: 000000000000000=
+0 R12: 0000000000000000
+Feb 10 12:35:20 valkyrie kernel: R13: ffff8ec370e76300 R14: ffff8ec30c10000=
+0 R15: 0000000000000000
+Feb 10 12:35:20 valkyrie kernel: FS:  00007f7e95e956c0(0000) GS:ffff8ed2920=
+88000(0000) knlGS:0000000000000000
+Feb 10 12:35:20 valkyrie kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 000000008=
+0050033
+Feb 10 12:35:20 valkyrie kernel: CR2: ffff8ec348b322d0 CR3: 0000000108f7b00=
+0 CR4: 0000000000f50ef0
+Feb 10 12:35:20 valkyrie kernel: PKRU: 55555554
+Feb 10 12:35:20 valkyrie kernel: Call Trace:
+Feb 10 12:35:20 valkyrie kernel:  <TASK>
+Feb 10 12:35:20 valkyrie kernel:  do_exit+0xad/0xa70
+Feb 10 12:35:20 valkyrie kernel:  __x64_sys_exit+0x1b/0x20
+Feb 10 12:35:20 valkyrie kernel:  x64_sys_call+0x1502/0x1510
+Feb 10 12:35:20 valkyrie kernel:  do_syscall_64+0x81/0x650
+Feb 10 12:35:20 valkyrie kernel:  ? do_syscall_64+0x81/0x650
+Feb 10 12:35:20 valkyrie kernel:  ? __do_sys_newfstatat+0x32/0x60
+Feb 10 12:35:20 valkyrie kernel:  ? do_syscall_64+0x81/0x650
+Feb 10 12:35:20 valkyrie kernel:  ? do_syscall_64+0x81/0x650
+Feb 10 12:35:20 valkyrie kernel:  ? do_syscall_64+0x81/0x650
+Feb 10 12:35:20 valkyrie kernel:  ? do_syscall_64+0x81/0x650
+Feb 10 12:35:20 valkyrie kernel:  ? do_syscall_64+0x81/0x650
+Feb 10 12:35:20 valkyrie kernel:  ? do_syscall_64+0x81/0x650
+Feb 10 12:35:20 valkyrie kernel:  ? __irq_exit_rcu+0x3d/0xe0
+Feb 10 12:35:20 valkyrie kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+Feb 10 12:35:20 valkyrie kernel: RIP: 0033:0x7f7ea21de556
+Feb 10 12:35:20 valkyrie kernel: Code: 8b 44 24 08 31 c9 48 89 88 20 06 00 =
+00 31 c0 87 03 83 e8 01 7f 16 ba 3c 00 00 00 66 0f 1f 84 00 00 00 00 00 31 =
+ff 89 d0 0f 05 <eb> f8 48 89 df e8 be cd ff ff 83 ed 01 0f 85 aa fd ff ff e=
+b d7 48
+Feb 10 12:35:20 valkyrie kernel: RSP: 002b:00007f7e95e94ee0 EFLAGS: 0000024=
+6 ORIG_RAX: 000000000000003c
+Feb 10 12:35:20 valkyrie kernel: RAX: ffffffffffffffda RBX: 00007f7e95e95cd=
+c RCX: 00007f7ea21de556
+Feb 10 12:35:20 valkyrie kernel: RDX: 000000000000003c RSI: 000000000080000=
+0 RDI: 0000000000000000
+Feb 10 12:35:20 valkyrie kernel: RBP: 00007f7e95695000 R08: 00000000000000c=
+a R09: 0000000000000007
+Feb 10 12:35:20 valkyrie kernel: R10: 0000000000000008 R11: 000000000000024=
+6 R12: 0000000000801000
+Feb 10 12:35:20 valkyrie kernel: R13: 0000000000000000 R14: 00007ffcf5038cc=
+0 R15: 00007f7e95695000
+Feb 10 12:35:20 valkyrie kernel:  </TASK>
+Feb 10 12:35:20 valkyrie kernel: Modules linked in: tun(E) ccm(E) michael_m=
+ic(E) rfcomm(E) snd_seq_dummy(E) snd_hrtimer(E) snd_seq(E) snd_seq_device(E=
+) nft_fib_inet(E) nft_fib_ipv4(E) nft_fib_ipv6(E) nft_fib(E) nft_reject_ine=
+t(E) nf_reject_ipv4(E) nf_reject_ipv6(E) nft_reject(E) nft_ct(E) af_packet(=
+E) nft_chain_nat(E) nf_nat(E) nf_conntrack(E) nf_defrag_ipv6(E) nf_defrag_i=
+pv4(E) cmac(E) algif_hash(E) algif_skcipher(E) af_alg(E) ip_set(E) bnep(E) =
+binfmt_misc(E) nls_iso8859_1(E) nls_cp437(E) vfat(E) fat(E) qrtr_mhi(E) snd=
+_acp_legacy_mach(E) snd_acp_mach(E) snd_soc_nau8821(E) snd_acp3x_rn(E) snd_=
+acp70(E) snd_acp_i2s(E) snd_acp_pdm(E) snd_soc_dmic(E) snd_acp_pcm(E) snd_s=
+of_amd_acp70(E) snd_sof_amd_acp63(E) snd_sof_amd_vangogh(E) snd_sof_amd_rem=
+brandt(E) snd_sof_amd_renoir(E) snd_sof_amd_acp(E) snd_sof_pci(E) snd_sof_x=
+tensa_dsp(E) snd_ctl_led(E) snd_sof(E) snd_hda_codec_alc269(E) snd_sof_util=
+s(E) snd_hda_scodec_component(E) snd_pci_ps(E) snd_hda_codec_realtek_lib(E)=
+ snd_soc_acpi_amd_match
+ (E) snd_soc_acpi_amd_sdca_quirks(E)
+Feb 10 12:35:20 valkyrie kernel:  snd_hda_codec_generic(E) snd_soc_sdca(E) =
+snd_hda_codec_atihdmi(E) snd_hda_codec_hdmi(E) qrtr(E) snd_soc_core(E) inte=
+l_rapl_msr(E) amd_atl(E) snd_hda_intel(E) snd_compress(E) intel_rapl_common=
+(E) btusb(E) snd_rpl_pci_acp6x(E) btrtl(E) ath12k(E) snd_hda_codec(E) snd_a=
+cp_pci(E) btintel(E) snd_intel_dspcfg(E) btbcm(E) uvcvideo(E) snd_amd_acpi_=
+mach(E) mhi(E) snd_hda_core(E) btmtk(E) videobuf2_vmalloc(E) snd_acp_legacy=
+_common(E) kvm_amd(E) videobuf2_memops(E) qmi_helpers(E) snd_pci_acp6x(E) s=
+pd5118(E) bluetooth(E) snd_hwdep(E) uvc(E) kvm(E) snd_pci_acp5x(E) videobuf=
+2_v4l2(E) mac80211(E) amd_pmf(E) think_lmi(E) snd_pcm(E) thinkpad_acpi(E) v=
+ideodev(E) snd_rn_pci_acp3x(E) irqbypass(E) amdtee(E) libarc4(E) snd_acp_co=
+nfig(E) sparse_keymap(E) snd_timer(E) snd_soc_acpi(E) i2c_piix4(E) videobuf=
+2_common(E) platform_profile(E) pcspkr(E) mc(E) wmi_bmof(E) firmware_attrib=
+utes_class(E) snd(E) tiny_power_button(E) cfg80211(E) snd_pci_acp3x(E) soun=
+dcore(E) k10temp(E) i2c
+ _smbus(E) thermal(E) battery(E) rfkill(E) ac(E)
+Feb 10 12:35:20 valkyrie kernel:  amd_sfh(E) fan(E) button(E) tee(E) joydev=
+(E) amd_pmc(E) loop(E) fuse(E) dm_mod(E) efi_pstore(E) dmi_sysfs(E) ip_tabl=
+es(E) x_tables(E) ext4(E) mbcache(E) jbd2(E) amdgpu(E) amdxcp(E) ucsi_acpi(=
+E) i2c_algo_bit(E) drm_ttm_helper(E) typec_ucsi(E) ttm(E) roles(E) drm_exec=
+(E) drm_panel_backlight_quirks(E) typec(E) drm_suballoc_helper(E) xhci_pci(=
+E) nvme(E) drm_buddy(E) drm_display_helper(E) nvme_core(E) cec(E) hid_multi=
+touch(E) nvme_keyring(E) xhci_hcd(E) video(E) rc_core(E) amdxdna(E) hid_gen=
+eric(E) nvme_auth(E) ghash_clmulni_intel(E) sp5100_tco(E) gpu_sched(E) usbc=
+ore(E) ccp(E) crc16(E) hkdf(E) thunderbolt(E) wmi(E) i2c_hid_acpi(E) i2c_hi=
+d(E) serio_raw(E) br_netfilter(E) bridge(E) stp(E) llc(E) nf_tables(E) msr(=
+E) nfnetlink(E) efivarfs(E) aesni_intel(E)
+Feb 10 12:35:20 valkyrie kernel: CR2: ffff8ec348b322d0
+Feb 10 12:35:20 valkyrie kernel: ---[ end trace 0000000000000000 ]---
+Feb 10 12:35:20 valkyrie kernel: RIP: 0010:sched_mm_cid_exit+0xdf/0x1f0
+Feb 10 12:35:20 valkyrie kernel: Code: 48 03 05 8c e9 48 02 8b 08 81 e1 ff =
+ff ff bf 89 08 8b 05 34 74 b7 01 83 c0 3f c1 e8 03 25 f8 ff ff 1f 48 8d 84 =
+43 c0 06 00 00 <f0> 48 0f b3 08 48 81 fe ff ef ff ff 77 08 48 89 d7 e8 4b a=
+7 cc 00
+Feb 10 12:35:20 valkyrie kernel: RSP: 0018:ffffd4358bea3c08 EFLAGS: 0001000=
+2
+Feb 10 12:35:20 valkyrie kernel: RAX: ffff8ec344b322d0 RBX: ffff8ec344b31c0=
+0 RCX: 0000000020000008
+Feb 10 12:35:20 valkyrie kernel: RDX: ffff8ec344b31d10 RSI: ffff8ec344b31d0=
+f RDI: 0000000000000007
+Feb 10 12:35:20 valkyrie kernel: RBP: 0000000000000000 R08: 000000000000001=
+0 R09: 0000000000000001
+Feb 10 12:35:20 valkyrie kernel: R10: 0000000000000000 R11: 000000000000000=
+0 R12: 0000000000000000
+Feb 10 12:35:20 valkyrie kernel: R13: ffff8ec370e76300 R14: ffff8ec30c10000=
+0 R15: 0000000000000000
+Feb 10 12:35:20 valkyrie kernel: FS:  00007f7e95e956c0(0000) GS:ffff8ed2920=
+88000(0000) knlGS:0000000000000000
+Feb 10 12:35:20 valkyrie kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 000000008=
+0050033
+Feb 10 12:35:20 valkyrie kernel: CR2: ffff8ec348b322d0 CR3: 0000000108f7b00=
+0 CR4: 0000000000f50ef0
+Feb 10 12:35:20 valkyrie kernel: PKRU: 55555554
+Feb 10 12:35:20 valkyrie kernel: note: git[17173] exited with irqs disabled
+Feb 10 12:35:20 valkyrie kernel: note: git[17173] exited with preempt_count=
+ 1
+---- 8< ----
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/38368f67-c5e4-495c-bc07-f18aac985c0a%40efficios.com.
+The stack decode showed the very same code path.
+
+% scripts/faddr2line vmlinux 'sched_mm_cid_exit+0xdf'
+sched_mm_cid_exit+0xdf/0x1f0:
+arch_clear_bit at arch/x86/include/asm/bitops.h:79
+(inlined by) clear_bit at include/asm-generic/bitops/instrumented-atomic.h:=
+42
+(inlined by) mm_drop_cid at kernel/sched/sched.h:3746
+(inlined by) mm_drop_cid_on_cpu at kernel/sched/sched.h:3762
+(inlined by) sched_mm_cid_exit at kernel/sched/core.c:10737
+
+This happened only once, and can't be reproduced since then, though.
+I must have been a very bad lock yesterday.
+
+
+Takashi
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/8=
+7fr77tvrz.wl-tiwai%40suse.de.
