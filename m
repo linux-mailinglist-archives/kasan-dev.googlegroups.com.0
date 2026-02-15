@@ -1,140 +1,140 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBMESX7GAMGQEDMVDULI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDZMFEH3WYFBBA6YYXGAMGQEBJIXRYI@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wPlLBDPJj2mZTgEAu9opvQ
-	(envelope-from <kasan-dev+bncBC7OBJGL2MHBBMESX7GAMGQEDMVDULI@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Sat, 14 Feb 2026 02:00:35 +0100
+	id +XAzBAZskWk5igEAu9opvQ
+	(envelope-from <kasan-dev+bncBDZMFEH3WYFBBA6YYXGAMGQEBJIXRYI@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Sun, 15 Feb 2026 07:47:34 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id A12EB13A3C3
-	for <lists+kasan-dev@lfdr.de>; Sat, 14 Feb 2026 02:00:34 +0100 (CET)
-Received: by mail-lf1-x140.google.com with SMTP id 2adb3069b0e04-59e57bebcc7sf1060871e87.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 13 Feb 2026 17:00:34 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1771030834; cv=pass;
+Received: from mail-pl1-x63c.google.com (mail-pl1-x63c.google.com [IPv6:2607:f8b0:4864:20::63c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9387A13E252
+	for <lists+kasan-dev@lfdr.de>; Sun, 15 Feb 2026 07:47:33 +0100 (CET)
+Received: by mail-pl1-x63c.google.com with SMTP id d9443c01a7336-2a7d7b87977sf26244915ad.0
+        for <lists+kasan-dev@lfdr.de>; Sat, 14 Feb 2026 22:47:33 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1771138051; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Fiu64vdLPJU9im65UGuyAyeLD+R/d0aIzhjH0DBn5k1nZu8F9OjqK73YZBaOhjb1n+
-         TrDk/hjMdtkLaO2OcIk70ZEq27agSft3U7rlxka39A4kdVorynkua1RjAhT0fDFb2R9E
-         UXJ4ScgVYkjeMozww5k7t/1Bwt4IjyUcBCAyyL21p1P4rLE8PnXSmsM7YRTSK9KrOmPP
-         7sIgrzI4Pedd52zVytczrI4xX4RBl9VLwFry1K8ilBw28kL+9Qw7Lt1QZMBrrEl8pE23
-         krq9/O9nAcF40j5/sU97rIXVCx4nhEdRvVi64qQvzoAgWk0MfJUB33W4vvkkdTxFZTRO
-         3IFQ==
+        b=aGx4trvnwBfj2xG4PoJdCDUpa36SWd/0bubfyHeTjyv7K+hPVNIK1ipfq9iiNTrwVS
+         IgM7Jr5uGYUALXY3r83YxYk4REhIPXQR5n4HQkskntISmAJgT/Lm7o2Y69WpDKP0x+bQ
+         eZQd4kO9vUXYDvptYUH1g0i65m2MUSODZO19bDKdIzzG8QH3f/v9PJfNaWdyGusxhI3f
+         gEdSafIgcLYPPZ18Re1zwldy6lsSCG8P7AAvgCZ2Tn/J86lVwYEN4sjdoq7KmUknCQ/8
+         cP0GgKg4/BfW92HTISN+GQ2h/Q17qx9miejUqeildOI/OH+GGpnqsGm72OdnS8BaivgD
+         tq4g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :message-id:mime-version:date:dkim-signature;
-        bh=8A2GbmgqyFJqFcZaAh/6ciGM/n/Dn2Qa/51rEGfx1S8=;
-        fh=OTtCKy9HKmPu7SktpA3SjyC97zI2dLHCn+WvyZp31VI=;
-        b=VhXcKppn0z7NHR++kdyOhqPDoSNw8LZEjLOnOtlPCmYmwEPeWqie4hCgO6cxfuNVfe
-         8WpElqL/goIe7MdTArlgxZ8kyqEKHj+h3rm/X2gk+wA6XgnXYh7ZaIxnPFwH38nyeX1E
-         kDOJ4MHJAGWbEXAKAUxBp60sABnJcLAImsw/zcjmAC6wD3LA5TsovUl8P6QR6jda09zC
-         M+52+PrqNYNOiXySI5Xv5z73CT+++LDBveahik72h1ct0yjmulWscbE/m5B1IQ67JLfh
-         C6y6pTUKJvp/TyWx0U/DBHQD4G1nZ1iTcikl8UMEfAW90xIG6XiNqlsjnu46USFJNDDN
-         oDTA==;
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=44AHUDe+rTHIG2vBbLjPJ31M3O7+SY2+OWUVO0e7hXA=;
+        fh=8hEg6GycQwB0bS3fSjWDyrrLoWcSgPOLYfq1l+GPnQc=;
+        b=UZ085NHhjjUK0cpkdtgsqP25LA4gT75ZD3vOFRuqKO0u8e0n09BdPDwUs7kyAfTwFA
+         v3RsD9w8rSb+ZJIhhbqEjcEnJRrx9n2Ykq5SZ2lQWA8mYUSj79s1bTd848udYdNeWWPh
+         ipwz21BZbpJdhXUB1NUf1edWnTJ0+C6IcvxrOexTJFMp2Yu6FzkiVDp3VY7BtuBRhdwY
+         ptaHpVQPof5dotInEucqbgLIRghRiWgQJpQGrbSc/zqUcC8DtGi4KbofU8m2vsVA5JQ6
+         nLvVO7fRjRk2Vu4CMlt2pdga3D1N6FC8AMmLWIICozi0wh16bxAwbf71hw1YeqoQHj0V
+         yXxQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=TO2hpxFb;
-       spf=pass (google.com: domain of 3lcmpaqukcviy5fyb08805y.w864ucu7-xyf08805y0b8e9c.w86@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3LcmPaQUKCVIy5FyB08805y.w864uCu7-xyF08805y0B8E9C.w86@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Pd5ZgntW;
+       spf=pass (google.com: domain of rppt@kernel.org designates 172.105.4.254 as permitted sender) smtp.mailfrom=rppt@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1771030833; x=1771635633; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1771138051; x=1771742851; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8A2GbmgqyFJqFcZaAh/6ciGM/n/Dn2Qa/51rEGfx1S8=;
-        b=HqDeBaFHpkJoAORyO921oFunL/31Qp9gzuDEMuVgBc4JU7CiZoW97IJ4hExeLRloeN
-         DZiNIsRh8sHoLsN2dLpiaJCnphhJ6hGWEcOEsw7oGIJeJoiiJUzBa7oAyrBb952pQ9SU
-         0dEmyM3e1EWFINkxSoRX+X226qNJ1hQBAVgHD4kolZ0CIi67wMVMJVkUE6SZz4Xo74qw
-         34xr7hWIf4Bb6Nk4Qz5OnF2ywl/xOM6t3rRFxZRbFelCfkQhWC3xiEQRWTW3RgU/oEpc
-         ogauNHK38t2yOKg9f8aIukHjMA9YW0QNtKVViC7h/PBq7fW3OCUzkS1MP/okT0W+zJnO
-         H/ig==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=44AHUDe+rTHIG2vBbLjPJ31M3O7+SY2+OWUVO0e7hXA=;
+        b=i3ldLwlzYC1EAMxpxp6bhINBJr02PXgDDboc3fnCdWrBqVH6hmi2MS1p2NXfw4FlIm
+         5vW25NIsCEx9n9MUc57Lyuf/OB6mo7lH8n0DTXd/pghRWdkkymanjnYfuJ0mz6eLk0TT
+         CsKq+cV8+Rr3rDbXuuSr7dqPZ6LvHfOC7L8kR6x57U3AlYSgy/Nl+1wTcAhbar96yS0b
+         pk/WlNhZl8bA150AS2SKVFOWHXsbFI7RF3RMaNgSo/rak5xM04DK1lRvSvw7dzxcl5Qc
+         tlzC8bho2pqhkjnAjM11iTVQ+yBl7dErESZyvxrq5ieo3n5NxCWhvNmzSjWPgJj/jezP
+         JLbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771030833; x=1771635633;
+        d=1e100.net; s=20230601; t=1771138051; x=1771742851;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8A2GbmgqyFJqFcZaAh/6ciGM/n/Dn2Qa/51rEGfx1S8=;
-        b=teHSD77lxmO2/19XTt9Hu4LJw8iPqBBj7N4PvxgKoyTgoEL3ZJ0lyYAO9J7owfIo+i
-         nvVYoBLs9+87EkTEjnuHqtbAsQPYmYoN5fXlaAXJm+hli0fkTTaHoDiJ9Aeci1EQ4Xt3
-         cWlSSnTovHwLIhk2QZ0GTWBoDS7FNMiCh6vxD0w2k1qR74uQfUmOUY1Bioh+czsvz+QI
-         uRyyeYgCbCc18my7PkGIlADTGvBmfHX1l9cW28g1GDLycXoS3DTDHHM/g+G8JOxFBG+u
-         3figJchimgqz8WhFL9bqA1hZgtYDMzySi8mqE/t8s5ilTerE7Yz80ToMOnJ/gOtiC5qx
-         TPIw==
-X-Forwarded-Encrypted: i=2; AJvYcCWWDmpYH+LgHCsQ/mS26nl5XYUuJg8uZSxw5FIwzq+3kRs/GtFl6ztHBMCs+73rQPFGUR3xTg==@lfdr.de
-X-Gm-Message-State: AOJu0YyqdBbt5v05qyDRNF4KReIEjvol+BPGYt0Vb7LyeWE4anexO8ye
-	WqCyFEuph33Vpue+z/ea+SP/QE4i9NDwLEHJoNF4oHDvGOFjjOMJHmfX
-X-Received: by 2002:a05:6512:1592:b0:59e:62b4:a248 with SMTP id 2adb3069b0e04-59f69c5cb2bmr1209266e87.31.1771030833174;
-        Fri, 13 Feb 2026 17:00:33 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+G9aK+wYPKugrKrsUa1yuFzf0PmJM5FdFKrB1JwIjfrCQ=="
-Received: by 2002:a05:6512:23a5:b0:59b:6d59:30f5 with SMTP id
- 2adb3069b0e04-59e65223723ls798738e87.2.-pod-prod-02-eu; Fri, 13 Feb 2026
- 17:00:30 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXzGxuRiu01E2R4MFy8RPK9qI7qz6naO5wxk9arcDcZFf2EEuDeLvlzDLeHKk4OLz/UbKbT7tjZ4eY=@googlegroups.com
-X-Received: by 2002:a05:6512:2248:b0:59e:5d0c:e2 with SMTP id 2adb3069b0e04-59f69c5ce41mr1150899e87.30.1771030830339;
-        Fri, 13 Feb 2026 17:00:30 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771030830; cv=none;
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=44AHUDe+rTHIG2vBbLjPJ31M3O7+SY2+OWUVO0e7hXA=;
+        b=bDxlK0S4iFtbCO+pw00GcOFhjdL+raZCIU3ViTfv2E+S7tb2ahVH8s3xJsi9HnIt/P
+         6lexMO+0EGjzs4LTEwAOtIDi8ifGxyXSJ4PV/IF8AtwhrfPda9TU40n41pmbh6UAz6C7
+         xeWfYPd0hQyAKMX/90f7ENvrSB5BXjNYR7DGyORfQnLg3dc0Bm5YU2P0S0m1Bn9JBwfs
+         NpFlXnNSaAC0T3ktp1p6PdbHZHAG1S+BnNnYz2MxZfEGc4sLZcOJWXHfaJj/NWtfOC0+
+         DHHSIgRc1LdYxc8iTiWn47gU/J/ICgDxCCR0X2bvwpqaia1jhQeTljqvuvPZJE4u0Jaz
+         J8gg==
+X-Forwarded-Encrypted: i=2; AJvYcCW2mF8YBC3t4TGp+8/uUtDF1/sHKNxPFqK+J7WngesXlx9brPbPE6QZxwv6laziF4bRnMHXEw==@lfdr.de
+X-Gm-Message-State: AOJu0YySx65FSrqnkblH2OU1UvEBc4A+nuVD90FrYlTalknj1DEfmdDD
+	BRQkV9QKzboRc/5alz1FRniBu2e3C8gX4VEzahL98MkXSppw389BIUNm
+X-Received: by 2002:a17:902:e787:b0:2a7:d5c0:c659 with SMTP id d9443c01a7336-2ab50519bc0mr74543955ad.5.1771138051532;
+        Sat, 14 Feb 2026 22:47:31 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+HSIDwOWdLpxA8iJ1a2mP/XkTnYFOEi0sAvlnAkTEV8TA=="
+Received: by 2002:a17:902:ea11:b0:298:e5:d986 with SMTP id d9443c01a7336-2ab3c3f9143ls34280385ad.1.-pod-prod-09-us;
+ Sat, 14 Feb 2026 22:47:30 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUsI7JmD1GTKXucDUVUj2G30uqsaVy3Alf2snmU7kvdI7mGpC3auSonS7hWN/dimx7mumrUy9fFBlU=@googlegroups.com
+X-Received: by 2002:a17:903:1b43:b0:2a0:9fc8:a98b with SMTP id d9443c01a7336-2ab505d91ccmr83393895ad.40.1771138049993;
+        Sat, 14 Feb 2026 22:47:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771138049; cv=none;
         d=google.com; s=arc-20240605;
-        b=g7Eh2KIqQRcNFr4xYOrVefZ5jfsS+HV0DlDAHF6WcdvWYSJfPBHAiIJ/9vb1Cl9bFz
-         1BVEaDVHBBVTuwPWaXuMCX8dTvxxWsp0jwzCSnssR17AIpDFZvLqBGEPM+X2Wl7PvnKH
-         fn8206frYGb1h6L9i+2+nIBUy5tsQoehgMFtGTw2SPV7KPtbzFcgzIVh8k0lVMVHx5Oq
-         wiEdzOrp5Yh03U5lx82ZGBo2rTgkAEt1fSGmELt49hE4hj4N5vtQTVsBjLlHD0T5VaPP
-         z+zRDh5z7nJ5urqsbNj1F3s5GalviSehGSti4K5eweSeOhDfDqqeSw4QF/lAVoQc57sc
-         Pqfw==
+        b=TDzwXOu5pBdFVM/6Wgxrr4s36yKJdfWRQmwu3mA97chYZol8T86ceO7gBT1vFaTIXn
+         0FE7bTuYn8sEJpahEKO4slA2nyK+L9TLZtWfFgZnx+F3xD+3B3eLwykTmSgTmaxl/25e
+         vsl/z+19kfoHe4wXFKFKZRobbCo5Y00S3lCvcZghZg2nCTAcPn8Lm1z2+GNnIBlYF4Nb
+         PXhYbDUgJ6Q62kDFZZj2WNAiWGuDSmfLwdWBO3tDfzDaLjOfAzqRk3V6+BhU/C2i6y6P
+         tfoa7ikEuKeIcbrez590q0mA/4SBZhtZfz5ShU8u+BE/81bL2kHq6FFXI9N9iyC1/b8d
+         an8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
-        bh=N52x8JQ9Owt92Dd5wyBCJma3b4DEePYMVk8MRoPWKBM=;
-        fh=P+s7snsVQIzbLkPLjlbWDhmJm1a+hdsQ7dqGe4fekE8=;
-        b=YEOlAuKC29t6usVbd5frxfzzqrr8Nyg6IFf9Qh4Dyw5gKSkPTNYyaMYAsMBJlxILGT
-         RXuTkqBz5tb97+RN1oHHn28PB7QU/LtaPKqgHKKPJ8DSbkfZzNm+6GNn/ec3Uk1lT8AF
-         xsyNlxLWsYrA7iIIlhYpcZvU1P4Vz61bEMKKQBdt3cfz0xsEHCYzyD6uRYSNrXtvczIW
-         ST3G7UFuI6EU+N0kbSbDC2My2E5KkYU79r/Ppaj8hbPmB1hsnWkJ2SnckEOWa2z+Qtdy
-         oxpcU9w3SWKQERylysV9YmTpaN4bJIyJMdOptbkTNlKoAKdCtogTtL7fXhl1rRMsoBvy
-         4cCg==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=2l7h6AZgsCQNAFoeKxysvqrlTHtQeTpw/FXQJGzkYTE=;
+        fh=3K5G+2I2gZaB4H7qqn8bfxZvzbU2bhaDvYsW0jh490E=;
+        b=KhuV2q3ukRmZCwDhVemPauYOlY4i5rYGP4xIxxTeH0OW/ddukowW7fZbC7rYKYvLcS
+         Hb+WwdwaZtDLXlv15wn3a0FlBnmeNxhGVICIk6GjCNmAkfc1+HSlTodD6rLNodYkW+d5
+         YzMo9QSN+g/vD/oH+T41x2vpDRk58PBXUMGU0axRsuNWXzQ8D2i1aMfJ82XlIFWL0ocF
+         mlEvhZfWq1Iq/mk+lKJ/ehiX+fVNzpTkKLZpWRKK+pfMLsV1dWhp9NgcY60+PpBOlByA
+         IC10ti794OgRIz6MCNcGpVqRzbnZEvDcpEmI25XaJ956IY1o1cw+sxJbyrKxpXZVmAIk
+         0kZQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=TO2hpxFb;
-       spf=pass (google.com: domain of 3lcmpaqukcviy5fyb08805y.w864ucu7-xyf08805y0b8e9c.w86@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3LcmPaQUKCVIy5FyB08805y.w864uCu7-xyF08805y0B8E9C.w86@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com. [2a00:1450:4864:20::34a])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-59e5f51fc74si209824e87.0.2026.02.13.17.00.30
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Pd5ZgntW;
+       spf=pass (google.com: domain of rppt@kernel.org designates 172.105.4.254 as permitted sender) smtp.mailfrom=rppt@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from tor.source.kernel.org (tor.source.kernel.org. [172.105.4.254])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-2ad1a725ecbsi1500195ad.1.2026.02.14.22.47.29
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Feb 2026 17:00:30 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3lcmpaqukcviy5fyb08805y.w864ucu7-xyf08805y0b8e9c.w86@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) client-ip=2a00:1450:4864:20::34a;
-Received: by mail-wm1-x34a.google.com with SMTP id 5b1f17b1804b1-4832c4621c2so16183315e9.3
-        for <kasan-dev@googlegroups.com>; Fri, 13 Feb 2026 17:00:30 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVlFv1Kr+Y6rENLwdXpePbPjNw5mi/YjOEu3W4jZrqQ3dnj0rwhUKWaiH3cFPd3c+//GsbmbXLf8XI=@googlegroups.com
-X-Received: from wmby28.prod.google.com ([2002:a05:600c:c05c:b0:480:3227:a124])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:1c1c:b0:477:7b16:5fb1
- with SMTP id 5b1f17b1804b1-483739ff8damr66109275e9.7.1771030829456; Fri, 13
- Feb 2026 17:00:29 -0800 (PST)
-Date: Sat, 14 Feb 2026 01:57:51 +0100
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.53.0.335.g19a08e0c02-goog
-Message-ID: <20260214010013.3027519-1-elver@google.com>
-Subject: [PATCH] kho: validate order in deserialize_bitmap()
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com
-Cc: Alexander Graf <graf@amazon.com>, Mike Rapoport <rppt@kernel.org>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	kexec@lists.infradead.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Feb 2026 22:47:29 -0800 (PST)
+Received-SPF: pass (google.com: domain of rppt@kernel.org designates 172.105.4.254 as permitted sender) client-ip=172.105.4.254;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id DB86D6001D;
+	Sun, 15 Feb 2026 06:47:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E93C7C4CEF7;
+	Sun, 15 Feb 2026 06:47:25 +0000 (UTC)
+Date: Sun, 15 Feb 2026 08:47:21 +0200
+From: "'Mike Rapoport' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Marco Elver <elver@google.com>
+Cc: Alexander Graf <graf@amazon.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>, kexec@lists.infradead.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com
+Subject: Re: [PATCH] kho: validate order in deserialize_bitmap()
+Message-ID: <aZFr-TvaWn-KbA1u@kernel.org>
+References: <20260214010013.3027519-1-elver@google.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+In-Reply-To: <20260214010013.3027519-1-elver@google.com>
+X-Original-Sender: rppt@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=TO2hpxFb;       spf=pass
- (google.com: domain of 3lcmpaqukcviy5fyb08805y.w864ucu7-xyf08805y0b8e9c.w86@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3LcmPaQUKCVIy5FyB08805y.w864uCu7-xyF08805y0B8E9C.w86@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@kernel.org header.s=k20201202 header.b=Pd5ZgntW;       spf=pass
+ (google.com: domain of rppt@kernel.org designates 172.105.4.254 as permitted
+ sender) smtp.mailfrom=rppt@kernel.org;       dmarc=pass (p=QUARANTINE
+ sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Mike Rapoport <rppt@kernel.org>
+Reply-To: Mike Rapoport <rppt@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,78 +147,91 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.71 / 15.00];
-	MID_CONTAINS_TO(1.00)[];
+X-Spamd-Result: default: False [-2.21 / 15.00];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[googlegroups.com,none];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[googlegroups.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2a00:1450:4000::/36];
 	MAILLIST(-0.20)[googlegroups];
+	R_DKIM_ALLOW(-0.20)[googlegroups.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2607:f8b0:4000::/36];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:15169, ipnet:2a00:1450::/32, country:US];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TAGGED_RCPT(0.00)[kasan-dev];
 	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	TAGGED_FROM(0.00)[bncBDZMFEH3WYFBBA6YYXGAMGQEBJIXRYI];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[googlegroups.com:+];
+	MISSING_XM_UA(0.00)[];
+	HAS_REPLYTO(0.00)[rppt@kernel.org];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bncBC7OBJGL2MHBBMESX7GAMGQEDMVDULI];
-	HAS_REPLYTO(0.00)[elver@google.com];
-	RCVD_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[googlegroups.com:email,googlegroups.com:dkim];
-	DKIM_TRACE(0.00)[googlegroups.com:+]
-X-Rspamd-Queue-Id: A12EB13A3C3
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[kasan-dev];
+	ASN(0.00)[asn:15169, ipnet:2607:f8b0::/32, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail-pl1-x63c.google.com:helo,mail-pl1-x63c.google.com:rdns,googlegroups.com:email,googlegroups.com:dkim]
+X-Rspamd-Queue-Id: 9387A13E252
 X-Rspamd-Action: no action
 
-The function deserialize_bitmap() calculates the reservation size using:
+Hi Marco,
 
-    int sz = 1 << (order + PAGE_SHIFT);
+On Sat, Feb 14, 2026 at 01:57:51AM +0100, Marco Elver wrote:
+> The function deserialize_bitmap() calculates the reservation size using:
+> 
+>     int sz = 1 << (order + PAGE_SHIFT);
+> 
+> If a corrupted KHO image provides an order >= 20 (on systems with 4KB
+> pages), the shift amount becomes >= 32, which overflows the 32-bit
+> integer. This results in a zero-size memory reservation.
+> 
+> Furthermore, the physical address calculation:
+> 
+>     phys_addr_t phys = elm->phys_start + (bit << (order + PAGE_SHIFT));
+> 
+> can also overflow and wrap around if the order is large. This allows a
+> corrupt KHO image to cause out-of-bounds updates to page->private of
+> arbitrary physical pages during early boot.
+> 
+> Fix this by adding a bounds check for the order field.
+> 
+> Fixes: fc33e4b44b27 ("kexec: enable KHO support for memory preservation")
+> Signed-off-by: Marco Elver <elver@google.com>
+> ---
+>  kernel/liveupdate/kexec_handover.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/kernel/liveupdate/kexec_handover.c b/kernel/liveupdate/kexec_handover.c
+> index b851b09a8e99..ec353e4b68a6 100644
+> --- a/kernel/liveupdate/kexec_handover.c
+> +++ b/kernel/liveupdate/kexec_handover.c
+> @@ -463,6 +463,11 @@ static void __init deserialize_bitmap(unsigned int order,
+>  	struct kho_mem_phys_bits *bitmap = KHOSER_LOAD_PTR(elm->bitmap);
+>  	unsigned long bit;
+>  
+> +	if (order > MAX_PAGE_ORDER) {
 
-If a corrupted KHO image provides an order >= 20 (on systems with 4KB
-pages), the shift amount becomes >= 32, which overflows the 32-bit
-integer. This results in a zero-size memory reservation.
+Preserved order can be larger than MAX_PAGE_ORDER. 
+Let's make 'sz' unsigned long and add checks that calculations won't
+overflow.
 
-Furthermore, the physical address calculation:
+> +		pr_warn("invalid order %u for preserved bitmap\n", order);
+> +		return;
+> +	}
+> +
+>  	for_each_set_bit(bit, bitmap->preserve, PRESERVE_BITS) {
+>  		int sz = 1 << (order + PAGE_SHIFT);
+>  		phys_addr_t phys =
+> -- 
+> 2.53.0.335.g19a08e0c02-goog
 
-    phys_addr_t phys = elm->phys_start + (bit << (order + PAGE_SHIFT));
-
-can also overflow and wrap around if the order is large. This allows a
-corrupt KHO image to cause out-of-bounds updates to page->private of
-arbitrary physical pages during early boot.
-
-Fix this by adding a bounds check for the order field.
-
-Fixes: fc33e4b44b27 ("kexec: enable KHO support for memory preservation")
-Signed-off-by: Marco Elver <elver@google.com>
----
- kernel/liveupdate/kexec_handover.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/kernel/liveupdate/kexec_handover.c b/kernel/liveupdate/kexec_handover.c
-index b851b09a8e99..ec353e4b68a6 100644
---- a/kernel/liveupdate/kexec_handover.c
-+++ b/kernel/liveupdate/kexec_handover.c
-@@ -463,6 +463,11 @@ static void __init deserialize_bitmap(unsigned int order,
- 	struct kho_mem_phys_bits *bitmap = KHOSER_LOAD_PTR(elm->bitmap);
- 	unsigned long bit;
- 
-+	if (order > MAX_PAGE_ORDER) {
-+		pr_warn("invalid order %u for preserved bitmap\n", order);
-+		return;
-+	}
-+
- 	for_each_set_bit(bit, bitmap->preserve, PRESERVE_BITS) {
- 		int sz = 1 << (order + PAGE_SHIFT);
- 		phys_addr_t phys =
 -- 
-2.53.0.335.g19a08e0c02-goog
+Sincerely yours,
+Mike.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260214010013.3027519-1-elver%40google.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/aZFr-TvaWn-KbA1u%40kernel.org.
