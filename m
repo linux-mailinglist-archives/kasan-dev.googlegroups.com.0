@@ -1,202 +1,140 @@
-Return-Path: <kasan-dev+bncBD22BAF5REGBB5X36LGAMGQEHCJ3KMA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDCPL7WX3MKBBKVG6PGAMGQECILSPII@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eMVaJvi9nGlSKAQAu9opvQ
-	(envelope-from <kasan-dev+bncBD22BAF5REGBB5X36LGAMGQEHCJ3KMA@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Mon, 23 Feb 2026 21:52:08 +0100
+	id KL41ICzTnGkJLAQAu9opvQ
+	(envelope-from <kasan-dev+bncBDCPL7WX3MKBBKVG6PGAMGQECILSPII@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Mon, 23 Feb 2026 23:22:36 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x540.google.com (mail-ed1-x540.google.com [IPv6:2a00:1450:4864:20::540])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B98D17D37F
-	for <lists+kasan-dev@lfdr.de>; Mon, 23 Feb 2026 21:52:08 +0100 (CET)
-Received: by mail-ed1-x540.google.com with SMTP id 4fb4d7f45d1cf-65c13e2123dsf5201545a12.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 23 Feb 2026 12:52:08 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1771879927; cv=pass;
+Received: from mail-qv1-xf3b.google.com (mail-qv1-xf3b.google.com [IPv6:2607:f8b0:4864:20::f3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0819217E3EB
+	for <lists+kasan-dev@lfdr.de>; Mon, 23 Feb 2026 23:22:35 +0100 (CET)
+Received: by mail-qv1-xf3b.google.com with SMTP id 6a1803df08f44-89700915423sf7512266d6.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 23 Feb 2026 14:22:35 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1771885354; cv=pass;
         d=google.com; s=arc-20240605;
-        b=F6d+tmivmyEEPQG74S88nkhL4EUX2tMlpJVQRCvnl6uWfaScy/9yuclwDVX10GH19w
-         dJbIz2aikTMPfv9RmEksWM+p5v7etBG5tMWGSYeOZenZ9upXOJj+KgAP/OfDKcjSF0RL
-         TbLl0srLRFf9ZniVL3dLaghAJVk8MO1aiUGZnhSjH4cXtqnwH/o48wF6RNZpzkIGhxxH
-         VnYYh2NCJhWX9k5Fj2ZD51xSn8bcYFeAUshRogIqj859ogbydfXNiD4N8VSXAYLFGnTz
-         p7+r1F4DgTOw5RQGmiWJxTGyN//SbRdO7PthYPKEvtahSbGaZnxohJyyfrZ0uHZjPXYD
-         SEHg==
+        b=WKFg5Xal9bPFZSLrzlPEK8HubFLAT3qhBlpIB9vkmqoXIhIUTkeH7WzNRHhxULEy1O
+         xF4gLSuanQ4bEUTYUyiFaXu/KQG/0WGjBVn6Ll44h7gRufpsYVGbrRa1LGCg9zxSEebI
+         NPRuc1Rf5M0nk8fTiJqSXHC6XKxDx/lhmkygh+0Rems5XKiP9QCLbwoOuELmXb/LHHHd
+         0rYUQ37xeI+ZWIihJGfi8bbvIQWeRQAattITI2AK794snBqAK11jo4X8w82jBIt2t9Hv
+         Y9QznEM4FjtFeFPUwErify56tNDSjRhqScWnkSxIgz7TYy1C7TdIfoNW5vHbsv+6OkVP
+         zFLw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:sender:dkim-signature;
-        bh=yBiua7bqAtSCQlKdovTYtjmGJN5D3WyLr1q78Q+QFI8=;
-        fh=p6Ls7WBtRoZEg2W2gghKqgvwxnmDrUn2CbY9rlSCNXo=;
-        b=BmpICTmQJFCbaxKiVCS4aJAC06wjN/2+MpepeT39zQYN948+4WFCva43aT5kesGzdo
-         oE2ZIaw7VEU+8JkIqv7edEjflJ2sncXbIb0wRWNRBU981YQwI4o9Yw6DFGBvyrJe/l1D
-         05n7XiVMWvQd4XIlSo3plvfFZ6XtTTXX1TIjaArEl8gPXcu2zJrmWR5pZIjVU0DlhQT4
-         QbQkECVQHkLqGw/9GIKB4Crj3h2jE6OG96XrnK+u/qkrazthI7a63klA6SZ9R9g/l3Bi
-         r2cbsSaHTkJalZvFB9pd7Ln+Fxq3DeIS+RxwTXGWiQhf/qXu1ftvh4PAhMFj6PyS9TcI
-         cYhA==;
+         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
+         :date:subject:cc:to:from:dkim-signature;
+        bh=+LhTkkiPbTcyjBsolx/GBPgceaisM4reZWC7c8hfmIw=;
+        fh=AGm5p9GsZZRn7xY9CFnjdR1B6Bs7db4WojXsvxyhaB0=;
+        b=Vtaza7hxJUmkLZZgatOE1i/pNPgNglzI2YuB0JXmbZGE+uAuq90jokJYzFCNqPpnna
+         ZMhR5hA+FPVP7lF2ZopIUev4WMVExVnVzZe440WhORhpPSdqwVXynqHzfImFxrFtCScj
+         i89N2YO4Zz636bNw5eLXLwXSV4xgeg86EN0mfUVFlyMH7iJ/qz9ZIygCm8c+1igUqEGm
+         ttWAzn4/V9sr/AyIBo3SAcCvSbPj0zloq3fWlkP2OzwkoqNSeQYNjWm5UlNBiV2Mcon5
+         AJyBgoREY9l/QW4l3zlI9W+awos3bbgv75kFQK7FkGF3qleJfIlp93T/uPs71IP28Y7L
+         D7UQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=GSmLQtk5;
-       spf=pass (google.com: domain of dave.hansen@intel.com designates 198.175.65.13 as permitted sender) smtp.mailfrom=dave.hansen@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=okXmN25o;
+       spf=pass (google.com: domain of kees@kernel.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1771879927; x=1772484727; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1771885354; x=1772490154; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:autocrypt:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=yBiua7bqAtSCQlKdovTYtjmGJN5D3WyLr1q78Q+QFI8=;
-        b=wlxYBsJMpcb6lfV9mG1T0QC0EcUu33huy0yIBAhlrStt3GKKtydmR97GQFrj+0WQX0
-         +YMjRPO482ddIQWy88K+EiA19hQAhjg6JrxAndG9J2MSfhFxAP3haqsfH+SY6hykatjJ
-         zZde3648X6+gaIkMhJRqmo/CcZ0ncXFM8mBfIJlwgnFbN2Vd9v0lgrVuARyxa7cbtzYF
-         /KfSfdMNYP4WAIq7Phqxup5cYnh1gszij6zbwydi3CAOPiS5ihJarvmmUhrb3P0Zt5l3
-         sZq0eeXp54I5OQBnFlz3MO6EaDX4M8zhuuEX/2vbv+qpkpMv4ItGRvHL5kn/Yk/6LOAu
-         +Uqg==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+LhTkkiPbTcyjBsolx/GBPgceaisM4reZWC7c8hfmIw=;
+        b=aBtLC50QdAYx7JQEyXPQsi7EgMGRstqtIGAdMqPGU34anOIlMLFy23kby/iUIh4SEl
+         OkgCV0nMGVfHwZv78Eefuyg8hDB53ikqscZA3ZAWQ3wQcNlf/E0crsU0YZdzgqM9mc4s
+         JYh5hjF6xttQhPDhIz/W/B9CyhhLvu3K9/3qaTFUUM7KNPlqx77h6Iv2upru0BDjT0HG
+         MlLGfigmgqBkjdoKZuZxhJjTmnPTxMF5zBnWqDlte4NyOi+YMH6/9pSOOZVH9gQE20GY
+         VxkhAY9bmJT+eLy+Ws+Uwpum2gIl/Z7UXhaLgxE1KHQ1aH5DLGfnXN5pn1dhctgQCz5q
+         B03g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771879927; x=1772484727;
+        d=1e100.net; s=20230601; t=1771885354; x=1772490154;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :autocrypt:content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=yBiua7bqAtSCQlKdovTYtjmGJN5D3WyLr1q78Q+QFI8=;
-        b=UilGo9muwByWdqxIPn4d6AcvKt05hkbtinsYT7iWcCAlmuBtQlnZgDdC9+GHyGEOTN
-         f+TObhaPNkd/ykfn4JpQiLl7qBto4y+At1dkL7PfYZkLeJFbNH2DDSEZi/QDfhMoSzim
-         Uqnk6wrQwXzi1LygZ/gtDYmapWte4UWs48DlEvGKdosGtxCWyy2dNQo13vFcD1q6tH2g
-         IEUYIkrwYye6vvbIf+IX/r9sy5Ttq0LRaQ7R0vLj9gStrMFBM2p1UV7XMWkI1tm9sH7C
-         csdxIYXW5wFuNzPmwiBLHAfPepzUXTeFErYlxt+31OAQuaUyIundyXQxlU6QSUTsSOjU
-         TKKg==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUreBOVuggPJXMWg5IEUSWPtAydCaISEdl5f0NfQllid987buwvvTc5PeLpalWaafhBw1efSQ==@lfdr.de
-X-Gm-Message-State: AOJu0Yx70PUO/HEASGr0o7Zr5WndPSl5of4Pc4ryPat5wI5NvEHAjN+O
-	NZW6AAHxfgqXdP3i26aKP7Q8yu05Ytk72K+W/r0L9v9fJdAqLhZ3AmE2
-X-Received: by 2002:a05:6402:42ca:b0:65a:3526:50e0 with SMTP id 4fb4d7f45d1cf-65ea5304932mr6153420a12.30.1771879926975;
-        Mon, 23 Feb 2026 12:52:06 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+Fl08f5dFdwC04yQ5b+y2sBIxOGCOKaCCW965M0QjZp5w=="
-Received: by 2002:aa7:ccd2:0:b0:65a:1510:e9df with SMTP id 4fb4d7f45d1cf-65b9da5bf14ls8934597a12.0.-pod-prod-04-eu;
- Mon, 23 Feb 2026 12:52:04 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCVDT7qb3aO1WoQkybc+EwVP6LY5vxHpt+gk38SzF5wcckFiGRlk7APp7kjWEvQYMunDodWxG3AaRdY=@googlegroups.com
-X-Received: by 2002:a17:906:4fc7:b0:b90:e278:a09a with SMTP id a640c23a62f3a-b90e278a155mr72208466b.55.1771879924526;
-        Mon, 23 Feb 2026 12:52:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771879924; cv=none;
+        bh=+LhTkkiPbTcyjBsolx/GBPgceaisM4reZWC7c8hfmIw=;
+        b=Eu8W5W0DIllRQ2QLhjPRBMWAQ/tMBl8UUncLEazeiOowS7BBBhhwdBrj5xEQWoKHZr
+         ZLnmARcGVw27ARj8n9CZpxXU5OlWxNA0uOneJ7yfLxXppErlARESXBXmGEnM5izL9jJM
+         PQEBeVPMK3YiDfh/t0tAMifsILYXJrYLmj5QnhBCCEVb8FvLFHDLj01H632biQhgtIsF
+         GqSlDzAo8BZ8+VSBV1I0yLqSkyUqNPa3FlFjEn71GEC9SvNv0nQA49a0U4h7bLBHaw98
+         wKbADh6e7GndGEOXF2+yxuDMzz/ahfqqLQ+PhSQJqakjIPgh8I129qPmNSFjM2QLRKb9
+         u3/w==
+X-Forwarded-Encrypted: i=2; AJvYcCUceEfLbJwAMsmOnT21pI9ibFKgsmkIo+1wTyC/52W2fsFprF9tXAoMQdr8t0I0bv0PBePoYQ==@lfdr.de
+X-Gm-Message-State: AOJu0Yy9OmRh8qJgv8bWZSm5MfmX1EzaVHKYnUTpOpQJddw8vEhx59O7
+	nTLfbJk3mvP/syDkb7s3ZIBvaCr/bpjvOrAxEd6ECmfw4Pq3iYFp8/rK
+X-Received: by 2002:a05:6214:27c6:b0:890:247e:dce2 with SMTP id 6a1803df08f44-89979c54046mr158772616d6.1.1771885354305;
+        Mon, 23 Feb 2026 14:22:34 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+GWf7M8HzduT7wCmAw17PuhITnHuZ/Vj2NTcd8ulAyKfQ=="
+Received: by 2002:a05:6214:625:b0:888:1f20:6a87 with SMTP id
+ 6a1803df08f44-89729c261a4ls80153666d6.0.-pod-prod-04-us; Mon, 23 Feb 2026
+ 14:22:33 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUzZMWoIsZ8IYgUHTlVT6qb0D1dtffqFb6hJ6hz8GO+kYoxFtziGVQHx9tfKiilwv6nWtxPEl5yUmc=@googlegroups.com
+X-Received: by 2002:a05:6102:2921:b0:5ef:a9fb:f1f3 with SMTP id ada2fe7eead31-5feb2eeabbbmr5542727137.11.1771885353380;
+        Mon, 23 Feb 2026 14:22:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771885353; cv=none;
         d=google.com; s=arc-20240605;
-        b=doYeRWPmXxCcunbEY4n/vQsRf/NAZqOJZXZfQhiUKOmW2/gjjzczenx1oAJLwwl6jf
-         qIGOujxjH84ZjxFPxeUsoyA1Em3ptMK1Y38+wgyS0Sq25YZKIKUmZFgJPBy6c1PaPRSz
-         BR9yk9Fz45sr7XY5zXPsDBd59s2sDls+eyFvVh0pJ9qOlJImPIriXUiv+juhEo/Gg2HQ
-         O8nhfJYRvCDrAmnp3+2PhBMn2pJBnadRDhBE/t3u7oNrCUiZEBDag64cWltwEqx4DTCe
-         tSRXRhKz+eZupAZP9qspwy+aESVxwrJC1HIskGwosC2McochEmLdlPdFg+lBvbMUnNDX
-         BGrw==
+        b=OqSqdabskSxYGaPuOeDSMZtXjg5QRFnoWUCv9zCkgLQglqxwm+wUQ7f2mMkGHoXMso
+         HK4f+iShIrxM9q9JoXBJ2ESGeJboV218nU5hnQSUgIuOceblcMqr8VJJTXFS4Q9HE39l
+         IHJzVT17K9KYJGSMNY8Q8/QXNn67aRsPHS+hOA0yaER3LYbOjVeA4FOi5T9jkVmIFWoG
+         Nkiqxzb6b6MK1IWZX/g8t2/TD5hMI8IVb/DzvygkZKJLtj3ltTOVY/NPZtpc5qzUGZsR
+         lGE68H42ZI1MAk2x3lYChvQOipevUIjKU15OqADFLWkj71WQ/bMi7fvcHLBvlsrBnif1
+         aj0w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:dkim-signature;
-        bh=K2+ubBnqmEbc/DYx6SZwXFrRXRKEuTVwakKTyPf9UMo=;
-        fh=GuXWjM4D3b/TlTIdO39DuU5N+zXhp5H2f1eY4s1u8gk=;
-        b=geW0y5hrVrZoCgzWh9xQo4bUooUuIFZl2/LVyMEyHiisDtvRNzipGnKdX2Zwf6ky2L
-         LewxYtddWTD7WMGhDcsk+5h624Vyrq7I08ItFfpPd5hBcD+qqhnoMlzRhMPcszLg8JVN
-         jBFzWR3/LMKwjgCKFxqN7VEegAz3RR0YDqbCP1ejJqprLu1JbMNcvoSy45aTq9cujy/+
-         UUE0YZV56QIES93MnQ/1vPz/eb+Oq0t1QdxP5rW2pkGjdGxjQSHCx/L2nmYawuJQ0QLx
-         /qYyT2djVsOzB/9MVz0bw3aTJ+nz/8cPfXBr625yrCUIVRToNBNhnK+1opotIEFAuK3y
-         pHWg==;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=vNPFeX6144DM98FdQYk9lVXz8X7DnGdxk/ldgqQN9dI=;
+        fh=VkCe6GoblGgdT+esOVAEvjC2VBqq4ZuyoJMbinIvvjg=;
+        b=iY+HRNDSnUecCQYchAUNpPaLPRkW1Ij7gPalBHIIdYbJTkAtjVIxXyxsk5m6d6j0vC
+         sh1X5STYkE7UGm9M7zEFivJT4ZEpC2M9inKwHIZbGSMocoo62YsOTemfmX0F3g4hE0eT
+         Z4HVClQiv3AuAsgmPwyPT1CvIrnr3/vM+qjmQjUK7ErRJqhcZHE/GnSsrhfaTN0uWleR
+         OJ7l6AIqkDdqTYNfUZw6mzeqyBt1QyOTRuRSrvwp8E5qVblaDi7/tS7ZyJ3+ncOUlZ5I
+         Lx5UgOQtXC0T8jaf3J5TA9nsQdYwCJdV1QQlFDw+JF1dAnkiZHXlT+2nFwVIQHeAdfOJ
+         Lf6A==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=GSmLQtk5;
-       spf=pass (google.com: domain of dave.hansen@intel.com designates 198.175.65.13 as permitted sender) smtp.mailfrom=dave.hansen@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mgamail.intel.com (mgamail.intel.com. [198.175.65.13])
-        by gmr-mx.google.com with ESMTPS id a640c23a62f3a-b9084a4c9bfsi19889366b.0.2026.02.23.12.52.03
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=okXmN25o;
+       spf=pass (google.com: domain of kees@kernel.org designates 172.234.252.31 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from sea.source.kernel.org (sea.source.kernel.org. [172.234.252.31])
+        by gmr-mx.google.com with ESMTPS id a1e0cc1a2514c-94dd546ccedsi9825241.2.2026.02.23.14.22.33
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 23 Feb 2026 12:52:04 -0800 (PST)
-Received-SPF: pass (google.com: domain of dave.hansen@intel.com designates 198.175.65.13 as permitted sender) client-ip=198.175.65.13;
-X-CSE-ConnectionGUID: f0EXrqFwQaizrdluTn2SHg==
-X-CSE-MsgGUID: dWeNh3W5SbOcyUwyNlf6HQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="83980238"
-X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; 
-   d="scan'208";a="83980238"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 12:52:02 -0800
-X-CSE-ConnectionGUID: NooiaZNuTSOdYiDTBibKsw==
-X-CSE-MsgGUID: t7nZygSSR7+itl71V99Vxg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; 
-   d="scan'208";a="215529661"
-Received: from unknown (HELO [10.24.81.147]) ([10.24.81.147])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 12:52:01 -0800
-Message-ID: <f25c328f-4ce7-4494-a200-af4ba928e724@intel.com>
-Date: Mon, 23 Feb 2026 12:52:03 -0800
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Feb 2026 14:22:33 -0800 (PST)
+Received-SPF: pass (google.com: domain of kees@kernel.org designates 172.234.252.31 as permitted sender) client-ip=172.234.252.31;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 57759407CF;
+	Mon, 23 Feb 2026 22:22:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30344C116C6;
+	Mon, 23 Feb 2026 22:22:32 +0000 (UTC)
+From: "'Kees Cook' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Marco Elver <elver@google.com>
+Cc: Kees Cook <kees@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	kasan-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] kcsan: test: Adjust "expect" allocation type for kmalloc_obj
+Date: Mon, 23 Feb 2026 14:22:30 -0800
+Message-Id: <20260223222226.work.188-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 13/13] x86/kasan: Make software tag-based kasan
- available
-To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Jonathan Corbet <corbet@lwn.net>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kasan-dev@googlegroups.com, workflows@vger.kernel.org
-References: <cover.1770232424.git.m.wieczorretman@pm.me>
- <8fd6275f980b90c62ddcb58cfbc78796c9fa7740.1770232424.git.m.wieczorretman@pm.me>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <8fd6275f980b90c62ddcb58cfbc78796c9fa7740.1770232424.git.m.wieczorretman@pm.me>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dave.hansen@intel.com
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1564; i=kees@kernel.org; h=from:subject:message-id; bh=Ihme3BeQuf5dfeZKKF9RAQvVrJKW09YsEJyzB6dEgSw=; b=owGbwMvMwCVmps19z/KJym7G02pJDJlzLqv19RrJ/TYWDlkYVR+zXew/g4xdxu1JkbPurYvpX pa8a0FSRykLgxgXg6yYIkuQnXuci8fb9nD3uYowc1iZQIYwcHEKwERiLBgZ/kSF3422S/gUKCso 5hTZGT7NZ2P9qz5RFaNLFaXslkcvMjIsna1RfCrP3OmoccHcu8d2svy4csVF3/Wy9lOnvNNL7l5 iAQA=
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+X-Original-Sender: kees@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=GSmLQtk5;       spf=pass
- (google.com: domain of dave.hansen@intel.com designates 198.175.65.13 as
- permitted sender) smtp.mailfrom=dave.hansen@intel.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=intel.com
+ header.i=@kernel.org header.s=k20201202 header.b=okXmN25o;       spf=pass
+ (google.com: domain of kees@kernel.org designates 172.234.252.31 as permitted
+ sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass (p=QUARANTINE
+ sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Kees Cook <kees@kernel.org>
+Reply-To: Kees Cook <kees@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -209,234 +147,80 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.11 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.21 / 15.00];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[googlegroups.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2607:f8b0:4000::/36];
 	MAILLIST(-0.20)[googlegroups];
 	R_DKIM_ALLOW(-0.20)[googlegroups.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2a00:1450:4000::/36];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[intel.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[pm.me,kernel.org,redhat.com,alien8.de,linux.intel.com,zytor.com,lwn.net,gmail.com,google.com,arm.com,infradead.org,linux-foundation.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bncBD22BAF5REGBB5X36LGAMGQEHCJ3KMA];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[dave.hansen@intel.com,kasan-dev@googlegroups.com];
-	DKIM_TRACE(0.00)[googlegroups.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[kasan-dev];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:15169, ipnet:2a00:1450::/32, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,googlegroups.com:email,googlegroups.com:dkim,mail-ed1-x540.google.com:helo,mail-ed1-x540.google.com:rdns]
-X-Rspamd-Queue-Id: 3B98D17D37F
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:15169, ipnet:2607:f8b0::/32, country:US];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DKIM_TRACE(0.00)[googlegroups.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	HAS_REPLYTO(0.00)[kees@kernel.org];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	TAGGED_FROM(0.00)[bncBDCPL7WX3MKBBKVG6PGAMGQECILSPII];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCVD_TLS_LAST(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[]
+X-Rspamd-Queue-Id: 0819217E3EB
 X-Rspamd-Action: no action
 
-...
-> diff --git a/Documentation/arch/x86/x86_64/mm.rst b/Documentation/arch/x86/x86_64/mm.rst
-> index a6cf05d51bd8..7e2e4c5fa661 100644
-> --- a/Documentation/arch/x86/x86_64/mm.rst
-> +++ b/Documentation/arch/x86/x86_64/mm.rst
-> @@ -60,7 +60,8 @@ Complete virtual memory map with 4-level page tables
->     ffffe90000000000 |  -23    TB | ffffe9ffffffffff |    1 TB | ... unused hole
->     ffffea0000000000 |  -22    TB | ffffeaffffffffff |    1 TB | virtual memory map (vmemmap_base)
->     ffffeb0000000000 |  -21    TB | ffffebffffffffff |    1 TB | ... unused hole
-> -   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shadow memory
-> +   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shadow memory (generic mode)
-> +   fffff40000000000 |   -8    TB | fffffbffffffffff |    8 TB | KASAN shadow memory (software tag-based mode)
->    __________________|____________|__________________|_________|____________________________________________________________
->                                                                |
->                                                                | Identical layout to the 56-bit one from here on:
-> @@ -130,7 +131,8 @@ Complete virtual memory map with 5-level page tables
->     ffd2000000000000 |  -11.5  PB | ffd3ffffffffffff |  0.5 PB | ... unused hole
->     ffd4000000000000 |  -11    PB | ffd5ffffffffffff |  0.5 PB | virtual memory map (vmemmap_base)
->     ffd6000000000000 |  -10.5  PB | ffdeffffffffffff | 2.25 PB | ... unused hole
-> -   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN shadow memory
-> +   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN shadow memory (generic mode)
-> +   ffeffc0000000000 |   -6    PB | fffffbffffffffff |    4 PB | KASAN shadow memory (software tag-based mode)
->    __________________|____________|__________________|_________|____________________________________________________________
+Instead of depending on the implicit case between a pointer to pointers
+and pointer to arrays, use the assigned variable type for the allocation
+type so they correctly match. Solves the following build error:
 
-I think the idea of these is that you can run through, find *one* range
-and know what a given address maps to. This adds overlapping ranges.
-Could you make it clear that part of the area is "generic mode" only and
-the other part is for generic mode and for "software tag-based mode"?
+../kernel/kcsan/kcsan_test.c: In function '__report_matches':
+../kernel/kcsan/kcsan_test.c:171:16: error: assignment to 'char (*)[512]' from incompatible pointer type 'char (*)[3][512]'
+[-Wincompatible-pointer-types]
+  171 |         expect = kmalloc_obj(observed.lines);
+      |                ^
 
-> @@ -176,5 +178,9 @@ Be very careful vs. KASLR when changing anything here. The KASLR address
->  range must not overlap with anything except the KASAN shadow area, which is
->  correct as KASAN disables KASLR.
->  
-> +The 'KASAN shadow memory (generic mode)/(software tag-based mode)' ranges are
-> +mutually exclusive and depend on which KASAN setting is chosen:
-> +CONFIG_KASAN_GENERIC or CONFIG_KASAN_SW_TAGS.
-> +
->  For both 4- and 5-level layouts, the KSTACK_ERASE_POISON value in the last 2MB
->  hole: ffffffffffff4111
-> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-> index 64dbf8b308bd..03b508ebe673 100644
-> --- a/Documentation/dev-tools/kasan.rst
-> +++ b/Documentation/dev-tools/kasan.rst
-> @@ -22,8 +22,8 @@ architectures, but it has significant performance and memory overheads.
->  
->  Software Tag-Based KASAN or SW_TAGS KASAN, enabled with CONFIG_KASAN_SW_TAGS,
->  can be used for both debugging and dogfood testing, similar to userspace HWASan.
-> -This mode is only supported for arm64, but its moderate memory overhead allows
-> -using it for testing on memory-restricted devices with real workloads.
-> +This mode is only supported for arm64 and x86, but its moderate memory overhead
-> +allows using it for testing on memory-restricted devices with real workloads.
->  
->  Hardware Tag-Based KASAN or HW_TAGS KASAN, enabled with CONFIG_KASAN_HW_TAGS,
->  is the mode intended to be used as an in-field memory bug detector or as a
-> @@ -351,10 +351,12 @@ Software Tag-Based KASAN
->  Software Tag-Based KASAN uses a software memory tagging approach to checking
->  access validity. It is currently only implemented for the arm64 architecture.
->  
-> -Software Tag-Based KASAN uses the Top Byte Ignore (TBI) feature of arm64 CPUs
-> -to store a pointer tag in the top byte of kernel pointers. It uses shadow memory
-> -to store memory tags associated with each 16-byte memory cell (therefore, it
-> -dedicates 1/16th of the kernel memory for shadow memory).
-> +Software Tag-Based KASAN uses the Top Byte Ignore (TBI) feature of arm64 CPUs to
-> +store a pointer tag in the top byte of kernel pointers. Analogously to TBI on
-> +x86 CPUs Linear Address Masking (LAM) feature is used and the pointer tag is
-> +stored in four bits of the kernel pointer's top byte. Software Tag-Based mode
-> +uses shadow memory to store memory tags associated with each 16-byte memory cell
-> +(therefore, it dedicates 1/16th of the kernel memory for shadow memory).
+Tested with:
 
-This is going to get really cumbersome really fast if all the
-architectures doing this add their marketing terms in here.
+$ ./tools/testing/kunit/kunit.py run \
+	--kconfig_add CONFIG_DEBUG_KERNEL=y \
+	--kconfig_add CONFIG_KCSAN=y \
+	--kconfig_add CONFIG_KCSAN_KUNIT_TEST=y \
+	--arch=x86_64 --qemu_args '-smp 2' kcsan
 
-	Software Tag-Based KASAN uses the hardware CPU features* to
-	repurpose space inside kernel pointers to store pointer tags.
-	...
+Reported-by: Nathan Chancellor <nathan@kernel.org>
+Fixes: 69050f8d6d07 ("treewide: Replace kmalloc with kmalloc_obj for non-scalar types")
+Signed-off-by: Kees Cook <kees@kernel.org>
+---
+Cc: Marco Elver <elver@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: <kasan-dev@googlegroups.com>
+---
+ kernel/kcsan/kcsan_test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-and then _elsewhere_ you can describe the two implementations.
-
->  On each memory allocation, Software Tag-Based KASAN generates a random tag, tags
->  the allocated memory with this tag, and embeds the same tag into the returned
-> @@ -370,12 +372,14 @@ Software Tag-Based KASAN also has two instrumentation modes (outline, which
->  emits callbacks to check memory accesses; and inline, which performs the shadow
->  memory checks inline). With outline instrumentation mode, a bug report is
->  printed from the function that performs the access check. With inline
-> -instrumentation, a ``brk`` instruction is emitted by the compiler, and a
-> -dedicated ``brk`` handler is used to print bug reports.
-> -
-> -Software Tag-Based KASAN uses 0xFF as a match-all pointer tag (accesses through
-> -pointers with the 0xFF pointer tag are not checked). The value 0xFE is currently
-> -reserved to tag freed memory regions.
-> +instrumentation, arm64's implementation uses the ``brk`` instruction emitted by
-> +the compiler, and a dedicated ``brk`` handler is used to print bug reports. On
-> +x86 inline mode doesn't work yet due to missing compiler support.
-> +
-> +For arm64 Software Tag-Based KASAN uses 0xFF as a match-all pointer tag
-> +(accesses through pointers with the 0xFF pointer tag are not checked). The value
-> +0xFE is currently reserved to tag freed memory regions. On x86 the same tags
-> +take on 0xF and 0xE respectively.
-
-I think this would be more clear with a table or list of features and
-supported architectures.
-
->  Hardware Tag-Based KASAN
->  ~~~~~~~~~~~~~~~~~~~~~~~~
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index 80527299f859..877668cd5deb 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -67,6 +67,7 @@ config X86
->  	select ARCH_CLOCKSOURCE_INIT
->  	select ARCH_CONFIGURES_CPU_MITIGATIONS
->  	select ARCH_CORRECT_STACKTRACE_ON_KRETPROBE
-> +	select ARCH_DISABLE_KASAN_INLINE	if X86_64 && KASAN_SW_TAGS
->  	select ARCH_ENABLE_HUGEPAGE_MIGRATION if X86_64 && HUGETLB_PAGE && MIGRATION
->  	select ARCH_ENABLE_MEMORY_HOTPLUG if X86_64
->  	select ARCH_ENABLE_MEMORY_HOTREMOVE if MEMORY_HOTPLUG
-> @@ -196,6 +197,8 @@ config X86
->  	select HAVE_ARCH_JUMP_LABEL_RELATIVE
->  	select HAVE_ARCH_KASAN			if X86_64
->  	select HAVE_ARCH_KASAN_VMALLOC		if X86_64
-> +	select HAVE_ARCH_KASAN_SW_TAGS		if ADDRESS_MASKING && CC_IS_CLANG
-> +	select ARCH_NEEDS_DEFER_KASAN		if ADDRESS_MASKING
->  	select HAVE_ARCH_KFENCE
->  	select HAVE_ARCH_KMSAN			if X86_64
->  	select HAVE_ARCH_KGDB
-> @@ -410,6 +413,7 @@ config AUDIT_ARCH
->  config KASAN_SHADOW_OFFSET
->  	hex
->  	depends on KASAN
-> +	default 0xeffffc0000000000 if KASAN_SW_TAGS
->  	default 0xdffffc0000000000
-
-Please separate this from the documentation.
-
->  config HAVE_INTEL_TXT
-> diff --git a/arch/x86/boot/compressed/misc.h b/arch/x86/boot/compressed/misc.h
-> index fd855e32c9b9..ba70036c2abd 100644
-> --- a/arch/x86/boot/compressed/misc.h
-> +++ b/arch/x86/boot/compressed/misc.h
-> @@ -13,6 +13,7 @@
->  #undef CONFIG_PARAVIRT_SPINLOCKS
->  #undef CONFIG_KASAN
->  #undef CONFIG_KASAN_GENERIC
-> +#undef CONFIG_KASAN_SW_TAGS
->  
->  #define __NO_FORTIFY
->  
-> diff --git a/arch/x86/include/asm/kasan.h b/arch/x86/include/asm/kasan.h
-> index 90c18e30848f..53ab7de16517 100644
-> --- a/arch/x86/include/asm/kasan.h
-> +++ b/arch/x86/include/asm/kasan.h
-> @@ -6,7 +6,12 @@
->  #include <linux/kasan-tags.h>
->  #include <linux/types.h>
->  #define KASAN_SHADOW_OFFSET _AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
-> +
-> +#ifdef CONFIG_KASAN_SW_TAGS
-> +#define KASAN_SHADOW_SCALE_SHIFT 4
-> +#else
->  #define KASAN_SHADOW_SCALE_SHIFT 3
-> +#endif
->  
->  /*
->   * Compiler uses shadow offset assuming that addresses start
-> diff --git a/arch/x86/mm/kasan_init_64.c b/arch/x86/mm/kasan_init_64.c
-> index 7f5c11328ec1..8cbb8ec32061 100644
-> --- a/arch/x86/mm/kasan_init_64.c
-> +++ b/arch/x86/mm/kasan_init_64.c
-> @@ -465,4 +465,9 @@ void __init kasan_init(void)
->  
->  	init_task.kasan_depth = 0;
->  	kasan_init_generic();
-> +
-> +	if (cpu_feature_enabled(X86_FEATURE_LAM))
-> +		kasan_init_sw_tags();
-> +	else
-> +		pr_info("KernelAddressSanitizer not initialized (sw-tags): hardware doesn't support LAM\n");
->  }
-> diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-> index a4bb610a7a6f..d13ea8da7bfd 100644
-> --- a/lib/Kconfig.kasan
-> +++ b/lib/Kconfig.kasan
-> @@ -112,7 +112,8 @@ config KASAN_SW_TAGS
->  
->  	  Requires GCC 11+ or Clang.
->  
-> -	  Supported only on arm64 CPUs and relies on Top Byte Ignore.
-> +	  Supported on arm64 CPUs that support Top Byte Ignore and on x86 CPUs
-> +	  that support Linear Address Masking.
-
-Can this read more like:
-
-	Supported on:
-		arm64: CPUs with Top Byte Ignore
-		x86:   CPUs with Linear Address Masking.
-
-please?
+diff --git a/kernel/kcsan/kcsan_test.c b/kernel/kcsan/kcsan_test.c
+index 79e655ea4ca1..056fa859ad9a 100644
+--- a/kernel/kcsan/kcsan_test.c
++++ b/kernel/kcsan/kcsan_test.c
+@@ -168,7 +168,7 @@ static bool __report_matches(const struct expect_report *r)
+ 	if (!report_available())
+ 		return false;
+ 
+-	expect = kmalloc_obj(observed.lines);
++	expect = kmalloc_obj(*expect);
+ 	if (WARN_ON(!expect))
+ 		return false;
+ 
+-- 
+2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/f25c328f-4ce7-4494-a200-af4ba928e724%40intel.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260223222226.work.188-kees%40kernel.org.
