@@ -1,115 +1,116 @@
-Return-Path: <kasan-dev+bncBDGZVRMH6UCRBXXG6TGAMGQEJCG44RI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDGZVRMH6UCRBY7G6TGAMGQE37C36UQ@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6HihFmAznWlINQQAu9opvQ
-	(envelope-from <kasan-dev+bncBDGZVRMH6UCRBXXG6TGAMGQEJCG44RI@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Tue, 24 Feb 2026 06:13:04 +0100
+	id 6PdgBWYznWlINQQAu9opvQ
+	(envelope-from <kasan-dev+bncBDGZVRMH6UCRBY7G6TGAMGQE37C36UQ@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Tue, 24 Feb 2026 06:13:10 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-yx1-xb13c.google.com (mail-yx1-xb13c.google.com [IPv6:2607:f8b0:4864:20::b13c])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89EA181D08
-	for <lists+kasan-dev@lfdr.de>; Tue, 24 Feb 2026 06:13:03 +0100 (CET)
-Received: by mail-yx1-xb13c.google.com with SMTP id 956f58d0204a3-64ca09f2064sf131164d50.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 23 Feb 2026 21:13:03 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1771909982; cv=pass;
+Received: from mail-oi1-x238.google.com (mail-oi1-x238.google.com [IPv6:2607:f8b0:4864:20::238])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80451181D0F
+	for <lists+kasan-dev@lfdr.de>; Tue, 24 Feb 2026 06:13:09 +0100 (CET)
+Received: by mail-oi1-x238.google.com with SMTP id 5614622812f47-45f07dad7a8sf17256983b6e.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 23 Feb 2026 21:13:09 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1771909988; cv=pass;
         d=google.com; s=arc-20240605;
-        b=SzRKinJDT1AdMODWG/pK4MlmsBL9nXSpDBifbyXO2tEChlk7p2Ya2wlzWUF5U1ABJ/
-         PEOtStjyJNTYsfHqtfG3H95dWBCNxIa/gK4IbW/NbjE6Gnms+FKtGbPNpsugN01WLHaC
-         2a6dLFKbp+jsS+lzYP0Up7cR7h4bCeXBYbS08XrRB+RGHofygK0EmFdd4K8f0i3w/323
-         EPZKZAw1duTX6hIUyt5mAPbZRExwEO9CJyg1AVwmU8UT5pX27Ebq9DYoYSJwYUMycKn0
-         ASLzGo/5Gz7EnQ2eMi8a5Wz80PtZckYHRGQt37d+BUy4S5EnYpH45KZdofFkcPIz6CCJ
-         yAIg==
+        b=Evhf3Oyd2j9i5Z13tetypKQI9zJWKUZol8Y/WUZwIx9HkXiuRaBX4bkvWCSkTUI7t3
+         mBF6PsrvMmfFwhl4eFO3Ps1YQiQKj5vL4HdCixN+sNIHVhFnRHWGhEkiQ1rJ+FmFmYGk
+         qTUq6yv3OvluRs0R2sraRAvN/Q1mzTb/YtBR8NTIXBqDS3APExF1N0587cLlbdDtZ3m/
+         EFHa4BmqKkconpYklTLVz5R1dEdh/WM84qRjIq2zoyswRyuct/Gqq+GM6uqfhO4cog67
+         XOwo+NWyxFEUwwR8PV8B/orSSVkc0H9EzR5kipvp0zGeqDA22g0Gx5dmawfTSnbLEdMK
+         a7kw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=Mb2ov1FOnVrywZqJyKE+TlYsY9fcuHN+vswxglS1YY4=;
-        fh=qrbyjctbuk5GbZrFEgGocPvCcK22qTHr1D+mLGlnAVg=;
-        b=bKdr8qhuWJfXGbhchtWUMCG7u3J6/mwV1whnpeKu+5hOFBXT/N8gwsmY8ndPO0zqRo
-         j+OC874XSB5LjHIZJKAH8jJIRysvy2GwtrbTJvHWe5zSH/Ia6zI4rdzYP/pwYHycbrGz
-         wqe1hV0oLG9fRYzyxk+H0cxzYLkTb9NUD5FMzdswotCkvJeeVgfAZ9BDA1WveySnrBKU
-         6yQXGpzNmZSZ2foTGR2E8YBScBANC0u0CQGONoJukH/Jy1BdH7de1cfJeiXnxjYv9TG7
-         /yOSytU+BGMzubw2c5eLiMSUnr/oc3xfDizc3T26Ads48K4r1VCGCaNcPOGY5+J5DdTX
-         YC1Q==;
+        bh=SQTh5ibbsOLJQ3MwUUqc9dJTsX3tk53NEr1wbYYxZIA=;
+        fh=t4RLjYtI3Goznp4ehovTyOrJFJYSnrahpBBVm+WIGrg=;
+        b=jWeE4XNAyxyu3S2it6MgTd4mK7l6cMReDpKvFdVLNQl3w60M90ItKfxf6VVAiELwJA
+         laCjndJXeOFM6k70G9p0Da//GueWd8KF3IAxNnfPFcDtWhY07T4ATx94pyZKrQQaFYbX
+         ZdFlhrHUlWwWBvstZSQJBAhnY8F2kB0hqpBiFTEobRy7/zG/bPB/IboKnUpTggbOUmt3
+         yJ4ktOu0vo3OcJNGgX2bZ67A0dh/2Ibmezry5x8d0vKQafB5tSujaKYNVDmN0k1WscvZ
+         zlTCrJJLYsMVNTJqdN70mffahdaTc/O9F5gzvQxzXxUHkx+gkpNVjlpYmR6qFbdtXei8
+         436A==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1771909982; x=1772514782; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1771909988; x=1772514788; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Mb2ov1FOnVrywZqJyKE+TlYsY9fcuHN+vswxglS1YY4=;
-        b=a2Z6asP2w/PN/PurIu5wV5lCfDPN+0u/VR2bjbmIKVNVY0qsJ0XCrTw5myVQuEl7ZF
-         fiX9O5B1XmyoLWlCVKEumWiNPlcloa04ZniuH2X57fSeBYNpN9qJ17hJSe5f/Z8psMUE
-         qmp7x7xNgdamp/NF6cfBu3SH8fHe2UYDUyE+FHgMqQ9enMqybZTR32+CE86a2z3eYb63
-         FOltR42MG81tS4fIf+4rmxDzquFdNWJth2m2OeRRHDVjaNuseACsAZdMn6ScQOKsr/FL
-         TEMBE4ddOs86TAlTl2T1yWQRKl8ZXBxWNYwl+iVzu4Ts+GVqKLBiqidSOLKAXTVySwQF
-         B5gg==
+        bh=SQTh5ibbsOLJQ3MwUUqc9dJTsX3tk53NEr1wbYYxZIA=;
+        b=Wx+DkNtBfy006gCUGvZrBXPIgLd1xcrb7WnjrfeXmzvDn8aLHZGx5JJd1IA9vabA6t
+         1eSwy9T+EkTcMZjuBAdx+2u821a3ZS3uJLyXcUegXjVNXHfAhw8al0qwZxWCcEetndsk
+         xWk/TeizLOaTuy32jqTw0ViZTrGCjd20V6q5h6bXxYlsc6VzGe95u0bLPeoOxiOJrdzv
+         h6Dfw9JGjSm+eYYu70dRYe7us41LtcjhBc+sH/phJmt9rJ491pwaeX5MGp5EUS16Z+Ou
+         N5s46Tt/jDtCncG2OR7j8HAnbZQ3OUNFPOtN23gX8pCSfkJIOr6Qn9YE/MKQvFxZgNTp
+         mz+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771909982; x=1772514782;
+        d=1e100.net; s=20230601; t=1771909988; x=1772514788;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Mb2ov1FOnVrywZqJyKE+TlYsY9fcuHN+vswxglS1YY4=;
-        b=BBhLv8ltF0UAKmP1DEW8hrwYQ0FHIPiWW8FVZxiKJBl6O2+MxZ312cA+6pmEGjGlAm
-         eyxREH2uxyTD99e1l6dcu+J76re8aT+XrqSgu1hS0Y1UJomKX+PrytPo+IIx8oN9zBD+
-         6XLGd7Tym9fQ2pEY78U4/V4Ql0QoUzfQyQrzuUqMMqbGJVH0yLnIJxsITZ6dmRBlgaw/
-         OSliFdh/OszwAbeP8vAW31R5IkOEjbHFBVmmLDV6MenYytRQI9YF+Ep04H7yvK8pNPnF
-         CNR6tyRRZviJxtfxVvSNSwoIaUmHeuaEhFPJ3PiKOCexDbFH8y8a2yZTfFUWOTjaYSf3
-         xsiQ==
+        bh=SQTh5ibbsOLJQ3MwUUqc9dJTsX3tk53NEr1wbYYxZIA=;
+        b=CSdiElqalDXm5l9hxxJPVMHOUdj8Wlcv7XmSb7WjEcFrkRTcfv7snrqgvp4mlwwzJN
+         DsboNs6ANlA4YRSUCuuY1y3fbGbeu/Kn8eDFuYFzGAS3Qzpwmh3zasA/FePkI5WsMNSe
+         0RglIhd5Z4KHxlvvXy+NW3xYbw9s650uuBaFWcpYrtpMc38zClNkqOXZRBHzD3HwI1D/
+         VSojveomySiPjE1eKI0rJRbP26bGBCuwMbbyYjf2vKn89P4s257ElEdK81nLppMPTCX7
+         C326/FAurqCKMlYYLEHiCwyoaNvFPJiockkjmCm+c9icY0ZsWmk5X4OnekPAYfRw8zOn
+         XdDg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWNqqFBMkpJavlJxD3OKQGb34rBtXHo523bWmmGhEGPsl8FwIZ0telSwoEvQiBTPcbYKfLvTQ==@lfdr.de
-X-Gm-Message-State: AOJu0YwVEEUIrWC38TVyhJBjTTCa0vSTJmS/z2cIGReV6bByiD6mKF9v
-	XvtXdy+Xwmn0EmiPouOeOAhlvQ/0o0NXh5WWziTc1Gcl0RSRo8PV4di7
-X-Received: by 2002:a05:690e:16a0:b0:64a:d35e:d351 with SMTP id 956f58d0204a3-64c787d68a8mr9274344d50.25.1771909982620;
-        Mon, 23 Feb 2026 21:13:02 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+G1iqqi5ekPkR3laOc3LfwCa48CUBA1dsG+t3w6+seI0A=="
-Received: by 2002:a53:d604:0:b0:648:1a47:2653 with SMTP id 956f58d0204a3-64c0e8a989dls10498361d50.1.-pod-prod-02-us;
- Mon, 23 Feb 2026 21:13:01 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUEYqomfhcTHQqwls9asqwiWVPERo47Ee5JGDSX+iY14nMVZw74WmZGKC+rFrNrj0/NrwIsifHYHcU=@googlegroups.com
-X-Received: by 2002:a05:690e:1c08:b0:64c:99d7:8d27 with SMTP id 956f58d0204a3-64c99d7c5a1mr1852861d50.7.1771909981759;
-        Mon, 23 Feb 2026 21:13:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771909981; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCWBawy8hYVEh7TzNnibB5X2XvKcydzJplManxwTcZS4Dso8oQubuGdUasH3hrEsH960m4XKbA==@lfdr.de
+X-Gm-Message-State: AOJu0YyVCAiu7iUE0lzLZnK92eBbSpyLT0ardnxKpX4HB7gFGHPfV5Uz
+	6EkEFz1qttpJeFJdYZf/LJis/C+TYtakrOxezZAeu7a66MaJ1l0zgJhU
+X-Received: by 2002:a05:6870:648a:b0:40e:b6b2:b97a with SMTP id 586e51a60fabf-4157b190f40mr4879353fac.51.1771909987569;
+        Mon, 23 Feb 2026 21:13:07 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+HmDTe7yFLU9OqvF0iU6W/fKZ1Vfi0yZ6V6uBONg6LsHQ=="
+Received: by 2002:a05:6870:d153:b0:40e:e4dd:d0b0 with SMTP id
+ 586e51a60fabf-40ee4ddd79fls6510798fac.1.-pod-prod-06-us; Mon, 23 Feb 2026
+ 21:13:06 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCW3ampbQ5NJig/sthUrMKfb8NqzI4VvY+V21lUUZu/Mnk065Aqte8A2dLylaCEUzZfMtxrsLgcBeeM=@googlegroups.com
+X-Received: by 2002:a05:6871:783:b0:409:6ea8:5f7f with SMTP id 586e51a60fabf-4157ac6b0d7mr5538009fac.20.1771909986578;
+        Mon, 23 Feb 2026 21:13:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771909986; cv=none;
         d=google.com; s=arc-20240605;
-        b=HRbRU5Fn+Q5iq+fviAgoul8Th56mXSnO1m+1jdkeWyDTazImkHJmZkTFUhjBQ73aEP
-         qsMSPYxfMShufuhl04bxGBWI5j89gYYfl089BgHt4/Vff5drYJUxi3l/7gBGwv4Nh4O1
-         bvt+HeJxbdwV5+Lo/IJ+99YXBqj/sS68C5YIkx2HWCWHZSDW+d3RmgfLmUDtWFWx4Zcc
-         1K16FlZZv9s1NpMkX2irmFoPtvnQ0AN5fVjlE9N/gJfMH4QpXlgLfkwyKD7Dn0MHCcXs
-         Fk8rSv9nik+hFc6m0tfSEeUw4FBvGU4rUykrOfTPAxSKr2ScmFDJI2UvvTE+Cu1xcDka
-         iNWw==
+        b=QRccZYosd869cNv+Xj1H/i2mUz76e8fz/SQlCaKQWWpkFViQdfjsMEMgoNfuXAiinz
+         RCr/zQRQktDTByexhqexdrxRCAxQZXEzupikEAsKl+b3EmI2XFNpSfXKyw9oUKZUMK47
+         zURQimui72O4Z29j5NjwaRU1SdK3UGPRGwDlkIzFRQ4mRHzxisQOQP2cGO6k5sst0BKb
+         uGjxAf712AxmCZxleD5d1qTEjznumhNAHvg8ZryLTqxp9KapkqwmcPlHkSmp8q7YVVqS
+         5BoPKYjMOjuRfGw9/oSeQHcOX0Ay/ui35QTO7z85WYE+BxUFFNyXlS2TDZCvyx8skhRL
+         lkUQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from;
-        bh=FW2CMNtGRcpGXEixEdNqZypEhSH+CeHAB0KU0mw6C7M=;
+        bh=RxiVFUuLeDkSxqT3ivdHS3XEaH5+5qZe/ROqDJWk8+A=;
         fh=/5PcxhpYFRn2Yp66x6S75u1IlAhfwysKHKXRRS1r5Qc=;
-        b=klyO/fMrQBHB7ppsduTVkK98Tbd3K4wv6ovfccU5dXVUuQS5plIMHgkP7ZUGkiFrPV
-         YnWyf8+EUyvk0RUOLOMoCv4N2WIwQ2nL7s13LTrmskh0Zwo9Y1zOsJagCE9BsiLZtjRn
-         4Vqn/+EBpZY7W8MZV6OAo6l248K2ABYiqaxS6zcjiZhP5liIAgZRRFbcFM8HsZubrh/2
-         IiEpRjvVvmw9Jx76L8gjd++3mrAXbx4MTQ22W6iwc01MlLCm9HXrUHTZ5GeL27GKXVPR
-         /44zquYXmvTRgC+YAcPLsYtY+GjeLie839UGujtz/mufffQoMRHYsURyoEYzUySSAhII
-         aBDw==;
+        b=Kg4bbH4BzQ13dNXNbtaBrpGA2y5rRcvQ2zFh2NcRwHMzVnLnoN07HeSMTTR2dluQ1+
+         p0ce/yjh4gDcaw+sMmOrJPIgNVAVVPbVlFzHUfzNFCd9VZCRvcc2X/fR9jX9sbN6QTdD
+         9wArtc3ek7Ky+4CVmN+96aRlgPEbpFLXCSvaqLimCwIY0VjhZ2XvJZEotpNYvUBAH55t
+         9R7PCrdYXSmkkOtTlmi4sgKihJQ+yUFQdrsgDtka8naWUuwy8lLBxRaK77AreSwAwLBe
+         Aqfhpv29IeniJbvDeUhqrOJGt8dHNjk4nxsglGU3ovplRoDGro/XGt8CKPcZj/lWRcjz
+         B/xA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id 956f58d0204a3-64c7a3a97ebsi269481d50.7.2026.02.23.21.13.01
+        by gmr-mx.google.com with ESMTP id 586e51a60fabf-4157cd3e99fsi279798fac.2.2026.02.23.21.13.06
         for <kasan-dev@googlegroups.com>;
-        Mon, 23 Feb 2026 21:13:01 -0800 (PST)
+        Mon, 23 Feb 2026 21:13:06 -0800 (PST)
 Received-SPF: pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DB93D497;
-	Mon, 23 Feb 2026 21:12:54 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EDB95497;
+	Mon, 23 Feb 2026 21:12:59 -0800 (PST)
 Received: from a085714.blr.arm.com (a085714.arm.com [10.164.18.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B3EC13F7BD;
-	Mon, 23 Feb 2026 21:12:56 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C46A93F7BD;
+	Mon, 23 Feb 2026 21:13:01 -0800 (PST)
 From: Anshuman Khandual <anshuman.khandual@arm.com>
 To: linux-arm-kernel@lists.infradead.org
 Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
@@ -125,9 +126,9 @@ Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org,
 	kasan-dev@googlegroups.com
-Subject: [RFC V1 07/16] arm64/mm: Convert READ_ONCE() as p4dp_get() while accessing P4D
-Date: Tue, 24 Feb 2026 10:41:44 +0530
-Message-ID: <20260224051153.3150613-8-anshuman.khandual@arm.com>
+Subject: [RFC V1 08/16] arm64/mm: Convert READ_ONCE() as pgdp_get() while accessing PGD
+Date: Tue, 24 Feb 2026 10:41:45 +0530
+Message-ID: <20260224051153.3150613-9-anshuman.khandual@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260224051153.3150613-1-anshuman.khandual@arm.com>
 References: <20260224051153.3150613-1-anshuman.khandual@arm.com>
@@ -162,7 +163,7 @@ X-Spamd-Result: default: False [-0.61 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bncBDGZVRMH6UCRBXXG6TGAMGQEJCG44RI];
+	TAGGED_FROM(0.00)[bncBDGZVRMH6UCRBY7G6TGAMGQE37C36UQ];
 	RCPT_COUNT_TWELVE(0.00)[14];
 	FROM_HAS_DN(0.00)[];
 	ASN(0.00)[asn:15169, ipnet:2607:f8b0::/32, country:US];
@@ -174,11 +175,11 @@ X-Spamd-Result: default: False [-0.61 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[kasan-dev];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[googlegroups.com:email,googlegroups.com:dkim,infradead.org:email,arm.com:mid,arm.com:email]
-X-Rspamd-Queue-Id: D89EA181D08
+	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:email,arm.com:mid,arm.com:email,googlegroups.com:email,googlegroups.com:dkim,mail-oi1-x238.google.com:helo,mail-oi1-x238.google.com:rdns]
+X-Rspamd-Queue-Id: 80451181D0F
 X-Rspamd-Action: no action
 
-Convert all READ_ONCE() based P4D accesses as p4dp_get() instead which will
+Convert all READ_ONCE() based PGD accesses as pgdp_get() instead which will
 support both D64 and D128 translation regime going forward.
 
 Cc: Catalin Marinas <catalin.marinas@arm.com>
@@ -190,222 +191,173 @@ Cc: linux-kernel@vger.kernel.org
 Cc: kasan-dev@googlegroups.com
 Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
 ---
- arch/arm64/include/asm/pgtable.h | 13 +++----------
+ arch/arm64/include/asm/pgtable.h | 12 ++----------
  arch/arm64/mm/fault.c            |  2 +-
- arch/arm64/mm/fixmap.c           |  2 +-
  arch/arm64/mm/hugetlbpage.c      |  2 +-
- arch/arm64/mm/kasan_init.c       |  4 ++--
- arch/arm64/mm/mmu.c              | 29 +++++++++++++++++++++++------
+ arch/arm64/mm/kasan_init.c       |  2 +-
+ arch/arm64/mm/mmu.c              | 25 ++++++++++++++++++++++---
  arch/arm64/mm/pageattr.c         |  2 +-
  arch/arm64/mm/trans_pgd.c        |  4 ++--
- 8 files changed, 34 insertions(+), 24 deletions(-)
+ 7 files changed, 30 insertions(+), 19 deletions(-)
 
 diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
-index 93d06b5de34b..24ea4e04e9a1 100644
+index 24ea4e04e9a1..257af1c3015d 100644
 --- a/arch/arm64/include/asm/pgtable.h
 +++ b/arch/arm64/include/asm/pgtable.h
-@@ -1003,12 +1003,7 @@ static inline pud_t *p4d_pgtable(p4d_t p4d)
- 	return (pud_t *)__va(p4d_page_paddr(p4d));
+@@ -1119,12 +1119,7 @@ static inline p4d_t *pgd_to_folded_p4d(pgd_t *pgdp, unsigned long addr)
+ 	return (p4d_t *)PTR_ALIGN_DOWN(pgdp, PAGE_SIZE) + p4d_index(addr);
  }
  
--static inline phys_addr_t pud_offset_phys(p4d_t *p4dp, unsigned long addr)
+-static inline phys_addr_t p4d_offset_phys(pgd_t *pgdp, unsigned long addr)
 -{
--	BUG_ON(!pgtable_l4_enabled());
+-	BUG_ON(!pgtable_l5_enabled());
 -
--	return p4d_page_paddr(READ_ONCE(*p4dp)) + pud_index(addr) * sizeof(pud_t);
+-	return pgd_page_paddr(READ_ONCE(*pgdp)) + p4d_index(addr) * sizeof(p4d_t);
 -}
-+phys_addr_t pud_offset_phys(p4d_t *p4dp, unsigned long addr);
++phys_addr_t p4d_offset_phys(pgd_t *pgdp, unsigned long addr);
  
  static inline
- pud_t *pud_offset_lockless(p4d_t *p4dp, p4d_t p4d, unsigned long addr)
-@@ -1019,10 +1014,8 @@ pud_t *pud_offset_lockless(p4d_t *p4dp, p4d_t p4d, unsigned long addr)
+ p4d_t *p4d_offset_lockless(pgd_t *pgdp, pgd_t pgd, unsigned long addr)
+@@ -1135,10 +1130,7 @@ p4d_t *p4d_offset_lockless(pgd_t *pgdp, pgd_t pgd, unsigned long addr)
  }
- #define pud_offset_lockless pud_offset_lockless
+ #define p4d_offset_lockless p4d_offset_lockless
  
--static inline pud_t *pud_offset(p4d_t *p4dp, unsigned long addr)
+-static inline p4d_t *p4d_offset(pgd_t *pgdp, unsigned long addr)
 -{
--	return pud_offset_lockless(p4dp, READ_ONCE(*p4dp), addr);
+-	return p4d_offset_lockless(pgdp, READ_ONCE(*pgdp), addr);
 -}
-+pud_t *pud_offset(p4d_t *p4dp, unsigned long addr);
-+
- #define pud_offset	pud_offset
++p4d_t *p4d_offset(pgd_t *pgdp, unsigned long addr);
  
- static inline pud_t *pud_set_fixmap(unsigned long addr)
+ static inline p4d_t *p4d_set_fixmap(unsigned long addr)
+ {
 diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-index 64836bc14798..f41f4c628d22 100644
+index f41f4c628d22..7bb14765a98d 100644
 --- a/arch/arm64/mm/fault.c
 +++ b/arch/arm64/mm/fault.c
-@@ -165,7 +165,7 @@ static void show_pte(unsigned long addr)
- 			break;
+@@ -152,7 +152,7 @@ static void show_pte(unsigned long addr)
+ 		 mm == &init_mm ? "swapper" : "user", PAGE_SIZE / SZ_1K,
+ 		 vabits_actual, mm_to_pgd_phys(mm));
+ 	pgdp = pgd_offset(mm, addr);
+-	pgd = READ_ONCE(*pgdp);
++	pgd = pgdp_get(pgdp);
+ 	pr_alert("[%016lx] pgd=%016llx", addr, pgd_val(pgd));
  
- 		p4dp = p4d_offset(pgdp, addr);
--		p4d = READ_ONCE(*p4dp);
-+		p4d = p4dp_get(p4dp);
- 		pr_cont(", p4d=%016llx", p4d_val(p4d));
- 		if (p4d_none(p4d) || p4d_bad(p4d))
- 			break;
-diff --git a/arch/arm64/mm/fixmap.c b/arch/arm64/mm/fixmap.c
-index dd58af6561e0..4c2f71929777 100644
---- a/arch/arm64/mm/fixmap.c
-+++ b/arch/arm64/mm/fixmap.c
-@@ -74,7 +74,7 @@ static void __init early_fixmap_init_pmd(pud_t *pudp, unsigned long addr,
- static void __init early_fixmap_init_pud(p4d_t *p4dp, unsigned long addr,
- 					 unsigned long end)
- {
--	p4d_t p4d = READ_ONCE(*p4dp);
-+	p4d_t p4d = p4dp_get(p4dp);
- 	pud_t *pudp;
- 
- 	if (CONFIG_PGTABLE_LEVELS > 3 && !p4d_none(p4d) &&
+ 	do {
 diff --git a/arch/arm64/mm/hugetlbpage.c b/arch/arm64/mm/hugetlbpage.c
-index b229c05bfbb6..15241307baec 100644
+index 15241307baec..ccf08ba06a48 100644
 --- a/arch/arm64/mm/hugetlbpage.c
 +++ b/arch/arm64/mm/hugetlbpage.c
-@@ -288,7 +288,7 @@ pte_t *huge_pte_offset(struct mm_struct *mm,
+@@ -284,7 +284,7 @@ pte_t *huge_pte_offset(struct mm_struct *mm,
+ 	pmd_t *pmdp, pmd;
+ 
+ 	pgdp = pgd_offset(mm, addr);
+-	if (!pgd_present(READ_ONCE(*pgdp)))
++	if (!pgd_present(pgdp_get(pgdp)))
  		return NULL;
  
  	p4dp = p4d_offset(pgdp, addr);
--	if (!p4d_present(READ_ONCE(*p4dp)))
-+	if (!p4d_present(p4dp_get(p4dp)))
- 		return NULL;
- 
- 	pudp = pud_offset(p4dp, addr);
 diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
-index 19492ef5940a..e50c40162bce 100644
+index e50c40162bce..d05c16cfa5aa 100644
 --- a/arch/arm64/mm/kasan_init.c
 +++ b/arch/arm64/mm/kasan_init.c
-@@ -89,7 +89,7 @@ static pmd_t *__init kasan_pmd_offset(pud_t *pudp, unsigned long addr, int node,
- static pud_t *__init kasan_pud_offset(p4d_t *p4dp, unsigned long addr, int node,
+@@ -102,7 +102,7 @@ static pud_t *__init kasan_pud_offset(p4d_t *p4dp, unsigned long addr, int node,
+ static p4d_t *__init kasan_p4d_offset(pgd_t *pgdp, unsigned long addr, int node,
  				      bool early)
  {
--	if (p4d_none(READ_ONCE(*p4dp))) {
-+	if (p4d_none(p4dp_get(p4dp))) {
- 		phys_addr_t pud_phys = early ?
- 				__pa_symbol(kasan_early_shadow_pud)
+-	if (pgd_none(READ_ONCE(*pgdp))) {
++	if (pgd_none(pgdp_get(pgdp))) {
+ 		phys_addr_t p4d_phys = early ?
+ 				__pa_symbol(kasan_early_shadow_p4d)
  					: kasan_alloc_zeroed_page(node);
-@@ -162,7 +162,7 @@ static void __init kasan_p4d_populate(pgd_t *pgdp, unsigned long addr,
- 	do {
- 		next = p4d_addr_end(addr, end);
- 		kasan_pud_populate(p4dp, addr, next, node, early);
--	} while (p4dp++, addr = next, addr != end && p4d_none(READ_ONCE(*p4dp)));
-+	} while (p4dp++, addr = next, addr != end && p4d_none(p4dp_get(p4dp)));
- }
- 
- static void __init kasan_pgd_populate(unsigned long addr, unsigned long end,
 diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-index a80d06db4de6..16ae11b29f66 100644
+index 16ae11b29f66..bcf32d1a92de 100644
 --- a/arch/arm64/mm/mmu.c
 +++ b/arch/arm64/mm/mmu.c
-@@ -354,7 +354,7 @@ static int alloc_init_pud(p4d_t *p4dp, unsigned long addr, unsigned long end,
+@@ -420,7 +420,7 @@ static int alloc_init_p4d(pgd_t *pgdp, unsigned long addr, unsigned long end,
  {
- 	int ret = 0;
+ 	int ret;
  	unsigned long next;
--	p4d_t p4d = READ_ONCE(*p4dp);
-+	p4d_t p4d = p4dp_get(p4dp);
- 	pud_t *pudp;
+-	pgd_t pgd = READ_ONCE(*pgdp);
++	pgd_t pgd = pgdp_get(pgdp);
+ 	p4d_t *p4dp;
  
- 	if (p4d_none(p4d)) {
-@@ -443,7 +443,7 @@ static int alloc_init_p4d(pgd_t *pgdp, unsigned long addr, unsigned long end,
- 	}
- 
+ 	if (pgd_none(pgd)) {
+@@ -1567,7 +1567,7 @@ static void unmap_hotplug_range(unsigned long addr, unsigned long end,
  	do {
--		p4d_t old_p4d = READ_ONCE(*p4dp);
-+		p4d_t old_p4d = p4dp_get(p4dp);
- 
- 		next = p4d_addr_end(addr, end);
- 
-@@ -453,7 +453,7 @@ static int alloc_init_p4d(pgd_t *pgdp, unsigned long addr, unsigned long end,
- 			goto out;
- 
- 		BUG_ON(p4d_val(old_p4d) != 0 &&
--		       p4d_val(old_p4d) != READ_ONCE(p4d_val(*p4dp)));
-+		       p4d_val(old_p4d) != (p4d_val(p4dp_get(p4dp))));
- 
- 		phys += next - addr;
- 	} while (p4dp++, addr = next, addr != end);
-@@ -1541,7 +1541,7 @@ static void unmap_hotplug_p4d_range(pgd_t *pgdp, unsigned long addr,
- 	do {
- 		next = p4d_addr_end(addr, end);
- 		p4dp = p4d_offset(pgdp, addr);
--		p4d = READ_ONCE(*p4dp);
-+		p4d = p4dp_get(p4dp);
- 		if (p4d_none(p4d))
+ 		next = pgd_addr_end(addr, end);
+ 		pgdp = pgd_offset_k(addr);
+-		pgd = READ_ONCE(*pgdp);
++		pgd = pgdp_get(pgdp);
+ 		if (pgd_none(pgd))
  			continue;
  
-@@ -1703,7 +1703,7 @@ static void free_empty_p4d_table(pgd_t *pgdp, unsigned long addr,
+@@ -1742,7 +1742,7 @@ static void free_empty_tables(unsigned long addr, unsigned long end,
  	do {
- 		next = p4d_addr_end(addr, end);
- 		p4dp = p4d_offset(pgdp, addr);
--		p4d = READ_ONCE(*p4dp);
-+		p4d = p4dp_get(p4dp);
- 		if (p4d_none(p4d))
+ 		next = pgd_addr_end(addr, end);
+ 		pgdp = pgd_offset_k(addr);
+-		pgd = READ_ONCE(*pgdp);
++		pgd = pgdp_get(pgdp);
+ 		if (pgd_none(pgd))
  			continue;
  
-@@ -1724,7 +1724,7 @@ static void free_empty_p4d_table(pgd_t *pgdp, unsigned long addr,
- 	 */
- 	p4dp = p4d_offset(pgdp, 0UL);
- 	for (i = 0; i < PTRS_PER_P4D; i++) {
--		if (!p4d_none(READ_ONCE(p4dp[i])))
-+		if (!p4d_none(p4dp_get(p4dp + i)))
- 			return;
- 	}
- 
-@@ -2258,4 +2258,21 @@ int pmdp_test_and_clear_young(struct vm_area_struct *vma,
+@@ -2275,4 +2275,23 @@ pud_t *pud_offset(p4d_t *p4dp, unsigned long addr)
+ 	return pud_offset_lockless(p4dp, p4d, addr);
  }
- #endif /* CONFIG_TRANSPARENT_HUGEPAGE || CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG */
- 
-+#if CONFIG_PGTABLE_LEVELS > 3
-+phys_addr_t pud_offset_phys(p4d_t *p4dp, unsigned long addr)
+ #endif
++
++#if CONFIG_PGTABLE_LEVELS > 4
++phys_addr_t p4d_offset_phys(pgd_t *pgdp, unsigned long addr)
 +{
-+	p4d_t p4d = p4dp_get(p4dp);
++	pgd_t pgd = pgdp_get(pgdp);
 +
-+	BUG_ON(!pgtable_l4_enabled());
++	BUG_ON(!pgtable_l5_enabled());
 +
-+	return p4d_page_paddr(p4d) + pud_index(addr) * sizeof(pud_t);
++	return pgd_page_paddr(pgd) + p4d_index(addr) * sizeof(p4d_t);
 +}
 +
-+pud_t *pud_offset(p4d_t *p4dp, unsigned long addr)
++p4d_t *p4d_offset(pgd_t *pgdp, unsigned long addr)
 +{
-+	p4d_t p4d = p4dp_get(p4dp);
++	pgd_t pgd = pgdp_get(pgdp);
 +
-+	return pud_offset_lockless(p4dp, p4d, addr);
++	return p4d_offset_lockless(pgdp, pgd, addr);
 +}
 +#endif
++
  #endif
 diff --git a/arch/arm64/mm/pageattr.c b/arch/arm64/mm/pageattr.c
-index 581b461d4d15..b45190507e59 100644
+index b45190507e59..0928946a9b19 100644
 --- a/arch/arm64/mm/pageattr.c
 +++ b/arch/arm64/mm/pageattr.c
-@@ -397,7 +397,7 @@ bool kernel_page_present(struct page *page)
+@@ -393,7 +393,7 @@ bool kernel_page_present(struct page *page)
+ 	unsigned long addr = (unsigned long)page_address(page);
+ 
+ 	pgdp = pgd_offset_k(addr);
+-	if (pgd_none(READ_ONCE(*pgdp)))
++	if (pgd_none(pgdp_get(pgdp)))
  		return false;
  
  	p4dp = p4d_offset(pgdp, addr);
--	if (p4d_none(READ_ONCE(*p4dp)))
-+	if (p4d_none(p4dp_get(p4dp)))
- 		return false;
- 
- 	pudp = pud_offset(p4dp, addr);
 diff --git a/arch/arm64/mm/trans_pgd.c b/arch/arm64/mm/trans_pgd.c
-index 71f489d439ef..75f0a6a5a43a 100644
+index 75f0a6a5a43a..a3a48c88e05c 100644
 --- a/arch/arm64/mm/trans_pgd.c
 +++ b/arch/arm64/mm/trans_pgd.c
-@@ -126,7 +126,7 @@ static int copy_pud(struct trans_pgd_info *info, p4d_t *dst_p4dp,
+@@ -162,7 +162,7 @@ static int copy_p4d(struct trans_pgd_info *info, pgd_t *dst_pgdp,
  	unsigned long next;
  	unsigned long addr = start;
  
--	if (p4d_none(READ_ONCE(*dst_p4dp))) {
-+	if (p4d_none(p4dp_get(dst_p4dp))) {
- 		dst_pudp = trans_alloc(info);
- 		if (!dst_pudp)
+-	if (pgd_none(READ_ONCE(*dst_pgdp))) {
++	if (pgd_none(pgdp_get(dst_pgdp))) {
+ 		dst_p4dp = trans_alloc(info);
+ 		if (!dst_p4dp)
  			return -ENOMEM;
-@@ -173,7 +173,7 @@ static int copy_p4d(struct trans_pgd_info *info, pgd_t *dst_pgdp,
- 	src_p4dp = p4d_offset(src_pgdp, start);
+@@ -192,7 +192,7 @@ static int copy_page_tables(struct trans_pgd_info *info, pgd_t *dst_pgdp,
+ 	dst_pgdp = pgd_offset_pgd(dst_pgdp, start);
  	do {
- 		next = p4d_addr_end(addr, end);
--		if (p4d_none(READ_ONCE(*src_p4dp)))
-+		if (p4d_none(p4dp_get(src_p4dp)))
+ 		next = pgd_addr_end(addr, end);
+-		if (pgd_none(READ_ONCE(*src_pgdp)))
++		if (pgd_none(pgdp_get(src_pgdp)))
  			continue;
- 		if (copy_pud(info, dst_p4dp, src_p4dp, addr, next))
+ 		if (copy_p4d(info, dst_pgdp, src_pgdp, addr, next))
  			return -ENOMEM;
 -- 
 2.43.0
@@ -413,4 +365,4 @@ index 71f489d439ef..75f0a6a5a43a 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260224051153.3150613-8-anshuman.khandual%40arm.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260224051153.3150613-9-anshuman.khandual%40arm.com.
