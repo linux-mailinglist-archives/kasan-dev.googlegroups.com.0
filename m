@@ -1,144 +1,135 @@
-Return-Path: <kasan-dev+bncBDGZVRMH6UCRBY7G6TGAMGQE37C36UQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBA6W6XGAMGQE4QIHPIQ@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6PdgBWYznWlINQQAu9opvQ
-	(envelope-from <kasan-dev+bncBDGZVRMH6UCRBY7G6TGAMGQE37C36UQ@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Tue, 24 Feb 2026 06:13:10 +0100
+	id OJxEIwZrnWnhPwQAu9opvQ
+	(envelope-from <kasan-dev+bncBAABBA6W6XGAMGQE4QIHPIQ@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Tue, 24 Feb 2026 10:10:30 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x238.google.com (mail-oi1-x238.google.com [IPv6:2607:f8b0:4864:20::238])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80451181D0F
-	for <lists+kasan-dev@lfdr.de>; Tue, 24 Feb 2026 06:13:09 +0100 (CET)
-Received: by mail-oi1-x238.google.com with SMTP id 5614622812f47-45f07dad7a8sf17256983b6e.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 23 Feb 2026 21:13:09 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1771909988; cv=pass;
+Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1122D1844A9
+	for <lists+kasan-dev@lfdr.de>; Tue, 24 Feb 2026 10:10:29 +0100 (CET)
+Received: by mail-lj1-x23b.google.com with SMTP id 38308e7fff4ca-385bb7f429csf28004581fa.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 24 Feb 2026 01:10:29 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1771924229; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Evhf3Oyd2j9i5Z13tetypKQI9zJWKUZol8Y/WUZwIx9HkXiuRaBX4bkvWCSkTUI7t3
-         mBF6PsrvMmfFwhl4eFO3Ps1YQiQKj5vL4HdCixN+sNIHVhFnRHWGhEkiQ1rJ+FmFmYGk
-         qTUq6yv3OvluRs0R2sraRAvN/Q1mzTb/YtBR8NTIXBqDS3APExF1N0587cLlbdDtZ3m/
-         EFHa4BmqKkconpYklTLVz5R1dEdh/WM84qRjIq2zoyswRyuct/Gqq+GM6uqfhO4cog67
-         XOwo+NWyxFEUwwR8PV8B/orSSVkc0H9EzR5kipvp0zGeqDA22g0Gx5dmawfTSnbLEdMK
-         a7kw==
+        b=eYwU2WO5BpWCHFSQF5b+Tq4fPVetkDp1+gYSEPmRVa8rqtHyOv6t9Fhm4uKpPi1i7R
+         bNdVMndmOu3x2EvQN8duH+ARDz8CjRN/SESWnKcDOMZFpWongrNww3O3Eeu3gGgKAcug
+         E7SIg/SSVdgP4LOQToZPRdnPLmyKMIDMNGFWdUsKxSOqGAflHl5i/uWpjSXMEQd/sl1u
+         C6Cv0VHtaTgwgJcLfP/4puIbWbqwjmsQXkdfiEb4I+OrzQlU3vz9W4PgsRAQhPA/eXuU
+         2e506d8uUJPAPf4onm7QtKIJg2IAWo74wpbE2EiqJJ7xDTAY1Yoc/1FTsQqbSZTUqEje
+         7spw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=SQTh5ibbsOLJQ3MwUUqc9dJTsX3tk53NEr1wbYYxZIA=;
-        fh=t4RLjYtI3Goznp4ehovTyOrJFJYSnrahpBBVm+WIGrg=;
-        b=jWeE4XNAyxyu3S2it6MgTd4mK7l6cMReDpKvFdVLNQl3w60M90ItKfxf6VVAiELwJA
-         laCjndJXeOFM6k70G9p0Da//GueWd8KF3IAxNnfPFcDtWhY07T4ATx94pyZKrQQaFYbX
-         ZdFlhrHUlWwWBvstZSQJBAhnY8F2kB0hqpBiFTEobRy7/zG/bPB/IboKnUpTggbOUmt3
-         yJ4ktOu0vo3OcJNGgX2bZ67A0dh/2Ibmezry5x8d0vKQafB5tSujaKYNVDmN0k1WscvZ
-         zlTCrJJLYsMVNTJqdN70mffahdaTc/O9F5gzvQxzXxUHkx+gkpNVjlpYmR6qFbdtXei8
-         436A==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :mime-version:feedback-id:references:in-reply-to:message-id:subject
+         :cc:from:to:date:dkim-signature;
+        bh=Yx5SJYs5UzCCEYVELS0CJvnGWAW5yFFOt8FbvxKhCto=;
+        fh=Ev7ak1XcVLE7TBo6gEwr4YD5b+k9RW+1o2tf9FQxUaY=;
+        b=i0LZhgEPNbIEtZBh0Z0lrDrwpCSzcG5ByTDzEeGI0D8P73XoN07cmLPf/++903LnPZ
+         qJuvJPHWPMajyWIVwYqqzgcflk8zRNLCYU8000wrtshY9DBTuVfxZaomyLFVTEA5sUNN
+         3xIhmzyEqrfe6M+QvtyvB5uKzPrb8JMKautDAKn5K6XRrEhrcq4K3EcO+kWQrIhk8Hat
+         6iTfwtBhNM1E/UWs1NVFXQkuskwUcNV3CShvsq6t/wVU7WwQCogKwIVrXc41cAVhEBw6
+         nuXnuLPT2EdUXwbzT0XupAFFY+gDVLBSMNRnn51JUwKrAUcqrwyIlFmwAHPgnljRnZaG
+         2Oag==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@pm.me header.s=protonmail3 header.b="dWJ/DG0g";
+       spf=pass (google.com: domain of m.wieczorretman@pm.me designates 185.70.43.100 as permitted sender) smtp.mailfrom=m.wieczorretman@pm.me;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=pm.me
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1771909988; x=1772514788; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1771924229; x=1772529029; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SQTh5ibbsOLJQ3MwUUqc9dJTsX3tk53NEr1wbYYxZIA=;
-        b=Wx+DkNtBfy006gCUGvZrBXPIgLd1xcrb7WnjrfeXmzvDn8aLHZGx5JJd1IA9vabA6t
-         1eSwy9T+EkTcMZjuBAdx+2u821a3ZS3uJLyXcUegXjVNXHfAhw8al0qwZxWCcEetndsk
-         xWk/TeizLOaTuy32jqTw0ViZTrGCjd20V6q5h6bXxYlsc6VzGe95u0bLPeoOxiOJrdzv
-         h6Dfw9JGjSm+eYYu70dRYe7us41LtcjhBc+sH/phJmt9rJ491pwaeX5MGp5EUS16Z+Ou
-         N5s46Tt/jDtCncG2OR7j8HAnbZQ3OUNFPOtN23gX8pCSfkJIOr6Qn9YE/MKQvFxZgNTp
-         mz+w==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:feedback-id:references
+         :in-reply-to:message-id:subject:cc:from:to:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Yx5SJYs5UzCCEYVELS0CJvnGWAW5yFFOt8FbvxKhCto=;
+        b=Xy1ffDPQcuMaQGZm4VNrj6BtQka4ftjAlfOZyLyFnBetE4ylN+aVoF+vWjdvHOTSPY
+         qQaM6wXi5DGu09EiDJ7aagBsnGXhMZnPXnJxNg4/U+4E8ZA5872tir4splQkCqa1M5Iu
+         qqXSBaB1tdfPw7ehYFnPOfuT2KN4qQ2XryLncoZ5KdOChcJL6y9z3Y2jEFvWmf0RrVOq
+         nhSEbvcIDIgj8SU7jlJsVV72KHpd9wxf+deO0k4jiBpdWa2BUDa9vDe7qKlmgtHvzP6i
+         aM+Wx33xibGNuX6f+2mX99wqU2FxF78t3c4bEsgDOMSgU3zLy91SGpuz8i95TepgaixE
+         xd9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771909988; x=1772514788;
+        d=1e100.net; s=20230601; t=1771924229; x=1772529029;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SQTh5ibbsOLJQ3MwUUqc9dJTsX3tk53NEr1wbYYxZIA=;
-        b=CSdiElqalDXm5l9hxxJPVMHOUdj8Wlcv7XmSb7WjEcFrkRTcfv7snrqgvp4mlwwzJN
-         DsboNs6ANlA4YRSUCuuY1y3fbGbeu/Kn8eDFuYFzGAS3Qzpwmh3zasA/FePkI5WsMNSe
-         0RglIhd5Z4KHxlvvXy+NW3xYbw9s650uuBaFWcpYrtpMc38zClNkqOXZRBHzD3HwI1D/
-         VSojveomySiPjE1eKI0rJRbP26bGBCuwMbbyYjf2vKn89P4s257ElEdK81nLppMPTCX7
-         C326/FAurqCKMlYYLEHiCwyoaNvFPJiockkjmCm+c9icY0ZsWmk5X4OnekPAYfRw8zOn
-         XdDg==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWBawy8hYVEh7TzNnibB5X2XvKcydzJplManxwTcZS4Dso8oQubuGdUasH3hrEsH960m4XKbA==@lfdr.de
-X-Gm-Message-State: AOJu0YyVCAiu7iUE0lzLZnK92eBbSpyLT0ardnxKpX4HB7gFGHPfV5Uz
-	6EkEFz1qttpJeFJdYZf/LJis/C+TYtakrOxezZAeu7a66MaJ1l0zgJhU
-X-Received: by 2002:a05:6870:648a:b0:40e:b6b2:b97a with SMTP id 586e51a60fabf-4157b190f40mr4879353fac.51.1771909987569;
-        Mon, 23 Feb 2026 21:13:07 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+HmDTe7yFLU9OqvF0iU6W/fKZ1Vfi0yZ6V6uBONg6LsHQ=="
-Received: by 2002:a05:6870:d153:b0:40e:e4dd:d0b0 with SMTP id
- 586e51a60fabf-40ee4ddd79fls6510798fac.1.-pod-prod-06-us; Mon, 23 Feb 2026
- 21:13:06 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCW3ampbQ5NJig/sthUrMKfb8NqzI4VvY+V21lUUZu/Mnk065Aqte8A2dLylaCEUzZfMtxrsLgcBeeM=@googlegroups.com
-X-Received: by 2002:a05:6871:783:b0:409:6ea8:5f7f with SMTP id 586e51a60fabf-4157ac6b0d7mr5538009fac.20.1771909986578;
-        Mon, 23 Feb 2026 21:13:06 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771909986; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:feedback-id:references
+         :in-reply-to:message-id:subject:cc:from:to:date:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yx5SJYs5UzCCEYVELS0CJvnGWAW5yFFOt8FbvxKhCto=;
+        b=VrixCEJhSwoKxqaYw7foSJw0msgIL+4E8PWjlEPkzSidQnLUV289a7zog6997YIOJj
+         uvGngi7aAb2qzgHVlz8rqJBjc6UrBaFquvduZenxp+dunFQtqqU6m/qcSWPZ4BzyGgdg
+         dkhOH176N4R4FerPzHQi7jqufAh8oZNnDKm5vl1/M5SAorJs/3USDzSde01evvZytZKR
+         1wLS1xHSIiPflS2Bs1E7AAM2HJprZZX+9iC1f1sWq3iRexFN/ohLo7v8DwW6pj2Bmtbn
+         MGPRe4t3ovBfLENRWjmhjwxZOOno74hgCUuYHAwwT6dLw/vQbQnQ+NOn5dJU99F2ZQWi
+         wiEA==
+X-Forwarded-Encrypted: i=2; AJvYcCWwID7vnnMp4d0gwl1QpzA8w2Rr+MtZUz5kliqckzRio59X6YQJCgS+uagVBqFFDIkOjZOABA==@lfdr.de
+X-Gm-Message-State: AOJu0YxVgQQHNVkkVcPf7k+cbgxsMmIlKH+w1/dcb45ODiz1YKuY+XtI
+	OW308NCd0Z6PmH7nljBwBCAMnUHAmdUyBBlZsrSHyOBE+t/2vH+b3L6G
+X-Received: by 2002:ac2:4e0c:0:b0:59e:459c:15f7 with SMTP id 2adb3069b0e04-5a0ed8825e1mr3731969e87.14.1771924228585;
+        Tue, 24 Feb 2026 01:10:28 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+GZykVx2kA8Vu0xfJ1N1yKmMtAEnvtjpgXiMWJjBe+6mg=="
+Received: by 2002:a05:6512:3d18:b0:59b:6d6e:9887 with SMTP id
+ 2adb3069b0e04-59e651d793bls4164099e87.0.-pod-prod-02-eu; Tue, 24 Feb 2026
+ 01:10:26 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWfeo3LbNPWpOwYEjuQys14Jc/Wt2kA0tiFrznK23od8hbqxGt1L+L1K6eDV9eHXjLhVe3c4dkc35w=@googlegroups.com
+X-Received: by 2002:a05:6512:15a6:b0:59d:fac0:3a11 with SMTP id 2adb3069b0e04-5a0ed9af47dmr3729387e87.45.1771924226205;
+        Tue, 24 Feb 2026 01:10:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771924226; cv=none;
         d=google.com; s=arc-20240605;
-        b=QRccZYosd869cNv+Xj1H/i2mUz76e8fz/SQlCaKQWWpkFViQdfjsMEMgoNfuXAiinz
-         RCr/zQRQktDTByexhqexdrxRCAxQZXEzupikEAsKl+b3EmI2XFNpSfXKyw9oUKZUMK47
-         zURQimui72O4Z29j5NjwaRU1SdK3UGPRGwDlkIzFRQ4mRHzxisQOQP2cGO6k5sst0BKb
-         uGjxAf712AxmCZxleD5d1qTEjznumhNAHvg8ZryLTqxp9KapkqwmcPlHkSmp8q7YVVqS
-         5BoPKYjMOjuRfGw9/oSeQHcOX0Ay/ui35QTO7z85WYE+BxUFFNyXlS2TDZCvyx8skhRL
-         lkUQ==
+        b=VAS+0qZKbgIhTpyqc32aMjEOEOBHuGl1pIh9YcZa3I0w2Ru+vYFgtaZaeE67a3aY0Y
+         /ykyNfE2jIga3P/YK3VwMlRMzNV9mJlj5BQljsRl2V5asrH4fZyMit9PcUdcijPcHYiC
+         SHWrFeeAIlPN/DYv82BhcUHs/6GxidyVkwbDJjxO2cYk7NFYlNzWRLajylBBmNdtRQ1k
+         iBV1YFuJPU3NEu6a2wNv7Y4YpHLswzxhfXAUUH06T45hAqGAchrmDpun0AYeiqt22OH9
+         cbehyTea95LZumTufD9hSU2IpktSRiGqNCj17j5bhqha2XpiEc0kuSlWF9Ydzx0GnrYB
+         yhrQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from;
-        bh=RxiVFUuLeDkSxqT3ivdHS3XEaH5+5qZe/ROqDJWk8+A=;
-        fh=/5PcxhpYFRn2Yp66x6S75u1IlAhfwysKHKXRRS1r5Qc=;
-        b=Kg4bbH4BzQ13dNXNbtaBrpGA2y5rRcvQ2zFh2NcRwHMzVnLnoN07HeSMTTR2dluQ1+
-         p0ce/yjh4gDcaw+sMmOrJPIgNVAVVPbVlFzHUfzNFCd9VZCRvcc2X/fR9jX9sbN6QTdD
-         9wArtc3ek7Ky+4CVmN+96aRlgPEbpFLXCSvaqLimCwIY0VjhZ2XvJZEotpNYvUBAH55t
-         9R7PCrdYXSmkkOtTlmi4sgKihJQ+yUFQdrsgDtka8naWUuwy8lLBxRaK77AreSwAwLBe
-         Aqfhpv29IeniJbvDeUhqrOJGt8dHNjk4nxsglGU3ovplRoDGro/XGt8CKPcZj/lWRcjz
-         B/xA==;
+        h=content-transfer-encoding:mime-version:feedback-id:references
+         :in-reply-to:message-id:subject:cc:from:to:date:dkim-signature;
+        bh=JTNnUecjMCgQWBRNlhXYFdQDFTHMCliRoDTga/EjldQ=;
+        fh=RX1FTpF6ubPqdGvhXch2v/H0LMQINDgb+rxI7yVCgzc=;
+        b=FYod3XafFnJTndFjTgkzb+cZJbX41x4rZjSzfl1z+1RfRcGTYqjwP3vosdcHzmm2tv
+         yfJ0NxYsvwWSA41BUg8xjCQcwlSLg0fL61oRdSf2N8uVT3ibckmdM+SwxZ0b7yz+A+mP
+         CXwBKpaKC71ZNSFSsM6BW0fJK/Q24DcrZqB4e08DmLYQpS/EknD9Hy6BMBpLHgsFI11p
+         hUx9hYegpW97ZiQYbeC3x8jmuwisbHzqmOLGTdyIe4pXPlymXAFjWH6UWPyldwxlvmQg
+         6RMKmU2v5P0KCgroLGi4vp0Q1GG/8oJl0f0UsAAFTd0P606WwcAhB+5lErR5VtGoRWg5
+         PAVg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id 586e51a60fabf-4157cd3e99fsi279798fac.2.2026.02.23.21.13.06
-        for <kasan-dev@googlegroups.com>;
-        Mon, 23 Feb 2026 21:13:06 -0800 (PST)
-Received-SPF: pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EDB95497;
-	Mon, 23 Feb 2026 21:12:59 -0800 (PST)
-Received: from a085714.blr.arm.com (a085714.arm.com [10.164.18.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C46A93F7BD;
-	Mon, 23 Feb 2026 21:13:01 -0800 (PST)
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-To: linux-arm-kernel@lists.infradead.org
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Linu Cherian <linu.cherian@arm.com>,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	kasan-dev@googlegroups.com
-Subject: [RFC V1 08/16] arm64/mm: Convert READ_ONCE() as pgdp_get() while accessing PGD
-Date: Tue, 24 Feb 2026 10:41:45 +0530
-Message-ID: <20260224051153.3150613-9-anshuman.khandual@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260224051153.3150613-1-anshuman.khandual@arm.com>
-References: <20260224051153.3150613-1-anshuman.khandual@arm.com>
+       dkim=pass header.i=@pm.me header.s=protonmail3 header.b="dWJ/DG0g";
+       spf=pass (google.com: domain of m.wieczorretman@pm.me designates 185.70.43.100 as permitted sender) smtp.mailfrom=m.wieczorretman@pm.me;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=pm.me
+Received: from mail-43100.protonmail.ch (mail-43100.protonmail.ch. [185.70.43.100])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-389a7a04132si2537151fa.7.2026.02.24.01.10.26
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Feb 2026 01:10:26 -0800 (PST)
+Received-SPF: pass (google.com: domain of m.wieczorretman@pm.me designates 185.70.43.100 as permitted sender) client-ip=185.70.43.100;
+Date: Tue, 24 Feb 2026 09:10:18 +0000
+To: Dave Hansen <dave.hansen@intel.com>
+From: "'Maciej Wieczor-Retman' via kasan-dev" <kasan-dev@googlegroups.com>
+Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kasan-dev@googlegroups.com, workflows@vger.kernel.org
+Subject: Re: [PATCH v10 13/13] x86/kasan: Make software tag-based kasan available
+Message-ID: <aZ1qOpMc9PohArcL@wieczorr-mobl1.localdomain>
+In-Reply-To: <f25c328f-4ce7-4494-a200-af4ba928e724@intel.com>
+References: <cover.1770232424.git.m.wieczorretman@pm.me> <8fd6275f980b90c62ddcb58cfbc78796c9fa7740.1770232424.git.m.wieczorretman@pm.me> <f25c328f-4ce7-4494-a200-af4ba928e724@intel.com>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: 263b095a4846ac376e793435bbda706f4f4065b0
 MIME-Version: 1.0
-X-Original-Sender: anshuman.khandual@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172
- as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: m.wieczorretman@pm.me
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@pm.me header.s=protonmail3 header.b="dWJ/DG0g";       spf=pass
+ (google.com: domain of m.wieczorretman@pm.me designates 185.70.43.100 as
+ permitted sender) smtp.mailfrom=m.wieczorretman@pm.me;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=pm.me
+X-Original-From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+Reply-To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -151,218 +142,320 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.61 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-0.71 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[googlegroups.com,none];
 	R_DKIM_ALLOW(-0.20)[googlegroups.com:s=20230601];
 	MAILLIST(-0.20)[googlegroups];
-	R_SPF_ALLOW(-0.20)[+ip6:2607:f8b0:4000::/36:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2a00:1450:4000::/36];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bncBAABBA6W6XGAMGQE4QIHPIQ];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bncBDGZVRMH6UCRBY7G6TGAMGQE37C36UQ];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:15169, ipnet:2607:f8b0::/32, country:US];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[anshuman.khandual@arm.com,kasan-dev@googlegroups.com];
-	DKIM_TRACE(0.00)[googlegroups.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[kasan-dev];
+	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:email,arm.com:mid,arm.com:email,googlegroups.com:email,googlegroups.com:dkim,mail-oi1-x238.google.com:helo,mail-oi1-x238.google.com:rdns]
-X-Rspamd-Queue-Id: 80451181D0F
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_CC(0.00)[kernel.org,redhat.com,alien8.de,linux.intel.com,zytor.com,lwn.net,gmail.com,google.com,arm.com,infradead.org,linux-foundation.org,intel.com,vger.kernel.org,googlegroups.com];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FROM_HAS_DN(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	HAS_REPLYTO(0.00)[m.wieczorretman@pm.me];
+	TAGGED_RCPT(0.00)[kasan-dev];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_EQ_ENVFROM(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	ASN(0.00)[asn:15169, ipnet:2a00:1450::/32, country:US];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[googlegroups.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[wieczorr-mobl1.localdomain:mid,pm.me:replyto,googlegroups.com:email,googlegroups.com:dkim]
+X-Rspamd-Queue-Id: 1122D1844A9
 X-Rspamd-Action: no action
 
-Convert all READ_ONCE() based PGD accesses as pgdp_get() instead which will
-support both D64 and D128 translation regime going forward.
+On 2026-02-23 at 12:52:03 -0800, Dave Hansen wrote:
+>...
+>> diff --git a/Documentation/arch/x86/x86_64/mm.rst b/Documentation/arch/x=
+86/x86_64/mm.rst
+>> index a6cf05d51bd8..7e2e4c5fa661 100644
+>> --- a/Documentation/arch/x86/x86_64/mm.rst
+>> +++ b/Documentation/arch/x86/x86_64/mm.rst
+>> @@ -60,7 +60,8 @@ Complete virtual memory map with 4-level page tables
+>>     ffffe90000000000 |  -23    TB | ffffe9ffffffffff |    1 TB | ... unu=
+sed hole
+>>     ffffea0000000000 |  -22    TB | ffffeaffffffffff |    1 TB | virtual=
+ memory map (vmemmap_base)
+>>     ffffeb0000000000 |  -21    TB | ffffebffffffffff |    1 TB | ... unu=
+sed hole
+>> -   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN s=
+hadow memory
+>> +   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN s=
+hadow memory (generic mode)
+>> +   fffff40000000000 |   -8    TB | fffffbffffffffff |    8 TB | KASAN s=
+hadow memory (software tag-based mode)
+>>    __________________|____________|__________________|_________|________=
+____________________________________________________
+>>                                                                |
+>>                                                                | Identic=
+al layout to the 56-bit one from here on:
+>> @@ -130,7 +131,8 @@ Complete virtual memory map with 5-level page tables
+>>     ffd2000000000000 |  -11.5  PB | ffd3ffffffffffff |  0.5 PB | ... unu=
+sed hole
+>>     ffd4000000000000 |  -11    PB | ffd5ffffffffffff |  0.5 PB | virtual=
+ memory map (vmemmap_base)
+>>     ffd6000000000000 |  -10.5  PB | ffdeffffffffffff | 2.25 PB | ... unu=
+sed hole
+>> -   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN s=
+hadow memory
+>> +   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN s=
+hadow memory (generic mode)
+>> +   ffeffc0000000000 |   -6    PB | fffffbffffffffff |    4 PB | KASAN s=
+hadow memory (software tag-based mode)
+>>    __________________|____________|__________________|_________|________=
+____________________________________________________
+>
+>I think the idea of these is that you can run through, find *one* range
+>and know what a given address maps to. This adds overlapping ranges.
+>Could you make it clear that part of the area is "generic mode" only and
+>the other part is for generic mode and for "software tag-based mode"?
 
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Ryan Roberts <ryan.roberts@arm.com>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
-Cc: kasan-dev@googlegroups.com
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
----
- arch/arm64/include/asm/pgtable.h | 12 ++----------
- arch/arm64/mm/fault.c            |  2 +-
- arch/arm64/mm/hugetlbpage.c      |  2 +-
- arch/arm64/mm/kasan_init.c       |  2 +-
- arch/arm64/mm/mmu.c              | 25 ++++++++++++++++++++++---
- arch/arm64/mm/pageattr.c         |  2 +-
- arch/arm64/mm/trans_pgd.c        |  4 ++--
- 7 files changed, 30 insertions(+), 19 deletions(-)
+Boris suggested adding a footnote to clarify these are alternative ranges [=
+1].
+Perhaps I can add a star '*' next to these two so it can notify someone to =
+look for
+the footnote?
 
-diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
-index 24ea4e04e9a1..257af1c3015d 100644
---- a/arch/arm64/include/asm/pgtable.h
-+++ b/arch/arm64/include/asm/pgtable.h
-@@ -1119,12 +1119,7 @@ static inline p4d_t *pgd_to_folded_p4d(pgd_t *pgdp, unsigned long addr)
- 	return (p4d_t *)PTR_ALIGN_DOWN(pgdp, PAGE_SIZE) + p4d_index(addr);
- }
- 
--static inline phys_addr_t p4d_offset_phys(pgd_t *pgdp, unsigned long addr)
--{
--	BUG_ON(!pgtable_l5_enabled());
--
--	return pgd_page_paddr(READ_ONCE(*pgdp)) + p4d_index(addr) * sizeof(p4d_t);
--}
-+phys_addr_t p4d_offset_phys(pgd_t *pgdp, unsigned long addr);
- 
- static inline
- p4d_t *p4d_offset_lockless(pgd_t *pgdp, pgd_t pgd, unsigned long addr)
-@@ -1135,10 +1130,7 @@ p4d_t *p4d_offset_lockless(pgd_t *pgdp, pgd_t pgd, unsigned long addr)
- }
- #define p4d_offset_lockless p4d_offset_lockless
- 
--static inline p4d_t *p4d_offset(pgd_t *pgdp, unsigned long addr)
--{
--	return p4d_offset_lockless(pgdp, READ_ONCE(*pgdp), addr);
--}
-+p4d_t *p4d_offset(pgd_t *pgdp, unsigned long addr);
- 
- static inline p4d_t *p4d_set_fixmap(unsigned long addr)
- {
-diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-index f41f4c628d22..7bb14765a98d 100644
---- a/arch/arm64/mm/fault.c
-+++ b/arch/arm64/mm/fault.c
-@@ -152,7 +152,7 @@ static void show_pte(unsigned long addr)
- 		 mm == &init_mm ? "swapper" : "user", PAGE_SIZE / SZ_1K,
- 		 vabits_actual, mm_to_pgd_phys(mm));
- 	pgdp = pgd_offset(mm, addr);
--	pgd = READ_ONCE(*pgdp);
-+	pgd = pgdp_get(pgdp);
- 	pr_alert("[%016lx] pgd=%016llx", addr, pgd_val(pgd));
- 
- 	do {
-diff --git a/arch/arm64/mm/hugetlbpage.c b/arch/arm64/mm/hugetlbpage.c
-index 15241307baec..ccf08ba06a48 100644
---- a/arch/arm64/mm/hugetlbpage.c
-+++ b/arch/arm64/mm/hugetlbpage.c
-@@ -284,7 +284,7 @@ pte_t *huge_pte_offset(struct mm_struct *mm,
- 	pmd_t *pmdp, pmd;
- 
- 	pgdp = pgd_offset(mm, addr);
--	if (!pgd_present(READ_ONCE(*pgdp)))
-+	if (!pgd_present(pgdp_get(pgdp)))
- 		return NULL;
- 
- 	p4dp = p4d_offset(pgdp, addr);
-diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
-index e50c40162bce..d05c16cfa5aa 100644
---- a/arch/arm64/mm/kasan_init.c
-+++ b/arch/arm64/mm/kasan_init.c
-@@ -102,7 +102,7 @@ static pud_t *__init kasan_pud_offset(p4d_t *p4dp, unsigned long addr, int node,
- static p4d_t *__init kasan_p4d_offset(pgd_t *pgdp, unsigned long addr, int node,
- 				      bool early)
- {
--	if (pgd_none(READ_ONCE(*pgdp))) {
-+	if (pgd_none(pgdp_get(pgdp))) {
- 		phys_addr_t p4d_phys = early ?
- 				__pa_symbol(kasan_early_shadow_p4d)
- 					: kasan_alloc_zeroed_page(node);
-diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-index 16ae11b29f66..bcf32d1a92de 100644
---- a/arch/arm64/mm/mmu.c
-+++ b/arch/arm64/mm/mmu.c
-@@ -420,7 +420,7 @@ static int alloc_init_p4d(pgd_t *pgdp, unsigned long addr, unsigned long end,
- {
- 	int ret;
- 	unsigned long next;
--	pgd_t pgd = READ_ONCE(*pgdp);
-+	pgd_t pgd = pgdp_get(pgdp);
- 	p4d_t *p4dp;
- 
- 	if (pgd_none(pgd)) {
-@@ -1567,7 +1567,7 @@ static void unmap_hotplug_range(unsigned long addr, unsigned long end,
- 	do {
- 		next = pgd_addr_end(addr, end);
- 		pgdp = pgd_offset_k(addr);
--		pgd = READ_ONCE(*pgdp);
-+		pgd = pgdp_get(pgdp);
- 		if (pgd_none(pgd))
- 			continue;
- 
-@@ -1742,7 +1742,7 @@ static void free_empty_tables(unsigned long addr, unsigned long end,
- 	do {
- 		next = pgd_addr_end(addr, end);
- 		pgdp = pgd_offset_k(addr);
--		pgd = READ_ONCE(*pgdp);
-+		pgd = pgdp_get(pgdp);
- 		if (pgd_none(pgd))
- 			continue;
- 
-@@ -2275,4 +2275,23 @@ pud_t *pud_offset(p4d_t *p4dp, unsigned long addr)
- 	return pud_offset_lockless(p4dp, p4d, addr);
- }
- #endif
-+
-+#if CONFIG_PGTABLE_LEVELS > 4
-+phys_addr_t p4d_offset_phys(pgd_t *pgdp, unsigned long addr)
-+{
-+	pgd_t pgd = pgdp_get(pgdp);
-+
-+	BUG_ON(!pgtable_l5_enabled());
-+
-+	return pgd_page_paddr(pgd) + p4d_index(addr) * sizeof(p4d_t);
-+}
-+
-+p4d_t *p4d_offset(pgd_t *pgdp, unsigned long addr)
-+{
-+	pgd_t pgd = pgdp_get(pgdp);
-+
-+	return p4d_offset_lockless(pgdp, pgd, addr);
-+}
-+#endif
-+
- #endif
-diff --git a/arch/arm64/mm/pageattr.c b/arch/arm64/mm/pageattr.c
-index b45190507e59..0928946a9b19 100644
---- a/arch/arm64/mm/pageattr.c
-+++ b/arch/arm64/mm/pageattr.c
-@@ -393,7 +393,7 @@ bool kernel_page_present(struct page *page)
- 	unsigned long addr = (unsigned long)page_address(page);
- 
- 	pgdp = pgd_offset_k(addr);
--	if (pgd_none(READ_ONCE(*pgdp)))
-+	if (pgd_none(pgdp_get(pgdp)))
- 		return false;
- 
- 	p4dp = p4d_offset(pgdp, addr);
-diff --git a/arch/arm64/mm/trans_pgd.c b/arch/arm64/mm/trans_pgd.c
-index 75f0a6a5a43a..a3a48c88e05c 100644
---- a/arch/arm64/mm/trans_pgd.c
-+++ b/arch/arm64/mm/trans_pgd.c
-@@ -162,7 +162,7 @@ static int copy_p4d(struct trans_pgd_info *info, pgd_t *dst_pgdp,
- 	unsigned long next;
- 	unsigned long addr = start;
- 
--	if (pgd_none(READ_ONCE(*dst_pgdp))) {
-+	if (pgd_none(pgdp_get(dst_pgdp))) {
- 		dst_p4dp = trans_alloc(info);
- 		if (!dst_p4dp)
- 			return -ENOMEM;
-@@ -192,7 +192,7 @@ static int copy_page_tables(struct trans_pgd_info *info, pgd_t *dst_pgdp,
- 	dst_pgdp = pgd_offset_pgd(dst_pgdp, start);
- 	do {
- 		next = pgd_addr_end(addr, end);
--		if (pgd_none(READ_ONCE(*src_pgdp)))
-+		if (pgd_none(pgdp_get(src_pgdp)))
- 			continue;
- 		if (copy_p4d(info, dst_pgdp, src_pgdp, addr, next))
- 			return -ENOMEM;
--- 
-2.43.0
+[1] https://lore.kernel.org/all/20260113161047.GNaWZuh21aoxqtTNXS@fat_crate=
+.local/
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260224051153.3150613-9-anshuman.khandual%40arm.com.
+>
+>> @@ -176,5 +178,9 @@ Be very careful vs. KASLR when changing anything her=
+e. The KASLR address
+>>  range must not overlap with anything except the KASAN shadow area, whic=
+h is
+>>  correct as KASAN disables KASLR.
+>>
+>> +The 'KASAN shadow memory (generic mode)/(software tag-based mode)' rang=
+es are
+>> +mutually exclusive and depend on which KASAN setting is chosen:
+>> +CONFIG_KASAN_GENERIC or CONFIG_KASAN_SW_TAGS.
+>> +
+>>  For both 4- and 5-level layouts, the KSTACK_ERASE_POISON value in the l=
+ast 2MB
+>>  hole: ffffffffffff4111
+>> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools=
+/kasan.rst
+>> index 64dbf8b308bd..03b508ebe673 100644
+>> --- a/Documentation/dev-tools/kasan.rst
+>> +++ b/Documentation/dev-tools/kasan.rst
+>> @@ -22,8 +22,8 @@ architectures, but it has significant performance and =
+memory overheads.
+>>
+>>  Software Tag-Based KASAN or SW_TAGS KASAN, enabled with CONFIG_KASAN_SW=
+_TAGS,
+>>  can be used for both debugging and dogfood testing, similar to userspac=
+e HWASan.
+>> -This mode is only supported for arm64, but its moderate memory overhead=
+ allows
+>> -using it for testing on memory-restricted devices with real workloads.
+>> +This mode is only supported for arm64 and x86, but its moderate memory =
+overhead
+>> +allows using it for testing on memory-restricted devices with real work=
+loads.
+>>
+>>  Hardware Tag-Based KASAN or HW_TAGS KASAN, enabled with CONFIG_KASAN_HW=
+_TAGS,
+>>  is the mode intended to be used as an in-field memory bug detector or a=
+s a
+>> @@ -351,10 +351,12 @@ Software Tag-Based KASAN
+>>  Software Tag-Based KASAN uses a software memory tagging approach to che=
+cking
+>>  access validity. It is currently only implemented for the arm64 archite=
+cture.
+>>
+>> -Software Tag-Based KASAN uses the Top Byte Ignore (TBI) feature of arm6=
+4 CPUs
+>> -to store a pointer tag in the top byte of kernel pointers. It uses shad=
+ow memory
+>> -to store memory tags associated with each 16-byte memory cell (therefor=
+e, it
+>> -dedicates 1/16th of the kernel memory for shadow memory).
+>> +Software Tag-Based KASAN uses the Top Byte Ignore (TBI) feature of arm6=
+4 CPUs to
+>> +store a pointer tag in the top byte of kernel pointers. Analogously to =
+TBI on
+>> +x86 CPUs Linear Address Masking (LAM) feature is used and the pointer t=
+ag is
+>> +stored in four bits of the kernel pointer's top byte. Software Tag-Base=
+d mode
+>> +uses shadow memory to store memory tags associated with each 16-byte me=
+mory cell
+>> +(therefore, it dedicates 1/16th of the kernel memory for shadow memory)=
+.
+>
+>This is going to get really cumbersome really fast if all the
+>architectures doing this add their marketing terms in here.
+>
+>	Software Tag-Based KASAN uses the hardware CPU features* to
+>	repurpose space inside kernel pointers to store pointer tags.
+>	...
+>
+>and then _elsewhere_ you can describe the two implementations.
+
+Okay, I'll rewrite that.
+
+>
+>>  On each memory allocation, Software Tag-Based KASAN generates a random =
+tag, tags
+>>  the allocated memory with this tag, and embeds the same tag into the re=
+turned
+>> @@ -370,12 +372,14 @@ Software Tag-Based KASAN also has two instrumentat=
+ion modes (outline, which
+>>  emits callbacks to check memory accesses; and inline, which performs th=
+e shadow
+>>  memory checks inline). With outline instrumentation mode, a bug report =
+is
+>>  printed from the function that performs the access check. With inline
+>> -instrumentation, a ``brk`` instruction is emitted by the compiler, and =
+a
+>> -dedicated ``brk`` handler is used to print bug reports.
+>> -
+>> -Software Tag-Based KASAN uses 0xFF as a match-all pointer tag (accesses=
+ through
+>> -pointers with the 0xFF pointer tag are not checked). The value 0xFE is =
+currently
+>> -reserved to tag freed memory regions.
+>> +instrumentation, arm64's implementation uses the ``brk`` instruction em=
+itted by
+>> +the compiler, and a dedicated ``brk`` handler is used to print bug repo=
+rts. On
+>> +x86 inline mode doesn't work yet due to missing compiler support.
+>> +
+>> +For arm64 Software Tag-Based KASAN uses 0xFF as a match-all pointer tag
+>> +(accesses through pointers with the 0xFF pointer tag are not checked). =
+The value
+>> +0xFE is currently reserved to tag freed memory regions. On x86 the same=
+ tags
+>> +take on 0xF and 0xE respectively.
+>
+>I think this would be more clear with a table or list of features and
+>supported architectures.
+
+That is a good idea, I'll work on that
+
+>
+>>  Hardware Tag-Based KASAN
+>>  ~~~~~~~~~~~~~~~~~~~~~~~~
+>> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+>> index 80527299f859..877668cd5deb 100644
+>> --- a/arch/x86/Kconfig
+>> +++ b/arch/x86/Kconfig
+>> @@ -67,6 +67,7 @@ config X86
+>>  	select ARCH_CLOCKSOURCE_INIT
+>>  	select ARCH_CONFIGURES_CPU_MITIGATIONS
+>>  	select ARCH_CORRECT_STACKTRACE_ON_KRETPROBE
+>> +	select ARCH_DISABLE_KASAN_INLINE	if X86_64 && KASAN_SW_TAGS
+>>  	select ARCH_ENABLE_HUGEPAGE_MIGRATION if X86_64 && HUGETLB_PAGE && MIG=
+RATION
+>>  	select ARCH_ENABLE_MEMORY_HOTPLUG if X86_64
+>>  	select ARCH_ENABLE_MEMORY_HOTREMOVE if MEMORY_HOTPLUG
+>> @@ -196,6 +197,8 @@ config X86
+>>  	select HAVE_ARCH_JUMP_LABEL_RELATIVE
+>>  	select HAVE_ARCH_KASAN			if X86_64
+>>  	select HAVE_ARCH_KASAN_VMALLOC		if X86_64
+>> +	select HAVE_ARCH_KASAN_SW_TAGS		if ADDRESS_MASKING && CC_IS_CLANG
+>> +	select ARCH_NEEDS_DEFER_KASAN		if ADDRESS_MASKING
+>>  	select HAVE_ARCH_KFENCE
+>>  	select HAVE_ARCH_KMSAN			if X86_64
+>>  	select HAVE_ARCH_KGDB
+>> @@ -410,6 +413,7 @@ config AUDIT_ARCH
+>>  config KASAN_SHADOW_OFFSET
+>>  	hex
+>>  	depends on KASAN
+>> +	default 0xeffffc0000000000 if KASAN_SW_TAGS
+>>  	default 0xdffffc0000000000
+>
+>Please separate this from the documentation.
+
+Okay, I'll split the documentation part into a separate patch.
+
+>
+>>  config HAVE_INTEL_TXT
+>> diff --git a/arch/x86/boot/compressed/misc.h b/arch/x86/boot/compressed/=
+misc.h
+>> index fd855e32c9b9..ba70036c2abd 100644
+>> --- a/arch/x86/boot/compressed/misc.h
+>> +++ b/arch/x86/boot/compressed/misc.h
+>> @@ -13,6 +13,7 @@
+>>  #undef CONFIG_PARAVIRT_SPINLOCKS
+>>  #undef CONFIG_KASAN
+>>  #undef CONFIG_KASAN_GENERIC
+>> +#undef CONFIG_KASAN_SW_TAGS
+>>
+>>  #define __NO_FORTIFY
+>>
+>> diff --git a/arch/x86/include/asm/kasan.h b/arch/x86/include/asm/kasan.h
+>> index 90c18e30848f..53ab7de16517 100644
+>> --- a/arch/x86/include/asm/kasan.h
+>> +++ b/arch/x86/include/asm/kasan.h
+>> @@ -6,7 +6,12 @@
+>>  #include <linux/kasan-tags.h>
+>>  #include <linux/types.h>
+>>  #define KASAN_SHADOW_OFFSET _AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
+>> +
+>> +#ifdef CONFIG_KASAN_SW_TAGS
+>> +#define KASAN_SHADOW_SCALE_SHIFT 4
+>> +#else
+>>  #define KASAN_SHADOW_SCALE_SHIFT 3
+>> +#endif
+>>
+>>  /*
+>>   * Compiler uses shadow offset assuming that addresses start
+>> diff --git a/arch/x86/mm/kasan_init_64.c b/arch/x86/mm/kasan_init_64.c
+>> index 7f5c11328ec1..8cbb8ec32061 100644
+>> --- a/arch/x86/mm/kasan_init_64.c
+>> +++ b/arch/x86/mm/kasan_init_64.c
+>> @@ -465,4 +465,9 @@ void __init kasan_init(void)
+>>
+>>  	init_task.kasan_depth =3D 0;
+>>  	kasan_init_generic();
+>> +
+>> +	if (cpu_feature_enabled(X86_FEATURE_LAM))
+>> +		kasan_init_sw_tags();
+>> +	else
+>> +		pr_info("KernelAddressSanitizer not initialized (sw-tags): hardware d=
+oesn't support LAM\n");
+>>  }
+>> diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
+>> index a4bb610a7a6f..d13ea8da7bfd 100644
+>> --- a/lib/Kconfig.kasan
+>> +++ b/lib/Kconfig.kasan
+>> @@ -112,7 +112,8 @@ config KASAN_SW_TAGS
+>>
+>>  	  Requires GCC 11+ or Clang.
+>>
+>> -	  Supported only on arm64 CPUs and relies on Top Byte Ignore.
+>> +	  Supported on arm64 CPUs that support Top Byte Ignore and on x86 CPUs
+>> +	  that support Linear Address Masking.
+>
+>Can this read more like:
+>
+>	Supported on:
+>		arm64: CPUs with Top Byte Ignore
+>		x86:   CPUs with Linear Address Masking.
+>
+>please?
+
+Sure, I'll change it.
+
+--=20
+Kind regards
+Maciej Wiecz=C3=B3r-Retman
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/a=
+Z1qOpMc9PohArcL%40wieczorr-mobl1.localdomain.
