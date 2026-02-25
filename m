@@ -1,126 +1,127 @@
-Return-Path: <kasan-dev+bncBCKPFB7SXUERB5W67LGAMGQEBANMLHI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKPFB7SXUERBAW77LGAMGQE4BWSQUI@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cMrSGnivnmmRWwQAu9opvQ
-	(envelope-from <kasan-dev+bncBCKPFB7SXUERB5W67LGAMGQEBANMLHI@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 Feb 2026 09:14:48 +0100
+	id YEf0CYWvnmmRWwQAu9opvQ
+	(envelope-from <kasan-dev+bncBCKPFB7SXUERBAW77LGAMGQE4BWSQUI@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 Feb 2026 09:15:01 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3d.google.com (mail-qv1-xf3d.google.com [IPv6:2607:f8b0:4864:20::f3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 057CA193F9E
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 Feb 2026 09:14:47 +0100 (CET)
-Received: by mail-qv1-xf3d.google.com with SMTP id 6a1803df08f44-899b88b0ec7sf2547766d6.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 25 Feb 2026 00:14:47 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1772007286; cv=pass;
+Received: from mail-pf1-x43f.google.com (mail-pf1-x43f.google.com [IPv6:2607:f8b0:4864:20::43f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D168193FC4
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 Feb 2026 09:15:00 +0100 (CET)
+Received: by mail-pf1-x43f.google.com with SMTP id d2e1a72fcca58-824bf5fe8cbsf2837482b3a.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 25 Feb 2026 00:15:00 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1772007299; cv=pass;
         d=google.com; s=arc-20240605;
-        b=RyQtfosFgaMYA+3HV0JnY2OzR5KpzelJcqydFLukUq/5O0+g2geZADBnvm2h1enx5Q
-         15qq4r+X0gbtOqJwiUP2WAuMRvFAme9+OYVXHdJCLA8jwUrjCg6/60n6jY2kguS6D5af
-         NzxCIORwn3sEvlUk5LWTEHyLjoZhwtd3fdQr3HBe3mEyMWzN42MmujPXaIr+mf3OlSBj
-         faW0VPsIQRFaU26Uvew3BXWns4+CZktYRxhY5MelLBssR9FLXw/nhQEkpO28gRYk1VQz
-         /+Zv4mhsr4swW1r3mUHjDKwwMVqhafLjGUvnP63lpsaLOu3ovc20mep1ObttKOJy5L0U
-         BYEQ==
+        b=RDpzGWl59NNGORDd6Igojq0PNbBS/XKUwBrKgyQ/D3zK8bv0vPEqTPTX2XbE3/qwKG
+         YmflzRsZxHYyumBuUO7i60eoBbh3DTGMCcT0sXDu2woGPXFq89AeHhunlTswYbHVEDi6
+         ndCpLKmvDv6tiYv7KVkkITI3BZUbwt2WNfZieUGDN5mElOSK5oWH4TCLTCffhIgui3go
+         hJ1i4rqVX7o/dGU76K/Go1UT7Kumq0OkVxKnqXDTrfdhZFntvQ+8aSXGNEQUDNBV1rNt
+         Sq9dnu2GjJh05ID35fTplrAYu0Ovdwuwek+CFiSuDvBx8IDnAANlrYVDt1QaQizeoDuf
+         +D6Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
-         :date:subject:cc:to:from:dkim-signature;
-        bh=UqXeFrsF25k/M1UuXgiB3/sW8YLT6R++XZkGyapAmnw=;
-        fh=ClJQqA5QvCseof56/RPKYdvC6c+rhHmmwbMXi8dRQaw=;
-        b=ZOk+YRZekkJ+EI4jrcUCTodAxGijcFrzPc5Yo/KQ9QexQ17O/Bbz21dlciU06GiF36
-         DRPg/CybaQAhIznX5uQm9486n8qq6JWQMV7+f8K7f4xn8FGAYz1COrTnpvFTT4GCJrni
-         t86Z9S248t27zlgvChuGJgaEz26GSN3T2lGEHvUSBBqK9Aibl9DW2TwRqV6UfhYJDX7m
-         ZXWBx/xYVwDD5JOZfBDkLfEfW1SDsS5YpoOu6zJd3s3JiYMAh5sZva1pqpFJfkfqlHQ6
-         aMzpG5y2DT872cZOvviE9iu9V2FsWU5espa/jvauZv/BfizxJSY5o/YsCHQl80p+s50S
-         gxNQ==;
+         :list-id:mailing-list:precedence:reply-to:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=YUBoRZBKORxDH5Ciotid9AboUL/y5iWpoyWt25H21w4=;
+        fh=2sz0yScZf95P6SvOWGhQdt+DMXX+vQ6GS2TT5wBTcgE=;
+        b=JrwNnQPxkwq8zZY8CNNE0j47wap9RG26eJRFS50b1KQUmmNiPyua/6mXhh8asx88i9
+         E4NLPWwhzkyi7G4HkXxgv1v5YHHRajQCoAftZDJzayh9YVyyPf+2D5iuh41DsQ1QR5rX
+         Tnwon+0yeBDT9NFkL/xW/cQbOfvSMbclv5/oSAUcT4AzGzXwRHJ+/AQGTzQJAJxszcn7
+         kClqZ1qBibVJslRV4O2+Atiy/3mxRmerceL+SzLdxJsl+eVcupXpfNsheyQHRMvl/mgQ
+         Al85/TPQo4UI0FpXrD9VWV8AfCthh98YNspc2QZGl5gfzGTCZzquFEy+NcqgGeQdTleP
+         SGvA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=A5QC44Tg;
-       spf=pass (google.com: domain of bhe@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=MJLjPbSN;
+       spf=pass (google.com: domain of bhe@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1772007286; x=1772612086; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1772007299; x=1772612099; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UqXeFrsF25k/M1UuXgiB3/sW8YLT6R++XZkGyapAmnw=;
-        b=OYxd4GwzcgtbYXR9qggZr1bm2JmUgzYOacG17hEXnq6IrXTb7PNZCCO79HSdsDOn/1
-         5ud/2VLlyF+L+dDiaqeML5piLMaSl72K8yZF9sKfNlvGOgoTPug1b8Vf+q5v3JGdBJwD
-         vT1XG1Q9PpCAoSh05PaK28IlicKwFZUkITR4sLBd4uYdLHH06AxmJoQkhnSR4So1u450
-         HKQjHzcnS/iGjCEt0TU7z097cCqW/S2FSNY7sDgGfEEhrg2OPBt4G1IXANXGJ+tWmC2i
-         A+iD+CyV8AgLFXkymvm+R5b3T96Z9ODQh38lizS4uBZR6WHZej+mSBAMsxz2mTUo94hw
-         MAgQ==
+         :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=YUBoRZBKORxDH5Ciotid9AboUL/y5iWpoyWt25H21w4=;
+        b=lnsQjr/XD+Z0RKrFuHHwdETMm3EjANt35wu08q+mRO++stJSoXGb+u4tzl3YwmpQiy
+         2R46xOQOB/9uXpDFAUNo1oA2AaLHpPxrGejCjcxDyXmjMejng8vZR2fjJxX6Yqrc3CJd
+         4JiQ4vGhqk5kGQR7YD/rd66FJFCes5PWIktYJj6V1QGRfNCSeFm8s0jJGJMzmsAk5O7E
+         BBcZsrW19qFp8He1FnrslZ86vwSRVKM1g1oTiKbglLr+PrcnVvoU1sKV9Qrb3PFsdTuy
+         HzEnG12Sf+nEok4a+UOazao6fJq44dBTXqQwc83A3TEZ5zzZTBlR496tB/tP7CoBS/am
+         sN3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772007286; x=1772612086;
+        d=1e100.net; s=20230601; t=1772007299; x=1772612099;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UqXeFrsF25k/M1UuXgiB3/sW8YLT6R++XZkGyapAmnw=;
-        b=ped/xY/nhd0dhsHftVptU4P5M7L2n6jatd6RXeeJsxmBBTKNmxT0tPp9om3pyGB5Qs
-         fKsUn84lDqVU6mlf61TA/kCOGTQTwttP7nhc//OX/CBjllO62gKox6oX7hpweWX/+jqc
-         WzcO/yH6+PpttUAp57w2OeEABTu3BDhFp7RAdTpLvK5ATF9w0CDvpqUA2WHLtqwJwVfB
-         bwAkOqiZCeqvBA+PRwdbSzQp0n7e8zSQzCOPVsLRQBO0EG2KbMYeU5fN9sobf+PiR2F1
-         0ctXa4CpikUXtpsJB02Up9nJQ1vt9aKZUlJfJ0552o/y6PoNu58bFnEKfpJllOf6ETAQ
-         1oFg==
-X-Forwarded-Encrypted: i=2; AJvYcCVUSXfrZkNzeQYfyAtD83HxUziCqHplrrT1H+TkOQbgF7Ota41iJ1KmrB8uJ4hqKG0iZApMdw==@lfdr.de
-X-Gm-Message-State: AOJu0YwlNyA2PGolt7sR1UimiXBm+6QiU+Q1Rh+EqYbPQRT5QiCofiS9
-	TLpytTVgailbCGCG8JfZKFqIMMRI6UsuhnwqLJu1xvdNIz/pmPXbukyX
-X-Received: by 2002:a05:6214:4709:b0:896:f2d4:1df3 with SMTP id 6a1803df08f44-89979da9834mr156174406d6.6.1772007286376;
-        Wed, 25 Feb 2026 00:14:46 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+F6mhC/qqpr1WgMCEL1fKERYyyD1ndou/QIRlUIv6jb4g=="
-Received: by 2002:a05:6214:20ea:b0:888:1f20:6a87 with SMTP id
- 6a1803df08f44-899b9c9a3c8ls10234126d6.0.-pod-prod-04-us; Wed, 25 Feb 2026
- 00:14:45 -0800 (PST)
-X-Received: by 2002:a05:6122:470f:b0:567:638a:ce16 with SMTP id 71dfb90a1353d-56a81313ec1mr560617e0c.14.1772007285435;
-        Wed, 25 Feb 2026 00:14:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772007285; cv=none;
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YUBoRZBKORxDH5Ciotid9AboUL/y5iWpoyWt25H21w4=;
+        b=HrZTre+ILFj7ZwRp0sM0fGYahTHm3uvbK0JE2VUM1qqtH6tcJXFGA0pFLKdozPJqmo
+         5LBnZ2tn4OW8+DX/1rG/ZxU9gnxMXbiZAej4KPlePWgwEgFn4zl5OOa3Azl7bImo296O
+         CKH3K3HnCj281775N6a45kpTO83BFurdk3whQY2u8quFxpZzpL6uVWlDDEfckdv8yLXD
+         J5ClJaLe6LJEdZz1j/r13qUXLujUAad8Cj2vFhjhZ/yVsTyBnEAeV8o+XnWIFneY04AK
+         x51z2/J2B959RpRNpZY3p4aXRKkAt1TlhlgvyZek/bNmG6zBUKArxLMowb+hcaYQEir5
+         SQtQ==
+X-Forwarded-Encrypted: i=2; AJvYcCU0Fztu1Ndn1mnTaN3+e989tEeHn1rN3KUT2usIfDqBUsjazLC+DBL9tNJtYc8TyDDE8gDW6Q==@lfdr.de
+X-Gm-Message-State: AOJu0Yw8Sc4KR859M30sRnC2S84ReH87No/y5FeTZhg+gutFC86QxqZR
+	M/mRE0PngGgN/kseX2C957ahI6RiAP5DFpJXz+cIylrJigbpHI7B4nbp
+X-Received: by 2002:a05:6a00:ad5:b0:81f:3fbd:ccf with SMTP id d2e1a72fcca58-826da8f1917mr12321345b3a.23.1772007298620;
+        Wed, 25 Feb 2026 00:14:58 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+EIizUg1VegE49IDf++M/r3QDi7g6kTePxc7103yQGdOw=="
+Received: by 2002:a05:6a00:90a6:b0:824:afd2:a5a9 with SMTP id
+ d2e1a72fcca58-82726b92901ls412253b3a.0.-pod-prod-09-us; Wed, 25 Feb 2026
+ 00:14:57 -0800 (PST)
+X-Received: by 2002:a05:6a00:c8c:b0:81c:96b7:7fb6 with SMTP id d2e1a72fcca58-826da9f1655mr14787141b3a.35.1772007296890;
+        Wed, 25 Feb 2026 00:14:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772007296; cv=none;
         d=google.com; s=arc-20240605;
-        b=FpSDgCxdu/yY6bLHgfbckEC6GRtmwO/FSe3v/O95UomESVVBFYxZDIBXmQZ9p2ET8e
-         DfvxXDCcfRtkepAPaG5BSFQvDjlNVt7XNEnN/ZfgsFpNjkqRCwYux2v0N9bb0uxlujaN
-         d5IDVPqUQXsw5Bdv61E/ZZM862VA2p4TifElp160xQvnajLI4aLm+A7bv26lG3933SVV
-         deGd0N6veUXWs1IH/RUJXmhN0xonKtWYH+tmUL9HeOOxoTz/zmLgtqm2V46blVZKfGhl
-         VfiR2bJeoMA8MSysVnkKC5pr52tVfGAj9g+sRBv2u9lmJowe31MGRXGh9JubzGTojIkk
-         Kj5w==
+        b=IdR1ibch9w3dJDildlSjZmZg5VaMsKFkermuUy9dWFPOfjrYyx4VSS1UK40raT3jiA
+         ykQSD17XmdKujn7R1ZW5oYQ3ieCwllBwQ3H3qdWkOHL74qs/Jsn5cA3YzM+PB53pX4DE
+         8ynisAZPRSTVrMmgeArsXrRnIi0KFDv9UStpdpn1iECN3ssidKTi70kePI2NXzgGMqVS
+         tQtor2QtXM4hq4X8I9yvq8hHVUzWpBd1mYoJzR220x7uq5oNA2kki4VLXtWu0bEpDTmc
+         10v4afdBqE/VWLiHPxQ7A2UBCrWuQpzHnV0+N0nG2eiIBFytWUTW0ElpSm402NQnD6ID
+         KHdQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=re7E4sxplbVcSJsRUE0dixF3rx550iAmXm+wmG0q1R4=;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=1+o8INxubcV2x/Jl5UdObmj+gfJwsgp0C09vqymuwDM=;
         fh=1u/rAQ2shkgBy1hSbEpxEfZyuRFBHpgek1Apm2Xu8ks=;
-        b=l3fwJr4ZAvex9cS4M6HHsbjDm3g/XGS/jA0ry8bWyG9jDMVZaqdzID2LyDtz1JMLeh
-         W6jHrQC76GwGR1j45ZT5dDZJYEEWIWf7Bk9Rx4FoauwIZKTAz69MfL5NJO0Jzt7IGYk1
-         0UttZcRWjHen0xz/6fNE3JpQDsZM2G/JNlZk46vkvQYt2iFCcvX3GnWTTG/+/2gwufzw
-         jumRfL/74mPn8+CxfHFWmxntUE4DVnstLMGnbtg65PVA6G9flJQlQUNWsEHp2vGTyFp/
-         A4Tzi1RXaRUrOCb/0ROgN4FuQJ9l62frwwuv9sIUkYbtquRSujUIWtV+wINFoP8GF2ef
-         NtnQ==;
+        b=J5bDWVAz+f9tBxk0uzg+E9t6JGtg1JJQJDWBhTBJWJahzvk3hBUFLEglO+n0fWtFjU
+         joIxM+25l+Qx+zZ7TNMuCoHgS2H6t8bZHF1mWJ4qMUKUzLHFck3ZN5tjwd8gYc0ts/A1
+         6hgd4IHwdqJqaORzOKgL3LhS0LIZPbdNgcsK+nnKfGoUiAxDkvGTpEOXfwZZJ55TXFTi
+         GGfHapHwEl8MVPs3JoIKe6WUWKih5Mq69T5O2yBzCv6N9uwIpEnYcigHIf0INXTWeje2
+         0svVHFZk296sgW+WVCgdMbjRjFjj7Hf8ekpyNqJ2XOJJRuNPD44/xRjisrbj4soBdafL
+         3txA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=A5QC44Tg;
-       spf=pass (google.com: domain of bhe@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=MJLjPbSN;
+       spf=pass (google.com: domain of bhe@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
-        by gmr-mx.google.com with ESMTPS id 71dfb90a1353d-56a7ef26a0csi62646e0c.3.2026.02.25.00.14.45
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
+        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-826dd894ec4si397881b3a.6.2026.02.25.00.14.56
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Feb 2026 00:14:45 -0800 (PST)
-Received-SPF: pass (google.com: domain of bhe@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+        Wed, 25 Feb 2026 00:14:56 -0800 (PST)
+Received-SPF: pass (google.com: domain of bhe@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-497-8STCbgGpNdSEQd8WeY9I3A-1; Wed,
- 25 Feb 2026 03:14:40 -0500
-X-MC-Unique: 8STCbgGpNdSEQd8WeY9I3A-1
-X-Mimecast-MFC-AGG-ID: 8STCbgGpNdSEQd8WeY9I3A_1772007278
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-556-nQ4DDfqXPK2cnN4hGIJDvA-1; Wed,
+ 25 Feb 2026 03:14:51 -0500
+X-MC-Unique: nQ4DDfqXPK2cnN4hGIJDvA-1
+X-Mimecast-MFC-AGG-ID: nQ4DDfqXPK2cnN4hGIJDvA_1772007289
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6A1281956067;
-	Wed, 25 Feb 2026 08:14:37 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A0E82195609D;
+	Wed, 25 Feb 2026 08:14:48 +0000 (UTC)
 Received: from MiWiFi-R3L-srv.redhat.com (unknown [10.72.112.55])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7C6291800465;
-	Wed, 25 Feb 2026 08:14:26 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id DE8351800351;
+	Wed, 25 Feb 2026 08:14:38 +0000 (UTC)
 From: "'Baoquan He' via kasan-dev" <kasan-dev@googlegroups.com>
 To: kasan-dev@googlegroups.com
 Cc: linux-mm@kvack.org,
@@ -140,19 +141,21 @@ Cc: linux-mm@kvack.org,
 	linux-s390@vger.kernel.org,
 	hca@linux.ibm.com,
 	Baoquan He <bhe@redhat.com>
-Subject: [PATCH v5 00/15] mm/kasan: make kasan=on|off work for all three modes
-Date: Wed, 25 Feb 2026 16:13:57 +0800
-Message-ID: <20260225081412.76502-1-bhe@redhat.com>
+Subject: [PATCH v5 01/15] mm/kasan: add conditional checks in functions to return directly if kasan is disabled
+Date: Wed, 25 Feb 2026 16:13:58 +0800
+Message-ID: <20260225081412.76502-2-bhe@redhat.com>
+In-Reply-To: <20260225081412.76502-1-bhe@redhat.com>
+References: <20260225081412.76502-1-bhe@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-MFC-PROC-ID: mUi7aAOItPdK1r71P_JP9eNIWDgmmUQb2eUrp1yo-bw_1772007278
+X-Mimecast-MFC-PROC-ID: HgTU9ru9V5cUbzFtp9CCdVtd5aKHcFOaxtoK4OeE6pU_1772007289
 X-Mimecast-Originator: redhat.com
 Content-type: text/plain; charset="UTF-8"
 X-Original-Sender: bhe@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=A5QC44Tg;
+ header.i=@redhat.com header.s=mimecast20190719 header.b=MJLjPbSN;
        spf=pass (google.com: domain of bhe@redhat.com designates
- 170.10.129.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
+ 170.10.133.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
 X-Original-From: Baoquan He <bhe@redhat.com>
 Reply-To: Baoquan He <bhe@redhat.com>
@@ -172,177 +175,246 @@ X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[googlegroups.com,none];
-	R_DKIM_ALLOW(-0.20)[googlegroups.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2607:f8b0:4000::/36:c];
 	MAILLIST(-0.20)[googlegroups];
-	R_SPF_ALLOW(-0.20)[+ip6:2607:f8b0:4000::/36];
+	R_DKIM_ALLOW(-0.20)[googlegroups.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bncBCKPFB7SXUERB5W67LGAMGQEBANMLHI];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[kvack.org,gmail.com,google.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org,kernel.org,zankel.net,linux.ibm.com,redhat.com];
-	MIME_TRACE(0.00)[0:+];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bncBCKPFB7SXUERBAW77LGAMGQE4BWSQUI];
 	RCPT_COUNT_TWELVE(0.00)[18];
+	FREEMAIL_CC(0.00)[kvack.org,gmail.com,google.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org,kernel.org,zankel.net,linux.ibm.com,redhat.com];
+	RCVD_TLS_LAST(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[googlegroups.com:+];
-	HAS_REPLYTO(0.00)[bhe@redhat.com];
-	NEURAL_HAM(-0.00)[-0.964];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.977];
 	RCVD_COUNT_FIVE(0.00)[6];
 	FROM_EQ_ENVFROM(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	DKIM_TRACE(0.00)[googlegroups.com:+];
 	TAGGED_RCPT(0.00)[kasan-dev];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:15169, ipnet:2607:f8b0::/32, country:US];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail-qv1-xf3d.google.com:helo,mail-qv1-xf3d.google.com:rdns]
-X-Rspamd-Queue-Id: 057CA193F9E
+	TO_DN_SOME(0.00)[];
+	HAS_REPLYTO(0.00)[bhe@redhat.com]
+X-Rspamd-Queue-Id: 9D168193FC4
 X-Rspamd-Action: no action
 
-Currently only hw_tags mode of kasan can be enabled or disabled with
-kernel parameter kasan=on|off for built kernel. For kasan generic and
-sw_tags mode, there's no way to disable them once kernel is built.
+The current codes only check if kasan is disabled for hw_tags
+mode. Here add the conditional checks for functional functions of
+generic mode and sw_tags mode.
 
-This is not convenient sometime, e.g in system kdump is configured.
-When the 1st kernel has KASAN enabled and crash triggered to switch to
-kdump kernel, the generic or sw_tags mode will cost much extra memory
-while in fact it's meaningless to have kasan in kdump kernel
+And also add a helper __kasan_cache_shrink() in mm/kasan/generic.c
+so that the conditional check is done in include/linux/kasan.h.
 
-There are two parts of big amount of memory requiring for kasan enabed
-kernel. One is the direct memory mapping shadow of kasan, which is 1/8
-of system RAM in generic mode and 1/16 of system RAM in sw_tags mode;
-the other is the shadow meomry for vmalloc which causes big meomry
-usage in kdump kernel because of lazy vmap freeing. By introducing
-"kasan=off|on", if we specify 'kasan=off', the former is avoided by
-skipping the kasan_init(), and the latter is avoided by not building the
-vmalloc shadow for vmalloc.
+This is prepared for later adding kernel parameter kasan=on|off for
+all three kasan modes.
 
-So this patchset moves the kasan=on|off out of hw_tags scope and into
-common code to make it visible in generic and sw_tags mode too. Then we
-can add kasan=off in kdump kernel to reduce the unneeded meomry cost for
-kasan.
+Signed-off-by: Baoquan He <bhe@redhat.com>
+---
+ include/linux/kasan.h |  7 ++++++-
+ mm/kasan/generic.c    | 16 ++++++++++++++--
+ mm/kasan/init.c       |  6 ++++++
+ mm/kasan/quarantine.c |  3 +++
+ mm/kasan/report.c     |  4 +++-
+ mm/kasan/shadow.c     | 11 ++++++++++-
+ mm/kasan/sw_tags.c    |  3 +++
+ 7 files changed, 45 insertions(+), 5 deletions(-)
 
-Note that this hasn't been supported on s390 since I am not familiar
-with s390 code. Hope s390 developer will make it work.
-
-Testing:
-========
-Testing is done on upstream kernel 6.19.0+:
-
-- For generic mode, testing is taken on below systems and passed.
-  - x86_64 baremetal system
-  - aarch64 baremetal system
-  - ppc64le baremetal system (Model 9183-22X)
-  - risc-v kvm guest
-
-- For sw_tags mode, testing is taken on below system and passed.
-  - aarch64 baremetal system 
-
-- For hw_tags mode, testing is taken on below system and passed.
-  - aarch64 kvm guest with "-machine virt,mte=on -cpu max" qemu command.
-
-Changelog:
-====
-v4->v5:
-- Add helper __kasan_cache_shrink() in mm/kasan/generic.c so that the
-  kasan_enabled() checking done in kasan_cache_shrink() which is in
-  include/linux/kasan.h. This change is made in patch 1.
-- Carve out the change of renaming 'kasan_arg' to 'kasan_arg_disabled'
-  into a separate patch from the old patch 2.
-- put the old patch 12 to earlier place as patch 4 in this sereis so
-  that the ifdeffery scope embracing kasan_flag_enabled definition is
-  meaningful and understandable.
-- Remove the stale and incorrect comment above kasan_enabled() in the
-  old patch 12.
-- Add comment 'If KASAN is disabled via command line, don't initialize
-  it.' to all places where kasan is initialized and kasan_arg_disabled
-  is checked.
-- Add document in kernel-parameters.txt to note kasan=on|off.
-- Remove unneeded ARCH_DEFER_KASAN and kasan_arch_is_ready().
-- All these changes are made according to reviewers' suggestion in v4,
-  thanks to Andrey Konovalov, Andrey Ryabinin and Alexander Potapenko.
-  
-
-v3->v4:
-- Rebase code to the latest linux-next/master to make the whole patchset
-  set on top of
-  [PATCH 0/2] kasan: cleanups for kasan_enabled() checks
-  [PATCH v6 0/2] kasan: unify kasan_enabled() and remove arch-specific implementations
-
-v2->v3:
-- Fix a building error on UML ARCH when CONFIG_KASAN is not set. The
-  change of fixing is appended into patch patch 11. This is reported
-  by LKP, thanks to them.
-
-v1->v2:
-- Add __ro_after_init for kasan_arg_disabled, and remove redundant blank
-  lines in mm/kasan/common.c. Thanks to Marco.
-- Fix a code bug in <linux/kasan-enabled.h> when CONFIG_KASAN is unset,
-  this is found out by SeongJae and Lorenzo, and also reported by LKP
-  report, thanks to them.
-- Add a missing kasan_enabled() checking in kasan_report(). This will
-  cause a KASAN report info even though kasan=off is set:
-- Add jump_label_init() calling before kasan_init() in setup_arch() in these
-  architectures: xtensa, arm. Because they currenly rely on
-  jump_label_init() in main() which is a little late. Then the early static
-  key kasan_flag_enabled in kasan_init() won't work.
-- In UML architecture, change to enable kasan_flag_enabled in arch_mm_preinit()
-  because kasan_init() is enabled before main(), there's no chance to operate
-  on static key in kasan_init().
-
-Baoquan He (15):
-  mm/kasan: add conditional checks in functions to return directly if
-    kasan is disabled
-  mm/kasan: rename 'kasan_arg' to 'kasan_arg_disabled'
-  mm/kasan: mm/kasan: move kasan= code to common place
-  mm/kasan: make kasan=on|off take effect for all three modes
-  mm/kasan/sw_tags: don't initialize kasan if it's disabled
-  arch/arm: don't initialize kasan if it's disabled
-  arch/arm64: don't initialize kasan if it's disabled
-  arch/loongarch: don't initialize kasan if it's disabled
-  arch/powerpc: don't initialize kasan if it's disabled
-  arch/riscv: don't initialize kasan if it's disabled
-  arch/x86: don't initialize kasan if it's disabled
-  arch/xtensa: don't initialize kasan if it's disabled
-  arch/um: don't initialize kasan if it's disabled
-  mm/kasan: add document into kernel-parameters.txt
-  mm/kasan: clean up unneeded ARCH_DEFER_KASAN and kasan_arch_is_ready
-
- .../admin-guide/kernel-parameters.txt         |  4 +++
- Documentation/dev-tools/kasan.rst             |  2 --
- arch/arm/kernel/setup.c                       |  6 ++++
- arch/arm/mm/kasan_init.c                      |  3 ++
- arch/arm64/mm/kasan_init.c                    |  7 +++++
- arch/loongarch/Kconfig                        |  1 -
- arch/loongarch/mm/kasan_init.c                |  3 ++
- arch/powerpc/Kconfig                          |  1 -
- arch/powerpc/mm/kasan/init_32.c               |  6 +++-
- arch/powerpc/mm/kasan/init_book3e_64.c        |  4 +++
- arch/powerpc/mm/kasan/init_book3s_64.c        |  4 +++
- arch/riscv/mm/kasan_init.c                    |  4 +++
- arch/um/Kconfig                               |  1 -
- arch/um/kernel/mem.c                          |  5 +++-
- arch/x86/mm/kasan_init_64.c                   |  4 +++
- arch/xtensa/kernel/setup.c                    |  1 +
- arch/xtensa/mm/kasan_init.c                   |  4 +++
- include/linux/kasan-enabled.h                 | 10 +++----
- include/linux/kasan.h                         |  7 ++++-
- lib/Kconfig.kasan                             | 12 --------
- mm/kasan/common.c                             | 21 ++++++++++++--
- mm/kasan/generic.c                            | 16 +++++++++--
- mm/kasan/hw_tags.c                            | 28 ++-----------------
- mm/kasan/init.c                               |  6 ++++
- mm/kasan/kasan.h                              |  6 ----
- mm/kasan/quarantine.c                         |  3 ++
- mm/kasan/report.c                             |  4 ++-
- mm/kasan/shadow.c                             | 11 +++++++-
- mm/kasan/sw_tags.c                            |  7 +++++
- 29 files changed, 128 insertions(+), 63 deletions(-)
-
+diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+index 338a1921a50a..a9b8d58d8699 100644
+--- a/include/linux/kasan.h
++++ b/include/linux/kasan.h
+@@ -492,7 +492,12 @@ size_t kasan_metadata_size(struct kmem_cache *cache, bool in_object);
+ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+ 			slab_flags_t *flags);
+ 
+-void kasan_cache_shrink(struct kmem_cache *cache);
++void __kasan_cache_shrink(struct kmem_cache *cache);
++static inline void kasan_cache_shrink(struct kmem_cache *cache)
++{
++	if (kasan_enabled())
++		__kasan_cache_shrink(cache);
++}
+ void kasan_cache_shutdown(struct kmem_cache *cache);
+ void kasan_record_aux_stack(void *ptr);
+ 
+diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
+index 2b8e73f5f6a7..25850e7c2e00 100644
+--- a/mm/kasan/generic.c
++++ b/mm/kasan/generic.c
+@@ -212,14 +212,14 @@ bool kasan_byte_accessible(const void *addr)
+ 	return shadow_byte >= 0 && shadow_byte < KASAN_GRANULE_SIZE;
+ }
+ 
+-void kasan_cache_shrink(struct kmem_cache *cache)
++void __kasan_cache_shrink(struct kmem_cache *cache)
+ {
+ 	kasan_quarantine_remove_cache(cache);
+ }
+ 
+ void kasan_cache_shutdown(struct kmem_cache *cache)
+ {
+-	if (!__kmem_cache_empty(cache))
++	if (kasan_enabled() && !__kmem_cache_empty(cache))
+ 		kasan_quarantine_remove_cache(cache);
+ }
+ 
+@@ -239,6 +239,9 @@ void __asan_register_globals(void *ptr, ssize_t size)
+ 	int i;
+ 	struct kasan_global *globals = ptr;
+ 
++	if (!kasan_enabled())
++		return;
++
+ 	for (i = 0; i < size; i++)
+ 		register_global(&globals[i]);
+ }
+@@ -369,6 +372,9 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+ 	unsigned int rem_free_meta_size;
+ 	unsigned int orig_alloc_meta_offset;
+ 
++	if (!kasan_enabled())
++		return;
++
+ 	if (!kasan_requires_meta())
+ 		return;
+ 
+@@ -518,6 +524,9 @@ size_t kasan_metadata_size(struct kmem_cache *cache, bool in_object)
+ {
+ 	struct kasan_cache *info = &cache->kasan_info;
+ 
++	if (!kasan_enabled())
++		return 0;
++
+ 	if (!kasan_requires_meta())
+ 		return 0;
+ 
+@@ -543,6 +552,9 @@ void kasan_record_aux_stack(void *addr)
+ 	struct kasan_alloc_meta *alloc_meta;
+ 	void *object;
+ 
++	if (!kasan_enabled())
++		return;
++
+ 	if (is_kfence_address(addr) || !slab)
+ 		return;
+ 
+diff --git a/mm/kasan/init.c b/mm/kasan/init.c
+index f084e7a5df1e..c78d77ed47bc 100644
+--- a/mm/kasan/init.c
++++ b/mm/kasan/init.c
+@@ -447,6 +447,9 @@ void kasan_remove_zero_shadow(void *start, unsigned long size)
+ 	unsigned long addr, end, next;
+ 	pgd_t *pgd;
+ 
++	if (!kasan_enabled())
++		return;
++
+ 	addr = (unsigned long)kasan_mem_to_shadow(start);
+ 	end = addr + (size >> KASAN_SHADOW_SCALE_SHIFT);
+ 
+@@ -482,6 +485,9 @@ int kasan_add_zero_shadow(void *start, unsigned long size)
+ 	int ret;
+ 	void *shadow_start, *shadow_end;
+ 
++	if (!kasan_enabled())
++		return 0;
++
+ 	shadow_start = kasan_mem_to_shadow(start);
+ 	shadow_end = shadow_start + (size >> KASAN_SHADOW_SCALE_SHIFT);
+ 
+diff --git a/mm/kasan/quarantine.c b/mm/kasan/quarantine.c
+index 6958aa713c67..a6dc2c3d8a15 100644
+--- a/mm/kasan/quarantine.c
++++ b/mm/kasan/quarantine.c
+@@ -405,6 +405,9 @@ static int __init kasan_cpu_quarantine_init(void)
+ {
+ 	int ret = 0;
+ 
++	if (!kasan_enabled())
++		return 0;
++
+ 	ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "mm/kasan:online",
+ 				kasan_cpu_online, kasan_cpu_offline);
+ 	if (ret < 0)
+diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+index 27efb78eb32d..1a39b3f62c57 100644
+--- a/mm/kasan/report.c
++++ b/mm/kasan/report.c
+@@ -576,7 +576,9 @@ bool kasan_report(const void *addr, size_t size, bool is_write,
+ 	unsigned long irq_flags;
+ 	struct kasan_report_info info;
+ 
+-	if (unlikely(report_suppressed_sw()) || unlikely(!report_enabled())) {
++	if (unlikely(report_suppressed_sw()) ||
++	    unlikely(!report_enabled()) ||
++	    !kasan_enabled()) {
+ 		ret = false;
+ 		goto out;
+ 	}
+diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
+index d286e0a04543..87f517b76d6e 100644
+--- a/mm/kasan/shadow.c
++++ b/mm/kasan/shadow.c
+@@ -164,6 +164,8 @@ void kasan_unpoison(const void *addr, size_t size, bool init)
+ {
+ 	u8 tag = get_tag(addr);
+ 
++	if (!kasan_enabled())
++		return;
+ 	/*
+ 	 * Perform shadow offset calculation based on untagged address, as
+ 	 * some of the callers (e.g. kasan_unpoison_new_object) pass tagged
+@@ -277,7 +279,8 @@ static int __meminit kasan_mem_notifier(struct notifier_block *nb,
+ 
+ static int __init kasan_memhotplug_init(void)
+ {
+-	hotplug_memory_notifier(kasan_mem_notifier, DEFAULT_CALLBACK_PRI);
++	if (kasan_enabled())
++		hotplug_memory_notifier(kasan_mem_notifier, DEFAULT_CALLBACK_PRI);
+ 
+ 	return 0;
+ }
+@@ -660,6 +663,9 @@ int kasan_alloc_module_shadow(void *addr, size_t size, gfp_t gfp_mask)
+ 	size_t shadow_size;
+ 	unsigned long shadow_start;
+ 
++	if (!kasan_enabled())
++		return 0;
++
+ 	shadow_start = (unsigned long)kasan_mem_to_shadow(addr);
+ 	scaled_size = (size + KASAN_GRANULE_SIZE - 1) >>
+ 				KASAN_SHADOW_SCALE_SHIFT;
+@@ -696,6 +702,9 @@ int kasan_alloc_module_shadow(void *addr, size_t size, gfp_t gfp_mask)
+ 
+ void kasan_free_module_shadow(const struct vm_struct *vm)
+ {
++	if (!kasan_enabled())
++		return;
++
+ 	if (IS_ENABLED(CONFIG_UML))
+ 		return;
+ 
+diff --git a/mm/kasan/sw_tags.c b/mm/kasan/sw_tags.c
+index c75741a74602..6c1caec4261a 100644
+--- a/mm/kasan/sw_tags.c
++++ b/mm/kasan/sw_tags.c
+@@ -79,6 +79,9 @@ bool kasan_check_range(const void *addr, size_t size, bool write,
+ 	u8 *shadow_first, *shadow_last, *shadow;
+ 	void *untagged_addr;
+ 
++	if (!kasan_enabled())
++		return true;
++
+ 	if (unlikely(size == 0))
+ 		return true;
+ 
 -- 
 2.52.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260225081412.76502-1-bhe%40redhat.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260225081412.76502-2-bhe%40redhat.com.
