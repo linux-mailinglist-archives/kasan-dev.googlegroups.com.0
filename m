@@ -1,164 +1,141 @@
-Return-Path: <kasan-dev+bncBCKPFB7SXUERBGHA7LGAMGQE55LTDDA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB2V27XGAMGQE3UKJGPY@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GC1wJxuwnmlxWwQAu9opvQ
-	(envelope-from <kasan-dev+bncBCKPFB7SXUERBGHA7LGAMGQE55LTDDA@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 Feb 2026 09:17:31 +0100
+	id MCnLA21dn2lRagQAu9opvQ
+	(envelope-from <kasan-dev+bncBC7OBJGL2MHBB2V27XGAMGQE3UKJGPY@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 Feb 2026 21:37:01 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103b.google.com (mail-pj1-x103b.google.com [IPv6:2607:f8b0:4864:20::103b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 245C719412B
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 Feb 2026 09:17:31 +0100 (CET)
-Received: by mail-pj1-x103b.google.com with SMTP id 98e67ed59e1d1-358e5e33ddcsf1467613a91.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 25 Feb 2026 00:17:31 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1772007449; cv=pass;
+Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F0DD19D515
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 Feb 2026 21:37:00 +0100 (CET)
+Received: by mail-lf1-x139.google.com with SMTP id 2adb3069b0e04-5a10765f675sf50523e87.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 25 Feb 2026 12:37:00 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1772051820; cv=pass;
         d=google.com; s=arc-20240605;
-        b=KRw99p/MPcA2xLLzzyDTJq4bPF4gtwKXgSeW5YIMJFXr3opwwylsjxQ8GqU0K9AFdR
-         lr7pgLo1DwO7o6T6zLFwNW0cZXTjqv1SeNLFxhnxhRz4BAlU0lokfSGAGXccwQ5LOGkX
-         n+svCUkhz32z8zpwfzW3HhCFX6m5URaNECRv9d2WzSrtNWfWiJbk1hVcR06H4zp5bqQ2
-         Iri3MLGGx3Zispul9L2ViceZfSI9a94tYNxf8oCIbQWLUHTdTE3ziRccMwtLJXPF8AOP
-         uZ4iIxlSiUlBFL1gJl8VO2GP0qQUv69rpDhLKZwGv4DEeqUSm9dxJyDZvKtcEoTsccE2
-         q7DA==
+        b=LU6iN2g0KhmYAZdVocqNVf/UMouwNRfONOAI2CTQ9TSG60v/poVDvXL+/tuGT0wfYF
+         /hM8O1Z8rN5t8uvW1P2tifTFXC0bLuPjs6KvxdWmcGxXjFB++hIn/lQKUT5eUHHhURzu
+         eBIKcAYrDJ0fLWUstKtj37jIT26yRL4Xylgu55evMm4G2LsFm/wM9PqGjsU2qw/b/6rD
+         Qm5rd2l8r7uRVpbNifvFkdmfDNrTdzcCLuXZ9qbzoP98S9bVKzwoXN59rQa7WyIXY14c
+         qFIPV+EtFUMF5KyidWZVR5GGTlXkW2DHb/xipSTf85mG+WYDPF7hF7huAFqP7bnHraRY
+         Er9A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=RzpbN852e+kbJWLNLOckjSfBHf/wFBD52lhltqMXWLg=;
-        fh=iZiCPgfz1RCf70pX1t6TvffuuuZ5RMYUU0b2eSOoQ50=;
-        b=YZLTRkUD3dfYp3hQrEqEa2mbiGjKCvEFf8dqE2KGNVug+9ZY6gKaLtZ6+/P0v+u/yv
-         5yT18R/8eueXqJFuLyhfN7rVUhYibTDBkzmyg3szHDIcZIvlecKTybOXpmlZXRq7Yxdx
-         Vgj7MASlfkupk+ZVGN7+el+ML0Km3ZEbl2g5MLjVcJcck8aSjtjtpEjkLbdN7rqInAKS
-         VsbcSV1ae7BwWPh9lkSWQquayV6GSuGXe9Q+JYLJq1/jTiT56Fvf6cPg4WQD3Us4cdVT
-         FWEfJGo7/BTmiMmt6VG61pCf8UarzU5K0sb9AsQHiNO7LIqUc0DqcwgecyItDmTZzVZ1
-         tDxw==;
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :message-id:mime-version:date:dkim-signature;
+        bh=XIulgwdktcKECQHlXb9xJhGd9NW16pD8LVITBYVfdv8=;
+        fh=85vQnVkce17cfmdN10qfek8QINWXZE0C49GWMyRJj4M=;
+        b=QuS5fjCiz5HJ3HcbseM/NV+HP00BSkacvK6xBISX6yT4F6FrkrMWAwohnJ6w/KRELg
+         bqoLjpGR4aOo+rqLroU8n+H83WVeBFU1+3mg8BgK8F7qcFRV9rNuAZC4tPdDi+pwaHhP
+         WpNlS4mKbT6bNkXdkGZXZs82wa5UwkQC8QNZUlAf84YhNiOF8/bpEKDJHG8za2FPe+hM
+         5RkXgTrAiptDmzk0tGjI2G3Tp+V8/teRmfIrVT4My7SUX2p1JcrGU2/uRTkrnIkXh/kt
+         vmSonJ0zV+MADNP9cGzQApT2IH2QDWaBMXNAzMlb7aLTa9XC/0wbtn6v/3ru6mAz0x7s
+         9b1A==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=Sdltovha;
-       spf=pass (google.com: domain of bhe@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@google.com header.s=20230601 header.b=1rmAd87C;
+       spf=pass (google.com: domain of 3z12faqukcfiyfpylaiiafy.wigeumuh-xypaiiafyaliojm.wig@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3Z12faQUKCfIYfpYlaiiafY.WigeUmUh-XYpaiiafYaliojm.Wig@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1772007449; x=1772612249; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1772051820; x=1772656620; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=RzpbN852e+kbJWLNLOckjSfBHf/wFBD52lhltqMXWLg=;
-        b=VWDtI3Gg6wUlK1RzsuMisAX+cPBpFIvDcQrruYdPqfMBsTMZvY53Bm0jNU0MepZt+a
-         asp3GoqFtpa7Q0y5VHRiaCEx6Bg1mQIoitG3Hbe5K/36hCnCiw1h/8wa/YMGBxHthnt2
-         jO6ycfVrUIjXcM/0YadMHMoA4epiLR4xzym4H/nKjP+xgEhj242YDzvfbH1axsXdn2H8
-         aD+zJ9He32hITwDt7KmMqZB50lJHtE8zTkQ6QnmtziKv9XJypkIdhocUVnuMQoZjD+gU
-         vE1USKBMwvKHHW4C9kAJQwq4WHxTBmBMW5IOk/S6qDVljpgtCI9g8z7g1NMDgwKHFsbI
-         9Yhw==
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XIulgwdktcKECQHlXb9xJhGd9NW16pD8LVITBYVfdv8=;
+        b=NzvdFrUKxx5ZzfJAQsSCpTpDM+baRfeCZsHv9fmqMVB1lfXaiFPlXUOS9aElufkbgB
+         Dc2//CYnQIoo9aeKe3b5NsfSHGjuyCarvKjW7JOSb1MscAHG4ywBokNTUIAk3xzF+058
+         hdEx09wqgmTxe3XshQ9rIhxXq0tQaNSVBvpY6tgcmaGHhqTW8g9A8BnwlZIAkWnckq2f
+         woCcELtXdymWfNy3nuZ+OhsKMsXUFFF5zypXIj7FxVhr7+8Px0Feq8ZsVDCWbwByQEWu
+         VzcpyAnUddIwLFCL6OqHeAp7I6tzxOYJi8VXfAJ8d4lXdQ1TJWhCgsEClrg88EkZ1ZBo
+         5+Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772007449; x=1772612249;
+        d=1e100.net; s=20230601; t=1772051820; x=1772656620;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RzpbN852e+kbJWLNLOckjSfBHf/wFBD52lhltqMXWLg=;
-        b=sc2dY04VQrDB1kx+LOl1K1PbT+LYpOz0hASmNRMx0fsGWiED/eiCDLw8xlRdtdpkKF
-         +w08di3s+YoRnPCilqBUDpeQQpCTAc47syQOES40s/BAOTPTlA5MKp4x5A6OChz+xvaf
-         novttqpKK+o2PIcCGy+om+dSBEkQ3WaBRvoWsdo3HEskz/5xE8oou68Sq7fjjHl1BFL7
-         9rd2sxsFzmrIUPzWEvd0R57WwfPXdngWZfq+IlAldF9fzslU0tugGMwWLNgJj7QdaYG+
-         hgQ9QAJjfLLM0T8FNjx7YWMkWirXYwHQsug1gWAee14d1nKie4HAMg0k9YAnB6o+7VSZ
-         u8DQ==
-X-Forwarded-Encrypted: i=2; AJvYcCV5RjItCrZNqDpcY4P+wvU8bIE8gBJID2jTkAOw13eTQTr4zINTaSHm5ItlCZai/Z6BBRwOqg==@lfdr.de
-X-Gm-Message-State: AOJu0YxVZ0iNlIJLOWHR2MXUmk3JM+oDGHpZ7O0+n72bvgroRVuzGZGu
-	D0ppBoCIxGtVb23tjQoRXoB17SJv/bNG91FTjQ0XlnaV/XS9Rwn9qiF2
-X-Received: by 2002:a17:90b:5146:b0:32e:a8b7:e9c with SMTP id 98e67ed59e1d1-358ae8c84ebmr11323376a91.29.1772007449396;
-        Wed, 25 Feb 2026 00:17:29 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+Ho0/UEC31w5kB2PZeLiQqD5YYbokkFst7ZNCxucW4tLA=="
-Received: by 2002:a17:90a:38e5:b0:343:ca22:84f6 with SMTP id
- 98e67ed59e1d1-3590f1fc9a5ls348607a91.0.-pod-prod-07-us; Wed, 25 Feb 2026
- 00:17:27 -0800 (PST)
-X-Received: by 2002:a17:90a:e706:b0:356:83b2:539b with SMTP id 98e67ed59e1d1-358ae8e5e45mr13444662a91.32.1772007447062;
-        Wed, 25 Feb 2026 00:17:27 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772007447; cv=none;
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XIulgwdktcKECQHlXb9xJhGd9NW16pD8LVITBYVfdv8=;
+        b=ZIsgG3O0d1V0eW7+WGfP21ENjUB9G0+tRnttUKQKuzhLv1okG11lCYvzy6bpNX84ou
+         QSRZId39NIT1t2KErsMNJTGLK6kcNml1u+N/AwfgqxCflgDz08G4KdpvLSTo8V5c8US2
+         UzMmw6pu+jIBVDszCyg3XSyogZfp3UztanWXZT8CL9f7k/UhwqmxDvPni0cYm91um8pz
+         o2Mq6EpbURkEafHM3pdmeBzVnv2wutmo19/AzedUCu3CoBoo71pX+Ls9I+cDrAXvWiZN
+         /ydxaIzrxDW7JYN8x9DeGXpFvfw/YRXmCfBE8B5JW7Jc1j/8HWdLRFQLajMakjGSiaan
+         2Ifw==
+X-Forwarded-Encrypted: i=2; AJvYcCUv8PNUcirAnLaqzK+YyMNYfBeL+Njf0s64wEmessEjkFGPg4ya03HcjtHueBVN/U1OeU+t9g==@lfdr.de
+X-Gm-Message-State: AOJu0YzG3bpMfA3jWlfxb0AisodNyH3gZ8D0jvfUjkuledJC8krnshKE
+	EOUTh36OA/tK9opO0LumVY4oQmdeMRCq0RfYiBeRdnpvaYoveVTkd1cp
+X-Received: by 2002:a05:6512:1252:b0:59e:39af:a70c with SMTP id 2adb3069b0e04-5a0ed9c1406mr5125664e87.46.1772051819260;
+        Wed, 25 Feb 2026 12:36:59 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+GDakG37J4MQgJ6bopN1ASBUWOtgZR7CKrbb4zf3qOYAQ=="
+Received: by 2002:a05:6512:b0d:b0:59b:7324:a12c with SMTP id
+ 2adb3069b0e04-5a101702fa4ls353480e87.2.-pod-prod-07-eu; Wed, 25 Feb 2026
+ 12:36:56 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUlkxlnDeSekkMyfP27IBSbMYM+YhfwbP7yEo79PsQgcYGoxmY77ZtCTzkq0sG08Kit+sYNlWM2mbE=@googlegroups.com
+X-Received: by 2002:ac2:4bd0:0:b0:5a1:515:a692 with SMTP id 2adb3069b0e04-5a10515a76bmr815590e87.10.1772051816377;
+        Wed, 25 Feb 2026 12:36:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772051816; cv=none;
         d=google.com; s=arc-20240605;
-        b=XuYJju+nCDE7xyuHEK8o8ITBZmJSSg2GiGvn6KRIj4/Ukvn2zpoAMUT3kwIOAS7R4N
-         x4pfQu3/RUCCUmp84b0+Gswf1UzaghiJjixaJTDaTbpyCdNkk6A7TYHovKITIV1gJZFO
-         qBY+WwaLPk2vpuktqiFqggNcFlOksvfkv/roWxnjLB5dmMtyJdqYxOMieM/BHsV71Hx0
-         wapa8pWfrBoJu+oaBvILyk/WCxrhlEB68q/WdatH1637Sx+hYKEczX4SKeImRKr8caPH
-         tupSdg1anpnk2fYYkQtxuMD3mqhaYYNxtrWLv/lY3GVuJj/MFyoc4QiLNBRacixoii/A
-         0zVQ==
+        b=ZnTumnxXLKYOAl5DuQ0doOqDSAsDWB9sbaI6sb5m7En2dDkkTvv45Ft19gFqAegxR8
+         uu+Es/mKwYXCt5Ubahz81kkE1SZaZxp8QFAt++i5vTov1M1qMP/s/f/BO0/edPduOlFN
+         mfZ4UryWbmthvv0CGzUXSSTnRf06oLvyOnwQf0jZY2t/TmfziTreQYW3O+a2+dF5+BGT
+         GOO+9ffLceFiDm/nZkUCOD/sAVMUINekTvc2jOVVhcBx4FL97Qw9HsTqb/8UJZmIKmyl
+         T1aAOc/f9nCPX5FKwPr87jpoW2wnqtBniLVTcHD9hGSnxJJEFXVAovSjUwbZfeyRZ6oT
+         gcHg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=oV6MOc6IZ/eQSfEt7lDYf3QV1I2fYi7uzloZcjfdDk8=;
-        fh=1u/rAQ2shkgBy1hSbEpxEfZyuRFBHpgek1Apm2Xu8ks=;
-        b=HcpwZjGVhhd3bQO5kcyX9Y6feYoIQfb4xWzH3Gu5pBCgPCv39r1FNILgT6F4c832TN
-         SOXkS42ayNmXW8XbaukQUZ7LHp628mesHgJL44T3pLDuitxVBYbO6F2O2x0MoY9oJLh+
-         quk5uwuGGnM9K1VcPFkBdaX8CO15trRGaAgztGSuwC7Upv1b/IbBPyN0W/2s60q3ES7n
-         IYLo56a6ou8THP38TQNFJ9Xb7CrUlCeV2Jci42fcofrlwGm9OnNT76Sl2/xnTlgNK+mP
-         WABeRYM1X63/grstBFIIBpXiAPTme/iJb38gcgtnJ2uMiiBAnsYR9Xq//LuvtC9OoTvh
-         awKQ==;
+        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
+        bh=3O3Me7fgwyHmdf0v5rLq8O8sd5sCO/cE1nxT2vqkXJo=;
+        fh=SXY9JR81PhdPtLV6x5olorKnXeiQGJoeOOUFVHsbdyE=;
+        b=Cqi3MifSAiC8J09g8LCYyN6CZ4KJmXQ3dLX1P7S0+Q3ZsxiUmmay1du9qsgn5v9jxA
+         J9UGucpktjHAcL3v7N6eN8oqyYhNU6EaFANh0LKwjeF71uZhPqLSHYcieVeL8vD7z3rF
+         UwYg8Bq7tVMES6T2po6n620fBpTZ2mbZ5pt/x5TbMBSDjcRRGUOlCtAgj59pFAHm6MRW
+         EwZhI2Fmo4pNIi98ssay5M+rte5Kh3RpJXAG2stJ5zLbnNiEKfdx5DuXrMUVAg4aonEV
+         OuPmyHACvFI8w1uS7oX5+2D9p497TlQX13Bd+fs27YwMDIf+ZsipqzS6eJb4uFBnsla+
+         2JiA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=Sdltovha;
-       spf=pass (google.com: domain of bhe@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
-        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-3591309f3desi18252a91.0.2026.02.25.00.17.26
+       dkim=pass header.i=@google.com header.s=20230601 header.b=1rmAd87C;
+       spf=pass (google.com: domain of 3z12faqukcfiyfpylaiiafy.wigeumuh-xypaiiafyaliojm.wig@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3Z12faQUKCfIYfpYlaiiafY.WigeUmUh-XYpaiiafYaliojm.Wig@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com. [2a00:1450:4864:20::34a])
+        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-5a1093e5a56si2333e87.6.2026.02.25.12.36.56
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Feb 2026 00:17:27 -0800 (PST)
-Received-SPF: pass (google.com: domain of bhe@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-477-d1eK6WOzOV6_MuYcbjoUdg-1; Wed,
- 25 Feb 2026 03:17:22 -0500
-X-MC-Unique: d1eK6WOzOV6_MuYcbjoUdg-1
-X-Mimecast-MFC-AGG-ID: d1eK6WOzOV6_MuYcbjoUdg_1772007439
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 33B381955E8C;
-	Wed, 25 Feb 2026 08:17:16 +0000 (UTC)
-Received: from MiWiFi-R3L-srv.redhat.com (unknown [10.72.112.55])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 657C01800465;
-	Wed, 25 Feb 2026 08:17:04 +0000 (UTC)
-From: "'Baoquan He' via kasan-dev" <kasan-dev@googlegroups.com>
-To: kasan-dev@googlegroups.com
-Cc: linux-mm@kvack.org,
-	andreyknvl@gmail.com,
-	ryabinin.a.a@gmail.com,
-	glider@google.com,
-	dvyukov@google.com,
-	linux-kernel@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	loongarch@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org,
-	x86@kernel.org,
-	chris@zankel.net,
-	jcmvbkbc@gmail.com,
-	linux-s390@vger.kernel.org,
-	hca@linux.ibm.com,
-	Baoquan He <bhe@redhat.com>
-Subject: [PATCH v5 15/15] mm/kasan: clean up unneeded ARCH_DEFER_KASAN and kasan_arch_is_ready
-Date: Wed, 25 Feb 2026 16:14:12 +0800
-Message-ID: <20260225081412.76502-16-bhe@redhat.com>
-In-Reply-To: <20260225081412.76502-1-bhe@redhat.com>
-References: <20260225081412.76502-1-bhe@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-MFC-PROC-ID: AC0BDh7XYWSK4u3fNB0dVrxSRdAB_SsIs610OBXJXxw_1772007439
-X-Mimecast-Originator: redhat.com
-Content-type: text/plain; charset="UTF-8"
-X-Original-Sender: bhe@redhat.com
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Feb 2026 12:36:56 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3z12faqukcfiyfpylaiiafy.wigeumuh-xypaiiafyaliojm.wig@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) client-ip=2a00:1450:4864:20::34a;
+Received: by mail-wm1-x34a.google.com with SMTP id 5b1f17b1804b1-4806b12ad3fso1375975e9.0
+        for <kasan-dev@googlegroups.com>; Wed, 25 Feb 2026 12:36:56 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU7P4DF8CCsp5nOkBImxbx+XQ+Puu61OCacIePRyn/Pr6VChkxt4Xj8PLKsJZiHyLV51Ibl66pnnRs=@googlegroups.com
+X-Received: from wmbjp9.prod.google.com ([2002:a05:600c:5589:b0:47f:c96e:8381])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600d:6409:20b0:483:78c5:d743
+ with SMTP id 5b1f17b1804b1-483a9637a19mr199333935e9.28.1772051815765; Wed, 25
+ Feb 2026 12:36:55 -0800 (PST)
+Date: Wed, 25 Feb 2026 21:36:05 +0100
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.53.0.414.gf7e9f6c205-goog
+Message-ID: <20260225203639.3159463-1-elver@google.com>
+Subject: [PATCH] kfence: add kfence.fault parameter
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: elver@google.com, Andrew Morton <akpm@linux-foundation.org>
+Cc: Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+	workflows@vger.kernel.org, linux-mm@kvack.org, 
+	Ernesto Martinez Garcia <ernesto.martinezgarcia@tugraz.at>, Kees Cook <kees@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=Sdltovha;
-       spf=pass (google.com: domain of bhe@redhat.com designates
- 170.10.129.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=redhat.com
-X-Original-From: Baoquan He <bhe@redhat.com>
-Reply-To: Baoquan He <bhe@redhat.com>
+ header.i=@google.com header.s=20230601 header.b=1rmAd87C;       spf=pass
+ (google.com: domain of 3z12faqukcfiyfpylaiiafy.wigeumuh-xypaiiafyaliojm.wig@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3Z12faQUKCfIYfpYlaiiafY.WigeUmUh-XYpaiiafYaliojm.Wig@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@googlegroups.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -172,132 +149,302 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.71 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_TO(1.00)[];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[googlegroups.com,none];
-	R_DKIM_ALLOW(-0.20)[googlegroups.com:s=20230601];
+	MV_CASE(0.50)[];
 	MAILLIST(-0.20)[googlegroups];
-	R_SPF_ALLOW(-0.20)[+ip6:2607:f8b0:4000::/36:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2a00:1450:4000::/36];
+	R_DKIM_ALLOW(-0.20)[googlegroups.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bncBCKPFB7SXUERBGHA7LGAMGQE55LTDDA];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[kvack.org,gmail.com,google.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org,kernel.org,zankel.net,linux.ibm.com,redhat.com];
-	MIME_TRACE(0.00)[0:+];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
 	FROM_HAS_DN(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	HAS_REPLYTO(0.00)[bhe@redhat.com];
-	NEURAL_HAM(-0.00)[-0.986];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	DKIM_TRACE(0.00)[googlegroups.com:+];
+	ASN(0.00)[asn:15169, ipnet:2a00:1450::/32, country:US];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
 	TAGGED_RCPT(0.00)[kasan-dev];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:15169, ipnet:2607:f8b0::/32, country:US];
+	NEURAL_HAM(-0.00)[-0.995];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bncBC7OBJGL2MHBB2V27XGAMGQE3UKJGPY];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	HAS_REPLYTO(0.00)[elver@google.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[googlegroups.com:email,googlegroups.com:dkim,mail-pj1-x103b.google.com:helo,mail-pj1-x103b.google.com:rdns]
-X-Rspamd-Queue-Id: 245C719412B
+	DKIM_TRACE(0.00)[googlegroups.com:+]
+X-Rspamd-Queue-Id: 9F0DD19D515
 X-Rspamd-Action: no action
 
-Since commit 1e338f4d99e6 ("kasan: introduce ARCH_DEFER_KASAN and unify
-static key across modes"), kasan_arch_is_ready() has been dead code.
-And up to now, ARCH_DEFER_KASAN is useless too because of code change
-for 'kasan=on|off'.
+Add kfence.fault parameter to control the behavior when a KFENCE error
+is detected (similar in spirit to kasan.fault=<mode>).
 
-Here clean them up.
+The supported modes for kfence.fault=<mode> are:
 
-Signed-off-by: Baoquan He <bhe@redhat.com>
+  - report: print the error report and continue (default).
+  - oops: print the error report and oops.
+  - panic: print the error report and panic.
+
+In particular, the 'oops' mode offers a trade-off between no mitigation
+on report and panicking outright (if panic_on_oops is not set).
+
+Signed-off-by: Marco Elver <elver@google.com>
 ---
- arch/loongarch/Kconfig |  1 -
- arch/powerpc/Kconfig   |  1 -
- arch/um/Kconfig        |  1 -
- lib/Kconfig.kasan      | 12 ------------
- mm/kasan/kasan.h       |  6 ------
- 5 files changed, 21 deletions(-)
+ .../admin-guide/kernel-parameters.txt         |  6 +++
+ Documentation/dev-tools/kfence.rst            |  7 +++
+ mm/kfence/core.c                              | 23 ++++++---
+ mm/kfence/kfence.h                            | 16 +++++-
+ mm/kfence/report.c                            | 49 +++++++++++++++++--
+ 5 files changed, 89 insertions(+), 12 deletions(-)
 
-diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-index d211c6572b0a..4b7802d02911 100644
---- a/arch/loongarch/Kconfig
-+++ b/arch/loongarch/Kconfig
-@@ -9,7 +9,6 @@ config LOONGARCH
- 	select ACPI_PPTT if ACPI
- 	select ACPI_SYSTEM_POWER_STATES_SUPPORT	if ACPI
- 	select ARCH_BINFMT_ELF_STATE
--	select ARCH_NEEDS_DEFER_KASAN
- 	select ARCH_DISABLE_KASAN_INLINE
- 	select ARCH_ENABLE_MEMORY_HOTPLUG
- 	select ARCH_ENABLE_MEMORY_HOTREMOVE
-diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
-index ad7a2fe63a2a..b51fbc25bdc9 100644
---- a/arch/powerpc/Kconfig
-+++ b/arch/powerpc/Kconfig
-@@ -122,7 +122,6 @@ config PPC
- 	# Please keep this list sorted alphabetically.
- 	#
- 	select ARCH_32BIT_OFF_T if PPC32
--	select ARCH_NEEDS_DEFER_KASAN		if PPC_RADIX_MMU
- 	select ARCH_DISABLE_KASAN_INLINE	if PPC_RADIX_MMU
- 	select ARCH_DMA_DEFAULT_COHERENT	if !NOT_COHERENT_CACHE
- 	select ARCH_ENABLE_MEMORY_HOTPLUG
-diff --git a/arch/um/Kconfig b/arch/um/Kconfig
-index 098cda44db22..fd0bedd2c696 100644
---- a/arch/um/Kconfig
-+++ b/arch/um/Kconfig
-@@ -6,7 +6,6 @@ config UML
- 	bool
- 	default y
- 	select ARCH_DISABLE_KASAN_INLINE if STATIC_LINK
--	select ARCH_NEEDS_DEFER_KASAN if STATIC_LINK
- 	select ARCH_WANTS_DYNAMIC_TASK_STRUCT
- 	select ARCH_HAS_CACHE_LINE_SIZE
- 	select ARCH_HAS_CPU_FINALIZE_INIT
-diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-index a4bb610a7a6f..f82889a830fa 100644
---- a/lib/Kconfig.kasan
-+++ b/lib/Kconfig.kasan
-@@ -19,18 +19,6 @@ config ARCH_DISABLE_KASAN_INLINE
- 	  Disables both inline and stack instrumentation. Selected by
- 	  architectures that do not support these instrumentation types.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index cb850e5290c2..05acdea306b2 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2958,6 +2958,12 @@ Kernel parameters
+ 			Format: <bool>
+ 			Default: CONFIG_KFENCE_DEFERRABLE
  
--config ARCH_NEEDS_DEFER_KASAN
--	bool
--
--config ARCH_DEFER_KASAN
--	def_bool y
--	depends on KASAN && ARCH_NEEDS_DEFER_KASAN
--	help
--	  Architectures should select this if they need to defer KASAN
--	  initialization until shadow memory is properly set up. This
--	  enables runtime control via static keys. Otherwise, KASAN uses
--	  compile-time constants for better performance.
--
- config CC_HAS_KASAN_GENERIC
- 	def_bool $(cc-option, -fsanitize=kernel-address)
++	kfence.fault=	[MM,KFENCE] Controls the behavior when a KFENCE
++			error is detected.
++			report - print the error report and continue (default).
++			oops   - print the error report and oops.
++			panic  - print the error report and panic.
++
+ 	kfence.sample_interval=
+ 			[MM,KFENCE] KFENCE's sample interval in milliseconds.
+ 			Format: <unsigned integer>
+diff --git a/Documentation/dev-tools/kfence.rst b/Documentation/dev-tools/kfence.rst
+index 541899353865..b03d1201ddae 100644
+--- a/Documentation/dev-tools/kfence.rst
++++ b/Documentation/dev-tools/kfence.rst
+@@ -81,6 +81,13 @@ tables being allocated.
+ Error reports
+ ~~~~~~~~~~~~~
  
-diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-index fc9169a54766..f08f7f75c285 100644
---- a/mm/kasan/kasan.h
-+++ b/mm/kasan/kasan.h
-@@ -552,12 +552,6 @@ static inline void kasan_poison_last_granule(const void *address, size_t size) {
++The boot parameter ``kfence.fault`` can be used to control the behavior when a
++KFENCE error is detected:
++
++- ``kfence.fault=report``: Print the error report and continue (default).
++- ``kfence.fault=oops``: Print the error report and oops.
++- ``kfence.fault=panic``: Print the error report and panic.
++
+ A typical out-of-bounds access looks like this::
  
- #endif /* CONFIG_KASAN_GENERIC */
+     ==================================================================
+diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+index b4ea3262c925..a5f7dffa9f6f 100644
+--- a/mm/kfence/core.c
++++ b/mm/kfence/core.c
+@@ -50,7 +50,7 @@
  
--#ifndef kasan_arch_is_ready
--static inline bool kasan_arch_is_ready(void)	{ return true; }
--#elif !defined(CONFIG_KASAN_GENERIC) || !defined(CONFIG_KASAN_OUTLINE)
--#error kasan_arch_is_ready only works in KASAN generic outline mode!
--#endif
--
- #if IS_ENABLED(CONFIG_KASAN_KUNIT_TEST)
+ /* === Data ================================================================= */
  
- void kasan_kunit_test_suite_start(void);
+-static bool kfence_enabled __read_mostly;
++bool kfence_enabled __read_mostly;
+ static bool disabled_by_warn __read_mostly;
+ 
+ unsigned long kfence_sample_interval __read_mostly = CONFIG_KFENCE_SAMPLE_INTERVAL;
+@@ -335,6 +335,7 @@ metadata_update_state(struct kfence_metadata *meta, enum kfence_object_state nex
+ static check_canary_attributes bool check_canary_byte(u8 *addr)
+ {
+ 	struct kfence_metadata *meta;
++	enum kfence_fault fault;
+ 	unsigned long flags;
+ 
+ 	if (likely(*addr == KFENCE_CANARY_PATTERN_U8(addr)))
+@@ -344,8 +345,9 @@ static check_canary_attributes bool check_canary_byte(u8 *addr)
+ 
+ 	meta = addr_to_metadata((unsigned long)addr);
+ 	raw_spin_lock_irqsave(&meta->lock, flags);
+-	kfence_report_error((unsigned long)addr, false, NULL, meta, KFENCE_ERROR_CORRUPTION);
++	fault = kfence_report_error((unsigned long)addr, false, NULL, meta, KFENCE_ERROR_CORRUPTION);
+ 	raw_spin_unlock_irqrestore(&meta->lock, flags);
++	kfence_handle_fault(fault);
+ 
+ 	return false;
+ }
+@@ -524,11 +526,14 @@ static void kfence_guarded_free(void *addr, struct kfence_metadata *meta, bool z
+ 	raw_spin_lock_irqsave(&meta->lock, flags);
+ 
+ 	if (!kfence_obj_allocated(meta) || meta->addr != (unsigned long)addr) {
++		enum kfence_fault fault;
++
+ 		/* Invalid or double-free, bail out. */
+ 		atomic_long_inc(&counters[KFENCE_COUNTER_BUGS]);
+-		kfence_report_error((unsigned long)addr, false, NULL, meta,
+-				    KFENCE_ERROR_INVALID_FREE);
++		fault = kfence_report_error((unsigned long)addr, false, NULL, meta,
++					    KFENCE_ERROR_INVALID_FREE);
+ 		raw_spin_unlock_irqrestore(&meta->lock, flags);
++		kfence_handle_fault(fault);
+ 		return;
+ 	}
+ 
+@@ -830,7 +835,8 @@ static void kfence_check_all_canary(void)
+ static int kfence_check_canary_callback(struct notifier_block *nb,
+ 					unsigned long reason, void *arg)
+ {
+-	kfence_check_all_canary();
++	if (READ_ONCE(kfence_enabled))
++		kfence_check_all_canary();
+ 	return NOTIFY_OK;
+ }
+ 
+@@ -1249,6 +1255,7 @@ bool kfence_handle_page_fault(unsigned long addr, bool is_write, struct pt_regs
+ 	struct kfence_metadata *to_report = NULL;
+ 	unsigned long unprotected_page = 0;
+ 	enum kfence_error_type error_type;
++	enum kfence_fault fault;
+ 	unsigned long flags;
+ 
+ 	if (!is_kfence_address((void *)addr))
+@@ -1307,12 +1314,14 @@ bool kfence_handle_page_fault(unsigned long addr, bool is_write, struct pt_regs
+ 	if (to_report) {
+ 		raw_spin_lock_irqsave(&to_report->lock, flags);
+ 		to_report->unprotected_page = unprotected_page;
+-		kfence_report_error(addr, is_write, regs, to_report, error_type);
++		fault = kfence_report_error(addr, is_write, regs, to_report, error_type);
+ 		raw_spin_unlock_irqrestore(&to_report->lock, flags);
+ 	} else {
+ 		/* This may be a UAF or OOB access, but we can't be sure. */
+-		kfence_report_error(addr, is_write, regs, NULL, KFENCE_ERROR_INVALID);
++		fault = kfence_report_error(addr, is_write, regs, NULL, KFENCE_ERROR_INVALID);
+ 	}
+ 
++	kfence_handle_fault(fault);
++
+ 	return kfence_unprotect(addr); /* Unprotect and let access proceed. */
+ }
+diff --git a/mm/kfence/kfence.h b/mm/kfence/kfence.h
+index f9caea007246..1f618f9b0d12 100644
+--- a/mm/kfence/kfence.h
++++ b/mm/kfence/kfence.h
+@@ -16,6 +16,8 @@
+ 
+ #include "../slab.h" /* for struct kmem_cache */
+ 
++extern bool kfence_enabled;
++
+ /*
+  * Get the canary byte pattern for @addr. Use a pattern that varies based on the
+  * lower 3 bits of the address, to detect memory corruptions with higher
+@@ -140,8 +142,18 @@ enum kfence_error_type {
+ 	KFENCE_ERROR_INVALID_FREE,	/* Invalid free. */
+ };
+ 
+-void kfence_report_error(unsigned long address, bool is_write, struct pt_regs *regs,
+-			 const struct kfence_metadata *meta, enum kfence_error_type type);
++enum kfence_fault {
++	KFENCE_FAULT_NONE,
++	KFENCE_FAULT_REPORT,
++	KFENCE_FAULT_OOPS,
++	KFENCE_FAULT_PANIC,
++};
++
++enum kfence_fault
++kfence_report_error(unsigned long address, bool is_write, struct pt_regs *regs,
++		    const struct kfence_metadata *meta, enum kfence_error_type type);
++
++void kfence_handle_fault(enum kfence_fault fault);
+ 
+ void kfence_print_object(struct seq_file *seq, const struct kfence_metadata *meta) __must_hold(&meta->lock);
+ 
+diff --git a/mm/kfence/report.c b/mm/kfence/report.c
+index 787e87c26926..d548536864b1 100644
+--- a/mm/kfence/report.c
++++ b/mm/kfence/report.c
+@@ -7,9 +7,12 @@
+ 
+ #include <linux/stdarg.h>
+ 
++#include <linux/bug.h>
++#include <linux/init.h>
+ #include <linux/kernel.h>
+ #include <linux/lockdep.h>
+ #include <linux/math.h>
++#include <linux/panic.h>
+ #include <linux/printk.h>
+ #include <linux/sched/debug.h>
+ #include <linux/seq_file.h>
+@@ -29,6 +32,26 @@
+ #define ARCH_FUNC_PREFIX ""
+ #endif
+ 
++static enum kfence_fault kfence_fault __ro_after_init = KFENCE_FAULT_REPORT;
++
++static int __init early_kfence_fault(char *arg)
++{
++	if (!arg)
++		return -EINVAL;
++
++	if (!strcmp(arg, "report"))
++		kfence_fault = KFENCE_FAULT_REPORT;
++	else if (!strcmp(arg, "oops"))
++		kfence_fault = KFENCE_FAULT_OOPS;
++	else if (!strcmp(arg, "panic"))
++		kfence_fault = KFENCE_FAULT_PANIC;
++	else
++		return -EINVAL;
++
++	return 0;
++}
++early_param("kfence.fault", early_kfence_fault);
++
+ /* Helper function to either print to a seq_file or to console. */
+ __printf(2, 3)
+ static void seq_con_printf(struct seq_file *seq, const char *fmt, ...)
+@@ -189,8 +212,9 @@ static const char *get_access_type(bool is_write)
+ 	return str_write_read(is_write);
+ }
+ 
+-void kfence_report_error(unsigned long address, bool is_write, struct pt_regs *regs,
+-			 const struct kfence_metadata *meta, enum kfence_error_type type)
++enum kfence_fault
++kfence_report_error(unsigned long address, bool is_write, struct pt_regs *regs,
++		    const struct kfence_metadata *meta, enum kfence_error_type type)
+ {
+ 	unsigned long stack_entries[KFENCE_STACK_DEPTH] = { 0 };
+ 	const ptrdiff_t object_index = meta ? meta - kfence_metadata : -1;
+@@ -206,7 +230,7 @@ void kfence_report_error(unsigned long address, bool is_write, struct pt_regs *r
+ 
+ 	/* Require non-NULL meta, except if KFENCE_ERROR_INVALID. */
+ 	if (WARN_ON(type != KFENCE_ERROR_INVALID && !meta))
+-		return;
++		return KFENCE_FAULT_NONE;
+ 
+ 	/*
+ 	 * Because we may generate reports in printk-unfriendly parts of the
+@@ -282,6 +306,25 @@ void kfence_report_error(unsigned long address, bool is_write, struct pt_regs *r
+ 
+ 	/* We encountered a memory safety error, taint the kernel! */
+ 	add_taint(TAINT_BAD_PAGE, LOCKDEP_STILL_OK);
++
++	return kfence_fault;
++}
++
++void kfence_handle_fault(enum kfence_fault fault)
++{
++	switch (fault) {
++	case KFENCE_FAULT_NONE:
++	case KFENCE_FAULT_REPORT:
++		break;
++	case KFENCE_FAULT_OOPS:
++		BUG();
++		break;
++	case KFENCE_FAULT_PANIC:
++		/* Disable KFENCE to avoid recursion if check_on_panic is set. */
++		WRITE_ONCE(kfence_enabled, false);
++		panic("kfence.fault=panic set ...\n");
++		break;
++	}
+ }
+ 
+ #ifdef CONFIG_PRINTK
 -- 
-2.52.0
+2.53.0.414.gf7e9f6c205-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260225081412.76502-16-bhe%40redhat.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260225203639.3159463-1-elver%40google.com.
