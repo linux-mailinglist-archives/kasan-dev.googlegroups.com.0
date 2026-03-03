@@ -1,118 +1,119 @@
-Return-Path: <kasan-dev+bncBCM3NNW3WAKBBCXETHGQMGQEC4NB4JA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCM3NNW3WAKBBCPETHGQMGQE43CM2KQ@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qH5jBw1ypmnLPwAAu9opvQ
-	(envelope-from <kasan-dev+bncBCM3NNW3WAKBBCXETHGQMGQEC4NB4JA@googlegroups.com>)
+	id eKReBw1ypmnePwAAu9opvQ
+	(envelope-from <kasan-dev+bncBCM3NNW3WAKBBCPETHGQMGQE43CM2KQ@googlegroups.com>)
 	for <lists+kasan-dev@lfdr.de>; Tue, 03 Mar 2026 06:30:53 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23d.google.com (mail-oi1-x23d.google.com [IPv6:2607:f8b0:4864:20::23d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FDC81E93D7
+Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C13E1E93D6
 	for <lists+kasan-dev@lfdr.de>; Tue, 03 Mar 2026 06:30:52 +0100 (CET)
-Received: by mail-oi1-x23d.google.com with SMTP id 5614622812f47-45f104c0ef1sf55096148b6e.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 02 Mar 2026 21:30:52 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1772515851; cv=pass;
+Received: by mail-pl1-x637.google.com with SMTP id d9443c01a7336-2ae44c7553dsf11316285ad.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 02 Mar 2026 21:30:51 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1772515850; cv=pass;
         d=google.com; s=arc-20240605;
-        b=J1fBFlb8OfRPeYveUEHvQi6y2DtIme+GaKZW7Xgx2O5Tk81LFBMTMyGaddP0DfWB1S
-         BiwJSjvTG7WP6sEoqPuAj4dWhpQiwHhNpkLm1PFg+/fdXiTYKvAv85BNHpFl46v6hWmz
-         U+2TrN9qw5B3Iuka3cjuc2tfCFMon+FrE+391KD7/VTG0bR2vOW0aj6loKUBIlukGbA2
-         DZxqTjWMODcEYDcHVSJmdUm4JMX59ejp9UzFKk2JLGrXqkYARfHo0Y7SE+a4B5uzmotC
-         Q2dkYTw3+P/SspeXeYLcT3CYi86xfp7JXJ4CAAatB4uk3BjGo66+m/Vq1VroF7BuwmTC
-         b8jg==
+        b=eJhnLvfkXcgJFt02cowT64lbkGRKskKUPrF2Nbj2IZDANo/LWEmYUWyo0Mk/Nu2hHO
+         tLJklJG0shS1Eq6AGkF2gLRPe0hWU7p/WMLeVOr6cB++EU7RQz7kuZkcJP7v9ArMEHXi
+         xt/3nuR7c+OtwTYp72ejoCkcEnErkytP4EQg4g74qU5MtdzwVH1PQlNRQPPSAZHUDzxl
+         TsO2MmePrUEvgunGZHMkA6PpH+8ZuJ7rL6KDujALlqnln17GAJcPZokLB39YUP1y4gz2
+         uF9lWZ2Ffv0NRSSEIKIhckxc5yyL/8/Wjo+XfReb/mXmVMERCrFyxVvAqIY5QwyRf2b9
+         syUg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:cc:to:in-reply-to:references
          :message-id:mime-version:subject:date:from:sender:dkim-signature;
-        bh=UiZCEFiRcFK23WCWsrcJV73meiAOPOE0KVp5w5y0S0A=;
-        fh=/4NuZ5lb4VHT/CoYhwpmuteomHodlyAzjS7MSO417Ec=;
-        b=XHcskfONZMcbG07HzzjitRGhr5O0gjSUQYdnIXVuuV/zrPuA1Sbc3osxNty9uK5KaQ
-         ERqDb+YleSVmCKg5y/ELqW5LOAN17VWy+qmpAVJ67EunHky1WlIgzjG+IAudXIVLmHiJ
-         b4GVrlSOf9sUPHFsmLqIzgSaEUZsxrerzSrzbxXciQY8raMZErv7ks1JWHF3rXqI5B2r
-         MblHm60VeKzdx0YgSirYwB0NpdfLyFqpkXyLBpKNvgj8DJz21sI+CxJEJDBdzZ2xZ3sU
-         lQlWw59E4Hi7ER18+y/ASPex4QfPxtfElmKDK1065YQpML5dyx6ARQru0R9eD5Hz7ay1
-         Nkvw==;
+        bh=SDSAsqWmmPsvpnj7xVVjwxjE3SAos59qmHfm2QZ5tzo=;
+        fh=LL2fKqWoh1ujCgjIrIaPzQqkbtd7a2t72ytUfIBv88s=;
+        b=gSY7WAergbKjtAFBWQRmV3L/QM4xSD0/XQN12d6n+SjmrMgysgtvkf3edqxqjtbnu6
+         zTa9sz8ImNZYqv0q5Q+1m6KibuCyiYmBbcdRMO0+OeLe946Ick0rYobbcG36d8Kdch8K
+         TGSrX8ISqGGxGVU47hm2WLXUeXxmtBOl6PqjQMlzNCesKSmH3iTALW91p4zVA/61ioiV
+         vUnAWc1ZkM+81TkeVrr2SWZxoZbf5vdS7y93YtfTdkSg3OZScWmC9/E7ZDH2uTmAiEx5
+         cPhx3VCjO99qnHhDqqnBACiVvygqaY/TSJIMRx/YimSk65nkvCIncgVOa2TkJCISwR3H
+         Ccqw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of wangruikang@iscas.ac.cn designates 159.226.251.81 as permitted sender) smtp.mailfrom=wangruikang@iscas.ac.cn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1772515851; x=1773120651; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1772515850; x=1773120650; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:cc:to:in-reply-to:references:message-id
          :mime-version:subject:date:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UiZCEFiRcFK23WCWsrcJV73meiAOPOE0KVp5w5y0S0A=;
-        b=N/fHlWS8bVB74TFMng5n5di7/i6mOSH/kJ76YBO0+xHYB+cZK9lfqF7Rp4L1YvEgWF
-         nCqLSjnkhGLRpj9B+DOZxlxU69x9ys4O0CFmOcX0WUFrQK7iWl/UQU/vNe7PnCsaeuvg
-         620Qm7hpeiKv/ccfJCT7CPHoZbOnGWHcJ0dEfOyoaP6hLAozLtdahe6yAljhXIYsqMpx
-         MapJGo6VAWVcs8+8XXQXdX24xtArz0QGjkW1gdYxuqabjGPMTo1bt99YCNlSDxoWrfXs
-         rijqsFzS7Uu7ECH96wlfd9EiYeVJDHMyuAYs4drGTP6M1/f9A8vxHqUQAY5m0az58SNA
-         wLMw==
+        bh=SDSAsqWmmPsvpnj7xVVjwxjE3SAos59qmHfm2QZ5tzo=;
+        b=lYgcSzmgZhyrnKtbZN8q2Mb911vPG3gulOYXq7GJtqHzfa3vnHE8KDZ26XREdNKVRZ
+         KQKX/uGL8ZLWUr+fQ+xUSNu3KbpG/i/rBJULqxGm33PXKY9eXp/YlsLiJMi1eUr3HvLu
+         AjGA60at+cuHAJA2nT1SoxelTkHFpEmqC0wSFAcq5FH11B7uEadqi3UiT9d7Twfeo8qu
+         QI9uf1eNOoLJHT/hFlLL5+7Bu+HebVOBUHMkKFYSwbbsUqsRZwpiJN3D01M9+UikYO2s
+         gKmNuH/pDuhfh/OM0xb4+Apt1S7HHO2DwzRfi+PbliuiP1N8yIR2d2IPkA/3vrxNnRGf
+         hPbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772515851; x=1773120651;
+        d=1e100.net; s=20230601; t=1772515850; x=1773120650;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:cc:to
          :in-reply-to:references:message-id:mime-version:subject:date:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UiZCEFiRcFK23WCWsrcJV73meiAOPOE0KVp5w5y0S0A=;
-        b=uecDAIOp78avJb9Y4iTPBSLGC3HEA59WWbfnjgH4iT4KkEVS+TZxlcqG+PyLcbqC7e
-         8PCKP5lqmdVkYbHLAyL1svfCHt6IzmsxMhE8B9yXqg7rIZmJ8t6HdGexYrnBPuhU1y20
-         vVeRnQkbxXcgOPQFsKLPW9jLNiycT7Al1rcxZFg0kTz1Q3bdLpnD/v+dxgIMMPX9Vl2Z
-         dUT+/xaP3+pi8bgaZBcKrK2LWnNR6CysVkD4/7V2okS3K8dvsrw70pBWrFKREMCFdp2I
-         qW3fCwfIqL/EE762eAyWg4rKJ85KW0X2dj8Y4pm9f1pNp4V9MW8/1+K01Kq6/ee/2z/y
-         KezQ==
+        bh=SDSAsqWmmPsvpnj7xVVjwxjE3SAos59qmHfm2QZ5tzo=;
+        b=OyAMP2B3MGaX5qsCmZ1ba3gBxRtGZSNQZq3xpgpwRJGayZdhczZ5W/pdzcpJVQkgGw
+         jWpyiYwcxIovH7AGQxAOVPGHi5T578ECW78O9O/SM3PIK0zqlAIrUEF8b8oBOHJEKaJF
+         7fZfIHfc7W6QveYbMI+WfGYw04YPnVt0+tOTH2CtAeKSuEjW5cuARRRorrCAoP0sEoA9
+         FFkwbs5IvrzJJxG2eJhTwNadc1GBwLgDBjTY4B81DrTYvL3IcMtdHL1Bo5OwVIMlUBep
+         2nb2IA47QeMYh1pajXD4PP1z+LUMPnPoUyyC/FLCwXJfoejSM3eFuRgCIv8SCp0gxCTu
+         Hv4w==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCV4kLLPfEYrmtRkxY4ZoRNu8VYxFp0TzrroHEtOIL8KbgVtTlxnei4Sfr3gD0X6vrcvcPF1UA==@lfdr.de
-X-Gm-Message-State: AOJu0YytdUY3k9cbFecJokZWgE9Cc4K1Fn4DjiGX8gUsp2TT/p/HjyiJ
-	hEaThw35Epd3wGByFEfZXPbUT3P8Pkd/my+dcl/7YGz0Rsiwp3BxfotQ
-X-Received: by 2002:a05:6808:1184:b0:45f:1747:ff54 with SMTP id 5614622812f47-464beb471aemr7408335b6e.37.1772515850683;
-        Mon, 02 Mar 2026 21:30:50 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+G6MITEzpRqOCu4Gq37JRS1jJojTiIclpe8CAdEEtR/AQ=="
-Received: by 2002:a05:6870:1755:b0:40e:fc09:2e2e with SMTP id
- 586e51a60fabf-415f0bb89fels3567067fac.1.-pod-prod-05-us; Mon, 02 Mar 2026
- 21:30:50 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUshlXPDW5EDLV3EE3s6Zgx4E9fXpaaQ0mHqYPsEYu1AqD2E0JQdAcj98fFsFvT/ZRS92vD1YxOYOQ=@googlegroups.com
-X-Received: by 2002:a05:6870:a79c:b0:409:dd35:2a51 with SMTP id 586e51a60fabf-41626e0d678mr7983328fac.16.1772515849869;
+X-Forwarded-Encrypted: i=2; AJvYcCUkiWcXXBYBdcYC/1Nqo7muiRRuGgWzDeoVaJN+qzauajJ8IgcrE3l02m4N3TwU6FpJZNzCcg==@lfdr.de
+X-Gm-Message-State: AOJu0YzTg1cXhCh2lSQmB5Fkyz96Pw91tgKLH3u3KMjq2JJqBqSbolnZ
+	OfjMvOwAkvt6jVnGu37jPQ1D1YDaO2ce2JlkuYl6qesH3Xm+8bogxaa+
+X-Received: by 2002:a17:903:41c6:b0:2ae:412c:d316 with SMTP id d9443c01a7336-2ae412cd763mr72033305ad.1.1772515849642;
         Mon, 02 Mar 2026 21:30:49 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772515849; cv=none;
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+G7XqTM+P6LFXIVdyceR0hdnCZOc/UqZN7bIpLgwUDozg=="
+Received: by 2002:a17:902:e353:b0:2ae:4444:bd8c with SMTP id
+ d9443c01a7336-2ae4444bf34ls17108215ad.2.-pod-prod-08-us; Mon, 02 Mar 2026
+ 21:30:48 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXhpPQeDpY9ePkrz29TSMzBtfo+X/IYwbeF6gbdCxKkHbDcfx8wXLhPC5nsYgYTt0hIlG+KEn0JX34=@googlegroups.com
+X-Received: by 2002:a17:902:f68b:b0:2ae:5851:9960 with SMTP id d9443c01a7336-2ae58519b53mr40825895ad.21.1772515848309;
+        Mon, 02 Mar 2026 21:30:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772515848; cv=none;
         d=google.com; s=arc-20240605;
-        b=OLBXZ9VAhp5Zd5NEsGeD7Wb1k/pQxvtoIIw4tvWiAxShQoF9rSsuVe5/E3Hj7NTS/5
-         vXuoI9NRUsJBDygamJZTtkzNcUTvNFyAAVRF+z8QDK5PjWFKhpfXrOuiodiWfMLIfAi1
-         Iq9/dabiRKhdIwO5Kn+EV1PN/bPcIpF+ZbP+VQb0tkll++d9djqbgrpcFIK052iZpMmb
-         v7Lmy7oz0kG2EI/qi3sxnj7duNAlGX1BTQsaO6kUP9BG3du5RG/BrmLKg0T9ctXOZ/XL
-         1QAbxla35EEI5ZxgcN2E9d9eDpJq/ui/pSKdC0bJNqnR4FayTIFriF+FLA7yHYH8Xl9r
-         ZffQ==
+        b=ZbyR74O3b32YXY6ztoAtUaHtLzs5hNhrXjtotLL3+yEIYiLomPbZXcbQ9cfClYSIJy
+         Rp/fHVDl1SSTJMSAbGOv7k3Z1RmqJYFhSeFlXsD8/WDCJfWcVCthoe1pnSlq100SKAVa
+         z5hvINbIMJcVuke+DIIdv6gtw9/coLmcE+yOae6KJH7kCvwSQi6XrOUykX7zXIc2bSIi
+         bfKYBWcasAsy0xvp7NW4d5KWn+10GpARzZArqKoLcGya1rFOLV87pctoUqyJomSbCTp1
+         5rRkiH/agK0/L9P196CHPztafFSXMbXcF7Pa4Ermp3yWL+rZ3UWA5TnmRQwwQU6I3M5/
+         bjiQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from;
-        bh=X89AUjDLgQpXvdX4Qd5XB+P5WKqHAPOPossTBOOQmSw=;
-        fh=gT/s64yHh0Xs6H3zrWXXukiPDBj0+fd8/hEQlbq05js=;
-        b=P/aXCrZRfs7Q6F4jJFakSUvTIXhmv0P5gZwQ2rIv5te0BxeEjUCDAcAz5AknmF912C
-         YHIAbpHZwcvYkVP5d+9HzUEuY0pSc8BXc9h4IdleStlWCNBhShHta06V7/3vw4kOrJe1
-         IjlOq83FLLyxq3hWFqVzDkyvCtJ31kU30OMYz++whDAEfblf3bLOa24boyEVAFaGNdfm
-         GTxvyDuQwC4ddrTiG9f2ToKx/FeX2RbzTs9TFTHebCnymt3OY2P6HA9qMgcbvMwxXfnJ
-         coWKcGW9vznlWRVImsFBhdfgPDkKaeSCL0RIRpdEfdq+IxY0b22nMDqtmB+tZR1A3qy4
-         qi8Q==;
+        bh=RB/kixCLocXouPXT3CU1vhI50eVZzZhMBOaCEgmPFrw=;
+        fh=AbCZaUdyWvUg2b+aAmbGZp57qTiD/MkPGWyhIE7FtJ8=;
+        b=QRKMV4fLvLUtJw5MoD98WnySxbKcGjHdufN1eJq0RTPE4Ic+kbSIeOvkeceZ4Ig6eh
+         iUnqm+D8ay7kEehw59AGoIPzUc+zXervOuxtiL94Ve45VasZIGbk08L7QuYCo+h1Clgg
+         3tvSq3DOK335H430G2Ly7JGXh8xQuZuYUq18OqZX5XABvCmngFWW/FeKTWYlVPknmvpV
+         Kc4gcJ8dShY4XfseXmrjuJsD9eauJqO96mz8fZX6sQW3qMPMFCyL/lB9aeLxdmLzgXpP
+         f3GPbTpO+Ie7xZXybpEmBSjhQT2N0Lp8zkMDqDo3spuSHG91/tv9R4Ut8QtJWPeNqa4O
+         RFjw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of wangruikang@iscas.ac.cn designates 159.226.251.81 as permitted sender) smtp.mailfrom=wangruikang@iscas.ac.cn
 Received: from cstnet.cn (smtp81.cstnet.cn. [159.226.251.81])
-        by gmr-mx.google.com with ESMTPS id 586e51a60fabf-4160cf6000asi567383fac.1.2026.03.02.21.30.48
+        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-3599c43261bsi34134a91.1.2026.03.02.21.30.47
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 21:30:49 -0800 (PST)
+        Mon, 02 Mar 2026 21:30:48 -0800 (PST)
 Received-SPF: pass (google.com: domain of wangruikang@iscas.ac.cn designates 159.226.251.81 as permitted sender) client-ip=159.226.251.81;
 Received: from [127.0.0.2] (unknown [210.73.43.101])
-	by APP-03 (Coremail) with SMTP id rQCowAAHHdT9caZpAmO+CQ--.19798S3;
+	by APP-03 (Coremail) with SMTP id rQCowAAHHdT9caZpAmO+CQ--.19798S4;
 	Tue, 03 Mar 2026 13:30:39 +0800 (CST)
 From: Vivian Wang <wangruikang@iscas.ac.cn>
-Date: Tue, 03 Mar 2026 13:29:45 +0800
-Subject: [PATCH v2 1/5] riscv: mm: Extract helper mark_new_valid_map()
+Date: Tue, 03 Mar 2026 13:29:46 +0800
+Subject: [PATCH v2 2/5] riscv: kfence: Call mark_new_valid_map() for
+ kfence_unprotect()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Message-Id: <20260303-handle-kfence-protect-spurious-fault-v2-1-f80d8354d79d@iscas.ac.cn>
+Message-Id: <20260303-handle-kfence-protect-spurious-fault-v2-2-f80d8354d79d@iscas.ac.cn>
 References: <20260303-handle-kfence-protect-spurious-fault-v2-0-f80d8354d79d@iscas.ac.cn>
 In-Reply-To: <20260303-handle-kfence-protect-spurious-fault-v2-0-f80d8354d79d@iscas.ac.cn>
 To: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
@@ -121,26 +122,27 @@ To: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
  Yunhui Cui <cuiyunhui@bytedance.com>
 Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
  kasan-dev@googlegroups.com, Palmer Dabbelt <palmer@rivosinc.com>, 
- stable@vger.kernel.org, Vivian Wang <wangruikang@iscas.ac.cn>
+ stable@vger.kernel.org, Yanko Kaneti <yaneti@declera.com>, 
+ Vivian Wang <wangruikang@iscas.ac.cn>
 X-Mailer: b4 0.14.3
-X-CM-TRANSID: rQCowAAHHdT9caZpAmO+CQ--.19798S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7AF1kKF18CF47GFW8WFW8Crg_yoW8Ar1fpF
-	ZIkwn5trWfCr1fX39Ivw429r43X34DWa48t3ZIv34rZwn8JrWUWr95Kay8Xr13JFWxXF47
-	ua1Skr98uFWUAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUmj14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
-	x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-	Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
-	ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
-	xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
-	vE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
-	r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04
-	v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
-	6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
-	AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
-	2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
-	C2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kfnx
-	nUUI43ZEXa7VUU66zUUUUUU==
+X-CM-TRANSID: rQCowAAHHdT9caZpAmO+CQ--.19798S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxCw1kXw45Wrykur4DJr1xuFg_yoW5XrW7pa
+	9rCr10grZ5urWxXrW7Aw1j9a1UWws5W34Fka4vk34rZwsIqrWjq3s8K3ySqr9rJFZYgay0
+	kF43ur1YkF1UAw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUm014x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
+	x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+	Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
+	8EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
+	0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
+	IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
+	Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
+	xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
+	JVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
+	kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
+	6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
+	vEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVj
+	vjDU0xZFpf9x0JU66wtUUUUU=
 X-Originating-IP: [210.73.43.101]
 X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
 X-Original-Sender: wangruikang@iscas.ac.cn
@@ -158,11 +160,11 @@ List-Archive: <https://groups.google.com/group/kasan-dev
 List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:kasan-dev+subscribe@googlegroups.com>
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
-X-Rspamd-Queue-Id: 7FDC81E93D7
+X-Rspamd-Queue-Id: 1C13E1E93D6
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.71 / 15.00];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=2];
-	R_SPF_ALLOW(-0.20)[+ip6:2607:f8b0:4000::/36:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2607:f8b0:4000::/36];
 	R_DKIM_ALLOW(-0.20)[googlegroups.com:s=20230601];
 	MAILLIST(-0.20)[googlegroups];
 	MIME_GOOD(-0.10)[text/plain];
@@ -173,9 +175,9 @@ X-Spamd-Result: default: False [-1.71 / 15.00];
 	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bncBCM3NNW3WAKBBCXETHGQMGQEC4NB4JA];
+	TAGGED_FROM(0.00)[bncBCM3NNW3WAKBBCPETHGQMGQE43CM2KQ];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	HAS_XOIP(0.00)[];
@@ -185,60 +187,78 @@ X-Spamd-Result: default: False [-1.71 / 15.00];
 	TAGGED_RCPT(0.00)[kasan-dev];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:15169, ipnet:2607:f8b0::/32, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[googlegroups.com:dkim,googlegroups.com:email,iscas.ac.cn:mid,iscas.ac.cn:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[googlegroups.com:dkim,googlegroups.com:email,declera.com:email,iscas.ac.cn:mid,iscas.ac.cn:email]
 X-Rspamd-Action: no action
 
-In preparation of a future patch using the same mechanism for
-non-vmalloc addresses, extract the mark_new_valid_map() helper from
-flush_cache_vmap().
+In kfence_protect_page(), which kfence_unprotect() calls, we cannot send
+IPIs to other CPUs to ask them to flush TLB. This may lead to those CPUs
+spuriously faulting on a recently allocated kfence object despite it
+being valid, leading to false positive use-after-free reports.
 
-No functional change intended.
+Fix this by calling mark_new_valid_map() so that the page fault handling
+code path notices the spurious fault and flushes TLB then retries the
+access.
+
+Update the comment in handle_exception to indicate that
+new_valid_map_cpus_check also handles kfence_unprotect() spurious
+faults.
+
+Note that kfence_protect() has the same stale TLB entries problem, but
+that leads to false negatives, which is fine with kfence.
 
 Cc: <stable@vger.kernel.org>
+Reported-by: Yanko Kaneti <yaneti@declera.com>
+Fixes: b3431a8bb336 ("riscv: Fix IPIs usage in kfence_protect_page()")
 Signed-off-by: Vivian Wang <wangruikang@iscas.ac.cn>
 ---
- arch/riscv/include/asm/cacheflush.h | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+ arch/riscv/include/asm/kfence.h | 7 +++++--
+ arch/riscv/kernel/entry.S       | 6 ++++--
+ 2 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/arch/riscv/include/asm/cacheflush.h b/arch/riscv/include/asm/cacheflush.h
-index 0092513c3376..b1a2ac665792 100644
---- a/arch/riscv/include/asm/cacheflush.h
-+++ b/arch/riscv/include/asm/cacheflush.h
-@@ -43,20 +43,23 @@ do {							\
- #ifdef CONFIG_64BIT
- extern u64 new_vmalloc[NR_CPUS / sizeof(u64) + 1];
- extern char _end[];
-+static inline void mark_new_valid_map(void)
-+{
-+	int i;
-+
-+	/*
-+	 * We don't care if concurrently a cpu resets this value since
-+	 * the only place this can happen is in handle_exception() where
-+	 * an sfence.vma is emitted.
-+	 */
-+	for (i = 0; i < ARRAY_SIZE(new_vmalloc); ++i)
-+		new_vmalloc[i] = -1ULL;
-+}
- #define flush_cache_vmap flush_cache_vmap
- static inline void flush_cache_vmap(unsigned long start, unsigned long end)
+diff --git a/arch/riscv/include/asm/kfence.h b/arch/riscv/include/asm/kfence.h
+index d08bf7fb3aee..29cb3a6ee113 100644
+--- a/arch/riscv/include/asm/kfence.h
++++ b/arch/riscv/include/asm/kfence.h
+@@ -6,6 +6,7 @@
+ #include <linux/kfence.h>
+ #include <linux/pfn.h>
+ #include <asm-generic/pgalloc.h>
++#include <asm/cacheflush.h>
+ #include <asm/pgtable.h>
+ 
+ static inline bool arch_kfence_init_pool(void)
+@@ -17,10 +18,12 @@ static inline bool kfence_protect_page(unsigned long addr, bool protect)
  {
--	if (is_vmalloc_or_module_addr((void *)start)) {
--		int i;
--
--		/*
--		 * We don't care if concurrently a cpu resets this value since
--		 * the only place this can happen is in handle_exception() where
--		 * an sfence.vma is emitted.
--		 */
--		for (i = 0; i < ARRAY_SIZE(new_vmalloc); ++i)
--			new_vmalloc[i] = -1ULL;
--	}
-+	if (is_vmalloc_or_module_addr((void *)start))
+ 	pte_t *pte = virt_to_kpte(addr);
+ 
+-	if (protect)
++	if (protect) {
+ 		set_pte(pte, __pte(pte_val(ptep_get(pte)) & ~_PAGE_PRESENT));
+-	else
++	} else {
+ 		set_pte(pte, __pte(pte_val(ptep_get(pte)) | _PAGE_PRESENT));
 +		mark_new_valid_map();
- }
- #define flush_cache_vmap_early(start, end)	local_flush_tlb_kernel_range(start, end)
- #endif
++	}
+ 
+ 	preempt_disable();
+ 	local_flush_tlb_kernel_range(addr, addr + PAGE_SIZE);
+diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
+index 60eb221296a6..ced7a2b160ce 100644
+--- a/arch/riscv/kernel/entry.S
++++ b/arch/riscv/kernel/entry.S
+@@ -136,8 +136,10 @@ SYM_CODE_START(handle_exception)
+ 
+ #ifdef CONFIG_64BIT
+ 	/*
+-	 * The RISC-V kernel does not eagerly emit a sfence.vma after each
+-	 * new vmalloc mapping, which may result in exceptions:
++	 * The RISC-V kernel does not flush TLBs on all CPUS after each new
++	 * vmalloc mapping or kfence_unprotect(), which may result in
++	 * exceptions:
++	 *
+ 	 * - if the uarch caches invalid entries, the new mapping would not be
+ 	 *   observed by the page table walker and an invalidation is needed.
+ 	 * - if the uarch does not cache invalid entries, a reordered access
 
 -- 
 2.53.0
@@ -246,4 +266,4 @@ index 0092513c3376..b1a2ac665792 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260303-handle-kfence-protect-spurious-fault-v2-1-f80d8354d79d%40iscas.ac.cn.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260303-handle-kfence-protect-spurious-fault-v2-2-f80d8354d79d%40iscas.ac.cn.
