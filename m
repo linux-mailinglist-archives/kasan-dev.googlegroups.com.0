@@ -1,119 +1,119 @@
-Return-Path: <kasan-dev+bncBCM3NNW3WAKBBC7ETHGQMGQEOPQ3K5I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCM3NNW3WAKBBDXETHGQMGQE6BWRB4Q@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2DddKQ5ypmnePwAAu9opvQ
-	(envelope-from <kasan-dev+bncBCM3NNW3WAKBBC7ETHGQMGQEOPQ3K5I@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Tue, 03 Mar 2026 06:30:54 +0100
+	id mOZ8LBBypmnePwAAu9opvQ
+	(envelope-from <kasan-dev+bncBCM3NNW3WAKBBDXETHGQMGQE6BWRB4Q@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Tue, 03 Mar 2026 06:30:56 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-dl1-x123a.google.com (mail-dl1-x123a.google.com [IPv6:2607:f8b0:4864:20::123a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C0D1E93EE
-	for <lists+kasan-dev@lfdr.de>; Tue, 03 Mar 2026 06:30:54 +0100 (CET)
-Received: by mail-dl1-x123a.google.com with SMTP id a92af1059eb24-126e8ee6227sf9443619c88.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 02 Mar 2026 21:30:54 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1772515852; cv=pass;
+Received: from mail-pl1-x63e.google.com (mail-pl1-x63e.google.com [IPv6:2607:f8b0:4864:20::63e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57CD91E93F5
+	for <lists+kasan-dev@lfdr.de>; Tue, 03 Mar 2026 06:30:56 +0100 (CET)
+Received: by mail-pl1-x63e.google.com with SMTP id d9443c01a7336-2ae50463c39sf17778455ad.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 02 Mar 2026 21:30:56 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1772515855; cv=pass;
         d=google.com; s=arc-20240605;
-        b=W17D6+vxp1dl+oUgRjkwjlclhnTcro9zKy1j2EdDrjQqlhqvXDYFUHrae1SwkuWcnw
-         ybseXa4glewVYw/VffICvxczPGhrPKOrBh2mEjmSKcHQLlMa8bqGmLk8jwi1LYhZ/H98
-         hYqZZKJd2ryXg9lUhIdS4V/3t5GGpGIMDOQilbNAD/ydBTxkydJol3qrMBsTi6oErZ7T
-         LSJcM4l8yBcxJOioZ+enDc1giec5nnHfAHi6rA6PoO3Gb5zft5Lr0yNsjyDBPyRniXJj
-         Is/c9+sHDSdOv6aw79qrnbGGN5F3ubBWax3ZQSIbNwAk9y1kw9/F/hI/P6/20fz8lKJW
-         oCyQ==
+        b=cLVMA+4sFlmC3eobM0deGm/aDKDclPui5+I0pXiuxZTDrWk8R3zP9gkDhnSsitwUUG
+         5bLogmmUS40ViW7sEyq6BT9JRtJ1bWprICOoAZHIwsw6LLAou1y3Qx0m9ZdJwnQ4eDgP
+         1LDEXZxKYGv+33mo2NIU/eV3yt0/h61uoBVV8m0U2F1xlQ3vM0gYR3yc/fgKP6FzIZTP
+         VMCAT2HWE0MyK6M3ytiwBOwS1iJst/KoYEJ+X/rGCseqCkJ3HDC5hR6le3F/rpUVKN4v
+         17kOAQ5nY+Axo2l1z/apxtOE2hZwJFOfCR5JLnTnnhfx99lsRpybdwYdYyZTnWvB0BIC
+         0k6g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:cc:to:in-reply-to:references
          :message-id:mime-version:subject:date:from:sender:dkim-signature;
-        bh=7ciVNvqSCDcEjWUK0iUd1okalUoebSI/v96bvy4mlVw=;
-        fh=zo7/ZaXyYWIe7+j9m6VaI7V5tACZTWv8gmvMXJJy3uQ=;
-        b=h5CVW0lXRqBp5L79pRUbW44R1/4YNalgIWANNhYHlT5dIJQUWlBGcaWffVIuHOAx0z
-         rfOjCd2Fo/uNCW1mXii1ptTqw645CnY7qt9yzIqdZQv8z+KrK2B3mFe2vtNN7nIHpM+n
-         +tE/2ym2oDLJKVRyzmSqX3t6fTMvs4m0+BnC/oUvlwaYM9+Mq9aqUZIwjmwyD8/QqSdD
-         YvEOWwv4B1bv6ENmRFpmEl+yNTBAtnPdx1opnuBjDHqBVV0BrPTrWEx7cQ2AFAmJel+6
-         7IUpZDksBqWj85k1XdW+CdYR2AtSeIwPfnZsgiWkQXrl1KskmxOo6W5hES2tnJn4aO40
-         /9Fw==;
+        bh=fRnmWm/XARyFPQjfE5zE3ffaM64ha163maX2u1jt6Mc=;
+        fh=8adQ2ga7uyZzyLpfqXCjzOIvS6gQXrgo5L7AZEBA8IY=;
+        b=N/vrxO2cZeBHyhulZ/8KqUVjnAp2u+S+BnnD6IMAElcEiIFw6/Bsz4U3hqtGIoAHYJ
+         QnqpB0f75Y8G4DB16SNmVPNqfDMDvUaw7qwdYEqsSPTsOVFoHbTBVkmWi9cH/Lk3fs3M
+         vT3wPT8nyAMdnFcyQlwkK8LXw+6VYA9R3ijHYzQ1LP9irEMqPK2h84U/rfk47Wu3TZWj
+         VkmBK8Ni/VNrjbiJvQiSLyYXzRA6PkyFxF+5sJHgVMQNDugC0mqJUUIh8L3mVJYdAINM
+         5Wbw/Qx3chkQCDFhuDY3NA3iNckmF4umF08hv8oJ7XqUOx7iBOKBRK30bXzhP84FRTqW
+         lA3A==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of wangruikang@iscas.ac.cn designates 159.226.251.81 as permitted sender) smtp.mailfrom=wangruikang@iscas.ac.cn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1772515852; x=1773120652; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1772515855; x=1773120655; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:cc:to:in-reply-to:references:message-id
          :mime-version:subject:date:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7ciVNvqSCDcEjWUK0iUd1okalUoebSI/v96bvy4mlVw=;
-        b=feMCvfKdXRNOpkrHejTJ0vtk3JoG1ZjMJus04UO23alovzvjfTHlH7eEtsj/offakZ
-         0Fjd29CgFgKV896oDd1eEWSav5HTaR1n8+H5UdyxBobrjb9lf0zfhSVmh0oe8UAmRpbh
-         S6+1vpwQsFCV5X8EH7hM8F3PYd4s3eFHH7WPAnZexCqRNjqHU5YsPDSzZO4sGSx3AYRH
-         EMDx36D/kw5UynrD9+wWV9FBbnii01Edm/w4i4cW7XfRKpETnCFhh9XAGK5rJ4ZJB8nA
-         b882gC4mnGN/vD1zOcEy1yuWgJM+481KnRugYlzcsiLe8YyJuD8pnMYAeXC2ofPotjYQ
-         gSNg==
+        bh=fRnmWm/XARyFPQjfE5zE3ffaM64ha163maX2u1jt6Mc=;
+        b=BtKInb8JqeeOwQe2KnjmS2TAdhGoLsi35mmzcbH/ozyKLV8EYQd9rAtWvZCJJEbxZg
+         h8G+C6JwwZwRfz17XjA/1Vd1Ps3C7WPCrWrLGqi/8PH9EHr0M3Y2BZbxAXTKf5bnjR3t
+         mK8jzSMnNsY5KIjrPMiLjuTF7sUGxjrxK0WpqcLU9EgqXjSl05EEuDxvN9cP1acmXCz0
+         snCsiz4S3qNnrv/4gCJ+pZlYu/PVrBLGGrzZfsZFVIvBwDGXRH+hGWI0N/kXxHJVdlSq
+         qqGxasjCPZoaP1GFaFxXZWSUgaOQ9w4vxzVLxg6L8/lXiOcjgE+Veswd3D4bU6VDjD+6
+         gNFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772515852; x=1773120652;
+        d=1e100.net; s=20230601; t=1772515855; x=1773120655;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:cc:to
          :in-reply-to:references:message-id:mime-version:subject:date:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7ciVNvqSCDcEjWUK0iUd1okalUoebSI/v96bvy4mlVw=;
-        b=Qrme9OfWwPyUg0Ih52ePinWxNZD7CnIOGYABwrlRcgRUDBFs5GtTHDFiWRSJmnQeFY
-         dR0W/m0XATRx+AMSgSDXfAv1kDSo86bkHMqLOJq/BPz9c6ZZSuFpWTEtgOCpn4IbDmao
-         pEZndrLHGTuagR27jREcJhQGu8IfqrVxViEe7bU4MQObqJebmGjvx8fJNYvSeeeRviaB
-         ad8ILL5skLj3NFc++UYNPNnxAX5u9O+D5j1a/9yWCtgsFETaQJrlENGbkH4nkxqCRXik
-         y4n6kd4Ld2QGl2CwRdsHqvWkXuImqtm6w7iSCpNSCOVnYocjwm9RPTWHdpOMSFp1mwwR
-         8A8w==
+        bh=fRnmWm/XARyFPQjfE5zE3ffaM64ha163maX2u1jt6Mc=;
+        b=a+/Zt4Njqcxdmx8NbSsAYpKNtljSjaOb99EYfesNSnQ/6afTUTHFhQ0WY0lPKhXL0V
+         j2iCm4ROnAIrm5RcyxJe+z3LdKusqfZL/0FzhqvEIXIU3DZnpoHdOwBiSVNwn2iCvRrj
+         kCMC/f3t19k4vesAyQLPOBssmrecX6EhLJF4Jbq9rw57O6XhTjDKymzM3j6weDWCcy+M
+         u3D+zknPEUESEni5npMyt4JbNPq+4TGtCUxVxUvOCSHw0dPgb2f6vjS2o6xbx6ByNElP
+         az8PEjzxKueZ9MfqgPvmHHUg9eiYoFttjXwzcjcnsWMzRLG8v2AIV9hMLDUREoZxh8ot
+         g4Og==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXe48VDq/ECEqd/nQuvf1xxHKrOZueHCh5w5Jnuk//wfdftVE8Xtf7iTxTYrU2zhFu2571lzQ==@lfdr.de
-X-Gm-Message-State: AOJu0Ywej350ME5NI6oFba4NzSiISd2kPBFzoC/3LwbK46PPgit3sThQ
-	Z9ASAZ19sXqhP8J5GUrgrMYzw6Zv1eS/Nwh5BSl4wM4woD5m6r1r+TIu
-X-Received: by 2002:a05:7022:4381:b0:11e:528:4185 with SMTP id a92af1059eb24-1278fc568a2mr5571260c88.38.1772515852267;
-        Mon, 02 Mar 2026 21:30:52 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+Hwamnzni+07GbQsjmeDwWMa1A820r+jL1J7prspypsvQ=="
-Received: by 2002:a05:7022:2207:b0:11b:519:bafd with SMTP id
- a92af1059eb24-12782604291ls3091086c88.1.-pod-prod-09-us; Mon, 02 Mar 2026
- 21:30:51 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCVh7/PhqU613/PbChfdWkVKtNOYpmoBZ0LnRF8jyc1ZnRUfYZAQcP4Ox2d0DAJ3321onbfvk9AzjlM=@googlegroups.com
-X-Received: by 2002:a05:7022:6082:b0:119:e55a:9be4 with SMTP id a92af1059eb24-1278fa9f6fdmr7438704c88.0.1772515850747;
-        Mon, 02 Mar 2026 21:30:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772515850; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCUC/COxebb7yiBuF0t92i2AVXSXrJZzaQ6dQJ/0SCqe1Yjd7ZS81rv04g4AmHgeJZZ4Yj+gXA==@lfdr.de
+X-Gm-Message-State: AOJu0YymnnChxpnGb8zBF0+gdEx89qnZ5AOWTvunyIiDp1Kgn+PC5QDe
+	urN8aa0kRxA1r4rHWrj96nXvbWbSoCu7ezKWdJswJugVURKDnedlxL3J
+X-Received: by 2002:a17:903:32cc:b0:2ae:4555:479e with SMTP id d9443c01a7336-2ae45557aa1mr80981795ad.18.1772515854536;
+        Mon, 02 Mar 2026 21:30:54 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+GK6P8qqKT8Ywf47mGTmC90kHFXAoA7iRNCXOldnDyLKA=="
+Received: by 2002:a17:902:fa10:b0:2ae:5853:a9fb with SMTP id
+ d9443c01a7336-2ae5853adccls9060765ad.1.-pod-prod-01-us; Mon, 02 Mar 2026
+ 21:30:53 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXWB1kpbjC7z5wrW0HNxS8YkmgiZm3BUpVLKrz2ndAi+zHljYdjL+sPiujTxth6clg3MWoKvmVVrkE=@googlegroups.com
+X-Received: by 2002:a17:903:2449:b0:2ae:57cc:63d7 with SMTP id d9443c01a7336-2ae57cc65femr31362625ad.7.1772515853115;
+        Mon, 02 Mar 2026 21:30:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772515853; cv=none;
         d=google.com; s=arc-20240605;
-        b=cugdL6/pfRNPG+KK/9l5QjiqHhyr01tXo3CMv1jRJx5IFE6E6OQbBJt51vscFn5syk
-         njwhOXqiNVC0b1RLC/BYv0zmMvIg4RTkC7g8vT4ueSw7kTKTFLnRaYzDgbmN7bNGLtCf
-         wxL/B9IwWIKH0eTFo6KRX+zxcjCap3b4vP8x/yqnzfiZ9LtjZG7+mcnfTVyIoZ2yaeyB
-         JdAYvaNTevM4bc/cBiFdZsDCab3s2DG93Za8WR9UX7i6KrS9ePHXn7vNbrIEPSwt2eMQ
-         W+1D4KjfKnJKjAc57GE1wLFRLHg6Nn2JweqidUop+dNfO1x8HjajVi+kpQoMslNH2k71
-         ImbQ==
+        b=eW8TCaOYdRYSISBibDnt9Epuh+wao6qENEgVaZtcHaw4Lq0MbOo/F96aeIV7cpZCYc
+         il2cOIRl4RKDaqPxe5GQ9hcw37z+L8uTClaW0ITUGs6W+zOb7he+wOS8VnCxNd6aYGbB
+         zIxqNu/INu+GX/CZncSa9dLTursXXZ96mV9FrCIMbqOh2BEek88nxtoMwp6dkem8sO9K
+         +dgS1HYA7tHfg0g1Cq37GJu8+xXRev939PjrIZwTX2+QhuldaY/4cMJ/RYBaWtSTDpeC
+         fwEyjL1DAIQsKMNjPdKvwF2VN8/q5FYOqjMMw13nFZa+lgTae4aaD+jA0VzcKkoWc6+T
+         G4QA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from;
-        bh=Jey7zz6vCE0Q8hXlyerv0btBlEXXQP7Hc0bAa2Wgfxo=;
-        fh=SdftT8st9Mc1yZfaIFEwgRMwSCuwzBPE+XriZKimrSU=;
-        b=URiMBqKFFL1C9MHIPIT3VvJAamqOmA+9bssfWe3NY8ncOgGQJKdi+2rvEcMN9s/aCs
-         kpaigkIDzPyrPKZYztP+FN0XzqJMSe+oAsw7PbPfnYC8mdXyIOKCREQLruxOW3Eg0X4a
-         mflY3uQcTL8yV2tVdOLsl0RwW+kXa0V9hBrxFuWt3AQCDneMskxL4wTuS7LOc9LO5Lur
-         Qt45ycjyMLfGbjjHk7KCedOUiztoq7VvBneh53A55SgidEUvNRVaGPc82eH+6hb9Ry/a
-         /rq2jK4Hul80kKGvzae8P5GYd/zppXvIgvtz/WyT9yzsdg/k1Kq9Q+4uQdSHQKFyVQSx
-         AU/w==;
+        bh=VY6kxHrcg9uxKt3GR3N5nE6NzKM97xg7VvH9Q6ai9/Y=;
+        fh=gT/s64yHh0Xs6H3zrWXXukiPDBj0+fd8/hEQlbq05js=;
+        b=YuWfCBuwWY61z/HSMr0eANbGLULyN0oqp38eakzEINWSrEER8zMst0dtVKrLf5kACr
+         baMjS7t5QEG3uXErWKnhOqiGKKjKHm7phNCJIEcor8XTJyjS/kfnXdjR6TWHVXJKXj3b
+         q+7A0S9cD54DObK2X1zd50CYUR1ChBL/dW6GH+21CpOUmP5N3ktMKfqAV5yBDVfzl42P
+         1bgnU4zO3rK3eBXTSJnLPCM1BUYx2shq73qT3rWcvS5yQpjIugPuFLE3GkN/SoBxIqWJ
+         GbJJbe4gMUKmtO8psZ4D05qqJOyYAp4yEX1mg2veU4lJ39YQ+kcQlTqOmU/1S7T9YR/k
+         NBZQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of wangruikang@iscas.ac.cn designates 159.226.251.81 as permitted sender) smtp.mailfrom=wangruikang@iscas.ac.cn
 Received: from cstnet.cn (smtp81.cstnet.cn. [159.226.251.81])
-        by gmr-mx.google.com with ESMTPS id a92af1059eb24-1279e66b99fsi181025c88.0.2026.03.02.21.30.49
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-2adfb6209c2si5475285ad.7.2026.03.02.21.30.52
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 21:30:50 -0800 (PST)
+        Mon, 02 Mar 2026 21:30:53 -0800 (PST)
 Received-SPF: pass (google.com: domain of wangruikang@iscas.ac.cn designates 159.226.251.81 as permitted sender) client-ip=159.226.251.81;
 Received: from [127.0.0.2] (unknown [210.73.43.101])
-	by APP-03 (Coremail) with SMTP id rQCowAAHHdT9caZpAmO+CQ--.19798S6;
+	by APP-03 (Coremail) with SMTP id rQCowAAHHdT9caZpAmO+CQ--.19798S7;
 	Tue, 03 Mar 2026 13:30:39 +0800 (CST)
 From: Vivian Wang <wangruikang@iscas.ac.cn>
-Date: Tue, 03 Mar 2026 13:29:48 +0800
-Subject: [PATCH v2 4/5] riscv: mm: Use the bitmap API for
- new_valid_map_cpus
+Date: Tue, 03 Mar 2026 13:29:49 +0800
+Subject: [PATCH v2 5/5] riscv: mm: Unconditionally sfence.vma for spurious
+ fault
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Message-Id: <20260303-handle-kfence-protect-spurious-fault-v2-4-f80d8354d79d@iscas.ac.cn>
+Message-Id: <20260303-handle-kfence-protect-spurious-fault-v2-5-f80d8354d79d@iscas.ac.cn>
 References: <20260303-handle-kfence-protect-spurious-fault-v2-0-f80d8354d79d@iscas.ac.cn>
 In-Reply-To: <20260303-handle-kfence-protect-spurious-fault-v2-0-f80d8354d79d@iscas.ac.cn>
 To: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
@@ -122,12 +122,12 @@ To: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
  Yunhui Cui <cuiyunhui@bytedance.com>
 Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
  kasan-dev@googlegroups.com, Palmer Dabbelt <palmer@rivosinc.com>, 
- Vivian Wang <wangruikang@iscas.ac.cn>
+ stable@vger.kernel.org, Vivian Wang <wangruikang@iscas.ac.cn>
 X-Mailer: b4 0.14.3
-X-CM-TRANSID: rQCowAAHHdT9caZpAmO+CQ--.19798S6
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZF45Gr4xCr45Jw4kXF1rCrg_yoW8AFWkpr
-	Z8Cw1kGrWrur1xZ3y2yw4Uur4rGa4qgFySkayFk345Za1Dtr47JrZ5Ga47Jry7GFZ8XF4x
-	Cw43CryruryUAa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: rQCowAAHHdT9caZpAmO+CQ--.19798S7
+X-Coremail-Antispam: 1UD129KBjvJXoW7tFWrtr4kWF45ZF15Jr17Awb_yoW8JFyrpw
+	48GFs8Wr4rZr17Z3yfArn3u3WF93WkW3Z3Gan8u34fAw45Jr42qa1jvrW7KryIqFW0gr18
+	AF4rA3sY9F1UArJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
 	9KBjDU0xBIdaVrnRJUUUmI14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
 	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
 	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
@@ -138,7 +138,7 @@ X-Coremail-Antispam: 1UD129KBjvJXoW7ZF45Gr4xCr45Jw4kXF1rCrg_yoW8AFWkpr
 	M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
 	kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
 	bVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
-	AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI
+	AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI
 	42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCw
 	CI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnI
 	WIevJa73UjIFyTuYvjfUeLvNUUUUU
@@ -159,7 +159,7 @@ List-Archive: <https://groups.google.com/group/kasan-dev
 List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:kasan-dev+subscribe@googlegroups.com>
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
-X-Rspamd-Queue-Id: 46C0D1E93EE
+X-Rspamd-Queue-Id: 57CD91E93F5
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.71 / 15.00];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=2];
@@ -174,9 +174,9 @@ X-Spamd-Result: default: False [-1.71 / 15.00];
 	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bncBCM3NNW3WAKBBC7ETHGQMGQEOPQ3K5I];
+	TAGGED_FROM(0.00)[bncBCM3NNW3WAKBBDXETHGQMGQE6BWRB4Q];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	HAS_XOIP(0.00)[];
@@ -186,59 +186,42 @@ X-Spamd-Result: default: False [-1.71 / 15.00];
 	TAGGED_RCPT(0.00)[kasan-dev];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:15169, ipnet:2607:f8b0::/32, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[googlegroups.com:dkim,googlegroups.com:email,iscas.ac.cn:mid,iscas.ac.cn:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[googlegroups.com:dkim,googlegroups.com:email,iscas.ac.cn:mid,iscas.ac.cn:email,mail-pl1-x63e.google.com:rdns,mail-pl1-x63e.google.com:helo]
 X-Rspamd-Action: no action
 
-The bitmap was defined with incorrect size. Fix it by using the proper
-bitmap API in C code. The corresponding assembly code is still okay and
-remains unchanged.
+Svvptc does not guarantee that it's safe to just return here. Since we
+have already cleared our bit, if, theoretically, the bounded timeframe
+for the accessed page to become valid still hasn't happened after sret,
+we could fault again and actually crash.
 
+Hopefully, these spurious faults should be rare enough that this is an
+acceptable slowdown.
+
+Cc: <stable@vger.kernel.org>
+Fixes: 503638e0babf ("riscv: Stop emitting preventive sfence.vma for new vmalloc mappings")
 Signed-off-by: Vivian Wang <wangruikang@iscas.ac.cn>
 ---
- arch/riscv/include/asm/cacheflush.h | 8 +++-----
- arch/riscv/mm/init.c                | 2 +-
- 2 files changed, 4 insertions(+), 6 deletions(-)
+ arch/riscv/kernel/entry.S | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/arch/riscv/include/asm/cacheflush.h b/arch/riscv/include/asm/cacheflush.h
-index 8c7a0ef2635a..8cfe59483a8f 100644
---- a/arch/riscv/include/asm/cacheflush.h
-+++ b/arch/riscv/include/asm/cacheflush.h
-@@ -41,19 +41,17 @@ do {							\
- } while (0)
+diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
+index 9c6acfd09141..34717bd1fa91 100644
+--- a/arch/riscv/kernel/entry.S
++++ b/arch/riscv/kernel/entry.S
+@@ -75,8 +75,11 @@
+ 	/* Atomically reset the current cpu bit in new_valid_map_cpus */
+ 	amoxor.d	a0, a1, (a0)
  
- #ifdef CONFIG_64BIT
--extern u64 new_valid_map_cpus[NR_CPUS / sizeof(u64) + 1];
-+/* This is accessed in assembly code. cpumask_var_t would be too complex. */
-+extern DECLARE_BITMAP(new_valid_map_cpus, NR_CPUS);
- extern char _end[];
- static inline void mark_new_valid_map(void)
- {
--	int i;
--
- 	/*
- 	 * We don't care if concurrently a cpu resets this value since
- 	 * the only place this can happen is in handle_exception() where
- 	 * an sfence.vma is emitted.
- 	 */
--	for (i = 0; i < ARRAY_SIZE(new_valid_map_cpus); ++i)
--		new_valid_map_cpus[i] = -1ULL;
-+	bitmap_fill(new_valid_map_cpus, NR_CPUS);
- }
- #define flush_cache_vmap flush_cache_vmap
- static inline void flush_cache_vmap(unsigned long start, unsigned long end)
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index 9922c22a2a5f..a2fc70f72269 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -37,7 +37,7 @@
+-	/* Only emit a sfence.vma if the uarch caches invalid entries */
+-	ALTERNATIVE("sfence.vma", "nop", 0, RISCV_ISA_EXT_SVVPTC, 1)
++	/*
++	 * A sfence.vma is required here. Even if we had Svvptc, there's no
++	 * guarantee that after returning we wouldn't just fault again.
++	 */
++	sfence.vma
  
- #include "../kernel/head.h"
- 
--u64 new_valid_map_cpus[NR_CPUS / sizeof(u64) + 1];
-+DECLARE_BITMAP(new_valid_map_cpus, NR_CPUS);
- 
- struct kernel_mapping kernel_map __ro_after_init;
- EXPORT_SYMBOL(kernel_map);
+ 	REG_L	a0, TASK_TI_A0(tp)
+ 	REG_L	a1, TASK_TI_A1(tp)
 
 -- 
 2.53.0
@@ -246,4 +229,4 @@ index 9922c22a2a5f..a2fc70f72269 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260303-handle-kfence-protect-spurious-fault-v2-4-f80d8354d79d%40iscas.ac.cn.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260303-handle-kfence-protect-spurious-fault-v2-5-f80d8354d79d%40iscas.ac.cn.
