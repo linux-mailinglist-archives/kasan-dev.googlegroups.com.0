@@ -1,124 +1,121 @@
-Return-Path: <kasan-dev+bncBDTMJ55N44FBBUOYU3GQMGQEKBIUCUY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDTMJ55N44FBBVGYU3GQMGQENFSEOKQ@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YKo/GlOsqWmtCAEAu9opvQ
-	(envelope-from <kasan-dev+bncBDTMJ55N44FBBUOYU3GQMGQEKBIUCUY@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Thu, 05 Mar 2026 17:16:19 +0100
+	id YAnBL1asqWn0CAEAu9opvQ
+	(envelope-from <kasan-dev+bncBDTMJ55N44FBBVGYU3GQMGQENFSEOKQ@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Thu, 05 Mar 2026 17:16:22 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x237.google.com (mail-lj1-x237.google.com [IPv6:2a00:1450:4864:20::237])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03FA2215457
-	for <lists+kasan-dev@lfdr.de>; Thu, 05 Mar 2026 17:16:18 +0100 (CET)
-Received: by mail-lj1-x237.google.com with SMTP id 38308e7fff4ca-389fc2e6433sf80340011fa.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 05 Mar 2026 08:16:18 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1772727378; cv=pass;
+Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D21821545E
+	for <lists+kasan-dev@lfdr.de>; Thu, 05 Mar 2026 17:16:22 +0100 (CET)
+Received: by mail-lj1-x23b.google.com with SMTP id 38308e7fff4ca-389eea46132sf82808981fa.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 05 Mar 2026 08:16:22 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1772727381; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Bw1Vuo1eHCm9rW5VR8gP/VmkcTCDrsxnVARza+QCbk/EtjNmWLmvp66HHHk3HcVTY5
-         ntoxnY8bmgYnHpSqsmj55BuFFIIdQupkovXdy4vEuDPZOBbsEMDHi5EFBiYCoCpYDj2P
-         CPv4XnXZw1ZzxZhANqxYYHkX+VLcqq1lg2B/cCZRo6ROHZ+FjtffnXIZqFEev1eoNXjv
-         RiQ6OHEDTQvugZv50VZCnGA+BRLSa2ewCWYwOOTFLB8Ix1mSZrVehpgOw2bBhGD16fqD
-         DfnUH43EJcxfj1pN3Sw9sfxsk67+bmB+19TuuwV4RsA8MMN7dM9Hsz5XyX7st5cttap6
-         zS0Q==
+        b=DTL5BN+65wuzaLGhiFxRA6VguIrDVOagqUZcoVoVgOXdUBMEV7l8uLjlf7O26xMxw9
+         s+ws2ucXNTVVlwepsg0DicRdXLAAqF9POJvK+faMAJj+5+6yruz90M+dUP42hvHe1/pN
+         MK1uRLL68W3bvxOSoy/YoGxtAEd6Lnvz1G0C+1W+HUuInkiWpKSAWDNi1d3GseLFQOB1
+         Bu2bUs9XRlnJtEwtYqUH9Et1zPJ8FnKHFQVZpT9+XC7M7fKo33NuWIeVStpWIkewTqvc
+         QNEwO9oS8a6v0Uio2uwQpUO8x1yY3uVvkWzHuAZFCjYQ/sG1OZObrWMp9IWkBqNiqUof
+         J4tA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:cc:to:in-reply-to:references
-         :message-id:content-transfer-encoding:mime-version:subject:date:from
-         :sender:dkim-signature;
-        bh=tHm58NJQXWikC9udTXE7aPHm/8iBaBS7iP3dMSGGY2o=;
-        fh=BmyCto+a9snT73FUiu+RJFjpq6tfHEeY70etb6pE+Pc=;
-        b=j0R2nscVR/yzBN0U7ertl2qxEWV8yQ+5Ti2okNhsL7MD2v4kT+E4OtNJckB2JgPNWW
-         llnVBdqChtSKQdRa/5Qi+Lz38vmFypajPy3Ob67c36tFfOCO2Mha9QsOcus7lxZ3QK74
-         aE/ZR0DhNoRHlCodpMBzRuzUmk0s0iVLstwDDbWA8f5LKE7GuKW7OHtc7Rvks7iGeUiz
-         nX79TZL2BYMiOfcTc8RsBf6JF+cRQZCFTxdcujWwKWckTl3o3uYzjmQfQazMPdTt04CH
-         TVgpciIf/1nKl+r7Aw9qQxM8OcfBwNb3TsKu0bVb/aQB9mq/nm3qMD4gMO3fTI7Gj8a6
-         5vLw==;
+         :message-id:mime-version:subject:date:from:sender:dkim-signature;
+        bh=vDubjm47FkaK063jD7IIZZuk/G81qr7gUak62KW2cvw=;
+        fh=FFcNNdZU4z/4ppTfCcAfFLRfiw73WSkbhLfCD2hdY7s=;
+        b=e4A5wSZLaGC/D+U5Jtwi7j00dEAPyvVP5ifxzRxPfWg+Pkz7z401dBOEUKVc9Rdynh
+         hnMb+plwgHARQx3jQUy0YURPV7hPpT631KYdJmvO4XljoazPHMXO04wg7EpvpurO95iL
+         lmbMPJF6BXKO+P35EYJ1Hny7hdnHFIucX/0MtNdMXYA4+BvbUqJ2A/qolYEDi3YgBlNS
+         pa/HCHVD591YnvNUtvkrfIuxE51D3+RC8hEHTjLAkhUtJLjtmqtgZqBcpbrnMBbhD37l
+         PU2FcNpTiggSgb2RIpE+s2UhX9vTIvN4kVCQmxT2WY4CufaDzkCeb+0rodXHphtDwQDP
+         OP0w==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@debian.org header.s=smtpauto.stravinsky header.b=aapduRpW;
+       dkim=pass header.i=@debian.org header.s=smtpauto.stravinsky header.b=cQlbazqd;
        spf=none (google.com: leitao@debian.org does not designate permitted sender hosts) smtp.mailfrom=leitao@debian.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1772727378; x=1773332178; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1772727381; x=1773332181; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:cc:to:in-reply-to:references:message-id
-         :content-transfer-encoding:mime-version:subject:date:from:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tHm58NJQXWikC9udTXE7aPHm/8iBaBS7iP3dMSGGY2o=;
-        b=S+CM6e3h+2SbQDsjLlToBZxeslpwhCN3LPQQlji+Jn1t4Kj5UcrNXf7ivnD7yxuVPP
-         bQlV3vs6TfLSBcg3cpr+PEfacm/vigA1jqIu4lleGrp1zGNozZpqU/mmb+qZoRJm7sai
-         QxLeasKNaVyjGqSiMT+kbWhQkY1toTN0/xGZAh547HupSadQVX8j8kXqFxmgdBCqQAnQ
-         iI8Tv4GSbR5NdC5n9RHzHOgg8d/+r5oNoLI1QX40EqXerL0tHK6aGGxvxY5mQXYm2nZm
-         DSHjEDydiuBfDYBZ0Jxnp5fsXCMSVYB6CSdm1VZPHyEn2TqsVvRHLY4BG8ki4oeoWC4v
-         EdvQ==
+         :mime-version:subject:date:from:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vDubjm47FkaK063jD7IIZZuk/G81qr7gUak62KW2cvw=;
+        b=MzJbCukdBElX3yJR8TnusqyPx/P9BUIArY5Jja00mz4CUCS/6gamkL4qBEhE6KYC8c
+         sh98m1+MxK4eDT0Hd+JTkmw5TG1Pnhj/kNuIbk0zhIQwdYH1rsueb3zPB6SDlzE0uqKn
+         IYWZgSB0sPEniJOAabIZZ6lPRXP3jcrJRDLxHjssA4ygNK292qmM0qkWS6ao55+23dLN
+         2ZTcCsQmGnd64wF9LztQDCDDW7/NTJ6AxNAXiGbsMxRvSKsAvmUIPSDodDsiwgcmU/3K
+         iC2TlPdIpbwDLJ3teZPsP2/oulIt5el7LFR8wGHvoyoznMARIsrvlmBfYdt6hHr1rhwB
+         yxpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772727378; x=1773332178;
+        d=1e100.net; s=20230601; t=1772727381; x=1773332181;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:cc:to
-         :in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=tHm58NJQXWikC9udTXE7aPHm/8iBaBS7iP3dMSGGY2o=;
-        b=qfSEPnXtm/zbpf1kz/zbgcChUoDgh3jSEB6zjqHWsTC6mSPL9bnvY/+QsC9BmSoLu9
-         8MLPaqijc5RnNLsenBnUfm6IwcyrST8WvES2rOxa/ZFPrZLTAEuJ7hS/jdpxlvVFdroj
-         5lUGaoPYHf9Uv0fwz4vlD3WI7TEx9cP0ASKF/Z6wyEG3o0LC3WVYDMoTQ6Ixq+qiIAMW
-         uvrnGORwnThe9kd2LLBvF9kqLqHPr1bLjJou/qfFhaZuQDF/GXiGJmwtH0QJ4c7KhzkO
-         Bhr5RdJ+bweqn8ffqFzDW9+x+kTZ6ARAe328ebuguyR/4t/r/2SahhigouO3DtKPYhlM
-         ho0Q==
+         :in-reply-to:references:message-id:mime-version:subject:date:from
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vDubjm47FkaK063jD7IIZZuk/G81qr7gUak62KW2cvw=;
+        b=cbGwMRNijSs/WNq1fvAxun4F18ab9XN2sE+kfj1nVfCnht8FQOHQsK0D1N/63yKT7U
+         2ePKcaC7j2ev63+zBZCl6s9YKT4TibP/rE7DtNXw77QmhdWbpgXtIyvVSW1FghbSl8bT
+         XM+gqIhIeDhgAfM3yn5gqGxk36K9cHQq2qcPk/UgSg8AV+ItJ8s6v7XHPTDVoN/6Mw+M
+         3l2fCiAHOWWpEoRFqnKQn5bqLPwSRUjiRoCvhASZXJAVakG6r/zisukcWRwP01u4tTP2
+         jgdjJq6xJm89OX/Vr9MLPy5fCBbBxxdjPjraGoeODzba2eJ4E75ILML6GSOQJSNryHWJ
+         b2Vw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVxojnKDrLiM0UyCwfCIs0fPDE3p4n8YuLNtNC9sQp9uLC8/noS8oCHcbCsVufH9242eNj2GQ==@lfdr.de
-X-Gm-Message-State: AOJu0Ywai6aVkw8j6IWu437tuvoU8EjNbBbxnDMLg0osIslXVVQ60+cC
-	WgYaH+I8DJn3YATVUdd1UTTBGBd7ghwQp0SvuCUWFZ5tKy46is7yon5O
-X-Received: by 2002:a05:651c:1587:b0:37b:a955:d497 with SMTP id 38308e7fff4ca-38a3c819b26mr156491fa.17.1772727377715;
-        Thu, 05 Mar 2026 08:16:17 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+H4xCApf8OitZBLXJUBV6hAd+WPginbFWPbkrOrniUYpA=="
-Received: by 2002:a2e:9e8e:0:b0:378:cfe9:cbdd with SMTP id 38308e7fff4ca-38a33931d4cls2073801fa.1.-pod-prod-07-eu;
- Thu, 05 Mar 2026 08:16:15 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCW8Y+OrTJVrdSCtL8IvX0p3PQIEG8OI/sQxZxKfO9hN2ke3/Wj7w2WGtUqqG9BxQiIqzN032RtfTGk=@googlegroups.com
-X-Received: by 2002:a05:651c:2113:b0:38a:5fb:46ab with SMTP id 38308e7fff4ca-38a3c706a14mr167471fa.3.1772727375101;
-        Thu, 05 Mar 2026 08:16:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772727375; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCUnM0Im/vyiBvDuaUIiAhsbHz+HoXoVQC+dmlJJFhjZzbtltXkpWKId7TcehVWP6FP5QrLEvQ==@lfdr.de
+X-Gm-Message-State: AOJu0Ywu5R+MPrwlgAsC/c65s2yrJol0FEKTqC+ysfiyC5H8dybAszWl
+	jgh282IG4UpYCnO11uwFvqwxQzWV7AkJKVecEEuE/lk+lM2K5Ls5gmI6
+X-Received: by 2002:a2e:9255:0:b0:37f:d9ba:747 with SMTP id 38308e7fff4ca-38a35129c39mr8137981fa.5.1772727381345;
+        Thu, 05 Mar 2026 08:16:21 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+F914vgMx2JCFxcqGojute3U34vvd2KAdonLMzQm1S6LQ=="
+Received: by 2002:a2e:a605:0:b0:38a:2e2b:b0d9 with SMTP id 38308e7fff4ca-38a33919a6cls944821fa.2.-pod-prod-00-eu;
+ Thu, 05 Mar 2026 08:16:19 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWZ52/6Lk7q60zn9hQmVO9btwslRAV506/B62Z4k9mzmT1JYhxEW92y8iwMheLTbLzhGNhuwBIU+Vw=@googlegroups.com
+X-Received: by 2002:a05:651c:620:b0:389:df67:64ef with SMTP id 38308e7fff4ca-38a352a4a0amr8055631fa.20.1772727378723;
+        Thu, 05 Mar 2026 08:16:18 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772727378; cv=none;
         d=google.com; s=arc-20240605;
-        b=G86ANkTt4FVs3rWTMzgKGpABH+IASBoCT/yJ0i+QGW/CUiavw/AbPIwSXKa9ai6xKq
-         7W41Hn8ucX24Y/3f1m6TjNdpqFLci2iOUTZqvJxWu4uyyWzCGhSm1dg+Gf8obMfzT15M
-         JAaIRWa6ecmGWM3SIQT/vZ1RTXZvgRuS3Ruq5YFicuEWY1j8AX3F/bGsWV9WdtA9fZL9
-         +fcBt1XIomsP1asIrL54dyASqFLYMmVQiR5tP1sR1E3pgAE/NI9XKPBhlvIRcf+JIaTH
-         PgsuTqrbGz4j9vSw4AqUTODzNmzL1vRvrRbt1q0g1s1zpz8JdHPpwZXoqlHHzYeWvMtR
-         vxrA==
+        b=a1gvOI/Ol8w5yN8CYUPO+LIOu1K0Q2jdkxima79AGZyfG7oVhlzmttGakHC1C0Wtlv
+         suDeL5YXTu/9q0d7R/wBbSk9svgOZUiE1pxU5jPgG4JLZrCrnFN6A3RT+3BXYKEULzZW
+         3UgGzsiIht3HYxxd33o9GQCRXjRW3+xu6kr0VKCz9Gij9JXYza4x734nHNTm2eyqTEUZ
+         LAFttML9xDfoP0abDvLQ6SqfbvFhK47mV2d4bTP3TjKqmD8Lyf7Y3/tTv8epATnDFb4z
+         RNC3i+p2zzC1Vu58t6HD+Lk6cPTmZRat9ej1jgQVotoVQxQHdZ24JruAIo9ittjrXv+9
+         a0qA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:dkim-signature;
-        bh=jrNtcuD0+LCQ0GXSBo8d49WJRSGDNH67GbmqlwT7i6o=;
+        bh=d/8arRnvKp6yW6gD1fp68y2qdqj0ZVn0huQFIoPOgBA=;
         fh=ULATwvCSm9MH98k3lnaJHTf9T27YdHslpejL1iZxPpg=;
-        b=R7AjTeTdI4PJcd98cPuYOeHuTBRuwpHv8FEapM0lnMlHJP7j7K3aveOSqmYGry+0eH
-         CiQKzH+YK0kPjcmSgXIBuAYPaWypGgso5YPGWvDj0smNIXecuABqNTXgmguO1SU/ZBEN
-         VzI1wMuak+/bbe8WnFGuU1Q7BvOo64Usl+AApFddnIlys4FwqEhZg6QEjPAk5893FK99
-         1dPspid6fosEJAgDk4eAQVB5meVCR6y2N30ihFODd7FhHI+KkDrMTXIKe6oMM+XYPZ1t
-         TadCaaJwVQgIwP13w6P7OJe5PCSthIQp400WDv2e8T98EwO8kKXg2ZpcvXG+h1Ol9nFN
-         wLgg==;
+        b=XsUebp8fXIPiVIMfcCGuAZV0TX7Zr+ySL42fFxvMNsxVs+4f6q/H0tO4Eu+vniwIvW
+         l04PZ24n9vBg8RcROhSUVg3xOVCD+0tFlPtjA/1BcsZqxwpInZ0h6R1Eck12yAslpXrU
+         xEQcHDwn5E58QXOdgkhD1QQCDC58N6uveNfthNvt1CC/ZRfiwu0Oew9FyySODeVqrJNw
+         g9JcPlwCCp7AMGAT60ZFm7H4kQqPBrVntcB0kN75hrntgYc5oeUisgE9iqAeuJg6SWHL
+         XKdCRXLA5kCE7EFYzhpGFgXtKBWqzAjrLrtdEYdSVQhxPL+dQHg+LypcXM+RsHaIAVL3
+         JK8A==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@debian.org header.s=smtpauto.stravinsky header.b=aapduRpW;
+       dkim=pass header.i=@debian.org header.s=smtpauto.stravinsky header.b=cQlbazqd;
        spf=none (google.com: leitao@debian.org does not designate permitted sender hosts) smtp.mailfrom=leitao@debian.org
 Received: from stravinsky.debian.org (stravinsky.debian.org. [2001:41b8:202:deb::311:108])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-389f2f03f78si5423391fa.1.2026.03.05.08.16.15
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-38a323322aasi814441fa.0.2026.03.05.08.16.18
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 08:16:15 -0800 (PST)
+        Thu, 05 Mar 2026 08:16:18 -0800 (PST)
 Received-SPF: none (google.com: leitao@debian.org does not designate permitted sender hosts) client-ip=2001:41b8:202:deb::311:108;
 Received: from authenticated user
 	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.94.2)
 	(envelope-from <leitao@debian.org>)
-	id 1vyBMv-00Gqr5-8S; Thu, 05 Mar 2026 16:16:09 +0000
+	id 1vyBMz-00GqrH-4z; Thu, 05 Mar 2026 16:16:13 +0000
 From: Breno Leitao <leitao@debian.org>
-Date: Thu, 05 Mar 2026 08:15:40 -0800
-Subject: [PATCH v2 4/5] workqueue: Show all busy workers in stall
- diagnostics
+Date: Thu, 05 Mar 2026 08:15:41 -0800
+Subject: [PATCH v2 5/5] workqueue: Add stall detector sample module
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <20260305-wqstall_start-at-v2-4-b60863ee0899@debian.org>
+Message-Id: <20260305-wqstall_start-at-v2-5-b60863ee0899@debian.org>
 References: <20260305-wqstall_start-at-v2-0-b60863ee0899@debian.org>
 In-Reply-To: <20260305-wqstall_start-at-v2-0-b60863ee0899@debian.org>
 To: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
@@ -128,26 +125,26 @@ Cc: linux-kernel@vger.kernel.org, Omar Sandoval <osandov@osandov.com>,
  kasan-dev@googlegroups.com, Petr Mladek <pmladek@suse.com>, 
  kernel-team@meta.com, Breno Leitao <leitao@debian.org>
 X-Mailer: b4 0.15-dev-363b9
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2985; i=leitao@debian.org;
- h=from:subject:message-id; bh=LiVumjyG7bZ7XQH4sr3/408yTD7fFBw48LSnf9KFbjI=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpqaw0+4KdZ1bZ/6RpgPjb98Fi8CGUtO1g7SggT
- on9De5+jP+JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaamsNAAKCRA1o5Of/Hh3
- bSaHD/0WfWVWoTO9dH+aT+BJlfv+wRrNM9nWl1eUAw5aSDz69XE2hBRkzbgWKF7ycmt+P5sliJx
- G5fdRj6tOfTf8YDTTbNudxf/qmYdZ7gAPQ4R75j7wxKEPoBA6Y23XjvF+eGwG8H1W1+qtE5hCzz
- 4MhqReGF5zXfvKkGWlW5rDnWlGvPJjG0U4aq0tnZQ2S7C9rz0MNL5Wt2Xf6iMMk12e1tfB6FSu9
- d6/yBGagM/9aHFUVH4Mvt5RtVZW6IgFNehEnuc08Wr+HPD+tQ1+5spzRyiG93sgEv49arg8rPlS
- lcCErKK5lzG+5zUcv5VNqIFePO6oDxu/xKTDGc7Jqo7m1EigED7/r4yoI2wJIsmOKIVun54KxUr
- BsDOC5KUXDdZsppfkmm5jUnPzwyWyG1wJW4Vp3ozZ6R0yBj7W+GqkydIW0YVjrhrLXDFVdUOTU6
- dfVM6w8m/FjsYJ6LNJ3/sjqJfbhSi7IK2VVHUbMwxzaeDYhPOp9fRqSVWXVyDzpHmrBugMxhbWv
- m3viWlEenK47t+E5fNh0OI4WK6fzquRtvcHmEIBTl/aV+5TTqGHuySOCJ+xTXEplYyWjrBeZNNb
- fXEUesWeDhbCI4OsIeZ+QP34npN7TlsEaaZPzz+Onf/HsJSCji9c2mjvdDGpcL5N0jcVIrTWqDU
- EyUOA2gEGX/pIrw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4422; i=leitao@debian.org;
+ h=from:subject:message-id; bh=S4vA+q+VwMb69TSVGfpJnrhNcwW7Ul9gdGBE+SKblT4=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpqaw0SFZKUq3gvc8ICSsX75MQ8b9+vYkk6okaq
+ u/ZIg1naCmJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaamsNAAKCRA1o5Of/Hh3
+ bQaDD/92Bw7gTZQBrb/gLXTqCDRVNvQjPb94AXKsIiL9VxSQl4UMzQwlRRaq2IryGPc0WwVu0WU
+ MqA1tVPiXN3y52NaZa1dfrmqTXMdDgneU9SoDX/oA6kdyQA795ZqDQ0ydkG+KhbiHTCQ3vLd6dJ
+ kS2k1rgHUy9pgTQzms+447827ZB4jTVG9JlsEa5auw33GwhOejoDZ65SXLs2w8x9DJycj3gRddj
+ 3jis028FhGLIrfwx1Wfr4yoqvdVu+p6MmBVqvMiGJqOCERHOKf3SM9isnU6/bri1RbzrTh14Bkz
+ 9PN05MLdmYm4KURoT0sKqvGh0vfWg5XuOdErred6fuhJ1xR48K+R7DT+qoA4hi50YhGRo4fVNog
+ ESSMjYp4Z1mhNrhVj3sFdtfVgVhrkpwBO/saPOIcR3s3lMCrzXXA3VBA1wjma2If5sodbvg8HXa
+ ymb1TgUo8JKBnS5eFMp6RITlZaxwD+3oJ7w4OAcJqht+RkmXjkJfsNKKXwZfkA5QIoA8gdRE9fA
+ XgLC7F8CIrMgg/W0do6L8kGvPg1prYBZG+NBjQbum5h8bec/0Cy+wTETqyV99NQoPFhp1BYJrJI
+ ZXwM/Eid4My9KJNBMzNBznvxd+ySTm9ozva7scZinZFMB0Kkwl17YLrC7/EWgBD3QutV2TG1qmG
+ 1XsDxGyyJnV3cAw==
 X-Developer-Key: i=leitao@debian.org; a=openpgp;
  fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 X-Debian-User: leitao
 X-Original-Sender: leitao@debian.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@debian.org header.s=smtpauto.stravinsky header.b=aapduRpW;
+ header.i=@debian.org header.s=smtpauto.stravinsky header.b=cQlbazqd;
        spf=none (google.com: leitao@debian.org does not designate permitted
  sender hosts) smtp.mailfrom=leitao@debian.org
 Precedence: list
@@ -161,7 +158,7 @@ List-Archive: <https://groups.google.com/group/kasan-dev
 List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:kasan-dev+subscribe@googlegroups.com>
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
-X-Rspamd-Queue-Id: 03FA2215457
+X-Rspamd-Queue-Id: 5D21821545E
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.71 / 15.00];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=2];
@@ -177,7 +174,7 @@ X-Spamd-Result: default: False [-1.71 / 15.00];
 	DMARC_NA(0.00)[debian.org];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bncBDTMJ55N44FBBUOYU3GQMGQEKBIUCUY];
+	TAGGED_FROM(0.00)[bncBDTMJ55N44FBBVGYU3GQMGQENFSEOKQ];
 	ASN(0.00)[asn:15169, ipnet:2a00:1450::/32, country:US];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
@@ -187,97 +184,139 @@ X-Spamd-Result: default: False [-1.71 / 15.00];
 	TAGGED_RCPT(0.00)[kasan-dev];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[googlegroups.com:dkim,googlegroups.com:email,mail-lj1-x237.google.com:rdns,mail-lj1-x237.google.com:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[googlegroups.com:dkim,googlegroups.com:email,mail-lj1-x23b.google.com:rdns,mail-lj1-x23b.google.com:helo]
 X-Rspamd-Action: no action
 
-show_cpu_pool_hog() only prints workers whose task is currently running
-on the CPU (task_is_running()).  This misses workers that are busy
-processing a work item but are sleeping or blocked =E2=80=94 for example, a
-worker that clears PF_WQ_WORKER and enters wait_event_idle().  Such a
-worker still occupies a pool slot and prevents progress, yet produces
-an empty backtrace section in the watchdog output.
+Add a sample module under samples/workqueue/stall_detector/ that
+reproduces a workqueue stall caused by PF_WQ_WORKER misuse.  The
+module queues two work items on the same per-CPU pool, then clears
+PF_WQ_WORKER and sleeps in wait_event_idle(), hiding from the
+concurrency manager and stalling the second work item indefinitely.
 
-This is happening on real arm64 systems, where
-toggle_allocation_gate() IPIs every single CPU in the machine (which
-lacks NMI), causing workqueue stalls that show empty backtraces because
-toggle_allocation_gate() is sleeping in wait_event_idle().
-
-Remove the task_is_running() filter so every in-flight worker in the
-pool's busy_hash is dumped.  The busy_hash is protected by pool->lock,
-which is already held.
+This is useful for testing the workqueue watchdog stall diagnostics.
 
 Signed-off-by: Breno Leitao <leitao@debian.org>
 ---
- kernel/workqueue.c | 28 +++++++++++++---------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
+ samples/workqueue/stall_detector/Makefile   |  1 +
+ samples/workqueue/stall_detector/wq_stall.c | 98 +++++++++++++++++++++++++++++
+ 2 files changed, 99 insertions(+)
 
-diff --git a/kernel/workqueue.c b/kernel/workqueue.c
-index 56d8af13843f8..09b9ad78d566c 100644
---- a/kernel/workqueue.c
-+++ b/kernel/workqueue.c
-@@ -7583,9 +7583,9 @@ MODULE_PARM_DESC(panic_on_stall_time, "Panic if stall=
- exceeds this many seconds
-=20
- /*
-  * Show workers that might prevent the processing of pending work items.
-- * The only candidates are CPU-bound workers in the running state.
-- * Pending work items should be handled by another idle worker
-- * in all other situations.
-+ * A busy worker that is not running on the CPU (e.g. sleeping in
-+ * wait_event_idle() with PF_WQ_WORKER cleared) can stall the pool just as
-+ * effectively as a CPU-bound one, so dump every in-flight worker.
-  */
- static void show_cpu_pool_hog(struct worker_pool *pool)
- {
-@@ -7596,19 +7596,17 @@ static void show_cpu_pool_hog(struct worker_pool *p=
-ool)
- 	raw_spin_lock_irqsave(&pool->lock, irq_flags);
-=20
- 	hash_for_each(pool->busy_hash, bkt, worker, hentry) {
--		if (task_is_running(worker->task)) {
--			/*
--			 * Defer printing to avoid deadlocks in console
--			 * drivers that queue work while holding locks
--			 * also taken in their write paths.
--			 */
--			printk_deferred_enter();
-+		/*
-+		 * Defer printing to avoid deadlocks in console
-+		 * drivers that queue work while holding locks
-+		 * also taken in their write paths.
-+		 */
-+		printk_deferred_enter();
-=20
--			pr_info("pool %d:\n", pool->id);
--			sched_show_task(worker->task);
-+		pr_info("pool %d:\n", pool->id);
-+		sched_show_task(worker->task);
-=20
--			printk_deferred_exit();
--		}
-+		printk_deferred_exit();
- 	}
-=20
- 	raw_spin_unlock_irqrestore(&pool->lock, irq_flags);
-@@ -7619,7 +7617,7 @@ static void show_cpu_pools_hogs(void)
- 	struct worker_pool *pool;
- 	int pi;
-=20
--	pr_info("Showing backtraces of running workers in stalled CPU-bound worke=
-r pools:\n");
-+	pr_info("Showing backtraces of busy workers in stalled CPU-bound worker p=
-ools:\n");
-=20
- 	rcu_read_lock();
-=20
+diff --git a/samples/workqueue/stall_detector/Makefile b/samples/workqueue/stall_detector/Makefile
+new file mode 100644
+index 0000000000000..8849e85e95bb9
+--- /dev/null
++++ b/samples/workqueue/stall_detector/Makefile
+@@ -0,0 +1 @@
++obj-m += wq_stall.o
+diff --git a/samples/workqueue/stall_detector/wq_stall.c b/samples/workqueue/stall_detector/wq_stall.c
+new file mode 100644
+index 0000000000000..6f4a497b18814
+--- /dev/null
++++ b/samples/workqueue/stall_detector/wq_stall.c
+@@ -0,0 +1,98 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * wq_stall - Test module for the workqueue stall detector.
++ *
++ * Deliberately creates a workqueue stall so the watchdog fires and
++ * prints diagnostic output.  Useful for verifying that the stall
++ * detector correctly identifies stuck workers and produces useful
++ * backtraces.
++ *
++ * The stall is triggered by clearing PF_WQ_WORKER before sleeping,
++ * which hides the worker from the concurrency manager.  A second
++ * work item queued on the same pool then sits in the worklist with
++ * no worker available to process it.
++ *
++ * After ~30s the workqueue watchdog fires:
++ *   BUG: workqueue lockup - pool cpus=N ...
++ *
++ * Build:
++ *	make -C <kernel tree> M=samples/workqueue/stall_detector modules
++ *
++ * Copyright (c) 2026 Meta Platforms, Inc. and affiliates.
++ * Copyright (c) 2026 Breno Leitao <leitao@debian.org>
++ */
++
++#include <linux/module.h>
++#include <linux/workqueue.h>
++#include <linux/wait.h>
++#include <linux/atomic.h>
++#include <linux/sched.h>
++
++static DECLARE_WAIT_QUEUE_HEAD(stall_wq_head);
++static atomic_t wake_condition = ATOMIC_INIT(0);
++static struct work_struct stall_work1;
++static struct work_struct stall_work2;
++
++static void stall_work2_fn(struct work_struct *work)
++{
++	pr_info("wq_stall: second work item finally ran\n");
++}
++
++static void stall_work1_fn(struct work_struct *work)
++{
++	pr_info("wq_stall: first work item running on cpu %d\n",
++		raw_smp_processor_id());
++
++	/*
++	 * Queue second item while we're still counted as running
++	 * (pool->nr_running > 0).  Since schedule_work() on a per-CPU
++	 * workqueue targets raw_smp_processor_id(), item 2 lands on the
++	 * same pool.  __queue_work -> kick_pool -> need_more_worker()
++	 * sees nr_running > 0 and does NOT wake a new worker.
++	 */
++	schedule_work(&stall_work2);
++
++	/*
++	 * Hide from the workqueue concurrency manager.  Without
++	 * PF_WQ_WORKER, schedule() won't call wq_worker_sleeping(),
++	 * so nr_running is never decremented and no replacement
++	 * worker is created.  Item 2 stays stuck in pool->worklist.
++	 */
++	current->flags &= ~PF_WQ_WORKER;
++
++	pr_info("wq_stall: entering wait_event_idle (PF_WQ_WORKER cleared)\n");
++	pr_info("wq_stall: expect 'BUG: workqueue lockup' in ~30-60s\n");
++	wait_event_idle(stall_wq_head, atomic_read(&wake_condition) != 0);
++
++	/* Restore so process_one_work() cleanup works correctly */
++	current->flags |= PF_WQ_WORKER;
++	pr_info("wq_stall: woke up, PF_WQ_WORKER restored\n");
++}
++
++static int __init wq_stall_init(void)
++{
++	pr_info("wq_stall: loading\n");
++
++	INIT_WORK(&stall_work1, stall_work1_fn);
++	INIT_WORK(&stall_work2, stall_work2_fn);
++	schedule_work(&stall_work1);
++
++	return 0;
++}
++
++static void __exit wq_stall_exit(void)
++{
++	pr_info("wq_stall: unloading\n");
++	atomic_set(&wake_condition, 1);
++	wake_up(&stall_wq_head);
++	flush_work(&stall_work1);
++	flush_work(&stall_work2);
++	pr_info("wq_stall: all work flushed, module unloaded\n");
++}
++
++module_init(wq_stall_init);
++module_exit(wq_stall_exit);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("Reproduce workqueue stall caused by PF_WQ_WORKER misuse");
++MODULE_AUTHOR("Breno Leitao <leitao@debian.org>");
 
---=20
+-- 
 2.47.3
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
-0260305-wqstall_start-at-v2-4-b60863ee0899%40debian.org.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20260305-wqstall_start-at-v2-5-b60863ee0899%40debian.org.
