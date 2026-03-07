@@ -1,189 +1,194 @@
-Return-Path: <kasan-dev+bncBCSL7B6LWYHBBH6UVTGQMGQEMTSTAIA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDJPLAN63YNBBVEDV3GQMGQETQOSRWI@googlegroups.com>
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CIJLByIqq2luaQEAu9opvQ
-	(envelope-from <kasan-dev+bncBCSL7B6LWYHBBH6UVTGQMGQEMTSTAIA@googlegroups.com>)
-	for <lists+kasan-dev@lfdr.de>; Fri, 06 Mar 2026 20:25:22 +0100
+	id 6MRrD9eBq2mwdgEAu9opvQ
+	(envelope-from <kasan-dev+bncBDJPLAN63YNBBVEDV3GQMGQETQOSRWI@googlegroups.com>)
+	for <lists+kasan-dev@lfdr.de>; Sat, 07 Mar 2026 02:39:35 +0100
 X-Original-To: lists+kasan-dev@lfdr.de
-Received: from mail-yx1-xb13c.google.com (mail-yx1-xb13c.google.com [IPv6:2607:f8b0:4864:20::b13c])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39F0227085
-	for <lists+kasan-dev@lfdr.de>; Fri, 06 Mar 2026 20:25:21 +0100 (CET)
-Received: by mail-yx1-xb13c.google.com with SMTP id 956f58d0204a3-64c9ebd16e0sf16748069d50.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 06 Mar 2026 11:25:21 -0800 (PST)
-ARC-Seal: i=3; a=rsa-sha256; t=1772825120; cv=pass;
+Received: from mail-oo1-xc37.google.com (mail-oo1-xc37.google.com [IPv6:2607:f8b0:4864:20::c37])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A6B229695
+	for <lists+kasan-dev@lfdr.de>; Sat, 07 Mar 2026 02:39:34 +0100 (CET)
+Received: by mail-oo1-xc37.google.com with SMTP id 006d021491bc7-679c5ed0942sf110356119eaf.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 06 Mar 2026 17:39:34 -0800 (PST)
+ARC-Seal: i=3; a=rsa-sha256; t=1772847573; cv=pass;
         d=google.com; s=arc-20240605;
-        b=T/ZeihNpsLAyvIwGzSYkbS3lylD5KsSrv8XQ/yMEIoGK+bAbb8CQv+nwh/PrMU0adj
-         OczyOAz6gRAhEidU/PRiHw6xg0RcSfDlaiEugLcVP2kvv0ieICqFdc680nnRNC3TAFp+
-         gmLKkxjA/EcOI0msbsE/bccgmKikO4ayPNVcQr0l87XvxUff6AQqZLk6ilZ6L/eisurF
-         3pyHpbPkwOzsZ3/cpRRIq/FmMs4uLk5rNgqbP3uimaV+0uuq50aUpvwsA7gg19CdYPaG
-         nOK7zlnJcbcSGE4PWLxeivPEyfy4he6uLXuYv8gGZqKiMYPp25F2vyaVXyDoMAWZ8ayl
-         q58g==
+        b=Z+4ra+Wv96vgHkEETpIdQ2govglaBLbh7Tb0uPQur9RtwAyeaSV9Pc4quEBZ5T5g3P
+         rjRUBGqlYXlVbuIpvkbPvMTzfyC1of82ujEaE7ZK0cTeRaGjNuHE/WM1kUQeMOQdQCBb
+         Z8cfduRXEIpj8Pmx6w/Ydiwj7tAprq4VND/eD4hggw6wZA7r6/CF5qpsis0xgx5UIFvh
+         bpyuHC9fl769iNdmZgc6jnGq7F9O1HIrd4lYJ/N3XnipK0W4bROUzNw4ydMYT/Wo15no
+         q5ZxLJQf8H6is6wMTr/c1xAntRLdCJR3689JGUXk2VA4MffJEft+fjFrdN2XeNAwX7Ia
+         +kEA==
 ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date
-         :mime-version:references:in-reply-to:from:sender:dkim-signature
-         :dkim-signature;
-        bh=DkNGs9Oj4+VYm/0uBfYInSSqn8H0EhmBx8xKYSw7UZU=;
-        fh=JhNVxrqDgoLZR4UXY0BTMvz0sqbQhGCNmZ9Qas3i8aI=;
-        b=ki06wCXc3QLHmP/FbwrQ2333DN3IoiGlDOmI60WZGp6qE4qpfPC9p0XOurwwNFKeq1
-         RNVZQCA77GcWyRDlPqBIAsHjM6psEOv5PAN6vsUxmHfdq15ajN3flt3YoNR7d0fpgjqV
-         LxvbjLBnJj4vRp2j+LhVfDxI78BkBstSOPrSMoo4/U4cOlii/X3uff4qcDAz/yS0EQNr
-         bQ2kcnaU8XwH9A9laDn5RPGT3TUIzVu6vDG8PBEGjuuae6lcm/aQuOpsMXu5qjdJN47v
-         vx4dCu+N7Cqe7AQtiKErz5o0ewqHWb7QqwkAnhOabFAW1KDhvtTMr/fjoHDxTLCEcdjS
-         kUwg==;
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=A4U0JlpE8xX46STJXsjEa+mUZ6+8XViWZOXp9IfL4IQ=;
+        fh=KToZONo4PmbBN+LIhYox95YxQHMhwjqMLdKZ2kTwF70=;
+        b=QHoebqmri+33EbGKgmfJwCHz1/r+u2Gk8Dg9CWL3XqQmcaxU9FLSHsxkanl5VAdzAg
+         +fU6BL7kjaGO7Fmh/baCGCtbwNl7MldcFzNHPdWJazvzibxDeEAMu6cfKCkm/ObrurjB
+         EGUzsswf404WDoMSVp2fUdMgn0OqzI5PPjWzt/Uh792Fl77yCfCeVOqcEoWDaCmcVgOd
+         LS2yhmohdkFqNmn/JQWcWkOHgXRil45Pdux8UBrBgCkENKt886Sfa3bF1ZuEP7W+rOhu
+         BVvJ9qaD4fhkgq9BUzqbQLQbSy+rSlRekuwC8xNisB/dEYcroZmvnYk3Rnn2GkChmzoE
+         V3hw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=D+1k+Tew;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=bbhBwUrE;
        arc=pass (i=1);
-       spf=pass (google.com: domain of ryabinin.a.a@gmail.com designates 2607:f8b0:4864:20::112b as permitted sender) smtp.mailfrom=ryabinin.a.a@gmail.com;
+       spf=pass (google.com: domain of jiakaipeanut@gmail.com designates 2607:f8b0:4864:20::c34 as permitted sender) smtp.mailfrom=jiakaipeanut@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1772825120; x=1773429920; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1772847573; x=1773452373; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:mime-version
-         :references:in-reply-to:from:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DkNGs9Oj4+VYm/0uBfYInSSqn8H0EhmBx8xKYSw7UZU=;
-        b=XgSyMolaucOXNTQEsjCsuDSr6LsFwGxPpY9FmUvSJQqIaw/dPy+D8k7ACJzoCeCvKK
-         0rZAgsWUpkctJNS9gYOvwYT+5+JyaE0sUWql7MLyhyo/Hysc2oTQnGAL/z0rwlVFTJz8
-         jgihK+x6IPrxeNIU/yRDJ6imMHZHGIKJS2+Ygk2Y96HhyuC27w7GktRhezdpjem0c0he
-         nZ2xMRhwSv12vk20/xGBLHdglimB6oBYfdLoPPc4p3kKy0yEg7AAuSPlKRoPkpI6A1DL
-         xgbNhQfVF+svZCzQ0ew82+dVNXyKZ3Zq+uAgN38gJsKreE30tkRppk0S+y49XW7rs6G1
-         S/pQ==
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=A4U0JlpE8xX46STJXsjEa+mUZ6+8XViWZOXp9IfL4IQ=;
+        b=O5cUdiLJTTBOmGLD27aADKGdAmFsG/iNkbXR8iiuu+5rsC412nDl0P+SftssoSFNLR
+         jepzj7e8VvUaaL7d97Jwy3GlA6yjRkZ2f++/6OXz3lm/dyKQRDsrS/SxmwVkWAJocJgh
+         WHsaAdknDwgPG0KvKBjtjjQMpOF1VMTHhQ9gD+y6s2mquivpZfihm4k1UcJX+P7eQnWP
+         MgJ4nYxjtlrf+HBfhQy7LtQj6wKNJwlZFKKc3QelTHbNhKX9DSg5wMx/OzpionKDiMip
+         Czf99v8fkdM5LGBGBZ74RP/D0bRgNXHuia6tmmpTaiIRp2gYckVq5+UNB0ORTDdwc5Nl
+         Z4dQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772825120; x=1773429920; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1772847573; x=1773452373; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:mime-version
-         :references:in-reply-to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DkNGs9Oj4+VYm/0uBfYInSSqn8H0EhmBx8xKYSw7UZU=;
-        b=YtPiIr+Rq2WJVbSTjzbSAH8j3SQvdVLjcoQWxolMLH60qr8m9ikonV0KzpP+3ZAusJ
-         RF7/SHNc0B/QNf3cAUuRvoxb6wAFtZaKzBCH4tT+N9UC1c55yCc9UfiRD/vEW6vfsiDy
-         D+2DJ+oYPihJwYJFCxCKR00+YnZsQUFtZCHFtpIFUyOzE2m2vA/p9sJ2fW7tAo8G3nXC
-         jh9bVRMhb0Gj78UcIN7utAEjFyGZgHaRqz48yONOW2FZVGf6CYp/7/AKlZSaJcgORddb
-         W4/gcPmV2RC6j/U/X2NKopG4xHKJWALR8YJ7tBVeUXegP9ER9fbXE3Npqmw0xBfzqAsJ
-         2abw==
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=A4U0JlpE8xX46STJXsjEa+mUZ6+8XViWZOXp9IfL4IQ=;
+        b=Zv6s9+FTb2JdvX2uhWQTo3mv9Cr1uBNj5EjrPg0v78KAKeOa4DdtF88IVm9bnxmhmU
+         2VCWMGqKB8NzJfqCv/NgmdMIoiSHncH0d/R1OcD27p+gkEENq9vDtFun0LKX6NfcbuAZ
+         Wc8BWS617ci/5oPQHp1y7JyHP9j6wRF1ITl80xHJklMC5tWiBiYPKKu4+m2C1YbpQTAH
+         GudwoONY/H6BHJQ/PS0/+7gNFE37fhaX8QUAz4ZUvkIW2dmriur7aV1q0qdKRYm4F9PE
+         hNrD6T4YihCvQM9awvSbuH+t3OJ911vqUyXESWGLcQkZJ6VR5kdPM5T+y75or5mWQHBQ
+         Tijw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772825120; x=1773429920;
+        d=1e100.net; s=20230601; t=1772847573; x=1773452373;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:mime-version:references:in-reply-to:from:x-gm-gg
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DkNGs9Oj4+VYm/0uBfYInSSqn8H0EhmBx8xKYSw7UZU=;
-        b=TtLid/ECebgnw+UqdZpfgEOCokvMUZh9lfgRLJsVLkJcz7WZwOCCPHVpZRdsvWIWRf
-         k0LCLK7IMW2IVBrQ0b4zJ9HktllSzPZkiF+7GyX/gnYqHMeOT/WAlx+akKz8n23gOJvM
-         +urvi7dq7NDnM9JCh8bA1uhH20VFI+g8AHVUV/zQkQU3yzxkFbET7IG6P/T3A9h2tBPC
-         ADTjgM0S4ppyIX3z95ivjneYjC/yI8cpfJKG7imt6Uuvfp3B58FBFB0nF9klBWfqExX/
-         JIUftHL3c6Dp+bZ/9h5LTabFKxRjto07s8BvSRGE3Pd6br8cy8dvNoxJNdjDDbEkhWcc
-         DZLQ==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-beenthere
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A4U0JlpE8xX46STJXsjEa+mUZ6+8XViWZOXp9IfL4IQ=;
+        b=FxjIEz0BZJTxYGD7ZKrBvHXRfPoUI6zpCLn7p8w6a8Wqz38NHAGGGdgp9KbHIBKEZo
+         I3OLWgMbHzJNpS2vhgRDo2NpQDRC5y7NrZSYggV3j1Fw4iDZ21aoiXlKTBG5OX+IQxtn
+         56AOh5b6BTQcqM1HNNWnF7UHUlXDSb825nnid/7zPUIgkXBsHT64kTdhfOj7dn4xu665
+         SW2r4haZMEg9ZraxAWECG042PDvRGFAAyhjDF3eIH14BoBOZgRAd3YJ9YE5k4ZedOR4P
+         y2Fr0YdTrO/JOD6AX0ML26k7cwrhTdxnCHfVecKpolflTfQYhIonF4C625qvb7vk4joE
+         qpww==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=3; AJvYcCWatmrZ9bOFvhEJ8yfaGoj+YZQxJzV/Gjm+B2NJ0g6Y87xtZQ9c3xr07UskqPZVIcq99bcb8Q==@lfdr.de
-X-Gm-Message-State: AOJu0YyvtOoa/j+SVa+VEr53CYTxosfnbdBdvxA1Nl7BLbgrmJ3lbSOB
-	S4dtH7YPFlSGpeFBP+vveCh0N0mRFkJ+CJKF61K0cErzYN35k8885Vm8
-X-Received: by 2002:a53:b5c6:0:b0:649:9795:620d with SMTP id 956f58d0204a3-64d142c6c3dmr2222833d50.55.1772825119968;
-        Fri, 06 Mar 2026 11:25:19 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+GXfjR4IcdgVE+QCyO1tuMsWR5gkbFk+I7r68Ri51fVfQ=="
-Received: by 2002:a53:e026:0:b0:649:3fa4:9e9c with SMTP id 956f58d0204a3-64d05216cafls3062760d50.2.-pod-prod-06-us;
- Fri, 06 Mar 2026 11:25:19 -0800 (PST)
-X-Forwarded-Encrypted: i=3; AJvYcCUfHP8vtdFiFiVKTBGCu/nK0ItliY9LVkG6cEY5Z2YT+xAX3gNG8oNHNISZApx7SQX0icke2l9gkfA=@googlegroups.com
-X-Received: by 2002:a05:6102:3f55:b0:5ef:aeff:8304 with SMTP id ada2fe7eead31-5ffe61ca3aemr1339761137.33.1772825119062;
-        Fri, 06 Mar 2026 11:25:19 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1772825119; cv=pass;
+X-Forwarded-Encrypted: i=3; AJvYcCULvVjc0hMlbCbgRWh5peTjDbKPZKt00CoMiud+64I9g4T69Q9DEN+pUyTxUhfiE91iIia15w==@lfdr.de
+X-Gm-Message-State: AOJu0YyEnTfYnWUCSzy5aKPQlNmfwnRz2yU4ioSlX/XsdmIbsK3hio6J
+	QvdIUV6R0UlTDLGI+KpOgcOMSd4Kcs3b1bxVlFpJZTZPhlIQ3HMq7PO/
+X-Received: by 2002:a05:6820:290b:b0:676:da74:842b with SMTP id 006d021491bc7-67b9bca9783mr2761954eaf.28.1772847572813;
+        Fri, 06 Mar 2026 17:39:32 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h="AV1CL+GHUEEdKEIXaXf2tg2pM3nCEWm3HmvqNpqbTm80Wlhlcw=="
+Received: by 2002:a05:6820:1c97:b0:66a:c0c3:3f26 with SMTP id
+ 006d021491bc7-67b92eee946ls1559119eaf.0.-pod-prod-08-us; Fri, 06 Mar 2026
+ 17:39:31 -0800 (PST)
+X-Forwarded-Encrypted: i=3; AJvYcCU87/0EBeFmuMTmAUKzzV0y9C9TUHEpYdqJCfrup6zuSzElm5BxRkMpnTAmLg7yX1MBMtieMa4WT2g=@googlegroups.com
+X-Received: by 2002:a05:6820:4dc4:b0:679:be5f:afcc with SMTP id 006d021491bc7-67b9bca84d9mr2744557eaf.19.1772847571739;
+        Fri, 06 Mar 2026 17:39:31 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1772847571; cv=pass;
         d=google.com; s=arc-20240605;
-        b=jzICNR4fK5RCD1miI/GNrWWzQljtg7hTQ51f9QdfM3qAn22SB8vLlCXhD0XzDqDtfk
-         8e5s+xjrV936FHByFsgshP0EkU2f0d1pizzj4qOoZtHm9du0hIALtX+EXlVVsXYIcDWe
-         5wcwtmxuGeRjUhN4GG6be/3ZLlkDEuaUYOFCsqM3zzldlooHFtgjZH1hB6Lh/GDiDefl
-         Q3zQn/WPxw8r+IDP5PW6FU8S+kJ+psvkfYFSwXjj5RDsIaYb4F+Gs8RUCc5w1EAzst5O
-         JkkQpRKvHg/m/pv8U2ENENxZR1BzUzQq0g/1j3rikgizcQ4F9yJ24SitAj81r+7ZsM3h
-         WoGw==
+        b=VduCkLVPW1hG1VxJ6M7PFcReT8iNpkmsQpxhNRXv/iTCpHd/J+ffxFW6p1y95nnWlP
+         +ed0p/FGOTKGr9i6Pg0cxO1KhLqAw8bOsZXsNYS2NTQ7RdxygtjIYqOujLo1L4dsJOxW
+         Avx2tKS9Puh2uCvsI3S8jkSZgrmv7HtcXB72KwzCm9F5iuCGAKt4JDpIWnx67TOUBUg8
+         dednzW3pOWEawNlf6FutVmGPcW3OFFi3MfGcjUflcv6xJitud6qsb/rh+bGn8b+1GOCY
+         Xw6Ah8SqkbV7FqcjvXYvbVyUHqDOcwb6jCvjVCcTWnsiVN/rUrrLbkrBwjH0ZW5rPnQk
+         MKoQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=lY6sP4liFUCfsR0JZcNZnSXYRH2hTABEqRhwR3Jxfn0=;
-        fh=nUopJG8T5tyOeVXCFFtYHMAkawI5o3vTyz/9obpxwmE=;
-        b=V2FRbEE5ckZK0N4Fkxpqi26UlLNIjdVH2jdhUeMoHUI+qpwAnZ1Jexa+mUFf6tFJus
-         78mzqlHrhcgZN7aeA/RnkFVndjlAsaZiKo5vHMeB7/ym9ke4TVt123x6B2DvT1gjOG8+
-         rBYtzBHhgEcHRSPBgSU5WLMYTWCvvK80MgOkK/NrnJuTneHbbBmNKD7jhBnH233uOa7f
-         2NgZ4Lx63u+yPNgafSXD0t8NqmWH9ifOOAQnTka9lTT+JTlDaptPmTBKV+iEnusNREhU
-         OQyVC/zbNR54ZbANB8KFpFJ+v21m9rBjBo9NUeGuyc/5lIfoT31+VC29K8hM4SW/7wyd
-         KJHg==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=WUt9V96pGWBeEnbjx1PAHPx8YoZ8MwGfywkRHa4eCJ8=;
+        fh=mvL6A4W8l8Wrjbgf/uX8wXTEcNSUsY7zFFgZm6MVebE=;
+        b=MDQW7/mjU56BGpQD+HuSgTHMWLzCXOs/N2Nlvv+PC4WGctg65POk3FTT0LLu3sVXB5
+         56Fy83KQaVDaTD+FLkfOOQOolIfbK55zWP3ah/OvNEH3l6QoFd77vXlratZx7NWibK7i
+         EeHpSjULBd3f6dhzvg+msvVTfPND1uIgNT5oKp+B4T7IojD5UTYuvpkN2u91Ma4egIWv
+         omykafpWuUSSZagPyNU8XjAKg0E+jrvVyFCb8REjOdmtFdYxhhzWFy+fJwiZSQZBKSdQ
+         gwRWElNkoJ+ZBhCe4DnUA6UOjhugQVHfF7JFDA3RUk7psgATwg7ke5+vxGedFAE9W5j4
+         VrWA==;
         dara=google.com
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=D+1k+Tew;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=bbhBwUrE;
        arc=pass (i=1);
-       spf=pass (google.com: domain of ryabinin.a.a@gmail.com designates 2607:f8b0:4864:20::112b as permitted sender) smtp.mailfrom=ryabinin.a.a@gmail.com;
+       spf=pass (google.com: domain of jiakaipeanut@gmail.com designates 2607:f8b0:4864:20::c34 as permitted sender) smtp.mailfrom=jiakaipeanut@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com. [2607:f8b0:4864:20::112b])
-        by gmr-mx.google.com with ESMTPS id ada2fe7eead31-5ffe859f4a9si59471137.1.2026.03.06.11.25.19
+Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com. [2607:f8b0:4864:20::c34])
+        by gmr-mx.google.com with ESMTPS id 006d021491bc7-67b9d4ceb68si101211eaf.2.2026.03.06.17.39.31
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Mar 2026 11:25:19 -0800 (PST)
-Received-SPF: pass (google.com: domain of ryabinin.a.a@gmail.com designates 2607:f8b0:4864:20::112b as permitted sender) client-ip=2607:f8b0:4864:20::112b;
-Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-7980969ffdfso9026327b3.0
-        for <kasan-dev@googlegroups.com>; Fri, 06 Mar 2026 11:25:19 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772825118; cv=none;
+        Fri, 06 Mar 2026 17:39:31 -0800 (PST)
+Received-SPF: pass (google.com: domain of jiakaipeanut@gmail.com designates 2607:f8b0:4864:20::c34 as permitted sender) client-ip=2607:f8b0:4864:20::c34;
+Received: by mail-oo1-xc34.google.com with SMTP id 006d021491bc7-679f980a239so4526318eaf.2
+        for <kasan-dev@googlegroups.com>; Fri, 06 Mar 2026 17:39:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772847571; cv=none;
         d=google.com; s=arc-20240605;
-        b=W4ynaRDD5NChUQ8zf9nGNZdtU8HPADxCrC2XPPUk0jRn86wTCXVYIg0JoX98cPOOOO
-         mjrj/fZB7XXW3CFRRBdruHKpT3cX3JkK6/Vz9rp2O3hu9yTloGI8wJFgyPzbjoVZa8ki
-         dy+7F8/iqKtQDtm8v/kFm+6+CF48WBXETkv+aCLPcLmhR35Y2Drnw5DgFbko29opxZY1
-         BCLaE6elV97nSLQEtQOB2NP+JphoHdy3wA5NVKNRIb2JWiJY5rcV+LTqN58GnV5ljSqk
-         Pk8a8qnac1Mjr71V7DBt6j2nFxE1CZx7HaexjNfkftU/A0i+h8zVub16uXonqkG2VusO
-         fg/w==
+        b=fE8VI/7UbLk9NKiUZY8TA4JaXBQbLj0X4oWuNGqb0zKCyyshWDUojmIaGlBJIsmmyY
+         e9RUlMHP1NT51toPDccDUbEHqoptZwsV64o+qcLu2lbxGIxJIrCTlH2KSRvIOURxkDYy
+         NCNJh16EcZF5iK5uqvH1bTZj3o5d27j4O9G82851ucS7R4SSL6NYyQtamOH/0hX6suyy
+         lngvqUea/g670g2avAPC7x2zSOvyqq45KcLPM0XphKuxBZpvU2s5fWw6dttbvz4Z7fRF
+         BDOk+x9iQfcW67X+WvmTURq/iq/2Ughis3aBD1oZE6iluDc4JKRfe7ozKL1kesLBDrTN
+         9MXg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=lY6sP4liFUCfsR0JZcNZnSXYRH2hTABEqRhwR3Jxfn0=;
-        fh=nUopJG8T5tyOeVXCFFtYHMAkawI5o3vTyz/9obpxwmE=;
-        b=lAU/UrICfbi9r/8KmZO0SQU5VMM9Cg94wCX0BedTXgziB0HdgadrKayhcZN762THna
-         /sT6CwxHhrsJnSHdsoS5cMsFvSMaWWtAahnC6WXsfNCTxPvcDSr6B2cwgZkmtDtWkx0F
-         W+qdn+At0oKEr9Pa7APrAiNYd19I9+Ku7qf3awhNaUQkpfb+6rq5sk9oX+oJ+BMZ1OU4
-         xz8dmFthYGKq9cm1jplqwKWK2FNNAlHVHzlpz7hKe2RodzShh6qnW5RlMaT4JiPkU2af
-         jsol/QvYBGbOcni8NTPWysXUFQ5ED1K0+d4jXHDcL3zPI5jEmFma0zxfPvTmNmqbjiYY
-         9B0Q==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=WUt9V96pGWBeEnbjx1PAHPx8YoZ8MwGfywkRHa4eCJ8=;
+        fh=mvL6A4W8l8Wrjbgf/uX8wXTEcNSUsY7zFFgZm6MVebE=;
+        b=gLHR0dqo7GvEn+bTZavoODUjFCylUFZbwageheIAF9XPF1GscOuxfiCNrKXSBLDt0C
+         fpvZbEDyNsj/V6TD+Z9AWu2JISvZCcuB3/yRQt9GNC0X6qNC5JDh7rftavXVo1p2F3FX
+         6W/Kqulq6M8QnFAMaFLeD2EbY/2xdzL9/Cnei/DlpMMh5UDQtqpE4vrcGNbzro3Q8umw
+         TmPnKqwKAnXrDu+Pda4kovuM75ZgGSuwQGzs6O4QKp+L+ROfNeRx1dJpIAWOHSgJ+gNI
+         QdXknLvGGGtpcXvHYvkj6WxlJIL7F9nDm9D2HSgeIY/9AigHFL9w/HTaql9Rwxe66gpu
+         w+TQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
-X-Forwarded-Encrypted: i=1; AJvYcCUKPTirLLt3CL4Ik3a9vr6n6kw/2u8FfuxlrzztDgTXH/HA+zs7misDjfsJSfI33qDaludfIBP84Tg=@googlegroups.com
-X-Gm-Gg: ATEYQzyjVBvBvE6+Mk8USpzKblSVXIBjlW57NKR/znvqfapv1VQSQRWuhQGFq2syYO0
-	axQgd3POqNJfstu5N5Zf06lT97kqi2Bj5Rgohs2tsM6A9CRil8W8jHwtUdRvXHmk/jf6Pum21GM
-	VGGIUImGsDBho/4yO3zi1bHSDgG2JPvX0Yo2qEGS21nuUtURgA4ndl9t5m+/c46EafygcS3210+
-	Ock7pOcQ7EevLdcWVtQx7M/7EQc0hASMm4anGBXsJuGA7tMruF8AZGIzCRZeJwRRkEqUR9EbG5y
-	dMdPNQ==
-X-Received: by 2002:a05:690c:15:b0:798:5ce8:f46a with SMTP id
- 00721157ae682-798dd6f5b17mr24082977b3.3.1772825118598; Fri, 06 Mar 2026
- 11:25:18 -0800 (PST)
-Received: from 95991385052 named unknown by gmailapi.google.com with HTTPREST;
- Fri, 6 Mar 2026 13:25:18 -0600
-Received: from 95991385052 named unknown by gmailapi.google.com with HTTPREST;
- Fri, 6 Mar 2026 13:25:17 -0600
-From: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-In-Reply-To: <20260306150613.350029-1-arnd@kernel.org>
-References: <20260306150613.350029-1-arnd@kernel.org>
+X-Forwarded-Encrypted: i=1; AJvYcCVRsLqvezDgLdduQhrdGN648WdfoeL7WXqnbhCL2G0PI+K6gpwLFun7U1SiqTMzvBsbIbpJZeDWtnI=@googlegroups.com
+X-Gm-Gg: ATEYQzwteXwjua2Dgl+Aw0A5fBrkEVisF97z+QR28mmZ/BjpC2C89/GehYk+SdT3uC+
+	QpTRBiZ0ajeLDX/tr9i51CSxRFUIw8MRaPaHJstWOGO+aO97eQCb1JSoK5kzRPjfBEqSbtLTpdh
+	NXFG9I4MMwO72bTtlzTpI2X0YMkbGPKF6JZjNpI2oB29EwweE/eCP93Dx5gthkEzgcJj24ARSMi
+	PdrzGwkqbikCX6N0IkLHRWsNtrEGvqYggPRDoYmpZTOQca6PMoqpYUl4dEDGml9S2IWvi5RvUJN
+	ixe8Y9PcVIklkfnhoLSTo7vkMD1PxmhC1rAThKbkJMKEL2KceQ==
+X-Received: by 2002:a05:6820:98e:b0:67a:381:d0bc with SMTP id
+ 006d021491bc7-67b9bd7fbd0mr2495746eaf.72.1772847571210; Fri, 06 Mar 2026
+ 17:39:31 -0800 (PST)
 MIME-Version: 1.0
-Date: Fri, 6 Mar 2026 13:25:17 -0600
-X-Gm-Features: AaiRm51im8Opzhh4FrDhukBOYJIJAUVnJyGocvgFTBcd1zQhrlQ-HbSj120EYv0
-Message-ID: <CAPAsAGzSybyM_GsP1JxzZTj=SFeN6K8t9uQ3XAXBWiN+019Wmw@mail.gmail.com>
-Subject: Re: [PATCH] ubsan: turn off kmsan inside of ubsan instrumentation
-To: Arnd Bergmann <arnd@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Nathan Chancellor <nathan@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, kasan-dev@googlegroups.com, 
-	linux-hardening@vger.kernel.org, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, "Peter Zijlstra (Intel)" <peterz@infradead.org>, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+References: <20260112192827.25989-4-ethan.w.s.graham@gmail.com>
+ <20260306094459.973-1-jiakaiPeanut@gmail.com> <CANgxf6yMNZ3=xm9xVhPZDuxMc__7pQk=mti-CyD1QjUOgTJLEA@mail.gmail.com>
+ <CAFb8wJvmnPv96o9Kr9VAh=cL9zMr8-5eCEmmkjtgX02_Ypa4nw@mail.gmail.com> <CANgxf6wjPOoYemsK9EKrFM-eSpOgSUQvZ6kX5JyDTfC5J62Ufg@mail.gmail.com>
+In-Reply-To: <CANgxf6wjPOoYemsK9EKrFM-eSpOgSUQvZ6kX5JyDTfC5J62Ufg@mail.gmail.com>
+From: Jiakai Xu <jiakaipeanut@gmail.com>
+Date: Sat, 7 Mar 2026 09:39:20 +0800
+X-Gm-Features: AaiRm50KpdlvXzopHVFRmT8nMLKcn3vW_ZNiGHxd8-Gph5tiqofDNvJc5-PXCCs
+Message-ID: <CAFb8wJsyKF3m=WQDkjFSLPeCL1peUA-G1__aByz8vQ-kw3wZ8A@mail.gmail.com>
+Subject: Re: Question about "stateless or low-state functions" in KFuzzTest doc
+To: Ethan Graham <ethan.w.s.graham@gmail.com>
+Cc: akpm@linux-foundation.org, andreyknvl@gmail.com, andy.shevchenko@gmail.com, 
+	andy@kernel.org, brauner@kernel.org, brendan.higgins@linux.dev, 
+	davem@davemloft.net, davidgow@google.com, dhowells@redhat.com, 
+	dvyukov@google.com, ebiggers@kernel.org, elver@google.com, glider@google.com, 
+	gregkh@linuxfoundation.org, herbert@gondor.apana.org.au, ignat@cloudflare.com, 
+	jack@suse.cz, jannh@google.com, johannes@sipsolutions.net, 
+	kasan-dev@googlegroups.com, kees@kernel.org, kunit-dev@googlegroups.com, 
+	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, lukas@wunner.de, mcgrof@kernel.org, rmoar@google.com, 
+	shuah@kernel.org, sj@kernel.org, skhan@linuxfoundation.org, 
+	tarasmadan@google.com, wentaoz5@illinois.edu
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: Ryabinin.A.A@gmail.com
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: jiakaipeanut@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=D+1k+Tew;       arc=pass
- (i=1);       spf=pass (google.com: domain of ryabinin.a.a@gmail.com
- designates 2607:f8b0:4864:20::112b as permitted sender) smtp.mailfrom=ryabinin.a.a@gmail.com;
+ header.i=@gmail.com header.s=20230601 header.b=bbhBwUrE;       arc=pass
+ (i=1);       spf=pass (google.com: domain of jiakaipeanut@gmail.com
+ designates 2607:f8b0:4864:20::c34 as permitted sender) smtp.mailfrom=jiakaipeanut@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 Precedence: list
@@ -197,76 +202,216 @@ List-Archive: <https://groups.google.com/group/kasan-dev
 List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:kasan-dev+subscribe@googlegroups.com>
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
-X-Rspamd-Queue-Id: B39F0227085
+X-Rspamd-Queue-Id: D7A6B229695
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=3];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MAILLIST(-0.20)[googlegroups];
 	R_DKIM_ALLOW(-0.20)[googlegroups.com:s=20230601,gmail.com:s=20230601];
+	MAILLIST(-0.20)[googlegroups];
 	R_SPF_ALLOW(-0.20)[+ip6:2607:f8b0:4000::/36];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bncBCSL7B6LWYHBBH6UVTGQMGQEMTSTAIA];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[arndb.de,kernel.org,google.com,gmail.com,googlegroups.com,vger.kernel.org,infradead.org,lists.linux.dev];
+	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bncBDJPLAN63YNBBVEDV3GQMGQETQOSRWI];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.978];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[ryabininaa@gmail.com,kasan-dev@googlegroups.com];
 	DKIM_TRACE(0.00)[googlegroups.com:+,gmail.com:+];
+	TO_DN_SOME(0.00)[];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:15169, ipnet:2607:f8b0::/32, country:US];
-	TAGGED_RCPT(0.00)[kasan-dev,lkml];
+	NEURAL_HAM(-0.00)[-0.968];
+	FROM_NEQ_ENVFROM(0.00)[jiakaipeanut@gmail.com,kasan-dev@googlegroups.com];
+	FREEMAIL_CC(0.00)[linux-foundation.org,gmail.com,kernel.org,linux.dev,davemloft.net,google.com,redhat.com,linuxfoundation.org,gondor.apana.org.au,cloudflare.com,suse.cz,sipsolutions.net,googlegroups.com,vger.kernel.org,kvack.org,wunner.de,illinois.edu];
+	TAGGED_RCPT(0.00)[kasan-dev];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,mail-yx1-xb13c.google.com:rdns,mail-yx1-xb13c.google.com:helo,googlegroups.com:dkim,googlegroups.com:email,arndb.de:email]
+	ASN(0.00)[asn:15169, ipnet:2607:f8b0::/32, country:US];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,mail-oo1-xc37.google.com:rdns,mail-oo1-xc37.google.com:helo]
 X-Rspamd-Action: no action
 
-Arnd Bergmann <arnd@kernel.org> writes:
+Hi Ethan,
 
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The structure initialization in the two type mismatch handling functions
-> causes a call to __msan_memset() to be generated inside of a UACCESS
-> block, which in turn leads to an objtool warning about possibly leaking
-> uaccess-enabled state:
->
-> lib/ubsan.o: warning: objtool: __ubsan_handle_type_mismatch+0xda: call to __msan_memset() with UACCESS enabled
-> lib/ubsan.o: warning: objtool: __ubsan_handle_type_mismatch_v1+0xf4: call to __msan_memset() with UACCESS enabled
->
-> Most likely __msan_memset() is safe to be called here and could be added
-> to the uaccess_safe_builtin[] list of safe functions, but seeing that
-> the ubsan file itself already has kasan, ubsan and kcsan disabled itself,
-> it is probably a good idea to also turn off kmsan here, in particular this
-> also avoids the risk of recursing between ubsan and kcsan checks in
-> other functions of this file.
->
-> I saw this happen while testing randconfig builds with clang-22, but did
-> not try older versions, or attempt to see which kernel change introduced
-> the warning.
->
-> Cc: Kees Cook <kees@kernel.org>
-> Cc: Marco Elver <elver@google.com>
-> Cc: Andrey Konovalov <andreyknvl@gmail.com>
-> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-> Cc: kasan-dev@googlegroups.com
-> Cc: linux-hardening@vger.kernel.org
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  lib/Makefile | 1 +
->  1 file changed, 1 insertion(+)
->
+Thanks so much for the patient and detailed explanation. Your clarification
+has resolved the questions I had, and I now have a much better understandin=
+g
+of KFuzzTest's design philosophy and approach.
 
-Acked-by: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+I'm very interested in the design and implementation of KFuzzTest. Thanks
+again for the explanation and for proposing KFuzzTest.
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CAPAsAGzSybyM_GsP1JxzZTj%3DSFeN6K8t9uQ3XAXBWiN%2B019Wmw%40mail.gmail.com.
+Best regards,
+Jiakai
+
+On Sat, Mar 7, 2026 at 12:53=E2=80=AFAM Ethan Graham <ethan.w.s.graham@gmai=
+l.com> wrote:
+>
+> On Fri, Mar 6, 2026 at 12:04=E2=80=AFPM Jiakai Xu <jiakaipeanut@gmail.com=
+> wrote:
+> >
+> > Hi Ethan,
+>
+> Hi Jiakai,
+>
+> > Thanks for the detailed explanation.
+> >
+> > Would it be fair to say that KFuzzTest is not well suited for testing
+> > kernel functions that are heavily influenced by or have a significant
+> > impact on kernel state?
+>
+> With the current fuzzer support (see the PR in the syzkaller repo [1])
+> this is a fair assessment, but with a caveat.
+>
+> It really depends on how you are fuzzing. KFuzzTest itself is just the
+> conduit. Whether or not your fuzzer can meaningfully reproduce
+> bugs/crashes related to complex state is somewhat out of KFuzzTest's
+> hands. However as of v4 the framework only supports blob-based
+> fuzzing, I would advise against targeting heavily stateful functions righ=
+t
+> now. You are welcome to experiment to see if there is a way to meaningful=
+ly
+> fuzz more stateful functions, but with just binary buffers as inputs, I d=
+on't
+> reckon that there will be too many candidates.
+>
+> > I agree with your point that "the goal of the framework is to fuzz real
+> > functions with realistic inputs." One thing I've been thinking about,
+> > though, is how we determine what counts as "realistic" input for a give=
+n
+> > function. If the generated inputs that a function would never actually
+> > receive in practice, we'd likely end up chasing false-positive crashes
+> > that don't represent real bugs.
+>
+> I would argue that just because an input isn't "realistic" in the current
+> kernel context (i.e., the current upstream code only calls into the libra=
+ry
+> after performing sanity checks and/or validation) doesn't mean that a
+> crash isn't problematic.
+>
+> Code can and does get reused and refactored over time. If an internal
+> parser can cause a panic or OOB access when handed certain inputs,
+> it is inherently fragile. Even if that code path is shielded today, it co=
+uld
+> be exposed by a new caller tomorrow. Our baseline assumption here is
+> that if a function accepts a blob as input, it should be resilient to all=
+ types
+> of blobs.
+>
+> However your concerns about false positives is justified, and something
+> that we have thought about. In previous iterations of this work, we relie=
+d
+> on a constraints system for encoding input semantics and performing
+> validation inside the fuzz harness. While we stepped back from that due
+> to its inherent complexity, instead favoring a more simple blob-only desi=
+gn,
+> adding constraints to better define "realistic" inputs is a good idea tha=
+t may
+> need to be revisited in the future.
+>
+> Hope this helps clarify the design philosphy!
+>
+> [1] related syzkaller PR for KFuzzTest:
+> https://github.com/google/syzkaller/pull/6280
+>
+> > Thanks,
+> > Jiakai
+> >
+> >
+> > On Fri, Mar 6, 2026 at 6:29=E2=80=AFPM Ethan Graham <ethan.w.s.graham@g=
+mail.com> wrote:
+> > >
+> > > On Fri, Mar 6, 2026 at 10:45=E2=80=AFAM Jiakai Xu <jiakaipeanut@gmail=
+.com> wrote:
+> > > >
+> > > > Hi Ethan and all,
+> > >
+> > > Hi Jiakai
+> > >
+> > > > I've been reading the KFuzzTest documentation patch (v4 3/6) with g=
+reat
+> > > > interest. I have some questions about the scope and applicability o=
+f this
+> > > > framework that I'd like to discuss with the community.
+> > > >
+> > > > The documentation states:
+> > > > > It is intended for testing stateless or low-state functions that =
+are
+> > > > > difficult to reach from the system call interface, such as routin=
+es
+> > > > > involved in file format parsing or complex data transformations.
+> > > >
+> > > > I'm trying to better understand what qualifies as a "stateless or
+> > > > low-state function" in the kernel context. How do we define or iden=
+tify
+> > > > whether a kernel function is stateless or low-state?
+> > > >
+> > > > Also, I'm curious - what proportion of kernel functions would we
+> > > > estimate falls into this category?
+> > >
+> > > I would define it based on "practical heuristics". A function is prob=
+ably a
+> > > good candidate for KFuzzTest if it fits these loose criteria:
+> > >
+> > > - Minimal setup: KFuzzTest currently supports blob-based fuzzing, so =
+the
+> > >   function should consume raw data (or a thin wrapper struct) and not
+> > >   require a complex web of pre-initialized objects or deep call-chain
+> > >   prerequisites.
+> > > - Manageable teardown: if the function allocates memory or creates
+> > >   objects, the fuzzing harness must be able to cleanly free or revert
+> > >   that state before the next iteration. An example of this can be fou=
+nd
+> > >   in the pkcs7 example in patch 5/6 [1].
+> > > - Non-destructive global impact: it's okay if the function touches gl=
+obal
+> > >   state in minor ways (e.g., writing to the OID registry logs as is d=
+one
+> > >   by the crypto/ functions that are fuzzed by the harnesses in patch =
+5/6),
+> > >   but what matters is that the kernel isn't left in a broken state be=
+fore the
+> > >   next fuzzing iteration, meaning no leaked global locks, no corrupte=
+d
+> > >   shared data structures, and no deadlocks.
+> > >
+> > > These loose criteria are just suggestions, as you can technically fuz=
+z
+> > > anything that you want to - KFuzzTest won't stop you. The danger is
+> > > that the kernel isn't designed to have raw userspace inputs shoved
+> > > into deep stateful functions out of nowhere. If a harness or function
+> > > relies on complex ad-hoc state management or strict preconditions,
+> > > fuzzing it out of context will likely just result in false positives,=
+ panics,
+> > > and ultimately bogus harnesses.
+> > >
+> > > The goal of the framework is to fuzz real functions with realistic in=
+puts
+> > > without accidentally breaking other parts of the kernel that the func=
+tion
+> > > wasn't meant to touch. Therefore ideal targets (like the PKCS7 exampl=
+e)
+> > > are ones with minimal setup (just passing a blob), have manageable
+> > > teardown (like freeing a returned object on success) and don't
+> > > destructively impact global state (even if they do minor things like
+> > > printing to logs).
+> > >
+> > > That said, I'm curious to see what you come up with! I'm sure there a=
+re
+> > > other use cases that I haven't thought of.
+> > >
+> > > [1] PKCS7 message parser fuzzing harness:
+> > > https://lore.kernel.org/all/20260112192827.25989-6-ethan.w.s.graham@g=
+mail.com/
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
+AFb8wJsyKF3m%3DWQDkjFSLPeCL1peUA-G1__aByz8vQ-kw3wZ8A%40mail.gmail.com.
